@@ -10,7 +10,7 @@ public class RawStringProcessor : ContentProcessor<string, string>
 {
     public override string Process(string input, ContentProcessorContext context)
     {
-        context.Logger.LogMessage($"Processing raw {input}");
+        context.Logger.LogMessage($"Processing raw {context.OutputFilename}");
 
         return input;
     }

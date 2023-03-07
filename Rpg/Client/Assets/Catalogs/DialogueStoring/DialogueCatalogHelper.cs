@@ -5,7 +5,6 @@ using System.Linq;
 using Client.Assets.DialogueOptionAftermath;
 using Client.Core.Dialogues;
 
-using Rpg.Client.Assets.Catalogs;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
 
@@ -17,13 +16,13 @@ internal static class DialogueCatalogHelper
     {
         var nodeListDicts = new List<(string nodeSid, DialogueNode node, List<DialogueOption> optionsList, DialogueDtoOption[]? optionsDto)>();
 
-        foreach (var dtoScene in scenesDtoDict)
+        foreach (var (sceneSid, dtoScene) in scenesDtoDict)
         {
             var paragraphs = new List<DialogueParagraph>();
 
-            for (var paragraphIndex = 0; paragraphIndex < dtoScene.Value.Paragraphs.Length; paragraphIndex++)
+            for (var paragraphIndex = 0; paragraphIndex < dtoScene.Paragraphs.Length; paragraphIndex++)
             {
-                var dialogueDtoParagraph = dtoScene.Value.Paragraphs[paragraphIndex];
+                var dialogueDtoParagraph = dtoScene.Paragraphs[paragraphIndex];
 
                 var environmentEffects = CreateEnvironmentEffects(dialogueDtoParagraph.Env, services.EnvEffectCreator);
 
@@ -31,7 +30,7 @@ internal static class DialogueCatalogHelper
                 {
                     // Regular paragraph
                     var paragraph = new DialogueParagraph(GetSpeaker(dialogueDtoParagraph.Speaker),
-                        $"{dialogueSid}_Scene_{dtoScene.Key}_Paragraph_{paragraphIndex}")
+                        $"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}")
                     {
                         EnvironmentEffects = environmentEffects
                     };
@@ -47,7 +46,7 @@ internal static class DialogueCatalogHelper
                         // TODO Check hero in the party
 
                         var paragraph = new DialogueParagraph(GetSpeaker(reaction.Hero),
-                            $"{dialogueSid}_Scene_{dtoScene.Key}_Paragraph_{paragraphIndex}_reaction_{reaction.Hero}")
+                            $"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}_reaction_{reaction.Hero}")
                         {
                             EnvironmentEffects = environmentEffects
                         };
@@ -64,7 +63,7 @@ internal static class DialogueCatalogHelper
             var options = new List<DialogueOption>();
             var dialogNode = new DialogueNode(new DialogueParagraphContainer(paragraphs), options);
             
-            nodeListDicts.Add((dtoScene.Key, dialogNode, options, dtoScene.Value.Options));
+            nodeListDicts.Add((sceneSid, dialogNode, options, dtoScene.Options));
         }
 
         // Linking scenes via player's options
@@ -72,6 +71,8 @@ internal static class DialogueCatalogHelper
         {
             if (nodeListDict.optionsDto is not null)
             {
+                var optionIndex = 0;
+
                 foreach (var dialogueDtoOption in nodeListDict.optionsDto)
                 {
                     var aftermaths = CreateAftermaths(dialogueDtoOption.Aftermaths, services.OptionAftermathCreator);
@@ -80,7 +81,7 @@ internal static class DialogueCatalogHelper
                     if (dialogueDtoOption.Next is not null)
                     {
                         var next = nodeListDicts.Single(x => x.nodeSid == dialogueDtoOption.Next).node;
-                        dialogueOption = new DialogueOption($"{dialogueSid}_Scene_{nodeListDict.nodeSid}", next)
+                        dialogueOption = new DialogueOption($"{dialogueSid}_Scene_{nodeListDict.nodeSid}_Option_{optionIndex}", next)
                         {
                             Aftermath = aftermaths
                         };
@@ -95,6 +96,8 @@ internal static class DialogueCatalogHelper
 
                     nodeListDict.optionsList.Add(dialogueOption);
                 }
+
+                optionIndex++;
             }
             else
             {

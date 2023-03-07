@@ -6,6 +6,12 @@ using System.Resources;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+using YamlDotNet.Serialization.NamingConventions;
+using YamlDotNet.Serialization;
+using LeDialoduesEditorResGenerator.Serialization;
+using System.Reflection;
+using static System.Collections.Specialized.BitVector32;
+
 namespace LeDialoduesEditorResGenerator
 {
     public static class Program
@@ -36,33 +42,31 @@ namespace LeDialoduesEditorResGenerator
                 outputDirInfo.Create();
             }
 
-            var totalResourceDataList = new List<(string rsourceKey, Dictionary<string, string> resourceData)>();
+            var totalResourceDataList = new List<(string resourceKey, string resourceData)>();
 
-            foreach (var file in inputDirInfo.EnumerateFiles("*.json"))
+            foreach (var file in inputDirInfo.EnumerateFiles("*.yaml"))
             {
-                var deserializedDialogues =
-                    await JsonSerializer.DeserializeAsync<Dictionary<string, JsonElement>>(file.OpenRead());
-                var texts = GetTexts(file, deserializedDialogues).ToArray();
+                var dialogueYaml = File.ReadAllText(file.FullName);
+
+                var deserializer = new DeserializerBuilder()
+                    .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                    .Build();
+
+                var dialogueDtoDict = deserializer.Deserialize<Dictionary<string, DialogueDtoScene>>(dialogueYaml);
+
+                var dialogueSid = Path.GetFileNameWithoutExtension(file.Name);
+                var texts = GetTexts(dialogueSid, dialogueDtoDict).ToArray();
 
                 totalResourceDataList.AddRange(texts);
             }
 
-            var groupedTranslations = totalResourceDataList.SelectMany(t =>
-                {
-                    return t.Item2.Select(x => new ResourceData(t.Item1, x.Key, x.Value));
-                })
-                .GroupBy(x => x.LangKey)
-                .OrderByDescending(x => x.Count());
 
-            foreach (var group in groupedTranslations)
+            var fileName = GetFileName("ru");
+            var outputPath = Path.Combine(outputDirInfo.FullName, fileName);
+            using var rw = new ResourceWriter(outputPath);
+            foreach (var item in totalResourceDataList)
             {
-                var fileName = GetFileName(group.Key);
-                var outputPath = Path.Combine(outputDirInfo.FullName, fileName);
-                using var rw = new ResourceWriter(outputPath);
-                foreach (var text in group)
-                {
-                    rw.AddResource(text.Id, text.Value);
-                }
+                rw.AddResource(item.resourceKey, item.resourceData);
             }
         }
 
@@ -77,34 +81,35 @@ namespace LeDialoduesEditorResGenerator
             return $"{FILE_NAME}.{lang}.resources";
         }
 
-        private static IEnumerable<(string, Dictionary<string, string>)> GetTexts(FileInfo fileInfo,
-            Dictionary<string, JsonElement> json)
+        private static IEnumerable<(string, string)> GetTexts(string dialogueSid,
+            Dictionary<string, DialogueDtoScene> scenes)
         {
-            var dialogueSid = Path.GetFileNameWithoutExtension(fileInfo.Name);
-            foreach (var (key, obj) in json)
+            foreach (var (sceneSid, scene) in scenes)
             {
-                if (obj.TryGetProperty("text", out var texts))
+                var paragraphIndex = 0;
+                foreach (var paragraph in scene.Paragraphs)
                 {
-                    var localizations = JsonSerializer.Deserialize<Dictionary<string, string>>(texts.GetRawText());
-                    var textNodeKey = $"{dialogueSid}_TextNode_{key}";
-                    yield return (textNodeKey, localizations);
+                    if (paragraph.Text is not null)
+                    {
+                        yield return ($"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}", paragraph.Text);
+
+                    }
+                    else if (paragraph.Reactions is not null)
+                    {
+                        foreach (var reaction in paragraph.Reactions)
+                        {
+                            yield return ($"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}_reaction_{reaction.Hero}", reaction.Text);
+                        }
+                    }
+
+                    paragraphIndex++;
                 }
 
-                if (obj.TryGetProperty("choices", out var choices))
+                var optionIndex = 0;
+                foreach (var option in scene.Options)
                 {
-                    var optionIndex = 0;
-                    foreach (var choice in choices.EnumerateArray())
-                    {
-                        if (choice.TryGetProperty("text", out var choiceTexts))
-                        {
-                            var choicesLocalizations =
-                                JsonSerializer.Deserialize<Dictionary<string, string>>(choiceTexts.GetRawText());
-                            var optionKey = $"{dialogueSid}_TextNode_{key}_Option_{optionIndex}";
-                            yield return (optionKey, choicesLocalizations);
-                        }
-
-                        optionIndex += 1;
-                    }
+                    yield return ($"{dialogueSid}_Scene_{sceneSid}_Option_{optionIndex}", option.Text);
+                    optionIndex++;
                 }
             }
         }
