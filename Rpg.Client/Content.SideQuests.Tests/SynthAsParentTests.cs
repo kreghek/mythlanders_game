@@ -62,7 +62,7 @@ public class SynthAsParentTests
 
         // Stage 1 - play dialogue and select canon
 
-        var stage1TargetOptions = new[] { 1, 1, 1, 1, 1, 1, 3, 1 };
+        var stage1TargetOptions = new[] { 3, 1 };
         var stage1Dialogue = eventCatalog.GetDialogue(textEvent.GetDialogSid());
         CheckDialogue(stage1Dialogue, stage1TargetOptions, storyPointCatalog, globeProvider, textEvent);
 
@@ -88,7 +88,7 @@ public class SynthAsParentTests
 
         // Stage 2 - play dialogue to the end
 
-        var stage2TargetOptions = new[] { 1, 1 };
+        var stage2TargetOptions = new[] { 1, 1, 1 };
         var stage2Dialogue = eventCatalog.GetDialogue(textEvent.GetDialogSid());
         CheckDialogue(stage2Dialogue, stage2TargetOptions, storyPointCatalog, globeProvider, textEvent);
 
