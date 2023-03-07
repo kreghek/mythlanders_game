@@ -23,7 +23,7 @@ namespace LeDialoduesEditorResGenerator
             if (args.Length != 2)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Expecting exactly 2 args. JSON-file and output dir");
+                Console.WriteLine("Expecting exactly 2 args. YAML-file and output dir");
                 Console.ResetColor();
                 return;
             }
@@ -32,7 +32,7 @@ namespace LeDialoduesEditorResGenerator
             if (!inputDirInfo.Exists)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Source JSON directory does not exist.");
+                Console.WriteLine("Source YAML directory does not exist.");
                 Console.ResetColor();
                 return;
             }
@@ -60,13 +60,17 @@ namespace LeDialoduesEditorResGenerator
                 totalResourceDataList.AddRange(texts);
             }
 
+            totalResourceDataList.Add(("Common_end_dialogue", "Завершить"));
 
-            var fileName = GetFileName("ru");
-            var outputPath = Path.Combine(outputDirInfo.FullName, fileName);
-            using var rw = new ResourceWriter(outputPath);
-            foreach (var item in totalResourceDataList)
+            foreach (var lang in new[] { "ru", "en" })
             {
-                rw.AddResource(item.resourceKey, item.resourceData);
+                var fileName = GetFileName(lang);
+                var outputPath = Path.Combine(outputDirInfo.FullName, fileName);
+                using var rw = new ResourceWriter(outputPath);
+                foreach (var (resourceKey, resourceData) in totalResourceDataList)
+                {
+                    rw.AddResource(resourceKey, resourceData);
+                }
             }
         }
 
@@ -105,11 +109,14 @@ namespace LeDialoduesEditorResGenerator
                     paragraphIndex++;
                 }
 
-                var optionIndex = 0;
-                foreach (var option in scene.Options)
+                if (scene.Options is not null)
                 {
-                    yield return ($"{dialogueSid}_Scene_{sceneSid}_Option_{optionIndex}", option.Text);
-                    optionIndex++;
+                    var optionIndex = 0;
+                    foreach (var option in scene.Options)
+                    {
+                        yield return ($"{dialogueSid}_Scene_{sceneSid}_Option_{optionIndex}", option.Text);
+                        optionIndex++;
+                    }
                 }
             }
         }
