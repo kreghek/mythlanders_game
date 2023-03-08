@@ -90,9 +90,9 @@ namespace LeDialoduesEditorResGenerator
         {
             foreach (var (sceneSid, scene) in scenes)
             {
-                var paragraphIndex = 0;
-                foreach (var paragraph in scene.Paragraphs)
+                for (var paragraphIndex = 0; paragraphIndex < scene.Paragraphs.Length; paragraphIndex++)
                 {
+                    var paragraph = scene.Paragraphs[paragraphIndex];
                     if (paragraph.Text is not null)
                     {
                         yield return ($"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}", paragraph.Text);
@@ -105,17 +105,14 @@ namespace LeDialoduesEditorResGenerator
                             yield return ($"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}_reaction_{reaction.Hero}", reaction.Text);
                         }
                     }
-
-                    paragraphIndex++;
                 }
 
                 if (scene.Options is not null)
                 {
-                    var optionIndex = 0;
-                    foreach (var option in scene.Options)
+                    for (var optionIndex = 0; optionIndex < scene.Options.Length; optionIndex++)
                     {
+                        var option = scene.Options[optionIndex];
                         yield return ($"{dialogueSid}_Scene_{sceneSid}_Option_{optionIndex}", option.Text);
-                        optionIndex++;
                     }
                 }
             }

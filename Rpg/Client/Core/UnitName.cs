@@ -36,6 +36,7 @@
         StrangerWoman,
         Moira,
         Synth,
+        ChineseOldman,
 
         Marauder,
         BoldMarauder,
