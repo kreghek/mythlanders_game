@@ -20,7 +20,7 @@ namespace Rpg.Client.Assets.Monsters
                 Name = UnitName.HornedFrog,
                 LocationSids = new[]
                 {
-                    GlobeNodeSid.Pit, GlobeNodeSid.Swamp
+                    LocationSid.Pit, LocationSid.Swamp
                 },
                 IsMonster = true,
 

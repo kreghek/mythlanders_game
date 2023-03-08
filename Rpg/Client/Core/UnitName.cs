@@ -1,6 +1,6 @@
 ﻿namespace Rpg.Client.Core
 {
-    internal enum UnitName
+    public enum UnitName
     {
         Undefined,
 
@@ -10,6 +10,7 @@
         Environment,
 
         Comissar,
+        Partisan, // Вместо Comissar
         Assaulter,
         Zoologist,
 
@@ -34,6 +35,8 @@
         GuardianWoman,
         StrangerWoman,
         Moira,
+        Synth,
+        ChineseOldman,
 
         Marauder,
         BoldMarauder,

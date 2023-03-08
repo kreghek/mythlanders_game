@@ -4,14 +4,17 @@ using System.Linq;
 using System.Text;
 
 using Client;
+using Client.Core;
+using Client.Core.Dialogues;
+using Client.GameScreens.Campaign;
+
+using Core.Dices;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.GameScreens.Map.GameObjects;
 using Rpg.Client.GameScreens.Map.Tutorial;
@@ -33,7 +36,7 @@ namespace Rpg.Client.GameScreens.Map
         private readonly IDictionary<GlobeNodeMarkerGameObject, TextHint> _locationInfoHints;
         private readonly IList<GlobeNodeMarkerGameObject> _markerList;
 
-        private readonly IDictionary<GlobeNodeSid, Vector2> _markerPositions;
+        private readonly IDictionary<LocationSid, Vector2> _markerPositions;
 
         private readonly ResolutionIndependentRenderer _resolutionIndependenceRenderer;
         private readonly IUiContentStorage _uiContentStorage;
@@ -42,7 +45,7 @@ namespace Rpg.Client.GameScreens.Map
         private bool _isNodeModelsCreated;
         private bool _screenTransition;
 
-        public MapScreen(EwarGame game) : base(game)
+        public MapScreen(TestamentGame game) : base(game)
         {
             _camera = Game.Services.GetService<Camera2D>();
             _resolutionIndependenceRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
@@ -68,17 +71,14 @@ namespace Rpg.Client.GameScreens.Map
             _globe.Updated += Globe_Updated;
         }
 
-        public static void HandleLocationSelect(bool autoCombat, GlobeNode node, Event? availableEvent,
+        public static void HandleLocationSelect(bool autoCombat, GlobeNode node, DialogueEvent? availableEvent,
             IEventCatalog eventCatalog, IScreen currentScreen, IScreenManager screenManager,
             Action? clearScreenHandlersDelegate)
         {
             clearScreenHandlersDelegate?.Invoke();
 
             screenManager.ExecuteTransition(currentScreen, ScreenTransition.Campaign,
-                new CampaignScreenTransitionArguments
-                {
-                    Campaign = node.Campaign
-                });
+                new CampaignScreenTransitionArguments(node.Campaign));
 
             //if (availableEvent is not null)
             //{
@@ -251,7 +251,7 @@ namespace Rpg.Client.GameScreens.Map
             }
         }
 
-        private void AutoCombatDelegate(GlobeNode node, Event? availableEvent)
+        private void AutoCombatDelegate(GlobeNode node, DialogueEvent? availableEvent)
         {
             CombatDelegateInner(true, node, availableEvent);
         }
@@ -261,12 +261,12 @@ namespace Rpg.Client.GameScreens.Map
             globe.Updated -= Globe_Updated;
         }
 
-        private void CombatDelegate(GlobeNode node, Event? availableEvent)
+        private void CombatDelegate(GlobeNode node, DialogueEvent? availableEvent)
         {
             CombatDelegateInner(false, node, availableEvent);
         }
 
-        private void CombatDelegateInner(bool autoCombat, GlobeNode node, Event? availableEvent)
+        private void CombatDelegateInner(bool autoCombat, GlobeNode node, DialogueEvent? availableEvent)
         {
             _screenTransition = true;
 
@@ -297,28 +297,28 @@ namespace Rpg.Client.GameScreens.Map
             return hint;
         }
 
-        private static Dictionary<GlobeNodeSid, Vector2> CreateMapMarkerPositions()
+        private static Dictionary<LocationSid, Vector2> CreateMapMarkerPositions()
         {
-            return new Dictionary<GlobeNodeSid, Vector2>
+            return new Dictionary<LocationSid, Vector2>
             {
                 // Slavic
-                { GlobeNodeSid.Thicket, new Vector2(524, 188) },
-                { GlobeNodeSid.Battleground, new Vector2(500, 208) },
-                { GlobeNodeSid.Swamp, new Vector2(503, 180) },
-                { GlobeNodeSid.Pit, new Vector2(466, 153) },
-                { GlobeNodeSid.DeathPath, new Vector2(496, 149) },
-                { GlobeNodeSid.Mines, new Vector2(400, 145) },
-                { GlobeNodeSid.DestroyedVillage, new Vector2(522, 144) },
-                { GlobeNodeSid.Castle, new Vector2(446, 201) },
+                { LocationSid.Thicket, new Vector2(524, 188) },
+                { LocationSid.Battleground, new Vector2(500, 208) },
+                { LocationSid.Swamp, new Vector2(503, 180) },
+                { LocationSid.Pit, new Vector2(466, 153) },
+                { LocationSid.DeathPath, new Vector2(496, 149) },
+                { LocationSid.Mines, new Vector2(400, 145) },
+                { LocationSid.DestroyedVillage, new Vector2(522, 144) },
+                { LocationSid.Castle, new Vector2(446, 201) },
 
                 // Chinese
-                { GlobeNodeSid.Monastery, new Vector2(540, 264) },
+                { LocationSid.Monastery, new Vector2(540, 264) },
 
                 // Egyptian
-                { GlobeNodeSid.Desert, new Vector2(416, 109) },
+                { LocationSid.Desert, new Vector2(416, 109) },
 
                 // Greek
-                { GlobeNodeSid.ShipGraveyard, new Vector2(160, 307) }
+                { LocationSid.ShipGraveyard, new Vector2(160, 307) }
             };
         }
 

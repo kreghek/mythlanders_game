@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 
 using Client;
+using Client.Core.Skills;
+
+using Core.Dices;
 
 namespace Rpg.Client.Core.Skills
 {

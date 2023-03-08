@@ -1,9 +1,10 @@
 {
 	"root": "../../Content/Content/",
 	"references":
-	[
-		
-	],
+    [
+        // Reference paths are not affected by root.
+        "../../GameContent.Extensions/bin/Release/*.dll"
+    ],
 	"content":
 	{
 		"textures":
@@ -138,6 +139,30 @@
 				"Quality": "Low"
 			}
 		},
+		"storyEnvironmentSounds":
+		{
+			"path": "Audio/Stories/*.mp3",
+			"recursive": "True",
+			"action": "build",
+			"importer": "Mp3Importer",
+			"processor": "SoundEffectProcessor",
+			"processorParam":
+			{
+				"Quality": "Low"
+			}
+		},
+		"storyEnvironmentMusic":
+		{
+			"path": "Audio/Stories/*.ogg",
+			"recursive": "True",
+			"action": "build",
+			"importer": "OggImporter",
+			"processor": "SongProcessor",
+			"processorParam":
+			{
+				"Quality": "Low"
+			}
+		},
 		"uiSounds":
 		{
 			"path": "Audio/Ui/*.mp3",
@@ -174,6 +199,14 @@
 			{
 				"DebugMode": "Auto"
 			}
-		}
+		},
+		"Dialogues":
+        {
+            "path": "Dialogues/*.yaml",
+            "recursive": "False",
+            "action": "build",
+            "importer": "RawStringImporter",
+            "processor": "RawStringProcessor"
+        }
 	}
 }

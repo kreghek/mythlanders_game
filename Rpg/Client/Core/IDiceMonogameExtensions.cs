@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Core.Dices;
+
+using Microsoft.Xna.Framework;
 
 namespace Rpg.Client.Core
 {

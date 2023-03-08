@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using Rpg.Client.Core.Campaigns;
+using Client.Core.Campaigns;
 
 namespace Rpg.Client.Core
 {

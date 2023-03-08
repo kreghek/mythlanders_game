@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Client.Core.Campaigns;
 using Client.Core.Minigames.BarleyBreak;
+using Client.GameScreens.Campaign;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client;
-using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
-using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.SlidingPuzzles
@@ -28,7 +27,7 @@ namespace Client.GameScreens.SlidingPuzzles
         private readonly int _width;
         private TimeSpan _currentTime;
 
-        public SlidingPuzzlesScreen(EwarGame game, SlidingPuzzlesScreenTransitionArguments args) : base(game)
+        public SlidingPuzzlesScreen(TestamentGame game, SlidingPuzzlesScreenTransitionArguments args) : base(game)
         {
             _campaign = args.Campaign;
 
@@ -157,10 +156,8 @@ namespace Client.GameScreens.SlidingPuzzles
         {
             _campaign.CompleteCurrentStage();
 
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments
-            {
-                Campaign = _campaign
-            });
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                new CampaignScreenTransitionArguments(_campaign));
         }
     }
 }

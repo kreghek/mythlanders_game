@@ -17,7 +17,7 @@ namespace Rpg.Client.Assets.Monsters
                 Name = UnitName.Korgorush,
                 LocationSids = new[]
                 {
-                    GlobeNodeSid.DestroyedVillage
+                    LocationSid.DestroyedVillage
                 },
                 IsMonster = true,
 

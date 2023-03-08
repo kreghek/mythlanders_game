@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core.Dialogues;
+
 using Rpg.Client.GameScreens.Speech;
 
 namespace Rpg.Client.Core.Dialogues
@@ -9,36 +11,36 @@ namespace Rpg.Client.Core.Dialogues
     internal sealed class DialoguePlayer
     {
         private readonly DialogueContextFactory _contextFactory;
-        private EventNode _currentNode;
+        private DialogueNode _currentNode;
 
         public DialoguePlayer(Dialogue dialogue, DialogueContextFactory contextFactory)
         {
             _currentNode = dialogue.Root;
             _contextFactory = contextFactory;
 
-            CurrentTextFragments = _currentNode.TextBlock.Fragments;
+            CurrentTextFragments = _currentNode.TextBlock.Paragraphs;
             CurrentOptions = _currentNode.Options.ToArray();
         }
 
-        public IReadOnlyCollection<EventOption> CurrentOptions { get; private set; }
+        public IReadOnlyCollection<DialogueOption> CurrentOptions { get; private set; }
 
-        public IReadOnlyList<EventTextFragment> CurrentTextFragments { get; private set; }
+        public IReadOnlyList<DialogueParagraph> CurrentTextFragments { get; private set; }
 
-        public bool IsEnd => _currentNode == EventNode.EndNode;
+        public bool IsEnd => _currentNode == DialogueNode.EndNode;
 
-        public void SelectOption(EventOption option)
+        public void SelectOption(DialogueOption option)
         {
             _currentNode = option.Next;
 
-            if (_currentNode != EventNode.EndNode)
+            if (_currentNode != DialogueNode.EndNode)
             {
-                CurrentTextFragments = _currentNode.TextBlock.Fragments;
+                CurrentTextFragments = _currentNode.TextBlock.Paragraphs;
                 CurrentOptions = _currentNode.Options.ToArray();
             }
             else
             {
-                CurrentTextFragments = ArraySegment<EventTextFragment>.Empty;
-                CurrentOptions = ArraySegment<EventOption>.Empty;
+                CurrentTextFragments = ArraySegment<DialogueParagraph>.Empty;
+                CurrentOptions = ArraySegment<DialogueOption>.Empty;
             }
 
             var context = _contextFactory.Create();

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Core.Dices;
+
 using Rpg.Client.Core.Modifiers;
 using Rpg.Client.Core.Skills;
 

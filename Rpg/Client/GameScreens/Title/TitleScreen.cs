@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client;
+using Client.GameScreens.CommandCenter;
+
+using Core.Dices;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.CampaignSelection;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.ScreenManagement;
 
@@ -43,7 +45,7 @@ namespace Rpg.Client.GameScreens.Title
 
         private Vector2 _bgMoveVector = Vector2.One * 0.2f;
 
-        public TitleScreen(EwarGame game)
+        public TitleScreen(TestamentGame game)
             : base(game)
         {
             _globeProvider = Game.Services.GetService<GlobeProvider>();
@@ -129,9 +131,9 @@ namespace Rpg.Client.GameScreens.Title
             screenManager.ExecuteTransition(
                 currentScreen,
                 ScreenTransition.CampaignSelection,
-                new CampaignSelectionScreenTransitionArguments
+                new CommandCenterScreenTransitionArguments
                 {
-                    Campaigns = campaigns
+                    AvailableCampaigns = campaigns
                 });
 
             //globeProvider.Globe.IsNodeInitialized = true;

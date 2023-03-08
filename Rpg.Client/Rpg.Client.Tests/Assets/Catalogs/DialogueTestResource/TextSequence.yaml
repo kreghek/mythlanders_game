@@ -1,0 +1,6 @@
+﻿root:
+  paragraphs:
+    - text: 'test environment'
+    - reactions:
+        - hero: Swordsman
+          text: 'Test reaction'

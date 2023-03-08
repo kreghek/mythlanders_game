@@ -1,3 +1,5 @@
+using Client.Core;
+
 namespace Rpg.Client.Core
 {
     /// <summary>

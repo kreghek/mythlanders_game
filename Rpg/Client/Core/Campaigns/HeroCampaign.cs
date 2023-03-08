@@ -1,21 +1,28 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
-namespace Rpg.Client.Core.Campaigns
+using Rpg.Client.Core;
+using Rpg.Client.Core.Campaigns;
+
+namespace Client.Core.Campaigns;
+
+internal sealed class HeroCampaign
 {
-    internal sealed class HeroCampaign
+    public HeroCampaign(LocationSid location, IReadOnlyList<CampaignStage> campaignStages)
     {
-        public IReadOnlyList<CampaignStage> CampaignStages { get; set; }
+        Location = location;
+        CampaignStages = campaignStages;
+    }
 
-        public int CurrentStageIndex { get; set; }
+    public IReadOnlyList<CampaignStage> CampaignStages { get; }
 
-        public bool IsCampaignComplete => CampaignStages.All(x => x.IsCompleted);
+    public int CurrentStageIndex { get; private set; }
 
-        internal void CompleteCurrentStage()
-        {
-            CampaignStages[CurrentStageIndex].IsCompleted = true;
+    public LocationSid Location { get; }
 
-            CurrentStageIndex++;
-        }
+    internal void CompleteCurrentStage()
+    {
+        CampaignStages[CurrentStageIndex].IsCompleted = true;
+
+        CurrentStageIndex++;
     }
 }

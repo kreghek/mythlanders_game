@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Core.Dices;
+
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.Assets.InteractionDeliveryObjects;

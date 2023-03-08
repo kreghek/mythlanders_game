@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Microsoft.Xna.Framework;
+using Core.Dices;
 
-using Rpg.Client.Core;
+using Microsoft.Xna.Framework;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectFactoryImplementations
 {

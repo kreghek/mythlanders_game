@@ -1,4 +1,6 @@
-﻿using Rpg.Client.Core;
+﻿using Core.Dices;
+
+using Rpg.Client.Core;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectFactoryImplementations;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
@@ -12,24 +14,24 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
         private ShipGraveyardBackgroundObjectFactory _shipGraveyardObjectFactory;
         private ThicketBackgroundObjectFactory _thicketOjectFactory;
 
-        public IBackgroundObjectFactory GetBackgroundObjectFactory(GlobeNodeSid nodeSid)
+        public IBackgroundObjectFactory GetBackgroundObjectFactory(LocationSid nodeSid)
         {
-            if (nodeSid == GlobeNodeSid.Thicket)
+            if (nodeSid == LocationSid.Thicket)
             {
                 return _thicketOjectFactory;
             }
 
-            if (nodeSid == GlobeNodeSid.Monastery)
+            if (nodeSid == LocationSid.Monastery)
             {
                 return _monasteryObjectFactory;
             }
 
-            if (nodeSid == GlobeNodeSid.Battleground)
+            if (nodeSid == LocationSid.Battleground)
             {
                 return _battlegroundObjectFactory;
             }
 
-            if (nodeSid == GlobeNodeSid.ShipGraveyard)
+            if (nodeSid == LocationSid.ShipGraveyard)
             {
                 return _shipGraveyardObjectFactory;
             }

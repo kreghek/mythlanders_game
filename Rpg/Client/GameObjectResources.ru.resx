@@ -226,8 +226,14 @@
   <data name="DefenseStance" xml:space="preserve">
     <value>Защитная стойка</value>
   </data>
+  <data name="Desert" xml:space="preserve">
+    <value>Где-то в пустыне...</value>
+  </data>
   <data name="DestroyedVillage" xml:space="preserve">
     <value>Раззоренный скит</value>
+  </data>
+  <data name="DieBySword" xml:space="preserve">
+    <value>От меча и погибни</value>
   </data>
   <data name="DopeHerb" xml:space="preserve">
     <value>Дурман-трава</value>
@@ -324,6 +330,9 @@
     <value>Экзоскелет.
 Увеличивает HP на 10% за уровень.</value>
   </data>
+  <data name="Monastery" xml:space="preserve">
+    <value>Монастырь в огне</value>
+  </data>
   <data name="Monk" xml:space="preserve">
     <value>Мяосин</value>
   </data>
@@ -347,6 +356,9 @@
   </data>
   <data name="ScarabeusKingLeg" xml:space="preserve">
     <value>Лапа Короля жука-скоробея</value>
+  </data>
+  <data name="ShipGraveyard" xml:space="preserve">
+    <value>Кладбище кораблей</value>
   </data>
   <data name="SilverWindNecklace" xml:space="preserve">
     <value>Серебрянное ожерелье ветра</value>
@@ -373,20 +385,23 @@
   <data name="Swamp" xml:space="preserve">
     <value>Зловещее болото</value>
   </data>
-  <data name="DieBySword" xml:space="preserve">
-    <value>От меча и погибни</value>
-  </data>
   <data name="Swordsman" xml:space="preserve">
     <value>Беримир</value>
   </data>
   <data name="SymbolOfGod" xml:space="preserve">
     <value>Символ Бога</value>
   </data>
+  <data name="Synth" xml:space="preserve">
+    <value>Нафрит</value>
+  </data>
+  <data name="Synth_Hidden" xml:space="preserve">
+    <value>Синт низшей касты</value>
+  </data>
   <data name="TacticalManeuver" xml:space="preserve">
     <value>Тактический манёвр</value>
   </data>
   <data name="Thicket" xml:space="preserve">
-    <value>Чаща</value>
+    <value>Темная Чаща</value>
   </data>
   <data name="ToxicGasBomb" xml:space="preserve">
     <value>Бомба с токсичным газм</value>

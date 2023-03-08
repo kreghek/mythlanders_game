@@ -1,23 +1,22 @@
-using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core.Dialogues;
+
 using Rpg.Client.Core;
-using Rpg.Client.Core.Dialogues;
 
-namespace Rpg.Client.Assets.DialogueEventRequirements
+namespace Client.Assets.DialogueEventRequirements;
+
+internal sealed class LocationRequirement : IDialogueEventRequirement
 {
-    internal sealed class LocationEventRequirement : ITextEventRequirement
+    private readonly LocationSid[] _locationSids;
+
+    public LocationRequirement(params LocationSid[] locationSids)
     {
-        private readonly IReadOnlyCollection<GlobeNodeSid> _locationSids;
+        _locationSids = locationSids;
+    }
 
-        public LocationEventRequirement(IReadOnlyCollection<GlobeNodeSid> locationSids)
-        {
-            _locationSids = locationSids;
-        }
-
-        public bool IsApplicableFor(Globe globe, GlobeNode targetNode)
-        {
-            return _locationSids.Contains(targetNode.Sid);
-        }
+    public bool IsApplicableFor(IDialogueEventRequirementContext context)
+    {
+        return _locationSids.Contains(context.CurrentLocation);
     }
 }

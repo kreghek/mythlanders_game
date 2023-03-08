@@ -1,6 +1,8 @@
 using System;
 
-using Rpg.Client.Core;
+using Client.Core;
+
+using Core.Dices;
 
 namespace Rpg.Client.Assets.Perks
 {

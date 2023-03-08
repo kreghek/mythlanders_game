@@ -2,28 +2,23 @@ using System;
 using System.IO;
 using System.Reflection;
 
-namespace Rpg.Client.Assets.Catalogs
+using Microsoft.Xna.Framework.Content;
+
+using Rpg.Client.Assets.Catalogs;
+
+namespace Client.Assets.Catalogs;
+
+internal sealed class DialogueResourceProvider : IDialogueResourceProvider
 {
-    internal sealed class DialogueResourceProvider : IDialogueResourceProvider
+    private readonly ContentManager _contentManager;
+
+    public DialogueResourceProvider(ContentManager contentManager)
     {
-        public string GetResource(string resourceSid)
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            const string RESOURCE_PATH = "Rpg.Client.Resources.Dialogues";
+        _contentManager = contentManager;
+    }
 
-            var dialogueSourcePath = RESOURCE_PATH + "." + resourceSid + ".json";
-
-            using var stream = assembly.GetManifestResourceStream(dialogueSourcePath);
-
-            if (stream is not null)
-            {
-                using var reader = new StreamReader(stream);
-                var json = reader.ReadToEnd();
-
-                return json;
-            }
-
-            throw new InvalidOperationException($"Dialogue resource with sid {resourceSid} not found");
-        }
+    public string GetResource(string resourceSid)
+    {
+        return _contentManager.Load<string>($"Dialogues/{resourceSid}");
     }
 }

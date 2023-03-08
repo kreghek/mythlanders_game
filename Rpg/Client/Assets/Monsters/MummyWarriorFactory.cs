@@ -16,7 +16,7 @@ namespace Rpg.Client.Assets.Monsters
                 Name = UnitName.MummyWarrior,
                 LocationSids = new[]
                 {
-                    GlobeNodeSid.Desert
+                    LocationSid.Desert
                 },
                 IsMonster = true,
 

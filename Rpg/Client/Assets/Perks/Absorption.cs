@@ -1,4 +1,4 @@
-using Rpg.Client.Core;
+using Client.Core;
 
 namespace Rpg.Client.Assets.Perks
 {

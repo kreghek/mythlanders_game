@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Client.Core.SkillEffects;
+
 using Rpg.Client.Assets.States.HeroSpecific;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
