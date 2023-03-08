@@ -17,7 +17,7 @@ using Rpg.Client.GameScreens.Speech;
 
 namespace DialoguePlayer;
 
-public class LocalDialogueResourceProvider: IDialogueResourceProvider
+public class LocalDialogueResourceProvider : IDialogueResourceProvider
 {
     public string GetResource(string resourceSid)
     {
