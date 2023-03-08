@@ -56,9 +56,9 @@ internal sealed class UnitGameObject : EwarRenderableBase
     private readonly bool _isPlayerSide;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly ScreenShaker _screenShaker;
-    private readonly IUnitPositionProvider _unitPositionProvider;
+    private readonly ICombatantPositionProvider _unitPositionProvider;
 
-    public UnitGameObject(Combatant combatant, UnitGraphicsConfigBase combatantGraphicsConfig, FieldCoords formationCoords, IUnitPositionProvider unitPositionProvider,
+    public UnitGameObject(Combatant combatant, UnitGraphicsConfigBase combatantGraphicsConfig, FieldCoords formationCoords, ICombatantPositionProvider unitPositionProvider,
         GameObjectContentStorage gameObjectContentStorage,
         Camera2D camera, ScreenShaker screenShaker, IAnimationManager animationManager,
         IDice dice,

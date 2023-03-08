@@ -67,7 +67,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
         private readonly ScreenShaker _screenShaker;
         private readonly IUiContentStorage _uiContentStorage;
-        private readonly UnitPositionProvider _unitPositionProvider;
+        private readonly ICombatantPositionProvider _combatantPositionProvider;
 
         private float _bgCenterOffsetPercentageX;
         private float _bgCenterOffsetPercentageY;
@@ -121,7 +121,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             _gameSettings = game.Services.GetService<GameSettings>();
 
-            _unitPositionProvider = new UnitPositionProvider(ResolutionIndependentRenderer);
+            _combatantPositionProvider = new CombatantPositionProvider(ResolutionIndependentRenderer.VirtualWidth);
 
             _screenShaker = new ScreenShaker();
 
@@ -300,7 +300,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             var isPlayerSide = e.FieldInfo.FieldSide == _combatCore.Field.HeroSide;
             var gameObject =
-                new UnitGameObject(e.Combatant, graphicConfig, e.FieldInfo.CombatantCoords, _unitPositionProvider, _gameObjectContentStorage, _camera, _screenShaker,
+                new UnitGameObject(e.Combatant, graphicConfig, e.FieldInfo.CombatantCoords, _combatantPositionProvider, _gameObjectContentStorage, _camera, _screenShaker,
                     _animationManager, _dice, isPlayerSide);
             _gameObjects.Add(gameObject);
 
