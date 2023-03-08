@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Resources;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using YamlDotNet.Serialization.NamingConventions;
-using YamlDotNet.Serialization;
 using LeDialoduesEditorResGenerator.Serialization;
-using System.Reflection;
+
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
+
 using static System.Collections.Specialized.BitVector32;
 
 namespace LeDialoduesEditorResGenerator
@@ -90,9 +92,9 @@ namespace LeDialoduesEditorResGenerator
         {
             foreach (var (sceneSid, scene) in scenes)
             {
-                var paragraphIndex = 0;
-                foreach (var paragraph in scene.Paragraphs)
+                for (var paragraphIndex = 0; paragraphIndex < scene.Paragraphs.Length; paragraphIndex++)
                 {
+                    var paragraph = scene.Paragraphs[paragraphIndex];
                     if (paragraph.Text is not null)
                     {
                         yield return ($"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}", paragraph.Text);
@@ -105,17 +107,14 @@ namespace LeDialoduesEditorResGenerator
                             yield return ($"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}_reaction_{reaction.Hero}", reaction.Text);
                         }
                     }
-
-                    paragraphIndex++;
                 }
 
                 if (scene.Options is not null)
                 {
-                    var optionIndex = 0;
-                    foreach (var option in scene.Options)
+                    for (var optionIndex = 0; optionIndex < scene.Options.Length; optionIndex++)
                     {
+                        var option = scene.Options[optionIndex];
                         yield return ($"{dialogueSid}_Scene_{sceneSid}_Option_{optionIndex}", option.Text);
-                        optionIndex++;
                     }
                 }
             }

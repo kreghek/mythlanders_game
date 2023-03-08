@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Resources;
 
@@ -16,14 +15,6 @@ using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Speech;
 
 namespace DialoguePlayer;
-
-public class LocalDialogueResourceProvider: IDialogueResourceProvider
-{
-    public string GetResource(string resourceSid)
-    {
-        return File.ReadAllText(Path.Combine("../Client/Content/Dialogues", resourceSid + ".yaml"));
-    }
-}
 
 internal static class Program
 {

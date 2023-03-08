@@ -62,26 +62,25 @@ internal static class DialogueCatalogHelper
 
             var options = new List<DialogueOption>();
             var dialogNode = new DialogueNode(new DialogueParagraphContainer(paragraphs), options);
-            
+
             nodeListDicts.Add((sceneSid, dialogNode, options, dtoScene.Options));
         }
 
         // Linking scenes via player's options
-        foreach (var nodeListDict in nodeListDicts)
+        foreach (var (nodeSid, node, optionsList, optionsDto) in nodeListDicts)
         {
-            if (nodeListDict.optionsDto is not null)
+            if (optionsDto is not null)
             {
-                var optionIndex = 0;
-
-                foreach (var dialogueDtoOption in nodeListDict.optionsDto)
+                for (var optionIndex = 0; optionIndex < optionsDto.Length; optionIndex++)
                 {
+                    var dialogueDtoOption = optionsDto[optionIndex];
                     var aftermaths = CreateAftermaths(dialogueDtoOption.Aftermaths, services.OptionAftermathCreator);
-                    
+
                     DialogueOption dialogueOption;
                     if (dialogueDtoOption.Next is not null)
                     {
                         var next = nodeListDicts.Single(x => x.nodeSid == dialogueDtoOption.Next).node;
-                        dialogueOption = new DialogueOption($"{dialogueSid}_Scene_{nodeListDict.nodeSid}_Option_{optionIndex}", next)
+                        dialogueOption = new DialogueOption($"{dialogueSid}_Scene_{nodeSid}_Option_{optionIndex}", next)
                         {
                             Aftermath = aftermaths
                         };
@@ -94,15 +93,13 @@ internal static class DialogueCatalogHelper
                         };
                     }
 
-                    nodeListDict.optionsList.Add(dialogueOption);
+                    optionsList.Add(dialogueOption);
                 }
-
-                optionIndex++;
             }
             else
             {
                 var dialogueOption = new DialogueOption($"Common_end_dialogue", DialogueNode.EndNode);
-                nodeListDict.optionsList.Add(dialogueOption);
+                optionsList.Add(dialogueOption);
             }
         }
 
@@ -126,7 +123,7 @@ internal static class DialogueCatalogHelper
 
         return list;
     }
-    
+
     private static IDialogueOptionAftermath? CreateAftermaths(DialogueDtoData[]? aftermathDtos, IDialogueOptionAftermathCreator aftermathCreator)
     {
         if (aftermathDtos is null)

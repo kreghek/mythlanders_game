@@ -1,8 +1,11 @@
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Text;
 
 using Rpg.Client.Assets.Catalogs;
 
-namespace Content.SideQuests.Tests;
+namespace DialoguePlayer;
 
 public class LocalDialogueResourceProvider : IDialogueResourceProvider
 {

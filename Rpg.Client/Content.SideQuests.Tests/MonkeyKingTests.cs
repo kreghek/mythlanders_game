@@ -19,7 +19,7 @@ using Rpg.Client.GameScreens.Speech.Ui;
 namespace Content.SideQuests.Tests;
 
 [TestFixture]
-public class SynthAsParentTests
+public class MonkeyKingTests
 {
     [OneTimeSetUp]
     public void SetUp()
@@ -50,62 +50,32 @@ public class SynthAsParentTests
 
         storyPointCatalog.Init(globeProvider.Globe);
 
+        var questLocations = new[] { LocationSid.Monastery };
+
         // Start testing
 
-        var textEvent = eventCatalog.Events.Single(x => x.Sid == DialogueConstants.SideQuests.SynthAsParent.Sid);
+        var textEvent = eventCatalog.Events.Single(x => x.Sid == DialogueConstants.SideQuests.MonkeyKing.Sid);
 
-        QuestNotAvailableInOtherLocations(eventCatalog, globeProvider, textEvent, new[] { LocationSid.Desert });
+        QuestNotAvailableInOtherLocations(eventCatalog, globeProvider, textEvent, questLocations);
 
         // Stage 1 - availability in a campaigns
 
         var requirements = textEvent.GetRequirements();
 
-        var dialogueRequirementsContext =
-            new DialogueEventRequirementContext(globeProvider.Globe, LocationSid.Desert, eventCatalog);
-
-        var stage1IsAvailable = requirements.All(x => x.IsApplicableFor(dialogueRequirementsContext));
-
-        stage1IsAvailable.Should().BeTrue();
+        QuestAvailableInApplicableLocations(eventCatalog, globeProvider, textEvent, questLocations);
 
         // Stage 1 - play dialogue and select canon
 
-        var stage1TargetOptions = new[] { 3, 1 };
+        var stage1TargetOptions = new[] { 1, 1 };
         var stage1Dialogue = eventCatalog.GetDialogue(textEvent.GetDialogSid());
         CheckDialogue(stage1Dialogue, stage1TargetOptions, storyPointCatalog, globeProvider, textEvent);
 
         globeProvider.Globe.ActiveStoryPoints.Single().Sid.Should()
-            .Be($"{DialogueConstants.SideQuests.SynthAsParent.Sid}_stage_1");
+            .Be($"{DialogueConstants.SideQuests.MonkeyKing.Sid}_stage_1");
 
         // Quest is not available until in progress
 
-        CheckEventIsNotAvailableUntilInProgress(textEvent, dialogueRequirementsContext);
-
-        // Complete progress
-
-        textEvent.Trigger(DialogueConstants.CompleteCurrentStageChallengeTrigger);
-
-        // Quest available to continue
-
-        QuestNotAvailableInOtherLocations(eventCatalog, globeProvider, textEvent, new[] { LocationSid.Desert });
-
-        var stage2Requirements = textEvent.GetRequirements();
-        var questStage2IsAvailable = stage2Requirements.All(x => x.IsApplicableFor(dialogueRequirementsContext));
-
-        questStage2IsAvailable.Should().BeTrue();
-
-        // Stage 2 - play dialogue to the end
-
-        var stage2TargetOptions = new[] { 1, 1, 1 };
-        var stage2Dialogue = eventCatalog.GetDialogue(textEvent.GetDialogSid());
-        CheckDialogue(stage2Dialogue, stage2TargetOptions, storyPointCatalog, globeProvider, textEvent);
-
-        globeProvider.Globe.ActiveStoryPoints
-            .Single(x => x.Sid == $"{DialogueConstants.SideQuests.SynthAsParent.Sid}_stage_2").IsComplete.Should()
-            .BeFalse();
-
-        // Quest is not available until in progress
-
-        CheckEventIsNotAvailableUntilInProgress(textEvent, dialogueRequirementsContext);
+        CheckEventIsNotAvailableUntilInProgress(eventCatalog, globeProvider, textEvent, questLocations);
     }
 
     private static void QuestNotAvailableInOtherLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider, DialogueEvent textEvent, LocationSid[] availableLocations)
@@ -127,11 +97,32 @@ public class SynthAsParentTests
         }
     }
 
-    private static void CheckEventIsNotAvailableUntilInProgress(DialogueEvent textEvent, DialogueEventRequirementContext context)
+    private static void QuestAvailableInApplicableLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider, DialogueEvent textEvent, LocationSid[] availableLocations)
     {
-        var requirements = textEvent.GetRequirements();
-        var questAvailability = requirements.All(x => x.IsApplicableFor(context));
-        questAvailability.Should().BeFalse();
+        foreach (var locationSid in availableLocations)
+        {
+            var notAvailableLocationContext = new DialogueEventRequirementContext(globeProvider.Globe, locationSid, eventCatalog);
+
+            var requirements1 = textEvent.GetRequirements();
+
+            var stage1IsAvailable1 = requirements1.All(x => x.IsApplicableFor(notAvailableLocationContext));
+
+            stage1IsAvailable1.Should().BeTrue();
+
+        }
+    }
+
+    private static void CheckEventIsNotAvailableUntilInProgress(DialogueCatalog eventCatalog, GlobeProvider globeProvider, DialogueEvent textEvent, LocationSid[] availableLocations)
+    {
+        foreach (var locationSid in availableLocations)
+        {
+            var context = new DialogueEventRequirementContext(globeProvider.Globe, locationSid, eventCatalog);
+
+            var requirements = textEvent.GetRequirements();
+            var questAvailability = requirements.All(x => x.IsApplicableFor(context));
+            questAvailability.Should().BeFalse();
+
+        }
     }
 
     private static void CheckDialogue(Dialogue testDialog, int[] targetOptions, StoryPointCatalog storyPointCatalog,
@@ -141,7 +132,9 @@ public class SynthAsParentTests
             globeProvider.Globe.Player, textEvent);
         var dialoguePlayer = new DialoguePlayer(testDialog, dialogueContextFactory);
 
-        foreach (var optionIndex in targetOptions)
+        var targetOptionsIncludeFinish = targetOptions.Concat(new[] { 1 }).ToArray();
+
+        foreach (var optionIndex in targetOptionsIncludeFinish)
         {
             foreach (var currentTextFragment in dialoguePlayer.CurrentTextFragments)
             {
