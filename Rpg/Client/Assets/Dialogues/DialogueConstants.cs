@@ -55,5 +55,17 @@ internal static class DialogueConstants
             public static DialogueEventTrigger Stage5_Lead_Trigger { get; } = new("stage_5_lead");
             public static DialogueEventTrigger Stage5_Leave_Trigger { get; } = new("stage_5_leave");
         }
+
+        public static class MonkeyKing
+        {
+            public static string Sid { get; } = "monkey_king";
+
+            public static DialogueEventState Stage1_Canon_In_Progress { get; } =
+                new("stage_1_canon_in_progress") { NoDialogue = true };
+
+            public static DialogueEventTrigger Stage1_Ignore_Trigger { get; } = new("stage_1_ignore");
+
+            public static DialogueEventTrigger Stage1_Help_Trigger { get; } = new("stage_1_help");
+        }
     }
 }

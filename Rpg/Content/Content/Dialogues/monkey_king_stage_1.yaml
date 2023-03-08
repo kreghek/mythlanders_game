@@ -53,12 +53,14 @@ meeting_scene:
   options:
     - text: Помочь
       aftermaths:
+        - type: Trigger
+          data: stage_1_help
         - type: ActivateStoryPoint
           data: monkey_king_stage_1
       next: agree_scene
 
 agree_scene:
-  paragrahps:
+  paragraphs:
     - reactions:
         - hero: Swordsman
           text: '"Что ж, интересное дельце. Никогда прежде с богами мы не встречались, а поглядеть страсть как хочется. Так и быть, просьбу твою мы выполним и награды более и не потребуем."'
