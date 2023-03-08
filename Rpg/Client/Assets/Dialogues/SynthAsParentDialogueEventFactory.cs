@@ -22,6 +22,7 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
         // Canonical story
         var questStateMachine =
             new StateMachine<DialogueEventState, DialogueEventTrigger>(DialogueConstants.InitialStage);
+
         questStateMachine.Configure(DialogueConstants.InitialStage)
             .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage1_Ignore_Trigger, DialogueConstants.CompleteStage)
             .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage1_Fast_Trigger,
