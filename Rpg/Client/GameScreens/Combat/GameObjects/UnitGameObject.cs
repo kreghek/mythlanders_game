@@ -53,7 +53,7 @@ internal sealed class UnitGameObject : EwarRenderableBase
     private readonly IAnimationManager _animationManager;
     private readonly Camera2D _camera;
     private readonly IDice _dice;
-    private readonly bool _isPlayerSide;
+    private readonly CombatantPositionSide _combatantSide;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly ScreenShaker _screenShaker;
     private readonly ICombatantPositionProvider _unitPositionProvider;
@@ -62,15 +62,15 @@ internal sealed class UnitGameObject : EwarRenderableBase
         GameObjectContentStorage gameObjectContentStorage,
         Camera2D camera, ScreenShaker screenShaker, IAnimationManager animationManager,
         IDice dice,
-        bool isPlayerSide)
+        CombatantPositionSide combatantSide)
     {
         _actorStateEngineList = new List<IActorVisualizationState>();
 
         var actorGraphicsConfig = combatantGraphicsConfig;
 
-        var position = unitPositionProvider.GetPosition(formationCoords, isPlayerSide);
+        var position = unitPositionProvider.GetPosition(formationCoords, combatantSide);
         var spriteSheetId = Enum.Parse<UnitName>(combatant.ClassSid, ignoreCase: true);
-        Graphics = new UnitGraphics(spriteSheetId, actorGraphicsConfig, isPlayerSide, position, gameObjectContentStorage);
+        Graphics = new UnitGraphics(spriteSheetId, actorGraphicsConfig, combatantSide == CombatantPositionSide.Heroes, position, gameObjectContentStorage);
 
         Animator = new ActorAnimator(Graphics);
 
@@ -82,7 +82,7 @@ internal sealed class UnitGameObject : EwarRenderableBase
         _screenShaker = screenShaker;
         _animationManager = animationManager;
         _dice = dice;
-        _isPlayerSide = isPlayerSide;
+        _combatantSide = combatantSide;
 
         // TODO Call ShiftShape from external combat core
         // combatant.Unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
@@ -222,7 +222,7 @@ internal sealed class UnitGameObject : EwarRenderableBase
 
     public void ChangeFieldPosition(FieldCoords fieldCoords)
     {
-        var position = _unitPositionProvider.GetPosition(fieldCoords, _isPlayerSide);
+        var position = _unitPositionProvider.GetPosition(fieldCoords, _combatantSide);
         Graphics.ChangePosition(position);
         Position = position;
     }

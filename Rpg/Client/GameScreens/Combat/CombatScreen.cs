@@ -238,7 +238,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void CombatCode_CombatantHasBeenDefeated(object? sender, CombatantDefeatedEventArgs e)
         {
-            var gameObject = GetUnitGameObject(e.Combatant);
+            var gameObject = GetCombatantGameObject(e.Combatant);
             _gameObjects.Remove(gameObject);
         }
 
@@ -280,7 +280,7 @@ namespace Rpg.Client.GameScreens.Combat
                 CountDefeat();
             }
 
-            var unitGameObject = GetUnitGameObject(e.Combatant);
+            var unitGameObject = GetCombatantGameObject(e.Combatant);
 
             var corpse = unitGameObject.CreateCorpse();
             _corpseObjects.Add(corpse);
@@ -298,10 +298,10 @@ namespace Rpg.Client.GameScreens.Combat
             var graphicConfig = unitCatalog.GetGraphics(e.Combatant.ClassSid);
 
 
-            var isPlayerSide = e.FieldInfo.FieldSide == _combatCore.Field.HeroSide;
+            var combatantSide = e.FieldInfo.FieldSide == _combatCore.Field.HeroSide ? CombatantPositionSide.Heroes : CombatantPositionSide.Monsters;
             var gameObject =
                 new UnitGameObject(e.Combatant, graphicConfig, e.FieldInfo.CombatantCoords, _combatantPositionProvider, _gameObjectContentStorage, _camera, _screenShaker,
-                    _animationManager, _dice, isPlayerSide);
+                    _animationManager, _dice, combatantSide);
             _gameObjects.Add(gameObject);
 
             // var combatant = e.Combatant;
@@ -455,7 +455,7 @@ namespace Rpg.Client.GameScreens.Combat
         {
             var movementExecution = _combatCore.UseCombatMovement(e.CombatMovement);
 
-            var actorGameObject = GetUnitGameObject(_combatCore.CurrentCombatant);
+            var actorGameObject = GetCombatantGameObject(_combatCore.CurrentCombatant);
             var movementState = GetMovementVisualizationState(actorGameObject, movementExecution, e.CombatMovement);
 
             PlaybackCombatMovementExecution(movementState);
@@ -463,7 +463,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void PlaybackCombatMovementExecution(IActorVisualizationState movementState)
         {
-            var actorGameObject = GetUnitGameObject(_combatCore.CurrentCombatant);
+            var actorGameObject = GetCombatantGameObject(_combatCore.CurrentCombatant);
 
             var mainAnimationBlocker = _animationManager.CreateAndRegisterBlocker();
 
@@ -504,7 +504,7 @@ namespace Rpg.Client.GameScreens.Combat
                 return;
             }
 
-            var unitGameObject = GetUnitGameObject(e.Combatant);
+            var unitGameObject = GetCombatantGameObject(e.Combatant);
 
             unitGameObject.AnimateWound();
 
@@ -532,6 +532,9 @@ namespace Rpg.Client.GameScreens.Combat
                                 nextIndex ?? 0);
 
                         unitGameObject.AddChild(damageIndicator);
+
+                        unitGameObject.AnimateWound();
+
                         break;
 
                     case UnitStatType.ShieldPoints:
@@ -818,7 +821,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void DropSelection(Combatant combatant)
         {
-            var oldCombatUnitGameObject = GetUnitGameObject(combatant);
+            var oldCombatUnitGameObject = GetCombatantGameObject(combatant);
             oldCombatUnitGameObject.IsActive = false;
         }
 
@@ -842,7 +845,7 @@ namespace Rpg.Client.GameScreens.Combat
             return 0;
         }
 
-        private UnitGameObject GetUnitGameObject(Combatant combatant)
+        private UnitGameObject GetCombatantGameObject(Combatant combatant)
         {
             return _gameObjects.First(x => x.Combatant == combatant);
         }
