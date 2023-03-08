@@ -240,7 +240,7 @@ public sealed class TestamentGame : Game
 
         Services.AddService<IJobProgressResolver>(new JobProgressResolver());
 
-        var dialogueResourceProvider = new DialogueResourceProvider();
+        var dialogueResourceProvider = new DialogueResourceProvider(Content);
 
         var balanceTable = new BalanceTable();
         if (_gameSettings.Mode == GameMode.Full)

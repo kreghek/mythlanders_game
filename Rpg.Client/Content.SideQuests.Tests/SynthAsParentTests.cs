@@ -32,7 +32,7 @@ public class SynthAsParentTests
         var balanceTable = new BalanceTable();
         var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable, false);
 
-        var eventCatalog = new DialogueCatalog(new DialogueResourceProvider(),
+        var eventCatalog = new DialogueCatalog(new LocalDialogueResourceProvider(),
             new DialogueOptionAftermathCreator(unitSchemeCatalog));
         eventCatalog.Init();
 
@@ -49,6 +49,8 @@ public class SynthAsParentTests
 
         var textEvent = eventCatalog.Events.Single(x => x.Sid == DialogueConstants.SideQuests.SynthAsParent.Sid);
 
+        QuestNotAvailableInOtherLocations(eventCatalog, globeProvider, textEvent, new[] { LocationSid.Desert });
+
         // Stage 1 - availability in a campaigns
 
         var requirements = textEvent.GetRequirements();
@@ -62,7 +64,7 @@ public class SynthAsParentTests
 
         // Stage 1 - play dialogue and select canon
 
-        var stage1TargetOptions = new[] { 1, 1, 1, 1, 1, 1, 3, 1 };
+        var stage1TargetOptions = new[] { 3, 1 };
         var stage1Dialogue = eventCatalog.GetDialogue(textEvent.GetDialogSid());
         CheckDialogue(stage1Dialogue, stage1TargetOptions, storyPointCatalog, globeProvider, textEvent);
 
@@ -71,15 +73,15 @@ public class SynthAsParentTests
 
         // Quest is not available until in progress
 
-        var stage1InProgressRequirements = textEvent.GetRequirements();
-        var questIsNotAvailable = stage1InProgressRequirements.All(x => x.IsApplicableFor(dialogueRequirementsContext));
-        questIsNotAvailable.Should().BeFalse();
+        CheckEventIsNotAvailableUntilInProgress(textEvent, dialogueRequirementsContext);
 
         // Complete progress
 
         textEvent.Trigger(DialogueConstants.CompleteCurrentStageChallengeTrigger);
 
         // Quest available to continue
+
+        QuestNotAvailableInOtherLocations(eventCatalog, globeProvider, textEvent, new[] { LocationSid.Desert });
 
         var stage2Requirements = textEvent.GetRequirements();
         var questStage2IsAvailable = stage2Requirements.All(x => x.IsApplicableFor(dialogueRequirementsContext));
@@ -88,13 +90,43 @@ public class SynthAsParentTests
 
         // Stage 2 - play dialogue to the end
 
-        var stage2TargetOptions = new[] { 1, 1 };
+        var stage2TargetOptions = new[] { 1, 1, 1 };
         var stage2Dialogue = eventCatalog.GetDialogue(textEvent.GetDialogSid());
         CheckDialogue(stage2Dialogue, stage2TargetOptions, storyPointCatalog, globeProvider, textEvent);
 
         globeProvider.Globe.ActiveStoryPoints
             .Single(x => x.Sid == $"{DialogueConstants.SideQuests.SynthAsParent.Sid}_stage_2").IsComplete.Should()
             .BeFalse();
+
+        // Quest is not available until in progress
+
+        CheckEventIsNotAvailableUntilInProgress(textEvent, dialogueRequirementsContext);
+    }
+
+    private static void QuestNotAvailableInOtherLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider, DialogueEvent textEvent, LocationSid[] availableLocations)
+    {
+        var allLocations = Enum.GetValues<LocationSid>();
+
+        var notAvailableLocations = allLocations.Except(availableLocations).ToArray();
+
+        foreach (var locationSid in notAvailableLocations)
+        {
+            var notAvailableLocationContext = new DialogueEventRequirementContext(globeProvider.Globe, locationSid, eventCatalog);
+
+            var requirements1 = textEvent.GetRequirements();
+
+            var stage1IsAvailable1 = requirements1.All(x => x.IsApplicableFor(notAvailableLocationContext));
+
+            stage1IsAvailable1.Should().BeFalse();
+
+        }
+    }
+
+    private static void CheckEventIsNotAvailableUntilInProgress(DialogueEvent textEvent, DialogueEventRequirementContext context)
+    {
+        var requirements = textEvent.GetRequirements();
+        var questAvailability = requirements.All(x => x.IsApplicableFor(context));
+        questAvailability.Should().BeFalse();
     }
 
     private static void CheckDialogue(Dialogue testDialog, int[] targetOptions, StoryPointCatalog storyPointCatalog,
