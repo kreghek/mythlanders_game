@@ -39,19 +39,19 @@ public class DialogueCatalogHelperTests
                 }
             }}
         };
-        
+
         // ACT
 
         var dialogue = DialogueCatalogHelper.Create("test", dict,
             new DialogueCatalogCreationServices(Mock.Of<IDialogueEnvironmentEffectCreator>(),
                 Mock.Of<IDialogueOptionAftermathCreator>()));
-        
+
         // ASSERT
 
         dialogue.Root.TextBlock.Paragraphs.Should().HaveCount(1);
         dialogue.Root.Options.Single().Next.Should().Be(DialogueNode.EndNode);
     }
-    
+
     /// <summary>
     /// Test checks the simplest dialogue.
     /// </summary>
@@ -73,18 +73,18 @@ public class DialogueCatalogHelperTests
                 }
             }}
         };
-        
+
         // ACT
 
         var dialogue = DialogueCatalogHelper.Create("test", dict,
             new DialogueCatalogCreationServices(Mock.Of<IDialogueEnvironmentEffectCreator>(),
                 Mock.Of<IDialogueOptionAftermathCreator>()));
-        
+
         // ASSERT
 
         dialogue.Root.Options.Single().Next.Should().Be(DialogueNode.EndNode);
     }
-    
+
     /// <summary>
     /// Test checks the simplest dialogue.
     /// </summary>
@@ -113,13 +113,13 @@ public class DialogueCatalogHelperTests
                 }
             }}
         };
-        
+
         // ACT
 
         var dialogue = DialogueCatalogHelper.Create("test", dict,
             new DialogueCatalogCreationServices(Mock.Of<IDialogueEnvironmentEffectCreator>(),
                 Mock.Of<IDialogueOptionAftermathCreator>()));
-        
+
         // ASSERT
 
         dialogue.Root.TextBlock.Paragraphs.Single().Speaker.Should().Be(UnitName.Swordsman);

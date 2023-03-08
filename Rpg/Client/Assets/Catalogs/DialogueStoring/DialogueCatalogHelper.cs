@@ -62,7 +62,7 @@ internal static class DialogueCatalogHelper
 
             var options = new List<DialogueOption>();
             var dialogNode = new DialogueNode(new DialogueParagraphContainer(paragraphs), options);
-            
+
             nodeListDicts.Add((sceneSid, dialogNode, options, dtoScene.Options));
         }
 
@@ -75,7 +75,7 @@ internal static class DialogueCatalogHelper
                 {
                     var dialogueDtoOption = optionsDto[optionIndex];
                     var aftermaths = CreateAftermaths(dialogueDtoOption.Aftermaths, services.OptionAftermathCreator);
-                    
+
                     DialogueOption dialogueOption;
                     if (dialogueDtoOption.Next is not null)
                     {
@@ -123,7 +123,7 @@ internal static class DialogueCatalogHelper
 
         return list;
     }
-    
+
     private static IDialogueOptionAftermath? CreateAftermaths(DialogueDtoData[]? aftermathDtos, IDialogueOptionAftermathCreator aftermathCreator)
     {
         if (aftermathDtos is null)

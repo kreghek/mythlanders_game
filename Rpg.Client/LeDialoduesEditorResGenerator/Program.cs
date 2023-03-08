@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Resources;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using YamlDotNet.Serialization.NamingConventions;
-using YamlDotNet.Serialization;
 using LeDialoduesEditorResGenerator.Serialization;
-using System.Reflection;
+
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
+
 using static System.Collections.Specialized.BitVector32;
 
 namespace LeDialoduesEditorResGenerator

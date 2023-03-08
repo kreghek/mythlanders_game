@@ -41,15 +41,15 @@ internal class DialogueCatalog : IEventCatalog, IEventInitializer
     private Dialogue LoadDialogue(string dialogueSid)
     {
         var dialogueYaml = _resourceProvider.GetResource(dialogueSid);
-        
+
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
             .Build();
-		
+
         var dialogueDtoDict = deserializer.Deserialize<Dictionary<string, DialogueDtoScene>>(dialogueYaml);
 
         var services = new DialogueCatalogCreationServices(_envCommandCreator, _optionAftermathCreator);
-        
+
         var dialogue = DialogueCatalogHelper.Create(dialogueSid, dialogueDtoDict, services);
 
         return dialogue;
