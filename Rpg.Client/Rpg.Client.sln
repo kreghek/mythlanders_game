@@ -10,8 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\.github\workflows\calibreapp-image-actions.yml = ..\.github\workflows\calibreapp-image-actions.yml
 		..\Rpg\Client\.config\dotnet-tools.json = ..\Rpg\Client\.config\dotnet-tools.json
 		..\.github\workflows\linter.yml = ..\.github\workflows\linter.yml
-		..\.github\workflows\remove-old-artifacts.yml = ..\.github\workflows\remove-old-artifacts.yml
 		..\.github\workflows\publish.yml = ..\.github\workflows\publish.yml
+		..\.github\workflows\remove-old-artifacts.yml = ..\.github\workflows\remove-old-artifacts.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rpg.Client.Tests", "Rpg.Client.Tests\Rpg.Client.Tests.csproj", "{2DB303DC-804C-4B09-B980-8D25AF699675}"
@@ -34,7 +34,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "..\Rpg\Core\Core.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Text.Client", "..\Rpg\Text.Client\Text.Client.csproj", "{CE4DDDBD-CA11-4395-9343-7C90FFC48096}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Content.SideQuests.Tests", "Content.SideQuests.Tests\Content.SideQuests.Tests.csproj", "{5E146E5E-3D21-494F-B896-0B4AE64B99C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Content.SideQuests.Tests", "Content.SideQuests.Tests\Content.SideQuests.Tests.csproj", "{5E146E5E-3D21-494F-B896-0B4AE64B99C8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameContent.Extensions", "..\Rpg\GameContent.Extensions\GameContent.Extensions.csproj", "{EFA00DFB-4F23-4E21-BABF-069F95377957}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,13 +88,17 @@ Global
 		{5E146E5E-3D21-494F-B896-0B4AE64B99C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E146E5E-3D21-494F-B896-0B4AE64B99C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E146E5E-3D21-494F-B896-0B4AE64B99C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFA00DFB-4F23-4E21-BABF-069F95377957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFA00DFB-4F23-4E21-BABF-069F95377957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFA00DFB-4F23-4E21-BABF-069F95377957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFA00DFB-4F23-4E21-BABF-069F95377957}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {109FC733-76F8-4327-BE39-B9303FDD86EA}
-		RESX_SortFileContentOnSave = True
 		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail"]}
+		RESX_SortFileContentOnSave = True
+		SolutionGuid = {109FC733-76F8-4327-BE39-B9303FDD86EA}
 	EndGlobalSection
 EndGlobal

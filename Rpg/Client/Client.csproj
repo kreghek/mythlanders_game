@@ -22,13 +22,10 @@
 		<None Remove="Content\obj\**" />
 	</ItemGroup>
   <ItemGroup>
-    
-    <None Remove="DialogueResources.fr.resources" />
     <None Remove="DialogueResources.resources" />
     <None Remove="DialogueResources.ru.resources" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DialogueResources.fr.resources" />
     <EmbeddedResource Include="DialogueResources.resources" />
     <EmbeddedResource Include="DialogueResources.ru.resources" />
     <EmbeddedResource Include="Icon.ico" />
@@ -44,6 +41,7 @@
     <PackageReference Include="Nopipeline.Task" Version="2.2.0" />
     <PackageReference Include="NReco.Logging.File" Version="1.1.5" />
 	<PackageReference Include="Stateless" Version="5.11.0" />
+	<PackageReference Include="YamlDotNet" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\States\MosterSpecific\" />

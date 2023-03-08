@@ -1,5 +1,6 @@
 using System;
 
+using Client.Assets.Catalogs.DialogueStoring;
 using Client.Assets.DialogueOptionAftermath;
 
 using Rpg.Client.Assets.Catalogs;
@@ -42,6 +43,11 @@ internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathC
         {
             var trigger = data;
             aftermath = new DialogueEventTriggerOptionAftermath(trigger);
+        }
+        else if (typeSid == "SetRelationsToKnown")
+        {
+            var unitName = data;
+            aftermath = new ChangeCharacterRelatationsOptionAftermath(Enum.Parse<UnitName>(unitName), Core.CharacterKnowledgeLevel.FullName);
         }
 
         if (aftermath is null)

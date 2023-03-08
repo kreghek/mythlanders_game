@@ -1,9 +1,10 @@
 {
 	"root": "../../Content/Content/",
 	"references":
-	[
-		
-	],
+    [
+        // Reference paths are not affected by root.
+        "../../GameContent.Extensions/bin/Release/*.dll"
+    ],
 	"content":
 	{
 		"textures":
@@ -198,6 +199,14 @@
 			{
 				"DebugMode": "Auto"
 			}
-		}
+		},
+		"Dialogues":
+        {
+            "path": "Dialogues/*.yaml",
+            "recursive": "False",
+            "action": "build",
+            "importer": "RawStringImporter",
+            "processor": "RawStringProcessor"
+        }
 	}
 }

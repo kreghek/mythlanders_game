@@ -18,13 +18,13 @@ namespace Rpg.Client.Core.Dialogues
             _currentNode = dialogue.Root;
             _contextFactory = contextFactory;
 
-            CurrentTextFragments = _currentNode.TextBlock.Fragments;
+            CurrentTextFragments = _currentNode.TextBlock.Paragraphs;
             CurrentOptions = _currentNode.Options.ToArray();
         }
 
         public IReadOnlyCollection<DialogueOption> CurrentOptions { get; private set; }
 
-        public IReadOnlyList<EventTextFragment> CurrentTextFragments { get; private set; }
+        public IReadOnlyList<DialogueParagraph> CurrentTextFragments { get; private set; }
 
         public bool IsEnd => _currentNode == DialogueNode.EndNode;
 
@@ -34,12 +34,12 @@ namespace Rpg.Client.Core.Dialogues
 
             if (_currentNode != DialogueNode.EndNode)
             {
-                CurrentTextFragments = _currentNode.TextBlock.Fragments;
+                CurrentTextFragments = _currentNode.TextBlock.Paragraphs;
                 CurrentOptions = _currentNode.Options.ToArray();
             }
             else
             {
-                CurrentTextFragments = ArraySegment<EventTextFragment>.Empty;
+                CurrentTextFragments = ArraySegment<DialogueParagraph>.Empty;
                 CurrentOptions = ArraySegment<DialogueOption>.Empty;
             }
 

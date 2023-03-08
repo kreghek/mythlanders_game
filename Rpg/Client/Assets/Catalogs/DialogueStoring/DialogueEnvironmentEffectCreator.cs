@@ -3,11 +3,11 @@
 using Client.Assets.DialogueEventEnviroment;
 using Client.Core.Dialogues;
 
-namespace Client.Assets.Catalogs;
+namespace Client.Assets.Catalogs.DialogueStoring;
 
-internal sealed class DialogueEnvCommandCreator
+internal sealed class DialogueEnvironmentEffectCreator : IDialogueEnvironmentEffectCreator
 {
-    public IDialogueEventTextFragmentEnvironmentCommand Create(string typeSid, string data)
+    public IDialogueEnvironmentEffect Create(string typeSid, string data)
     {
         if (typeSid == "PlayEffect")
         {
