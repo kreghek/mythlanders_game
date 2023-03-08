@@ -7,7 +7,7 @@ using Rpg.Client.Assets.Catalogs;
 
 namespace DialoguePlayer;
 
-public class LocalDialogueResourceProvider: IDialogueResourceProvider
+public class LocalDialogueResourceProvider : IDialogueResourceProvider
 {
     public string GetResource(string resourceSid)
     {
