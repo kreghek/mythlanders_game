@@ -49,6 +49,8 @@ public class SynthAsParentTests
 
         var textEvent = eventCatalog.Events.Single(x => x.Sid == DialogueConstants.SideQuests.SynthAsParent.Sid);
 
+        QuestNotAvailableInOtherLocations(eventCatalog, globeProvider, textEvent, new[] { LocationSid.Desert });
+
         // Stage 1 - availability in a campaigns
 
         var requirements = textEvent.GetRequirements();
@@ -71,15 +73,15 @@ public class SynthAsParentTests
 
         // Quest is not available until in progress
 
-        var stage1InProgressRequirements = textEvent.GetRequirements();
-        var questIsNotAvailable = stage1InProgressRequirements.All(x => x.IsApplicableFor(dialogueRequirementsContext));
-        questIsNotAvailable.Should().BeFalse();
+        CheckEventIsNotAvailableUntilInProgress(textEvent, dialogueRequirementsContext);
 
         // Complete progress
 
         textEvent.Trigger(DialogueConstants.CompleteCurrentStageChallengeTrigger);
 
         // Quest available to continue
+
+        QuestNotAvailableInOtherLocations(eventCatalog, globeProvider, textEvent, new[] { LocationSid.Desert });
 
         var stage2Requirements = textEvent.GetRequirements();
         var questStage2IsAvailable = stage2Requirements.All(x => x.IsApplicableFor(dialogueRequirementsContext));
@@ -95,6 +97,36 @@ public class SynthAsParentTests
         globeProvider.Globe.ActiveStoryPoints
             .Single(x => x.Sid == $"{DialogueConstants.SideQuests.SynthAsParent.Sid}_stage_2").IsComplete.Should()
             .BeFalse();
+
+        // Quest is not available until in progress
+
+        CheckEventIsNotAvailableUntilInProgress(textEvent, dialogueRequirementsContext);
+    }
+
+    private static void QuestNotAvailableInOtherLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider, DialogueEvent textEvent, LocationSid[] availableLocations)
+    {
+        var allLocations = Enum.GetValues<LocationSid>();
+
+        var notAvailableLocations = allLocations.Except(availableLocations).ToArray();
+
+        foreach (var locationSid in notAvailableLocations)
+        {
+            var notAvailableLocationContext = new DialogueEventRequirementContext(globeProvider.Globe, locationSid, eventCatalog);
+
+            var requirements1 = textEvent.GetRequirements();
+
+            var stage1IsAvailable1 = requirements1.All(x => x.IsApplicableFor(notAvailableLocationContext));
+
+            stage1IsAvailable1.Should().BeFalse();
+
+        }
+    }
+
+    private static void CheckEventIsNotAvailableUntilInProgress(DialogueEvent textEvent, DialogueEventRequirementContext context)
+    {
+        var requirements = textEvent.GetRequirements();
+        var questAvailability = requirements.All(x => x.IsApplicableFor(context));
+        questAvailability.Should().BeFalse();
     }
 
     private static void CheckDialogue(Dialogue testDialog, int[] targetOptions, StoryPointCatalog storyPointCatalog,

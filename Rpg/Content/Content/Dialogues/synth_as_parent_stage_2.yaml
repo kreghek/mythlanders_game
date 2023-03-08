@@ -51,6 +51,8 @@ meeting_scene:
       aftermaths:
         - type: ActivateStoryPoint
           data: synth_as_parent_stage_2
+        - type: Trigger
+          data: stage_2_continue
       next: next_task_scene
     - text: Спросить, где ребенок.
       next: child_detection_scene
@@ -67,6 +69,11 @@ child_detection_scene:
       text: '"Я его обязательно найду. Но сейчас вы мне мешаете вопросами."'
   options:
     - text: Узнать, где схрон.
+      aftermaths:
+        - type: ActivateStoryPoint
+          data: synth_as_parent_stage_2
+        - type: Trigger
+          data: stage_2_continue
       next: next_task_scene
 
 ignore_scene:
