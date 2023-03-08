@@ -15,7 +15,6 @@ using NUnit.Framework;
 
 using Rpg.Client.Assets.Catalogs;
 using Rpg.Client.Core;
-using Rpg.Client.Core.Dialogues;
 
 namespace Rpg.Client.Tests.Assets.Catalogs;
 
@@ -23,12 +22,12 @@ namespace Rpg.Client.Tests.Assets.Catalogs;
 public class DialogueCatalogTests
 {
     [Test]
-    public void GetDialogue_SingleTextNodeAndOption_ReturnsDialogueWithSingleTextNode()
+    public void GetDialogue_SimplestDialogue_ReturnsDialogueWithSingleTextNodeAndEndOption()
     {
         // ARRANGE
 
         var resourceProviderMock = new Mock<IDialogueResourceProvider>();
-        var sourceDialogue = ReadResource("SingleTextWithSingleOption");
+        var sourceDialogue = ReadResource("Simplest");
         resourceProviderMock.Setup(x => x.GetResource(It.IsAny<string>())).Returns(sourceDialogue);
         var resourceProvider = resourceProviderMock.Object;
 
@@ -77,17 +76,17 @@ public class DialogueCatalogTests
         factDialogue.Root.Options.First().Next.Should().Be(DialogueNode.EndNode);
     }
 
-    private string ReadResource(string name)
+    private static string ReadResource(string name)
     {
         using var stream = Assembly.GetExecutingAssembly()
-            .GetManifestResourceStream($"Rpg.Client.Tests.Assets.Catalogs.DialogueTestResource.{name}.json");
+            .GetManifestResourceStream($"Rpg.Client.Tests.Assets.Catalogs.DialogueTestResource.{name}.yaml");
 
         if (stream is not null)
         {
             using var reader = new StreamReader(stream);
-            var json = reader.ReadToEnd();
+            var text = reader.ReadToEnd();
 
-            return json;
+            return text;
         }
 
         throw new InvalidOperationException();

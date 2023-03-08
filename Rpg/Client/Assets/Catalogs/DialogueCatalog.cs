@@ -38,61 +38,7 @@ internal class DialogueCatalog : IEventCatalog, IEventInitializer
         Events = Array.Empty<DialogueEvent>();
     }
 
-    private DialogueParagraph CreateEventTextFragment(string dialogueSid, JsonElement obj, string? key)
-    {
-        var jsonSpeaker = obj.GetProperty("name").GetString();
-
-        if (!Enum.TryParse<UnitName>(jsonSpeaker, ignoreCase: true, out var unitName))
-        {
-            unitName = UnitName.Environment;
-        }
-
-        var enviromentCommandList = new List<IDialogueEnvironmentEffect>();
-
-        if (obj.TryGetProperty("signals", out var signals))
-        {
-            foreach (var signalProperty in signals.EnumerateObject())
-            {
-                const string ENVIRONMENT_PREFFIX = "ENV_";
-                if (signalProperty.Name.StartsWith(ENVIRONMENT_PREFFIX))
-                {
-                    var (envTypeName, envData) = Handle(signalProperty, ENVIRONMENT_PREFFIX);
-
-                    var envCommand = _envCommandCreator.Create(envTypeName, envData);
-
-                    enviromentCommandList.Add(envCommand);
-                }
-            }
-        }
-
-        var fragment = new DialogueParagraph(unitName, $"{dialogueSid}_TextNode_{key}")
-        {
-            EnvironmentEffects = enviromentCommandList
-        };
-
-        return fragment;
-    }
-
-    private static (string typeName, string data) Handle(JsonProperty signalProperty, string preffix)
-    {
-        var aftermathTypeName = signalProperty.Name.Substring(preffix.Length);
-        if (aftermathTypeName.Contains('_'))
-        {
-            var postfixPosition = aftermathTypeName.LastIndexOf("_");
-            aftermathTypeName = aftermathTypeName.Substring(0, postfixPosition);
-        }
-
-        var signalStringData = signalProperty.Value.GetProperty("String").GetString();
-
-        if (signalStringData is not null)
-        {
-            return (aftermathTypeName, signalStringData);
-        }
-
-        throw new InvalidOperationException("Data is not defined");
-    }
-
-    private Dialogue LoadDialogueFromResources(string dialogueSid)
+    private Dialogue LoadDialogue(string dialogueSid)
     {
         var dialogueYaml = _resourceProvider.GetResource(dialogueSid);
         
@@ -118,7 +64,7 @@ internal class DialogueCatalog : IEventCatalog, IEventInitializer
             throw new InvalidOperationException();
         }
 
-        var dialogue = LoadDialogueFromResources(sid);
+        var dialogue = LoadDialogue(sid);
 
         return dialogue;
     }
