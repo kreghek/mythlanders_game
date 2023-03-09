@@ -60,7 +60,7 @@ jobs:
     - name: Kill the mutants!
       run: |
         cd Rpg.Client/Rpg.Client.Tests
-        dotnet stryker --project=/home/runner/work/ewar/Rpg/Client/Client.csproj
+        dotnet stryker --project=/home/runner/work/ewar/ewar/Rpg/Client/Client.csproj
 
     - name: Publish mutation report
       uses: actions/upload-artifact@v3
