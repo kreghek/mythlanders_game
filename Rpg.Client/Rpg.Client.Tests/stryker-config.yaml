@@ -1,4 +1,5 @@
 stryker-config:
+  mutation-level: Basic
   ignore-methods:
     - "*Log" # Ignores all methods ending with Log
     - "Console.Write*" # Ignores all methods starting with Write in the class Console
