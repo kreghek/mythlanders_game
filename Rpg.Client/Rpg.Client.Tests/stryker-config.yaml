@@ -12,7 +12,3 @@ stryker-config:
     - "linq.Sum"
     - "statement"
     - "block"
-  mutate:
-    - "!**/Combat.cs"
-    - "!**/PeriodicEffectBase.cs"
-    - "!**/Sprite.cs"

@@ -8,6 +8,9 @@ on:
       - 'dev/**'
       - 'task/mutation-tests'
 
+env:
+  REPORT_RESULT_PATH: /home/runner/work/ewar/ewar/Rpg.Client/Rpg.Client.Tests/StrykerOutput
+
 jobs:
 
   test:
