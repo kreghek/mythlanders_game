@@ -9,3 +9,5 @@ stryker-config:
     - "string"
     - "linq.First",
     - "linq.Sum"
+    - "statement"
+    - "block"
