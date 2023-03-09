@@ -35,8 +35,8 @@ jobs:
     - name: run number with offset
       env:
         NUM: ${{ github.run_number }}
-        run: |
-          echo ::set-env name=GAME_VERSION::0.2-dev.$(($NUM+200))
+      run: |
+        echo ::set-env name=GAME_VERSION::0.2-dev.$(($NUM+200))
     - run: echo GAME_VERSION
 
     
