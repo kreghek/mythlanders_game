@@ -37,7 +37,7 @@ jobs:
       env:
         run_number: ${{ github.run_number }}
         base_number: 71
-      run: echo "full=0.2-dev.$(($run_number+$base_number)) >> $GITHUB_OUTPUT
+      run: echo "full=0.2-dev.$(($run_number+$base_number))" >> $GITHUB_OUTPUT
 
     - run: echo ${{ steps.game-version.outputs.full }}
 
