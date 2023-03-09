@@ -12,10 +12,6 @@ on:
       - 'dev/**'
       - 'master'
 
-env:
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
-  DOTNET_CLI_TELEMETRY_OUTPUT: 1
-
 jobs:
   build:
 
@@ -23,6 +19,8 @@ jobs:
 
     env:
       MGFXC_WINE_PATH: /home/runner/.winemonogame
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_CLI_TELEMETRY_OUTPUT: 1
 
     steps:
     - uses: actions/checkout@v2
