@@ -33,11 +33,13 @@ jobs:
         run-id: ${GITHUB_RUN_NUMBER}
 
     - name: run number with offset
+      id: game-version
       env:
-        NUM: ${{ github.run_number }}
-      run: |
-        echo ::set-env name=GAME_VERSION::0.2-dev.$(($NUM+200))
-    - run: echo GAME_VERSION
+        run_number: ${{ github.run_number }}
+        base_number: 71
+      run: echo "full=0.2-dev.$(($run_number+$base_number)) >> $GITHUB_OUTPUT
+
+    - run: echo ${{ steps.game-version.outputs.full }}
 
     
     - name: Write version to file
