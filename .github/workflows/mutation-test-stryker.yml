@@ -55,9 +55,9 @@ jobs:
 
     - name: Setup Stryker
       run: |
-        dotnet tool install -g dotnet-stryker --version 3.3.0
+        dotnet tool install -g dotnet-stryker --version 3.4.0
 
     - name: Kill the mutants!
       run: |
         cd Rpg.Client/Rpg.Client.Tests
-        dotnet stryker --project=/home/runner/work/ewar/ewar/Rpg/Client/Client.csproj --reporter "cleartexttree"
+        dotnet stryker --project=/home/runner/work/ewar/ewar/Rpg/Client/Client.csproj --reporter "cleartext"
