@@ -31,9 +31,13 @@ jobs:
       with:
         base: 71
         run-id: ${GITHUB_RUN_NUMBER}
+
+    - run: echo ${{ env.GAME_VERSION }}
+      env:
+        GAME_VERSION: "0.2-dev.${{ steps.build-number.outputs.build-number }}"
     
     - name: Write version to file
-      uses: DamianReeves/write-file-action@v1.0
+      uses: DamianReeves/write-file-action@v1.2
       env:
         F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
         GAME_VERSION: "0.2-dev.${{ steps.build-number.outputs.build-number }}"
