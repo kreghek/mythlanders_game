@@ -60,7 +60,7 @@ jobs:
     - name: Kill the mutants!
       run: |
         cd Rpg.Client/Rpg.Client.Tests
-        dotnet stryker --project=/home/runner/work/ewar/Rpg/Client/Client.csproj --ignore-methods "['ToString', 'ConfigureAwait', '*Exception.ctor']" --excluded-mutations "['string']"
+        dotnet stryker --project=/home/runner/work/ewar/Rpg/Client/Client.csproj
 
     - name: Publish mutation report
       uses: actions/upload-artifact@v3
