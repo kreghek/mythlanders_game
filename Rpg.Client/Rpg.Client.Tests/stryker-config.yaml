@@ -13,6 +13,9 @@ stryker-config:
     - "statement"
     - "block"
   mutator:
-    excludeMutations:
+    exclude-mutations:
       - "StringLiteral"
       - "BlockStatement"
+      - "string"
+      - "statement"
+      - "block"
