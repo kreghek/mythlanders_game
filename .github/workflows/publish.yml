@@ -32,9 +32,13 @@ jobs:
         base: 71
         run-id: ${GITHUB_RUN_NUMBER}
 
-    - run: echo ${{ env.GAME_VERSION }}
+    - name: run number with offset
       env:
-        GAME_VERSION: "0.2-dev.${BUILD_NUMBER}"
+        NUM: ${{ github.run_number }}
+        run: |
+          echo ::set-env name=GAME_VERSION::0.2-dev.$(($NUM+200))
+    - run: echo GAME_VERSION
+
     
     - name: Write version to file
       uses: DamianReeves/write-file-action@v1.2
