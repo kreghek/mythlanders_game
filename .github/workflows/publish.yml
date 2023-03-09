@@ -80,7 +80,7 @@ jobs:
       with:
         path: bin/${{matrix.runtime}}/version.txt
         contents: |
-          ver 0.2-dev#${{ github.run_number }}
+          ver 0.2-dev#${{ github.run_number+71 }}
           ${{ env.F_TIME }}
           ${{ github.sha }}
         write-mode: overwrite
@@ -90,5 +90,5 @@ jobs:
       env:
         F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
       with:
-        name: ewar-${{ matrix.runtime }}-v0.1-dev${{ github.run_number }}-${{ env.F_TIME }}
+        name: ewar-${{ matrix.runtime }}-v0.2-dev${{ github.run_number+71 }}-${{ env.F_TIME }}
         path: bin
