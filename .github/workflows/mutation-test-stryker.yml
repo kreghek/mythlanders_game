@@ -60,4 +60,4 @@ jobs:
     - name: Kill the mutants!
       run: |
         cd Rpg.Client/Rpg.Client.Tests
-        dotnet stryker --project=/home/runner/work/ewar/ewar/Rpg/Client/Client.csproj --reporter "cleartext"
+        dotnet stryker --project=/home/runner/work/ewar/ewar/Rpg/Client/Client.csproj --reporter "cleartexttree"
