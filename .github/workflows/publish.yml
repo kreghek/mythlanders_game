@@ -14,6 +14,7 @@ jobs:
 
     env:
       MGFXC_WINE_PATH: /home/runner/.winemonogame
+      GAME_VERSION: 0.2
 
     strategy:
       matrix:
@@ -25,19 +26,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Build Number (with base)
-      uses: mlilback/build-number@v1.0.1
-      id: build-number
-      with:
-        base: 71
-        run-id: ${GITHUB_RUN_NUMBER}
-
     - name: run number with offset
       id: game-version
       env:
         run_number: ${{ github.run_number }}
         base_number: 71
-      run: echo "full=0.2-dev.$(($run_number+$base_number))" >> $GITHUB_OUTPUT
+      run: echo "full=$GAME_VERSION.$(($run_number+$base_number))" >> $GITHUB_OUTPUT
 
     - run: echo ${{ steps.game-version.outputs.full }}
 
@@ -46,11 +40,10 @@ jobs:
       uses: DamianReeves/write-file-action@v1.2
       env:
         F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
-        GAME_VERSION: "0.2-dev.${{ steps.build-number.outputs.build-number }}"
       with:
         path: bin/${{matrix.runtime}}/version.txt
         contents: |
-          ver ${{ env.GAME_VERSION }}
+          ver ${{ steps.game-version.outputs.full }}
           ${{ env.F_TIME }}
           ${{ github.sha }}
         write-mode: overwrite
@@ -61,5 +54,5 @@ jobs:
         F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
         GAME_VERSION: "0.2-dev.${{ steps.build-number.outputs.build-number }}"
       with:
-        name: ewar-${{ matrix.runtime }}-v${{ env.F_TIME }}-${{ env.F_TIME }}
+        name: ewar-${{ matrix.runtime }}-v${{ steps.game-version.outputs.full }}-${{ env.F_TIME }}
         path: bin
