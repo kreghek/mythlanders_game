@@ -72,6 +72,13 @@ jobs:
       id: current-time
       with:
         format: YYYY-MM-DD
+
+    - name: Build Number (with base)
+      uses: mlilback/build-number@v1.0.1
+      id: build-number
+      with:
+        base: 71
+        run-id: ${GITHUB_RUN_NUMBER}
     
     - name: Write version to file
       uses: DamianReeves/write-file-action@v1.0
@@ -80,7 +87,7 @@ jobs:
       with:
         path: bin/${{matrix.runtime}}/version.txt
         contents: |
-          ver 0.2-dev#${{ github.run_number }}
+          ver 0.2-dev.${{ steps.build-number.outputs.build-number }}
           ${{ env.F_TIME }}
           ${{ github.sha }}
         write-mode: overwrite
@@ -90,5 +97,5 @@ jobs:
       env:
         F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
       with:
-        name: ewar-${{ matrix.runtime }}-v0.1-dev${{ github.run_number }}-${{ env.F_TIME }}
+        name: ewar-${{ matrix.runtime }}-v0.2-dev.${{ steps.build-number.outputs.build-number }}-${{ env.F_TIME }}
         path: bin
