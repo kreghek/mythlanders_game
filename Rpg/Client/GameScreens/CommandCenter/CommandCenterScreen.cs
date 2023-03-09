@@ -32,10 +32,10 @@ namespace Client.GameScreens.CommandCenter
             _mapBackgroundTexture = Game.Content.Load<Texture2D>("Sprites/GameObjects/Map/Map");
             _commandCenterSegmentTexture = new[]
             {
-                Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter1"),
-                Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter2"),
-                Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter3"),
-                Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter4")
+                Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter1"),
+                Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter2"),
+                Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter3"),
+                Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter4")
             };
         }
 
@@ -114,13 +114,13 @@ namespace Client.GameScreens.CommandCenter
 
             var campaignTexturesDict = new Dictionary<LocationSid, Texture2D>
             {
-                { LocationSid.Desert, Game.Content.Load<Texture2D>("Sprites/GameObjects/DesertCampaign") },
-                { LocationSid.Monastery, Game.Content.Load<Texture2D>("Sprites/GameObjects/MonasteryCampaign") },
+                { LocationSid.Desert, Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/Desert") },
+                { LocationSid.Monastery, Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/Monastery") },
                 {
                     LocationSid.ShipGraveyard,
-                    Game.Content.Load<Texture2D>("Sprites/GameObjects/ShipGraveyardCampaign")
+                    Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/ShipGraveyard")
                 },
-                { LocationSid.Thicket, Game.Content.Load<Texture2D>("Sprites/GameObjects/DarkThinketCampaign") }
+                { LocationSid.Thicket, Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/DarkThinket") }
             };
 
             foreach (var campaign in _campaigns)

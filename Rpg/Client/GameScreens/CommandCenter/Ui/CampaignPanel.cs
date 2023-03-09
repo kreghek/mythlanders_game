@@ -20,7 +20,7 @@ internal class CampaignPanel : ControlBase
     {
         _campaign = campaign;
         _campaignTexture = campaignTexture;
-        _selectButton = new TextButton("INFO");
+        _selectButton = new TextButton("START");
         _selectButton.OnClick += (_, _) => { Selected?.Invoke(this, EventArgs.Empty); };
     }
 
@@ -42,6 +42,7 @@ internal class CampaignPanel : ControlBase
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
         spriteBatch.Draw(_campaignTexture,
+            new Rectangle(0, 100, 200, 100),
             new Rectangle(
                 contentRect.Left + CONTENT_MARGIN,
                 contentRect.Top + CONTENT_MARGIN,
