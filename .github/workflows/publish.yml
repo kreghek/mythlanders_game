@@ -34,7 +34,8 @@ jobs:
 
     - run: echo ${{ env.GAME_VERSION }}
       env:
-        GAME_VERSION: "0.2-dev.${{ steps.build-number.outputs.build-number }}"
+        GAME_VERSION: "0.2-dev.${GITHUB_RUN_NUMBER}"
+        RUN_NUMBER: ${GITHUB_RUN_NUMBER}
     
     - name: Write version to file
       uses: DamianReeves/write-file-action@v1.2
