@@ -77,24 +77,24 @@ jobs:
 
     - run: echo ${{ steps.game-version.outputs.full }}
 
+    - name: Get current time
+      uses: srfrnk/current-time@master
+      id: current-time
+      with:
+        format: YYYY-MM-DD
     
     - name: Write version to file
       uses: DamianReeves/write-file-action@v1.2
-      env:
-        F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
       with:
         path: bin/${{matrix.runtime}}/version.txt
         contents: |
           ver ${{ steps.game-version.outputs.full }}
-          ${{ env.F_TIME }}
+          ${{ steps.current-time.outputs.formattedTime }}
           ${{ github.sha }}
         write-mode: overwrite
 
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
-      env:
-        F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
-        GAME_VERSION: "0.2-dev.${{ steps.build-number.outputs.build-number }}"
       with:
-        name: ewar-${{ matrix.runtime }}-v${{ steps.game-version.outputs.full }}-${{ env.F_TIME }}
+        name: ewar-${{ matrix.runtime }}-v${{ steps.game-version.outputs.full }}-${{ steps.current-time.outputs.formattedTime }}
         path: bin
