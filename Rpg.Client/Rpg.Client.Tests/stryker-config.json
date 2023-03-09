@@ -14,15 +14,6 @@
       "linq.Sum",
       "statement",
       "block"
-    ],
-    "mutator": {
-      "exclude-mutations": [
-        "StringLiteral",
-        "BlockStatement",
-        "string",
-        "statement",
-        "block"
-      ]
-    }
+    ]
   }
 }
