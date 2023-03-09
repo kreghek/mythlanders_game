@@ -55,7 +55,7 @@ jobs:
 
     - name: Setup Stryker
       run: |
-        dotnet tool install -g dotnet-stryker --version 3.6.1
+        dotnet tool install -g dotnet-stryker --version 3.5.0
 
     - name: Kill the mutants!
       run: |
