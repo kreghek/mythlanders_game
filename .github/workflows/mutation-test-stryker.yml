@@ -8,9 +8,6 @@ on:
       - 'dev/**'
       - 'task/mutation-tests'
 
-env:
-  REPORT_RESULT_PATH: /home/runner/work/ewar/ewar/Rpg.Client/Rpg.Client.Tests/StrykerOutput
-
 jobs:
 
   test:
@@ -63,11 +60,4 @@ jobs:
     - name: Kill the mutants!
       run: |
         cd Rpg.Client/Rpg.Client.Tests
-        dotnet stryker --project=/home/runner/work/ewar/ewar/Rpg/Client/Client.csproj
-
-    - name: Publish mutation report
-      uses: actions/upload-artifact@v3
-      with:
-        name: Report
-        path: ${{ env.REPORT_RESULT_PATH }}
-        retention-days: 1
+        dotnet stryker --project=/home/runner/work/ewar/ewar/Rpg/Client/Client.csproj --reporter "cleartexttree"
