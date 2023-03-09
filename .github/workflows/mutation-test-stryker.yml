@@ -8,6 +8,10 @@ on:
       - 'dev/**'
       - 'task/mutation-tests'
 
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_CLI_TELEMETRY_OUTPUT: 1
+
 jobs:
 
   test:
@@ -22,7 +26,7 @@ jobs:
     - name: Setup .NET 6
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 6.0.302
 
     - name: Setup Wine
       run: |
