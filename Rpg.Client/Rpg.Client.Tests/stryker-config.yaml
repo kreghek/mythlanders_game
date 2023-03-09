@@ -12,6 +12,6 @@ stryker-config:
     - "statement"
     - "block"
   mutate:
-    - "!**/Rpg/Client/Core/Combat.cs"
-    - "!**/Rpg/Client/Core/SkillEffects/PeriodicEffectBase.cs"
-    - "!**/Rpg/Client/Engine/Sprite.cs"
+    - "!**/Combat.cs"
+    - "!**/PeriodicEffectBase.cs"
+    - "!**/Sprite.cs"
