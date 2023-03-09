@@ -12,3 +12,7 @@ stryker-config:
     - "linq.Sum"
     - "statement"
     - "block"
+  mutator:
+    excludeMutations:
+      - "StringLiteral"
+      - "BlockStatement"

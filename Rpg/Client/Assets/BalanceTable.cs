@@ -33,8 +33,7 @@ namespace Rpg.Client.Assets
                 var balanceData = JsonSerializer.Deserialize<BalanceData>(result, new JsonSerializerOptions
                 {
                     Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                    WriteIndented = true,
-                    IgnoreNullValues = true,
+                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
                     Converters =
                     {
                         new JsonStringEnumConverter()
