@@ -11,9 +11,7 @@
     "ignore-mutations": [
       "string",
       "linq.First",
-      "linq.Sum",
-      "statement",
-      "block"
+      "linq.Sum"
     ]
   }
 }
