@@ -58,7 +58,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IReadOnlyList<IBackgroundObject> _farLayerObjects;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
-        private readonly IList<UnitGameObject> _gameObjects;
+        private readonly IList<CombatantGameObject> _gameObjects;
         private readonly GameSettings _gameSettings;
         private readonly Globe _globe;
         private readonly GlobeNode _globeNode;
@@ -98,7 +98,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             _currentCampaign = args.Campaign;
 
-            _gameObjects = new List<UnitGameObject>();
+            _gameObjects = new List<CombatantGameObject>();
             _corpseObjects = new List<CorpseGameObject>();
             _bulletObjects = new List<IInteractionDelivery>();
 
@@ -238,8 +238,17 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void CombatCode_CombatantHasBeenDefeated(object? sender, CombatantDefeatedEventArgs e)
         {
-            var gameObject = GetCombatantGameObject(e.Combatant);
-            _gameObjects.Remove(gameObject);
+            if (!e.Combatant.IsPlayerControlled)
+            {
+                CountDefeat();
+            }
+
+            var combatantGameObject = GetCombatantGameObject(e.Combatant);
+
+            var corpse = combatantGameObject.CreateCorpse();
+            _corpseObjects.Add(corpse);
+            
+            _gameObjects.Remove(combatantGameObject);
         }
 
         private void Combat_Finish(object? sender, CombatFinishEventArgs e)
@@ -273,7 +282,7 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void Combat_UnitDied(object? sender, CombatantDefeatedEventArgs e)
+        private void CombatCore_UnitDied(object? sender, CombatantDefeatedEventArgs e)
         {
             if (!e.Combatant.IsPlayerControlled)
             {
@@ -300,8 +309,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             var combatantSide = e.FieldInfo.FieldSide == _combatCore.Field.HeroSide ? CombatantPositionSide.Heroes : CombatantPositionSide.Monsters;
             var gameObject =
-                new UnitGameObject(e.Combatant, graphicConfig, e.FieldInfo.CombatantCoords, _combatantPositionProvider, _gameObjectContentStorage, _camera, _screenShaker,
-                    _animationManager, _dice, combatantSide);
+                new CombatantGameObject(e.Combatant, graphicConfig, e.FieldInfo.CombatantCoords, _combatantPositionProvider, _gameObjectContentStorage, _camera, _screenShaker, combatantSide);
             _gameObjects.Add(gameObject);
 
             // var combatant = e.Combatant;
@@ -332,7 +340,7 @@ namespace Rpg.Client.GameScreens.Combat
             _combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
             _combatCore.CombatantStartsTurn += CombatCore_CombatantStartsTurn;
             _combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;
-            _combatCore.CombatantHasBeenDefeated += Combat_UnitDied;
+            _combatCore.CombatantHasBeenMoved += CombatCore_CombatantHasBeenMoved;
 
             // _combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
             // _combatCore.CombatantHasBeenDefeated += CombatCore_CombatantHasBeenDefeated;
@@ -356,6 +364,17 @@ namespace Rpg.Client.GameScreens.Combat
             
             _unitStatePanelController = new UnitStatePanelController(_combatCore,
                 _uiContentStorage, _gameObjectContentStorage);
+        }
+
+        private void CombatCore_CombatantHasBeenMoved(object? sender, CombatantHasBeenMovedEventArgs e)
+        {
+            var newWorldPosition = _combatantPositionProvider.GetPosition(e.NewFieldCoords,
+                e.FieldSide == _combatCore.Field.HeroSide
+                    ? CombatantPositionSide.Heroes
+                    : CombatantPositionSide.Monsters);
+
+            var combatantGameObject = GetCombatantGameObject(e.Combatant);
+            combatantGameObject.MoveToFieldCoords(newWorldPosition);
         }
 
         private void CombatResultModal_Closed(object? sender, EventArgs e)
@@ -490,7 +509,7 @@ namespace Rpg.Client.GameScreens.Combat
             actorGameObject.AddStateEngine(actorState);
         }
 
-        private IActorVisualizationState GetMovementVisualizationState(UnitGameObject actorGameObject, CombatMovementExecution movementExecution, CombatMovementInstance combatMovement)
+        private IActorVisualizationState GetMovementVisualizationState(CombatantGameObject actorGameObject, CombatMovementExecution movementExecution, CombatMovementInstance combatMovement)
         {
             var context = new CombatMovementVisualizationContext(_gameObjects.ToArray());
 
@@ -831,7 +850,7 @@ namespace Rpg.Client.GameScreens.Combat
             _combatFinishedVictory = false;
         }
 
-        private static int? GetIndicatorNextIndex(UnitGameObject unitGameObject)
+        private static int? GetIndicatorNextIndex(CombatantGameObject unitGameObject)
         {
             var currentIndex = unitGameObject.GetCurrentIndicatorIndex();
             var nextIndex = currentIndex + 1;
@@ -845,7 +864,7 @@ namespace Rpg.Client.GameScreens.Combat
             return 0;
         }
 
-        private UnitGameObject GetCombatantGameObject(Combatant combatant)
+        private CombatantGameObject GetCombatantGameObject(Combatant combatant)
         {
             return _gameObjects.First(x => x.Combatant == combatant);
         }

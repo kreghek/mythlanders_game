@@ -31,8 +31,8 @@ namespace Rpg.Client.Assets.Skills.Monster
             AnimationSid = PredefinedAnimationSid.Skill1
         };
 
-        public override IActorVisualizationState CreateState(UnitGameObject animatedUnitGameObject,
-            UnitGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
+        public override IActorVisualizationState CreateState(CombatantGameObject animatedUnitGameObject,
+            CombatantGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
         {
             //var targetGraphicRoot = targetUnitGameObject.Graphics.Root;
             //var targetPosition =

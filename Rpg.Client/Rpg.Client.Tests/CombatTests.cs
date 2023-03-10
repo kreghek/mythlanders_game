@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.Catalogs;
 using Client.Core;
 
 using Core.Dices;
@@ -13,7 +14,6 @@ using Moq;
 using NUnit.Framework;
 
 using Rpg.Client.Assets;
-using Rpg.Client.Assets.Catalogs;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;

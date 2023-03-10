@@ -37,8 +37,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
         };
 
         public override IActorVisualizationState CreateState(
-            UnitGameObject animatedUnitGameObject,
-            UnitGameObject targetUnitGameObject,
+            CombatantGameObject animatedUnitGameObject,
+            CombatantGameObject targetUnitGameObject,
             AnimationBlocker mainAnimationBlocker,
             ISkillVisualizationContext context)
         {

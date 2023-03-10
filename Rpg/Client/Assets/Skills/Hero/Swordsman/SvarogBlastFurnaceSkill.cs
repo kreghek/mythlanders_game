@@ -38,8 +38,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
         };
 
         public override IActorVisualizationState CreateState(
-            UnitGameObject animatedUnitGameObject,
-            UnitGameObject targetUnitGameObject,
+            CombatantGameObject animatedUnitGameObject,
+            CombatantGameObject targetUnitGameObject,
             AnimationBlocker mainAnimationBlocker,
             ISkillVisualizationContext context)
         {

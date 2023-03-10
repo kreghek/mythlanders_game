@@ -12,8 +12,8 @@ namespace Rpg.Client.GameScreens.Combat
         SkillVisualization Visualization { get; }
 
         IActorVisualizationState CreateState(
-            UnitGameObject animatedUnitGameObject,
-            UnitGameObject targetUnitGameObject,
+            CombatantGameObject animatedUnitGameObject,
+            CombatantGameObject targetUnitGameObject,
             IAnimationBlocker mainAnimationBlocker,
             ISkillVisualizationContext context);
     }

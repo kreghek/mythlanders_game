@@ -52,7 +52,12 @@ public sealed class CombatantShiftShapedEventArgs: CombatantEventArgsBase
 
 public sealed class CombatantHasBeenMovedEventArgs: CombatantEventArgsBase
 {
-    public CombatantHasBeenMovedEventArgs(Combatant combatant) : base(combatant)
+    public CombatFieldSide FieldSide { get; }
+    public FieldCoords NewFieldCoords { get; }
+
+    public CombatantHasBeenMovedEventArgs(Combatant combatant, CombatFieldSide fieldSide, FieldCoords newFieldCoords) : base(combatant)
     {
+        FieldSide = fieldSide;
+        NewFieldCoords = newFieldCoords;
     }
 }

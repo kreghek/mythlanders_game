@@ -35,19 +35,19 @@ internal interface ICombatMovementFactory
 
 internal interface ICombatMovementVisualizationContext
 {
-    UnitGameObject GetCombatActor(Combatant combatant);
+    CombatantGameObject GetCombatActor(Combatant combatant);
 }
 
 internal sealed class CombatMovementVisualizationContext : ICombatMovementVisualizationContext
 {
-    private readonly IReadOnlyCollection<UnitGameObject> _gameObjects;
+    private readonly IReadOnlyCollection<CombatantGameObject> _gameObjects;
 
-    public CombatMovementVisualizationContext(IReadOnlyCollection<UnitGameObject> gameObjects)
+    public CombatMovementVisualizationContext(IReadOnlyCollection<CombatantGameObject> gameObjects)
     {
         _gameObjects = gameObjects;
     }
 
-    public UnitGameObject GetCombatActor(Combatant combatant)
+    public CombatantGameObject GetCombatActor(Combatant combatant)
     {
         return _gameObjects.Single(x => x.Combatant == combatant);
     }

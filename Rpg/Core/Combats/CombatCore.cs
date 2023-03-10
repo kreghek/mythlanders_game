@@ -274,7 +274,7 @@ public class CombatCore
         var targetSide = GetTargetSide(combatant, Field);
         targetSide[fieldCoords].Combatant = combatant;
         
-        CombatantHasBeenMoved?.Invoke(this, new CombatantHasBeenMovedEventArgs(combatant));
+        CombatantHasBeenMoved?.Invoke(this, new CombatantHasBeenMovedEventArgs(combatant, targetSide, fieldCoords));
     }
 
     private void InitializeCombatFieldSide(IReadOnlyCollection<FormationSlot> formationSlots, CombatFieldSide side)

@@ -44,7 +44,7 @@ namespace Rpg.Client.GameScreens.Combat
         }
 
         private IActorVisualizationState CreateCommonDistantSkillUsageState(
-            UnitGameObject animatedUnitGameObject,
+            CombatantGameObject animatedUnitGameObject,
             Renderable targetUnitGameObject,
             AnimationBlocker mainStateBlocker,
             ISkillVisualizationContext context,
@@ -187,8 +187,8 @@ namespace Rpg.Client.GameScreens.Combat
         //}
 
         public virtual IActorVisualizationState CreateState(
-            UnitGameObject animatedUnitGameObject,
-            UnitGameObject targetUnitGameObject,
+            CombatantGameObject animatedUnitGameObject,
+            CombatantGameObject targetUnitGameObject,
             AnimationBlocker mainStateBlocker,
             ISkillVisualizationContext context)
         {
@@ -242,7 +242,7 @@ namespace Rpg.Client.GameScreens.Combat
             throw new NotImplementedException();
         }
 
-        public IActorVisualizationState CreateState(UnitGameObject animatedUnitGameObject, UnitGameObject targetUnitGameObject, IAnimationBlocker mainAnimationBlocker, ISkillVisualizationContext context)
+        public IActorVisualizationState CreateState(CombatantGameObject animatedUnitGameObject, CombatantGameObject targetUnitGameObject, IAnimationBlocker mainAnimationBlocker, ISkillVisualizationContext context)
         {
             throw new NotImplementedException();
         }

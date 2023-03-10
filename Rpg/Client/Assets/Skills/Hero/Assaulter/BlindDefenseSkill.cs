@@ -35,8 +35,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
             IconOneBasedIndex = 3
         };
 
-        public override IActorVisualizationState CreateState(UnitGameObject animatedUnitGameObject,
-            UnitGameObject targetUnitGameObject,
+        public override IActorVisualizationState CreateState(CombatantGameObject animatedUnitGameObject,
+            CombatantGameObject targetUnitGameObject,
             AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
         {
             //var mainShotingBlocker = context.AddAnimationBlocker();

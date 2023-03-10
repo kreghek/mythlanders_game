@@ -25,7 +25,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
         private readonly AnimationBlocker _mainStateBlocker;
 
         public ArrowRainUsageState(
-            UnitGameObject animatedUnitGameObject,
+            CombatantGameObject animatedUnitGameObject,
             AnimationBlocker mainStateBlocker,
             ISkillVisualizationContext context)
         {

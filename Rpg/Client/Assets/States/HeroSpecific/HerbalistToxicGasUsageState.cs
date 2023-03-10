@@ -21,8 +21,8 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 
         private bool _completionHandled;
 
-        public HerbalistToxicGasUsageState(UnitGameObject actorGameObject,
-            UnitGameObject targetUnitGameObject,
+        public HerbalistToxicGasUsageState(CombatantGameObject actorGameObject,
+            CombatantGameObject targetUnitGameObject,
             AnimationBlocker mainStateBlocker,
             SkillExecution interaction,
             SoundEffectInstance skillUsageSound,

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.CombatMovements;
+using Client.Core.AnimationFrameSets;
 using Client.Engine;
 
 using Core.Combats;
-using Core.Dices;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,48 +21,18 @@ using Rpg.Client.GameScreens.Combat.Ui;
 
 namespace Client.GameScreens.Combat.GameObjects;
 
-internal sealed class ActorAnimator : IActorAnimator
-{
-    private readonly UnitGraphics _unitGraphics;
-
-    public SpriteContainer GraphicRoot { get; }
-
-    public ActorAnimator(UnitGraphics unitGraphics)
-    {
-        GraphicRoot = unitGraphics.Root;
-        _unitGraphics = unitGraphics;
-    }
-
-    public IAnimationFrameSet GetIdleState()
-    {
-        return _unitGraphics.GetAnimationInfo(PredefinedAnimationSid.Idle);
-    }
-
-    public void PlayAnimation(IAnimationFrameSet animation)
-    {
-        _unitGraphics.PlayAnimation(animation);
-    }
-
-    public void Update(GameTime gameTime)
-    {
-    }
-}
-
-internal sealed class UnitGameObject : EwarRenderableBase
+internal sealed class CombatantGameObject : EwarRenderableBase
 {
     private readonly IList<IActorVisualizationState> _actorStateEngineList;
-    private readonly IAnimationManager _animationManager;
     private readonly Camera2D _camera;
-    private readonly IDice _dice;
     private readonly CombatantPositionSide _combatantSide;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly ScreenShaker _screenShaker;
     private readonly ICombatantPositionProvider _unitPositionProvider;
 
-    public UnitGameObject(Combatant combatant, UnitGraphicsConfigBase combatantGraphicsConfig, FieldCoords formationCoords, ICombatantPositionProvider unitPositionProvider,
+    public CombatantGameObject(Combatant combatant, UnitGraphicsConfigBase combatantGraphicsConfig, FieldCoords formationCoords, ICombatantPositionProvider unitPositionProvider,
         GameObjectContentStorage gameObjectContentStorage,
-        Camera2D camera, ScreenShaker screenShaker, IAnimationManager animationManager,
-        IDice dice,
+        Camera2D camera, ScreenShaker screenShaker,
         CombatantPositionSide combatantSide)
     {
         _actorStateEngineList = new List<IActorVisualizationState>();
@@ -80,8 +51,6 @@ internal sealed class UnitGameObject : EwarRenderableBase
         _gameObjectContentStorage = gameObjectContentStorage;
         _camera = camera;
         _screenShaker = screenShaker;
-        _animationManager = animationManager;
-        _dice = dice;
         _combatantSide = combatantSide;
 
         // TODO Call ShiftShape from external combat core
@@ -103,6 +72,13 @@ internal sealed class UnitGameObject : EwarRenderableBase
     public void AnimateWound()
     {
         AddStateEngine(new WoundState(Graphics));
+    }
+
+    public void MoveToFieldCoords(Vector2 targetPosition)
+    {
+        AddStateEngine(new MoveToPositionActorState(Animator,
+            new SlowDownMoveFunction(Animator.GraphicRoot.Position, targetPosition),
+            Graphics.GetAnimationInfo(PredefinedAnimationSid.MoveBackward), new Duration(0.5)));
     }
 
     public CorpseGameObject CreateCorpse()
@@ -156,7 +132,7 @@ internal sealed class UnitGameObject : EwarRenderableBase
             var shakeVector3d = new Vector3(shakeVector, 0);
 
             var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
-            worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
+            worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
 
             var matrix = Matrix.CreateTranslation(translationVector + shakeVector3d)
                          * Matrix.CreateScale(scaleVector);

@@ -29,13 +29,11 @@ public sealed class ChangePositionEffectInstance : EffectInstanceBase<ChangePosi
 
         context.NotifyCombatantMoved(target, targetCoords);
 
+        // Swap with combatant in the target coords
         if (targetCombatant is not null)
         {
             context.NotifyCombatantMoved(targetCombatant, currentCoords);
         }
-
-        /*targetSide[targetCoords].Combatant = target;
-        targetSide[currentCoords].Combatant = targetCombatant;*/
     }
 
     private static CombatFieldSide GetTargetSide(Combatant target, CombatField field)

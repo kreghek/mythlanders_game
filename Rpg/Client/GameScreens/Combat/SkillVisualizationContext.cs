@@ -16,9 +16,9 @@ namespace Rpg.Client.GameScreens.Combat
 {
     internal class SkillVisualizationContext : ISkillVisualizationContext
     {
-        private readonly IList<UnitGameObject> _unitGameObjects;
+        private readonly IList<CombatantGameObject> _unitGameObjects;
 
-        public SkillVisualizationContext(IList<UnitGameObject> unitGameObjects)
+        public SkillVisualizationContext(IList<CombatantGameObject> unitGameObjects)
         {
             _unitGameObjects = unitGameObjects;
 
@@ -36,7 +36,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         public IBattlefieldInteractionContext BattlefieldInteractionContext { get; }
 
-        public UnitGameObject GetGameObject(ICombatUnit combatUnit)
+        public CombatantGameObject GetGameObject(ICombatUnit combatUnit)
         {
             return _unitGameObjects.Single(x => x.Combatant == combatUnit);
         }

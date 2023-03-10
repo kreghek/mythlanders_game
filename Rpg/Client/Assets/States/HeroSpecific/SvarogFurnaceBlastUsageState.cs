@@ -21,7 +21,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
         private readonly AnimationBlocker _svarogSymbolAnimationBlocker;
         private int _subStateIndex;
 
-        public SvarogFurnaceBlastUsageState(UnitGameObject actorGameObject,
+        public SvarogFurnaceBlastUsageState(CombatantGameObject actorGameObject,
             AnimationBlocker mainAnimationBlocker,
             SkillExecution interaction,
             IList<IInteractionDelivery> interactionDeliveryList,

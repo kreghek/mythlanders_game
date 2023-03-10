@@ -32,7 +32,7 @@ namespace Rpg.Client.Core
 
         AnimationBlocker AddAnimationBlocker();
 
-        UnitGameObject GetGameObject(ICombatUnit combatUnit);
+        CombatantGameObject GetGameObject(ICombatUnit combatUnit);
 
         SoundEffectInstance GetSoundEffect(GameObjectSoundType soundType);
     }

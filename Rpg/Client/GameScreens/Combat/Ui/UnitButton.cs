@@ -11,10 +11,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 {
     internal sealed class UnitButton : ButtonBase
     {
-        private readonly UnitGameObject _gameObject;
+        private readonly CombatantGameObject _gameObject;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
 
-        public UnitButton(UnitGameObject gameObject, GameObjectContentStorage gameObjectContentStorage)
+        public UnitButton(CombatantGameObject gameObject, GameObjectContentStorage gameObjectContentStorage)
         {
             _gameObject = gameObject;
             _gameObjectContentStorage = gameObjectContentStorage;
