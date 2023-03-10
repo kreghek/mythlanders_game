@@ -124,4 +124,37 @@ public class DialogueCatalogHelperTests
 
         dialogue.Root.TextBlock.Paragraphs.Single().Speaker.Should().Be(UnitName.Swordsman);
     }
+    
+    /// <summary>
+    /// Test checks environment was set as speaker if not specified.
+    /// </summary>
+    [Test]
+    public void Create_EnvironmentParagraph_ReturnsEnvironmentAsSpeaker()
+    {
+        // ARRANGE
+
+        var dict = new Dictionary<string, DialogueDtoScene>()
+        {
+            {"root", new DialogueDtoScene()
+            {
+                Paragraphs = new[]
+                {
+                    new DialogueDtoParagraph()
+                    {
+                        Text = "test environment description"
+                    }
+                }
+            }}
+        };
+
+        // ACT
+
+        var dialogue = DialogueCatalogHelper.Create("test", dict,
+            new DialogueCatalogCreationServices(Mock.Of<IDialogueEnvironmentEffectCreator>(),
+                Mock.Of<IDialogueOptionAftermathCreator>()));
+
+        // ASSERT
+
+        dialogue.Root.TextBlock.Paragraphs.Single().Speaker.Should().Be(UnitName.Environment);
+    }
 }

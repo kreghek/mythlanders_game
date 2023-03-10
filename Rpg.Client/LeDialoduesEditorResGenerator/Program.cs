@@ -20,7 +20,7 @@ namespace LeDialoduesEditorResGenerator
     {
         private const string DEFAULT_LOCALE = "en";
 
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
             if (args.Length != 2)
             {
