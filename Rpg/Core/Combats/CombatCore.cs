@@ -272,9 +272,15 @@ public class CombatCore
     private void HandleCombatantHasBeenMoved(Combatant combatant, FieldCoords fieldCoords)
     {
         var targetSide = GetTargetSide(combatant, Field);
-        targetSide[fieldCoords].Combatant = combatant;
-        
-        CombatantHasBeenMoved?.Invoke(this, new CombatantHasBeenMovedEventArgs(combatant, targetSide, fieldCoords));
+
+        var currentCoords = targetSide.GetCombatantCoords(combatant);
+
+        if (fieldCoords != currentCoords)
+        {
+            targetSide[fieldCoords].Combatant = combatant;
+
+            CombatantHasBeenMoved?.Invoke(this, new CombatantHasBeenMovedEventArgs(combatant, targetSide, fieldCoords));
+        }
     }
 
     private void InitializeCombatFieldSide(IReadOnlyCollection<FormationSlot> formationSlots, CombatFieldSide side)

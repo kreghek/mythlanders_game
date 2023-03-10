@@ -282,19 +282,6 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void CombatCore_UnitDied(object? sender, CombatantDefeatedEventArgs e)
-        {
-            if (!e.Combatant.IsPlayerControlled)
-            {
-                CountDefeat();
-            }
-
-            var unitGameObject = GetCombatantGameObject(e.Combatant);
-
-            var corpse = unitGameObject.CreateCorpse();
-            _corpseObjects.Add(corpse);
-        }
-
         private void CombatCode_CombatantHasBeenAdded(object? sender, CombatantHasBeenAddedEventArgs e)
         {
             // Move it to separate handler with core logic. There is only game objects.

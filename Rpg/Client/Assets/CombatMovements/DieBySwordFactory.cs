@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using Client.Assets.Heroes;
 using Client.Assets.States.Primitives;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
-using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
 using Core.Combats.Effects;
@@ -16,42 +11,11 @@ using Core.Combats.TargetSelectors;
 
 using Microsoft.Xna.Framework;
 
-using Rpg.Client.Assets.States.Primitives;
-using Rpg.Client.Core;
-using Rpg.Client.Core.SkillEffects;
-using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 
 using DamageEffect = Core.Combats.Effects.DamageEffect;
 
 namespace Client.Assets.CombatMovements;
-
-internal interface ICombatMovementFactory
-{
-    string Sid { get; }
-    CombatMovement CreateMovement();
-    IActorVisualizationState CreateVisualization(IActorAnimator actorAnimator, CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext);
-}
-
-internal interface ICombatMovementVisualizationContext
-{
-    CombatantGameObject GetCombatActor(Combatant combatant);
-}
-
-internal sealed class CombatMovementVisualizationContext : ICombatMovementVisualizationContext
-{
-    private readonly IReadOnlyCollection<CombatantGameObject> _gameObjects;
-
-    public CombatMovementVisualizationContext(IReadOnlyCollection<CombatantGameObject> gameObjects)
-    {
-        _gameObjects = gameObjects;
-    }
-
-    public CombatantGameObject GetCombatActor(Combatant combatant)
-    {
-        return _gameObjects.Single(x => x.Combatant == combatant);
-    }
-}
 
 internal class DieBySwordFactory : ICombatMovementFactory
 {
@@ -147,111 +111,6 @@ internal class DieBySwordFactory : ICombatMovementFactory
             {
                 effectImposeItem.ImposeDelegate(target);
             }
-        }
-    }
-}
-
-internal static class CommonConstants
-{
-    public static Point FrameSize { get; } = new(256, 128);
-}
-
-internal interface ICombatMovementVisualizer
-{
-    IActorVisualizationState GetMovementVisualizationState(string sid, IActorAnimator actorAnimator, CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext);
-}
-
-internal sealed class CombatMovementVisualizer : ICombatMovementVisualizer
-{
-    private readonly IDictionary<string, ICombatMovementFactory> _movementVisualizationDict;
-
-    public CombatMovementVisualizer()
-    {
-        var movementFactories = LoadFactories<ICombatMovementFactory>();
-
-        _movementVisualizationDict = movementFactories.ToDictionary(x => x.Sid, x => x);
-    }
-
-    public IActorVisualizationState GetMovementVisualizationState(string sid, IActorAnimator actorAnimator, CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
-    {
-        return _movementVisualizationDict[sid].CreateVisualization(actorAnimator, movementExecution, visualizationContext);
-    }
-
-    private static IReadOnlyCollection<TFactory> LoadFactories<TFactory>()
-    {
-        var assembly = typeof(TFactory).Assembly;
-        var factoryTypes = assembly.GetTypes()
-            .Where(x => typeof(TFactory).IsAssignableFrom(x) && x != typeof(TFactory) && !x.IsAbstract);
-        var factories = factoryTypes.Select(Activator.CreateInstance);
-        return factories.OfType<TFactory>().ToArray();
-    }
-}
-
-internal sealed class MoveToPositionActorState : IActorVisualizationState
-{
-    private readonly IAnimationFrameSet _animation;
-    private readonly IActorAnimator _animator;
-    private readonly Duration _duration;
-    private readonly IMoveFunction _moveFunction;
-
-    private double _counter;
-
-    public MoveToPositionActorState(IActorAnimator animator, IMoveFunction moveFunction, IAnimationFrameSet animation,
-        Duration? duration = null)
-    {
-        _animation = animation;
-        _animator = animator;
-        _moveFunction = moveFunction;
-        if (duration is not null)
-        {
-            _duration = duration;
-        }
-        else
-        {
-            _duration = new Duration(0.25);
-        }
-    }
-
-    public bool CanBeReplaced => false;
-    public bool IsComplete { get; private set; }
-
-    public void Cancel()
-    {
-        if (IsComplete)
-        {
-        }
-    }
-
-    public void Update(GameTime gameTime)
-    {
-        if (IsComplete)
-        {
-            return;
-        }
-
-        if (_counter == 0)
-        {
-            _animator.PlayAnimation(_animation);
-        }
-
-        if (_counter <= _duration.Seconds)
-        {
-            _counter += gameTime.ElapsedGameTime.TotalSeconds;
-
-            var t = _counter / _duration.Seconds;
-
-            var currentPosition = _moveFunction.CalcPosition(t);
-
-            //var jumpTopPosition = Vector2.UnitY * -24 * (float)Math.Sin((float)_counter / DURATION * Math.PI);
-
-            //var fullPosition = horizontalPosition + jumpTopPosition;
-
-            _animator.GraphicRoot.Position = currentPosition;
-        }
-        else
-        {
-            IsComplete = true;
-            _animator.GraphicRoot.Position = _moveFunction.CalcPosition(1);
         }
     }
 }
