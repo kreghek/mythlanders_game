@@ -280,6 +280,8 @@ public class CombatCore
             targetSide[fieldCoords].Combatant = combatant;
 
             CombatantHasBeenMoved?.Invoke(this, new CombatantHasBeenMovedEventArgs(combatant, targetSide, fieldCoords));
+
+            targetSide[currentCoords].Combatant = null;
         }
     }
 

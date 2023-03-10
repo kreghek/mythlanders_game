@@ -416,7 +416,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private UnitName GetUnitName(string classSid)
         {
-            return Enum.Parse<UnitName>(classSid);
+            return Enum.Parse<UnitName>(classSid, ignoreCase: true);
         }
 
         private static int GetEffectSourceBaseOneIndex(ICombatantEffect effect)
