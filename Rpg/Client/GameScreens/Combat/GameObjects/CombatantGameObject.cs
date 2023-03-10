@@ -79,6 +79,9 @@ internal sealed class CombatantGameObject : EwarRenderableBase
         AddStateEngine(new MoveToPositionActorState(Animator,
             new SlowDownMoveFunction(Animator.GraphicRoot.Position, targetPosition),
             Graphics.GetAnimationInfo(PredefinedAnimationSid.MoveBackward), new Duration(0.5)));
+
+        Graphics.ChangePosition(targetPosition);
+        Position = targetPosition;
     }
 
     public CorpseGameObject CreateCorpse()
@@ -194,13 +197,6 @@ internal sealed class CombatantGameObject : EwarRenderableBase
         }
 
         _actorStateEngineList.Add(actorStateEngine);
-    }
-
-    public void ChangeFieldPosition(FieldCoords fieldCoords)
-    {
-        var position = _unitPositionProvider.GetPosition(fieldCoords, _combatantSide);
-        Graphics.ChangePosition(position);
-        Position = position;
     }
 
     private void HandleEngineStates(GameTime gameTime)

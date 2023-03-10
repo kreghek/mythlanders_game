@@ -28,14 +28,14 @@ internal class DieBySwordFactory : ICombatMovementFactory
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
                     {
-                        new DamageEffect(
-                            new ClosestInLineTargetSelector(),
-                            DamageType.Normal,
-                            Range<int>.CreateMono(2)),
                         new ChangePositionEffect(
                             new SelfTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard
-                        )
+                        ),
+                        new DamageEffect(
+                            new ClosestInLineTargetSelector(),
+                            DamageType.Normal,
+                            Range<int>.CreateMono(2))
                     })
             )
         {
