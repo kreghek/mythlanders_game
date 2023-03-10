@@ -23,7 +23,9 @@ internal sealed class CombatMovementVisualizer : ICombatMovementVisualizer
 
     public IActorVisualizationState GetMovementVisualizationState(string sid, IActorAnimator actorAnimator, CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
-        return _movementVisualizationDict[sid].CreateVisualization(actorAnimator, movementExecution, visualizationContext);
+        return _movementVisualizationDict.First().Value.CreateVisualization(actorAnimator, movementExecution, visualizationContext);
+
+        //return _movementVisualizationDict[sid].CreateVisualization(actorAnimator, movementExecution, visualizationContext);
     }
 
     private static IReadOnlyCollection<TFactory> LoadFactories<TFactory>()

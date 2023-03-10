@@ -64,10 +64,12 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly GlobeNode _globeNode;
         private readonly GlobeProvider _globeProvider;
         private readonly IJobProgressResolver _jobProgressResolver;
+        private readonly PlayerCombatActorBehaviour _playerCombatantBehaviour;
         private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
         private readonly ScreenShaker _screenShaker;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly ICombatantPositionProvider _combatantPositionProvider;
+        private readonly ICombatActorBehaviourDataProvider _combatDataBehaviourProvider;
 
         private float _bgCenterOffsetPercentageX;
         private float _bgCenterOffsetPercentageY;
@@ -127,7 +129,10 @@ namespace Rpg.Client.GameScreens.Combat
 
             _jobProgressResolver = new JobProgressResolver();
 
+            _playerCombatantBehaviour = new PlayerCombatActorBehaviour();
+
             _combatCore = CreateCombat();
+            _combatDataBehaviourProvider = new CombatActorBehaviourDataProvider(_combatCore);
 
             soundtrackManager.PlayCombatTrack((BiomeType)((int)args.Location.Sid / 100 * 100));
         }
@@ -280,6 +285,14 @@ namespace Rpg.Client.GameScreens.Combat
                 _combatMovementsHandPanel.IsEnabled = true;
                 _combatMovementsHandPanel.Combatant = e.Combatant;
             }
+
+            var behaviourData = _combatDataBehaviourProvider.GetDataSnapshot();
+
+            _combatCore.CurrentCombatant.Behaviour.HandleIntention(behaviourData,
+                intention =>
+                {
+                    intention.Make(_combatCore);
+                });
         }
 
         private void CombatCode_CombatantHasBeenAdded(object? sender, CombatantHasBeenAddedEventArgs e)
@@ -346,8 +359,8 @@ namespace Rpg.Client.GameScreens.Combat
             _combatMovementsHandPanel.CombatMovementPicked += CombatMovementsHandPanel_CombatMovementPicked;
 
             _combatCore.Initialize(
-                CombatantFactory.CreateHeroes(),
-                CombatantFactory.CreateMonsters());
+                CombatantFactory.CreateHeroes(_playerCombatantBehaviour),
+                CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(_animationManager, _combatMovementVisualizer, _gameObjects)));
             
             _unitStatePanelController = new UnitStatePanelController(_combatCore,
                 _uiContentStorage, _gameObjectContentStorage);
@@ -459,49 +472,12 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void CombatMovementsHandPanel_CombatMovementPicked(object? sender, CombatMovementPickedEventArgs e)
         {
-            var movementExecution = _combatCore.UseCombatMovement(e.CombatMovement);
+            var intention = new UseCombatMovementIntention(e.CombatMovement, _animationManager, _combatMovementVisualizer, _gameObjects);
 
-            var actorGameObject = GetCombatantGameObject(_combatCore.CurrentCombatant);
-            var movementState = GetMovementVisualizationState(actorGameObject, movementExecution, e.CombatMovement);
-
-            PlaybackCombatMovementExecution(movementState);
+            _playerCombatantBehaviour.Assign(intention);
         }
 
-        private void PlaybackCombatMovementExecution(IActorVisualizationState movementState)
-        {
-            var actorGameObject = GetCombatantGameObject(_combatCore.CurrentCombatant);
-
-            var mainAnimationBlocker = _animationManager.CreateAndRegisterBlocker();
-
-            mainAnimationBlocker.Released += (sender, args) =>
-            {
-                // Wait some time to separate turns of different actors
-
-                var delayBlocker = new DelayBlocker(new Duration(1));
-                _animationManager.RegisterBlocker(delayBlocker);
-
-                _combatCore.CompleteTurn();
-            };
-
-            var actorState = new SequentialState(
-                // Delay to focus on the current actor.
-                new DelayActorState(new Duration(0.75f)),
-
-                // Main move animation.
-                movementState,
-
-                // Release the main animation blocker to say the main move is ended.
-                new AnimationBlockerTerminatorActorState(mainAnimationBlocker));
-
-            actorGameObject.AddStateEngine(actorState);
-        }
-
-        private IActorVisualizationState GetMovementVisualizationState(CombatantGameObject actorGameObject, CombatMovementExecution movementExecution, CombatMovementInstance combatMovement)
-        {
-            var context = new CombatMovementVisualizationContext(_gameObjects.ToArray());
-
-            return _combatMovementVisualizer.GetMovementVisualizationState(combatMovement.SourceMovement.Sid, actorGameObject.Animator, movementExecution, context);
-        }
+        
 
         private void CombatCore_CombatantHasBeenDamaged(object? sender, CombatantDamagedEventArgs e)
         {
@@ -1064,5 +1040,148 @@ namespace Rpg.Client.GameScreens.Combat
                 ShowCombatResultModal(_combatFinishedVictory.Value);
             }
         }
+    }
+
+    internal sealed class UseCombatMovementIntention : IIntention
+    {
+        private readonly CombatMovementInstance _combatMovement;
+        private readonly IAnimationManager _animationManager;
+        private readonly ICombatMovementVisualizer _combatMovementVisualizer;
+        private readonly IList<CombatantGameObject> _combatantGameObjects;
+
+        public UseCombatMovementIntention(CombatMovementInstance combatMovement, IAnimationManager animationManager, ICombatMovementVisualizer combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects)
+        {
+            _combatMovement = combatMovement;
+            _animationManager = animationManager;
+            _combatMovementVisualizer = combatMovementVisualizer;
+            _combatantGameObjects = combatantGameObjects;
+        }
+
+        public void Make(CombatCore combatCore)
+        {
+            var movementExecution = combatCore.CreateCombatMovementExecution(_combatMovement);
+
+            var actorGameObject = GetCombatantGameObject(combatCore.CurrentCombatant);
+            var movementState = GetMovementVisualizationState(actorGameObject, movementExecution, _combatMovement);
+
+            PlaybackCombatMovementExecution(movementState, combatCore);
+        }
+
+        private void PlaybackCombatMovementExecution(IActorVisualizationState movementState, CombatCore combatCore)
+        {
+            var actorGameObject = GetCombatantGameObject(combatCore.CurrentCombatant);
+
+            var mainAnimationBlocker = _animationManager.CreateAndRegisterBlocker();
+
+            mainAnimationBlocker.Released += (sender, args) =>
+            {
+                // Wait some time to separate turns of different actors
+
+                var delayBlocker = new DelayBlocker(new Duration(1));
+                _animationManager.RegisterBlocker(delayBlocker);
+
+                combatCore.CompleteTurn();
+            };
+
+            var actorState = new SequentialState(
+                // Delay to focus on the current actor.
+                new DelayActorState(new Duration(0.75f)),
+
+                // Main move animation.
+                movementState,
+
+                // Release the main animation blocker to say the main move is ended.
+                new AnimationBlockerTerminatorActorState(mainAnimationBlocker));
+
+            actorGameObject.AddStateEngine(actorState);
+        }
+
+        private IActorVisualizationState GetMovementVisualizationState(CombatantGameObject actorGameObject, CombatMovementExecution movementExecution, CombatMovementInstance combatMovement)
+        {
+            var context = new CombatMovementVisualizationContext(_combatantGameObjects.ToArray());
+
+            return _combatMovementVisualizer.GetMovementVisualizationState(combatMovement.SourceMovement.Sid, actorGameObject.Animator, movementExecution, context);
+        }
+
+        private CombatantGameObject GetCombatantGameObject(Combatant combatant)
+        {
+            return _combatantGameObjects.First(x => x.Combatant == combatant);
+        }
+    }
+
+    internal sealed class PlayerCombatActorBehaviour : ICombatActorBehaviour
+    {
+        private Action<IIntention>? _intentionDelegate;
+
+        public void Assign(IIntention intention)
+        {
+            if (_intentionDelegate is null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            _intentionDelegate(intention);
+        }
+
+        public void HandleIntention(ICombatActorBehaviourData combatData, Action<IIntention> intentionDelegate)
+        {
+            _intentionDelegate = intentionDelegate;
+        }
+    }
+
+    internal sealed class BotCombatActorBehaviour : ICombatActorBehaviour
+    {
+        private readonly IAnimationManager _animationManager;
+        private readonly ICombatMovementVisualizer _combatMovementVisualizer;
+        private readonly IList<CombatantGameObject> _combatantGameObjects;
+
+        public BotCombatActorBehaviour(IAnimationManager animationManager, ICombatMovementVisualizer combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects)
+        {
+            _animationManager = animationManager;
+            _combatMovementVisualizer = combatMovementVisualizer;
+            _combatantGameObjects = combatantGameObjects;
+        }
+
+        public void HandleIntention(ICombatActorBehaviourData combatData, Action<IIntention> intentionDelegate)
+        {
+            var firstSkill = combatData.CurrentActor.Skills.First();
+
+            var skillIntention = new UseCombatMovementIntention(firstSkill.CombatMovement, _animationManager, _combatMovementVisualizer, _combatantGameObjects);
+
+            intentionDelegate(skillIntention);
+        }
+    }
+
+    public sealed class CombatActorBehaviourDataProvider : ICombatActorBehaviourDataProvider
+    {
+        private readonly CombatCore _combat;
+
+        public CombatActorBehaviourDataProvider(CombatCore combat)
+        {
+            _combat = combat;
+        }
+
+        public ICombatActorBehaviourData GetDataSnapshot()
+        {
+            return new CombatUnitBehaviourData(_combat);
+        }
+    }
+
+    public sealed class CombatUnitBehaviourData : ICombatActorBehaviourData
+    {
+        public CombatUnitBehaviourData(CombatCore combat)
+        {
+            CurrentActor =
+                new CombatUnitBehaviourDataActor(
+                    combat.CurrentCombatant.Hand.Where(x=>x is not null).Select(skill => new CombatActorBehaviourDataSkill(skill!)).ToArray());
+
+            Actors = combat.Field.HeroSide.GetAllCombatants().Concat(combat.Field.MonsterSide.GetAllCombatants()).Where(actor => actor != combat.CurrentCombatant).Select(actor =>
+                    new CombatUnitBehaviourDataActor(
+                        actor.Hand.Where(x => x is not null).Select(skill => new CombatActorBehaviourDataSkill(skill!)).ToArray()))
+                .ToArray();
+        }
+
+        public CombatUnitBehaviourDataActor CurrentActor { get; }
+        public IReadOnlyCollection<CombatUnitBehaviourDataActor> Actors { get; }
     }
 }

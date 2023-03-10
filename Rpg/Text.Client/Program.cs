@@ -109,7 +109,7 @@ internal static class Program
             return;
         }
 
-        var movementExecution = combatCore.UseCombatMovement(selectedMove);
+        var movementExecution = combatCore.CreateCombatMovementExecution(selectedMove);
         PseudoPlayback(movementExecution);
         combatCore.CompleteTurn();
     }

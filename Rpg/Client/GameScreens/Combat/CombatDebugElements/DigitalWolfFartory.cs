@@ -9,7 +9,7 @@ namespace Client.GameScreens.Combat.CombatDebugElements;
 
 public class DigitalWolfFactory
 {
-    public Combatant Create(string sid)
+    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour)
     {
         // ReSharper disable once UseObjectOrCollectionInitializer
         var list = new List<CombatMovement>();
@@ -73,7 +73,7 @@ public class DigitalWolfFactory
             foreach (var combatMovement in list)
                 monsterSequence.Items.Add(combatMovement);
 
-        var monster = new Combatant("DigitalWolf", monsterSequence)
+        var monster = new Combatant("DigitalWolf", monsterSequence, combatActorBehaviour)
         {
             Sid = sid, IsPlayerControlled = false
         };

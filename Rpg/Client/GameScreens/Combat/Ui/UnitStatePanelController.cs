@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using Rpg.Client.Assets;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Engine;
@@ -414,7 +413,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        private UnitName GetUnitName(string classSid)
+        private static UnitName GetUnitName(string classSid)
         {
             return Enum.Parse<UnitName>(classSid, ignoreCase: true);
         }
@@ -431,7 +430,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             var index = GetEffectSourceBaseOneIndex(effect) - 1;
 
-            Debug.Assert(index >= 0);
+            //Debug.Assert(index >= 0);
 
             var col = index % COL_COUNT;
             var row = index / COL_COUNT;

@@ -6,9 +6,10 @@ public class Combatant
     private readonly CombatMovementInstance?[] _hand;
     private readonly IList<CombatMovementInstance> _pool;
 
-    public Combatant(string classSid, CombatMovementSequence sequence)
+    public Combatant(string classSid, CombatMovementSequence sequence, ICombatActorBehaviour behaviour)
     {
         ClassSid = classSid;
+        Behaviour = behaviour;
         _pool = new List<CombatMovementInstance>();
         _hand = new CombatMovementInstance?[3];
 
@@ -39,7 +40,7 @@ public class Combatant
     public string? Sid { get; init; }
 
     public string ClassSid { get; }
-
+    public ICombatActorBehaviour Behaviour { get; }
     public IReadOnlyCollection<IUnitStat> Stats { get; }
 
     public void AddEffect(ICombatantEffect effect)
