@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\.github\workflows\linter.yml = ..\.github\workflows\linter.yml
 		..\.github\workflows\publish.yml = ..\.github\workflows\publish.yml
 		..\.github\workflows\remove-old-artifacts.yml = ..\.github\workflows\remove-old-artifacts.yml
+		..\.github\workflows\mutation-test-stryker.yml = ..\.github\workflows\mutation-test-stryker.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rpg.Client.Tests", "Rpg.Client.Tests\Rpg.Client.Tests.csproj", "{2DB303DC-804C-4B09-B980-8D25AF699675}"
