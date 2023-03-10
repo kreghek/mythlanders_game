@@ -13,8 +13,8 @@ public sealed record EffectCombatContext(
         NotifyCombatantDamagedDelegate(combatant, statType, value);
     }
 
-    public void NotifyCombatantMoved(Combatant combatant, FieldCoords coords)
+    public void NotifySwapFieldPosition(Combatant combatant, FieldCoords sourceCoords, CombatFieldSide sourceFieldSide, FieldCoords destinationCoords, CombatFieldSide destinationFieldSide)
     {
-        NotifyCombatantMovedDelegate(combatant, coords);
+        NotifyCombatantMovedDelegate(sourceCoords, sourceFieldSide, destinationCoords, destinationFieldSide);
     }
 }

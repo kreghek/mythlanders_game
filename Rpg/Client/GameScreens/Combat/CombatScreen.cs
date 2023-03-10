@@ -280,7 +280,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void CombatCore_CombatantStartsTurn(object? sender, CombatantTurnStartedEventArgs e)
         {
-            if (_combatMovementsHandPanel is not null)
+            if (_combatMovementsHandPanel is not null && _combatCore.CurrentCombatant.IsPlayerControlled)
             {
                 _combatMovementsHandPanel.IsEnabled = true;
                 _combatMovementsHandPanel.Combatant = e.Combatant;
@@ -1080,7 +1080,10 @@ namespace Rpg.Client.GameScreens.Combat
                 var delayBlocker = new DelayBlocker(new Duration(1));
                 _animationManager.RegisterBlocker(delayBlocker);
 
-                combatCore.CompleteTurn();
+                delayBlocker.Released += (_, _) =>
+                {
+                    combatCore.CompleteTurn();
+                };
             };
 
             var actorState = new SequentialState(

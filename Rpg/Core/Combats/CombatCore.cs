@@ -65,6 +65,9 @@ public class CombatCore
             {
                 UpdateAllCombatantEffects(CombatantEffectUpdateType.EndRound);
                 StartRound();
+
+                CombatantStartsTurn?.Invoke(this, new CombatantTurnStartedEventArgs(CurrentCombatant));
+
                 return;
             }
 
@@ -98,7 +101,7 @@ public class CombatCore
 
     public CombatMovementExecution CreateCombatMovementExecution(CombatMovementInstance movement)
     {
-        var effectContext = new EffectCombatContext(Field, _dice, HandleCombatantDamaged, HandleCombatantHasBeenMoved);
+        var effectContext = new EffectCombatContext(Field, _dice, HandleCombatantDamaged, HandleSwapFieldPositions);
 
         var effectImposeItems = new List<CombatEffectImposeItem>();
 
@@ -269,19 +272,28 @@ public class CombatCore
         return false;
     }
 
-    private void HandleCombatantHasBeenMoved(Combatant combatant, FieldCoords fieldCoords)
+    private void HandleSwapFieldPositions(FieldCoords sourceCoords, CombatFieldSide sourceFieldSide, FieldCoords destinationCoords, CombatFieldSide destinationFieldSide)
     {
-        var targetSide = GetTargetSide(combatant, Field);
-
-        var currentCoords = targetSide.GetCombatantCoords(combatant);
-
-        if (fieldCoords != currentCoords)
+        if (sourceCoords == destinationCoords && sourceFieldSide == destinationFieldSide)
         {
-            targetSide[fieldCoords].Combatant = combatant;
+            return;
+        }
 
-            CombatantHasBeenMoved?.Invoke(this, new CombatantHasBeenMovedEventArgs(combatant, targetSide, fieldCoords));
+        var sourceCombatant = sourceFieldSide[sourceCoords].Combatant;
+        var targetCombatant = destinationFieldSide[destinationCoords].Combatant;
 
-            targetSide[currentCoords].Combatant = null;
+        destinationFieldSide[destinationCoords].Combatant = sourceCombatant;
+
+        if (sourceCombatant is not null)
+        {
+            CombatantHasBeenMoved?.Invoke(this, new CombatantHasBeenMovedEventArgs(sourceCombatant, destinationFieldSide, destinationCoords));
+        }
+
+        sourceFieldSide[sourceCoords].Combatant = targetCombatant;
+
+        if (targetCombatant is not null)
+        {
+            CombatantHasBeenMoved?.Invoke(this, new CombatantHasBeenMovedEventArgs(targetCombatant, sourceFieldSide, sourceCoords));
         }
     }
 

@@ -86,7 +86,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
     public CorpseGameObject CreateCorpse()
     {
-        var spriteSheetId = Enum.Parse<UnitName>(Combatant.ClassSid);
+        var spriteSheetId = Enum.Parse<UnitName>(Combatant.ClassSid, ignoreCase: true);
         var deathSoundEffect = _gameObjectContentStorage.GetDeathSound(spriteSheetId)
             .CreateInstance();
 

@@ -9,5 +9,5 @@ public interface IEffectCombatContext
 
     void NotifyCombatantDamaged(Combatant combatant, UnitStatType statType, int value);
     
-    void NotifyCombatantMoved(Combatant combatant, FieldCoords coords);
+    void NotifySwapFieldPosition(Combatant combatant, FieldCoords sourceCoords, CombatFieldSide sourceFieldSide, FieldCoords destinationCoords, CombatFieldSide destinationFieldSide);
 }

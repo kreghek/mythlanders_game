@@ -1,3 +1,3 @@
 namespace Core.Combats;
 
-public delegate void CombatantHasMovedCallback(Combatant targetCombatant, FieldCoords targetCoords);
+public delegate void CombatantHasMovedCallback(FieldCoords sourceCoords, CombatFieldSide sourceFieldSide, FieldCoords destinationCoords, CombatFieldSide destinationFieldSide);
