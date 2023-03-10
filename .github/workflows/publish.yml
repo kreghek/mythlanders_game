@@ -13,6 +13,7 @@ jobs:
 
     env:
       MGFXC_WINE_PATH: /home/runner/.winemonogame
+      GAME_VERSION: 0.2
 
     strategy:
       matrix:
@@ -67,35 +68,33 @@ jobs:
     - name: Publish
       run: gamebundle --source Rpg/Client/Client.csproj --output "bin" --${{matrix.runtime}}
 
+    - name: run number with offset
+      id: game-version
+      env:
+        run_number: ${{ github.run_number }}
+        base_number: 71
+      run: echo "full=$GAME_VERSION.$(($run_number+$base_number))" >> $GITHUB_OUTPUT
+
+    - run: echo ${{ steps.game-version.outputs.full }}
+
     - name: Get current time
       uses: srfrnk/current-time@master
       id: current-time
       with:
         format: YYYY-MM-DD
-
-    - name: Build Number (with base)
-      uses: mlilback/build-number@v1.0.1
-      id: build-number
-      with:
-        base: 71
-        run-id: ${GITHUB_RUN_NUMBER}
     
     - name: Write version to file
-      uses: DamianReeves/write-file-action@v1.0
-      env:
-        F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
+      uses: DamianReeves/write-file-action@v1.2
       with:
         path: bin/${{matrix.runtime}}/version.txt
         contents: |
-          ver 0.2-dev.${{ steps.build-number.outputs.build-number }}
-          ${{ env.F_TIME }}
+          ver ${{ steps.game-version.outputs.full }}
+          ${{ steps.current-time.outputs.formattedTime }}
           ${{ github.sha }}
         write-mode: overwrite
 
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
-      env:
-        F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
       with:
-        name: ewar-${{ matrix.runtime }}-v0.2-dev.${{ steps.build-number.outputs.build-number }}-${{ env.F_TIME }}
+        name: ewar-${{ matrix.runtime }}-v${{ steps.game-version.outputs.full }}-${{ steps.current-time.outputs.formattedTime }}
         path: bin
