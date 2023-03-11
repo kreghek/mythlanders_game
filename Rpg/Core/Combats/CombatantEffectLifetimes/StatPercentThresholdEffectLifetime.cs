@@ -1,12 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Core.Combats.CombatantEffectLifetimes;
 
-namespace Core.Combats.CombatantEffectLifetimes
+internal class StatPercentThresholdEffectLifetime : ICombatantEffectLifetime
 {
-    internal class StatPercentThresholdEffectLifetime
+    private readonly UnitStatType _statType;
+    private readonly float _minShare;
+
+    public StatPercentThresholdEffectLifetime(UnitStatType statType, float minShare)
     {
+        _statType = statType;
+        _minShare = minShare;
+    }
+
+    public bool IsDead { get; private set; }
+
+    public void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context)
+    {
+        if (updateType == CombatantEffectUpdateType.EndRound)
+        {
+            var stat = context.Combatant.Stats.SingleOrDefault(x => x.Type == _statType);
+
+            if (stat is null)
+            {
+                IsDead = true;
+                return;
+            }
+
+            if (stat.Value.GetShare() < _minShare)
+            {
+                IsDead = true;
+            }
+        }
     }
 }

@@ -1,10 +1,10 @@
-using Core.Dices;
+﻿using Core.Dices;
 
 namespace Core.Combats.Effects;
 
-public sealed class DamageEffectInstance : EffectInstanceBase<DamageEffect>
+public sealed class LifeDrawEffectInstance : EffectInstanceBase<LifeDrawEffect>
 {
-    public DamageEffectInstance(DamageEffect damageEffect) : base(damageEffect)
+    public LifeDrawEffectInstance(LifeDrawEffect damageEffect) : base(damageEffect)
     {
         Damage = new Range<IStatValue>(new StatValue(damageEffect.Damage.Min), new StatValue(damageEffect.Damage.Max));
     }
@@ -28,12 +28,12 @@ public sealed class DamageEffectInstance : EffectInstanceBase<DamageEffect>
 
         var damageRemains = context.DamageCombatantStat(target, UnitStatType.ShieldPoints, absorbedDamage);
 
-        if (BaseEffect.DamageType == DamageType.ShieldsOnly) return;
-
         if (damageRemains > 0)
         {
             //TakeStat(target, UnitStatType.HitPoints, damageRemains);
-            context.DamageCombatantStat(target, UnitStatType.HitPoints, damageRemains);
+            var stealedHitPoints = context.DamageCombatantStat(target, UnitStatType.HitPoints, damageRemains);
+
+            context.Actor.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.Restore(damageRemains);
         }
     }
 

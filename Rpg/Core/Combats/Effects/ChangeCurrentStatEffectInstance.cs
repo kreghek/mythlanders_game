@@ -18,6 +18,6 @@ public sealed class ChangeCurrentStatEffectInstance : EffectInstanceBase<ChangeC
         else
             statValue.Consume(-rolledValue);
 
-        context.NotifyCombatantDamaged(target, BaseEffect.TargetStatType, rolledValue);
+        context.DamageCombatantStat(target, BaseEffect.TargetStatType, rolledValue);
     }
 }

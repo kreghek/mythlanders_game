@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Rpg.Client.GameScreens.Combat.GameObjects;
+using Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Engine
 {

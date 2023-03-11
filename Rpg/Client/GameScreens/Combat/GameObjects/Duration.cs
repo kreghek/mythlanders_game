@@ -1,4 +1,3 @@
-﻿namespace Rpg.Client.GameScreens.Combat.GameObjects
-{
-    public record Duration(double Seconds);
-}
+﻿namespace Client.GameScreens.Combat.GameObjects;
+
+public record Duration(double Seconds);
