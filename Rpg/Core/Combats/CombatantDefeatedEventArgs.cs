@@ -43,14 +43,14 @@ public sealed class CombatantHasBeenAddedEventArgs : CombatantEventArgsBase
     }
 }
 
-public sealed class CombatantShiftShapedEventArgs: CombatantEventArgsBase
+public sealed class CombatantShiftShapedEventArgs : CombatantEventArgsBase
 {
     public CombatantShiftShapedEventArgs(Combatant combatant) : base(combatant)
     {
     }
 }
 
-public sealed class CombatantHasBeenMovedEventArgs: CombatantEventArgsBase
+public sealed class CombatantHasBeenMovedEventArgs : CombatantEventArgsBase
 {
     public CombatFieldSide FieldSide { get; }
     public FieldCoords NewFieldCoords { get; }

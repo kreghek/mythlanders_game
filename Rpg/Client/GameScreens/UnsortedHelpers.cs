@@ -66,7 +66,7 @@ namespace Rpg.Client.GameScreens
 
             return GetIconRect(iconIndex);
         }
-        
+
         public static Rectangle GetIconRect(int iconIndex)
         {
             const int SPRITE_SHEET_COLUMN_COUNT = 6;

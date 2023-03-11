@@ -20,7 +20,7 @@ namespace Client.GameScreens.Combat.Ui
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
         {
-            
+
         }
     }
 }

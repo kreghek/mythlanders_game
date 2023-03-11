@@ -307,7 +307,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             var corpse = combatantGameObject.CreateCorpse();
             _corpseObjects.Add(corpse);
-            
+
             _gameObjects.Remove(combatantGameObject);
         }
 
@@ -325,7 +325,7 @@ namespace Rpg.Client.GameScreens.Combat
         private void CombatCore_CombatantEndsTurn(object? sender, CombatantEndsTurnEventArgs e)
         {
             DropSelection(e.Combatant);
-            
+
             if (_combatMovementsHandPanel is not null)
             {
                 _combatMovementsHandPanel.Combatant = null;
@@ -417,7 +417,7 @@ namespace Rpg.Client.GameScreens.Combat
             _combatCore.Initialize(
                 CombatantFactory.CreateHeroes(_playerCombatantBehaviour),
                 CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(_animationManager, _combatMovementVisualizer, _gameObjects)));
-            
+
             _unitStatePanelController = new UnitStatePanelController(_combatCore,
                 _uiContentStorage, _gameObjectContentStorage);
         }
@@ -533,7 +533,7 @@ namespace Rpg.Client.GameScreens.Combat
             _playerCombatantBehaviour.Assign(intention);
         }
 
-        
+
 
         private void CombatCore_CombatantHasBeenDamaged(object? sender, CombatantDamagedEventArgs e)
         {
@@ -613,7 +613,7 @@ namespace Rpg.Client.GameScreens.Combat
         {
             return new CombatCore(_dice);
         }
-        
+
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds,
             int backgroundStartOffsetX,

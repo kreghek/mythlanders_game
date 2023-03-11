@@ -44,9 +44,9 @@ public class SwordsmanFartory
                             typeof(ToEndOfCurrentRoundEffectLifetime))
                     })
             )
-            {
-                Tags = CombatMovementTags.AutoDefense
-            }
+        {
+            Tags = CombatMovementTags.AutoDefense
+        }
         );
 
         movementPool.Add(new CombatMovement("Hit from shoulder",
@@ -64,9 +64,9 @@ public class SwordsmanFartory
                         )
                     })
             )
-            {
-                Tags = CombatMovementTags.Attack
-            }
+        {
+            Tags = CombatMovementTags.Attack
+        }
         );
 
         movementPool.Add(new CombatMovement("Look out!",
