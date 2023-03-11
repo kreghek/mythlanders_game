@@ -403,28 +403,3 @@ public class CombatCore
     public event EventHandler<CombatantShiftShapedEventArgs>? CombatantShiftShaped;
     public event EventHandler<CombatantHasBeenMovedEventArgs>? CombatantHasBeenMoved;
 }
-
-public interface ICombatActorBehaviour
-{
-    void HandleIntention(ICombatActorBehaviourData combatData, Action<IIntention> intentionDelegate);
-}
-
-public interface ICombatActorBehaviourData
-{
-    IReadOnlyCollection<CombatUnitBehaviourDataActor> Actors { get; }
-    CombatUnitBehaviourDataActor CurrentActor { get; }
-}
-
-public record CombatUnitBehaviourDataActor(IReadOnlyCollection<CombatActorBehaviourDataSkill> Skills);
-
-public record CombatActorBehaviourDataSkill(CombatMovementInstance CombatMovement);
-
-public interface IIntention
-{
-    void Make(CombatCore combatCore);
-}
-
-public interface ICombatActorBehaviourDataProvider
-{
-    ICombatActorBehaviourData GetDataSnapshot();
-}
