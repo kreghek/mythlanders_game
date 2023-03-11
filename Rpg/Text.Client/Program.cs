@@ -49,10 +49,8 @@ internal static class Program
                     break;
 
                 case ClientState.MoveInfo:
-                    var selectedMovement = (CombatMovementInstance)transition.Parameters[0];
-                    var combatant2 = (transition.Parameters[1]) as Combatant;
-                    HandleMoveDetailedInfo(combatCore: combatCore, stateMachine: clientStateMachine, combatant2,
-                        selectedMovement);
+                    HandleMoveDetailedInfo(combatCore, clientStateMachine, (Combatant)transition.Parameters[1],
+                        (CombatMovementInstance)transition.Parameters[0]);
                     break;
             }
         });
@@ -95,7 +93,7 @@ internal static class Program
         Console.WriteLine($"{e.Combatant.Sid} starts turn");
     }
 
-    private static void ExecuteCombatMoveCommand(CombatCore combatCore, string command)
+    private static void ExecuteCombatMovementCommand(CombatCore combatCore, string command)
     {
         var split = command.Split(" ");
 
@@ -207,7 +205,7 @@ internal static class Program
 
             if (command.StartsWith("move"))
             {
-                ExecuteCombatMoveCommand(combatCore, command);
+                ExecuteCombatMovementCommand(combatCore, command);
                 stateMachine.Fire(ClientStateTrigger.OnOverview);
                 break;
             }
@@ -355,7 +353,7 @@ internal static class Program
             }
 
             if (command.StartsWith("move"))
-                ExecuteCombatMoveCommand(combatCore, command);
+                ExecuteCombatMovementCommand(combatCore, command);
             else if (command.StartsWith("step"))
                 ExecuteManeuverCommand(combatCore, command);
             else if (command.StartsWith("wait")) combatCore.Wait();

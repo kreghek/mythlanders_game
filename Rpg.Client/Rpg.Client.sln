@@ -10,9 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\.github\workflows\calibreapp-image-actions.yml = ..\.github\workflows\calibreapp-image-actions.yml
 		..\Rpg\Client\.config\dotnet-tools.json = ..\Rpg\Client\.config\dotnet-tools.json
 		..\.github\workflows\linter.yml = ..\.github\workflows\linter.yml
+		..\.github\workflows\mutation-test-stryker.yml = ..\.github\workflows\mutation-test-stryker.yml
 		..\.github\workflows\publish.yml = ..\.github\workflows\publish.yml
 		..\.github\workflows\remove-old-artifacts.yml = ..\.github\workflows\remove-old-artifacts.yml
-		..\.github\workflows\mutation-test-stryker.yml = ..\.github\workflows\mutation-test-stryker.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rpg.Client.Tests", "Rpg.Client.Tests\Rpg.Client.Tests.csproj", "{2DB303DC-804C-4B09-B980-8D25AF699675}"
@@ -20,8 +20,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalanceConverter", "BalanceConverter\BalanceConverter.csproj", "{2C79B30E-EEAD-46C2-ABAF-776F12AB2B29}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalanceConverter.Tests", "BalanceConverter.Tests\BalanceConverter.Tests.csproj", "{A36287C0-D98D-452C-86E1-98D45673914F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalanceGenerator", "BalanceGenerator\BalanceGenerator.csproj", "{D7BECACC-2D72-4EAD-982A-041905D79A7E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DialoguePlayer", "DialoguePlayer\DialoguePlayer.csproj", "{013456B7-BC02-4F6B-B1F3-638432F024A7}"
 EndProject
@@ -57,10 +55,6 @@ Global
 		{A36287C0-D98D-452C-86E1-98D45673914F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A36287C0-D98D-452C-86E1-98D45673914F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A36287C0-D98D-452C-86E1-98D45673914F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D7BECACC-2D72-4EAD-982A-041905D79A7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D7BECACC-2D72-4EAD-982A-041905D79A7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D7BECACC-2D72-4EAD-982A-041905D79A7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D7BECACC-2D72-4EAD-982A-041905D79A7E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{013456B7-BC02-4F6B-B1F3-638432F024A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{013456B7-BC02-4F6B-B1F3-638432F024A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{013456B7-BC02-4F6B-B1F3-638432F024A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -98,8 +92,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail"]}
-		RESX_SortFileContentOnSave = True
 		SolutionGuid = {109FC733-76F8-4327-BE39-B9303FDD86EA}
+		RESX_SortFileContentOnSave = True
+		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail"]}
 	EndGlobalSection
 EndGlobal

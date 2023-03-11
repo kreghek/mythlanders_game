@@ -8,29 +8,29 @@ using Client.GameScreens.Combat.GameObjects;
 using Core.Combats;
 
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.GameScreens.Combat
+namespace Client.GameScreens.Combat;
+
+internal sealed class BotCombatActorBehaviour : ICombatActorBehaviour
 {
-    internal sealed class BotCombatActorBehaviour : ICombatActorBehaviour
+    private readonly IAnimationManager _animationManager;
+    private readonly ICombatMovementVisualizer _combatMovementVisualizer;
+    private readonly IList<CombatantGameObject> _combatantGameObjects;
+
+    public BotCombatActorBehaviour(IAnimationManager animationManager, ICombatMovementVisualizer combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects)
     {
-        private readonly IAnimationManager _animationManager;
-        private readonly ICombatMovementVisualizer _combatMovementVisualizer;
-        private readonly IList<CombatantGameObject> _combatantGameObjects;
+        _animationManager = animationManager;
+        _combatMovementVisualizer = combatMovementVisualizer;
+        _combatantGameObjects = combatantGameObjects;
+    }
 
-        public BotCombatActorBehaviour(IAnimationManager animationManager, ICombatMovementVisualizer combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects)
-        {
-            _animationManager = animationManager;
-            _combatMovementVisualizer = combatMovementVisualizer;
-            _combatantGameObjects = combatantGameObjects;
-        }
+    public void HandleIntention(ICombatActorBehaviourData combatData, Action<IIntention> intentionDelegate)
+    {
+        var firstSkill = combatData.CurrentActor.Skills.First();
 
-        public void HandleIntention(ICombatActorBehaviourData combatData, Action<IIntention> intentionDelegate)
-        {
-            var firstSkill = combatData.CurrentActor.Skills.First();
+        var skillIntention = new UseCombatMovementIntention(firstSkill.CombatMovement, _animationManager, _combatMovementVisualizer, _combatantGameObjects);
 
-            var skillIntention = new UseCombatMovementIntention(firstSkill.CombatMovement, _animationManager, _combatMovementVisualizer, _combatantGameObjects);
-
-            intentionDelegate(skillIntention);
-        }
+        intentionDelegate(skillIntention);
     }
 }
