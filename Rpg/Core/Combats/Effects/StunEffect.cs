@@ -1,8 +1,8 @@
 ﻿namespace Core.Combats.Effects;
 
-public class HealEffect : IEffect
+public class StunEffect : IEffect
 {
-    public HealEffect(ITargetSelector selector, Range<int> heal)
+    public StunEffect(ITargetSelector selector, Range<int> heal)
     {
         Selector = selector;
         Heal = heal;
@@ -15,6 +15,6 @@ public class HealEffect : IEffect
 
     public IEffectInstance CreateInstance()
     {
-        return new HealEffectInstance(this);
+        return new StunEffectInstance(this);
     }
 }
