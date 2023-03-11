@@ -70,6 +70,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IUiContentStorage _uiContentStorage;
         private readonly ICombatantPositionProvider _combatantPositionProvider;
         private readonly ICombatActorBehaviourDataProvider _combatDataBehaviourProvider;
+        private readonly Matrix<ManeuverButton> _maneuverButtons;
 
         private float _bgCenterOffsetPercentageX;
         private float _bgCenterOffsetPercentageY;
@@ -133,6 +134,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             _combatCore = CreateCombat();
             _combatDataBehaviourProvider = new CombatActorBehaviourDataProvider(_combatCore);
+            _maneuverButtons = new Matrix<ManeuverButton>(_combatCore.Field.HeroSide.ColumnCount, _combatCore.Field.HeroSide.LineCount);
 
             soundtrackManager.PlayCombatTrack((BiomeType)((int)args.Location.Sid / 100 * 100));
         }
@@ -157,6 +159,59 @@ namespace Rpg.Client.GameScreens.Combat
         protected override void InitializeContent()
         {
             CombatInitialize();
+
+            for (var columnIndex = 0; columnIndex < _combatCore.Field.HeroSide.ColumnCount; columnIndex++)
+            {
+                for (var lineIndex = 0; lineIndex < _combatCore.Field.HeroSide.LineCount; lineIndex++)
+                {
+                    _maneuverButtons[columnIndex, lineIndex] = new ManeuverButton(new FieldCoords(columnIndex, lineIndex));
+                    _maneuverButtons[columnIndex, lineIndex].OnClick += ManeuverButton_OnClick;
+                }
+            }
+        }
+
+        private void ManeuverButton_OnClick(object? sender, EventArgs e)
+        {
+            if (sender is null)
+            {
+                throw new InvalidOperationException("Can't handle event of non-instance.");
+            }
+
+            var maneuverButton = (ManeuverButton)sender;
+            var maneuverDirection = CalcDirection(_combatCore.CurrentCombatant, maneuverButton.FieldCoords);
+
+            var maneuverIntention = new ManeverIntention(maneuverDirection);
+
+            _playerCombatantBehaviour.Assign(maneuverIntention);
+        }
+
+        private CombatStepDirection CalcDirection(Combatant combatant, FieldCoords targetCoords)
+        {
+            var combatantCoords = _combatCore.Field.HeroSide.GetCombatantCoords(combatant);
+
+            var lineDiff = targetCoords.LineIndex - combatantCoords.LineIndex;
+            var columnDiff = targetCoords.ColumentIndex - combatantCoords.ColumentIndex;
+
+            if (columnDiff > 0 && lineDiff == 0)
+            {
+                return CombatStepDirection.Forward;
+            }
+            else if (columnDiff < 0 && lineDiff == 0)
+            {
+                return CombatStepDirection.Backward;
+            }
+            else if (columnDiff == 0 && lineDiff < 0)
+            {
+                return CombatStepDirection.Up;
+            }
+            else if (columnDiff == 0 && lineDiff > 0)
+            {
+                return CombatStepDirection.Down;
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
         }
 
         protected override void UpdateContent(GameTime gameTime)
@@ -766,6 +821,22 @@ namespace Rpg.Client.GameScreens.Combat
             if (_combatCore.CurrentCombatant.IsPlayerControlled == true && !_animationManager.HasBlockers)
             {
                 DrawCombatSkillsPanel(spriteBatch, contentRectangle);
+
+                if (_combatCore.CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Current > 0)
+                {
+                    for (var columnIndex = 0; columnIndex < _combatCore.Field.HeroSide.ColumnCount; columnIndex++)
+                    {
+                        for (var lineIndex = 0; lineIndex < _combatCore.Field.HeroSide.LineCount; lineIndex++)
+                        {
+                            var maneuverButton = _maneuverButtons[columnIndex, lineIndex];
+
+                            var position = _combatantPositionProvider.GetPosition(maneuverButton.FieldCoords, CombatantPositionSide.Heroes);
+
+                            maneuverButton.Rect = new Rectangle((int)position.X - 20, (int)position.Y - 20, 40, 40);
+                            maneuverButton.Draw(spriteBatch);
+                        }
+                    }
+                }
             }
 
             try
@@ -868,6 +939,19 @@ namespace Rpg.Client.GameScreens.Combat
                 _combatMovementsHandPanel?.Update(ResolutionIndependentRenderer);
 
                 _unitStatePanelController?.Update(ResolutionIndependentRenderer);
+            }
+
+            if (_combatCore.CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Current > 0)
+            {
+                for (var columnIndex = 0; columnIndex < _combatCore.Field.HeroSide.ColumnCount; columnIndex++)
+                {
+                    for (var lineIndex = 0; lineIndex < _combatCore.Field.HeroSide.LineCount; lineIndex++)
+                    {
+                        var maneuverButton = _maneuverButtons[columnIndex, lineIndex];
+
+                        maneuverButton.Update(ResolutionIndependentRenderer);
+                    }
+                }
             }
         }
 

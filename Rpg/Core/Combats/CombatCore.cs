@@ -192,10 +192,7 @@ public class CombatCore
 
         var side = GetCurrentSelectorContext().ActorSide;
 
-        var swapCombatant = side[targetCoords].Combatant;
-
-        side[targetCoords].Combatant = CurrentCombatant;
-        side[currentCoords].Combatant = swapCombatant;
+        HandleSwapFieldPositions(currentCoords, side, targetCoords, side);
 
         CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Consume(1);
     }
