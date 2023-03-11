@@ -124,7 +124,7 @@ public class DialogueCatalogHelperTests
 
         dialogue.Root.TextBlock.Paragraphs.Single().Speaker.Should().Be(UnitName.Swordsman);
     }
-    
+
     /// <summary>
     /// Test checks environment was set as speaker if not specified.
     /// </summary>
