@@ -311,11 +311,11 @@ namespace Rpg.Client.GameScreens.Combat
             _gameObjects.Remove(combatantGameObject);
         }
 
-        private void Combat_Finish(object? sender, CombatFinishEventArgs e)
+        private void CombatCore_CombatFinished(object? sender, CombatFinishedEventArgs e)
         {
             _combatMovementsHandPanel = null;
 
-            _combatFinishedVictory = e.Victory;
+            _combatFinishedVictory = e.Result == CombatFinishResult.HeroesAreWinners;
 
             CountCombatFinished();
 
@@ -396,6 +396,7 @@ namespace Rpg.Client.GameScreens.Combat
             _combatCore.CombatantStartsTurn += CombatCore_CombatantStartsTurn;
             _combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;
             _combatCore.CombatantHasBeenMoved += CombatCore_CombatantHasBeenMoved;
+            _combatCore.CombatFinished += CombatCore_CombatFinished;
 
             // _combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
             // _combatCore.CombatantHasBeenDefeated += CombatCore_CombatantHasBeenDefeated;
@@ -818,7 +819,7 @@ namespace Rpg.Client.GameScreens.Combat
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
 
-            if (_combatCore.CurrentCombatant.IsPlayerControlled == true && !_animationManager.HasBlockers)
+            if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled == true && !_animationManager.HasBlockers)
             {
                 DrawCombatSkillsPanel(spriteBatch, contentRectangle);
 

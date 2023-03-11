@@ -51,6 +51,29 @@ public class CombatCore
         }
     }
 
+    private CombatFinishResult CalcResult()
+    {
+        var aliveUnits = _allCombatantList.Where(x => !x.IsDead).ToArray();
+        var playerUnits = aliveUnits.Where(x => x.IsPlayerControlled);
+        var hasPlayerUnits = playerUnits.Any();
+
+        var cpuUnits = aliveUnits.Where(x => !x.IsPlayerControlled);
+        var hasCpuUnits = cpuUnits.Any();
+
+        // TODO Looks like XOR
+        if (hasPlayerUnits && !hasCpuUnits)
+        {
+            return CombatFinishResult.HeroesAreWinners;
+        }
+
+        if (!hasPlayerUnits && hasCpuUnits)
+        {
+            return CombatFinishResult.MonstersAreWinners;
+        }
+
+        return CombatFinishResult.Draw;
+    }
+
     public void CompleteTurn()
     {
         CombatantEndsTurn?.Invoke(this, new CombatantEndsTurnEventArgs(CurrentCombatant));
@@ -64,6 +87,14 @@ public class CombatCore
             if (!_roundQueue.Any())
             {
                 UpdateAllCombatantEffects(CombatantEffectUpdateType.EndRound);
+
+                if (Finished)
+                {
+                    var combatResult = CalcResult();
+                    CombatFinished?.Invoke(this, new CombatFinishedEventArgs(combatResult));
+                    return;
+                }
+
                 StartRound();
 
                 CombatantStartsTurn?.Invoke(this, new CombatantTurnStartedEventArgs(CurrentCombatant));
@@ -399,4 +430,22 @@ public class CombatCore
     public event EventHandler<CombatantDefeatedEventArgs>? CombatantHasBeenDefeated;
     public event EventHandler<CombatantShiftShapedEventArgs>? CombatantShiftShaped;
     public event EventHandler<CombatantHasBeenMovedEventArgs>? CombatantHasBeenMoved;
+    public event EventHandler<CombatFinishedEventArgs>? CombatFinished;
+}
+
+public enum CombatFinishResult
+{
+    HeroesAreWinners,
+    MonstersAreWinners,
+    Draw
+}
+
+public class CombatFinishedEventArgs : EventArgs
+{
+    public CombatFinishedEventArgs(CombatFinishResult result)
+    {
+        Result = result;
+    }
+
+    public CombatFinishResult Result { get; }
 }
