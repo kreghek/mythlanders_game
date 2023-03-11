@@ -7,7 +7,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
 {
-    internal class UnitIdleState : IUnitStateEngine
+    internal class UnitIdleState : IActorVisualizationState
     {
         public UnitIdleState(UnitGraphicsBase unitGraphics, CombatUnitState state)
         {

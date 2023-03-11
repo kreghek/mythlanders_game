@@ -4,21 +4,28 @@ using System.Diagnostics;
 using System.Linq;
 
 using Client;
+using Client.Assets.Catalogs;
+using Client.Assets.CombatMovements;
 using Client.Assets.StoryPointJobs;
 using Client.Core;
 using Client.Core.Campaigns;
+using Client.Engine;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Combat;
+using Client.GameScreens.Combat.CombatDebugElements;
+using Client.GameScreens.Combat.GameObjects;
+using Client.GameScreens.Combat.Ui;
 using Client.GameScreens.CommandCenter;
 
+using Core.Combats;
 using Core.Dices;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
@@ -27,7 +34,7 @@ using Rpg.Client.GameScreens.Combat.Ui;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.ScreenManagement;
 
-using static Client.Core.Combat;
+using UnitStatType = Core.Combats.UnitStatType;
 
 namespace Rpg.Client.GameScreens.Combat
 {
@@ -37,30 +44,33 @@ namespace Rpg.Client.GameScreens.Combat
         private const float BACKGROUND_LAYERS_SPEED_X = 0.1f;
         private const float BACKGROUND_LAYERS_SPEED_Y = 0.05f;
 
-        private readonly AnimationManager _animationManager;
+        private readonly UpdatableAnimationManager _animationManager;
         private readonly CombatScreenTransitionArguments _args;
         private readonly IList<IInteractionDelivery> _bulletObjects;
         private readonly Camera2D _camera;
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
-        private readonly global::Client.Core.Combat _combat;
+        private readonly CombatCore _combatCore;
         private readonly IList<CorpseGameObject> _corpseObjects;
         private readonly HeroCampaign _currentCampaign;
         private readonly IDice _dice;
+        private readonly ICombatMovementVisualizer _combatMovementVisualizer;
         private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _farLayerObjects;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
-        private readonly IList<UnitGameObject> _gameObjects;
+        private readonly IList<CombatantGameObject> _gameObjects;
         private readonly GameSettings _gameSettings;
         private readonly Globe _globe;
         private readonly GlobeNode _globeNode;
         private readonly GlobeProvider _globeProvider;
-        private readonly IList<ButtonBase> _interactionButtons;
         private readonly IJobProgressResolver _jobProgressResolver;
+        private readonly PlayerCombatActorBehaviour _playerCombatantBehaviour;
         private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
         private readonly ScreenShaker _screenShaker;
         private readonly IUiContentStorage _uiContentStorage;
-        private readonly UnitPositionProvider _unitPositionProvider;
+        private readonly ICombatantPositionProvider _combatantPositionProvider;
+        private readonly ICombatActorBehaviourDataProvider _combatDataBehaviourProvider;
+        private readonly Matrix<ManeuverButton> _maneuverButtons;
 
         private float _bgCenterOffsetPercentageX;
         private float _bgCenterOffsetPercentageY;
@@ -71,12 +81,10 @@ namespace Rpg.Client.GameScreens.Combat
         private bool? _combatFinishedVictory;
 
         private bool _combatResultModalShown;
-        private CombatSkillPanel? _combatSkillsPanel;
+        private CombatMovementsHandPanel? _combatMovementsHandPanel;
 
         private bool _finalBossWasDefeat;
 
-
-        private bool _interactButtonClicked;
         private UnitStatePanelController? _unitStatePanelController;
 
         public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
@@ -93,15 +101,15 @@ namespace Rpg.Client.GameScreens.Combat
 
             _currentCampaign = args.Campaign;
 
-            _gameObjects = new List<UnitGameObject>();
+            _gameObjects = new List<CombatantGameObject>();
             _corpseObjects = new List<CorpseGameObject>();
             _bulletObjects = new List<IInteractionDelivery>();
-            _interactionButtons = new List<ButtonBase>();
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
-            _animationManager = game.Services.GetService<AnimationManager>();
+            _animationManager = new UpdatableAnimationManager(new AnimationManager());
             _dice = Game.Services.GetService<IDice>();
+            _combatMovementVisualizer = Game.Services.GetRequiredService<ICombatMovementVisualizer>();
 
             var bgofSelector = Game.Services.GetService<BackgroundObjectFactorySelector>();
 
@@ -116,14 +124,17 @@ namespace Rpg.Client.GameScreens.Combat
 
             _gameSettings = game.Services.GetService<GameSettings>();
 
-            _unitPositionProvider = new UnitPositionProvider(ResolutionIndependentRenderer);
+            _combatantPositionProvider = new CombatantPositionProvider(ResolutionIndependentRenderer.VirtualWidth);
 
             _screenShaker = new ScreenShaker();
 
             _jobProgressResolver = new JobProgressResolver();
 
-            _combat = CreateCombat(args.CombatSequence.Combats[args.CurrentCombatIndex], args.IsAutoplay,
-                args.Location);
+            _playerCombatantBehaviour = new PlayerCombatActorBehaviour();
+
+            _combatCore = CreateCombat();
+            _combatDataBehaviourProvider = new CombatActorBehaviourDataProvider(_combatCore);
+            _maneuverButtons = new Matrix<ManeuverButton>(_combatCore.Field.HeroSide.ColumnCount, _combatCore.Field.HeroSide.LineCount);
 
             soundtrackManager.PlayCombatTrack((BiomeType)((int)args.Location.Sid / 100 * 100));
         }
@@ -148,6 +159,59 @@ namespace Rpg.Client.GameScreens.Combat
         protected override void InitializeContent()
         {
             CombatInitialize();
+
+            for (var columnIndex = 0; columnIndex < _combatCore.Field.HeroSide.ColumnCount; columnIndex++)
+            {
+                for (var lineIndex = 0; lineIndex < _combatCore.Field.HeroSide.LineCount; lineIndex++)
+                {
+                    _maneuverButtons[columnIndex, lineIndex] = new ManeuverButton(new FieldCoords(columnIndex, lineIndex));
+                    _maneuverButtons[columnIndex, lineIndex].OnClick += ManeuverButton_OnClick;
+                }
+            }
+        }
+
+        private void ManeuverButton_OnClick(object? sender, EventArgs e)
+        {
+            if (sender is null)
+            {
+                throw new InvalidOperationException("Can't handle event of non-instance.");
+            }
+
+            var maneuverButton = (ManeuverButton)sender;
+            var maneuverDirection = CalcDirection(_combatCore.CurrentCombatant, maneuverButton.FieldCoords);
+
+            var maneuverIntention = new ManeverIntention(maneuverDirection);
+
+            _playerCombatantBehaviour.Assign(maneuverIntention);
+        }
+
+        private CombatStepDirection CalcDirection(Combatant combatant, FieldCoords targetCoords)
+        {
+            var combatantCoords = _combatCore.Field.HeroSide.GetCombatantCoords(combatant);
+
+            var lineDiff = targetCoords.LineIndex - combatantCoords.LineIndex;
+            var columnDiff = targetCoords.ColumentIndex - combatantCoords.ColumentIndex;
+
+            if (columnDiff > 0 && lineDiff == 0)
+            {
+                return CombatStepDirection.Forward;
+            }
+            else if (columnDiff < 0 && lineDiff == 0)
+            {
+                return CombatStepDirection.Backward;
+            }
+            else if (columnDiff == 0 && lineDiff < 0)
+            {
+                return CombatStepDirection.Up;
+            }
+            else if (columnDiff == 0 && lineDiff > 0)
+            {
+                return CombatStepDirection.Down;
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
         }
 
         protected override void UpdateContent(GameTime gameTime)
@@ -172,9 +236,9 @@ namespace Rpg.Client.GameScreens.Combat
 
             HandleUnits(gameTime);
 
-            if (!_combat.Finished && _combatFinishedVictory is null)
+            if (!_combatCore.Finished && _combatFinishedVictory is null)
             {
-                HandleCombatHud();
+                UpdateCombatHud();
             }
 
             _screenShaker.Update(gameTime);
@@ -185,16 +249,8 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 UpdateCombatFinished(gameTime);
             }
-        }
 
-        private void Actor_SkillAnimationCompleted(object? sender, EventArgs e)
-        {
-            if (sender is UnitGameObject unitGameObject)
-            {
-                unitGameObject.SkillAnimationCompleted -= Actor_SkillAnimationCompleted;
-            }
-
-            _combat.Update();
+            _animationManager.Update(gameTime.ElapsedGameTime.TotalSeconds);
         }
 
         private static void AddMonstersFromCombatIntoKnownMonsters(Unit monster,
@@ -240,144 +296,141 @@ namespace Rpg.Client.GameScreens.Combat
             return rewards;
         }
 
-        private void Combat_ActionGenerated(object? sender, ActionEventArgs e)
+        private void CombatCode_CombatantHasBeenDefeated(object? sender, CombatantDefeatedEventArgs e)
         {
-            var actor = GetUnitGameObject(e.Actor);
-            var target = GetUnitGameObject(e.Target);
-
-            actor.SkillAnimationCompleted += Actor_SkillAnimationCompleted;
-
-            if (e.Skill is IVisualizedSkill visualizedSkill)
+            if (!e.Combatant.IsPlayerControlled)
             {
-                actor.UseSkill(target, _bulletObjects, visualizedSkill, e.Action, _gameObjects);
+                CountDefeat();
             }
-            else
-            {
-                throw new InvalidOperationException();
-            }
+
+            var combatantGameObject = GetCombatantGameObject(e.Combatant);
+
+            var corpse = combatantGameObject.CreateCorpse();
+            _corpseObjects.Add(corpse);
+            
+            _gameObjects.Remove(combatantGameObject);
         }
 
-        private void Combat_CombatUnitRemoved(object? sender, CombatUnit combatUnit)
+        private void CombatCore_CombatFinished(object? sender, CombatFinishedEventArgs e)
         {
-            var gameObject = _gameObjects.Single(x => x.CombatUnit == combatUnit);
-            _gameObjects.Remove(gameObject);
-            combatUnit.HasTakenHitPointsDamage -= CombatUnit_HasTakenHitPointsDamage;
-            combatUnit.HasBeenHitPointsRestored -= CombatUnit_HasBeenHitPointsRestored;
-            combatUnit.HasAvoidedDamage -= CombatUnit_HasAvoidedDamage;
-        }
+            _combatMovementsHandPanel = null;
 
-        private void Combat_Finish(object? sender, CombatFinishEventArgs e)
-        {
-            _interactionButtons.Clear();
-            _combatSkillsPanel = null;
-
-            _combatFinishedVictory = e.Victory;
+            _combatFinishedVictory = e.Result == CombatFinishResult.HeroesAreWinners;
 
             CountCombatFinished();
 
             // See UpdateCombatFinished next
         }
 
-        private void Combat_UnitChanged(object? sender, UnitChangedEventArgs e)
+        private void CombatCore_CombatantEndsTurn(object? sender, CombatantEndsTurnEventArgs e)
         {
-            var oldUnit = e.OldUnit;
-            DropSelection(oldUnit);
-
-            if (_combatSkillsPanel is not null)
+            DropSelection(e.Combatant);
+            
+            if (_combatMovementsHandPanel is not null)
             {
-                _combatSkillsPanel.CombatUnit = null;
-                _combatSkillsPanel.SelectedSkill = null;
-                _combatSkillsPanel.IsEnabled = false;
+                _combatMovementsHandPanel.Combatant = null;
+                _combatMovementsHandPanel.IsEnabled = false;
             }
         }
 
-        private void Combat_UnitDied(object? sender, CombatUnit e)
+        private void CombatCore_CombatantStartsTurn(object? sender, CombatantTurnStartedEventArgs e)
         {
-            e.UnsubscribeHandlers();
-
-            if (!e.Unit.IsPlayerControlled)
+            if (_combatMovementsHandPanel is not null && _combatCore.CurrentCombatant.IsPlayerControlled)
             {
-                CountDefeat();
+                _combatMovementsHandPanel.IsEnabled = true;
+                _combatMovementsHandPanel.Combatant = e.Combatant;
             }
 
-            var unitGameObject = GetUnitGameObject(e);
+            var behaviourData = _combatDataBehaviourProvider.GetDataSnapshot();
 
-            var corpse = unitGameObject.CreateCorpse();
-            _corpseObjects.Add(corpse);
+            _combatCore.CurrentCombatant.Behaviour.HandleIntention(behaviourData,
+                intention =>
+                {
+                    intention.Make(_combatCore);
+                });
         }
 
-        private void Combat_UnitEntered(object? sender, CombatUnit combatUnit)
+        private void CombatCode_CombatantHasBeenAdded(object? sender, CombatantHasBeenAddedEventArgs e)
         {
-            if (combatUnit.Unit.UnitScheme.IsMonster)
-            {
-                AddMonstersFromCombatIntoKnownMonsters(combatUnit.Unit, _globe.Player.KnownMonsters);
-            }
+            // Move it to separate handler with core logic. There is only game objects.
+            // if (combatUnit.Unit.UnitScheme.IsMonster)
+            // {
+            //     AddMonstersFromCombatIntoKnownMonsters(combatUnit.Unit, _globe.Player.KnownMonsters);
+            // }
 
+            var unitCatalog = Game.Services.GetRequiredService<IUnitGraphicsCatalog>();
+            var graphicConfig = unitCatalog.GetGraphics(e.Combatant.ClassSid);
+
+
+            var combatantSide = e.FieldInfo.FieldSide == _combatCore.Field.HeroSide ? CombatantPositionSide.Heroes : CombatantPositionSide.Monsters;
             var gameObject =
-                new UnitGameObject(combatUnit, _unitPositionProvider, _gameObjectContentStorage, _camera, _screenShaker,
-                    _animationManager, _dice);
+                new CombatantGameObject(e.Combatant, graphicConfig, e.FieldInfo.CombatantCoords, _combatantPositionProvider, _gameObjectContentStorage, _camera, _screenShaker, combatantSide);
             _gameObjects.Add(gameObject);
-            combatUnit.HasTakenHitPointsDamage += CombatUnit_HasTakenHitPointsDamage;
-            combatUnit.HasTakenShieldPointsDamage += CombatUnit_HasTakenShieldPointsDamage;
-            combatUnit.HasBeenHitPointsRestored += CombatUnit_HasBeenHitPointsRestored;
-            combatUnit.HasBeenShieldPointsRestored += CombatUnit_HasBeenShieldPointsRestored;
-            combatUnit.HasAvoidedDamage += CombatUnit_HasAvoidedDamage;
-            combatUnit.Blocked += CombatUnit_Blocked;
+
+            // var combatant = e.Combatant;
+            //
+            // combatUnit.HasTakenHitPointsDamage += CombatUnit_HasTakenHitPointsDamage;
+            // combatUnit.HasTakenShieldPointsDamage += CombatUnit_HasTakenShieldPointsDamage;
+            // combatUnit.HasBeenHitPointsRestored += CombatUnit_HasBeenHitPointsRestored;
+            // combatUnit.HasBeenShieldPointsRestored += CombatUnit_HasBeenShieldPointsRestored;
+            // combatUnit.HasAvoidedDamage += CombatUnit_HasAvoidedDamage;
+            // combatUnit.Blocked += CombatUnit_Blocked;
         }
 
-        private void Combat_UnitPassed(object? sender, CombatUnit e)
-        {
-            var unitGameObject = GetUnitGameObject(e);
-            var textPosition = GetUnitGameObject(e).Position;
-            var font = _uiContentStorage.GetCombatIndicatorFont();
-
-            var passIndicator = new SkipTextIndicator(textPosition, font);
-
-            unitGameObject.AddChild(passIndicator);
-        }
-
-        private void Combat_UnitReadyToControl(object? sender, CombatUnit e)
-        {
-            if (!e.Unit.IsPlayerControlled)
-            {
-                return;
-            }
-
-            if (_combatSkillsPanel is null)
-            {
-                return;
-            }
-
-            if (e.IsDead)
-            {
-                return;
-            }
-
-            var selectedUnit = e;
-
-            _combatSkillsPanel.IsEnabled = true;
-            _combatSkillsPanel.CombatUnit = selectedUnit;
-            _combatSkillsPanel.SelectedSkill = selectedUnit.CombatCards[0];
-            var unitGameObject = GetUnitGameObject(e);
-            unitGameObject.IsActive = true;
-        }
+        // private void Combat_UnitPassed(object? sender, CombatUnit e)
+        // {
+        //     var unitGameObject = GetUnitGameObject(e);
+        //     var textPosition = GetUnitGameObject(e).Position;
+        //     var font = _uiContentStorage.GetCombatIndicatorFont();
+        //
+        //     var passIndicator = new SkipTextIndicator(textPosition, font);
+        //
+        //     unitGameObject.AddChild(passIndicator);
+        // }
 
         private void CombatInitialize()
         {
-            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _combat);
-            _combatSkillsPanel.SkillSelected += CombatSkillsPanel_CardSelected;
-            _combat.ActiveCombatUnitChanged += Combat_UnitChanged;
-            _combat.CombatUnitIsReadyToControl += Combat_UnitReadyToControl;
-            _combat.CombatUnitEntered += Combat_UnitEntered;
-            _combat.CombatUnitRemoved += Combat_CombatUnitRemoved;
-            _combat.UnitDied += Combat_UnitDied;
-            _combat.ActionGenerated += Combat_ActionGenerated;
-            _combat.Finish += Combat_Finish;
-            _combat.UnitPassedTurn += Combat_UnitPassed;
-            _combat.Initialize(_args.StartHpItems);
+            _combatCore.CombatantHasBeenAdded += CombatCode_CombatantHasBeenAdded;
+            _combatCore.CombatantHasBeenDefeated += CombatCode_CombatantHasBeenDefeated;
+            _combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
+            _combatCore.CombatantStartsTurn += CombatCore_CombatantStartsTurn;
+            _combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;
+            _combatCore.CombatantHasBeenMoved += CombatCore_CombatantHasBeenMoved;
+            _combatCore.CombatFinished += CombatCore_CombatFinished;
 
-            _unitStatePanelController = new UnitStatePanelController(_combat,
+            // _combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
+            // _combatCore.CombatantHasBeenDefeated += CombatCore_CombatantHasBeenDefeated;
+            // _combatCore.CombatantStartsTurn += CombatCore_CombatantStartsTurn;
+            // _combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;
+            //
+            // _combatCore.ActiveCombatUnitChanged += Combat_UnitChanged;
+            // _combatCore.CombatUnitIsReadyToControl += Combat_UnitReadyToControl;
+            // _combatCore.CombatUnitRemoved += Combat_CombatUnitRemoved;
+            // _combatCore.UnitDied += Combat_UnitDied;
+            // _combatCore.ActionGenerated += Combat_ActionGenerated;
+            // _combatCore.Finish += Combat_Finish;
+            // _combatCore.UnitPassedTurn += Combat_UnitPassed;
+
+            _combatMovementsHandPanel = new CombatMovementsHandPanel(_uiContentStorage);
+            _combatMovementsHandPanel.CombatMovementPicked += CombatMovementsHandPanel_CombatMovementPicked;
+
+            _combatCore.Initialize(
+                CombatantFactory.CreateHeroes(_playerCombatantBehaviour),
+                CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(_animationManager, _combatMovementVisualizer, _gameObjects)));
+            
+            _unitStatePanelController = new UnitStatePanelController(_combatCore,
                 _uiContentStorage, _gameObjectContentStorage);
+        }
+
+        private void CombatCore_CombatantHasBeenMoved(object? sender, CombatantHasBeenMovedEventArgs e)
+        {
+            var newWorldPosition = _combatantPositionProvider.GetPosition(e.NewFieldCoords,
+                e.FieldSide == _combatCore.Field.HeroSide
+                    ? CombatantPositionSide.Heroes
+                    : CombatantPositionSide.Monsters);
+
+            var combatantGameObject = GetCombatantGameObject(e.Combatant);
+            combatantGameObject.MoveToFieldCoords(newWorldPosition);
         }
 
         private void CombatResultModal_Closed(object? sender, EventArgs e)
@@ -397,14 +450,11 @@ namespace Rpg.Client.GameScreens.Combat
                 var areAllCombatsWon = nextCombatIndex >= _args.CombatSequence.Combats.Count;
                 if (!areAllCombatsWon)
                 {
-                    var startHpItems = CreateStartHpList();
-
                     var combatScreenArgs = new CombatScreenTransitionArguments(_currentCampaign,
                         _args.CombatSequence,
                         nextCombatIndex,
                         _args.IsAutoplay,
                         _globeNode,
-                        startHpItems,
                         _args.VictoryDialogue);
 
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Combat, combatScreenArgs);
@@ -476,92 +526,23 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void CombatSkillsPanel_CardSelected(object? sender, CombatSkill? skillCard)
+        private void CombatMovementsHandPanel_CombatMovementPicked(object? sender, CombatMovementPickedEventArgs e)
         {
-            RefreshHudButtons(skillCard);
+            var intention = new UseCombatMovementIntention(e.CombatMovement, _animationManager, _combatMovementVisualizer, _gameObjects);
+
+            _playerCombatantBehaviour.Assign(intention);
         }
 
-        private void CombatUnit_Blocked(object? sender, EventArgs e)
+        
+
+        private void CombatCore_CombatantHasBeenDamaged(object? sender, CombatantDamagedEventArgs e)
         {
-            Debug.Assert(sender is not null);
-            var combatUnit = (CombatUnit)sender;
-            var unitGameObject = GetUnitGameObject(combatUnit);
-            var textPosition = GetUnitGameObject(combatUnit).Position;
-            var font = _uiContentStorage.GetCombatIndicatorFont();
-
-            var passIndicator = new BlockAnyDamageTextIndicator(textPosition, font);
-
-            unitGameObject.AddChild(passIndicator);
-        }
-
-        private void CombatUnit_HasAvoidedDamage(object? sender, EventArgs e)
-        {
-            Debug.Assert(sender is not null);
-            var combatUnit = (CombatUnit)sender;
-            var unitGameObject = GetUnitGameObject(combatUnit);
-            var textPosition = GetUnitGameObject(combatUnit).Position;
-            var font = _uiContentStorage.GetCombatIndicatorFont();
-
-            var passIndicator = new EvasionTextIndicator(textPosition, font);
-
-            unitGameObject.AddChild(passIndicator);
-        }
-
-        private void CombatUnit_HasBeenHitPointsRestored(object? sender, UnitStatChangedEventArgs e)
-        {
-            if (_gameSettings.IsRecordMode)
+            if (e.Combatant.IsDead)
             {
                 return;
             }
 
-            Debug.Assert(e.CombatUnit is not null);
-            var unitGameObject = GetUnitGameObject(e.CombatUnit);
-
-            var font = _uiContentStorage.GetCombatIndicatorFont();
-            var position = unitGameObject.Position;
-
-            var nextIndex = GetIndicatorNextIndex(unitGameObject);
-
-            var damageIndicator =
-                new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font, nextIndex ?? 0);
-
-            unitGameObject.AddChild(damageIndicator);
-        }
-
-        private void CombatUnit_HasBeenShieldPointsRestored(object? sender, UnitStatChangedEventArgs e)
-        {
-            if (_gameSettings.IsRecordMode)
-            {
-                return;
-            }
-
-            if (e.Amount > 0)
-            {
-                Debug.Assert(e.CombatUnit is not null);
-                var unitGameObject = GetUnitGameObject(e.CombatUnit);
-
-                var font = _uiContentStorage.GetCombatIndicatorFont();
-                var position = unitGameObject.Position;
-
-                var nextIndex = GetIndicatorNextIndex(unitGameObject);
-
-                var damageIndicator =
-                    new ShieldPointsChangedTextIndicator(e.Amount, e.Direction, position, font, nextIndex ?? 0);
-
-                unitGameObject.AddChild(damageIndicator);
-            }
-        }
-
-        private void CombatUnit_HasTakenHitPointsDamage(object? sender, UnitStatChangedEventArgs e)
-        {
-            Debug.Assert(e.CombatUnit is not null);
-
-            if (e.CombatUnit.IsDead)
-            {
-                return;
-            }
-
-            var unitGameObject = GetUnitGameObject(e.CombatUnit);
+            var unitGameObject = GetCombatantGameObject(e.Combatant);
 
             unitGameObject.AnimateWound();
 
@@ -570,39 +551,41 @@ namespace Rpg.Client.GameScreens.Combat
                 var font = _uiContentStorage.GetCombatIndicatorFont();
                 var position = unitGameObject.Position;
 
-                var nextIndex = GetIndicatorNextIndex(unitGameObject);
-
-                var damageIndicator =
-                    new HitPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
-
-                unitGameObject.AddChild(damageIndicator);
-            }
-        }
-
-        private void CombatUnit_HasTakenShieldPointsDamage(object? sender, UnitStatChangedEventArgs e)
-        {
-            Debug.Assert(e.CombatUnit is not null);
-
-            if (e.CombatUnit.IsDead)
-            {
-                return;
-            }
-
-            var unitGameObject = GetUnitGameObject(e.CombatUnit);
-
-            unitGameObject.AnimateWound();
-
-            if (!_gameSettings.IsRecordMode)
-            {
-                var font = _uiContentStorage.GetCombatIndicatorFont();
-                var position = unitGameObject.Position;
+                if (e.Value <= 0)
+                {
+                    var blockIndicator = new BlockAnyDamageTextIndicator(position, font);
+                    unitGameObject.AddChild(blockIndicator);
+                }
 
                 var nextIndex = GetIndicatorNextIndex(unitGameObject);
 
-                var damageIndicator =
-                    new ShieldPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
+                switch (e.StatType)
+                {
+                    case UnitStatType.HitPoints:
+                        var damageIndicator =
+                            new HitPointsChangedTextIndicator(-e.Value,
+                                HitPointsChangeDirection.Negative,
+                                position,
+                                font,
+                                nextIndex ?? 0);
 
-                unitGameObject.AddChild(damageIndicator);
+                        unitGameObject.AddChild(damageIndicator);
+
+                        unitGameObject.AnimateWound();
+
+                        break;
+
+                    case UnitStatType.ShieldPoints:
+                        var spIndicator =
+                            new ShieldPointsChangedTextIndicator(-e.Value,
+                                HitPointsChangeDirection.Negative,
+                                position,
+                                font,
+                                nextIndex ?? 0);
+
+                        unitGameObject.AddChild(spIndicator);
+                        break;
+                }
             }
         }
 
@@ -626,37 +609,11 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private global::Client.Core.Combat CreateCombat(CombatSource combatSource, bool isAutoplay,
-            GlobeNode combatLocation)
+        private CombatCore CreateCombat()
         {
-            return new global::Client.Core.Combat(_globe.Player.Party,
-                combatLocation,
-                combatSource,
-                _dice,
-                isAutoplay);
+            return new CombatCore(_dice);
         }
-
-        private IReadOnlyCollection<HeroHp> CreateStartHpList()
-        {
-            var list = new List<HeroHp>();
-
-            var heroes = _globe.Player.Party.Slots.Where(x => x.Unit is not null).Select(x => x.Unit!);
-            foreach (var hero in heroes)
-            {
-                var combatUnit = _combat.AliveUnits.OfType<CombatUnit>().SingleOrDefault(x => x.Unit == hero);
-                if (combatUnit is null)
-                {
-                    list.Add(new HeroHp(0, hero.UnitScheme.Name));
-                }
-                else
-                {
-                    var currentHp = combatUnit.HitPoints.Current;
-                    list.Add(new HeroHp(currentHp, hero.UnitScheme.Name));
-                }
-            }
-
-            return list;
-        }
+        
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds,
             int backgroundStartOffsetX,
@@ -743,22 +700,22 @@ namespace Rpg.Client.GameScreens.Combat
                     position, Color.White);
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                    string.Format(UiResource.MonsterDangerTemplate, _combat.CombatSource.Level),
+                    string.Format(UiResource.MonsterDangerTemplate, 1),
                     position + new Vector2(0, 10), Color.White);
             }
         }
 
         private void DrawCombatSkillsPanel(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
-            if (_combatSkillsPanel is not null)
+            if (_combatMovementsHandPanel is not null)
             {
                 const int COMBAT_SKILLS_PANEL_WIDTH = 480;
                 const int COMBAT_SKILLS_PANEL_HEIGHT = 64;
-                _combatSkillsPanel.Rect = new Rectangle(
+                _combatMovementsHandPanel.Rect = new Rectangle(
                     contentRectangle.Center.X - COMBAT_SKILLS_PANEL_WIDTH / 2,
                     contentRectangle.Bottom - COMBAT_SKILLS_PANEL_HEIGHT,
                     COMBAT_SKILLS_PANEL_WIDTH, COMBAT_SKILLS_PANEL_HEIGHT);
-                _combatSkillsPanel.Draw(spriteBatch);
+                _combatMovementsHandPanel.Draw(spriteBatch);
             }
         }
 
@@ -862,10 +819,25 @@ namespace Rpg.Client.GameScreens.Combat
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
 
-            if (_combat.CurrentUnit?.Unit.IsPlayerControlled == true && !_animationManager.HasBlockers)
+            if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled == true && !_animationManager.HasBlockers)
             {
                 DrawCombatSkillsPanel(spriteBatch, contentRectangle);
-                DrawInteractionButtons(spriteBatch);
+
+                if (_combatCore.CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Current > 0)
+                {
+                    for (var columnIndex = 0; columnIndex < _combatCore.Field.HeroSide.ColumnCount; columnIndex++)
+                    {
+                        for (var lineIndex = 0; lineIndex < _combatCore.Field.HeroSide.LineCount; lineIndex++)
+                        {
+                            var maneuverButton = _maneuverButtons[columnIndex, lineIndex];
+
+                            var position = _combatantPositionProvider.GetPosition(maneuverButton.FieldCoords, CombatantPositionSide.Heroes);
+
+                            maneuverButton.Rect = new Rectangle((int)position.X - 20, (int)position.Y - 20, 40, 40);
+                            maneuverButton.Draw(spriteBatch);
+                        }
+                    }
+                }
             }
 
             try
@@ -879,14 +851,6 @@ namespace Rpg.Client.GameScreens.Combat
             }
 
             spriteBatch.End();
-        }
-
-        private void DrawInteractionButtons(SpriteBatch spriteBatch)
-        {
-            foreach (var button in _interactionButtons)
-            {
-                button.Draw(spriteBatch);
-            }
         }
 
         private void DrawUnits(SpriteBatch spriteBatch)
@@ -909,25 +873,19 @@ namespace Rpg.Client.GameScreens.Combat
             _unitStatePanelController?.Draw(spriteBatch, contentRectangle);
         }
 
-        private void DropSelection(ICombatUnit? combatUnit)
+        private void DropSelection(Combatant combatant)
         {
-            if (combatUnit is null || combatUnit.IsDead)
-            {
-                // There is no game object of this unit in the scene.
-                return;
-            }
-
-            var oldCombatUnitGameObject = GetUnitGameObject(combatUnit);
+            var oldCombatUnitGameObject = GetCombatantGameObject(combatant);
             oldCombatUnitGameObject.IsActive = false;
         }
 
         private void EscapeButton_OnClick(object? sender, EventArgs e)
         {
-            _combat.Surrender();
+            //_combatCore.Surrender();
             _combatFinishedVictory = false;
         }
 
-        private static int? GetIndicatorNextIndex(UnitGameObject unitGameObject)
+        private static int? GetIndicatorNextIndex(CombatantGameObject unitGameObject)
         {
             var currentIndex = unitGameObject.GetCurrentIndicatorIndex();
             var nextIndex = currentIndex + 1;
@@ -941,9 +899,9 @@ namespace Rpg.Client.GameScreens.Combat
             return 0;
         }
 
-        private UnitGameObject GetUnitGameObject(ICombatUnit combatUnit)
+        private CombatantGameObject GetCombatantGameObject(Combatant combatant)
         {
-            return _gameObjects.First(x => x.CombatUnit == combatUnit);
+            return _gameObjects.First(x => x.Combatant == combatant);
         }
 
         private void HandleBackgrounds()
@@ -975,19 +933,26 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void HandleCombatHud()
+        private void UpdateCombatHud()
         {
-            if (!_interactButtonClicked)
+            //if (!_interactButtonClicked)
             {
-                var skillButtonFixedList = _interactionButtons.ToArray();
-                foreach (var button in skillButtonFixedList)
-                {
-                    button.Update(ResolutionIndependentRenderer);
-                }
-
-                _combatSkillsPanel?.Update(ResolutionIndependentRenderer);
+                _combatMovementsHandPanel?.Update(ResolutionIndependentRenderer);
 
                 _unitStatePanelController?.Update(ResolutionIndependentRenderer);
+            }
+
+            if (_combatCore.CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Current > 0)
+            {
+                for (var columnIndex = 0; columnIndex < _combatCore.Field.HeroSide.ColumnCount; columnIndex++)
+                {
+                    for (var lineIndex = 0; lineIndex < _combatCore.Field.HeroSide.LineCount; lineIndex++)
+                    {
+                        var maneuverButton = _maneuverButtons[columnIndex, lineIndex];
+
+                        maneuverButton.Update(ResolutionIndependentRenderer);
+                    }
+                }
             }
         }
 
@@ -1036,39 +1001,6 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void InitHudButton(UnitGameObject target, CombatSkill skillCard)
-        {
-            var buttonPosition = target.Position - new Vector2(64, 64);
-            var interactButton = new UnitButton(target, _gameObjectContentStorage)
-            {
-                Rect = new Rectangle(buttonPosition.ToPoint(), new Point(128, 64))
-            };
-
-            interactButton.OnClick += (_, _) =>
-            {
-                if (_interactButtonClicked)
-                {
-                    return;
-                }
-
-                _interactionButtons.Clear();
-                _interactButtonClicked = true;
-                _combat.UseSkill(skillCard, target.CombatUnit);
-            };
-
-            interactButton.OnHover += (_, _) =>
-            {
-                target.Graphics.OutlineMode = OutlineMode.SelectedEnemyTarget;
-            };
-
-            interactButton.OnLeave += (_, _) =>
-            {
-                target.Graphics.OutlineMode = OutlineMode.None;
-            };
-
-            _interactionButtons.Add(interactButton);
-        }
-
         private static float NormalizePercentage(float value)
         {
             return value switch
@@ -1077,94 +1009,6 @@ namespace Rpg.Client.GameScreens.Combat
                 > 1 => 1,
                 _ => value
             };
-        }
-
-        private void RefreshHudButtons(CombatSkill? skillCard)
-        {
-            _interactButtonClicked = false;
-            _interactionButtons.Clear();
-
-            if (skillCard is null)
-            {
-                return;
-            }
-
-            if (_combat.CurrentUnit is null)
-            {
-                Debug.Fail("WTF!");
-                return;
-            }
-
-            var availableTargetGameObjects = _gameObjects.Where(x => !x.CombatUnit.IsDead);
-            foreach (var target in availableTargetGameObjects)
-            {
-                if (skillCard.Skill.TargetType == SkillTargetType.Self)
-                {
-                    if (target.CombatUnit.Unit != _combat.CurrentUnit.Unit)
-                    {
-                        continue;
-                    }
-
-                    InitHudButton(target, skillCard);
-                }
-                else if (skillCard.Skill.TargetType == SkillTargetType.Enemy)
-                {
-                    if (skillCard.Skill.Type == SkillType.Melee)
-                    {
-                        var isTargetInTankPosition = target.CombatUnit.IsInTankLine;
-                        if (isTargetInTankPosition)
-                        {
-                            if (skillCard.Skill.TargetType == SkillTargetType.Enemy
-                                && target.CombatUnit.Unit.IsPlayerControlled ==
-                                _combat.CurrentUnit.Unit.IsPlayerControlled)
-                            {
-                                continue;
-                            }
-
-                            InitHudButton(target, skillCard);
-                        }
-                        else
-                        {
-                            var isAnyUnitsInTaskPosition = _gameObjects.Where(x =>
-                                    !x.CombatUnit.IsDead && !x.CombatUnit.Unit.IsPlayerControlled &&
-                                    x.CombatUnit.IsInTankLine)
-                                .Any();
-
-                            if (!isAnyUnitsInTaskPosition)
-                            {
-                                if (skillCard.Skill.TargetType == SkillTargetType.Enemy
-                                    && target.CombatUnit.Unit.IsPlayerControlled ==
-                                    _combat.CurrentUnit.Unit.IsPlayerControlled)
-                                {
-                                    continue;
-                                }
-
-                                InitHudButton(target, skillCard);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (skillCard.Skill.TargetType == SkillTargetType.Enemy
-                            && target.CombatUnit.Unit.IsPlayerControlled == _combat.CurrentUnit.Unit.IsPlayerControlled)
-                        {
-                            continue;
-                        }
-
-                        InitHudButton(target, skillCard);
-                    }
-                }
-                else
-                {
-                    if (skillCard.Skill.TargetType == SkillTargetType.Friendly
-                        && target.CombatUnit.Unit.IsPlayerControlled != _combat.CurrentUnit.Unit.IsPlayerControlled)
-                    {
-                        continue;
-                    }
-
-                    InitHudButton(target, skillCard);
-                }
-            }
         }
 
         private void RestoreGroupAfterCombat()
@@ -1182,11 +1026,10 @@ namespace Rpg.Client.GameScreens.Combat
 
             if (isVictory)
             {
-                var completedCombats = _globeNode.AssignedCombats.CompletedCombats;
-                completedCombats.Add(_combat.CombatSource);
+                var completedCombats = new List<CombatSource>() { _args.CombatSequence.Combats.First() };
 
-                var currentCombatList = _combat.Node.AssignedCombats.Combats.ToList();
-                if (completedCombats.Count >= currentCombatList.Count)
+                var isAllCombatSequenceComplete = true;
+                if (isAllCombatSequenceComplete)
                 {
                     // End the combat sequence
                     var rewardItems = CalculateRewardGaining(completedCombats, _globeNode,

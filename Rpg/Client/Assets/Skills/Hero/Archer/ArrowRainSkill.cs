@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using JetBrains.Annotations;
 
 using Rpg.Client.Assets.States.HeroSpecific;
@@ -38,9 +40,9 @@ namespace Rpg.Client.Assets.Skills.Hero.Archer
             IconOneBasedIndex = 7
         };
 
-        public override IUnitStateEngine CreateState(
-            UnitGameObject animatedUnitGameObject,
-            UnitGameObject targetUnitGameObject,
+        public override IActorVisualizationState CreateState(
+            CombatantGameObject animatedUnitGameObject,
+            CombatantGameObject targetUnitGameObject,
             AnimationBlocker mainStateBlocker,
             ISkillVisualizationContext context)
         {

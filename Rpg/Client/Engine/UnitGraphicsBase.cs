@@ -34,7 +34,7 @@ namespace Rpg.Client.Engine
 
         private Sprite[] _sprites;
 
-        public UnitGraphicsBase(Unit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
+        public UnitGraphicsBase(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig, bool isNormalOrientation, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
         {
             _position = position;
             _gameObjectContentStorage = gameObjectContentStorage;
@@ -45,8 +45,8 @@ namespace Rpg.Client.Engine
                 SourceRectangle = new Rectangle(0, 0, 128, 32)
             };
 
-            _predefinedAnimationFrameSets = unit.UnitScheme.UnitGraphicsConfig.GetPredefinedAnimations();
-            InitializeSprites(unit.UnitScheme, unit.IsPlayerControlled);
+            _predefinedAnimationFrameSets = graphicsConfig.GetPredefinedAnimations();
+            InitializeSprites(spriteSheetId, isNormalOrientation);
 
             PlayAnimation(PredefinedAnimationSid.Idle);
         }
@@ -85,9 +85,9 @@ namespace Rpg.Client.Engine
             PlayAnimation(animation);
         }
 
-        public void SwitchSourceUnit(Unit unit)
+        public void SwitchSourceUnit(UnitName spriteSheetId, bool isNormalOriented)
         {
-            InitializeSprites(unit.UnitScheme, unit.IsPlayerControlled);
+            InitializeSprites(spriteSheetId, isNormalOriented);
         }
 
         public void Update(GameTime gameTime)
@@ -102,7 +102,7 @@ namespace Rpg.Client.Engine
             }
         }
 
-        protected void InitializeSprites(UnitScheme unitScheme, bool isPlayerSide)
+        protected void InitializeSprites(UnitName spriteSheetId, bool isPlayerSide)
         {
             if (Root is not null)
             {
@@ -124,12 +124,12 @@ namespace Rpg.Client.Engine
 
             Root.AddChild(_selectedMarker);
 
-            _graphics = CreateSprite(unitScheme, Vector2.Zero, Color.White);
+            _graphics = CreateSprite(spriteSheetId, Vector2.Zero, Color.White);
 
             var outlineCount = 4;
             var outlineLength = 2;
             _outlines = Enumerable.Range(0, outlineCount).Select(x => CreateSprite(
-                unitScheme,
+                spriteSheetId,
                 new Vector2((float)Math.Cos(Math.PI * 2 / outlineCount * x),
                     (float)Math.Sin(Math.PI * 2 / outlineCount * x)) * outlineLength,
                 Color.Red)
@@ -150,9 +150,9 @@ namespace Rpg.Client.Engine
             _sprites = sprites.ToArray();
         }
 
-        private Sprite CreateSprite(UnitScheme unitScheme, Vector2 offset, Color baseColor)
+        private Sprite CreateSprite(UnitName spriteSheetId, Vector2 offset, Color baseColor)
         {
-            return new Sprite(_gameObjectContentStorage.GetUnitGraphics(unitScheme.Name))
+            return new Sprite(_gameObjectContentStorage.GetUnitGraphics(spriteSheetId))
             {
                 Origin = new Vector2(0.5f, 0.875f),
                 SourceRectangle = new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT),

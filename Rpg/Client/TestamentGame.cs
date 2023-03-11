@@ -2,6 +2,7 @@
 using System.Diagnostics;
 
 using Client.Assets.Catalogs;
+using Client.Assets.CombatMovements;
 using Client.Core;
 using Client.Core.Dialogues;
 using Client.Engine;
@@ -291,8 +292,6 @@ public sealed class TestamentGame : Game
             Services.GetRequiredService<IJobProgressResolver>());
         Services.AddService<ICampaignGenerator>(campaignGenerator);
 
-        Services.AddService(new AnimationManager());
-
         Services.AddService(_graphics);
 
         var soundtrackManager = new SoundtrackManager(_gameSettings);
@@ -305,5 +304,11 @@ public sealed class TestamentGame : Game
 
         var dialogEnvManager = new DialogueEnvironmentManager(soundtrackManager);
         Services.AddService<IDialogueEnvironmentManager>(dialogEnvManager);
+
+        var unitGraphicsCatalog = new UnitGraphicsCatalog(gameObjectsContentStorage);
+        Services.AddService<IUnitGraphicsCatalog>(unitGraphicsCatalog);
+
+        var movementVisualizer = new CombatMovementVisualizer();
+        Services.AddService<ICombatMovementVisualizer>(movementVisualizer);
     }
 }

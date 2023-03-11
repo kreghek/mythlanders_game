@@ -115,7 +115,7 @@ public class SwordsmanFartory
             foreach (var movement in movementPool)
                 heroSequence.Items.Add(movement);
 
-        var hero = new Combatant(heroSequence)
+        var hero = new Combatant("swordsman", heroSequence, new BotCombatActorBehaviour())
         {
             Sid = sid,
             IsPlayerControlled = true

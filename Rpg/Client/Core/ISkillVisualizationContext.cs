@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Core.Dices;
 
 using Microsoft.Xna.Framework.Audio;
@@ -30,7 +32,7 @@ namespace Rpg.Client.Core
 
         AnimationBlocker AddAnimationBlocker();
 
-        UnitGameObject GetGameObject(ICombatUnit combatUnit);
+        CombatantGameObject GetGameObject(ICombatUnit combatUnit);
 
         SoundEffectInstance GetSoundEffect(GameObjectSoundType soundType);
     }

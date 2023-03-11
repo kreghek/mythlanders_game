@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
@@ -7,7 +9,7 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States
 {
-    internal sealed class MassHitState : IUnitStateEngine
+    internal sealed class MassHitState : IActorVisualizationState
     {
         private const double DURATION = 1;
         private readonly PredefinedAnimationSid _animationSid;

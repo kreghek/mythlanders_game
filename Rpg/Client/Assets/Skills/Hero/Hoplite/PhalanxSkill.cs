@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client;
+using Client.GameScreens.Combat.GameObjects;
 
 using Rpg.Client.Assets.TargetSelectors;
 using Rpg.Client.Core;
@@ -45,10 +46,10 @@ namespace Rpg.Client.Assets.Skills.Hero.Hoplite
             AnimationSid = PredefinedAnimationSid.Skill2
         };
 
-        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject,
-            UnitGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
+        public override IActorVisualizationState CreateState(CombatantGameObject animatedUnitGameObject,
+            CombatantGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
         {
-            animatedUnitGameObject.CombatUnit.ChangeState(CombatUnitState.Defense);
+            animatedUnitGameObject.ChangeState(CombatUnitState.Defense);
             return base.CreateState(animatedUnitGameObject, targetUnitGameObject, mainStateBlocker, context);
         }
 

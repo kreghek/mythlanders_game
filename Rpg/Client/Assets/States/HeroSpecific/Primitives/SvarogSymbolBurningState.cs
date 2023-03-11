@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Client.GameScreens.Combat.GameObjects;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Assets.InteractionDeliveryObjects;
@@ -8,7 +10,7 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.HeroSpecific.Primitives
 {
-    internal sealed class SvarogSymbolBurningState : IUnitStateEngine
+    internal sealed class SvarogSymbolBurningState : IActorVisualizationState
     {
         private const double STATE_DURATION_SECONDS = 3f;
         private const double SHAKEING_DURATION_SECONDS = STATE_DURATION_SECONDS;

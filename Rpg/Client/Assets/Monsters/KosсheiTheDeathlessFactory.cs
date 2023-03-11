@@ -7,12 +7,15 @@ using Rpg.Client.Assets.Skills.Hero.Herbalist;
 using Rpg.Client.Assets.Skills.Hero.Swordsman;
 using Rpg.Client.Assets.Skills.Monster;
 using Rpg.Client.Core;
+using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Monsters
 {
     [UsedImplicitly]
     internal sealed class KosсheiTheDeathlessFactory : IMonsterFactory
     {
+        public UnitName ClassName => UnitName.KosheyTheImmortal;
+
         public UnitScheme Create(IBalanceTable balanceTable)
         {
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
@@ -84,6 +87,11 @@ namespace Rpg.Client.Assets.Monsters
                     }
                 }
             };
+        }
+
+        public UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
+        {
+            return new SingleSpriteGraphicsConfig();
         }
     }
 }

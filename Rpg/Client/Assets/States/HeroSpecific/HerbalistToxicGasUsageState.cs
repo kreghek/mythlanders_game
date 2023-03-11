@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
@@ -12,15 +14,15 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.HeroSpecific
 {
-    internal sealed class HerbalistToxicGasUsageState : IUnitStateEngine
+    internal sealed class HerbalistToxicGasUsageState : IActorVisualizationState
     {
         private readonly CommonDistantSkillUsageState _innerState;
         private readonly AnimationBlocker _toxicGasAnimationBlocker;
 
         private bool _completionHandled;
 
-        public HerbalistToxicGasUsageState(UnitGameObject actorGameObject,
-            UnitGameObject targetUnitGameObject,
+        public HerbalistToxicGasUsageState(CombatantGameObject actorGameObject,
+            CombatantGameObject targetUnitGameObject,
             AnimationBlocker mainStateBlocker,
             SkillExecution interaction,
             SoundEffectInstance skillUsageSound,
@@ -28,23 +30,25 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             IAnimationManager animationManager,
             IList<IInteractionDelivery> interactionDeliveryList)
         {
-            var animationBlocker = animationManager.CreateAndUseBlocker();
-            _toxicGasAnimationBlocker = animationManager.CreateAndUseBlocker();
+            //var animationBlocker = animationManager.CreateAndRegisterBlocker();
+            //_toxicGasAnimationBlocker = animationManager.CreateAndRegisterBlocker();
 
-            var toxicGasInteractionDelivery = new GasBomb(actorGameObject.LaunchPoint,
-                targetUnitGameObject.InteractionPoint,
-                gameObjectContentStorage, _toxicGasAnimationBlocker);
+            //var toxicGasInteractionDelivery = new GasBomb(actorGameObject.LaunchPoint,
+            //    targetUnitGameObject.InteractionPoint,
+            //    gameObjectContentStorage, _toxicGasAnimationBlocker);
 
-            StateHelper.HandleStateWithInteractionDelivery(interaction.SkillRuleInteractions, mainStateBlocker,
-                _toxicGasAnimationBlocker, animationBlocker);
+            //StateHelper.HandleStateWithInteractionDelivery(interaction.SkillRuleInteractions, mainStateBlocker,
+            //    _toxicGasAnimationBlocker, animationBlocker);
 
-            _innerState = new CommonDistantSkillUsageState(
-                graphics: actorGameObject.Graphics,
-                mainStateBlocker: animationBlocker,
-                interactionDelivery: new[] { toxicGasInteractionDelivery },
-                interactionDeliveryList: interactionDeliveryList,
-                createProjectileSound: skillUsageSound,
-                animationSid: PredefinedAnimationSid.Skill2);
+            //_innerState = new CommonDistantSkillUsageState(
+            //    graphics: actorGameObject.Graphics,
+            //    mainStateBlocker: animationBlocker,
+            //    interactionDelivery: new[] { toxicGasInteractionDelivery },
+            //    interactionDeliveryList: interactionDeliveryList,
+            //    createProjectileSound: skillUsageSound,
+            //    animationSid: PredefinedAnimationSid.Skill2);
+
+            throw new System.Exception();
         }
 
         public bool CanBeReplaced => false;

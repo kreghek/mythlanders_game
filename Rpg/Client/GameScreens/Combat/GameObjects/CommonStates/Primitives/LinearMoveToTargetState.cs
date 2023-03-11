@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
@@ -7,7 +9,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives
 {
-    internal class LinearMoveToTargetState : IUnitStateEngine
+    internal class LinearMoveToTargetState : IActorVisualizationState
     {
         private const double DURATION_SECONDS = 0.25;
         private readonly IAnimationFrameSet? _animation;

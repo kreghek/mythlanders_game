@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
@@ -13,13 +15,13 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.HeroSpecific
 {
-    internal sealed class SvarogFurnaceBlastUsageState : IUnitStateEngine
+    internal sealed class SvarogFurnaceBlastUsageState : IActorVisualizationState
     {
-        private readonly IUnitStateEngine[] _subStates;
+        private readonly IActorVisualizationState[] _subStates;
         private readonly AnimationBlocker _svarogSymbolAnimationBlocker;
         private int _subStateIndex;
 
-        public SvarogFurnaceBlastUsageState(UnitGameObject actorGameObject,
+        public SvarogFurnaceBlastUsageState(CombatantGameObject actorGameObject,
             AnimationBlocker mainAnimationBlocker,
             SkillExecution interaction,
             IList<IInteractionDelivery> interactionDeliveryList,
@@ -31,36 +33,38 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             SoundEffectInstance fireDamageSoundEffect,
             ScreenShaker screenShaker)
         {
-            _svarogSymbolAnimationBlocker = animationManager.CreateAndUseBlocker();
+            //_svarogSymbolAnimationBlocker = animationManager.CreateAndRegisterBlocker();
 
-            void FullInteractionAction()
-            {
-                foreach (var ruleInteraction in interaction.SkillRuleInteractions)
-                {
-                    foreach (var target in ruleInteraction.Targets)
-                    {
-                        ruleInteraction.Action(target);
-                    }
-                }
-            }
+            //void FullInteractionAction()
+            //{
+            //    foreach (var ruleInteraction in interaction.SkillRuleInteractions)
+            //    {
+            //        foreach (var target in ruleInteraction.Targets)
+            //        {
+            //            ruleInteraction.Action(target);
+            //        }
+            //    }
+            //}
 
-            var svarogSymbol = new SvarogSymbolObject(actorGameObject.Position - Vector2.UnitY * (128),
-                gameObjectContentStorage, _svarogSymbolAnimationBlocker, FullInteractionAction);
+            //var svarogSymbol = new SvarogSymbolObject(actorGameObject.Position - Vector2.UnitY * (128),
+            //    gameObjectContentStorage, _svarogSymbolAnimationBlocker, FullInteractionAction);
 
-            _svarogSymbolAnimationBlocker.Released += (_, _) =>
-            {
-                mainAnimationBlocker.Release();
-            };
+            //_svarogSymbolAnimationBlocker.Released += (_, _) =>
+            //{
+            //    mainAnimationBlocker.Release();
+            //};
 
-            _subStates = new IUnitStateEngine[]
-            {
-                new SvarogSymbolAppearingState(actorGameObject.Graphics, svarogSymbol, interactionDeliveryList,
-                    symbolAppearingSoundEffect),
-                new SvarogSymbolBurningState(actorGameObject.Graphics, svarogSymbol, screenShaker,
-                    risingPowerSoundEffect),
-                new SvarogSymbolExplosionState(actorGameObject.Graphics, _svarogSymbolAnimationBlocker,
-                    explosionSoundEffect, fireDamageSoundEffect, svarogSymbol)
-            };
+            //_subStates = new IActorVisualizationState[]
+            //{
+            //    new SvarogSymbolAppearingState(actorGameObject.Graphics, svarogSymbol, interactionDeliveryList,
+            //        symbolAppearingSoundEffect),
+            //    new SvarogSymbolBurningState(actorGameObject.Graphics, svarogSymbol, screenShaker,
+            //        risingPowerSoundEffect),
+            //    new SvarogSymbolExplosionState(actorGameObject.Graphics, _svarogSymbolAnimationBlocker,
+            //        explosionSoundEffect, fireDamageSoundEffect, svarogSymbol)
+            //};
+
+            throw new System.Exception();
         }
 
         public bool CanBeReplaced => false;

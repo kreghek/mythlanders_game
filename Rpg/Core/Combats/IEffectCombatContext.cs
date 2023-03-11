@@ -8,4 +8,6 @@ public interface IEffectCombatContext
     CombatField Field { get; }
 
     void NotifyCombatantDamaged(Combatant combatant, UnitStatType statType, int value);
+    
+    void NotifySwapFieldPosition(Combatant combatant, FieldCoords sourceCoords, CombatFieldSide sourceFieldSide, FieldCoords destinationCoords, CombatFieldSide destinationFieldSide);
 }

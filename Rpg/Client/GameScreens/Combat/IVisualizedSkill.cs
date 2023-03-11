@@ -1,3 +1,5 @@
+using Client.GameScreens.Combat.GameObjects;
+
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
@@ -9,10 +11,10 @@ namespace Rpg.Client.GameScreens.Combat
     {
         SkillVisualization Visualization { get; }
 
-        IUnitStateEngine CreateState(
-            UnitGameObject animatedUnitGameObject,
-            UnitGameObject targetUnitGameObject,
-            AnimationBlocker mainAnimationBlocker,
+        IActorVisualizationState CreateState(
+            CombatantGameObject animatedUnitGameObject,
+            CombatantGameObject targetUnitGameObject,
+            IAnimationBlocker mainAnimationBlocker,
             ISkillVisualizationContext context);
     }
 }

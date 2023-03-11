@@ -1,12 +1,13 @@
-using Client.Core.Skills;
+using Core.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
+using ITargetSelector = Client.Core.Skills.ITargetSelector;
+
+namespace Client.GameScreens.Common.SkillEffectDrawers;
+
+internal interface ISkillEffectDrawer
 {
-    internal interface ISkillEffectDrawer
-    {
-        bool Draw(SpriteBatch spriteBatch, object effectToDisplay, ITargetSelector direction, Vector2 position);
-    }
+    bool Draw(SpriteBatch spriteBatch, IEffectInstance movementEffect, Vector2 drawingPosition);
 }

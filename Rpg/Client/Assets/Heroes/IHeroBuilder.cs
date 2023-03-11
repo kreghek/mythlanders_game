@@ -1,11 +1,13 @@
+using Rpg.Client.Assets;
 using Rpg.Client.Core;
+using Rpg.Client.GameScreens;
 
-namespace Rpg.Client.Assets.Heroes
+namespace Client.Assets.Heroes;
+
+internal interface IHeroFactory
 {
-    internal interface IHeroFactory
-    {
-        UnitName HeroName { get; }
-        bool IsReleaseReady { get; }
-        UnitScheme Create(IBalanceTable balanceTable);
-    }
+    UnitName HeroName { get; }
+    bool IsReleaseReady { get; }
+    UnitScheme Create(IBalanceTable balanceTable);
+    UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage);
 }

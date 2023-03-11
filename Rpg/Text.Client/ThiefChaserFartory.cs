@@ -119,7 +119,7 @@ public class ThiefChaserFactory
             foreach (var movement in rolledSequence)
                 monsterSequence.Items.Add(movement);
 
-        var monster = new Combatant(monsterSequence)
+        var monster = new Combatant("Chaser", monsterSequence, new BotCombatActorBehaviour())
         {
             Sid = sid,
             IsPlayerControlled = false

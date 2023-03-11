@@ -1,5 +1,9 @@
 ﻿using System.Linq;
 
+using Client.GameScreens.Common.SkillEffectDrawers;
+
+using Core.Combats;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -12,10 +16,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 {
     internal class EffectHint : HintBase
     {
-        private readonly EffectBase _effect;
+        private readonly ICombatantEffect _effect;
         private readonly ISkillEffectDrawer[] _effectDrawers;
 
-        public EffectHint(EffectBase effect)
+        public EffectHint(ICombatantEffect effect)
         {
             var font = UiThemeManager.UiContentStorage.GetMainFont();
             _effect = effect;
@@ -31,10 +35,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             foreach (var effectDrawer in _effectDrawers)
             {
-                if (effectDrawer.Draw(spriteBatch, _effect, SkillDirection.Self, clientRect.Location.ToVector2()))
-                {
-                    break;
-                }
+                //if (effectDrawer.Draw(spriteBatch, _effect, clientRect.Location.ToVector2()))
+                //{
+                //    break;
+                //}
             }
         }
     }

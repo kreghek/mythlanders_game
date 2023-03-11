@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Rpg.Client.Assets.States.HeroSpecific;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
@@ -41,9 +43,9 @@ namespace Rpg.Client.Assets.Skills.Hero.Monk
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
 
-        public override IUnitStateEngine CreateState(
-            UnitGameObject animatedUnitGameObject,
-            UnitGameObject targetUnitGameObject,
+        public override IActorVisualizationState CreateState(
+            CombatantGameObject animatedUnitGameObject,
+            CombatantGameObject targetUnitGameObject,
             AnimationBlocker mainAnimationBlocker,
             ISkillVisualizationContext context)
         {

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
@@ -13,7 +15,7 @@ namespace Rpg.Client.Assets.States.Primitives
     /// <summary>
     /// The state starts to play a animation and creates a projectile.
     /// </summary>
-    internal sealed class LaunchInteractionDeliveryState : IUnitStateEngine
+    internal sealed class LaunchInteractionDeliveryState : IActorVisualizationState
     {
         private const double DEFAULT_DURATION_SECONDS = 1;
 

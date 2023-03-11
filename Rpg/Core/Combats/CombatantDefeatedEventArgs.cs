@@ -30,3 +30,34 @@ public sealed class CombatantTurnStartedEventArgs : CombatantEventArgsBase
     {
     }
 }
+
+public sealed record CombatFieldInfo(CombatFieldSide FieldSide, FieldCoords CombatantCoords);
+
+public sealed class CombatantHasBeenAddedEventArgs : CombatantEventArgsBase
+{
+    public CombatFieldInfo FieldInfo { get; }
+
+    public CombatantHasBeenAddedEventArgs(Combatant combatant, CombatFieldInfo fieldInfo) : base(combatant)
+    {
+        FieldInfo = fieldInfo;
+    }
+}
+
+public sealed class CombatantShiftShapedEventArgs: CombatantEventArgsBase
+{
+    public CombatantShiftShapedEventArgs(Combatant combatant) : base(combatant)
+    {
+    }
+}
+
+public sealed class CombatantHasBeenMovedEventArgs: CombatantEventArgsBase
+{
+    public CombatFieldSide FieldSide { get; }
+    public FieldCoords NewFieldCoords { get; }
+
+    public CombatantHasBeenMovedEventArgs(Combatant combatant, CombatFieldSide fieldSide, FieldCoords newFieldCoords) : base(combatant)
+    {
+        FieldSide = fieldSide;
+        NewFieldCoords = newFieldCoords;
+    }
+}

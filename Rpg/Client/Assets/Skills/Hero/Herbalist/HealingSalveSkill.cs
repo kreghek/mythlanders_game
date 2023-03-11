@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Client.Core.SkillEffects;
+using Client.GameScreens.Combat.GameObjects;
 
 using Rpg.Client.Assets.States.HeroSpecific;
 using Rpg.Client.Core;
@@ -50,17 +51,19 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
             IconOneBasedIndex = 9
         };
 
-        public override IUnitStateEngine CreateState(
-            UnitGameObject animatedUnitGameObject,
-            UnitGameObject targetUnitGameObject,
+        public override IActorVisualizationState CreateState(
+            CombatantGameObject animatedUnitGameObject,
+            CombatantGameObject targetUnitGameObject,
             AnimationBlocker mainAnimationBlocker,
             ISkillVisualizationContext context)
         {
-            var state = new HerbalistHealingSalveUsageState(animatedUnitGameObject.Graphics, targetUnitGameObject,
-                mainAnimationBlocker, context.Interaction, context.GetSoundEffect(GameObjectSoundType.Heal),
-                context.GameObjectContentStorage, context.AnimationManager, context.InteractionDeliveryManager);
+            //var state = new HerbalistHealingSalveUsageState(animatedUnitGameObject.Graphics, targetUnitGameObject,
+            //    mainAnimationBlocker, context.Interaction, context.GetSoundEffect(GameObjectSoundType.Heal),
+            //    context.GameObjectContentStorage, context.AnimationManager, context.InteractionDeliveryManager);
 
-            return state;
+            //return state;
+
+            throw new System.Exception();
         }
     }
 }

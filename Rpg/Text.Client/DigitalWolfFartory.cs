@@ -71,7 +71,7 @@ public class DigitalWolfFactory
             foreach (var combatMovement in list)
                 monsterSequence.Items.Add(combatMovement);
 
-        var monster = new Combatant(monsterSequence)
+        var monster = new Combatant("Digital wolf", monsterSequence, new BotCombatActorBehaviour())
         {
             Sid = sid,
             IsPlayerControlled = false

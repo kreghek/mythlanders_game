@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
-    public interface IUnitStateEngine
+    public interface IActorVisualizationState
     {
         bool CanBeReplaced { get; }
         bool IsComplete { get; }

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Core.Dices;
 
 using Microsoft.Xna.Framework;
@@ -14,16 +16,16 @@ using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 
 namespace Rpg.Client.Assets.States.HeroSpecific
 {
-    internal class ArrowRainUsageState : IUnitStateEngine
+    internal class ArrowRainUsageState : IActorVisualizationState
     {
         private const int TOTAL_ARROW_COUNT = 10;
         private const float BASE_ARROW_LIFETIME_DURATION = 3f;
         private const float BASE_OFFSET_PERCENTAGE = 0.5f;
-        private readonly IUnitStateEngine _mainContainerState;
+        private readonly IActorVisualizationState _mainContainerState;
         private readonly AnimationBlocker _mainStateBlocker;
 
         public ArrowRainUsageState(
-            UnitGameObject animatedUnitGameObject,
+            CombatantGameObject animatedUnitGameObject,
             AnimationBlocker mainStateBlocker,
             ISkillVisualizationContext context)
         {
@@ -40,13 +42,13 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                 arrowFallState
             };
 
-            _mainContainerState = new SequentialState(subStates);
+            //_mainContainerState = new SequentialState(subStates);
             _mainStateBlocker = mainStateBlocker;
         }
 
-        private static IUnitStateEngine CreateArrowFallState(ISkillVisualizationContext context)
+        private static IActorVisualizationState CreateArrowFallState(ISkillVisualizationContext context)
         {
-            var resultArrowsStates = new List<IUnitStateEngine>();
+            var resultArrowsStates = new List<IActorVisualizationState>();
 
             var targetArea = context.BattlefieldInteractionContext.GetArea(Team.Cpu);
 
@@ -127,7 +129,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
         }
 
 
-        private static IUnitStateEngine CreateLaunchRainSourceState(ISkillVisualizationContext context,
+        private static IActorVisualizationState CreateLaunchRainSourceState(ISkillVisualizationContext context,
             Vector2 launchPoint, UnitGraphics animatedObjectGraphics)
         {
             var projectileBlocker = context.AddAnimationBlocker();

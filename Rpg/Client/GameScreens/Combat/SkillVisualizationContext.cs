@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Core.Dices;
 
 using Microsoft.Xna.Framework.Audio;
@@ -14,9 +16,9 @@ namespace Rpg.Client.GameScreens.Combat
 {
     internal class SkillVisualizationContext : ISkillVisualizationContext
     {
-        private readonly IList<UnitGameObject> _unitGameObjects;
+        private readonly IList<CombatantGameObject> _unitGameObjects;
 
-        public SkillVisualizationContext(IList<UnitGameObject> unitGameObjects)
+        public SkillVisualizationContext(IList<CombatantGameObject> unitGameObjects)
         {
             _unitGameObjects = unitGameObjects;
 
@@ -34,16 +36,17 @@ namespace Rpg.Client.GameScreens.Combat
 
         public IBattlefieldInteractionContext BattlefieldInteractionContext { get; }
 
-        public UnitGameObject GetGameObject(ICombatUnit combatUnit)
+        public CombatantGameObject GetGameObject(ICombatUnit combatUnit)
         {
-            return _unitGameObjects.Single(x => x.CombatUnit == combatUnit);
+            return _unitGameObjects.Single(x => x.Combatant == combatUnit);
         }
 
         public IDice Dice { get; init; } = null!;
 
         public AnimationBlocker AddAnimationBlocker()
         {
-            return AnimationManager.CreateAndUseBlocker();
+            //return AnimationManager.CreateAndRegisterBlocker();
+            throw new System.Exception();
         }
 
         public GameObjectContentStorage GameObjectContentStorage { get; init; } = null!;

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
@@ -50,8 +52,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Commissar
             IconOneBasedIndex = 39
         };
 
-        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject,
-            UnitGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
+        public override IActorVisualizationState CreateState(CombatantGameObject animatedUnitGameObject,
+            CombatantGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
         {
             foreach (var interaction in context.Interaction.SkillRuleInteractions)
             {
