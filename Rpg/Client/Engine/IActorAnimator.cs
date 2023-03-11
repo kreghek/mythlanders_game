@@ -15,4 +15,3 @@ internal interface IActorAnimator
 
     void Update(GameTime gameTime);
 }
-

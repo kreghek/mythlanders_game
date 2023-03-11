@@ -11,7 +11,7 @@ internal sealed class UnitGraphics : UnitGraphicsBase
     private readonly UnitName _spriteSheetId;
     private readonly bool _isNormalOrientation;
 
-    public UnitGraphics(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig, bool isNormalOrientation, Vector2 position, GameObjectContentStorage gameObjectContentStorage) : 
+    public UnitGraphics(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig, bool isNormalOrientation, Vector2 position, GameObjectContentStorage gameObjectContentStorage) :
         base(spriteSheetId, graphicsConfig, isNormalOrientation, position, gameObjectContentStorage)
     {
         _spriteSheetId = spriteSheetId;

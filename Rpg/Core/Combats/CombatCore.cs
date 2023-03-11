@@ -25,7 +25,7 @@ public class CombatCore
     public CombatField Field { get; }
 
     public IReadOnlyList<Combatant> RoundQueue => _roundQueue.ToArray();
-    public bool Finished 
+    public bool Finished
     {
         get
         {
@@ -282,7 +282,7 @@ public class CombatCore
         {
             var shiftShape = DetectShapeShifting();
             if (shiftShape)
-            { 
+            {
                 CombatantShiftShaped?.Invoke(this, new CombatantShiftShapedEventArgs(combatant));
             }
 
@@ -333,7 +333,7 @@ public class CombatCore
             {
                 continue;
             }
-            
+
             var coords = new FieldCoords(slot.ColumnIndex, slot.LineIndex);
             side[coords].Combatant = slot.Combatant;
 

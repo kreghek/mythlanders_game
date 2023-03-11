@@ -83,7 +83,7 @@ public class Combatant
                 // Stop to prepare first movements.
                 break;
             }
-            
+
             _hand[i] = _pool.First();
             _pool.RemoveAt(0);
         }
