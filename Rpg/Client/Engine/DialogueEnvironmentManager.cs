@@ -29,8 +29,11 @@ internal sealed class DialogueEnvironmentManager : IDialogueEnvironmentManager
     {
         _effectsDict.Add("DesertWind", content.Load<SoundEffect>("Audio/Stories/DesertWind"));
         _effectsDict.Add("WomanSynthCrying", content.Load<SoundEffect>("Audio/Stories/WomanSynthCrying"));
+        _effectsDict.Add("ChineseCrowd", content.Load<SoundEffect>("Audio/Stories/ChineseCrowd"));
 
         _musicDict.Add("EgyptianThriller", content.Load<Song>("Audio/Stories/EgyptianThrillerMusic"));
+        _musicDict.Add("ChineseHappy", content.Load<Song>("Audio/Stories/ChineseHappyMusic"));
+        _musicDict.Add("ChineseMeditation", content.Load<Song>("Audio/Stories/ChineseMeditationMusic"));
     }
 
     public void PlayEffect(string effectSid, string resourceName)

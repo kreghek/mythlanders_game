@@ -178,38 +178,42 @@ internal class CombatScreen : GameScreenWithMenuBase
         var maneuverButton = (ManeuverButton)sender;
         var maneuverDirection = CalcDirection(_combatCore.CurrentCombatant, maneuverButton.FieldCoords);
 
-        var maneuverIntention = new ManeverIntention(maneuverDirection);
+            if (maneuverDirection is not null)
+            {
+                var maneuverIntention = new ManeverIntention(maneuverDirection.Value);
 
-        _playerCombatantBehaviour.Assign(maneuverIntention);
-    }
+                _playerCombatantBehaviour.Assign(maneuverIntention);
+            }
+        }
 
-    private CombatStepDirection CalcDirection(Combatant combatant, FieldCoords targetCoords)
-    {
-        var combatantCoords = _combatCore.Field.HeroSide.GetCombatantCoords(combatant);
+        private CombatStepDirection? CalcDirection(Combatant combatant, FieldCoords targetCoords)
+        {
+            var combatantCoords = _combatCore.Field.HeroSide.GetCombatantCoords(combatant);
 
         var lineDiff = targetCoords.LineIndex - combatantCoords.LineIndex;
         var columnDiff = targetCoords.ColumentIndex - combatantCoords.ColumentIndex;
 
-        if (columnDiff > 0 && lineDiff == 0)
-        {
-            return CombatStepDirection.Forward;
-        }
-        else if (columnDiff < 0 && lineDiff == 0)
-        {
-            return CombatStepDirection.Backward;
-        }
-        else if (columnDiff == 0 && lineDiff < 0)
-        {
-            return CombatStepDirection.Up;
-        }
-        else if (columnDiff == 0 && lineDiff > 0)
-        {
-            return CombatStepDirection.Down;
-        }
-        else
-        {
-            throw new InvalidOperationException();
-        }
+            if (columnDiff > 0 && lineDiff == 0)
+            {
+                return CombatStepDirection.Backward;
+            }
+            else if (columnDiff < 0 && lineDiff == 0)
+            {
+                return CombatStepDirection.Forward;
+            }
+            else if (columnDiff == 0 && lineDiff < 0)
+            {
+                return CombatStepDirection.Up;
+            }
+            else if (columnDiff == 0 && lineDiff > 0)
+            {
+                return CombatStepDirection.Down;
+            }
+            else
+            {
+                return null;
+            }
+
     }
 
     protected override void UpdateContent(GameTime gameTime)
