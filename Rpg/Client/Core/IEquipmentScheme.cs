@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 
+using Core.Combats;
+
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core

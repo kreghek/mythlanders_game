@@ -173,7 +173,7 @@ namespace Rpg.Client.GameComponents
             var unitScheme = GetUnitSchemeByString(unitSchemeSid, _unitSchemeCatalog);
 
             const int DEFAULT_LEVEL = 1;
-            var unit = new Unit(unitScheme, DEFAULT_LEVEL)
+            var unit = new Hero(unitScheme, DEFAULT_LEVEL)
             {
                 IsPlayerControlled = true
             };

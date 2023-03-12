@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using System.Linq;
 
 using Client;
 using Client.GameScreens.Combat.GameObjects;
 
+using Core.Combats;
+
 using Rpg.Client.Assets.TargetSelectors;
 using Rpg.Client.Core;
-using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
@@ -67,25 +67,25 @@ namespace Rpg.Client.Assets.Skills.Hero.Hoplite
 
         private sealed class IsRightAllyWithShieldCondition : IEffectCondition
         {
-            public bool Check(ICombatUnit target, CombatEffectContext effectContext)
+            public bool Check()
             {
-                var aliveAllies = effectContext.Combat.AliveUnits.Where(x => x.Unit.IsPlayerControlled);
+                //var aliveAllies = effectContext.Combat.AliveUnits.Where(x => x.Unit.IsPlayerControlled);
 
-                var selfIndex = ((CombatUnit)target).SlotIndex;
+                //var selfIndex = ((CombatUnit)target).SlotIndex;
 
-                var targetIndex = GetRightIndex(selfIndex);
+                //var targetIndex = GetRightIndex(selfIndex);
 
-                if (targetIndex is null)
-                {
-                    return false;
-                }
+                //if (targetIndex is null)
+                //{
+                //    return false;
+                //}
 
-                var rightAllyUnit = aliveAllies.SingleOrDefault(x => ((CombatUnit)x).SlotIndex == targetIndex);
+                //var rightAllyUnit = aliveAllies.SingleOrDefault(x => ((CombatUnit)x).SlotIndex == targetIndex);
 
-                if (rightAllyUnit is not null)
-                {
-                    return rightAllyUnit.Unit.UnitScheme.Name == UnitName.Assaulter;
-                }
+                //if (rightAllyUnit is not null)
+                //{
+                //    return rightAllyUnit.Unit.UnitScheme.Name == UnitName.Assaulter;
+                //}
 
                 return false;
             }

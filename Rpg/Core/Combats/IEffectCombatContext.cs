@@ -13,4 +13,5 @@ public interface IEffectCombatContext
     void RestoreCombatantStat(Combatant combatant, UnitStatType statType, int value);
 
     void NotifySwapFieldPosition(Combatant combatant, FieldCoords sourceCoords, CombatFieldSide sourceFieldSide, FieldCoords destinationCoords, CombatFieldSide destinationFieldSide);
+    void PassTurn(Combatant target);
 }

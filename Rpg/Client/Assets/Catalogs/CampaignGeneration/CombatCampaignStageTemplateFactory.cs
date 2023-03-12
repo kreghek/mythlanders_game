@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Client.Assets.StageItems;
+using Client.Core.Heroes;
 
 using Core.Dices;
 
@@ -52,11 +53,11 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
             }
         }
 
-        var units = new List<Unit>();
+        var units = new List<Hero>();
         foreach (var unitScheme in rolledUnits)
         {
             var unitLevel = 2;
-            var unit = new Unit(unitScheme, unitLevel);
+            var unit = new Hero(unitScheme, unitLevel);
             units.Add(unit);
         }
 
@@ -65,7 +66,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
 
     private static bool HasPerk<TPerk>(UnitScheme unitScheme, int combatLevel)
     {
-        var unit = new Unit(unitScheme, combatLevel);
+        var unit = new Hero(unitScheme, combatLevel);
         return unit.Perks.OfType<TPerk>().Any();
     }
 
@@ -94,7 +95,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         for (var slotIndex = 0; slotIndex < monsterInfos.Count; slotIndex++)
         {
             var scheme = _services.UnitSchemeCatalog.AllMonsters.Single(x => x.Name == monsterInfos[slotIndex].name);
-            combat.EnemyGroup.Slots[slotIndex].Unit = new Unit(scheme, monsterInfos[slotIndex].level);
+            combat.EnemyGroup.Slots[slotIndex].Unit = new Hero(scheme, monsterInfos[slotIndex].level);
         }
 
         return stageItem;

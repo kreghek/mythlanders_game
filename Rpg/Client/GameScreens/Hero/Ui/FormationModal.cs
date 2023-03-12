@@ -16,11 +16,11 @@ namespace Rpg.Client.GameScreens.Hero.Ui
     {
         private const int TOP_MARGIN = 50;
         private readonly IList<ButtonBase> _buttonList;
-        private readonly Unit _character;
+        private readonly Core.Heroes.Hero _character;
         private readonly Player _player;
         private readonly IUiContentStorage _uiContentStorage;
 
-        public FormationModal(IUiContentStorage uiContentStorage, Unit character, Player player,
+        public FormationModal(IUiContentStorage uiContentStorage, Core.Heroes.Hero character, Player player,
             ResolutionIndependentRenderer resolutionIndependentRenderer) : base(uiContentStorage,
             resolutionIndependentRenderer)
         {
@@ -79,12 +79,12 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             return freeSlots.Where(x => x.IsTankLine);
         }
 
-        private bool GetIsCharacterInGroup(Unit selectedCharacter)
+        private bool GetIsCharacterInGroup(Core.Heroes.Hero selectedCharacter)
         {
             return _player.Party.GetUnits().Contains(selectedCharacter);
         }
 
-        private void InitSlotAssignmentButtons(Unit character, Player player)
+        private void InitSlotAssignmentButtons(Core.Heroes.Hero character, Player player)
         {
             _buttonList.Clear();
 

@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 using Core.Combats;
+using Core.Combats.CombatantEffectLifetimes;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Engine;
 
 using UnitStatType = Core.Combats.UnitStatType;
@@ -141,7 +140,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 spriteBatch.Draw(_uiContentStorage.GetEffectIconsTexture(), effectRect, effectSourceRect, Color.White);
 
-                if (effect is PeriodicEffectBase periodicEffect)
+                if (effect.Lifetime is MultipleCombatantTurnEffectLifetime periodicEffect)
                 {
                     DrawLifetime(spriteBatch, EFFECT_SIZE, EFFECTS_DURATION_OFFSET, effectPosition, periodicEffect);
                 }
@@ -151,7 +150,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         }
 
         private void DrawLifetime(SpriteBatch spriteBatch, int effectSize, int effectsDurationOffset,
-            Vector2 effectPosition, PeriodicEffectBase periodicEffect)
+            Vector2 effectPosition, MultipleCombatantTurnEffectLifetime periodicEffect)
         {
             for (var i = -1; i <= 1; i++)
             {
@@ -170,28 +169,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         }
 
         private void DrawLifetimeInner(SpriteBatch spriteBatch, int effectSize, int effectsDurationOffset,
-            Vector2 effectPosition, PeriodicEffectBase periodicEffect, Vector2 offset, Color color)
+            Vector2 effectPosition, MultipleCombatantTurnEffectLifetime periodicEffect, Vector2 offset, Color color)
         {
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                periodicEffect.EffectLifetime.GetTextDescription(),
+                periodicEffect.Counter.ToString(),
                 effectPosition + new Vector2(effectSize - effectsDurationOffset,
                     effectSize - effectsDurationOffset) + offset, color);
-        }
-
-        private void DrawManaBar(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit)
-        {
-            var energyPosition = panelPosition + new Vector2(46, 0);
-
-            var manaPointCount = Math.Min(8, combatUnit.EnergyPool);
-
-            var manaSourceRect = new Rectangle(0, 72, 3, 10);
-            for (var i = 0; i < manaPointCount; i++)
-            {
-                spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(),
-                    energyPosition + new Vector2((3 + 2) * i + 3, 17),
-                    manaSourceRect,
-                    Color.White);
-            }
         }
 
         private void DrawPanelBackground(SpriteBatch spriteBatch, Vector2 panelPosition, Vector2 backgroundOffset,
@@ -460,11 +443,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 _lastEffectWithHint = null;
                 _effectHint = null;
             }
-        }
-
-        private static bool HasMana(Combatant combatant)
-        {
-            return false; //unit.IsPlayerControlled && unit.HasSkillsWithCost;
         }
 
         private enum Side

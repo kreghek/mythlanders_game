@@ -18,7 +18,7 @@ namespace Rpg.Client.GameScreens.Hero
     {
         private const int GRID_CELL_MARGIN = 5;
         private readonly IList<ButtonBase> _buttonList;
-        private readonly Unit _hero;
+        private readonly Core.Heroes.Hero _hero;
         private readonly Player _player;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly UnitGraphics _unitGraphics;
@@ -137,7 +137,7 @@ namespace Rpg.Client.GameScreens.Hero
             return new Rectangle(position, size);
         }
 
-        private void InitActionButtons(Unit character, Player player)
+        private void InitActionButtons(Core.Heroes.Hero character, Player player)
         {
             _buttonList.Clear();
 
@@ -176,7 +176,7 @@ namespace Rpg.Client.GameScreens.Hero
                 _player);
         }
 
-        private void InitUpgradeButtons(Unit character, Player player)
+        private void InitUpgradeButtons(Core.Heroes.Hero character, Player player)
         {
             var xpAmount = player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount;
             if (xpAmount >= character.LevelUpXpAmount)

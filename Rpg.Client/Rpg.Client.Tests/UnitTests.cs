@@ -37,7 +37,7 @@ namespace Rpg.Client.Tests
 
             // ACT
 
-            var unit = new Unit(scheme, 1);
+            var unit = new Hero(scheme, 1);
 
             // ASSERT
             var expectedValue = (int)(scheme.HitPointsBase * 2f);
@@ -63,7 +63,7 @@ namespace Rpg.Client.Tests
 
             // ACT
 
-            var unit = new Unit(scheme, 5);
+            var unit = new Hero(scheme, 5);
 
             // ASSERT
 
@@ -89,7 +89,7 @@ namespace Rpg.Client.Tests
 
             // ACT
 
-            var unit = new Unit(scheme, 1);
+            var unit = new Hero(scheme, 1);
 
             // ASSERT
 
@@ -114,7 +114,7 @@ namespace Rpg.Client.Tests
 
             // ACT
 
-            var unit = new Unit(scheme, 1);
+            var unit = new Hero(scheme, 1);
 
             // ASSERT
 
@@ -138,7 +138,7 @@ namespace Rpg.Client.Tests
 
             // ACT
 
-            var unit = new Unit(scheme, 2);
+            var unit = new Hero(scheme, 2);
 
             // ASSERT
 
@@ -164,7 +164,7 @@ namespace Rpg.Client.Tests
                 TankRank = 1f
             };
 
-            var unit = new Unit(sourceScheme, level);
+            var unit = new Hero(sourceScheme, level);
 
             // ACT
 

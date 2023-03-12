@@ -485,7 +485,7 @@ namespace Rpg.Client.GameScreens.Map
             _isNodeModelsCreated = false;
         }
 
-        private static bool IsAnyEquipmentToUpgrade(Unit character, Player player)
+        private static bool IsAnyEquipmentToUpgrade(Core.Heroes.Hero character, Player player)
         {
             return character.Equipments.Any(equipment =>
                 equipment.RequiredResourceAmountToLevelUp <= player.Inventory.Single(resource =>

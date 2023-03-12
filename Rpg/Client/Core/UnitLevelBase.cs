@@ -1,3 +1,5 @@
+using Client.Core.Heroes;
+
 namespace Rpg.Client.Core
 {
     internal abstract class UnitLevelBase : IUnitLevelScheme
@@ -7,7 +9,7 @@ namespace Rpg.Client.Core
             Level = level;
         }
 
-        public abstract void Apply(Unit unit);
+        public abstract void Apply(Hero unit);
 
         public int Level { get; }
     }

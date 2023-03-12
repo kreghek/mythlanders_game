@@ -6,17 +6,16 @@ using Client;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Hero.Ui
 {
     internal class GeneralInfoPanel : PanelBase
     {
-        private readonly Unit _hero;
+        private readonly Core.Heroes.Hero _hero;
         private readonly SpriteFont _mainFont;
 
-        public GeneralInfoPanel(Unit hero)
+        public GeneralInfoPanel(Core.Heroes.Hero hero)
         {
             _hero = hero;
             _mainFont = UiThemeManager.UiContentStorage.GetMainFont();

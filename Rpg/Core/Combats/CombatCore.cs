@@ -235,6 +235,12 @@ public class CombatCore
         CompleteTurn();
     }
 
+    public void Interrupt()
+    {
+        CombatantInterrupted?.Invoke(this, new CombatantInterruptedEventArgs(CurrentCombatant));
+        CompleteTurn();
+    }
+
     private static CombatMovementInstance? GetAutoDefenseMovement(Combatant target)
     {
         return target.Hand.FirstOrDefault(x =>
@@ -431,21 +437,5 @@ public class CombatCore
     public event EventHandler<CombatantShiftShapedEventArgs>? CombatantShiftShaped;
     public event EventHandler<CombatantHasBeenMovedEventArgs>? CombatantHasBeenMoved;
     public event EventHandler<CombatFinishedEventArgs>? CombatFinished;
-}
-
-public enum CombatFinishResult
-{
-    HeroesAreWinners,
-    MonstersAreWinners,
-    Draw
-}
-
-public class CombatFinishedEventArgs : EventArgs
-{
-    public CombatFinishedEventArgs(CombatFinishResult result)
-    {
-        Result = result;
-    }
-
-    public CombatFinishResult Result { get; }
+    public event EventHandler<CombatantInterruptedEventArgs>? CombatantInterrupted;
 }

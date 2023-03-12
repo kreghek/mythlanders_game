@@ -1,5 +1,7 @@
 using System.Linq;
 
+using Client.Core.Heroes;
+
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
@@ -15,7 +17,7 @@ namespace Rpg.Client.Core
             _newSkill = newSkill;
         }
 
-        public override void Apply(Unit unit)
+        public override void Apply(Hero unit)
         {
             var targetSkill = unit.Skills.Single(x => x.Sid == _targetSid);
             var index = unit.Skills.IndexOf(targetSkill);

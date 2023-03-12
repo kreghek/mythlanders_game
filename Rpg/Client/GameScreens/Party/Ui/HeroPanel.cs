@@ -14,7 +14,7 @@ namespace Rpg.Client.GameScreens.Party.Ui
 {
     internal sealed class HeroPanel : ControlBase
     {
-        private readonly Unit _character;
+        private readonly Core.Heroes.Hero _character;
 
         private readonly Texture2D _disabledTexture;
         private readonly ButtonBase _infoButton;
@@ -22,7 +22,7 @@ namespace Rpg.Client.GameScreens.Party.Ui
         private readonly SpriteFont _nameFont;
         private readonly Texture2D _portraitTexture;
 
-        public HeroPanel(Unit character, Player player,
+        public HeroPanel(Core.Heroes.Hero character, Player player,
             HeroPanelResources characterPanelResources)
         {
             _character = character;
@@ -79,7 +79,7 @@ namespace Rpg.Client.GameScreens.Party.Ui
             }
         }
 
-        private static bool CheckIsDisabled(Unit character)
+        private static bool CheckIsDisabled(Core.Heroes.Hero character)
         {
             foreach (var effect in character.GlobalEffects)
             {
@@ -117,7 +117,7 @@ namespace Rpg.Client.GameScreens.Party.Ui
                 Color.White);
         }
 
-        private static bool IsAnyEquipmentToUpgrade(Unit character, Player player)
+        private static bool IsAnyEquipmentToUpgrade(Core.Heroes.Hero character, Player player)
         {
             return character.Equipments.Any(equipment =>
                 equipment.RequiredResourceAmountToLevelUp <= player.Inventory.Single(resource =>

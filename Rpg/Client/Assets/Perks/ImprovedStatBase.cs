@@ -2,7 +2,7 @@
 
 using Client.Core;
 
-using Rpg.Client.Core;
+using Core.Combats;
 
 namespace Rpg.Client.Assets.Perks
 {

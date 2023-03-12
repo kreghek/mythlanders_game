@@ -15,7 +15,7 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 using DamageEffect = Core.Combats.Effects.DamageEffect;
 
-namespace Client.Assets.CombatMovements;
+namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
 internal class DieBySwordFactory : ICombatMovementFactory
 {

@@ -1,5 +1,7 @@
 using System;
 
+using Client.Core.Heroes;
+
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
@@ -10,7 +12,7 @@ namespace Rpg.Client.Core
         {
         }
 
-        public override void Apply(Unit unit)
+        public override void Apply(Hero unit)
         {
             var skill = Activator.CreateInstance<TSkill>();
             unit.Skills.Add(skill);

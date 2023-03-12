@@ -5,17 +5,16 @@ using Client;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Hero.Ui
 {
     internal class PerkInfoPanel : PanelBase
     {
-        private readonly Unit _character;
+        private readonly Core.Heroes.Hero _character;
         private readonly SpriteFont _mainFont;
 
-        public PerkInfoPanel(Unit character)
+        public PerkInfoPanel(Core.Heroes.Hero character)
         {
             _character = character;
             _mainFont = UiThemeManager.UiContentStorage.GetMainFont();

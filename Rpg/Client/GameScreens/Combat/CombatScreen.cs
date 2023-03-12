@@ -251,15 +251,15 @@ internal class CombatScreen : GameScreenWithMenuBase
         _animationManager.Update(gameTime.ElapsedGameTime.TotalSeconds);
     }
 
-    private static void AddMonstersFromCombatIntoKnownMonsters(Unit monster,
-        ICollection<UnitScheme> playerKnownMonsters)
-    {
-        var scheme = monster.UnitScheme;
-        if (playerKnownMonsters.All(x => x != scheme))
-        {
-            playerKnownMonsters.Add(scheme);
-        }
-    }
+    //private static void AddMonstersFromCombatIntoKnownMonsters(Client.Core.Heroes.Hero monster,
+    //    ICollection<UnitScheme> playerKnownMonsters)
+    //{
+    //    var scheme = monster.UnitScheme;
+    //    if (playerKnownMonsters.All(x => x != scheme))
+    //    {
+    //        playerKnownMonsters.Add(scheme);
+    //    }
+    //}
 
     private static void ApplyCombatReward(IReadOnlyCollection<ResourceReward> xpItems, Player player)
     {

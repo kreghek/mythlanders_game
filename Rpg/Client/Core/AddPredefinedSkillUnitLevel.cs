@@ -1,4 +1,6 @@
-﻿using Rpg.Client.Core.Skills;
+﻿using Client.Core.Heroes;
+
+using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
@@ -11,7 +13,7 @@ namespace Rpg.Client.Core
             _skill = skill;
         }
 
-        public override void Apply(Unit unit)
+        public override void Apply(Hero unit)
         {
             unit.Skills.Add(_skill);
         }

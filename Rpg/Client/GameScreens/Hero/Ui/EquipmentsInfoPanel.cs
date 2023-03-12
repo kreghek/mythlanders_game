@@ -29,7 +29,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
         private TextHint? _equipmentHint;
         private Equipment? _equipmentUnderHint;
 
-        public EquipmentsInfoPanel(Unit hero, Texture2D equipmentIconsTexture, Player player,
+        public EquipmentsInfoPanel(Core.Heroes.Hero hero, Texture2D equipmentIconsTexture, Player player,
             ResolutionIndependentRenderer resolutionIndependentRenderer)
         {
             _player = player;
@@ -235,7 +235,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             }
         }
 
-        private void InitEquipmentButtons(Unit hero, Texture2D equipmentIconsTexture)
+        private void InitEquipmentButtons(Core.Heroes.Hero hero, Texture2D equipmentIconsTexture)
         {
             var equipmentList = hero.Equipments;
             foreach (var equipment in equipmentList)

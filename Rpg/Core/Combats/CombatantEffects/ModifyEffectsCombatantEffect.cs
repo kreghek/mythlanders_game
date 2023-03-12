@@ -31,8 +31,8 @@ public sealed class ModifyEffectsCombatantEffect : ICombatantEffect
                     effectInstance.AddModifier(_statModifier);
     }
 
-    public void Update(CombatantEffectUpdateType updateType)
+    public void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context)
     {
-        Lifetime.Update(updateType);
+        Lifetime.Update(updateType, context);
     }
 }

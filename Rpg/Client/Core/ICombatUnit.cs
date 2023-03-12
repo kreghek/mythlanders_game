@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 
+using Client.Core.Heroes;
+
 namespace Rpg.Client.Core
 {
     internal interface ICombatUnit
@@ -10,7 +12,7 @@ namespace Rpg.Client.Core
         bool IsDead { get; }
 
         IReadOnlyCollection<IUnitStat> Stats { get; }
-        Unit Unit { get; }
+        Hero Unit { get; }
 
         void ChangeState(CombatUnitState targetState);
         void RestoreEnergyPoint();

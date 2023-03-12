@@ -97,7 +97,7 @@ namespace Rpg.Client.GameScreens.Bestiary
 
         private static IList<string> CollectMonsterStats(UnitScheme monsterScheme, int monsterLevel)
         {
-            var monster = new Unit(monsterScheme, monsterLevel);
+            var monster = new Core.Hero(monsterScheme, monsterLevel);
 
             var unitName = monsterScheme.Name;
             var name = GameObjectHelper.GetLocalized(unitName);

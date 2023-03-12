@@ -7,7 +7,6 @@ using Client;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat;
@@ -22,7 +21,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
 
         private readonly IList<EntityIconButton<ISkill>> _skillList;
 
-        public SkillsInfoPanel(Unit hero, Texture2D skillIconsTexture, SpriteFont mainFont)
+        public SkillsInfoPanel(Core.Heroes.Hero hero, Texture2D skillIconsTexture, SpriteFont mainFont)
         {
             _skillList = new List<EntityIconButton<ISkill>>();
             for (var index = 0; index < hero.Skills.Take(3).Count(); index++)

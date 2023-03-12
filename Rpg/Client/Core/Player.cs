@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core.Heroes;
+
 using Rpg.Client.Core;
 
 namespace Client.Core;
@@ -96,7 +98,7 @@ internal sealed class Player
         }
     }
 
-    public IEnumerable<Unit> GetAll()
+    public IEnumerable<Hero> GetAll()
     {
         var unitsInSlots = Party.Slots.Where(x => x.Unit is not null).Select(x => x.Unit!);
         return unitsInSlots.Concat(Pool.Units);
@@ -107,12 +109,12 @@ internal sealed class Player
         return _abilities.Contains(ability);
     }
 
-    public void MoveToParty(Unit unit, int slotIndex)
+    public void MoveToParty(Hero unit, int slotIndex)
     {
         Pool.MoveToGroup(unit, slotIndex, Party);
     }
 
-    public void MoveToPool(Unit unit)
+    public void MoveToPool(Hero unit)
     {
         Pool.MoveFromGroup(unit, Party);
     }
