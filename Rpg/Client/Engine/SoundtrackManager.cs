@@ -201,7 +201,7 @@ namespace Rpg.Client.Engine
                         {
                             _currentSong = _customSong;
 
-                            MediaPlayer.IsRepeating = false;
+                            MediaPlayer.IsRepeating = true;
                             MediaPlayer.Play(_customSong, TimeSpan.Zero);
                         }
                     }

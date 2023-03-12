@@ -180,12 +180,15 @@ namespace Rpg.Client.GameScreens.Combat
             var maneuverButton = (ManeuverButton)sender;
             var maneuverDirection = CalcDirection(_combatCore.CurrentCombatant, maneuverButton.FieldCoords);
 
-            var maneuverIntention = new ManeverIntention(maneuverDirection);
+            if (maneuverDirection is not null)
+            {
+                var maneuverIntention = new ManeverIntention(maneuverDirection.Value);
 
-            _playerCombatantBehaviour.Assign(maneuverIntention);
+                _playerCombatantBehaviour.Assign(maneuverIntention);
+            }
         }
 
-        private CombatStepDirection CalcDirection(Combatant combatant, FieldCoords targetCoords)
+        private CombatStepDirection? CalcDirection(Combatant combatant, FieldCoords targetCoords)
         {
             var combatantCoords = _combatCore.Field.HeroSide.GetCombatantCoords(combatant);
 
@@ -194,11 +197,11 @@ namespace Rpg.Client.GameScreens.Combat
 
             if (columnDiff > 0 && lineDiff == 0)
             {
-                return CombatStepDirection.Forward;
+                return CombatStepDirection.Backward;
             }
             else if (columnDiff < 0 && lineDiff == 0)
             {
-                return CombatStepDirection.Backward;
+                return CombatStepDirection.Forward;
             }
             else if (columnDiff == 0 && lineDiff < 0)
             {
@@ -210,7 +213,7 @@ namespace Rpg.Client.GameScreens.Combat
             }
             else
             {
-                throw new InvalidOperationException();
+                return null;
             }
         }
 

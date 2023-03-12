@@ -20,7 +20,7 @@ internal class CampaignPanel : ControlBase
     {
         _campaign = campaign;
         _campaignTexture = campaignTexture;
-        _selectButton = new TextButton("START");
+        _selectButton = new ResourceTextButton(nameof(UiResource.CampaignSelectButtonTitle));
         _selectButton.OnClick += (_, _) => { Selected?.Invoke(this, EventArgs.Empty); };
     }
 
@@ -29,10 +29,7 @@ internal class CampaignPanel : ControlBase
         _selectButton.Update(resolutionIndependentRenderer);
     }
 
-    protected override Point CalcTextureOffset()
-    {
-        return ControlTextures.Panel;
-    }
+    protected override Point CalcTextureOffset() => ControlTextures.Skill;
 
     protected override Color CalculateColor()
     {
