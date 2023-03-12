@@ -187,6 +187,12 @@
   <data name="CharacterDeepPreyingTitleTemplate" xml:space="preserve">
     <value>{0} is preying</value><comment>Global Effect</comment>
   </data>
+  <data name="ChineseOldman" xml:space="preserve">
+    <value>Ninlao Bingwen</value>
+  </data>
+  <data name="ChineseOldman_Hidden" xml:space="preserve">
+    <value>Chinese oldman</value>
+  </data>
   <data name="CombatSword" xml:space="preserve">
     <value>Combat sword</value><comment>Equipment</comment>
   </data>

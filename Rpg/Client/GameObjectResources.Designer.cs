@@ -295,6 +295,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ninlao Bingwen.
+        /// </summary>
+        internal static string ChineseOldman {
+            get {
+                return ResourceManager.GetString("ChineseOldman", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chinese oldman.
+        /// </summary>
+        internal static string ChineseOldman_Hidden {
+            get {
+                return ResourceManager.GetString("ChineseOldman_Hidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Combat sword.
         /// </summary>
         internal static string CombatSword {
