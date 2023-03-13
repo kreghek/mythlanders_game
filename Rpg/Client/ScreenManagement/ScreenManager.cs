@@ -8,6 +8,7 @@ using Client.GameScreens.NotImplementedStage;
 using Client.GameScreens.Rest;
 using Client.GameScreens.SlidingPuzzles;
 using Client.GameScreens.TextDialogue;
+using Client.GameScreens.Title;
 using Client.GameScreens.Training;
 
 using Microsoft.Xna.Framework;

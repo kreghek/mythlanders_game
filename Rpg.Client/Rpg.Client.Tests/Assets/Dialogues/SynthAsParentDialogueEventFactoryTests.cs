@@ -63,7 +63,7 @@ public class SynthAsParentDialogueEventFactoryTests
         var factory = new SynthAsParentDialogueEventFactory();
 
         var dialogueEvent = factory.CreateEvent(Mock.Of<IDialogueEventFactoryServices>());
-        dialogueEvent.Trigger(DialogueConstants.SideQuests.SynthAsParent.Stage1_Fast_Trigger);
+        dialogueEvent.Trigger(DialogueConstants.SideQuests.SynthAsParent.Stage1_Extradite_Trigger);
         dialogueEvent.Trigger(DialogueConstants.CompleteCurrentStageChallengeTrigger);
 
         // ACT

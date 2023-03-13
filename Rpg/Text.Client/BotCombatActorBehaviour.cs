@@ -12,9 +12,4 @@ internal sealed class BotCombatActorBehaviour : ICombatActorBehaviour
 
         intentionDelegate(skillIntention);
     }
-
-    public void HandleIntention(ICombatActorBehaviourData combatData, Action<IIntention> intentionDelegate)
-    {
-        throw new System.NotImplementedException();
-    }
 }
