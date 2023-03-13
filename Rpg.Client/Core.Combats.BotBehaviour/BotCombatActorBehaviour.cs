@@ -1,7 +1,7 @@
 ﻿namespace Core.Combats.BotBehaviour;
 
 /// <summary>
-/// Bot behaviour for text client.
+/// Bot behaviour for combat.
 /// </summary>
 public sealed class BotCombatActorBehaviour : ICombatActorBehaviour
 {
