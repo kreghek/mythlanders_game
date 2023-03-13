@@ -18,6 +18,7 @@ using Client.GameScreens.Combat.Ui;
 using Client.GameScreens.CommandCenter;
 
 using Core.Combats;
+using Core.Combats.BotBehaviour;
 using Core.Dices;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -417,9 +418,10 @@ namespace Rpg.Client.GameScreens.Combat
             _combatMovementsHandPanel = new CombatMovementsHandPanel(_uiContentStorage);
             _combatMovementsHandPanel.CombatMovementPicked += CombatMovementsHandPanel_CombatMovementPicked;
 
+            var intentionFactory = new BotCombatActorIntentionFactory(_animationManager, _combatMovementVisualizer, _gameObjects);
             _combatCore.Initialize(
                 CombatantFactory.CreateHeroes(_playerCombatantBehaviour),
-                CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(_animationManager, _combatMovementVisualizer, _gameObjects)));
+                CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(intentionFactory)));
 
             _unitStatePanelController = new UnitStatePanelController(_combatCore,
                 _uiContentStorage, _gameObjectContentStorage);

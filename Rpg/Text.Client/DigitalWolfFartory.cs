@@ -7,7 +7,7 @@ namespace Text.Client;
 
 public class DigitalWolfFactory
 {
-    public Combatant Create(string sid)
+    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour)
     {
         // ReSharper disable once UseObjectOrCollectionInitializer
         var list = new List<CombatMovement>();
@@ -71,7 +71,7 @@ public class DigitalWolfFactory
             foreach (var combatMovement in list)
                 monsterSequence.Items.Add(combatMovement);
 
-        var monster = new Combatant("Digital wolf", monsterSequence, new BotCombatActorBehaviour())
+        var monster = new Combatant("Digital wolf", monsterSequence, combatActorBehaviour)
         {
             Sid = sid,
             IsPlayerControlled = false

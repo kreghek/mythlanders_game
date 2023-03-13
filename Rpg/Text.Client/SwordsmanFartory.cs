@@ -7,7 +7,7 @@ namespace Text.Client;
 
 public class SwordsmanFartory
 {
-    public Combatant Create(string sid)
+    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour)
     {
         var movementPool = new List<CombatMovement>();
 
@@ -115,7 +115,7 @@ public class SwordsmanFartory
             foreach (var movement in movementPool)
                 heroSequence.Items.Add(movement);
 
-        var hero = new Combatant("swordsman", heroSequence, new BotCombatActorBehaviour())
+        var hero = new Combatant("swordsman", heroSequence, combatActorBehaviour)
         {
             Sid = sid,
             IsPlayerControlled = true

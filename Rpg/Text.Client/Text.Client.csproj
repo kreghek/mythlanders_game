@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Rpg.Client\Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj" />
       <ProjectReference Include="..\Core\Core.csproj" />
     </ItemGroup>
 

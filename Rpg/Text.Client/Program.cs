@@ -1,6 +1,7 @@
 ﻿using System.Text;
 
 using Core.Combats;
+using Core.Combats.BotBehaviour;
 using Core.Combats.CombatantEffects;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
@@ -12,7 +13,7 @@ namespace Text.Client;
 
 internal static class Program
 {
-    public static void Main(string[] args)
+    public static void Main()
     {
         var clientStateMachine = StateMachineFactory.Create();
 
@@ -23,9 +24,11 @@ internal static class Program
         combatCore.CombatantStartsTurn += CombatCore_CombatantStartsTurn;
         combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;
 
+        var botCombatBehaviour = new BotCombatActorBehaviour(new IntentionFactory());
+
         combatCore.Initialize(
-            CombatantFactory.CreateHeroes(),
-            CombatantFactory.CreateMonsters()
+            CombatantFactory.CreateHeroes(botCombatBehaviour),
+            CombatantFactory.CreateMonsters(botCombatBehaviour)
         );
 
         var roundIndex = 0;
@@ -124,7 +127,7 @@ internal static class Program
                 "down" or "d" => CombatStepDirection.Down,
                 "backward" or "b" => CombatStepDirection.Backward,
                 "forward" or "f" => CombatStepDirection.Forward,
-                _ => throw new ArgumentOutOfRangeException()
+                _ => throw new ArgumentOutOfRangeException(nameof(command))
             };
 
             if (combatCore.CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Current > 0)
