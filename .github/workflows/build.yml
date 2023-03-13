@@ -7,7 +7,6 @@ on:
       - 'dev/**'
       - 'master'
   pull_request:
-    types: [opened, reopened]
     branches:
       - 'demo/**'
       - 'dev/**'
