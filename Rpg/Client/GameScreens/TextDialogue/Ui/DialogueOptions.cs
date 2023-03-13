@@ -35,7 +35,7 @@ namespace Rpg.Client.GameScreens.Speech.Ui
         }
 
         public void SelectOption(int number)
-        { 
+        {
             Options.SingleOrDefault(x => x.Number == number)?.Click();
         }
 

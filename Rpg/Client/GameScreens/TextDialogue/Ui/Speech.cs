@@ -68,7 +68,7 @@ namespace Rpg.Client.GameScreens.Speech.Ui
 
                 _textToPrintBuilder.Append(textSegment);
                 _symbolDelayCounter = 0;
-                _symbolIndex+= _currentSymbolCount;
+                _symbolIndex += _currentSymbolCount;
             }
             else
             {
