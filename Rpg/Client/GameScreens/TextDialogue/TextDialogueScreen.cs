@@ -167,6 +167,8 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
 
             UpdateSpeaker(gameTime);
         }
+
+        _keyboardState = Keyboard.GetState();
     }
 
     private void CheckTutorial()
@@ -440,29 +442,22 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         }
     }
 
+    private KeyboardState _keyboardState;
+
     private void UpdateHud(GameTime gameTime)
     {
         _pressToContinueCounter += gameTime.ElapsedGameTime.TotalSeconds * 10f;
 
-        var maxFragmentIndex = _textFragments.Count - 1;
-        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-        {
-            if (_currentFragmentIndex <= maxFragmentIndex &&
-                !_textFragments[_currentFragmentIndex].IsComplete)
-            {
-                foreach (var fragment in _textFragments)
-                {
-                    fragment.MoveToCompletion();
-                }
+        var currentFragment = _textFragments[_currentFragmentIndex];
+        currentFragment.Update(gameTime);
 
-                _currentFragmentIndex = maxFragmentIndex;
-            }
+        var maxFragmentIndex = _textFragments.Count - 1;
+        if (Keyboard.GetState().IsKeyUp(Keys.Space) && _keyboardState.IsKeyDown(Keys.Space) && !_textFragments[_currentFragmentIndex].IsComplete)
+        {
+            currentFragment.MoveToCompletion();
 
             return;
         }
-
-        var currentFragment = _textFragments[_currentFragmentIndex];
-        currentFragment.Update(gameTime);
 
         if (currentFragment.IsComplete)
         {
@@ -470,7 +465,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
             {
                 _currentTextFragmentIsReady = true;
                 //TODO Make auto-move to next dialog. Make it disable in settings by default.
-                if (Keyboard.GetState().IsKeyDown(Keys.Space))
+                if (Keyboard.GetState().IsKeyUp(Keys.Space) && _keyboardState.IsKeyDown(Keys.Space))
                 {
                     _currentFragmentIndex++;
                     _currentTextFragmentIsReady = false;
