@@ -29,7 +29,7 @@ jobs:
 
       - run: git pull
 
-      - run: dotnet tool install --global dotnet-format --version 5.1.250801
+      - run: dotnet tool install --global dotnet-format --version 5.1.225507
 
       - name: Format codebase ${{ matrix.solution }}
         run: dotnet-format Rpg.Client/${{ matrix.solution }}.sln --fix-whitespace --fix-style --verbosity detailed
