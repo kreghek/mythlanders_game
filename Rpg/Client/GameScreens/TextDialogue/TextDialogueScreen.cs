@@ -407,10 +407,11 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
             _textFragments.Add(textFragmentControl);
         }
 
+        var optionNumber = 1;
         _dialogueOptions.Options.Clear();
         foreach (var option in _dialoguePlayer.CurrentOptions)
         {
-            var optionButton = new DialogueOptionButton(option.TextSid);
+            var optionButton = new DialogueOptionButton(optionNumber, option.TextSid);
             optionButton.OnClick += (_, _) =>
             {
                 _dialoguePlayer.SelectOption(option);
@@ -426,6 +427,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
             };
 
             _dialogueOptions.Options.Add(optionButton);
+            optionNumber++;
         }
     }
 
@@ -452,7 +454,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         currentFragment.Update(gameTime);
 
         var maxFragmentIndex = _textFragments.Count - 1;
-        if (Keyboard.GetState().IsKeyUp(Keys.Space) && _keyboardState.IsKeyDown(Keys.Space) && !_textFragments[_currentFragmentIndex].IsComplete)
+        if (IsKeyPressed(Keys.Space) && !_textFragments[_currentFragmentIndex].IsComplete)
         {
             currentFragment.MoveToCompletion();
 
@@ -465,7 +467,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
             {
                 _currentTextFragmentIsReady = true;
                 //TODO Make auto-move to next dialog. Make it disable in settings by default.
-                if (Keyboard.GetState().IsKeyUp(Keys.Space) && _keyboardState.IsKeyDown(Keys.Space))
+                if (IsKeyPressed(Keys.Space))
                 {
                     _currentFragmentIndex++;
                     _currentTextFragmentIsReady = false;
@@ -476,7 +478,29 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         if (_currentFragmentIndex == maxFragmentIndex && _textFragments[_currentFragmentIndex].IsComplete)
         {
             _dialogueOptions.Update(ResolutionIndependentRenderer);
+
+            if (IsKeyPressed(Keys.D1))
+            {
+                _dialogueOptions.SelectOption(1);
+            }
+            else if (IsKeyPressed(Keys.D2))
+            {
+                _dialogueOptions.SelectOption(2);
+            }
+            else if (IsKeyPressed(Keys.D3))
+            {
+                _dialogueOptions.SelectOption(3);
+            }
+            else if (IsKeyPressed(Keys.D4))
+            {
+                _dialogueOptions.SelectOption(4);
+            }
         }
+    }
+
+    private bool IsKeyPressed(Keys checkKey)
+    {
+        return Keyboard.GetState().IsKeyUp(checkKey) && _keyboardState.IsKeyDown(checkKey);
     }
 
     private void UpdateSpeaker(GameTime gameTime)
