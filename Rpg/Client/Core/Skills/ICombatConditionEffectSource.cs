@@ -1,18 +1,20 @@
 using System;
 using System.Collections.Generic;
 
+using Core.Combats;
+
 namespace Rpg.Client.Core.Skills
 {
     internal interface ICombatConditionEffectSource : IEffectSource
     {
-        IReadOnlyList<EffectRule> CreateCombatBeginningEffects(IEquipmentEffectContext context)
+        IReadOnlyList<IEffect> CreateCombatBeginningEffects(IEquipmentEffectContext context)
         {
-            return Array.Empty<EffectRule>();
+            return Array.Empty<IEffect>();
         }
 
-        IReadOnlyList<EffectRule> CreateCombatHitPointsChangedEffects(IEquipmentEffectContext context)
+        IReadOnlyList<IEffect> CreateCombatHitPointsChangedEffects(IEquipmentEffectContext context)
         {
-            return Array.Empty<EffectRule>();
+            return Array.Empty<IEffect>();
         }
     }
 }

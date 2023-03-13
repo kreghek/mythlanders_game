@@ -1,12 +1,20 @@
 ﻿using System.Collections.Generic;
 
+using Client.Assets.CombatMovements;
+using Client.Engine;
+
+using Core.Combats;
+using Core.Combats.Effects;
+using Core.Combats.TargetSelectors;
+
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.Skills.Hero.Amazon
 {
-    internal class PainfulWoundSkill : VisualizedSkillBase
+    internal class PainfulWoundSkill : ICombatMovementFactory
     {
         private const SkillSid SID = SkillSid.PainfullWound;
 
@@ -24,9 +32,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Amazon
             SkillRuleFactory.CreatePeriodicDamage(SID, 3, SkillDirection.Target)
         };
 
-        public override SkillSid Sid => SID;
-        public override SkillTargetType TargetType => SkillTargetType.Enemy;
-        public override SkillType Type => SkillType.Melee;
+        public string Sid => nameof(SkillSid.PainfullWound);
 
         private static SkillVisualization PredefinedVisualization => new()
         {
@@ -34,5 +40,28 @@ namespace Rpg.Client.Assets.Skills.Hero.Amazon
             SoundEffectType = GameObjectSoundType.SwordSlash,
             IconOneBasedIndex = 29
         };
+
+
+        public CombatMovement CreateMovement()
+        {
+            return new CombatMovement(Sid,
+                new CombatMovementCost(2),
+                CombatMovementEffectConfig.Create(
+                    new IEffect[]
+                    { 
+                        new DamageEffect(new ClosestInLineTargetSelector(), DamageType.Normal, new Range<int>(2, 2)),
+                        new PeriodicEffect
+                    }
+                    )
+                )
+            {
+                Tags = CombatMovementTags.Attack
+            };
+        }
+
+        public IActorVisualizationState CreateVisualization(IActorAnimator actorAnimator, CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

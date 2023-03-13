@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 
+using Core.Combats;
+
 using Rpg.Client.Core;
-using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.Equipments.Monk
 {
@@ -10,8 +11,9 @@ namespace Rpg.Client.Assets.Equipments.Monk
     {
         public EquipmentSid Sid => EquipmentSid.AsceticRobe;
 
-        public IReadOnlyList<EffectRule> CreateCombatHitPointsChangedEffects(IEquipmentEffectContext context)
+        public IReadOnlyList<IEffect> CreateCombatHitPointsChangedEffects(IEquipmentEffectContext context)
         {
+
             //return new[]
             //{
             //    new EffectRule
@@ -24,7 +26,7 @@ namespace Rpg.Client.Assets.Equipments.Monk
             //    }
             //};
 
-            return Array.Empty<EffectRule>();
+            return Array.Empty<IEffect>();
         }
 
         public string GetDescription()
