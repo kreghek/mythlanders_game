@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Client.Core.Campaigns;
+using Client.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

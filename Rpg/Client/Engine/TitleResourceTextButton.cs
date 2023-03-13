@@ -5,16 +5,16 @@ using Rpg.Client.Engine;
 
 namespace Client.Engine;
 
-internal class ResourceTextButton : ButtonBase
+internal class TitleResourceTextButton : ButtonBase
 {
     private readonly SpriteFont _font;
     private readonly string _resourceSid;
 
-    public ResourceTextButton(string resourceSid)
+    public TitleResourceTextButton(string resourceSid)
     {
         _resourceSid = resourceSid;
 
-        _font = UiThemeManager.UiContentStorage.GetMainFont();
+        _font = UiThemeManager.UiContentStorage.GetTitlesFont();
     }
 
     protected override Point CalcTextureOffset()

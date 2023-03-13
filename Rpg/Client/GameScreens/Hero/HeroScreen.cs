@@ -3,6 +3,7 @@ using System.Linq;
 
 using Client;
 using Client.Core;
+using Client.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
