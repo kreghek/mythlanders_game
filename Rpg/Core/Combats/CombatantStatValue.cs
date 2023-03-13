@@ -22,13 +22,6 @@ public sealed class CombatantStatValue : IStatValue
         if (Current > ActualMax) Current = ActualMax;
     }
 
-    event EventHandler IStatValue.ModifierAdded
-    {
-        add => throw new NotImplementedException();
-
-        remove => throw new NotImplementedException();
-    }
-
     public int ActualMax => _baseValue.ActualMax + _modifiers.Sum(x => x.Value);
 
     public int Current { get; private set; }
