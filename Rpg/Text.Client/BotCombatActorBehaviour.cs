@@ -4,6 +4,11 @@ namespace Text.Client;
 
 internal sealed class BotCombatActorBehaviour : ICombatActorBehaviour
 {
+    public void HandleIntention(ICombatActorBehaviourData combatData, Action<IIntention> intentionDelegate)
+    {
+        throw new System.NotImplementedException();
+    }
+
     void ICombatActorBehaviour.HandleIntention(ICombatActorBehaviourData combatData, Action<IIntention> intentionDelegate)
     {
         var firstSkill = combatData.CurrentActor.Skills.First();
