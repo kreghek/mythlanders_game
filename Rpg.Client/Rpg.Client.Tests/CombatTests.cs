@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets;
+
+using Core.Balance;
+
 using FluentAssertions;
 
 using Moq;

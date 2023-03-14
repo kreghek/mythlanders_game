@@ -1,3 +1,5 @@
+using Client.Assets;
+
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes

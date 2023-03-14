@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets;
+
 using Rpg.Client.Assets.Heroes;
 using Rpg.Client.Assets.Monsters;
 using Rpg.Client.Core;

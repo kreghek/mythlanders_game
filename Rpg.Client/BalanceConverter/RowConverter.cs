@@ -1,31 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
-using Rpg.Client.Core;
+using Core.Balance;
 
 namespace BalanceConverter
 {
     internal static class RowConverter
     {
-        public static IReadOnlyCollection<UnitRow> Convert(IEnumerable<UnitExcelRow> unitExcelRows)
+        public static IReadOnlyCollection<BalanceTableRecord> Convert(IEnumerable<UnitExcelRow> unitExcelRows)
         {
-            return unitExcelRows.Select(x => new UnitRow
+            return unitExcelRows.Select(x => new BalanceTableRecord
             {
-                Sid = Enum.Parse<UnitName>(x.Sid),
-                Type = string.Equals(x.Type, "hero", StringComparison.InvariantCultureIgnoreCase),
-                Demo = string.Equals(x.Type, "demo", StringComparison.InvariantCultureIgnoreCase),
+                Sid = x.Sid,
                 TankRank = x.TankRank,
                 DamageDealerRank = x.DamageDealerRank,
                 SupportRank = x.SupportRank
             }).ToList();
         }
 
-        public static UnitBasics ConvertToUnitBasic(IEnumerable<UnitBasicRow> unitExcelRows)
+        public static CommonUnitBasics ConvertToUnitBasic(IEnumerable<UnitBasicRow> unitExcelRows)
         {
-            var basics = new UnitBasics();
+            var basics = new CommonUnitBasics();
 
-            var properties = typeof(UnitBasics).GetProperties();
+            var properties = typeof(CommonUnitBasics).GetProperties();
             var unitBasicRowsArray = unitExcelRows as UnitBasicRow[] ?? unitExcelRows.ToArray();
             foreach (var property in properties)
             {

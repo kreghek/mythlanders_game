@@ -1,4 +1,6 @@
-﻿using Rpg.Client.Assets.GraphicConfigs.Heroes;
+﻿using Client.Assets;
+
+using Rpg.Client.Assets.GraphicConfigs.Heroes;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
@@ -18,7 +20,7 @@ namespace Rpg.Client.Assets.Heroes
 
         public UnitScheme Create(IBalanceTable balanceTable)
         {
-            var record = balanceTable.GetRecord(HeroName);
+            var record = balanceTable.GetRecord(HeroName.ToString());
 
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {
