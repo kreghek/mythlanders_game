@@ -29,11 +29,6 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IUnitLevelScheme[]
             {
-                new AddSkillUnitLevel<PenetrationStrikeSkill>(1),
-                new AddSkillUnitLevel<StonePathSkill>(2),
-                new AddPerkUnitLevel<ImprovedArmor>(2),
-                new AddSkillUnitLevel<DemonicTauntSkill>(3),
-                new AddSkillUnitLevel<ToateAngerSkill>(4)
             };
         }
     }

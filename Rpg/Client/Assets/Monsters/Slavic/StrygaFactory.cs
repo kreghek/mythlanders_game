@@ -3,27 +3,22 @@ using Client.Assets;
 using JetBrains.Annotations;
 
 using Rpg.Client.Assets.GraphicConfigs;
-using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.Skills.Hero.Swordsman;
+using Rpg.Client.Assets.Skills.Monster;
 using Rpg.Client.Core;
 using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Monsters
 {
     [UsedImplicitly]
-    internal sealed class BasiliskFactory : MonsterFactoryBase
+    internal sealed class StrygaFactory : IMonsterFactory
     {
-        public override UnitName ClassName => UnitName.Basilisk;
+        public UnitName ClassName => UnitName.Stryga;
 
-        public override UnitScheme Create(IBalanceTable balanceTable)
+        public UnitScheme Create(IBalanceTable balanceTable)
         {
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {
-                TankRank = 1.0f,
-                DamageDealerRank = 0.0f,
-                SupportRank = 0.0f,
-
-                Name = UnitName.Basilisk,
+                Name = UnitName.Stryga,
                 LocationSids = new[]
                 {
                     LocationSid.Pit, LocationSid.Swamp
@@ -32,15 +27,14 @@ namespace Rpg.Client.Assets.Monsters
 
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddSkillUnitLevel<WideSlashSkill>(1),
-                    new AddPerkUnitLevel<BigMonster>(1)
+                   
                 },
 
                 UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
             };
         }
 
-        public override UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
+        public UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
         {
             return new SingleSpriteGraphicsConfig();
         }

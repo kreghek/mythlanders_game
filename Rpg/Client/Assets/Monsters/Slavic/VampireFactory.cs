@@ -3,6 +3,7 @@ using Client.Assets;
 using JetBrains.Annotations;
 
 using Rpg.Client.Assets.GraphicConfigs;
+using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills.Monster;
 using Rpg.Client.Core;
 using Rpg.Client.GameScreens;
@@ -10,24 +11,24 @@ using Rpg.Client.GameScreens;
 namespace Rpg.Client.Assets.Monsters
 {
     [UsedImplicitly]
-    internal sealed class StrygaFactory : IMonsterFactory
+    internal sealed class VampireFactory : IMonsterFactory
     {
-        public UnitName ClassName => UnitName.Stryga;
+        public UnitName ClassName => UnitName.Vampire;
 
         public UnitScheme Create(IBalanceTable balanceTable)
         {
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {
-                Name = UnitName.Stryga,
+                Name = UnitName.Vampire,
                 LocationSids = new[]
                 {
-                    LocationSid.Pit, LocationSid.Swamp
+                    LocationSid.Pit, LocationSid.DestroyedVillage, LocationSid.Castle
                 },
                 IsMonster = true,
 
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddSkillUnitLevel<MonsterAttackSkill>(1)
+                   
                 },
 
                 UnitGraphicsConfig = new SingleSpriteGraphicsConfig()

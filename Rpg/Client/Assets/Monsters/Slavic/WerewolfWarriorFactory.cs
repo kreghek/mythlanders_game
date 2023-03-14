@@ -31,9 +31,7 @@ namespace Rpg.Client.Assets.Monsters
 
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddPerkUnitLevel<BigMonster>(1),
-                    new AddSkillUnitLevel<VolkolakEnergySkill>(1),
-                    new AddPerkUnitLevel<CriticalHit>(3)
+                   
                 },
 
                 UnitGraphicsConfig = new VolkolakWarriorGraphicsConfig(),
@@ -53,11 +51,7 @@ namespace Rpg.Client.Assets.Monsters
 
                         Levels = new IUnitLevelScheme[]
                         {
-                            new AddPerkUnitLevel<BigMonster>(1),
-                            new AddSkillUnitLevel<VolkolakClawsSkill>(1),
-                            new AddPerkUnitLevel<ImprovedHitPoints>(1),
-                            new AddPerkUnitLevel<Evasion>(5),
-                            new AddPerkUnitLevel<CriticalHit>(10)
+                   
                         },
 
                         UnitGraphicsConfig = new VolkolakGraphicsConfig()

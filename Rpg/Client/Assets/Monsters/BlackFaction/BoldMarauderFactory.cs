@@ -1,4 +1,4 @@
-﻿using Client.Assets;
+using Client.Assets;
 
 using JetBrains.Annotations;
 
@@ -10,20 +10,20 @@ using Rpg.Client.GameScreens;
 namespace Rpg.Client.Assets.Monsters
 {
     [UsedImplicitly]
-    internal sealed class BlackTrooperFactory : IMonsterFactory
+    internal sealed class BoldMarauderFactory : IMonsterFactory
     {
-        public UnitName ClassName => UnitName.BlackTrooper;
+        public UnitName ClassName => UnitName.BoldMarauder;
 
         public UnitScheme Create(IBalanceTable balanceTable)
         {
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {
-                TankRank = 0.25f,
-                DamageDealerRank = 0.75f,
+                TankRank = 0.5f,
+                DamageDealerRank = 0.5f,
                 SupportRank = 0.0f,
                 Resolve = 9,
 
-                Name = UnitName.BlackTrooper,
+                Name = UnitName.BoldMarauder,
                 LocationSids = new[]
                 {
                     LocationSid.Thicket, LocationSid.Swamp, LocationSid.Battleground, LocationSid.DeathPath,
@@ -39,16 +39,16 @@ namespace Rpg.Client.Assets.Monsters
 
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddSkillUnitLevel<BlackRifleShotSkill>(1)
+                   
                 },
 
-                UnitGraphicsConfig = new BlackTrooperGraphicsConfig()
+                UnitGraphicsConfig = new MarauderGraphicsConfig()
             };
         }
 
         public UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
         {
-            return new BlackTrooperGraphicsConfig();
+            return new MarauderGraphicsConfig();
         }
     }
 }

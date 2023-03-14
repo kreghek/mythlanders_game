@@ -6,7 +6,7 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
 {
-    internal class ArcherFactory : HeroFactoryBase
+    internal class RobberFactory : HeroFactoryBase
     {
         public override UnitName HeroName => UnitName.Archer;
 
@@ -29,11 +29,6 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IUnitLevelScheme[]
             {
-                new AddSkillUnitLevel<EnergyShotSkill>(1),
-                new AddSkillUnitLevel<ArrowRainSkill>(1),
-                new AddSkillUnitLevel<RapidShotSkill>(2),
-                new AddPerkUnitLevel<CriticalHit>(3),
-                new AddSkillUnitLevel<ZduhachMightSkill>(4)
             };
         }
     }

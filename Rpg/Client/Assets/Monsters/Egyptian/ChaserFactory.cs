@@ -3,7 +3,6 @@ using Client.Assets;
 using JetBrains.Annotations;
 
 using Rpg.Client.Assets.GraphicConfigs;
-using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills.Monster;
 using Rpg.Client.Core;
 using Rpg.Client.GameScreens;
@@ -11,22 +10,24 @@ using Rpg.Client.GameScreens;
 namespace Rpg.Client.Assets.Monsters
 {
     [UsedImplicitly]
-    internal sealed class TaoteSonFactory : IMonsterFactory
+    internal sealed class ChaserFactory : IMonsterFactory
     {
-        public UnitName ClassName => UnitName.Taote;
+        public UnitName ClassName => UnitName.Chaser;
 
         public UnitScheme Create(IBalanceTable balanceTable)
         {
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {
-                Name = UnitName.Taote,
-                LocationSids = new[] { LocationSid.SkyTower },
+                Name = UnitName.Chaser,
+                LocationSids = new[]
+                {
+                    LocationSid.Desert
+                },
                 IsMonster = true,
 
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddSkillUnitLevel<MonsterAttackSkill>(1),
-                    new AddPerkUnitLevel<BossMonster>(1)
+                   
                 },
 
                 UnitGraphicsConfig = new SingleSpriteGraphicsConfig()

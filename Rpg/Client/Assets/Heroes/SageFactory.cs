@@ -23,11 +23,6 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IUnitLevelScheme[]
             {
-                new AddSkillUnitLevel<ReproachSkill>(1),
-                new AddSkillUnitLevel<NoViolencePleaseSkill>(2),
-                new AddPerkUnitLevel<Evasion>(2),
-                new AddSkillUnitLevel<FaithBoostSkill>(3),
-                new AddSkillUnitLevel<AskedNoViolenceSkill>(4)
             };
         }
     }

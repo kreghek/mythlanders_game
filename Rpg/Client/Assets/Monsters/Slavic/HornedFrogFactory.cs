@@ -31,7 +31,7 @@ namespace Rpg.Client.Assets.Monsters
 
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddSkillUnitLevel<FrogDefenseStanceSkill>(1)
+                   
                 },
 
                 UnitGraphicsConfig = new SingleSpriteGraphicsConfig()

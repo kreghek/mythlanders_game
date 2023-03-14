@@ -11,25 +11,22 @@ using Rpg.Client.GameScreens;
 namespace Rpg.Client.Assets.Monsters
 {
     [UsedImplicitly]
-    internal sealed class VampireFactory : IMonsterFactory
+    internal sealed class SphinxFactory : IMonsterFactory
     {
-        public UnitName ClassName => UnitName.Vampire;
+        public UnitName ClassName => UnitName.Sphinx;
 
         public UnitScheme Create(IBalanceTable balanceTable)
         {
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {
-                Name = UnitName.Vampire,
-                LocationSids = new[]
-                {
-                    LocationSid.Pit, LocationSid.DestroyedVillage, LocationSid.Castle
-                },
+                Name = UnitName.Sphinx,
+                LocationSids = new[] { LocationSid.ScreamValley },
+
                 IsMonster = true,
 
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddSkillUnitLevel<VampireBiteSkill>(1),
-                    new AddPerkUnitLevel<Evasion>(5)
+                   
                 },
 
                 UnitGraphicsConfig = new SingleSpriteGraphicsConfig()

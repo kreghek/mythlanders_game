@@ -11,23 +11,21 @@ using Rpg.Client.GameScreens;
 namespace Rpg.Client.Assets.Monsters
 {
     [UsedImplicitly]
-    internal sealed class HydraFactory : IMonsterFactory
+    internal sealed class TaoteSonFactory : IMonsterFactory
     {
-        public UnitName ClassName => UnitName.Hydra;
+        public UnitName ClassName => UnitName.Taote;
 
         public UnitScheme Create(IBalanceTable balanceTable)
         {
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {
-                Name = UnitName.Hydra,
-                LocationSids = new[] { LocationSid.Labyrinth },
-
+                Name = UnitName.Taote,
+                LocationSids = new[] { LocationSid.SkyTower },
                 IsMonster = true,
 
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddSkillUnitLevel<MonsterAttackSkill>(1),
-                    new AddPerkUnitLevel<BossMonster>(1)
+                   
                 },
 
                 UnitGraphicsConfig = new SingleSpriteGraphicsConfig()

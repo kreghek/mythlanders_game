@@ -3,22 +3,22 @@ using Client.Assets;
 using JetBrains.Annotations;
 
 using Rpg.Client.Assets.GraphicConfigs.Monsters;
-using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills.Monster;
 using Rpg.Client.Core;
+using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Monsters
 {
     [UsedImplicitly]
-    internal sealed class AspidFactory : MonsterFactoryBase
+    internal sealed class WispFactory : IMonsterFactory
     {
-        public override UnitName ClassName => UnitName.Aspid;
+        public UnitName ClassName => UnitName.Wisp;
 
-        public override UnitScheme Create(IBalanceTable balanceTable)
+        public UnitScheme Create(IBalanceTable balanceTable)
         {
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {
-                Name = ClassName,
+                Name = UnitName.Wisp,
                 LocationSids = new[]
                 {
                     LocationSid.DestroyedVillage, LocationSid.Swamp
@@ -27,12 +27,16 @@ namespace Rpg.Client.Assets.Monsters
 
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddSkillUnitLevel<SnakeBiteSkill>(1),
-                    new AddPerkUnitLevel<Evasion>(3)
+                   
                 },
 
                 UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
             };
+        }
+
+        public UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
+        {
+            return new GenericMonsterGraphicsConfig();
         }
     }
 }

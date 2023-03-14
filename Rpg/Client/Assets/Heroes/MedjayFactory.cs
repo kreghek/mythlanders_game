@@ -29,14 +29,6 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IUnitLevelScheme[]
             {
-                new AddSkillUnitLevel<PoisonCutSkill>(1),
-                new AddSkillUnitLevel<SuperNaturalAgilitySkill>(1),
-
-                new AddSkillUnitLevel<SunburstSkill>(2),
-
-                new AddPerkUnitLevel<CriticalHit>(3),
-
-                new AddSkillUnitLevel<ChorusEyeSkill>(4)
             };
         }
     }

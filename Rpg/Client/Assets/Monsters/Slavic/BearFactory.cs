@@ -2,43 +2,46 @@ using Client.Assets;
 
 using JetBrains.Annotations;
 
-using Rpg.Client.Assets.GraphicConfigs;
+using Rpg.Client.Assets.GraphicConfigs.Monsters;
 using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.Skills.Hero.Herbalist;
+using Rpg.Client.Assets.Skills.Monster;
 using Rpg.Client.Core;
 using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Monsters
 {
     [UsedImplicitly]
-    internal sealed class KorgorushFactory : IMonsterFactory
+    internal sealed class BearFactory : IMonsterFactory
     {
-        public UnitName ClassName => UnitName.Korgorush;
+        public UnitName ClassName => UnitName.Bear;
 
         public UnitScheme Create(IBalanceTable balanceTable)
         {
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {
-                Name = UnitName.Korgorush,
+                TankRank = 0.5f,
+                DamageDealerRank = 0.5f,
+                SupportRank = 0.0f,
+
+                Name = UnitName.Bear,
                 LocationSids = new[]
                 {
-                    LocationSid.DestroyedVillage
+                    LocationSid.Battleground, LocationSid.DestroyedVillage, LocationSid.Swamp
                 },
                 IsMonster = true,
 
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddSkillUnitLevel<MassHealSkill>(1),
-                    new AddPerkUnitLevel<PowerUpAura>(1)
+                   
                 },
 
-                UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
+                UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
             };
         }
 
         public UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
         {
-            return new SingleSpriteGraphicsConfig();
+            return new GenericMonsterGraphicsConfig();
         }
     }
 }

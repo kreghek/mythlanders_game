@@ -23,11 +23,6 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IUnitLevelScheme[]
             {
-                new AddSkillUnitLevel<HealingSalveSkill>(1),
-                new AddSkillUnitLevel<ToxicGasSkill>(1),
-                new AddSkillUnitLevel<DopeHerbSkill>(2),
-                new AddPerkUnitLevel<CriticalHeal>(3),
-                new AddSkillUnitLevel<MassHealSkill>(4)
             };
         }
     }

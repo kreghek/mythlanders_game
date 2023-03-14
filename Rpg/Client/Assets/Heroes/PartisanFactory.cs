@@ -29,10 +29,6 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IUnitLevelScheme[]
             {
-                new AddSkillUnitLevel<InspiringRushSkill>(1),
-                new AddSkillUnitLevel<TacticalManeuverSkill>(1),
-                new AddSkillUnitLevel<BlankShotSkill>(2),
-                new AddPerkUnitLevel<Evasion>(3)
             };
         }
     }

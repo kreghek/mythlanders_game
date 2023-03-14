@@ -32,9 +32,7 @@ namespace Rpg.Client.Assets.Monsters
 
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddSkillUnitLevel<MonsterAttackSkill>(1),
-                    new AddPerkUnitLevel<BossMonster>(1),
-                    new AddSkillUnitLevel<DopeHerbSkill>(1)
+                   
                 },
 
                 UnitGraphicsConfig = new SingleSpriteGraphicsConfig(),
@@ -55,10 +53,7 @@ namespace Rpg.Client.Assets.Monsters
 
                         Levels = new IUnitLevelScheme[]
                         {
-                            new AddPerkUnitLevel<BossMonster>(1),
-                            new AddSkillUnitLevel<WideSlashSkill>(1), // Bite
-                            new AddSkillUnitLevel<DefenseStanceSkill>(1), // Dead one hard to die
-                            new AddSkillUnitLevel<HealSkill>(1) // Eat a flash
+                   
                         },
 
                         UnitGraphicsConfig = new KocheyDeadFormGraphicsConfig(),
@@ -77,10 +72,7 @@ namespace Rpg.Client.Assets.Monsters
 
                                 Levels = new IUnitLevelScheme[]
                                 {
-                                    new AddPerkUnitLevel<BossMonster>(1),
-                                    new AddSkillUnitLevel<WispEnergySkill>(1), // Dark Wind
-                                    new AddSkillUnitLevel<DopeHerbSkill>(1), // Scary Eyes
-                                    new AddSkillUnitLevel<PowerUpSkill>(1) // 1000-years hate
+                   
                                 },
 
                                 UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
