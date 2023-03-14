@@ -3,8 +3,6 @@ using Client.Assets;
 using JetBrains.Annotations;
 
 using Rpg.Client.Assets.GraphicConfigs.Monsters;
-using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.Skills.Monster;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Monsters

@@ -1,7 +1,5 @@
 using Rpg.Client.Assets.Equipments.Sergeant;
 using Rpg.Client.Assets.GraphicConfigs;
-using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.Skills.Hero.Commissar;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes

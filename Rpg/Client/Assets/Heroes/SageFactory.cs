@@ -1,6 +1,4 @@
 using Rpg.Client.Assets.Equipments.Sage;
-using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.Skills.Hero.Sage;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes

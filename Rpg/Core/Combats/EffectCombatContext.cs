@@ -12,12 +12,7 @@ public sealed record EffectCombatContext(
 
     public int DamageCombatantStat(Combatant combatant, UnitStatType statType, int value)
     {
-        throw new NotImplementedException();
-    }
-
-    public void NotifyCombatantDamaged(Combatant combatant, UnitStatType statType, int value)
-    {
-        NotifyCombatantDamagedDelegate(combatant, statType, value);
+        return NotifyCombatantDamagedDelegate(combatant, statType, value);
     }
 
     public void NotifySwapFieldPosition(Combatant combatant, FieldCoords sourceCoords, CombatFieldSide sourceFieldSide, FieldCoords destinationCoords, CombatFieldSide destinationFieldSide)

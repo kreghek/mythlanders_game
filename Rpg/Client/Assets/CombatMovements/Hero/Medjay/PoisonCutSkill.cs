@@ -1,36 +1,36 @@
-using System.Collections.Generic;
+//using System.Collections.Generic;
 
-using Rpg.Client.GameScreens;
+//using Rpg.Client.GameScreens;
 
-namespace Rpg.Client.Assets.Skills.Hero.Medjay
-{
-    internal class PoisonCutSkill : VisualizedSkillBase
-    {
-        private const SkillSid SID = SkillSid.PoisonedSpear;
+//namespace Rpg.Client.Assets.Skills.Hero.Medjay
+//{
+//    internal class PoisonCutSkill : VisualizedSkillBase
+//    {
+//        private const SkillSid SID = SkillSid.PoisonedSpear;
 
-        public PoisonCutSkill() : this(false)
-        {
-        }
+//        public PoisonCutSkill() : this(false)
+//        {
+//        }
 
-        public PoisonCutSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
-        {
-        }
+//        public PoisonCutSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+//        {
+//        }
 
-        public override IReadOnlyList<EffectRule> Rules { get; } = new[]
-        {
-            SkillRuleFactory.CreateDamage(SID),
-            SkillRuleFactory.CreatePeriodicDamage(SID, 3, SkillDirection.Target)
-        };
+//        public override IReadOnlyList<EffectRule> Rules { get; } = new[]
+//        {
+//            SkillRuleFactory.CreateDamage(SID),
+//            SkillRuleFactory.CreatePeriodicDamage(SID, 3, SkillDirection.Target)
+//        };
 
-        public override SkillSid Sid => SID;
-        public override SkillTargetType TargetType => SkillTargetType.Enemy;
-        public override SkillType Type => SkillType.Melee;
+//        public override SkillSid Sid => SID;
+//        public override SkillTargetType TargetType => SkillTargetType.Enemy;
+//        public override SkillType Type => SkillType.Melee;
 
-        private static SkillVisualization PredefinedVisualization => new()
-        {
-            Type = SkillVisualizationStateType.Melee,
-            SoundEffectType = GameObjectSoundType.SwordSlash,
-            IconOneBasedIndex = 30
-        };
-    }
-}
+//        private static SkillVisualization PredefinedVisualization => new()
+//        {
+//            Type = SkillVisualizationStateType.Melee,
+//            SoundEffectType = GameObjectSoundType.SwordSlash,
+//            IconOneBasedIndex = 30
+//        };
+//    }
+//}

@@ -1,13 +1,4 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
-
-using Rpg.Client.Core;
-using Rpg.Client.Core.AnimationFrameSets;
-using Rpg.Client.Engine;
-using Rpg.Client.GameScreens;
-
-namespace Rpg.Client.Assets.InteractionDeliveryObjects
+﻿namespace Rpg.Client.Assets.InteractionDeliveryObjects
 {
     // internal sealed class EnergoArrowRainSourceProjectile : ProjectileBase
     // {

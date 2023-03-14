@@ -1,6 +1,4 @@
 using Rpg.Client.Assets.Equipments.Liberator;
-using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.Skills.Hero.Liberator;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes

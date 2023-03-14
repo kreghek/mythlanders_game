@@ -280,8 +280,24 @@ public class CombatCore
         }
     }
 
-    private void HandleCombatantDamaged(Combatant combatant, UnitStatType statType, int value)
+    private static int TakeStat(Combatant combatant, UnitStatType statType, int value)
     {
+        var stat = combatant.Stats.SingleOrDefault(x => x.Type == statType);
+
+        if (stat is null) return value;
+
+        var d = Math.Min(value, stat.Value.Current);
+        stat.Value.Consume(d);
+
+        var remains = value - d;
+
+        return remains;
+    }
+
+    private int HandleCombatantDamaged(Combatant combatant, UnitStatType statType, int value)
+    {
+        var remains = TakeStat(combatant, statType, value);
+
         CombatantHasBeenDamaged?.Invoke(this, new CombatantDamagedEventArgs(combatant, statType, value));
 
         if (combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.Current <= 0)
@@ -299,6 +315,8 @@ public class CombatCore
             var coords = targetSide.GetCombatantCoords(combatant);
             targetSide[coords].Combatant = null;
         }
+
+        return remains;
     }
 
     private bool DetectShapeShifting()

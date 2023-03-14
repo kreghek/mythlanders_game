@@ -42,18 +42,4 @@ public sealed class DamageEffectInstance : EffectInstanceBase<DamageEffect>
         Damage.Min.RemoveModifier(modifier);
         Damage.Max.RemoveModifier(modifier);
     }
-
-    private static int TakeStat(Combatant combatant, UnitStatType statType, int value)
-    {
-        var stat = combatant.Stats.SingleOrDefault(x => x.Type == statType);
-
-        if (stat is null) return value;
-
-        var d = Math.Min(value, stat.Value.Current);
-        stat.Value.Consume(d);
-
-        var remains = value - d;
-
-        return remains;
-    }
 }
