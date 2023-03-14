@@ -7,67 +7,67 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Unicode;
 
-using Rpg.Client.Core;
+using Core.Balance;
 
-namespace Rpg.Client.Assets
+namespace Client.Assets;
+
+internal class BalanceTable : IBalanceTable
 {
-    internal class BalanceTable : IBalanceTable
+    private readonly Dictionary<string, BalanceTableRecord> _dict;
+
+    private readonly CommonUnitBasics _unitBasics;
+
+    public BalanceTable()
     {
-        private readonly Dictionary<UnitName, BalanceTableRecord> _dict;
+        _dict = new Dictionary<string, BalanceTableRecord>();
 
-        private readonly CommonUnitBasics _unitBasics;
+        var assembly = Assembly.GetExecutingAssembly();
+        const string UNIT_BALANCE_RESOURCE_NAME = "Client.Resources.Balance.json";
 
-        public BalanceTable()
+        using var stream = assembly.GetManifestResourceStream(UNIT_BALANCE_RESOURCE_NAME);
+        if (stream is not null)
         {
-            _dict = new Dictionary<UnitName, BalanceTableRecord>();
+            using var reader = new StreamReader(stream);
+            var result = reader.ReadToEnd();
 
-            var assembly = Assembly.GetExecutingAssembly();
-            const string UNIT_BALANCE_RESOURCE_NAME = "Client.Resources.Balance.json";
-
-            using var stream = assembly.GetManifestResourceStream(UNIT_BALANCE_RESOURCE_NAME);
-            if (stream is not null)
+            var balanceData = JsonSerializer.Deserialize<BalanceData>(result, new JsonSerializerOptions
             {
-                using var reader = new StreamReader(stream);
-                var result = reader.ReadToEnd();
-
-                var balanceData = JsonSerializer.Deserialize<BalanceData>(result, new JsonSerializerOptions
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                WriteIndented = true,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                Converters =
                 {
-                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-                    Converters =
-                    {
-                        new JsonStringEnumConverter()
-                    }
-                });
-
-                if (balanceData is null)
-                {
-                    throw new InvalidOperationException("Balance data can't be null.");
+                    new JsonStringEnumConverter()
                 }
+            });
 
-                _unitBasics = balanceData.UnitBasics;
-
-                var unitRows = balanceData.UnitRows;
-
-                foreach (var item in unitRows)
-                {
-                    _dict.Add(item.Sid, item);
-                }
+            if (balanceData is null)
+            {
+                throw new InvalidOperationException("Balance data can't be null.");
             }
-            else
+
+            _unitBasics = balanceData.UnitBasics;
+
+            var unitRows = balanceData.UnitRows;
+
+            foreach (var item in unitRows)
             {
-                throw new Exception();
+                _dict.Add(item.Sid, item);
             }
         }
-
-        public BalanceTableRecord GetRecord(UnitName unitName)
+        else
         {
-            return _dict[unitName];
+            throw new Exception();
         }
+    }
 
-        public CommonUnitBasics GetCommonUnitBasics()
-        {
-            return _unitBasics;
-        }
+    public BalanceTableRecord GetRecord(string unitName)
+    {
+        return _dict[unitName];
+    }
+
+    public CommonUnitBasics GetCommonUnitBasics()
+    {
+        return _unitBasics;
     }
 }

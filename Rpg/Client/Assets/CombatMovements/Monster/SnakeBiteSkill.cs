@@ -1,5 +1,4 @@
 ﻿using Rpg.Client.Core;
-using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills.Monster

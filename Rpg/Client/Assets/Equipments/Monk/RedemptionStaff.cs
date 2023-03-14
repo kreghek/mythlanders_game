@@ -2,7 +2,6 @@ using System;
 
 using Rpg.Client.Core;
 using Rpg.Client.Core.Equipments;
-using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.Equipments.Monk
 {
@@ -15,9 +14,6 @@ namespace Rpg.Client.Assets.Equipments.Monk
 
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Monk;
         public override EquipmentSid Sid => EquipmentSid.HerbBag;
-
-        protected override SkillSid[] AffectedSkills =>
-            new[] { SkillSid.StaffHit, SkillSid.MasterStaffHit };
 
         protected override float MultiplicatorByLevel => 0.5f;
 

@@ -2,15 +2,13 @@
 
 using Core.Combats;
 
-using Rpg.Client.Assets.Monsters;
-
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
 internal static class CombatantFactory
 {
     public static IReadOnlyCollection<FormationSlot> CreateHeroes(ICombatActorBehaviour combatActorBehaviour)
     {
-        var swordsmanHero = new SwordsmanFartory();
+        var swordsmanHero = new SwordsmanFactory();
 
         return new[]
         {

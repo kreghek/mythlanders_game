@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 using Client;
 using Client.Core;
+using Client.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -41,10 +41,10 @@ namespace Rpg.Client.GameScreens.Bestiary
 
             backButton.OnClick += (_, _) =>
             {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Map, null);
+                
             };
 
-            return new[] { backButton };
+            return new ButtonBase[] { backButton };
         }
 
         protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -97,38 +97,38 @@ namespace Rpg.Client.GameScreens.Bestiary
 
         private static IList<string> CollectMonsterStats(UnitScheme monsterScheme, int monsterLevel)
         {
-            var monster = new Core.Hero(monsterScheme, monsterLevel);
+            // var monster = new Core.Hero(monsterScheme, monsterLevel);
+            //
+            // var unitName = monsterScheme.Name;
+            // var name = GameObjectHelper.GetLocalized(unitName);
 
-            var unitName = monsterScheme.Name;
-            var name = GameObjectHelper.GetLocalized(unitName);
-
-            var sb = new List<string>
-            {
-                name,
-                string.Format(UiResource.HitPointsLabelTemplate,
-                    monster.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.ActualMax),
-                string.Format(UiResource.ShieldPointsLabelTemplate,
-                    monster.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value.ActualMax),
-                string.Format(UiResource.DamageLabelTemplate, monster.Damage),
-                string.Format(UiResource.ArmorLabelTemplate, monster.Armor)
-            };
-
-            foreach (var perk in monster.Perks)
-            {
-                var localizedName = GameObjectHelper.GetLocalized(perk);
-                sb.Add(localizedName);
-
-                var localizedDescription = GameObjectHelper.GetLocalizedDescription(perk);
-
-                sb.Add(localizedDescription);
-            }
-
-            foreach (var skill in monster.Skills)
-            {
-                var localizedName = GameObjectHelper.GetLocalized(skill.Sid);
-
-                sb.Add(localizedName);
-            }
+            var sb = new List<string>();
+            // {
+            //     name,
+            //     string.Format(UiResource.HitPointsLabelTemplate,
+            //         monster.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.ActualMax),
+            //     string.Format(UiResource.ShieldPointsLabelTemplate,
+            //         monster.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value.ActualMax),
+            //     string.Format(UiResource.DamageLabelTemplate, monster.Damage),
+            //     string.Format(UiResource.ArmorLabelTemplate, monster.Armor)
+            // };
+            //
+            // foreach (var perk in monster.Perks)
+            // {
+            //     var localizedName = GameObjectHelper.GetLocalized(perk);
+            //     sb.Add(localizedName);
+            //
+            //     var localizedDescription = GameObjectHelper.GetLocalizedDescription(perk);
+            //
+            //     sb.Add(localizedDescription);
+            // }
+            //
+            // foreach (var skill in monster.Skills)
+            // {
+            //     var localizedName = GameObjectHelper.GetLocalized(skill.Sid);
+            //
+            //     sb.Add(localizedName);
+            // }
 
             return sb;
         }

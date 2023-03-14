@@ -7,7 +7,7 @@ namespace Text.Client;
 
 public class ThiefChaserFactory
 {
-    public Combatant Create(string sid)
+    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour)
     {
         // ReSharper disable once UseObjectOrCollectionInitializer
         var list = new List<CombatMovement>();
@@ -119,7 +119,7 @@ public class ThiefChaserFactory
             foreach (var movement in rolledSequence)
                 monsterSequence.Items.Add(movement);
 
-        var monster = new Combatant("Chaser", monsterSequence, new BotCombatActorBehaviour())
+        var monster = new Combatant("Chaser", monsterSequence, combatActorBehaviour)
         {
             Sid = sid,
             IsPlayerControlled = false

@@ -3,9 +3,7 @@
 using JetBrains.Annotations;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
-using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills.Hero.Archer
 {

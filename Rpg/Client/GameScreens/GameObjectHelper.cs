@@ -2,7 +2,6 @@
 using Client.Core;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.GameScreens;
 
@@ -31,11 +30,6 @@ internal static class GameObjectHelper
     public static string GetLocalized(IPerk perk)
     {
         return GetLocalizedInner(perk.GetType().Name);
-    }
-
-    public static string GetLocalized(SkillSid skillSid)
-    {
-        return GetLocalizedInner(skillSid.ToString());
     }
 
     public static string GetLocalized(LocationSid locationSid)

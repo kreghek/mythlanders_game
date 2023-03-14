@@ -1,6 +1,4 @@
-﻿using Rpg.Client.Core.SkillEffects;
-
-namespace Rpg.Client.Assets.Skills.Hero.Assaulter
+﻿namespace Rpg.Client.Assets.Skills.Hero.Assaulter
 {
     internal sealed class AssaultSkillRuleMetadata : ISkillEffectMetadata
     {

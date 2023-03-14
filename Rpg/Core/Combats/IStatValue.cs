@@ -11,5 +11,5 @@ public interface IStatValue
     void RemoveModifier(IUnitStatModifier modifier);
     void Restore(int value);
 
-    event EventHandler ModifierAdded;
+    event EventHandler? ModifierAdded;
 }

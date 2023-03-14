@@ -44,9 +44,6 @@
 	<PackageReference Include="YamlDotNet" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\States\MosterSpecific\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Update="CreditsResource.Designer.cs">
       <DependentUpon>CreditsResource.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -155,6 +152,8 @@
         </AssemblyAttribute>
     </ItemGroup>
 	<ItemGroup>
+	  <ProjectReference Include="..\Core.Balance\Core.Balance.csproj" />
+	  <ProjectReference Include="..\..\Rpg.Client\Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj" />
 	  <ProjectReference Include="..\Core\Core.csproj" />
 	</ItemGroup>
 </Project>

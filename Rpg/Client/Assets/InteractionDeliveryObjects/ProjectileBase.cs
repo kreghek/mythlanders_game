@@ -16,10 +16,8 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
 
         private readonly IAnimationFrameSet _frameSet;
         private readonly Sprite _graphics;
-        private readonly Action<ICombatUnit>? _interaction;
         private readonly double _lifetimeDuration;
         private readonly Vector2 _startPosition;
-        private readonly ICombatUnit? _targetCombatUnit;
 
         private double _lifetimeCounter;
 
@@ -28,9 +26,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             Texture2D texture,
             IAnimationFrameSet frameSet,
             double lifetimeDuration,
-            AnimationBlocker? blocker,
-            ICombatUnit? targetCombatUnit = null,
-            Action<ICombatUnit>? interaction = null)
+            AnimationBlocker? blocker)
         {
             _graphics = new Sprite(texture)
             {
@@ -41,8 +37,6 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             _startPosition = startPosition;
             _endPosition = endPosition;
             _blocker = blocker;
-            _targetCombatUnit = targetCombatUnit;
-            _interaction = interaction;
             _lifetimeDuration = lifetimeDuration;
 
             _frameSet = frameSet;
@@ -108,10 +102,6 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
                     IsDestroyed = true;
                     _blocker?.Release();
                     InteractionPerformed?.Invoke(this, EventArgs.Empty);
-                    if (_targetCombatUnit is not null)
-                    {
-                        _interaction?.Invoke(_targetCombatUnit);
-                    }
                 }
             }
 

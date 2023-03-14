@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using Core.Dices;
 
 using Core.Combats;
-using Rpg.Client.Core.Skills;
 
 namespace Client.Core;
 
-internal interface IPerk : ICombatConditionEffectSource
+internal interface IPerk
 {
     void ApplyToStats(ref float maxHitpoints, ref float armorBonus)
     {

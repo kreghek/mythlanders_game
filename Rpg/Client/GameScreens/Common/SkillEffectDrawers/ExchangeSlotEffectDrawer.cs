@@ -1,5 +1,3 @@
-using Client.Core.Skills;
-
 using Core.Combats;
 
 using Microsoft.Xna.Framework;

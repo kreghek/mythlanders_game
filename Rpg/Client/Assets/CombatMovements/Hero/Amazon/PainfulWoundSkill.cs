@@ -7,9 +7,7 @@ using Core.Combats;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
-using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
-using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.Skills.Hero.Amazon

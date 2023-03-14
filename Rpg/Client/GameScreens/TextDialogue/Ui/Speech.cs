@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 
 namespace Rpg.Client.GameScreens.Speech.Ui
@@ -5,6 +6,10 @@ namespace Rpg.Client.GameScreens.Speech.Ui
     internal sealed class Speech
     {
         public const float SYMBOL_DELAY_SEC = 0.05f;
+        private const int SYMBOL_COUNT = 1;
+
+        private float _currentSymbolDelay = SYMBOL_DELAY_SEC;
+        private int _currentSymbolCount = SYMBOL_COUNT;
 
         private readonly string _fullText;
         private readonly ISpeechRandomProvider _speechRandomProvider;
@@ -37,9 +42,8 @@ namespace Rpg.Client.GameScreens.Speech.Ui
 
         public void MoveToCompletion()
         {
-            IsComplete = true;
-            _textToPrintBuilder.Clear();
-            _textToPrintBuilder.Append(_fullText);
+            _currentSymbolDelay = 0;
+            _currentSymbolCount = 10;
         }
 
         public void Update(float elapsedSeconds)
@@ -51,7 +55,7 @@ namespace Rpg.Client.GameScreens.Speech.Ui
 
             _symbolDelayCounter += elapsedSeconds;
 
-            if (_symbolDelayCounter <= SYMBOL_DELAY_SEC)
+            if (_symbolDelayCounter <= _currentSymbolDelay)
             {
                 return;
             }
@@ -60,9 +64,11 @@ namespace Rpg.Client.GameScreens.Speech.Ui
             {
                 HandleTextSound(elapsedSeconds);
 
-                _textToPrintBuilder.Append(_fullText[_symbolIndex]);
+                var textSegment = GetTextSegment(_fullText, _symbolIndex, _currentSymbolCount);
+
+                _textToPrintBuilder.Append(textSegment);
                 _symbolDelayCounter = 0;
-                _symbolIndex++;
+                _symbolIndex += _currentSymbolCount;
             }
             else
             {
@@ -75,6 +81,15 @@ namespace Rpg.Client.GameScreens.Speech.Ui
                     IsComplete = true;
                 }
             }
+        }
+
+        private static string GetTextSegment(string fullText, int symbolIndex, int currentSymbolCount)
+        {
+            var remains = fullText.Length - symbolIndex;
+
+            var textSegment = fullText.Substring(symbolIndex, Math.Min(currentSymbolCount, remains));
+
+            return textSegment;
         }
 
         private void HandleTextSound(float elapsedSeconds)

@@ -3,10 +3,8 @@
     internal enum ScreenTransition
     {
         Title,
-        Map,
         Campaign,
         CampaignSelection,
-        Party,
         Event,
         Combat,
         Bestiary,

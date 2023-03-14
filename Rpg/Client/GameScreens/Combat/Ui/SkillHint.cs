@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 
 using Client.GameScreens.Common.SkillEffectDrawers;
@@ -8,9 +7,7 @@ using Core.Combats;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Common.SkillEffectDrawers;
 
 namespace Client.GameScreens.Combat.Ui;
@@ -39,10 +36,10 @@ internal class SkillHint : HintBase
 
         var skillTitlePosition = clientRect.Location.ToVector2() + new Vector2(5, 15);
 
-        var skillSid = SkillSid.DieBySword; //Enum.Parse<SkillSid>(_combatMovement.SourceMovement.Sid);
-        var skillNameText = GameObjectHelper.GetLocalized(skillSid);
-
-        spriteBatch.DrawString(_font, skillNameText, skillTitlePosition, color);
+        // var skillSid = SkillSid.DieBySword; //Enum.Parse<SkillSid>(_combatMovement.SourceMovement.Sid);
+        // var skillNameText = GameObjectHelper.GetLocalized(skillSid);
+        //
+        // spriteBatch.DrawString(_font, skillNameText, skillTitlePosition, color);
 
         var manaCostPosition = skillTitlePosition + new Vector2(0, 10);
         if (_combatMovement.SourceMovement.Cost.HasCost)

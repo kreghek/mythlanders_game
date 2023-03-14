@@ -11,12 +11,15 @@ namespace Rpg.Client.GameScreens.Speech.Ui
         private readonly SpriteFont _font;
         private readonly string _optionText;
 
-        public DialogueOptionButton(string resourceSid)
+        public DialogueOptionButton(int number, string resourceSid)
         {
-            _optionText = SpeechVisualizationHelper.PrepareLocalizedText(resourceSid).text;
+            _optionText = $"{number}. {SpeechVisualizationHelper.PrepareLocalizedText(resourceSid).text}";
 
             _font = UiThemeManager.UiContentStorage.GetTitlesFont();
+            Number = number;
         }
+
+        public int Number { get; }
 
         public Vector2 GetContentSize()
         {

@@ -5,13 +5,11 @@ using System.Linq;
 using Core.Combats;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Skills;
 
 namespace Client.Core.Heroes;
 
 internal sealed class Hero
 {
-    private readonly List<GlobalUnitEffect> _globalEffects;
 
     private float _armorBonus;
 
@@ -27,7 +25,6 @@ internal sealed class Hero
             new UnitStat(UnitStatType.Resolve, baseValue: unitScheme.Resolve)
         };
 
-        Skills = new List<ISkill>();
         Perks = new List<IPerk>();
 
         var equipments = new List<Equipment>();
@@ -35,31 +32,11 @@ internal sealed class Hero
         Equipments = equipments;
 
         ModifyStats();
-
-        _globalEffects = new List<GlobalUnitEffect>();
     }
 
     public int Armor => CalcArmor();
 
-    public int Damage => CalcDamage();
-
-    public int EnergyPoolSize => UnitScheme.UnitBasics.BASE_MANA_POOL_SIZE +
-                                 (Level - 1) * UnitScheme.UnitBasics.MANA_PER_LEVEL;
-
     public IReadOnlyList<Equipment> Equipments { get; }
-
-    public IReadOnlyCollection<GlobalUnitEffect> GlobalEffects => _globalEffects;
-
-    public bool HasSkillsWithCost
-    {
-        get
-        {
-            var manaDependentSkills = Skills.Where(x => x.BaseEnergyCost is not null);
-            return manaDependentSkills.Any();
-        }
-    }
-
-    public bool IsPlayerCombatAvailable => Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.Current > 0;
 
     public bool IsPlayerControlled { get; init; }
 
@@ -71,8 +48,6 @@ internal sealed class Hero
     public IList<IPerk> Perks { get; }
 
     public float Power => CalcPower();
-
-    public IList<ISkill> Skills { get; }
 
     public IReadOnlyCollection<UnitStat> Stats { get; }
 
@@ -86,36 +61,11 @@ internal sealed class Hero
     /// </summary>
     public int XpReward => Level > 0 ? Level * 20 : (int)(20 * 0.5f);
 
-    public void AddGlobalEffect(IGlobeEvent source)
-    {
-        var effect = new GlobalUnitEffect(source);
-        _globalEffects.Add(effect);
-    }
-
-    public void AvoidDamage()
-    {
-        HasAvoidedDamage?.Invoke(this, EventArgs.Empty);
-    }
-
-    public void ChangeScheme(UnitScheme targetUnitScheme)
-    {
-        var sourceScheme = UnitScheme;
-        UnitScheme = targetUnitScheme;
-        ModifyStats();
-
-        SchemeAutoTransition?.Invoke(this, new AutoTransitionEventArgs(sourceScheme));
-    }
-
     public void LevelUp()
     {
         Level++;
 
         ModifyStats();
-    }
-
-    public void RemoveGlobalEffect(GlobalUnitEffect effect)
-    {
-        _globalEffects.Add(effect);
     }
 
     public void RestoreHitPointsAfterCombat()
@@ -135,7 +85,6 @@ internal sealed class Hero
             return;
         }
 
-        Skills.Clear();
         Perks.Clear();
 
         var levelSchemesToCurrentLevel = levels.OrderBy(x => x.Level).Where(x => x.Level <= Level).ToArray();
@@ -165,16 +114,6 @@ internal sealed class Hero
         var normalizedArmor = (int)Math.Round(armorWithBonus, MidpointRounding.AwayFromZero);
 
         return normalizedArmor;
-    }
-
-    private int CalcDamage()
-    {
-        var power = Power;
-        var powerToDamage = power * UnitScheme.DamageDealerRank;
-        var damage = UnitScheme.DamageBase * powerToDamage;
-        var normalizedDamage = (int)Math.Round(damage, MidpointRounding.AwayFromZero);
-
-        return normalizedDamage;
     }
 
     private float CalcOverpower()
@@ -280,18 +219,4 @@ internal sealed class Hero
             stat.Value.Restore();
         }
     }
-
-    public event EventHandler<AutoTransitionEventArgs>? SchemeAutoTransition;
-
-    public event EventHandler<UnitHasBeenDamagedEventArgs>? HasBeenHitPointsDamaged;
-
-    public event EventHandler<UnitHasBeenDamagedEventArgs>? HasBeenShieldPointsDamaged;
-
-    public event EventHandler? HasAvoidedDamage;
-
-    public event EventHandler<int>? HasBeenHitPointsRestored;
-    public event EventHandler? Blocked;
-    public event EventHandler<int>? HasBeenShieldPointsRestored;
-
-    public event EventHandler<UnitDamagedEventArgs>? Dead;
 }

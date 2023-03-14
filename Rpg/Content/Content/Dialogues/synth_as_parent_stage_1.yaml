@@ -28,7 +28,7 @@ root:
         - hero: Partisan
           text: '"Я вот че думаю, синты-слуги только у жирных есть. Если найдём ее хозяина-толстосума, то нам бабок отвалят. И проблем никаких не будет."'
   options:
-    - text: Сдать
+    - text: Экстрадировать
       aftermaths:
         - type: Trigger
           data: stage_1_extradite

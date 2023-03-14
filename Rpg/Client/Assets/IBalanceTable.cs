@@ -1,10 +1,9 @@
-﻿using Rpg.Client.Core;
+﻿using Core.Balance;
 
-namespace Rpg.Client.Assets
+namespace Client.Assets;
+
+internal interface IBalanceTable
 {
-    internal interface IBalanceTable
-    {
-        CommonUnitBasics GetCommonUnitBasics();
-        BalanceTableRecord GetRecord(UnitName unitName);
-    }
+    CommonUnitBasics GetCommonUnitBasics();
+    BalanceTableRecord GetRecord(string unitName);
 }

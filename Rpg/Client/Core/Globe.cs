@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using Client.Assets.StoryPointJobs;
 using Client.Core;
@@ -134,18 +133,6 @@ namespace Rpg.Client.Core
                 else
                 {
                     _globeEvents.Remove(globeEvent);
-                }
-            }
-
-            foreach (var unit in Player.GetAll())
-            {
-                var unitEffectsSnapshot = unit.GlobalEffects.ToArray();
-                foreach (var effect in unitEffectsSnapshot)
-                {
-                    if (!effect.Source.IsActive)
-                    {
-                        unit.RemoveGlobalEffect(effect);
-                    }
                 }
             }
         }

@@ -9,6 +9,7 @@ using System.Text.Json.Serialization;
 using Client.Core;
 using Client.Core.Heroes;
 
+using Core.Combats;
 using Core.Dices;
 
 using Rpg.Client.Core.ProgressStorage;

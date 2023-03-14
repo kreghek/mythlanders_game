@@ -45,7 +45,7 @@ namespace Rpg.Client.Assets.GlobalEffects
             Debug.Assert(targetPlayerCharacter is not null,
                 "Global events shoudn't be before the target character join the party.");
 
-            targetPlayerCharacter.AddGlobalEffect(this);
+            //targetPlayerCharacter.AddGlobalEffect(this);
         }
     }
 }

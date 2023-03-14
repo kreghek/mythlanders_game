@@ -1,3 +1,5 @@
+using Client.Assets;
+
 using JetBrains.Annotations;
 
 using Rpg.Client.Assets.GraphicConfigs;
