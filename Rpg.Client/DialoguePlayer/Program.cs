@@ -4,7 +4,6 @@ using System.Resources;
 
 using Client.Assets;
 
-using Rpg.Client.Assets;
 using Rpg.Client.Assets.Catalogs;
 using Rpg.Client.Core;
 using Rpg.Client.GameScreens;

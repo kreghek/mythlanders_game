@@ -17,17 +17,22 @@ namespace BalanceConverter
             return ReadRowsFromExcelInner(filePath, sheetName, firstRowIsHeader: false, MapBasicRow);
         }
 
+        public static IReadOnlyCollection<UnitExcelRow> ReadUnitsRolesFromExcel(string filePath, string sheetName)
+        {
+            return ReadRowsFromExcelInner(filePath, sheetName, firstRowIsHeader: true, MapRolesRow);
+        }
+
+        private static float GetFloatValue(object rowValue)
+        {
+            return (float)((double?)rowValue).GetValueOrDefault();
+        }
+
         private static UnitBasicRow MapBasicRow(DataRow row)
         {
             return new UnitBasicRow
             {
                 Key = row[0] as string, Value = GetFloatValue(row[1])
             };
-        }
-
-        public static IReadOnlyCollection<UnitExcelRow> ReadUnitsRolesFromExcel(string filePath, string sheetName)
-        {
-            return ReadRowsFromExcelInner(filePath, sheetName, firstRowIsHeader: true, MapRolesRow);
         }
 
         private static UnitExcelRow MapRolesRow(DataRow row)
@@ -39,11 +44,6 @@ namespace BalanceConverter
                 DamageDealerRank = GetFloatValue(row[2]),
                 SupportRank = GetFloatValue(row[3])
             };
-        }
-
-        private static float GetFloatValue(object rowValue)
-        {
-            return (float)((double?)rowValue).GetValueOrDefault();
         }
 
         private static IReadOnlyCollection<TRow> ReadRowsFromExcelInner<TRow>(
