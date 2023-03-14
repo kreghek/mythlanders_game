@@ -9,6 +9,8 @@ internal static class CombatantFactory
     public static IReadOnlyCollection<FormationSlot> CreateHeroes(ICombatActorBehaviour combatActorBehaviour)
     {
         var swordsmanHero = new SwordsmanFactory();
+        var amazonHero = new AmazonFactory();
+        var partisanHero = new PartisanFactory();
 
         return new[]
         {
@@ -18,11 +20,11 @@ internal static class CombatantFactory
             },
             new FormationSlot(1, 0)
             {
-                Combatant = swordsmanHero.Create("Warrior", combatActorBehaviour)
+                Combatant = amazonHero.Create("Diana", combatActorBehaviour)
             },
             new FormationSlot(1, 2)
             {
-                Combatant = swordsmanHero.Create("Soldier", combatActorBehaviour)
+                Combatant = partisanHero.Create("Deaf (the)", combatActorBehaviour)
             }
         };
     }

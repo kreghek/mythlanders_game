@@ -140,12 +140,12 @@ namespace Rpg.Client.GameComponents
         {
             return unitSchemeSid switch
             {
-                "comissar" => unitSchemeCatalog.Heroes[UnitName.Comissar],
+                "partisan" => unitSchemeCatalog.Heroes[UnitName.Partisan],
                 "assaulter" => unitSchemeCatalog.Heroes[UnitName.Assaulter],
                 "zoologist" => unitSchemeCatalog.Heroes[UnitName.Zoologist],
 
                 "warrior" => unitSchemeCatalog.Heroes[UnitName.Swordsman],
-                "archer" => unitSchemeCatalog.Heroes[UnitName.Archer],
+                "robber" => unitSchemeCatalog.Heroes[UnitName.Robber],
                 "herbalist" => unitSchemeCatalog.Heroes[UnitName.Herbalist],
 
                 "monk" => unitSchemeCatalog.Heroes[UnitName.Monk],
