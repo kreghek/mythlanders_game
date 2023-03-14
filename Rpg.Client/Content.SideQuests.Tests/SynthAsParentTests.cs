@@ -1,6 +1,7 @@
 using System.Globalization;
 
 using Client;
+using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.Dialogues;
 using Client.Core.Dialogues;
@@ -9,8 +10,6 @@ using Core.Dices;
 
 using FluentAssertions;
 
-using Rpg.Client.Assets;
-using Rpg.Client.Assets.Catalogs;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
 using Rpg.Client.GameScreens.Speech;

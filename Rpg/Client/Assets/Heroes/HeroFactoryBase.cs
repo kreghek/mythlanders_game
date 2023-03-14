@@ -1,4 +1,5 @@
-﻿using Client.Assets.Heroes;
+﻿using Client.Assets;
+using Client.Assets.Heroes;
 
 using Rpg.Client.Assets.GraphicConfigs.Heroes;
 using Rpg.Client.Core;

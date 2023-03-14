@@ -1,4 +1,6 @@
-﻿using Rpg.Client.Assets.GraphicConfigs.Monsters;
+﻿using Client.Assets;
+
+using Rpg.Client.Assets.GraphicConfigs.Monsters;
 using Rpg.Client.Core;
 using Rpg.Client.GameScreens;
 
