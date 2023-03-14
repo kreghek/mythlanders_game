@@ -16,14 +16,11 @@ jobs:
   # when a job name is not provided
   resharper-inspections:
     # Name the Job
-    name: Clean up C# code base via R# CLT
+    name: Inspect C# via R# CLT
     # Set the type of machine to run on
     runs-on: ubuntu-latest
     env:
       working-directory : ./Rpg.Client/
-    
-    permissions:
-      pull-requests: write
 
     steps:
       - uses: actions/checkout@v3
@@ -66,4 +63,4 @@ jobs:
         
       - uses: mshick/add-pr-comment@v2
         with:
-          message: ${{inspections.outputs.report}}
+          message: ${{jobs.inspection.outputs.report}}
