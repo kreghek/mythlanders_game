@@ -311,6 +311,9 @@
   <data name="ImprovedHitPointsDescription" xml:space="preserve">
     <value>Количество хит поинтов увеличено в 2 раза.</value>
   </data>
+  <data name="InspirationalBreakthrough" xml:space="preserve">
+    <value>Вдохновляющий прорыв</value>
+  </data>
   <data name="InspiringRush" xml:space="preserve">
     <value>Вдохновляющий рывок</value>
   </data>
@@ -359,6 +362,9 @@
   </data>
   <data name="RedemptionStaff" xml:space="preserve">
     <value>Посох Покаяния</value>
+  </data>
+  <data name="Sabotage" xml:space="preserve">
+    <value>Саботаж</value>
   </data>
   <data name="ScarabeusKingLeg" xml:space="preserve">
     <value>Лапа Короля жука-скоробея</value>

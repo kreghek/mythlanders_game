@@ -189,6 +189,7 @@
   </data>
   <data name="ChineseOldman" xml:space="preserve">
     <value>Ninlao Bingwen</value>
+    <comment>NPC</comment>
   </data>
   <data name="ChineseOldman_Hidden" xml:space="preserve">
     <value>Chinese oldman</value>
@@ -327,6 +328,10 @@
     <value>Amount of the hit points increased by 2 times.</value>
     <comment>Perk</comment>
   </data>
+  <data name="InspirationalBreakthrough" xml:space="preserve">
+    <value>Inspirational breakthrough</value>
+    <comment>Combat Movement</comment>
+  </data>
   <data name="InspiringRush" xml:space="preserve">
     <value>Inspiring rush</value>
     <comment>Skill</comment>
@@ -385,6 +390,10 @@
   </data>
   <data name="RedemptionStaff" xml:space="preserve">
     <value>Staff of Redemption</value><comment>Equipment</comment>
+  </data>
+  <data name="Sabotage" xml:space="preserve">
+    <value>Sabotage</value>
+    <comment>Combat Movement</comment>
   </data>
   <data name="ScarabeusKingLeg" xml:space="preserve">
     <value>Scarabeus King's Leg</value><comment>Equipment</comment>

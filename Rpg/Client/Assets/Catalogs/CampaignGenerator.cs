@@ -71,6 +71,16 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     {
         return new[]
         {
+           
+            // Combat
+
+            new ICampaignStageTemplateFactory[]
+            {
+                new CombatCampaignStageTemplateFactory(locationSid, _services),
+                new CombatCampaignStageTemplateFactory(locationSid, _services),
+                new CombatCampaignStageTemplateFactory(locationSid, _services)
+            },
+
             new ICampaignStageTemplateFactory[]
             {
                 new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
@@ -79,15 +89,6 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                     new SacredEventCampaignStageTemplateFactory(),
                     new MinigameEventCampaignStageTemplateFactory()
                 })
-            },
-            
-            // Combat
-
-            new ICampaignStageTemplateFactory[]
-            {
-                new CombatCampaignStageTemplateFactory(locationSid, _services),
-                new CombatCampaignStageTemplateFactory(locationSid, _services),
-                new CombatCampaignStageTemplateFactory(locationSid, _services)
             },
 
             // Rest

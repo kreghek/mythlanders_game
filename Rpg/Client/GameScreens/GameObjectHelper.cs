@@ -1,6 +1,8 @@
 ﻿using Client;
 using Client.Core;
 
+using Core.Combats;
+
 using Rpg.Client.Core;
 
 namespace Rpg.Client.GameScreens;
@@ -10,6 +12,11 @@ internal static class GameObjectHelper
     public static string GetLocalized(UnitName unitName)
     {
         return GetLocalizedInner(unitName.ToString());
+    }
+
+    public static string GetLocalized(CombatMovementSid sid)
+    {
+        return GetLocalizedInner(sid.Value);
     }
 
     public static string GetLocalized(CharacterRelation relation)

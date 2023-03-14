@@ -25,7 +25,7 @@ internal class CombatMovementsHandPanel : ControlBase
 
     private readonly IList<CombatMovementButton> _buttons;
     private readonly IUiContentStorage _uiContentStorage;
-    private SkillHint? _activeSkillHint;
+    private CombatMovementHint? _activeSkillHint;
     private KeyboardState _currentKeyboardState;
 
     private EntityButtonBase<CombatMovementInstance>? _hoverButton;
@@ -150,7 +150,7 @@ internal class CombatMovementsHandPanel : ControlBase
 
         if (_hoverButton is not null && _hoverButton != oldHoverButton && _combatant is not null)
         {
-            _activeSkillHint = new SkillHint(_hoverButton.Entity);
+            _activeSkillHint = new CombatMovementHint(_hoverButton.Entity);
         }
         else if (_hoverButton is not null && _hoverButton == oldHoverButton && _combatant is not null)
         {

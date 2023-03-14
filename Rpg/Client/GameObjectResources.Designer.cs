@@ -628,6 +628,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inspirational breakthrough.
+        /// </summary>
+        internal static string InspirationalBreakthrough {
+            get {
+                return ResourceManager.GetString("InspirationalBreakthrough", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inspiring rush.
         /// </summary>
         internal static string InspiringRush {
@@ -768,6 +777,15 @@ namespace Client {
         internal static string RedemptionStaff {
             get {
                 return ResourceManager.GetString("RedemptionStaff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sabotage.
+        /// </summary>
+        internal static string Sabotage {
+            get {
+                return ResourceManager.GetString("Sabotage", resourceCulture);
             }
         }
         
