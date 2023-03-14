@@ -1,9 +1,6 @@
 using System.Collections.Generic;
 
-using Client.Assets.CombatMovements.Hero.Swordsman;
-
 using Core.Combats;
-using Core.Combats.CombatantEffectLifetimes;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
@@ -15,84 +12,73 @@ public class AmazonFactory
     {
         var movementPool = new List<CombatMovement>();
 
-        movementPool.Add(new CombatMovement("Rise your fists!",
+        movementPool.Add(new CombatMovement("Hunt",
+            new CombatMovementCost(3),
+            CombatMovementEffectConfig.Create(
+                new IEffect[]
+                {
+                    new DamageEffect(
+                            new ClosestInLineTargetSelector(),
+                            DamageType.Normal,
+                            Range<int>.CreateMono(4)),
+                })
+        )
+        {
+            Tags = CombatMovementTags.Attack
+        });
+
+        movementPool.Add(new CombatMovement("FinishWounded",
+            new CombatMovementCost(2),
+            CombatMovementEffectConfig.Create(
+                new IEffect[]
+                {
+                    new DamageEffect(
+                            new WeakestEnemyTargetSelector(),
+                            DamageType.Normal,
+                            Range<int>.CreateMono(4)),
+                })
+        )
+        {
+            Tags = CombatMovementTags.Attack
+        });
+
+        movementPool.Add(new CombatMovement("TrackerSavvy",
             new CombatMovementCost(1),
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new ModifyEffectsEffect(new SelfTargetSelector(), 1)
+                    new ModifyEffectsEffect(new SelfTargetSelector(), 1),
                 })
         ));
 
-        movementPool.Add(new DieBySwordFactory().CreateMovement());
-
-        movementPool.Add(new CombatMovement("I'm so strong",
-                new CombatMovementCost(2),
-                new CombatMovementEffectConfig(
-                    new IEffect[]
-                    {
-                        new ChangeStatEffect(new SelfTargetSelector(),
-                            UnitStatType.Defense,
-                            3,
-                            typeof(ToNextCombatantTurnEffectLifetime))
-                    },
-                    new IEffect[]
-                    {
-                        new ChangeStatEffect(new SelfTargetSelector(),
-                            UnitStatType.Defense,
-                            1,
-                            typeof(ToEndOfCurrentRoundEffectLifetime))
-                    })
-            )
-        {
-            Tags = CombatMovementTags.AutoDefense
-        }
-        );
-
-        movementPool.Add(new CombatMovement("Hit from shoulder",
-                new CombatMovementCost(3),
-                CombatMovementEffectConfig.Create(
-                    new IEffect[]
-                    {
-                        new DamageEffect(
+        movementPool.Add(new CombatMovement("JustHitBoarWithKnife",
+            new CombatMovementCost(2),
+            CombatMovementEffectConfig.Create(
+                new IEffect[]
+                {
+                    new DamageEffect(
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
-                            Range<int>.CreateMono(3)),
-                        new ChangePositionEffect(
-                            new SelfTargetSelector(),
-                            ChangePositionEffectDirection.ToVanguard
-                        )
-                    })
-            )
-        {
-            Tags = CombatMovementTags.Attack
-        }
-        );
-
-        movementPool.Add(new CombatMovement("Look out!",
-            new CombatMovementCost(2),
-            new CombatMovementEffectConfig(
-                new IEffect[]
-                {
-                    new ChangeStatEffect(new ClosestAllyInColumnTargetSelector(),
-                        UnitStatType.Defense,
-                        3,
-                        typeof(ToNextCombatantTurnEffectLifetime)),
-                    new ChangePositionEffect(
-                        new SelfTargetSelector(),
-                        ChangePositionEffectDirection.ToVanguard
-                    )
-                },
-                new IEffect[]
-                {
-                    new ChangeStatEffect(new SelfTargetSelector(),
-                        UnitStatType.Defense,
-                        1,
-                        typeof(ToEndOfCurrentRoundEffectLifetime))
+                            Range<int>.CreateMono(1)),
                 })
         )
         {
-            Tags = CombatMovementTags.AutoDefense
+            Tags = CombatMovementTags.Attack
+        });
+
+        movementPool.Add(new CombatMovement("BringBeastDown",
+            new CombatMovementCost(3),
+            CombatMovementEffectConfig.Create(
+                new IEffect[]
+                {
+                    new DamageEffect(
+                            new StrongestEnemyTargetSelector(),
+                            DamageType.Normal,
+                            Range<int>.CreateMono(4)),
+                })
+        )
+        {
+            Tags = CombatMovementTags.Attack
         });
 
         var heroSequence = new CombatMovementSequence();
