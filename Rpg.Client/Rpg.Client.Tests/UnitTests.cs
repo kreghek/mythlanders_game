@@ -1,8 +1,8 @@
 using System.Linq;
 
-using Core.Balance;
-
 using Client.Core;
+
+using Core.Balance;
 
 using FluentAssertions;
 
