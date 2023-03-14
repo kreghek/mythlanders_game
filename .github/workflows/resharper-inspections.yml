@@ -63,4 +63,4 @@ jobs:
         
       - uses: mshick/add-pr-comment@v2
         with:
-          message: ${{jobs.inspection.outputs.report}}
+          message: ${{ steps.inspection.outputs.report }}
