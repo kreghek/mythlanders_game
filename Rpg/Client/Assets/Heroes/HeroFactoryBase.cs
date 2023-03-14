@@ -21,7 +21,7 @@ namespace Rpg.Client.Assets.Heroes
 
         public UnitScheme Create(IBalanceTable balanceTable)
         {
-            var record = balanceTable.GetRecord(HeroName);
+            var record = balanceTable.GetRecord(HeroName.ToString());
 
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {

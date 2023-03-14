@@ -1,4 +1,5 @@
-using Rpg.Client.Assets;
+using Client.Assets;
+
 using Rpg.Client.Core;
 using Rpg.Client.GameScreens;
 

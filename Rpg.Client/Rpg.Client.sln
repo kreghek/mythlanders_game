@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\.github\workflows\mutation-test-stryker.yml = ..\.github\workflows\mutation-test-stryker.yml
 		..\.github\workflows\publish.yml = ..\.github\workflows\publish.yml
 		..\.github\workflows\remove-old-artifacts.yml = ..\.github\workflows\remove-old-artifacts.yml
+		..\.github\workflows\resharper-inspections.yml = ..\.github\workflows\resharper-inspections.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rpg.Client.Tests", "Rpg.Client.Tests\Rpg.Client.Tests.csproj", "{2DB303DC-804C-4B09-B980-8D25AF699675}"
@@ -30,6 +31,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Content", "..\Rpg\Content\Content.csproj", "{9FD45E74-BC1B-4962-9951-2BDB3A84F60F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "..\Rpg\Core\Core.csproj", "{F3878C6F-6E6E-438E-B6B5-619BED0EAEB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Balance", "..\Rpg\Core.Balance\Core.Balance.csproj", "{5F548959-6301-4C1E-B2D6-A1F0D8C2AE5C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Text.Client", "..\Rpg\Text.Client\Text.Client.csproj", "{CE4DDDBD-CA11-4395-9343-7C90FFC48096}"
 EndProject
@@ -77,6 +80,10 @@ Global
 		{F3878C6F-6E6E-438E-B6B5-619BED0EAEB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3878C6F-6E6E-438E-B6B5-619BED0EAEB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3878C6F-6E6E-438E-B6B5-619BED0EAEB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F548959-6301-4C1E-B2D6-A1F0D8C2AE5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F548959-6301-4C1E-B2D6-A1F0D8C2AE5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F548959-6301-4C1E-B2D6-A1F0D8C2AE5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F548959-6301-4C1E-B2D6-A1F0D8C2AE5C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CE4DDDBD-CA11-4395-9343-7C90FFC48096}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CE4DDDBD-CA11-4395-9343-7C90FFC48096}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE4DDDBD-CA11-4395-9343-7C90FFC48096}.Release|Any CPU.ActiveCfg = Release|Any CPU

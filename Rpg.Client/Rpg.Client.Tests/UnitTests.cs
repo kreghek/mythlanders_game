@@ -1,5 +1,7 @@
 using System.Linq;
 
+using Core.Balance;
+
 using Client.Core;
 
 using FluentAssertions;
@@ -45,7 +47,7 @@ namespace Rpg.Client.Tests
         }
 
         [Test]
-        public void Constructor_ReplaceSkillOn5lvl_SkillReplacedByImrovedVersion()
+        public void Constructor_ReplaceSkillOn5lvl_SkillReplacedByImprovedVersion()
         {
             // ARRANGE
 
