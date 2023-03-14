@@ -14,7 +14,7 @@ internal class DieBySwordFactory : ICombatMovementFactory
 
     public CombatMovement CreateMovement()
     {
-        return new CombatMovement("Die by sword!",
+        return new CombatMovement(Sid,
                 new CombatMovementCost(2),
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
