@@ -73,3 +73,4 @@ jobs:
         with:
           message-id: ${{ steps.fc.outputs.comment-id }}
           message-path: ./inspection_report.txt
+        working-directory: ${{env.working-directory}}

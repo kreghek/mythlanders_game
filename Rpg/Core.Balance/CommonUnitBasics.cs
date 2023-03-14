@@ -1,6 +1,9 @@
+// ReSharper disable InconsistentNaming
+// Names are adapted to read easily from Excel table
+
 namespace Core.Balance;
 
-public sealed class CommonUnitBasics
+public sealed record CommonUnitBasics
 {
     public CommonUnitBasics()
     {
@@ -29,7 +32,7 @@ public sealed class CommonUnitBasics
     public float DAMAGE_BASE { get; set; }
 
     public float HERO_POWER_MULTIPLICATOR { get; set; }
-    public int HITPOINTS_BASE { get; set; }
+    public int HITPOINTS_BASE { get; init; }
     public int HITPOINTS_PER_LEVEL_BASE { get; set; }
     public int LEVEL_BASE { get; set; }
     public int LEVEL_MULTIPLICATOR { get; set; }
