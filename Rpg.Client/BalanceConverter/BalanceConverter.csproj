@@ -22,6 +22,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Rpg\Client\Client.csproj" />
+      <ProjectReference Include="..\..\Rpg\Core.Balance\Core.Balance.csproj" />
     </ItemGroup>
 
     <ItemGroup>

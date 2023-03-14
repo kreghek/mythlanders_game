@@ -1,4 +1,6 @@
-﻿using Rpg.Client.Core;
+﻿using Client.Assets;
+
+using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Monsters
 {

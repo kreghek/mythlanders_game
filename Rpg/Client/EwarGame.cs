@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 
+using Client.Assets;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;

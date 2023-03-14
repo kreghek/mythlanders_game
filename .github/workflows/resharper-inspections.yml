@@ -57,10 +57,9 @@ jobs:
         run: |
           touch ./inspection_report.txt
           jb inspectcode Rpg.Client.sln --build --format=Text --output=./inspection_report.txt
-          echo "cyber-goblin-marker\n" >> ./inspection_report.txt
+          echo " cyber-goblin-marker" >> ./inspection_report.txt
           REPORT=$(cat "./inspection_report.txt")
           echo $REPORT
-          echo "report=$REPORT" >> "$GITHUB_OUTPUT"
         working-directory: ${{env.working-directory}}
         
       - name: Find Comment of goblin
@@ -73,4 +72,4 @@ jobs:
       - uses: mshick/add-pr-comment@v2
         with:
           message-id: ${{ steps.fc.outputs.comment-id }}
-          message: ${{ steps.inspection.outputs.report }}
+          message-path: ./inspection_report.txt

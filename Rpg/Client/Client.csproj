@@ -149,6 +149,7 @@
 		</AssemblyAttribute>
 	</ItemGroup>
 	<ItemGroup>
+	  <ProjectReference Include="..\Core.Balance\Core.Balance.csproj" />
 	  <ProjectReference Include="..\Core\Core.csproj" />
 	</ItemGroup>
 </Project>

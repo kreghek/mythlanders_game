@@ -1,4 +1,6 @@
-﻿using JetBrains.Annotations;
+﻿using Client.Assets;
+
+using JetBrains.Annotations;
 
 using Rpg.Client.Assets.GraphicConfigs.Monsters;
 using Rpg.Client.Assets.Skills.Monster;
