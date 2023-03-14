@@ -4,6 +4,7 @@ using Client;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Combat;
 using Client.GameScreens.CommandCenter;
+using Client.GameScreens.Crisis;
 using Client.GameScreens.NotImplementedStage;
 using Client.GameScreens.Rest;
 using Client.GameScreens.SlidingPuzzles;
@@ -127,6 +128,8 @@ namespace Rpg.Client.ScreenManagement
                     (CombatScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Rest => new RestScreen(_game,
                     (RestScreenTransitionArguments)screenTransitionArguments),
+                ScreenTransition.Crisis => new CrisisScreen(_game,
+                    (CrisisScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Training => new TrainingScreen(_game,
                     (TrainingScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.SlidingPuzzles => new SlidingPuzzlesScreen(_game,
