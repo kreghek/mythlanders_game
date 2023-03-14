@@ -1,4 +1,5 @@
 ﻿using Core.Combats;
+using Core.Combats.BotBehaviour;
 
 namespace Text.Client;
 
@@ -25,5 +26,13 @@ internal sealed class UseCombatMovementIntention : IIntention
                 imposeItem.ImposeDelegate(target);
 
         movementExecution.CompleteDelegate();
+    }
+}
+
+internal sealed class IntentionFactory : IIntentionFactory
+{
+    public IIntention CreateCombatMovement(CombatMovementInstance combatMovement)
+    {
+        return new UseCombatMovementIntention(combatMovement);
     }
 }
