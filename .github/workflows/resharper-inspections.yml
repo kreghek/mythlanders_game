@@ -72,5 +72,4 @@ jobs:
       - uses: mshick/add-pr-comment@v2
         with:
           message-id: ${{ steps.fc.outputs.comment-id }}
-          message-path: ./inspection_report.txt
-        working-directory: ${{env.working-directory}}
+          message-path: /home/runner/work/ewar/ewar/Rpg.Client/inspection_report.txt
