@@ -72,5 +72,5 @@ jobs:
         
       - uses: mshick/add-pr-comment@v2
         with:
-          message-id: ${{ steps.fc.outputs.report }}
-          message: ${{ steps.inspection.outputs.comment-id }}
+          message-id: ${{ steps.fc.outputs.comment-id }}
+          message: ${{ steps.inspection.outputs.report }}
