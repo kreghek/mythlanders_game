@@ -21,6 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       working-directory : ./Rpg.Client/
+    
+    permissions:
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v3
