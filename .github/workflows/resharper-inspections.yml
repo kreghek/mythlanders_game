@@ -1,4 +1,4 @@
-name: Code Linter
+name: Resharper Code Inspections
 
 on:
   pull_request:
@@ -21,9 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       working-directory : ./Rpg.Client/
-    
-    permissions:
-      pull-requests: write
 
     steps:
       - uses: actions/checkout@v3
