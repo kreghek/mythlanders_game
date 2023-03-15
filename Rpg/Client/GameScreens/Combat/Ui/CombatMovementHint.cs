@@ -7,6 +7,7 @@ using Core.Combats;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Common.SkillEffectDrawers;
@@ -37,13 +38,13 @@ internal class CombatMovementHint : HintBase
     {
         var color = Color.White;
 
-        var skillTitlePosition = clientRect.Location.ToVector2() + new Vector2(5, 15);
+        var combatMoveTitlePosition = clientRect.Location.ToVector2() + new Vector2(5, 15);
 
-        var skillNameText = GameObjectHelper.GetLocalized(_combatMovement.SourceMovement.Sid);
+        var combatMoveTitle = GameObjectHelper.GetLocalized(_combatMovement.SourceMovement.Sid);
 
-        spriteBatch.DrawString(_nameFont, skillNameText, skillTitlePosition, color);
+        spriteBatch.DrawString(_nameFont, combatMoveTitle, combatMoveTitlePosition, color);
 
-        var manaCostPosition = skillTitlePosition + new Vector2(0, 10);
+        var manaCostPosition = combatMoveTitlePosition + new Vector2(0, 15);
         if (_combatMovement.SourceMovement.Cost.HasCost)
         {
             spriteBatch.DrawString(_font,
@@ -51,21 +52,9 @@ internal class CombatMovementHint : HintBase
                 manaCostPosition, color);
         }
 
-        var ruleBlockPosition = manaCostPosition + new Vector2(0, 20);
-        var skillEffects = _combatMovement.Effects.ToArray();
-        for (var ruleIndex = 0; ruleIndex < skillEffects.Length; ruleIndex++)
-        {
-            var effectToDisplay = skillEffects[ruleIndex];
-
-            var rulePosition = ruleBlockPosition + new Vector2(0, 10) * ruleIndex;
-
-            foreach (var effectDrawer in _effectDrawers)
-            {
-                if (effectDrawer.Draw(spriteBatch, effectToDisplay, rulePosition))
-                {
-                    break;
-                }
-            }
-        }
+        var combatMoveDescription =
+            StringHelper.LineBreaking(GameObjectHelper.GetLocalizedDescription(_combatMovement.SourceMovement.Sid), 60);
+        var descriptionBlockPosition = manaCostPosition + new Vector2(0, 20);
+        spriteBatch.DrawString(_font, combatMoveDescription, descriptionBlockPosition, Color.Wheat);
     }
 }

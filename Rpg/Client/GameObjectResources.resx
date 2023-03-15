@@ -156,7 +156,7 @@
     <value>Trooper</value>
   </data>
   <data name="BlankShot" xml:space="preserve">
-    <value>Blank shot</value>
+    <value>Blank shot</value><comment>Combat movement</comment>
   </data>
   <data name="BlindDefense" xml:space="preserve">
     <value>Blind defense</value>
@@ -505,5 +505,59 @@
   <data name="ZduhachMight" xml:space="preserve">
       <value>Zduhach Might</value>
     <comment>Skill</comment>
+  </data>
+  <data name="InspirationalBreakthrough_Description" xml:space="preserve">
+    <value /><comment>Combat Movement</comment>
+  </data>
+  <data name="Sabotage_Description" xml:space="preserve">
+    <value /><comment>Combat Movement</comment>
+  </data>
+  <data name="SurpriseManeuver" xml:space="preserve">
+    <value>Surprise maneuver</value><comment>Combat Movement</comment>
+  </data>
+  <data name="SurpriseManeuver_Description" xml:space="preserve">
+    <value /><comment>Combat Movement</comment>
+  </data>
+  <data name="BlankShot_Description" xml:space="preserve">
+    <value /><comment>Combat movement</comment>
+  </data>
+  <data name="OldGoodBrawl" xml:space="preserve">
+    <value>Old good brawl</value><comment>Combat movement</comment>
+  </data>
+  <data name="OldGoodBrawl_Description" xml:space="preserve">
+    <value /><comment>Combat movement</comment>
+  </data>
+  <data name="Hunt" xml:space="preserve">
+    <value>The Hunt has begun!</value><comment>Combat Movement</comment>
+  </data>
+  <data name="Hunt_Description" xml:space="preserve">
+    <value /><comment>Combat Movement</comment>
+  </data>
+  <data name="FinishWounded" xml:space="preserve">
+    <value>Finish a wounded</value><comment>Combat Movement</comment>
+  </data>
+  <data name="FinishWounded_Description" xml:space="preserve">
+    <value /><comment>Combat Movement</comment>
+  </data>
+  <data name="TrackerSavvy" xml:space="preserve">
+    <value>Tracker's savvy</value><comment>Combat Movement</comment>
+  </data>
+  <data name="TrackerSavvy_Description" xml:space="preserve">
+    <value /><comment>Combat Movement</comment>
+  </data>
+  <data name="JustHitBoarWithKnife" xml:space="preserve">
+    <value>Just hit a whild boar with the knife</value><comment>Combat movement</comment>
+  </data>
+  <data name="JustHitBoarWithKnife_Description" xml:space="preserve">
+    <value /><comment>Combat movement</comment>
+  </data>
+  <data name="BringBeastDown" xml:space="preserve">
+    <value>Bring the Beast down</value><comment>Combat Movemeent</comment>
+  </data>
+  <data name="BringBeastDown_Description" xml:space="preserve">
+    <value /><comment>Combat Movemeent</comment>
+  </data>
+  <data name="RiseYourSword" xml:space="preserve">
+    <value />
   </data>
 </root>
