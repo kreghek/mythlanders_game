@@ -6,4 +6,8 @@ namespace Client.Assets.Catalogs.DialogueStoring;
 /// Structure to deserialize common dialogue data.
 /// </summary>
 [UsedImplicitly]
-internal sealed record DialogueDtoData(string Type, string Data);
+internal sealed class DialogueDtoData
+{
+    public string Type { get; [UsedImplicitly] init; } = null!;
+    public string Data { get; [UsedImplicitly] init; } = null!;
+};
