@@ -29,7 +29,7 @@ namespace Rpg.Client.Core.SkillEffects
         {
             if (!IsImposed || Target is null)
             {
-                Debug.Assert(false, "Эффект не наложен");
+                Debug.Assert(false, "Effect is not imposed");
                 return;
             }
 
@@ -66,7 +66,7 @@ namespace Rpg.Client.Core.SkillEffects
         {
             if (!IsImposed || Target is null)
             {
-                Debug.Assert(false, "Эффект не наложен");
+                Debug.Assert(false, "Effect is not imposed");
                 return;
             }
 

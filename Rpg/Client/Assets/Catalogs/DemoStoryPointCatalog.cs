@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using Rpg.Client.Assets.StoryPointAftermaths;
 using Rpg.Client.Assets.StoryPointJobs;
@@ -6,6 +7,7 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Catalogs
 {
+    [SuppressMessage("CodeQuality", "O20002:Strings can\'t contains cyrillic symbols")]
     internal sealed class DemoStoryPointCatalog : IStoryPointCatalog, IStoryPointInitializer
     {
         private IReadOnlyCollection<IStoryPoint> _storyPoints = new List<IStoryPoint>();
