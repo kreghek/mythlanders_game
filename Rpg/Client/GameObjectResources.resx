@@ -557,7 +557,28 @@
   <data name="BringBeastDown_Description" xml:space="preserve">
     <value /><comment>Combat Movemeent</comment>
   </data>
-  <data name="RiseYourSword" xml:space="preserve">
-    <value />
+  <data name="RiseYourSwords" xml:space="preserve">
+    <value>Rise your swords!</value><comment>Combat Movement</comment>
+  </data>
+  <data name="RiseYourSwords_Description" xml:space="preserve">
+    <value /><comment>Combat Movement</comment>
+  </data>
+  <data name="StayStrong" xml:space="preserve">
+    <value>Stay strong</value><comment>Combat Movement</comment>
+  </data>
+  <data name="StayStrong_Description" xml:space="preserve">
+    <value /><comment>Combat Movement</comment>
+  </data>
+  <data name="HitFromShoulder" xml:space="preserve">
+    <value>Hit from the shoulder</value><comment>Combat Movement</comment>
+  </data>
+  <data name="HitFromShoulder_Description" xml:space="preserve">
+    <value /><comment>Combat Movement</comment>
+  </data>
+  <data name="LookOut" xml:space="preserve">
+    <value>Look out!</value><comment>Combat movement</comment>
+  </data>
+  <data name="LookOut_Description" xml:space="preserve">
+    <value /><comment>Combat movement</comment>
   </data>
 </root>

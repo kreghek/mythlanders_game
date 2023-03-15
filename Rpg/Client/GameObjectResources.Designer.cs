@@ -609,6 +609,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hit from the shoulder.
+        /// </summary>
+        internal static string HitFromShoulder {
+            get {
+                return ResourceManager.GetString("HitFromShoulder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string HitFromShoulder_Description {
+            get {
+                return ResourceManager.GetString("HitFromShoulder_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Leonidas.
         /// </summary>
         internal static string Hoplite {
@@ -740,6 +758,24 @@ namespace Client {
         internal static string JustHitBoarWithKnife_Description {
             get {
                 return ResourceManager.GetString("JustHitBoarWithKnife_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Look out!.
+        /// </summary>
+        internal static string LookOut {
+            get {
+                return ResourceManager.GetString("LookOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string LookOut_Description {
+            get {
+                return ResourceManager.GetString("LookOut_Description", resourceCulture);
             }
         }
         
@@ -888,11 +924,20 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rise your swords!.
+        /// </summary>
+        internal static string RiseYourSwords {
+            get {
+                return ResourceManager.GetString("RiseYourSwords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string RiseYourSword {
+        internal static string RiseYourSwords_Description {
             get {
-                return ResourceManager.GetString("RiseYourSword", resourceCulture);
+                return ResourceManager.GetString("RiseYourSwords_Description", resourceCulture);
             }
         }
         
@@ -965,6 +1010,24 @@ namespace Client {
         internal static string StaffHit {
             get {
                 return ResourceManager.GetString("StaffHit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stay strong.
+        /// </summary>
+        internal static string StayStrong {
+            get {
+                return ResourceManager.GetString("StayStrong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string StayStrong_Description {
+            get {
+                return ResourceManager.GetString("StayStrong_Description", resourceCulture);
             }
         }
         

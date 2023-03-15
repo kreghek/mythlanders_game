@@ -15,7 +15,7 @@ public class SwordsmanFactory
     {
         var movementPool = new List<CombatMovement>();
 
-        movementPool.Add(new CombatMovement("Rise your fists!",
+        movementPool.Add(new CombatMovement("RiseYourSwords",
             new CombatMovementCost(1),
             CombatMovementEffectConfig.Create(
                 new IEffect[]
@@ -26,7 +26,7 @@ public class SwordsmanFactory
 
         movementPool.Add(new DieBySwordFactory().CreateMovement());
 
-        movementPool.Add(new CombatMovement("I'm so strong",
+        movementPool.Add(new CombatMovement("StayStrong",
                 new CombatMovementCost(2),
                 new CombatMovementEffectConfig(
                     new IEffect[]
@@ -49,7 +49,7 @@ public class SwordsmanFactory
         }
         );
 
-        movementPool.Add(new CombatMovement("Hit from shoulder",
+        movementPool.Add(new CombatMovement("HitFromShoulder",
                 new CombatMovementCost(3),
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
@@ -69,7 +69,7 @@ public class SwordsmanFactory
         }
         );
 
-        movementPool.Add(new CombatMovement("Look out!",
+        movementPool.Add(new CombatMovement("LookOut",
             new CombatMovementCost(2),
             new CombatMovementEffectConfig(
                 new IEffect[]
