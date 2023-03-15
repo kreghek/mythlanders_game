@@ -41,7 +41,7 @@ namespace Rpg.Client.GameScreens.Bestiary
 
             backButton.OnClick += (_, _) =>
             {
-                
+
             };
 
             return new ButtonBase[] { backButton };

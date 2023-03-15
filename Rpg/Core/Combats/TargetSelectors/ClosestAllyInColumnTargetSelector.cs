@@ -35,7 +35,7 @@ public sealed class ClosestAllyInColumnTargetSelector : ITargetSelector
     }
 }
 
-public sealed class LeftAllyTargetSelector: ITargetSelector
+public sealed class LeftAllyTargetSelector : ITargetSelector
 {
     public IReadOnlyList<Combatant> Get(Combatant actor, ITargetSelectorContext context)
     {

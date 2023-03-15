@@ -179,41 +179,41 @@ internal class CombatScreen : GameScreenWithMenuBase
         var maneuverButton = (ManeuverButton)sender;
         var maneuverDirection = CalcDirection(_combatCore.CurrentCombatant, maneuverButton.FieldCoords);
 
-            if (maneuverDirection is not null)
-            {
-                var maneuverIntention = new ManeverIntention(maneuverDirection.Value);
-
-                _playerCombatantBehaviour.Assign(maneuverIntention);
-            }
-        }
-
-        private CombatStepDirection? CalcDirection(Combatant combatant, FieldCoords targetCoords)
+        if (maneuverDirection is not null)
         {
-            var combatantCoords = _combatCore.Field.HeroSide.GetCombatantCoords(combatant);
+            var maneuverIntention = new ManeverIntention(maneuverDirection.Value);
+
+            _playerCombatantBehaviour.Assign(maneuverIntention);
+        }
+    }
+
+    private CombatStepDirection? CalcDirection(Combatant combatant, FieldCoords targetCoords)
+    {
+        var combatantCoords = _combatCore.Field.HeroSide.GetCombatantCoords(combatant);
 
         var lineDiff = targetCoords.LineIndex - combatantCoords.LineIndex;
         var columnDiff = targetCoords.ColumentIndex - combatantCoords.ColumentIndex;
 
-            if (columnDiff > 0 && lineDiff == 0)
-            {
-                return CombatStepDirection.Backward;
-            }
-            else if (columnDiff < 0 && lineDiff == 0)
-            {
-                return CombatStepDirection.Forward;
-            }
-            else if (columnDiff == 0 && lineDiff < 0)
-            {
-                return CombatStepDirection.Up;
-            }
-            else if (columnDiff == 0 && lineDiff > 0)
-            {
-                return CombatStepDirection.Down;
-            }
-            else
-            {
-                return null;
-            }
+        if (columnDiff > 0 && lineDiff == 0)
+        {
+            return CombatStepDirection.Backward;
+        }
+        else if (columnDiff < 0 && lineDiff == 0)
+        {
+            return CombatStepDirection.Forward;
+        }
+        else if (columnDiff == 0 && lineDiff < 0)
+        {
+            return CombatStepDirection.Up;
+        }
+        else if (columnDiff == 0 && lineDiff > 0)
+        {
+            return CombatStepDirection.Down;
+        }
+        else
+        {
+            return null;
+        }
 
     }
 
@@ -310,7 +310,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         var corpse = combatantGameObject.CreateCorpse();
         _corpseObjects.Add(corpse);
-        
+
         _gameObjects.Remove(combatantGameObject);
     }
 
@@ -328,7 +328,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void CombatCore_CombatantEndsTurn(object? sender, CombatantEndsTurnEventArgs e)
     {
         DropSelection(e.Combatant);
-        
+
         if (_combatMovementsHandPanel is not null)
         {
             _combatMovementsHandPanel.Combatant = null;
@@ -418,10 +418,10 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatMovementsHandPanel.CombatMovementPicked += CombatMovementsHandPanel_CombatMovementPicked;
 
         var intentionFactory = new BotCombatActorIntentionFactory(_animationManager, _combatMovementVisualizer, _gameObjects);
-            _combatCore.Initialize(
-                CombatantFactory.CreateHeroes(_playerCombatantBehaviour),
-                CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(intentionFactory)));
-        
+        _combatCore.Initialize(
+            CombatantFactory.CreateHeroes(_playerCombatantBehaviour),
+            CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(intentionFactory)));
+
         _unitStatePanelController = new UnitStatePanelController(_combatCore,
             _uiContentStorage, _gameObjectContentStorage);
     }
@@ -537,7 +537,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _playerCombatantBehaviour.Assign(intention);
     }
 
-    
+
 
     private void CombatCore_CombatantHasBeenDamaged(object? sender, CombatantDamagedEventArgs e)
     {
@@ -617,7 +617,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     {
         return new CombatCore(_dice);
     }
-    
+
 
     private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds,
         int backgroundStartOffsetX,

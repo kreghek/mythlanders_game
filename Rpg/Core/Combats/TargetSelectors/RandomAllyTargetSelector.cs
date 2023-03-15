@@ -2,7 +2,7 @@ using Core.Dices;
 
 namespace Core.Combats.TargetSelectors;
 
-public sealed class RandomAllyTargetSelector: ITargetSelector
+public sealed class RandomAllyTargetSelector : ITargetSelector
 {
     private IEnumerable<Combatant> GetIterator(ITargetSelectorContext context)
     {
@@ -12,7 +12,7 @@ public sealed class RandomAllyTargetSelector: ITargetSelector
             if (slot.Combatant is not null) yield return slot.Combatant;
         }
     }
-    
+
     public IReadOnlyList<Combatant> Get(Combatant actor, ITargetSelectorContext context)
     {
         var enemies = GetIterator(context).ToArray();
@@ -24,22 +24,22 @@ public sealed class RandomAllyTargetSelector: ITargetSelector
     }
 }
 
-public sealed class RandomLineAllyTargetSelector: ITargetSelector
+public sealed class RandomLineAllyTargetSelector : ITargetSelector
 {
     private IEnumerable<Combatant> GetIterator(ITargetSelectorContext context)
     {
         var fieldSide = context.ActorSide;
-        
+
         for (var lineIndex = 0; lineIndex < fieldSide.LineCount; lineIndex++)
         {
             for (var columnIndex = 0; columnIndex < fieldSide.ColumnCount; columnIndex++)
             {
                 var slot = fieldSide[new FieldCoords(columnIndex, lineIndex)];
-                if (slot.Combatant is not null) yield return slot.Combatant;   
+                if (slot.Combatant is not null) yield return slot.Combatant;
             }
         }
     }
-    
+
     public IReadOnlyList<Combatant> Get(Combatant actor, ITargetSelectorContext context)
     {
         var enemies = GetIterator(context).ToArray();

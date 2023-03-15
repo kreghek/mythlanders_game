@@ -18,7 +18,7 @@ internal static class GameObjectHelper
     {
         return GetLocalizedInner(sid.Value);
     }
-    
+
     public static string GetLocalizedDescription(CombatMovementSid sid)
     {
         return GetLocalizedInner($"{sid.Value}_Description");

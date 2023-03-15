@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 
-using Core.Dices;
-
 using Core.Combats;
+using Core.Dices;
 
 namespace Client.Core;
 

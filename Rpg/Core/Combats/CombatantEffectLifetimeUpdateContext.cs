@@ -1,3 +1,3 @@
 ﻿namespace Core.Combats;
 
-public sealed record CombatantEffectLifetimeUpdateContext(Combatant Combatant): ICombatantEffectLifetimeUpdateContext;
+public sealed record CombatantEffectLifetimeUpdateContext(Combatant Combatant) : ICombatantEffectLifetimeUpdateContext;

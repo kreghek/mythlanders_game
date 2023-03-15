@@ -4,6 +4,7 @@ using System.Linq;
 using Client.Assets.States.Primitives;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
+
 using Core.Combats;
 
 using Microsoft.Xna.Framework;

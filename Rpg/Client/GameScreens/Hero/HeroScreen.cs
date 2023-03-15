@@ -52,7 +52,7 @@ namespace Rpg.Client.GameScreens.Hero
             var backButton = new ResourceTextButton(nameof(UiResource.BackButtonTitle));
             backButton.OnClick += (_, _) =>
             {
-                
+
             };
 
             return new ButtonBase[] { backButton };

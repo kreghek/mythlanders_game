@@ -2,7 +2,7 @@ using Core.Dices;
 
 namespace Core.Combats.TargetSelectors;
 
-public sealed class RandomLineEnemyTargetSelector: ITargetSelector
+public sealed class RandomLineEnemyTargetSelector : ITargetSelector
 {
     private IEnumerable<Combatant> GetIterator(ITargetSelectorContext context)
     {
@@ -12,7 +12,7 @@ public sealed class RandomLineEnemyTargetSelector: ITargetSelector
             if (slot.Combatant is not null) yield return slot.Combatant;
         }
     }
-    
+
     public IReadOnlyList<Combatant> Get(Combatant actor, ITargetSelectorContext context)
     {
         var enemies = GetIterator(context).ToArray();

@@ -17,6 +17,6 @@ public class UnitStat : IUnitStat
     }
 
     public UnitStatType Type { get; }
-    
+
     public IStatValue Value { get; }
 }
