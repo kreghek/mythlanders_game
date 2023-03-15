@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 
-using Client;
 using Client.Engine;
 
 using Microsoft.Xna.Framework;

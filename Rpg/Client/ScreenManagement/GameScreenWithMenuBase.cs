@@ -11,7 +11,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Common;
 
 namespace Rpg.Client.ScreenManagement;
 

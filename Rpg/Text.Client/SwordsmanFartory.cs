@@ -35,9 +35,9 @@ public class SwordsmanFartory
                         )
                     })
             )
-        {
-            Tags = CombatMovementTags.Attack
-        }
+            {
+                Tags = CombatMovementTags.Attack
+            }
         );
 
         movementPool.Add(new CombatMovement("I'm so strong",
@@ -58,9 +58,9 @@ public class SwordsmanFartory
                             typeof(ToEndOfCurrentRoundEffectLifetime))
                     })
             )
-        {
-            Tags = CombatMovementTags.AutoDefense
-        }
+            {
+                Tags = CombatMovementTags.AutoDefense
+            }
         );
 
         movementPool.Add(new CombatMovement("Hit from shoulder",
@@ -78,9 +78,9 @@ public class SwordsmanFartory
                         )
                     })
             )
-        {
-            Tags = CombatMovementTags.Attack
-        }
+            {
+                Tags = CombatMovementTags.Attack
+            }
         );
 
         movementPool.Add(new CombatMovement("Look out!",
@@ -117,8 +117,7 @@ public class SwordsmanFartory
 
         var hero = new Combatant("swordsman", heroSequence, combatActorBehaviour)
         {
-            Sid = sid,
-            IsPlayerControlled = true
+            Sid = sid, IsPlayerControlled = true
         };
         return hero;
     }

@@ -45,6 +45,27 @@ public sealed class NoCyrillicStringsCodeAnalyzer : DiagnosticAnalyzer
         );
     }
 
+    private static void AnalyzeMethodCall(SyntaxNodeAnalysisContext context,
+        ExpressionStatementSyntax expressionStatementSyntax)
+    {
+        if (expressionStatementSyntax.Expression is InvocationExpressionSyntax invocationExpressionSyntax)
+        {
+            foreach (var argumentSyntax in invocationExpressionSyntax.ArgumentList.Arguments)
+            {
+                if (argumentSyntax.Expression.Kind() is SyntaxKind.StringLiteralExpression
+                    or SyntaxKind.InterpolatedStringExpression)
+                {
+                    var stringValue = argumentSyntax.Expression.ToString();
+
+                    if (IsCyrillic(stringValue))
+                    {
+                        context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), stringValue));
+                    }
+                }
+            }
+        }
+    }
+
     private static void AnalyzeNode(SyntaxNodeAnalysisContext context)
     {
         var node = context.Node;
@@ -100,27 +121,6 @@ public sealed class NoCyrillicStringsCodeAnalyzer : DiagnosticAnalyzer
             if (IsCyrillic(stringValue))
             {
                 context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), stringValue));
-            }
-        }
-    }
-
-    private static void AnalyzeMethodCall(SyntaxNodeAnalysisContext context,
-        ExpressionStatementSyntax expressionStatementSyntax)
-    {
-        if (expressionStatementSyntax.Expression is InvocationExpressionSyntax invocationExpressionSyntax)
-        {
-            foreach (var argumentSyntax in invocationExpressionSyntax.ArgumentList.Arguments)
-            {
-                if (argumentSyntax.Expression.Kind() is SyntaxKind.StringLiteralExpression
-                    or SyntaxKind.InterpolatedStringExpression)
-                {
-                    var stringValue = argumentSyntax.Expression.ToString();
-
-                    if (IsCyrillic(stringValue))
-                    {
-                        context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), stringValue));
-                    }
-                }
             }
         }
     }

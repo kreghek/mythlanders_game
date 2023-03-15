@@ -28,9 +28,9 @@ public class PartisanFactory
                         )
                     })
             )
-        {
-            Tags = CombatMovementTags.Attack
-        }
+            {
+                Tags = CombatMovementTags.Attack
+            }
         );
 
         movementPool.Add(new CombatMovement("Sabotage",
@@ -88,9 +88,9 @@ public class PartisanFactory
                         )
                     })
             )
-        {
-            Tags = CombatMovementTags.Attack
-        }
+            {
+                Tags = CombatMovementTags.Attack
+            }
         );
 
         movementPool.Add(new CombatMovement("OldGoodBrawl",
@@ -108,9 +108,9 @@ public class PartisanFactory
                         )
                     })
             )
-        {
-            Tags = CombatMovementTags.Attack
-        }
+            {
+                Tags = CombatMovementTags.Attack
+            }
         );
 
         var heroSequence = new CombatMovementSequence();
