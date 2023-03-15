@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Resources;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 using LeDialoduesEditorResGenerator.Serialization;
 
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
-
-using static System.Collections.Specialized.BitVector32;
 
 namespace LeDialoduesEditorResGenerator
 {
@@ -20,7 +15,7 @@ namespace LeDialoduesEditorResGenerator
     {
         private const string DEFAULT_LOCALE = "en";
 
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
             if (args.Length != 2)
             {
@@ -98,13 +93,14 @@ namespace LeDialoduesEditorResGenerator
                     if (paragraph.Text is not null)
                     {
                         yield return ($"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}", paragraph.Text);
-
                     }
                     else if (paragraph.Reactions is not null)
                     {
                         foreach (var reaction in paragraph.Reactions)
                         {
-                            yield return ($"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}_reaction_{reaction.Hero}", reaction.Text);
+                            yield return (
+                                $"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}_reaction_{reaction.Hero}",
+                                reaction.Text);
                         }
                     }
                 }

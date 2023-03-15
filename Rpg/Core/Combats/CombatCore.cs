@@ -24,6 +24,26 @@ public class CombatCore
 
     public CombatField Field { get; }
 
+    public bool Finished
+    {
+        get
+        {
+            var aliveUnits = _allCombatantList.Where(x => !x.IsDead).ToArray();
+            var playerUnits = aliveUnits.Where(x => x.IsPlayerControlled);
+            var hasPlayerUnits = playerUnits.Any();
+
+            var cpuUnits = aliveUnits.Where(x => !x.IsPlayerControlled);
+            var hasCpuUnits = cpuUnits.Any();
+
+            // TODO Looks like XOR
+            if (hasPlayerUnits && !hasCpuUnits) return true;
+
+            if (!hasPlayerUnits && hasCpuUnits) return true;
+
+            return false;
+        }
+    }
+
     public IReadOnlyList<Combatant> RoundQueue => _roundQueue.ToArray();
 
     public void CompleteTurn()
@@ -39,7 +59,18 @@ public class CombatCore
             if (!_roundQueue.Any())
             {
                 UpdateAllCombatantEffects(CombatantEffectUpdateType.EndRound);
+
+                if (Finished)
+                {
+                    var combatResult = CalcResult();
+                    CombatFinished?.Invoke(this, new CombatFinishedEventArgs(combatResult));
+                    return;
+                }
+
                 StartRound();
+
+                CombatantStartsTurn?.Invoke(this, new CombatantTurnStartedEventArgs(CurrentCombatant));
+
                 return;
             }
 
@@ -54,24 +85,9 @@ public class CombatCore
         CombatantStartsTurn?.Invoke(this, new CombatantTurnStartedEventArgs(CurrentCombatant));
     }
 
-    public ITargetSelectorContext GetCurrentSelectorContext()
+    public CombatMovementExecution CreateCombatMovementExecution(CombatMovementInstance movement)
     {
-        return GetSelectorContext(CurrentCombatant);
-    }
-
-    public void Initialize(IReadOnlyCollection<FormationSlot> heroes, IReadOnlyCollection<FormationSlot> monsters)
-    {
-        InitializeCombatFieldSide(heroes, Field.HeroSide);
-        InitializeCombatFieldSide(monsters, Field.MonsterSide);
-
-        foreach (var combatant in _allCombatantList) combatant.StartCombat();
-
-        StartRound();
-    }
-
-    public CombatMovementExecution UseCombatMovement(CombatMovementInstance movement)
-    {
-        var effectContext = new EffectCombatContext(Field, _dice, HandleCombatantDamaged);
+        var effectContext = new EffectCombatContext(Field, _dice, HandleCombatantDamaged, HandleSwapFieldPositions);
 
         var effectImposeItems = new List<CombatEffectImposeItem>();
 
@@ -135,6 +151,29 @@ public class CombatCore
         return movementExecution;
     }
 
+    public ITargetSelectorContext GetCurrentSelectorContext()
+    {
+        return GetSelectorContext(CurrentCombatant);
+    }
+
+    public void Initialize(IReadOnlyCollection<FormationSlot> heroes, IReadOnlyCollection<FormationSlot> monsters)
+    {
+        InitializeCombatFieldSide(heroes, Field.HeroSide);
+        InitializeCombatFieldSide(monsters, Field.MonsterSide);
+
+        foreach (var combatant in _allCombatantList) combatant.PrepareToCombat();
+
+        StartRound();
+
+        CombatantStartsTurn?.Invoke(this, new CombatantTurnStartedEventArgs(CurrentCombatant));
+    }
+
+    public void Interrupt()
+    {
+        CombatantInterrupted?.Invoke(this, new CombatantInterruptedEventArgs(CurrentCombatant));
+        CompleteTurn();
+    }
+
     public void UseManeuver(CombatStepDirection combatStepDirection)
     {
         var currentCoords = GetCurrentCoords();
@@ -162,10 +201,7 @@ public class CombatCore
 
         var side = GetCurrentSelectorContext().ActorSide;
 
-        var swapCombatant = side[targetCoords].Combatant;
-
-        side[targetCoords].Combatant = CurrentCombatant;
-        side[currentCoords].Combatant = swapCombatant;
+        HandleSwapFieldPositions(currentCoords, side, targetCoords, side);
 
         CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Consume(1);
     }
@@ -175,6 +211,35 @@ public class CombatCore
         RestoreStatOfAllCombatants(UnitStatType.Resolve);
 
         CompleteTurn();
+    }
+
+    private CombatFinishResult CalcResult()
+    {
+        var aliveUnits = _allCombatantList.Where(x => !x.IsDead).ToArray();
+        var playerUnits = aliveUnits.Where(x => x.IsPlayerControlled);
+        var hasPlayerUnits = playerUnits.Any();
+
+        var cpuUnits = aliveUnits.Where(x => !x.IsPlayerControlled);
+        var hasCpuUnits = cpuUnits.Any();
+
+        // TODO Looks like XOR
+        if (hasPlayerUnits && !hasCpuUnits) return CombatFinishResult.HeroesAreWinners;
+
+        if (!hasPlayerUnits && hasCpuUnits) return CombatFinishResult.MonstersAreWinners;
+
+        return CombatFinishResult.Draw;
+    }
+
+    private bool DetectShapeShifting()
+    {
+        return false;
+    }
+
+    private void DoCombatantHasBeenAdded(CombatFieldSide targetSide, FieldCoords targetCoords, Combatant combatant)
+    {
+        var combatFieldInfo = new CombatFieldInfo(targetSide, targetCoords);
+        var args = new CombatantHasBeenAddedEventArgs(combatant, combatFieldInfo);
+        CombatantHasBeenAdded?.Invoke(this, args);
     }
 
     private static CombatMovementInstance? GetAutoDefenseMovement(Combatant target)
@@ -188,9 +253,9 @@ public class CombatCore
         var side = GetCurrentSelectorContext().ActorSide;
 
         for (var col = 0; col < side.ColumnCount; col++)
-            for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
-                if (CurrentCombatant == side[new FieldCoords(col, lineIndex)].Combatant)
-                    return new FieldCoords(col, lineIndex);
+        for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
+            if (CurrentCombatant == side[new FieldCoords(col, lineIndex)].Combatant)
+                return new FieldCoords(col, lineIndex);
 
         throw new InvalidOperationException();
     }
@@ -216,12 +281,17 @@ public class CombatCore
         }
     }
 
-    private void HandleCombatantDamaged(Combatant combatant, UnitStatType statType, int value)
+    private int HandleCombatantDamaged(Combatant combatant, UnitStatType statType, int value)
     {
+        var remains = TakeStat(combatant, statType, value);
+
         CombatantHasBeenDamaged?.Invoke(this, new CombatantDamagedEventArgs(combatant, statType, value));
 
         if (combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.Current <= 0)
         {
+            var shiftShape = DetectShapeShifting();
+            if (shiftShape) CombatantShiftShaped?.Invoke(this, new CombatantShiftShapedEventArgs(combatant));
+
             combatant.SetDead();
             CombatantHasBeenDefeated?.Invoke(this, new CombatantDefeatedEventArgs(combatant));
 
@@ -229,18 +299,44 @@ public class CombatCore
             var coords = targetSide.GetCombatantCoords(combatant);
             targetSide[coords].Combatant = null;
         }
+
+        return remains;
+    }
+
+    private void HandleSwapFieldPositions(FieldCoords sourceCoords, CombatFieldSide sourceFieldSide,
+        FieldCoords destinationCoords, CombatFieldSide destinationFieldSide)
+    {
+        if (sourceCoords == destinationCoords && sourceFieldSide == destinationFieldSide) return;
+
+        var sourceCombatant = sourceFieldSide[sourceCoords].Combatant;
+        var targetCombatant = destinationFieldSide[destinationCoords].Combatant;
+
+        destinationFieldSide[destinationCoords].Combatant = sourceCombatant;
+
+        if (sourceCombatant is not null)
+            CombatantHasBeenMoved?.Invoke(this,
+                new CombatantHasBeenMovedEventArgs(sourceCombatant, destinationFieldSide, destinationCoords));
+
+        sourceFieldSide[sourceCoords].Combatant = targetCombatant;
+
+        if (targetCombatant is not null)
+            CombatantHasBeenMoved?.Invoke(this,
+                new CombatantHasBeenMovedEventArgs(targetCombatant, sourceFieldSide, sourceCoords));
     }
 
     private void InitializeCombatFieldSide(IReadOnlyCollection<FormationSlot> formationSlots, CombatFieldSide side)
     {
         foreach (var slot in formationSlots)
-            if (slot.Combatant is not null)
-            {
-                var coords = new FieldCoords(slot.ColumnIndex, slot.LineIndex);
-                side[coords].Combatant = slot.Combatant;
+        {
+            if (slot.Combatant is null) continue;
 
-                _allCombatantList.Add(slot.Combatant);
-            }
+            var coords = new FieldCoords(slot.ColumnIndex, slot.LineIndex);
+            side[coords].Combatant = slot.Combatant;
+
+            _allCombatantList.Add(slot.Combatant);
+
+            DoCombatantHasBeenAdded(targetSide: side, targetCoords: coords, slot.Combatant);
+        }
     }
 
     private void MakeUnitRoundQueue()
@@ -309,6 +405,20 @@ public class CombatCore
         CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn);
     }
 
+    private static int TakeStat(Combatant combatant, UnitStatType statType, int value)
+    {
+        var stat = combatant.Stats.SingleOrDefault(x => x.Type == statType);
+
+        if (stat is null) return value;
+
+        var d = Math.Min(value, stat.Value.Current);
+        stat.Value.Consume(d);
+
+        var remains = value - d;
+
+        return remains;
+    }
+
     private void UpdateAllCombatantEffects(CombatantEffectUpdateType updateType)
     {
         foreach (var combatant in _allCombatantList)
@@ -316,9 +426,13 @@ public class CombatCore
                 combatant.UpdateEffects(updateType);
     }
 
+    public event EventHandler<CombatantHasBeenAddedEventArgs>? CombatantHasBeenAdded;
     public event EventHandler<CombatantTurnStartedEventArgs>? CombatantStartsTurn;
     public event EventHandler<CombatantEndsTurnEventArgs>? CombatantEndsTurn;
-
     public event EventHandler<CombatantDamagedEventArgs>? CombatantHasBeenDamaged;
     public event EventHandler<CombatantDefeatedEventArgs>? CombatantHasBeenDefeated;
+    public event EventHandler<CombatantShiftShapedEventArgs>? CombatantShiftShaped;
+    public event EventHandler<CombatantHasBeenMovedEventArgs>? CombatantHasBeenMoved;
+    public event EventHandler<CombatFinishedEventArgs>? CombatFinished;
+    public event EventHandler<CombatantInterruptedEventArgs>? CombatantInterrupted;
 }

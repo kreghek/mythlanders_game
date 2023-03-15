@@ -1,6 +1,7 @@
 using System.Globalization;
 
 using Client;
+using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.Dialogues;
 using Client.Core.Dialogues;
@@ -9,8 +10,6 @@ using Core.Dices;
 
 using FluentAssertions;
 
-using Rpg.Client.Assets;
-using Rpg.Client.Assets.Catalogs;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
 using Rpg.Client.GameScreens.Speech;
@@ -78,7 +77,8 @@ public class MonkeyKingTests
         CheckEventIsNotAvailableUntilInProgress(eventCatalog, globeProvider, textEvent, questLocations);
     }
 
-    private static void QuestNotAvailableInOtherLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider, DialogueEvent textEvent, LocationSid[] availableLocations)
+    private static void QuestNotAvailableInOtherLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider,
+        DialogueEvent textEvent, LocationSid[] availableLocations)
     {
         var allLocations = Enum.GetValues<LocationSid>();
 
@@ -86,33 +86,35 @@ public class MonkeyKingTests
 
         foreach (var locationSid in notAvailableLocations)
         {
-            var notAvailableLocationContext = new DialogueEventRequirementContext(globeProvider.Globe, locationSid, eventCatalog);
+            var notAvailableLocationContext =
+                new DialogueEventRequirementContext(globeProvider.Globe, locationSid, eventCatalog);
 
             var requirements1 = textEvent.GetRequirements();
 
             var stage1IsAvailable1 = requirements1.All(x => x.IsApplicableFor(notAvailableLocationContext));
 
             stage1IsAvailable1.Should().BeFalse();
-
         }
     }
 
-    private static void QuestAvailableInApplicableLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider, DialogueEvent textEvent, LocationSid[] availableLocations)
+    private static void QuestAvailableInApplicableLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider,
+        DialogueEvent textEvent, LocationSid[] availableLocations)
     {
         foreach (var locationSid in availableLocations)
         {
-            var notAvailableLocationContext = new DialogueEventRequirementContext(globeProvider.Globe, locationSid, eventCatalog);
+            var notAvailableLocationContext =
+                new DialogueEventRequirementContext(globeProvider.Globe, locationSid, eventCatalog);
 
             var requirements1 = textEvent.GetRequirements();
 
             var stage1IsAvailable1 = requirements1.All(x => x.IsApplicableFor(notAvailableLocationContext));
 
             stage1IsAvailable1.Should().BeTrue();
-
         }
     }
 
-    private static void CheckEventIsNotAvailableUntilInProgress(DialogueCatalog eventCatalog, GlobeProvider globeProvider, DialogueEvent textEvent, LocationSid[] availableLocations)
+    private static void CheckEventIsNotAvailableUntilInProgress(DialogueCatalog eventCatalog,
+        GlobeProvider globeProvider, DialogueEvent textEvent, LocationSid[] availableLocations)
     {
         foreach (var locationSid in availableLocations)
         {
@@ -121,7 +123,6 @@ public class MonkeyKingTests
             var requirements = textEvent.GetRequirements();
             var questAvailability = requirements.All(x => x.IsApplicableFor(context));
             questAvailability.Should().BeFalse();
-
         }
     }
 

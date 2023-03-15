@@ -1,31 +1,32 @@
 using System;
 using System.Collections.Generic;
 
-using Rpg.Client.Assets.SkillEffects;
+using Core.Combats;
+
 using Rpg.Client.Core;
-using Rpg.Client.Core.SkillEffects;
-using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.Equipments.Monk
 {
     internal sealed class AsceticCape : IEquipmentScheme
     {
-        public EquipmentSid Sid => EquipmentSid.AsceticRobe;
-
-        public IReadOnlyList<EffectRule> CreateCombatHitPointsChangedEffects(IEquipmentEffectContext context)
+        public IReadOnlyList<IEffect> CreateCombatHitPointsChangedEffects(IEquipmentEffectContext context)
         {
-            return new[]
-            {
-                new EffectRule
-                {
-                    Direction = SkillDirection.Self,
-                    EffectCreator = new EffectCreator(u =>
-                    {
-                        return new PeriodicHealEffect(u, new HitpointThresholdEffectLifetime((CombatUnit)u, 0.5f));
-                    })
-                }
-            };
+            //return new[]
+            //{
+            //    new EffectRule
+            //    {
+            //        Direction = SkillDirection.Self,
+            //        EffectCreator = new EffectCreator(u =>
+            //        {
+            //            return new PeriodicHealEffect(u, new HitpointThresholdEffectLifetime((CombatUnit)u, 0.5f));
+            //        })
+            //    }
+            //};
+
+            return Array.Empty<IEffect>();
         }
+
+        public EquipmentSid Sid => EquipmentSid.AsceticRobe;
 
         public string GetDescription()
         {

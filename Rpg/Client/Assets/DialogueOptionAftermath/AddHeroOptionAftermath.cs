@@ -1,4 +1,6 @@
-﻿using Rpg.Client.Core;
+﻿using Client.Core.Heroes;
+
+using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
 
 namespace Client.Assets.DialogueOptionAftermath;
@@ -15,7 +17,7 @@ internal sealed class AddHeroOptionAftermath : IDialogueOptionAftermath
     public void Apply(IEventContext dialogContext)
     {
         const int DEFAULT_LEVEL = 1;
-        var unit = new Unit(_scheme, DEFAULT_LEVEL)
+        var unit = new Hero(_scheme, DEFAULT_LEVEL)
         {
             IsPlayerControlled = true
         };

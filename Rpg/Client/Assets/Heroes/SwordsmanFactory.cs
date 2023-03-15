@@ -1,7 +1,5 @@
 using Rpg.Client.Assets.Equipments.Swordsman;
 using Rpg.Client.Assets.GraphicConfigs.Heroes;
-using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.Skills.Hero.Swordsman;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
@@ -29,11 +27,6 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IUnitLevelScheme[]
             {
-                new AddSkillUnitLevel<DieBySwordSkill>(1),
-                new AddSkillUnitLevel<DefenseStanceSkill>(1),
-                new AddSkillUnitLevel<WideSlashSkill>(2),
-                new AddPerkUnitLevel<ImprovedHitPoints>(3),
-                new AddSkillUnitLevel<SvarogBlastFurnaceSkill>(4)
             };
         }
     }

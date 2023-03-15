@@ -25,7 +25,7 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
 
         questStateMachine.Configure(DialogueConstants.InitialStage)
             .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage1_Ignore_Trigger, DialogueConstants.CompleteStage)
-            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage1_Fast_Trigger,
+            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage1_Extradite_Trigger,
                 DialogueConstants.SideQuests.SynthAsParent.Stage1_Fast_In_Progress)
             .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage1_Repair_Trigger,
                 DialogueConstants.SideQuests.SynthAsParent.Stage1_Canon_In_Progress);

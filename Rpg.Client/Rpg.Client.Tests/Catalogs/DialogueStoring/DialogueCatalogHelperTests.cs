@@ -10,7 +10,6 @@ using Moq;
 
 using NUnit.Framework;
 
-using Rpg.Client.Assets.Catalogs;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Tests.Catalogs.DialogueStoring;
@@ -26,18 +25,20 @@ public class DialogueCatalogHelperTests
     {
         // ARRANGE
 
-        var dict = new Dictionary<string, DialogueDtoScene>()
+        var dict = new Dictionary<string, DialogueDtoScene>
         {
-            {"root", new DialogueDtoScene()
             {
-                Paragraphs = new[]
+                "root", new DialogueDtoScene
                 {
-                    new DialogueDtoParagraph()
+                    Paragraphs = new[]
                     {
-                        Text = "test text"
+                        new DialogueDtoParagraph
+                        {
+                            Text = "test text"
+                        }
                     }
                 }
-            }}
+            }
         };
 
         // ACT
@@ -60,18 +61,20 @@ public class DialogueCatalogHelperTests
     {
         // ARRANGE
 
-        var dict = new Dictionary<string, DialogueDtoScene>()
+        var dict = new Dictionary<string, DialogueDtoScene>
         {
-            {"root", new DialogueDtoScene()
             {
-                Paragraphs = new[]
+                "root", new DialogueDtoScene
                 {
-                    new DialogueDtoParagraph()
+                    Paragraphs = new[]
                     {
-                        Text = "test text"
+                        new DialogueDtoParagraph
+                        {
+                            Text = "test text"
+                        }
                     }
                 }
-            }}
+            }
         };
 
         // ACT
@@ -93,25 +96,27 @@ public class DialogueCatalogHelperTests
     {
         // ARRANGE
 
-        var dict = new Dictionary<string, DialogueDtoScene>()
+        var dict = new Dictionary<string, DialogueDtoScene>
         {
-            {"root", new DialogueDtoScene()
             {
-                Paragraphs = new[]
+                "root", new DialogueDtoScene
                 {
-                    new DialogueDtoParagraph()
+                    Paragraphs = new[]
                     {
-                        Reactions = new[]
+                        new DialogueDtoParagraph
                         {
-                            new DialogueDtoReaction()
+                            Reactions = new[]
                             {
-                                Hero = "Swordsman",
-                                Text = "test text"
+                                new DialogueDtoReaction
+                                {
+                                    Hero = "Swordsman",
+                                    Text = "test text"
+                                }
                             }
                         }
                     }
                 }
-            }}
+            }
         };
 
         // ACT
@@ -123,5 +128,40 @@ public class DialogueCatalogHelperTests
         // ASSERT
 
         dialogue.Root.TextBlock.Paragraphs.Single().Speaker.Should().Be(UnitName.Swordsman);
+    }
+
+    /// <summary>
+    /// Test checks environment was set as speaker if not specified.
+    /// </summary>
+    [Test]
+    public void Create_EnvironmentParagraph_ReturnsEnvironmentAsSpeaker()
+    {
+        // ARRANGE
+
+        var dict = new Dictionary<string, DialogueDtoScene>
+        {
+            {
+                "root", new DialogueDtoScene
+                {
+                    Paragraphs = new[]
+                    {
+                        new DialogueDtoParagraph
+                        {
+                            Text = "test environment description"
+                        }
+                    }
+                }
+            }
+        };
+
+        // ACT
+
+        var dialogue = DialogueCatalogHelper.Create("test", dict,
+            new DialogueCatalogCreationServices(Mock.Of<IDialogueEnvironmentEffectCreator>(),
+                Mock.Of<IDialogueOptionAftermathCreator>()));
+
+        // ASSERT
+
+        dialogue.Root.TextBlock.Paragraphs.Single().Speaker.Should().Be(UnitName.Environment);
     }
 }

@@ -5,11 +5,11 @@ using Microsoft.Xna.Framework;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
 {
-    internal sealed class ParallelState : IUnitStateEngine
+    internal sealed class ParallelState : IActorVisualizationState
     {
-        private readonly IReadOnlyList<IUnitStateEngine> _subStates;
+        private readonly IReadOnlyList<IActorVisualizationState> _subStates;
 
-        public ParallelState(IReadOnlyList<IUnitStateEngine> subStates)
+        public ParallelState(IReadOnlyList<IActorVisualizationState> subStates)
         {
             _subStates = subStates;
         }

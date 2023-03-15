@@ -1,37 +1,40 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
 
-using Rpg.Client.Assets.States.Primitives;
+using Client.GameScreens.Combat.GameObjects;
+
+using Microsoft.Xna.Framework;
+
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
-using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
-using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives;
 
 namespace Rpg.Client.Assets.States
 {
-    internal sealed class CommonMeleeSkillUsageState : IUnitStateEngine
+    internal sealed class CommonMeleeSkillUsageState : IActorVisualizationState
     {
         private readonly AnimationBlocker _blocker;
-        private readonly IUnitStateEngine _innerState;
+        private readonly IActorVisualizationState _innerState;
 
         public CommonMeleeSkillUsageState(UnitGraphics graphics, SpriteContainer graphicsRoot,
             Renderable targetGraphicsRoot,
             AnimationBlocker mainAnimationBlocker, SkillAnimationInfo animationInfo,
             PredefinedAnimationSid animationSid)
         {
-            var targetPosition =
-                targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
+            //var targetPosition =
+            //    targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
 
-            var subStates = new IUnitStateEngine[]
-            {
-                new LinearMoveToTargetState(graphics, graphicsRoot, targetPosition, animationSid),
-                new DirectInteractionState(graphics, animationInfo, animationSid),
-                new LinearMoveBackState(graphics, graphicsRoot, targetPosition, mainAnimationBlocker)
-            };
+            //var subStates = new IActorVisualizationState[]
+            //{
+            //    new LinearMoveToTargetState(graphics, graphicsRoot, targetPosition, animationSid),
+            //    new DirectInteractionState(graphics, animationInfo, animationSid),
+            //    new LinearMoveBackState(graphics, graphicsRoot, targetPosition, mainAnimationBlocker)
+            //};
 
-            _innerState = new SequentialState(subStates);
+            //_innerState = new SequentialState(subStates);
 
-            _blocker = mainAnimationBlocker;
+            //_blocker = mainAnimationBlocker;
+
+            throw new Exception();
         }
 
         public bool CanBeReplaced => _innerState.CanBeReplaced;

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
@@ -9,7 +11,7 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.HeroSpecific.Primitives
 {
-    internal sealed class SvarogSymbolAppearingState : IUnitStateEngine
+    internal sealed class SvarogSymbolAppearingState : IActorVisualizationState
     {
         private readonly UnitGraphics _graphics;
         private readonly IList<IInteractionDelivery> _interactionDeliveryList;

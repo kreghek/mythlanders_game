@@ -4,7 +4,7 @@ namespace Text.Client;
 
 internal static class CombatantFactory
 {
-    public static IReadOnlyCollection<FormationSlot> CreateHeroes()
+    public static IReadOnlyCollection<FormationSlot> CreateHeroes(ICombatActorBehaviour combatActorBehaviour)
     {
         var swordsmanHero = new SwordsmanFartory();
 
@@ -12,20 +12,20 @@ internal static class CombatantFactory
         {
             new FormationSlot(0, 1)
             {
-                Combatant = swordsmanHero.Create("Berimir")
+                Combatant = swordsmanHero.Create("Berimir", combatActorBehaviour)
             },
             new FormationSlot(1, 0)
             {
-                Combatant = swordsmanHero.Create("Warrior")
+                Combatant = swordsmanHero.Create("Warrior", combatActorBehaviour)
             },
             new FormationSlot(1, 2)
             {
-                Combatant = swordsmanHero.Create("Soldier")
+                Combatant = swordsmanHero.Create("Soldier", combatActorBehaviour)
             }
         };
     }
 
-    public static IReadOnlyCollection<FormationSlot> CreateMonsters()
+    public static IReadOnlyCollection<FormationSlot> CreateMonsters(ICombatActorBehaviour combatActorBehaviour)
     {
         var chaserFactory = new ThiefChaserFactory();
         var wolfFactory = new DigitalWolfFactory();
@@ -34,15 +34,15 @@ internal static class CombatantFactory
         {
             new FormationSlot(0, 1)
             {
-                Combatant = chaserFactory.Create("Chaser")
+                Combatant = chaserFactory.Create("Chaser", combatActorBehaviour)
             },
             new FormationSlot(1, 2)
             {
-                Combatant = chaserFactory.Create("Guard Chaser")
+                Combatant = chaserFactory.Create("Guard Chaser", combatActorBehaviour)
             },
             new FormationSlot(0, 2)
             {
-                Combatant = wolfFactory.Create("Evil Digital wolf")
+                Combatant = wolfFactory.Create("Evil Digital wolf", combatActorBehaviour)
             }
         };
     }

@@ -4,17 +4,17 @@ using Microsoft.Xna.Framework;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
 {
-    internal sealed class SequentialState : IUnitStateEngine
+    internal sealed class SequentialState : IActorVisualizationState
     {
-        private readonly IReadOnlyList<IUnitStateEngine> _subStates;
+        private readonly IReadOnlyList<IActorVisualizationState> _subStates;
         private int _subStateIndex;
 
-        public SequentialState(IReadOnlyList<IUnitStateEngine> subStates)
+        public SequentialState(IReadOnlyList<IActorVisualizationState> subStates)
         {
             _subStates = subStates;
         }
 
-        public SequentialState(params IUnitStateEngine[] subStates)
+        public SequentialState(params IActorVisualizationState[] subStates)
         {
             _subStates = subStates;
         }

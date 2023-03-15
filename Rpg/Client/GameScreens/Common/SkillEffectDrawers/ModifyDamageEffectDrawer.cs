@@ -1,10 +1,9 @@
-﻿using Client;
-using Client.Core.Skills;
+﻿using Client.GameScreens.Common.SkillEffectDrawers;
+
+using Core.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Rpg.Client.Core.SkillEffects;
 
 namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
 {
@@ -17,24 +16,25 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
             _font = font;
         }
 
-        public bool Draw(SpriteBatch spriteBatch, object effectToDisplay, ITargetSelector direction, Vector2 position)
+        public bool Draw(SpriteBatch spriteBatch, IEffectInstance effectToDisplay,
+            Vector2 position)
         {
-            if (effectToDisplay is not ModifyDamageEffect increaseDamageEffect)
-            {
-                return false;
-            }
+            //if (effectToDisplay is not ModifyDamageEffect increaseDamageEffect)
+            //{
+            //    return false;
+            //}
 
-            var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
+            //var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
 
-            var textTemplate = increaseDamageEffect.Bonus > 0
-                ? UiResource.IncreaseDamageEffectRuleText
-                : UiResource.DecreseDamageEffectRuleText;
+            //var textTemplate = increaseDamageEffect.Bonus > 0
+            //    ? UiResource.IncreaseDamageEffectRuleText
+            //    : UiResource.DecreseDamageEffectRuleText;
 
-            spriteBatch.DrawString(_font,
-                string.Format(textTemplate, increaseDamageEffect.Bonus,
-                    increaseDamageEffect.EffectLifetime.GetTextDescription(),
-                    ruleDirectionText),
-                position, Color.Wheat);
+            //spriteBatch.DrawString(_font,
+            //    string.Format(textTemplate, increaseDamageEffect.Bonus,
+            //        increaseDamageEffect.EffectLifetime.GetTextDescription(),
+            //        ruleDirectionText),
+            //    position, Color.Wheat);
 
             return true;
         }

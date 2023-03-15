@@ -25,10 +25,7 @@ public sealed class ChangePositionEffectInstance : EffectInstanceBase<ChangePosi
             _ => throw new ArgumentOutOfRangeException()
         };
 
-        var targetCombatant = targetSide[targetCoords].Combatant;
-
-        targetSide[targetCoords].Combatant = target;
-        targetSide[currentCoords].Combatant = targetCombatant;
+        context.NotifySwapFieldPosition(target, currentCoords, targetSide, targetCoords, targetSide);
     }
 
     private static CombatFieldSide GetTargetSide(Combatant target, CombatField field)

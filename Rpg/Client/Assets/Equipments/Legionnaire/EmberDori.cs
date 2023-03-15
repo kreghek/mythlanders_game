@@ -2,7 +2,6 @@ using Client;
 
 using Rpg.Client.Core;
 using Rpg.Client.Core.Equipments;
-using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.Equipments.Legionnaire
 {
@@ -15,9 +14,6 @@ namespace Rpg.Client.Assets.Equipments.Legionnaire
 
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Legionnaire;
         public override EquipmentSid Sid => EquipmentSid.EmberGladius;
-
-        protected override SkillSid[] AffectedSkills =>
-            new[] { SkillSid.Offensive, SkillSid.AresWarBringerThreads };
 
         protected override float MultiplicatorByLevel => 0.5f;
 

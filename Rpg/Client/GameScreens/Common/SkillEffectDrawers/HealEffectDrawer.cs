@@ -1,6 +1,6 @@
-using Client;
-using Client.Core.SkillEffects;
-using Client.Core.Skills;
+using Client.GameScreens.Common.SkillEffectDrawers;
+
+using Core.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,20 +16,21 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
             _font = font;
         }
 
-        public bool Draw(SpriteBatch spriteBatch, object effectToDisplay, ITargetSelector direction, Vector2 position)
+        public bool Draw(SpriteBatch spriteBatch, IEffectInstance effectToDisplay,
+            Vector2 position)
         {
-            if (effectToDisplay is not HealEffect healEffect)
-            {
-                return false;
-            }
+            //if (effectToDisplay is not HealEffect healEffect)
+            //{
+            //    return false;
+            //}
 
-            var heal = healEffect.CalculateHeal();
+            //var heal = healEffect.CalculateHeal();
 
-            var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
+            //var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
 
-            spriteBatch.DrawString(_font,
-                string.Format(UiResource.HealEffectRuleText, heal.Min, heal.Max, ruleDirectionText),
-                position, Color.Wheat);
+            //spriteBatch.DrawString(_font,
+            //    string.Format(UiResource.HealEffectRuleText, heal.Min, heal.Max, ruleDirectionText),
+            //    position, Color.Wheat);
 
             return true;
         }

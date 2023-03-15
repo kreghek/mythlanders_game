@@ -14,6 +14,8 @@ public sealed class ChangeCurrentStatEffect : IEffect
     public UnitStatType TargetStatType { get; }
     public ITargetSelector Selector { get; }
 
+    public IReadOnlyCollection<IEffectCondition> ImposeConditions => Array.Empty<IEffectCondition>();
+
     public IEffectInstance CreateInstance()
     {
         return new ChangeCurrentStatEffectInstance(this);

@@ -5,41 +5,33 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Unicode;
 
-namespace BalanceConverter
+using Core.Balance;
+
+namespace BalanceConverter;
+
+internal static class Program
 {
-    internal class Program
+    private static void Main(string[] args)
     {
-        private static void Main(string[] args)
+        var excelUnitRows = ExcelExtractor.ReadUnitsRolesFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Units");
+        var unitRows = RowConverter.Convert(excelUnitRows);
+
+        var excelBasicRows = ExcelExtractor.ReadUnitsBasicsFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Basics");
+        var basics = RowConverter.ConvertToUnitBasic(excelBasicRows);
+
+        var balanceData = new BalanceData(basics, unitRows.ToArray());
+
+        var serialized = JsonSerializer.Serialize(balanceData, new JsonSerializerOptions
         {
-            var excelUnitRows = ExcelExtractor.ReadUnitsRolesFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Units");
-            var unitRows = RowConverter.Convert(excelUnitRows);
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+            WriteIndented = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        });
 
-            var excelBasicRows = ExcelExtractor.ReadUnitsBasicsFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Basics");
-            var basics = RowConverter.ConvertToUnitBasic(excelBasicRows);
+        var outputPath = args[0];
 
-            var balanceData = new BalanceData
-            {
-                UnitBasics = basics,
-                UnitRows = unitRows.ToArray()
-            };
-
-            var serialized = JsonSerializer.Serialize(balanceData, new JsonSerializerOptions
-            {
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                WriteIndented = true,
-                IgnoreNullValues = true,
-                Converters =
-                {
-                    new JsonStringEnumConverter()
-                }
-            });
-
-            var outputPath = args[0];
-
-            // Run with argument which contains full path to Rpg.Client/Resources directory
-
-            var outputRuFileName = Path.Combine(outputPath, "Balance.json");
-            File.WriteAllLines(outputRuFileName, new[] { serialized });
-        }
+        // Run with argument which contains full path to Rpg.Client/Resources directory
+        var outputRuFileName = Path.Combine(outputPath, "Balance.json");
+        File.WriteAllLines(outputRuFileName, new[] { serialized });
     }
 }

@@ -26,10 +26,8 @@ internal sealed class PrioritySelectCampaignStageTemplateFactory : ICampaignStag
     /// <inheritdoc />
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        for (var i = 0; i < _templates.Count; i++)
+        foreach (var template in _templates)
         {
-            var template = _templates[i];
-
             if (template.CanCreate(currentStageItems))
             {
                 return template.Create(currentStageItems);

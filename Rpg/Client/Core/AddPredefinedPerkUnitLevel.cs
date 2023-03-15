@@ -1,4 +1,5 @@
 ﻿using Client.Core;
+using Client.Core.Heroes;
 
 namespace Rpg.Client.Core
 {
@@ -11,7 +12,7 @@ namespace Rpg.Client.Core
             _perk = perk;
         }
 
-        public override void Apply(Unit unit)
+        public override void Apply(Hero unit)
         {
             unit.Perks.Add(_perk);
         }

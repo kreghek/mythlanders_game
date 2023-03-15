@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Client.Core.Campaigns;
+using Client.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,7 +21,7 @@ internal class CampaignPanel : ControlBase
     {
         _campaign = campaign;
         _campaignTexture = campaignTexture;
-        _selectButton = new TextButton("START");
+        _selectButton = new ResourceTextButton(nameof(UiResource.CampaignSelectButtonTitle));
         _selectButton.OnClick += (_, _) => { Selected?.Invoke(this, EventArgs.Empty); };
     }
 
@@ -31,7 +32,7 @@ internal class CampaignPanel : ControlBase
 
     protected override Point CalcTextureOffset()
     {
-        return ControlTextures.Panel;
+        return ControlTextures.Skill;
     }
 
     protected override Color CalculateColor()

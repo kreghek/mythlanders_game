@@ -7,7 +7,7 @@ namespace Text.Client;
 
 public class DigitalWolfFactory
 {
-    public Combatant Create(string sid)
+    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour)
     {
         // ReSharper disable once UseObjectOrCollectionInitializer
         var list = new List<CombatMovement>();
@@ -48,9 +48,9 @@ public class DigitalWolfFactory
                             typeof(ToEndOfCurrentRoundEffectLifetime))
                     })
             )
-        {
-            Tags = CombatMovementTags.AutoDefense
-        }
+            {
+                Tags = CombatMovementTags.AutoDefense
+            }
         );
 
         list.Add(new CombatMovement("Cyber claws",
@@ -71,10 +71,9 @@ public class DigitalWolfFactory
             foreach (var combatMovement in list)
                 monsterSequence.Items.Add(combatMovement);
 
-        var monster = new Combatant(monsterSequence)
+        var monster = new Combatant("Digital wolf", monsterSequence, combatActorBehaviour)
         {
-            Sid = sid,
-            IsPlayerControlled = false
+            Sid = sid, IsPlayerControlled = false
         };
 
         return monster;

@@ -6,8 +6,10 @@ public class Combatant
     private readonly CombatMovementInstance?[] _hand;
     private readonly IList<CombatMovementInstance> _pool;
 
-    public Combatant(CombatMovementSequence sequence)
+    public Combatant(string classSid, CombatMovementSequence sequence, ICombatActorBehaviour behaviour)
     {
+        ClassSid = classSid;
+        Behaviour = behaviour;
         _pool = new List<CombatMovementInstance>();
         _hand = new CombatMovementInstance?[3];
 
@@ -27,6 +29,10 @@ public class Combatant
         };
     }
 
+    public ICombatActorBehaviour Behaviour { get; }
+
+    public string ClassSid { get; }
+
     public IReadOnlyCollection<ICombatantEffect> Effects => _effects.ToArray();
 
     public IReadOnlyList<CombatMovementInstance?> Hand => _hand;
@@ -36,7 +42,6 @@ public class Combatant
     public bool IsPlayerControlled { get; init; }
 
     public string? Sid { get; init; }
-
     public IReadOnlyCollection<IUnitStat> Stats { get; }
 
     public void AddEffect(ICombatantEffect effect)
@@ -58,6 +63,20 @@ public class Combatant
         return move;
     }
 
+    public void PrepareToCombat()
+    {
+        for (var i = 0; i < 3; i++)
+        {
+            if (!_pool.Any())
+                // Pool is empty.
+                // Stop to prepare first movements.
+                break;
+
+            _hand[i] = _pool.First();
+            _pool.RemoveAt(0);
+        }
+    }
+
     public void RemoveEffect(ICombatantEffect effect)
     {
         effect.Dispel(this);
@@ -69,22 +88,14 @@ public class Combatant
         IsDead = true;
     }
 
-    public void StartCombat()
-    {
-        for (var i = 0; i < 3; i++)
-            if (_pool.Any())
-            {
-                _hand[i] = _pool.First();
-                _pool.RemoveAt(0);
-            }
-    }
-
     public void UpdateEffects(CombatantEffectUpdateType updateType)
     {
+        var context = new CombatantEffectLifetimeUpdateContext(this);
+
         var effectToDispel = new List<ICombatantEffect>();
         foreach (var effect in _effects)
         {
-            effect.Update(updateType);
+            effect.Update(updateType, context);
 
             if (effect.Lifetime.IsDead) effectToDispel.Add(effect);
         }
