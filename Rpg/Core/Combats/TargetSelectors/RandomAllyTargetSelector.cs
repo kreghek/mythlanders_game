@@ -31,11 +31,11 @@ public sealed class RandomLineAllyTargetSelector : ITargetSelector
         var fieldSide = context.ActorSide;
 
         for (var lineIndex = 0; lineIndex < fieldSide.LineCount; lineIndex++)
-        for (var columnIndex = 0; columnIndex < fieldSide.ColumnCount; columnIndex++)
-        {
-            var slot = fieldSide[new FieldCoords(columnIndex, lineIndex)];
-            if (slot.Combatant is not null) yield return slot.Combatant;
-        }
+            for (var columnIndex = 0; columnIndex < fieldSide.ColumnCount; columnIndex++)
+            {
+                var slot = fieldSide[new FieldCoords(columnIndex, lineIndex)];
+                if (slot.Combatant is not null) yield return slot.Combatant;
+            }
     }
 
     public IReadOnlyList<Combatant> Get(Combatant actor, ITargetSelectorContext context)
