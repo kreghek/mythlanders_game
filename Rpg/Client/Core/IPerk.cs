@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using Core.Combats;
@@ -13,7 +14,7 @@ internal interface IPerk
 
     IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers()
     {
-        return System.Array.Empty<(UnitStatType, IUnitStatModifier)>();
+        return Array.Empty<(UnitStatType, IUnitStatModifier)>();
     }
 
     bool HandleEvasion(IDice dice)

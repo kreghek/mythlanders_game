@@ -29,7 +29,6 @@ namespace Rpg.Client.Assets.Monsters
 
                 Levels = new IUnitLevelScheme[]
                 {
-
                 },
 
                 UnitGraphicsConfig = new VolkolakWarriorGraphicsConfig(),
@@ -49,7 +48,6 @@ namespace Rpg.Client.Assets.Monsters
 
                         Levels = new IUnitLevelScheme[]
                         {
-
                         },
 
                         UnitGraphicsConfig = new VolkolakGraphicsConfig()

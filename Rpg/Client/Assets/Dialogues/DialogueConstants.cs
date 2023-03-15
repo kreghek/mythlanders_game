@@ -20,10 +20,10 @@ internal static class DialogueConstants
             public static DialogueEventState Stage1_Canon_In_Progress { get; } =
                 new("stage_1_canon_in_progress") { NoDialogue = true };
 
+            public static DialogueEventTrigger Stage1_Extradite_Trigger { get; } = new("stage_1_extradite");
+
             public static DialogueEventState Stage1_Fast_In_Progress { get; } =
                 new("stage_1_fast_in_progress") { NoDialogue = true };
-
-            public static DialogueEventTrigger Stage1_Extradite_Trigger { get; } = new("stage_1_extradite");
 
             public static DialogueEventTrigger Stage1_Ignore_Trigger { get; } = new("stage_1_ignore");
             public static DialogueEventTrigger Stage1_Repair_Trigger { get; } = new("stage_1_repair");
@@ -63,9 +63,9 @@ internal static class DialogueConstants
             public static DialogueEventState Stage1_Canon_In_Progress { get; } =
                 new("stage_1_canon_in_progress") { NoDialogue = true };
 
-            public static DialogueEventTrigger Stage1_Ignore_Trigger { get; } = new("stage_1_ignore");
-
             public static DialogueEventTrigger Stage1_Help_Trigger { get; } = new("stage_1_help");
+
+            public static DialogueEventTrigger Stage1_Ignore_Trigger { get; } = new("stage_1_ignore");
         }
     }
 }

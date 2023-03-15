@@ -107,7 +107,8 @@ public class SynthAsParentTests
         CheckEventIsNotAvailableUntilInProgress(textEvent, dialogueRequirementsContext);
     }
 
-    private static void QuestNotAvailableInOtherLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider, DialogueEvent textEvent, LocationSid[] availableLocations)
+    private static void QuestNotAvailableInOtherLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider,
+        DialogueEvent textEvent, LocationSid[] availableLocations)
     {
         var allLocations = Enum.GetValues<LocationSid>();
 
@@ -115,18 +116,19 @@ public class SynthAsParentTests
 
         foreach (var locationSid in notAvailableLocations)
         {
-            var notAvailableLocationContext = new DialogueEventRequirementContext(globeProvider.Globe, locationSid, eventCatalog);
+            var notAvailableLocationContext =
+                new DialogueEventRequirementContext(globeProvider.Globe, locationSid, eventCatalog);
 
             var requirements1 = textEvent.GetRequirements();
 
             var stage1IsAvailable1 = requirements1.All(x => x.IsApplicableFor(notAvailableLocationContext));
 
             stage1IsAvailable1.Should().BeFalse();
-
         }
     }
 
-    private static void CheckEventIsNotAvailableUntilInProgress(DialogueEvent textEvent, DialogueEventRequirementContext context)
+    private static void CheckEventIsNotAvailableUntilInProgress(DialogueEvent textEvent,
+        DialogueEventRequirementContext context)
     {
         var requirements = textEvent.GetRequirements();
         var questAvailability = requirements.All(x => x.IsApplicableFor(context));

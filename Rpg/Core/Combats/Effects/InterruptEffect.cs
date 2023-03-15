@@ -21,14 +21,11 @@ public sealed class InterruptEffectInstance : EffectInstanceBase<InterruptEffect
 {
     public InterruptEffectInstance(InterruptEffect stunffect) : base(stunffect)
     {
-
     }
-
 
 
     public override void AddModifier(IUnitStatModifier modifier)
     {
-
     }
 
     public override void Influence(Combatant target, IEffectCombatContext context)
@@ -38,6 +35,5 @@ public sealed class InterruptEffectInstance : EffectInstanceBase<InterruptEffect
 
     public override void RemoveModifier(IUnitStatModifier modifier)
     {
-
     }
 }

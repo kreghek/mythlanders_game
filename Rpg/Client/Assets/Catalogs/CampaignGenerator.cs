@@ -71,7 +71,6 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     {
         return new[]
         {
-           
             // Combat
 
             new ICampaignStageTemplateFactory[]

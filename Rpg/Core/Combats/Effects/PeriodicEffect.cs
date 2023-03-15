@@ -9,9 +9,10 @@ public sealed class PeriodicEffect : IEffect
         Lifetime = lifetime;
     }
 
-    public ITargetSelector Selector { get; }
     public IEffect BaseEffect { get; }
     public ICombatantEffectLifetime Lifetime { get; }
+
+    public ITargetSelector Selector { get; }
 
     public IReadOnlyCollection<IEffectCondition> ImposeConditions => Array.Empty<IEffectCondition>();
 

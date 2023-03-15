@@ -31,10 +31,8 @@ public sealed class DamageEffectInstance : EffectInstanceBase<DamageEffect>
         if (BaseEffect.DamageType == DamageType.ShieldsOnly) return;
 
         if (damageRemains > 0)
-        {
             //TakeStat(target, UnitStatType.HitPoints, damageRemains);
             context.DamageCombatantStat(target, UnitStatType.HitPoints, damageRemains);
-        }
     }
 
     public override void RemoveModifier(IUnitStatModifier modifier)

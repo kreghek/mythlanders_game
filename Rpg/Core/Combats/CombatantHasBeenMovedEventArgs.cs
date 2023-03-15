@@ -2,12 +2,13 @@
 
 public sealed class CombatantHasBeenMovedEventArgs : CombatantEventArgsBase
 {
-    public CombatFieldSide FieldSide { get; }
-    public FieldCoords NewFieldCoords { get; }
-
-    public CombatantHasBeenMovedEventArgs(Combatant combatant, CombatFieldSide fieldSide, FieldCoords newFieldCoords) : base(combatant)
+    public CombatantHasBeenMovedEventArgs(Combatant combatant, CombatFieldSide fieldSide, FieldCoords newFieldCoords) :
+        base(combatant)
     {
         FieldSide = fieldSide;
         NewFieldCoords = newFieldCoords;
     }
+
+    public CombatFieldSide FieldSide { get; }
+    public FieldCoords NewFieldCoords { get; }
 }

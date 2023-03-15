@@ -7,10 +7,7 @@ public sealed class AllOtherFriendlyTargetSelector : ITargetSelector
         for (var lineIndex = 0; lineIndex < context.EnemySide.LineCount; lineIndex++)
         {
             var slot = context.ActorSide[new FieldCoords(0, lineIndex)];
-            if (slot.Combatant is not null)
-            {
-                yield return slot.Combatant;
-            }
+            if (slot.Combatant is not null) yield return slot.Combatant;
         }
     }
 

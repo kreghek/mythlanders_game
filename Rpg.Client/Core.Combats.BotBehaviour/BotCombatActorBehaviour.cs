@@ -12,7 +12,7 @@ public sealed class BotCombatActorBehaviour : ICombatActorBehaviour
         _intentionFactory = intentionFactory;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void HandleIntention(ICombatActorBehaviourData combatData, Action<IIntention> intentionDelegate)
     {
         var firstSkill = combatData.CurrentActor.Skills.First();

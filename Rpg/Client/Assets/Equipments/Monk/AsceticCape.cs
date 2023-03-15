@@ -9,11 +9,8 @@ namespace Rpg.Client.Assets.Equipments.Monk
 {
     internal sealed class AsceticCape : IEquipmentScheme
     {
-        public EquipmentSid Sid => EquipmentSid.AsceticRobe;
-
         public IReadOnlyList<IEffect> CreateCombatHitPointsChangedEffects(IEquipmentEffectContext context)
         {
-
             //return new[]
             //{
             //    new EffectRule
@@ -28,6 +25,8 @@ namespace Rpg.Client.Assets.Equipments.Monk
 
             return Array.Empty<IEffect>();
         }
+
+        public EquipmentSid Sid => EquipmentSid.AsceticRobe;
 
         public string GetDescription()
         {

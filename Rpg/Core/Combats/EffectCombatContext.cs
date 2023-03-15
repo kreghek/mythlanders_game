@@ -15,7 +15,8 @@ public sealed record EffectCombatContext(
         return NotifyCombatantDamagedDelegate(combatant, statType, value);
     }
 
-    public void NotifySwapFieldPosition(Combatant combatant, FieldCoords sourceCoords, CombatFieldSide sourceFieldSide, FieldCoords destinationCoords, CombatFieldSide destinationFieldSide)
+    public void NotifySwapFieldPosition(Combatant combatant, FieldCoords sourceCoords, CombatFieldSide sourceFieldSide,
+        FieldCoords destinationCoords, CombatFieldSide destinationFieldSide)
     {
         NotifyCombatantMovedDelegate(sourceCoords, sourceFieldSide, destinationCoords, destinationFieldSide);
     }

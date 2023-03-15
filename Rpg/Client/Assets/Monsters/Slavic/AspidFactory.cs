@@ -25,7 +25,6 @@ namespace Rpg.Client.Assets.Monsters
 
                 Levels = new IUnitLevelScheme[]
                 {
-
                 },
 
                 UnitGraphicsConfig = new GenericMonsterGraphicsConfig()

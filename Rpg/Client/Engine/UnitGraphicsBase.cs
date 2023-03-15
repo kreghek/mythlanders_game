@@ -34,7 +34,8 @@ namespace Rpg.Client.Engine
 
         private Sprite[] _sprites;
 
-        public UnitGraphicsBase(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig, bool isNormalOrientation, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
+        public UnitGraphicsBase(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig, bool isNormalOrientation,
+            Vector2 position, GameObjectContentStorage gameObjectContentStorage)
         {
             _position = position;
             _gameObjectContentStorage = gameObjectContentStorage;

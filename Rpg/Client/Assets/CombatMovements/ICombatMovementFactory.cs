@@ -10,5 +10,7 @@ internal interface ICombatMovementFactory
 {
     string Sid { get; }
     CombatMovement CreateMovement();
-    IActorVisualizationState CreateVisualization(IActorAnimator actorAnimator, CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext);
+
+    IActorVisualizationState CreateVisualization(IActorAnimator actorAnimator,
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext);
 }

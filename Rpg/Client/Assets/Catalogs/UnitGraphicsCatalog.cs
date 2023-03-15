@@ -12,7 +12,8 @@ namespace Client.Assets.Catalogs;
 
 internal sealed class UnitGraphicsCatalog : IUnitGraphicsCatalog
 {
-    private IDictionary<string, UnitGraphicsConfigBase> _graphicsDict = new Dictionary<string, UnitGraphicsConfigBase>();
+    private readonly IDictionary<string, UnitGraphicsConfigBase> _graphicsDict =
+        new Dictionary<string, UnitGraphicsConfigBase>();
 
     public UnitGraphicsCatalog(GameObjectContentStorage gameObjectContentStorage)
     {
@@ -31,11 +32,6 @@ internal sealed class UnitGraphicsCatalog : IUnitGraphicsCatalog
         }
     }
 
-    public UnitGraphicsConfigBase GetGraphics(string classSid)
-    {
-        return _graphicsDict[classSid.ToUpper()];
-    }
-
     private static IReadOnlyCollection<IHeroFactory> LoadHeroFactories()
     {
         var assembly = typeof(IHeroFactory).Assembly;
@@ -52,5 +48,10 @@ internal sealed class UnitGraphicsCatalog : IUnitGraphicsCatalog
             .Where(x => typeof(IMonsterFactory).IsAssignableFrom(x) && x != typeof(IMonsterFactory) && !x.IsAbstract);
         var factories = factoryTypes.Select(Activator.CreateInstance);
         return factories.OfType<IMonsterFactory>().ToArray();
+    }
+
+    public UnitGraphicsConfigBase GetGraphics(string classSid)
+    {
+        return _graphicsDict[classSid.ToUpper()];
     }
 }

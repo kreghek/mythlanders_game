@@ -18,9 +18,9 @@ public class AmazonFactory
                 new IEffect[]
                 {
                     new DamageEffect(
-                            new ClosestInLineTargetSelector(),
-                            DamageType.Normal,
-                            Range<int>.CreateMono(4)),
+                        new ClosestInLineTargetSelector(),
+                        DamageType.Normal,
+                        Range<int>.CreateMono(4))
                 })
         )
         {
@@ -33,9 +33,9 @@ public class AmazonFactory
                 new IEffect[]
                 {
                     new DamageEffect(
-                            new WeakestEnemyTargetSelector(),
-                            DamageType.Normal,
-                            Range<int>.CreateMono(4)),
+                        new WeakestEnemyTargetSelector(),
+                        DamageType.Normal,
+                        Range<int>.CreateMono(4))
                 })
         )
         {
@@ -47,7 +47,7 @@ public class AmazonFactory
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new ModifyEffectsEffect(new SelfTargetSelector(), 1),
+                    new ModifyEffectsEffect(new SelfTargetSelector(), 1)
                 })
         ));
 
@@ -57,9 +57,9 @@ public class AmazonFactory
                 new IEffect[]
                 {
                     new DamageEffect(
-                            new ClosestInLineTargetSelector(),
-                            DamageType.Normal,
-                            Range<int>.CreateMono(1)),
+                        new ClosestInLineTargetSelector(),
+                        DamageType.Normal,
+                        Range<int>.CreateMono(1))
                 })
         )
         {
@@ -72,9 +72,9 @@ public class AmazonFactory
                 new IEffect[]
                 {
                     new DamageEffect(
-                            new StrongestEnemyTargetSelector(),
-                            DamageType.Normal,
-                            Range<int>.CreateMono(4)),
+                        new StrongestEnemyTargetSelector(),
+                        DamageType.Normal,
+                        Range<int>.CreateMono(4))
                 })
         )
         {
@@ -84,8 +84,12 @@ public class AmazonFactory
         var heroSequence = new CombatMovementSequence();
 
         for (var i = 0; i < 2; i++)
+        {
             foreach (var movement in movementPool)
+            {
                 heroSequence.Items.Add(movement);
+            }
+        }
 
         var hero = new Combatant("amazon", heroSequence, combatActorBehaviour)
         {

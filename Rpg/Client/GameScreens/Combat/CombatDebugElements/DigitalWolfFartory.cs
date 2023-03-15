@@ -50,9 +50,9 @@ public class DigitalWolfFactory
                             typeof(ToEndOfCurrentRoundEffectLifetime))
                     })
             )
-        {
-            Tags = CombatMovementTags.AutoDefense
-        }
+            {
+                Tags = CombatMovementTags.AutoDefense
+            }
         );
 
         list.Add(new CombatMovement("Cyber claws",
@@ -70,8 +70,12 @@ public class DigitalWolfFactory
 
         var monsterSequence = new CombatMovementSequence();
         for (var i = 0; i < 2; i++)
+        {
             foreach (var combatMovement in list)
+            {
                 monsterSequence.Items.Add(combatMovement);
+            }
+        }
 
         var monster = new Combatant("DigitalWolf", monsterSequence, combatActorBehaviour)
         {

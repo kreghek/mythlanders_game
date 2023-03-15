@@ -66,6 +66,8 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
 
     private bool _isInitialized;
 
+    private KeyboardState _keyboardState;
+
     private double _pressToContinueCounter;
 
     public TextDialogueScreen(TestamentGame game, TextDialogueScreenTransitionArgs args) : base(game)
@@ -431,6 +433,11 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         }
     }
 
+    private bool IsKeyPressed(Keys checkKey)
+    {
+        return Keyboard.GetState().IsKeyUp(checkKey) && _keyboardState.IsKeyDown(checkKey);
+    }
+
     private void UpdateBackgroundObjects(GameTime gameTime)
     {
         foreach (var obj in _foregroundLayerObjects)
@@ -443,8 +450,6 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
             obj.Update(gameTime);
         }
     }
-
-    private KeyboardState _keyboardState;
 
     private void UpdateHud(GameTime gameTime)
     {
@@ -496,11 +501,6 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
                 _dialogueOptions.SelectOption(4);
             }
         }
-    }
-
-    private bool IsKeyPressed(Keys checkKey)
-    {
-        return Keyboard.GetState().IsKeyUp(checkKey) && _keyboardState.IsKeyDown(checkKey);
     }
 
     private void UpdateSpeaker(GameTime gameTime)

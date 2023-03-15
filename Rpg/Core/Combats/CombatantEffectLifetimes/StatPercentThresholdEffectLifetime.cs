@@ -2,8 +2,8 @@
 
 internal class StatPercentThresholdEffectLifetime : ICombatantEffectLifetime
 {
-    private readonly UnitStatType _statType;
     private readonly float _minShare;
+    private readonly UnitStatType _statType;
 
     public StatPercentThresholdEffectLifetime(UnitStatType statType, float minShare)
     {
@@ -25,10 +25,7 @@ internal class StatPercentThresholdEffectLifetime : ICombatantEffectLifetime
                 return;
             }
 
-            if (stat.Value.GetShare() < _minShare)
-            {
-                IsDead = true;
-            }
+            if (stat.Value.GetShare() < _minShare) IsDead = true;
         }
     }
 }

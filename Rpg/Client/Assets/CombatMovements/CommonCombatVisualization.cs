@@ -12,9 +12,11 @@ using Microsoft.Xna.Framework;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Client.Assets.CombatMovements;
+
 internal static class CommonCombatVisualization
 {
-    public static IActorVisualizationState CreateMeleeVisualization(IActorAnimator actorAnimator, CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+    public static IActorVisualizationState CreateMeleeVisualization(IActorAnimator actorAnimator,
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
         var skillAnimationInfo = new SkillAnimationInfo
         {

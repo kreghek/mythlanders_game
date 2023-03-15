@@ -29,7 +29,10 @@ internal sealed class CombatantGameObject : EwarRenderableBase
     private readonly ScreenShaker _screenShaker;
     private readonly ICombatantPositionProvider _unitPositionProvider;
 
-    public CombatantGameObject(Combatant combatant, UnitGraphicsConfigBase combatantGraphicsConfig, FieldCoords formationCoords, ICombatantPositionProvider unitPositionProvider,
+    private CombatUnitState _visualIdleState;
+
+    public CombatantGameObject(Combatant combatant, UnitGraphicsConfigBase combatantGraphicsConfig,
+        FieldCoords formationCoords, ICombatantPositionProvider unitPositionProvider,
         GameObjectContentStorage gameObjectContentStorage,
         Camera2D camera, ScreenShaker screenShaker,
         CombatantPositionSide combatantSide)
@@ -40,7 +43,8 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
         var position = unitPositionProvider.GetPosition(formationCoords, combatantSide);
         var spriteSheetId = Enum.Parse<UnitName>(combatant.ClassSid, ignoreCase: true);
-        Graphics = new UnitGraphics(spriteSheetId, actorGraphicsConfig, combatantSide == CombatantPositionSide.Heroes, position, gameObjectContentStorage);
+        Graphics = new UnitGraphics(spriteSheetId, actorGraphicsConfig, combatantSide == CombatantPositionSide.Heroes,
+            position, gameObjectContentStorage);
 
         Animator = new ActorAnimator(Graphics);
 
@@ -68,19 +72,22 @@ internal sealed class CombatantGameObject : EwarRenderableBase
     public bool IsActive { get; set; }
     public Vector2 LaunchPoint => Position - Vector2.UnitY * 64;
 
+    public void AddStateEngine(IActorVisualizationState actorStateEngine)
+    {
+        foreach (var state in _actorStateEngineList.ToArray())
+        {
+            if (state.CanBeReplaced)
+            {
+                _actorStateEngineList.Remove(state);
+            }
+        }
+
+        _actorStateEngineList.Add(actorStateEngine);
+    }
+
     public void AnimateWound()
     {
         AddStateEngine(new WoundState(Graphics));
-    }
-
-    public void MoveToFieldCoords(Vector2 targetPosition)
-    {
-        AddStateEngine(new MoveToPositionActorState(Animator,
-            new SlowDownMoveFunction(Animator.GraphicRoot.Position, targetPosition),
-            Graphics.GetAnimationInfo(PredefinedAnimationSid.MoveBackward), new Duration(0.5)));
-
-        Graphics.ChangePosition(targetPosition);
-        Position = targetPosition;
     }
 
     public CorpseGameObject CreateCorpse()
@@ -108,6 +115,16 @@ internal sealed class CombatantGameObject : EwarRenderableBase
         }
 
         return currentIndicatorCount - 1;
+    }
+
+    public void MoveToFieldCoords(Vector2 targetPosition)
+    {
+        AddStateEngine(new MoveToPositionActorState(Animator,
+            new SlowDownMoveFunction(Animator.GraphicRoot.Position, targetPosition),
+            Graphics.GetAnimationInfo(PredefinedAnimationSid.MoveBackward), new Duration(0.5)));
+
+        Graphics.ChangePosition(targetPosition);
+        Position = targetPosition;
     }
 
     public override void Update(GameTime gameTime)
@@ -180,22 +197,14 @@ internal sealed class CombatantGameObject : EwarRenderableBase
             transformMatrix: _camera.GetViewTransformationMatrix());
     }
 
+    internal void ChangeState(CombatUnitState visualIdleState)
+    {
+        _visualIdleState = visualIdleState;
+    }
+
     internal float GetZIndex()
     {
         return Graphics.Root.Position.Y;
-    }
-
-    public void AddStateEngine(IActorVisualizationState actorStateEngine)
-    {
-        foreach (var state in _actorStateEngineList.ToArray())
-        {
-            if (state.CanBeReplaced)
-            {
-                _actorStateEngineList.Remove(state);
-            }
-        }
-
-        _actorStateEngineList.Add(actorStateEngine);
     }
 
     private void HandleEngineStates(GameTime gameTime)
@@ -234,13 +243,6 @@ internal sealed class CombatantGameObject : EwarRenderableBase
     private void ResetActorRootSpritePosition()
     {
         Graphics.Root.Position = Position;
-    }
-
-    private CombatUnitState _visualIdleState;
-
-    internal void ChangeState(CombatUnitState visualIdleState)
-    {
-        _visualIdleState = visualIdleState;
     }
 
     // private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)

@@ -8,8 +8,9 @@ public class HealEffect : IEffect
         Heal = heal;
     }
 
-    public ITargetSelector Selector { get; }
     public Range<int> Heal { get; }
+
+    public ITargetSelector Selector { get; }
 
     public IReadOnlyCollection<IEffectCondition> ImposeConditions => Array.Empty<IEffectCondition>();
 

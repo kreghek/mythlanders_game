@@ -28,9 +28,9 @@ public class PartisanFactory
                         )
                     })
             )
-        {
-            Tags = CombatMovementTags.Attack
-        }
+            {
+                Tags = CombatMovementTags.Attack
+            }
         );
 
         movementPool.Add(new CombatMovement("Sabotage",
@@ -88,9 +88,9 @@ public class PartisanFactory
                         )
                     })
             )
-        {
-            Tags = CombatMovementTags.Attack
-        }
+            {
+                Tags = CombatMovementTags.Attack
+            }
         );
 
         movementPool.Add(new CombatMovement("OldGoodBrawl",
@@ -108,17 +108,20 @@ public class PartisanFactory
                         )
                     })
             )
-        {
-            Tags = CombatMovementTags.Attack
-        }
+            {
+                Tags = CombatMovementTags.Attack
+            }
         );
-
 
         var heroSequence = new CombatMovementSequence();
 
         for (var i = 0; i < 2; i++)
+        {
             foreach (var movement in movementPool)
+            {
                 heroSequence.Items.Add(movement);
+            }
+        }
 
         var hero = new Combatant("partisan", heroSequence, combatActorBehaviour)
         {

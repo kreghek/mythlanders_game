@@ -10,7 +10,6 @@ namespace Client.Core.Heroes;
 
 internal sealed class Hero
 {
-
     private float _armorBonus;
 
     public Hero(UnitScheme unitScheme, int level)
@@ -53,7 +52,7 @@ internal sealed class Hero
 
     public int Support => CalcSupport();
 
-    public UnitScheme UnitScheme { get; private set; }
+    public UnitScheme UnitScheme { get; }
 
     /// <summary>
     /// Used only by monster units.

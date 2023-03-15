@@ -26,11 +26,11 @@ internal class CombatMovementsHandPanel : ControlBase
     private readonly IList<CombatMovementButton> _buttons;
     private readonly IUiContentStorage _uiContentStorage;
     private CombatMovementHint? _activeCombatMovementHint;
+    private Combatant? _combatant;
     private KeyboardState _currentKeyboardState;
 
     private EntityButtonBase<CombatMovementInstance>? _hoverButton;
     private KeyboardState? _lastKeyboardState;
-    private Combatant? _combatant;
 
     public CombatMovementsHandPanel(IUiContentStorage uiContentStorage)
     {
@@ -303,10 +303,10 @@ internal class CombatMovementsHandPanel : ControlBase
 
 public sealed class CombatMovementPickedEventArgs : EventArgs
 {
-    public CombatMovementInstance CombatMovement { get; }
-
     public CombatMovementPickedEventArgs(CombatMovementInstance combatMovement)
     {
         CombatMovement = combatMovement;
     }
+
+    public CombatMovementInstance CombatMovement { get; }
 }

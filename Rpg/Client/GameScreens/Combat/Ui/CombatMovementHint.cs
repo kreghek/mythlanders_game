@@ -13,14 +13,13 @@ namespace Client.GameScreens.Combat.Ui;
 
 internal class CombatMovementHint : HintBase
 {
-    private readonly SpriteFont _nameFont;
-    private readonly SpriteFont _font;
+    private readonly string? _combatMoveCostText;
+    private readonly string _combatMoveDescription;
     private readonly CombatMovementInstance _combatMovement;
 
     private readonly string _combatMoveTitle;
-    private readonly string? _combatMoveCostText;
-    private readonly string _combatMoveDescription;
-    private readonly Vector2 _contentSize;
+    private readonly SpriteFont _font;
+    private readonly SpriteFont _nameFont;
 
     public CombatMovementHint(CombatMovementInstance combatMovement)
     {
@@ -32,7 +31,8 @@ internal class CombatMovementHint : HintBase
 
         if (_combatMovement.SourceMovement.Cost.HasCost)
         {
-            _combatMoveCostText = string.Format(UiResource.SkillManaCostTemplate, _combatMovement.SourceMovement.Cost.Value);
+            _combatMoveCostText =
+                string.Format(UiResource.SkillManaCostTemplate, _combatMovement.SourceMovement.Cost.Value);
         }
         else
         {
@@ -43,25 +43,15 @@ internal class CombatMovementHint : HintBase
             GameObjectHelper.GetLocalizedDescription(_combatMovement.SourceMovement.Sid),
             60);
 
-        _contentSize = CalcContentSize(_combatMoveTitle, _combatMoveDescription);
+        ContentSize = CalcContentSize(_combatMoveTitle, _combatMoveDescription);
     }
 
-    private Vector2 CalcContentSize(string combatMoveTitle, string combatMoveDescription)
-    {
-        var titleSize = _nameFont.MeasureString(combatMoveTitle);
-        var descriptionSize = _font.MeasureString(combatMoveDescription);
-
-        return new Vector2(
-            Math.Max(titleSize.X, descriptionSize.X),
-            15 + 20 + descriptionSize.Y);
-    }
+    public Vector2 ContentSize { get; }
 
     protected override Point CalcTextureOffset()
     {
         return Point.Zero;
     }
-
-    public Vector2 ContentSize => _contentSize;
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
     {
@@ -81,5 +71,15 @@ internal class CombatMovementHint : HintBase
 
         var descriptionBlockPosition = manaCostPosition + new Vector2(0, 20);
         spriteBatch.DrawString(_font, _combatMoveDescription, descriptionBlockPosition, Color.Wheat);
+    }
+
+    private Vector2 CalcContentSize(string combatMoveTitle, string combatMoveDescription)
+    {
+        var titleSize = _nameFont.MeasureString(combatMoveTitle);
+        var descriptionSize = _font.MeasureString(combatMoveDescription);
+
+        return new Vector2(
+            Math.Max(titleSize.X, descriptionSize.X),
+            15 + 20 + descriptionSize.Y);
     }
 }

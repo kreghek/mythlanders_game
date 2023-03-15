@@ -1,4 +1,6 @@
-﻿using Client.GameScreens.Combat.GameObjects;
+﻿using System;
+
+using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
 
@@ -32,7 +34,7 @@ namespace Rpg.Client.Assets.States
 
             //_blocker = mainAnimationBlocker;
 
-            throw new System.Exception();
+            throw new Exception();
         }
 
         public bool CanBeReplaced => _innerState.CanBeReplaced;

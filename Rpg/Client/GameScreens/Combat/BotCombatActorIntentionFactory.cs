@@ -14,10 +14,11 @@ namespace Client.GameScreens.Combat;
 internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
 {
     private readonly IAnimationManager _animationManager;
-    private readonly ICombatMovementVisualizer _combatMovementVisualizer;
     private readonly IList<CombatantGameObject> _combatantGameObjects;
+    private readonly ICombatMovementVisualizer _combatMovementVisualizer;
 
-    public BotCombatActorIntentionFactory(IAnimationManager animationManager, ICombatMovementVisualizer combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects)
+    public BotCombatActorIntentionFactory(IAnimationManager animationManager,
+        ICombatMovementVisualizer combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects)
     {
         _animationManager = animationManager;
         _combatMovementVisualizer = combatMovementVisualizer;
@@ -26,6 +27,7 @@ internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
 
     public IIntention CreateCombatMovement(CombatMovementInstance combatMovement)
     {
-        return new UseCombatMovementIntention(combatMovement, _animationManager, _combatMovementVisualizer, _combatantGameObjects);
+        return new UseCombatMovementIntention(combatMovement, _animationManager, _combatMovementVisualizer,
+            _combatantGameObjects);
     }
 }

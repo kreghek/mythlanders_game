@@ -15,27 +15,29 @@ internal class DieBySwordFactory : ICombatMovementFactory
     public CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
-                new CombatMovementCost(2),
-                CombatMovementEffectConfig.Create(
-                    new IEffect[]
-                    {
-                        new ChangePositionEffect(
-                            new SelfTargetSelector(),
-                            ChangePositionEffectDirection.ToVanguard
-                        ),
-                        new DamageEffect(
-                            new ClosestInLineTargetSelector(),
-                            DamageType.Normal,
-                            Range<int>.CreateMono(2))
-                    })
-            )
+            new CombatMovementCost(2),
+            CombatMovementEffectConfig.Create(
+                new IEffect[]
+                {
+                    new ChangePositionEffect(
+                        new SelfTargetSelector(),
+                        ChangePositionEffectDirection.ToVanguard
+                    ),
+                    new DamageEffect(
+                        new ClosestInLineTargetSelector(),
+                        DamageType.Normal,
+                        Range<int>.CreateMono(2))
+                })
+        )
         {
             Tags = CombatMovementTags.Attack
         };
     }
 
-    public IActorVisualizationState CreateVisualization(IActorAnimator actorAnimator, CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+    public IActorVisualizationState CreateVisualization(IActorAnimator actorAnimator,
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
-        return CommonCombatVisualization.CreateMeleeVisualization(actorAnimator, movementExecution, visualizationContext);
+        return CommonCombatVisualization.CreateMeleeVisualization(actorAnimator, movementExecution,
+            visualizationContext);
     }
 }

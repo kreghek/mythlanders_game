@@ -13,12 +13,13 @@ namespace Rpg.Client.GameScreens.Combat;
 
 internal sealed class UseCombatMovementIntention : IIntention
 {
-    private readonly CombatMovementInstance _combatMovement;
     private readonly IAnimationManager _animationManager;
-    private readonly ICombatMovementVisualizer _combatMovementVisualizer;
     private readonly IList<CombatantGameObject> _combatantGameObjects;
+    private readonly CombatMovementInstance _combatMovement;
+    private readonly ICombatMovementVisualizer _combatMovementVisualizer;
 
-    public UseCombatMovementIntention(CombatMovementInstance combatMovement, IAnimationManager animationManager, ICombatMovementVisualizer combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects)
+    public UseCombatMovementIntention(CombatMovementInstance combatMovement, IAnimationManager animationManager,
+        ICombatMovementVisualizer combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects)
     {
         _combatMovement = combatMovement;
         _animationManager = animationManager;
@@ -26,14 +27,18 @@ internal sealed class UseCombatMovementIntention : IIntention
         _combatantGameObjects = combatantGameObjects;
     }
 
-    public void Make(CombatCore combatCore)
+    private CombatantGameObject GetCombatantGameObject(Combatant combatant)
     {
-        var movementExecution = combatCore.CreateCombatMovementExecution(_combatMovement);
+        return _combatantGameObjects.First(x => x.Combatant == combatant);
+    }
 
-        var actorGameObject = GetCombatantGameObject(combatCore.CurrentCombatant);
-        var movementState = GetMovementVisualizationState(actorGameObject, movementExecution, _combatMovement);
+    private IActorVisualizationState GetMovementVisualizationState(CombatantGameObject actorGameObject,
+        CombatMovementExecution movementExecution, CombatMovementInstance combatMovement)
+    {
+        var context = new CombatMovementVisualizationContext(_combatantGameObjects.ToArray());
 
-        PlaybackCombatMovementExecution(movementState, combatCore);
+        return _combatMovementVisualizer.GetMovementVisualizationState(combatMovement.SourceMovement.Sid,
+            actorGameObject.Animator, movementExecution, context);
     }
 
     private void PlaybackCombatMovementExecution(IActorVisualizationState movementState, CombatCore combatCore)
@@ -68,15 +73,13 @@ internal sealed class UseCombatMovementIntention : IIntention
         actorGameObject.AddStateEngine(actorState);
     }
 
-    private IActorVisualizationState GetMovementVisualizationState(CombatantGameObject actorGameObject, CombatMovementExecution movementExecution, CombatMovementInstance combatMovement)
+    public void Make(CombatCore combatCore)
     {
-        var context = new CombatMovementVisualizationContext(_combatantGameObjects.ToArray());
+        var movementExecution = combatCore.CreateCombatMovementExecution(_combatMovement);
 
-        return _combatMovementVisualizer.GetMovementVisualizationState(combatMovement.SourceMovement.Sid, actorGameObject.Animator, movementExecution, context);
-    }
+        var actorGameObject = GetCombatantGameObject(combatCore.CurrentCombatant);
+        var movementState = GetMovementVisualizationState(actorGameObject, movementExecution, _combatMovement);
 
-    private CombatantGameObject GetCombatantGameObject(Combatant combatant)
-    {
-        return _combatantGameObjects.First(x => x.Combatant == combatant);
+        PlaybackCombatMovementExecution(movementState, combatCore);
     }
 }

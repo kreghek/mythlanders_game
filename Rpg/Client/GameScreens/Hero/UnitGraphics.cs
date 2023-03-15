@@ -7,7 +7,8 @@ namespace Rpg.Client.GameScreens.Hero
 {
     internal sealed class UnitGraphics : UnitGraphicsBase
     {
-        public UnitGraphics(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig, bool isNormalOrientation, Vector2 position, GameObjectContentStorage gameObjectContentStorage) :
+        public UnitGraphics(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig, bool isNormalOrientation,
+            Vector2 position, GameObjectContentStorage gameObjectContentStorage) :
             base(spriteSheetId, graphicsConfig, isNormalOrientation, position, gameObjectContentStorage)
         {
         }

@@ -3,8 +3,8 @@ namespace Rpg.Client.Engine
     internal interface IAnimationManager
     {
         bool HasBlockers { get; }
-        void RegisterBlocker(IAnimationBlocker blocker);
         void DropBlockers();
+        void RegisterBlocker(IAnimationBlocker blocker);
     }
 
     internal static class IAnimationManagerExtensions

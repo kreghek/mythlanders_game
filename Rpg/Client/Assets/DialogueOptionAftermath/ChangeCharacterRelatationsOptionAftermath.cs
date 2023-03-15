@@ -7,8 +7,8 @@ namespace Client.Assets.DialogueOptionAftermath;
 
 internal class ChangeCharacterRelatationsOptionAftermath : IDialogueOptionAftermath
 {
-    private readonly UnitName _targetCharacter;
     private readonly CharacterKnowledgeLevel _knowledgeLevel;
+    private readonly UnitName _targetCharacter;
 
     public ChangeCharacterRelatationsOptionAftermath(UnitName targetCharacter, CharacterKnowledgeLevel knowledgeLevel)
     {

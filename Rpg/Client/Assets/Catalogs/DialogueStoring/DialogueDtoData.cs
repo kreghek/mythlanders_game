@@ -8,6 +8,6 @@ namespace Client.Assets.Catalogs.DialogueStoring;
 [UsedImplicitly]
 internal sealed class DialogueDtoData
 {
-    public string Type { get; [UsedImplicitly] init; } = null!;
     public string Data { get; [UsedImplicitly] init; } = null!;
-};
+    public string Type { get; [UsedImplicitly] init; } = null!;
+}

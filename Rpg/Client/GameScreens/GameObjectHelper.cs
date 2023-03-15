@@ -19,11 +19,6 @@ internal static class GameObjectHelper
         return GetLocalizedInner(sid.Value);
     }
 
-    public static string GetLocalizedDescription(CombatMovementSid sid)
-    {
-        return GetLocalizedInner($"{sid.Value}_Description");
-    }
-
     public static string GetLocalized(CharacterRelation relation)
     {
         if (relation.Level == CharacterKnowledgeLevel.FullName)
@@ -62,6 +57,11 @@ internal static class GameObjectHelper
         }
 
         return GetLocalizedInner($"{equipmentType}Equipment");
+    }
+
+    public static string GetLocalizedDescription(CombatMovementSid sid)
+    {
+        return GetLocalizedInner($"{sid.Value}_Description");
     }
 
     public static string GetLocalizedDescription(IPerk perk)

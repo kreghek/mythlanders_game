@@ -19,17 +19,19 @@ internal class PainfulWoundFactory : ICombatMovementFactory
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new DamageEffect(new ClosestInLineTargetSelector(), DamageType.Normal, new Range<int>(2, 2)),
+                    new DamageEffect(new ClosestInLineTargetSelector(), DamageType.Normal, new Range<int>(2, 2))
                     //new PeriodicEffect
                 })
-            )
+        )
         {
             Tags = CombatMovementTags.Attack
         };
     }
 
-    public IActorVisualizationState CreateVisualization(IActorAnimator actorAnimator, CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+    public IActorVisualizationState CreateVisualization(IActorAnimator actorAnimator,
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
-        return CommonCombatVisualization.CreateMeleeVisualization(actorAnimator, movementExecution, visualizationContext);
+        return CommonCombatVisualization.CreateMeleeVisualization(actorAnimator, movementExecution,
+            visualizationContext);
     }
 }

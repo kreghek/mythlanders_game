@@ -16,11 +16,13 @@ namespace Client.GameScreens.Combat.Ui
 
         public FieldCoords FieldCoords { get; }
 
-        protected override Point CalcTextureOffset() => ControlTextures.Skill;
+        protected override Point CalcTextureOffset()
+        {
+            return ControlTextures.Skill;
+        }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
         {
-
         }
     }
 }

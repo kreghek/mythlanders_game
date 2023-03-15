@@ -11,13 +11,13 @@ internal sealed class ActorAnimator : IActorAnimator
 {
     private readonly UnitGraphics _unitGraphics;
 
-    public SpriteContainer GraphicRoot { get; }
-
     public ActorAnimator(UnitGraphics unitGraphics)
     {
         GraphicRoot = unitGraphics.Root;
         _unitGraphics = unitGraphics;
     }
+
+    public SpriteContainer GraphicRoot { get; }
 
     public IAnimationFrameSet GetIdleState()
     {

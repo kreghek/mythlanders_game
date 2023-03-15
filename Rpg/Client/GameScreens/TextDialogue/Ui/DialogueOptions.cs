@@ -26,17 +26,17 @@ namespace Rpg.Client.GameScreens.Speech.Ui
             return sumOptionHeight;
         }
 
+        public void SelectOption(int number)
+        {
+            Options.SingleOrDefault(x => x.Number == number)?.Click();
+        }
+
         public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
         {
             foreach (var button in Options)
             {
                 button.Update(resolutionIndependentRenderer);
             }
-        }
-
-        public void SelectOption(int number)
-        {
-            Options.SingleOrDefault(x => x.Number == number)?.Click();
         }
 
         protected override Point CalcTextureOffset()

@@ -9,6 +9,8 @@ public sealed class MultipleCombatantTurnEffectLifetime : ICombatantEffectLifeti
         Counter = duration;
     }
 
+    public int Counter { get; set; }
+
     public void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context)
     {
         if (updateType == CombatantEffectUpdateType.EndRound) _currentRoundEnd = true;
@@ -21,5 +23,4 @@ public sealed class MultipleCombatantTurnEffectLifetime : ICombatantEffectLifeti
     }
 
     public bool IsDead { get; private set; }
-    public int Counter { get; set; }
 }

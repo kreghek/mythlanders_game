@@ -21,16 +21,6 @@ internal sealed class CombatMovementVisualizer : ICombatMovementVisualizer
         _movementVisualizationDict = movementFactories.ToDictionary(x => (CombatMovementSid)x.Sid, x => x);
     }
 
-    public IActorVisualizationState GetMovementVisualizationState(CombatMovementSid sid, IActorAnimator actorAnimator, CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
-    {
-        if (!_movementVisualizationDict.TryGetValue(sid, out var factory))
-        {
-            return CommonCombatVisualization.CreateMeleeVisualization(actorAnimator, movementExecution, visualizationContext);
-        }
-
-        return factory.CreateVisualization(actorAnimator, movementExecution, visualizationContext);
-    }
-
     private static IReadOnlyCollection<TFactory> LoadFactories<TFactory>()
     {
         var assembly = typeof(TFactory).Assembly;
@@ -38,5 +28,17 @@ internal sealed class CombatMovementVisualizer : ICombatMovementVisualizer
             .Where(x => typeof(TFactory).IsAssignableFrom(x) && x != typeof(TFactory) && !x.IsAbstract);
         var factories = factoryTypes.Select(Activator.CreateInstance);
         return factories.OfType<TFactory>().ToArray();
+    }
+
+    public IActorVisualizationState GetMovementVisualizationState(CombatMovementSid sid, IActorAnimator actorAnimator,
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+    {
+        if (!_movementVisualizationDict.TryGetValue(sid, out var factory))
+        {
+            return CommonCombatVisualization.CreateMeleeVisualization(actorAnimator, movementExecution,
+                visualizationContext);
+        }
+
+        return factory.CreateVisualization(actorAnimator, movementExecution, visualizationContext);
     }
 }

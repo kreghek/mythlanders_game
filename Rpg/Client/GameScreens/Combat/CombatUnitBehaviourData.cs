@@ -11,11 +11,14 @@ namespace Rpg.Client.GameScreens.Combat
         {
             CurrentActor =
                 new CombatUnitBehaviourDataActor(
-                    combat.CurrentCombatant.Hand.Where(x => x is not null).Select(skill => new CombatActorBehaviourDataSkill(skill!)).ToArray());
+                    combat.CurrentCombatant.Hand.Where(x => x is not null)
+                        .Select(skill => new CombatActorBehaviourDataSkill(skill!)).ToArray());
 
-            Actors = combat.Field.HeroSide.GetAllCombatants().Concat(combat.Field.MonsterSide.GetAllCombatants()).Where(actor => actor != combat.CurrentCombatant).Select(actor =>
+            Actors = combat.Field.HeroSide.GetAllCombatants().Concat(combat.Field.MonsterSide.GetAllCombatants())
+                .Where(actor => actor != combat.CurrentCombatant).Select(actor =>
                     new CombatUnitBehaviourDataActor(
-                        actor.Hand.Where(x => x is not null).Select(skill => new CombatActorBehaviourDataSkill(skill!)).ToArray()))
+                        actor.Hand.Where(x => x is not null).Select(skill => new CombatActorBehaviourDataSkill(skill!))
+                            .ToArray()))
                 .ToArray();
         }
 

@@ -16,13 +16,13 @@ internal sealed class CombatMovementButton : EntityButtonBase<CombatMovementInst
 
     private float _counter;
 
-    public bool IsSelected => _buttonState == UiButtonState.Hover;
-
     public CombatMovementButton(IconData iconData, CombatMovementInstance combatMovement) : base(combatMovement)
     {
         _icon = iconData.Spritesheet;
         _iconRect = iconData.SourceRect;
     }
+
+    public bool IsSelected => _buttonState == UiButtonState.Hover;
 
     protected override Point CalcTextureOffset()
     {

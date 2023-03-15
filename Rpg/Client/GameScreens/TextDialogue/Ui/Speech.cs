@@ -8,14 +8,14 @@ namespace Rpg.Client.GameScreens.Speech.Ui
         public const float SYMBOL_DELAY_SEC = 0.05f;
         private const int SYMBOL_COUNT = 1;
 
-        private float _currentSymbolDelay = SYMBOL_DELAY_SEC;
-        private int _currentSymbolCount = SYMBOL_COUNT;
-
         private readonly string _fullText;
         private readonly ISpeechRandomProvider _speechRandomProvider;
         private readonly ISpeechSoundWrapper _speechSound;
 
         private readonly StringBuilder _textToPrintBuilder;
+        private int _currentSymbolCount = SYMBOL_COUNT;
+
+        private float _currentSymbolDelay = SYMBOL_DELAY_SEC;
         private double _delayCounter;
         private int _delayUsed;
         private double _soundDelayCounter;

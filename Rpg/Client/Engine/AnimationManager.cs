@@ -38,6 +38,19 @@ internal sealed class UpdatableAnimationManager : IAnimationManager
         _updatableBlocks = new List<IUpdatableAnimationBlocker>();
     }
 
+    public void Update(double elapsedSeconds)
+    {
+        foreach (var item in _updatableBlocks.ToArray())
+        {
+            item.Update(elapsedSeconds);
+
+            if (item.State == AnimationBlockerState.Released)
+            {
+                _updatableBlocks.Remove(item);
+            }
+        }
+    }
+
     public bool HasBlockers => _baseAnimationManager.HasBlockers;
 
     public void DropBlockers()
@@ -54,18 +67,5 @@ internal sealed class UpdatableAnimationManager : IAnimationManager
         }
 
         _baseAnimationManager.RegisterBlocker(blocker);
-    }
-
-    public void Update(double elapsedSeconds)
-    {
-        foreach (var item in _updatableBlocks.ToArray())
-        {
-            item.Update(elapsedSeconds);
-
-            if (item.State == AnimationBlockerState.Released)
-            {
-                _updatableBlocks.Remove(item);
-            }
-        }
     }
 }

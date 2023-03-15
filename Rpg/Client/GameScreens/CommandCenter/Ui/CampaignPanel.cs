@@ -30,7 +30,10 @@ internal class CampaignPanel : ControlBase
         _selectButton.Update(resolutionIndependentRenderer);
     }
 
-    protected override Point CalcTextureOffset() => ControlTextures.Skill;
+    protected override Point CalcTextureOffset()
+    {
+        return ControlTextures.Skill;
+    }
 
     protected override Color CalculateColor()
     {
