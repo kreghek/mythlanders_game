@@ -1,7 +1,9 @@
+using JetBrains.Annotations;
+
 namespace Client.Assets.Catalogs.DialogueStoring;
 
-internal class DialogueDtoData
-{
-    public string Type { get; set; }
-    public string Data { get; set; }
-}
+/// <summary>
+/// Structure to deserialize common dialogue data.
+/// </summary>
+[UsedImplicitly]
+internal sealed record DialogueDtoData(string Type, string Data);

@@ -53,14 +53,6 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
             }
         }
 
-        var units = new List<Hero>();
-        foreach (var unitScheme in rolledUnits)
-        {
-            var unitLevel = 2;
-            var unit = new Hero(unitScheme, unitLevel);
-            units.Add(unit);
-        }
-
         return rolledUnits.Select(x => (x.Name, 2)).ToArray();
     }
 
