@@ -238,7 +238,7 @@
   </data>
   <data name="DieBySword" xml:space="preserve">
       <value>Die by the sword</value>
-    <comment>Skill</comment>
+    <comment>Combat Movement</comment>
   </data>
   <data name="DopeHerb" xml:space="preserve">
       <value>Dope herb</value>

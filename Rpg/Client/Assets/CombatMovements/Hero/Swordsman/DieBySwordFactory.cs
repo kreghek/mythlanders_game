@@ -10,7 +10,7 @@ namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
 internal class DieBySwordFactory : ICombatMovementFactory
 {
-    public string Sid => "Die by sword!";
+    public string Sid => "DieBySword";
 
     public CombatMovement CreateMovement()
     {
