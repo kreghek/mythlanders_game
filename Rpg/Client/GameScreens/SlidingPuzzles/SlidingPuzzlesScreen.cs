@@ -85,7 +85,7 @@ namespace Client.GameScreens.SlidingPuzzles
 
             if (_puzzleEngine.IsCompleted)
             {
-                spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetTitlesFont(), 
+                spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetTitlesFont(),
                     UiResource.MiniGame_Victory,
                     new Vector2(contentRect.Right - 200, contentRect.Top + 200), Color.Wheat);
                 var destinationRectangle = new Rectangle(contentRect.Left, contentRect.Top, BUTTON_SIZE * _width,
