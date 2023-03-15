@@ -461,4 +461,16 @@
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp Reward</value>
   </data>
+  <data name="SlidingPuzzles_TurnsCounterTemplate" xml:space="preserve">
+    <value>Turns: {0}</value>
+  </data>
+  <data name="SlidingPuzzles_TimeCounterTemplate" xml:space="preserve">
+    <value>Timer: {0}</value>
+  </data>
+  <data name="MiniGame_Victory" xml:space="preserve">
+    <value>Победа!</value>
+  </data>
+  <data name="RestartButtonTitle" xml:space="preserve">
+    <value>Рестарт</value>
+  </data>
 </root>

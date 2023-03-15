@@ -34,6 +34,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "..\Rpg\Core\Core.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Balance", "..\Rpg\Core.Balance\Core.Balance.csproj", "{5F548959-6301-4C1E-B2D6-A1F0D8C2AE5C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeAnalysers", "CodeAnalysers\CodeAnalysers.csproj", "{9B162E0A-6970-499D-A94E-893145C8AE7C}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Combats.BotBehaviour", "Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj", "{F7870D69-F526-402F-91EF-FBAF0CCAB883}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameContent.Extensions", "..\Rpg\GameContent.Extensions\GameContent.Extensions.csproj", "{EFA00DFB-4F23-4E21-BABF-069F95377957}"
@@ -84,6 +86,10 @@ Global
 		{5F548959-6301-4C1E-B2D6-A1F0D8C2AE5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F548959-6301-4C1E-B2D6-A1F0D8C2AE5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F548959-6301-4C1E-B2D6-A1F0D8C2AE5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B162E0A-6970-499D-A94E-893145C8AE7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B162E0A-6970-499D-A94E-893145C8AE7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B162E0A-6970-499D-A94E-893145C8AE7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B162E0A-6970-499D-A94E-893145C8AE7C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F7870D69-F526-402F-91EF-FBAF0CCAB883}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F7870D69-F526-402F-91EF-FBAF0CCAB883}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7870D69-F526-402F-91EF-FBAF0CCAB883}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client;
+using Client.GameScreens.Common;
 using Client.Engine;
 
 using Microsoft.Xna.Framework;
