@@ -11,7 +11,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.CampaignSelection;
-using Rpg.Client.GameScreens.Common;
 using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Title

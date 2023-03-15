@@ -42,24 +42,6 @@ public sealed class XmlDocMissedOnDomainClassAnalyzer : DiagnosticAnalyzer
             SyntaxKind.MethodDeclaration);
     }
 
-    private static void AnalyzeNode(SyntaxNodeAnalysisContext context)
-    {
-        var node = context.Node;
-
-        switch (node)
-        {
-            case PropertyDeclarationSyntax propertyDeclaration:
-                AnalyzeProperty(context, propertyDeclaration);
-                return;
-
-            case MethodDeclarationSyntax methodDeclarationSyntax:
-                AnalyzeDeclaration(context, methodDeclarationSyntax);
-                return;
-
-            default: return;
-        }
-    }
-
     private static void AnalyzeDeclaration(SyntaxNodeAnalysisContext context,
         MethodDeclarationSyntax methodDeclarationSyntax)
     {
@@ -83,6 +65,24 @@ public sealed class XmlDocMissedOnDomainClassAnalyzer : DiagnosticAnalyzer
                     context.Node.GetLocation(),
                     classDeclarationSyntax.Identifier.ToString(),
                     methodDeclarationSyntax.Identifier.ToString()));
+        }
+    }
+
+    private static void AnalyzeNode(SyntaxNodeAnalysisContext context)
+    {
+        var node = context.Node;
+
+        switch (node)
+        {
+            case PropertyDeclarationSyntax propertyDeclaration:
+                AnalyzeProperty(context, propertyDeclaration);
+                return;
+
+            case MethodDeclarationSyntax methodDeclarationSyntax:
+                AnalyzeDeclaration(context, methodDeclarationSyntax);
+                return;
+
+            default: return;
         }
     }
 
