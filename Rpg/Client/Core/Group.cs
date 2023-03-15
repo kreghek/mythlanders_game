@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core.Heroes;
+
 namespace Rpg.Client.Core
 {
     internal sealed class Group
@@ -22,7 +24,7 @@ namespace Rpg.Client.Core
                 .ToArray();
         }
 
-        public IEnumerable<Unit> GetUnits()
+        public IEnumerable<Hero> GetUnits()
         {
             return Slots
                 .Where(x => x.Unit is not null)

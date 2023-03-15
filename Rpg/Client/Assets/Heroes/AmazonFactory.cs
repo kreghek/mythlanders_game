@@ -1,7 +1,5 @@
 ﻿using Rpg.Client.Assets.Equipments.Amazon;
 using Rpg.Client.Assets.GraphicConfigs;
-using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.Skills.Hero.Amazon;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
@@ -29,11 +27,6 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IUnitLevelScheme[]
             {
-                new AddSkillUnitLevel<ShotOfHateSkill>(1),
-                new AddSkillUnitLevel<PainfulWoundSkill>(2),
-                new AddPerkUnitLevel<CriticalHit>(2),
-                new AddSkillUnitLevel<WarCrySkill>(3),
-                new AddSkillUnitLevel<TribeDefenderSkill>(4)
             };
         }
     }

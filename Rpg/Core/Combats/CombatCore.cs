@@ -235,6 +235,12 @@ public class CombatCore
         CompleteTurn();
     }
 
+    public void Interrupt()
+    {
+        CombatantInterrupted?.Invoke(this, new CombatantInterruptedEventArgs(CurrentCombatant));
+        CompleteTurn();
+    }
+
     private static CombatMovementInstance? GetAutoDefenseMovement(Combatant target)
     {
         return target.Hand.FirstOrDefault(x =>
@@ -274,8 +280,24 @@ public class CombatCore
         }
     }
 
-    private void HandleCombatantDamaged(Combatant combatant, UnitStatType statType, int value)
+    private static int TakeStat(Combatant combatant, UnitStatType statType, int value)
     {
+        var stat = combatant.Stats.SingleOrDefault(x => x.Type == statType);
+
+        if (stat is null) return value;
+
+        var d = Math.Min(value, stat.Value.Current);
+        stat.Value.Consume(d);
+
+        var remains = value - d;
+
+        return remains;
+    }
+
+    private int HandleCombatantDamaged(Combatant combatant, UnitStatType statType, int value)
+    {
+        var remains = TakeStat(combatant, statType, value);
+
         CombatantHasBeenDamaged?.Invoke(this, new CombatantDamagedEventArgs(combatant, statType, value));
 
         if (combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.Current <= 0)
@@ -293,6 +315,8 @@ public class CombatCore
             var coords = targetSide.GetCombatantCoords(combatant);
             targetSide[coords].Combatant = null;
         }
+
+        return remains;
     }
 
     private bool DetectShapeShifting()
@@ -431,21 +455,5 @@ public class CombatCore
     public event EventHandler<CombatantShiftShapedEventArgs>? CombatantShiftShaped;
     public event EventHandler<CombatantHasBeenMovedEventArgs>? CombatantHasBeenMoved;
     public event EventHandler<CombatFinishedEventArgs>? CombatFinished;
-}
-
-public enum CombatFinishResult
-{
-    HeroesAreWinners,
-    MonstersAreWinners,
-    Draw
-}
-
-public class CombatFinishedEventArgs : EventArgs
-{
-    public CombatFinishedEventArgs(CombatFinishResult result)
-    {
-        Result = result;
-    }
-
-    public CombatFinishResult Result { get; }
+    public event EventHandler<CombatantInterruptedEventArgs>? CombatantInterrupted;
 }

@@ -299,8 +299,6 @@ public sealed class TestamentGame : Game
         var bgoFactorySelector = new BackgroundObjectFactorySelector();
         Services.AddService(bgoFactorySelector);
 
-        Services.AddService(new ScreenService());
-
         var dialogEnvManager = new DialogueEnvironmentManager(soundtrackManager);
         Services.AddService<IDialogueEnvironmentManager>(dialogEnvManager);
 

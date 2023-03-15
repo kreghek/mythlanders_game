@@ -67,7 +67,7 @@ internal static class DialogueCatalogHelper
         }
 
         // Linking scenes via player's options
-        foreach (var (nodeSid, node, optionsList, optionsDto) in nodeListDicts)
+        foreach (var (nodeSid, _, optionsList, optionsDto) in nodeListDicts)
         {
             if (optionsDto is not null)
             {

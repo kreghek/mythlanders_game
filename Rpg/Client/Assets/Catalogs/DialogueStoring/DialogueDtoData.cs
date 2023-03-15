@@ -1,7 +1,13 @@
+using JetBrains.Annotations;
+
 namespace Client.Assets.Catalogs.DialogueStoring;
 
-internal class DialogueDtoData
+/// <summary>
+/// Structure to deserialize common dialogue data.
+/// </summary>
+[UsedImplicitly]
+internal sealed class DialogueDtoData
 {
-    public string Type { get; set; }
-    public string Data { get; set; }
-}
+    public string Type { get; [UsedImplicitly] init; } = null!;
+    public string Data { get; [UsedImplicitly] init; } = null!;
+};

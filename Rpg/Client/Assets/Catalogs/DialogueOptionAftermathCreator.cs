@@ -3,7 +3,6 @@ using System;
 using Client.Assets.Catalogs.DialogueStoring;
 using Client.Assets.DialogueOptionAftermath;
 
-using Rpg.Client.Assets.Catalogs;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
 

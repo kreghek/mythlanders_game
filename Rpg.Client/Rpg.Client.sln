@@ -32,17 +32,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Content", "..\Rpg\Content\C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "..\Rpg\Core\Core.csproj", "{F3878C6F-6E6E-438E-B6B5-619BED0EAEB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Balance", "..\Rpg\Core.Balance\Core.Balance.csproj", "{5F548959-6301-4C1E-B2D6-A1F0D8C2AE5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Balance", "..\Rpg\Core.Balance\Core.Balance.csproj", "{5F548959-6301-4C1E-B2D6-A1F0D8C2AE5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Combats.BotBehaviour", "Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj", "{F7870D69-F526-402F-91EF-FBAF0CCAB883}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Combats.BotBehaviour", "Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj", "{F7870D69-F526-402F-91EF-FBAF0CCAB883}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameContent.Extensions", "..\Rpg\GameContent.Extensions\GameContent.Extensions.csproj", "{EFA00DFB-4F23-4E21-BABF-069F95377957}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Content.SideQuests.Tests", "Content.SideQuests.Tests\Content.SideQuests.Tests.csproj", "{B896E11E-F39B-4CE7-9897-111969BEDC78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Content.SideQuests.Tests", "Content.SideQuests.Tests\Content.SideQuests.Tests.csproj", "{B896E11E-F39B-4CE7-9897-111969BEDC78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Text.Client", "..\Rpg\Text.Client\Text.Client.csproj", "{A29D788A-7373-41C2-A1C8-17417BE129E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Text.Client", "..\Rpg\Text.Client\Text.Client.csproj", "{A29D788A-7373-41C2-A1C8-17417BE129E9}"
 EndProject
-
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +88,10 @@ Global
 		{F7870D69-F526-402F-91EF-FBAF0CCAB883}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7870D69-F526-402F-91EF-FBAF0CCAB883}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7870D69-F526-402F-91EF-FBAF0CCAB883}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFA00DFB-4F23-4E21-BABF-069F95377957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFA00DFB-4F23-4E21-BABF-069F95377957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFA00DFB-4F23-4E21-BABF-069F95377957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFA00DFB-4F23-4E21-BABF-069F95377957}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B896E11E-F39B-4CE7-9897-111969BEDC78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B896E11E-F39B-4CE7-9897-111969BEDC78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B896E11E-F39B-4CE7-9897-111969BEDC78}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -102,8 +105,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail"]}
-		RESX_SortFileContentOnSave = True
 		SolutionGuid = {109FC733-76F8-4327-BE39-B9303FDD86EA}
+		RESX_SortFileContentOnSave = True
+		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail"]}
 	EndGlobalSection
 EndGlobal

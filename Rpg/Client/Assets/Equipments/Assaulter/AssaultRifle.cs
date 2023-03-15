@@ -2,7 +2,6 @@
 
 using Rpg.Client.Core;
 using Rpg.Client.Core.Equipments;
-using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.Equipments.Assaulter
 {
@@ -15,9 +14,6 @@ namespace Rpg.Client.Assets.Equipments.Assaulter
 
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Warrior;
         public override EquipmentSid Sid => EquipmentSid.AssaultRifle;
-
-        protected override SkillSid[] AffectedSkills =>
-            new[] { SkillSid.DieBySword, SkillSid.WideSwordSlash };
 
         protected override float MultiplicatorByLevel => 0.25f;
 

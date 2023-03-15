@@ -16,4 +16,10 @@
       <ProjectReference Include="..\Core\Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="Core.Combats.BotBehaviour">
+        <HintPath>..\..\Rpg.Client\Core.Combats.BotBehaviour\bin\Debug\net6.0\Core.Combats.BotBehaviour.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

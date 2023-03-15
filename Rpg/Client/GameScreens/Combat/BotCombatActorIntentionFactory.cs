@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 using Client.Assets.CombatMovements;
-using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;

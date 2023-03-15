@@ -26,9 +26,9 @@ public sealed class ChangeStatCombatantEffect : ICombatantEffect
         combatant.Stats.Single(x => x.Type == StatType).Value.RemoveModifier(_statModifier);
     }
 
-    public void Update(CombatantEffectUpdateType updateType)
+    public void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context)
     {
-        Lifetime.Update(updateType);
+        Lifetime.Update(updateType, context);
     }
 
     public ICombatantEffectLifetime Lifetime { get; }

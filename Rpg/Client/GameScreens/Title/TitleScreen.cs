@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Client;
 using Client.Engine;
 using Client.GameScreens.CommandCenter;
 
@@ -339,7 +338,7 @@ internal sealed class TitleScreen : GameScreenBase
         {
             return new[]
             {
-                UnitName.Swordsman, UnitName.Archer, UnitName.Herbalist, UnitName.Assaulter, UnitName.Monk,
+                UnitName.Swordsman, UnitName.Robber, UnitName.Herbalist, UnitName.Assaulter, UnitName.Monk,
                 UnitName.Spearman, UnitName.Hoplite
             };
         }

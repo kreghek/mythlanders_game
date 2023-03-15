@@ -12,20 +12,23 @@ namespace Client.Assets.CombatMovements;
 
 internal sealed class CombatMovementVisualizer : ICombatMovementVisualizer
 {
-    private readonly IDictionary<string, ICombatMovementFactory> _movementVisualizationDict;
+    private readonly IDictionary<CombatMovementSid, ICombatMovementFactory> _movementVisualizationDict;
 
     public CombatMovementVisualizer()
     {
         var movementFactories = LoadFactories<ICombatMovementFactory>();
 
-        _movementVisualizationDict = movementFactories.ToDictionary(x => x.Sid, x => x);
+        _movementVisualizationDict = movementFactories.ToDictionary(x => (CombatMovementSid)x.Sid, x => x);
     }
 
-    public IActorVisualizationState GetMovementVisualizationState(string sid, IActorAnimator actorAnimator, CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+    public IActorVisualizationState GetMovementVisualizationState(CombatMovementSid sid, IActorAnimator actorAnimator, CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
-        return _movementVisualizationDict.First().Value.CreateVisualization(actorAnimator, movementExecution, visualizationContext);
+        if (!_movementVisualizationDict.TryGetValue(sid, out var factory))
+        {
+            return CommonCombatVisualization.CreateMeleeVisualization(actorAnimator, movementExecution, visualizationContext);
+        }
 
-        //return _movementVisualizationDict[sid].CreateVisualization(actorAnimator, movementExecution, visualizationContext);
+        return factory.CreateVisualization(actorAnimator, movementExecution, visualizationContext);
     }
 
     private static IReadOnlyCollection<TFactory> LoadFactories<TFactory>()

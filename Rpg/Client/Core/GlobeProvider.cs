@@ -7,7 +7,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 using Client.Core;
+using Client.Core.Heroes;
 
+using Core.Combats;
 using Core.Dices;
 
 using Rpg.Client.Core.ProgressStorage;
@@ -203,20 +205,20 @@ namespace Rpg.Client.Core
             //_biomeGenerator.CreateStartCombat(globe);
         }
 
-        private Unit CreateStartHero(UnitName heroName)
+        private Hero CreateStartHero(UnitName heroName)
         {
-            return new Unit(_unitSchemeCatalog.Heroes[heroName], level: 1)
+            return new Hero(_unitSchemeCatalog.Heroes[heroName], level: 1)
             {
                 IsPlayerControlled = true
             };
         }
 
-        private Unit[] CreateStartHeroes()
+        private Hero[] CreateStartHeroes()
         {
             var startHeroNames = new[]
             {
                 UnitName.Swordsman,
-                UnitName.Comissar,
+                UnitName.Partisan,
                 UnitName.Assaulter
             };
 
@@ -225,7 +227,7 @@ namespace Rpg.Client.Core
             return startHeroes;
         }
 
-        private Unit[] CreateStartPoolHeroes()
+        private Hero[] CreateStartPoolHeroes()
         {
             var startHeroNames = Array.Empty<UnitName>();
 
@@ -234,7 +236,7 @@ namespace Rpg.Client.Core
             return startHeroes;
         }
 
-        private static EquipmentDto[] GetCharacterEquipmentToSave(Unit unit)
+        private static EquipmentDto[] GetCharacterEquipmentToSave(Hero unit)
         {
             var equipmentDtoList = new List<EquipmentDto>();
 
@@ -257,7 +259,7 @@ namespace Rpg.Client.Core
             return knownMonsters.Select(x => x.Name.ToString()).ToArray();
         }
 
-        private static GroupDto GetPlayerGroupToSave(IEnumerable<Unit> units)
+        private static GroupDto GetPlayerGroupToSave(IEnumerable<Hero> units)
         {
             var unitDtos = units.Select(
                 unit => new PlayerUnitDto
@@ -308,7 +310,7 @@ namespace Rpg.Client.Core
             return !Directory.EnumerateFileSystemEntries(path).Any();
         }
 
-        private static void LoadCharacterEquipments(Unit unit, EquipmentDto[]? unitDtoEquipments)
+        private static void LoadCharacterEquipments(Hero unit, EquipmentDto[]? unitDtoEquipments)
         {
             if (unitDtoEquipments is null)
             {
@@ -371,15 +373,15 @@ namespace Rpg.Client.Core
             }
         }
 
-        private List<Unit> LoadPlayerGroup(GroupDto groupDto)
+        private List<Hero> LoadPlayerGroup(GroupDto groupDto)
         {
-            var units = new List<Unit>();
+            var units = new List<Hero>();
             foreach (var unitDto in groupDto.Units)
             {
                 var unitName = (UnitName)Enum.Parse(typeof(UnitName), unitDto.SchemeSid);
                 var unitScheme = _unitSchemeCatalog.Heroes[unitName];
 
-                var unit = new Unit(unitScheme, unitDto.Level)
+                var unit = new Hero(unitScheme, unitDto.Level)
                 {
                     IsPlayerControlled = true
                 };

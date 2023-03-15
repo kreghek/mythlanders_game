@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Rpg.Client.Core;
+using Core.Combats;
 
 namespace Rpg.Client.Assets.Perks
 {
@@ -18,7 +18,7 @@ namespace Rpg.Client.Assets.Perks
         {
             return new (UnitStatType, IUnitStatModifier)[]
             {
-                new(UnitStatType.HitPoints, new StatModifier(0.5f))
+                new(UnitStatType.HitPoints, new StatModifier(1))
             };
         }
     }

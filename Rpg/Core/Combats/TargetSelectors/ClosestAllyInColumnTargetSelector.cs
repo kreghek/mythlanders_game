@@ -34,3 +34,11 @@ public sealed class ClosestAllyInColumnTargetSelector : ITargetSelector
         return ArraySegment<Combatant>.Empty;
     }
 }
+
+public sealed class LeftAllyTargetSelector: ITargetSelector
+{
+    public IReadOnlyList<Combatant> Get(Combatant actor, ITargetSelectorContext context)
+    {
+        throw new NotImplementedException();
+    }
+}

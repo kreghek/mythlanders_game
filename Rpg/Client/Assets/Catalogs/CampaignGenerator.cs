@@ -33,14 +33,14 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         var shortTemplate = CreateGrindShortTemplate(locationSid);
 
         var stages = new List<CampaignStage>();
-        for (var stageIndex = 0; stageIndex < shortTemplate.Length; stageIndex++)
+        foreach (var template in shortTemplate)
         {
             var itemList = new List<ICampaignStageItem>();
 
-            for (var stageItemIndex = 0; stageItemIndex < shortTemplate[stageIndex].Length; stageItemIndex++)
+            foreach (var templateItem in template)
             {
-                var currentStageItems = (IReadOnlyList<ICampaignStageItem>)itemList.ToArray();
-                var stageItem = shortTemplate[stageIndex][stageItemIndex].Create(currentStageItems);
+                var currentStageItems = itemList.ToArray();
+                var stageItem = templateItem.Create(currentStageItems);
                 itemList.Add(stageItem);
             }
 
@@ -71,16 +71,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     {
         return new[]
         {
-            new ICampaignStageTemplateFactory[]
-            {
-                new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-                {
-                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
-                    new SacredEventCampaignStageTemplateFactory(),
-                    new MinigameEventCampaignStageTemplateFactory()
-                })
-            },
-            
+           
             // Combat
 
             new ICampaignStageTemplateFactory[]
@@ -120,6 +111,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                 new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
                 {
                     new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+                    new ChallengeCampaignStageTemplateFactory(),
                     new SacredEventCampaignStageTemplateFactory(),
                     new MinigameEventCampaignStageTemplateFactory()
                 }, _services)

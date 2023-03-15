@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 
+using Core.Combats;
+
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Equipments.Swordsman
@@ -25,7 +27,7 @@ namespace Rpg.Client.Assets.Equipments.Swordsman
         {
             return new (UnitStatType, IUnitStatModifier)[]
             {
-                new(UnitStatType.HitPoints, new StatModifier(equipmentLevel * 0.2f))
+                new(UnitStatType.HitPoints, new StatModifier((int)(equipmentLevel * 0.2f)))
             };
         }
     }

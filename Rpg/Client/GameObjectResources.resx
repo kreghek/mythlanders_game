@@ -156,7 +156,10 @@
     <value>Trooper</value>
   </data>
   <data name="BlankShot" xml:space="preserve">
-    <value>Blank shot</value>
+    <value>Blank shot</value><comment>Combat movement</comment>
+  </data>
+  <data name="BlankShot_Description" xml:space="preserve">
+    <value /><comment>Combat movement</comment>
   </data>
   <data name="BlindDefense" xml:space="preserve">
     <value>Blind defense</value>
@@ -177,6 +180,12 @@
   <data name="BossMonsterDescription" xml:space="preserve">
     <value>This is the Master of the location. The monster is the most powerfull in this part of the world. It has +250% HP and doubled armor.</value><comment>Perk</comment>
   </data>
+  <data name="BringBeastDown" xml:space="preserve">
+    <value>Bring the Beast down</value><comment>Combat Movemeent</comment>
+  </data>
+  <data name="BringBeastDown_Description" xml:space="preserve">
+    <value /><comment>Combat Movemeent</comment>
+  </data>
   <data name="Castle" xml:space="preserve">
     <value>Grim Castle in the Rock</value>
     <comment>Location</comment>
@@ -189,6 +198,7 @@
   </data>
   <data name="ChineseOldman" xml:space="preserve">
     <value>Ninlao Bingwen</value>
+    <comment>NPC</comment>
   </data>
   <data name="ChineseOldman_Hidden" xml:space="preserve">
     <value>Chinese oldman</value>
@@ -237,7 +247,11 @@
   </data>
   <data name="DieBySword" xml:space="preserve">
       <value>Die by the sword</value>
-    <comment>Skill</comment>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="DieBySword_Description" xml:space="preserve">
+    <value></value>
+    <comment>Combat Movement</comment>
   </data>
   <data name="DopeHerb" xml:space="preserve">
       <value>Dope herb</value>
@@ -267,6 +281,12 @@
   <data name="FingerOfAnubis" xml:space="preserve">
       <value>The Finger of Anubis</value>
     <comment>Skill</comment>
+  </data>
+  <data name="FinishWounded" xml:space="preserve">
+    <value>Finish a wounded</value><comment>Combat Movement</comment>
+  </data>
+  <data name="FinishWounded_Description" xml:space="preserve">
+    <value /><comment>Combat Movement</comment>
   </data>
   <data name="GreyWolf" xml:space="preserve">
     <value>Grey wolf</value>
@@ -299,6 +319,12 @@
     <value>Hermitage</value>
     <comment>Location</comment>
   </data>
+  <data name="HitFromShoulder" xml:space="preserve">
+    <value>Hit from the shoulder</value><comment>Combat Movement</comment>
+  </data>
+  <data name="HitFromShoulder_Description" xml:space="preserve">
+    <value /><comment>Combat Movement</comment>
+  </data>
   <data name="Hoplite" xml:space="preserve">
     <value>Leonidas</value>
     <comment>Hero</comment>
@@ -310,6 +336,12 @@
   <data name="Hq" xml:space="preserve">
     <value>HQ</value>
     <comment>Hero</comment>
+  </data>
+  <data name="Hunt" xml:space="preserve">
+    <value>The Hunt has begun!</value><comment>Combat Movement</comment>
+  </data>
+  <data name="Hunt_Description" xml:space="preserve">
+    <value /><comment>Combat Movement</comment>
   </data>
   <data name="ImprovedArmor" xml:space="preserve">
     <value>Improved armor</value>
@@ -327,12 +359,31 @@
     <value>Amount of the hit points increased by 2 times.</value>
     <comment>Perk</comment>
   </data>
+  <data name="InspirationalBreakthrough" xml:space="preserve">
+    <value>Inspirational breakthrough</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="InspirationalBreakthrough_Description" xml:space="preserve">
+    <value /><comment>Combat Movement</comment>
+  </data>
   <data name="InspiringRush" xml:space="preserve">
     <value>Inspiring rush</value>
     <comment>Skill</comment>
   </data>
   <data name="JuggernautHeavyPowerArmor" xml:space="preserve">
     <value>Juggernaut heavy power armor</value><comment>Equipment</comment>
+  </data>
+  <data name="JustHitBoarWithKnife" xml:space="preserve">
+    <value>Just hit a whild boar with the knife</value><comment>Combat movement</comment>
+  </data>
+  <data name="JustHitBoarWithKnife_Description" xml:space="preserve">
+    <value /><comment>Combat movement</comment>
+  </data>
+  <data name="LookOut" xml:space="preserve">
+    <value>Look out!</value><comment>Combat movement</comment>
+  </data>
+  <data name="LookOut_Description" xml:space="preserve">
+    <value /><comment>Combat movement</comment>
   </data>
   <data name="Marauder" xml:space="preserve">
     <value>Marauder</value>
@@ -367,6 +418,12 @@
   <data name="NanoMetalLongCloths" xml:space="preserve">
     <value>Nano-metal long cloths</value><comment>Equipment</comment>
   </data>
+  <data name="OldGoodBrawl" xml:space="preserve">
+    <value>Old good brawl</value><comment>Combat movement</comment>
+  </data>
+  <data name="OldGoodBrawl_Description" xml:space="preserve">
+    <value /><comment>Combat movement</comment>
+  </data>
   <data name="Oldman" xml:space="preserve">
     <value>Oldman</value>
     <comment>Hero</comment>
@@ -385,6 +442,19 @@
   </data>
   <data name="RedemptionStaff" xml:space="preserve">
     <value>Staff of Redemption</value><comment>Equipment</comment>
+  </data>
+  <data name="RiseYourSwords" xml:space="preserve">
+    <value>Rise your swords!</value><comment>Combat Movement</comment>
+  </data>
+  <data name="RiseYourSwords_Description" xml:space="preserve">
+    <value /><comment>Combat Movement</comment>
+  </data>
+  <data name="Sabotage" xml:space="preserve">
+    <value>Sabotage</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="Sabotage_Description" xml:space="preserve">
+    <value /><comment>Combat Movement</comment>
   </data>
   <data name="ScarabeusKingLeg" xml:space="preserve">
     <value>Scarabeus King's Leg</value><comment>Equipment</comment>
@@ -408,6 +478,12 @@
       <value>Staff hits</value>
     <comment>Skill</comment>
   </data>
+  <data name="StayStrong" xml:space="preserve">
+    <value>Stay strong</value><comment>Combat Movement</comment>
+  </data>
+  <data name="StayStrong_Description" xml:space="preserve">
+    <value /><comment>Combat Movement</comment>
+  </data>
   <data name="Stryga" xml:space="preserve">
     <value>Stryga</value>
     <comment>Monster</comment>
@@ -415,6 +491,12 @@
   <data name="SuppressiveFire" xml:space="preserve">
     <value>Suppressive fire</value>
     <comment>Skill</comment>
+  </data>
+  <data name="SurpriseManeuver" xml:space="preserve">
+    <value>Surprise maneuver</value><comment>Combat Movement</comment>
+  </data>
+  <data name="SurpriseManeuver_Description" xml:space="preserve">
+    <value /><comment>Combat Movement</comment>
   </data>
   <data name="SvarogBlastFurnace" xml:space="preserve">
       <value>Svarog's Blast Furnace</value>
@@ -450,6 +532,12 @@
   <data name="ToxicGasBomb" xml:space="preserve">
     <value>Toxic gas bomb</value>
     <comment>Skill</comment>
+  </data>
+  <data name="TrackerSavvy" xml:space="preserve">
+    <value>Tracker's savvy</value><comment>Combat Movement</comment>
+  </data>
+  <data name="TrackerSavvy_Description" xml:space="preserve">
+    <value /><comment>Combat Movement</comment>
   </data>
   <data name="VampireBite" xml:space="preserve">
       <value>Vampire bite</value>

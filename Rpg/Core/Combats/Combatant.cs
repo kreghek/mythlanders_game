@@ -91,10 +91,12 @@ public class Combatant
 
     public void UpdateEffects(CombatantEffectUpdateType updateType)
     {
+        var context = new CombatantEffectLifetimeUpdateContext(this);
+
         var effectToDispel = new List<ICombatantEffect>();
         foreach (var effect in _effects)
         {
-            effect.Update(updateType);
+            effect.Update(updateType, context);
 
             if (effect.Lifetime.IsDead)
             {

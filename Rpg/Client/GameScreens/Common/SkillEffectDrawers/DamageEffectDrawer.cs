@@ -6,8 +6,6 @@ using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.GameScreens.Common.SkillEffectDrawers;
-
 namespace Client.GameScreens.Common.SkillEffectDrawers;
 
 [UsedImplicitly]

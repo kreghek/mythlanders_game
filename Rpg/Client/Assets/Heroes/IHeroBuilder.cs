@@ -1,5 +1,3 @@
-using Client.Assets;
-
 using Rpg.Client.Core;
 using Rpg.Client.GameScreens;
 

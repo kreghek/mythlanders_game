@@ -44,9 +44,6 @@
 	<PackageReference Include="YamlDotNet" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\States\MosterSpecific\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Update="CreditsResource.Designer.cs">
       <DependentUpon>CreditsResource.resx</DependentUpon>
       <DesignTime>True</DesignTime>

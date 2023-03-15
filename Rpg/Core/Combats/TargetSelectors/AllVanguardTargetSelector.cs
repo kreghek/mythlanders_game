@@ -2,7 +2,7 @@ namespace Core.Combats.TargetSelectors;
 
 public sealed class AllVanguardTargetSelector : ITargetSelector
 {
-    public IEnumerable<Combatant> GetIterator(ITargetSelectorContext context)
+    private IEnumerable<Combatant> GetIterator(ITargetSelectorContext context)
     {
         for (var lineIndex = 0; lineIndex < context.EnemySide.LineCount; lineIndex++)
         {

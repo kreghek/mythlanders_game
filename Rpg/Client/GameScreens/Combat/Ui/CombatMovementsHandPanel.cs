@@ -25,7 +25,7 @@ internal class CombatMovementsHandPanel : ControlBase
 
     private readonly IList<CombatMovementButton> _buttons;
     private readonly IUiContentStorage _uiContentStorage;
-    private SkillHint? _activeSkillHint;
+    private CombatMovementHint? _activeCombatMovementHint;
     private KeyboardState _currentKeyboardState;
 
     private EntityButtonBase<CombatMovementInstance>? _hoverButton;
@@ -45,13 +45,6 @@ internal class CombatMovementsHandPanel : ControlBase
         get => _combatant;
         set
         {
-            // Comment this block because monsters can transforms into other unit (See scheme auto transition).
-            // But interaction buttons keep reference to old unit. This is reason of a errors.
-            /*if (_unit == value)
-            {
-                return;
-            }*/
-
             _combatant = value;
 
             RecreateButtons();
@@ -118,9 +111,9 @@ internal class CombatMovementsHandPanel : ControlBase
             DrawHotkey(spriteBatch, hotKey, button, isSelected);
         }
 
-        if (_hoverButton is not null && _activeSkillHint is not null)
+        if (_hoverButton is not null && _activeCombatMovementHint is not null)
         {
-            DrawHoverCombatSkillInfo(_hoverButton, _activeSkillHint, spriteBatch);
+            DrawHoverCombatSkillInfo(_hoverButton, _activeCombatMovementHint, spriteBatch);
         }
     }
 
@@ -150,7 +143,7 @@ internal class CombatMovementsHandPanel : ControlBase
 
         if (_hoverButton is not null && _hoverButton != oldHoverButton && _combatant is not null)
         {
-            _activeSkillHint = new SkillHint(_hoverButton.Entity);
+            _activeCombatMovementHint = new CombatMovementHint(_hoverButton.Entity);
         }
         else if (_hoverButton is not null && _hoverButton == oldHoverButton && _combatant is not null)
         {
@@ -158,7 +151,7 @@ internal class CombatMovementsHandPanel : ControlBase
         }
         else
         {
-            _activeSkillHint = null;
+            _activeCombatMovementHint = null;
         }
     }
 
@@ -194,20 +187,18 @@ internal class CombatMovementsHandPanel : ControlBase
         spriteBatch.DrawString(_uiContentStorage.GetMainFont(), hotKey, hotkeyPosition, Color.Wheat);
     }
 
-    private static void DrawHoverCombatSkillInfo(ControlBase baseControl, ControlBase hintControl,
+    private static void DrawHoverCombatSkillInfo(ControlBase baseControl, CombatMovementHint hintControl,
         SpriteBatch spriteBatch)
     {
         var baseControlCenter = baseControl.Rect.Center;
         var baseControlTopCenter = new Point(baseControlCenter.X, baseControl.Rect.Top);
 
-        // TODO Calculate preferred size of the hint based on content.
-        var hintWidth = 200;
-        var hintHeight = 75;
-        var hintHorizontalCenter = hintWidth / 2;
+        var hintSize = (hintControl.ContentSize + new Vector2(CONTENT_MARGIN * 2)).ToPoint();
+        var hintHorizontalCenter = hintSize.X / 2;
         const int HINT_MARGIN = 5;
 
-        var hintPosition = baseControlTopCenter - new Point(hintHorizontalCenter, hintHeight + HINT_MARGIN);
-        var hintRectangle = new Rectangle(hintPosition, new Point(hintWidth, hintHeight));
+        var hintPosition = baseControlTopCenter - new Point(hintHorizontalCenter, hintSize.Y + HINT_MARGIN);
+        var hintRectangle = new Rectangle(hintPosition, hintSize);
 
         hintControl.Rect = hintRectangle;
         hintControl.Draw(spriteBatch);

@@ -14,6 +14,8 @@ public sealed class DamageEffect : IEffect
 
     public ITargetSelector Selector { get; }
 
+    public IReadOnlyCollection<IEffectCondition> ImposeConditions => Array.Empty<IEffectCondition>();
+
     public IEffectInstance CreateInstance()
     {
         return new DamageEffectInstance(this);

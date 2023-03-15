@@ -9,13 +9,12 @@
         /// </summary>
         Environment,
 
-        Comissar,
-        Partisan, // Вместо Comissar
+        Partisan,
         Assaulter,
         Zoologist,
 
         Swordsman,
-        Archer,
+        Robber,
         Herbalist,
 
         Monk,

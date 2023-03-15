@@ -2,8 +2,6 @@ using Core.Combats;
 
 using Microsoft.Xna.Framework;
 
-using Rpg.Client.Engine;
-
 namespace Client.GameScreens.Combat.GameObjects;
 
 internal sealed class CombatantPositionProvider : ICombatantPositionProvider

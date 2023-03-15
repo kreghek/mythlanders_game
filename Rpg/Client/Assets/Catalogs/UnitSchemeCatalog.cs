@@ -4,8 +4,6 @@ using System.Linq;
 
 using Client.Assets.Heroes;
 
-using Rpg.Client.Assets;
-
 using Rpg.Client.Assets.Monsters;
 using Rpg.Client.Core;
 
