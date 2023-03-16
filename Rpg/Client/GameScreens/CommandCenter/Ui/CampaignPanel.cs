@@ -32,7 +32,7 @@ internal class CampaignPanel : ControlBase
 
     protected override Point CalcTextureOffset()
     {
-        return ControlTextures.Skill;
+        return ControlTextures.CombatMove;
     }
 
     protected override Color CalculateColor()

@@ -192,7 +192,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         if (!_combatCore.Finished && _combatFinishedVictory is null)
         {
-            UpdateCombatHud();
+            UpdateCombatHud(gameTime);
         }
 
         _screenShaker.Update(gameTime);
@@ -453,6 +453,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;
         _combatCore.CombatantHasBeenMoved += CombatCore_CombatantHasBeenMoved;
         _combatCore.CombatFinished += CombatCore_CombatFinished;
+        _combatCore.CombatantUsedMove += CombatCore_CombatantUsedMove;
 
         // _combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
         // _combatCore.CombatantHasBeenDefeated += CombatCore_CombatantHasBeenDefeated;
@@ -478,6 +479,14 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _unitStatePanelController = new UnitStatePanelController(_combatCore,
             _uiContentStorage, _gameObjectContentStorage);
+    }
+
+    private void CombatCore_CombatantUsedMove(object? sender, CombatantHandChangedEventArgs e)
+    {
+        if (e.Combatant.IsPlayerControlled)
+        {
+            _combatMovementsHandPanel?.StartMovementBurning(e.HandSlotIndex);
+        }
     }
 
     private void CombatMovementsHandPanel_CombatMovementPicked(object? sender, CombatMovementPickedEventArgs e)
@@ -811,13 +820,16 @@ internal class CombatScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: _camera.GetViewTransformationMatrix());
 
-        if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled && !_animationManager.HasBlockers)
+        if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
-            _maneuversVisualizer.Draw(spriteBatch);
+            if (!_animationManager.HasBlockers)
+            {
+                _maneuversVisualizer.Draw(spriteBatch);
 
-            _maneuversIndicator.Rect =
-                new Rectangle(contentRectangle.Center.X - 100, contentRectangle.Bottom - 105, 200, 25);
-            _maneuversIndicator.Draw(spriteBatch);
+                _maneuversIndicator.Rect =
+                    new Rectangle(contentRectangle.Center.X - 100, contentRectangle.Bottom - 105, 200, 25);
+                _maneuversIndicator.Draw(spriteBatch);
+            }
 
             DrawCombatMovementsPanel(spriteBatch, contentRectangle);
         }
@@ -1103,12 +1115,16 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void UpdateCombatHud()
+    private void UpdateCombatHud(GameTime gameTime)
     {
-        if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled && !_animationManager.HasBlockers)
+        if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
-            _maneuversVisualizer.Update(ResolutionIndependentRenderer);
-            _combatMovementsHandPanel?.Update(ResolutionIndependentRenderer);
+            if (!_animationManager.HasBlockers)
+            {
+                _maneuversVisualizer.Update(ResolutionIndependentRenderer);
+            }
+
+            _combatMovementsHandPanel?.Update(gameTime, ResolutionIndependentRenderer);
         }
 
         _unitStatePanelController?.Update(ResolutionIndependentRenderer);

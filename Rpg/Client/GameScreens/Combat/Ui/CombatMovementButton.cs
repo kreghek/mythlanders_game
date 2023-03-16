@@ -20,13 +20,16 @@ internal sealed class CombatMovementButton : EntityButtonBase<CombatMovementInst
     {
         _icon = iconData.Spritesheet;
         _iconRect = iconData.SourceRect;
+        IconData = iconData;
     }
 
     public bool IsSelected => _buttonState == UiButtonState.Hover;
 
+    public IconData IconData { get; }
+
     protected override Point CalcTextureOffset()
     {
-        return ControlTextures.Skill;
+        return ControlTextures.CombatMove;
     }
 
     protected override Color CalculateColor()
