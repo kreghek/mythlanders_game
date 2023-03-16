@@ -78,6 +78,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maneuvers available {0}.
+        /// </summary>
+        internal static string AvailableManeuversIndicatorTemplate {
+            get {
+                return ResourceManager.GetString("AvailableManeuversIndicatorTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back.
         /// </summary>
         internal static string BackButtonTitle {
@@ -762,15 +771,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Рестарт.
-        /// </summary>
-        internal static string RestartButtonTitle {
-            get {
-                return ResourceManager.GetString("RestartButtonTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Chat.
         /// </summary>
         internal static string RestActionChat {
@@ -794,6 +794,15 @@ namespace Client {
         internal static string RestActionScouting {
             get {
                 return ResourceManager.GetString("RestActionScouting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Рестарт.
+        /// </summary>
+        internal static string RestartButtonTitle {
+            get {
+                return ResourceManager.GetString("RestartButtonTitle", resourceCulture);
             }
         }
         

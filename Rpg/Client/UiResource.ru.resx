@@ -471,4 +471,7 @@
   <data name="RestartButtonTitle" xml:space="preserve">
     <value>Рестарт</value>
   </data>
+  <data name="AvailableManeuversIndicatorTemplate" xml:space="preserve">
+    <value>Доступно маневров {0}</value>
+  </data>
 </root>
