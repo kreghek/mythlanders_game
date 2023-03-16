@@ -16,7 +16,7 @@ namespace Client.GameScreens.Combat.Ui;
 internal class FieldManeuversVisualizer
 {
     private const int BUTTON_SIZE = 40;
-    
+
     private readonly ICombatantPositionProvider _combatantPositionProvider;
     private readonly IManeuverContext _context;
     private readonly CombatFieldSide _heroFieldSide;
@@ -30,7 +30,7 @@ internal class FieldManeuversVisualizer
 
         _maneuverButtons =
             new Matrix<ManeuverButton>(_heroFieldSide.ColumnCount, _heroFieldSide.LineCount);
-        
+
         for (var columnIndex = 0; columnIndex < _heroFieldSide.ColumnCount; columnIndex++)
         {
             for (var lineIndex = 0; lineIndex < _heroFieldSide.LineCount; lineIndex++)

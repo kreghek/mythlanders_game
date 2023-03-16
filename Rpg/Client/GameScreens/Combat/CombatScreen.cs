@@ -333,7 +333,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             _combatMovementsHandPanel.Combatant = null;
             _combatMovementsHandPanel.IsEnabled = false;
         }
-        
+
         _maneuversVisualizer.Combatant = null;
     }
 

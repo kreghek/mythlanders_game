@@ -5,7 +5,7 @@ using Rpg.Client.Engine;
 
 namespace Client.GameScreens.Combat.Ui;
 
-internal sealed class FieldManeuverIndicatorPanel: ControlBase
+internal sealed class FieldManeuverIndicatorPanel : ControlBase
 {
     private readonly SpriteFont _font;
     private readonly IManeuverContext _context;
@@ -27,7 +27,7 @@ internal sealed class FieldManeuverIndicatorPanel: ControlBase
             var text = UiResource.AvailableManeuversIndicatorTemplate;
             if (_context.ManeuversAvailable > 1)
             {
-                text = " x"+ _context.ManeuversAvailable.ToString();
+                text = " x" + _context.ManeuversAvailable.ToString();
             }
 
             var textSize = _font.MeasureString(text);
