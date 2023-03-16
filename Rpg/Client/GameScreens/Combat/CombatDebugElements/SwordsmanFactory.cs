@@ -44,9 +44,9 @@ public class SwordsmanFactory
                             typeof(ToEndOfCurrentRoundEffectLifetime))
                     })
             )
-        {
-            Tags = CombatMovementTags.AutoDefense
-        }
+            {
+                Tags = CombatMovementTags.AutoDefense
+            }
         );
 
         movementPool.Add(new CombatMovement("HitFromShoulder",
@@ -64,9 +64,9 @@ public class SwordsmanFactory
                         )
                     })
             )
-        {
-            Tags = CombatMovementTags.Attack
-        }
+            {
+                Tags = CombatMovementTags.Attack
+            }
         );
 
         movementPool.Add(new CombatMovement("LookOut",

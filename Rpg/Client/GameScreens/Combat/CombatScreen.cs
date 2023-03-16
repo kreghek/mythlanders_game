@@ -66,6 +66,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly GlobeProvider _globeProvider;
     private readonly IJobProgressResolver _jobProgressResolver;
     private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
+    private readonly FieldManeuverIndicatorPanel _maneuversIndicator;
     private readonly PlayerCombatActorBehaviour _playerCombatantBehaviour;
     private readonly ScreenShaker _screenShaker;
     private readonly IUiContentStorage _uiContentStorage;
@@ -78,14 +79,13 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private bool? _combatFinishedVictory;
     private CombatMovementsHandPanel? _combatMovementsHandPanel;
-    private FieldManeuversVisualizer _maneuversVisualizer;
 
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
+    private readonly FieldManeuversVisualizer _maneuversVisualizer;
 
     private UnitStatePanelController? _unitStatePanelController;
-    private readonly FieldManeuverIndicatorPanel _maneuversIndicator;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -815,7 +815,8 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             _maneuversVisualizer.Draw(spriteBatch);
 
-            _maneuversIndicator.Rect = new Rectangle(contentRectangle.Center.X - 100, contentRectangle.Bottom - 105, 200, 25);
+            _maneuversIndicator.Rect =
+                new Rectangle(contentRectangle.Center.X - 100, contentRectangle.Bottom - 105, 200, 25);
             _maneuversIndicator.Draw(spriteBatch);
 
             DrawCombatMovementsPanel(spriteBatch, contentRectangle);
@@ -1108,8 +1109,8 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             _maneuversVisualizer.Update(ResolutionIndependentRenderer);
             _combatMovementsHandPanel?.Update(ResolutionIndependentRenderer);
-
         }
+
         _unitStatePanelController?.Update(ResolutionIndependentRenderer);
     }
 }

@@ -32,10 +32,8 @@ internal sealed class Job : IJob
             {
                 return string.Format(completePattern, _titleResourceSid);
             }
-            else
-            {
-                return _completePatternResourceSid;
-            }
+
+            return _completePatternResourceSid;
         }
 
         var inProgressPattern = rm.GetString(_patternResourceSid);
@@ -45,10 +43,8 @@ internal sealed class Job : IJob
             return string.Format(inProgressPattern, rm.GetString(_titleResourceSid), Progress,
                 Scheme.GoalValue.Value);
         }
-        else
-        {
-            return $"{_titleResourceSid} {Progress}/{Scheme.GoalValue.Value}";
-        }
+
+        return $"{_titleResourceSid} {Progress}/{Scheme.GoalValue.Value}";
     }
 
     public bool IsComplete { get; set; }

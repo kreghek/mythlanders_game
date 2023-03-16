@@ -7,14 +7,16 @@ namespace Client.GameScreens.Combat.Ui;
 internal sealed class ManeuverContext : IManeuverContext
 {
     private readonly CombatCore _combatCore;
-    public CombatFieldSide FieldSide => _combatCore.Field.HeroSide;
 
     public ManeuverContext(CombatCore combatCore)
     {
         _combatCore = combatCore;
     }
 
-    public int? ManeuversAvailable => _combatCore.CurrentCombatant?.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Current;
+    public CombatFieldSide FieldSide => _combatCore.Field.HeroSide;
+
+    public int? ManeuversAvailable =>
+        _combatCore.CurrentCombatant?.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Current;
 
     public FieldCoords? ManeuverStartCoords
     {
@@ -28,5 +30,4 @@ internal sealed class ManeuverContext : IManeuverContext
             return FieldSide.GetCombatantCoords(_combatCore.CurrentCombatant);
         }
     }
-
 }

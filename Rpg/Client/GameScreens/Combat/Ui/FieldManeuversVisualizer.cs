@@ -22,6 +22,12 @@ internal class FieldManeuversVisualizer
     private readonly CombatFieldSide _heroFieldSide;
     private readonly Matrix<ManeuverButton> _maneuverButtons;
 
+    private float _animationCounter;
+
+    private bool _isManeuversAvailable;
+
+    private ManeuverButton? _selectedManeuverButton;
+
     public FieldManeuversVisualizer(ICombatantPositionProvider combatantPositionProvider, IManeuverContext context)
     {
         _combatantPositionProvider = combatantPositionProvider;
@@ -44,29 +50,6 @@ internal class FieldManeuversVisualizer
                 _maneuverButtons[columnIndex, lineIndex] = maneuverButton;
             }
         }
-    }
-
-    private void ManeuverButton_OnLeave(object? sender, EventArgs e)
-    {
-        _selectedManeuverButton = null;
-    }
-
-    private ManeuverButton? _selectedManeuverButton;
-
-    private void ManeuverButton_OnHover(object? sender, EventArgs e)
-    {
-        _selectedManeuverButton = sender as ManeuverButton;
-    }
-
-    private void ManeuverButton_OnClick(object? sender, EventArgs e)
-    {
-        if (sender is null)
-        {
-            throw new InvalidOperationException();
-        }
-
-        var maneuverButton = (ManeuverButton)sender;
-        ManeuverSelected?.Invoke(this, new ManeuverSelectedEventArgs(maneuverButton.FieldCoords));
     }
 
     /// <summary>
@@ -123,15 +106,6 @@ internal class FieldManeuversVisualizer
         }
     }
 
-    private Vector2 GetPosition(FieldCoords coords)
-    {
-        return _combatantPositionProvider.GetPosition(coords, CombatantPositionSide.Heroes);
-    }
-
-    private float _animationCounter;
-
-    private bool _isManeuversAvailable;
-
     /// <summary>
     /// Update state of the panel
     /// </summary>
@@ -168,7 +142,10 @@ internal class FieldManeuversVisualizer
         }
     }
 
-    public event EventHandler<ManeuverSelectedEventArgs>? ManeuverSelected;
+    private Vector2 GetPosition(FieldCoords coords)
+    {
+        return _combatantPositionProvider.GetPosition(coords, CombatantPositionSide.Heroes);
+    }
 
     private static bool IsCoordsAvailable(FieldCoords currentCoords, FieldCoords testCoords)
     {
@@ -177,4 +154,27 @@ internal class FieldManeuversVisualizer
                (Math.Abs(currentCoords.ColumentIndex - testCoords.ColumentIndex) == 1 &&
                 currentCoords.LineIndex == testCoords.LineIndex);
     }
+
+    private void ManeuverButton_OnClick(object? sender, EventArgs e)
+    {
+        if (sender is null)
+        {
+            throw new InvalidOperationException();
+        }
+
+        var maneuverButton = (ManeuverButton)sender;
+        ManeuverSelected?.Invoke(this, new ManeuverSelectedEventArgs(maneuverButton.FieldCoords));
+    }
+
+    private void ManeuverButton_OnHover(object? sender, EventArgs e)
+    {
+        _selectedManeuverButton = sender as ManeuverButton;
+    }
+
+    private void ManeuverButton_OnLeave(object? sender, EventArgs e)
+    {
+        _selectedManeuverButton = null;
+    }
+
+    public event EventHandler<ManeuverSelectedEventArgs>? ManeuverSelected;
 }
