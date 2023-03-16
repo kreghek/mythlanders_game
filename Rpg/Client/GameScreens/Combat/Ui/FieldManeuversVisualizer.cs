@@ -7,6 +7,8 @@ using Core.Combats;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonoGame;
+
 using Rpg.Client.Engine;
 
 namespace Client.GameScreens.Combat.Ui;
@@ -33,10 +35,27 @@ internal class FieldManeuversVisualizer
         {
             for (var lineIndex = 0; lineIndex < _heroFieldSide.LineCount; lineIndex++)
             {
-                _maneuverButtons[columnIndex, lineIndex] = new ManeuverButton(new FieldCoords(columnIndex, lineIndex));
-                _maneuverButtons[columnIndex, lineIndex].OnClick += ManeuverButton_OnClick;
+                var maneuverButton = new ManeuverButton(new FieldCoords(columnIndex, lineIndex));
+
+                maneuverButton.OnClick += ManeuverButton_OnClick;
+                maneuverButton.OnHover += ManeuverButton_OnHover;
+                maneuverButton.OnLeave += ManeuverButton_OnLeave;
+
+                _maneuverButtons[columnIndex, lineIndex] = maneuverButton;
             }
         }
+    }
+
+    private void ManeuverButton_OnLeave(object? sender, EventArgs e)
+    {
+        _selectedManeuverButton = null;
+    }
+
+    private ManeuverButton? _selectedManeuverButton;
+
+    private void ManeuverButton_OnHover(object? sender, EventArgs e)
+    {
+        _selectedManeuverButton = sender as ManeuverButton;
     }
 
     private void ManeuverButton_OnClick(object? sender, EventArgs e)
@@ -91,7 +110,25 @@ internal class FieldManeuversVisualizer
                 }
             }
         }
+
+        if (_selectedManeuverButton is not null && _context.ManeuverStartCoords is not null)
+        {
+            var arrowStart = GetPosition(_context.ManeuverStartCoords);
+            var arrowTarget = GetPosition(_selectedManeuverButton.FieldCoords);
+
+            var color = Color.Lerp(Color.Cyan, Color.Transparent, (float)Math.Sin(_animationCounter * 1.25) * 0.5f);
+            spriteBatch.DrawLine(arrowStart, arrowTarget, color, Math.Max((float)Math.Sin(_animationCounter) * 3, 1));
+            spriteBatch.DrawCircle(arrowStart, (float)Math.Sin(_animationCounter) * 5, 6, color);
+            spriteBatch.DrawCircle(arrowTarget, (float)Math.Sin(_animationCounter) * 5, 6, color);
+        }
     }
+
+    private Vector2 GetPosition(FieldCoords coords)
+    {
+        return _combatantPositionProvider.GetPosition(coords, CombatantPositionSide.Heroes);
+    }
+
+    private float _animationCounter;
 
     private bool _isManeuversAvailable;
 
@@ -105,6 +142,8 @@ internal class FieldManeuversVisualizer
             return;
         }
 
+        _animationCounter += 0.1f;
+
         _isManeuversAvailable = _context.ManeuversAvailable > 0;
 
         for (var columnIndex = 0; columnIndex < _heroFieldSide.ColumnCount; columnIndex++)
@@ -113,14 +152,17 @@ internal class FieldManeuversVisualizer
             {
                 var maneuverButton = _maneuverButtons[columnIndex, lineIndex];
 
-                if (IsCoordsAvailable(_context.ManeuverStartCoords, maneuverButton.FieldCoords))
+                if (_context.ManeuverStartCoords is not null)
                 {
-                    maneuverButton.IsEnabled = true;
-                    maneuverButton.Update(rir);
-                }
-                else
-                {
-                    maneuverButton.IsEnabled = false;
+                    if (IsCoordsAvailable(_context.ManeuverStartCoords, maneuverButton.FieldCoords))
+                    {
+                        maneuverButton.IsEnabled = true;
+                        maneuverButton.Update(rir);
+                    }
+                    else
+                    {
+                        maneuverButton.IsEnabled = false;
+                    }
                 }
             }
         }
@@ -128,7 +170,7 @@ internal class FieldManeuversVisualizer
 
     public event EventHandler<ManeuverSelectedEventArgs>? ManeuverSelected;
 
-    private bool IsCoordsAvailable(FieldCoords currentCoords, FieldCoords testCoords)
+    private static bool IsCoordsAvailable(FieldCoords currentCoords, FieldCoords testCoords)
     {
         return (currentCoords.ColumentIndex == testCoords.ColumentIndex &&
                 Math.Abs(currentCoords.LineIndex - testCoords.LineIndex) == 1) ||

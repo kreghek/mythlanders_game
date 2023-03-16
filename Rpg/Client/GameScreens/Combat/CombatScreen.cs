@@ -1104,13 +1104,12 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void UpdateCombatHud()
     {
-        _maneuversVisualizer.Update(ResolutionIndependentRenderer);
-
-        //if (!_interactButtonClicked)
+        if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled && !_animationManager.HasBlockers)
         {
+            _maneuversVisualizer.Update(ResolutionIndependentRenderer);
             _combatMovementsHandPanel?.Update(ResolutionIndependentRenderer);
 
-            _unitStatePanelController?.Update(ResolutionIndependentRenderer);
         }
+        _unitStatePanelController?.Update(ResolutionIndependentRenderer);
     }
 }
