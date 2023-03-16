@@ -136,27 +136,3 @@ internal class FieldManeuversVisualizer
                 currentCoords.LineIndex == testCoords.LineIndex);
     }
 }
-
-internal sealed class ManeuverIndicatorPanel: ControlBase
-{
-    private readonly SpriteFont _font;
-    private readonly IManeuverContext _context;
-
-    public ManeuverIndicatorPanel(SpriteFont font, IManeuverContext context)
-    {
-        _font = font;
-        _context = context;
-    }
-
-    protected override Point CalcTextureOffset() => ControlTextures.Transparent;
-
-    protected override Color CalculateColor() => Color.White;
-
-    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
-    {
-        if (_context.ManeuversAvailable is not null)
-        {
-            spriteBatch.DrawString(_font, string.Format(UiResource.AvailableManeuversIndicatorTemplate, _context.ManeuversAvailable), contentRect.Location.ToVector2(), Color.Cyan);
-        }
-    }
-}

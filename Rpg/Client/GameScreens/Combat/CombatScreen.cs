@@ -85,7 +85,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _finalBossWasDefeat;
 
     private UnitStatePanelController? _unitStatePanelController;
-    private readonly ManeuverIndicatorPanel _maneuversIndicator;
+    private readonly FieldManeuverIndicatorPanel _maneuversIndicator;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -140,7 +140,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _maneuversVisualizer =
             new FieldManeuversVisualizer(_combatantPositionProvider, new ManeuverContext(_combatCore));
 
-        _maneuversIndicator = new ManeuverIndicatorPanel(UiThemeManager.UiContentStorage.GetTitlesFont(),
+        _maneuversIndicator = new FieldManeuverIndicatorPanel(UiThemeManager.UiContentStorage.GetTitlesFont(),
             new ManeuverContext(_combatCore));
     }
 
@@ -815,7 +815,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             _maneuversVisualizer.Draw(spriteBatch);
 
-            _maneuversIndicator.Rect = new Rectangle(contentRectangle.Center.X, contentRectangle.Bottom - 50, 100, 15);
+            _maneuversIndicator.Rect = new Rectangle(contentRectangle.Center.X - 100, contentRectangle.Bottom - 105, 200, 25);
             _maneuversIndicator.Draw(spriteBatch);
 
             DrawCombatMovementsPanel(spriteBatch, contentRectangle);

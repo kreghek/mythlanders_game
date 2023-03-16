@@ -472,6 +472,6 @@
     <value>Рестарт</value>
   </data>
   <data name="AvailableManeuversIndicatorTemplate" xml:space="preserve">
-    <value>Доступно маневров {0}</value>
+    <value>Доступны маневры</value>
   </data>
 </root>
