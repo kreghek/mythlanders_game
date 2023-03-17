@@ -1124,8 +1124,11 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _maneuversVisualizer.Update(ResolutionIndependentRenderer);
             }
 
-            _combatMovementsHandPanel?.Readonly = _animationManager.HasBlockers;
-            _combatMovementsHandPanel?.Update(gameTime, ResolutionIndependentRenderer);
+            if (_combatMovementsHandPanel is not null)
+            {
+                _combatMovementsHandPanel.Readonly = _animationManager.HasBlockers;
+                _combatMovementsHandPanel.Update(gameTime, ResolutionIndependentRenderer);
+            }
         }
 
         _unitStatePanelController?.Update(ResolutionIndependentRenderer);
