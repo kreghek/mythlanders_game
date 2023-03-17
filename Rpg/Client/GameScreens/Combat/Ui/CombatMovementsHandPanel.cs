@@ -33,6 +33,8 @@ internal class CombatMovementsHandPanel : ControlBase
 
     private BurningCombatMovement? _burningCombatMovement;
 
+    public bool Readonly { get; set; }
+
     public CombatMovementsHandPanel(IUiContentStorage uiContentStorage)
     {
         _buttons = new CombatMovementButton[3];
@@ -137,37 +139,41 @@ internal class CombatMovementsHandPanel : ControlBase
             return;
         }
 
-        KeyboardInputUpdate();
-
-        var mouse = Mouse.GetState();
-        var mouseRect =
-            new Rectangle(
-                resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mouse.Position.ToVector2()).ToPoint(),
-                new Point(1, 1));
-
-        var oldHoverButton = _hoverButton;
-        _hoverButton = null;
-        foreach (var button in _buttons)
+        if (!Readonly)
         {
-            if (button is not null)
+
+            KeyboardInputUpdate();
+
+            var mouse = Mouse.GetState();
+            var mouseRect =
+                new Rectangle(
+                    resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mouse.Position.ToVector2()).ToPoint(),
+                    new Point(1, 1));
+
+            var oldHoverButton = _hoverButton;
+            _hoverButton = null;
+            foreach (var button in _buttons)
             {
-                button.Update(resolutionIndependentRenderer);
+                if (button is not null)
+                {
+                    button.Update(resolutionIndependentRenderer);
 
-                DetectMouseHoverOnButton(mouseRect, button);
+                    DetectMouseHoverOnButton(mouseRect, button);
+                }
             }
-        }
 
-        if (_hoverButton is not null && _hoverButton != oldHoverButton && _combatant is not null)
-        {
-            _activeCombatMovementHint = new CombatMovementHint(_hoverButton.Entity);
-        }
-        else if (_hoverButton is not null && _hoverButton == oldHoverButton && _combatant is not null)
-        {
-            // Do nothing because hint of this button is created yet.
-        }
-        else
-        {
-            _activeCombatMovementHint = null;
+            if (_hoverButton is not null && _hoverButton != oldHoverButton && _combatant is not null)
+            {
+                _activeCombatMovementHint = new CombatMovementHint(_hoverButton.Entity);
+            }
+            else if (_hoverButton is not null && _hoverButton == oldHoverButton && _combatant is not null)
+            {
+                // Do nothing because hint of this button is created yet.
+            }
+            else
+            {
+                _activeCombatMovementHint = null;
+            }
         }
 
         if (_burningCombatMovement is not null)
