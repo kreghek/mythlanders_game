@@ -21,74 +21,11 @@ public class SwordsmanFactory
 
         movementPool.Add(CreateMovement<DieBySwordFactory>());
 
-        movementPool.Add(new CombatMovement("StayStrong",
-                new CombatMovementCost(2),
-                new CombatMovementEffectConfig(
-                    new IEffect[]
-                    {
-                        new ChangeStatEffect(new SelfTargetSelector(),
-                            UnitStatType.Defense,
-                            3,
-                            typeof(ToNextCombatantTurnEffectLifetime))
-                    },
-                    new IEffect[]
-                    {
-                        new ChangeStatEffect(new SelfTargetSelector(),
-                            UnitStatType.Defense,
-                            1,
-                            typeof(ToEndOfCurrentRoundEffectLifetime))
-                    })
-            )
-        {
-            Tags = CombatMovementTags.AutoDefense
-        }
-        );
+        movementPool.Add(CreateMovement<StayStrongFactory>());
 
-        movementPool.Add(new CombatMovement("HitFromShoulder",
-                new CombatMovementCost(3),
-                CombatMovementEffectConfig.Create(
-                    new IEffect[]
-                    {
-                        new DamageEffect(
-                            new ClosestInLineTargetSelector(),
-                            DamageType.Normal,
-                            Range<int>.CreateMono(3)),
-                        new ChangePositionEffect(
-                            new SelfTargetSelector(),
-                            ChangePositionEffectDirection.ToVanguard
-                        )
-                    })
-            )
-        {
-            Tags = CombatMovementTags.Attack
-        }
-        );
+        movementPool.Add(CreateMovement<HitFromShoulderFactory>());
 
-        movementPool.Add(new CombatMovement("LookOut",
-            new CombatMovementCost(2),
-            new CombatMovementEffectConfig(
-                new IEffect[]
-                {
-                    new ChangeStatEffect(new ClosestAllyInColumnTargetSelector(),
-                        UnitStatType.Defense,
-                        3,
-                        typeof(ToNextCombatantTurnEffectLifetime)),
-                    new ChangePositionEffect(
-                        new SelfTargetSelector(),
-                        ChangePositionEffectDirection.ToVanguard
-                    )
-                },
-                new IEffect[]
-                {
-                    new ChangeStatEffect(new SelfTargetSelector(),
-                        UnitStatType.Defense,
-                        1,
-                        typeof(ToEndOfCurrentRoundEffectLifetime))
-                })
-        )
-        {
-            Tags = CombatMovementTags.AutoDefense
-        });
+        movementPool.Add(CreateMovement<LookOutFactory>());
 
         var heroSequence = new CombatMovementSequence();
 
