@@ -18,7 +18,7 @@ namespace Client.GameScreens.Combat.Ui
 
         protected override Point CalcTextureOffset()
         {
-            return ControlTextures.Skill;
+            return ControlTextures.CombatMove;
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)

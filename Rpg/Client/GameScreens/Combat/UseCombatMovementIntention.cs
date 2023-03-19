@@ -41,7 +41,7 @@ internal sealed class UseCombatMovementIntention : IIntention
             actorGameObject.Animator, movementExecution, context);
     }
 
-    private void PlaybackCombatMovementExecution(IActorVisualizationState movementState, CombatCore combatCore)
+    private void PlaybackCombatMovementExecution(CombatMovementExecution movementExecution, IActorVisualizationState movementState, CombatCore combatCore)
     {
         var actorGameObject = GetCombatantGameObject(combatCore.CurrentCombatant);
 
@@ -56,6 +56,7 @@ internal sealed class UseCombatMovementIntention : IIntention
 
             delayBlocker.Released += (_, _) =>
             {
+                movementExecution.CompleteDelegate();
                 combatCore.CompleteTurn();
             };
         };
@@ -80,6 +81,6 @@ internal sealed class UseCombatMovementIntention : IIntention
         var actorGameObject = GetCombatantGameObject(combatCore.CurrentCombatant);
         var movementState = GetMovementVisualizationState(actorGameObject, movementExecution, _combatMovement);
 
-        PlaybackCombatMovementExecution(movementState, combatCore);
+        PlaybackCombatMovementExecution(movementExecution, movementState, combatCore);
     }
 }
