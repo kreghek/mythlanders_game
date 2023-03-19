@@ -23,9 +23,9 @@ internal sealed class CombatMovementButton : EntityButtonBase<CombatMovementInst
         IconData = iconData;
     }
 
-    public bool IsSelected => _buttonState == UiButtonState.Hover;
-
     public IconData IconData { get; }
+
+    public bool IsSelected => _buttonState == UiButtonState.Hover;
 
     protected override Point CalcTextureOffset()
     {

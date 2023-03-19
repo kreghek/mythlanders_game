@@ -92,9 +92,8 @@ public class CombatCore
         var handSlotIndex = CurrentCombatant.DropMovementFromHand(movement);
 
         if (handSlotIndex is not null)
-        {
-            CombatantUsedMove?.Invoke(this, new CombatantHandChangedEventArgs(CurrentCombatant, movement, handSlotIndex.Value));
-        }
+            CombatantUsedMove?.Invoke(this,
+                new CombatantHandChangedEventArgs(CurrentCombatant, movement, handSlotIndex.Value));
 
         var effectContext = new EffectCombatContext(Field, _dice, HandleCombatantDamaged, HandleSwapFieldPositions);
 
@@ -141,9 +140,9 @@ public class CombatCore
                         var autoHandSlotIndex = effectTarget.DropMovementFromHand(targetDefenseMovement);
 
                         if (autoHandSlotIndex is not null)
-                        {
-                            CombatantUsedMove?.Invoke(this, new CombatantHandChangedEventArgs(effectTarget, targetDefenseMovement, autoHandSlotIndex.Value));
-                        }
+                            CombatantUsedMove?.Invoke(this,
+                                new CombatantHandChangedEventArgs(effectTarget, targetDefenseMovement,
+                                    autoHandSlotIndex.Value));
                     }
                 }
 
@@ -155,7 +154,6 @@ public class CombatCore
 
         void CompleteSkillAction()
         {
-
         }
 
         var movementExecution = new CombatMovementExecution(CompleteSkillAction, effectImposeItems);
@@ -265,9 +263,9 @@ public class CombatCore
         var side = GetCurrentSelectorContext().ActorSide;
 
         for (var col = 0; col < side.ColumnCount; col++)
-            for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
-                if (CurrentCombatant == side[new FieldCoords(col, lineIndex)].Combatant)
-                    return new FieldCoords(col, lineIndex);
+        for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
+            if (CurrentCombatant == side[new FieldCoords(col, lineIndex)].Combatant)
+                return new FieldCoords(col, lineIndex);
 
         throw new InvalidOperationException();
     }
@@ -374,19 +372,20 @@ public class CombatCore
     private void RestoreCombatantHand(Combatant combatant)
     {
         for (var handSlotIndex = 0; handSlotIndex < combatant.Hand.Count; handSlotIndex++)
-        {
             if (combatant.Hand[handSlotIndex] is null)
             {
                 var nextMove = combatant.PopNextPoolMovement();
-                if (nextMove is null)
-                {
-                    break;
-                }
+                if (nextMove is null) break;
 
                 combatant.AssignMoveToHand(handSlotIndex, nextMove);
-                CombatantAssignedNewMove?.Invoke(this, new CombatantHandChangedEventArgs(combatant, nextMove, handSlotIndex));
+                CombatantAssignedNewMove?.Invoke(this,
+                    new CombatantHandChangedEventArgs(combatant, nextMove, handSlotIndex));
             }
-        }
+    }
+
+    private void RestoreHandsOfAllCombatants()
+    {
+        foreach (var combatant in _allCombatantList) RestoreCombatantHand(combatant);
     }
 
     private void RestoreManeuversOfAllCombatants()
@@ -419,14 +418,6 @@ public class CombatCore
 
         UpdateAllCombatantEffects(CombatantEffectUpdateType.StartRound);
         CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn);
-    }
-
-    private void RestoreHandsOfAllCombatants()
-    {
-        foreach (var combatant in _allCombatantList)
-        {
-            RestoreCombatantHand(combatant);
-        }
     }
 
     private static int TakeStat(Combatant combatant, UnitStatType statType, int value)

@@ -41,7 +41,8 @@ internal sealed class UseCombatMovementIntention : IIntention
             actorGameObject.Animator, movementExecution, context);
     }
 
-    private void PlaybackCombatMovementExecution(CombatMovementExecution movementExecution, IActorVisualizationState movementState, CombatCore combatCore)
+    private void PlaybackCombatMovementExecution(CombatMovementExecution movementExecution,
+        IActorVisualizationState movementState, CombatCore combatCore)
     {
         var actorGameObject = GetCombatantGameObject(combatCore.CurrentCombatant);
 
