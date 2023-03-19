@@ -340,7 +340,7 @@ internal class CombatMovementsHandPanel : ControlBase
             {
                 var icon = _combatMovementVisualizer.GetMoveIcon(movement.SourceMovement.Sid);
                 var iconRect = UnsortedHelpers.GetIconRect(icon);
-                var iconData = new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), iconRect);
+                var iconData = new IconData(_uiContentStorage.GetCombatMoveIconsTexture(), iconRect);
                 var button = new CombatMovementButton(iconData, movement);
                 _buttons[buttonIndex] = button;
                 button.OnClick += CombatMovementButton_OnClick;
