@@ -26,4 +26,11 @@
       <EmbeddedResource Include="Assets\Catalogs\DialogueTestResource\TextSequence.yaml" />
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="../../Rpg.Client/CodeAnalysers/CodeAnalysers.csproj">
+            <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+            <OutputItemType>Analyzer</OutputItemType>
+        </ProjectReference>
+    </ItemGroup>
+
 </Project>

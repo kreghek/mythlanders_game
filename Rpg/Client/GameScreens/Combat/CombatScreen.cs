@@ -66,7 +66,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly GlobeProvider _globeProvider;
     private readonly IJobProgressResolver _jobProgressResolver;
     private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
-    private readonly Matrix<ManeuverButton> _maneuverButtons;
+    private readonly FieldManeuverIndicatorPanel _maneuversIndicator;
     private readonly PlayerCombatActorBehaviour _playerCombatantBehaviour;
     private readonly ScreenShaker _screenShaker;
     private readonly IUiContentStorage _uiContentStorage;
@@ -83,6 +83,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
+    private readonly FieldManeuversVisualizer _maneuversVisualizer;
 
     private UnitStatePanelController? _unitStatePanelController;
 
@@ -133,10 +134,14 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _combatCore = CreateCombat();
         _combatDataBehaviourProvider = new CombatActorBehaviourDataProvider(_combatCore);
-        _maneuverButtons =
-            new Matrix<ManeuverButton>(_combatCore.Field.HeroSide.ColumnCount, _combatCore.Field.HeroSide.LineCount);
 
         soundtrackManager.PlayCombatTrack((BiomeType)((int)args.Location.Sid / 100 * 100));
+
+        _maneuversVisualizer =
+            new FieldManeuversVisualizer(_combatantPositionProvider, new ManeuverContext(_combatCore));
+
+        _maneuversIndicator = new FieldManeuverIndicatorPanel(UiThemeManager.UiContentStorage.GetTitlesFont(),
+            new ManeuverContext(_combatCore));
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -160,14 +165,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     {
         CombatInitialize();
 
-        for (var columnIndex = 0; columnIndex < _combatCore.Field.HeroSide.ColumnCount; columnIndex++)
-        {
-            for (var lineIndex = 0; lineIndex < _combatCore.Field.HeroSide.LineCount; lineIndex++)
-            {
-                _maneuverButtons[columnIndex, lineIndex] = new ManeuverButton(new FieldCoords(columnIndex, lineIndex));
-                _maneuverButtons[columnIndex, lineIndex].OnClick += ManeuverButton_OnClick;
-            }
-        }
+        _maneuversVisualizer.ManeuverSelected += ManeuverVisualizer_ManeuverSelected;
     }
 
     protected override void UpdateContent(GameTime gameTime)
@@ -194,7 +192,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         if (!_combatCore.Finished && _combatFinishedVictory is null)
         {
-            UpdateCombatHud();
+            UpdateCombatHud(gameTime);
         }
 
         _screenShaker.Update(gameTime);
@@ -335,6 +333,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             _combatMovementsHandPanel.Combatant = null;
             _combatMovementsHandPanel.IsEnabled = false;
         }
+
+        _maneuversVisualizer.Combatant = null;
     }
 
 
@@ -411,6 +411,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             _combatMovementsHandPanel.Combatant = e.Combatant;
         }
 
+        _maneuversVisualizer.Combatant = e.Combatant;
+
         var behaviourData = _combatDataBehaviourProvider.GetDataSnapshot();
 
         _combatCore.CurrentCombatant.Behaviour.HandleIntention(behaviourData,
@@ -451,6 +453,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;
         _combatCore.CombatantHasBeenMoved += CombatCore_CombatantHasBeenMoved;
         _combatCore.CombatFinished += CombatCore_CombatFinished;
+        _combatCore.CombatantUsedMove += CombatCore_CombatantUsedMove;
 
         // _combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
         // _combatCore.CombatantHasBeenDefeated += CombatCore_CombatantHasBeenDefeated;
@@ -476,6 +479,14 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _unitStatePanelController = new UnitStatePanelController(_combatCore,
             _uiContentStorage, _gameObjectContentStorage);
+    }
+
+    private void CombatCore_CombatantUsedMove(object? sender, CombatantHandChangedEventArgs e)
+    {
+        if (e.Combatant.IsPlayerControlled)
+        {
+            _combatMovementsHandPanel?.StartMovementBurning(e.HandSlotIndex);
+        }
     }
 
     private void CombatMovementsHandPanel_CombatMovementPicked(object? sender, CombatMovementPickedEventArgs e)
@@ -809,9 +820,16 @@ internal class CombatScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: _camera.GetViewTransformationMatrix());
 
-        if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled && !_animationManager.HasBlockers)
+        if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
-            DrawManeuverButtons(spriteBatch);
+            if (!_animationManager.HasBlockers)
+            {
+                _maneuversVisualizer.Draw(spriteBatch);
+
+                _maneuversIndicator.Rect =
+                    new Rectangle(contentRectangle.Center.X - 100, contentRectangle.Bottom - 105, 200, 25);
+                _maneuversIndicator.Draw(spriteBatch);
+            }
 
             DrawCombatMovementsPanel(spriteBatch, contentRectangle);
         }
@@ -827,27 +845,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
 
         spriteBatch.End();
-    }
-
-    private void DrawManeuverButtons(SpriteBatch spriteBatch)
-    {
-        if (_combatCore.CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Current > 0)
-        {
-            for (var columnIndex = 0; columnIndex < _combatCore.Field.HeroSide.ColumnCount; columnIndex++)
-            {
-                for (var lineIndex = 0; lineIndex < _combatCore.Field.HeroSide.LineCount; lineIndex++)
-                {
-                    var maneuverButton = _maneuverButtons[columnIndex, lineIndex];
-
-                    var position =
-                        _combatantPositionProvider.GetPosition(maneuverButton.FieldCoords,
-                            CombatantPositionSide.Heroes);
-
-                    maneuverButton.Rect = new Rectangle((int)position.X - 20, (int)position.Y - 20, 40, 40);
-                    maneuverButton.Draw(spriteBatch);
-                }
-            }
-        }
     }
 
     private void DrawUnits(SpriteBatch spriteBatch)
@@ -975,15 +972,14 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void ManeuverButton_OnClick(object? sender, EventArgs e)
+    private void ManeuverVisualizer_ManeuverSelected(object? sender, ManeuverSelectedEventArgs e)
     {
         if (sender is null)
         {
             throw new InvalidOperationException("Can't handle event of non-instance.");
         }
 
-        var maneuverButton = (ManeuverButton)sender;
-        var maneuverDirection = CalcDirection(_combatCore.CurrentCombatant, maneuverButton.FieldCoords);
+        var maneuverDirection = CalcDirection(_combatCore.CurrentCombatant, e.Coords);
 
         if (maneuverDirection is not null)
         {
@@ -1119,31 +1115,22 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void UpdateCombatHud()
+    private void UpdateCombatHud(GameTime gameTime)
     {
-        if (_combatCore.CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Current > 0)
+        if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
-            UpdateManeuverButtons();
-        }
-
-        //if (!_interactButtonClicked)
-        {
-            _combatMovementsHandPanel?.Update(ResolutionIndependentRenderer);
-
-            _unitStatePanelController?.Update(ResolutionIndependentRenderer);
-        }
-    }
-
-    private void UpdateManeuverButtons()
-    {
-        for (var columnIndex = 0; columnIndex < _combatCore.Field.HeroSide.ColumnCount; columnIndex++)
-        {
-            for (var lineIndex = 0; lineIndex < _combatCore.Field.HeroSide.LineCount; lineIndex++)
+            if (!_animationManager.HasBlockers)
             {
-                var maneuverButton = _maneuverButtons[columnIndex, lineIndex];
+                _maneuversVisualizer.Update(ResolutionIndependentRenderer);
+            }
 
-                maneuverButton.Update(ResolutionIndependentRenderer);
+            if (_combatMovementsHandPanel is not null)
+            {
+                _combatMovementsHandPanel.Readonly = _animationManager.HasBlockers;
+                _combatMovementsHandPanel.Update(gameTime, ResolutionIndependentRenderer);
             }
         }
+
+        _unitStatePanelController?.Update(ResolutionIndependentRenderer);
     }
 }

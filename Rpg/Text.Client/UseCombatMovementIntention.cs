@@ -1,5 +1,4 @@
 ﻿using Core.Combats;
-using Core.Combats.BotBehaviour;
 
 namespace Text.Client;
 
@@ -15,8 +14,8 @@ internal sealed class UseCombatMovementIntention : IIntention
     private static void PseudoPlayback(CombatMovementExecution movementExecution)
     {
         foreach (var imposeItem in movementExecution.EffectImposeItems)
-        foreach (var target in imposeItem.MaterializedTargets)
-            imposeItem.ImposeDelegate(target);
+            foreach (var target in imposeItem.MaterializedTargets)
+                imposeItem.ImposeDelegate(target);
 
         movementExecution.CompleteDelegate();
     }
@@ -26,13 +25,5 @@ internal sealed class UseCombatMovementIntention : IIntention
         var movementExecution = combatCore.CreateCombatMovementExecution(_combatMovement);
         PseudoPlayback(movementExecution);
         combatCore.CompleteTurn();
-    }
-}
-
-internal sealed class IntentionFactory : IIntentionFactory
-{
-    public IIntention CreateCombatMovement(CombatMovementInstance combatMovement)
-    {
-        return new UseCombatMovementIntention(combatMovement);
     }
 }

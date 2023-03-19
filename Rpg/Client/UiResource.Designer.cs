@@ -79,6 +79,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maneuvers available.
+        /// </summary>
+        internal static string AvailableManeuversIndicatorTemplate {
+            get {
+                return ResourceManager.GetString("AvailableManeuversIndicatorTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back.
         /// </summary>
         internal static string BackButtonTitle {
@@ -682,6 +691,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Победа!.
+        /// </summary>
+        internal static string MiniGame_Victory {
+            get {
+                return ResourceManager.GetString("MiniGame_Victory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Danger of the monsters: {0}.
         /// </summary>
         internal static string MonsterDangerTemplate {
@@ -777,6 +795,15 @@ namespace Client {
         internal static string RestActionScouting {
             get {
                 return ResourceManager.GetString("RestActionScouting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Рестарт.
+        /// </summary>
+        internal static string RestartButtonTitle {
+            get {
+                return ResourceManager.GetString("RestartButtonTitle", resourceCulture);
             }
         }
         
@@ -939,6 +966,24 @@ namespace Client {
         internal static string SkipTutorialButtonTitle {
             get {
                 return ResourceManager.GetString("SkipTutorialButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Timer: {0}.
+        /// </summary>
+        internal static string SlidingPuzzles_TimeCounterTemplate {
+            get {
+                return ResourceManager.GetString("SlidingPuzzles_TimeCounterTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turns: {0}.
+        /// </summary>
+        internal static string SlidingPuzzles_TurnsCounterTemplate {
+            get {
+                return ResourceManager.GetString("SlidingPuzzles_TurnsCounterTemplate", resourceCulture);
             }
         }
         

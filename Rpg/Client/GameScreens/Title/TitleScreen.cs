@@ -4,6 +4,7 @@ using System.Linq;
 
 using Client.Engine;
 using Client.GameScreens.CommandCenter;
+using Client.GameScreens.Common;
 
 using Core.Dices;
 
@@ -14,7 +15,6 @@ using Rpg.Client;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
-using Rpg.Client.GameScreens.Common;
 using Rpg.Client.GameScreens.Title;
 using Rpg.Client.ScreenManagement;
 

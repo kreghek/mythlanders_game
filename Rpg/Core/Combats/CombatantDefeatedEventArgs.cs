@@ -6,10 +6,3 @@ public sealed class CombatantDefeatedEventArgs : CombatantEventArgsBase
     {
     }
 }
-
-public sealed class CombatantInterruptedEventArgs : CombatantEventArgsBase
-{
-    public CombatantInterruptedEventArgs(Combatant combatant) : base(combatant)
-    {
-    }
-}
