@@ -8,11 +8,9 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Client.Assets.CombatMovements.Hero.Amazon;
 
-internal class PainfulWoundFactory : ICombatMovementFactory
+internal class PainfulWoundFactory : CombatMovementFactoryBase
 {
-    public string Sid => "PainfulWound";
-
-    public CombatMovement CreateMovement()
+    public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
             new CombatMovementCost(2),
@@ -26,12 +24,5 @@ internal class PainfulWoundFactory : ICombatMovementFactory
         {
             Tags = CombatMovementTags.Attack
         };
-    }
-
-    public IActorVisualizationState CreateVisualization(IActorAnimator actorAnimator,
-        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
-    {
-        return CommonCombatVisualization.CreateMeleeVisualization(actorAnimator, movementExecution,
-            visualizationContext);
     }
 }

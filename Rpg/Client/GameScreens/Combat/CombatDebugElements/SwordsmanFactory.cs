@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 
+using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Swordsman;
 
 using Core.Combats;
@@ -15,16 +17,9 @@ public class SwordsmanFactory
     {
         var movementPool = new List<CombatMovement>();
 
-        movementPool.Add(new CombatMovement("RiseYourSwords",
-            new CombatMovementCost(1),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
-                {
-                    new ModifyEffectsEffect(new SelfTargetSelector(), 1)
-                })
-        ));
+        movementPool.Add(CreateMovement<RiseYourSwordsFactory>());
 
-        movementPool.Add(new DieBySwordFactory().CreateMovement());
+        movementPool.Add(CreateMovement<DieBySwordFactory>());
 
         movementPool.Add(new CombatMovement("StayStrong",
                 new CombatMovementCost(2),
@@ -44,9 +39,9 @@ public class SwordsmanFactory
                             typeof(ToEndOfCurrentRoundEffectLifetime))
                     })
             )
-            {
-                Tags = CombatMovementTags.AutoDefense
-            }
+        {
+            Tags = CombatMovementTags.AutoDefense
+        }
         );
 
         movementPool.Add(new CombatMovement("HitFromShoulder",
@@ -64,9 +59,9 @@ public class SwordsmanFactory
                         )
                     })
             )
-            {
-                Tags = CombatMovementTags.Attack
-            }
+        {
+            Tags = CombatMovementTags.Attack
+        }
         );
 
         movementPool.Add(new CombatMovement("LookOut",
@@ -110,5 +105,10 @@ public class SwordsmanFactory
             Sid = sid, IsPlayerControlled = true
         };
         return hero;
+    }
+
+    private static CombatMovement CreateMovement<T>() where T: ICombatMovementFactory
+    {
+        return Activator.CreateInstance<T>().CreateMovement();
     }
 }
