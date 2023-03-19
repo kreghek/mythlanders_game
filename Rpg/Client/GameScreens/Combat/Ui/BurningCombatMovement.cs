@@ -16,15 +16,9 @@ internal sealed class BurningCombatMovement : ControlBase
         HandSlotIndex = handSlotIndex;
     }
 
-    protected override Point CalcTextureOffset() => ControlTextures.CombatMove;
+    public int HandSlotIndex { get; }
 
-    protected override Color CalculateColor() => Color.Lerp(Color.Transparent, Color.White, (float)_lifetime);
-
-    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
-    {
-        spriteBatch.Draw(_iconData.Spritesheet, contentRect, _iconData.SourceRect, contentColor);
-        DrawBackground(spriteBatch, contentColor);
-    }
+    public bool IsComplete => _lifetime <= 0;
 
     public void Update(GameTime gameTime)
     {
@@ -38,7 +32,19 @@ internal sealed class BurningCombatMovement : ControlBase
         }
     }
 
-    public bool IsComplete => _lifetime <= 0;
+    protected override Point CalcTextureOffset()
+    {
+        return ControlTextures.CombatMove;
+    }
 
-    public int HandSlotIndex { get; }
+    protected override Color CalculateColor()
+    {
+        return Color.Lerp(Color.Transparent, Color.White, (float)_lifetime);
+    }
+
+    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
+    {
+        spriteBatch.Draw(_iconData.Spritesheet, contentRect, _iconData.SourceRect, contentColor);
+        DrawBackground(spriteBatch, contentColor);
+    }
 }

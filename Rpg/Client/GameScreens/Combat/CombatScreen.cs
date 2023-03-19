@@ -67,6 +67,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly IJobProgressResolver _jobProgressResolver;
     private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
     private readonly FieldManeuverIndicatorPanel _maneuversIndicator;
+    private readonly FieldManeuversVisualizer _maneuversVisualizer;
     private readonly PlayerCombatActorBehaviour _playerCombatantBehaviour;
     private readonly ScreenShaker _screenShaker;
     private readonly IUiContentStorage _uiContentStorage;
@@ -83,7 +84,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
-    private readonly FieldManeuversVisualizer _maneuversVisualizer;
 
     private UnitStatePanelController? _unitStatePanelController;
 
@@ -422,6 +422,14 @@ internal class CombatScreen : GameScreenWithMenuBase
             });
     }
 
+    private void CombatCore_CombatantUsedMove(object? sender, CombatantHandChangedEventArgs e)
+    {
+        if (e.Combatant.IsPlayerControlled)
+        {
+            _combatMovementsHandPanel?.StartMovementBurning(e.HandSlotIndex);
+        }
+    }
+
     private void CombatCore_CombatFinished(object? sender, CombatFinishedEventArgs e)
     {
         _combatMovementsHandPanel = null;
@@ -479,14 +487,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _unitStatePanelController = new UnitStatePanelController(_combatCore,
             _uiContentStorage, _gameObjectContentStorage);
-    }
-
-    private void CombatCore_CombatantUsedMove(object? sender, CombatantHandChangedEventArgs e)
-    {
-        if (e.Combatant.IsPlayerControlled)
-        {
-            _combatMovementsHandPanel?.StartMovementBurning(e.HandSlotIndex);
-        }
     }
 
     private void CombatMovementsHandPanel_CombatMovementPicked(object? sender, CombatMovementPickedEventArgs e)

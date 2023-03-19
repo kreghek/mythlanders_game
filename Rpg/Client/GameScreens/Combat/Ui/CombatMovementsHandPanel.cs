@@ -25,15 +25,13 @@ internal class CombatMovementsHandPanel : ControlBase
     private readonly CombatMovementButton?[] _buttons;
     private readonly IUiContentStorage _uiContentStorage;
     private CombatMovementHint? _activeCombatMovementHint;
+
+    private BurningCombatMovement? _burningCombatMovement;
     private Combatant? _combatant;
     private KeyboardState _currentKeyboardState;
 
     private EntityButtonBase<CombatMovementInstance>? _hoverButton;
     private KeyboardState? _lastKeyboardState;
-
-    private BurningCombatMovement? _burningCombatMovement;
-
-    public bool Readonly { get; set; }
 
     public CombatMovementsHandPanel(IUiContentStorage uiContentStorage)
     {
@@ -55,6 +53,8 @@ internal class CombatMovementsHandPanel : ControlBase
     }
 
     public bool IsEnabled { get; set; }
+
+    public bool Readonly { get; set; }
 
     protected override Point CalcTextureOffset()
     {
@@ -132,6 +132,16 @@ internal class CombatMovementsHandPanel : ControlBase
         }
     }
 
+    internal void StartMovementBurning(int handSlotIndex)
+    {
+        var combatMovementButton = _buttons[handSlotIndex];
+        _buttons[handSlotIndex] = null;
+        if (combatMovementButton is not null)
+        {
+            _burningCombatMovement = new BurningCombatMovement(combatMovementButton.IconData, handSlotIndex);
+        }
+    }
+
     internal void Update(GameTime gameTime, ResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         if (!IsEnabled)
@@ -141,7 +151,6 @@ internal class CombatMovementsHandPanel : ControlBase
 
         if (!Readonly)
         {
-
             KeyboardInputUpdate();
 
             var mouse = Mouse.GetState();
@@ -337,16 +346,6 @@ internal class CombatMovementsHandPanel : ControlBase
             {
                 _buttons[buttonIndex] = null;
             }
-        }
-    }
-
-    internal void StartMovementBurning(int handSlotIndex)
-    {
-        var combatMovementButton = _buttons[handSlotIndex];
-        _buttons[handSlotIndex] = null;
-        if (combatMovementButton is not null)
-        {
-            _burningCombatMovement = new BurningCombatMovement(combatMovementButton.IconData, handSlotIndex);
         }
     }
 
