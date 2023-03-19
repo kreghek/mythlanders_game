@@ -155,7 +155,7 @@ public class CombatCore
 
         void CompleteSkillAction()
         {
-            
+
         }
 
         var movementExecution = new CombatMovementExecution(CompleteSkillAction, effectImposeItems);
@@ -265,9 +265,9 @@ public class CombatCore
         var side = GetCurrentSelectorContext().ActorSide;
 
         for (var col = 0; col < side.ColumnCount; col++)
-        for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
-            if (CurrentCombatant == side[new FieldCoords(col, lineIndex)].Combatant)
-                return new FieldCoords(col, lineIndex);
+            for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
+                if (CurrentCombatant == side[new FieldCoords(col, lineIndex)].Combatant)
+                    return new FieldCoords(col, lineIndex);
 
         throw new InvalidOperationException();
     }
@@ -382,7 +382,7 @@ public class CombatCore
                 {
                     break;
                 }
-                
+
                 combatant.AssignMoveToHand(handSlotIndex, nextMove);
                 CombatantAssignedNewMove?.Invoke(this, new CombatantHandChangedEventArgs(combatant, nextMove, handSlotIndex));
             }

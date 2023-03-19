@@ -35,7 +35,7 @@ internal sealed class BurningCombatMovement : ControlBase
         else
         {
             _lifetime = 0;
-        }        
+        }
     }
 
     public bool IsComplete => _lifetime <= 0;
