@@ -70,7 +70,7 @@ namespace Rpg.Client.GameScreens.CampaignSelection
                 {
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
                         new CampaignScreenTransitionArguments
-                        { Campaign = campaign });
+                            { Campaign = campaign });
                 };
             }
 
