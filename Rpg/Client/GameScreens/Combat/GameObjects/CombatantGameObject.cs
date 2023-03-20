@@ -10,6 +10,8 @@ using Core.Combats;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonoGame;
+
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
@@ -172,7 +174,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
             var shakeVector3d = new Vector3(shakeVector, 0);
 
             var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
-            worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
+            worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
 
             var matrix = Matrix.CreateTranslation(translationVector + shakeVector3d)
                          * Matrix.CreateScale(scaleVector);
@@ -184,7 +186,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: matrix);
         }
-
+        
         Graphics.Draw(spriteBatch);
 
         spriteBatch.End();

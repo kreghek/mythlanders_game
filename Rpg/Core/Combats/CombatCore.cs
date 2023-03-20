@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.ObjectModel;
 
 using Core.Dices;
@@ -45,6 +46,7 @@ public class CombatCore
     }
 
     public IReadOnlyList<Combatant> RoundQueue => _roundQueue.ToArray();
+    public IReadOnlyCollection<Combatant> Combatants => _allCombatantList.ToArray();
 
     public void CompleteTurn()
     {

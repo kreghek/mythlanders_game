@@ -26,6 +26,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using MonoGame;
+
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
@@ -793,7 +795,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         DrawBullets(spriteBatch);
 
-        DrawUnits(spriteBatch);
+        DrawCombatants(spriteBatch);
 
         foreach (var bullet in _bulletObjects)
         {
@@ -844,10 +846,36 @@ internal class CombatScreen : GameScreenWithMenuBase
             // TODO Fix NRE in the end of the combat with more professional way 
         }
 
+        if (!_animationManager.HasBlockers)
+        {
+            DrawCombatantStats(spriteBatch);
+        }
+
         spriteBatch.End();
     }
+    
+    private void DrawStats(IActorAnimator animator, Combatant combatant, SpriteBatch spriteBatch)
+    {
+        var hp = combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.GetShare();
+        spriteBatch.DrawRectangle(animator.GraphicRoot.Position - new Vector2(0, 128), new Vector2((int)(32 * hp), 5), Color.Red);
+        
+        var sp = combatant.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value.GetShare();
+        spriteBatch.DrawRectangle(animator.GraphicRoot.Position - new Vector2(0, 118), new Vector2((int)(32 * sp), 5), Color.Blue);
+        
+        var res = combatant.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.Current;
+        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), res.ToString(), animator.GraphicRoot.Position, Color.Wheat);
+    }
 
-    private void DrawUnits(SpriteBatch spriteBatch)
+    private void DrawCombatantStats(SpriteBatch spriteBatch)
+    {
+        foreach (var combatant in _combatCore.Combatants)
+        {
+            var gameObject = GetCombatantGameObject(combatant);
+            DrawStats(gameObject.Animator, combatant, spriteBatch);
+        }
+    }
+
+    private void DrawCombatants(SpriteBatch spriteBatch)
     {
         var corpseList = _corpseObjects.OrderBy(x => x.GetZIndex()).ToArray();
         foreach (var gameObject in corpseList)
