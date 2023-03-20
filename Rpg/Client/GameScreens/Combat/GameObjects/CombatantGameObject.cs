@@ -76,7 +76,10 @@ internal sealed class CombatantGameObject : EwarRenderableBase
     public bool IsActive { get; set; }
     public Vector2 LaunchPoint => Position - Vector2.UnitY * 64;
 
-    public Rectangle StatsPanelOrigin => new Rectangle((Position - new Vector2(0, 128)).ToPoint(), new Point(128, 10));
+    private const int STATS_PANEL_WIDTH = 64;
+    private const int STATS_PANEL_HEOGHT = 10;
+
+    public Rectangle StatsPanelOrigin => new Rectangle((Position - new Vector2(STATS_PANEL_WIDTH / 2, 100)).ToPoint(), new Point(STATS_PANEL_WIDTH, 10));
 
     public void AddStateEngine(IActorVisualizationState actorStateEngine)
     {

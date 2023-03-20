@@ -855,7 +855,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         try
         {
-            DrawUnitStatePanels(spriteBatch, contentRectangle);
+            DrawCombatantQueue(spriteBatch, contentRectangle);
             DrawCombatSequenceProgress(spriteBatch);
         }
         catch
@@ -863,41 +863,51 @@ internal class CombatScreen : GameScreenWithMenuBase
             // TODO Fix NRE in the end of the combat with more professional way 
         }
 
-        if (!_animationManager.HasBlockers)
-        {
-            DrawCombatantStats(spriteBatch);
-        }
+        DrawCombatantStats(spriteBatch);
 
         spriteBatch.End();
     }
     
     private void DrawStats(Rectangle statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
     {
-        var hp = combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.GetShare();
-        spriteBatch.DrawRectangle(
-            new Rectangle(
-                new Point(statsPanelOrigin.Location.X + 10, statsPanelOrigin.Location.Y),
-                new Point((int)(statsPanelOrigin.Size.X * hp), statsPanelOrigin.Size.Y / 2)),
-            Color.Lerp(Color.Red, Color.Transparent, 0.5f));
+        var hp = combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value;
+
+        if (hp.Current > 0)
+        {
+            spriteBatch.DrawRectangle(
+                new Rectangle(
+                    new Point(statsPanelOrigin.Location.X + 10, statsPanelOrigin.Location.Y),
+                    new Point((int)(statsPanelOrigin.Size.X * hp.GetShare()), statsPanelOrigin.Size.Y / 2)),
+                Color.Lerp(Color.Red, Color.Transparent, 0.5f), 3);
+        }
         
-        var sp = combatant.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value.GetShare();
-        spriteBatch.DrawRectangle(
-            new Rectangle(
-                new Point(statsPanelOrigin.Location.X + 10, statsPanelOrigin.Location.Y + statsPanelOrigin.Size.Y / 2),
-                new Point((int)(statsPanelOrigin.Size.X * sp), statsPanelOrigin.Size.Y / 2)),
-            Color.Lerp(Color.Blue, Color.Transparent, 0.5f));
+        var sp = combatant.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value;
+
+        if (sp.Current > 0)
+        {
+            spriteBatch.DrawRectangle(
+                new Rectangle(
+                    new Point(statsPanelOrigin.Location.X + 10, statsPanelOrigin.Location.Y + statsPanelOrigin.Size.Y / 2),
+                    new Point((int)(statsPanelOrigin.Size.X * sp.GetShare()), statsPanelOrigin.Size.Y / 2)),
+                Color.Lerp(Color.Blue, Color.Transparent, 0.5f), 3);
+        }
         
         var res = combatant.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.Current;
         spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
             res.ToString(),
             statsPanelOrigin.Location.ToVector2(),
-            Color.Lerp(Color.White, Color.Transparent, 0.5f));
+            Color.Lerp(Color.White, Color.Transparent, 0.75f));
     }
 
     private void DrawCombatantStats(SpriteBatch spriteBatch)
     {
         foreach (var combatant in _combatCore.Combatants)
         {
+            if (combatant.IsDead)
+            {
+                continue;
+            }
+
             var gameObject = GetCombatantGameObject(combatant);
             DrawStats(gameObject.StatsPanelOrigin, combatant, spriteBatch);
         }
@@ -918,11 +928,13 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DrawUnitStatePanels(SpriteBatch spriteBatch, Rectangle contentRectangle)
+    private void DrawCombatantQueue(SpriteBatch spriteBatch, Rectangle contentRectangle)
     {
         if (_combatantQueuePanel is not null)
         {
-            _combatantQueuePanel.Rect = contentRectangle;
+            const int PANEL_WIDTH = 400;
+
+            _combatantQueuePanel.Rect = new Rectangle(contentRectangle.Center.X - PANEL_WIDTH / 2, contentRectangle.Top, PANEL_WIDTH, 32);
             _combatantQueuePanel.Draw(spriteBatch);
         }
     }
