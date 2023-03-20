@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Core.Combats;
 
@@ -46,20 +47,25 @@ internal sealed class TargetMarkers
         {
             var gameObject = _targetMarkerContext.GetCombatantGameObject(targetEstimate.Target);
             DrawTargetMarker(spriteBatch,
-                actorGameObject.Animator.GraphicRoot.Position,
-                gameObject.Animator.GraphicRoot.Position,
+                actorGameObject.InteractionPoint,
+                gameObject.InteractionPoint,
                 !targetEstimate.Target.IsPlayerControlled);
         }
     }
 
     private void DrawTargetMarker(SpriteBatch spriteBatch, Vector2 actorPosition, Vector2 targetPosition, bool isAgression)
     {
-        const int MARKER_RADIUS = 32;
+        const int MARKER_RADIUS = 16;
+        const int MARKER_RADIUR_DIFF = MARKER_RADIUS / 5;
         const int MARKER_AGGRESSION_RADIUS = 10;
         var neutralColor = Color.Cyan;
         var aggressionColor = Color.Red;
 
-        spriteBatch.DrawCircle(targetPosition, MARKER_RADIUS, 8, isAgression ? aggressionColor : neutralColor, 2);
+        spriteBatch.DrawCircle(targetPosition,
+            (int)(MARKER_RADIUS - MARKER_RADIUR_DIFF * Math.Clamp(Math.Sin(_counter * 15), 0, 1)),
+            16,
+            isAgression ? aggressionColor : neutralColor,
+            2);
 
         if (isAgression)
         {
@@ -91,6 +97,20 @@ internal sealed class TargetMarkers
         if (actorPosition != targetPosition)
         {
             spriteBatch.DrawLine(actorPosition, targetPosition, aggressionColor, 2);
+        }
+    }
+
+    private double _counter;
+
+    public void Update(GameTime gameTime)
+    {
+        if (_targets is not null)
+        {
+            _counter += gameTime.ElapsedGameTime.TotalSeconds;
+        }
+        else
+        {
+            _counter = 0;
         }
     }
 }

@@ -1161,5 +1161,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
 
         _unitStatePanelController?.Update(ResolutionIndependentRenderer);
+
+        _targetMarkers.Update(gameTime);
     }
 }
