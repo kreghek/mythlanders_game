@@ -12,7 +12,7 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
     /// Symbolic identifier of the combat movement.
     /// </summary>
     public virtual string Sid => GetType().Name[..^7];
-    
+
     /// <summary>
     /// UI icon of the combat movement.
     /// </summary>

@@ -94,9 +94,9 @@ public class ThiefChaserFactory
                             typeof(ToEndOfCurrentRoundEffectLifetime))
                     })
             )
-            {
-                Tags = CombatMovementTags.AutoDefense
-            }
+        {
+            Tags = CombatMovementTags.AutoDefense
+        }
         );
 
         list.Add(new CombatMovement("Afterlife Whirlwind",
@@ -126,7 +126,7 @@ public class ThiefChaserFactory
                 monsterSequence.Items.Add(movement);
             }
         }
-        
+
         var stats = new CombatantStatsConfig();
 
         var monster = new Combatant("Chaser", monsterSequence, stats, combatActorBehaviour)

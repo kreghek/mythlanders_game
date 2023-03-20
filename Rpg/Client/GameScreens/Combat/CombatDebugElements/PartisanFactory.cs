@@ -45,8 +45,8 @@ public class PartisanFactory
         };
         return hero;
     }
-    
-    private static CombatMovement CreateMovement<T>() where T: ICombatMovementFactory
+
+    private static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory
     {
         return Activator.CreateInstance<T>().CreateMovement();
     }

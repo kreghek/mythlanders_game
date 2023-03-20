@@ -36,7 +36,7 @@ public class SwordsmanFactory
                 heroSequence.Items.Add(movement);
             }
         }
-        
+
         var stats = new CombatantStatsConfig();
 
         var hero = new Combatant("swordsman", heroSequence, stats, combatActorBehaviour)
@@ -46,7 +46,7 @@ public class SwordsmanFactory
         return hero;
     }
 
-    private static CombatMovement CreateMovement<T>() where T: ICombatMovementFactory
+    private static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory
     {
         return Activator.CreateInstance<T>().CreateMovement();
     }

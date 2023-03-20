@@ -33,6 +33,6 @@ public sealed class CombatantStatsConfig
 
     public IReadOnlyCollection<IUnitStat> GetStats()
     {
-        return _stats.Select(x=>new CombatantStat(x.Key, x.Value)).ToArray();
+        return _stats.Select(x => new CombatantStat(x.Key, x.Value)).ToArray();
     }
 }

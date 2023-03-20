@@ -35,7 +35,7 @@ public class AmazonFactory
                 heroSequence.Items.Add(movement);
             }
         }
-        
+
         var stats = new CombatantStatsConfig();
 
         var hero = new Combatant("amazon", heroSequence, stats, combatActorBehaviour)
