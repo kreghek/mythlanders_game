@@ -87,6 +87,14 @@ public class CombatCore
 
     public CombatMovementExecution CreateCombatMovementExecution(CombatMovementInstance movement)
     {
+        CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.Consume(1);
+
+        var handSlotIndex = CurrentCombatant.DropMovementFromHand(movement);
+
+        if (handSlotIndex is not null)
+            CombatantUsedMove?.Invoke(this,
+                new CombatantHandChangedEventArgs(CurrentCombatant, movement, handSlotIndex.Value));
+
         var effectContext = new EffectCombatContext(Field, _dice, HandleCombatantDamaged, HandleSwapFieldPositions);
 
         var effectImposeItems = new List<CombatEffectImposeItem>();
@@ -129,7 +137,12 @@ public class CombatCore
                         }
 
                         _roundQueue.Remove(effectTarget);
-                        effectTarget.DropMovementFromHand(targetDefenseMovement);
+                        var autoHandSlotIndex = effectTarget.DropMovementFromHand(targetDefenseMovement);
+
+                        if (autoHandSlotIndex is not null)
+                            CombatantUsedMove?.Invoke(this,
+                                new CombatantHandChangedEventArgs(effectTarget, targetDefenseMovement,
+                                    autoHandSlotIndex.Value));
                     }
                 }
 
@@ -141,9 +154,6 @@ public class CombatCore
 
         void CompleteSkillAction()
         {
-            CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.Consume(1);
-
-            CurrentCombatant.DropMovementFromHand(movement);
         }
 
         var movementExecution = new CombatMovementExecution(CompleteSkillAction, effectImposeItems);
@@ -359,18 +369,23 @@ public class CombatCore
         _roundQueue.RemoveAt(0);
     }
 
-    private void RestoreHands()
+    private void RestoreCombatantHand(Combatant combatant)
     {
-        foreach (var combatant in _allCombatantList)
-            for (var handSlotIndex = 0; handSlotIndex < combatant.Hand.Count; handSlotIndex++)
-                if (combatant.Hand[handSlotIndex] is null)
-                {
-                    var nextMove = combatant.PopNextPoolMovement();
-                    if (nextMove is not null)
-                        combatant.AssignMoveToHand(handSlotIndex, nextMove);
-                    else
-                        break;
-                }
+        for (var handSlotIndex = 0; handSlotIndex < combatant.Hand.Count; handSlotIndex++)
+            if (combatant.Hand[handSlotIndex] is null)
+            {
+                var nextMove = combatant.PopNextPoolMovement();
+                if (nextMove is null) break;
+
+                combatant.AssignMoveToHand(handSlotIndex, nextMove);
+                CombatantAssignedNewMove?.Invoke(this,
+                    new CombatantHandChangedEventArgs(combatant, nextMove, handSlotIndex));
+            }
+    }
+
+    private void RestoreHandsOfAllCombatants()
+    {
+        foreach (var combatant in _allCombatantList) RestoreCombatantHand(combatant);
     }
 
     private void RestoreManeuversOfAllCombatants()
@@ -397,9 +412,9 @@ public class CombatCore
     private void StartRound()
     {
         MakeUnitRoundQueue();
+        RestoreHandsOfAllCombatants();
         RestoreShieldsOfAllCombatants();
         RestoreManeuversOfAllCombatants();
-        RestoreHands();
 
         UpdateAllCombatantEffects(CombatantEffectUpdateType.StartRound);
         CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn);
@@ -435,4 +450,6 @@ public class CombatCore
     public event EventHandler<CombatantHasBeenMovedEventArgs>? CombatantHasBeenMoved;
     public event EventHandler<CombatFinishedEventArgs>? CombatFinished;
     public event EventHandler<CombatantInterruptedEventArgs>? CombatantInterrupted;
+    public event EventHandler<CombatantHandChangedEventArgs>? CombatantAssignedNewMove;
+    public event EventHandler<CombatantHandChangedEventArgs>? CombatantUsedMove;
 }

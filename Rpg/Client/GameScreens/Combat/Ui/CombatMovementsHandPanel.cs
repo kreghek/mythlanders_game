@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 using Client.Engine;
@@ -23,9 +22,11 @@ internal class CombatMovementsHandPanel : ControlBase
     private const int SKILL_BUTTON_SIZE = ICON_SIZE + BUTTON_PADDING;
     private const int SKILL_SELECTION_OFFSET = SKILL_BUTTON_SIZE / 8;
 
-    private readonly IList<CombatMovementButton> _buttons;
+    private readonly CombatMovementButton?[] _buttons;
     private readonly IUiContentStorage _uiContentStorage;
     private CombatMovementHint? _activeCombatMovementHint;
+
+    private BurningCombatMovement? _burningCombatMovement;
     private Combatant? _combatant;
     private KeyboardState _currentKeyboardState;
 
@@ -34,7 +35,7 @@ internal class CombatMovementsHandPanel : ControlBase
 
     public CombatMovementsHandPanel(IUiContentStorage uiContentStorage)
     {
-        _buttons = new List<CombatMovementButton>();
+        _buttons = new CombatMovementButton[3];
 
         _uiContentStorage = uiContentStorage;
         IsEnabled = true;
@@ -52,6 +53,8 @@ internal class CombatMovementsHandPanel : ControlBase
     }
 
     public bool IsEnabled { get; set; }
+
+    public bool Readonly { get; set; }
 
     protected override Point CalcTextureOffset()
     {
@@ -99,59 +102,97 @@ internal class CombatMovementsHandPanel : ControlBase
         }
 
         var buttonsRect = GetButtonsRect();
-        for (var buttonIndex = 0; buttonIndex < _buttons.Count; buttonIndex++)
+        for (var buttonIndex = 0; buttonIndex < _buttons.Length; buttonIndex++)
         {
             var button = _buttons[buttonIndex];
-            var isSelected = button.IsSelected;
 
-            button.Rect = GetButtonRectangle(buttonsRect, buttonIndex, isSelected);
-            button.Draw(spriteBatch);
+            if (button is not null)
+            {
+                var isSelected = button.IsSelected;
 
-            var hotKey = (buttonIndex + 1).ToString();
-            DrawHotkey(spriteBatch, hotKey, button, isSelected);
+                button.Rect = GetButtonRectangle(buttonsRect, buttonIndex, isSelected);
+                button.Draw(spriteBatch);
+
+                var hotKey = (buttonIndex + 1).ToString();
+                DrawHotkey(spriteBatch, hotKey, button, isSelected);
+            }
+            else if (_burningCombatMovement is not null)
+            {
+                if (_burningCombatMovement.HandSlotIndex == buttonIndex)
+                {
+                    _burningCombatMovement.Rect = GetButtonRectangle(buttonsRect, buttonIndex, true);
+                    _burningCombatMovement.Draw(spriteBatch);
+                }
+            }
         }
 
         if (_hoverButton is not null && _activeCombatMovementHint is not null)
         {
-            DrawHoverCombatSkillInfo(_hoverButton, _activeCombatMovementHint, spriteBatch);
+            DrawHoverInfo(_hoverButton, _activeCombatMovementHint, spriteBatch);
         }
     }
 
-    internal void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
+    internal void StartMovementBurning(int handSlotIndex)
+    {
+        var combatMovementButton = _buttons[handSlotIndex];
+        _buttons[handSlotIndex] = null;
+        if (combatMovementButton is not null)
+        {
+            _burningCombatMovement = new BurningCombatMovement(combatMovementButton.IconData, handSlotIndex);
+        }
+    }
+
+    internal void Update(GameTime gameTime, ResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         if (!IsEnabled)
         {
             return;
         }
 
-        KeyboardInputUpdate();
-
-        var mouse = Mouse.GetState();
-        var mouseRect =
-            new Rectangle(
-                resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mouse.Position.ToVector2()).ToPoint(),
-                new Point(1, 1));
-
-        var oldHoverButton = _hoverButton;
-        _hoverButton = null;
-        foreach (var button in _buttons)
+        if (!Readonly)
         {
-            button.Update(resolutionIndependentRenderer);
+            KeyboardInputUpdate();
 
-            DetectMouseHoverOnButton(mouseRect, button);
+            var mouse = Mouse.GetState();
+            var mouseRect =
+                new Rectangle(
+                    resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mouse.Position.ToVector2()).ToPoint(),
+                    new Point(1, 1));
+
+            var oldHoverButton = _hoverButton;
+            _hoverButton = null;
+            foreach (var button in _buttons)
+            {
+                if (button is not null)
+                {
+                    button.Update(resolutionIndependentRenderer);
+
+                    DetectMouseHoverOnButton(mouseRect, button);
+                }
+            }
+
+            if (_hoverButton is not null && _hoverButton != oldHoverButton && _combatant is not null)
+            {
+                _activeCombatMovementHint = new CombatMovementHint(_hoverButton.Entity);
+            }
+            else if (_hoverButton is not null && _hoverButton == oldHoverButton && _combatant is not null)
+            {
+                // Do nothing because hint of this button is created yet.
+            }
+            else
+            {
+                _activeCombatMovementHint = null;
+            }
         }
 
-        if (_hoverButton is not null && _hoverButton != oldHoverButton && _combatant is not null)
+        if (_burningCombatMovement is not null)
         {
-            _activeCombatMovementHint = new CombatMovementHint(_hoverButton.Entity);
-        }
-        else if (_hoverButton is not null && _hoverButton == oldHoverButton && _combatant is not null)
-        {
-            // Do nothing because hint of this button is created yet.
-        }
-        else
-        {
-            _activeCombatMovementHint = null;
+            _burningCombatMovement.Update(gameTime);
+
+            if (_burningCombatMovement.IsComplete)
+            {
+                _burningCombatMovement = null;
+            }
         }
     }
 
@@ -187,7 +228,7 @@ internal class CombatMovementsHandPanel : ControlBase
         spriteBatch.DrawString(_uiContentStorage.GetMainFont(), hotKey, hotkeyPosition, Color.Wheat);
     }
 
-    private static void DrawHoverCombatSkillInfo(ControlBase baseControl, CombatMovementHint hintControl,
+    private static void DrawHoverInfo(ControlBase baseControl, CombatMovementHint hintControl,
         SpriteBatch spriteBatch)
     {
         var baseControlCenter = baseControl.Rect.Center;
@@ -217,7 +258,7 @@ internal class CombatMovementsHandPanel : ControlBase
 
     private Rectangle GetButtonsRect()
     {
-        var allButtonWidth = _buttons.Count * (SKILL_BUTTON_SIZE + BUTTON_MARGIN);
+        var allButtonWidth = _buttons.Length * (SKILL_BUTTON_SIZE + BUTTON_MARGIN);
         var buttonsRect =
             new Rectangle(Rect.Center.X - allButtonWidth / 2, Rect.Y, allButtonWidth, Rect.Height);
         return buttonsRect;
@@ -267,35 +308,45 @@ internal class CombatMovementsHandPanel : ControlBase
 
     private void PressButton(int index)
     {
-        if (index < 0 || _buttons.Count <= index)
+        if (index < 0 || _buttons.Length <= index)
         {
             return;
         }
 
-        _buttons[index].Click();
+        var button = _buttons[index];
+
+        if (button is null)
+        {
+            return;
+        }
+
+        button.Click();
     }
 
     private void RecreateButtons()
     {
-        _buttons.Clear();
-
         if (_combatant is null)
         {
             return;
             //throw new InvalidOperationException("Unit required to be initialized before.");
         }
 
-        foreach (var movement in _combatant.Hand)
+        for (var buttonIndex = 0; buttonIndex < _combatant.Hand.Count; buttonIndex++)
         {
+            var movement = _combatant.Hand[buttonIndex];
             if (movement is not null)
             {
                 var iconRect = UnsortedHelpers.GetIconRect(movement.SourceMovement.Visualization.IconIndex);
                 var iconData = new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), iconRect);
                 var button = new CombatMovementButton(iconData, movement);
-                _buttons.Add(button);
+                _buttons[buttonIndex] = button;
                 button.OnClick += CombatMovementButton_OnClick;
                 button.OnHover += CombatMovementButton_OnHover;
                 button.OnLeave += CombatMovementButton_OnLeave;
+            }
+            else
+            {
+                _buttons[buttonIndex] = null;
             }
         }
     }

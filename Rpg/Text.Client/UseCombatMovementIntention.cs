@@ -1,5 +1,4 @@
 ﻿using Core.Combats;
-using Core.Combats.BotBehaviour;
 
 namespace Text.Client;
 
@@ -26,13 +25,5 @@ internal sealed class UseCombatMovementIntention : IIntention
         var movementExecution = combatCore.CreateCombatMovementExecution(_combatMovement);
         PseudoPlayback(movementExecution);
         combatCore.CompleteTurn();
-    }
-}
-
-internal sealed class IntentionFactory : IIntentionFactory
-{
-    public IIntention CreateCombatMovement(CombatMovementInstance combatMovement)
-    {
-        return new UseCombatMovementIntention(combatMovement);
     }
 }

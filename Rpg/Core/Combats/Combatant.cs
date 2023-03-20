@@ -107,10 +107,15 @@ public class Combatant
         }
     }
 
-    internal void DropMovementFromHand(CombatMovementInstance movement)
+    internal int? DropMovementFromHand(CombatMovementInstance movement)
     {
         for (var i = 0; i < _hand.Length; i++)
             if (_hand[i] == movement)
+            {
                 _hand[i] = null;
+                return i;
+            }
+
+        return null;
     }
 }

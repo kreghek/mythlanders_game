@@ -69,6 +69,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly IJobProgressResolver _jobProgressResolver;
     private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
     private readonly FieldManeuverIndicatorPanel _maneuversIndicator;
+    private readonly FieldManeuversVisualizer _maneuversVisualizer;
     private readonly PlayerCombatActorBehaviour _playerCombatantBehaviour;
     private readonly ScreenShaker _screenShaker;
     private readonly IUiContentStorage _uiContentStorage;
@@ -85,7 +86,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
-    private readonly FieldManeuversVisualizer _maneuversVisualizer;
 
     private UnitStatePanelController? _unitStatePanelController;
 
@@ -194,7 +194,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         if (!_combatCore.Finished && _combatFinishedVictory is null)
         {
-            UpdateCombatHud();
+            UpdateCombatHud(gameTime);
         }
 
         _screenShaker.Update(gameTime);
@@ -424,6 +424,14 @@ internal class CombatScreen : GameScreenWithMenuBase
             });
     }
 
+    private void CombatCore_CombatantUsedMove(object? sender, CombatantHandChangedEventArgs e)
+    {
+        if (e.Combatant.IsPlayerControlled)
+        {
+            _combatMovementsHandPanel?.StartMovementBurning(e.HandSlotIndex);
+        }
+    }
+
     private void CombatCore_CombatFinished(object? sender, CombatFinishedEventArgs e)
     {
         _combatMovementsHandPanel = null;
@@ -455,6 +463,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;
         _combatCore.CombatantHasBeenMoved += CombatCore_CombatantHasBeenMoved;
         _combatCore.CombatFinished += CombatCore_CombatFinished;
+        _combatCore.CombatantUsedMove += CombatCore_CombatantUsedMove;
 
         // _combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
         // _combatCore.CombatantHasBeenDefeated += CombatCore_CombatantHasBeenDefeated;
@@ -837,13 +846,16 @@ internal class CombatScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: _camera.GetViewTransformationMatrix());
 
-        if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled && !_animationManager.HasBlockers)
+        if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
-            _maneuversVisualizer.Draw(spriteBatch);
+            if (!_animationManager.HasBlockers)
+            {
+                _maneuversVisualizer.Draw(spriteBatch);
 
-            _maneuversIndicator.Rect =
-                new Rectangle(contentRectangle.Center.X - 100, contentRectangle.Bottom - 105, 200, 25);
-            _maneuversIndicator.Draw(spriteBatch);
+                _maneuversIndicator.Rect =
+                    new Rectangle(contentRectangle.Center.X - 100, contentRectangle.Bottom - 105, 200, 25);
+                _maneuversIndicator.Draw(spriteBatch);
+            }
 
             DrawCombatMoveTargets(spriteBatch);
 
@@ -1192,12 +1204,20 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void UpdateCombatHud()
+    private void UpdateCombatHud(GameTime gameTime)
     {
-        if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled && !_animationManager.HasBlockers)
+        if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
-            _maneuversVisualizer.Update(ResolutionIndependentRenderer);
-            _combatMovementsHandPanel?.Update(ResolutionIndependentRenderer);
+            if (!_animationManager.HasBlockers)
+            {
+                _maneuversVisualizer.Update(ResolutionIndependentRenderer);
+            }
+
+            if (_combatMovementsHandPanel is not null)
+            {
+                _combatMovementsHandPanel.Readonly = _animationManager.HasBlockers;
+                _combatMovementsHandPanel.Update(gameTime, ResolutionIndependentRenderer);
+            }
         }
 
         _unitStatePanelController?.Update(ResolutionIndependentRenderer);
