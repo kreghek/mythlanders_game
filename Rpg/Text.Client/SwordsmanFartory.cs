@@ -29,7 +29,7 @@ public class SwordsmanFartory
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(2)),
-                        new ChangePositionEffect(
+                        new PushToPositionEffect(
                             new SelfTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard
                         )
@@ -72,7 +72,7 @@ public class SwordsmanFartory
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(3)),
-                        new ChangePositionEffect(
+                        new PushToPositionEffect(
                             new SelfTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard
                         )
@@ -92,7 +92,7 @@ public class SwordsmanFartory
                         UnitStatType.Defense,
                         3,
                         typeof(ToNextCombatantTurnEffectLifetime)),
-                    new ChangePositionEffect(
+                    new PushToPositionEffect(
                         new SelfTargetSelector(),
                         ChangePositionEffectDirection.ToVanguard
                     )

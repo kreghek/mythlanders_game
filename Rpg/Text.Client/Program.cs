@@ -407,7 +407,7 @@ internal static class Program
                 Console.Write($"{controlEffect.BaseEffect.StatValue.Min} {controlEffect.BaseEffect.TargetStatType}");
                 break;
 
-            case ChangePositionEffectInstance repositionEffect:
+            case PushToPositionEffectInstance repositionEffect:
                 Console.Write($"{repositionEffect.BaseEffect.Direction}");
                 break;
         }

@@ -19,7 +19,7 @@ internal class DieBySwordFactory : ICombatMovementFactory
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new ChangePositionEffect(
+                    new PushToPositionEffect(
                         new SelfTargetSelector(),
                         ChangePositionEffectDirection.ToVanguard
                     ),

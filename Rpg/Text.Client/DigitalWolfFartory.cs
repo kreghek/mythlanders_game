@@ -21,7 +21,7 @@ public class DigitalWolfFactory
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(3)),
-                        new ChangePositionEffect(
+                        new PushToPositionEffect(
                             new SelfTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard)
                     })

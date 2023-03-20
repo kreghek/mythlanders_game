@@ -22,7 +22,7 @@ public class PartisanFactory
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(1)),
-                        new ChangePositionEffect(
+                        new PushToPositionEffect(
                             new SelfTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard
                         )
@@ -42,7 +42,7 @@ public class PartisanFactory
                             new WeakestEnemyTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(3)),
-                        new ChangePositionEffect(
+                        new PushToPositionEffect(
                             new SelfTargetSelector(),
                             ChangePositionEffectDirection.ToRearguard
                         )
@@ -55,7 +55,7 @@ public class PartisanFactory
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
                     {
-                        new ChangePositionEffect(
+                        new PushToPositionEffect(
                             new StrongestClosestAllyTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard
                         ),
@@ -82,7 +82,7 @@ public class PartisanFactory
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(2)),
-                        new ChangePositionEffect(
+                        new PushToPositionEffect(
                             new SelfTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard
                         )
@@ -102,7 +102,7 @@ public class PartisanFactory
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(2)),
-                        new ChangePositionEffect(
+                        new PushToPositionEffect(
                             new SelfTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard
                         )

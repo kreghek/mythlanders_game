@@ -14,23 +14,27 @@ public class DigitalWolfFactory
         // ReSharper disable once UseObjectOrCollectionInitializer
         var list = new List<CombatMovement>();
 
-        list.Add(new CombatMovement("Wolf teeth",
+        list.Add(new CombatMovement("TeethOnNeck",
                 new CombatMovementCost(1),
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
                     {
+                        new AdjustPositionEffect(new SelfTargetSelector()),
                         new DamageEffect(
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(3)),
-                        new ChangePositionEffect(
+                        new PushToPositionEffect(
                             new SelfTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard)
                     })
             )
+            {
+                Tags = CombatMovementTags.Attack
+            }
         );
 
-        list.Add(new CombatMovement("Veles protection",
+        list.Add(new CombatMovement("VelesProtection",
                 new CombatMovementCost(1),
                 new CombatMovementEffectConfig(
                     new IEffect[]
@@ -55,21 +59,25 @@ public class DigitalWolfFactory
             }
         );
 
-        list.Add(new CombatMovement("Cyber claws",
+        list.Add(new CombatMovement("CyberClaws",
                 new CombatMovementCost(1),
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
                     {
+                        new AdjustPositionEffect(new SelfTargetSelector()),
                         new DamageEffect(
                             new MostShieldChargedTargetSelector(),
                             DamageType.ShieldsOnly,
                             Range<int>.CreateMono(3))
                     })
             )
+            {
+                Tags = CombatMovementTags.Attack
+            }
         );
 
         var monsterSequence = new CombatMovementSequence();
-        for (var i = 0; i < 2; i++)
+        for (var i = 0; i < 3; i++)
         {
             foreach (var combatMovement in list)
             {
@@ -77,7 +85,7 @@ public class DigitalWolfFactory
             }
         }
 
-        var monster = new Combatant("DigitalWolf", monsterSequence, combatActorBehaviour)
+        var monster = new Combatant("digitalwolf", monsterSequence, combatActorBehaviour)
         {
             Sid = sid, IsPlayerControlled = false
         };

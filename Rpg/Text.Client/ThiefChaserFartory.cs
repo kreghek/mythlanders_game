@@ -25,7 +25,7 @@ public class ThiefChaserFactory
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(1)),
-                        new ChangePositionEffect(
+                        new PushToPositionEffect(
                             new SelfTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard
                         )
@@ -42,7 +42,7 @@ public class ThiefChaserFactory
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(3)),
-                        new ChangePositionEffect(
+                        new PushToPositionEffect(
                             new SelfTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard
                         )
@@ -59,7 +59,7 @@ public class ThiefChaserFactory
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(1)),
-                        new ChangePositionEffect(
+                        new PushToPositionEffect(
                             new ClosestInLineTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard),
                         new ChangeCurrentStatEffect(
@@ -104,7 +104,7 @@ public class ThiefChaserFactory
                             new AllVanguardTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(1)),
-                        new ChangePositionEffect(
+                        new PushToPositionEffect(
                             new SelfTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard
                         )
