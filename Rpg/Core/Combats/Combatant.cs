@@ -6,7 +6,8 @@ public sealed class Combatant
     private readonly CombatMovementInstance?[] _hand;
     private readonly IList<CombatMovementInstance> _pool;
 
-    public Combatant(string classSid, CombatMovementSequence sequence, CombatantStatsConfig stats, ICombatActorBehaviour behaviour)
+    public Combatant(string classSid, CombatMovementSequence sequence, CombatantStatsConfig stats,
+        ICombatActorBehaviour behaviour)
     {
         ClassSid = classSid;
         Behaviour = behaviour;

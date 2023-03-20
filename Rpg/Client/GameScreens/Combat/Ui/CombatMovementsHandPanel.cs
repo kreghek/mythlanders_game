@@ -24,8 +24,8 @@ internal class CombatMovementsHandPanel : ControlBase
     private const int SKILL_SELECTION_OFFSET = SKILL_BUTTON_SIZE / 8;
 
     private readonly CombatMovementButton?[] _buttons;
-    private readonly IUiContentStorage _uiContentStorage;
     private readonly ICombatMovementVisualizer _combatMovementVisualizer;
+    private readonly IUiContentStorage _uiContentStorage;
 
     private CombatMovementHint? _activeCombatMovementHint;
     private BurningCombatMovement? _burningCombatMovement;
@@ -34,7 +34,8 @@ internal class CombatMovementsHandPanel : ControlBase
     private EntityButtonBase<CombatMovementInstance>? _hoverButton;
     private KeyboardState? _lastKeyboardState;
 
-    public CombatMovementsHandPanel(IUiContentStorage uiContentStorage, ICombatMovementVisualizer combatMovementVisualizer)
+    public CombatMovementsHandPanel(IUiContentStorage uiContentStorage,
+        ICombatMovementVisualizer combatMovementVisualizer)
     {
         _buttons = new CombatMovementButton[3];
 

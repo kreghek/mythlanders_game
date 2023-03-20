@@ -8,8 +8,8 @@ namespace Client.Assets.CombatMovements;
 
 internal interface ICombatMovementVisualizer
 {
+    CombatMovementIcon GetMoveIcon(CombatMovementSid sid);
+
     IActorVisualizationState GetMovementVisualizationState(CombatMovementSid sid, IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext);
-
-    CombatMovementIcon GetMoveIcon(CombatMovementSid sid);
 }

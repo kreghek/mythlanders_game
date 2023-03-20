@@ -7,6 +7,7 @@ namespace Client.Assets.CombatMovements.Hero.Swordsman;
 internal class RiseYourSwordsFactory : CombatMovementFactoryBase
 {
     public override CombatMovementIcon CombatMovementIcon => new(4, 2);
+
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,

@@ -5,9 +5,6 @@ using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Swordsman;
 
 using Core.Combats;
-using Core.Combats.CombatantEffectLifetimes;
-using Core.Combats.Effects;
-using Core.Combats.TargetSelectors;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 

@@ -6,6 +6,8 @@ namespace Client.Assets.CombatMovements.Hero.Amazon;
 
 internal class HuntFactory : CombatMovementFactoryBase
 {
+    public override CombatMovementIcon CombatMovementIcon => new(5, 6);
+
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
@@ -23,6 +25,4 @@ internal class HuntFactory : CombatMovementFactoryBase
             Tags = CombatMovementTags.Attack
         };
     }
-
-    public override CombatMovementIcon CombatMovementIcon => new(5, 6);
 }

@@ -11,20 +11,20 @@ internal class HitFromShoulderFactory : CombatMovementFactoryBase
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
-                new CombatMovementCost(3),
-                CombatMovementEffectConfig.Create(
-                    new IEffect[]
-                    {
-                        new DamageEffect(
-                            new ClosestInLineTargetSelector(),
-                            DamageType.Normal,
-                            Range<int>.CreateMono(3)),
-                        new ChangePositionEffect(
-                            new SelfTargetSelector(),
-                            ChangePositionEffectDirection.ToVanguard
-                        )
-                    })
-            )
+            new CombatMovementCost(3),
+            CombatMovementEffectConfig.Create(
+                new IEffect[]
+                {
+                    new DamageEffect(
+                        new ClosestInLineTargetSelector(),
+                        DamageType.Normal,
+                        Range<int>.CreateMono(3)),
+                    new ChangePositionEffect(
+                        new SelfTargetSelector(),
+                        ChangePositionEffectDirection.ToVanguard
+                    )
+                })
+        )
         {
             Tags = CombatMovementTags.Attack
         };

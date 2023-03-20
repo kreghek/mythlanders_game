@@ -6,6 +6,8 @@ namespace Client.Assets.CombatMovements.Hero.Amazon;
 
 internal class TrackerSavvyFactory : CombatMovementFactoryBase
 {
+    public override CombatMovementIcon CombatMovementIcon => new(1, 7);
+
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
@@ -17,6 +19,4 @@ internal class TrackerSavvyFactory : CombatMovementFactoryBase
                 })
         );
     }
-
-    public override CombatMovementIcon CombatMovementIcon => new(1, 7);
 }

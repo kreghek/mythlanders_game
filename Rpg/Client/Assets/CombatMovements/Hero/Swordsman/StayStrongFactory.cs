@@ -12,23 +12,23 @@ internal class StayStrongFactory : CombatMovementFactoryBase
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
-                new CombatMovementCost(2),
-                new CombatMovementEffectConfig(
-                    new IEffect[]
-                    {
-                        new ChangeStatEffect(new SelfTargetSelector(),
-                            UnitStatType.Defense,
-                            3,
-                            typeof(ToNextCombatantTurnEffectLifetime))
-                    },
-                    new IEffect[]
-                    {
-                        new ChangeStatEffect(new SelfTargetSelector(),
-                            UnitStatType.Defense,
-                            1,
-                            typeof(ToEndOfCurrentRoundEffectLifetime))
-                    })
-            )
+            new CombatMovementCost(2),
+            new CombatMovementEffectConfig(
+                new IEffect[]
+                {
+                    new ChangeStatEffect(new SelfTargetSelector(),
+                        UnitStatType.Defense,
+                        3,
+                        typeof(ToNextCombatantTurnEffectLifetime))
+                },
+                new IEffect[]
+                {
+                    new ChangeStatEffect(new SelfTargetSelector(),
+                        UnitStatType.Defense,
+                        1,
+                        typeof(ToEndOfCurrentRoundEffectLifetime))
+                })
+        )
         {
             Tags = CombatMovementTags.AutoDefense
         };

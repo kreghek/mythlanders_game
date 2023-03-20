@@ -6,7 +6,7 @@ public sealed class CombatantStatsConfig
 
     public CombatantStatsConfig()
     {
-        _stats = new Dictionary<UnitStatType, IStatValue>()
+        _stats = new Dictionary<UnitStatType, IStatValue>
         {
             {
                 UnitStatType.ShieldPoints, new CombatantStatValue(new StatValue(1))
@@ -26,13 +26,13 @@ public sealed class CombatantStatsConfig
         };
     }
 
-    public void SetValue(UnitStatType statType, int value)
-    {
-        _stats[statType].ChangeBase(value);
-    }
-
     public IReadOnlyCollection<IUnitStat> GetStats()
     {
         return _stats.Select(x => new CombatantStat(x.Key, x.Value)).ToArray();
+    }
+
+    public void SetValue(UnitStatType statType, int value)
+    {
+        _stats[statType].ChangeBase(value);
     }
 }

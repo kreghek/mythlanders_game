@@ -5,8 +5,6 @@ using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Amazon;
 
 using Core.Combats;
-using Core.Combats.Effects;
-using Core.Combats.TargetSelectors;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 

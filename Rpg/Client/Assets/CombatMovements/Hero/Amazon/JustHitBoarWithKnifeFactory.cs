@@ -6,6 +6,8 @@ namespace Client.Assets.CombatMovements.Hero.Amazon;
 
 internal class JustHitBoarWithKnifeFactory : CombatMovementFactoryBase
 {
+    public override CombatMovementIcon CombatMovementIcon => new(2, 7);
+
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
@@ -23,6 +25,4 @@ internal class JustHitBoarWithKnifeFactory : CombatMovementFactoryBase
             Tags = CombatMovementTags.Attack
         };
     }
-
-    public override CombatMovementIcon CombatMovementIcon => new(2, 7);
 }
