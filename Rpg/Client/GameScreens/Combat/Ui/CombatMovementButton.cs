@@ -14,8 +14,6 @@ internal sealed class CombatMovementButton : EntityButtonBase<CombatMovementInst
     private readonly Texture2D _icon;
     private readonly Rectangle? _iconRect;
 
-    private float _counter;
-
     public CombatMovementButton(IconData iconData, CombatMovementInstance combatMovement) : base(combatMovement)
     {
         _icon = iconData.Spritesheet;
@@ -32,34 +30,11 @@ internal sealed class CombatMovementButton : EntityButtonBase<CombatMovementInst
         return ControlTextures.CombatMove;
     }
 
-    protected override Color CalculateColor()
-    {
-        return Color.Lerp(Color.White, Color.Cyan, _counter);
-    }
+    protected override Color CalculateColor() => IsEnabled ? Color.White : Color.DarkGray;
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
     {
-        if (IsEnabled)
-        {
-            spriteBatch.Draw(_icon, contentRect, _iconRect, color);
-            DrawBackground(spriteBatch, color);
-        }
-        else
-        {
-            var disabledColor = Color.Lerp(color, Color.Red, 0.5f + _counter * 0.5f);
-            spriteBatch.Draw(_icon, contentRect, _iconRect, disabledColor);
-            DrawBackground(spriteBatch, disabledColor);
-        }
-    }
-
-    protected override void UpdateContent()
-    {
-        base.UpdateContent();
-
-        _counter += 0.005f;
-        if (_counter > 0.5f)
-        {
-            _counter = 0.0f;
-        }
+        spriteBatch.Draw(_icon, contentRect, _iconRect, color);
+        DrawBackground(spriteBatch, color);
     }
 }
