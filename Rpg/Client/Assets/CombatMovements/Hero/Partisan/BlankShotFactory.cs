@@ -10,7 +10,7 @@ namespace Client.Assets.CombatMovements.Hero.Partisan;
 internal class BlankShotFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
-    public override CombatMovementIcon CombatMovementIcon => new(0, 0);
+    public override CombatMovementIcon CombatMovementIcon => new(3, 6);
 
     /// <inheritdoc />
     public override CombatMovement CreateMovement()

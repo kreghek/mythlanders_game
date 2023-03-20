@@ -10,7 +10,7 @@ namespace Client.Assets.CombatMovements.Hero.Partisan;
 internal class SabotageFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
-    public override CombatMovementIcon CombatMovementIcon => new(0, 0);
+    public override CombatMovementIcon CombatMovementIcon => new(1, 2);
 
     /// <inheritdoc />
     public override CombatMovement CreateMovement()
