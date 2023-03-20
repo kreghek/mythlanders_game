@@ -2,13 +2,16 @@ using Core.Dices;
 
 namespace Core.Combats.TargetSelectors;
 
-public sealed class RandomAllyTargetSelector : ITargetSelector
+public sealed class RandomLineAllyTargetSelector : ITargetSelector
 {
     private IEnumerable<Combatant> GetIterator(ITargetSelectorContext context)
     {
-        for (var lineIndex = 0; lineIndex < context.EnemySide.LineCount; lineIndex++)
+        var fieldSide = context.ActorSide;
+
+        for (var lineIndex = 0; lineIndex < fieldSide.LineCount; lineIndex++)
+        for (var columnIndex = 0; columnIndex < fieldSide.ColumnCount; columnIndex++)
         {
-            var slot = context.ActorSide[new FieldCoords(0, lineIndex)];
+            var slot = fieldSide[new FieldCoords(columnIndex, lineIndex)];
             if (slot.Combatant is not null) yield return slot.Combatant;
         }
     }

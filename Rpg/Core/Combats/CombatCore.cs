@@ -98,7 +98,7 @@ public class CombatCore
                 effectInstance.Influence(materializedTarget, effectContext);
             }
 
-            var effectTargets = effectInstance.Selector.Get(CurrentCombatant, GetCurrentSelectorContext());
+            var effectTargets = effectInstance.Selector.GetMaterialized(CurrentCombatant, GetCurrentSelectorContext());
 
             if (movement.SourceMovement.Tags.HasFlag(CombatMovementTags.Attack))
                 foreach (var effectTarget in effectTargets)
@@ -120,7 +120,7 @@ public class CombatCore
                             }
 
                             var autoDefenseEffectTargets =
-                                effectInstance.Selector.Get(effectTarget, GetSelectorContext(effectTarget));
+                                effectInstance.Selector.GetMaterialized(effectTarget, GetSelectorContext(effectTarget));
 
                             var autoDefenseEffectImposeItem =
                                 new CombatEffectImposeItem(AutoEffectInfluenceDelegate, autoDefenseEffectTargets);

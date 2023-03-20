@@ -26,6 +26,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using MonoGame;
+
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
@@ -487,15 +489,15 @@ internal class CombatScreen : GameScreenWithMenuBase
         _targets = null;
     }
 
-    private IReadOnlyCollection<Combatant>? _targets;
+    private IReadOnlyCollection<CombatMoveTargetEstimate>? _targets;
 
     private void CombatMovementsHandPanel_CombatMovementHover(object? sender, CombatMovementPickedEventArgs e)
     {
-        var allTargets = new List<Combatant>();
+        var allTargets = new List<CombatMoveTargetEstimate>();
 
         foreach (var effect in e.CombatMovement.Effects)
         {
-            var targets = effect.Selector.Get(_combatCore.CurrentCombatant,
+            var targets = effect.Selector.GetEstimate(_combatCore.CurrentCombatant,
                 new TargetSelectorContext(_combatCore.Field.HeroSide, _combatCore.Field.MonsterSide, _dice));
             
             allTargets.AddRange(targets);
@@ -843,6 +845,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                 new Rectangle(contentRectangle.Center.X - 100, contentRectangle.Bottom - 105, 200, 25);
             _maneuversIndicator.Draw(spriteBatch);
 
+            DrawCombatMoveTargets(spriteBatch);
+
             DrawCombatMovementsPanel(spriteBatch, contentRectangle);
         }
 
@@ -857,6 +861,67 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
 
         spriteBatch.End();
+    }
+
+    private void DrawCombatMoveTargets(SpriteBatch spriteBatch)
+    {
+        if (_targets is null)
+        {
+            return;
+        }
+        
+        var actorGameObject = GetCombatantGameObject(_combatCore.CurrentCombatant);
+
+        foreach (var targetEstimate in _targets)
+        {
+            var gameObject = GetCombatantGameObject(targetEstimate.Target);
+            DrawTargetMarker(spriteBatch,
+                actorGameObject.Animator.GraphicRoot.Position,
+                gameObject.Animator.GraphicRoot.Position,
+                !targetEstimate.Target.IsPlayerControlled);
+        }
+    }
+
+    private void DrawTargetMarker(SpriteBatch spriteBatch, Vector2 actorPosition, Vector2 targetPosition, bool isAgression)
+    {
+        const int MARKER_RADIUS = 32;
+        const int MARKER_AGGRESSION_RADIUS = 10;
+        var neutralColor = Color.Cyan;
+        var aggressionColor = Color.Red;
+        
+        spriteBatch.DrawCircle(targetPosition, MARKER_RADIUS, 8, isAgression ? aggressionColor: neutralColor, 2);
+
+        if (isAgression)
+        {
+            spriteBatch.DrawLine(
+                targetPosition.X - MARKER_RADIUS - MARKER_AGGRESSION_RADIUS,
+                targetPosition.Y,
+                targetPosition.X - MARKER_AGGRESSION_RADIUS,
+                targetPosition.Y, aggressionColor, 2);
+            
+            spriteBatch.DrawLine(
+                targetPosition.X + MARKER_RADIUS + MARKER_AGGRESSION_RADIUS,
+                targetPosition.Y,
+                targetPosition.X + MARKER_AGGRESSION_RADIUS,
+                targetPosition.Y, aggressionColor, 2);
+            
+            spriteBatch.DrawLine(
+                targetPosition.X ,
+                targetPosition.Y- MARKER_RADIUS - MARKER_AGGRESSION_RADIUS,
+                targetPosition.X ,
+                targetPosition.Y- MARKER_AGGRESSION_RADIUS, aggressionColor, 2);
+            
+            spriteBatch.DrawLine(
+                targetPosition.X ,
+                targetPosition.Y + MARKER_RADIUS + MARKER_AGGRESSION_RADIUS,
+                targetPosition.X ,
+                targetPosition.Y + MARKER_AGGRESSION_RADIUS, aggressionColor, 2);
+        }
+
+        if (actorPosition != targetPosition)
+        {
+            spriteBatch.DrawLine(actorPosition, targetPosition, aggressionColor, 2);
+        }
     }
 
     private void DrawUnits(SpriteBatch spriteBatch)
