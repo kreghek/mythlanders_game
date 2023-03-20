@@ -17,6 +17,7 @@ public class ThiefChaserFactory
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
                     {
+                        new AdjustPositionEffect(new SelfTargetSelector()),
                         new DamageEffect(
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
@@ -38,6 +39,7 @@ public class ThiefChaserFactory
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
                     {
+                        new AdjustPositionEffect(new SelfTargetSelector()),
                         new DamageEffect(
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
@@ -55,6 +57,7 @@ public class ThiefChaserFactory
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
                     {
+                        new AdjustPositionEffect(new SelfTargetSelector()),
                         new DamageEffect(
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
@@ -100,6 +103,7 @@ public class ThiefChaserFactory
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
                     {
+                        new AdjustPositionEffect(new SelfTargetSelector()),
                         new DamageEffect(
                             new AllVanguardTargetSelector(),
                             DamageType.Normal,

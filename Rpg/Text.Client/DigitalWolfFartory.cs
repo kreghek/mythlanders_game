@@ -17,6 +17,7 @@ public class DigitalWolfFactory
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
                     {
+                        new AdjustPositionEffect(new SelfTargetSelector()),
                         new DamageEffect(
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
@@ -58,6 +59,7 @@ public class DigitalWolfFactory
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
                     {
+                        new AdjustPositionEffect(new SelfTargetSelector()),
                         new DamageEffect(
                             new MostShieldChargedTargetSelector(),
                             DamageType.ShieldsOnly,
