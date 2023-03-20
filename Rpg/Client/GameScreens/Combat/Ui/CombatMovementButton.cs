@@ -30,7 +30,10 @@ internal sealed class CombatMovementButton : EntityButtonBase<CombatMovementInst
         return ControlTextures.CombatMove;
     }
 
-    protected override Color CalculateColor() => IsEnabled ? Color.White : Color.DarkGray;
+    protected override Color CalculateColor()
+    {
+        return IsEnabled ? Color.White : Color.DarkGray;
+    }
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
     {

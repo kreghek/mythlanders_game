@@ -213,6 +213,22 @@ internal class CombatMovementsHandPanel : ControlBase
         CombatMovementPicked?.Invoke(this, new CombatMovementPickedEventArgs(entityButton.Entity));
     }
 
+    private void CombatMovementButton_OnHover(object? sender, EventArgs e)
+    {
+        if (sender is not null)
+        {
+            CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(((CombatMovementButton)sender).Entity));
+        }
+    }
+
+    private void CombatMovementButton_OnLeave(object? sender, EventArgs e)
+    {
+        if (sender is not null)
+        {
+            CombatMovementLeave?.Invoke(this, new CombatMovementPickedEventArgs(((CombatMovementButton)sender).Entity));
+        }
+    }
+
     private void DetectMouseHoverOnButton(Rectangle mouseRect, EntityButtonBase<CombatMovementInstance> button)
     {
         if (mouseRect.Intersects(button.Rect))
@@ -354,22 +370,6 @@ internal class CombatMovementsHandPanel : ControlBase
             {
                 _buttons[buttonIndex] = null;
             }
-        }
-    }
-
-    private void CombatMovementButton_OnLeave(object? sender, EventArgs e)
-    {
-        if (sender is not null)
-        {
-            CombatMovementLeave?.Invoke(this, new CombatMovementPickedEventArgs(((CombatMovementButton)sender).Entity));
-        }
-    }
-
-    private void CombatMovementButton_OnHover(object? sender, EventArgs e)
-    {
-        if (sender is not null)
-        {
-            CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(((CombatMovementButton)sender).Entity));
         }
     }
 

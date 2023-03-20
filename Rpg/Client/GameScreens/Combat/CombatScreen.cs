@@ -26,8 +26,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using MonoGame;
-
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
@@ -72,6 +70,8 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly FieldManeuversVisualizer _maneuversVisualizer;
     private readonly PlayerCombatActorBehaviour _playerCombatantBehaviour;
     private readonly ScreenShaker _screenShaker;
+
+    private readonly TargetMarkers _targetMarkers;
     private readonly IUiContentStorage _uiContentStorage;
 
     private float _bgCenterOffsetPercentageX;
@@ -495,18 +495,17 @@ internal class CombatScreen : GameScreenWithMenuBase
             _uiContentStorage, _gameObjectContentStorage);
     }
 
+    private void CombatMovementsHandPanel_CombatMovementHover(object? sender, CombatMovementPickedEventArgs e)
+    {
+        var selectorContext =
+            new TargetSelectorContext(_combatCore.Field.HeroSide, _combatCore.Field.MonsterSide, _dice);
+        var targetMarkerContext = new TargetMarkerContext(_combatCore, _gameObjects.ToArray(), selectorContext);
+        _targetMarkers.SetTargets(_combatCore.CurrentCombatant, e.CombatMovement.Effects, targetMarkerContext);
+    }
+
     private void CombatMovementsHandPanel_CombatMovementLeave(object? sender, CombatMovementPickedEventArgs e)
     {
         _targetMarkers.EriseTargets();
-    }
-
-    private readonly TargetMarkers _targetMarkers;
-
-    private void CombatMovementsHandPanel_CombatMovementHover(object? sender, CombatMovementPickedEventArgs e)
-    {
-        var selectorContext = new TargetSelectorContext(_combatCore.Field.HeroSide, _combatCore.Field.MonsterSide, _dice);
-        var targetMarkerContext = new TargetMarkerContext(_combatCore, _gameObjects.ToArray(), selectorContext);
-        _targetMarkers.SetTargets(_combatCore.CurrentCombatant, e.CombatMovement.Effects, targetMarkerContext);
     }
 
     private void CombatMovementsHandPanel_CombatMovementPicked(object? sender, CombatMovementPickedEventArgs e)
@@ -722,6 +721,11 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
+    private void DrawCombatMoveTargets(SpriteBatch spriteBatch)
+    {
+        _targetMarkers.Draw(spriteBatch);
+    }
+
     private void DrawCombatSequenceProgress(SpriteBatch spriteBatch)
     {
         if (_globeNode.AssignedCombats is not null)
@@ -869,11 +873,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
 
         spriteBatch.End();
-    }
-
-    private void DrawCombatMoveTargets(SpriteBatch spriteBatch)
-    {
-        _targetMarkers.Draw(spriteBatch);
     }
 
     private void DrawUnits(SpriteBatch spriteBatch)

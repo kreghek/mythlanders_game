@@ -23,8 +23,8 @@ namespace Client.GameScreens.Combat.GameObjects;
 internal sealed class CombatantGameObject : EwarRenderableBase
 {
     private readonly IList<IActorVisualizationState> _actorStateEngineList;
-    private readonly UnitGraphicsConfigBase _combatantGraphicsConfig;
     private readonly Camera2D _camera;
+    private readonly UnitGraphicsConfigBase _combatantGraphicsConfig;
     private readonly CombatantPositionSide _combatantSide;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly ScreenShaker _screenShaker;
@@ -44,7 +44,8 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
         var position = unitPositionProvider.GetPosition(formationCoords, combatantSide);
         var spriteSheetId = Enum.Parse<UnitName>(combatant.ClassSid, ignoreCase: true);
-        Graphics = new UnitGraphics(spriteSheetId, _combatantGraphicsConfig, combatantSide == CombatantPositionSide.Heroes,
+        Graphics = new UnitGraphics(spriteSheetId, _combatantGraphicsConfig,
+            combatantSide == CombatantPositionSide.Heroes,
             position, gameObjectContentStorage);
 
         Animator = new ActorAnimator(Graphics);

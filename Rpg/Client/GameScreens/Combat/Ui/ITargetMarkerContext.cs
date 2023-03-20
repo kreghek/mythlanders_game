@@ -6,9 +6,8 @@ namespace Client.GameScreens.Combat.Ui;
 
 internal interface ITargetMarkerContext
 {
-    CombatantGameObject GetCombatantGameObject(Combatant combatant);
-
     Combatant CurrentCombatant { get; }
 
     ITargetSelectorContext TargetSelectorContext { get; }
+    CombatantGameObject GetCombatantGameObject(Combatant combatant);
 }

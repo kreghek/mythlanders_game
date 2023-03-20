@@ -11,7 +11,8 @@ internal sealed class TargetMarkerContext : ITargetMarkerContext
 {
     private readonly IReadOnlyCollection<CombatantGameObject> _combatantGameObjects;
 
-    public TargetMarkerContext(CombatCore combatCore, IReadOnlyCollection<CombatantGameObject> combatantGameObjects, TargetSelectorContext selectorContext)
+    public TargetMarkerContext(CombatCore combatCore, IReadOnlyCollection<CombatantGameObject> combatantGameObjects,
+        TargetSelectorContext selectorContext)
     {
         _combatantGameObjects = combatantGameObjects;
         TargetSelectorContext = selectorContext;
