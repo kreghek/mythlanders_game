@@ -469,6 +469,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _combatMovementsHandPanel = new CombatMovementsHandPanel(_uiContentStorage);
         _combatMovementsHandPanel.CombatMovementPicked += CombatMovementsHandPanel_CombatMovementPicked;
+        _combatMovementsHandPanel.CombatMovementHover += CombatMovementsHandPanel_CombatMovementHover;
+        _combatMovementsHandPanel.CombatMovementLeave += CombatMovementsHandPanel_CombatMovementLeave;
 
         var intentionFactory =
             new BotCombatActorIntentionFactory(_animationManager, _combatMovementVisualizer, _gameObjects);
@@ -478,6 +480,28 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _unitStatePanelController = new UnitStatePanelController(_combatCore,
             _uiContentStorage, _gameObjectContentStorage);
+    }
+
+    private void CombatMovementsHandPanel_CombatMovementLeave(object? sender, CombatMovementPickedEventArgs e)
+    {
+        _targets = null;
+    }
+
+    private IReadOnlyCollection<Combatant>? _targets;
+
+    private void CombatMovementsHandPanel_CombatMovementHover(object? sender, CombatMovementPickedEventArgs e)
+    {
+        var allTargets = new List<Combatant>();
+
+        foreach (var effect in e.CombatMovement.Effects)
+        {
+            var targets = effect.Selector.Get(_combatCore.CurrentCombatant,
+                new TargetSelectorContext(_combatCore.Field.HeroSide, _combatCore.Field.MonsterSide, _dice));
+            
+            allTargets.AddRange(targets);
+        }
+
+        _targets = allTargets;
     }
 
     private void CombatMovementsHandPanel_CombatMovementPicked(object? sender, CombatMovementPickedEventArgs e)

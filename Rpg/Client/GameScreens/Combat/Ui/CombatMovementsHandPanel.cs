@@ -294,11 +294,26 @@ internal class CombatMovementsHandPanel : ControlBase
                 var button = new CombatMovementButton(iconData, movement);
                 _buttons.Add(button);
                 button.OnClick += CombatMovementButton_OnClick;
+                button.OnHover += CombatMovementButton_OnHover;
+                button.OnLeave += CombatMovementButton_OnLeave;
             }
         }
     }
 
+    private void CombatMovementButton_OnLeave(object? sender, EventArgs e)
+    {
+        CombatMovementLeave?.Invoke(this, new CombatMovementPickedEventArgs(((CombatMovementButton)sender).Entity));
+    }
+
+    private void CombatMovementButton_OnHover(object? sender, EventArgs e)
+    {
+        CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(((CombatMovementButton)sender).Entity));
+    }
+
     public event EventHandler<CombatMovementPickedEventArgs>? CombatMovementPicked;
+
+    public event EventHandler<CombatMovementPickedEventArgs>? CombatMovementHover;
+    public event EventHandler<CombatMovementPickedEventArgs>? CombatMovementLeave;
 }
 
 public sealed class CombatMovementPickedEventArgs : EventArgs
