@@ -7,7 +7,7 @@ namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
 internal class LookOutFactory : CombatMovementFactoryBase
 {
-    public override CombatMovementIcon CombatMovementIcon => new CombatMovementIcon(2, 2);
+    public override CombatMovementIcon CombatMovementIcon => new(2, 2);
 
     public override CombatMovement CreateMovement()
     {
@@ -20,7 +20,7 @@ internal class LookOutFactory : CombatMovementFactoryBase
                         UnitStatType.Defense,
                         3,
                         typeof(ToNextCombatantTurnEffectLifetime)),
-                    new ChangePositionEffect(
+                    new PushToPositionEffect(
                         new SelfTargetSelector(),
                         ChangePositionEffectDirection.ToVanguard
                     )

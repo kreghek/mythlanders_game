@@ -29,12 +29,12 @@ public sealed class AdjustPositionEffectInstance : EffectInstanceBase<AdjustPosi
         }
         
         var isHeroAbove = currentCoords.LineIndex > 0 &&
-                          heroSide[new FieldCoords(ColumentIndex: 0, LineIndex: currentCoords.LineIndex - 1)].Combatant is not null ||
-                          heroSide[new FieldCoords(ColumentIndex: 1, LineIndex: currentCoords.LineIndex - 1)].Combatant is not null;
+                          (heroSide[new FieldCoords(ColumentIndex: 0, LineIndex: currentCoords.LineIndex - 1)].Combatant is not null ||
+                          heroSide[new FieldCoords(ColumentIndex: 1, LineIndex: currentCoords.LineIndex - 1)].Combatant is not null);
         
         var isHeroBelow = currentCoords.LineIndex < 2 &&
-                          heroSide[new FieldCoords(ColumentIndex: 0, LineIndex: currentCoords.LineIndex + 1)].Combatant is not null ||
-                          heroSide[new FieldCoords(ColumentIndex: 1, LineIndex: currentCoords.LineIndex + 1)].Combatant is not null;
+                          (heroSide[new FieldCoords(ColumentIndex: 0, LineIndex: currentCoords.LineIndex + 1)].Combatant is not null ||
+                          heroSide[new FieldCoords(ColumentIndex: 1, LineIndex: currentCoords.LineIndex + 1)].Combatant is not null);
 
         if (isHeroAbove)
         {

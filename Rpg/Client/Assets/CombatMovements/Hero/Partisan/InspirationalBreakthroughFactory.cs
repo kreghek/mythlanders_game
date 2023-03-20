@@ -24,7 +24,7 @@ internal class InspirationalBreakthroughFactory : CombatMovementFactoryBase
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
                         Range<int>.CreateMono(1)),
-                    new ChangePositionEffect(
+                    new PushToPositionEffect(
                         new SelfTargetSelector(),
                         ChangePositionEffectDirection.ToVanguard
                     ),

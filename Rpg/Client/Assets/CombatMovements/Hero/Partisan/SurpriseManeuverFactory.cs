@@ -21,7 +21,7 @@ internal class SurpriseManeuverFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new ChangePositionEffect(
+                    new PushToPositionEffect(
                         new StrongestClosestAllyTargetSelector(),
                         ChangePositionEffectDirection.ToVanguard
                     ),
