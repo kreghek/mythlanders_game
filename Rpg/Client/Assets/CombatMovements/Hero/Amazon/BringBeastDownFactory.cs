@@ -4,17 +4,21 @@ using Core.Combats.TargetSelectors;
 
 namespace Client.Assets.CombatMovements.Hero.Amazon;
 
-internal class PainfulWoundFactory : CombatMovementFactoryBase
+internal class BringBeastDownFactory : CombatMovementFactoryBase
 {
+    public override CombatMovementIcon CombatMovementIcon => new(3, 7);
+
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
-            new CombatMovementCost(2),
+            new CombatMovementCost(3),
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new DamageEffect(new ClosestInLineTargetSelector(), DamageType.Normal, new Range<int>(2, 2))
-                    //new PeriodicEffect
+                    new DamageEffect(
+                        new StrongestEnemyTargetSelector(),
+                        DamageType.Normal,
+                        Range<int>.CreateMono(4))
                 })
         )
         {

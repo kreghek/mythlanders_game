@@ -8,6 +8,7 @@ namespace Client.Assets.CombatMovements;
 
 internal interface ICombatMovementFactory
 {
+    CombatMovementIcon CombatMovementIcon { get; }
     string Sid { get; }
     CombatMovement CreateMovement();
 

@@ -1,13 +1,18 @@
-﻿using Core.Combats;
+using Core.Combats;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
-namespace Client.Assets.CombatMovements.Hero.Swordsman;
+using JetBrains.Annotations;
 
-internal class DieBySwordFactory : CombatMovementFactoryBase
+namespace Client.Assets.CombatMovements.Hero.Partisan;
+
+[UsedImplicitly]
+internal class OldGoodBrawlFactory : CombatMovementFactoryBase
 {
-    public override CombatMovementIcon CombatMovementIcon => new(0, 0);
+    /// <inheritdoc />
+    public override CombatMovementIcon CombatMovementIcon => new(4, 4);
 
+    /// <inheritdoc />
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
@@ -15,14 +20,14 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new PushToPositionEffect(
-                        new SelfTargetSelector(),
-                        ChangePositionEffectDirection.ToVanguard
-                    ),
                     new DamageEffect(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(2))
+                        Range<int>.CreateMono(2)),
+                    new ChangePositionEffect(
+                        new SelfTargetSelector(),
+                        ChangePositionEffectDirection.ToVanguard
+                    )
                 })
         )
         {

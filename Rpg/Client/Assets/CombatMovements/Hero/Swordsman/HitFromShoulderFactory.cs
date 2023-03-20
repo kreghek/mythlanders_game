@@ -4,25 +4,25 @@ using Core.Combats.TargetSelectors;
 
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
-internal class DieBySwordFactory : CombatMovementFactoryBase
+internal class HitFromShoulderFactory : CombatMovementFactoryBase
 {
-    public override CombatMovementIcon CombatMovementIcon => new(0, 0);
+    public override CombatMovementIcon CombatMovementIcon => new CombatMovementIcon(0, 1);
 
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
-            new CombatMovementCost(2),
+            new CombatMovementCost(3),
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new PushToPositionEffect(
-                        new SelfTargetSelector(),
-                        ChangePositionEffectDirection.ToVanguard
-                    ),
                     new DamageEffect(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(2))
+                        Range<int>.CreateMono(3)),
+                    new ChangePositionEffect(
+                        new SelfTargetSelector(),
+                        ChangePositionEffectDirection.ToVanguard
+                    )
                 })
         )
         {

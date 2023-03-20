@@ -85,7 +85,9 @@ public class DigitalWolfFactory
             }
         }
 
-        var monster = new Combatant("digitalwolf", monsterSequence, combatActorBehaviour)
+        var stats = new CombatantStatsConfig();
+
+        var monster = new Combatant("digitalwolf", monsterSequence, stats, combatActorBehaviour)
         {
             Sid = sid, IsPlayerControlled = false
         };

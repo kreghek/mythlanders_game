@@ -2,7 +2,7 @@ namespace Core.Combats.TargetSelectors;
 
 public sealed class ClosestAllyInColumnTargetSelector : ITargetSelector
 {
-    public IReadOnlyList<Combatant> Get(Combatant actor, ITargetSelectorContext context)
+    public IReadOnlyList<Combatant> GetMaterialized(Combatant actor, ITargetSelectorContext context)
     {
         var actorCoords = context.ActorSide.GetCombatantCoords(actor);
 
@@ -32,13 +32,5 @@ public sealed class ClosestAllyInColumnTargetSelector : ITargetSelector
                 closestAlly
             };
         return ArraySegment<Combatant>.Empty;
-    }
-}
-
-public sealed class LeftAllyTargetSelector : ITargetSelector
-{
-    public IReadOnlyList<Combatant> Get(Combatant actor, ITargetSelectorContext context)
-    {
-        throw new NotImplementedException();
     }
 }

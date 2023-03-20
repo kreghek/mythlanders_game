@@ -16,7 +16,7 @@ namespace Rpg.Client.Engine
         private IDictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D _buttonIndicatorsTexture;
         private IDictionary<string, SpriteFont> _combatIndicatorFonts;
-        private Texture2D _combatPowerIconTextres;
+        private Texture2D _combatMoveIconTextres;
         private Texture2D _combatSkillPanelTextre;
         private CombatSoundtrack[] _combatTracks;
         private Texture2D? _controlBackgroundTexture;
@@ -171,7 +171,7 @@ namespace Rpg.Client.Engine
             _modalShadowTexture = contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogShadow");
             _modalTopTextures = new[] { contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogBackgroundTop1") };
             _modalBottomTextures = new[] { contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogBackgroundBottom1") };
-            _combatPowerIconTextres = contentManager.Load<Texture2D>("Sprites/Ui/CombatPowerIcons");
+            _combatMoveIconTextres = contentManager.Load<Texture2D>("Sprites/Ui/CombatMoveIcons");
 
             _biomeBackgroundDict = new Dictionary<BiomeType, Texture2D>
             {
@@ -314,9 +314,9 @@ namespace Rpg.Client.Engine
             return _defeatTrack;
         }
 
-        public Texture2D GetCombatPowerIconsTexture()
+        public Texture2D GetCombatMoveIconsTexture()
         {
-            return _combatPowerIconTextres;
+            return _combatMoveIconTextres;
         }
 
         public Texture2D[] GetIntroVideo()

@@ -13,12 +13,12 @@ internal sealed class CombatantPositionProvider : ICombatantPositionProvider
     {
         _predefinedPositions = new Matrix<Vector2>(2, 3)
         {
-            [0, 0] = new Vector2(305, 250),
+            [0, 0] = new Vector2(309, 250),
             [0, 1] = new Vector2(335, 300),
-            [0, 2] = new Vector2(305, 350),
-            [1, 0] = new Vector2(215, 250),
+            [0, 2] = new Vector2(300, 355),
+            [1, 0] = new Vector2(210, 250),
             [1, 1] = new Vector2(245, 300),
-            [1, 2] = new Vector2(215, 350)
+            [1, 2] = new Vector2(219, 355)
         };
         _combatFieldWidth = combatFieldWidth;
     }

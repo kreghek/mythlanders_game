@@ -1,11 +1,10 @@
+using System;
 using System.Collections.Generic;
 
+using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Swordsman;
 
 using Core.Combats;
-using Core.Combats.CombatantEffectLifetimes;
-using Core.Combats.Effects;
-using Core.Combats.TargetSelectors;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -15,85 +14,15 @@ public class SwordsmanFactory
     {
         var movementPool = new List<CombatMovement>();
 
-        movementPool.Add(new CombatMovement("RiseYourSwords",
-            new CombatMovementCost(1),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
-                {
-                    new ModifyEffectsEffect(new SelfTargetSelector(), 1)
-                })
-        ));
+        movementPool.Add(CreateMovement<RiseYourSwordsFactory>());
 
-        movementPool.Add(new DieBySwordFactory().CreateMovement());
+        movementPool.Add(CreateMovement<DieBySwordFactory>());
 
-        movementPool.Add(new CombatMovement("StayStrong",
-                new CombatMovementCost(2),
-                new CombatMovementEffectConfig(
-                    new IEffect[]
-                    {
-                        new ChangeStatEffect(new SelfTargetSelector(),
-                            UnitStatType.Defense,
-                            3,
-                            typeof(ToNextCombatantTurnEffectLifetime))
-                    },
-                    new IEffect[]
-                    {
-                        new ChangeStatEffect(new SelfTargetSelector(),
-                            UnitStatType.Defense,
-                            1,
-                            typeof(ToEndOfCurrentRoundEffectLifetime))
-                    })
-            )
-            {
-                Tags = CombatMovementTags.AutoDefense
-            }
-        );
+        movementPool.Add(CreateMovement<StayStrongFactory>());
 
-        movementPool.Add(new CombatMovement("HitFromShoulder",
-                new CombatMovementCost(3),
-                CombatMovementEffectConfig.Create(
-                    new IEffect[]
-                    {
-                        new DamageEffect(
-                            new ClosestInLineTargetSelector(),
-                            DamageType.Normal,
-                            Range<int>.CreateMono(3)),
-                        new PushToPositionEffect(
-                            new SelfTargetSelector(),
-                            ChangePositionEffectDirection.ToVanguard
-                        )
-                    })
-            )
-            {
-                Tags = CombatMovementTags.Attack
-            }
-        );
+        movementPool.Add(CreateMovement<HitFromShoulderFactory>());
 
-        movementPool.Add(new CombatMovement("LookOut",
-            new CombatMovementCost(2),
-            new CombatMovementEffectConfig(
-                new IEffect[]
-                {
-                    new ChangeStatEffect(new ClosestAllyInColumnTargetSelector(),
-                        UnitStatType.Defense,
-                        3,
-                        typeof(ToNextCombatantTurnEffectLifetime)),
-                    new PushToPositionEffect(
-                        new SelfTargetSelector(),
-                        ChangePositionEffectDirection.ToVanguard
-                    )
-                },
-                new IEffect[]
-                {
-                    new ChangeStatEffect(new SelfTargetSelector(),
-                        UnitStatType.Defense,
-                        1,
-                        typeof(ToEndOfCurrentRoundEffectLifetime))
-                })
-        )
-        {
-            Tags = CombatMovementTags.AutoDefense
-        });
+        movementPool.Add(CreateMovement<LookOutFactory>());
 
         var heroSequence = new CombatMovementSequence();
 
@@ -105,10 +34,17 @@ public class SwordsmanFactory
             }
         }
 
-        var hero = new Combatant("swordsman", heroSequence, combatActorBehaviour)
+        var stats = new CombatantStatsConfig();
+
+        var hero = new Combatant("swordsman", heroSequence, stats, combatActorBehaviour)
         {
             Sid = sid, IsPlayerControlled = true
         };
         return hero;
+    }
+
+    private static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory
+    {
+        return Activator.CreateInstance<T>().CreateMovement();
     }
 }

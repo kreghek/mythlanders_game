@@ -2,11 +2,11 @@
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
-namespace Client.Assets.CombatMovements.Hero.Swordsman;
+namespace Client.Assets.CombatMovements.Hero.Amazon;
 
-internal class DieBySwordFactory : CombatMovementFactoryBase
+internal class FinishWoundedFactory : CombatMovementFactoryBase
 {
-    public override CombatMovementIcon CombatMovementIcon => new(0, 0);
+    public override CombatMovementIcon CombatMovementIcon => new(0, 7);
 
     public override CombatMovement CreateMovement()
     {
@@ -15,14 +15,10 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new PushToPositionEffect(
-                        new SelfTargetSelector(),
-                        ChangePositionEffectDirection.ToVanguard
-                    ),
                     new DamageEffect(
-                        new ClosestInLineTargetSelector(),
+                        new WeakestEnemyTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(2))
+                        Range<int>.CreateMono(4))
                 })
         )
         {
