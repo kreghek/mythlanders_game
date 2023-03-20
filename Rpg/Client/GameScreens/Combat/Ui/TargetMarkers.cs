@@ -27,10 +27,27 @@ internal sealed class TargetMarkers
 
         _targets = allTargets;
         _targetMarkerContext = targetMarkerContext;
+
+        foreach (var target in _targets)
+        {
+            var gameObject = targetMarkerContext.GetCombatantGameObject(target.Target);
+
+            gameObject.Graphics.OutlineMode = Rpg.Client.Engine.OutlineMode.AvailableEnemyTarget;
+        }
     }
 
     public void EriseTargets()
     {
+        if (_targets is not null && _targetMarkerContext is not null)
+        {
+            foreach (var target in _targets)
+            {
+                var gameObject = _targetMarkerContext.GetCombatantGameObject(target.Target);
+
+                gameObject.Graphics.OutlineMode = Rpg.Client.Engine.OutlineMode.None;
+            }
+        }
+
         _targets = null;
     }
 
