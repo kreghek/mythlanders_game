@@ -72,6 +72,8 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly FieldManeuversVisualizer _maneuversVisualizer;
     private readonly PlayerCombatActorBehaviour _playerCombatantBehaviour;
     private readonly ScreenShaker _screenShaker;
+
+    private readonly TargetMarkers _targetMarkers;
     private readonly IUiContentStorage _uiContentStorage;
 
     private float _bgCenterOffsetPercentageX;
@@ -144,6 +146,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _maneuversIndicator = new FieldManeuverIndicatorPanel(UiThemeManager.UiContentStorage.GetTitlesFont(),
             new ManeuverContext(_combatCore));
+
+        _targetMarkers = new TargetMarkers();
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -467,8 +471,10 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         // _combatCore.UnitPassedTurn += Combat_UnitPassed;
 
-        _combatMovementsHandPanel = new CombatMovementsHandPanel(_uiContentStorage);
+        _combatMovementsHandPanel = new CombatMovementsHandPanel(_uiContentStorage, _combatMovementVisualizer);
         _combatMovementsHandPanel.CombatMovementPicked += CombatMovementsHandPanel_CombatMovementPicked;
+        _combatMovementsHandPanel.CombatMovementHover += CombatMovementsHandPanel_CombatMovementHover;
+        _combatMovementsHandPanel.CombatMovementLeave += CombatMovementsHandPanel_CombatMovementLeave;
 
         var intentionFactory =
             new BotCombatActorIntentionFactory(_animationManager, _combatMovementVisualizer, _gameObjects);
@@ -480,8 +486,23 @@ internal class CombatScreen : GameScreenWithMenuBase
             _uiContentStorage, _gameObjectContentStorage);
     }
 
+    private void CombatMovementsHandPanel_CombatMovementHover(object? sender, CombatMovementPickedEventArgs e)
+    {
+        var selectorContext =
+            new TargetSelectorContext(_combatCore.Field.HeroSide, _combatCore.Field.MonsterSide, _dice);
+        var targetMarkerContext = new TargetMarkerContext(_combatCore, _gameObjects.ToArray(), selectorContext);
+        _targetMarkers.SetTargets(_combatCore.CurrentCombatant, e.CombatMovement.Effects, targetMarkerContext);
+    }
+
+    private void CombatMovementsHandPanel_CombatMovementLeave(object? sender, CombatMovementPickedEventArgs e)
+    {
+        _targetMarkers.EriseTargets();
+    }
+
     private void CombatMovementsHandPanel_CombatMovementPicked(object? sender, CombatMovementPickedEventArgs e)
     {
+        _targetMarkers.EriseTargets();
+
         var intention = new UseCombatMovementIntention(e.CombatMovement, _animationManager, _combatMovementVisualizer,
             _gameObjects);
 
@@ -691,6 +712,11 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
+    private void DrawCombatMoveTargets(SpriteBatch spriteBatch)
+    {
+        _targetMarkers.Draw(spriteBatch);
+    }
+
     private void DrawCombatSequenceProgress(SpriteBatch spriteBatch)
     {
         if (_globeNode.AssignedCombats is not null)
@@ -821,6 +847,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                     new Rectangle(contentRectangle.Center.X - 100, contentRectangle.Bottom - 105, 200, 25);
                 _maneuversIndicator.Draw(spriteBatch);
             }
+
+            DrawCombatMoveTargets(spriteBatch);
 
             DrawCombatMovementsPanel(spriteBatch, contentRectangle);
         }
@@ -1164,5 +1192,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
 
         _combatantQueuePanel?.Update(ResolutionIndependentRenderer);
+
+        _targetMarkers.Update(gameTime);
     }
 }

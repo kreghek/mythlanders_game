@@ -11,7 +11,7 @@ public sealed class AllOtherFriendlyTargetSelector : ITargetSelector
         }
     }
 
-    public IReadOnlyList<Combatant> Get(Combatant actor, ITargetSelectorContext context)
+    public IReadOnlyList<Combatant> GetMaterialized(Combatant actor, ITargetSelectorContext context)
     {
         return GetIterator(context).Where(x => x != actor).ToArray();
     }

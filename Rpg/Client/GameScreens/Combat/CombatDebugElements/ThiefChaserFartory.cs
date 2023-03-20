@@ -127,7 +127,9 @@ public class ThiefChaserFactory
             }
         }
 
-        var monster = new Combatant("Chaser", monsterSequence, combatActorBehaviour)
+        var stats = new CombatantStatsConfig();
+
+        var monster = new Combatant("Chaser", monsterSequence, stats, combatActorBehaviour)
         {
             Sid = sid, IsPlayerControlled = false
         };

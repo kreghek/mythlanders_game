@@ -26,6 +26,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 {
     private readonly IList<IActorVisualizationState> _actorStateEngineList;
     private readonly Camera2D _camera;
+    private readonly UnitGraphicsConfigBase _combatantGraphicsConfig;
     private readonly CombatantPositionSide _combatantSide;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly ScreenShaker _screenShaker;
@@ -41,11 +42,12 @@ internal sealed class CombatantGameObject : EwarRenderableBase
     {
         _actorStateEngineList = new List<IActorVisualizationState>();
 
-        var actorGraphicsConfig = combatantGraphicsConfig;
+        _combatantGraphicsConfig = combatantGraphicsConfig;
 
         var position = unitPositionProvider.GetPosition(formationCoords, combatantSide);
         var spriteSheetId = Enum.Parse<UnitName>(combatant.ClassSid, ignoreCase: true);
-        Graphics = new UnitGraphics(spriteSheetId, actorGraphicsConfig, combatantSide == CombatantPositionSide.Heroes,
+        Graphics = new UnitGraphics(spriteSheetId, _combatantGraphicsConfig,
+            combatantSide == CombatantPositionSide.Heroes,
             position, gameObjectContentStorage);
 
         Animator = new ActorAnimator(Graphics);
@@ -69,7 +71,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
     public UnitGraphics Graphics { get; }
 
-    public Vector2 InteractionPoint => Position - Vector2.UnitY * 64;
+    public Vector2 InteractionPoint => Position - _combatantGraphicsConfig.InteractionPoint;
 
     public bool IsActive { get; set; }
     public Vector2 LaunchPoint => Position - Vector2.UnitY * 64;

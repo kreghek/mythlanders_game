@@ -231,7 +231,7 @@ internal static class Program
         foreach (var effect in movement.Effects)
         {
             PrintEffectDetailedInfo(effect);
-            var targets = effect.Selector.Get(targetCombatant, selectorContext);
+            var targets = effect.Selector.GetMaterialized(targetCombatant, selectorContext);
 
             foreach (var combatant in targets) Console.WriteLine($"> {combatant.Sid}");
         }
