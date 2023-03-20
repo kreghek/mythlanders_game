@@ -119,7 +119,9 @@ public class ThiefChaserFactory
             foreach (var movement in rolledSequence)
                 monsterSequence.Items.Add(movement);
 
-        var monster = new Combatant("Chaser", monsterSequence, combatActorBehaviour)
+        var stats = new CombatantStatsConfig();
+
+        var monster = new Combatant("Chaser", monsterSequence, stats, combatActorBehaviour)
         {
             Sid = sid, IsPlayerControlled = false
         };

@@ -30,6 +30,16 @@ internal sealed class CombatMovementVisualizer : ICombatMovementVisualizer
         return factories.OfType<TFactory>().ToArray();
     }
 
+    public CombatMovementIcon GetMoveIcon(CombatMovementSid sid)
+    {
+        if (!_movementVisualizationDict.TryGetValue(sid, out var factory))
+        {
+            return new CombatMovementIcon(0, 0);
+        }
+
+        return factory.CombatMovementIcon;
+    }
+
     public IActorVisualizationState GetMovementVisualizationState(CombatMovementSid sid, IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {

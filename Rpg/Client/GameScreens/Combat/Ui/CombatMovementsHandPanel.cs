@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
+using Client.Assets.CombatMovements;
 using Client.Engine;
 
 using Core.Combats;
@@ -23,21 +24,23 @@ internal class CombatMovementsHandPanel : ControlBase
     private const int SKILL_SELECTION_OFFSET = SKILL_BUTTON_SIZE / 8;
 
     private readonly CombatMovementButton?[] _buttons;
+    private readonly ICombatMovementVisualizer _combatMovementVisualizer;
     private readonly IUiContentStorage _uiContentStorage;
-    private CombatMovementHint? _activeCombatMovementHint;
 
+    private CombatMovementHint? _activeCombatMovementHint;
     private BurningCombatMovement? _burningCombatMovement;
     private Combatant? _combatant;
     private KeyboardState _currentKeyboardState;
-
     private EntityButtonBase<CombatMovementInstance>? _hoverButton;
     private KeyboardState? _lastKeyboardState;
 
-    public CombatMovementsHandPanel(IUiContentStorage uiContentStorage)
+    public CombatMovementsHandPanel(IUiContentStorage uiContentStorage,
+        ICombatMovementVisualizer combatMovementVisualizer)
     {
         _buttons = new CombatMovementButton[3];
 
         _uiContentStorage = uiContentStorage;
+        _combatMovementVisualizer = combatMovementVisualizer;
         IsEnabled = true;
     }
 
@@ -336,8 +339,9 @@ internal class CombatMovementsHandPanel : ControlBase
             var movement = _combatant.Hand[buttonIndex];
             if (movement is not null)
             {
-                var iconRect = UnsortedHelpers.GetIconRect(movement.SourceMovement.Visualization.IconIndex);
-                var iconData = new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), iconRect);
+                var icon = _combatMovementVisualizer.GetMoveIcon(movement.SourceMovement.Sid);
+                var iconRect = UnsortedHelpers.GetIconRect(icon);
+                var iconData = new IconData(_uiContentStorage.GetCombatMoveIconsTexture(), iconRect);
                 var button = new CombatMovementButton(iconData, movement);
                 _buttons[buttonIndex] = button;
                 button.OnClick += CombatMovementButton_OnClick;
