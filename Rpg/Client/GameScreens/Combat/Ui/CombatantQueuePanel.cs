@@ -112,6 +112,29 @@ internal sealed class CombatantQueuePanel : ControlBase
         HandleEffectHint(mouseRect);
     }
 
+    protected override Point CalcTextureOffset()
+    {
+        return ControlTextures.CombatMove;
+    }
+
+    protected override Color CalculateColor()
+    {
+        return Color.White;
+    }
+
+    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
+    {
+        for (var index = 0; index < _activeCombat.RoundQueue.Count; index++)
+        {
+            var combatant = _activeCombat.RoundQueue[index];
+
+            var combatantQueuePosition = new Vector2(contentRect.Location.X + index * 32, contentRect.Location.Y);
+
+            var side = combatant.IsPlayerControlled ? Side.Left : Side.Right;
+            DrawPortrait(spriteBatch, combatantQueuePosition, combatant, side);
+        }
+    }
+
     private static HintBase CreateEffectHint((Rectangle, ICombatantEffect) effectInfo)
     {
         return new EffectHint(effectInfo.Item2)
@@ -191,6 +214,21 @@ internal sealed class CombatantQueuePanel : ControlBase
             new Rectangle(0, 0, PANEL_WIDTH, PANEL_HEIGHT),
             Color.White,
             rotation: 0, origin: Vector2.Zero, scale: 1, effect, layerDepth: 0);
+    }
+
+    private void DrawPortrait(SpriteBatch spriteBatch, Vector2 portraitPosition, Combatant combatant, Side side)
+    {
+        var unitName = GetUnitName(combatant.ClassSid);
+        var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(unitName);
+        var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+        var portraitDestRect = new Rectangle(portraitPosition.ToPoint(), new Point(32, 32));
+        spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(),
+            portraitDestRect,
+            portraitSourceRect,
+            Color.White,
+            effects: effect,
+            rotation: 0, origin: Vector2.Zero, layerDepth: 0);
     }
 
     //private void DrawTargets(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit)
@@ -366,21 +404,6 @@ internal sealed class CombatantQueuePanel : ControlBase
         }
     }
 
-    private void DrawPortrait(SpriteBatch spriteBatch, Vector2 portraitPosition, Combatant combatant, Side side)
-    {
-        var unitName = GetUnitName(combatant.ClassSid);
-        var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(unitName);
-        var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-
-        var portraitDestRect = new Rectangle(portraitPosition.ToPoint(), new Point(32, 32));
-        spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(),
-            portraitDestRect,
-            portraitSourceRect,
-            Color.White,
-            effects: effect,
-            rotation: 0, origin: Vector2.Zero, layerDepth: 0);
-    }
-
     private static int GetEffectSourceBaseOneIndex(ICombatantEffect effect)
     {
         return 0;
@@ -434,22 +457,5 @@ internal sealed class CombatantQueuePanel : ControlBase
     {
         Left,
         Right
-    }
-
-    protected override Point CalcTextureOffset() => ControlTextures.CombatMove;
-
-    protected override Color CalculateColor() => Color.White;
-
-    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
-    {
-        for (var index = 0; index < _activeCombat.RoundQueue.Count; index++)
-        {
-            var combatant = _activeCombat.RoundQueue[index];
-
-            var combatantQueuePosition = new Vector2(contentRect.Location.X + index * 32, contentRect.Location.Y);
-
-            var side = combatant.IsPlayerControlled ? Side.Left : Side.Right;
-            DrawPortrait(spriteBatch, combatantQueuePosition, combatant, side);
-        }
     }
 }

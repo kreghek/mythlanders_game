@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.ObjectModel;
 
 using Core.Dices;
@@ -20,6 +19,8 @@ public class CombatCore
         _allCombatantList = new Collection<Combatant>();
         _roundQueue = new List<Combatant>();
     }
+
+    public IReadOnlyCollection<Combatant> Combatants => _allCombatantList.ToArray();
 
     public Combatant CurrentCombatant => _roundQueue.FirstOrDefault() ?? throw new InvalidOperationException();
 
@@ -46,7 +47,6 @@ public class CombatCore
     }
 
     public IReadOnlyList<Combatant> RoundQueue => _roundQueue.ToArray();
-    public IReadOnlyCollection<Combatant> Combatants => _allCombatantList.ToArray();
 
     public void CompleteTurn()
     {
@@ -265,9 +265,9 @@ public class CombatCore
         var side = GetCurrentSelectorContext().ActorSide;
 
         for (var col = 0; col < side.ColumnCount; col++)
-            for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
-                if (CurrentCombatant == side[new FieldCoords(col, lineIndex)].Combatant)
-                    return new FieldCoords(col, lineIndex);
+        for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
+            if (CurrentCombatant == side[new FieldCoords(col, lineIndex)].Combatant)
+                return new FieldCoords(col, lineIndex);
 
         throw new InvalidOperationException();
     }

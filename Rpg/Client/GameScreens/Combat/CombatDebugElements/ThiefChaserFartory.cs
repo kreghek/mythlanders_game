@@ -34,9 +34,9 @@ public class ThiefChaserFactory
                         )
                     })
             )
-        {
-            Tags = CombatMovementTags.Attack
-        }
+            {
+                Tags = CombatMovementTags.Attack
+            }
         );
 
         list.Add(new CombatMovement("Double kopesh!",
@@ -55,9 +55,9 @@ public class ThiefChaserFactory
                         )
                     })
             )
-        {
-            Tags = CombatMovementTags.Attack
-        }
+            {
+                Tags = CombatMovementTags.Attack
+            }
         );
 
         list.Add(new CombatMovement("Chasing",
@@ -79,9 +79,9 @@ public class ThiefChaserFactory
                             Range<int>.CreateMono(-2))
                     })
             )
-        {
-            Tags = CombatMovementTags.Attack
-        }
+            {
+                Tags = CombatMovementTags.Attack
+            }
         );
 
         list.Add(new CombatMovement("Guardian promise",
@@ -104,9 +104,9 @@ public class ThiefChaserFactory
                             typeof(ToEndOfCurrentRoundEffectLifetime))
                     })
             )
-        {
-            Tags = CombatMovementTags.AutoDefense
-        }
+            {
+                Tags = CombatMovementTags.AutoDefense
+            }
         );
 
         list.Add(new CombatMovement("Afterlife Whirlwind",
@@ -125,9 +125,9 @@ public class ThiefChaserFactory
                         )
                     })
             )
-        {
-            Tags = CombatMovementTags.Attack
-        }
+            {
+                Tags = CombatMovementTags.Attack
+            }
         );
 
         var monsterSequence = new CombatMovementSequence();
