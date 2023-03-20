@@ -353,26 +353,22 @@ internal class CombatMovementsHandPanel : ControlBase
 
     private void CombatMovementButton_OnLeave(object? sender, EventArgs e)
     {
-        CombatMovementLeave?.Invoke(this, new CombatMovementPickedEventArgs(((CombatMovementButton)sender).Entity));
+        if (sender is not null)
+        {
+            CombatMovementLeave?.Invoke(this, new CombatMovementPickedEventArgs(((CombatMovementButton)sender).Entity));
+        }
     }
 
     private void CombatMovementButton_OnHover(object? sender, EventArgs e)
     {
-        CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(((CombatMovementButton)sender).Entity));
+        if (sender is not null)
+        {
+            CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(((CombatMovementButton)sender).Entity));
+        }
     }
 
     public event EventHandler<CombatMovementPickedEventArgs>? CombatMovementPicked;
 
     public event EventHandler<CombatMovementPickedEventArgs>? CombatMovementHover;
     public event EventHandler<CombatMovementPickedEventArgs>? CombatMovementLeave;
-}
-
-public sealed class CombatMovementPickedEventArgs : EventArgs
-{
-    public CombatMovementPickedEventArgs(CombatMovementInstance combatMovement)
-    {
-        CombatMovement = combatMovement;
-    }
-
-    public CombatMovementInstance CombatMovement { get; }
 }
