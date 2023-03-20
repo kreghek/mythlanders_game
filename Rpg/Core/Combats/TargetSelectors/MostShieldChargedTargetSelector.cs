@@ -2,7 +2,7 @@
 
 public sealed class MostShieldChargedTargetSelector : ITargetSelector
 {
-    public IReadOnlyList<Combatant> Get(Combatant actor, ITargetSelectorContext context)
+    public IReadOnlyList<Combatant> GetMaterialized(Combatant actor, ITargetSelectorContext context)
     {
         var enemies = context.EnemySide.GetAllCombatants();
 

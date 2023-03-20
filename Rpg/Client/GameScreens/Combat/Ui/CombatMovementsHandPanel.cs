@@ -143,6 +143,8 @@ internal class CombatMovementsHandPanel : ControlBase
         {
             _burningCombatMovement = new BurningCombatMovement(combatMovementButton.IconData, handSlotIndex);
         }
+
+        _activeCombatMovementHint = null;
     }
 
     internal void Update(GameTime gameTime, ResolutionIndependentRenderer resolutionIndependentRenderer)
@@ -345,6 +347,8 @@ internal class CombatMovementsHandPanel : ControlBase
                 var button = new CombatMovementButton(iconData, movement);
                 _buttons[buttonIndex] = button;
                 button.OnClick += CombatMovementButton_OnClick;
+                button.OnHover += CombatMovementButton_OnHover;
+                button.OnLeave += CombatMovementButton_OnLeave;
             }
             else
             {
@@ -353,5 +357,24 @@ internal class CombatMovementsHandPanel : ControlBase
         }
     }
 
+    private void CombatMovementButton_OnLeave(object? sender, EventArgs e)
+    {
+        if (sender is not null)
+        {
+            CombatMovementLeave?.Invoke(this, new CombatMovementPickedEventArgs(((CombatMovementButton)sender).Entity));
+        }
+    }
+
+    private void CombatMovementButton_OnHover(object? sender, EventArgs e)
+    {
+        if (sender is not null)
+        {
+            CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(((CombatMovementButton)sender).Entity));
+        }
+    }
+
     public event EventHandler<CombatMovementPickedEventArgs>? CombatMovementPicked;
+
+    public event EventHandler<CombatMovementPickedEventArgs>? CombatMovementHover;
+    public event EventHandler<CombatMovementPickedEventArgs>? CombatMovementLeave;
 }

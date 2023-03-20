@@ -13,7 +13,7 @@ public sealed class RandomLineEnemyTargetSelector : ITargetSelector
         }
     }
 
-    public IReadOnlyList<Combatant> Get(Combatant actor, ITargetSelectorContext context)
+    public IReadOnlyList<Combatant> GetMaterialized(Combatant actor, ITargetSelectorContext context)
     {
         var enemies = GetIterator(context).ToArray();
         var target = context.Dice.RollFromList(enemies);

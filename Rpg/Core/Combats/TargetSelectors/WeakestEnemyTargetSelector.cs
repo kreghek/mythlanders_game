@@ -2,7 +2,7 @@
 
 public sealed class WeakestEnemyTargetSelector : ITargetSelector
 {
-    public IReadOnlyList<Combatant> Get(Combatant actor, ITargetSelectorContext context)
+    public IReadOnlyList<Combatant> GetMaterialized(Combatant actor, ITargetSelectorContext context)
     {
         var actorLine = 0;
 

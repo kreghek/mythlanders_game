@@ -1,8 +1,8 @@
 ﻿using Client.Assets;
+using Client.Assets.GraphicConfigs.Monsters;
 
 using JetBrains.Annotations;
 
-using Rpg.Client.Assets.GraphicConfigs.Monsters;
 using Rpg.Client.Core;
 using Rpg.Client.GameScreens;
 
