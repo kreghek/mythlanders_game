@@ -144,6 +144,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _maneuversIndicator = new FieldManeuverIndicatorPanel(UiThemeManager.UiContentStorage.GetTitlesFont(),
             new ManeuverContext(_combatCore));
+
+        _targetMarkers = new TargetMarkers();
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -495,29 +497,21 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void CombatMovementsHandPanel_CombatMovementLeave(object? sender, CombatMovementPickedEventArgs e)
     {
-        _targets = null;
+        _targetMarkers.EriseTargets();
     }
 
-    private IReadOnlyCollection<CombatMoveTargetEstimate>? _targets;
+    private readonly TargetMarkers _targetMarkers;
 
     private void CombatMovementsHandPanel_CombatMovementHover(object? sender, CombatMovementPickedEventArgs e)
     {
-        var allTargets = new List<CombatMoveTargetEstimate>();
-
-        foreach (var effect in e.CombatMovement.Effects)
-        {
-            var targets = effect.Selector.GetEstimate(_combatCore.CurrentCombatant,
-                new TargetSelectorContext(_combatCore.Field.HeroSide, _combatCore.Field.MonsterSide, _dice));
-            
-            allTargets.AddRange(targets);
-        }
-
-        _targets = allTargets;
+        var selectorContext = new TargetSelectorContext(_combatCore.Field.HeroSide, _combatCore.Field.MonsterSide, _dice);
+        var targetMarkerContext = new TargetMarkerContext(_combatCore, _gameObjects.ToArray(), selectorContext);
+        _targetMarkers.SetTargets(_combatCore.CurrentCombatant, e.CombatMovement.Effects, targetMarkerContext);
     }
 
     private void CombatMovementsHandPanel_CombatMovementPicked(object? sender, CombatMovementPickedEventArgs e)
     {
-        _targets = null;
+        _targetMarkers.EriseTargets();
 
         var intention = new UseCombatMovementIntention(e.CombatMovement, _animationManager, _combatMovementVisualizer,
             _gameObjects);
@@ -879,63 +873,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void DrawCombatMoveTargets(SpriteBatch spriteBatch)
     {
-        if (_targets is null)
-        {
-            return;
-        }
-        
-        var actorGameObject = GetCombatantGameObject(_combatCore.CurrentCombatant);
-
-        foreach (var targetEstimate in _targets)
-        {
-            var gameObject = GetCombatantGameObject(targetEstimate.Target);
-            DrawTargetMarker(spriteBatch,
-                actorGameObject.Animator.GraphicRoot.Position,
-                gameObject.Animator.GraphicRoot.Position,
-                !targetEstimate.Target.IsPlayerControlled);
-        }
-    }
-
-    private void DrawTargetMarker(SpriteBatch spriteBatch, Vector2 actorPosition, Vector2 targetPosition, bool isAgression)
-    {
-        const int MARKER_RADIUS = 32;
-        const int MARKER_AGGRESSION_RADIUS = 10;
-        var neutralColor = Color.Cyan;
-        var aggressionColor = Color.Red;
-        
-        spriteBatch.DrawCircle(targetPosition, MARKER_RADIUS, 8, isAgression ? aggressionColor: neutralColor, 2);
-
-        if (isAgression)
-        {
-            spriteBatch.DrawLine(
-                targetPosition.X - MARKER_RADIUS - MARKER_AGGRESSION_RADIUS,
-                targetPosition.Y,
-                targetPosition.X - MARKER_AGGRESSION_RADIUS,
-                targetPosition.Y, aggressionColor, 2);
-            
-            spriteBatch.DrawLine(
-                targetPosition.X + MARKER_RADIUS + MARKER_AGGRESSION_RADIUS,
-                targetPosition.Y,
-                targetPosition.X + MARKER_AGGRESSION_RADIUS,
-                targetPosition.Y, aggressionColor, 2);
-            
-            spriteBatch.DrawLine(
-                targetPosition.X ,
-                targetPosition.Y- MARKER_RADIUS - MARKER_AGGRESSION_RADIUS,
-                targetPosition.X ,
-                targetPosition.Y- MARKER_AGGRESSION_RADIUS, aggressionColor, 2);
-            
-            spriteBatch.DrawLine(
-                targetPosition.X ,
-                targetPosition.Y + MARKER_RADIUS + MARKER_AGGRESSION_RADIUS,
-                targetPosition.X ,
-                targetPosition.Y + MARKER_AGGRESSION_RADIUS, aggressionColor, 2);
-        }
-
-        if (actorPosition != targetPosition)
-        {
-            spriteBatch.DrawLine(actorPosition, targetPosition, aggressionColor, 2);
-        }
+        _targetMarkers.Draw(spriteBatch);
     }
 
     private void DrawUnits(SpriteBatch spriteBatch)
