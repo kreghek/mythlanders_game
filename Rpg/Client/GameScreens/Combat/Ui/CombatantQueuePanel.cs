@@ -366,39 +366,19 @@ internal sealed class CombatantQueuePanel: ControlBase
         }
     }
 
-    private void DrawPortrait(SpriteBatch spriteBatch, Vector2 panelPosition, Combatant combatant, Side side)
+    private void DrawPortrait(SpriteBatch spriteBatch, Vector2 portraitPosition, Combatant combatant, Side side)
     {
-        if (side == Side.Left)
-        {
-            spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), panelPosition,
-                new Rectangle(0, 83, 42, 32),
-                Color.White);
-
-            var unitName = GetUnitName(combatant.ClassSid);
-
-            var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(unitName);
-            var portraitPosition = panelPosition + new Vector2(7, 0);
-            var portraitDestRect = new Rectangle(portraitPosition.ToPoint(), new Point(32, 32));
-            spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), portraitDestRect, portraitSourceRect,
-                Color.White);
-        }
-        else
-        {
-            spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), panelPosition + new Vector2(146, 0),
-                new Rectangle(0, 83, 42, 32),
-                Color.White);
-
-            var unitName = GetUnitName(combatant.ClassSid);
-
-            var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(unitName);
-            var portraitPosition = panelPosition + new Vector2(7, 0);
-            var portraitDestRect = portraitPosition;
-            var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), portraitDestRect + new Vector2(146, 0),
-                portraitSourceRect,
-                Color.White,
-                rotation: 0, origin: Vector2.Zero, scale: 1, effect, layerDepth: 0);
-        }
+        var unitName = GetUnitName(combatant.ClassSid);
+        var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(unitName);
+        var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+        
+        var portraitDestRect = new Rectangle(portraitPosition.ToPoint(), new Point(32, 32));
+        spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(),
+            portraitDestRect,
+            portraitSourceRect,
+            Color.White,
+            effects: effect,
+            rotation: 0, origin: Vector2.Zero, layerDepth: 0);
     }
 
     private static int GetEffectSourceBaseOneIndex(ICombatantEffect effect)

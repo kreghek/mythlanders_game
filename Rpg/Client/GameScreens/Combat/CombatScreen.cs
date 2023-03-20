@@ -87,7 +87,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private bool _finalBossWasDefeat;
 
-    private CombatantQueuePanel? _unitStatePanelController;
+    private CombatantQueuePanel? _combatantQueuePanel;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -465,17 +465,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatCore.CombatFinished += CombatCore_CombatFinished;
         _combatCore.CombatantUsedMove += CombatCore_CombatantUsedMove;
 
-        // _combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
-        // _combatCore.CombatantHasBeenDefeated += CombatCore_CombatantHasBeenDefeated;
-        // _combatCore.CombatantStartsTurn += CombatCore_CombatantStartsTurn;
-        // _combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;
-        //
-        // _combatCore.ActiveCombatUnitChanged += Combat_UnitChanged;
-        // _combatCore.CombatUnitIsReadyToControl += Combat_UnitReadyToControl;
-        // _combatCore.CombatUnitRemoved += Combat_CombatUnitRemoved;
-        // _combatCore.UnitDied += Combat_UnitDied;
-        // _combatCore.ActionGenerated += Combat_ActionGenerated;
-        // _combatCore.Finish += Combat_Finish;
         // _combatCore.UnitPassedTurn += Combat_UnitPassed;
 
         _combatMovementsHandPanel = new CombatMovementsHandPanel(_uiContentStorage);
@@ -487,7 +476,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             CombatantFactory.CreateHeroes(_playerCombatantBehaviour),
             CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(intentionFactory)));
 
-        _unitStatePanelController = new CombatantQueuePanel(_combatCore,
+        _combatantQueuePanel = new CombatantQueuePanel(_combatCore,
             _uiContentStorage, _gameObjectContentStorage);
     }
 
@@ -903,7 +892,11 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void DrawUnitStatePanels(SpriteBatch spriteBatch, Rectangle contentRectangle)
     {
-        _unitStatePanelController?.Draw(spriteBatch, contentRectangle);
+        if (_combatantQueuePanel is not null)
+        {
+            _combatantQueuePanel.Rect = contentRectangle;
+            _combatantQueuePanel.Draw(spriteBatch);
+        }
     }
 
     private void DropSelection(Combatant combatant)
@@ -1170,6 +1163,6 @@ internal class CombatScreen : GameScreenWithMenuBase
             }
         }
 
-        _unitStatePanelController?.Update(ResolutionIndependentRenderer);
+        _combatantQueuePanel?.Update(ResolutionIndependentRenderer);
     }
 }
