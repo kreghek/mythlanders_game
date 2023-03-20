@@ -94,9 +94,9 @@ public class ThiefChaserFactory
                             typeof(ToEndOfCurrentRoundEffectLifetime))
                     })
             )
-            {
-                Tags = CombatMovementTags.AutoDefense
-            }
+        {
+            Tags = CombatMovementTags.AutoDefense
+        }
         );
 
         list.Add(new CombatMovement("Afterlife Whirlwind",
