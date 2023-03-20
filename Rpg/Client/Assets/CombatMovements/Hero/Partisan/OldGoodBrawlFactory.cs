@@ -24,7 +24,7 @@ internal class OldGoodBrawlFactory : CombatMovementFactoryBase
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
                         Range<int>.CreateMono(2)),
-                    new ChangePositionEffect(
+                    new PushToPositionEffect(
                         new SelfTargetSelector(),
                         ChangePositionEffectDirection.ToVanguard
                     )

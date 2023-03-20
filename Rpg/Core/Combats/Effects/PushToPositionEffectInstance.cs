@@ -1,8 +1,8 @@
 namespace Core.Combats.Effects;
 
-public sealed class ChangePositionEffectInstance : EffectInstanceBase<ChangePositionEffect>
+public sealed class PushToPositionEffectInstance : EffectInstanceBase<PushToPositionEffect>
 {
-    public ChangePositionEffectInstance(ChangePositionEffect baseEffect) : base(baseEffect)
+    public PushToPositionEffectInstance(PushToPositionEffect baseEffect) : base(baseEffect)
     {
     }
 

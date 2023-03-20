@@ -24,7 +24,7 @@ internal class SabotageFactory : CombatMovementFactoryBase
                         new WeakestEnemyTargetSelector(),
                         DamageType.Normal,
                         Range<int>.CreateMono(3)),
-                    new ChangePositionEffect(
+                    new PushToPositionEffect(
                         new SelfTargetSelector(),
                         ChangePositionEffectDirection.ToRearguard
                     )

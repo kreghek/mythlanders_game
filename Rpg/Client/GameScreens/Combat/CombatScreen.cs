@@ -68,7 +68,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
     private readonly FieldManeuverIndicatorPanel _maneuversIndicator;
     private readonly FieldManeuversVisualizer _maneuversVisualizer;
-    private readonly PlayerCombatActorBehaviour _playerCombatantBehaviour;
+    private readonly ManualCombatActorBehaviour _playerCombatantBehaviour;
     private readonly ScreenShaker _screenShaker;
 
     private readonly TargetMarkers _targetMarkers;
@@ -132,7 +132,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _jobProgressResolver = new JobProgressResolver();
 
-        _playerCombatantBehaviour = new PlayerCombatActorBehaviour();
+        _playerCombatantBehaviour = new ManualCombatActorBehaviour();
 
         _combatCore = CreateCombat();
         _combatDataBehaviourProvider = new CombatActorBehaviourDataProvider(_combatCore);

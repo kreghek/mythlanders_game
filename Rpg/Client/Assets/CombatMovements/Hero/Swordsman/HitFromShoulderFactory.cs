@@ -6,7 +6,7 @@ namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
 internal class HitFromShoulderFactory : CombatMovementFactoryBase
 {
-    public override CombatMovementIcon CombatMovementIcon => new CombatMovementIcon(0, 1);
+    public override CombatMovementIcon CombatMovementIcon => new(0, 1);
 
     public override CombatMovement CreateMovement()
     {
@@ -19,7 +19,7 @@ internal class HitFromShoulderFactory : CombatMovementFactoryBase
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
                         Range<int>.CreateMono(3)),
-                    new ChangePositionEffect(
+                    new PushToPositionEffect(
                         new SelfTargetSelector(),
                         ChangePositionEffectDirection.ToVanguard
                     )
