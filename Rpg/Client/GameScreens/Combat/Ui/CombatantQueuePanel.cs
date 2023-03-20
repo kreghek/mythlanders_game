@@ -16,7 +16,7 @@ using Rpg.Client.GameScreens.Combat.Ui;
 
 namespace Client.GameScreens.Combat.Ui;
 
-internal sealed class CombatantQueuePanel: ControlBase
+internal sealed class CombatantQueuePanel : ControlBase
 {
     private const int PANEL_WIDTH = 189;
     private const int PANEL_HEIGHT = 48;
@@ -371,7 +371,7 @@ internal sealed class CombatantQueuePanel: ControlBase
         var unitName = GetUnitName(combatant.ClassSid);
         var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(unitName);
         var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-        
+
         var portraitDestRect = new Rectangle(portraitPosition.ToPoint(), new Point(32, 32));
         spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(),
             portraitDestRect,
@@ -447,7 +447,7 @@ internal sealed class CombatantQueuePanel: ControlBase
             var combatant = _activeCombat.RoundQueue[index];
 
             var combatantQueuePosition = new Vector2(contentRect.Location.X + index * 32, contentRect.Location.Y);
-            
+
             var side = combatant.IsPlayerControlled ? Side.Left : Side.Right;
             DrawPortrait(spriteBatch, combatantQueuePosition, combatant, side);
         }

@@ -867,7 +867,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         spriteBatch.End();
     }
-    
+
     private void DrawStats(Rectangle statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
     {
         var hp = combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value;
@@ -880,7 +880,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                     new Point((int)(statsPanelOrigin.Size.X * hp.GetShare()), statsPanelOrigin.Size.Y / 2)),
                 Color.Lerp(Color.Red, Color.Transparent, 0.5f), 3);
         }
-        
+
         var sp = combatant.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value;
 
         if (sp.Current > 0)
@@ -891,7 +891,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                     new Point((int)(statsPanelOrigin.Size.X * sp.GetShare()), statsPanelOrigin.Size.Y / 2)),
                 Color.Lerp(Color.Blue, Color.Transparent, 0.5f), 3);
         }
-        
+
         var res = combatant.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.Current;
         spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
             res.ToString(),

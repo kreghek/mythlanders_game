@@ -193,7 +193,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: matrix);
         }
-        
+
         Graphics.Draw(spriteBatch);
 
         spriteBatch.End();
