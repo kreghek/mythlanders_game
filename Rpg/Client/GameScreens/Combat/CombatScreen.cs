@@ -517,6 +517,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void CombatMovementsHandPanel_CombatMovementPicked(object? sender, CombatMovementPickedEventArgs e)
     {
+        _targets = null;
+
         var intention = new UseCombatMovementIntention(e.CombatMovement, _animationManager, _combatMovementVisualizer,
             _gameObjects);
 
