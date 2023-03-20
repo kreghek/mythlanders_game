@@ -854,16 +854,27 @@ internal class CombatScreen : GameScreenWithMenuBase
         spriteBatch.End();
     }
     
-    private void DrawStats(IActorAnimator animator, Combatant combatant, SpriteBatch spriteBatch)
+    private void DrawStats(Rectangle statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
     {
         var hp = combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.GetShare();
-        spriteBatch.DrawRectangle(animator.GraphicRoot.Position - new Vector2(0, 128), new Vector2((int)(32 * hp), 5), Color.Red);
+        spriteBatch.DrawRectangle(
+            new Rectangle(
+                new Point(statsPanelOrigin.Location.X + 10, statsPanelOrigin.Location.Y),
+                new Point((int)(statsPanelOrigin.Size.X * hp), statsPanelOrigin.Size.Y / 2)),
+            Color.Lerp(Color.Red, Color.Transparent, 0.5f));
         
         var sp = combatant.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value.GetShare();
-        spriteBatch.DrawRectangle(animator.GraphicRoot.Position - new Vector2(0, 118), new Vector2((int)(32 * sp), 5), Color.Blue);
+        spriteBatch.DrawRectangle(
+            new Rectangle(
+                new Point(statsPanelOrigin.Location.X + 10, statsPanelOrigin.Location.Y + statsPanelOrigin.Size.Y / 2),
+                new Point((int)(statsPanelOrigin.Size.X * sp), statsPanelOrigin.Size.Y / 2)),
+            Color.Lerp(Color.Blue, Color.Transparent, 0.5f));
         
         var res = combatant.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.Current;
-        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), res.ToString(), animator.GraphicRoot.Position, Color.Wheat);
+        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+            res.ToString(),
+            statsPanelOrigin.Location.ToVector2(),
+            Color.Lerp(Color.White, Color.Transparent, 0.5f));
     }
 
     private void DrawCombatantStats(SpriteBatch spriteBatch)
@@ -871,7 +882,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         foreach (var combatant in _combatCore.Combatants)
         {
             var gameObject = GetCombatantGameObject(combatant);
-            DrawStats(gameObject.Animator, combatant, spriteBatch);
+            DrawStats(gameObject.StatsPanelOrigin, combatant, spriteBatch);
         }
     }
 
