@@ -87,7 +87,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private bool _finalBossWasDefeat;
 
-    private UnitStatePanelController? _unitStatePanelController;
+    private CombatantQueuePanel? _unitStatePanelController;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -487,7 +487,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             CombatantFactory.CreateHeroes(_playerCombatantBehaviour),
             CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(intentionFactory)));
 
-        _unitStatePanelController = new UnitStatePanelController(_combatCore,
+        _unitStatePanelController = new CombatantQueuePanel(_combatCore,
             _uiContentStorage, _gameObjectContentStorage);
     }
 
