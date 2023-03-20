@@ -35,8 +35,10 @@ public class AmazonFactory
                 heroSequence.Items.Add(movement);
             }
         }
+        
+        var stats = new CombatantStatsConfig();
 
-        var hero = new Combatant("amazon", heroSequence, combatActorBehaviour)
+        var hero = new Combatant("amazon", heroSequence, stats, combatActorBehaviour)
         {
             Sid = sid, IsPlayerControlled = true
         };

@@ -8,10 +8,32 @@ namespace Client.Assets.CombatMovements;
 
 internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
 {
-    public virtual string Sid => GetType().Name[0..^7];
+    /// <summary>
+    /// Symbolic identifier of the combat movement.
+    /// </summary>
+    public virtual string Sid => GetType().Name[..^7];
+    
+    /// <summary>
+    /// UI icon of the combat movement.
+    /// </summary>
     public virtual CombatMovementIcon CombatMovementIcon => new(0, 0);
 
+    /// <summary>
+    /// Created combat movement definition.
+    /// </summary>
+    /// <returns>Combat movement definition</returns>
     public abstract CombatMovement CreateMovement();
-    public virtual IActorVisualizationState CreateVisualization(IActorAnimator actorAnimator, CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext) => CommonCombatVisualization.CreateMeleeVisualization(actorAnimator, movementExecution,
+
+    /// <summary>
+    /// Creates actor's visualization state to animate combat move execution.
+    /// </summary>
+    /// <param name="actorAnimator">Animator to visualize combat move execution.</param>
+    /// <param name="movementExecution">Materialized move execution.</param>
+    /// <param name="visualizationContext">Combat context to interact with combat field.</param>
+    /// <returns></returns>
+    public virtual IActorVisualizationState CreateVisualization(IActorAnimator actorAnimator,
+        CombatMovementExecution movementExecution,
+        ICombatMovementVisualizationContext visualizationContext) =>
+        CommonCombatVisualization.CreateMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext);
 }

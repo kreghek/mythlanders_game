@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 namespace Client.Assets.CombatMovements.Hero.Partisan;
 
 [UsedImplicitly]
-internal class InspirationalBreakthroughFactory : CombatMovementFactoryBase
+internal class SabotageFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(0, 0);
@@ -16,19 +16,18 @@ internal class InspirationalBreakthroughFactory : CombatMovementFactoryBase
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
-            new CombatMovementCost(2),
+            new CombatMovementCost(3),
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
                     new DamageEffect(
-                        new ClosestInLineTargetSelector(),
+                        new WeakestEnemyTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(1)),
+                        Range<int>.CreateMono(3)),
                     new ChangePositionEffect(
                         new SelfTargetSelector(),
-                        ChangePositionEffectDirection.ToVanguard
-                    ),
-                    new ModifyEffectsEffect(new AllOtherFriendlyTargetSelector(), 1)
+                        ChangePositionEffectDirection.ToRearguard
+                    )
                 })
         )
         {

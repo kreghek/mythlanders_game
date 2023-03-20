@@ -36,8 +36,10 @@ public class SwordsmanFactory
                 heroSequence.Items.Add(movement);
             }
         }
+        
+        var stats = new CombatantStatsConfig();
 
-        var hero = new Combatant("swordsman", heroSequence, combatActorBehaviour)
+        var hero = new Combatant("swordsman", heroSequence, stats, combatActorBehaviour)
         {
             Sid = sid, IsPlayerControlled = true
         };

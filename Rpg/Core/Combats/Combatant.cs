@@ -1,12 +1,12 @@
 namespace Core.Combats;
 
-public class Combatant
+public sealed class Combatant
 {
     private readonly IList<ICombatantEffect> _effects = new List<ICombatantEffect>();
     private readonly CombatMovementInstance?[] _hand;
     private readonly IList<CombatMovementInstance> _pool;
 
-    public Combatant(string classSid, CombatMovementSequence sequence, ICombatActorBehaviour behaviour)
+    public Combatant(string classSid, CombatMovementSequence sequence, CombatantStatsConfig stats, ICombatActorBehaviour behaviour)
     {
         ClassSid = classSid;
         Behaviour = behaviour;
@@ -19,14 +19,7 @@ public class Combatant
             _pool.Add(instance);
         }
 
-        Stats = new List<IUnitStat>
-        {
-            new CombatantStat(UnitStatType.ShieldPoints, new CombatantStatValue(new StatValue(1))),
-            new CombatantStat(UnitStatType.HitPoints, new CombatantStatValue(new StatValue(3))),
-            new CombatantStat(UnitStatType.Resolve, new CombatantStatValue(new StatValue(8))),
-            new CombatantStat(UnitStatType.Maneuver, new CombatantStatValue(new StatValue(1))),
-            new CombatantStat(UnitStatType.Defense, new CombatantStatValue(new StatValue(0)))
-        };
+        Stats = stats.GetStats();
     }
 
     public ICombatActorBehaviour Behaviour { get; }

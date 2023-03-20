@@ -6,7 +6,7 @@ namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
 internal class DieBySwordFactory : CombatMovementFactoryBase
 {
-    public override CombatMovementIcon CombatMovementIcon => new CombatMovementIcon(0, 0);
+    public override CombatMovementIcon CombatMovementIcon => new(0, 0);
 
     public override CombatMovement CreateMovement()
     {

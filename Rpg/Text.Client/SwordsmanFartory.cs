@@ -115,7 +115,9 @@ public class SwordsmanFartory
             foreach (var movement in movementPool)
                 heroSequence.Items.Add(movement);
 
-        var hero = new Combatant("swordsman", heroSequence, combatActorBehaviour)
+        var stats = new CombatantStatsConfig();
+        
+        var hero = new Combatant("swordsman", heroSequence, stats, combatActorBehaviour)
         {
             Sid = sid, IsPlayerControlled = true
         };

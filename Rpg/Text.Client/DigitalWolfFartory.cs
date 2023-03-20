@@ -70,8 +70,10 @@ public class DigitalWolfFactory
         for (var i = 0; i < 2; i++)
             foreach (var combatMovement in list)
                 monsterSequence.Items.Add(combatMovement);
+        
+        var stats = new CombatantStatsConfig();
 
-        var monster = new Combatant("Digital wolf", monsterSequence, combatActorBehaviour)
+        var monster = new Combatant("Digital wolf", monsterSequence, stats, combatActorBehaviour)
         {
             Sid = sid, IsPlayerControlled = false
         };
