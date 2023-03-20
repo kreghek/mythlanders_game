@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Engine;
+using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
 
@@ -28,6 +29,16 @@ internal sealed class CombatMovementVisualizer : ICombatMovementVisualizer
             .Where(x => typeof(TFactory).IsAssignableFrom(x) && x != typeof(TFactory) && !x.IsAbstract);
         var factories = factoryTypes.Select(Activator.CreateInstance);
         return factories.OfType<TFactory>().ToArray();
+    }
+
+    public CombatMovementIcon GetMoveIcon(CombatMovementSid sid)
+    {
+        if (!_movementVisualizationDict.TryGetValue(sid, out var factory))
+        {
+            return new CombatMovementIcon(0, 0);
+        }
+
+        return factory.CombatMovementIcon;
     }
 
     public IActorVisualizationState GetMovementVisualizationState(CombatMovementSid sid, IActorAnimator actorAnimator,

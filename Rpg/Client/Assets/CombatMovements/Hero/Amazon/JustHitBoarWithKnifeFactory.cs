@@ -4,7 +4,7 @@ using Core.Combats.TargetSelectors;
 
 namespace Client.Assets.CombatMovements.Hero.Amazon;
 
-internal class PainfulWoundFactory : CombatMovementFactoryBase
+internal class JustHitBoarWithKnifeFactory : CombatMovementFactoryBase
 {
     public override CombatMovement CreateMovement()
     {
@@ -13,12 +13,16 @@ internal class PainfulWoundFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new DamageEffect(new ClosestInLineTargetSelector(), DamageType.Normal, new Range<int>(2, 2))
-                    //new PeriodicEffect
+                    new DamageEffect(
+                        new ClosestInLineTargetSelector(),
+                        DamageType.Normal,
+                        Range<int>.CreateMono(1))
                 })
         )
         {
             Tags = CombatMovementTags.Attack
         };
     }
+
+    public override CombatMovementIcon CombatMovementIcon => new(2, 7);
 }

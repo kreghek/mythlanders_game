@@ -10,4 +10,6 @@ internal interface ICombatMovementVisualizer
 {
     IActorVisualizationState GetMovementVisualizationState(CombatMovementSid sid, IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext);
+
+    CombatMovementIcon GetMoveIcon(CombatMovementSid sid);
 }

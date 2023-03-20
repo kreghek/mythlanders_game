@@ -1,4 +1,8 @@
+using System;
 using System.Collections.Generic;
+
+using Client.Assets.CombatMovements;
+using Client.Assets.CombatMovements.Hero.Partisan;
 
 using Core.Combats;
 using Core.Combats.CombatantEffectLifetimes;
@@ -13,105 +17,15 @@ public class PartisanFactory
     {
         var movementPool = new List<CombatMovement>();
 
-        movementPool.Add(new CombatMovement("InspirationalBreakthrough",
-                new CombatMovementCost(2),
-                CombatMovementEffectConfig.Create(
-                    new IEffect[]
-                    {
-                        new DamageEffect(
-                            new ClosestInLineTargetSelector(),
-                            DamageType.Normal,
-                            Range<int>.CreateMono(1)),
-                        new ChangePositionEffect(
-                            new SelfTargetSelector(),
-                            ChangePositionEffectDirection.ToVanguard
-                        )
-                    })
-            )
-            {
-                Tags = CombatMovementTags.Attack
-            }
-        );
+        movementPool.Add(CreateMovement<InspirationalBreakthroughFactory>());
 
-        movementPool.Add(new CombatMovement("Sabotage",
-                new CombatMovementCost(3),
-                CombatMovementEffectConfig.Create(
-                    new IEffect[]
-                    {
-                        new DamageEffect(
-                            new WeakestEnemyTargetSelector(),
-                            DamageType.Normal,
-                            Range<int>.CreateMono(3)),
-                        new ChangePositionEffect(
-                            new SelfTargetSelector(),
-                            ChangePositionEffectDirection.ToRearguard
-                        )
-                    })
-            )
-        );
+        movementPool.Add(CreateMovement<SabotageFactory>());
 
-        movementPool.Add(new CombatMovement("SurpriseManeuver",
-                new CombatMovementCost(3),
-                CombatMovementEffectConfig.Create(
-                    new IEffect[]
-                    {
-                        new ChangePositionEffect(
-                            new StrongestClosestAllyTargetSelector(),
-                            ChangePositionEffectDirection.ToVanguard
-                        ),
-                        new ChangeStatEffect(
-                            new StrongestClosestAllyTargetSelector(),
-                            UnitStatType.Defense,
-                            2,
-                            typeof(ToNextCombatantTurnEffectLifetime)),
-                        new ChangeStatEffect(
-                            new SelfTargetSelector(),
-                            UnitStatType.Defense,
-                            2,
-                            typeof(ToNextCombatantTurnEffectLifetime))
-                    })
-            )
-        );
+        movementPool.Add(CreateMovement<SurpriseManeuverFactory>());
 
-        movementPool.Add(new CombatMovement("BlankShot",
-                new CombatMovementCost(1),
-                CombatMovementEffectConfig.Create(
-                    new IEffect[]
-                    {
-                        new DamageEffect(
-                            new ClosestInLineTargetSelector(),
-                            DamageType.Normal,
-                            Range<int>.CreateMono(2)),
-                        new ChangePositionEffect(
-                            new SelfTargetSelector(),
-                            ChangePositionEffectDirection.ToVanguard
-                        )
-                    })
-            )
-            {
-                Tags = CombatMovementTags.Attack
-            }
-        );
+        movementPool.Add(CreateMovement<BlankShotFactory>());
 
-        movementPool.Add(new CombatMovement("OldGoodBrawl",
-                new CombatMovementCost(2),
-                CombatMovementEffectConfig.Create(
-                    new IEffect[]
-                    {
-                        new DamageEffect(
-                            new ClosestInLineTargetSelector(),
-                            DamageType.Normal,
-                            Range<int>.CreateMono(2)),
-                        new ChangePositionEffect(
-                            new SelfTargetSelector(),
-                            ChangePositionEffectDirection.ToVanguard
-                        )
-                    })
-            )
-            {
-                Tags = CombatMovementTags.Attack
-            }
-        );
+        movementPool.Add(CreateMovement<OldGoodBrawlFactory>());
 
         var heroSequence = new CombatMovementSequence();
 
@@ -123,10 +37,17 @@ public class PartisanFactory
             }
         }
 
-        var hero = new Combatant("partisan", heroSequence, combatActorBehaviour)
+        var stats = new CombatantStatsConfig();
+
+        var hero = new Combatant("partisan", heroSequence, stats, combatActorBehaviour)
         {
             Sid = sid, IsPlayerControlled = true
         };
         return hero;
+    }
+    
+    private static CombatMovement CreateMovement<T>() where T: ICombatMovementFactory
+    {
+        return Activator.CreateInstance<T>().CreateMovement();
     }
 }

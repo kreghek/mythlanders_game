@@ -76,8 +76,10 @@ public class DigitalWolfFactory
                 monsterSequence.Items.Add(combatMovement);
             }
         }
+        
+        var stats = new CombatantStatsConfig();
 
-        var monster = new Combatant("DigitalWolf", monsterSequence, combatActorBehaviour)
+        var monster = new Combatant("DigitalWolf", monsterSequence, stats, combatActorBehaviour)
         {
             Sid = sid, IsPlayerControlled = false
         };
