@@ -11,13 +11,13 @@ public sealed class AdjustPositionEffectInstance : EffectInstanceBase<AdjustPosi
         var targetSide = GetTargetSide(target, context.Field);
 
         var currentCoords = targetSide.GetCombatantCoords(target);
-        
+
         var heroSide = context.Field.HeroSide;
 
         var isHeroOnTheList = heroSide[currentCoords with
-                              {
-                                  ColumentIndex = 0
-                              }].Combatant is not null ||
+        {
+            ColumentIndex = 0
+        }].Combatant is not null ||
                               heroSide[currentCoords with
                               {
                                   ColumentIndex = 1
@@ -27,11 +27,11 @@ public sealed class AdjustPositionEffectInstance : EffectInstanceBase<AdjustPosi
         {
             return;
         }
-        
+
         var isHeroAbove = currentCoords.LineIndex > 0 &&
                           (heroSide[new FieldCoords(ColumentIndex: 0, LineIndex: currentCoords.LineIndex - 1)].Combatant is not null ||
                           heroSide[new FieldCoords(ColumentIndex: 1, LineIndex: currentCoords.LineIndex - 1)].Combatant is not null);
-        
+
         var isHeroBelow = currentCoords.LineIndex < 2 &&
                           (heroSide[new FieldCoords(ColumentIndex: 0, LineIndex: currentCoords.LineIndex + 1)].Combatant is not null ||
                           heroSide[new FieldCoords(ColumentIndex: 1, LineIndex: currentCoords.LineIndex + 1)].Combatant is not null);
