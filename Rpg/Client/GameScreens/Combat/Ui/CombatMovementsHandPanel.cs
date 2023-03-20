@@ -142,6 +142,8 @@ internal class CombatMovementsHandPanel : ControlBase
         {
             _burningCombatMovement = new BurningCombatMovement(combatMovementButton.IconData, handSlotIndex);
         }
+
+        _activeCombatMovementHint = null;
     }
 
     internal void Update(GameTime gameTime, ResolutionIndependentRenderer resolutionIndependentRenderer)
