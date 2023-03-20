@@ -10,6 +10,8 @@ using Core.Combats;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonoGame;
+
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
@@ -73,6 +75,11 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
     public bool IsActive { get; set; }
     public Vector2 LaunchPoint => Position - Vector2.UnitY * 64;
+
+    private const int STATS_PANEL_WIDTH = 64;
+    private const int STATS_PANEL_HEOGHT = 10;
+
+    public Rectangle StatsPanelOrigin => new Rectangle((Position - new Vector2(STATS_PANEL_WIDTH / 2, 100)).ToPoint(), new Point(STATS_PANEL_WIDTH, 10));
 
     public void AddStateEngine(IActorVisualizationState actorStateEngine)
     {
@@ -174,7 +181,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
             var shakeVector3d = new Vector3(shakeVector, 0);
 
             var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
-            worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
+            worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
 
             var matrix = Matrix.CreateTranslation(translationVector + shakeVector3d)
                          * Matrix.CreateScale(scaleVector);
@@ -186,7 +193,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: matrix);
         }
-
+        
         Graphics.Draw(spriteBatch);
 
         spriteBatch.End();
