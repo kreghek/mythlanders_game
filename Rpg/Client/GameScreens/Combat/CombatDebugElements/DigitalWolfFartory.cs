@@ -29,9 +29,9 @@ public class DigitalWolfFactory
                             ChangePositionEffectDirection.ToVanguard)
                     })
             )
-        {
-            Tags = CombatMovementTags.Attack
-        }
+            {
+                Tags = CombatMovementTags.Attack
+            }
         );
 
         list.Add(new CombatMovement("VelesProtection",
@@ -54,9 +54,9 @@ public class DigitalWolfFactory
                             typeof(ToEndOfCurrentRoundEffectLifetime))
                     })
             )
-        {
-            Tags = CombatMovementTags.AutoDefense
-        }
+            {
+                Tags = CombatMovementTags.AutoDefense
+            }
         );
 
         list.Add(new CombatMovement("CyberClaws",
@@ -71,9 +71,9 @@ public class DigitalWolfFactory
                             Range<int>.CreateMono(3))
                     })
             )
-        {
-            Tags = CombatMovementTags.Attack
-        }
+            {
+                Tags = CombatMovementTags.Attack
+            }
         );
 
         var monsterSequence = new CombatMovementSequence();
