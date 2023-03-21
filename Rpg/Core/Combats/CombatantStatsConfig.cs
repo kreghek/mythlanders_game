@@ -15,7 +15,7 @@ public sealed class CombatantStatsConfig
                 UnitStatType.HitPoints, new CombatantStatValue(new StatValue(3))
             },
             {
-                UnitStatType.Resolve, new CombatantStatValue(new StatValue(8))
+                UnitStatType.Resolve, new CombatantStatValue(new StatValue(5))
             },
             {
                 UnitStatType.Maneuver, new CombatantStatValue(new StatValue(1))

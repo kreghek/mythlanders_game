@@ -140,6 +140,8 @@ public class ThiefChaserFactory
         }
 
         var stats = new CombatantStatsConfig();
+        stats.SetValue(UnitStatType.HitPoints, 5);
+        stats.SetValue(UnitStatType.ShieldPoints, 3);
 
         var monster = new Combatant("chaser", monsterSequence, stats, combatActorBehaviour)
         {

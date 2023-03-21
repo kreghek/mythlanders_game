@@ -879,6 +879,11 @@ internal class CombatScreen : GameScreenWithMenuBase
                     new Point(statsPanelOrigin.Location.X + 10, statsPanelOrigin.Location.Y),
                     new Point((int)(statsPanelOrigin.Size.X * hp.GetShare()), statsPanelOrigin.Size.Y / 2)),
                 Color.Lerp(Color.Red, Color.Transparent, 0.5f), 3);
+
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                hp.Current.ToString(),
+                new Vector2(statsPanelOrigin.Location.X + 10, statsPanelOrigin.Location.Y),
+                Color.Lerp(Color.White, Color.Transparent, 0.25f));
         }
         
         var sp = combatant.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value;
@@ -890,13 +895,18 @@ internal class CombatScreen : GameScreenWithMenuBase
                     new Point(statsPanelOrigin.Location.X + 10, statsPanelOrigin.Location.Y + statsPanelOrigin.Size.Y / 2),
                     new Point((int)(statsPanelOrigin.Size.X * sp.GetShare()), statsPanelOrigin.Size.Y / 2)),
                 Color.Lerp(Color.Blue, Color.Transparent, 0.5f), 3);
+
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                sp.Current.ToString(),
+                new Vector2(statsPanelOrigin.Location.X + 10, statsPanelOrigin.Location.Y + statsPanelOrigin.Size.Y / 2),
+                Color.Lerp(Color.White, Color.Transparent, 0.25f));
         }
         
         var res = combatant.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.Current;
         spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
             res.ToString(),
             statsPanelOrigin.Location.ToVector2(),
-            Color.Lerp(Color.White, Color.Transparent, 0.75f));
+            Color.Lerp(Color.White, Color.Transparent, 0.25f));
     }
 
     private void DrawCombatantStats(SpriteBatch spriteBatch)
