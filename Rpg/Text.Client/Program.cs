@@ -24,10 +24,11 @@ internal static class Program
         combatCore.CombatantStartsTurn += CombatCore_CombatantStartsTurn;
         combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;
 
+        var manualCombatBehaviour = new ManualCombatActorBehaviour();
         var botCombatBehaviour = new BotCombatActorBehaviour(new IntentionFactory());
 
         combatCore.Initialize(
-            CombatantFactory.CreateHeroes(botCombatBehaviour),
+            CombatantFactory.CreateHeroes(manualCombatBehaviour),
             CombatantFactory.CreateMonsters(botCombatBehaviour)
         );
 
@@ -231,7 +232,7 @@ internal static class Program
         foreach (var effect in movement.Effects)
         {
             PrintEffectDetailedInfo(effect);
-            var targets = effect.Selector.Get(targetCombatant, selectorContext);
+            var targets = effect.Selector.GetMaterialized(targetCombatant, selectorContext);
 
             foreach (var combatant in targets) Console.WriteLine($"> {combatant.Sid}");
         }
@@ -407,7 +408,7 @@ internal static class Program
                 Console.Write($"{controlEffect.BaseEffect.StatValue.Min} {controlEffect.BaseEffect.TargetStatType}");
                 break;
 
-            case ChangePositionEffectInstance repositionEffect:
+            case PushToPositionEffectInstance repositionEffect:
                 Console.Write($"{repositionEffect.BaseEffect.Direction}");
                 break;
         }

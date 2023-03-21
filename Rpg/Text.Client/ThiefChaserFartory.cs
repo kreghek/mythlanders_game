@@ -17,6 +17,7 @@ public class ThiefChaserFactory
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
                     {
+                        new AdjustPositionEffect(new SelfTargetSelector()),
                         new DamageEffect(
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
@@ -25,7 +26,7 @@ public class ThiefChaserFactory
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(1)),
-                        new ChangePositionEffect(
+                        new PushToPositionEffect(
                             new SelfTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard
                         )
@@ -38,11 +39,12 @@ public class ThiefChaserFactory
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
                     {
+                        new AdjustPositionEffect(new SelfTargetSelector()),
                         new DamageEffect(
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(3)),
-                        new ChangePositionEffect(
+                        new PushToPositionEffect(
                             new SelfTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard
                         )
@@ -55,11 +57,12 @@ public class ThiefChaserFactory
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
                     {
+                        new AdjustPositionEffect(new SelfTargetSelector()),
                         new DamageEffect(
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(1)),
-                        new ChangePositionEffect(
+                        new PushToPositionEffect(
                             new ClosestInLineTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard),
                         new ChangeCurrentStatEffect(
@@ -100,11 +103,12 @@ public class ThiefChaserFactory
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
                     {
+                        new AdjustPositionEffect(new SelfTargetSelector()),
                         new DamageEffect(
                             new AllVanguardTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(1)),
-                        new ChangePositionEffect(
+                        new PushToPositionEffect(
                             new SelfTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard
                         )
@@ -119,7 +123,9 @@ public class ThiefChaserFactory
             foreach (var movement in rolledSequence)
                 monsterSequence.Items.Add(movement);
 
-        var monster = new Combatant("Chaser", monsterSequence, combatActorBehaviour)
+        var stats = new CombatantStatsConfig();
+
+        var monster = new Combatant("Chaser", monsterSequence, stats, combatActorBehaviour)
         {
             Sid = sid, IsPlayerControlled = false
         };

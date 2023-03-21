@@ -22,8 +22,11 @@ namespace Client.GameScreens.Combat.GameObjects;
 
 internal sealed class CombatantGameObject : EwarRenderableBase
 {
+    private const int STATS_PANEL_WIDTH = 64;
+    private const int STATS_PANEL_HEOGHT = 10;
     private readonly IList<IActorVisualizationState> _actorStateEngineList;
     private readonly Camera2D _camera;
+    private readonly UnitGraphicsConfigBase _combatantGraphicsConfig;
     private readonly CombatantPositionSide _combatantSide;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly ScreenShaker _screenShaker;
@@ -39,11 +42,12 @@ internal sealed class CombatantGameObject : EwarRenderableBase
     {
         _actorStateEngineList = new List<IActorVisualizationState>();
 
-        var actorGraphicsConfig = combatantGraphicsConfig;
+        _combatantGraphicsConfig = combatantGraphicsConfig;
 
         var position = unitPositionProvider.GetPosition(formationCoords, combatantSide);
         var spriteSheetId = Enum.Parse<UnitName>(combatant.ClassSid, ignoreCase: true);
-        Graphics = new UnitGraphics(spriteSheetId, actorGraphicsConfig, combatantSide == CombatantPositionSide.Heroes,
+        Graphics = new UnitGraphics(spriteSheetId, _combatantGraphicsConfig,
+            combatantSide == CombatantPositionSide.Heroes,
             position, gameObjectContentStorage);
 
         Animator = new ActorAnimator(Graphics);
@@ -67,10 +71,13 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
     public UnitGraphics Graphics { get; }
 
-    public Vector2 InteractionPoint => Position - Vector2.UnitY * 64;
+    public Vector2 InteractionPoint => Position - _combatantGraphicsConfig.InteractionPoint;
 
     public bool IsActive { get; set; }
     public Vector2 LaunchPoint => Position - Vector2.UnitY * 64;
+
+    public Rectangle StatsPanelOrigin => new Rectangle((Position - new Vector2(STATS_PANEL_WIDTH / 2, 100)).ToPoint(),
+        new Point(STATS_PANEL_WIDTH, 10));
 
     public void AddStateEngine(IActorVisualizationState actorStateEngine)
     {
@@ -172,7 +179,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
             var shakeVector3d = new Vector3(shakeVector, 0);
 
             var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
-            worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
+            worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
 
             var matrix = Matrix.CreateTranslation(translationVector + shakeVector3d)
                          * Matrix.CreateScale(scaleVector);

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
+using Client.Assets.CombatMovements;
+
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
@@ -44,6 +46,12 @@ namespace Rpg.Client.GameScreens
             var rect = new Rectangle(x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE);
 
             return rect;
+        }
+
+        public static Rectangle GetIconRect(CombatMovementIcon icon)
+        {
+            const int ICON_SIZE = 64;
+            return new Rectangle(icon.X * ICON_SIZE, icon.Y * ICON_SIZE, ICON_SIZE, ICON_SIZE);
         }
 
         public static UnitScheme? GetPlayerPersonSchemeByEquipmentType(IUnitSchemeCatalog unitSchemeCatalog,

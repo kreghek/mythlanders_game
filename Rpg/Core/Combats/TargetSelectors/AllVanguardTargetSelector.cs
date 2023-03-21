@@ -11,7 +11,7 @@ public sealed class AllVanguardTargetSelector : ITargetSelector
         }
     }
 
-    public IReadOnlyList<Combatant> Get(Combatant actor, ITargetSelectorContext context)
+    public IReadOnlyList<Combatant> GetMaterialized(Combatant actor, ITargetSelectorContext context)
     {
         return GetIterator(context).ToArray();
     }

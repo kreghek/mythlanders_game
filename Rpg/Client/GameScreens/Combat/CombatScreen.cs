@@ -26,6 +26,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using MonoGame;
+
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
@@ -68,14 +70,18 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
     private readonly FieldManeuverIndicatorPanel _maneuversIndicator;
     private readonly FieldManeuversVisualizer _maneuversVisualizer;
-    private readonly PlayerCombatActorBehaviour _playerCombatantBehaviour;
+    private readonly ManualCombatActorBehaviour _playerCombatantBehaviour;
     private readonly ScreenShaker _screenShaker;
+
+    private readonly TargetMarkers _targetMarkers;
     private readonly IUiContentStorage _uiContentStorage;
 
     private float _bgCenterOffsetPercentageX;
     private float _bgCenterOffsetPercentageY;
 
     private bool _bossWasDefeat;
+
+    private CombatantQueuePanel? _combatantQueuePanel;
     private double _combatFinishedDelayCounter;
 
     private bool? _combatFinishedVictory;
@@ -84,8 +90,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
-
-    private UnitStatePanelController? _unitStatePanelController;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -130,7 +134,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _jobProgressResolver = new JobProgressResolver();
 
-        _playerCombatantBehaviour = new PlayerCombatActorBehaviour();
+        _playerCombatantBehaviour = new ManualCombatActorBehaviour();
 
         _combatCore = CreateCombat();
         _combatDataBehaviourProvider = new CombatActorBehaviourDataProvider(_combatCore);
@@ -142,6 +146,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _maneuversIndicator = new FieldManeuverIndicatorPanel(UiThemeManager.UiContentStorage.GetTitlesFont(),
             new ManeuverContext(_combatCore));
+
+        _targetMarkers = new TargetMarkers();
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -463,21 +469,12 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatCore.CombatFinished += CombatCore_CombatFinished;
         _combatCore.CombatantUsedMove += CombatCore_CombatantUsedMove;
 
-        // _combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
-        // _combatCore.CombatantHasBeenDefeated += CombatCore_CombatantHasBeenDefeated;
-        // _combatCore.CombatantStartsTurn += CombatCore_CombatantStartsTurn;
-        // _combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;
-        //
-        // _combatCore.ActiveCombatUnitChanged += Combat_UnitChanged;
-        // _combatCore.CombatUnitIsReadyToControl += Combat_UnitReadyToControl;
-        // _combatCore.CombatUnitRemoved += Combat_CombatUnitRemoved;
-        // _combatCore.UnitDied += Combat_UnitDied;
-        // _combatCore.ActionGenerated += Combat_ActionGenerated;
-        // _combatCore.Finish += Combat_Finish;
         // _combatCore.UnitPassedTurn += Combat_UnitPassed;
 
-        _combatMovementsHandPanel = new CombatMovementsHandPanel(_uiContentStorage);
+        _combatMovementsHandPanel = new CombatMovementsHandPanel(_uiContentStorage, _combatMovementVisualizer);
         _combatMovementsHandPanel.CombatMovementPicked += CombatMovementsHandPanel_CombatMovementPicked;
+        _combatMovementsHandPanel.CombatMovementHover += CombatMovementsHandPanel_CombatMovementHover;
+        _combatMovementsHandPanel.CombatMovementLeave += CombatMovementsHandPanel_CombatMovementLeave;
 
         var intentionFactory =
             new BotCombatActorIntentionFactory(_animationManager, _combatMovementVisualizer, _gameObjects);
@@ -485,12 +482,27 @@ internal class CombatScreen : GameScreenWithMenuBase
             CombatantFactory.CreateHeroes(_playerCombatantBehaviour),
             CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(intentionFactory)));
 
-        _unitStatePanelController = new UnitStatePanelController(_combatCore,
+        _combatantQueuePanel = new CombatantQueuePanel(_combatCore,
             _uiContentStorage, _gameObjectContentStorage);
+    }
+
+    private void CombatMovementsHandPanel_CombatMovementHover(object? sender, CombatMovementPickedEventArgs e)
+    {
+        var selectorContext =
+            new TargetSelectorContext(_combatCore.Field.HeroSide, _combatCore.Field.MonsterSide, _dice);
+        var targetMarkerContext = new TargetMarkerContext(_combatCore, _gameObjects.ToArray(), selectorContext);
+        _targetMarkers.SetTargets(_combatCore.CurrentCombatant, e.CombatMovement.Effects, targetMarkerContext);
+    }
+
+    private void CombatMovementsHandPanel_CombatMovementLeave(object? sender, CombatMovementPickedEventArgs e)
+    {
+        _targetMarkers.EriseTargets();
     }
 
     private void CombatMovementsHandPanel_CombatMovementPicked(object? sender, CombatMovementPickedEventArgs e)
     {
+        _targetMarkers.EriseTargets();
+
         var intention = new UseCombatMovementIntention(e.CombatMovement, _animationManager, _combatMovementVisualizer,
             _gameObjects);
 
@@ -686,6 +698,47 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
+    private void DrawCombatantQueue(SpriteBatch spriteBatch, Rectangle contentRectangle)
+    {
+        if (_combatantQueuePanel is not null)
+        {
+            const int PANEL_WIDTH = 400;
+
+            _combatantQueuePanel.Rect = new Rectangle(contentRectangle.Center.X - PANEL_WIDTH / 2, contentRectangle.Top,
+                PANEL_WIDTH, 32);
+            _combatantQueuePanel.Draw(spriteBatch);
+        }
+    }
+
+    private void DrawCombatants(SpriteBatch spriteBatch)
+    {
+        var corpseList = _corpseObjects.OrderBy(x => x.GetZIndex()).ToArray();
+        foreach (var gameObject in corpseList)
+        {
+            gameObject.Draw(spriteBatch);
+        }
+
+        var list = _gameObjects.OrderBy(x => x.GetZIndex()).ToArray();
+        foreach (var gameObject in list)
+        {
+            gameObject.Draw(spriteBatch);
+        }
+    }
+
+    private void DrawCombatantStats(SpriteBatch spriteBatch)
+    {
+        foreach (var combatant in _combatCore.Combatants)
+        {
+            if (combatant.IsDead)
+            {
+                continue;
+            }
+
+            var gameObject = GetCombatantGameObject(combatant);
+            DrawStats(gameObject.StatsPanelOrigin, combatant, spriteBatch);
+        }
+    }
+
     private void DrawCombatMovementsPanel(SpriteBatch spriteBatch, Rectangle contentRectangle)
     {
         if (_combatMovementsHandPanel is not null)
@@ -698,6 +751,11 @@ internal class CombatScreen : GameScreenWithMenuBase
                 COMBAT_SKILLS_PANEL_WIDTH, COMBAT_SKILLS_PANEL_HEIGHT);
             _combatMovementsHandPanel.Draw(spriteBatch);
         }
+    }
+
+    private void DrawCombatMoveTargets(SpriteBatch spriteBatch)
+    {
+        _targetMarkers.Draw(spriteBatch);
     }
 
     private void DrawCombatSequenceProgress(SpriteBatch spriteBatch)
@@ -793,7 +851,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         DrawBullets(spriteBatch);
 
-        DrawUnits(spriteBatch);
+        DrawCombatants(spriteBatch);
 
         foreach (var bullet in _bulletObjects)
         {
@@ -831,12 +889,14 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _maneuversIndicator.Draw(spriteBatch);
             }
 
+            DrawCombatMoveTargets(spriteBatch);
+
             DrawCombatMovementsPanel(spriteBatch, contentRectangle);
         }
 
         try
         {
-            DrawUnitStatePanels(spriteBatch, contentRectangle);
+            DrawCombatantQueue(spriteBatch, contentRectangle);
             DrawCombatSequenceProgress(spriteBatch);
         }
         catch
@@ -844,27 +904,41 @@ internal class CombatScreen : GameScreenWithMenuBase
             // TODO Fix NRE in the end of the combat with more professional way 
         }
 
+        DrawCombatantStats(spriteBatch);
+
         spriteBatch.End();
     }
 
-    private void DrawUnits(SpriteBatch spriteBatch)
+    private void DrawStats(Rectangle statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
     {
-        var corpseList = _corpseObjects.OrderBy(x => x.GetZIndex()).ToArray();
-        foreach (var gameObject in corpseList)
+        var hp = combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value;
+
+        if (hp.Current > 0)
         {
-            gameObject.Draw(spriteBatch);
+            spriteBatch.DrawRectangle(
+                new Rectangle(
+                    new Point(statsPanelOrigin.Location.X + 10, statsPanelOrigin.Location.Y),
+                    new Point((int)(statsPanelOrigin.Size.X * hp.GetShare()), statsPanelOrigin.Size.Y / 2)),
+                Color.Lerp(Color.Red, Color.Transparent, 0.5f), 3);
         }
 
-        var list = _gameObjects.OrderBy(x => x.GetZIndex()).ToArray();
-        foreach (var gameObject in list)
-        {
-            gameObject.Draw(spriteBatch);
-        }
-    }
+        var sp = combatant.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value;
 
-    private void DrawUnitStatePanels(SpriteBatch spriteBatch, Rectangle contentRectangle)
-    {
-        _unitStatePanelController?.Draw(spriteBatch, contentRectangle);
+        if (sp.Current > 0)
+        {
+            spriteBatch.DrawRectangle(
+                new Rectangle(
+                    new Point(statsPanelOrigin.Location.X + 10,
+                        statsPanelOrigin.Location.Y + statsPanelOrigin.Size.Y / 2),
+                    new Point((int)(statsPanelOrigin.Size.X * sp.GetShare()), statsPanelOrigin.Size.Y / 2)),
+                Color.Lerp(Color.Blue, Color.Transparent, 0.5f), 3);
+        }
+
+        var res = combatant.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.Current;
+        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+            res.ToString(),
+            statsPanelOrigin.Location.ToVector2(),
+            Color.Lerp(Color.White, Color.Transparent, 0.75f));
     }
 
     private void DropSelection(Combatant combatant)
@@ -1131,6 +1205,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             }
         }
 
-        _unitStatePanelController?.Update(ResolutionIndependentRenderer);
+        _combatantQueuePanel?.Update(ResolutionIndependentRenderer);
+
+        _targetMarkers.Update(gameTime);
     }
 }
