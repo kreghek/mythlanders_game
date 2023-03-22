@@ -75,8 +75,6 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
             new ICampaignStageTemplateFactory[]
             {
-                new CombatCampaignStageTemplateFactory(locationSid, _services),
-                new CombatCampaignStageTemplateFactory(locationSid, _services),
                 new CombatCampaignStageTemplateFactory(locationSid, _services)
             },
 
