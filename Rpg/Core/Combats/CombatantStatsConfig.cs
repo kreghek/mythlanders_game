@@ -34,5 +34,6 @@ public sealed class CombatantStatsConfig
     public void SetValue(UnitStatType statType, int value)
     {
         _stats[statType].ChangeBase(value);
+        _stats[statType].CurrentChange(value);
     }
 }
