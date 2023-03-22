@@ -229,6 +229,12 @@
   <data name="CriticalHitDescription" xml:space="preserve">
     <value>Способность наносить двойной урон с 50% вероятностью.</value>
   </data>
+  <data name="CyberClaws" xml:space="preserve">
+    <value>Кибер-когти</value>
+  </data>
+  <data name="CyberClaws_Description" xml:space="preserve">
+    <value>Наносит урон в 3 ед. ближайшему в линии противнику и перемещается в авангард.</value>
+  </data>
   <data name="DarkLight" xml:space="preserve">
     <value>Темная молная</value>
   </data>
@@ -265,6 +271,12 @@
   <data name="EmptinessInTheHand" xml:space="preserve">
     <value>Пустота в руках</value>
   </data>
+  <data name="EnergeticBite" xml:space="preserve">
+    <value>Энергетический укус</value>
+  </data>
+  <data name="EnergeticBite_Description" xml:space="preserve">
+    <value>Наносит 3 ед. урона щитам самому заряженному противнику и уходит в тыл.</value>
+  </data>
   <data name="EnergyShot" xml:space="preserve">
     <value>Энерго-выстрел</value>
   </data>
@@ -282,6 +294,12 @@
   </data>
   <data name="FinishWounded_Description" xml:space="preserve">
     <value>Наносит 2ед. урона самому слабому противнику с меткой.</value>
+  </data>
+  <data name="FlockAlphaTactics" xml:space="preserve">
+    <value>Стайная альфа-тактика</value>
+  </data>
+  <data name="FlockAlphaTactics_Description" xml:space="preserve">
+    <value>Рывком перемещается в авангард. Наносит 3 ед. урона наиболее сильному противнику и отнимает 2 ед. энергии.</value>
   </data>
   <data name="GreyWolf" xml:space="preserve">
     <value>Серый волк</value>
@@ -414,6 +432,12 @@
   <data name="RedemptionStaff" xml:space="preserve">
     <value>Посох Покаяния</value>
   </data>
+  <data name="RegenerativeProtocol" xml:space="preserve">
+    <value>Регенеративный протокол</value>
+  </data>
+  <data name="RegenerativeProtocol_Description" xml:space="preserve">
+    <value>Восстанавливает 3 ед. здоровья и уходит в тыл.</value>
+  </data>
   <data name="RiseYourSwords" xml:space="preserve">
     <value>Поднимите свои мечи!</value>
   </data>
@@ -498,6 +522,12 @@
   </data>
   <data name="VampireBite" xml:space="preserve">
     <value>Вампирический удар</value>
+  </data>
+  <data name="VelesProtection" xml:space="preserve">
+    <value>Под защитой Велеса</value>
+  </data>
+  <data name="VelesProtection_Description" xml:space="preserve">
+    <value>На 3 хода увеличивает щиты на 3 ед. и перемещается в тыл.</value>
   </data>
   <data name="Volkolak" xml:space="preserve">
     <value>Волколак</value>

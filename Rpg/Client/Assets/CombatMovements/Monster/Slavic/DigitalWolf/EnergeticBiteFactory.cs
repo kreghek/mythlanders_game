@@ -4,7 +4,7 @@ using Core.Combats.TargetSelectors;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
-internal class FlockAlphaTacticsFactory : CombatMovementFactoryBase
+internal class EnergeticBiteFactory : CombatMovementFactoryBase
 {
     public override CombatMovement CreateMovement()
     {
@@ -15,11 +15,10 @@ internal class FlockAlphaTacticsFactory : CombatMovementFactoryBase
                     {
                         new AdjustPositionEffect(new SelfTargetSelector()),
                         new DamageEffect(
-                            new MostHealthyEnemyChargedTargetSelector(),
-                            DamageType.Normal,
+                            new MostShieldChargedEnemyTargetSelector(),
+                            DamageType.ShieldsOnly,
                             Range<int>.CreateMono(3)),
-                        new ChangeCurrentStatEffect(new MostHealthyEnemyChargedTargetSelector(), UnitStatType.Resolve, Range<int>.CreateMono(-2)),
-                        new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToVanguard)
+                        new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
                     })
             )
         {

@@ -222,6 +222,14 @@
     <value>Ability to deal double damage in 50% cases.</value>
     <comment>Perk</comment>
   </data>
+  <data name="CyberClaws" xml:space="preserve">
+    <value>Cyber-claws</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="CyberClaws_Description" xml:space="preserve">
+    <value></value>
+    <comment>Combat Movement</comment>
+  </data>
   <data name="DarkLight" xml:space="preserve">
       <value>Dark light</value>
     <comment>Skill</comment>
@@ -266,6 +274,14 @@
   <data name="EmptinessInTheHand" xml:space="preserve">
     <value>Emptiness in the hand</value><comment>Equipment</comment>
   </data>
+  <data name="EnergeticBite" xml:space="preserve">
+    <value>Energetic bite</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="EnergeticBite_Description" xml:space="preserve">
+    <value></value>
+    <comment>Combat Movement</comment>
+  </data>
   <data name="EnergyShot" xml:space="preserve">
       <value>Energy shot</value>
     <comment>Skill</comment>
@@ -287,6 +303,13 @@
   </data>
   <data name="FinishWounded_Description" xml:space="preserve">
     <value /><comment>Combat Movement</comment>
+  </data>
+  <data name="FlockAlphaTactics" xml:space="preserve">
+    <value>Flock Alpha Tactics</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="FlockAlphaTactics_Description" xml:space="preserve">
+    <value></value>
   </data>
   <data name="GreyWolf" xml:space="preserve">
     <value>Grey wolf</value>
@@ -443,6 +466,14 @@
   <data name="RedemptionStaff" xml:space="preserve">
     <value>Staff of Redemption</value><comment>Equipment</comment>
   </data>
+  <data name="RegenerativeProtocol" xml:space="preserve">
+    <value>Regenerative protocol</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="RegenerativeProtocol_Description" xml:space="preserve">
+    <value></value>
+    <comment>Combat Movement</comment>
+  </data>
   <data name="RiseYourSwords" xml:space="preserve">
     <value>Rise your swords!</value><comment>Combat Movement</comment>
   </data>
@@ -542,6 +573,14 @@
   <data name="VampireBite" xml:space="preserve">
       <value>Vampire bite</value>
     <comment>Skill</comment>
+  </data>
+  <data name="VelesProtection" xml:space="preserve">
+    <value>Veles protection</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="VelesProtection_Description" xml:space="preserve">
+    <value></value>
+    <comment>Combat Movement</comment>
   </data>
   <data name="Volkolak" xml:space="preserve">
     <value>Volkolak</value>
