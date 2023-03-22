@@ -423,7 +423,7 @@ internal static class Program
                 Console.Write(" to self");
                 break;
 
-            case MostShieldChargedTargetSelector:
+            case MostShieldChargedEnemyTargetSelector:
                 Console.Write(" to the most shield changed");
                 break;
 
