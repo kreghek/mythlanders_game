@@ -15,10 +15,10 @@ internal class FlockAlphaTacticsFactory : CombatMovementFactoryBase
                     {
                         new AdjustPositionEffect(new SelfTargetSelector()),
                         new DamageEffect(
-                            new MostHealthyEnemyChargedTargetSelector(),
+                            new StrongestEnemyTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(3)),
-                        new ChangeCurrentStatEffect(new MostHealthyEnemyChargedTargetSelector(), UnitStatType.Resolve, Range<int>.CreateMono(-2)),
+                        new ChangeCurrentStatEffect(new StrongestEnemyTargetSelector(), UnitStatType.Resolve, Range<int>.CreateMono(-2)),
                         new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToVanguard)
                     })
             )
