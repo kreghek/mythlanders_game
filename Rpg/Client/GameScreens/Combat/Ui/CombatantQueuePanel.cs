@@ -16,7 +16,7 @@ using Rpg.Client.GameScreens.Combat.Ui;
 
 namespace Client.GameScreens.Combat.Ui;
 
-internal sealed class CombatantQueuePanel: ControlBase
+internal sealed class CombatantQueuePanel : ControlBase
 {
     private const int PANEL_WIDTH = 189;
     private const int PANEL_HEIGHT = 48;
@@ -236,6 +236,21 @@ internal sealed class CombatantQueuePanel: ControlBase
             rotation: 0, origin: Vector2.Zero, scale: 1, effect, layerDepth: 0);
     }
 
+    private void DrawPortrait(SpriteBatch spriteBatch, Vector2 portraitPosition, Combatant combatant, Side side)
+    {
+        var unitName = GetUnitName(combatant.ClassSid);
+        var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(unitName);
+        var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+        var portraitDestRect = new Rectangle(portraitPosition.ToPoint(), new Point(32, 32));
+        spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(),
+            portraitDestRect,
+            portraitSourceRect,
+            Color.White,
+            effects: effect,
+            rotation: 0, origin: Vector2.Zero, layerDepth: 0);
+    }
+
     //private void DrawTargets(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit)
     //{
     //    if (combatUnit.TargetSlot is null)
@@ -407,21 +422,6 @@ internal sealed class CombatantQueuePanel: ControlBase
             var unitNamePosition = panelPosition + new Vector2(146 - textSize.X, 0);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitName, unitNamePosition, Color.White);
         }
-    }
-
-    private void DrawPortrait(SpriteBatch spriteBatch, Vector2 portraitPosition, Combatant combatant, Side side)
-    {
-        var unitName = GetUnitName(combatant.ClassSid);
-        var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(unitName);
-        var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-        
-        var portraitDestRect = new Rectangle(portraitPosition.ToPoint(), new Point(32, 32));
-        spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(),
-            portraitDestRect,
-            portraitSourceRect,
-            Color.White,
-            effects: effect,
-            rotation: 0, origin: Vector2.Zero, layerDepth: 0);
     }
 
     private static int GetEffectSourceBaseOneIndex(ICombatantEffect effect)
