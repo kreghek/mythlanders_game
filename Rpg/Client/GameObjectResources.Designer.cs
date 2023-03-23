@@ -70,6 +70,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Afterlife whirlwind.
+        /// </summary>
+        internal static string AfterlifeWhirlwind {
+            get {
+                return ResourceManager.GetString("AfterlifeWhirlwind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AfterlifeWhirlwind_Description {
+            get {
+                return ResourceManager.GetString("AfterlifeWhirlwind_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hawk.
         /// </summary>
         internal static string Archer {
@@ -304,6 +322,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chain hit.
+        /// </summary>
+        internal static string ChainHit {
+            get {
+                return ResourceManager.GetString("ChainHit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ChainHit_Description {
+            get {
+                return ResourceManager.GetString("ChainHit_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Chaotic neuro-interface.
         /// </summary>
         internal static string ChaoticNeuroInterface {
@@ -318,6 +354,24 @@ namespace Client {
         internal static string CharacterDeepPreyingTitleTemplate {
             get {
                 return ResourceManager.GetString("CharacterDeepPreyingTitleTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chasing.
+        /// </summary>
+        internal static string Chasing {
+            get {
+                return ResourceManager.GetString("Chasing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Chasing_Description {
+            get {
+                return ResourceManager.GetString("Chasing_Description", resourceCulture);
             }
         }
         
@@ -381,6 +435,24 @@ namespace Client {
         internal static string CriticalHitDescription {
             get {
                 return ResourceManager.GetString("CriticalHitDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cyber-claws.
+        /// </summary>
+        internal static string CyberClaws {
+            get {
+                return ResourceManager.GetString("CyberClaws", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string CyberClaws_Description {
+            get {
+                return ResourceManager.GetString("CyberClaws_Description", resourceCulture);
             }
         }
         
@@ -466,6 +538,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Double kapesh!.
+        /// </summary>
+        internal static string DoubleKapesh {
+            get {
+                return ResourceManager.GetString("DoubleKapesh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DoubleKapesh_Description {
+            get {
+                return ResourceManager.GetString("DoubleKapesh_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Egyptian Book of a dead.
         /// </summary>
         internal static string EgyptianBookOfDeath {
@@ -489,6 +579,24 @@ namespace Client {
         internal static string EmptinessInTheHand {
             get {
                 return ResourceManager.GetString("EmptinessInTheHand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Energetic bite.
+        /// </summary>
+        internal static string EnergeticBite {
+            get {
+                return ResourceManager.GetString("EnergeticBite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EnergeticBite_Description {
+            get {
+                return ResourceManager.GetString("EnergeticBite_Description", resourceCulture);
             }
         }
         
@@ -547,11 +655,47 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Flock Alpha Tactics.
+        /// </summary>
+        internal static string FlockAlphaTactics {
+            get {
+                return ResourceManager.GetString("FlockAlphaTactics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string FlockAlphaTactics_Description {
+            get {
+                return ResourceManager.GetString("FlockAlphaTactics_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Grey wolf.
         /// </summary>
         internal static string GreyWolf {
             get {
                 return ResourceManager.GetString("GreyWolf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Promise of a tomb guardian.
+        /// </summary>
+        internal static string GuardianPromise {
+            get {
+                return ResourceManager.GetString("GuardianPromise", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string GuardianPromise_Description {
+            get {
+                return ResourceManager.GetString("GuardianPromise_Description", resourceCulture);
             }
         }
         
@@ -934,6 +1078,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Regenerative protocol.
+        /// </summary>
+        internal static string RegenerativeProtocol {
+            get {
+                return ResourceManager.GetString("RegenerativeProtocol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string RegenerativeProtocol_Description {
+            get {
+                return ResourceManager.GetString("RegenerativeProtocol_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rise your swords!.
         /// </summary>
         internal static string RiseYourSwords {
@@ -1182,6 +1344,24 @@ namespace Client {
         internal static string VampireBite {
             get {
                 return ResourceManager.GetString("VampireBite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Veles protection.
+        /// </summary>
+        internal static string VelesProtection {
+            get {
+                return ResourceManager.GetString("VelesProtection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string VelesProtection_Description {
+            get {
+                return ResourceManager.GetString("VelesProtection_Description", resourceCulture);
             }
         }
         

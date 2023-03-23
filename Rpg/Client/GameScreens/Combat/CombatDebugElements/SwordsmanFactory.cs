@@ -35,6 +35,9 @@ public class SwordsmanFactory
         }
 
         var stats = new CombatantStatsConfig();
+        stats.SetValue(UnitStatType.HitPoints, 5);
+        stats.SetValue(UnitStatType.ShieldPoints, 4);
+        stats.SetValue(UnitStatType.Resolve, 5);
 
         var hero = new Combatant("swordsman", heroSequence, stats, combatActorBehaviour)
         {

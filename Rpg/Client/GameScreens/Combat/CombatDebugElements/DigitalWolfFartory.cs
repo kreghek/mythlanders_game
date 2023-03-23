@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 
+using Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
+
 using Core.Combats;
-using Core.Combats.CombatantEffectLifetimes;
-using Core.Combats.Effects;
-using Core.Combats.TargetSelectors;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -12,80 +11,12 @@ public class DigitalWolfFactory
     public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour)
     {
         // ReSharper disable once UseObjectOrCollectionInitializer
-        var list = new List<CombatMovement>();
-
-        list.Add(new CombatMovement("TeethOnNeck",
-                new CombatMovementCost(1),
-                CombatMovementEffectConfig.Create(
-                    new IEffect[]
-                    {
-                        new AdjustPositionEffect(new SelfTargetSelector()),
-                        new DamageEffect(
-                            new ClosestInLineTargetSelector(),
-                            DamageType.Normal,
-                            Range<int>.CreateMono(3)),
-                        new PushToPositionEffect(
-                            new SelfTargetSelector(),
-                            ChangePositionEffectDirection.ToVanguard)
-                    })
-            )
-            {
-                Tags = CombatMovementTags.Attack
-            }
-        );
-
-        list.Add(new CombatMovement("VelesProtection",
-                new CombatMovementCost(1),
-                new CombatMovementEffectConfig(
-                    new IEffect[]
-                    {
-                        new ChangeStatEffect(
-                            new SelfTargetSelector(),
-                            UnitStatType.Defense,
-                            3,
-                            typeof(ToNextCombatantTurnEffectLifetime))
-                    },
-                    new IEffect[]
-                    {
-                        new ChangeStatEffect(
-                            new SelfTargetSelector(),
-                            UnitStatType.Defense,
-                            1,
-                            typeof(ToEndOfCurrentRoundEffectLifetime))
-                    })
-            )
-            {
-                Tags = CombatMovementTags.AutoDefense
-            }
-        );
-
-        list.Add(new CombatMovement("CyberClaws",
-                new CombatMovementCost(1),
-                CombatMovementEffectConfig.Create(
-                    new IEffect[]
-                    {
-                        new AdjustPositionEffect(new SelfTargetSelector()),
-                        new DamageEffect(
-                            new MostShieldChargedTargetSelector(),
-                            DamageType.ShieldsOnly,
-                            Range<int>.CreateMono(3))
-                    })
-            )
-            {
-                Tags = CombatMovementTags.Attack
-            }
-        );
-
-        var monsterSequence = new CombatMovementSequence();
-        for (var i = 0; i < 3; i++)
-        {
-            foreach (var combatMovement in list)
-            {
-                monsterSequence.Items.Add(combatMovement);
-            }
-        }
+        var monsterSequence = CreateCombatMoveVariation();
 
         var stats = new CombatantStatsConfig();
+        stats.SetValue(UnitStatType.HitPoints, 5);
+        stats.SetValue(UnitStatType.ShieldPoints, 3);
+        stats.SetValue(UnitStatType.Resolve, 4);
 
         var monster = new Combatant("digitalwolf", monsterSequence, stats, combatActorBehaviour)
         {
@@ -93,5 +24,30 @@ public class DigitalWolfFactory
         };
 
         return monster;
+    }
+
+    private static CombatMovementSequence CreateCombatMoveVariation()
+    {
+        var list = new CombatMovement[]
+        {
+            new CyberClawsFactory().CreateMovement(),
+            new VelesProtectionFactory().CreateMovement(),
+            new EnergeticBiteFactory().CreateMovement(),
+            new RegenerativeProtocolFactory().CreateMovement(),
+            new FlockAlphaTacticsFactory().CreateMovement()
+        };
+
+
+        var monsterSequence = new CombatMovementSequence();
+
+        for (var i = 0; i < 2; i++)
+        {
+            foreach (var combatMovement in list)
+            {
+                monsterSequence.Items.Add(combatMovement);
+            }
+        }
+
+        return monsterSequence;
     }
 }

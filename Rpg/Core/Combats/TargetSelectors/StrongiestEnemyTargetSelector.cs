@@ -1,6 +1,6 @@
 ﻿namespace Core.Combats.TargetSelectors;
 
-public sealed class MostShieldChargedEnemyTargetSelector : MostEnemyStatValueTargetSelectorBase, ITargetSelector
+public sealed class StrongestEnemyTargetSelector : MostEnemyStatValueTargetSelectorBase, ITargetSelector
 {
     public IReadOnlyList<Combatant> GetMaterialized(Combatant actor, ITargetSelectorContext context)
     {
@@ -11,7 +11,7 @@ public sealed class MostShieldChargedEnemyTargetSelector : MostEnemyStatValueTar
 
             return new[]
             {
-                enemies.OrderByDescending(x => GetStatCurrentValue(x, UnitStatType.ShieldPoints))
+                enemies.OrderByDescending(x => GetStatCurrentValue(x, UnitStatType.HitPoints))
                 .First()
             };
         }

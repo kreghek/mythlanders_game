@@ -1,31 +1,23 @@
 ﻿namespace Core.Combats.TargetSelectors;
 
-public sealed class WeakestEnemyTargetSelector : ITargetSelector
+public sealed class WeakestEnemyTargetSelector : MostEnemyStatValueTargetSelectorBase, ITargetSelector
 {
     public IReadOnlyList<Combatant> GetMaterialized(Combatant actor, ITargetSelectorContext context)
     {
-        var actorLine = 0;
+        var enemies = context.EnemySide.GetAllCombatants().ToArray();
 
-        for (var columnIndex = 0; columnIndex < context.ActorSide.ColumnCount; columnIndex++)
-        for (var lineIndex = 0; lineIndex < context.ActorSide.LineCount; lineIndex++)
+        if (enemies.Any())
         {
-            var fieldCoords = new FieldCoords(columnIndex, lineIndex);
-            if (context.ActorSide[fieldCoords].Combatant == actor) actorLine = lineIndex;
+
+            return new[]
+            {
+                enemies.OrderBy(x => GetStatCurrentValue(x, UnitStatType.HitPoints))
+                .First()
+            };
         }
-
-        var vanguardCoords = new FieldCoords(0, actorLine);
-        var closestEnemySlot = context.EnemySide[vanguardCoords];
-        if (closestEnemySlot.Combatant is null)
+        else
         {
-            var rearCoords = new FieldCoords(1, actorLine);
-            closestEnemySlot = context.EnemySide[rearCoords];
+            return Array.Empty<Combatant>();
         }
-
-        if (closestEnemySlot.Combatant is null) return ArraySegment<Combatant>.Empty;
-
-        return new[]
-        {
-            closestEnemySlot.Combatant
-        };
     }
 }

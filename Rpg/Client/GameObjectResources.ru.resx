@@ -120,6 +120,12 @@
   <data name="AbstractMonsterAttack" xml:space="preserve">
     <value>Абстрактная атака монстра</value>
   </data>
+  <data name="AfterlifeWhirlwind" xml:space="preserve">
+    <value>Посмертный ураган</value>
+  </data>
+  <data name="AfterlifeWhirlwind_Description" xml:space="preserve">
+    <value>Наносит урон 2 ед. всем противникам в авангарде и сам перемещается в авангард.</value>
+  </data>
   <data name="Archer" xml:space="preserve">
     <value>Сокол</value>
   </data>
@@ -201,11 +207,23 @@
   <data name="Castle" xml:space="preserve">
     <value>Мрачная Твердыня в Скале</value>
   </data>
+  <data name="ChainHit" xml:space="preserve">
+    <value>Цепной удар</value>
+  </data>
+  <data name="ChainHit_Description" xml:space="preserve">
+    <value>перемещается вперед и наносит урон в 3 ед. самому сильному противнику.</value>
+  </data>
   <data name="ChaoticNeuroInterface" xml:space="preserve">
     <value>Хаотический нейро-интерфейс</value>
   </data>
   <data name="CharacterDeepPreyingTitleTemplate" xml:space="preserve">
     <value>{0} молится</value>
+  </data>
+  <data name="Chasing" xml:space="preserve">
+    <value>Преследование</value>
+  </data>
+  <data name="Chasing_Description" xml:space="preserve">
+    <value>Выбрасывает вперед цепь, которая наносит 2 ед. урона и сжигает 2 ед. энергии самому дальнему противнику. Затем вытягивает противника в авангард.</value>
   </data>
   <data name="ChineseOldman" xml:space="preserve">
     <value>Нинлао Бингвен</value>
@@ -228,6 +246,12 @@
   </data>
   <data name="CriticalHitDescription" xml:space="preserve">
     <value>Способность наносить двойной урон с 50% вероятностью.</value>
+  </data>
+  <data name="CyberClaws" xml:space="preserve">
+    <value>Кибер-когти</value>
+  </data>
+  <data name="CyberClaws_Description" xml:space="preserve">
+    <value>Наносит урон в 3 ед. ближайшему в линии противнику и перемещается в авангард.</value>
   </data>
   <data name="DarkLight" xml:space="preserve">
     <value>Темная молная</value>
@@ -256,6 +280,12 @@
   <data name="DopeHerb" xml:space="preserve">
     <value>Дурман-трава</value>
   </data>
+  <data name="DoubleKapesh" xml:space="preserve">
+    <value>Двойной капеш!</value>
+  </data>
+  <data name="DoubleKapesh_Description" xml:space="preserve">
+    <value>Перемещается вперед и наносит два удара каждым капешем 2 ед. урона.</value>
+  </data>
   <data name="EgyptianBookOfDeath" xml:space="preserve">
     <value>Египетская книга мертвых</value>
   </data>
@@ -264,6 +294,12 @@
   </data>
   <data name="EmptinessInTheHand" xml:space="preserve">
     <value>Пустота в руках</value>
+  </data>
+  <data name="EnergeticBite" xml:space="preserve">
+    <value>Энергетический укус</value>
+  </data>
+  <data name="EnergeticBite_Description" xml:space="preserve">
+    <value>Наносит 3 ед. урона щитам самому заряженному противнику и уходит в тыл.</value>
   </data>
   <data name="EnergyShot" xml:space="preserve">
     <value>Энерго-выстрел</value>
@@ -283,8 +319,20 @@
   <data name="FinishWounded_Description" xml:space="preserve">
     <value>Наносит 2ед. урона самому слабому противнику с меткой.</value>
   </data>
+  <data name="FlockAlphaTactics" xml:space="preserve">
+    <value>Стайная альфа-тактика</value>
+  </data>
+  <data name="FlockAlphaTactics_Description" xml:space="preserve">
+    <value>Рывком перемещается в авангард. Наносит 3 ед. урона наиболее сильному противнику и отнимает 2 ед. энергии.</value>
+  </data>
   <data name="GreyWolf" xml:space="preserve">
     <value>Серый волк</value>
+  </data>
+  <data name="GuardianPromise" xml:space="preserve">
+    <value>Обещание стража гробниц</value>
+  </data>
+  <data name="GuardianPromise_Description" xml:space="preserve">
+    <value>Повышает свою защиту на 3 ед. При авто-срабатывании повышает защиту на 1 ед.</value>
   </data>
   <data name="GuardianWoman" xml:space="preserve">
     <value>Стражница</value>
@@ -414,6 +462,12 @@
   <data name="RedemptionStaff" xml:space="preserve">
     <value>Посох Покаяния</value>
   </data>
+  <data name="RegenerativeProtocol" xml:space="preserve">
+    <value>Регенеративный протокол</value>
+  </data>
+  <data name="RegenerativeProtocol_Description" xml:space="preserve">
+    <value>Восстанавливает 3 ед. здоровья и уходит в тыл.</value>
+  </data>
   <data name="RiseYourSwords" xml:space="preserve">
     <value>Поднимите свои мечи!</value>
   </data>
@@ -498,6 +552,12 @@
   </data>
   <data name="VampireBite" xml:space="preserve">
     <value>Вампирический удар</value>
+  </data>
+  <data name="VelesProtection" xml:space="preserve">
+    <value>Под защитой Велеса</value>
+  </data>
+  <data name="VelesProtection_Description" xml:space="preserve">
+    <value>На 3 хода увеличивает щиты на 3 ед. и перемещается в тыл.</value>
   </data>
   <data name="Volkolak" xml:space="preserve">
     <value>Волколак</value>

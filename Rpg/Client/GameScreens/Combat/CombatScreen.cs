@@ -912,18 +912,23 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void DrawStats(Rectangle statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
     {
         var hp = combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value;
-
         if (hp.Current > 0)
         {
+            var barLocation = new Point(statsPanelOrigin.Location.X + 10, statsPanelOrigin.Location.Y);
+            var barSize = new Point((int)(statsPanelOrigin.Size.X * hp.GetShare()), statsPanelOrigin.Size.Y / 2);
             spriteBatch.DrawRectangle(
                 new Rectangle(
-                    new Point(statsPanelOrigin.Location.X + 10, statsPanelOrigin.Location.Y),
-                    new Point((int)(statsPanelOrigin.Size.X * hp.GetShare()), statsPanelOrigin.Size.Y / 2)),
+                    barLocation,
+                    barSize),
                 Color.Lerp(Color.Red, Color.Transparent, 0.5f), 3);
+
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                hp.Current.ToString(),
+                (barLocation + new Point(barSize.X + 5, -3)).ToVector2(),
+                Color.Lerp(Color.Red, Color.Transparent, 0.25f));
         }
 
         var sp = combatant.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value;
-
         if (sp.Current > 0)
         {
             spriteBatch.DrawRectangle(
@@ -932,13 +937,18 @@ internal class CombatScreen : GameScreenWithMenuBase
                         statsPanelOrigin.Location.Y + statsPanelOrigin.Size.Y / 2),
                     new Point((int)(statsPanelOrigin.Size.X * sp.GetShare()), statsPanelOrigin.Size.Y / 2)),
                 Color.Lerp(Color.Blue, Color.Transparent, 0.5f), 3);
+
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                sp.Current.ToString(),
+                new Vector2(statsPanelOrigin.Location.X + 10, statsPanelOrigin.Location.Y + statsPanelOrigin.Size.Y / 2),
+                Color.Lerp(Color.White, Color.Transparent, 0.25f));
         }
 
         var res = combatant.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.Current;
         spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
             res.ToString(),
             statsPanelOrigin.Location.ToVector2(),
-            Color.Lerp(Color.White, Color.Transparent, 0.75f));
+            Color.Lerp(Color.White, Color.Transparent, 0.25f));
     }
 
     private void DropSelection(Combatant combatant)

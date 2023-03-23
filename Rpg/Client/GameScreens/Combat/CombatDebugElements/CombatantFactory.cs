@@ -38,11 +38,11 @@ internal static class CombatantFactory
         {
             new FormationSlot(0, 1)
             {
-                Combatant = chaserFactory.Create("Chaser", combatActorBehaviour)
+                Combatant = chaserFactory.Create("Chaser", combatActorBehaviour, 0)
             },
             new FormationSlot(1, 2)
             {
-                Combatant = chaserFactory.Create("Guard Chaser", combatActorBehaviour)
+                Combatant = chaserFactory.Create("Guard Chaser", combatActorBehaviour, 1)
             },
             new FormationSlot(0, 2)
             {
