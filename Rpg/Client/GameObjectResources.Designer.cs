@@ -70,6 +70,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Afterlife whirlwind.
+        /// </summary>
+        internal static string AfterlifeWhirlwind {
+            get {
+                return ResourceManager.GetString("AfterlifeWhirlwind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AfterlifeWhirlwind_Description {
+            get {
+                return ResourceManager.GetString("AfterlifeWhirlwind_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hawk.
         /// </summary>
         internal static string Archer {
@@ -304,6 +322,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chain hit.
+        /// </summary>
+        internal static string ChainHit {
+            get {
+                return ResourceManager.GetString("ChainHit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ChainHit_Description {
+            get {
+                return ResourceManager.GetString("ChainHit_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Chaotic neuro-interface.
         /// </summary>
         internal static string ChaoticNeuroInterface {
@@ -318,6 +354,24 @@ namespace Client {
         internal static string CharacterDeepPreyingTitleTemplate {
             get {
                 return ResourceManager.GetString("CharacterDeepPreyingTitleTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chasing.
+        /// </summary>
+        internal static string Chasing {
+            get {
+                return ResourceManager.GetString("Chasing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Chasing_Description {
+            get {
+                return ResourceManager.GetString("Chasing_Description", resourceCulture);
             }
         }
         
@@ -484,6 +538,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Double kapesh!.
+        /// </summary>
+        internal static string DoubleKapesh {
+            get {
+                return ResourceManager.GetString("DoubleKapesh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DoubleKapesh_Description {
+            get {
+                return ResourceManager.GetString("DoubleKapesh_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Egyptian Book of a dead.
         /// </summary>
         internal static string EgyptianBookOfDeath {
@@ -606,6 +678,24 @@ namespace Client {
         internal static string GreyWolf {
             get {
                 return ResourceManager.GetString("GreyWolf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Promise of a tomb guardian.
+        /// </summary>
+        internal static string GuardianPromise {
+            get {
+                return ResourceManager.GetString("GuardianPromise", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string GuardianPromise_Description {
+            get {
+                return ResourceManager.GetString("GuardianPromise_Description", resourceCulture);
             }
         }
         

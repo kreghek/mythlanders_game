@@ -120,6 +120,12 @@
   <data name="AbstractMonsterAttack" xml:space="preserve">
     <value>Абстрактная атака монстра</value>
   </data>
+  <data name="AfterlifeWhirlwind" xml:space="preserve">
+    <value>Посмертный ураган</value>
+  </data>
+  <data name="AfterlifeWhirlwind_Description" xml:space="preserve">
+    <value>Наносит урон 2 ед. всем противникам в авангарде и сам перемещается в авангард.</value>
+  </data>
   <data name="Archer" xml:space="preserve">
     <value>Сокол</value>
   </data>
@@ -201,11 +207,23 @@
   <data name="Castle" xml:space="preserve">
     <value>Мрачная Твердыня в Скале</value>
   </data>
+  <data name="ChainHit" xml:space="preserve">
+    <value>Цепной удар</value>
+  </data>
+  <data name="ChainHit_Description" xml:space="preserve">
+    <value>перемещается вперед и наносит урон в 3 ед. самому сильному противнику.</value>
+  </data>
   <data name="ChaoticNeuroInterface" xml:space="preserve">
     <value>Хаотический нейро-интерфейс</value>
   </data>
   <data name="CharacterDeepPreyingTitleTemplate" xml:space="preserve">
     <value>{0} молится</value>
+  </data>
+  <data name="Chasing" xml:space="preserve">
+    <value>Преследование</value>
+  </data>
+  <data name="Chasing_Description" xml:space="preserve">
+    <value>Выбрасывает вперед цепь, которая наносит 2 ед. урона и сжигает 2 ед. энергии самому дальнему противнику. Затем вытягивает противника в авангард.</value>
   </data>
   <data name="ChineseOldman" xml:space="preserve">
     <value>Нинлао Бингвен</value>
@@ -262,6 +280,12 @@
   <data name="DopeHerb" xml:space="preserve">
     <value>Дурман-трава</value>
   </data>
+  <data name="DoubleKapesh" xml:space="preserve">
+    <value>Двойной капеш!</value>
+  </data>
+  <data name="DoubleKapesh_Description" xml:space="preserve">
+    <value>Перемещается вперед и наносит два удара каждым капешем 2 ед. урона.</value>
+  </data>
   <data name="EgyptianBookOfDeath" xml:space="preserve">
     <value>Египетская книга мертвых</value>
   </data>
@@ -303,6 +327,12 @@
   </data>
   <data name="GreyWolf" xml:space="preserve">
     <value>Серый волк</value>
+  </data>
+  <data name="GuardianPromise" xml:space="preserve">
+    <value>Обещание стража гробниц</value>
+  </data>
+  <data name="GuardianPromise_Description" xml:space="preserve">
+    <value>Повышает свою защиту на 3 ед. При авто-срабатывании повышает защиту на 1 ед.</value>
   </data>
   <data name="GuardianWoman" xml:space="preserve">
     <value>Стражница</value>

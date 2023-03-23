@@ -101,6 +101,13 @@
       <value>Abstract monster attack</value>
     <comment>Skill</comment>
   </data>
+  <data name="AfterlifeWhirlwind" xml:space="preserve">
+    <value>Afterlife whirlwind</value>
+    <comment>Combat movement</comment>
+  </data>
+  <data name="AfterlifeWhirlwind_Description" xml:space="preserve">
+    <value></value>
+  </data>
   <data name="Archer" xml:space="preserve">
     <value>Hawk</value>
     <comment>Hero</comment>
@@ -190,11 +197,26 @@
     <value>Grim Castle in the Rock</value>
     <comment>Location</comment>
   </data>
+  <data name="ChainHit" xml:space="preserve">
+    <value>Chain hit</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="ChainHit_Description" xml:space="preserve">
+    <value></value>
+    <comment>Combat Movement</comment>
+  </data>
   <data name="ChaoticNeuroInterface" xml:space="preserve">
     <value>Chaotic neuro-interface</value><comment>Equipment</comment>
   </data>
   <data name="CharacterDeepPreyingTitleTemplate" xml:space="preserve">
     <value>{0} is preying</value><comment>Global Effect</comment>
+  </data>
+  <data name="Chasing" xml:space="preserve">
+    <value>Chasing</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="Chasing_Description" xml:space="preserve">
+    <value></value>
   </data>
   <data name="ChineseOldman" xml:space="preserve">
     <value>Ninlao Bingwen</value>
@@ -265,6 +287,14 @@
       <value>Dope herb</value>
     <comment>Skill</comment>
   </data>
+  <data name="DoubleKapesh" xml:space="preserve">
+    <value>Double kapesh!</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="DoubleKapesh_Description" xml:space="preserve">
+    <value></value>
+    <comment>Combat Movement</comment>
+  </data>
   <data name="EgyptianBookOfDeath" xml:space="preserve">
     <value>Egyptian Book of a dead</value><comment>Equipment</comment>
   </data>
@@ -314,6 +344,14 @@
   <data name="GreyWolf" xml:space="preserve">
     <value>Grey wolf</value>
     <comment>Monster</comment>
+  </data>
+  <data name="GuardianPromise" xml:space="preserve">
+    <value>Promise of a tomb guardian</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="GuardianPromise_Description" xml:space="preserve">
+    <value></value>
+    <comment>Combat Movement</comment>
   </data>
   <data name="GuardianWoman" xml:space="preserve">
     <value>Guardian woman</value>
