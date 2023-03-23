@@ -61,7 +61,7 @@ public class DigitalWolfFactory
                     {
                         new AdjustPositionEffect(new SelfTargetSelector()),
                         new DamageEffect(
-                            new MostShieldChargedTargetSelector(),
+                            new MostShieldChargedEnemyTargetSelector(),
                             DamageType.ShieldsOnly,
                             Range<int>.CreateMono(3))
                     })

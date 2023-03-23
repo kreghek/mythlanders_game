@@ -28,11 +28,16 @@ internal sealed class CombatantQueuePanel : ControlBase
     private readonly IList<(Rectangle, ICombatantEffect)> _effectInfoList =
         new List<(Rectangle, ICombatantEffect)>();
 
+    private readonly IList<(Rectangle, CombatMovementInstance)> _monsterCombatMoveInfoList =
+        new List<(Rectangle, CombatMovementInstance)>();
+
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly IUiContentStorage _uiContentStorage;
 
     private HintBase? _effectHint;
+    private HintBase? _combatMoveHint;
     private ICombatantEffect? _lastEffectWithHint;
+    private CombatMovementInstance? _lastMoveWithHint;
 
     public CombatantQueuePanel(CombatCore combat,
         IUiContentStorage uiContentStorage,
@@ -80,7 +85,7 @@ internal sealed class CombatantQueuePanel : ControlBase
 
             var backgroundOffset = new Vector2(0, PANEL_BACKGROUND_VERTICAL_OFFSET);
 
-            DrawUnitHitPointsBar(spriteBatch, combatant, panelPosition, backgroundOffset, side);
+            DrawCombatantHitPointsBar(spriteBatch, combatant, panelPosition, backgroundOffset, side);
 
             DrawPanelBackground(spriteBatch, panelPosition, backgroundOffset, side);
 
@@ -106,32 +111,35 @@ internal sealed class CombatantQueuePanel : ControlBase
     public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         var mouse = Mouse.GetState();
-        var mouseRect =
+        var mousePosition =
             resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mouse.Position.ToVector2()).ToPoint();
 
-        HandleEffectHint(mouseRect);
+        HandleMonsterCombatMoveHint(mousePosition);
+
+        HandleEffectHint(mousePosition);
     }
 
-    protected override Point CalcTextureOffset()
+    private void HandleMonsterCombatMoveHint(Point mousePosition)
     {
-        return ControlTextures.CombatMove;
-    }
-
-    protected override Color CalculateColor()
-    {
-        return Color.White;
-    }
-
-    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
-    {
-        for (var index = 0; index < _activeCombat.RoundQueue.Count; index++)
+        var effectListSnapshotList = _monsterCombatMoveInfoList.ToArray();
+        var effectHintFound = false;
+        foreach (var effectInfo in effectListSnapshotList)
         {
-            var combatant = _activeCombat.RoundQueue[index];
+            if (effectInfo.Item1.Contains(mousePosition))
+            {
+                effectHintFound = true;
+                if (_lastMoveWithHint != effectInfo.Item2 || _combatMoveHint is null)
+                {
+                    _lastMoveWithHint = effectInfo.Item2;
+                    _combatMoveHint = CreateEffectHint(effectInfo);
+                }
+            }
+        }
 
-            var combatantQueuePosition = new Vector2(contentRect.Location.X + index * 32, contentRect.Location.Y);
-
-            var side = combatant.IsPlayerControlled ? Side.Left : Side.Right;
-            DrawPortrait(spriteBatch, combatantQueuePosition, combatant, side);
+        if (!effectHintFound)
+        {
+            _lastEffectWithHint = null;
+            _combatMoveHint = null;
         }
     }
 
@@ -141,6 +149,18 @@ internal sealed class CombatantQueuePanel : ControlBase
         {
             Rect = new Rectangle(effectInfo.Item1.Location, new Point(200, 40))
         };
+    }
+
+    private static HintBase CreateEffectHint((Rectangle, CombatMovementInstance) moveInfo)
+    {
+        var hint = new CombatMovementHint(moveInfo.Item2)
+        {
+            Rect = new Rectangle(moveInfo.Item1.Location, new Point(200, 40))
+        };
+
+        hint.Rect = new Rectangle(new Point(moveInfo.Item1.Center.X, moveInfo.Item1.Bottom), hint.ContentSize.ToPoint());
+
+        return hint;
     }
 
     private void DrawEffects(SpriteBatch spriteBatch, Vector2 panelPosition, Combatant combatant, Side side)
@@ -324,7 +344,7 @@ internal sealed class CombatantQueuePanel : ControlBase
             markerPosition, color);
     }
 
-    private void DrawUnitHitPointsBar(SpriteBatch spriteBatch, Combatant combatant, Vector2 panelPosition,
+    private void DrawCombatantHitPointsBar(SpriteBatch spriteBatch, Combatant combatant, Vector2 panelPosition,
         Vector2 backgroundOffset, Side side)
     {
         var hpPosition = panelPosition + backgroundOffset +
@@ -457,5 +477,39 @@ internal sealed class CombatantQueuePanel : ControlBase
     {
         Left,
         Right
+    }
+
+    protected override Point CalcTextureOffset() => ControlTextures.CombatMove;
+
+    protected override Color CalculateColor() => Color.White;
+
+    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
+    {
+        _monsterCombatMoveInfoList.Clear();
+        _effectInfoList.Clear();
+
+        for (var index = 0; index < _activeCombat.RoundQueue.Count; index++)
+        {
+            var combatant = _activeCombat.RoundQueue[index];
+
+            var combatantQueuePosition = new Vector2(contentRect.Location.X + index * 32, contentRect.Location.Y);
+            
+            var side = combatant.IsPlayerControlled ? Side.Left : Side.Right;
+            DrawPortrait(spriteBatch, combatantQueuePosition, combatant, side);
+
+            if (!combatant.IsPlayerControlled && !combatant.IsDead)
+            {
+                var portraitDestRect = new Rectangle(combatantQueuePosition.ToPoint(), new Point(32, 32));
+                var plannedMove = combatant.Hand.First(x => x is not null);
+
+                if (plannedMove is not null)
+                {
+                    _monsterCombatMoveInfoList.Add(new ValueTuple<Rectangle, CombatMovementInstance>(portraitDestRect, plannedMove));
+                }
+            }
+        }
+
+        _effectHint?.Draw(spriteBatch);
+        _combatMoveHint?.Draw(spriteBatch);
     }
 }

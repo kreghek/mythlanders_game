@@ -35,7 +35,7 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
         CombatMovementExecution movementExecution,
         ICombatMovementVisualizationContext visualizationContext)
     {
-        return CommonCombatVisualization.CreateMeleeVisualization(actorAnimator, movementExecution,
+        return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext);
     }
 }

@@ -28,7 +28,6 @@ public class StatValue : IStatValue
     public void ChangeBase(int newBase)
     {
         Base = newBase;
-        Current = newBase;
     }
 
     public void Consume(int value)

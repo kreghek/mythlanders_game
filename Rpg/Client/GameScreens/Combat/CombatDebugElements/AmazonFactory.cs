@@ -35,6 +35,9 @@ public class AmazonFactory
         }
 
         var stats = new CombatantStatsConfig();
+        stats.SetValue(UnitStatType.HitPoints, 3);
+        stats.SetValue(UnitStatType.ShieldPoints, 0);
+        stats.SetValue(UnitStatType.Resolve, 4);
 
         var hero = new Combatant("amazon", heroSequence, stats, combatActorBehaviour)
         {

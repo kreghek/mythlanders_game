@@ -71,12 +71,18 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     {
         return new[]
         {
+            new ICampaignStageTemplateFactory[]
+            {
+                new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]{
+                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+                    new ChallengeCampaignStageTemplateFactory(),
+                })
+            },
+
             // Combat
 
             new ICampaignStageTemplateFactory[]
             {
-                new CombatCampaignStageTemplateFactory(locationSid, _services),
-                new CombatCampaignStageTemplateFactory(locationSid, _services),
                 new CombatCampaignStageTemplateFactory(locationSid, _services)
             },
 

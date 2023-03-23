@@ -101,6 +101,13 @@
       <value>Abstract monster attack</value>
     <comment>Skill</comment>
   </data>
+  <data name="AfterlifeWhirlwind" xml:space="preserve">
+    <value>Afterlife whirlwind</value>
+    <comment>Combat movement</comment>
+  </data>
+  <data name="AfterlifeWhirlwind_Description" xml:space="preserve">
+    <value></value>
+  </data>
   <data name="Archer" xml:space="preserve">
     <value>Hawk</value>
     <comment>Hero</comment>
@@ -190,11 +197,26 @@
     <value>Grim Castle in the Rock</value>
     <comment>Location</comment>
   </data>
+  <data name="ChainHit" xml:space="preserve">
+    <value>Chain hit</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="ChainHit_Description" xml:space="preserve">
+    <value></value>
+    <comment>Combat Movement</comment>
+  </data>
   <data name="ChaoticNeuroInterface" xml:space="preserve">
     <value>Chaotic neuro-interface</value><comment>Equipment</comment>
   </data>
   <data name="CharacterDeepPreyingTitleTemplate" xml:space="preserve">
     <value>{0} is preying</value><comment>Global Effect</comment>
+  </data>
+  <data name="Chasing" xml:space="preserve">
+    <value>Chasing</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="Chasing_Description" xml:space="preserve">
+    <value></value>
   </data>
   <data name="ChineseOldman" xml:space="preserve">
     <value>Ninlao Bingwen</value>
@@ -221,6 +243,14 @@
   <data name="CriticalHitDescription" xml:space="preserve">
     <value>Ability to deal double damage in 50% cases.</value>
     <comment>Perk</comment>
+  </data>
+  <data name="CyberClaws" xml:space="preserve">
+    <value>Cyber-claws</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="CyberClaws_Description" xml:space="preserve">
+    <value></value>
+    <comment>Combat Movement</comment>
   </data>
   <data name="DarkLight" xml:space="preserve">
       <value>Dark light</value>
@@ -257,6 +287,14 @@
       <value>Dope herb</value>
     <comment>Skill</comment>
   </data>
+  <data name="DoubleKapesh" xml:space="preserve">
+    <value>Double kapesh!</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="DoubleKapesh_Description" xml:space="preserve">
+    <value></value>
+    <comment>Combat Movement</comment>
+  </data>
   <data name="EgyptianBookOfDeath" xml:space="preserve">
     <value>Egyptian Book of a dead</value><comment>Equipment</comment>
   </data>
@@ -265,6 +303,14 @@
   </data>
   <data name="EmptinessInTheHand" xml:space="preserve">
     <value>Emptiness in the hand</value><comment>Equipment</comment>
+  </data>
+  <data name="EnergeticBite" xml:space="preserve">
+    <value>Energetic bite</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="EnergeticBite_Description" xml:space="preserve">
+    <value></value>
+    <comment>Combat Movement</comment>
   </data>
   <data name="EnergyShot" xml:space="preserve">
       <value>Energy shot</value>
@@ -288,9 +334,24 @@
   <data name="FinishWounded_Description" xml:space="preserve">
     <value /><comment>Combat Movement</comment>
   </data>
+  <data name="FlockAlphaTactics" xml:space="preserve">
+    <value>Flock Alpha Tactics</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="FlockAlphaTactics_Description" xml:space="preserve">
+    <value></value>
+  </data>
   <data name="GreyWolf" xml:space="preserve">
     <value>Grey wolf</value>
     <comment>Monster</comment>
+  </data>
+  <data name="GuardianPromise" xml:space="preserve">
+    <value>Promise of a tomb guardian</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="GuardianPromise_Description" xml:space="preserve">
+    <value></value>
+    <comment>Combat Movement</comment>
   </data>
   <data name="GuardianWoman" xml:space="preserve">
     <value>Guardian woman</value>
@@ -443,6 +504,14 @@
   <data name="RedemptionStaff" xml:space="preserve">
     <value>Staff of Redemption</value><comment>Equipment</comment>
   </data>
+  <data name="RegenerativeProtocol" xml:space="preserve">
+    <value>Regenerative protocol</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="RegenerativeProtocol_Description" xml:space="preserve">
+    <value></value>
+    <comment>Combat Movement</comment>
+  </data>
   <data name="RiseYourSwords" xml:space="preserve">
     <value>Rise your swords!</value><comment>Combat Movement</comment>
   </data>
@@ -542,6 +611,14 @@
   <data name="VampireBite" xml:space="preserve">
       <value>Vampire bite</value>
     <comment>Skill</comment>
+  </data>
+  <data name="VelesProtection" xml:space="preserve">
+    <value>Veles protection</value>
+    <comment>Combat Movement</comment>
+  </data>
+  <data name="VelesProtection_Description" xml:space="preserve">
+    <value></value>
+    <comment>Combat Movement</comment>
   </data>
   <data name="Volkolak" xml:space="preserve">
     <value>Volkolak</value>
