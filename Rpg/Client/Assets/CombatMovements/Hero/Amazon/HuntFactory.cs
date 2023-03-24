@@ -18,7 +18,7 @@ internal class HuntFactory : CombatMovementFactoryBase
     public override CombatMovement CreateMovement()
     {
         var combatantEffectFactory = new ModifyCombatantMoveStatsCombatantEffectFactory(
-            new UntilUseMoveCombatantEffectLifetimeFactory(new IsAttackCombatMovePredicate()),
+            new UntilCombatantEffectMeetPredicatesLifetimeFactory(new IsAttackCombatMovePredicate()),
             CombatantMoveStats.Cost,
             -1000);
         

@@ -18,6 +18,6 @@ public sealed class ChangeStatEffectInstance : EffectInstanceBase<ChangeStatEffe
     {
         var combatantEffect =
             new ChangeStatCombatantEffect(_combatantEffectLifetime, BaseEffect.TargetStatType, BaseEffect.Value);
-        target.AddEffect(combatantEffect);
+        target.AddEffect(combatantEffect, context.EffectImposedContext);
     }
 }

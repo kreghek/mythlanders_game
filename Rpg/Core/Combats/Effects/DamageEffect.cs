@@ -30,7 +30,7 @@ public sealed class MarkEffectInstance: EffectInstanceBase<MarkEffect>
 
     public override void Influence(Combatant target, IEffectCombatContext context)
     {
-        target.AddEffect(new MarkCombatantEffect(_lifetime));
+        target.AddEffect(new MarkCombatantEffect(_lifetime), context.EffectImposedContext);
     }
 }
 

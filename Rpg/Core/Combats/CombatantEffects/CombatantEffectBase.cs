@@ -3,6 +3,7 @@ namespace Core.Combats.CombatantEffects;
 public abstract class CombatantEffectBase : ICombatantEffect
 {
     public ICombatantEffectLifetime Lifetime { get; }
+    
     public virtual void Dispel(Combatant combatant)
     {
     }
