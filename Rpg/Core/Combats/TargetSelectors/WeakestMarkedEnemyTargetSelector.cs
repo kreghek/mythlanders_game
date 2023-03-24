@@ -1,10 +1,14 @@
-﻿namespace Core.Combats.TargetSelectors;
+using Core.Combats.CombatantEffects;
 
-public sealed class WeakestEnemyTargetSelector : MostEnemyStatValueTargetSelectorBase, ITargetSelector
+namespace Core.Combats.TargetSelectors;
+
+public sealed class WeakestMarkedEnemyTargetSelector : MostEnemyStatValueTargetSelectorBase, ITargetSelector
 {
     public override IReadOnlyList<Combatant> GetMaterialized(Combatant actor, ITargetSelectorContext context)
     {
-        var enemies = context.EnemySide.GetAllCombatants().ToArray();
+        var enemies = context.EnemySide.GetAllCombatants()
+            .Where(x => x.Effects.Any(effect => effect is MarkCombatantEffect))
+            .ToArray();
 
         if (enemies.Any())
         {
@@ -12,7 +16,7 @@ public sealed class WeakestEnemyTargetSelector : MostEnemyStatValueTargetSelecto
             return new[]
             {
                 enemies.OrderBy(x => GetStatCurrentValue(x, UnitStatType.HitPoints))
-                .First()
+                    .First()
             };
         }
         else

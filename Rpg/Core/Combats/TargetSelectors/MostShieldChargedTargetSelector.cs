@@ -2,7 +2,7 @@
 
 public sealed class MostShieldChargedEnemyTargetSelector : MostEnemyStatValueTargetSelectorBase, ITargetSelector
 {
-    public IReadOnlyList<Combatant> GetMaterialized(Combatant actor, ITargetSelectorContext context)
+    public override IReadOnlyList<Combatant> GetMaterialized(Combatant actor, ITargetSelectorContext context)
     {
         var enemies = context.EnemySide.GetAllCombatants().ToArray();
 

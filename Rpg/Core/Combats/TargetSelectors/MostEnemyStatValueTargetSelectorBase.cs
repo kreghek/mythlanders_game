@@ -1,9 +1,11 @@
 ﻿namespace Core.Combats.TargetSelectors;
 
-public abstract class MostEnemyStatValueTargetSelectorBase
+public abstract class MostEnemyStatValueTargetSelectorBase: ITargetSelector
 {
-    protected static int GetStatCurrentValue(Combatant x, UnitStatType statType)
+    protected static int GetStatCurrentValue(Combatant combatant, UnitStatType statType)
     {
-        return x.Stats.Single(x => x.Type == statType).Value.Current;
+        return combatant.Stats.Single(x => x.Type == statType).Value.Current;
     }
+
+    public abstract IReadOnlyList<Combatant> GetMaterialized(Combatant actor, ITargetSelectorContext context);
 }
