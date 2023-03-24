@@ -59,6 +59,8 @@ public sealed class Combatant
         return move;
     }
 
+    public IReadOnlyList<CombatMovementInstance> Pool => _pool.ToArray();
+
     public void PrepareToCombat()
     {
         for (var i = 0; i < 3; i++)

@@ -16,36 +16,37 @@ public sealed class ModifyCombatantMoveStatsCombatantEffect:CombatantEffectBase
     {
         base.Impose(combatant);
 
-        foreach (var combatMovementInstance in combatant.Hand)
+        var allCombatMoves = GetAllCombatMoves(combatant);
+
+        foreach (var combatMovementInstance in allCombatMoves)
         {
-            if (combatMovementInstance is not null)
+            switch (_stats)
             {
-                switch (_stats)
-                {
-                    case CombatantMoveStats.Cost:
-                        combatMovementInstance.Cost.Amount.AddModifier(_modifier);
-                        break;
-                }
-                
+                case CombatantMoveStats.Cost:
+                    combatMovementInstance.Cost.Amount.AddModifier(_modifier);
+                    break;
             }
         }
+    }
+
+    private static IEnumerable<CombatMovementInstance> GetAllCombatMoves(Combatant combatant)
+    {
+        return combatant.Hand.Where(x => x is not null).Select(x => x!).Concat(combatant.Pool);
     }
 
     public override void Dispel(Combatant combatant)
     {
         base.Dispel(combatant);
-        
-        foreach (var combatMovementInstance in combatant.Hand)
+
+        var allCombatMoves = GetAllCombatMoves(combatant);
+
+        foreach (var combatMovementInstance in allCombatMoves)
         {
-            if (combatMovementInstance is not null)
+            switch (_stats)
             {
-                switch (_stats)
-                {
-                    case CombatantMoveStats.Cost:
-                        combatMovementInstance.Cost.Amount.RemoveModifier(_modifier);
-                        break;
-                }
-                
+                case CombatantMoveStats.Cost:
+                    combatMovementInstance.Cost.Amount.RemoveModifier(_modifier);
+                    break;
             }
         }
     }

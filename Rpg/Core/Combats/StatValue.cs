@@ -13,14 +13,14 @@ public class StatValue : IStatValue
 
     private int Base { get; set; }
 
-    public int ActualMax => Base + _modifiers.Sum(x => x.Value);
+    public int ActualMax => Math.Max(0, Base + _modifiers.Sum(x => x.Value));
 
     public int Current { get; private set; }
 
     public void AddModifier(IUnitStatModifier modifier)
     {
         _modifiers.Add(modifier);
-        if (Current > Base) Current = Base;
+        if (Current > ActualMax) Current = ActualMax;
 
         ModifierAdded?.Invoke(this, new EventArgs());
     }
