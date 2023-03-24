@@ -493,7 +493,7 @@ internal sealed class CombatantQueuePanel : ControlBase
             var combatant = _activeCombat.RoundQueue[index];
 
             var combatantQueuePosition = new Vector2(contentRect.Location.X + index * 32, contentRect.Location.Y);
-            
+
             var side = combatant.IsPlayerControlled ? Side.Left : Side.Right;
             DrawPortrait(spriteBatch, combatantQueuePosition, combatant, side);
 
