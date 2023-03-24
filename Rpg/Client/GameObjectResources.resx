@@ -603,10 +603,10 @@
     <comment>Skill</comment>
   </data>
   <data name="TrackerSavvy" xml:space="preserve">
-    <value>Tracker's savvy</value><comment>Combat Movement</comment>
+    <value>Tracker's savvy</value><comment>Combat Movement Amazon</comment>
   </data>
   <data name="TrackerSavvy_Description" xml:space="preserve">
-    <value /><comment>Combat Movement</comment>
+    <value /><comment>Combat Movement Amazon</comment>
   </data>
   <data name="VampireBite" xml:space="preserve">
       <value>Vampire bite</value>
