@@ -293,11 +293,11 @@ public class CombatCore
         }
     }
 
-    private int HandleCombatantDamaged(Combatant combatant, UnitStatType statType, int value)
+    private int HandleCombatantDamaged(Combatant combatant, UnitStatType statType, int damageAmount)
     {
-        var remains = TakeStat(combatant, statType, value);
+        var remains = TakeStat(combatant, statType, damageAmount);
 
-        CombatantHasBeenDamaged?.Invoke(this, new CombatantDamagedEventArgs(combatant, statType, value));
+        CombatantHasBeenDamaged?.Invoke(this, new CombatantDamagedEventArgs(combatant, statType, damageAmount));
 
         if (combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.Current <= 0)
         {

@@ -24,14 +24,11 @@ public sealed class DamageEffectInstance : EffectInstanceBase<DamageEffect>
         var absorbedDamage =
             Math.Max(rolledDamage - target.Stats.Single(x => x.Type == UnitStatType.Defense).Value.Current, 0);
 
-        //var damageRemains = TakeStat(target, UnitStatType.ShieldPoints, absorbedDamage);
-
         var damageRemains = context.DamageCombatantStat(target, UnitStatType.ShieldPoints, absorbedDamage);
 
         if (BaseEffect.DamageType == DamageType.ShieldsOnly) return;
 
         if (damageRemains > 0)
-            //TakeStat(target, UnitStatType.HitPoints, damageRemains);
             context.DamageCombatantStat(target, UnitStatType.HitPoints, damageRemains);
     }
 
