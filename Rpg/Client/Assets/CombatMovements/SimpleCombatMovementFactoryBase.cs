@@ -12,9 +12,15 @@ internal abstract class SimpleCombatMovementFactoryBase : CombatMovementFactoryB
         };
     }
 
+    protected virtual CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(1);
+    }
+
     protected abstract CombatMovementEffectConfig GetEffects();
 
-    protected virtual CombatMovementTags GetTags() => CombatMovementTags.None;
-
-    protected virtual CombatMovementCost GetCost() => new CombatMovementCost(1);
+    protected virtual CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.None;
+    }
 }

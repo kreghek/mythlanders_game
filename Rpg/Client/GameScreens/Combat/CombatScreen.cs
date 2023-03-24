@@ -940,7 +940,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                 sp.Current.ToString(),
-                new Vector2(statsPanelOrigin.Location.X + 10, statsPanelOrigin.Location.Y + statsPanelOrigin.Size.Y / 2),
+                new Vector2(statsPanelOrigin.Location.X + 10,
+                    statsPanelOrigin.Location.Y + statsPanelOrigin.Size.Y / 2),
                 Color.Lerp(Color.White, Color.Transparent, 0.25f));
         }
 

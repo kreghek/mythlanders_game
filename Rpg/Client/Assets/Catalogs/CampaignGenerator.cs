@@ -73,9 +73,10 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         {
             new ICampaignStageTemplateFactory[]
             {
-                new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]{
+                new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+                {
                     new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
-                    new ChallengeCampaignStageTemplateFactory(),
+                    new ChallengeCampaignStageTemplateFactory()
                 })
             },
 
