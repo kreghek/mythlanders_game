@@ -28,7 +28,7 @@ internal class InspirationalBreakthroughFactory : CombatMovementFactoryBase
                         new SelfTargetSelector(),
                         ChangePositionEffectDirection.ToVanguard
                     ),
-                    new ModifyEffectsEffect(new AllOtherFriendlyTargetSelector(), 1)
+                    new ModifyEffectsEffect(new AllOtherRearguardAlliesTargetSelector(), 1)
                 })
         )
         {

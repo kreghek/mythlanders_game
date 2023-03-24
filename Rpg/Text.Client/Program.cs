@@ -427,7 +427,7 @@ internal static class Program
                 Console.Write(" to the most shield changed");
                 break;
 
-            case AllVanguardTargetSelector:
+            case AllVanguardEnemiesTargetSelector:
                 Console.Write(" to all in the vanguard");
                 break;
         }

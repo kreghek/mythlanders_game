@@ -1,8 +1,8 @@
 namespace Core.Combats.TargetSelectors;
 
-public sealed class AllVanguardTargetSelector : ITargetSelector
+public sealed class AllVanguardEnemiesTargetSelector : ITargetSelector
 {
-    private IEnumerable<Combatant> GetIterator(ITargetSelectorContext context)
+    private static IEnumerable<Combatant> GetIterator(ITargetSelectorContext context)
     {
         for (var lineIndex = 0; lineIndex < context.EnemySide.LineCount; lineIndex++)
         {
