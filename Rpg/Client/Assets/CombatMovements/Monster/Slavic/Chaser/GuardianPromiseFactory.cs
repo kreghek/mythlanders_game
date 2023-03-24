@@ -3,7 +3,7 @@ using Core.Combats.CombatantEffectLifetimes;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
-namespace Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
+namespace Client.Assets.CombatMovements.Monster.Slavic.Chaser;
 
 internal class GuardianPromiseFactory : SimpleCombatMovementFactoryBase
 {
@@ -16,7 +16,7 @@ internal class GuardianPromiseFactory : SimpleCombatMovementFactoryBase
                             new SelfTargetSelector(),
                             UnitStatType.Defense,
                             3,
-                            typeof(ToNextCombatantTurnEffectLifetime))
+                            new ToNextCombatantTurnEffectLifetimeFactory())
                     },
                     new IEffect[]
                     {
@@ -24,7 +24,7 @@ internal class GuardianPromiseFactory : SimpleCombatMovementFactoryBase
                             new SelfTargetSelector(),
                             UnitStatType.Defense,
                             1,
-                            typeof(ToEndOfCurrentRoundEffectLifetime))
+                            new ToEndOfCurrentRoundEffectLifetimeFactory())
                     });
     }
 

@@ -32,7 +32,7 @@ internal class CombatMovementHint : HintBase
         if (_combatMovement.SourceMovement.Cost.HasCost)
         {
             _combatMoveCostText =
-                string.Format(UiResource.SkillManaCostTemplate, _combatMovement.SourceMovement.Cost.Value);
+                string.Format(UiResource.SkillManaCostTemplate, _combatMovement.SourceMovement.Cost.Amount);
         }
         else
         {

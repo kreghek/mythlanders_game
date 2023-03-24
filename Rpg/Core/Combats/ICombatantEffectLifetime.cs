@@ -6,6 +6,8 @@ public interface ICombatantEffectLifetime
 {
     bool IsDead { get; }
     void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context);
+    void EffectImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context);
+    void EffectDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context);
 }
 
 public interface ICombatantEffectLifetimeFactory

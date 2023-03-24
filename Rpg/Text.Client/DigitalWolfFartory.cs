@@ -38,7 +38,7 @@ public class DigitalWolfFactory
                             new SelfTargetSelector(),
                             UnitStatType.Defense,
                             3,
-                            typeof(ToNextCombatantTurnEffectLifetime))
+                            new ToNextCombatantTurnEffectLifetimeFactory())
                     },
                     new IEffect[]
                     {
@@ -46,7 +46,7 @@ public class DigitalWolfFactory
                             new SelfTargetSelector(),
                             UnitStatType.Defense,
                             1,
-                            typeof(ToEndOfCurrentRoundEffectLifetime))
+                            new ToEndOfCurrentRoundEffectLifetimeFactory())
                     })
             )
             {

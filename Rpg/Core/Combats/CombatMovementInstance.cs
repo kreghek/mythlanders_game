@@ -7,6 +7,8 @@ public sealed class CombatMovementInstance
         SourceMovement = sourceMovement;
         Effects = sourceMovement.Effects.Select(x => x.CreateInstance()).ToArray();
         AutoDefenseEffects = sourceMovement.AutoDefenseEffects.Select(x => x.CreateInstance()).ToArray();
+
+        Cost = new CombatMovementCost(new StatValue(sourceMovement.Cost.Amount.Current));
     }
 
     public IReadOnlyCollection<IEffectInstance> AutoDefenseEffects { get; }
@@ -14,4 +16,6 @@ public sealed class CombatMovementInstance
     public IReadOnlyCollection<IEffectInstance> Effects { get; }
 
     public CombatMovement SourceMovement { get; }
+    
+    public CombatMovementCost Cost { get; }
 }
