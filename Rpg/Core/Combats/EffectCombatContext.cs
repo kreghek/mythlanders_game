@@ -6,16 +6,15 @@ public sealed class EffectCombatContext : IEffectCombatContext
 {
     private readonly ICombatantEffectLifetimeImposeContext _effectLifetimeContext;
 
-    public EffectCombatContext(CombatField Field,
-        IDice Dice,
-        CombatantHasTakenDamagedCallback NotifyCombatantDamagedDelegate,
-        CombatantHasMovedCallback NotifyCombatantMovedDelegate, CombatCore combatCore)
+    public EffectCombatContext(CombatField field,
+        IDice dice,
+        CombatantHasTakenDamagedCallback notifyCombatantDamagedDelegate,
+        CombatantHasMovedCallback notifyCombatantMovedDelegate, CombatCore combatCore)
     {
-        this.Field = Field;
-        this.Dice = Dice;
-        this.NotifyCombatantDamagedDelegate = NotifyCombatantDamagedDelegate;
-        this.NotifyCombatantMovedDelegate = NotifyCombatantMovedDelegate;
-        this.combatCore = combatCore;
+        Field = field;
+        Dice = dice;
+        NotifyCombatantDamagedDelegate = notifyCombatantDamagedDelegate;
+        NotifyCombatantMovedDelegate = notifyCombatantMovedDelegate;
 
         _effectLifetimeContext = new CombatantEffectLifetimeImposeContext(combatCore);
     }
@@ -44,9 +43,8 @@ public sealed class EffectCombatContext : IEffectCombatContext
     }
 
     public ICombatantEffectLifetimeImposeContext EffectImposedContext => _effectLifetimeContext;
-    public CombatField Field { get; init; }
-    public IDice Dice { get; init; }
-    public CombatantHasTakenDamagedCallback NotifyCombatantDamagedDelegate { get; init; }
-    public CombatantHasMovedCallback NotifyCombatantMovedDelegate { get; init; }
-    public CombatCore combatCore { get; init; }
+    public CombatField Field { get; }
+    public IDice Dice { get; }
+    public CombatantHasTakenDamagedCallback NotifyCombatantDamagedDelegate { get; }
+    public CombatantHasMovedCallback NotifyCombatantMovedDelegate { get; }
 }
