@@ -322,7 +322,11 @@ internal class CombatScreen : GameScreenWithMenuBase
             CountDefeat();
         }
 
-        var combatantGameObject = GetCombatantGameObject(e.Combatant);
+        var combatantGameObject = GetCombatantGameObjectOrDefault(e.Combatant);
+        if (combatantGameObject is null)
+        { 
+            return;
+        }
 
         var corpse = combatantGameObject.CreateCorpse();
         _corpseObjects.Add(corpse);
@@ -966,6 +970,11 @@ internal class CombatScreen : GameScreenWithMenuBase
     private CombatantGameObject GetCombatantGameObject(Combatant combatant)
     {
         return _gameObjects.First(x => x.Combatant == combatant);
+    }
+
+    private CombatantGameObject? GetCombatantGameObjectOrDefault(Combatant combatant)
+    {
+        return _gameObjects.FirstOrDefault(x => x.Combatant == combatant);
     }
 
     private static int? GetIndicatorNextIndex(CombatantGameObject unitGameObject)
