@@ -15,7 +15,7 @@ public class DigitalWolfFactory
 
         var stats = new CombatantStatsConfig();
         stats.SetValue(UnitStatType.HitPoints, 6);
-        stats.SetValue(UnitStatType.ShieldPoints, 4);
+        stats.SetValue(UnitStatType.ShieldPoints, 3);
         stats.SetValue(UnitStatType.Resolve, 4);
 
         var monster = new Combatant("digitalwolf", monsterSequence, stats, combatActorBehaviour)
