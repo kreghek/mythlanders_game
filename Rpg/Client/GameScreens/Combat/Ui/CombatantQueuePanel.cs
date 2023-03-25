@@ -427,14 +427,16 @@ internal sealed class CombatantQueuePanel : ControlBase
         _monsterCombatMoveInfoList.Clear();
         _effectInfoList.Clear();
 
+        spriteBatch.Draw(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(), contentRect, new Rectangle(ControlTextures.Shadow, new Point(32, 32)), Color.Lerp(Color.White, Color.Transparent, 0.5f));
+
         for (var index = 0; index < _activeCombat.RoundQueue.Count; index++)
         {
             var combatant = _activeCombat.RoundQueue[index];
 
-            const int RESOLVE_WIDTH = 20;
+            const int RESOLVE_WIDTH = 12;
             const int PORTRAIN_WIDTH = 32;
 
-            var combatantQueuePosition = new Vector2(contentRect.Location.X + (index * (PORTRAIN_WIDTH + RESOLVE_WIDTH)), contentRect.Location.Y);
+            var combatantQueuePosition = new Vector2(contentRect.Location.X + (index * (PORTRAIN_WIDTH + RESOLVE_WIDTH + CONTENT_MARGIN)), contentRect.Location.Y + CONTENT_MARGIN);
             
             var side = combatant.IsPlayerControlled ? Side.Left : Side.Right;
             var portraitDestRect = new Rectangle(combatantQueuePosition.ToPoint() + new Point(RESOLVE_WIDTH, 0), new Point(PORTRAIN_WIDTH, PORTRAIN_WIDTH));

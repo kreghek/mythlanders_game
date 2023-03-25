@@ -709,7 +709,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             const int PANEL_WIDTH = 400;
 
             _combatantQueuePanel.Rect = new Rectangle(contentRectangle.Center.X - PANEL_WIDTH / 2, contentRectangle.Top,
-                PANEL_WIDTH, 32);
+                PANEL_WIDTH, 48);
             _combatantQueuePanel.Draw(spriteBatch);
         }
     }
