@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 
 using Client.Assets.CombatMovements;
 using Client.Engine;
@@ -173,6 +174,8 @@ internal class CombatMovementsHandPanel : ControlBase
                     button.Update(resolutionIndependentRenderer);
 
                     DetectMouseHoverOnButton(mouseRect, button);
+
+                    button.IsEnabled = Combatant is not null && IsResolveEnought(button.Entity, Combatant.Stats.Single(x => x.Type == UnitStatType.Resolve));
                 }
             }
 
@@ -199,6 +202,11 @@ internal class CombatMovementsHandPanel : ControlBase
                 _burningCombatMovement = null;
             }
         }
+    }
+
+    private static bool IsResolveEnought(CombatMovementInstance combatMovement, IUnitStat currentCombatantResolveStat)
+    {
+        return combatMovement.Cost.Amount.Current <= currentCombatantResolveStat.Value.Current;
     }
 
     private void CombatMovementButton_OnClick(object? sender, EventArgs e)
