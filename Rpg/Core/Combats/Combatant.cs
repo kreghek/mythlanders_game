@@ -42,7 +42,7 @@ public sealed class Combatant
     {
         effect.Impose(this);
         _effects.Add(effect);
-        
+
         effect.Lifetime.EffectImposed(effect, context);
     }
 
@@ -79,7 +79,7 @@ public sealed class Combatant
     {
         effect.Dispel(this);
         _effects.Remove(effect);
-        
+
         effect.Lifetime.EffectDispelled(effect, context);
     }
 

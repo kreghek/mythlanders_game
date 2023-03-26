@@ -1,6 +1,6 @@
 namespace Core.Combats.CombatantEffects;
 
-public sealed class ModifyCombatantMoveStatsCombatantEffectFactory: ICombatantEffectFactory
+public sealed class ModifyCombatantMoveStatsCombatantEffectFactory : ICombatantEffectFactory
 {
     private readonly ICombatantEffectLifetimeFactory _lifetimeFactory;
     private readonly CombatantMoveStats _stats;

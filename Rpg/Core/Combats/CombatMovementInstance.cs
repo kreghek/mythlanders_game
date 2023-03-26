@@ -16,6 +16,6 @@ public sealed class CombatMovementInstance
     public IReadOnlyCollection<IEffectInstance> Effects { get; }
 
     public CombatMovement SourceMovement { get; }
-    
+
     public CombatMovementCost Cost { get; }
 }

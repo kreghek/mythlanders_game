@@ -1,6 +1,6 @@
 namespace Core.Combats.CombatantEffects;
 
-public sealed class ModifyCombatantMoveStatsCombatantEffect:CombatantEffectBase
+public sealed class ModifyCombatantMoveStatsCombatantEffect : CombatantEffectBase
 {
     private readonly CombatantMoveStats _stats;
     private readonly StatModifier _modifier;

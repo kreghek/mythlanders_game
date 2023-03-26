@@ -18,7 +18,7 @@ public sealed class ToEndOfCurrentRoundEffectLifetime : ICombatantEffectLifetime
     public bool IsDead { get; private set; }
 }
 
-public sealed class ToEndOfCurrentRoundEffectLifetimeFactory: ICombatantEffectLifetimeFactory
+public sealed class ToEndOfCurrentRoundEffectLifetimeFactory : ICombatantEffectLifetimeFactory
 {
     public ICombatantEffectLifetime Create()
     {

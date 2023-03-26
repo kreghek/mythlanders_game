@@ -19,7 +19,7 @@ public sealed class MarkEffect : IEffect
     }
 }
 
-public sealed class MarkEffectInstance: EffectInstanceBase<MarkEffect>
+public sealed class MarkEffectInstance : EffectInstanceBase<MarkEffect>
 {
     private readonly ICombatantEffectLifetime _lifetime;
 
@@ -43,7 +43,7 @@ public sealed class DamageEffect : IEffect
         Damage = damage;
         Modifiers = ArraySegment<IDamageEffectModifier>.Empty;
     }
-    
+
     public DamageEffect(ITargetSelector selector, DamageType damageType, Range<int> damage, IReadOnlyList<IDamageEffectModifier> modifiers)
     {
         Selector = selector;
@@ -71,7 +71,7 @@ public interface IDamageEffectModifier
     Range<int> Process(Range<int> damage);
 }
 
-public sealed class MarkDamageEffectModifier:IDamageEffectModifier
+public sealed class MarkDamageEffectModifier : IDamageEffectModifier
 {
     private readonly int _bonus;
 

@@ -2,7 +2,7 @@ using Core.Combats.CombatantEffects;
 
 namespace Core.Combats.Effects;
 
-public sealed class AddCombatantEffectEffectInstance: EffectInstanceBase<AddCombatantEffectEffect>
+public sealed class AddCombatantEffectEffectInstance : EffectInstanceBase<AddCombatantEffectEffect>
 {
     private readonly ICombatantEffectFactory _combatantEffectFactory;
 

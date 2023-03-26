@@ -437,7 +437,7 @@ internal sealed class CombatantQueuePanel : ControlBase
             const int PORTRAIN_WIDTH = 32;
 
             var combatantQueuePosition = new Vector2(contentRect.Location.X + (index * (PORTRAIN_WIDTH + RESOLVE_WIDTH + CONTENT_MARGIN)), contentRect.Location.Y + CONTENT_MARGIN);
-            
+
             var side = combatant.IsPlayerControlled ? Side.Left : Side.Right;
             var portraitDestRect = new Rectangle(combatantQueuePosition.ToPoint() + new Point(RESOLVE_WIDTH, 0), new Point(PORTRAIN_WIDTH, PORTRAIN_WIDTH));
             DrawPortrait(spriteBatch, portraitDestRect, combatant, side);

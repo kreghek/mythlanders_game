@@ -4,7 +4,7 @@ public sealed class ChangeStatCombatantEffect : CombatantEffectBase
 {
     private readonly IUnitStatModifier _statModifier;
 
-    public ChangeStatCombatantEffect(ICombatantEffectLifetime lifetime, UnitStatType statType, int value): base(lifetime)
+    public ChangeStatCombatantEffect(ICombatantEffectLifetime lifetime, UnitStatType statType, int value) : base(lifetime)
     {
         StatType = statType;
         Value = value;

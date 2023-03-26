@@ -21,9 +21,9 @@ internal class HuntFactory : CombatMovementFactoryBase
             new UntilCombatantEffectMeetPredicatesLifetimeFactory(new IsAttackCombatMovePredicate()),
             CombatantMoveStats.Cost,
             -1000);
-        
+
         var freeAttacksEffect = new AddCombatantEffectEffect(new SelfTargetSelector(), combatantEffectFactory);
-        
+
         return new CombatMovement(Sid,
             new CombatMovementCost(3),
             CombatMovementEffectConfig.Create(

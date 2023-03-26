@@ -324,7 +324,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         var combatantGameObject = GetCombatantGameObjectOrDefault(e.Combatant);
         if (combatantGameObject is null)
-        { 
+        {
             return;
         }
 
