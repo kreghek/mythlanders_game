@@ -9,18 +9,18 @@ internal class AfterlifeWhirlwindFactory : SimpleCombatMovementFactoryBase
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(
-                    new IEffect[]
-                    {
-                        new AdjustPositionEffect(new SelfTargetSelector()),
-                        new DamageEffect(
-                            new AllVanguardEnemiesTargetSelector(),
-                            DamageType.Normal,
-                            Range<int>.CreateMono(2)),
-                        new PushToPositionEffect(
-                            new SelfTargetSelector(),
-                            ChangePositionEffectDirection.ToVanguard
-                        )
-                    });
+            new IEffect[]
+            {
+                new AdjustPositionEffect(new SelfTargetSelector()),
+                new DamageEffect(
+                    new AllVanguardEnemiesTargetSelector(),
+                    DamageType.Normal,
+                    Range<int>.CreateMono(2)),
+                new PushToPositionEffect(
+                    new SelfTargetSelector(),
+                    ChangePositionEffectDirection.ToVanguard
+                )
+            });
     }
 
     protected override CombatMovementTags GetTags() => CombatMovementTags.Attack;

@@ -26,7 +26,7 @@ public class ThiefChaserFactory
 
     private static CombatMovementSequence CreateCombatMoveVariation(int variationIndex)
     {
-        var moveTemplate = new CombatMovement[,]
+        var moveTemplate = new[,]
         {
             { new ChainHitFactory().CreateMovement(), new ChasingFactory().CreateMovement() },
 
