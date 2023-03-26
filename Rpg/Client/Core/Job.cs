@@ -21,16 +21,30 @@ internal sealed class Job : IJob
         Scheme = scheme;
     }
 
+    /// <inheritdoc />
     public override string ToString()
     {
-        var rm = UiResource.ResourceManager!;
+        var rm = UiResource.ResourceManager;
         if (IsComplete)
         {
-            return string.Format(rm.GetString(_completePatternResourceSid), _titleResourceSid);
+            var completePattern = rm.GetString(_completePatternResourceSid);
+            if (completePattern is not null)
+            {
+                return string.Format(completePattern, _titleResourceSid);
+            }
+
+            return _completePatternResourceSid;
         }
 
-        return string.Format(rm.GetString(_patternResourceSid), rm.GetString(_titleResourceSid), Progress,
-            Scheme.GoalValue.Value);
+        var inProgressPattern = rm.GetString(_patternResourceSid);
+
+        if (inProgressPattern is not null)
+        {
+            return string.Format(inProgressPattern, rm.GetString(_titleResourceSid), Progress,
+                Scheme.GoalValue.Value);
+        }
+
+        return $"{_titleResourceSid} {Progress}/{Scheme.GoalValue.Value}";
     }
 
     public bool IsComplete { get; set; }

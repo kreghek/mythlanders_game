@@ -20,7 +20,7 @@
     {
       "DamageDealerRank": 0.5,
       "Demo": false,
-      "Sid": "Comissar",
+      "Sid": "Partisan",
       "SupportRank": 0.1,
       "TankRank": 0.4,
       "Type": false
@@ -52,7 +52,7 @@
     {
       "DamageDealerRank": 0.7,
       "Demo": false,
-      "Sid": "Archer",
+      "Sid": "Robber",
       "SupportRank": 0,
       "TankRank": 0.3,
       "Type": false

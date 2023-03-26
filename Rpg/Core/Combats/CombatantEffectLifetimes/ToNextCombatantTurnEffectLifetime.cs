@@ -4,35 +4,19 @@ public sealed class ToNextCombatantTurnEffectLifetime : ICombatantEffectLifetime
 {
     private bool _currentRoundEnd;
 
-    public void Update(CombatantEffectUpdateType updateType)
+    public void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context)
     {
         if (updateType == CombatantEffectUpdateType.EndRound) _currentRoundEnd = true;
 
         if (_currentRoundEnd && updateType == CombatantEffectUpdateType.StartCombatantTurn) IsDead = true;
     }
 
-    public bool IsDead { get; private set; }
-}
-
-public sealed class MultipleCombatantTurnEffectLifetime : ICombatantEffectLifetime
-{
-    private int _counter;
-    private bool _currentRoundEnd;
-
-    public MultipleCombatantTurnEffectLifetime(int duration)
+    public void EffectImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context)
     {
-        _counter = duration;
     }
 
-    public void Update(CombatantEffectUpdateType updateType)
+    public void EffectDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context)
     {
-        if (updateType == CombatantEffectUpdateType.EndRound) _currentRoundEnd = true;
-
-        if (_currentRoundEnd && updateType == CombatantEffectUpdateType.EndRound)
-        {
-            _counter--;
-            if (_counter == 0) IsDead = true;
-        }
     }
 
     public bool IsDead { get; private set; }

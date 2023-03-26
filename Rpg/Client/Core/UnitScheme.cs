@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Core.Balance;
+
 namespace Rpg.Client.Core
 {
     internal sealed class UnitScheme

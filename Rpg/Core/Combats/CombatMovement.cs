@@ -2,7 +2,7 @@ namespace Core.Combats;
 
 public sealed class CombatMovement
 {
-    public CombatMovement(string sid, CombatMovementCost cost, CombatMovementEffectConfig effectConfig)
+    public CombatMovement(CombatMovementSid sid, CombatMovementCost cost, CombatMovementEffectConfig effectConfig)
     {
         Sid = sid;
         Cost = cost;
@@ -13,24 +13,6 @@ public sealed class CombatMovement
     public IReadOnlyCollection<IEffect> AutoDefenseEffects { get; }
     public CombatMovementCost Cost { get; }
     public IReadOnlyCollection<IEffect> Effects { get; }
-
-    public string Sid { get; }
-
-    public CombatMovementTags Tags { get; set; }
-}
-
-public sealed class CombatMovementInstance
-{
-    public CombatMovementInstance(CombatMovement sourceMovement)
-    {
-        SourceMovement = sourceMovement;
-        Effects = sourceMovement.Effects.Select(x => x.CreateInstance()).ToArray();
-        AutoDefenseEffects = sourceMovement.AutoDefenseEffects.Select(x => x.CreateInstance()).ToArray();
-    }
-
-    public IReadOnlyCollection<IEffectInstance> AutoDefenseEffects { get; }
-
-    public IReadOnlyCollection<IEffectInstance> Effects { get; }
-
-    public CombatMovement SourceMovement { get; }
+    public CombatMovementSid Sid { get; }
+    public CombatMovementTags Tags { get; init; }
 }

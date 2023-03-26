@@ -1,15 +1,17 @@
 ﻿namespace Core.Combats.TargetSelectors;
 
-public sealed class MostShieldChargedTargetSelector : ITargetSelector
+public sealed class MostShieldChargedEnemyTargetSelector : MostEnemyStatValueTargetSelectorBase, ITargetSelector
 {
-    public IReadOnlyList<Combatant> Get(Combatant actor, ITargetSelectorContext context)
+    public override IReadOnlyList<Combatant> GetMaterialized(Combatant actor, ITargetSelectorContext context)
     {
-        var enemies = context.EnemySide.GetAllCombatants();
+        var enemies = context.EnemySide.GetAllCombatants().ToArray();
 
-        return new[]
-        {
-            enemies.OrderByDescending(x => x.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value.Current)
-                .First()
-        };
+        if (enemies.Any())
+            return new[]
+            {
+                enemies.OrderByDescending(x => GetStatCurrentValue(x, UnitStatType.ShieldPoints))
+                    .First()
+            };
+        return Array.Empty<Combatant>();
     }
 }

@@ -1,13 +1,16 @@
 namespace Core.Combats;
 
-public class Combatant
+public sealed class Combatant
 {
     private readonly IList<ICombatantEffect> _effects = new List<ICombatantEffect>();
     private readonly CombatMovementInstance?[] _hand;
     private readonly IList<CombatMovementInstance> _pool;
 
-    public Combatant(CombatMovementSequence sequence)
+    public Combatant(string classSid, CombatMovementSequence sequence, CombatantStatsConfig stats,
+        ICombatActorBehaviour behaviour)
     {
+        ClassSid = classSid;
+        Behaviour = behaviour;
         _pool = new List<CombatMovementInstance>();
         _hand = new CombatMovementInstance?[3];
 
@@ -17,15 +20,12 @@ public class Combatant
             _pool.Add(instance);
         }
 
-        Stats = new List<IUnitStat>
-        {
-            new CombatantStat(UnitStatType.ShieldPoints, new CombatantStatValue(new StatValue(1))),
-            new CombatantStat(UnitStatType.HitPoints, new CombatantStatValue(new StatValue(3))),
-            new CombatantStat(UnitStatType.Resolve, new CombatantStatValue(new StatValue(8))),
-            new CombatantStat(UnitStatType.Maneuver, new CombatantStatValue(new StatValue(1))),
-            new CombatantStat(UnitStatType.Defense, new CombatantStatValue(new StatValue(0)))
-        };
+        Stats = stats.GetStats();
     }
+
+    public ICombatActorBehaviour Behaviour { get; }
+
+    public string ClassSid { get; }
 
     public IReadOnlyCollection<ICombatantEffect> Effects => _effects.ToArray();
 
@@ -35,14 +35,17 @@ public class Combatant
 
     public bool IsPlayerControlled { get; init; }
 
-    public string? Sid { get; init; }
+    public IReadOnlyList<CombatMovementInstance> Pool => _pool.ToArray();
 
+    public string? Sid { get; init; }
     public IReadOnlyCollection<IUnitStat> Stats { get; }
 
-    public void AddEffect(ICombatantEffect effect)
+    public void AddEffect(ICombatantEffect effect, ICombatantEffectLifetimeImposeContext context)
     {
         effect.Impose(this);
         _effects.Add(effect);
+
+        effect.Lifetime.EffectImposed(effect, context);
     }
 
     public void AssignMoveToHand(int handIndex, CombatMovementInstance movement)
@@ -58,10 +61,18 @@ public class Combatant
         return move;
     }
 
-    public void RemoveEffect(ICombatantEffect effect)
+    public void PrepareToCombat()
     {
-        effect.Dispel(this);
-        _effects.Remove(effect);
+        for (var i = 0; i < 3; i++)
+        {
+            if (!_pool.Any())
+                // Pool is empty.
+                // Stop to prepare first movements.
+                break;
+
+            _hand[i] = _pool.First();
+            _pool.RemoveAt(0);
+        }
     }
 
     public void SetDead()
@@ -69,22 +80,15 @@ public class Combatant
         IsDead = true;
     }
 
-    public void StartCombat()
+    public void UpdateEffects(CombatantEffectUpdateType updateType,
+        ICombatantEffectLifetimeDispelContext effectLifetimeDispelContext)
     {
-        for (var i = 0; i < 3; i++)
-            if (_pool.Any())
-            {
-                _hand[i] = _pool.First();
-                _pool.RemoveAt(0);
-            }
-    }
+        var context = new CombatantEffectLifetimeUpdateContext(this);
 
-    public void UpdateEffects(CombatantEffectUpdateType updateType)
-    {
         var effectToDispel = new List<ICombatantEffect>();
         foreach (var effect in _effects)
         {
-            effect.Update(updateType);
+            effect.Update(updateType, context);
 
             if (effect.Lifetime.IsDead) effectToDispel.Add(effect);
         }
@@ -92,14 +96,27 @@ public class Combatant
         foreach (var effect in effectToDispel)
         {
             effect.Dispel(this);
-            RemoveEffect(effect);
+            RemoveEffect(effect, effectLifetimeDispelContext);
         }
     }
 
-    internal void DropMovementFromHand(CombatMovementInstance movement)
+    internal int? DropMovementFromHand(CombatMovementInstance movement)
     {
         for (var i = 0; i < _hand.Length; i++)
             if (_hand[i] == movement)
+            {
                 _hand[i] = null;
+                return i;
+            }
+
+        return null;
+    }
+
+    private void RemoveEffect(ICombatantEffect effect, ICombatantEffectLifetimeDispelContext context)
+    {
+        effect.Dispel(this);
+        _effects.Remove(effect);
+
+        effect.Lifetime.EffectDispelled(effect, context);
     }
 }

@@ -4,8 +4,17 @@ namespace Core.Combats;
 
 public interface IEffectCombatContext
 {
+    Combatant Actor { get; }
     IDice Dice { get; }
+
+    ICombatantEffectLifetimeImposeContext EffectImposedContext { get; }
     CombatField Field { get; }
 
-    void NotifyCombatantDamaged(Combatant combatant, UnitStatType statType, int value);
+    int DamageCombatantStat(Combatant combatant, UnitStatType statType, int value);
+
+    void NotifySwapFieldPosition(Combatant combatant, FieldCoords sourceCoords, CombatFieldSide sourceFieldSide,
+        FieldCoords destinationCoords, CombatFieldSide destinationFieldSide);
+
+    void PassTurn(Combatant target);
+    void RestoreCombatantStat(Combatant combatant, UnitStatType statType, int value);
 }

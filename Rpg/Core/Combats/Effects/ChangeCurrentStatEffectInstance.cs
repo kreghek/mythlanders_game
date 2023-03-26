@@ -16,8 +16,8 @@ public sealed class ChangeCurrentStatEffectInstance : EffectInstanceBase<ChangeC
         if (rolledValue > 0)
             statValue.Restore(rolledValue);
         else
-            statValue.Consume(-rolledValue);
+            statValue.Consume(rolledValue);
 
-        context.NotifyCombatantDamaged(target, BaseEffect.TargetStatType, rolledValue);
+        context.DamageCombatantStat(target, BaseEffect.TargetStatType, rolledValue);
     }
 }

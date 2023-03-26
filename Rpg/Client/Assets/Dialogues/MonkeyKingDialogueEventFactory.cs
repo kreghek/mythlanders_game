@@ -39,7 +39,7 @@ internal sealed class MonkeyKingDialogueEventFactory : IDialogueEventFactory
 
         var dialogues = new Dictionary<DialogueEventState, string>
         {
-            [DialogueConstants.InitialStage] = GetDialogueFileName("stage_1"),
+            [DialogueConstants.InitialStage] = GetDialogueFileName("stage_1")
         };
 
         var requirements = new Dictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>>

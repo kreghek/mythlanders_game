@@ -13,21 +13,14 @@ public class StatValue : IStatValue
 
     private int Base { get; set; }
 
-    event EventHandler IStatValue.ModifierAdded
-    {
-        add => throw new NotImplementedException();
-
-        remove => throw new NotImplementedException();
-    }
-
-    public int ActualMax => Base + _modifiers.Sum(x => x.Value);
+    public int ActualMax => Math.Max(0, Base + _modifiers.Sum(x => x.Value));
 
     public int Current { get; private set; }
 
     public void AddModifier(IUnitStatModifier modifier)
     {
         _modifiers.Add(modifier);
-        if (Current > Base) Current = Base;
+        if (Current > ActualMax) Current = ActualMax;
 
         ModifierAdded?.Invoke(this, new EventArgs());
     }
@@ -35,7 +28,6 @@ public class StatValue : IStatValue
     public void ChangeBase(int newBase)
     {
         Base = newBase;
-        Current = newBase;
     }
 
     public void Consume(int value)

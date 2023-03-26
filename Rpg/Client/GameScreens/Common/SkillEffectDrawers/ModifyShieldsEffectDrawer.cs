@@ -1,10 +1,9 @@
-﻿using Client;
-using Client.Core.Skills;
+﻿using Client.GameScreens.Common.SkillEffectDrawers;
+
+using Core.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Rpg.Client.Core.SkillEffects;
 
 namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
 {
@@ -17,24 +16,25 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
             _font = font;
         }
 
-        public bool Draw(SpriteBatch spriteBatch, object effectToDisplay, ITargetSelector direction, Vector2 position)
+        public bool Draw(SpriteBatch spriteBatch, IEffectInstance effectToDisplay,
+            Vector2 position)
         {
-            if (effectToDisplay is not ShieldPointModifyEffect shieldModifyEffect)
-            {
-                return false;
-            }
+            //if (effectToDisplay is not ShieldPointModifyEffect shieldModifyEffect)
+            //{
+            //    return false;
+            //}
 
-            var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
-            var textTemplate = shieldModifyEffect.Modifier > 0
-                ? UiResource.IncreaseShieldsPercentEffectRuleText
-                : UiResource.DecreaseShieldsPercentEffectRuleText;
+            //var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
+            //var textTemplate = shieldModifyEffect.Modifier > 0
+            //    ? UiResource.IncreaseShieldsPercentEffectRuleText
+            //    : UiResource.DecreaseShieldsPercentEffectRuleText;
 
-            spriteBatch.DrawString(_font,
-                string.Format(textTemplate,
-                    SkillEffectDrawerHelper.GetPercent(shieldModifyEffect.Modifier),
-                    shieldModifyEffect.EffectLifetime.GetTextDescription(),
-                    ruleDirectionText),
-                position, Color.Wheat);
+            //spriteBatch.DrawString(_font,
+            //    string.Format(textTemplate,
+            //        SkillEffectDrawerHelper.GetPercent(shieldModifyEffect.Modifier),
+            //        shieldModifyEffect.EffectLifetime.GetTextDescription(),
+            //        ruleDirectionText),
+            //    position, Color.Wheat);
 
             return true;
         }

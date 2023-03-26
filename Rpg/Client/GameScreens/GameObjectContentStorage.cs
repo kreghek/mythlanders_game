@@ -84,11 +84,11 @@ namespace Rpg.Client.GameScreens
             _allWhiteEffect = contentManager.Load<Effect>("Effects/AllWhite");
             _playerUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
-                { UnitName.Comissar, LoadHeroTexture(contentManager, "Comissar") },
+                { UnitName.Partisan, LoadHeroTexture(contentManager, "Partisan") },
                 { UnitName.Assaulter, LoadHeroTexture(contentManager, "Assaulter") },
                 { UnitName.Swordsman, LoadHeroTexture(contentManager, "Swordsman") },
                 { UnitName.Herbalist, LoadHeroTexture(contentManager, "Herbalist") },
-                { UnitName.Archer, LoadHeroTexture(contentManager, "Archer") },
+                { UnitName.Robber, LoadHeroTexture(contentManager, "Robber") },
                 { UnitName.Monk, LoadHeroTexture(contentManager, "Monk") },
                 { UnitName.Spearman, LoadHeroTexture(contentManager, "Spearman") },
                 { UnitName.Medjay, LoadHeroTexture(contentManager, "Medjay") },
@@ -215,11 +215,11 @@ namespace Rpg.Client.GameScreens
 
             _deathSoundDict = new Dictionary<UnitName, SoundEffect>
             {
-                { UnitName.Comissar, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Partisan, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
                 { UnitName.Assaulter, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
                 { UnitName.Swordsman, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BerimirDeath") },
-                { UnitName.Archer, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Robber, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
                 { UnitName.Herbalist, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/RadaDeath") },
 
                 { UnitName.Monk, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
@@ -267,7 +267,7 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Environment, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Environment") },
                 { UnitName.Swordsman, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Berimir") },
                 { UnitName.Hq, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Hq") },
-                { UnitName.Archer, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Hawk") }
+                { UnitName.Robber, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Hawk") }
             };
 
             _heroFaceTextureDict = new Dictionary<UnitName, Texture2D>
@@ -275,14 +275,14 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Hq, LoadHeroPortrait("Hq") },
                 { UnitName.Undefined, LoadHeroPortrait("Undefined") },
                 { UnitName.Swordsman, LoadHeroPortrait("Swordsman") },
-                { UnitName.Archer, LoadHeroPortrait("Archer") },
+                { UnitName.Robber, LoadHeroPortrait("Robber") },
                 { UnitName.Herbalist, LoadHeroPortrait("Herbalist") },
                 { UnitName.Assaulter, LoadHeroPortrait("Assaulter") },
                 { UnitName.Monk, LoadHeroPortrait("Monk") },
                 { UnitName.Spearman, LoadHeroPortrait("Spearman") },
                 { UnitName.Hoplite, LoadHeroPortrait("Hoplite") },
                 { UnitName.Synth, LoadHeroPortrait("DamagedSynth") },
-                { UnitName.ChineseOldman, LoadHeroPortrait("ChineseOldman") },
+                { UnitName.ChineseOldman, LoadHeroPortrait("ChineseOldman") }
             };
 
             Texture2D LoadBackgroundLayer(BiomeType biomeType, LocationSid locationSid, BackgroundLayerType layerType)
@@ -427,7 +427,7 @@ namespace Rpg.Client.GameScreens
 
                 { UnitName.Huapigui, LoadMonsterTexture(contentManager, "Huapigui") },
 
-                { UnitName.MummyWarrior, LoadMonsterTexture(contentManager, "Mummy") }
+                { UnitName.Chaser, LoadMonsterTexture(contentManager, "Mummy") }
             };
         }
 

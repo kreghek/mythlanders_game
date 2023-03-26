@@ -1,13 +1,12 @@
+using System;
 using System.Collections.Generic;
 
+using Core.Combats;
 using Core.Dices;
-
-using Rpg.Client.Core;
-using Rpg.Client.Core.Skills;
 
 namespace Client.Core;
 
-internal interface IPerk : ICombatConditionEffectSource
+internal interface IPerk
 {
     void ApplyToStats(ref float maxHitpoints, ref float armorBonus)
     {
@@ -15,7 +14,7 @@ internal interface IPerk : ICombatConditionEffectSource
 
     IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers()
     {
-        return new (UnitStatType, IUnitStatModifier)[] { };
+        return Array.Empty<(UnitStatType, IUnitStatModifier)>();
     }
 
     bool HandleEvasion(IDice dice)

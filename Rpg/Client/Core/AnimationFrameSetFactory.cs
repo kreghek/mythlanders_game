@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Rpg.Client.Core.AnimationFrameSets;
+using Client.Core.AnimationFrameSets;
 
 namespace Rpg.Client.Core
 {
@@ -10,7 +10,7 @@ namespace Rpg.Client.Core
     {
         public static IAnimationFrameSet CreateEmpty()
         {
-            return new SequentialAnimationFrameSet(Array.Empty<int>(), default, default, default, default);
+            return new LinearAnimationFrameSet(Array.Empty<int>(), default, default, default, default);
         }
 
         public static IAnimationFrameSet CreateIdle(int startFrameIndex = 0, int frameCount = 8,
@@ -18,7 +18,7 @@ namespace Rpg.Client.Core
             int frameHeight = 128, int textureColumns = 8)
         {
             var frames = Enumerable.Range(startFrameIndex, frameCount).ToList();
-            return new SequentialAnimationFrameSet(frames, fps,
+            return new LinearAnimationFrameSet(frames, fps,
                 frameWidth, frameHeight, textureColumns)
             {
                 IsLoop = true,
@@ -39,7 +39,7 @@ namespace Rpg.Client.Core
                 frames.AddRange(rowFrames);
             }
 
-            return new SequentialAnimationFrameSet(frames, fps,
+            return new LinearAnimationFrameSet(frames, fps,
                 frameWidth, frameHeight, textureColumns)
             {
                 IsLoop = true,
@@ -52,7 +52,7 @@ namespace Rpg.Client.Core
             int frameHeight = 128, int textureColumns = 8, bool isLoop = false)
         {
             var frames = Enumerable.Range(startFrameIndex, frameCount).ToList();
-            return new SequentialAnimationFrameSet(frames, fps,
+            return new LinearAnimationFrameSet(frames, fps,
                 frameWidth, frameHeight, textureColumns)
             {
                 IsLoop = isLoop
@@ -72,7 +72,7 @@ namespace Rpg.Client.Core
                 frames.AddRange(rowFrames);
             }
 
-            return new SequentialAnimationFrameSet(frames, fps,
+            return new LinearAnimationFrameSet(frames, fps,
                 frameWidth, frameHeight, textureColumns)
             {
                 IsLoop = isLoop

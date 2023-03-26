@@ -1,6 +1,4 @@
 using Rpg.Client.Assets.Equipments.Liberator;
-using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.Skills.Hero.Liberator;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
@@ -23,11 +21,6 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IUnitLevelScheme[]
             {
-                new AddSkillUnitLevel<MotivationSkill>(1),
-                new AddSkillUnitLevel<FightAgainstMastersSkill>(2),
-                new AddPerkUnitLevel<Evasion>(2),
-                new AddSkillUnitLevel<BraveHeartsSkill>(3),
-                new AddSkillUnitLevel<LiberationSkill>(4)
             };
         }
     }

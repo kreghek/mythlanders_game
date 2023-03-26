@@ -2,14 +2,13 @@
 using System.Linq;
 using System.Resources;
 
+using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Core;
 using Client.Core.Dialogues;
 
 using Core.Dices;
 
-using Rpg.Client.Assets;
-using Rpg.Client.Assets.Catalogs;
 using Rpg.Client.Core;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Speech;

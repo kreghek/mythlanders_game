@@ -135,6 +135,9 @@
   <data name="BiomeLevelText" xml:space="preserve">
     <value>Ур.</value>
   </data>
+  <data name="CampaignSelectButtonTitle" xml:space="preserve">
+    <value>СТАРТ</value>
+  </data>
   <data name="CampaignsJobCompletePatternSid" xml:space="preserve">
     <value>{0} - завершено</value>
   </data>
@@ -143,6 +146,18 @@
   </data>
   <data name="CampaignsJobTitleSid" xml:space="preserve">
     <value>Пройти любые кампании</value>
+  </data>
+  <data name="CampaignStageDisplayName" xml:space="preserve">
+    <value>Отдых</value>
+  </data>
+  <data name="CampaignStageDisplayNameCombat" xml:space="preserve">
+    <value>Бой {0}</value>
+  </data>
+  <data name="CampaignStageDisplayNameFinish" xml:space="preserve">
+    <value>Завршить кампанию</value>
+  </data>
+  <data name="CampaignStageDisplayNameTextEvent" xml:space="preserve">
+    <value>Какое-то событие</value>
   </data>
   <data name="CampaignStageTitle" xml:space="preserve">
     <value>Этап {0}</value>
@@ -357,6 +372,18 @@
   <data name="ProtectionEffectRuleText" xml:space="preserve">
     <value>Уменьшает входящий урон на  {0}% по {2} на {1} ходов</value>
   </data>
+  <data name="RestActionChat" xml:space="preserve">
+    <value>Пообщаться</value>
+  </data>
+  <data name="RestActionImprovedRest" xml:space="preserve">
+    <value>Хорошо отдохнуть</value>
+  </data>
+  <data name="RestActionScouting" xml:space="preserve">
+    <value>Разведадть местность</value>
+  </data>
+  <data name="RestScreen_Title" xml:space="preserve">
+    <value>Отдых</value>
+  </data>
   <data name="SettingsButtonTitle" xml:space="preserve">
     <value>Настройки</value>
   </data>
@@ -435,28 +462,16 @@
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp</value>
   </data>
-  <data name="RestActionImprovedRest" xml:space="preserve">
-    <value>Хорошо отдохнуть</value>
+  <data name="SlidingPuzzles_TurnsCounterTemplate" xml:space="preserve">
+    <value>Ходов: {0}</value>
   </data>
-  <data name="RestActionScouting" xml:space="preserve">
-    <value>Разведадть местность</value>
+  <data name="SlidingPuzzles_TimeCounterTemplate" xml:space="preserve">
+    <value>Время: {0}</value>
   </data>
-  <data name="RestActionChat" xml:space="preserve">
-    <value>Пообщаться</value>
+  <data name="RestartButtonTitle" xml:space="preserve">
+    <value>Рестарт</value>
   </data>
-  <data name="CampaignStageDisplayNameCombat" xml:space="preserve">
-    <value>Бой {0}</value>
-  </data>
-  <data name="CampaignStageDisplayNameFinish" xml:space="preserve">
-    <value>Завршить кампанию</value>
-  </data>
-  <data name="CampaignStageDisplayNameTextEvent" xml:space="preserve">
-    <value>Какое-то событие</value>
-  </data>
-  <data name="CampaignStageDisplayName" xml:space="preserve">
-    <value>Отдых</value>
-  </data>
-  <data name="RestScreen_Title" xml:space="preserve">
-    <value>Отдых</value>
+  <data name="AvailableManeuversIndicatorTemplate" xml:space="preserve">
+    <value>Доступны маневры</value>
   </data>
 </root>

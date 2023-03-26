@@ -1,6 +1,4 @@
 using Rpg.Client.Assets.Equipments.Priest;
-using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.Skills.Hero.Priest;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
@@ -23,11 +21,6 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IUnitLevelScheme[]
             {
-                new AddSkillUnitLevel<DarkLightingSkill>(1),
-                new AddSkillUnitLevel<UnlimitedSinSkill>(2),
-                new AddPerkUnitLevel<Evasion>(2),
-                new AddSkillUnitLevel<ParalyticChoirSkill>(3),
-                new AddSkillUnitLevel<FingerOfAnubisShotSkill>(4)
             };
         }
     }

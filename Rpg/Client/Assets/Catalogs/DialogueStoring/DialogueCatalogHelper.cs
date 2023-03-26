@@ -12,9 +12,12 @@ namespace Client.Assets.Catalogs.DialogueStoring;
 
 internal static class DialogueCatalogHelper
 {
-    public static Dialogue Create(string dialogueSid, IDictionary<string, DialogueDtoScene> scenesDtoDict, DialogueCatalogCreationServices services)
+    public static Dialogue Create(string dialogueSid, IDictionary<string, DialogueDtoScene> scenesDtoDict,
+        DialogueCatalogCreationServices services)
     {
-        var nodeListDicts = new List<(string nodeSid, DialogueNode node, List<DialogueOption> optionsList, DialogueDtoOption[]? optionsDto)>();
+        var nodeListDicts =
+            new List<(string nodeSid, DialogueNode node, List<DialogueOption> optionsList, DialogueDtoOption[]?
+                optionsDto)>();
 
         foreach (var (sceneSid, dtoScene) in scenesDtoDict)
         {
@@ -67,7 +70,7 @@ internal static class DialogueCatalogHelper
         }
 
         // Linking scenes via player's options
-        foreach (var (nodeSid, node, optionsList, optionsDto) in nodeListDicts)
+        foreach (var (nodeSid, _, optionsList, optionsDto) in nodeListDicts)
         {
             if (optionsDto is not null)
             {
@@ -87,7 +90,7 @@ internal static class DialogueCatalogHelper
                     }
                     else
                     {
-                        dialogueOption = new DialogueOption($"Common_end_dialogue", DialogueNode.EndNode)
+                        dialogueOption = new DialogueOption("Common_end_dialogue", DialogueNode.EndNode)
                         {
                             Aftermath = aftermaths
                         };
@@ -98,7 +101,7 @@ internal static class DialogueCatalogHelper
             }
             else
             {
-                var dialogueOption = new DialogueOption($"Common_end_dialogue", DialogueNode.EndNode);
+                var dialogueOption = new DialogueOption("Common_end_dialogue", DialogueNode.EndNode);
                 optionsList.Add(dialogueOption);
             }
         }
@@ -106,25 +109,8 @@ internal static class DialogueCatalogHelper
         return new Dialogue(nodeListDicts.Single(x => x.nodeSid == "root").node);
     }
 
-    private static IReadOnlyCollection<IDialogueEnvironmentEffect> CreateEnvironmentEffects(DialogueDtoData[]? envs, IDialogueEnvironmentEffectCreator environmentEffectCreator)
-    {
-        if (envs is null)
-        {
-            return Array.Empty<IDialogueEnvironmentEffect>();
-        }
-
-        var list = new List<IDialogueEnvironmentEffect>();
-
-        foreach (var envDto in envs)
-        {
-            var envEffect = environmentEffectCreator.Create(envDto.Type, envDto.Data);
-            list.Add(envEffect);
-        }
-
-        return list;
-    }
-
-    private static IDialogueOptionAftermath? CreateAftermaths(DialogueDtoData[]? aftermathDtos, IDialogueOptionAftermathCreator aftermathCreator)
+    private static IDialogueOptionAftermath? CreateAftermaths(DialogueDtoData[]? aftermathDtos,
+        IDialogueOptionAftermathCreator aftermathCreator)
     {
         if (aftermathDtos is null)
         {
@@ -140,6 +126,25 @@ internal static class DialogueCatalogHelper
         }
 
         return new CompositeOptionAftermath(list);
+    }
+
+    private static IReadOnlyCollection<IDialogueEnvironmentEffect> CreateEnvironmentEffects(DialogueDtoData[]? envs,
+        IDialogueEnvironmentEffectCreator environmentEffectCreator)
+    {
+        if (envs is null)
+        {
+            return Array.Empty<IDialogueEnvironmentEffect>();
+        }
+
+        var list = new List<IDialogueEnvironmentEffect>();
+
+        foreach (var envDto in envs)
+        {
+            var envEffect = environmentEffectCreator.Create(envDto.Type, envDto.Data);
+            list.Add(envEffect);
+        }
+
+        return list;
     }
 
     private static UnitName GetSpeaker(string? dtoSpeaker)

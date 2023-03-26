@@ -136,6 +136,9 @@
   <data name="BiomeLevelText" xml:space="preserve">
     <value>Lvl</value>
   </data>
+  <data name="CampaignSelectButtonTitle" xml:space="preserve">
+    <value>START</value>
+  </data>
   <data name="CampaignsJobCompletePatternSid" xml:space="preserve">
     <value>{0} - done</value>
     <comment>Jobs</comment>
@@ -147,6 +150,18 @@
   <data name="CampaignsJobTitleSid" xml:space="preserve">
     <value>Complete any campaigns</value>
     <comment>Jobs</comment>
+  </data>
+  <data name="CampaignStageDisplayName" xml:space="preserve">
+    <value>Rest</value>
+  </data>
+  <data name="CampaignStageDisplayNameCombat" xml:space="preserve">
+    <value>Combat {0}</value>
+  </data>
+  <data name="CampaignStageDisplayNameFinish" xml:space="preserve">
+    <value>Finish campaign</value>
+  </data>
+  <data name="CampaignStageDisplayNameTextEvent" xml:space="preserve">
+    <value>Some event</value>
   </data>
   <data name="CampaignStageTitle" xml:space="preserve">
     <value>Stage {0}</value>
@@ -353,6 +368,18 @@
     <comment>decreaseDamageEffect.Multiplier * 100 decreaseDamageEffect.Duration,
       decreaseDamageEffect.Target</comment>
   </data>
+  <data name="RestActionChat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="RestActionImprovedRest" xml:space="preserve">
+    <value>Improved rest</value>
+  </data>
+  <data name="RestActionScouting" xml:space="preserve">
+    <value>Scouting</value>
+  </data>
+  <data name="RestScreen_Title" xml:space="preserve">
+    <value>Rest</value>
+  </data>
   <data name="SettingsButtonTitle" xml:space="preserve">
     <value>Settings</value>
   </data>
@@ -434,28 +461,19 @@
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp Reward</value>
   </data>
-  <data name="RestActionImprovedRest" xml:space="preserve">
-    <value>Improved rest</value>
+  <data name="SlidingPuzzles_TurnsCounterTemplate" xml:space="preserve">
+    <value>Turns: {0}</value>
   </data>
-  <data name="RestActionScouting" xml:space="preserve">
-    <value>Scouting</value>
+  <data name="SlidingPuzzles_TimeCounterTemplate" xml:space="preserve">
+    <value>Timer: {0}</value>
   </data>
-  <data name="RestActionChat" xml:space="preserve">
-    <value>Chat</value>
+  <data name="MiniGame_Victory" xml:space="preserve">
+    <value>Победа!</value>
   </data>
-  <data name="CampaignStageDisplayNameCombat" xml:space="preserve">
-    <value>Combat {0}</value>
+  <data name="RestartButtonTitle" xml:space="preserve">
+    <value>Рестарт</value>
   </data>
-  <data name="CampaignStageDisplayNameFinish" xml:space="preserve">
-    <value>Finish campaign</value>
-  </data>
-  <data name="CampaignStageDisplayNameTextEvent" xml:space="preserve">
-    <value>Some event</value>
-  </data>
-  <data name="CampaignStageDisplayName" xml:space="preserve">
-    <value>Rest</value>
-  </data>
-  <data name="RestScreen_Title" xml:space="preserve">
-    <value>Rest</value>
+  <data name="AvailableManeuversIndicatorTemplate" xml:space="preserve">
+    <value>Maneuvers available</value>
   </data>
 </root>

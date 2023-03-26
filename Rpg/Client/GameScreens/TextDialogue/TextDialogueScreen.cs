@@ -66,6 +66,8 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
 
     private bool _isInitialized;
 
+    private KeyboardState _keyboardState;
+
     private double _pressToContinueCounter;
 
     public TextDialogueScreen(TestamentGame game, TextDialogueScreenTransitionArgs args) : base(game)
@@ -167,6 +169,8 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
 
             UpdateSpeaker(gameTime);
         }
+
+        _keyboardState = Keyboard.GetState();
     }
 
     private void CheckTutorial()
@@ -405,10 +409,11 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
             _textFragments.Add(textFragmentControl);
         }
 
+        var optionNumber = 1;
         _dialogueOptions.Options.Clear();
         foreach (var option in _dialoguePlayer.CurrentOptions)
         {
-            var optionButton = new DialogueOptionButton(option.TextSid);
+            var optionButton = new DialogueOptionButton(optionNumber, option.TextSid);
             optionButton.OnClick += (_, _) =>
             {
                 _dialoguePlayer.SelectOption(option);
@@ -424,7 +429,13 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
             };
 
             _dialogueOptions.Options.Add(optionButton);
+            optionNumber++;
         }
+    }
+
+    private bool IsKeyPressed(Keys checkKey)
+    {
+        return Keyboard.GetState().IsKeyUp(checkKey) && _keyboardState.IsKeyDown(checkKey);
     }
 
     private void UpdateBackgroundObjects(GameTime gameTime)
@@ -444,25 +455,16 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
     {
         _pressToContinueCounter += gameTime.ElapsedGameTime.TotalSeconds * 10f;
 
-        var maxFragmentIndex = _textFragments.Count - 1;
-        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-        {
-            if (_currentFragmentIndex <= maxFragmentIndex &&
-                !_textFragments[_currentFragmentIndex].IsComplete)
-            {
-                foreach (var fragment in _textFragments)
-                {
-                    fragment.MoveToCompletion();
-                }
+        var currentFragment = _textFragments[_currentFragmentIndex];
+        currentFragment.Update(gameTime);
 
-                _currentFragmentIndex = maxFragmentIndex;
-            }
+        var maxFragmentIndex = _textFragments.Count - 1;
+        if (IsKeyPressed(Keys.Space) && !_textFragments[_currentFragmentIndex].IsComplete)
+        {
+            currentFragment.MoveToCompletion();
 
             return;
         }
-
-        var currentFragment = _textFragments[_currentFragmentIndex];
-        currentFragment.Update(gameTime);
 
         if (currentFragment.IsComplete)
         {
@@ -470,7 +472,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
             {
                 _currentTextFragmentIsReady = true;
                 //TODO Make auto-move to next dialog. Make it disable in settings by default.
-                if (Keyboard.GetState().IsKeyDown(Keys.Space))
+                if (IsKeyPressed(Keys.Space))
                 {
                     _currentFragmentIndex++;
                     _currentTextFragmentIsReady = false;
@@ -481,6 +483,23 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         if (_currentFragmentIndex == maxFragmentIndex && _textFragments[_currentFragmentIndex].IsComplete)
         {
             _dialogueOptions.Update(ResolutionIndependentRenderer);
+
+            if (IsKeyPressed(Keys.D1))
+            {
+                _dialogueOptions.SelectOption(1);
+            }
+            else if (IsKeyPressed(Keys.D2))
+            {
+                _dialogueOptions.SelectOption(2);
+            }
+            else if (IsKeyPressed(Keys.D3))
+            {
+                _dialogueOptions.SelectOption(3);
+            }
+            else if (IsKeyPressed(Keys.D4))
+            {
+                _dialogueOptions.SelectOption(4);
+            }
         }
     }
 

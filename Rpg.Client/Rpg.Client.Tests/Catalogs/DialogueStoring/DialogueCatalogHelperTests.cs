@@ -10,7 +10,6 @@ using Moq;
 
 using NUnit.Framework;
 
-using Rpg.Client.Assets.Catalogs;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Tests.Catalogs.DialogueStoring;
@@ -26,18 +25,20 @@ public class DialogueCatalogHelperTests
     {
         // ARRANGE
 
-        var dict = new Dictionary<string, DialogueDtoScene>()
+        var dict = new Dictionary<string, DialogueDtoScene>
         {
-            {"root", new DialogueDtoScene()
             {
-                Paragraphs = new[]
+                "root", new DialogueDtoScene
                 {
-                    new DialogueDtoParagraph()
+                    Paragraphs = new[]
                     {
-                        Text = "test text"
+                        new DialogueDtoParagraph
+                        {
+                            Text = "test text"
+                        }
                     }
                 }
-            }}
+            }
         };
 
         // ACT
@@ -60,18 +61,20 @@ public class DialogueCatalogHelperTests
     {
         // ARRANGE
 
-        var dict = new Dictionary<string, DialogueDtoScene>()
+        var dict = new Dictionary<string, DialogueDtoScene>
         {
-            {"root", new DialogueDtoScene()
             {
-                Paragraphs = new[]
+                "root", new DialogueDtoScene
                 {
-                    new DialogueDtoParagraph()
+                    Paragraphs = new[]
                     {
-                        Text = "test text"
+                        new DialogueDtoParagraph
+                        {
+                            Text = "test text"
+                        }
                     }
                 }
-            }}
+            }
         };
 
         // ACT
@@ -93,25 +96,27 @@ public class DialogueCatalogHelperTests
     {
         // ARRANGE
 
-        var dict = new Dictionary<string, DialogueDtoScene>()
+        var dict = new Dictionary<string, DialogueDtoScene>
         {
-            {"root", new DialogueDtoScene()
             {
-                Paragraphs = new[]
+                "root", new DialogueDtoScene
                 {
-                    new DialogueDtoParagraph()
+                    Paragraphs = new[]
                     {
-                        Reactions = new[]
+                        new DialogueDtoParagraph
                         {
-                            new DialogueDtoReaction()
+                            Reactions = new[]
                             {
-                                Hero = "Swordsman",
-                                Text = "test text"
+                                new DialogueDtoReaction
+                                {
+                                    Hero = "Swordsman",
+                                    Text = "test text"
+                                }
                             }
                         }
                     }
                 }
-            }}
+            }
         };
 
         // ACT
@@ -124,7 +129,7 @@ public class DialogueCatalogHelperTests
 
         dialogue.Root.TextBlock.Paragraphs.Single().Speaker.Should().Be(UnitName.Swordsman);
     }
-    
+
     /// <summary>
     /// Test checks environment was set as speaker if not specified.
     /// </summary>
@@ -133,18 +138,20 @@ public class DialogueCatalogHelperTests
     {
         // ARRANGE
 
-        var dict = new Dictionary<string, DialogueDtoScene>()
+        var dict = new Dictionary<string, DialogueDtoScene>
         {
-            {"root", new DialogueDtoScene()
             {
-                Paragraphs = new[]
+                "root", new DialogueDtoScene
                 {
-                    new DialogueDtoParagraph()
+                    Paragraphs = new[]
                     {
-                        Text = "test environment description"
+                        new DialogueDtoParagraph
+                        {
+                            Text = "test environment description"
+                        }
                     }
                 }
-            }}
+            }
         };
 
         // ACT

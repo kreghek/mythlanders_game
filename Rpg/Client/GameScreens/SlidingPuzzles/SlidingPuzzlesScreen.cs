@@ -57,7 +57,7 @@ namespace Client.GameScreens.SlidingPuzzles
             var closeButton = new TextButton("Close");
             closeButton.OnClick += CloseButton_OnClick;
 
-            return new[]
+            return new ButtonBase[]
             {
                 closeButton
             };
@@ -75,14 +75,17 @@ namespace Client.GameScreens.SlidingPuzzles
                 transformMatrix: Camera.GetViewTransformationMatrix());
 
             spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetTitlesFont(),
-                "Ходов: " + _puzzleEngine.TurnCounter, new Vector2(contentRect.Right - 200, contentRect.Top),
+                string.Format(UiResource.SlidingPuzzles_TurnsCounterTemplate, _puzzleEngine.TurnCounter),
+                new Vector2(contentRect.Right - 200, contentRect.Top),
                 Color.Wheat);
-            spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetTitlesFont(), "Время: " + _currentTime,
+            spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetTitlesFont(),
+                string.Format(UiResource.SlidingPuzzles_TimeCounterTemplate, _currentTime),
                 new Vector2(contentRect.Right - 200, contentRect.Top + 100), Color.Wheat);
 
             if (_puzzleEngine.IsCompleted)
             {
-                spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetTitlesFont(), "Победа!",
+                spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetTitlesFont(),
+                    UiResource.MiniGame_Victory,
                     new Vector2(contentRect.Right - 200, contentRect.Top + 200), Color.Wheat);
                 var destinationRectangle = new Rectangle(contentRect.Left, contentRect.Top, BUTTON_SIZE * _width,
                     BUTTON_SIZE * _height);

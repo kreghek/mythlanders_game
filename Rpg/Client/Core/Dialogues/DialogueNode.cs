@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Rpg.Client.Core.Dialogues;
-
 namespace Client.Core.Dialogues;
 
 internal sealed class DialogueNode

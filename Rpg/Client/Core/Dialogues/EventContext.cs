@@ -3,6 +3,7 @@ using System.Linq;
 
 using Client.Core;
 using Client.Core.Dialogues;
+using Client.Core.Heroes;
 
 namespace Rpg.Client.Core.Dialogues
 {
@@ -24,7 +25,7 @@ namespace Rpg.Client.Core.Dialogues
 
         public DialogueEvent CurrentDualogueEvent { get; }
 
-        public void AddNewCharacter(Unit unit)
+        public void AddNewCharacter(Hero unit)
         {
             var freeSlots = _globe.Player.Party.GetFreeSlots()
                 .Where(

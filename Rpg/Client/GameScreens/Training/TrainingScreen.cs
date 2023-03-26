@@ -4,6 +4,7 @@ using System.Linq;
 
 using Client.Core;
 using Client.Core.Campaigns;
+using Client.Core.Heroes;
 using Client.GameScreens.Campaign;
 
 using Microsoft.Xna.Framework;
@@ -17,11 +18,11 @@ namespace Client.GameScreens.Training
 {
     internal sealed class TrainingScreen : GameScreenWithMenuBase
     {
-        private readonly IReadOnlyList<Unit> _availableUnits;
+        private readonly IReadOnlyList<Hero> _availableUnits;
         private readonly HeroCampaign _campaign;
         private readonly Player _player;
         private readonly IList<ButtonBase> _usedButtons;
-        private IReadOnlyList<(ButtonBase, Unit)> _trainingButtons;
+        private IReadOnlyList<(ButtonBase, Hero)> _trainingButtons;
 
         public TrainingScreen(TestamentGame game, TrainingScreenTransitionArguments args) : base(game)
         {
@@ -75,7 +76,7 @@ namespace Client.GameScreens.Training
 
         protected override void InitializeContent()
         {
-            var buttonList = new List<(ButtonBase, Unit)>();
+            var buttonList = new List<(ButtonBase, Hero)>();
 
             foreach (var character in _availableUnits)
             {

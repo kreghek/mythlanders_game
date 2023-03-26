@@ -1,14 +1,14 @@
 namespace Core.Combats.CombatantEffects;
 
-public sealed class ChangeStatCombatantEffect : ICombatantEffect
+public sealed class ChangeStatCombatantEffect : CombatantEffectBase
 {
     private readonly IUnitStatModifier _statModifier;
 
-    public ChangeStatCombatantEffect(ICombatantEffectLifetime lifetime, UnitStatType statType, int value)
+    public ChangeStatCombatantEffect(ICombatantEffectLifetime lifetime, UnitStatType statType, int value) :
+        base(lifetime)
     {
         StatType = statType;
         Value = value;
-        Lifetime = lifetime;
 
         _statModifier = new StatModifier(value);
     }
@@ -16,20 +16,13 @@ public sealed class ChangeStatCombatantEffect : ICombatantEffect
     public UnitStatType StatType { get; }
     public int Value { get; }
 
-    public void Impose(Combatant combatant)
-    {
-        combatant.Stats.Single(x => x.Type == StatType).Value.AddModifier(_statModifier);
-    }
-
-    public void Dispel(Combatant combatant)
+    public override void Dispel(Combatant combatant)
     {
         combatant.Stats.Single(x => x.Type == StatType).Value.RemoveModifier(_statModifier);
     }
 
-    public void Update(CombatantEffectUpdateType updateType)
+    public override void Impose(Combatant combatant)
     {
-        Lifetime.Update(updateType);
+        combatant.Stats.Single(x => x.Type == StatType).Value.AddModifier(_statModifier);
     }
-
-    public ICombatantEffectLifetime Lifetime { get; }
 }

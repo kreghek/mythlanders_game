@@ -14,35 +14,36 @@ namespace BalanceConverter
 
         public static IReadOnlyCollection<UnitBasicRow> ReadUnitsBasicsFromExcel(string filePath, string sheetName)
         {
-            return ReadRowsFromExcelInner(filePath, sheetName, firstRowIsHeader: false, row =>
-            {
-                return new UnitBasicRow
-                {
-                    Key = row[0] as string,
-                    Value = GetFloatValue(row[1])
-                };
-            });
+            return ReadRowsFromExcelInner(filePath, sheetName, firstRowIsHeader: false, MapBasicRow);
         }
 
         public static IReadOnlyCollection<UnitExcelRow> ReadUnitsRolesFromExcel(string filePath, string sheetName)
         {
-            return ReadRowsFromExcelInner(filePath, sheetName, firstRowIsHeader: true, row =>
-            {
-                return new UnitExcelRow
-                {
-                    Sid = row[0] as string,
-                    TankRank = GetFloatValue(row[1]),
-                    DamageDealerRank = GetFloatValue(row[2]),
-                    SupportRank = GetFloatValue(row[3]),
-                    Type = row[4] as string,
-                    Demo = row[5] as string
-                };
-            });
+            return ReadRowsFromExcelInner(filePath, sheetName, firstRowIsHeader: true, MapRolesRow);
         }
 
         private static float GetFloatValue(object rowValue)
         {
             return (float)((double?)rowValue).GetValueOrDefault();
+        }
+
+        private static UnitBasicRow MapBasicRow(DataRow row)
+        {
+            return new UnitBasicRow
+            {
+                Key = row[0] as string, Value = GetFloatValue(row[1])
+            };
+        }
+
+        private static UnitExcelRow MapRolesRow(DataRow row)
+        {
+            return new UnitExcelRow
+            {
+                Sid = row[0] as string,
+                TankRank = GetFloatValue(row[1]),
+                DamageDealerRank = GetFloatValue(row[2]),
+                SupportRank = GetFloatValue(row[3])
+            };
         }
 
         private static IReadOnlyCollection<TRow> ReadRowsFromExcelInner<TRow>(

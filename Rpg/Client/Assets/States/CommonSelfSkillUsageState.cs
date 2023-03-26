@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
@@ -9,10 +11,10 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States
 {
-    internal class CommonSelfSkillUsageState : IUnitStateEngine
+    internal class CommonSelfSkillUsageState : IActorVisualizationState
     {
         private readonly AnimationBlocker _mainAnimationBlocker;
-        private readonly IUnitStateEngine[] _subStates;
+        private readonly IActorVisualizationState[] _subStates;
 
         private int _subStateIndex;
 
@@ -22,7 +24,7 @@ namespace Rpg.Client.Assets.States
         {
             _mainAnimationBlocker = mainAnimationBlocker;
 
-            _subStates = new IUnitStateEngine[]
+            _subStates = new IActorVisualizationState[]
             {
                 new HealState(graphics, interaction, hitSound, animationSid)
             };

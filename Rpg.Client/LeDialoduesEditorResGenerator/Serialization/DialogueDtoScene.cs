@@ -1,7 +1,7 @@
 namespace LeDialoduesEditorResGenerator.Serialization;
 
-class DialogueDtoScene
+internal class DialogueDtoScene
 {
-    public DialogueDtoParagraph[] Paragraphs { get; set; }
     public DialogueDtoOption[] Options { get; set; }
+    public DialogueDtoParagraph[] Paragraphs { get; set; }
 }

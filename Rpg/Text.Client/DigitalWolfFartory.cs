@@ -7,7 +7,7 @@ namespace Text.Client;
 
 public class DigitalWolfFactory
 {
-    public Combatant Create(string sid)
+    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour)
     {
         // ReSharper disable once UseObjectOrCollectionInitializer
         var list = new List<CombatMovement>();
@@ -17,11 +17,12 @@ public class DigitalWolfFactory
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
                     {
+                        new AdjustPositionEffect(new SelfTargetSelector()),
                         new DamageEffect(
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(3)),
-                        new ChangePositionEffect(
+                        new PushToPositionEffect(
                             new SelfTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard)
                     })
@@ -37,7 +38,7 @@ public class DigitalWolfFactory
                             new SelfTargetSelector(),
                             UnitStatType.Defense,
                             3,
-                            typeof(ToNextCombatantTurnEffectLifetime))
+                            new ToNextCombatantTurnEffectLifetimeFactory())
                     },
                     new IEffect[]
                     {
@@ -45,12 +46,12 @@ public class DigitalWolfFactory
                             new SelfTargetSelector(),
                             UnitStatType.Defense,
                             1,
-                            typeof(ToEndOfCurrentRoundEffectLifetime))
+                            new ToEndOfCurrentRoundEffectLifetimeFactory())
                     })
             )
-        {
-            Tags = CombatMovementTags.AutoDefense
-        }
+            {
+                Tags = CombatMovementTags.AutoDefense
+            }
         );
 
         list.Add(new CombatMovement("Cyber claws",
@@ -58,8 +59,9 @@ public class DigitalWolfFactory
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
                     {
+                        new AdjustPositionEffect(new SelfTargetSelector()),
                         new DamageEffect(
-                            new MostShieldChargedTargetSelector(),
+                            new MostShieldChargedEnemyTargetSelector(),
                             DamageType.ShieldsOnly,
                             Range<int>.CreateMono(3))
                     })
@@ -71,10 +73,11 @@ public class DigitalWolfFactory
             foreach (var combatMovement in list)
                 monsterSequence.Items.Add(combatMovement);
 
-        var monster = new Combatant(monsterSequence)
+        var stats = new CombatantStatsConfig();
+
+        var monster = new Combatant("Digital wolf", monsterSequence, stats, combatActorBehaviour)
         {
-            Sid = sid,
-            IsPlayerControlled = false
+            Sid = sid, IsPlayerControlled = false
         };
 
         return monster;

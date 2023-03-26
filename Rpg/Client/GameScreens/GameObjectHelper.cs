@@ -1,8 +1,9 @@
 ﻿using Client;
 using Client.Core;
 
+using Core.Combats;
+
 using Rpg.Client.Core;
-using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.GameScreens;
 
@@ -11,6 +12,11 @@ internal static class GameObjectHelper
     public static string GetLocalized(UnitName unitName)
     {
         return GetLocalizedInner(unitName.ToString());
+    }
+
+    public static string GetLocalized(CombatMovementSid sid)
+    {
+        return GetLocalizedInner(sid.Value);
     }
 
     public static string GetLocalized(CharacterRelation relation)
@@ -33,11 +39,6 @@ internal static class GameObjectHelper
         return GetLocalizedInner(perk.GetType().Name);
     }
 
-    public static string GetLocalized(SkillSid skillSid)
-    {
-        return GetLocalizedInner(skillSid.ToString());
-    }
-
     public static string GetLocalized(LocationSid locationSid)
     {
         return GetLocalizedInner(locationSid.ToString());
@@ -56,6 +57,11 @@ internal static class GameObjectHelper
         }
 
         return GetLocalizedInner($"{equipmentType}Equipment");
+    }
+
+    public static string GetLocalizedDescription(CombatMovementSid sid)
+    {
+        return GetLocalizedInner($"{sid.Value}_Description");
     }
 
     public static string GetLocalizedDescription(IPerk perk)

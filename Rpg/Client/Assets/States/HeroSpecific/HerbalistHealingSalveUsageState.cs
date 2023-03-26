@@ -1,67 +1,70 @@
-using System.Collections.Generic;
+//using System.Collections.Generic;
 
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
+//using Client.GameScreens.Combat.GameObjects;
 
-using Rpg.Client.Assets.InteractionDeliveryObjects;
-using Rpg.Client.Core;
-using Rpg.Client.Core.SkillEffects;
-using Rpg.Client.Engine;
-using Rpg.Client.GameScreens;
-using Rpg.Client.GameScreens.Combat.GameObjects;
+//using Microsoft.Xna.Framework;
+//using Microsoft.Xna.Framework.Audio;
 
-namespace Rpg.Client.Assets.States.HeroSpecific
-{
-    internal sealed class HerbalistHealingSalveUsageState : IUnitStateEngine
-    {
-        private readonly AnimationBlocker _healingLightAnimationBlocker;
-        private readonly CommonDistantSkillUsageState _innerState;
+//using Rpg.Client.Assets.InteractionDeliveryObjects;
+//using Rpg.Client.Core;
+//using Rpg.Client.Core.SkillEffects;
+//using Rpg.Client.Engine;
+//using Rpg.Client.GameScreens;
+//using Rpg.Client.GameScreens.Combat.GameObjects;
 
-        public HerbalistHealingSalveUsageState(UnitGraphics actorGraphics,
-            Renderable targetUnitGameObject,
-            AnimationBlocker mainStateBlocker,
-            SkillExecution interaction,
-            SoundEffectInstance skillUsageSound,
-            GameObjectContentStorage gameObjectContentStorage,
-            IAnimationManager animationManager,
-            IList<IInteractionDelivery> interactionDeliveryList)
-        {
-            var animationBlocker = animationManager.CreateAndUseBlocker();
-            _healingLightAnimationBlocker = animationManager.CreateAndUseBlocker();
+//namespace Rpg.Client.Assets.States.HeroSpecific
+//{
+//    internal sealed class HerbalistHealingSalveUsageState : IActorVisualizationState
+//    {
+//        private readonly AnimationBlocker _healingLightAnimationBlocker;
+//        private readonly CommonDistantSkillUsageState _innerState;
 
-            var healingLightInteractionDelivery = new HealLightObject(
-                targetUnitGameObject.Position - Vector2.UnitY * (64 + 32),
-                gameObjectContentStorage, _healingLightAnimationBlocker);
+//        public HerbalistHealingSalveUsageState(UnitGraphics actorGraphics,
+//            Renderable targetUnitGameObject,
+//            AnimationBlocker mainStateBlocker,
+//            SkillExecution interaction,
+//            SoundEffectInstance skillUsageSound,
+//            GameObjectContentStorage gameObjectContentStorage,
+//            IAnimationManager animationManager,
+//            IList<IInteractionDelivery> interactionDeliveryList)
+//        {
+//            var animationBlocker = animationManager.CreateAndRegisterBlocker();
+//            _healingLightAnimationBlocker = animationManager.CreateAndRegisterBlocker();
 
-            StateHelper.HandleStateWithInteractionDelivery(interaction.SkillRuleInteractions, mainStateBlocker,
-                _healingLightAnimationBlocker, animationBlocker);
+//            var healingLightInteractionDelivery = new HealLightObject(
+//                targetUnitGameObject.Position - Vector2.UnitY * (64 + 32),
+//                gameObjectContentStorage, _healingLightAnimationBlocker);
 
-            _innerState = new CommonDistantSkillUsageState(
-                graphics: actorGraphics,
-                mainStateBlocker: animationBlocker,
-                interactionDelivery: new[] { healingLightInteractionDelivery },
-                interactionDeliveryList: interactionDeliveryList,
-                createProjectileSound: skillUsageSound,
-                animationSid: PredefinedAnimationSid.Skill1);
-        }
+//            StateHelper.HandleStateWithInteractionDelivery(interaction.SkillRuleInteractions, mainStateBlocker,
+//                _healingLightAnimationBlocker, animationBlocker);
 
-        public bool CanBeReplaced => false;
-        public bool IsComplete => _innerState.IsComplete;
+//            _innerState = new CommonDistantSkillUsageState(
+//                graphics: actorGraphics,
+//                mainStateBlocker: animationBlocker,
+//                interactionDelivery: new[] { healingLightInteractionDelivery },
+//                interactionDeliveryList: interactionDeliveryList,
+//                createProjectileSound: skillUsageSound,
+//                animationSid: PredefinedAnimationSid.Skill1);
+//        }
 
-        public void Cancel()
-        {
-            _healingLightAnimationBlocker.Release();
-            _innerState.Cancel();
-        }
+//        public bool CanBeReplaced => false;
+//        public bool IsComplete => _innerState.IsComplete;
 
-        public void Update(GameTime gameTime)
-        {
-            if (IsComplete)
-            {
-                return;
-            }
+//        public void Cancel()
+//        {
+//            _healingLightAnimationBlocker.Release();
+//            _innerState.Cancel();
+//        }
 
-            _innerState.Update(gameTime);
-        }
-    }
-}
+//        public void Update(GameTime gameTime)
+//        {
+//            if (IsComplete)
+//            {
+//                return;
+//            }
+
+//            _innerState.Update(gameTime);
+//        }
+//    }
+//}
+

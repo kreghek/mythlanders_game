@@ -1,6 +1,4 @@
 ﻿using Rpg.Client.Assets.Equipments.Engineer;
-using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.Skills.Hero.Engineer;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
@@ -23,11 +21,6 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IUnitLevelScheme[]
             {
-                new AddSkillUnitLevel<FlameThrowingSkill>(1),
-                new AddSkillUnitLevel<PipeBludgeonSkill>(2),
-                new AddPerkUnitLevel<ImprovedArmor>(2),
-                new AddSkillUnitLevel<DismantlementSkill>(3),
-                new AddSkillUnitLevel<CouosLegacySkill>(4)
             };
         }
     }

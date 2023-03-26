@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core.Heroes;
+
 using Core.Dices;
 
 using Rpg.Client.Assets.Perks;
@@ -9,7 +11,7 @@ namespace Rpg.Client.Core
 {
     internal static class MonsterGeneratorHelper
     {
-        public static IReadOnlyList<Unit> CreateMonsters(GlobeNode node, IDice dice, int monsterLevel,
+        public static IReadOnlyList<Hero> CreateMonsters(GlobeNode node, IDice dice, int monsterLevel,
             IUnitSchemeCatalog unitSchemeCatalog, IMonsterGenerationGlobeContext globeContext)
         {
             var availableAllRegularMonsters =
@@ -33,7 +35,7 @@ namespace Rpg.Client.Core
                 // This location for a boss.
                 // Boss has the highest priority so generate only one boss and ignore other units.
                 var bossScheme = availableMonsters.Single(x => HasPerk<BossMonster>(x, monsterLevel));
-                var unit = new Unit(bossScheme, monsterLevel);
+                var unit = new Hero(bossScheme, monsterLevel);
                 return new[] { unit };
             }
 
@@ -73,11 +75,11 @@ namespace Rpg.Client.Core
                 }
             }
 
-            var units = new List<Unit>();
+            var units = new List<Hero>();
             foreach (var unitScheme in rolledUnits)
             {
                 var unitLevel = GetUnitLevel(monsterLevel);
-                var unit = new Unit(unitScheme, unitLevel);
+                var unit = new Hero(unitScheme, unitLevel);
                 units.Add(unit);
             }
 
@@ -114,7 +116,7 @@ namespace Rpg.Client.Core
 
         private static bool HasPerk<TPerk>(UnitScheme unitScheme, int combatLevel)
         {
-            var unit = new Unit(unitScheme, combatLevel);
+            var unit = new Hero(unitScheme, combatLevel);
             return unit.Perks.OfType<TPerk>().Any();
         }
     }

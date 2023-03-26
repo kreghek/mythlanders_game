@@ -2,7 +2,7 @@ namespace Core.Combats.TargetSelectors;
 
 public sealed class ClosestAllyInColumnTargetSelector : ITargetSelector
 {
-    public IReadOnlyList<Combatant> Get(Combatant actor, ITargetSelectorContext context)
+    public IReadOnlyList<Combatant> GetMaterialized(Combatant actor, ITargetSelectorContext context)
     {
         var actorCoords = context.ActorSide.GetCombatantCoords(actor);
 

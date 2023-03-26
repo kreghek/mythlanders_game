@@ -2,7 +2,7 @@
 
 public sealed class SelfTargetSelector : ITargetSelector
 {
-    public IReadOnlyList<Combatant> Get(Combatant actor, ITargetSelectorContext context)
+    public IReadOnlyList<Combatant> GetMaterialized(Combatant actor, ITargetSelectorContext context)
     {
         return new[]
         {
