@@ -13,9 +13,9 @@ public sealed class CombatMovementInstance
 
     public IReadOnlyCollection<IEffectInstance> AutoDefenseEffects { get; }
 
+    public CombatMovementCost Cost { get; }
+
     public IReadOnlyCollection<IEffectInstance> Effects { get; }
 
     public CombatMovement SourceMovement { get; }
-
-    public CombatMovementCost Cost { get; }
 }

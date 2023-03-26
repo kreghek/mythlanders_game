@@ -6,7 +6,8 @@ public sealed class ModifyCombatantMoveStatsCombatantEffectFactory : ICombatantE
     private readonly CombatantMoveStats _stats;
     private readonly int _value;
 
-    public ModifyCombatantMoveStatsCombatantEffectFactory(ICombatantEffectLifetimeFactory lifetimeFactory, CombatantMoveStats stats, int value)
+    public ModifyCombatantMoveStatsCombatantEffectFactory(ICombatantEffectLifetimeFactory lifetimeFactory,
+        CombatantMoveStats stats, int value)
     {
         _lifetimeFactory = lifetimeFactory;
         _stats = stats;

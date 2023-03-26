@@ -8,7 +8,7 @@ public sealed class ModifyEffectsCombatantEffectFactory : ICombatantEffectFactor
     public ModifyEffectsCombatantEffectFactory(ICombatantEffectLifetimeFactory lifetimeFactory, int value)
     {
         _lifetimeFactory = lifetimeFactory;
-        this._value = value;
+        _value = value;
     }
 
     public ICombatantEffect Create()

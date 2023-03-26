@@ -145,15 +145,15 @@ internal static class Program
     private static Combatant? GetCombatantByShortSid(CombatCore combatCore, string shortSid)
     {
         for (var colIndex = 0; colIndex < 2; colIndex++)
-            for (var lineIndex = 0; lineIndex < 3; lineIndex++)
-            {
-                var foundCombatant = CheckSlot(shortSid, colIndex, lineIndex, combatCore.Field.HeroSide);
+        for (var lineIndex = 0; lineIndex < 3; lineIndex++)
+        {
+            var foundCombatant = CheckSlot(shortSid, colIndex, lineIndex, combatCore.Field.HeroSide);
 
-                if (foundCombatant is not null) return foundCombatant;
+            if (foundCombatant is not null) return foundCombatant;
 
-                foundCombatant = CheckSlot(shortSid, colIndex, lineIndex, combatCore.Field.MonsterSide);
-                if (foundCombatant is not null) return foundCombatant;
-            }
+            foundCombatant = CheckSlot(shortSid, colIndex, lineIndex, combatCore.Field.MonsterSide);
+            if (foundCombatant is not null) return foundCombatant;
+        }
 
         return null;
     }
@@ -304,20 +304,20 @@ internal static class Program
             // Print combatants stats
 
             for (var columnIndex = 1; columnIndex >= 0; columnIndex--)
-                for (var lineIndex = 0; lineIndex < 3; lineIndex++)
-                {
-                    var coords = new FieldCoords(columnIndex, lineIndex);
-                    var heroSlot = combatCore.Field.HeroSide[coords];
-                    PrintCombatantShortInfo(heroSlot);
-                }
+            for (var lineIndex = 0; lineIndex < 3; lineIndex++)
+            {
+                var coords = new FieldCoords(columnIndex, lineIndex);
+                var heroSlot = combatCore.Field.HeroSide[coords];
+                PrintCombatantShortInfo(heroSlot);
+            }
 
             for (var columnIndex = 0; columnIndex < 2; columnIndex++)
-                for (var lineIndex = 0; lineIndex < 3; lineIndex++)
-                {
-                    var coords = new FieldCoords(columnIndex, lineIndex);
-                    var monsterSlot = combatCore.Field.MonsterSide[coords];
-                    PrintCombatantShortInfo(monsterSlot);
-                }
+            for (var lineIndex = 0; lineIndex < 3; lineIndex++)
+            {
+                var coords = new FieldCoords(columnIndex, lineIndex);
+                var monsterSlot = combatCore.Field.MonsterSide[coords];
+                PrintCombatantShortInfo(monsterSlot);
+            }
 
             // Print current combatant
 
@@ -461,8 +461,8 @@ internal static class Program
     private static void PseudoPlayback(CombatMovementExecution movementExecution)
     {
         foreach (var imposeItem in movementExecution.EffectImposeItems)
-            foreach (var target in imposeItem.MaterializedTargets)
-                imposeItem.ImposeDelegate(target);
+        foreach (var target in imposeItem.MaterializedTargets)
+            imposeItem.ImposeDelegate(target);
 
         movementExecution.CompleteDelegate();
     }

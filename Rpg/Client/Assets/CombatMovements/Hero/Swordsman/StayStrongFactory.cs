@@ -10,10 +10,10 @@ namespace Client.Assets.CombatMovements.Hero.Swordsman;
 [UsedImplicitly]
 internal class StayStrongFactory : CombatMovementFactoryBase
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(2, 0);
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,

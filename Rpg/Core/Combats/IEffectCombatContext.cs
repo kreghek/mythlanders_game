@@ -6,6 +6,8 @@ public interface IEffectCombatContext
 {
     Combatant Actor { get; }
     IDice Dice { get; }
+
+    ICombatantEffectLifetimeImposeContext EffectImposedContext { get; }
     CombatField Field { get; }
 
     int DamageCombatantStat(Combatant combatant, UnitStatType statType, int value);
@@ -15,6 +17,4 @@ public interface IEffectCombatContext
 
     void PassTurn(Combatant target);
     void RestoreCombatantStat(Combatant combatant, UnitStatType statType, int value);
-
-    ICombatantEffectLifetimeImposeContext EffectImposedContext { get; }
 }

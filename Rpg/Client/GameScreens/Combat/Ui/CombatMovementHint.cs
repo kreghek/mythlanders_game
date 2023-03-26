@@ -61,7 +61,9 @@ internal class CombatMovementHint : HintBase
 
         spriteBatch.DrawString(_nameFont, _combatMoveTitle, combatMoveTitlePosition, color);
 
-        spriteBatch.DrawString(_font, string.Format(UiResource.ManaCostLabelTemplate, _combatMovement.Cost.Amount.Current), combatMoveTitlePosition + new Vector2(0, 15), color);
+        spriteBatch.DrawString(_font,
+            string.Format(UiResource.ManaCostLabelTemplate, _combatMovement.Cost.Amount.Current),
+            combatMoveTitlePosition + new Vector2(0, 15), color);
 
         var manaCostPosition = combatMoveTitlePosition + new Vector2(0, 25);
         if (string.IsNullOrEmpty(_combatMoveCostText))

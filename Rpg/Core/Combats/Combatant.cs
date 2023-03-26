@@ -35,6 +35,8 @@ public sealed class Combatant
 
     public bool IsPlayerControlled { get; init; }
 
+    public IReadOnlyList<CombatMovementInstance> Pool => _pool.ToArray();
+
     public string? Sid { get; init; }
     public IReadOnlyCollection<IUnitStat> Stats { get; }
 
@@ -59,8 +61,6 @@ public sealed class Combatant
         return move;
     }
 
-    public IReadOnlyList<CombatMovementInstance> Pool => _pool.ToArray();
-
     public void PrepareToCombat()
     {
         for (var i = 0; i < 3; i++)
@@ -75,20 +75,13 @@ public sealed class Combatant
         }
     }
 
-    private void RemoveEffect(ICombatantEffect effect, ICombatantEffectLifetimeDispelContext context)
-    {
-        effect.Dispel(this);
-        _effects.Remove(effect);
-
-        effect.Lifetime.EffectDispelled(effect, context);
-    }
-
     public void SetDead()
     {
         IsDead = true;
     }
 
-    public void UpdateEffects(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeDispelContext effectLifetimeDispelContext)
+    public void UpdateEffects(CombatantEffectUpdateType updateType,
+        ICombatantEffectLifetimeDispelContext effectLifetimeDispelContext)
     {
         var context = new CombatantEffectLifetimeUpdateContext(this);
 
@@ -117,5 +110,13 @@ public sealed class Combatant
             }
 
         return null;
+    }
+
+    private void RemoveEffect(ICombatantEffect effect, ICombatantEffectLifetimeDispelContext context)
+    {
+        effect.Dispel(this);
+        _effects.Remove(effect);
+
+        effect.Lifetime.EffectDispelled(effect, context);
     }
 }

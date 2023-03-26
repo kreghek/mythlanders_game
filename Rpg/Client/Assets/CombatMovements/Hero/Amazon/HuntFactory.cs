@@ -11,10 +11,10 @@ namespace Client.Assets.CombatMovements.Hero.Amazon;
 [UsedImplicitly]
 internal class HuntFactory : CombatMovementFactoryBase
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(5, 6);
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override CombatMovement CreateMovement()
     {
         var combatantEffectFactory = new ModifyCombatantMoveStatsCombatantEffectFactory(

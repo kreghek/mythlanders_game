@@ -99,7 +99,8 @@ public class CombatCore
             CombatantUsedMove?.Invoke(this,
                 new CombatantHandChangedEventArgs(CurrentCombatant, movement, handSlotIndex.Value));
 
-        var effectContext = new EffectCombatContext(Field, _dice, HandleCombatantDamaged, HandleSwapFieldPositions, this);
+        var effectContext =
+            new EffectCombatContext(Field, _dice, HandleCombatantDamaged, HandleSwapFieldPositions, this);
 
         var effectImposeItems = new List<CombatEffectImposeItem>();
 
@@ -268,9 +269,9 @@ public class CombatCore
         var side = GetCurrentSelectorContext().ActorSide;
 
         for (var col = 0; col < side.ColumnCount; col++)
-            for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
-                if (CurrentCombatant == side[new FieldCoords(col, lineIndex)].Combatant)
-                    return new FieldCoords(col, lineIndex);
+        for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
+            if (CurrentCombatant == side[new FieldCoords(col, lineIndex)].Combatant)
+                return new FieldCoords(col, lineIndex);
 
         throw new InvalidOperationException();
     }
@@ -422,7 +423,8 @@ public class CombatCore
         RestoreManeuversOfAllCombatants();
 
         UpdateAllCombatantEffects(CombatantEffectUpdateType.StartRound, combatantEffectLifetimeDispelContext);
-        CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn, combatantEffectLifetimeDispelContext);
+        CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn,
+            combatantEffectLifetimeDispelContext);
     }
 
     private static int TakeStat(Combatant combatant, UnitStatType statType, int value)
@@ -439,7 +441,8 @@ public class CombatCore
         return remains;
     }
 
-    private void UpdateAllCombatantEffects(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeDispelContext context)
+    private void UpdateAllCombatantEffects(CombatantEffectUpdateType updateType,
+        ICombatantEffectLifetimeDispelContext context)
     {
         foreach (var combatant in _allCombatantList)
             if (!combatant.IsDead)

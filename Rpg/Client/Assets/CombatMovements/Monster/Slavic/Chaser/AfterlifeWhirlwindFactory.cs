@@ -23,5 +23,8 @@ internal class AfterlifeWhirlwindFactory : SimpleCombatMovementFactoryBase
             });
     }
 
-    protected override CombatMovementTags GetTags() => CombatMovementTags.Attack;
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
+    }
 }

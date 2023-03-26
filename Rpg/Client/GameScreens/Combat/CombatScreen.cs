@@ -491,15 +491,6 @@ internal class CombatScreen : GameScreenWithMenuBase
             _uiContentStorage, _gameObjectContentStorage);
     }
 
-    private void CombatMovementsHandPanel_WaitPicked(object? sender, EventArgs e)
-    {
-        _targetMarkers.EriseTargets();
-
-        var intention = new WaitIntention();
-
-        _playerCombatantBehaviour.Assign(intention);
-    }
-
     private void CombatMovementsHandPanel_CombatMovementHover(object? sender, CombatMovementPickedEventArgs e)
     {
         var selectorContext =
@@ -519,6 +510,15 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         var intention = new UseCombatMovementIntention(e.CombatMovement, _animationManager, _combatMovementVisualizer,
             _gameObjects);
+
+        _playerCombatantBehaviour.Assign(intention);
+    }
+
+    private void CombatMovementsHandPanel_WaitPicked(object? sender, EventArgs e)
+    {
+        _targetMarkers.EriseTargets();
+
+        var intention = new WaitIntention();
 
         _playerCombatantBehaviour.Assign(intention);
     }

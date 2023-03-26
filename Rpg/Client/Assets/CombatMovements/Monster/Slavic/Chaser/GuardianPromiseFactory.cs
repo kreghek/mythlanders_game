@@ -28,5 +28,8 @@ internal class GuardianPromiseFactory : SimpleCombatMovementFactoryBase
             });
     }
 
-    protected override CombatMovementTags GetTags() => CombatMovementTags.AutoDefense;
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.AutoDefense;
+    }
 }
