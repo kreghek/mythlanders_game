@@ -25,6 +25,7 @@ internal class CombatMovementsHandPanel : ControlBase
     private const int SKILL_SELECTION_OFFSET = SKILL_BUTTON_SIZE / 8;
 
     private readonly CombatMovementButton?[] _buttons;
+    private readonly IconButton _waitButton;
     private readonly ICombatMovementVisualizer _combatMovementVisualizer;
     private readonly IUiContentStorage _uiContentStorage;
 
@@ -43,6 +44,14 @@ internal class CombatMovementsHandPanel : ControlBase
         _uiContentStorage = uiContentStorage;
         _combatMovementVisualizer = combatMovementVisualizer;
         IsEnabled = true;
+
+        _waitButton = new IconButton(new IconData(uiContentStorage.GetButtonIndicatorsTexture(), new Rectangle(0, 0, 32, 32)));
+        _waitButton.OnClick += WaitButton_OnClick;
+    }
+
+    private void WaitButton_OnClick(object? sender, EventArgs e)
+    {
+        WaitPicked?.Invoke(this, EventArgs.Empty);
     }
 
     public Combatant? Combatant
@@ -130,6 +139,9 @@ internal class CombatMovementsHandPanel : ControlBase
             }
         }
 
+        _waitButton.Rect = new Rectangle(buttonsRect.Right, buttonsRect.Top, 32, 32);
+        _waitButton.Draw(spriteBatch);
+
         if (_hoverButton is not null && _activeCombatMovementHint is not null)
         {
             DrawHoverInfo(_hoverButton, _activeCombatMovementHint, spriteBatch);
@@ -202,6 +214,8 @@ internal class CombatMovementsHandPanel : ControlBase
                 _burningCombatMovement = null;
             }
         }
+
+        _waitButton.Update(resolutionIndependentRenderer);
     }
 
     private static bool IsResolveEnought(CombatMovementInstance combatMovement, IUnitStat currentCombatantResolveStat)
@@ -382,6 +396,7 @@ internal class CombatMovementsHandPanel : ControlBase
     }
 
     public event EventHandler<CombatMovementPickedEventArgs>? CombatMovementPicked;
+    public event EventHandler? WaitPicked;
 
     public event EventHandler<CombatMovementPickedEventArgs>? CombatMovementHover;
     public event EventHandler<CombatMovementPickedEventArgs>? CombatMovementLeave;

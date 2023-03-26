@@ -479,6 +479,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatMovementsHandPanel.CombatMovementPicked += CombatMovementsHandPanel_CombatMovementPicked;
         _combatMovementsHandPanel.CombatMovementHover += CombatMovementsHandPanel_CombatMovementHover;
         _combatMovementsHandPanel.CombatMovementLeave += CombatMovementsHandPanel_CombatMovementLeave;
+        _combatMovementsHandPanel.WaitPicked += CombatMovementsHandPanel_WaitPicked;
 
         var intentionFactory =
             new BotCombatActorIntentionFactory(_animationManager, _combatMovementVisualizer, _gameObjects);
@@ -488,6 +489,15 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _combatantQueuePanel = new CombatantQueuePanel(_combatCore,
             _uiContentStorage, _gameObjectContentStorage);
+    }
+
+    private void CombatMovementsHandPanel_WaitPicked(object? sender, EventArgs e)
+    {
+        _targetMarkers.EriseTargets();
+
+        var intention = new WaitIntention();
+
+        _playerCombatantBehaviour.Assign(intention);
     }
 
     private void CombatMovementsHandPanel_CombatMovementHover(object? sender, CombatMovementPickedEventArgs e)
