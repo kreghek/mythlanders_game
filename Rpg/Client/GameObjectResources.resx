@@ -213,10 +213,11 @@
   </data>
   <data name="Chasing" xml:space="preserve">
     <value>Chasing</value>
-    <comment>Combat Movement</comment>
+    <comment>Combat Movement Chaser</comment>
   </data>
   <data name="Chasing_Description" xml:space="preserve">
     <value></value>
+    <comment>Combat Movement Chaser</comment>
   </data>
   <data name="ChineseOldman" xml:space="preserve">
     <value>Ninlao Bingwen</value>
@@ -277,11 +278,11 @@
   </data>
   <data name="DieBySword" xml:space="preserve">
       <value>Die by the sword</value>
-    <comment>Combat Movement</comment>
+    <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="DieBySword_Description" xml:space="preserve">
     <value></value>
-    <comment>Combat Movement</comment>
+    <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="DopeHerb" xml:space="preserve">
       <value>Dope herb</value>
@@ -381,10 +382,10 @@
     <comment>Location</comment>
   </data>
   <data name="HitFromShoulder" xml:space="preserve">
-    <value>Hit from the shoulder</value><comment>Combat Movement</comment>
+    <value>Hit from the shoulder</value><comment>Combat Movement Swordsman</comment>
   </data>
   <data name="HitFromShoulder_Description" xml:space="preserve">
-    <value /><comment>Combat Movement</comment>
+    <value /><comment>Combat Movement Swordsman</comment>
   </data>
   <data name="Hoplite" xml:space="preserve">
     <value>Leonidas</value>
@@ -441,10 +442,10 @@
     <value /><comment>Combat movement</comment>
   </data>
   <data name="LookOut" xml:space="preserve">
-    <value>Look out!</value><comment>Combat movement</comment>
+    <value>Look out!</value><comment>Combat movement Swordsman</comment>
   </data>
   <data name="LookOut_Description" xml:space="preserve">
-    <value /><comment>Combat movement</comment>
+    <value /><comment>Combat movement Swordsman</comment>
   </data>
   <data name="Marauder" xml:space="preserve">
     <value>Marauder</value>
@@ -513,10 +514,10 @@
     <comment>Combat Movement</comment>
   </data>
   <data name="RiseYourSwords" xml:space="preserve">
-    <value>Rise your swords!</value><comment>Combat Movement</comment>
+    <value>Rise your swords!</value><comment>Combat Movement Swordsman</comment>
   </data>
   <data name="RiseYourSwords_Description" xml:space="preserve">
-    <value /><comment>Combat Movement</comment>
+    <value /><comment>Combat Movement Swordsman</comment>
   </data>
   <data name="Sabotage" xml:space="preserve">
     <value>Sabotage</value>
@@ -548,10 +549,10 @@
     <comment>Skill</comment>
   </data>
   <data name="StayStrong" xml:space="preserve">
-    <value>Stay strong</value><comment>Combat Movement</comment>
+    <value>Stay strong</value><comment>Combat Movement Swordsman</comment>
   </data>
   <data name="StayStrong_Description" xml:space="preserve">
-    <value /><comment>Combat Movement</comment>
+    <value /><comment>Combat Movement Swordsman</comment>
   </data>
   <data name="Stryga" xml:space="preserve">
     <value>Stryga</value>
@@ -603,10 +604,10 @@
     <comment>Skill</comment>
   </data>
   <data name="TrackerSavvy" xml:space="preserve">
-    <value>Tracker's savvy</value><comment>Combat Movement</comment>
+    <value>Tracker's savvy</value><comment>Combat Movement Amazon</comment>
   </data>
   <data name="TrackerSavvy_Description" xml:space="preserve">
-    <value /><comment>Combat Movement</comment>
+    <value /><comment>Combat Movement Amazon</comment>
   </data>
   <data name="VampireBite" xml:space="preserve">
       <value>Vampire bite</value>

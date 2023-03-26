@@ -13,7 +13,7 @@ internal class AfterlifeWhirlwindFactory : SimpleCombatMovementFactoryBase
             {
                 new AdjustPositionEffect(new SelfTargetSelector()),
                 new DamageEffect(
-                    new AllVanguardTargetSelector(),
+                    new AllVanguardEnemiesTargetSelector(),
                     DamageType.Normal,
                     Range<int>.CreateMono(2)),
                 new PushToPositionEffect(
@@ -23,8 +23,5 @@ internal class AfterlifeWhirlwindFactory : SimpleCombatMovementFactoryBase
             });
     }
 
-    protected override CombatMovementTags GetTags()
-    {
-        return CombatMovementTags.Attack;
-    }
+    protected override CombatMovementTags GetTags() => CombatMovementTags.Attack;
 }

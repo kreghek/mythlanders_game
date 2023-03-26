@@ -322,7 +322,11 @@ internal class CombatScreen : GameScreenWithMenuBase
             CountDefeat();
         }
 
-        var combatantGameObject = GetCombatantGameObject(e.Combatant);
+        var combatantGameObject = GetCombatantGameObjectOrDefault(e.Combatant);
+        if (combatantGameObject is null)
+        { 
+            return;
+        }
 
         var corpse = combatantGameObject.CreateCorpse();
         _corpseObjects.Add(corpse);
@@ -475,6 +479,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatMovementsHandPanel.CombatMovementPicked += CombatMovementsHandPanel_CombatMovementPicked;
         _combatMovementsHandPanel.CombatMovementHover += CombatMovementsHandPanel_CombatMovementHover;
         _combatMovementsHandPanel.CombatMovementLeave += CombatMovementsHandPanel_CombatMovementLeave;
+        _combatMovementsHandPanel.WaitPicked += CombatMovementsHandPanel_WaitPicked;
 
         var intentionFactory =
             new BotCombatActorIntentionFactory(_animationManager, _combatMovementVisualizer, _gameObjects);
@@ -484,6 +489,15 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _combatantQueuePanel = new CombatantQueuePanel(_combatCore,
             _uiContentStorage, _gameObjectContentStorage);
+    }
+
+    private void CombatMovementsHandPanel_WaitPicked(object? sender, EventArgs e)
+    {
+        _targetMarkers.EriseTargets();
+
+        var intention = new WaitIntention();
+
+        _playerCombatantBehaviour.Assign(intention);
     }
 
     private void CombatMovementsHandPanel_CombatMovementHover(object? sender, CombatMovementPickedEventArgs e)
@@ -705,7 +719,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             const int PANEL_WIDTH = 400;
 
             _combatantQueuePanel.Rect = new Rectangle(contentRectangle.Center.X - PANEL_WIDTH / 2, contentRectangle.Top,
-                PANEL_WIDTH, 32);
+                PANEL_WIDTH, 48);
             _combatantQueuePanel.Draw(spriteBatch);
         }
     }
@@ -967,6 +981,11 @@ internal class CombatScreen : GameScreenWithMenuBase
     private CombatantGameObject GetCombatantGameObject(Combatant combatant)
     {
         return _gameObjects.First(x => x.Combatant == combatant);
+    }
+
+    private CombatantGameObject? GetCombatantGameObjectOrDefault(Combatant combatant)
+    {
+        return _gameObjects.FirstOrDefault(x => x.Combatant == combatant);
     }
 
     private static int? GetIndicatorNextIndex(CombatantGameObject unitGameObject)

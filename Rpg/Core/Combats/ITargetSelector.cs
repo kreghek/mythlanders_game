@@ -11,11 +11,3 @@ public interface ITargetSelector
 
     IReadOnlyList<Combatant> GetMaterialized(Combatant actor, ITargetSelectorContext context);
 }
-
-public enum CombatMoveTargetEstimateType
-{
-    Exactly,
-    Approximately
-}
-
-public sealed record CombatMoveTargetEstimate(Combatant Target, CombatMoveTargetEstimateType EstimateType);

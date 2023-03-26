@@ -12,7 +12,7 @@ public class DigitalWolfFactory
         var monsterSequence = CreateCombatMoveVariation();
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, 5);
+        stats.SetValue(UnitStatType.HitPoints, 6);
         stats.SetValue(UnitStatType.ShieldPoints, 3);
         stats.SetValue(UnitStatType.Resolve, 4);
 

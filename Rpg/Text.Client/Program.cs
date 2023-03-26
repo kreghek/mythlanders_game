@@ -401,7 +401,7 @@ internal static class Program
 
             case ChangeStatEffectInstance buffEffect:
                 Console.Write(
-                    $"Buff: +{buffEffect.BaseEffect.Value} {buffEffect.BaseEffect.TargetStatType} on {buffEffect.BaseEffect.LifetimeType}");
+                    $"Buff: +{buffEffect.BaseEffect.Value} {buffEffect.BaseEffect.TargetStatType} on {buffEffect.Lifetime.GetType()}");
                 break;
 
             case ChangeCurrentStatEffectInstance controlEffect:
@@ -427,7 +427,7 @@ internal static class Program
                 Console.Write(" to the most shield changed");
                 break;
 
-            case AllVanguardTargetSelector:
+            case AllVanguardEnemiesTargetSelector:
                 Console.Write(" to all in the vanguard");
                 break;
         }
@@ -442,7 +442,7 @@ internal static class Program
         {
             if (movementInstance is not null)
                 Console.WriteLine(
-                    $"{moveIndex}: {movementInstance.SourceMovement.Sid} (cost: {movementInstance.SourceMovement.Cost.Value})");
+                    $"{moveIndex}: {movementInstance.SourceMovement.Sid} (cost: {movementInstance.SourceMovement.Cost.Amount})");
             else
                 Console.WriteLine($"{moveIndex}: -");
 

@@ -11,5 +11,13 @@ public sealed class ToNextCombatantTurnEffectLifetime : ICombatantEffectLifetime
         if (_currentRoundEnd && updateType == CombatantEffectUpdateType.StartCombatantTurn) IsDead = true;
     }
 
+    public void EffectImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context)
+    {
+    }
+
+    public void EffectDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context)
+    {
+    }
+
     public bool IsDead { get; private set; }
 }

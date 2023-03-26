@@ -22,5 +22,13 @@ public sealed class MultipleCombatantTurnEffectLifetime : ICombatantEffectLifeti
         }
     }
 
+    public void EffectImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context)
+    {
+    }
+
+    public void EffectDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context)
+    {
+    }
+
     public bool IsDead { get; private set; }
 }

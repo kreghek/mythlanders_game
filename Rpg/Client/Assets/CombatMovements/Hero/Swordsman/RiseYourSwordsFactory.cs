@@ -1,4 +1,5 @@
 ﻿using Core.Combats;
+using Core.Combats.CombatantEffects;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
@@ -15,7 +16,11 @@ internal class RiseYourSwordsFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new ModifyEffectsEffect(new SelfTargetSelector(), 1)
+                    new AddCombatantEffectEffect(
+                        new AllAllyTargetSelector(),
+                        new ModifyEffectsCombatantEffectFactory(
+                            new MultipleCombatantTurnEffectLifetimeFactory(1),
+                            1))
                 })
         );
     }

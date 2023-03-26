@@ -29,12 +29,12 @@ internal class SurpriseManeuverFactory : CombatMovementFactoryBase
                         new StrongestClosestAllyTargetSelector(),
                         UnitStatType.Defense,
                         2,
-                        typeof(ToNextCombatantTurnEffectLifetime)),
+                        new ToNextCombatantTurnEffectLifetimeFactory()),
                     new ChangeStatEffect(
                         new SelfTargetSelector(),
                         UnitStatType.Defense,
                         2,
-                        typeof(ToNextCombatantTurnEffectLifetime))
+                        new ToNextCombatantTurnEffectLifetimeFactory())
                 })
         );
     }

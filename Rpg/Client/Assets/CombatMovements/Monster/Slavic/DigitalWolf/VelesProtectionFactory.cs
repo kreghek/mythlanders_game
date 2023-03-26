@@ -10,14 +10,13 @@ internal class VelesProtectionFactory : CombatMovementFactoryBase
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
-            new CombatMovementCost(1),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
-                {
-                    new ChangeStatEffect(new SelfTargetSelector(), UnitStatType.ShieldPoints, 3,
-                        typeof(ToNextCombatantTurnEffectLifetime)),
-                    new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
-                })
-        );
+                new CombatMovementCost(1),
+                CombatMovementEffectConfig.Create(
+                    new IEffect[]
+                    {
+                        new ChangeStatEffect(new SelfTargetSelector(), UnitStatType.ShieldPoints, 3, new ToNextCombatantTurnEffectLifetimeFactory()),
+                        new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
+                    })
+            );
     }
 }
