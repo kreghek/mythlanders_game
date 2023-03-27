@@ -202,7 +202,7 @@
     <value>Завалить зверя</value>
   </data>
   <data name="BringBeastDown_Description" xml:space="preserve">
-    <value>Если амазонка не перемещалась, то наносит урон 4 ед. самому сильному противнику с меткой.</value>
+    <value>Наносит урон 4 ед. самому сильному противнику с меткой. И пропускает следующий ход.</value>
   </data>
   <data name="Castle" xml:space="preserve">
     <value>Мрачная Твердыня в Скале</value>
