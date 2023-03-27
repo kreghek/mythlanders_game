@@ -1,32 +1,44 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
+using Client.Assets.Crises;
 using Client.Core.Campaigns;
+using Client.Engine;
 using Client.GameScreens.Campaign;
+using Client.GameScreens.Rest.Ui;
+
+using Core.Crises;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Crisis;
 
 internal sealed class CrisisScreen : GameScreenWithMenuBase
 {
-    private readonly IList<ButtonBase> _actionButtons;
-
     private readonly HeroCampaign _campaign;
     private readonly IUiContentStorage _uiContentStorage;
+    private readonly ICrisis _crisis;
+    private readonly IList<ResourceTextButton> _aftermathButtons;
 
     public CrisisScreen(TestamentGame game, CrisisScreenTransitionArguments args) : base(game)
     {
         _campaign = args.Campaign;
 
-        _actionButtons = new List<ButtonBase>();
-
         _uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();
+
+        var crisesCatalog = game.Services.GetRequiredService<ICrisesCatalog>();
+
+        _crisis = crisesCatalog.GetAll().First();
+
+        _aftermathButtons = new List<ResourceTextButton>();
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -50,15 +62,21 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
         const int HEADER_HEIGHT = 100;
 
-        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), UiResource.RestScreen_Title,
-            new Vector2(contentRect.Center.X, contentRect.Top + ControlBase.CONTENT_MARGIN), Color.Wheat);
+        var localizedCrisisDescription = GameObjectHelper.GetLocalized(_crisis.Sid);
+        var localizedNormalizedCrisisDescription = StringHelper.LineBreaking(localizedCrisisDescription, 60);
+        var descriptionText = _uiContentStorage.GetTitlesFont();
+        var descriptionTextSize = descriptionText.MeasureString(localizedNormalizedCrisisDescription);
 
-        for (var buttonIndex = 0; buttonIndex < _actionButtons.Count; buttonIndex++)
+        spriteBatch.DrawString(descriptionText, localizedNormalizedCrisisDescription,
+            new Vector2((contentRect.Center.X - descriptionTextSize.X / 2),
+                contentRect.Top + ControlBase.CONTENT_MARGIN), Color.Wheat);
+
+        for (var buttonIndex = 0; buttonIndex < _aftermathButtons.Count; buttonIndex++)
         {
-            var actionButton = _actionButtons[buttonIndex];
+            var actionButton = _aftermathButtons[buttonIndex];
             actionButton.Rect = new Rectangle(
                 contentRect.Center.X - ACTION_BUTTON_WIDTH / 2,
-                HEADER_HEIGHT + buttonIndex * ACTION_BUTTON_HEIGHT,
+                HEADER_HEIGHT + buttonIndex * ACTION_BUTTON_HEIGHT + contentRect.Top + (int)descriptionTextSize.X,
                 ACTION_BUTTON_WIDTH,
                 ACTION_BUTTON_HEIGHT
             );
@@ -71,23 +89,21 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
     protected override void InitializeContent()
     {
-        var improvedRestActionButton = new ResourceTextButton(nameof(UiResource.RestActionImprovedRest));
-        _actionButtons.Add(improvedRestActionButton);
-
-        var scoutingActionButton = new ResourceTextButton(nameof(UiResource.RestActionScouting));
-        _actionButtons.Add(scoutingActionButton);
-
-        var chatActionButton = new ResourceTextButton(nameof(UiResource.RestActionChat));
-        _actionButtons.Add(chatActionButton);
-
-        foreach (var actionButton in _actionButtons)
+        var context = new CrisisAftermathContext();
+        
+        foreach (var aftermath in _crisis.GetItems())
         {
-            actionButton.OnClick += (_, _) =>
+            var aftermathButton = new ResourceTextButton(aftermath.Sid.ResourceName);
+            _aftermathButtons.Add(aftermathButton);
+
+            aftermathButton.OnClick += (s, e) =>
             {
                 var underConstructionModal = new UnderConstructionModal(
                     _uiContentStorage,
                     ResolutionIndependentRenderer);
 
+                aftermath.Apply(context);
+                
                 underConstructionModal.Closed += (_, _) =>
                 {
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
@@ -104,7 +120,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
     {
         base.UpdateContent(gameTime);
 
-        foreach (var actionButton in _actionButtons)
+        foreach (var actionButton in _aftermathButtons)
         {
             actionButton.Update(ResolutionIndependentRenderer);
         }

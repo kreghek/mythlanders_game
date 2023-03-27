@@ -2,17 +2,7 @@ namespace Core.Crises;
 
 public interface ICrisis
 {
-    string Sid { get; }
+    CrisisSid Sid { get; }
 
-    IReadOnlyCollection<ICrisisAftermath> GetPreItems() => ArraySegment<ICrisisAftermath>.Empty;
-}
-
-public interface ICrisisAftermath
-{
-    void Apply(ICrisisAftermathContext context);
-}
-
-public interface ICrisisAftermathContext
-{
-    
+    IReadOnlyCollection<ICrisisAftermath> GetItems();
 }

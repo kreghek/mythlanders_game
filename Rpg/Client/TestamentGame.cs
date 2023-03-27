@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.CombatMovements;
+using Client.Assets.Crises;
 using Client.Core;
 using Client.Core.Dialogues;
 using Client.Engine;
@@ -307,5 +308,8 @@ public sealed class TestamentGame : Game
 
         var movementVisualizer = new CombatMovementVisualizer();
         Services.AddService<ICombatMovementVisualizer>(movementVisualizer);
+
+        var crisesCatalog = new CrisesCatalog();
+        Services.AddService(crisesCatalog);
     }
 }
