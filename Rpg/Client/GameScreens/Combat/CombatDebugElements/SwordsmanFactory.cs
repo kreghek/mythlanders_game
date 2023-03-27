@@ -10,7 +10,8 @@ namespace Client.GameScreens.Combat.CombatDebugElements;
 
 public class SwordsmanFactory
 {
-    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour)
+    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour,
+        IStatValue swordsmanHeroHitpointsStat)
     {
         var movementPool = new List<CombatMovement>();
 
@@ -35,7 +36,7 @@ public class SwordsmanFactory
         }
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, 5);
+        stats.SetValue(UnitStatType.HitPoints, swordsmanHeroHitpointsStat);
         stats.SetValue(UnitStatType.ShieldPoints, 4);
         stats.SetValue(UnitStatType.Resolve, 5);
 
