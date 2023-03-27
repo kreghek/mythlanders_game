@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 using Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
 using Core.Combats;
@@ -14,7 +12,7 @@ public class DigitalWolfFactory
         var monsterSequence = CreateCombatMoveVariation();
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, 5);
+        stats.SetValue(UnitStatType.HitPoints, 6);
         stats.SetValue(UnitStatType.ShieldPoints, 3);
         stats.SetValue(UnitStatType.Resolve, 4);
 
@@ -28,7 +26,7 @@ public class DigitalWolfFactory
 
     private static CombatMovementSequence CreateCombatMoveVariation()
     {
-        var list = new CombatMovement[]
+        var list = new[]
         {
             new CyberClawsFactory().CreateMovement(),
             new VelesProtectionFactory().CreateMovement(),
@@ -36,7 +34,6 @@ public class DigitalWolfFactory
             new RegenerativeProtocolFactory().CreateMovement(),
             new FlockAlphaTacticsFactory().CreateMovement()
         };
-
 
         var monsterSequence = new CombatMovementSequence();
 

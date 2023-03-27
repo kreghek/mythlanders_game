@@ -275,7 +275,7 @@
     <value>От меча и погибни!</value>
   </data>
   <data name="DieBySword_Description" xml:space="preserve">
-    <value>Перемещается веред и наносит 2ед. урона ближайшему в линии противнику.</value>
+    <value>Перемещается вперед и наносит 2ед. урона ближайшему в линии противнику.</value>
   </data>
   <data name="DopeHerb" xml:space="preserve">
     <value>Дурман-трава</value>
@@ -393,7 +393,7 @@
     <value>Вдохновляющий прорыв</value>
   </data>
   <data name="InspirationalBreakthrough_Description" xml:space="preserve">
-    <value>Наносит 1ед. урона ближайшему в линии противнику и вдохновляет всех союзников в тылу, увеличивая их урон на 1 ед.</value>
+    <value>Наносит 1ед. урона ближайшему в линии противнику и вдохновляет всех союзников в тылу, увеличивая их урон на 1 ед. в течении 1 раунда.</value>
   </data>
   <data name="InspiringRush" xml:space="preserve">
     <value>Вдохновляющий рывок</value>

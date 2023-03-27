@@ -12,6 +12,7 @@ public sealed class ChangeStatEffect : IEffect
         Selector = selector;
         Value = value;
     }
+
     public UnitStatType TargetStatType { get; }
     public int Value { get; }
 

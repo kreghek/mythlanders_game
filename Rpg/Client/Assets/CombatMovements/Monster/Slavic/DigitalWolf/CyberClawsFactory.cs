@@ -9,18 +9,18 @@ internal class CyberClawsFactory : CombatMovementFactoryBase
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
-                new CombatMovementCost(1),
-                CombatMovementEffectConfig.Create(
-                    new IEffect[]
-                    {
-                        new AdjustPositionEffect(new SelfTargetSelector()),
-                        new DamageEffect(
-                            new ClosestInLineTargetSelector(),
-                            DamageType.Normal,
-                            Range<int>.CreateMono(3)),
-                        new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToVanguard)
-                    })
-            )
+            new CombatMovementCost(1),
+            CombatMovementEffectConfig.Create(
+                new IEffect[]
+                {
+                    new AdjustPositionEffect(new SelfTargetSelector()),
+                    new DamageEffect(
+                        new ClosestInLineTargetSelector(),
+                        DamageType.Normal,
+                        Range<int>.CreateMono(3)),
+                    new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToVanguard)
+                })
+        )
         {
             Tags = CombatMovementTags.Attack
         };

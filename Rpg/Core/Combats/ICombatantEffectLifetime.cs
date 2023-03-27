@@ -5,9 +5,9 @@ namespace Core.Combats;
 public interface ICombatantEffectLifetime
 {
     bool IsDead { get; }
-    void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context);
-    void EffectImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context);
     void EffectDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context);
+    void EffectImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context);
+    void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context);
 }
 
 public interface ICombatantEffectLifetimeFactory
@@ -23,7 +23,7 @@ public sealed class MultipleCombatantTurnEffectLifetimeFactory : ICombatantEffec
     {
         _turnCount = turnCount;
     }
-    
+
     public ICombatantEffectLifetime Create()
     {
         return new MultipleCombatantTurnEffectLifetime(_turnCount);

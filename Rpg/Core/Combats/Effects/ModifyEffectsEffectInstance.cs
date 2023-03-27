@@ -11,7 +11,7 @@ public sealed class ModifyEffectsEffectInstance : EffectInstanceBase<ModifyEffec
 
     public override void Influence(Combatant target, IEffectCombatContext context)
     {
-        target.AddEffect(new ModifyEffectsCombatantEffect(new MultipleCombatantTurnEffectLifetime(2),
+        target.AddEffect(new ModifyEffectsCombatantEffect(new MultipleCombatantTurnEffectLifetime(1),
             BaseEffect.Value), context.EffectImposedContext);
     }
 }

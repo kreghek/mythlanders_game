@@ -105,7 +105,7 @@ public class ThiefChaserFactory
                     {
                         new AdjustPositionEffect(new SelfTargetSelector()),
                         new DamageEffect(
-                            new AllVanguardTargetSelector(),
+                            new AllVanguardEnemiesTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(1)),
                         new PushToPositionEffect(

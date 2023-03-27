@@ -7,17 +7,11 @@ public sealed class StrongestEnemyTargetSelector : MostEnemyStatValueTargetSelec
         var enemies = context.EnemySide.GetAllCombatants().ToArray();
 
         if (enemies.Any())
-        {
-
             return new[]
             {
                 enemies.OrderByDescending(x => GetStatCurrentValue(x, UnitStatType.HitPoints))
-                .First()
+                    .First()
             };
-        }
-        else
-        {
-            return Array.Empty<Combatant>();
-        }
+        return Array.Empty<Combatant>();
     }
 }

@@ -31,11 +31,9 @@ internal class StatPercentThresholdEffectLifetime : ICombatantEffectLifetime
 
     public void EffectImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context)
     {
-        
     }
 
     public void EffectDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context)
     {
-        
     }
 }

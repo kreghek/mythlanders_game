@@ -1,12 +1,13 @@
 namespace Core.Combats.CombatantEffects;
 
-public sealed class ModifyCombatantMoveStatsCombatantEffectFactory: ICombatantEffectFactory
+public sealed class ModifyCombatantMoveStatsCombatantEffectFactory : ICombatantEffectFactory
 {
     private readonly ICombatantEffectLifetimeFactory _lifetimeFactory;
     private readonly CombatantMoveStats _stats;
     private readonly int _value;
 
-    public ModifyCombatantMoveStatsCombatantEffectFactory(ICombatantEffectLifetimeFactory lifetimeFactory, CombatantMoveStats stats, int value)
+    public ModifyCombatantMoveStatsCombatantEffectFactory(ICombatantEffectLifetimeFactory lifetimeFactory,
+        CombatantMoveStats stats, int value)
     {
         _lifetimeFactory = lifetimeFactory;
         _stats = stats;

@@ -16,6 +16,7 @@ public sealed class AddCombatantEffectEffect : IEffect
 
     public IReadOnlyCollection<IEffectCondition> ImposeConditions => Array.Empty<IEffectCondition>();
     public ITargetSelector Selector { get; }
+
     public IEffectInstance CreateInstance()
     {
         return new AddCombatantEffectEffectInstance(this, _combatantEffectFactory);

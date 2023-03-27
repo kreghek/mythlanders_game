@@ -1,52 +1,50 @@
 namespace Core.Combats.CombatantEffects;
 
-public sealed class ModifyCombatantMoveStatsCombatantEffect:CombatantEffectBase
+public sealed class ModifyCombatantMoveStatsCombatantEffect : CombatantEffectBase
 {
-    private readonly CombatantMoveStats _stats;
     private readonly StatModifier _modifier;
+    private readonly CombatantMoveStats _stats;
 
-    public ModifyCombatantMoveStatsCombatantEffect(ICombatantEffectLifetime lifetime, CombatantMoveStats stats, int value) : base(lifetime)
+    public ModifyCombatantMoveStatsCombatantEffect(ICombatantEffectLifetime lifetime, CombatantMoveStats stats,
+        int value) : base(lifetime)
     {
         _stats = stats;
 
         _modifier = new StatModifier(value);
     }
 
+    public override void Dispel(Combatant combatant)
+    {
+        base.Dispel(combatant);
+
+        var allCombatMoves = GetAllCombatMoves(combatant);
+
+        foreach (var combatMovementInstance in allCombatMoves)
+            switch (_stats)
+            {
+                case CombatantMoveStats.Cost:
+                    combatMovementInstance.Cost.Amount.RemoveModifier(_modifier);
+                    break;
+            }
+    }
+
     public override void Impose(Combatant combatant)
     {
         base.Impose(combatant);
 
-        foreach (var combatMovementInstance in combatant.Hand)
-        {
-            if (combatMovementInstance is not null)
+        var allCombatMoves = GetAllCombatMoves(combatant);
+
+        foreach (var combatMovementInstance in allCombatMoves)
+            switch (_stats)
             {
-                switch (_stats)
-                {
-                    case CombatantMoveStats.Cost:
-                        combatMovementInstance.Cost.Amount.AddModifier(_modifier);
-                        break;
-                }
-                
+                case CombatantMoveStats.Cost:
+                    combatMovementInstance.Cost.Amount.AddModifier(_modifier);
+                    break;
             }
-        }
     }
 
-    public override void Dispel(Combatant combatant)
+    private static IEnumerable<CombatMovementInstance> GetAllCombatMoves(Combatant combatant)
     {
-        base.Dispel(combatant);
-        
-        foreach (var combatMovementInstance in combatant.Hand)
-        {
-            if (combatMovementInstance is not null)
-            {
-                switch (_stats)
-                {
-                    case CombatantMoveStats.Cost:
-                        combatMovementInstance.Cost.Amount.RemoveModifier(_modifier);
-                        break;
-                }
-                
-            }
-        }
+        return combatant.Hand.Where(x => x is not null).Select(x => x!).Concat(combatant.Pool);
     }
 }

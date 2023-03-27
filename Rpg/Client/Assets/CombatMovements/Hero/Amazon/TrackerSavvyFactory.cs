@@ -20,7 +20,7 @@ internal class TrackerSavvyFactory : CombatMovementFactoryBase
             new MultipleCombatantTurnEffectLifetimeFactory(1),
             CombatantMoveStats.Cost,
             -1);
-        
+
         return new CombatMovement(Sid,
             new CombatMovementCost(1),
             CombatMovementEffectConfig.Create(

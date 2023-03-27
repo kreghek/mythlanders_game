@@ -1,6 +1,6 @@
 ﻿namespace Core.Combats.TargetSelectors;
 
-public abstract class MostEnemyStatValueTargetSelectorBase: ITargetSelector
+public abstract class MostEnemyStatValueTargetSelectorBase : ITargetSelector
 {
     protected static int GetStatCurrentValue(Combatant combatant, UnitStatType statType)
     {

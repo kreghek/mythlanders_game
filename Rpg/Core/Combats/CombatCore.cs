@@ -51,7 +51,7 @@ public class CombatCore
     public void CompleteTurn()
     {
         var context = new CombatantEffectLifetimeDispelContext(this);
-        
+
         CombatantEndsTurn?.Invoke(this, new CombatantEndsTurnEventArgs(CurrentCombatant));
 
         CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.EndCombatantTurn, context);
@@ -99,7 +99,8 @@ public class CombatCore
             CombatantUsedMove?.Invoke(this,
                 new CombatantHandChangedEventArgs(CurrentCombatant, movement, handSlotIndex.Value));
 
-        var effectContext = new EffectCombatContext(Field, _dice, HandleCombatantDamaged, HandleSwapFieldPositions, this);
+        var effectContext =
+            new EffectCombatContext(Field, _dice, HandleCombatantDamaged, HandleSwapFieldPositions, this);
 
         var effectImposeItems = new List<CombatEffectImposeItem>();
 
@@ -422,7 +423,8 @@ public class CombatCore
         RestoreManeuversOfAllCombatants();
 
         UpdateAllCombatantEffects(CombatantEffectUpdateType.StartRound, combatantEffectLifetimeDispelContext);
-        CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn, combatantEffectLifetimeDispelContext);
+        CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn,
+            combatantEffectLifetimeDispelContext);
     }
 
     private static int TakeStat(Combatant combatant, UnitStatType statType, int value)
@@ -439,7 +441,8 @@ public class CombatCore
         return remains;
     }
 
-    private void UpdateAllCombatantEffects(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeDispelContext context)
+    private void UpdateAllCombatantEffects(CombatantEffectUpdateType updateType,
+        ICombatantEffectLifetimeDispelContext context)
     {
         foreach (var combatant in _allCombatantList)
             if (!combatant.IsDead)

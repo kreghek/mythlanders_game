@@ -12,9 +12,9 @@ public class ThiefChaserFactory
         var monsterSequence = CreateCombatMoveVariation(variationIndex);
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, 5);
-        stats.SetValue(UnitStatType.ShieldPoints, 5);
-        stats.SetValue(UnitStatType.Resolve, 7);
+        stats.SetValue(UnitStatType.HitPoints, 6);
+        stats.SetValue(UnitStatType.ShieldPoints, 4);
+        stats.SetValue(UnitStatType.Resolve, 5);
 
         var monster = new Combatant("chaser", monsterSequence, stats, combatActorBehaviour)
         {
@@ -26,7 +26,7 @@ public class ThiefChaserFactory
 
     private static CombatMovementSequence CreateCombatMoveVariation(int variationIndex)
     {
-        var moveTemplate = new CombatMovement[,]
+        var moveTemplate = new[,]
         {
             { new ChainHitFactory().CreateMovement(), new ChasingFactory().CreateMovement() },
 
