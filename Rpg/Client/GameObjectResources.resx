@@ -163,10 +163,10 @@
     <value>Trooper</value>
   </data>
   <data name="BlankShot" xml:space="preserve">
-    <value>Blank shot</value><comment>Combat movement</comment>
+    <value>Blank shot</value><comment>Combat movement Partisan</comment>
   </data>
   <data name="BlankShot_Description" xml:space="preserve">
-    <value /><comment>Combat movement</comment>
+    <value /><comment>Combat movement Partisan</comment>
   </data>
   <data name="BlindDefense" xml:space="preserve">
     <value>Blind defense</value>
@@ -400,10 +400,10 @@
     <comment>Hero</comment>
   </data>
   <data name="Hunt" xml:space="preserve">
-    <value>The Hunt has begun!</value><comment>Combat Movement</comment>
+    <value>The Hunt has begun!</value><comment>Combat Movement Amazon</comment>
   </data>
   <data name="Hunt_Description" xml:space="preserve">
-    <value /><comment>Combat Movement</comment>
+    <value /><comment>Combat Movement Amazon</comment>
   </data>
   <data name="ImprovedArmor" xml:space="preserve">
     <value>Improved armor</value>
@@ -436,10 +436,10 @@
     <value>Juggernaut heavy power armor</value><comment>Equipment</comment>
   </data>
   <data name="JustHitBoarWithKnife" xml:space="preserve">
-    <value>Just hit a whild boar with the knife</value><comment>Combat movement</comment>
+    <value>Just hit a whild boar with the knife</value><comment>Combat movement Amazon</comment>
   </data>
   <data name="JustHitBoarWithKnife_Description" xml:space="preserve">
-    <value /><comment>Combat movement</comment>
+    <value /><comment>Combat movement Amazon</comment>
   </data>
   <data name="LookOut" xml:space="preserve">
     <value>Look out!</value><comment>Combat movement Swordsman</comment>
