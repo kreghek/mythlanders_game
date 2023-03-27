@@ -9,6 +9,5 @@ public sealed class DamageAllCrisisAftermath : ICrisisAftermath
     public CrisisAftermathSid Sid { get; }
     public void Apply(ICrisisAftermathContext context)
     {
-        throw new NotImplementedException();
     }
 }

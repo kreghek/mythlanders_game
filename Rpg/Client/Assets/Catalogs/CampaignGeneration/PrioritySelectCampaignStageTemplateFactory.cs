@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Rpg.Client.Core.Campaigns;
+using Client.Core.Campaigns;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 

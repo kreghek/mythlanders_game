@@ -1,11 +1,8 @@
-﻿using Client.Core.Campaigns;
+﻿using Rpg.Client.ScreenManagement;
 
-using Rpg.Client.ScreenManagement;
+namespace Client.Core.Campaigns;
 
-namespace Rpg.Client.Core.Campaigns
+internal interface ICampaignStageItem
 {
-    internal interface ICampaignStageItem
-    {
-        void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign);
-    }
+    void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign);
 }

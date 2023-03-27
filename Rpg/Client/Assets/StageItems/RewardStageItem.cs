@@ -5,7 +5,6 @@ using Client.Core.Campaigns;
 using Client.GameScreens.CommandCenter;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Campaigns;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.Assets.StageItems

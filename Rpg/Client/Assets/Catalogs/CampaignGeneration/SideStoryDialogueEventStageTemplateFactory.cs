@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.StageItems;
+using Client.Core.Campaigns;
 using Client.Core.Dialogues;
 
 using Core.Dices;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Campaigns;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 

@@ -310,6 +310,6 @@ public sealed class TestamentGame : Game
         Services.AddService<ICombatMovementVisualizer>(movementVisualizer);
 
         var crisesCatalog = new CrisesCatalog();
-        Services.AddService(crisesCatalog);
+        Services.AddService<ICrisesCatalog>(crisesCatalog);
     }
 }

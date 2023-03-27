@@ -2,13 +2,13 @@
 using System.Linq;
 
 using Client.Assets.StageItems;
+using Client.Core.Campaigns;
 using Client.Core.Heroes;
 
 using Core.Dices;
 
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Core;
-using Rpg.Client.Core.Campaigns;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
