@@ -1,20 +1,22 @@
+﻿using Core.Crises;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Speech.Ui;
 
-namespace Client.GameScreens.TextDialogue.Ui;
-
-internal class DialogueOptionButton : ButtonBase
+namespace Client.GameScreens.Crisis.Ui;
+internal class CrisisAftermathButton : ButtonBase
 {
     private const int MARGIN = 5;
     private readonly SpriteFont _font;
     private readonly string _optionText;
 
-    public DialogueOptionButton(int number, string resourceSid)
+    public CrisisAftermathButton(int number, CrisisAftermathSid sid)
     {
-        _optionText = $"{number}. {SpeechVisualizationHelper.PrepareLocalizedText(resourceSid).text}";
+        var localizedTitle = UiResource.ResourceManager.GetString(sid.ResourceName) ?? sid.ResourceName;
+
+        _optionText = $"{number}. {localizedTitle}";
 
         _font = UiThemeManager.UiContentStorage.GetTitlesFont();
         Number = number;

@@ -6,6 +6,7 @@ using Client.Assets.Crises;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Campaign;
+using Client.GameScreens.Crisis.Ui;
 using Client.GameScreens.Rest.Ui;
 
 using Core.Crises;
@@ -27,7 +28,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
     private readonly HeroCampaign _campaign;
     private readonly IUiContentStorage _uiContentStorage;
     private readonly ICrisis _crisis;
-    private readonly IList<ResourceTextButton> _aftermathButtons;
+    private readonly IList<CrisisAftermathButton> _aftermathButtons;
     private readonly Texture2D _backgroundTexture;
     private readonly Texture2D _cleanScreenTexture;
 
@@ -42,7 +43,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
         _crisis = dice.RollFromList(crisesCatalog.GetAll().ToArray());
 
-        _aftermathButtons = new List<ResourceTextButton>();
+        _aftermathButtons = new List<CrisisAftermathButton>();
 
         var spriteName = GetBackgroundSpriteName(_crisis.Sid);
 
@@ -103,7 +104,9 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
         spriteBatch.Draw(_backgroundTexture, new Vector2(-256, 0), Color.White);
 
-        const int ACTION_BUTTON_WIDTH = 200;
+        spriteBatch.Draw(_cleanScreenTexture, new Rectangle(contentRect.Center.X, contentRect.Top, contentRect.Width / 2, contentRect.Height), Color.Lerp(Color.White, Color.Transparent, 0.25f));
+
+        var ACTION_BUTTON_WIDTH = contentRect.Center.X;
         const int ACTION_BUTTON_HEIGHT = 40;
 
         const int HEADER_HEIGHT = 100;
@@ -135,10 +138,12 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
     protected override void InitializeContent()
     {
         var context = new CrisisAftermathContext();
-        
-        foreach (var aftermath in _crisis.GetItems())
+
+        var aftermaths = _crisis.GetItems().ToArray();
+        for (var buttonIndex = 0; buttonIndex < aftermaths.Length; buttonIndex++)
         {
-            var aftermathButton = new ResourceTextButton(aftermath.Sid.ResourceName);
+            var aftermath = aftermaths[buttonIndex];
+            var aftermathButton = new CrisisAftermathButton(buttonIndex + 1, aftermath.Sid);
             _aftermathButtons.Add(aftermathButton);
 
             aftermathButton.OnClick += (s, e) =>
