@@ -7,7 +7,8 @@ public sealed class EffectCombatContext : IEffectCombatContext
     public EffectCombatContext(CombatField field,
         IDice dice,
         CombatantHasTakenDamagedCallback notifyCombatantDamagedDelegate,
-        CombatantHasMovedCallback notifyCombatantMovedDelegate, CombatCore combatCore)
+        CombatantHasMovedCallback notifyCombatantMovedDelegate, 
+        CombatCore combatCore)
     {
         Field = field;
         Dice = dice;
