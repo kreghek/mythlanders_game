@@ -394,6 +394,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string CityHunting_Crisis {
+            get {
+                return ResourceManager.GetString("CityHunting_Crisis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Combat sword.
         /// </summary>
         internal static string CombatSword {
@@ -862,6 +871,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string InfernalSickness_Crisis {
+            get {
+                return ResourceManager.GetString("InfernalSickness_Crisis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inspirational breakthrough.
         /// </summary>
         internal static string InspirationalBreakthrough {
@@ -930,6 +948,15 @@ namespace Client {
         internal static string LookOut_Description {
             get {
                 return ResourceManager.GetString("LookOut_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string MagicTrap_Crisis {
+            get {
+                return ResourceManager.GetString("MagicTrap_Crisis", resourceCulture);
             }
         }
         
@@ -1060,6 +1087,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Preying_Crisis {
+            get {
+                return ResourceManager.GetString("Preying_Crisis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rapid shot.
         /// </summary>
         internal static string RapidShot {
@@ -1182,6 +1218,15 @@ namespace Client {
         internal static string StaffHit {
             get {
                 return ResourceManager.GetString("StaffHit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Starvation_Crisis {
+            get {
+                return ResourceManager.GetString("Starvation_Crisis", resourceCulture);
             }
         }
         

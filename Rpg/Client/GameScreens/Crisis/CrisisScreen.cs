@@ -29,6 +29,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
     private readonly ICrisis _crisis;
     private readonly IList<ResourceTextButton> _aftermathButtons;
     private readonly Texture2D _backgroundTexture;
+    private readonly Texture2D _cleanScreenTexture;
 
     public CrisisScreen(TestamentGame game, CrisisScreenTransitionArguments args) : base(game)
     {
@@ -46,6 +47,27 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
         var spriteName = GetBackgroundSpriteName(_crisis.Sid);
 
         _backgroundTexture = game.Content.Load<Texture2D>($"Sprites/GameObjects/Crises/{spriteName}");
+
+        _cleanScreenTexture = CreateTexture(game.GraphicsDevice, 1, 1, (_) => new Color(36, 40, 41));
+    }
+
+    private static Texture2D CreateTexture(GraphicsDevice device, int width, int height, Func<int, Color> paint)
+    {
+        //initialize a texture
+        Texture2D texture = new Texture2D(device, width, height);
+
+        //the array holds the color for each pixel in the texture
+        Color[] data = new Color[width * height];
+        for (int pixel = 0; pixel < data.Count(); pixel++)
+        {
+            //the function applies the color according to the specified pixel
+            data[pixel] = paint(pixel);
+        }
+
+        //set the color
+        texture.SetData(data);
+
+        return texture;
     }
 
     private static string GetBackgroundSpriteName(CrisisSid sid)
@@ -77,6 +99,8 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
+        spriteBatch.Draw(_cleanScreenTexture, contentRect, Color.White);
+
         spriteBatch.Draw(_backgroundTexture, new Vector2(-256, 0), Color.White);
 
         const int ACTION_BUTTON_WIDTH = 200;
@@ -85,7 +109,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
         const int HEADER_HEIGHT = 100;
 
         var localizedCrisisDescription = GameObjectHelper.GetLocalized(_crisis.Sid);
-        var localizedNormalizedCrisisDescription = StringHelper.LineBreaking(localizedCrisisDescription, 60);
+        var localizedNormalizedCrisisDescription = StringHelper.LineBreaking(localizedCrisisDescription, 40);
         var descriptionText = _uiContentStorage.GetTitlesFont();
         var descriptionTextSize = descriptionText.MeasureString(localizedNormalizedCrisisDescription);
 

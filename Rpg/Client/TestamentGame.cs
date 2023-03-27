@@ -54,7 +54,7 @@ public sealed class TestamentGame : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.Black);
+        GraphicsDevice.Clear(new Color(36, 40, 41));
 
         Debug.Assert(_screenManager is not null);
         Debug.Assert(_spriteBatch is not null);
