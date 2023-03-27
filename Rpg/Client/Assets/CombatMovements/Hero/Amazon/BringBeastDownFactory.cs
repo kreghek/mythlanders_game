@@ -9,10 +9,10 @@ namespace Client.Assets.CombatMovements.Hero.Amazon;
 [UsedImplicitly]
 internal class BringBeastDownFactory : CombatMovementFactoryBase
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(3, 7);
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,

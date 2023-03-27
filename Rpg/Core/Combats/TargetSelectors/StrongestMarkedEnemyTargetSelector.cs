@@ -11,17 +11,11 @@ public sealed class StrongestMarkedEnemyTargetSelector : MostEnemyStatValueTarge
             .ToArray();
 
         if (enemies.Any())
-        {
-
             return new[]
             {
                 enemies.OrderByDescending(x => GetStatCurrentValue(x, UnitStatType.HitPoints))
                     .First()
             };
-        }
-        else
-        {
-            return Array.Empty<Combatant>();
-        }
+        return Array.Empty<Combatant>();
     }
 }
