@@ -9,6 +9,7 @@ using Client.GameScreens.Campaign;
 using Client.GameScreens.Rest.Ui;
 
 using Core.Crises;
+using Core.Dices;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
@@ -27,18 +28,37 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
     private readonly IUiContentStorage _uiContentStorage;
     private readonly ICrisis _crisis;
     private readonly IList<ResourceTextButton> _aftermathButtons;
+    private readonly Texture2D _backgroundTexture;
 
     public CrisisScreen(TestamentGame game, CrisisScreenTransitionArguments args) : base(game)
     {
         _campaign = args.Campaign;
 
         _uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();
+        var dice = Game.Services.GetRequiredService<IDice>();
 
         var crisesCatalog = game.Services.GetRequiredService<ICrisesCatalog>();
 
-        _crisis = crisesCatalog.GetAll().First();
+        _crisis = dice.RollFromList(crisesCatalog.GetAll().ToArray());
 
         _aftermathButtons = new List<ResourceTextButton>();
+
+        var spriteName = GetBackgroundSpriteName(_crisis.Sid);
+
+        _backgroundTexture = game.Content.Load<Texture2D>($"Sprites/GameObjects/Crises/{spriteName}");
+    }
+
+    private static string GetBackgroundSpriteName(CrisisSid sid)
+    {
+        return sid.Value switch
+        {
+            "MagicTrap" => "ElectricTrap",
+            "CityHunting" => "CityHunting",
+            "InfernalSickness" => "InfernalSickness",
+            "Starvation" => "Starvation",
+            "Preying" => "Preying",
+            _ => "ElectricTrap",
+        };
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -57,6 +77,8 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
+        spriteBatch.Draw(_backgroundTexture, new Vector2(-256, 0), Color.White);
+
         const int ACTION_BUTTON_WIDTH = 200;
         const int ACTION_BUTTON_HEIGHT = 40;
 
@@ -68,15 +90,14 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
         var descriptionTextSize = descriptionText.MeasureString(localizedNormalizedCrisisDescription);
 
         spriteBatch.DrawString(descriptionText, localizedNormalizedCrisisDescription,
-            new Vector2((contentRect.Center.X - descriptionTextSize.X / 2),
-                contentRect.Top + ControlBase.CONTENT_MARGIN), Color.Wheat);
+            new Vector2(contentRect.Center.X, contentRect.Top + ControlBase.CONTENT_MARGIN), Color.Wheat);
 
         for (var buttonIndex = 0; buttonIndex < _aftermathButtons.Count; buttonIndex++)
         {
             var actionButton = _aftermathButtons[buttonIndex];
             actionButton.Rect = new Rectangle(
-                contentRect.Center.X - ACTION_BUTTON_WIDTH / 2,
-                HEADER_HEIGHT + buttonIndex * ACTION_BUTTON_HEIGHT + contentRect.Top + (int)descriptionTextSize.X,
+                contentRect.Center.X,
+                HEADER_HEIGHT + buttonIndex * ACTION_BUTTON_HEIGHT + contentRect.Top + (int)descriptionTextSize.Y + ControlBase.CONTENT_MARGIN,
                 ACTION_BUTTON_WIDTH,
                 ACTION_BUTTON_HEIGHT
             );

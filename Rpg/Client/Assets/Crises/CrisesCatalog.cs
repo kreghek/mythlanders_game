@@ -16,7 +16,29 @@ public sealed class CrisesCatalog: ICrisesCatalog
             {
                 new DamageSingleRandomCrisisAftermath("TakeAllDamageByOneHero"),
                 new DamageAllCrisisAftermath("DamageTogether")
-            })
+            }),
+            new Crisis("CityHunting", new ICrisisAftermath[]
+            {
+                new DamageSingleRandomCrisisAftermath("TryToRunOut"),
+                new DamageAllCrisisAftermath("TryToFight"),
+                new DamageAllCrisisAftermath("Conversation")
+            }),
+            new Crisis("InfernalSickness", new ICrisisAftermath[]
+            {
+                new DamageSingleRandomCrisisAftermath("RunOut"),
+                new DamageAllCrisisAftermath("DestroyTheSickSource")
+            }),
+            new Crisis("Starvation", new ICrisisAftermath[]
+            {
+                new DamageSingleRandomCrisisAftermath("Strave"),
+                new DamageAllCrisisAftermath("StarveAll"),
+                new DamageAllCrisisAftermath("ButFood")
+            }),
+            new Crisis("Preying", new ICrisisAftermath[]
+            {
+                new DamageSingleRandomCrisisAftermath("Prey"),
+                new DamageAllCrisisAftermath("Ignore")
+            }),
         };
     }
     public IReadOnlyCollection<ICrisis> GetAll()
