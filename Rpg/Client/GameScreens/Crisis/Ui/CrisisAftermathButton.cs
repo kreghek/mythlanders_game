@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Rpg.Client.Engine;
 
 namespace Client.GameScreens.Crisis.Ui;
+
 internal class CrisisAftermathButton : ButtonBase
 {
     private const int MARGIN = 5;

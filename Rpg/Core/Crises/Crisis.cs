@@ -11,5 +11,9 @@ public sealed class Crisis : ICrisis
     }
 
     public CrisisSid Sid { get; }
-    public IReadOnlyCollection<ICrisisAftermath> GetItems() => _aftermaths;
+
+    public IReadOnlyCollection<ICrisisAftermath> GetItems()
+    {
+        return _aftermaths;
+    }
 }

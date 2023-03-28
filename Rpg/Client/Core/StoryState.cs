@@ -20,7 +20,7 @@ internal sealed class StoryState : IStoryState
     private IReadOnlyCollection<CharacterRelation> GetPlayerUnitsAsFullKnown(Group heroParty)
     {
         return heroParty.GetUnits().Select(x => new CharacterRelation(x.UnitScheme.Name)
-        { Level = CharacterKnowledgeLevel.FullName }).ToArray();
+            { Level = CharacterKnowledgeLevel.FullName }).ToArray();
     }
 
     public IReadOnlyCollection<string> Keys => _storyKeys.ToArray();

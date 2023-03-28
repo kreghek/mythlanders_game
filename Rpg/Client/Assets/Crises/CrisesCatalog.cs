@@ -38,9 +38,10 @@ public sealed class CrisesCatalog : ICrisesCatalog
             {
                 new DamageSingleRandomCrisisAftermath("Prey"),
                 new DamageAllCrisisAftermath("Ignore")
-            }),
+            })
         };
     }
+
     public IReadOnlyCollection<ICrisis> GetAll()
     {
         return _crises;

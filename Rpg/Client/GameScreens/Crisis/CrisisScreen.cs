@@ -4,7 +4,6 @@ using System.Linq;
 
 using Client.Assets.Crises;
 using Client.Core.Campaigns;
-using Client.Engine;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Crisis.Ui;
 using Client.GameScreens.Rest.Ui;
@@ -26,14 +25,14 @@ namespace Client.GameScreens.Crisis;
 
 internal sealed class CrisisScreen : GameScreenWithMenuBase
 {
-    private readonly HeroCampaign _campaign;
-    private readonly IUiContentStorage _uiContentStorage;
-    private readonly ICrisis _crisis;
     private readonly IList<CrisisAftermathButton> _aftermathButtons;
     private readonly Texture2D _backgroundTexture;
+    private readonly HeroCampaign _campaign;
     private readonly Texture2D _cleanScreenTexture;
+    private readonly ICrisis _crisis;
     private readonly SoundEffectInstance _soundEffectInstance;
     private readonly SoundtrackManager _soundtrackManager;
+    private readonly IUiContentStorage _uiContentStorage;
 
     public CrisisScreen(TestamentGame game, CrisisScreenTransitionArguments args) : base(game)
     {
@@ -52,57 +51,12 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
         _backgroundTexture = game.Content.Load<Texture2D>($"Sprites/GameObjects/Crises/{spriteName}");
 
-        _cleanScreenTexture = CreateTexture(game.GraphicsDevice, 1, 1, (_) => new Color(36, 40, 41));
+        _cleanScreenTexture = CreateTexture(game.GraphicsDevice, 1, 1, _ => new Color(36, 40, 41));
 
         var effectName = GetBackgroundEffectName(_crisis.Sid);
         _soundEffectInstance = game.Content.Load<SoundEffect>($"Audio/Stories/{effectName}").CreateInstance();
 
         _soundtrackManager = game.Services.GetRequiredService<SoundtrackManager>();
-    }
-
-    private static Texture2D CreateTexture(GraphicsDevice device, int width, int height, Func<int, Color> paint)
-    {
-        //initialize a texture
-        Texture2D texture = new Texture2D(device, width, height);
-
-        //the array holds the color for each pixel in the texture
-        Color[] data = new Color[width * height];
-        for (int pixel = 0; pixel < data.Count(); pixel++)
-        {
-            //the function applies the color according to the specified pixel
-            data[pixel] = paint(pixel);
-        }
-
-        //set the color
-        texture.SetData(data);
-
-        return texture;
-    }
-
-    private static string GetBackgroundSpriteName(CrisisSid sid)
-    {
-        return sid.Value switch
-        {
-            "MagicTrap" => "ElectricTrap",
-            "CityHunting" => "CityHunting",
-            "InfernalSickness" => "InfernalSickness",
-            "Starvation" => "Starvation",
-            "Preying" => "Preying",
-            _ => "ElectricTrap",
-        };
-    }
-
-    private static string GetBackgroundEffectName(CrisisSid sid)
-    {
-        return sid.Value switch
-        {
-            "MagicTrap" => "ElectricDeathRay",
-            "CityHunting" => "CityHunting",
-            "InfernalSickness" => "InfernalSickness",
-            "Starvation" => "Starvation",
-            "Preying" => "SkyThunder",
-            _ => "Starvation",
-        };
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -125,7 +79,9 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
         spriteBatch.Draw(_backgroundTexture, new Vector2(-256, 0), Color.White);
 
-        spriteBatch.Draw(_cleanScreenTexture, new Rectangle(contentRect.Center.X, contentRect.Top, contentRect.Width / 2, contentRect.Height), Color.Lerp(Color.White, Color.Transparent, 0.25f));
+        spriteBatch.Draw(_cleanScreenTexture,
+            new Rectangle(contentRect.Center.X, contentRect.Top, contentRect.Width / 2, contentRect.Height),
+            Color.Lerp(Color.White, Color.Transparent, 0.25f));
 
         var actionButtonWidth = contentRect.Center.X;
         const int ACTION_BUTTON_HEIGHT = 40;
@@ -145,7 +101,8 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
             var actionButton = _aftermathButtons[buttonIndex];
             actionButton.Rect = new Rectangle(
                 contentRect.Center.X,
-                HEADER_HEIGHT + buttonIndex * ACTION_BUTTON_HEIGHT + contentRect.Top + (int)descriptionTextSize.Y + ControlBase.CONTENT_MARGIN,
+                HEADER_HEIGHT + buttonIndex * ACTION_BUTTON_HEIGHT + contentRect.Top + (int)descriptionTextSize.Y +
+                ControlBase.CONTENT_MARGIN,
                 actionButtonWidth,
                 ACTION_BUTTON_HEIGHT
             );
@@ -198,5 +155,50 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
         {
             actionButton.Update(ResolutionIndependentRenderer);
         }
+    }
+
+    private static Texture2D CreateTexture(GraphicsDevice device, int width, int height, Func<int, Color> paint)
+    {
+        //initialize a texture
+        var texture = new Texture2D(device, width, height);
+
+        //the array holds the color for each pixel in the texture
+        var data = new Color[width * height];
+        for (var pixel = 0; pixel < data.Count(); pixel++)
+        {
+            //the function applies the color according to the specified pixel
+            data[pixel] = paint(pixel);
+        }
+
+        //set the color
+        texture.SetData(data);
+
+        return texture;
+    }
+
+    private static string GetBackgroundEffectName(CrisisSid sid)
+    {
+        return sid.Value switch
+        {
+            "MagicTrap" => "ElectricDeathRay",
+            "CityHunting" => "CityHunting",
+            "InfernalSickness" => "InfernalSickness",
+            "Starvation" => "Starvation",
+            "Preying" => "SkyThunder",
+            _ => "Starvation"
+        };
+    }
+
+    private static string GetBackgroundSpriteName(CrisisSid sid)
+    {
+        return sid.Value switch
+        {
+            "MagicTrap" => "ElectricTrap",
+            "CityHunting" => "CityHunting",
+            "InfernalSickness" => "InfernalSickness",
+            "Starvation" => "Starvation",
+            "Preying" => "Preying",
+            _ => "ElectricTrap"
+        };
     }
 }

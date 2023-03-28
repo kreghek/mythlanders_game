@@ -38,8 +38,6 @@ internal sealed class Player
         };
     }
 
-    public IReadOnlyCollection<HeroState> Heroes { get; }
-
     public Player()
     {
         Party = new Group();
@@ -58,6 +56,8 @@ internal sealed class Player
     }
 
     public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
+
+    public IReadOnlyCollection<HeroState> Heroes { get; }
 
     public IReadOnlyCollection<ResourceItem> Inventory { get; }
 

@@ -6,7 +6,9 @@ public sealed class DamageAllCrisisAftermath : ICrisisAftermath
     {
         Sid = new CrisisAftermathSid(sid);
     }
+
     public CrisisAftermathSid Sid { get; }
+
     public void Apply(ICrisisAftermathContext context)
     {
     }

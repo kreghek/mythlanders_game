@@ -60,6 +60,11 @@ internal static class GameObjectHelper
         return GetLocalizedInner($"{equipmentType}Equipment");
     }
 
+    public static string GetLocalized(CrisisSid crisisSid)
+    {
+        return GetLocalizedInner(crisisSid.ResourceName);
+    }
+
     public static string GetLocalizedDescription(CombatMovementSid sid)
     {
         return GetLocalizedInner($"{sid.Value}_Description");
@@ -80,10 +85,5 @@ internal static class GameObjectHelper
         var rm = GameObjectResources.ResourceManager;
         var name = rm.GetString(sid) ?? sid;
         return name;
-    }
-
-    public static string GetLocalized(CrisisSid crisisSid)
-    {
-        return GetLocalizedInner(crisisSid.ResourceName);
     }
 }

@@ -9,7 +9,8 @@ namespace Client.GameScreens.Combat.CombatDebugElements;
 
 internal static class CombatantFactory
 {
-    public static IReadOnlyCollection<FormationSlot> CreateHeroes(ICombatActorBehaviour combatActorBehaviour, Player player)
+    public static IReadOnlyCollection<FormationSlot> CreateHeroes(ICombatActorBehaviour combatActorBehaviour,
+        Player player)
     {
         var swordsmanHeroFactory = new SwordsmanFactory();
         var amazonHeroFactory = new AmazonFactory();
