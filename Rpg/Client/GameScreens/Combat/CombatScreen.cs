@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-using Client;
 using Client.Assets.Catalogs;
 using Client.Assets.CombatMovements;
 using Client.Assets.StoryPointJobs;
@@ -11,7 +10,6 @@ using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Campaign;
-using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.CombatDebugElements;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.Ui;
@@ -20,6 +18,7 @@ using Client.GameScreens.CommandCenter;
 using Core.Combats;
 using Core.Combats.BotBehaviour;
 using Core.Dices;
+using Core.PropDrop;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
@@ -28,8 +27,11 @@ using Microsoft.Xna.Framework.Input;
 
 using MonoGame;
 
+using Rpg.Client;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens;
+using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.GameScreens.Combat.Tutorial;
@@ -37,7 +39,7 @@ using Rpg.Client.GameScreens.Combat.Ui;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.ScreenManagement;
 
-namespace Rpg.Client.GameScreens.Combat;
+namespace Client.GameScreens.Combat;
 
 internal class CombatScreen : GameScreenWithMenuBase
 {
@@ -90,6 +92,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
+    private readonly IDropResolver _dropResolver;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -148,6 +151,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             new ManeuverContext(_combatCore));
 
         _targetMarkers = new TargetMarkers();
+
+        _dropResolver = game.Services.GetRequiredService<IDropResolver>();
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -263,12 +268,14 @@ internal class CombatScreen : GameScreenWithMenuBase
         return null;
     }
 
-    private static CombatRewards CalculateRewardGaining(
+    private CombatRewards CalculateRewardGaining(
         IEnumerable<CombatSource> completedCombats,
         GlobeNode globeNode,
         Player player,
         GlobeLevel globeLevel)
     {
+        var drop = _dropResolver.Resolve(new[] { _args.CombatSequence.Combats.First().Reward.DropTable });
+        
         var completedCombatsShortInfos = completedCombats.Select(x =>
             new CombatRewardInfo(x.EnemyGroup.GetUnits()
                 .Select(enemy => new CombatMonsterRewardInfo(enemy.XpReward))));
@@ -485,7 +492,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             new BotCombatActorIntentionFactory(_animationManager, _combatMovementVisualizer, _gameObjects);
         _combatCore.Initialize(
             CombatantFactory.CreateHeroes(_playerCombatantBehaviour, _globeProvider.Globe.Player),
-            CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(intentionFactory)));
+            CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(intentionFactory),
+                _args.CombatSequence.Combats.First().Monsters));
 
         _combatantQueuePanel = new CombatantQueuePanel(_combatCore,
             _uiContentStorage, _gameObjectContentStorage);

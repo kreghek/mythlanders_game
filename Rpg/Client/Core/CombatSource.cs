@@ -1,14 +1,11 @@
-﻿namespace Rpg.Client.Core
-{
-    internal class CombatSource
-    {
-        public CombatSource()
-        {
-            Level = 1;
-        }
+﻿using System.Collections.Generic;
 
-        public Group EnemyGroup { get; set; }
-        public bool IsBossLevel { get; internal set; }
-        public int Level { get; internal set; }
-    }
-}
+using Core.Combats;
+using Core.PropDrop;
+
+namespace Client.Core;
+
+public sealed record CombatSource(IReadOnlyCollection<MonsterCombatantPrefab> Monsters, CombatReward Reward);
+
+public sealed record MonsterCombatantPrefab(string ClassSid, int Variation, FieldCoords FormationInfo);
+public sealed record CombatReward(IDropTableScheme DropTable);

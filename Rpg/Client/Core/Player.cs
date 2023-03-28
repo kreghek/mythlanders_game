@@ -18,11 +18,23 @@ internal sealed class Player
     {
         Name = name;
 
-        CampaignHeroStates = new[]
+        Heroes = new[]
         {
-            new HeroCampaignState("swordsman", new StatValue(5)),
-            new HeroCampaignState("partisan", new StatValue(4)),
-            new HeroCampaignState("amazon", new StatValue(3))
+            new HeroState
+            {
+                ClassSid = "swordsman",
+                HitPoints = new StatValue(5)
+            },
+            new HeroState
+            {
+                ClassSid = "partisan",
+                HitPoints = new StatValue(4)
+            },
+            new HeroState
+            {
+                ClassSid = "amazon",
+                HitPoints = new StatValue(3)
+            }
         };
     }
 
@@ -45,11 +57,7 @@ internal sealed class Player
 
     public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
 
-    /// <summary>
-    /// Data of the hero in the current campaign.
-    /// </summary>
-    //TODO Move in the campaign
-    public IReadOnlyCollection<HeroCampaignState> CampaignHeroStates { get; }
+    public IReadOnlyCollection<HeroState> Heroes { get; }
 
     public IReadOnlyCollection<ResourceItem> Inventory { get; }
 

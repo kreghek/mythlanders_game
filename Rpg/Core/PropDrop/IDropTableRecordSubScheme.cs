@@ -42,4 +42,7 @@
         /// </remarks>
         int Weight { get; }
     }
+
+    public sealed record DropTableRecordSubScheme(IDropTableScheme[]? Extra, int MaxCount, int MinCount,
+        string? SchemeSid, int Weight) : IDropTableRecordSubScheme;
 }

@@ -2,10 +2,13 @@
 using System.Linq;
 
 using Client.Assets.StageItems;
+using Client.Core;
 using Client.Core.Campaigns;
 using Client.Core.Heroes;
 
+using Core.Combats;
 using Core.Dices;
+using Core.PropDrop;
 
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Core;
@@ -62,13 +65,20 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         return unit.Perks.OfType<TPerk>().Any();
     }
 
+    /// <inheritdoc />
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        var combat = new CombatSource
+        var combat = new CombatSource(
+            new []
         {
-            Level = 1,
-            EnemyGroup = new Group()
-        };
+            new MonsterCombatantPrefab("chaser", 0, new FieldCoords(0, 1)),
+            new MonsterCombatantPrefab("chaser", 1, new FieldCoords(1, 2)),
+            new MonsterCombatantPrefab("digitalwolf", 0, new FieldCoords(0, 2)),
+        }, 
+            new CombatReward(new DropTableScheme(new[]
+            {
+                new DropTableRecordSubScheme(null, 1, 2, "combat-xp", 1)
+            }, 1)));
 
         var combatSequence = new CombatSequence
         {
@@ -84,15 +94,10 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
 
         var monsterInfos = GetStartMonsterInfoList(_locationSid);
 
-        for (var slotIndex = 0; slotIndex < monsterInfos.Count; slotIndex++)
-        {
-            var scheme = _services.UnitSchemeCatalog.AllMonsters.Single(x => x.Name == monsterInfos[slotIndex].name);
-            combat.EnemyGroup.Slots[slotIndex].Unit = new Hero(scheme, monsterInfos[slotIndex].level);
-        }
-
         return stageItem;
     }
 
+    /// <inheritdoc />
     public bool CanCreate(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
         return true;

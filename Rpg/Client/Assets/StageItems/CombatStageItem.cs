@@ -1,4 +1,5 @@
-﻿using Client.Core.Campaigns;
+﻿using Client.Core;
+using Client.Core.Campaigns;
 using Client.GameScreens.Combat;
 
 using Rpg.Client.Core;

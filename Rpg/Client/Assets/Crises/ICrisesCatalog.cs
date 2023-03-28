@@ -6,5 +6,5 @@ namespace Client.Assets.Crises;
 
 public interface ICrisesCatalog
 {
-    IReadOnlyCollection<ICrisis> GetAll();
+    public IReadOnlyCollection<ICrisis> GetAll();
 }

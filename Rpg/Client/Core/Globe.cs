@@ -71,12 +71,6 @@ namespace Rpg.Client.Core
             globalEvent.Initialize(this);
         }
 
-        public void AddMonster(CombatSource combatSource, Hero unit, int slotIndex)
-        {
-            combatSource.EnemyGroup.Slots[slotIndex].Unit = unit;
-            Updated?.Invoke(this, EventArgs.Empty);
-        }
-
         public void Update(IDice dice, IEventCatalog eventCatalog)
         {
             UpdateGlobeEvents();
