@@ -15,7 +15,7 @@ internal static class CombatantFactory
         var amazonHeroFactory = new AmazonFactory();
         var partisanHeroFactory = new PartisanFactory();
 
-        var swordsmanHeroHitpointsStat = player.Heroes.Single(x => x.ClassSid == "swordsman").HitPoints;
+        var swordsmanHeroHitpointsStat = player.CampaignHeroStates.Single(x => x.ClassSid == "swordsman").HitPoints;
 
         return new[]
         {

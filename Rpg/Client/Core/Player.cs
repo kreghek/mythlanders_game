@@ -18,27 +18,19 @@ internal sealed class Player
     {
         Name = name;
 
-        Heroes = new[]
+        CampaignHeroStates = new[]
         {
-            new HeroState
-            {
-                ClassSid = "swordsman",
-                HitPoints = new StatValue(5)
-            },
-            new HeroState
-            {
-                ClassSid = "partisan",
-                HitPoints = new StatValue(4)
-            },
-            new HeroState
-            {
-                ClassSid = "amazon",
-                HitPoints = new StatValue(3)
-            }
+            new HeroCampaignState("swordsman", new StatValue(5)),
+            new HeroCampaignState("partisan", new StatValue(4)),
+            new HeroCampaignState("amazon", new StatValue(3))
         };
     }
 
-    public IReadOnlyCollection<HeroState> Heroes { get; }
+    /// <summary>
+    /// Data of the hero in the current campaign.
+    /// </summary>
+    //TODO Move in the campaign
+    public IReadOnlyCollection<HeroCampaignState> CampaignHeroStates { get; }
 
     public Player()
     {
