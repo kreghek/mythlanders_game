@@ -609,4 +609,40 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
   </data>
+  <data name="TakeAllDamageByOneHero_CrisisAftermath" xml:space="preserve">
+    <value>Один из героев закрывает всех от заряда</value>
+  </data>
+  <data name="DamageTogether_CrisisAftermath" xml:space="preserve">
+    <value>Герои защищаются от ловушки вместе</value>
+  </data>
+  <data name="TryToRunOut_CrisisAftermath" xml:space="preserve">
+    <value>Попытаться убежать</value>
+  </data>
+  <data name="TryToFight_CrisisAftermath" xml:space="preserve">
+    <value>Попытаться отбиться от толпы</value>
+  </data>
+  <data name="Conversation_CrisisAftermath" xml:space="preserve">
+    <value>Попытаться догоовриться с лидерами обезумевшей толпы</value>
+  </data>
+  <data name="RunOut_CrisisAftermath" xml:space="preserve">
+    <value>Убежать</value>
+  </data>
+  <data name="DestroyTheSickSource_CrisisAftermath" xml:space="preserve">
+    <value>Найти и уничтожить источник заразы</value>
+  </data>
+  <data name="Starve_CrisisAftermath" xml:space="preserve">
+    <value>Один герой соглашается голодать</value>
+  </data>
+  <data name="StarveAll_CrisisAftermath" xml:space="preserve">
+    <value>Все герои соглашаются голодать</value>
+  </data>
+  <data name="BuyFood_CrisisAftermath" xml:space="preserve">
+    <value>Попытаться купить провиант</value>
+  </data>
+  <data name="Prey_CrisisAftermath" xml:space="preserve">
+    <value>Уделить внимание</value>
+  </data>
+  <data name="Ignore_CrisisAftermath" xml:space="preserve">
+    <value>Игнорировать</value>
+  </data>
 </root>

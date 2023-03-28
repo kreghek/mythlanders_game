@@ -30,9 +30,9 @@ public sealed class CrisesCatalog: ICrisesCatalog
             }),
             new Crisis("Starvation", new ICrisisAftermath[]
             {
-                new DamageSingleRandomCrisisAftermath("Strave"),
+                new DamageSingleRandomCrisisAftermath("Starve"),
                 new DamageAllCrisisAftermath("StarveAll"),
-                new DamageAllCrisisAftermath("ButFood")
+                new DamageAllCrisisAftermath("BuyFood")
             }),
             new Crisis("Preying", new ICrisisAftermath[]
             {
