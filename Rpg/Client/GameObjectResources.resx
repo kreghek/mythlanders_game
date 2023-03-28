@@ -226,6 +226,10 @@
   <data name="ChineseOldman_Hidden" xml:space="preserve">
     <value>Chinese oldman</value>
   </data>
+  <data name="CityHunting_Crisis" xml:space="preserve">
+    <value></value>
+    <comment>Crisis</comment>
+  </data>
   <data name="CombatSword" xml:space="preserve">
     <value>Combat sword</value><comment>Equipment</comment>
   </data>
@@ -421,6 +425,10 @@
     <value>Amount of the hit points increased by 2 times.</value>
     <comment>Perk</comment>
   </data>
+  <data name="InfernalSickness_Crisis" xml:space="preserve">
+    <value></value>
+    <comment>Crisis</comment>
+  </data>
   <data name="InspirationalBreakthrough" xml:space="preserve">
     <value>Inspirational breakthrough</value>
     <comment>Combat Movement</comment>
@@ -446,6 +454,10 @@
   </data>
   <data name="LookOut_Description" xml:space="preserve">
     <value /><comment>Combat movement Swordsman</comment>
+  </data>
+  <data name="MagicTrap_Crisis" xml:space="preserve">
+    <value></value>
+    <comment>Crisis</comment>
   </data>
   <data name="Marauder" xml:space="preserve">
     <value>Marauder</value>
@@ -498,6 +510,10 @@
     <value>The Pit</value>
     <comment>Location</comment>
   </data>
+  <data name="Preying_Crisis" xml:space="preserve">
+    <value></value>
+    <comment>Crisis</comment>
+  </data>
   <data name="RapidShot" xml:space="preserve">
     <value>Rapid shot</value>
     <comment>Skill</comment>
@@ -548,11 +564,16 @@
       <value>Staff hits</value>
     <comment>Skill</comment>
   </data>
+  <data name="Starvation_Crisis" xml:space="preserve">
+    <value></value>
+    <comment>Crisis</comment>
+  </data>
   <data name="StayStrong" xml:space="preserve">
     <value>Stay strong</value><comment>Combat Movement Swordsman</comment>
   </data>
   <data name="StayStrong_Description" xml:space="preserve">
-    <value /><comment>Combat Movement Swordsman</comment>
+    <value />
+    <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="Stryga" xml:space="preserve">
     <value>Stryga</value>
@@ -662,5 +683,41 @@
   <data name="ZduhachMight" xml:space="preserve">
       <value>Zduhach Might</value>
     <comment>Skill</comment>
+  </data>
+  <data name="TakeAllDamageByOneHero_CrisisAftermath" xml:space="preserve">
+    <value /><comment>Crisis Aftermath</comment>
+  </data>
+  <data name="DamageTogether_CrisisAftermath" xml:space="preserve">
+    <value /><comment>Crisis Aftermath</comment>
+  </data>
+  <data name="TryToRunOut_CrisisAftermath" xml:space="preserve">
+    <value /><comment>Crisis Aftermath</comment>
+  </data>
+  <data name="TryToFight_CrisisAftermath" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Conversation_CrisisAftermath" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RunOut_CrisisAftermath" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DestroyTheSickSource_CrisisAftermath" xml:space="preserve">
+    <value /><comment>CrisisAftermath</comment>
+  </data>
+  <data name="Starve_CrisisAftermath" xml:space="preserve">
+    <value /><comment>Crisis Aftermath</comment>
+  </data>
+  <data name="StarveAll_CrisisAftermath" xml:space="preserve">
+    <value /><comment>Crisis Aftermath</comment>
+  </data>
+  <data name="BuyFood_CrisisAftermath" xml:space="preserve">
+    <value /><comment>Crisis Aftermath</comment>
+  </data>
+  <data name="Prey_CrisisAftermath" xml:space="preserve">
+    <value /><comment>Crisis Aftermath</comment>
+  </data>
+  <data name="Ignore_CrisisAftermath" xml:space="preserve">
+    <value /><comment>Crisis Aftermath</comment>
   </data>
 </root>

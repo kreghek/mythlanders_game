@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.CombatMovements;
+using Client.Assets.Crises;
 using Client.Core;
 using Client.Core.Dialogues;
 using Client.Engine;
@@ -53,7 +54,7 @@ public sealed class TestamentGame : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.Black);
+        GraphicsDevice.Clear(new Color(36, 40, 41));
 
         Debug.Assert(_screenManager is not null);
         Debug.Assert(_spriteBatch is not null);
@@ -307,5 +308,8 @@ public sealed class TestamentGame : Game
 
         var movementVisualizer = new CombatMovementVisualizer();
         Services.AddService<ICombatMovementVisualizer>(movementVisualizer);
+
+        var crisesCatalog = new CrisesCatalog();
+        Services.AddService<ICrisesCatalog>(crisesCatalog);
     }
 }

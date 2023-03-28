@@ -2,61 +2,61 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Speech.Ui;
 
-namespace Rpg.Client.GameScreens.Speech.Ui
+namespace Client.GameScreens.TextDialogue.Ui;
+
+internal class DialogueOptionButton : ButtonBase
 {
-    internal class DialogueOptionButton : ButtonBase
+    private const int MARGIN = 5;
+    private readonly SpriteFont _font;
+    private readonly string _optionText;
+
+    public DialogueOptionButton(int number, string resourceSid)
     {
-        private const int MARGIN = 5;
-        private readonly SpriteFont _font;
-        private readonly string _optionText;
+        _optionText = $"{number}. {SpeechVisualizationHelper.PrepareLocalizedText(resourceSid).text}";
 
-        public DialogueOptionButton(int number, string resourceSid)
+        _font = UiThemeManager.UiContentStorage.GetTitlesFont();
+        Number = number;
+    }
+
+    public int Number { get; }
+
+    public Vector2 GetContentSize()
+    {
+        var textSize = _font.MeasureString(_optionText) + new Vector2(MARGIN * 2, MARGIN * 2);
+        return textSize;
+    }
+
+    protected override Point CalcTextureOffset()
+    {
+        if (_buttonState == UiButtonState.Hover || _buttonState == UiButtonState.Pressed)
         {
-            _optionText = $"{number}. {SpeechVisualizationHelper.PrepareLocalizedText(resourceSid).text}";
-
-            _font = UiThemeManager.UiContentStorage.GetTitlesFont();
-            Number = number;
+            return ControlTextures.OptionHover;
         }
 
-        public int Number { get; }
+        return ControlTextures.OptionNormal;
+    }
 
-        public Vector2 GetContentSize()
+    protected Color CalculateTextColor()
+    {
+        if (_buttonState == UiButtonState.Hover || _buttonState == UiButtonState.Pressed)
         {
-            var textSize = _font.MeasureString(_optionText) + new Vector2(MARGIN * 2, MARGIN * 2);
-            return textSize;
+            return Color.Wheat;
         }
 
-        protected override Point CalcTextureOffset()
-        {
-            if (_buttonState == UiButtonState.Hover || _buttonState == UiButtonState.Pressed)
-            {
-                return ControlTextures.OptionHover;
-            }
+        return Color.SaddleBrown;
+    }
 
-            return ControlTextures.OptionNormal;
-        }
+    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
+    {
+        var textSize = GetContentSize();
+        var heightDiff = contentRect.Height - textSize.Y;
+        var textPosition = new Vector2(
+            contentRect.Left + MARGIN,
+            heightDiff / 2 + contentRect.Top);
 
-        protected Color CalculateTextColor()
-        {
-            if (_buttonState == UiButtonState.Hover || _buttonState == UiButtonState.Pressed)
-            {
-                return Color.Wheat;
-            }
-
-            return Color.SaddleBrown;
-        }
-
-        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
-        {
-            var textSize = GetContentSize();
-            var heightDiff = contentRect.Height - textSize.Y;
-            var textPosition = new Vector2(
-                contentRect.Left + MARGIN,
-                (heightDiff / 2) + contentRect.Top);
-
-            var textColor = CalculateTextColor();
-            spriteBatch.DrawString(_font, _optionText, textPosition, textColor);
-        }
+        var textColor = CalculateTextColor();
+        spriteBatch.DrawString(_font, _optionText, textPosition, textColor);
     }
 }

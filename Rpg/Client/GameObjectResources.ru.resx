@@ -231,6 +231,9 @@
   <data name="ChineseOldman_Hidden" xml:space="preserve">
     <value>Китайский старец</value>
   </data>
+  <data name="CityHunting_Crisis" xml:space="preserve">
+    <value>В городе, через который лежал путь героев, объявлена ночь охоты на ведьм. Местные просто одичали. Под горячую руку попадает всякий незнакомец. И вот яростные раззадоренные взгляды устремились на героев.</value>
+  </data>
   <data name="CombatSword" xml:space="preserve">
     <value>Боевой меч</value>
   </data>
@@ -389,6 +392,9 @@
   <data name="ImprovedHitPointsDescription" xml:space="preserve">
     <value>Количество хит поинтов увеличено в 2 раза.</value>
   </data>
+  <data name="InfernalSickness_Crisis" xml:space="preserve">
+    <value>Облако дичайшего газа вырвалось прямо из хтонических глубин. Никто не способен выжить. Отравляющий и почти разумный пар вьется по землям, собирая богатый урожай душ всех живых тварей.</value>
+  </data>
   <data name="InspirationalBreakthrough" xml:space="preserve">
     <value>Вдохновляющий прорыв</value>
   </data>
@@ -412,6 +418,9 @@
   </data>
   <data name="LookOut_Description" xml:space="preserve">
     <value>Увеличивает защиту ближайшего союзника в столбце на 3 до конца хода союзника. Сам мечник перемещается в авангард. При автосрабатывании, увеличивает свою защиту на 1ед.</value>
+  </data>
+  <data name="MagicTrap_Crisis" xml:space="preserve">
+    <value>Внезапно герои попадают в ловушку. Столп из молний устремляется вверх, нависает дугой и стремится в группу героев.</value>
   </data>
   <data name="Marauder" xml:space="preserve">
     <value>Марадер</value>
@@ -456,6 +465,9 @@
   <data name="Pit" xml:space="preserve">
     <value>Яма</value>
   </data>
+  <data name="Preying_Crisis" xml:space="preserve">
+    <value>Один из героев услышал голос своих сверхсил. Они требуют его внимания. Такие просьбы нельзя игнорировать. Тем более в текущих обстоятельствах.</value>
+  </data>
   <data name="RapidShot" xml:space="preserve">
     <value>Быстрый выстрел</value>
   </data>
@@ -498,6 +510,9 @@
   </data>
   <data name="StaffHit" xml:space="preserve">
     <value>Удары посохом</value>
+  </data>
+  <data name="Starvation_Crisis" xml:space="preserve">
+    <value>Все запасы пищи пришли в негодность. Надвигается лютый голод.</value>
   </data>
   <data name="StayStrong" xml:space="preserve">
     <value>Будь сильным</value>
@@ -593,5 +608,41 @@
   </data>
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
+  </data>
+  <data name="TakeAllDamageByOneHero_CrisisAftermath" xml:space="preserve">
+    <value>Один из героев закрывает всех от заряда</value>
+  </data>
+  <data name="DamageTogether_CrisisAftermath" xml:space="preserve">
+    <value>Герои защищаются от ловушки вместе</value>
+  </data>
+  <data name="TryToRunOut_CrisisAftermath" xml:space="preserve">
+    <value>Попытаться убежать</value>
+  </data>
+  <data name="TryToFight_CrisisAftermath" xml:space="preserve">
+    <value>Попытаться отбиться от толпы</value>
+  </data>
+  <data name="Conversation_CrisisAftermath" xml:space="preserve">
+    <value>Попытаться догоовриться с лидерами обезумевшей толпы</value>
+  </data>
+  <data name="RunOut_CrisisAftermath" xml:space="preserve">
+    <value>Убежать</value>
+  </data>
+  <data name="DestroyTheSickSource_CrisisAftermath" xml:space="preserve">
+    <value>Найти и уничтожить источник заразы</value>
+  </data>
+  <data name="Starve_CrisisAftermath" xml:space="preserve">
+    <value>Один герой соглашается голодать</value>
+  </data>
+  <data name="StarveAll_CrisisAftermath" xml:space="preserve">
+    <value>Все герои соглашаются голодать</value>
+  </data>
+  <data name="BuyFood_CrisisAftermath" xml:space="preserve">
+    <value>Попытаться купить провиант</value>
+  </data>
+  <data name="Prey_CrisisAftermath" xml:space="preserve">
+    <value>Уделить внимание</value>
+  </data>
+  <data name="Ignore_CrisisAftermath" xml:space="preserve">
+    <value>Игнорировать</value>
   </data>
 </root>

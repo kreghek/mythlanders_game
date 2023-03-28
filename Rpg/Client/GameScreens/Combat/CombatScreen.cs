@@ -484,7 +484,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         var intentionFactory =
             new BotCombatActorIntentionFactory(_animationManager, _combatMovementVisualizer, _gameObjects);
         _combatCore.Initialize(
-            CombatantFactory.CreateHeroes(_playerCombatantBehaviour),
+            CombatantFactory.CreateHeroes(_playerCombatantBehaviour, _globeProvider.Globe.Player),
             CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(intentionFactory)));
 
         _combatantQueuePanel = new CombatantQueuePanel(_combatCore,

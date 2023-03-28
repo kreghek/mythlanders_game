@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Client.Assets.StageItems;
-
-using Rpg.Client.Core.Campaigns;
+using Client.Core.Campaigns;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 

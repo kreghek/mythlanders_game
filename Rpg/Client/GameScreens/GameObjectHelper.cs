@@ -2,6 +2,7 @@
 using Client.Core;
 
 using Core.Combats;
+using Core.Crises;
 
 using Rpg.Client.Core;
 
@@ -79,5 +80,10 @@ internal static class GameObjectHelper
         var rm = GameObjectResources.ResourceManager;
         var name = rm.GetString(sid) ?? sid;
         return name;
+    }
+
+    public static string GetLocalized(CrisisSid crisisSid)
+    {
+        return GetLocalizedInner(crisisSid.ResourceName);
     }
 }
