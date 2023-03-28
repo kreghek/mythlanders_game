@@ -17,7 +17,7 @@ internal sealed class HeroCampaignState
     /// Hero class identifier.
     /// </summary>
     public string ClassSid { get; }
-    
+
     /// <summary>
     /// Current hero hit points.
     /// Keep hit points between combats and crises.

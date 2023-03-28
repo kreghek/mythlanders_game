@@ -15,4 +15,3 @@
 //         public static EffectVisualization ResolveDown = new() { BasedOneIndex = 11 };
 //     }
 // }
-
