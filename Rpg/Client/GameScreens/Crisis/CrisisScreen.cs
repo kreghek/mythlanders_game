@@ -14,6 +14,7 @@ using Core.Dices;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
@@ -31,6 +32,8 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
     private readonly IList<CrisisAftermathButton> _aftermathButtons;
     private readonly Texture2D _backgroundTexture;
     private readonly Texture2D _cleanScreenTexture;
+    private readonly SoundEffectInstance _soundEffectInstance;
+    private readonly SoundtrackManager _soundtrackManager;
 
     public CrisisScreen(TestamentGame game, CrisisScreenTransitionArguments args) : base(game)
     {
@@ -50,6 +53,11 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
         _backgroundTexture = game.Content.Load<Texture2D>($"Sprites/GameObjects/Crises/{spriteName}");
 
         _cleanScreenTexture = CreateTexture(game.GraphicsDevice, 1, 1, (_) => new Color(36, 40, 41));
+
+        var effectName = GetBackgroundEffectName(_crisis.Sid);
+        _soundEffectInstance = game.Content.Load<SoundEffect>($"Audio/Stories/{effectName}").CreateInstance();
+
+        _soundtrackManager = game.Services.GetRequiredService<SoundtrackManager>();
     }
 
     private static Texture2D CreateTexture(GraphicsDevice device, int width, int height, Func<int, Color> paint)
@@ -83,6 +91,19 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
             _ => "ElectricTrap",
         };
     }
+    
+    private static string GetBackgroundEffectName(CrisisSid sid)
+    {
+        return sid.Value switch
+        {
+            "MagicTrap" => "ElectricDeathRay",
+            "CityHunting" => "CityHunting",
+            "InfernalSickness" => "InfernalSickness",
+            "Starvation" => "Starvation",
+            "Preying" => "SkyThunder",
+            _ => "Starvation",
+        };
+    }
 
     protected override IList<ButtonBase> CreateMenu()
     {
@@ -106,7 +127,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
         spriteBatch.Draw(_cleanScreenTexture, new Rectangle(contentRect.Center.X, contentRect.Top, contentRect.Width / 2, contentRect.Height), Color.Lerp(Color.White, Color.Transparent, 0.25f));
 
-        var ACTION_BUTTON_WIDTH = contentRect.Center.X;
+        var actionButtonWidth = contentRect.Center.X;
         const int ACTION_BUTTON_HEIGHT = 40;
 
         const int HEADER_HEIGHT = 100;
@@ -125,7 +146,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
             actionButton.Rect = new Rectangle(
                 contentRect.Center.X,
                 HEADER_HEIGHT + buttonIndex * ACTION_BUTTON_HEIGHT + contentRect.Top + (int)descriptionTextSize.Y + ControlBase.CONTENT_MARGIN,
-                ACTION_BUTTON_WIDTH,
+                actionButtonWidth,
                 ACTION_BUTTON_HEIGHT
             );
 
@@ -164,6 +185,9 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
                 _campaign.CompleteCurrentStage();
             };
         }
+        
+        _soundtrackManager.PlaySilence();
+        _soundEffectInstance.Play();
     }
 
     protected override void UpdateContent(GameTime gameTime)
