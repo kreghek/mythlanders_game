@@ -4,10 +4,10 @@ using Core.Crises;
 
 namespace Client.Assets.Crises;
 
-public sealed class CrisesCatalog: ICrisesCatalog
+public sealed class CrisesCatalog : ICrisesCatalog
 {
     public readonly ICrisis[] _crises;
-    
+
     public CrisesCatalog()
     {
         _crises = new[]

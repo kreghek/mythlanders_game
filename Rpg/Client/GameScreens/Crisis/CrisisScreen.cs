@@ -91,7 +91,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
             _ => "ElectricTrap",
         };
     }
-    
+
     private static string GetBackgroundEffectName(CrisisSid sid)
     {
         return sid.Value switch
@@ -174,7 +174,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
                     ResolutionIndependentRenderer);
 
                 aftermath.Apply(context);
-                
+
                 underConstructionModal.Closed += (_, _) =>
                 {
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
@@ -185,7 +185,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
                 _campaign.CompleteCurrentStage();
             };
         }
-        
+
         _soundtrackManager.PlaySilence();
         _soundEffectInstance.Play();
     }

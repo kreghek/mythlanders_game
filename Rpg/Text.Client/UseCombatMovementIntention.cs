@@ -14,8 +14,8 @@ internal sealed class UseCombatMovementIntention : IIntention
     private static void PseudoPlayback(CombatMovementExecution movementExecution)
     {
         foreach (var imposeItem in movementExecution.EffectImposeItems)
-        foreach (var target in imposeItem.MaterializedTargets)
-            imposeItem.ImposeDelegate(target);
+            foreach (var target in imposeItem.MaterializedTargets)
+                imposeItem.ImposeDelegate(target);
 
         movementExecution.CompleteDelegate();
     }
