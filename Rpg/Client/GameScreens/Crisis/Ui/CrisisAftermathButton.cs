@@ -14,7 +14,7 @@ internal class CrisisAftermathButton : ButtonBase
 
     public CrisisAftermathButton(int number, CrisisAftermathSid sid)
     {
-        var localizedTitle = UiResource.ResourceManager.GetString(sid.ResourceName) ?? sid.ResourceName;
+        var localizedTitle = GameObjectResources.ResourceManager.GetString(sid.ResourceName) ?? sid.ResourceName;
 
         _optionText = $"{number}. {localizedTitle}";
 
