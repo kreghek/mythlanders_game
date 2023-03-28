@@ -80,11 +80,11 @@ internal sealed class CampaignGenerator : ICampaignGenerator
             //    })
             //},
 
-            // To debug crisis
-            new ICampaignStageTemplateFactory[]
-            {
-                new CrisisEventCampaignStageTemplateFactory()
-            },
+            //// To debug crisis
+            //new ICampaignStageTemplateFactory[]
+            //{
+            //    new CrisisEventCampaignStageTemplateFactory()
+            //},
 
             // Combat
 
