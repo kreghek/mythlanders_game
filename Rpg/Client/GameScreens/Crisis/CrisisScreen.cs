@@ -134,6 +134,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
                 underConstructionModal.Closed += (_, _) =>
                 {
+                    _soundEffectInstance.Stop();
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
                         new CampaignScreenTransitionArguments(_campaign));
                 };

@@ -130,7 +130,7 @@ internal sealed class CombatantQueuePanel : ControlBase
         };
 
         hint.Rect = new Rectangle(new Point(moveInfo.Item1.Center.X, moveInfo.Item1.Bottom),
-            hint.ContentSize.ToPoint());
+            (hint.ContentSize + new Vector2(CONTENT_MARGIN * 2, CONTENT_MARGIN * 2)).ToPoint());
 
         return hint;
     }

@@ -1,4 +1,6 @@
-﻿namespace Core.PropDrop
+﻿using Core.Dices;
+
+namespace Core.PropDrop
 {
     /// <summary>
     /// Источник рандома при работе для сервиса выбора дропа.
@@ -19,5 +21,25 @@
         /// <param name="totalWeight"> Суммарный вес таблицы дропа (с учётом модификаторов). </param>
         /// <returns> Результат броска. </returns>
         int RollWeight(int totalWeight);
+    }
+
+    public sealed class DropResolverRandomSource : IDropResolverRandomSource
+    {
+        private readonly IDice _dice;
+
+        public DropResolverRandomSource(IDice dice)
+        {
+            _dice = dice;
+        }
+
+        public int RollResourceCount(int minCount, int maxCount)
+        {
+            return _dice.Roll(minCount, maxCount);
+        }
+
+        public int RollWeight(int totalWeight)
+        {
+            return _dice.Roll(totalWeight);
+        }
     }
 }

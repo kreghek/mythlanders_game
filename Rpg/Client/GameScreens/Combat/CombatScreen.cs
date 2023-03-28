@@ -19,6 +19,7 @@ using Core.Combats;
 using Core.Combats.BotBehaviour;
 using Core.Dices;
 using Core.PropDrop;
+using Core.Props;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
@@ -274,23 +275,35 @@ internal class CombatScreen : GameScreenWithMenuBase
         Player player,
         GlobeLevel globeLevel)
     {
-        var drop = _dropResolver.Resolve(new[] { _args.CombatSequence.Combats.First().Reward.DropTable });
+        var drop = _dropResolver.Resolve(new[] { _args.CombatSequence.Combats[0].Reward.DropTable });
+
+        var xpDrop = drop.OfType<Resource>().Single(x => x.Scheme.Sid == "combat-xp");
         
-        var completedCombatsShortInfos = completedCombats.Select(x =>
-            new CombatRewardInfo(x.EnemyGroup.GetUnits()
-                .Select(enemy => new CombatMonsterRewardInfo(enemy.XpReward))));
+        //var completedCombatsShortInfos = completedCombats.Select(x =>
+        //    new CombatRewardInfo(x.EnemyGroup.GetUnits()
+        //        .Select(enemy => new CombatMonsterRewardInfo(enemy.XpReward))));
 
-        var rewardCalculationContext = new RewardCalculationContext(
-            player.Inventory,
-            globeNode.EquipmentItem,
-            completedCombatsShortInfos,
-            globeLevel.Level,
-            15
-        );
+        //var rewardCalculationContext = new RewardCalculationContext(
+        //    player.Inventory,
+        //    globeNode.EquipmentItem,
+        //    completedCombatsShortInfos,
+        //    globeLevel.Level,
+        //    15
+        //);
 
-        var rewards = CombatScreenHelper.CalculateRewards(rewardCalculationContext);
+        //var rewards = CombatScreenHelper.CalculateRewards(rewardCalculationContext);
 
-        return rewards;
+        return new CombatRewards
+        {
+            InventoryRewards = new[]
+            {
+                new ResourceReward(){ 
+                    Type = EquipmentItemType.ExperiencePoints,
+                    StartValue = 0,
+                    Amount = xpDrop.Count
+                }
+            }
+        };
     }
 
     private void CombatCode_CombatantHasBeenAdded(object? sender, CombatantHasBeenAddedEventArgs e)

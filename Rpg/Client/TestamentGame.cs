@@ -10,6 +10,7 @@ using Client.Core.Dialogues;
 using Client.Engine;
 
 using Core.Dices;
+using Core.PropDrop;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -311,5 +312,8 @@ public sealed class TestamentGame : Game
 
         var crisesCatalog = new CrisesCatalog();
         Services.AddService<ICrisesCatalog>(crisesCatalog);
+
+        var dropResolver = new DropResolver(new DropResolverRandomSource(Services.GetRequiredService<IDice>()), new SchemeService(), new PropFactory());
+        Services.AddService<IDropResolver>(dropResolver);
     }
 }

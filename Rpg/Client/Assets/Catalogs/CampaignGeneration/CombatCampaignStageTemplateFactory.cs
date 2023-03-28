@@ -70,14 +70,14 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     {
         var combat = new CombatSource(
             new []
-        {
-            new MonsterCombatantPrefab("chaser", 0, new FieldCoords(0, 1)),
-            new MonsterCombatantPrefab("chaser", 1, new FieldCoords(1, 2)),
-            new MonsterCombatantPrefab("digitalwolf", 0, new FieldCoords(0, 2)),
-        }, 
+            {
+                new MonsterCombatantPrefab("chaser", 0, new FieldCoords(0, 1)),
+                //new MonsterCombatantPrefab("chaser", 1, new FieldCoords(1, 2)),
+                //new MonsterCombatantPrefab("digitalwolf", 0, new FieldCoords(0, 2)),
+            }, 
             new CombatReward(new DropTableScheme(new[]
             {
-                new DropTableRecordSubScheme(null, 1, 2, "combat-xp", 1)
+                new DropTableRecordSubScheme(null, new Range<int>(1, 2), "combat-xp", 1)
             }, 1)));
 
         var combatSequence = new CombatSequence

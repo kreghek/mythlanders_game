@@ -17,6 +17,23 @@ internal sealed class Player
     public Player(string name) : this()
     {
         Name = name;
+    }
+
+    public Player()
+    {
+        Party = new Group();
+        Pool = new PoolGroup();
+        KnownMonsters = new List<UnitScheme>();
+
+        var inventory = CreateInventory();
+
+        Inventory = inventory;
+
+        _abilities = new HashSet<PlayerAbility>();
+
+        Name = CreateRandomName();
+
+        StoryState = new StoryState(Party);
 
         Heroes = new[]
         {
@@ -36,23 +53,6 @@ internal sealed class Player
                 HitPoints = new StatValue(3)
             }
         };
-    }
-
-    public Player()
-    {
-        Party = new Group();
-        Pool = new PoolGroup();
-        KnownMonsters = new List<UnitScheme>();
-
-        var inventory = CreateInventory();
-
-        Inventory = inventory;
-
-        _abilities = new HashSet<PlayerAbility>();
-
-        Name = CreateRandomName();
-
-        StoryState = new StoryState(Party);
     }
 
     public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
