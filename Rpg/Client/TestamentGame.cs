@@ -240,6 +240,9 @@ public sealed class TestamentGame : Game
         Services.AddService<IDice>(new LinearDice());
 
         Services.AddService<IJobProgressResolver>(new JobProgressResolver());
+        
+        var dropResolver = new DropResolver(new DropResolverRandomSource(Services.GetRequiredService<IDice>()), new SchemeService(), new PropFactory());
+        Services.AddService<IDropResolver>(dropResolver);
 
         var dialogueResourceProvider = new DialogueResourceProvider(Content);
 
@@ -290,7 +293,8 @@ public sealed class TestamentGame : Game
             Services.GetRequiredService<GlobeProvider>(),
             Services.GetRequiredService<IEventCatalog>(),
             Services.GetRequiredService<IDice>(),
-            Services.GetRequiredService<IJobProgressResolver>());
+            Services.GetRequiredService<IJobProgressResolver>(),
+            Services.GetRequiredService<IDropResolver>());
         Services.AddService<ICampaignGenerator>(campaignGenerator);
 
         Services.AddService(_graphics);
@@ -312,8 +316,5 @@ public sealed class TestamentGame : Game
 
         var crisesCatalog = new CrisesCatalog();
         Services.AddService<ICrisesCatalog>(crisesCatalog);
-
-        var dropResolver = new DropResolver(new DropResolverRandomSource(Services.GetRequiredService<IDice>()), new SchemeService(), new PropFactory());
-        Services.AddService<IDropResolver>(dropResolver);
     }
 }

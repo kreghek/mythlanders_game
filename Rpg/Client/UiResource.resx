@@ -476,4 +476,7 @@
   <data name="AvailableManeuversIndicatorTemplate" xml:space="preserve">
     <value>Maneuvers available</value>
   </data>
+  <data name="CompleteCampaignButtonTitle" xml:space="preserve">
+    <value>Move to command center</value>
+  </data>
 </root>

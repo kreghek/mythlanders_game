@@ -1,8 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using Client.Assets.StoryPointJobs;
 using Client.Core.Campaigns;
+using Client.GameScreens.CampaignReward;
 using Client.GameScreens.CommandCenter;
+
+using Core.Combats;
+using Core.PropDrop;
 
 using Rpg.Client.Core;
 using Rpg.Client.ScreenManagement;
@@ -11,16 +17,16 @@ namespace Client.Assets.StageItems
 {
     internal class RewardStageItem : ICampaignStageItem
     {
-        private readonly ICampaignGenerator _campaignGenerator;
         private readonly GlobeProvider _globeProvider;
         private readonly IJobProgressResolver _jobProgressResolver;
+        private readonly IDropResolver _dropResolver;
 
-        public RewardStageItem(ICampaignGenerator campaignGenerator, GlobeProvider globeProvider,
-            IJobProgressResolver jobProgressResolver)
+        public RewardStageItem(GlobeProvider globeProvider,
+            IJobProgressResolver jobProgressResolver, IDropResolver dropResolver)
         {
-            _campaignGenerator = campaignGenerator;
             _globeProvider = globeProvider;
             _jobProgressResolver = jobProgressResolver;
+            _dropResolver = dropResolver;
         }
 
         public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
@@ -33,12 +39,28 @@ namespace Client.Assets.StageItems
                 _jobProgressResolver.ApplyProgress(completeCampaignProgress, job);
             }
 
-            var campaigns = _campaignGenerator.CreateSet();
-            screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignSelection,
-                new CommandCenterScreenTransitionArguments
-                {
-                    AvailableCampaigns = campaigns
-                });
+            var campaignResources = CreateCampaignResources(currentCampaign);
+            var drop = _dropResolver.Resolve(campaignResources);
+
+            screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignReward,
+                new CampaignRewardScreenTransitionArguments(currentCampaign, drop));
+        }
+
+        private IReadOnlyCollection<IDropTableScheme> CreateCampaignResources(HeroCampaign currentCampaign)
+        {
+            switch (currentCampaign.Location)
+            {
+                case LocationSid.Thicket:
+                    return new[]
+                    {
+                        new DropTableScheme(new IDropTableRecordSubScheme[]
+                        {
+                            new DropTableRecordSubScheme(null, new Range<int>(1, 1), "snow", 1)
+                        }, 1)
+                    };
+            }
+            
+            return ArraySegment<IDropTableScheme>.Empty;
         }
     }
 }
