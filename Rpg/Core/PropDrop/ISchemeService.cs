@@ -26,24 +26,4 @@ namespace Core.PropDrop
         /// <returns> Возвращает набор схем указанного типа. </returns>
         TScheme[] GetSchemes<TScheme>() where TScheme : class, IScheme;
     }
-
-    public sealed class SchemeService : ISchemeService
-    {
-        private readonly IDictionary<string, IPropScheme> _schemes = new Dictionary<string, IPropScheme>();
-
-        public SchemeService()
-        {
-            _schemes["combat-xp"] = new PropScheme() { Sid = "combat-xp" };
-        }
-
-        TScheme ISchemeService.GetScheme<TScheme>(string sid)
-        {
-            return (TScheme)_schemes[sid];
-        }
-
-        TScheme[] ISchemeService.GetSchemes<TScheme>()
-        {
-            return _schemes.Values.OfType<TScheme>().ToArray();
-        }
-    }
 }
