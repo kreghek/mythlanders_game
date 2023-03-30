@@ -1,4 +1,5 @@
-﻿using Client.Core.Campaigns;
+﻿using Client.Core;
+using Client.Core.Campaigns;
 using Client.Core.Dialogues;
 
 namespace Rpg.Client.Core

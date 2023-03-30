@@ -2,10 +2,13 @@
 using System.Linq;
 
 using Client.Assets.StageItems;
+using Client.Core;
 using Client.Core.Campaigns;
 using Client.Core.Heroes;
 
+using Core.Combats;
 using Core.Dices;
+using Core.PropDrop;
 
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Core;
@@ -62,13 +65,29 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         return unit.Perks.OfType<TPerk>().Any();
     }
 
+    /// <inheritdoc />
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        var combat = new CombatSource
+        var monsterCombatantPrefabs = new []
         {
-            Level = 1,
-            EnemyGroup = new Group()
+            new MonsterCombatantPrefab("chaser", 0, new FieldCoords(0, 1)),
+            //new MonsterCombatantPrefab("chaser", 1, new FieldCoords(1, 2)),
+            //new MonsterCombatantPrefab("digitalwolf", 0, new FieldCoords(0, 2)),
         };
+
+        var monsterResources = GetMonsterDropTables(monsterCombatantPrefabs);
+
+        var totalDropTables = new List<IDropTableScheme>();
+        totalDropTables.AddRange(monsterResources);
+        totalDropTables.Add(new DropTableScheme("combat-xp", new IDropTableRecordSubScheme[]
+        {
+            new DropTableRecordSubScheme(null, new Range<int>(1, 2), "combat-xp", 1)
+        }, 1));
+        
+        var combat = new CombatSource(
+            monsterCombatantPrefabs,
+            new CombatReward(totalDropTables.ToArray())
+            );
 
         var combatSequence = new CombatSequence
         {
@@ -84,15 +103,35 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
 
         var monsterInfos = GetStartMonsterInfoList(_locationSid);
 
-        for (var slotIndex = 0; slotIndex < monsterInfos.Count; slotIndex++)
-        {
-            var scheme = _services.UnitSchemeCatalog.AllMonsters.Single(x => x.Name == monsterInfos[slotIndex].name);
-            combat.EnemyGroup.Slots[slotIndex].Unit = new Hero(scheme, monsterInfos[slotIndex].level);
-        }
-
         return stageItem;
     }
 
+    private IDropTableScheme[] GetMonsterDropTables(MonsterCombatantPrefab[] monsterCombatantPrefabs)
+    {
+        var dropTables = new List<IDropTableScheme>();
+        
+        foreach (var monsterCombatantPrefab in monsterCombatantPrefabs)
+        {
+            switch (monsterCombatantPrefab.ClassSid)
+            {
+                case "digitalwolf":
+                    dropTables.Add(new DropTableScheme("digital-claws",
+                        new IDropTableRecordSubScheme[]
+                            { new DropTableRecordSubScheme(null, new Range<int>(1, 1), "digital-claws", 1) }, 1));
+                    break;
+                
+                case "chaser":
+                    dropTables.Add(new DropTableScheme("bandages",
+                        new IDropTableRecordSubScheme[]
+                            { new DropTableRecordSubScheme(null, new Range<int>(1, 1), "bandages", 1) }, 1));
+                    break;
+            }
+        }
+
+        return dropTables.ToArray();
+    }
+
+    /// <inheritdoc />
     public bool CanCreate(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
         return true;

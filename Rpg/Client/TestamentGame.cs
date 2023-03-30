@@ -10,6 +10,7 @@ using Client.Core.Dialogues;
 using Client.Engine;
 
 using Core.Dices;
+using Core.PropDrop;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -239,6 +240,9 @@ public sealed class TestamentGame : Game
         Services.AddService<IDice>(new LinearDice());
 
         Services.AddService<IJobProgressResolver>(new JobProgressResolver());
+        
+        var dropResolver = new DropResolver(new DropResolverRandomSource(Services.GetRequiredService<IDice>()), new SchemeService(), new PropFactory());
+        Services.AddService<IDropResolver>(dropResolver);
 
         var dialogueResourceProvider = new DialogueResourceProvider(Content);
 
@@ -289,7 +293,8 @@ public sealed class TestamentGame : Game
             Services.GetRequiredService<GlobeProvider>(),
             Services.GetRequiredService<IEventCatalog>(),
             Services.GetRequiredService<IDice>(),
-            Services.GetRequiredService<IJobProgressResolver>());
+            Services.GetRequiredService<IJobProgressResolver>(),
+            Services.GetRequiredService<IDropResolver>());
         Services.AddService<ICampaignGenerator>(campaignGenerator);
 
         Services.AddService(_graphics);

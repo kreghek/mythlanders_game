@@ -36,7 +36,7 @@ public sealed class EffectCombatContext : IEffectCombatContext
 
     public void PassTurn(Combatant target)
     {
-        throw new NotImplementedException();
+       
     }
 
     public void RestoreCombatantStat(Combatant combatant, UnitStatType statType, int value)

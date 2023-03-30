@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-using Client;
 using Client.Assets.Catalogs;
 using Client.Assets.CombatMovements;
 using Client.Assets.StoryPointJobs;
@@ -11,7 +10,6 @@ using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Campaign;
-using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.CombatDebugElements;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.Ui;
@@ -20,6 +18,8 @@ using Client.GameScreens.CommandCenter;
 using Core.Combats;
 using Core.Combats.BotBehaviour;
 using Core.Dices;
+using Core.PropDrop;
+using Core.Props;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
@@ -28,8 +28,11 @@ using Microsoft.Xna.Framework.Input;
 
 using MonoGame;
 
+using Rpg.Client;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens;
+using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.GameScreens.Combat.Tutorial;
@@ -37,7 +40,7 @@ using Rpg.Client.GameScreens.Combat.Ui;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.ScreenManagement;
 
-namespace Rpg.Client.GameScreens.Combat;
+namespace Client.GameScreens.Combat;
 
 internal class CombatScreen : GameScreenWithMenuBase
 {
@@ -90,6 +93,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
+    private readonly IDropResolver _dropResolver;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -148,6 +152,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             new ManeuverContext(_combatCore));
 
         _targetMarkers = new TargetMarkers();
+
+        _dropResolver = game.Services.GetRequiredService<IDropResolver>();
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -223,13 +229,11 @@ internal class CombatScreen : GameScreenWithMenuBase
     //    }
     //}
 
-    private static void ApplyCombatReward(IReadOnlyCollection<ResourceReward> xpItems, Player player)
+    private static void ApplyCombatReward(IReadOnlyCollection<IProp> xpItems, Player player)
     {
         foreach (var item in xpItems)
         {
-            var inventoryItem = player.Inventory.Single(x => x.Type == item.Type);
-
-            inventoryItem.Amount += item.Amount;
+            player.Inventory.Add(item);
         }
     }
 
@@ -263,27 +267,44 @@ internal class CombatScreen : GameScreenWithMenuBase
         return null;
     }
 
-    private static CombatRewards CalculateRewardGaining(
-        IEnumerable<CombatSource> completedCombats,
-        GlobeNode globeNode,
-        Player player,
-        GlobeLevel globeLevel)
+    private CombatRewards CalculateRewardGaining(
+        IReadOnlyCollection<IProp> droppedResources)
     {
-        var completedCombatsShortInfos = completedCombats.Select(x =>
-            new CombatRewardInfo(x.EnemyGroup.GetUnits()
-                .Select(enemy => new CombatMonsterRewardInfo(enemy.XpReward))));
+        var uiRewards = CreateUiModels(droppedResources);
 
-        var rewardCalculationContext = new RewardCalculationContext(
-            player.Inventory,
-            globeNode.EquipmentItem,
-            completedCombatsShortInfos,
-            globeLevel.Level,
-            15
-        );
+        return new CombatRewards
+        {
+            InventoryRewards = uiRewards
+        };
+    }
 
-        var rewards = CombatScreenHelper.CalculateRewards(rewardCalculationContext);
+    private IReadOnlyCollection<ResourceReward> CreateUiModels(IReadOnlyCollection<IProp> droppedResources)
+    {
+        var rewardList = new List<ResourceReward>();
+        foreach (var resource in droppedResources.OfType<Resource>().ToArray())
+        {
+            var icon = EquipmentItemType.ExperiencePoints;
+            switch (resource.Scheme.Sid)
+            {
+                case "combat-xp": icon = EquipmentItemType.ExperiencePoints;
+                    break;
+                case "digital-claws": icon = EquipmentItemType.Warrior;
+                    break;
+                case "bondages": icon = EquipmentItemType.Warrior;
+                    break;
+            }
 
-        return rewards;
+            var reward = new ResourceReward
+            {
+                Amount = resource.Count,
+                Type = icon,
+                StartValue = 0
+            };
+            
+            rewardList.Add(reward);
+        }
+
+        return rewardList;
     }
 
     private void CombatCode_CombatantHasBeenAdded(object? sender, CombatantHasBeenAddedEventArgs e)
@@ -485,7 +506,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             new BotCombatActorIntentionFactory(_animationManager, _combatMovementVisualizer, _gameObjects);
         _combatCore.Initialize(
             CombatantFactory.CreateHeroes(_playerCombatantBehaviour, _globeProvider.Globe.Player),
-            CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(intentionFactory)));
+            CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(intentionFactory),
+                _args.CombatSequence.Combats.First().Monsters));
 
         _combatantQueuePanel = new CombatantQueuePanel(_combatCore,
             _uiContentStorage, _gameObjectContentStorage);
@@ -1118,17 +1140,15 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         if (isVictory)
         {
-            var completedCombats = new List<CombatSource>
-                { _args.CombatSequence.Combats.First() };
-
             var isAllCombatSequenceComplete = true;
             if (isAllCombatSequenceComplete)
             {
                 // End the combat sequence
-                var rewardItems = CalculateRewardGaining(completedCombats, _globeNode,
-                    _globeProvider.Globe.Player,
-                    _globeProvider.Globe.GlobeLevel);
-                ApplyCombatReward(rewardItems.InventoryRewards, _globeProvider.Globe.Player);
+                var droppedResources = _dropResolver.Resolve(_args.CombatSequence.Combats[0].Reward.DropTables);
+                
+                var rewardItems = CalculateRewardGaining(droppedResources);
+                
+                ApplyCombatReward(droppedResources, _globe.Player);
                 HandleGlobe(CombatResult.Victory);
 
                 var soundtrackManager = Game.Services.GetService<SoundtrackManager>();

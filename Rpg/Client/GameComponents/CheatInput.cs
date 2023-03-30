@@ -242,13 +242,15 @@ namespace Rpg.Client.GameComponents
 
         private void HandleGainRes(string[] args)
         {
-            var globeProvider = Game.Services.GetService<GlobeProvider>();
-            var globe = globeProvider.Globe;
+            // var globeProvider = Game.Services.GetService<GlobeProvider>();
+            // var globe = globeProvider.Globe;
+            //
+            // var xpAmount = int.Parse(args[0]);
+            // var resType = Enum.Parse<EquipmentItemType>(args[1], ignoreCase: true);
+            //
+            // globe.Player.Inventory.Single(x => x.Type == resType).Amount += xpAmount;
 
-            var xpAmount = int.Parse(args[0]);
-            var resType = Enum.Parse<EquipmentItemType>(args[1], ignoreCase: true);
-
-            globe.Player.Inventory.Single(x => x.Type == resType).Amount += xpAmount;
+            throw new NotImplementedException();
         }
 
         private void HandleGainXp(string[] args)

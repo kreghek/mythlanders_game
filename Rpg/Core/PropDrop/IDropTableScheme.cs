@@ -1,10 +1,9 @@
 ﻿using Core.Props;
 
-namespace Core.PropDrop
+namespace Core.PropDrop;
+
+public interface IDropTableScheme : IScheme
 {
-    public interface IDropTableScheme : IScheme
-    {
-        IDropTableRecordSubScheme[]? Records { get; }
-        int Rolls { get; }
-    }
+    IDropTableRecordSubScheme[]? Records { get; }
+    int Rolls { get; }
 }

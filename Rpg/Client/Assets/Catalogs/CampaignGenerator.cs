@@ -6,6 +6,7 @@ using Client.Assets.StageItems;
 using Client.Core.Campaigns;
 
 using Core.Dices;
+using Core.PropDrop;
 
 using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
@@ -17,15 +18,17 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     private readonly IDice _dice;
     private readonly GlobeProvider _globeProvider;
     private readonly IJobProgressResolver _jobProgressResolver;
+    private readonly IDropResolver _dropResolver;
     private readonly CampaignStageTemplateServices _services;
 
     public CampaignGenerator(IUnitSchemeCatalog unitSchemeCatalog, GlobeProvider globeProvider,
-        IEventCatalog eventCatalog, IDice dice, IJobProgressResolver jobProgressResolver)
+        IEventCatalog eventCatalog, IDice dice, IJobProgressResolver jobProgressResolver, IDropResolver dropResolver)
     {
         _services = new CampaignStageTemplateServices(unitSchemeCatalog, eventCatalog, globeProvider, dice);
         _globeProvider = globeProvider;
         _dice = dice;
         _jobProgressResolver = jobProgressResolver;
+        _dropResolver = dropResolver;
     }
 
     private HeroCampaign CreateCampaign(LocationSid locationSid)
@@ -52,7 +55,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
             stages.Add(stage);
         }
 
-        var rewardStageItem = new RewardStageItem(this, _globeProvider, _jobProgressResolver);
+        var rewardStageItem = new RewardStageItem(_globeProvider, _jobProgressResolver, _dropResolver);
         var rewardStage = new CampaignStage
         {
             Items = new[]
@@ -80,11 +83,11 @@ internal sealed class CampaignGenerator : ICampaignGenerator
             //    })
             //},
 
-            // To debug crisis
-            new ICampaignStageTemplateFactory[]
-            {
-                new CrisisEventCampaignStageTemplateFactory()
-            },
+            //// To debug crisis
+            //new ICampaignStageTemplateFactory[]
+            //{
+            //    new CrisisEventCampaignStageTemplateFactory()
+            //},
 
             // Combat
 

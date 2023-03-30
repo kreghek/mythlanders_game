@@ -23,12 +23,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private readonly SpriteFont _titleFont;
 
         public CombatRewardList(
-            Texture2D rewardIconsTexture,
+            Texture2D propIconsTexture,
             IReadOnlyCollection<AnimatedCountableUnitItemStat> rewardItems)
         {
             _titleFont = UiThemeManager.UiContentStorage.GetTitlesFont();
             _textFont = UiThemeManager.UiContentStorage.GetMainFont();
-            _rewardIconsTexture = rewardIconsTexture;
+            _rewardIconsTexture = propIconsTexture;
             _rewardItems = rewardItems;
         }
 
@@ -40,15 +40,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        protected override Point CalcTextureOffset()
-        {
-            return Point.Zero;
-        }
+        protected override Point CalcTextureOffset() => Point.Zero;
 
-        protected override Color CalculateColor()
-        {
-            return Color.White;
-        }
+        protected override Color CalculateColor() => Color.White;
 
         protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
         {
@@ -63,6 +57,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             var listRect = new Rectangle(contentRect.X, contentRect.Y + TITLE_HEIGHT, contentRect.Width,
                 REWARD_BLOCK_HEIGHT);
+
             DrawRewardList(spriteBatch, _rewardItems.ToArray(), listRect);
         }
 
@@ -70,13 +65,13 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             Rectangle contentRectangle)
         {
             const int TITLE_OFFSET = 20; // Title here is the label "Found items"
-            spriteBatch.DrawString(_titleFont, UiResource.CombatResultItemsFoundLabel,
-                contentRectangle.Location.ToVector2(),
-                Color.White);
-
             const int ITEM_WIDTH = 128;
             const int ITEM_HEIGHT = 32;
             const int CELL_COLS = 3;
+
+            spriteBatch.DrawString(_titleFont, UiResource.CombatResultItemsFoundLabel,
+                contentRectangle.Location.ToVector2(),
+                Color.White);
 
             var orderedRewardItems = rewardItems.OrderBy(x => x.Type).ToArray();
 

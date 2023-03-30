@@ -14,6 +14,5 @@ internal interface ICampaignStageTemplateFactory
     /// <summary>
     /// Create stage item of the campaign.
     /// </summary>
-    /// <returns></returns>
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems);
 }

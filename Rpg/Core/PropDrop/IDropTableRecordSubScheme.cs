@@ -11,20 +11,12 @@
         IDropTableScheme[]? Extra { get; }
 
         /// <summary>
-        /// Максимальное количество ресурсов.
+        /// Possible resource count.
         /// </summary>
         /// <remarks>
         /// Используется только ресурсами.
         /// </remarks>
-        int MaxCount { get; }
-
-        /// <summary>
-        /// Минимальное количество ресурсов.
-        /// </summary>
-        /// <remarks>
-        /// Используется только ресурсами.
-        /// </remarks>
-        int MinCount { get; }
+        Combats.Range<int> Count { get; }
 
         /// <summary>
         /// Идентификатор схемы предмета.
@@ -42,4 +34,7 @@
         /// </remarks>
         int Weight { get; }
     }
+
+    public sealed record DropTableRecordSubScheme(IDropTableScheme[]? Extra, Combats.Range<int> Count,
+        string? SchemeSid, int Weight) : IDropTableRecordSubScheme;
 }

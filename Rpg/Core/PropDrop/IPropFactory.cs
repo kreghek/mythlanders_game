@@ -1,4 +1,5 @@
 ﻿using Core.Props;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Core.PropDrop
 {
@@ -14,5 +15,15 @@ namespace Core.PropDrop
         /// <param name="count"> Количество ресурса. </param>
         /// <returns> Возвращает экземпляр созданного ресурса. </returns>
         Resource CreateResource(IPropScheme scheme, int count);
+    }
+
+    public class PropFactory : IPropFactory
+    {
+        public Resource CreateResource(IPropScheme scheme, int count)
+        {
+            var resource = new Resource(scheme, count);
+
+            return resource;
+        }
     }
 }

@@ -81,7 +81,18 @@ public class CombatCore
             if (_roundQueue.First().IsDead)
                 RemoveCurrentCombatantFromRoundQueue();
             else
-                break;
+            {
+                if (Finished)
+                {
+                    var combatResult = CalcResult();
+                    CombatFinished?.Invoke(this, new CombatFinishedEventArgs(combatResult));
+                    return;
+                }
+                else
+                {
+                    break;
+                }
+            }
         }
 
         CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn, context);

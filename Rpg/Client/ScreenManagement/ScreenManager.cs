@@ -1,7 +1,9 @@
 ﻿using System;
 
 using Client;
+using Client.GameScreens;
 using Client.GameScreens.Campaign;
+using Client.GameScreens.CampaignReward;
 using Client.GameScreens.Combat;
 using Client.GameScreens.CommandCenter;
 using Client.GameScreens.Crisis;
@@ -130,6 +132,8 @@ namespace Rpg.Client.ScreenManagement
                     (TrainingScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.SlidingPuzzles => new SlidingPuzzlesScreen(_game,
                     (SlidingPuzzlesScreenTransitionArguments)screenTransitionArguments),
+                ScreenTransition.CampaignReward => new CampaignRewardScreen(_game,
+                    (CampaignRewardScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Bestiary => new BestiaryScreen(_game),
                 ScreenTransition.Credits => new CreditsScreen(_game),
                 ScreenTransition.EndGame => new EndGameScreen(_game),

@@ -17,13 +17,6 @@ internal sealed class Player
     public Player(string name) : this()
     {
         Name = name;
-
-        CampaignHeroStates = new[]
-        {
-            new HeroCampaignState("swordsman", new StatValue(5)),
-            new HeroCampaignState("partisan", new StatValue(4)),
-            new HeroCampaignState("amazon", new StatValue(3))
-        };
     }
 
     public Player()
@@ -32,26 +25,39 @@ internal sealed class Player
         Pool = new PoolGroup();
         KnownMonsters = new List<UnitScheme>();
 
-        var inventory = CreateInventory();
-
-        Inventory = inventory;
+        Inventory = new Inventory();
 
         _abilities = new HashSet<PlayerAbility>();
 
         Name = CreateRandomName();
 
         StoryState = new StoryState(Party);
+
+        Heroes = new[]
+        {
+            new HeroState
+            {
+                ClassSid = "swordsman",
+                HitPoints = new StatValue(5)
+            },
+            new HeroState
+            {
+                ClassSid = "partisan",
+                HitPoints = new StatValue(4)
+            },
+            new HeroState
+            {
+                ClassSid = "amazon",
+                HitPoints = new StatValue(3)
+            }
+        };
     }
 
     public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
 
-    /// <summary>
-    /// Data of the hero in the current campaign.
-    /// </summary>
-    //TODO Move in the campaign
-    public IReadOnlyCollection<HeroCampaignState> CampaignHeroStates { get; }
+    public IReadOnlyCollection<HeroState> Heroes { get; }
 
-    public IReadOnlyCollection<ResourceItem> Inventory { get; }
+    public Inventory Inventory { get; }
 
     public IList<UnitScheme> KnownMonsters { get; }
 
@@ -74,9 +80,9 @@ internal sealed class Player
 
     public void ClearInventory()
     {
-        foreach (var resourceItem in Inventory)
+        foreach (var resourceItem in Inventory.CalcActualItems())
         {
-            resourceItem.Amount = 0;
+            Inventory.Remove(resourceItem);
         }
     }
 
@@ -99,13 +105,6 @@ internal sealed class Player
     public void MoveToPool(Hero unit)
     {
         Pool.MoveFromGroup(unit, Party);
-    }
-
-    private static IReadOnlyCollection<ResourceItem> CreateInventory()
-    {
-        var inventoryAvailableItems = Enum.GetValues<EquipmentItemType>();
-
-        return inventoryAvailableItems.Select(enumItem => new ResourceItem(enumItem)).ToList();
     }
 
     private static string CreateRandomName()

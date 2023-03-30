@@ -28,7 +28,7 @@ namespace Core.PropDrop
 
                 var scheme = _schemeService.GetScheme<IPropScheme>(record.SchemeSid);
 
-                var rolledCount = _randomSource.RollResourceCount(record.MinCount, record.MaxCount);
+                var rolledCount = _randomSource.RollResourceCount(record.Count.Min, record.Count.Max);
                 var resource = _propFactory.CreateResource(scheme, rolledCount);
                 return resource;
             }
