@@ -19,14 +19,15 @@ using Rpg.Client.ScreenManagement;
 namespace Client.GameScreens.CampaignReward;
 
 internal sealed record CampaignRewardScreenTransitionArguments
-    (HeroCampaign Campaign, IReadOnlyCollection<IProp> CampaignRewards) : CampaignScreenTransitionArgumentsBase(Campaign);
+    (HeroCampaign Campaign, IReadOnlyCollection<IProp> CampaignRewards) : CampaignScreenTransitionArgumentsBase(
+        Campaign);
 
 internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
 {
     private readonly ICampaignGenerator _campaignGenerator;
-    private readonly IUiContentStorage _uiContent;
     private readonly ResourceTextButton _moveNextButton;
-    private IReadOnlyCollection<IProp> _reward;
+    private readonly IUiContentStorage _uiContent;
+    private readonly IReadOnlyCollection<IProp> _reward;
 
     public CampaignRewardScreen(TestamentGame game, CampaignRewardScreenTransitionArguments args) : base(game)
     {
@@ -37,16 +38,6 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
         _moveNextButton.OnClick += MoveNextButton_OnClick;
 
         _reward = args.CampaignRewards;
-    }
-
-    private void MoveNextButton_OnClick(object? sender, EventArgs e)
-    {
-        MoveNext();
-    }
-
-    protected override void InitializeContent()
-    {
-
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -72,10 +63,15 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
         for (var i = 0; i < array.Length; i++)
         {
             var prop = array[i];
-            spriteBatch.DrawString(_uiContent.GetTitlesFont(), prop.Scheme.Sid, (contentRect.Location + new Point(0, i * 32)).ToVector2(), Color.White);
+            spriteBatch.DrawString(_uiContent.GetTitlesFont(), prop.Scheme.Sid,
+                (contentRect.Location + new Point(0, i * 32)).ToVector2(), Color.White);
         }
 
         spriteBatch.End();
+    }
+
+    protected override void InitializeContent()
+    {
     }
 
     protected override void UpdateContent(GameTime gameTime)
@@ -93,5 +89,10 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
             {
                 AvailableCampaigns = campaigns
             });
+    }
+
+    private void MoveNextButton_OnClick(object? sender, EventArgs e)
+    {
+        MoveNext();
     }
 }

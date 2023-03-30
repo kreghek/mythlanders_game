@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Rpg.Client.Core;
-
 namespace Client.Core;
 
 internal sealed class CombatSequence

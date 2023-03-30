@@ -7,5 +7,4 @@ namespace Client.Core;
 /// </summary>
 public sealed class Inventory : PropStoreBase
 {
-
 }

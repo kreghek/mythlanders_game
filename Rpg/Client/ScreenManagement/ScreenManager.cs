@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Client;
-using Client.GameScreens;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.CampaignReward;
 using Client.GameScreens.Combat;
@@ -18,7 +17,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.GameScreens.Bestiary;
-using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Credits;
 using Rpg.Client.GameScreens.EndGame;
 using Rpg.Client.GameScreens.Hero;

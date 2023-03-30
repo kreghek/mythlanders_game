@@ -20,11 +20,6 @@ internal static class GameObjectHelper
         return GetLocalizedInner(sid.Value);
     }
 
-    public static string GetLocalizedProp(string sid)
-    {
-        return GetLocalizedInner($"{sid}_prop");
-    }
-
     public static string GetLocalized(CharacterRelation relation)
     {
         if (relation.Level == CharacterKnowledgeLevel.FullName)
@@ -83,6 +78,11 @@ internal static class GameObjectHelper
     public static string GetLocalizedDescription(EquipmentSid equipmentSid)
     {
         return GetLocalizedInner($"{equipmentSid}Description");
+    }
+
+    public static string GetLocalizedProp(string sid)
+    {
+        return GetLocalizedInner($"{sid}_prop");
     }
 
     private static string GetLocalizedInner(string sid)

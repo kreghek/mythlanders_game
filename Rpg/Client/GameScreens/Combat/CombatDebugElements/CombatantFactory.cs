@@ -5,7 +5,6 @@ using System.Linq;
 using Client.Core;
 
 using Core.Combats;
-using Core.PropDrop;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -50,7 +49,8 @@ internal static class CombatantFactory
             var formationSlot = new FormationSlot(monsterCombatantPrefab.FormationInfo.ColumentIndex,
                 monsterCombatantPrefab.FormationInfo.LineIndex);
 
-            var monsterCombatant = CreateMonsterCombatant(combatActorBehaviour: combatActorBehaviour, monsterCombatantPrefab: monsterCombatantPrefab, wolfFactory: wolfFactory, chaserFactory: chaserFactory);
+            var monsterCombatant = CreateMonsterCombatant(combatActorBehaviour: combatActorBehaviour,
+                monsterCombatantPrefab: monsterCombatantPrefab, wolfFactory: wolfFactory, chaserFactory: chaserFactory);
 
             formationSlot.Combatant = monsterCombatant;
 

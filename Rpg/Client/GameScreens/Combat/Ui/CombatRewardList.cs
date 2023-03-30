@@ -40,9 +40,15 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        protected override Point CalcTextureOffset() => Point.Zero;
+        protected override Point CalcTextureOffset()
+        {
+            return Point.Zero;
+        }
 
-        protected override Color CalculateColor() => Color.White;
+        protected override Color CalculateColor()
+        {
+            return Color.White;
+        }
 
         protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
         {

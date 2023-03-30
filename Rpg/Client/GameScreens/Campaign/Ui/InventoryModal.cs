@@ -14,6 +14,7 @@ using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 
 namespace Client.GameScreens.Campaign.Ui;
+
 internal class InventoryModal : ModalDialogBase
 {
     private const int EQUIPMENT_ITEM_SIZE = 32;
@@ -25,12 +26,19 @@ internal class InventoryModal : ModalDialogBase
 
     private InventoryUiItem[]? _currentInventoryItems;
 
-    public EventHandler PropButton_OnClick { get; private set; }
-
-    public InventoryModal(Inventory inventory, IUiContentStorage uiContentStorage, ResolutionIndependentRenderer resolutionIndependentRenderer) : base(uiContentStorage, resolutionIndependentRenderer)
+    public InventoryModal(Inventory inventory, IUiContentStorage uiContentStorage,
+        ResolutionIndependentRenderer resolutionIndependentRenderer) : base(uiContentStorage,
+        resolutionIndependentRenderer)
     {
         _inventory = inventory;
         _uiContentStorage = uiContentStorage;
+    }
+
+    public EventHandler PropButton_OnClick { get; private set; }
+
+    protected override void DrawContent(SpriteBatch spriteBatch)
+    {
+        DrawInventory(spriteBatch);
     }
 
     protected override void InitContent()
@@ -38,16 +46,6 @@ internal class InventoryModal : ModalDialogBase
         base.InitContent();
 
         InitInventory(_inventory, ContentRect);
-    }
-
-    private void InitInventory(Inventory inventory, Rectangle rect)
-    {
-
-    }
-
-    protected override void DrawContent(SpriteBatch spriteBatch)
-    {
-        DrawInventory(spriteBatch);
     }
 
     private void DrawInventory(SpriteBatch spriteBatch)
@@ -78,7 +76,8 @@ internal class InventoryModal : ModalDialogBase
                 sid = "EmptyPropIcon";
             }
 
-            var propButton = new IconButton(new IconData(_uiContentStorage.GetEquipmentTextures(), new Rectangle(0, 0, 32, 32)));
+            var propButton =
+                new IconButton(new IconData(_uiContentStorage.GetEquipmentTextures(), new Rectangle(0, 0, 32, 32)));
             propButton.OnClick += PropButton_OnClick;
 
             var uiItem = new InventoryUiItem(propButton, prop, itemIndex, buttonRect);
@@ -87,9 +86,6 @@ internal class InventoryModal : ModalDialogBase
         }
 
         _currentInventoryItems = currentInventoryItemList.ToArray();
-
-
-
 
         var pagedItems = _currentInventoryItems.Take(MAX_INVENTORY_ROWS).ToArray();
 
@@ -107,6 +103,10 @@ internal class InventoryModal : ModalDialogBase
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), propTitle,
                 new Vector2(item.Control.Rect.Right + 2, item.Control.Rect.Top), Color.Wheat);
         }
+    }
+
+    private void InitInventory(Inventory inventory, Rectangle rect)
+    {
     }
 
     private record InventoryUiItem

@@ -4,7 +4,6 @@ using FluentAssertions;
 
 using NUnit.Framework;
 
-using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels;
 
 namespace Rpg.Client.Tests.GameScreens.Combat.Ui

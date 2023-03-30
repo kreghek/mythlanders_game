@@ -16,9 +16,9 @@ namespace Client.Assets.Catalogs;
 internal sealed class CampaignGenerator : ICampaignGenerator
 {
     private readonly IDice _dice;
+    private readonly IDropResolver _dropResolver;
     private readonly GlobeProvider _globeProvider;
     private readonly IJobProgressResolver _jobProgressResolver;
-    private readonly IDropResolver _dropResolver;
     private readonly CampaignStageTemplateServices _services;
 
     public CampaignGenerator(IUnitSchemeCatalog unitSchemeCatalog, GlobeProvider globeProvider,

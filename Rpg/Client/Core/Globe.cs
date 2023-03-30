@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using Client.Assets.StoryPointJobs;
 using Client.Core;
-using Client.Core.Heroes;
 
 using Core.Dices;
 

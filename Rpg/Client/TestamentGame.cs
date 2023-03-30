@@ -241,7 +241,8 @@ public sealed class TestamentGame : Game
 
         Services.AddService<IJobProgressResolver>(new JobProgressResolver());
 
-        var dropResolver = new DropResolver(new DropResolverRandomSource(Services.GetRequiredService<IDice>()), new SchemeService(), new PropFactory());
+        var dropResolver = new DropResolver(new DropResolverRandomSource(Services.GetRequiredService<IDice>()),
+            new SchemeService(), new PropFactory());
         Services.AddService<IDropResolver>(dropResolver);
 
         var dialogueResourceProvider = new DialogueResourceProvider(Content);

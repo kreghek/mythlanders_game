@@ -18,9 +18,9 @@ namespace Client.GameScreens.Campaign;
 internal class CampaignScreen : GameScreenWithMenuBase
 {
     private readonly GlobeProvider _globe;
+    private readonly ButtonBase _inventoryButton;
     private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
     private readonly ButtonBase _showStoryPointsButton;
-    private readonly ButtonBase _inventoryButton;
 
     private bool _showStoryPoints;
     private CampaignPanel? _stagePanel;
@@ -36,11 +36,6 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
         _inventoryButton = new ResourceTextButton(nameof(UiResource.InventoryButtonTitle));
         _inventoryButton.OnClick += InventoryButton_OnClick;
-    }
-
-    private void InventoryButton_OnClick(object? sender, EventArgs e)
-    {
-        AddModal(new InventoryModal(_globe.Globe.Player.Inventory, Game.Services.GetRequiredService<IUiContentStorage>(), ResolutionIndependentRenderer), false);
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -137,6 +132,13 @@ internal class CampaignScreen : GameScreenWithMenuBase
         var currentCampaign = _screenTransitionArguments.Campaign;
 
         _stagePanel = new CampaignPanel(currentCampaign, ScreenManager, this);
+    }
+
+    private void InventoryButton_OnClick(object? sender, EventArgs e)
+    {
+        AddModal(
+            new InventoryModal(_globe.Globe.Player.Inventory, Game.Services.GetRequiredService<IUiContentStorage>(),
+                ResolutionIndependentRenderer), false);
     }
 
     private void ShowStoryPointsButton_OnClick(object? sender, EventArgs e)

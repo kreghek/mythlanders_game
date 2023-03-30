@@ -26,6 +26,31 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         _services = services;
     }
 
+    private IDropTableScheme[] GetMonsterDropTables(MonsterCombatantPrefab[] monsterCombatantPrefabs)
+    {
+        var dropTables = new List<IDropTableScheme>();
+
+        foreach (var monsterCombatantPrefab in monsterCombatantPrefabs)
+        {
+            switch (monsterCombatantPrefab.ClassSid)
+            {
+                case "digitalwolf":
+                    dropTables.Add(new DropTableScheme("digital-claws",
+                        new IDropTableRecordSubScheme[]
+                            { new DropTableRecordSubScheme(null, new Range<int>(1, 1), "digital-claws", 1) }, 1));
+                    break;
+
+                case "chaser":
+                    dropTables.Add(new DropTableScheme("bandages",
+                        new IDropTableRecordSubScheme[]
+                            { new DropTableRecordSubScheme(null, new Range<int>(1, 1), "bandages", 1) }, 1));
+                    break;
+            }
+        }
+
+        return dropTables.ToArray();
+    }
+
     private IReadOnlyList<(UnitName name, int level)> GetStartMonsterInfoList(LocationSid location)
     {
         var availableAllRegularMonsters =
@@ -70,7 +95,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     {
         var monsterCombatantPrefabs = new[]
         {
-            new MonsterCombatantPrefab("chaser", 0, new FieldCoords(0, 1)),
+            new MonsterCombatantPrefab("chaser", 0, new FieldCoords(0, 1))
             //new MonsterCombatantPrefab("chaser", 1, new FieldCoords(1, 2)),
             //new MonsterCombatantPrefab("digitalwolf", 0, new FieldCoords(0, 2)),
         };
@@ -87,7 +112,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         var combat = new CombatSource(
             monsterCombatantPrefabs,
             new CombatReward(totalDropTables.ToArray())
-            );
+        );
 
         var combatSequence = new CombatSequence
         {
@@ -104,31 +129,6 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         var monsterInfos = GetStartMonsterInfoList(_locationSid);
 
         return stageItem;
-    }
-
-    private IDropTableScheme[] GetMonsterDropTables(MonsterCombatantPrefab[] monsterCombatantPrefabs)
-    {
-        var dropTables = new List<IDropTableScheme>();
-
-        foreach (var monsterCombatantPrefab in monsterCombatantPrefabs)
-        {
-            switch (monsterCombatantPrefab.ClassSid)
-            {
-                case "digitalwolf":
-                    dropTables.Add(new DropTableScheme("digital-claws",
-                        new IDropTableRecordSubScheme[]
-                            { new DropTableRecordSubScheme(null, new Range<int>(1, 1), "digital-claws", 1) }, 1));
-                    break;
-
-                case "chaser":
-                    dropTables.Add(new DropTableScheme("bandages",
-                        new IDropTableRecordSubScheme[]
-                            { new DropTableRecordSubScheme(null, new Range<int>(1, 1), "bandages", 1) }, 1));
-                    break;
-            }
-        }
-
-        return dropTables.ToArray();
     }
 
     /// <inheritdoc />

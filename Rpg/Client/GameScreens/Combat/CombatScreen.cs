@@ -60,6 +60,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly IList<CorpseGameObject> _corpseObjects;
     private readonly HeroCampaign _currentCampaign;
     private readonly IDice _dice;
+    private readonly IDropResolver _dropResolver;
     private readonly IEventCatalog _eventCatalog;
     private readonly IReadOnlyList<IBackgroundObject> _farLayerObjects;
     private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
@@ -93,7 +94,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
-    private readonly IDropResolver _dropResolver;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -276,38 +276,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             InventoryRewards = uiRewards
         };
-    }
-
-    private IReadOnlyCollection<ResourceReward> CreateUiModels(IReadOnlyCollection<IProp> droppedResources)
-    {
-        var rewardList = new List<ResourceReward>();
-        foreach (var resource in droppedResources.OfType<Resource>().ToArray())
-        {
-            var icon = EquipmentItemType.ExperiencePoints;
-            switch (resource.Scheme.Sid)
-            {
-                case "combat-xp":
-                    icon = EquipmentItemType.ExperiencePoints;
-                    break;
-                case "digital-claws":
-                    icon = EquipmentItemType.Warrior;
-                    break;
-                case "bondages":
-                    icon = EquipmentItemType.Warrior;
-                    break;
-            }
-
-            var reward = new ResourceReward
-            {
-                Amount = resource.Count,
-                Type = icon,
-                StartValue = 0
-            };
-
-            rewardList.Add(reward);
-        }
-
-        return rewardList;
     }
 
     private void CombatCode_CombatantHasBeenAdded(object? sender, CombatantHasBeenAddedEventArgs e)
@@ -664,6 +632,38 @@ internal class CombatScreen : GameScreenWithMenuBase
     private CombatCore CreateCombat()
     {
         return new CombatCore(_dice);
+    }
+
+    private IReadOnlyCollection<ResourceReward> CreateUiModels(IReadOnlyCollection<IProp> droppedResources)
+    {
+        var rewardList = new List<ResourceReward>();
+        foreach (var resource in droppedResources.OfType<Resource>().ToArray())
+        {
+            var icon = EquipmentItemType.ExperiencePoints;
+            switch (resource.Scheme.Sid)
+            {
+                case "combat-xp":
+                    icon = EquipmentItemType.ExperiencePoints;
+                    break;
+                case "digital-claws":
+                    icon = EquipmentItemType.Warrior;
+                    break;
+                case "bondages":
+                    icon = EquipmentItemType.Warrior;
+                    break;
+            }
+
+            var reward = new ResourceReward
+            {
+                Amount = resource.Count,
+                Type = icon,
+                StartValue = 0
+            };
+
+            rewardList.Add(reward);
+        }
+
+        return rewardList;
     }
 
 

@@ -1,5 +1,4 @@
 ﻿using Core.Props;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Core.PropDrop
 {
