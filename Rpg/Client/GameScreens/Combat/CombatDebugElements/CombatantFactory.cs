@@ -53,7 +53,7 @@ internal static class CombatantFactory
             var monsterCombatant = CreateMonsterCombatant(combatActorBehaviour: combatActorBehaviour, monsterCombatantPrefab: monsterCombatantPrefab, wolfFactory: wolfFactory, chaserFactory: chaserFactory);
 
             formationSlot.Combatant = monsterCombatant;
-            
+
             formation.Add(formationSlot);
         }
 

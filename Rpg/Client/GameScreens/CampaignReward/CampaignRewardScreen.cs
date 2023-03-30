@@ -21,7 +21,7 @@ namespace Client.GameScreens.CampaignReward;
 internal sealed record CampaignRewardScreenTransitionArguments
     (HeroCampaign Campaign, IReadOnlyCollection<IProp> CampaignRewards) : CampaignScreenTransitionArgumentsBase(Campaign);
 
-internal sealed class CampaignRewardScreen: GameScreenWithMenuBase
+internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
 {
     private readonly ICampaignGenerator _campaignGenerator;
     private readonly IUiContentStorage _uiContent;
@@ -46,7 +46,7 @@ internal sealed class CampaignRewardScreen: GameScreenWithMenuBase
 
     protected override void InitializeContent()
     {
-        
+
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -81,7 +81,7 @@ internal sealed class CampaignRewardScreen: GameScreenWithMenuBase
     protected override void UpdateContent(GameTime gameTime)
     {
         base.UpdateContent(gameTime);
-        
+
         _moveNextButton.Update(ResolutionIndependentRenderer);
     }
 

@@ -67,7 +67,7 @@ namespace Client.Assets.StageItems
                 case LocationSid.Desert:
                     return GetLocationResourceDrop("sand");
             }
-            
+
             return ArraySegment<IDropTableScheme>.Empty;
         }
     }

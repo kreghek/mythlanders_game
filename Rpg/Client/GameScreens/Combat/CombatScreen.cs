@@ -286,11 +286,14 @@ internal class CombatScreen : GameScreenWithMenuBase
             var icon = EquipmentItemType.ExperiencePoints;
             switch (resource.Scheme.Sid)
             {
-                case "combat-xp": icon = EquipmentItemType.ExperiencePoints;
+                case "combat-xp":
+                    icon = EquipmentItemType.ExperiencePoints;
                     break;
-                case "digital-claws": icon = EquipmentItemType.Warrior;
+                case "digital-claws":
+                    icon = EquipmentItemType.Warrior;
                     break;
-                case "bondages": icon = EquipmentItemType.Warrior;
+                case "bondages":
+                    icon = EquipmentItemType.Warrior;
                     break;
             }
 
@@ -300,7 +303,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 Type = icon,
                 StartValue = 0
             };
-            
+
             rewardList.Add(reward);
         }
 
@@ -1145,9 +1148,9 @@ internal class CombatScreen : GameScreenWithMenuBase
             {
                 // End the combat sequence
                 var droppedResources = _dropResolver.Resolve(_args.CombatSequence.Combats[0].Reward.DropTables);
-                
+
                 var rewardItems = CalculateRewardGaining(droppedResources);
-                
+
                 ApplyCombatReward(droppedResources, _globe.Player);
                 HandleGlobe(CombatResult.Victory);
 

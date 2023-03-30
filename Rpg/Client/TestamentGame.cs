@@ -240,7 +240,7 @@ public sealed class TestamentGame : Game
         Services.AddService<IDice>(new LinearDice());
 
         Services.AddService<IJobProgressResolver>(new JobProgressResolver());
-        
+
         var dropResolver = new DropResolver(new DropResolverRandomSource(Services.GetRequiredService<IDice>()), new SchemeService(), new PropFactory());
         Services.AddService<IDropResolver>(dropResolver);
 

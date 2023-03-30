@@ -68,7 +68,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     /// <inheritdoc />
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        var monsterCombatantPrefabs = new []
+        var monsterCombatantPrefabs = new[]
         {
             new MonsterCombatantPrefab("chaser", 0, new FieldCoords(0, 1)),
             //new MonsterCombatantPrefab("chaser", 1, new FieldCoords(1, 2)),
@@ -83,7 +83,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         {
             new DropTableRecordSubScheme(null, new Range<int>(1, 2), "combat-xp", 1)
         }, 1));
-        
+
         var combat = new CombatSource(
             monsterCombatantPrefabs,
             new CombatReward(totalDropTables.ToArray())
@@ -109,7 +109,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     private IDropTableScheme[] GetMonsterDropTables(MonsterCombatantPrefab[] monsterCombatantPrefabs)
     {
         var dropTables = new List<IDropTableScheme>();
-        
+
         foreach (var monsterCombatantPrefab in monsterCombatantPrefabs)
         {
             switch (monsterCombatantPrefab.ClassSid)
@@ -119,7 +119,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
                         new IDropTableRecordSubScheme[]
                             { new DropTableRecordSubScheme(null, new Range<int>(1, 1), "digital-claws", 1) }, 1));
                     break;
-                
+
                 case "chaser":
                     dropTables.Add(new DropTableScheme("bandages",
                         new IDropTableRecordSubScheme[]

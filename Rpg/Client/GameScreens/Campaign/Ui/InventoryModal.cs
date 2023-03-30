@@ -42,7 +42,7 @@ internal class InventoryModal : ModalDialogBase
 
     private void InitInventory(Inventory inventory, Rectangle rect)
     {
-        
+
     }
 
     protected override void DrawContent(SpriteBatch spriteBatch)
