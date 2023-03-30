@@ -479,4 +479,10 @@
   <data name="CompleteCampaignButtonTitle" xml:space="preserve">
     <value>Move to command center</value>
   </data>
+  <data name="CurrentQuestButtonTitle" xml:space="preserve">
+    <value>Quests</value>
+  </data>
+  <data name="InventoryButtonTitle" xml:space="preserve">
+    <value>Inventory</value>
+  </data>
 </root>

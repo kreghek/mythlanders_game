@@ -339,6 +339,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quests.
+        /// </summary>
+        internal static string CurrentQuestButtonTitle {
+            get {
+                return ResourceManager.GetString("CurrentQuestButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Damage: {0} - {1} to {2}.
         /// </summary>
         internal static string DamageEffectRuleText {
@@ -632,6 +641,15 @@ namespace Client {
         internal static string InfoButtonTitle {
             get {
                 return ResourceManager.GetString("InfoButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory.
+        /// </summary>
+        internal static string InventoryButtonTitle {
+            get {
+                return ResourceManager.GetString("InventoryButtonTitle", resourceCulture);
             }
         }
         
