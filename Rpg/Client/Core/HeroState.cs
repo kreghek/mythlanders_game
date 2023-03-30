@@ -2,8 +2,4 @@ using Core.Combats;
 
 namespace Client.Core;
 
-internal sealed class HeroState
-{
-    public string ClassSid { get; set; }
-    public IStatValue HitPoints { get; set; }
-}
+internal sealed record HeroState(string ClassSid, IStatValue HitPoints, FieldCoords FormationPosition);

@@ -2,27 +2,27 @@ using System;
 using System.Collections.Generic;
 
 using Client.Assets.CombatMovements;
-using Client.Assets.CombatMovements.Hero.Swordsman;
+using Client.Assets.CombatMovements.Hero.Partisan;
 
 using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class SwordsmanFactory : IHeroCombatantFactory
+public class MonkFactory: IHeroCombatantFactory
 {
     public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
     {
         var movementPool = new List<CombatMovement>
         {
-            CreateMovement<RiseYourSwordsFactory>(),
+            CreateMovement<InspirationalBreakthroughFactory>(),
 
-            CreateMovement<DieBySwordFactory>(),
+            CreateMovement<SabotageFactory>(),
 
-            CreateMovement<StayStrongFactory>(),
+            CreateMovement<SurpriseManeuverFactory>(),
 
-            CreateMovement<HitFromShoulderFactory>(),
+            CreateMovement<BlankShotFactory>(),
 
-            CreateMovement<LookOutFactory>()
+            CreateMovement<OldGoodBrawlFactory>()
         };
 
         var heroSequence = new CombatMovementSequence();
@@ -36,11 +36,11 @@ public class SwordsmanFactory : IHeroCombatantFactory
         }
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, hitpointsStat);
-        stats.SetValue(UnitStatType.ShieldPoints, 4);
-        stats.SetValue(UnitStatType.Resolve, 5);
+        stats.SetValue(UnitStatType.HitPoints, 4);
+        stats.SetValue(UnitStatType.ShieldPoints, 3);
+        stats.SetValue(UnitStatType.Resolve, 7);
 
-        var hero = new Combatant("swordsman", heroSequence, stats, combatActorBehaviour)
+        var hero = new Combatant("monk", heroSequence, stats, combatActorBehaviour)
         {
             Sid = sid, IsPlayerControlled = true
         };

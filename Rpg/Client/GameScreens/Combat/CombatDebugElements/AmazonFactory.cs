@@ -8,21 +8,22 @@ using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class AmazonFactory
+public class AmazonFactory: IHeroCombatantFactory
 {
-    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour)
+    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
     {
-        var movementPool = new List<CombatMovement>();
+        var movementPool = new List<CombatMovement>
+        {
+            CreateMovement<HuntFactory>(),
 
-        movementPool.Add(CreateMovement<HuntFactory>());
+            CreateMovement<FinishWoundedFactory>(),
 
-        movementPool.Add(CreateMovement<FinishWoundedFactory>());
+            CreateMovement<TrackerSavvyFactory>(),
 
-        movementPool.Add(CreateMovement<TrackerSavvyFactory>());
+            CreateMovement<JustHitBoarWithKnifeFactory>(),
 
-        movementPool.Add(CreateMovement<JustHitBoarWithKnifeFactory>());
-
-        movementPool.Add(CreateMovement<BringBeastDownFactory>());
+            CreateMovement<BringBeastDownFactory>()
+        };
 
         var heroSequence = new CombatMovementSequence();
 

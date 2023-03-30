@@ -8,32 +8,26 @@ using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-internal static class CombatantFactory
+internal class CombatantFactory
 {
+    private static IDictionary<string, IHeroCombatantFactory> _factories = new Dictionary<string, IHeroCombatantFactory>
+    {
+        { "swordsman", new SwordsmanFactory() },
+        { "amazon", new AmazonFactory() },
+        { "partisan", new PartisanFactory() },
+        { "robber", new RobberFactory() },
+        { "monk", new MonkFactory() },
+    };
+
     public static IReadOnlyCollection<FormationSlot> CreateHeroes(ICombatActorBehaviour combatActorBehaviour,
         Player player)
     {
-        var swordsmanHeroFactory = new SwordsmanFactory();
-        var amazonHeroFactory = new AmazonFactory();
-        var partisanHeroFactory = new PartisanFactory();
+        var formationSlots = player.Heroes.Select(hero => new FormationSlot(hero.FormationPosition.ColumentIndex, hero.FormationPosition.LineIndex)
+        { 
+            Combatant = _factories[hero.ClassSid].Create("", combatActorBehaviour, hero.HitPoints)
+        }).ToArray();
 
-        var swordsmanHeroHitpointsStat = player.Heroes.Single(x => x.ClassSid == "swordsman").HitPoints;
-
-        return new[]
-        {
-            new FormationSlot(0, 1)
-            {
-                Combatant = swordsmanHeroFactory.Create("Berimir", combatActorBehaviour, swordsmanHeroHitpointsStat)
-            },
-            new FormationSlot(1, 0)
-            {
-                Combatant = amazonHeroFactory.Create("Diana", combatActorBehaviour)
-            },
-            new FormationSlot(1, 2)
-            {
-                Combatant = partisanHeroFactory.Create("Deaf (the)", combatActorBehaviour)
-            }
-        };
+        return formationSlots;
     }
 
     public static IReadOnlyCollection<FormationSlot> CreateMonsters(ICombatActorBehaviour combatActorBehaviour,
