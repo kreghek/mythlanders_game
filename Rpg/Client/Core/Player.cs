@@ -5,6 +5,7 @@ using System.Linq;
 using Client.Core.Heroes;
 
 using Core.Combats;
+using Core.Props;
 
 using Rpg.Client.Core;
 
@@ -27,7 +28,7 @@ internal sealed class Player
 
         var inventory = CreateInventory();
 
-        Inventory = inventory;
+        Inventory = new Inventory();
 
         _abilities = new HashSet<PlayerAbility>();
 
@@ -59,7 +60,7 @@ internal sealed class Player
 
     public IReadOnlyCollection<HeroState> Heroes { get; }
 
-    public IReadOnlyCollection<ResourceItem> Inventory { get; }
+    public Inventory Inventory { get; }
 
     public IList<UnitScheme> KnownMonsters { get; }
 
@@ -82,9 +83,9 @@ internal sealed class Player
 
     public void ClearInventory()
     {
-        foreach (var resourceItem in Inventory)
+        foreach (var resourceItem in Inventory.CalcActualItems())
         {
-            resourceItem.Amount = 0;
+            Inventory.Remove(resourceItem);
         }
     }
 
@@ -128,4 +129,12 @@ internal sealed class Player
 
         return first[x] + " " + last[y];
     }
+}
+
+/// <summary>
+/// Party inventory.
+/// </summary>
+public sealed class Inventory : PropStoreBase
+{
+    
 }

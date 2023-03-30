@@ -1,3 +1,5 @@
+using Client.GameScreens.Combat;
+
 using FluentAssertions;
 
 using NUnit.Framework;

@@ -1,5 +1,7 @@
 using System;
 
+using Client.GameScreens.Combat;
+
 using Rpg.Client.Core;
 
 namespace Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels
