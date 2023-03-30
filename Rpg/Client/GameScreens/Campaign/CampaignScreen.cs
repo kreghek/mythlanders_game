@@ -40,7 +40,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
     private void InventoryButton_OnClick(object? sender, EventArgs e)
     {
-        throw new NotImplementedException();
+        AddModal(new InventoryModal(_globe.Globe.Player.Inventory, Game.Services.GetRequiredService<IUiContentStorage>(), ResolutionIndependentRenderer), false);
     }
 
     protected override IList<ButtonBase> CreateMenu()

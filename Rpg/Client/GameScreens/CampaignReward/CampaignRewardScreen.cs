@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Client.Core.Campaigns;
 using Client.Engine;
@@ -23,14 +24,19 @@ internal sealed record CampaignRewardScreenTransitionArguments
 internal sealed class CampaignRewardScreen: GameScreenWithMenuBase
 {
     private readonly ICampaignGenerator _campaignGenerator;
+    private readonly IUiContentStorage _uiContent;
     private readonly ResourceTextButton _moveNextButton;
+    private IReadOnlyCollection<IProp> _reward;
 
     public CampaignRewardScreen(TestamentGame game, CampaignRewardScreenTransitionArguments args) : base(game)
     {
         _campaignGenerator = game.Services.GetRequiredService<ICampaignGenerator>();
+        _uiContent = game.Services.GetRequiredService<IUiContentStorage>();
 
         _moveNextButton = new ResourceTextButton(nameof(UiResource.CompleteCampaignButtonTitle));
         _moveNextButton.OnClick += MoveNextButton_OnClick;
+
+        _reward = args.CampaignRewards;
     }
 
     private void MoveNextButton_OnClick(object? sender, EventArgs e)
@@ -50,8 +56,26 @@ internal sealed class CampaignRewardScreen: GameScreenWithMenuBase
 
     protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
     {
+        ResolutionIndependentRenderer.BeginDraw();
+        spriteBatch.Begin(
+            sortMode: SpriteSortMode.Deferred,
+            blendState: BlendState.AlphaBlend,
+            samplerState: SamplerState.PointClamp,
+            depthStencilState: DepthStencilState.None,
+            rasterizerState: RasterizerState.CullNone,
+            transformMatrix: Camera.GetViewTransformationMatrix());
+
         _moveNextButton.Rect = new Rectangle(contentRect.Location, new Point(100, 20));
         _moveNextButton.Draw(spriteBatch);
+
+        var array = _reward.ToArray();
+        for (var i = 0; i < array.Length; i++)
+        {
+            var prop = array[i];
+            spriteBatch.DrawString(_uiContent.GetTitlesFont(), prop.Scheme.Sid, (contentRect.Location + new Point(0, i * 32)).ToVector2(), Color.White);
+        }
+
+        spriteBatch.End();
     }
 
     protected override void UpdateContent(GameTime gameTime)

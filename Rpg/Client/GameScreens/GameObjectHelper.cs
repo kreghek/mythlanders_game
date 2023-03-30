@@ -20,6 +20,11 @@ internal static class GameObjectHelper
         return GetLocalizedInner(sid.Value);
     }
 
+    public static string GetLocalizedProp(string sid)
+    {
+        return GetLocalizedInner($"{sid}_prop");
+    }
+
     public static string GetLocalized(CharacterRelation relation)
     {
         if (relation.Level == CharacterKnowledgeLevel.FullName)

@@ -48,16 +48,24 @@ namespace Client.Assets.StageItems
 
         private IReadOnlyCollection<IDropTableScheme> CreateCampaignResources(HeroCampaign currentCampaign)
         {
+            static IReadOnlyCollection<IDropTableScheme> GetLocationResourceDrop(string sid)
+            {
+                return new[]
+                {
+                        new DropTableScheme(sid, new IDropTableRecordSubScheme[]
+                        {
+                            new DropTableRecordSubScheme(null, new Range<int>(1, 1), sid, 1)
+                        }, 1)
+                    };
+            }
+
             switch (currentCampaign.Location)
             {
                 case LocationSid.Thicket:
-                    return new[]
-                    {
-                        new DropTableScheme(new IDropTableRecordSubScheme[]
-                        {
-                            new DropTableRecordSubScheme(null, new Range<int>(1, 1), "snow", 1)
-                        }, 1)
-                    };
+                    return GetLocationResourceDrop("snow");
+
+                case LocationSid.Desert:
+                    return GetLocationResourceDrop("sand");
             }
             
             return ArraySegment<IDropTableScheme>.Empty;

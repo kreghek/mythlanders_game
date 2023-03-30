@@ -10,11 +10,4 @@
         /// </summary>
         string?[]? Tags { get; }
     }
-
-    public sealed class PropScheme : IPropScheme
-    {
-        public string?[]? Tags { get; init; }
-
-        public string? Sid { get; set; }
-    }
 }

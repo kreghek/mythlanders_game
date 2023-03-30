@@ -10,16 +10,14 @@ public sealed class SchemeService : ISchemeService
     {
         void AddScheme(string sid)
         {
-            _schemes[sid] = new PropScheme()
-            {
-                Sid = sid
-            };
+            _schemes[sid] = new PropScheme(sid);
         }
 
         AddScheme("combat-xp");
         AddScheme("digital-claws");
         AddScheme("bandages");
         AddScheme("snow");
+        AddScheme("sand");
     }
 
     TScheme ISchemeService.GetScheme<TScheme>(string sid)

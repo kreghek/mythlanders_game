@@ -5,7 +5,6 @@ using System.Linq;
 using Client.Core.Heroes;
 
 using Core.Combats;
-using Core.Props;
 
 using Rpg.Client.Core;
 
@@ -25,8 +24,6 @@ internal sealed class Player
         Party = new Group();
         Pool = new PoolGroup();
         KnownMonsters = new List<UnitScheme>();
-
-        var inventory = CreateInventory();
 
         Inventory = new Inventory();
 
@@ -110,13 +107,6 @@ internal sealed class Player
         Pool.MoveFromGroup(unit, Party);
     }
 
-    private static IReadOnlyCollection<ResourceItem> CreateInventory()
-    {
-        var inventoryAvailableItems = Enum.GetValues<EquipmentItemType>();
-
-        return inventoryAvailableItems.Select(enumItem => new ResourceItem(enumItem)).ToList();
-    }
-
     private static string CreateRandomName()
     {
         var first = CreditsResource.NicknameFirstParts.Split(',').Select(x => x.Trim()).ToArray();
@@ -129,12 +119,4 @@ internal sealed class Player
 
         return first[x] + " " + last[y];
     }
-}
-
-/// <summary>
-/// Party inventory.
-/// </summary>
-public sealed class Inventory : PropStoreBase
-{
-    
 }

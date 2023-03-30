@@ -92,7 +92,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             if (_iterationCounter >= 0.01)
             {
                 _combatRewardList.Update();
-                _combatRewardList.Update();
                 _iterationCounter = 0;
             }
 
