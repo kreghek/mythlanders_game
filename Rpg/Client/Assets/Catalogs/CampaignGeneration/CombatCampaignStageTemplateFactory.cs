@@ -81,7 +81,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         totalDropTables.AddRange(monsterResources);
         totalDropTables.Add(new DropTableScheme(new IDropTableRecordSubScheme[]
         {
-            new DropTableRecordSubScheme(null, 1, 2, "combat-xp", 1)
+            new DropTableRecordSubScheme(null, new Range<int>(1, 2), "combat-xp", 1)
         }, 1));
         
         var combat = new CombatSource(
@@ -117,13 +117,13 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
                 case "digitalwolf":
                     dropTables.Add(new DropTableScheme(
                         new IDropTableRecordSubScheme[]
-                            { new DropTableRecordSubScheme(null, 1, 1, "digital-claws", 1) }, 1));
+                            { new DropTableRecordSubScheme(null, new Range<int>(1, 1), "digital-claws", 1) }, 1));
                     break;
                 
                 case "chaser":
                     dropTables.Add(new DropTableScheme(
                         new IDropTableRecordSubScheme[]
-                            { new DropTableRecordSubScheme(null, 1, 1, "bandages", 1) }, 1));
+                            { new DropTableRecordSubScheme(null, new Range<int>(1, 1), "bandages", 1) }, 1));
                     break;
             }
         }

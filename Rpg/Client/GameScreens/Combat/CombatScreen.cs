@@ -275,7 +275,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         Player player,
         GlobeLevel globeLevel)
     {
-        var drop = _dropResolver.Resolve(new[] { _args.CombatSequence.Combats[0].Reward.DropTable });
+        var drop = _dropResolver.Resolve(_args.CombatSequence.Combats[0].Reward.DropTables);
 
         var xpDrop = drop.OfType<Resource>().Single(x => x.Scheme.Sid == "combat-xp");
         
