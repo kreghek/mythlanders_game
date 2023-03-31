@@ -948,47 +948,66 @@ internal class CombatScreen : GameScreenWithMenuBase
         spriteBatch.End();
     }
 
-    private void DrawStats(Rectangle statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
+    private void DrawStats(Vector2 statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
     {
+        const int SIDES = 32;
+        const int START_ANGLE = 180 + 30;
+        const int ARC_LENGTH = 180 - 60;
+        const int RADIUS_HP = 32;
+        const int RADIUS_SP = 32 - 3;
+
+        var barCenter = statsPanelOrigin;
+
         var hp = combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value;
         if (hp.Current > 0)
         {
-            var barLocation = new Point(statsPanelOrigin.Location.X + 10, statsPanelOrigin.Location.Y);
-            var barSize = new Point((int)(statsPanelOrigin.Size.X * hp.GetShare()), statsPanelOrigin.Size.Y / 2);
-            spriteBatch.DrawRectangle(
-                new Rectangle(
-                    barLocation,
-                    barSize),
-                Color.Lerp(Color.Red, Color.Transparent, 0.5f), 3);
+            var barSize = MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare());
+            var color = Color.Lerp(Color.Red, Color.Transparent, 0.5f);
+            spriteBatch.DrawArc(barCenter, RADIUS_HP, SIDES, MathHelper.ToRadians(START_ANGLE), barSize, color, 3);
+
+            var textX = Math.Cos(MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare() + START_ANGLE)) * (RADIUS_HP + 2) + barCenter.X;
+            var textY = Math.Sin(MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare() + START_ANGLE)) * (RADIUS_HP + 2) + barCenter.Y;
 
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                 hp.Current.ToString(),
-                (barLocation + new Point(barSize.X + 5, -3)).ToVector2(),
+                new Vector2((float)textX, (float)textY),
                 Color.Lerp(Color.Red, Color.Transparent, 0.25f));
         }
 
         var sp = combatant.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value;
         if (sp.Current > 0)
         {
-            spriteBatch.DrawRectangle(
-                new Rectangle(
-                    new Point(statsPanelOrigin.Location.X + 10,
-                        statsPanelOrigin.Location.Y + statsPanelOrigin.Size.Y / 2),
-                    new Point((int)(statsPanelOrigin.Size.X * sp.GetShare()), statsPanelOrigin.Size.Y / 2)),
-                Color.Lerp(Color.Blue, Color.Transparent, 0.5f), 3);
+            var barSize = MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare());
+            var color = Color.Lerp(Color.Blue, Color.Transparent, 0.5f);
+            spriteBatch.DrawArc(barCenter, RADIUS_SP, SIDES, MathHelper.ToRadians(START_ANGLE), barSize, color, 3);
+
+            var textX = Math.Cos(MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare() + START_ANGLE)) * (RADIUS_SP - 2) + barCenter.X;
+            var textY = Math.Sin(MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare() + START_ANGLE)) * (RADIUS_SP - 2) + barCenter.Y;
 
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                 sp.Current.ToString(),
-                new Vector2(statsPanelOrigin.Location.X + 10,
-                    statsPanelOrigin.Location.Y + statsPanelOrigin.Size.Y / 2),
-                Color.Lerp(Color.White, Color.Transparent, 0.25f));
+                new Vector2((float)textX, (float)textY),
+                Color.Lerp(Color.Blue, Color.Transparent, 0.25f));
+
+            //spriteBatch.DrawRectangle(
+            //    new Rectangle(
+            //        new Point(statsPanelOrigin.Location.X + 10,
+            //            statsPanelOrigin.Location.Y + statsPanelOrigin.Size.Y / 2),
+            //        new Point((int)(statsPanelOrigin.Size.X * sp.GetShare()), statsPanelOrigin.Size.Y / 2)),
+            //    Color.Lerp(Color.Blue, Color.Transparent, 0.5f), 3);
+
+            //spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+            //    sp.Current.ToString(),
+            //    new Vector2(statsPanelOrigin.Location.X + 10,
+            //        statsPanelOrigin.Location.Y + statsPanelOrigin.Size.Y / 2),
+            //    Color.Lerp(Color.White, Color.Transparent, 0.25f));
         }
 
-        var res = combatant.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.Current;
-        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-            res.ToString(),
-            statsPanelOrigin.Location.ToVector2(),
-            Color.Lerp(Color.White, Color.Transparent, 0.25f));
+        //var res = combatant.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.Current;
+        //spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+        //    res.ToString(),
+        //    statsPanelOrigin.Location.ToVector2(),
+        //    Color.Lerp(Color.White, Color.Transparent, 0.25f));
     }
 
     private void DropSelection(Combatant combatant)

@@ -8,11 +8,6 @@ namespace Rpg.Client.Assets.GraphicConfigs.Heroes
 {
     internal sealed class GenericHeroGraphicsConfig : UnitGraphicsConfigBase
     {
-        public GenericHeroGraphicsConfig()
-        {
-            InteractionPoint = Vector2.UnitY * (64 + 32);
-        }
-
         public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
         {
             return new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>

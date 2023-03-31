@@ -6,6 +6,11 @@ namespace Rpg.Client.Assets.GraphicConfigs.Monsters
 {
     internal sealed class VolkolakWarriorGraphicsConfig : UnitGraphicsConfigBase
     {
+        public VolkolakWarriorGraphicsConfig()
+        {
+            StatsPanelOrigin = new Microsoft.Xna.Framework.Vector2(-16, 64 + 8);
+        }
+
         public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
         {
             return new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>

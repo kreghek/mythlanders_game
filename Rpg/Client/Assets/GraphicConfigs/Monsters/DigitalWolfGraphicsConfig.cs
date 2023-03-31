@@ -11,6 +11,7 @@ internal sealed class DigitalWolfGraphicsConfig : UnitGraphicsConfigBase
     public DigitalWolfGraphicsConfig()
     {
         InteractionPoint = new Vector2(64, 16);
+        StatsPanelOrigin = new Vector2(32, 64 - 10);
     }
 
     public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()

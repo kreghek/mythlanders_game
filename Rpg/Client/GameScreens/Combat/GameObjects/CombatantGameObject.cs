@@ -22,8 +22,6 @@ namespace Client.GameScreens.Combat.GameObjects;
 
 internal sealed class CombatantGameObject : EwarRenderableBase
 {
-    private const int STATS_PANEL_WIDTH = 64;
-    private const int STATS_PANEL_HEOGHT = 10;
     private readonly IList<IActorVisualizationState> _actorStateEngineList;
     private readonly Camera2D _camera;
     private readonly UnitGraphicsConfigBase _combatantGraphicsConfig;
@@ -76,8 +74,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
     public bool IsActive { get; set; }
     public Vector2 LaunchPoint => Position - Vector2.UnitY * 64;
 
-    public Rectangle StatsPanelOrigin => new Rectangle((Position - new Vector2(STATS_PANEL_WIDTH / 2, 100)).ToPoint(),
-        new Point(STATS_PANEL_WIDTH, 10));
+    public Vector2 StatsPanelOrigin => Position - _combatantGraphicsConfig.StatsPanelOrigin;
 
     public void AddStateEngine(IActorVisualizationState actorStateEngine)
     {
