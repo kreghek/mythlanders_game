@@ -467,7 +467,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         // _combatCore.UnitPassedTurn += Combat_UnitPassed;
 
-        _combatMovementsHandPanel = new CombatMovementsHandPanel(_uiContentStorage, _combatMovementVisualizer);
+        _combatMovementsHandPanel = new CombatMovementsHandPanel(Game, _uiContentStorage, _combatMovementVisualizer);
         _combatMovementsHandPanel.CombatMovementPicked += CombatMovementsHandPanel_CombatMovementPicked;
         _combatMovementsHandPanel.CombatMovementHover += CombatMovementsHandPanel_CombatMovementHover;
         _combatMovementsHandPanel.CombatMovementLeave += CombatMovementsHandPanel_CombatMovementLeave;
