@@ -1,11 +1,11 @@
-using Client.Assets.CombatMovements.Monster.Slavic.Chaser;
+﻿using Client.Assets.CombatMovements.Monster.Slavic.Chaser;
 using Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
 using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class ThiefChaserFactory: IMonsterCombatantFactory
+public class AspidFactory : IMonsterCombatantFactory
 {
     public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex)
     {
@@ -16,7 +16,7 @@ public class ThiefChaserFactory: IMonsterCombatantFactory
         stats.SetValue(UnitStatType.ShieldPoints, 4);
         stats.SetValue(UnitStatType.Resolve, 5);
 
-        var monster = new Combatant("chaser", monsterSequence, stats, combatActorBehaviour)
+        var monster = new Combatant("aspid", monsterSequence, stats, combatActorBehaviour)
         {
             Sid = sid, IsPlayerControlled = false
         };

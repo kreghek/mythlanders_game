@@ -95,9 +95,11 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     {
         var monsterCombatantPrefabs = new[]
         {
-            new MonsterCombatantPrefab("chaser", 0, new FieldCoords(0, 1))
+            new MonsterCombatantPrefab("aspid", 0, new FieldCoords(0, 1)),
+            //new MonsterCombatantPrefab("chaser", 0, new FieldCoords(0, 1))
+            new MonsterCombatantPrefab("volkolakwarrior", 0, new FieldCoords(1, 2)),
             //new MonsterCombatantPrefab("chaser", 1, new FieldCoords(1, 2)),
-            //new MonsterCombatantPrefab("digitalwolf", 0, new FieldCoords(0, 2)),
+            new MonsterCombatantPrefab("digitalwolf", 0, new FieldCoords(0, 2)),
         };
 
         var monsterResources = GetMonsterDropTables(monsterCombatantPrefabs);
