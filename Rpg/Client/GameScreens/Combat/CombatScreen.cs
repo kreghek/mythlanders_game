@@ -936,7 +936,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         try
         {
             DrawCombatantQueue(spriteBatch, contentRectangle);
-            DrawCombatSequenceProgress(spriteBatch);
+            //DrawCombatSequenceProgress(spriteBatch);
         }
         catch
         {

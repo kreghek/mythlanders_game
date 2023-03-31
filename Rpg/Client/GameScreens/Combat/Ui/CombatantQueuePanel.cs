@@ -60,22 +60,16 @@ internal sealed class CombatantQueuePanel : ControlBase
         HandleEffectHint(mousePosition);
     }
 
-    protected override Point CalcTextureOffset()
-    {
-        return ControlTextures.CombatMove;
-    }
+    protected override Point CalcTextureOffset() =>ControlTextures.CombatMove;
 
-    protected override Color CalculateColor()
-    {
-        return Color.White;
-    }
+    protected override Color CalculateColor() => Color.White;
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
         _monsterCombatMoveInfoList.Clear();
         _effectInfoList.Clear();
 
-        spriteBatch.Draw(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(), contentRect,
+        spriteBatch.Draw(UiThemeManager.UiContentStorage.GetModalShadowTexture(), contentRect,
             new Rectangle(ControlTextures.Shadow, new Point(32, 32)), Color.Lerp(Color.White, Color.Transparent, 0.5f));
 
         for (var index = 0; index < _activeCombat.RoundQueue.Count; index++)
