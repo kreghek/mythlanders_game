@@ -36,7 +36,7 @@ public class RobberFactory : IHeroCombatantFactory
         }
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, 3);
+        stats.SetValue(UnitStatType.HitPoints, hitpointsStat);
         stats.SetValue(UnitStatType.ShieldPoints, 0);
         stats.SetValue(UnitStatType.Resolve, 4);
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using Client.Assets.CombatMovements;
+using Client.Assets.CombatMovements.Hero.Monk;
 using Client.Assets.CombatMovements.Hero.Partisan;
 
 using Core.Combats;
@@ -14,15 +15,15 @@ public class MonkFactory: IHeroCombatantFactory
     {
         var movementPool = new List<CombatMovement>
         {
-            CreateMovement<InspirationalBreakthroughFactory>(),
+            CreateMovement<HandOfFormFactory>(),
 
-            CreateMovement<SabotageFactory>(),
+            CreateMovement<NinthTrigramFactory>(),
 
-            CreateMovement<SurpriseManeuverFactory>(),
+            CreateMovement<MortalArtMasterFactory>(),
 
-            CreateMovement<BlankShotFactory>(),
+            CreateMovement<PathOfThousandFistsFactory>(),
 
-            CreateMovement<OldGoodBrawlFactory>()
+            CreateMovement<HiddenIntentionFactory>()
         };
 
         var heroSequence = new CombatMovementSequence();
@@ -36,7 +37,7 @@ public class MonkFactory: IHeroCombatantFactory
         }
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, 4);
+        stats.SetValue(UnitStatType.HitPoints, hitpointsStat);
         stats.SetValue(UnitStatType.ShieldPoints, 3);
         stats.SetValue(UnitStatType.Resolve, 7);
 
