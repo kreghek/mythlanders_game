@@ -19,6 +19,7 @@ internal class FieldManeuversVisualizer
 
     private readonly ICombatantPositionProvider _combatantPositionProvider;
     private readonly IManeuverContext _context;
+    private readonly SpriteFont _spriteFont;
     private readonly CombatFieldSide _heroFieldSide;
     private readonly Matrix<ManeuverButton> _maneuverButtons;
 
@@ -28,10 +29,11 @@ internal class FieldManeuversVisualizer
 
     private ManeuverButton? _selectedManeuverButton;
 
-    public FieldManeuversVisualizer(ICombatantPositionProvider combatantPositionProvider, IManeuverContext context)
+    public FieldManeuversVisualizer(ICombatantPositionProvider combatantPositionProvider, IManeuverContext context, SpriteFont spriteFont)
     {
         _combatantPositionProvider = combatantPositionProvider;
         _context = context;
+        _spriteFont = spriteFont;
         _heroFieldSide = context.FieldSide;
 
         _maneuverButtons =
@@ -55,7 +57,11 @@ internal class FieldManeuversVisualizer
     /// <summary>
     /// Current combatant for which maneuver controls draw.
     /// </summary>
-    public Combatant? Combatant { get; set; }
+    public Combatant? Combatant { get => _combatant; set { 
+            _combatant = value;
+            _selectedCoords = null;
+            _selectedManeuverButton = null;
+        } }
 
     /// <summary>
     /// Draw maneuver controls on the combat field.
@@ -91,6 +97,19 @@ internal class FieldManeuversVisualizer
                         BUTTON_SIZE);
                     maneuverButton.Draw(spriteBatch);
                 }
+                else
+                {
+                    var position =
+                        _combatantPositionProvider.GetPosition(maneuverButton.FieldCoords,
+                            CombatantPositionSide.Heroes);
+
+                    maneuverButton.Rect = new Rectangle(
+                        (int)position.X - BUTTON_SIZE / 2,
+                        (int)position.Y - BUTTON_SIZE / 2,
+                        BUTTON_SIZE,
+                        BUTTON_SIZE);
+                    maneuverButton.Draw(spriteBatch);
+                }
             }
         }
 
@@ -103,6 +122,15 @@ internal class FieldManeuversVisualizer
             spriteBatch.DrawLine(arrowStart, arrowTarget, color, Math.Max((float)Math.Sin(_animationCounter) * 3, 1));
             spriteBatch.DrawCircle(arrowStart, (float)Math.Sin(_animationCounter) * 5, 6, color);
             spriteBatch.DrawCircle(arrowTarget, (float)Math.Sin(_animationCounter) * 5, 6, color);
+        }
+
+        if (_selectedCoords is not null)
+        {
+            var position = _combatantPositionProvider.GetPosition(_selectedCoords,
+                            CombatantPositionSide.Heroes);
+            spriteBatch.DrawLine(position, position + Vector2.UnitX * 600, Color.Lerp(Color.Cyan, Color.Transparent, 0.75f), 10);
+            spriteBatch.DrawLine(position - Vector2.UnitY * 60, position + Vector2.UnitY * 60, Color.Lerp(Color.Cyan, Color.Transparent, 0.75f), 10);
+            spriteBatch.DrawString(_spriteFont, _selectedCoords.ColumentIndex == 0 ? "Avangard" : "Readgard", position - new Vector2(20, 20), Color.Lerp(Color.Cyan, Color.Transparent, 0.15f), MathHelper.ToRadians(-90), Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
     }
 
@@ -166,14 +194,32 @@ internal class FieldManeuversVisualizer
         ManeuverSelected?.Invoke(this, new ManeuverSelectedEventArgs(maneuverButton.FieldCoords));
     }
 
+    private FieldCoords? _selectedCoords;
+    private Combatant? _combatant;
+
     private void ManeuverButton_OnHover(object? sender, EventArgs e)
     {
-        _selectedManeuverButton = sender as ManeuverButton;
+        var maneuverButton = sender as ManeuverButton;
+
+        if (maneuverButton is not null)
+        {
+            if (_selectedManeuverButton is null && maneuverButton != _selectedManeuverButton)
+            {
+                _selectedManeuverButton = maneuverButton;
+                _selectedCoords = maneuverButton.FieldCoords;
+            }
+        }
     }
 
     private void ManeuverButton_OnLeave(object? sender, EventArgs e)
     {
-        _selectedManeuverButton = null;
+        var maneuverButton = sender as ManeuverButton;
+
+        if (maneuverButton == _selectedManeuverButton)
+        {
+            _selectedManeuverButton = null;
+            _selectedCoords = null;
+        }
     }
 
     public event EventHandler<ManeuverSelectedEventArgs>? ManeuverSelected;

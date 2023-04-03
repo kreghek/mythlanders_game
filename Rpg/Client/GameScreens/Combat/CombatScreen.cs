@@ -146,7 +146,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         soundtrackManager.PlayCombatTrack((BiomeType)((int)args.Location.Sid / 100 * 100));
 
         _maneuversVisualizer =
-            new FieldManeuversVisualizer(_combatantPositionProvider, new ManeuverContext(_combatCore));
+            new FieldManeuversVisualizer(_combatantPositionProvider, new ManeuverContext(_combatCore), _uiContentStorage.GetTitlesFont());
 
         _maneuversIndicator = new FieldManeuverIndicatorPanel(UiThemeManager.UiContentStorage.GetTitlesFont(),
             new ManeuverContext(_combatCore));
