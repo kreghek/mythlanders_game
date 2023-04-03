@@ -720,4 +720,10 @@
   <data name="Ignore_CrisisAftermath" xml:space="preserve">
     <value /><comment>Crisis Aftermath</comment>
   </data>
+  <data name="HandOfForm" xml:space="preserve">
+    <value>Hand of Form and Intention</value><comment>Combat Movement Monk</comment>
+  </data>
+  <data name="HandOfForm_Description" xml:space="preserve">
+    <value>Move to vanguard and deal 2 damage to the nearest enemy in lane. If the monk was already in the vanguard, then deal 1 bonus damage.</value>
+  </data>
 </root>

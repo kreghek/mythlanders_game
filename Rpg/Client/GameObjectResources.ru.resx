@@ -177,7 +177,7 @@
     <value>Выстрел в упор</value>
   </data>
   <data name="BlankShot_Description" xml:space="preserve">
-    <value>Перемещается в авангард и наносит 2 ед. урона ближайшему противнику на линии. Если партизан уже был в авангарде, то наности бонусный урон 1ед.</value>
+    <value>Перемещается в авангард и наносит 2 ед. урона ближайшему противнику на линии. Если партизан уже был в авангарде, то наносит бонусный урон 1ед.</value>
   </data>
   <data name="BlindDefense" xml:space="preserve">
     <value>Глухая оборона</value>
@@ -649,5 +649,8 @@
   </data>
   <data name="Ignore_CrisisAftermath" xml:space="preserve">
     <value>Игнорировать</value>
+  </data>
+  <data name="HandOfForm_Description" xml:space="preserve">
+    <value>Перемещается в авангард и наносит 2 ед. урона ближайшему противнику на линии. Если партизан уже был в авангарде, то наносит бонусный урон 1ед.</value>
   </data>
 </root>

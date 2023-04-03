@@ -753,6 +753,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hand of Form and Intention.
+        /// </summary>
+        internal static string HandOfForm {
+            get {
+                return ResourceManager.GetString("HandOfForm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move to vanguard and deal 2 damage to the nearest enemy in lane. If the monk was already in the vanguard, then deal 1 bonus damage..
+        /// </summary>
+        internal static string HandOfForm_Description {
+            get {
+                return ResourceManager.GetString("HandOfForm_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Healing salve.
         /// </summary>
         internal static string HealingSalve {
