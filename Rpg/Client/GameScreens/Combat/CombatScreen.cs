@@ -490,11 +490,15 @@ internal class CombatScreen : GameScreenWithMenuBase
             new TargetSelectorContext(_combatCore.Field.HeroSide, _combatCore.Field.MonsterSide, _dice);
         var targetMarkerContext = new TargetMarkerContext(_combatCore, _gameObjects.ToArray(), selectorContext);
         _targetMarkers.SetTargets(_combatCore.CurrentCombatant, e.CombatMovement.Effects, targetMarkerContext);
+
+        _maneuversVisualizer.IsHidden = true;
     }
 
     private void CombatMovementsHandPanel_CombatMovementLeave(object? sender, CombatMovementPickedEventArgs e)
     {
         _targetMarkers.EriseTargets();
+
+        _maneuversVisualizer.IsHidden = false;
     }
 
     private void CombatMovementsHandPanel_CombatMovementPicked(object? sender, CombatMovementPickedEventArgs e)
@@ -921,11 +925,17 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             if (!_animationManager.HasBlockers)
             {
-                _maneuversVisualizer.Draw(spriteBatch);
+                if (!_maneuversVisualizer.IsHidden)
+                {
+                    _maneuversVisualizer.Draw(spriteBatch);
 
-                _maneuversIndicator.Rect =
-                    new Rectangle(contentRectangle.Center.X - 100, contentRectangle.Bottom - 105, 200, 25);
-                _maneuversIndicator.Draw(spriteBatch);
+                    if (!_maneuversIndicator.IsHidden)
+                    {
+                        _maneuversIndicator.Rect =
+                            new Rectangle(contentRectangle.Center.X - 100, contentRectangle.Bottom - 105, 200, 25);
+                        _maneuversIndicator.Draw(spriteBatch);
+                    }
+                }
             }
 
             DrawCombatMoveTargets(spriteBatch);

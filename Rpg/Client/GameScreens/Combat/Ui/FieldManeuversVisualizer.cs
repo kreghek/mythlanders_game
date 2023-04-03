@@ -63,6 +63,8 @@ internal class FieldManeuversVisualizer
             _selectedManeuverButton = null;
         } }
 
+    public bool IsHidden { get; internal set; }
+
     /// <summary>
     /// Draw maneuver controls on the combat field.
     /// </summary>
@@ -207,6 +209,7 @@ internal class FieldManeuversVisualizer
             {
                 _selectedManeuverButton = maneuverButton;
                 _selectedCoords = maneuverButton.FieldCoords;
+                Hover?.Invoke(this, EventArgs.Empty);
             }
         }
     }
@@ -219,8 +222,11 @@ internal class FieldManeuversVisualizer
         {
             _selectedManeuverButton = null;
             _selectedCoords = null;
+            Leave?.Invoke(this, EventArgs.Empty);
         }
     }
 
     public event EventHandler<ManeuverSelectedEventArgs>? ManeuverSelected;
+    public event EventHandler? Hover;
+    public event EventHandler? Leave;
 }
