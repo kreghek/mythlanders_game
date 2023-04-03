@@ -741,10 +741,10 @@ internal class CombatScreen : GameScreenWithMenuBase
     {
         if (_combatantQueuePanel is not null)
         {
-            const int PANEL_WIDTH = 400;
+            var contentSize = _combatantQueuePanel.CalcContentSize();
 
-            _combatantQueuePanel.Rect = new Rectangle(contentRectangle.Center.X - PANEL_WIDTH / 2, contentRectangle.Top,
-                PANEL_WIDTH, 48);
+            _combatantQueuePanel.Rect = new Rectangle(new Point(contentRectangle.Center.X - contentSize.X / 2, contentRectangle.Top),
+                contentSize);
             _combatantQueuePanel.Draw(spriteBatch);
         }
     }
