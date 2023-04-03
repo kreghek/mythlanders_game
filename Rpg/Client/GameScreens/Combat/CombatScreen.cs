@@ -968,10 +968,21 @@ internal class CombatScreen : GameScreenWithMenuBase
             var textX = Math.Cos(MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare() + START_ANGLE)) * (RADIUS_HP + 2) + barCenter.X;
             var textY = Math.Sin(MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare() + START_ANGLE)) * (RADIUS_HP + 2) + barCenter.Y;
 
+            for (var offsetX = -1; offsetX <= 1; offsetX++)
+            {
+                for (int offsetY = -1; offsetY <= 1; offsetY++)
+                {
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                                    hp.Current.ToString(),
+                                    new Vector2((float)textX + offsetX, (float)textY + offsetY),
+                                    Color.White);
+                }
+            }
+
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                 hp.Current.ToString(),
                 new Vector2((float)textX, (float)textY),
-                Color.Lerp(Color.Red, Color.Transparent, 0.25f));
+                Color.Red);
         }
 
         var sp = combatant.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value;
@@ -983,6 +994,17 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             var textX = Math.Cos(MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare() + START_ANGLE)) * (RADIUS_SP - 2) + barCenter.X;
             var textY = Math.Sin(MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare() + START_ANGLE)) * (RADIUS_SP - 2) + barCenter.Y;
+
+            for (var offsetX = -1; offsetX <= 1; offsetX++)
+            {
+                for (int offsetY = -1; offsetY <= 1; offsetY++)
+                {
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                        sp.Current.ToString(),
+                        new Vector2((float)textX + offsetX, (float)textY + offsetY),
+                        Color.White);
+                }
+            }
 
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                 sp.Current.ToString(),
