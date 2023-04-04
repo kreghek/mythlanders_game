@@ -16,6 +16,30 @@ using Rpg.Client.GameScreens;
 
 namespace Client.GameScreens.Combat.Ui;
 
+internal sealed class WaitIconButton: ButtonBase
+{
+    private readonly Texture2D _icon;
+    private readonly Rectangle? _iconRect;
+
+    public WaitIconButton(Texture2D icon)
+    {
+        _icon = icon;
+    }
+
+    public WaitIconButton(IconData iconData)
+    {
+        _icon = iconData.Spritesheet;
+        _iconRect = iconData.SourceRect;
+    }
+
+    protected override Point CalcTextureOffset() => ControlTextures.Button2;
+
+    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
+    {
+        spriteBatch.Draw(_icon, contentRect, _iconRect, color);
+    }
+}
+
 internal class CombatMovementsHandPanel : ControlBase
 {
     private const int ICON_SIZE = 64;
@@ -29,7 +53,7 @@ internal class CombatMovementsHandPanel : ControlBase
     private readonly CombatMovementButton?[] _buttons;
     private readonly ICombatMovementVisualizer _combatMovementVisualizer;
     private readonly IUiContentStorage _uiContentStorage;
-    private readonly IconButton _waitButton;
+    private readonly WaitIconButton _waitButton;
 
     private CombatMovementHint? _activeCombatMovementHint;
     private BurningCombatMovement? _burningCombatMovement;
@@ -50,7 +74,7 @@ internal class CombatMovementsHandPanel : ControlBase
         IsEnabled = true;
 
         _waitButton =
-            new IconButton(new IconData(game.Content.Load<Texture2D>("Sprites/Ui/SmallVerticalButtonIcons"), 
+            new WaitIconButton(new IconData(game.Content.Load<Texture2D>("Sprites/Ui/SmallVerticalButtonIcons_White"), 
             new Rectangle(
                 SPECIAL_BUTTONS_ICON_WIDTH * 2, 
                 SPECIAL_BUTTONS_ICON_HEIGHT, 
