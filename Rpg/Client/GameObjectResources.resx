@@ -511,7 +511,7 @@
     <comment>Location</comment>
   </data>
   <data name="Preying_Crisis" xml:space="preserve">
-    <value></value>
+    <value>One of the heroes feels the haunting presence of the his faith ancient ones. They demand his attention. They demand his help. Such requests cannot be ignored. Especially in the dark future, where only ancient forces make heroes.</value>
     <comment>Crisis</comment>
   </data>
   <data name="RapidShot" xml:space="preserve">
@@ -715,10 +715,10 @@
     <value /><comment>Crisis Aftermath</comment>
   </data>
   <data name="Prey_CrisisAftermath" xml:space="preserve">
-    <value /><comment>Crisis Aftermath</comment>
+    <value>Pay attention</value><comment>Crisis Aftermath</comment>
   </data>
   <data name="Ignore_CrisisAftermath" xml:space="preserve">
-    <value /><comment>Crisis Aftermath</comment>
+    <value>Ignore</value><comment>Crisis Aftermath</comment>
   </data>
   <data name="HandOfThousandForms" xml:space="preserve">
     <value>Hand of Thousand Forms and Intentions</value><comment>Combat Movement Monk</comment>

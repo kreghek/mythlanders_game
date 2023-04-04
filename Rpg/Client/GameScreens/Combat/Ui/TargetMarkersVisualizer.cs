@@ -98,10 +98,11 @@ internal sealed class TargetMarkersVisualizer
         var neutralColor = Color.Cyan;
         var aggressionColor = Color.Red;
 
+        var mainColor = isAgression ? aggressionColor : neutralColor;
         spriteBatch.DrawCircle(targetPosition,
             (int)(MARKER_RADIUS - MARKER_RADIUR_DIFF * Math.Clamp(Math.Sin(_counter * 15), 0, 1)),
             16,
-            isAgression ? aggressionColor : neutralColor,
+            mainColor,
             2);
 
         if (isAgression)

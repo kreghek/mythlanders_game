@@ -10,7 +10,7 @@ namespace Client.Assets.CombatMovements.Hero.Monk;
 internal class ArtOfCombatFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
-    public override CombatMovementIcon CombatMovementIcon => new(1, 6);
+    public override CombatMovementIcon CombatMovementIcon => new(5, 3);
 
     /// <inheritdoc />
     public override CombatMovement CreateMovement()

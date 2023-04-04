@@ -10,7 +10,7 @@ namespace Client.Assets.CombatMovements.Hero.Partisan;
 internal class HiddenIntentionFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
-    public override CombatMovementIcon CombatMovementIcon => new(1, 2);
+    public override CombatMovementIcon CombatMovementIcon => new(2, 2);
 
     /// <inheritdoc />
     public override CombatMovement CreateMovement()

@@ -11,7 +11,7 @@ namespace Client.Assets.CombatMovements.Hero.Monk;
 internal class NinthTrigramFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
-    public override CombatMovementIcon CombatMovementIcon => new(2, 6);
+    public override CombatMovementIcon CombatMovementIcon => new(1, 1);
 
     /// <inheritdoc />
     public override CombatMovement CreateMovement()

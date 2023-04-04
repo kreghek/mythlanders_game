@@ -10,7 +10,7 @@ namespace Client.Assets.CombatMovements.Hero.Monk;
 internal class HandOfThousandFormsFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
-    public override CombatMovementIcon CombatMovementIcon => new(3, 6);
+    public override CombatMovementIcon CombatMovementIcon => new(4, 2);
 
     /// <inheritdoc />
     public override CombatMovement CreateMovement()
