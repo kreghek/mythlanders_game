@@ -12,7 +12,7 @@ using Rpg.Client.Engine;
 
 namespace Client.GameScreens.Combat.Ui;
 
-internal sealed class TargetMarkers
+internal sealed class TargetMarkersVisualizer
 {
     private double _counter;
     private ITargetMarkerContext? _targetMarkerContext;

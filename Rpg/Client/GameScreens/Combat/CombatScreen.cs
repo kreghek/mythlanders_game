@@ -77,7 +77,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly ManualCombatActorBehaviour _playerCombatantBehaviour;
     private readonly ScreenShaker _screenShaker;
 
-    private readonly TargetMarkers _targetMarkers;
+    private readonly TargetMarkersVisualizer _targetMarkers;
     private readonly IUiContentStorage _uiContentStorage;
 
     private float _bgCenterOffsetPercentageX;
@@ -151,7 +151,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _maneuversIndicator = new FieldManeuverIndicatorPanel(UiThemeManager.UiContentStorage.GetTitlesFont(),
             new ManeuverContext(_combatCore));
 
-        _targetMarkers = new TargetMarkers();
+        _targetMarkers = new TargetMarkersVisualizer();
 
         _dropResolver = game.Services.GetRequiredService<IDropResolver>();
     }
