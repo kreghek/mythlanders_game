@@ -770,15 +770,20 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void DrawCombatantStats(SpriteBatch spriteBatch)
     {
-        foreach (var combatant in _combatCore.Combatants)
+        if (_targetMarkers.Targets is null)
         {
-            if (combatant.IsDead)
+            return;
+        }
+
+        foreach (var target in _targetMarkers.Targets)
+        {
+            if (target.Target.IsDead)
             {
                 continue;
             }
 
-            var gameObject = GetCombatantGameObject(combatant);
-            DrawStats(gameObject.StatsPanelOrigin, combatant, spriteBatch);
+            var gameObject = GetCombatantGameObject(target.Target);
+            DrawStats(gameObject.StatsPanelOrigin, target.Target, spriteBatch);
         }
     }
 

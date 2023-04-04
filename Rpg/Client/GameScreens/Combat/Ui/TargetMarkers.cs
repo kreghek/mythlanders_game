@@ -18,6 +18,8 @@ internal sealed class TargetMarkers
     private ITargetMarkerContext? _targetMarkerContext;
     private IReadOnlyCollection<CombatMoveTargetEstimate>? _targets;
 
+    public IReadOnlyCollection<CombatMoveTargetEstimate>? Targets => _targets;
+
     public void Draw(SpriteBatch spriteBatch)
     {
         if (_targets is null || _targetMarkerContext is null)
