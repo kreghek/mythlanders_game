@@ -103,10 +103,10 @@
   </data>
   <data name="AfterlifeWhirlwind" xml:space="preserve">
     <value>Afterlife whirlwind</value>
-    <comment>Combat movement</comment>
+    <comment>Combat movement Chaser</comment>
   </data>
   <data name="AfterlifeWhirlwind_Description" xml:space="preserve">
-    <value></value>
+    <value /><comment>Combat movement Chaser</comment>
   </data>
   <data name="Archer" xml:space="preserve">
     <value>Hawk</value>
@@ -493,10 +493,10 @@
     <value>Nano-metal long cloths</value><comment>Equipment</comment>
   </data>
   <data name="OldGoodBrawl" xml:space="preserve">
-    <value>Old good brawl</value><comment>Combat movement</comment>
+    <value>Old good brawl</value><comment>Combat movement Partisan</comment>
   </data>
   <data name="OldGoodBrawl_Description" xml:space="preserve">
-    <value /><comment>Combat movement</comment>
+    <value /><comment>Combat movement Partisan</comment>
   </data>
   <data name="Oldman" xml:space="preserve">
     <value>Oldman</value>
@@ -720,10 +720,34 @@
   <data name="Ignore_CrisisAftermath" xml:space="preserve">
     <value /><comment>Crisis Aftermath</comment>
   </data>
-  <data name="HandOfForm" xml:space="preserve">
-    <value>Hand of Form and Intention</value><comment>Combat Movement Monk</comment>
+  <data name="HandOfThousandForms" xml:space="preserve">
+    <value>Hand of Thousand Forms and Intentions</value><comment>Combat Movement Monk</comment>
   </data>
-  <data name="HandOfForm_Description" xml:space="preserve">
+  <data name="HandOfThousandForms_Description" xml:space="preserve">
     <value>Move to vanguard and deal 2 damage to the nearest enemy in lane. If the monk was already in the vanguard, then deal 1 bonus damage.</value>
+  </data>
+  <data name="NinthTrigram" xml:space="preserve">
+    <value>Ninth trigram</value><comment>Combat movement Monk</comment>
+  </data>
+  <data name="NinthTrigram_Description" xml:space="preserve">
+    <value /><comment>Combat movement Monk</comment>
+  </data>
+  <data name="ArtOfCombat" xml:space="preserve">
+    <value>Art of Combat</value><comment>Combat movement Monk</comment>
+  </data>
+  <data name="ArtOfCombat_Description" xml:space="preserve">
+    <value /><comment>Combat movement Monk</comment>
+  </data>
+  <data name="MasterfulStaffHit" xml:space="preserve">
+    <value>Masterful staff hit</value><comment>Combat movement Monk</comment>
+  </data>
+  <data name="MasterfulStaffHit_Description" xml:space="preserve">
+    <value /><comment>Combat movement Monk</comment>
+  </data>
+  <data name="HiddenIntention" xml:space="preserve">
+    <value>Hidden intention</value><comment>Combat movement Monk</comment>
+  </data>
+  <data name="HiddenIntention_Description" xml:space="preserve">
+    <value /><comment>Combat movement Monk</comment>
   </data>
 </root>

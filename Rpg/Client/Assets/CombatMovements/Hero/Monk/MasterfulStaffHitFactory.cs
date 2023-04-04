@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 namespace Client.Assets.CombatMovements.Hero.Monk;
 
 [UsedImplicitly]
-internal class PathOfThousandFistsFactory : CombatMovementFactoryBase
+internal class MasterfulStaffHitFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(4, 4);

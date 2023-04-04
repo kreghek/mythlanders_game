@@ -150,6 +150,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Art of Combat.
+        /// </summary>
+        internal static string ArtOfCombat {
+            get {
+                return ResourceManager.GetString("ArtOfCombat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ArtOfCombat_Description {
+            get {
+                return ResourceManager.GetString("ArtOfCombat_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ascetic robe.
         /// </summary>
         internal static string AsceticRobe {
@@ -753,20 +771,20 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hand of Form and Intention.
+        ///   Looks up a localized string similar to Hand of Thousand Forms and Intentions.
         /// </summary>
-        internal static string HandOfForm {
+        internal static string HandOfThousandForms {
             get {
-                return ResourceManager.GetString("HandOfForm", resourceCulture);
+                return ResourceManager.GetString("HandOfThousandForms", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Move to vanguard and deal 2 damage to the nearest enemy in lane. If the monk was already in the vanguard, then deal 1 bonus damage..
         /// </summary>
-        internal static string HandOfForm_Description {
+        internal static string HandOfThousandForms_Description {
             get {
-                return ResourceManager.GetString("HandOfForm_Description", resourceCulture);
+                return ResourceManager.GetString("HandOfThousandForms_Description", resourceCulture);
             }
         }
         
@@ -821,6 +839,24 @@ namespace Client {
         internal static string Hermitage {
             get {
                 return ResourceManager.GetString("Hermitage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hidden intention.
+        /// </summary>
+        internal static string HiddenIntention {
+            get {
+                return ResourceManager.GetString("HiddenIntention", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string HiddenIntention_Description {
+            get {
+                return ResourceManager.GetString("HiddenIntention_Description", resourceCulture);
             }
         }
         
@@ -1041,6 +1077,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Masterful staff hit.
+        /// </summary>
+        internal static string MasterfulStaffHit {
+            get {
+                return ResourceManager.GetString("MasterfulStaffHit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string MasterfulStaffHit_Description {
+            get {
+                return ResourceManager.GetString("MasterfulStaffHit_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gelik.
         /// </summary>
         internal static string Medjay {
@@ -1100,6 +1154,24 @@ namespace Client {
         internal static string NanoMetalLongCloths {
             get {
                 return ResourceManager.GetString("NanoMetalLongCloths", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ninth trigram.
+        /// </summary>
+        internal static string NinthTrigram {
+            get {
+                return ResourceManager.GetString("NinthTrigram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string NinthTrigram_Description {
+            get {
+                return ResourceManager.GetString("NinthTrigram_Description", resourceCulture);
             }
         }
         

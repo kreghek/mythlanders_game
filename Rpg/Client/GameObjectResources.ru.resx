@@ -495,7 +495,7 @@
     <value>Саботаж</value>
   </data>
   <data name="Sabotage_Description" xml:space="preserve">
-    <value>Наносит урон 3 ед. самому слабому противнику. Сам партизан перемещаетсяв тыл.</value>
+    <value>Наносит урон 3 ед. самому слабому противнику. Сам партизан перемещается в тыл.</value>
   </data>
   <data name="ScarabeusKingLeg" xml:space="preserve">
     <value>Лапа Короля жука-скоробея</value>
@@ -650,7 +650,34 @@
   <data name="Ignore_CrisisAftermath" xml:space="preserve">
     <value>Игнорировать</value>
   </data>
-  <data name="HandOfForm_Description" xml:space="preserve">
+  <data name="HandOfThousandForms_Description" xml:space="preserve">
     <value>Перемещается в авангард и наносит 2 ед. урона ближайшему противнику на линии. Если партизан уже был в авангарде, то наносит бонусный урон 1ед.</value>
+  </data>
+  <data name="NinthTrigram" xml:space="preserve">
+    <value>Девятая триграмма</value>
+  </data>
+  <data name="NinthTrigram_Description" xml:space="preserve">
+    <value>Меняется местами с самым сильным союзником по соседству. Триграмма дает 2 ед. обороны монаху и союзнику.</value>
+  </data>
+  <data name="ArtOfCombat" xml:space="preserve">
+    <value>Искусство боя</value>
+  </data>
+  <data name="ArtOfCombat_Description" xml:space="preserve">
+    <value>Наносит 1ед. урона ближайшему в линии противнику и вдохновляет всех союзников в тылу, увеличивая их урон на 1 ед. в течении 1 раунда.</value>
+  </data>
+  <data name="HandOfThousandForms" xml:space="preserve">
+    <value>Рука тысячи форм и намерений</value>
+  </data>
+  <data name="MasterfulStaffHit" xml:space="preserve">
+    <value>Мастерский удар посохом</value>
+  </data>
+  <data name="MasterfulStaffHit_Description" xml:space="preserve">
+    <value>Перемещается в авангард и наносит урон 2 ед. Не тратит энергию, если ранее использовалось это же движение.</value>
+  </data>
+  <data name="HiddenIntention" xml:space="preserve">
+    <value>Скрытое намерение</value>
+  </data>
+  <data name="HiddenIntention_Description" xml:space="preserve">
+    <value>Наносит урон 3 ед. самому слабому противнику. Сам монах перемещается в тыл.</value>
   </data>
 </root>

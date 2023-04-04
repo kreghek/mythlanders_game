@@ -15,13 +15,13 @@ public class MonkFactory: IHeroCombatantFactory
     {
         var movementPool = new List<CombatMovement>
         {
-            CreateMovement<HandOfFormFactory>(),
+            CreateMovement<HandOfThousandFormsFactory>(),
 
             CreateMovement<NinthTrigramFactory>(),
 
-            CreateMovement<MortalArtMasterFactory>(),
+            CreateMovement<ArtOfCombatFactory>(),
 
-            CreateMovement<PathOfThousandFistsFactory>(),
+            CreateMovement<MasterfulStaffHitFactory>(),
 
             CreateMovement<HiddenIntentionFactory>()
         };

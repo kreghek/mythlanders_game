@@ -1,33 +1,36 @@
+using JetBrains.Annotations;
+
 using Rpg.Client.Assets.Equipments.Monk;
 using Rpg.Client.Assets.GraphicConfigs.Heroes;
+using Rpg.Client.Assets.Heroes;
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Heroes
+namespace Client.Assets.Heroes;
+
+[UsedImplicitly]
+internal class MonkFactory : HeroFactoryBase
 {
-    internal class MonkFactory : HeroFactoryBase
+    public override UnitName HeroName => UnitName.Monk;
+
+    protected override IEquipmentScheme[] GetEquipment()
     {
-        public override UnitName HeroName => UnitName.Monk;
-
-        protected override IEquipmentScheme[] GetEquipment()
+        return new IEquipmentScheme[]
         {
-            return new IEquipmentScheme[]
-            {
-                new RedemptionStaff(),
-                new AsceticCape(),
-                new SymbolOfGod()
-            };
-        }
+            new RedemptionStaff(),
+            new AsceticCape(),
+            new SymbolOfGod()
+        };
+    }
 
-        protected override UnitGraphicsConfigBase GetGraphicsConfig()
-        {
-            return new MaosinGraphicsConfig();
-        }
+    protected override UnitGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new MaosinGraphicsConfig();
+    }
 
-        protected override IUnitLevelScheme[] GetLevels()
+    protected override IUnitLevelScheme[] GetLevels()
+    {
+        return new IUnitLevelScheme[]
         {
-            return new IUnitLevelScheme[]
-            {
-            };
-        }
+        };
     }
 }
