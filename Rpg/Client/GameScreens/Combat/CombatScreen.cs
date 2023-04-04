@@ -968,8 +968,9 @@ internal class CombatScreen : GameScreenWithMenuBase
         const int SIDES = 32;
         const int START_ANGLE = 180 + 30;
         const int ARC_LENGTH = 180 - 60;
-        const int RADIUS_HP = 32;
-        const int RADIUS_SP = 32 - 3;
+        const int BAR_WIDTH = 3;
+        const int RADIUS_SP = 32;
+        const int RADIUS_HP = 32 - (BAR_WIDTH - 1);
 
         var barCenter = statsPanelOrigin;
 
@@ -978,10 +979,10 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             var barSize = MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare());
             var color = Color.Lerp(Color.Red, Color.Transparent, 0.5f);
-            spriteBatch.DrawArc(barCenter, RADIUS_HP, SIDES, MathHelper.ToRadians(START_ANGLE), barSize, color, 3);
+            spriteBatch.DrawArc(barCenter, RADIUS_HP, SIDES, MathHelper.ToRadians(START_ANGLE), barSize, color, BAR_WIDTH);
 
-            var textX = Math.Cos(MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare() + START_ANGLE)) * (RADIUS_HP + 2) + barCenter.X;
-            var textY = Math.Sin(MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare() + START_ANGLE)) * (RADIUS_HP + 2) + barCenter.Y;
+            var textX = Math.Cos(MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare() + START_ANGLE)) * (RADIUS_HP - 2) + barCenter.X;
+            var textY = Math.Sin(MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare() + START_ANGLE)) * (RADIUS_HP - 2) + barCenter.Y;
 
             for (var offsetX = -1; offsetX <= 1; offsetX++)
             {
@@ -1005,10 +1006,10 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             var barSize = MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare());
             var color = Color.Lerp(Color.Blue, Color.Transparent, 0.5f);
-            spriteBatch.DrawArc(barCenter, RADIUS_SP, SIDES, MathHelper.ToRadians(START_ANGLE), barSize, color, 3);
+            spriteBatch.DrawArc(barCenter, RADIUS_SP, SIDES, MathHelper.ToRadians(START_ANGLE), barSize, color, BAR_WIDTH);
 
-            var textX = Math.Cos(MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare() + START_ANGLE)) * (RADIUS_SP - 2) + barCenter.X;
-            var textY = Math.Sin(MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare() + START_ANGLE)) * (RADIUS_SP - 2) + barCenter.Y;
+            var textX = Math.Cos(MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare() + START_ANGLE)) * (RADIUS_SP + 2) + barCenter.X;
+            var textY = Math.Sin(MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare() + START_ANGLE)) * (RADIUS_SP + 2) + barCenter.Y;
 
             for (var offsetX = -1; offsetX <= 1; offsetX++)
             {
