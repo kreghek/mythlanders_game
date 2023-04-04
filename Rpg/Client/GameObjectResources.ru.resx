@@ -149,6 +149,12 @@
   <data name="ArrowRain" xml:space="preserve">
     <value>Дождь стрел</value>
   </data>
+  <data name="ArtOfCombat" xml:space="preserve">
+    <value>Искусство боя</value>
+  </data>
+  <data name="ArtOfCombat_Description" xml:space="preserve">
+    <value>Наносит 1ед. урона ближайшему в линии противнику и вдохновляет всех союзников в тылу, увеличивая их урон на 1 ед. в течении 1 раунда.</value>
+  </data>
   <data name="AsceticRobe" xml:space="preserve">
     <value>Роба аскета</value>
   </data>
@@ -204,6 +210,9 @@
   <data name="BringBeastDown_Description" xml:space="preserve">
     <value>Наносит урон 4 ед. самому сильному противнику с меткой. И пропускает следующий ход.</value>
   </data>
+  <data name="BuyFood_CrisisAftermath" xml:space="preserve">
+    <value>Попытаться купить провиант</value>
+  </data>
   <data name="Castle" xml:space="preserve">
     <value>Мрачная Твердыня в Скале</value>
   </data>
@@ -248,6 +257,9 @@
   <data name="Comissar" xml:space="preserve">
     <value>Сардо</value>
   </data>
+  <data name="Conversation_CrisisAftermath" xml:space="preserve">
+    <value>Попытаться догоовриться с лидерами обезумевшей толпы</value>
+  </data>
   <data name="CriticalHit" xml:space="preserve">
     <value>Критический удар</value>
   </data>
@@ -259,6 +271,9 @@
   </data>
   <data name="CyberClaws_Description" xml:space="preserve">
     <value>Наносит урон в 3 ед. ближайшему в линии противнику и перемещается в авангард.</value>
+  </data>
+  <data name="DamageTogether_CrisisAftermath" xml:space="preserve">
+    <value>Герои защищаются от ловушки вместе</value>
   </data>
   <data name="DarkLight" xml:space="preserve">
     <value>Темная молная</value>
@@ -277,6 +292,9 @@
   </data>
   <data name="DestroyedVillage" xml:space="preserve">
     <value>Раззоренный скит</value>
+  </data>
+  <data name="DestroyTheSickSource_CrisisAftermath" xml:space="preserve">
+    <value>Найти и уничтожить источник заразы</value>
   </data>
   <data name="DieBySword" xml:space="preserve">
     <value>От меча и погибни!</value>
@@ -344,6 +362,12 @@
   <data name="GuardianWoman" xml:space="preserve">
     <value>Стражница</value>
   </data>
+  <data name="HandOfThousandForms" xml:space="preserve">
+    <value>Рука тысячи форм и намерений</value>
+  </data>
+  <data name="HandOfThousandForms_Description" xml:space="preserve">
+    <value>Перемещается в авангард и наносит 2 ед. урона ближайшему противнику на линии. Если партизан уже был в авангарде, то наносит бонусный урон 1ед.</value>
+  </data>
   <data name="HealingSalve" xml:space="preserve">
     <value>Целебная мазь</value>
   </data>
@@ -362,6 +386,12 @@
   </data>
   <data name="Hermitage" xml:space="preserve">
     <value>Покинутый скит</value>
+  </data>
+  <data name="HiddenIntention" xml:space="preserve">
+    <value>Скрытое намерение</value>
+  </data>
+  <data name="HiddenIntention_Description" xml:space="preserve">
+    <value>Наносит урон 3 ед. самому слабому противнику. Сам монах перемещается в тыл.</value>
   </data>
   <data name="HitFromShoulder" xml:space="preserve">
     <value>Удар с плеча</value>
@@ -383,6 +413,14 @@
   </data>
   <data name="Hunt_Description" xml:space="preserve">
     <value>Наносит урон 4ед. ближайшему в линии противнику и ставит метку на 2 хода. Следующее атакующее движение не требует энергии.</value>
+  </data>
+  <data name="Ignore_CrisisAftermath" xml:space="preserve">
+    <value>Игнорировать</value>
+  </data>
+  <data name="Ignore_CrisisAftermath_Hint" xml:space="preserve">
+    <value>Навлечь гнев на всю группу героев!
+Все получают штраф к урону 1 ед. на 1 сражение.
+Беримир дополнительно получает штраф к урону 1 ед. на все сражения до конца компании.</value>
   </data>
   <data name="ImprovedArmor" xml:space="preserve">
     <value>Улучшенная броня</value>
@@ -432,6 +470,12 @@
   <data name="MassHeal" xml:space="preserve">
     <value>Благовония</value>
   </data>
+  <data name="MasterfulStaffHit" xml:space="preserve">
+    <value>Мастерский удар посохом</value>
+  </data>
+  <data name="MasterfulStaffHit_Description" xml:space="preserve">
+    <value>Перемещается в авангард и наносит урон 2 ед. Не тратит энергию, если ранее использовалось это же движение.</value>
+  </data>
   <data name="Medjay" xml:space="preserve">
     <value>Гелик</value>
   </data>
@@ -454,6 +498,12 @@
   <data name="NanoMetalLongCloths" xml:space="preserve">
     <value>Одежды из нано-металла</value>
   </data>
+  <data name="NinthTrigram" xml:space="preserve">
+    <value>Девятая триграмма</value>
+  </data>
+  <data name="NinthTrigram_Description" xml:space="preserve">
+    <value>Меняется местами с самым сильным союзником по соседству. Триграмма дает 2 ед. обороны монаху и союзнику.</value>
+  </data>
   <data name="OldGoodBrawl" xml:space="preserve">
     <value>Старый добрый мордобой</value>
   </data>
@@ -473,6 +523,9 @@
     <value>Один из героев чувствует навязчивое присутствие древних сверхсил своей культуры. Они требуют его внимания. Они требуют его помощи. Такие просьбы нельзя игнорировать. Тем более, в темном будущем, где только древние силы делают героев героями.</value>
     <comment>Crisis</comment>
   </data>
+  <data name="Prey_CrisisAftermath" xml:space="preserve">
+    <value>Уделить внимание</value>
+  </data>
   <data name="RapidShot" xml:space="preserve">
     <value>Быстрый выстрел</value>
   </data>
@@ -490,6 +543,9 @@
   </data>
   <data name="RiseYourSwords_Description" xml:space="preserve">
     <value>Увеличивает урон атакующих движений ближнего боя на 1 ед. у всех союзников на 2 хода.</value>
+  </data>
+  <data name="RunOut_CrisisAftermath" xml:space="preserve">
+    <value>Убежать</value>
   </data>
   <data name="Sabotage" xml:space="preserve">
     <value>Саботаж</value>
@@ -518,6 +574,12 @@
   </data>
   <data name="Starvation_Crisis" xml:space="preserve">
     <value>Все запасы пищи пришли в негодность. Надвигается лютый голод.</value>
+  </data>
+  <data name="StarveAll_CrisisAftermath" xml:space="preserve">
+    <value>Все герои соглашаются голодать</value>
+  </data>
+  <data name="Starve_CrisisAftermath" xml:space="preserve">
+    <value>Один герой соглашается голодать</value>
   </data>
   <data name="StayStrong" xml:space="preserve">
     <value>Будь сильным</value>
@@ -558,6 +620,9 @@
   <data name="TacticalManeuver" xml:space="preserve">
     <value>Тактический манёвр</value>
   </data>
+  <data name="TakeAllDamageByOneHero_CrisisAftermath" xml:space="preserve">
+    <value>Один из героев закрывает всех от заряда</value>
+  </data>
   <data name="Thicket" xml:space="preserve">
     <value>Темная Чаща</value>
   </data>
@@ -569,6 +634,12 @@
   </data>
   <data name="TrackerSavvy_Description" xml:space="preserve">
     <value>Увеличивает урон любых атакующих движений на 1ед. И снижает стоимость всех атакующих навыков на 1ед энергии.</value>
+  </data>
+  <data name="TryToFight_CrisisAftermath" xml:space="preserve">
+    <value>Попытаться отбиться от толпы</value>
+  </data>
+  <data name="TryToRunOut_CrisisAftermath" xml:space="preserve">
+    <value>Попытаться убежать</value>
   </data>
   <data name="VampireBite" xml:space="preserve">
     <value>Вампирический удар</value>
@@ -613,71 +684,5 @@
   </data>
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
-  </data>
-  <data name="TakeAllDamageByOneHero_CrisisAftermath" xml:space="preserve">
-    <value>Один из героев закрывает всех от заряда</value>
-  </data>
-  <data name="DamageTogether_CrisisAftermath" xml:space="preserve">
-    <value>Герои защищаются от ловушки вместе</value>
-  </data>
-  <data name="TryToRunOut_CrisisAftermath" xml:space="preserve">
-    <value>Попытаться убежать</value>
-  </data>
-  <data name="TryToFight_CrisisAftermath" xml:space="preserve">
-    <value>Попытаться отбиться от толпы</value>
-  </data>
-  <data name="Conversation_CrisisAftermath" xml:space="preserve">
-    <value>Попытаться догоовриться с лидерами обезумевшей толпы</value>
-  </data>
-  <data name="RunOut_CrisisAftermath" xml:space="preserve">
-    <value>Убежать</value>
-  </data>
-  <data name="DestroyTheSickSource_CrisisAftermath" xml:space="preserve">
-    <value>Найти и уничтожить источник заразы</value>
-  </data>
-  <data name="Starve_CrisisAftermath" xml:space="preserve">
-    <value>Один герой соглашается голодать</value>
-  </data>
-  <data name="StarveAll_CrisisAftermath" xml:space="preserve">
-    <value>Все герои соглашаются голодать</value>
-  </data>
-  <data name="BuyFood_CrisisAftermath" xml:space="preserve">
-    <value>Попытаться купить провиант</value>
-  </data>
-  <data name="Prey_CrisisAftermath" xml:space="preserve">
-    <value>Уделить внимание</value>
-  </data>
-  <data name="Ignore_CrisisAftermath" xml:space="preserve">
-    <value>Игнорировать</value>
-  </data>
-  <data name="HandOfThousandForms_Description" xml:space="preserve">
-    <value>Перемещается в авангард и наносит 2 ед. урона ближайшему противнику на линии. Если партизан уже был в авангарде, то наносит бонусный урон 1ед.</value>
-  </data>
-  <data name="NinthTrigram" xml:space="preserve">
-    <value>Девятая триграмма</value>
-  </data>
-  <data name="NinthTrigram_Description" xml:space="preserve">
-    <value>Меняется местами с самым сильным союзником по соседству. Триграмма дает 2 ед. обороны монаху и союзнику.</value>
-  </data>
-  <data name="ArtOfCombat" xml:space="preserve">
-    <value>Искусство боя</value>
-  </data>
-  <data name="ArtOfCombat_Description" xml:space="preserve">
-    <value>Наносит 1ед. урона ближайшему в линии противнику и вдохновляет всех союзников в тылу, увеличивая их урон на 1 ед. в течении 1 раунда.</value>
-  </data>
-  <data name="HandOfThousandForms" xml:space="preserve">
-    <value>Рука тысячи форм и намерений</value>
-  </data>
-  <data name="MasterfulStaffHit" xml:space="preserve">
-    <value>Мастерский удар посохом</value>
-  </data>
-  <data name="MasterfulStaffHit_Description" xml:space="preserve">
-    <value>Перемещается в авангард и наносит урон 2 ед. Не тратит энергию, если ранее использовалось это же движение.</value>
-  </data>
-  <data name="HiddenIntention" xml:space="preserve">
-    <value>Скрытое намерение</value>
-  </data>
-  <data name="HiddenIntention_Description" xml:space="preserve">
-    <value>Наносит урон 3 ед. самому слабому противнику. Сам монах перемещается в тыл.</value>
   </data>
 </root>

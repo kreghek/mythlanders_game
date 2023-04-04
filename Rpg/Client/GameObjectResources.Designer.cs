@@ -934,6 +934,17 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inflict wrath on the entire group of heroes!
+        ///- Everyone takes 1 damage penalty for 1 combat.
+        ///- Berimir takes an additional 1 damage penalty for all combats until the end of the campaign..
+        /// </summary>
+        internal static string Ignore_CrisisAftermath_Hint {
+            get {
+                return ResourceManager.GetString("Ignore_CrisisAftermath_Hint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Improved armor.
         /// </summary>
         internal static string ImprovedArmor {
