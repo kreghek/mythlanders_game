@@ -9,6 +9,7 @@ namespace Rpg.Client.Assets.GraphicConfigs.Monsters
         public VolkolakWarriorGraphicsConfig()
         {
             StatsPanelOrigin = new Microsoft.Xna.Framework.Vector2(-16, 64 + 8);
+            ShadowOrigin = new Microsoft.Xna.Framework.Vector2(-16, -16);
         }
 
         public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()

@@ -903,7 +903,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         spriteBatch.End();
 
-        DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET_X, BG_MAX_OFFSET_X, BG_START_OFFSET_Y,
+        DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET_X, BG_MAX_OFFSET_X, BG_START_OFFSET_Y + 20,
             BG_MAX_OFFSET_Y);
     }
 

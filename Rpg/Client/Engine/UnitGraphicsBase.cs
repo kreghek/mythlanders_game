@@ -30,6 +30,7 @@ namespace Rpg.Client.Engine
         private IAnimationFrameSet _currentAnimationFrameSet = null!;
         private Sprite _graphics;
         private Sprite[] _outlines;
+        private readonly UnitGraphicsConfigBase _graphicsConfig;
         protected Vector2 _position;
 
         private Sprite[] _sprites;
@@ -37,6 +38,7 @@ namespace Rpg.Client.Engine
         public UnitGraphicsBase(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig, bool isNormalOrientation,
             Vector2 position, GameObjectContentStorage gameObjectContentStorage)
         {
+            _graphicsConfig = graphicsConfig;
             _position = position;
             _gameObjectContentStorage = gameObjectContentStorage;
 
@@ -119,7 +121,8 @@ namespace Rpg.Client.Engine
             var shadow = new Sprite(_gameObjectContentStorage.GetUnitShadow())
             {
                 Origin = new Vector2(0.5f, 0.5f),
-                Color = Color.Lerp(Color.Black, Color.Transparent, 0.5f)
+                Color = Color.Lerp(Color.Black, Color.Transparent, 0.5f),
+                Position = _graphicsConfig.ShadowOrigin
             };
             Root.AddChild(shadow);
 

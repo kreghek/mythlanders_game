@@ -26,7 +26,7 @@ internal sealed class FieldManeuverIndicatorPanel : ControlBase
         return Color.Lerp(Color.White, Color.Transparent, 0.5f);
     }
 
-    public bool IsHidden => _context.ManeuversAvailable.GetValueOrDefault() > 0;
+    public bool IsHidden => _context.ManeuversAvailable.GetValueOrDefault() <= 0;
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
