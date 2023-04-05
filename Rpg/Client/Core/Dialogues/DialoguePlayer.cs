@@ -51,8 +51,10 @@ namespace Rpg.Client.Core.Dialogues
         private IReadOnlyList<DialogueParagraph> GetTextBlockParagraphs(
             DialogueParagraphConditionContext dialogueParagraphConditionContext)
         {
-            return _currentNode.TextBlock.Paragraphs
+            var paragraphs = _currentNode.TextBlock.Paragraphs
                 .Where(x => x.Conditions.All(c => c.Check(dialogueParagraphConditionContext))).ToArray();
+
+            return paragraphs;
         }
     }
 }
