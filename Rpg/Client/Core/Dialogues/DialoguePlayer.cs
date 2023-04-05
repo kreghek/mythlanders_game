@@ -17,7 +17,9 @@ namespace Rpg.Client.Core.Dialogues
             _currentNode = dialogue.Root;
             _contextFactory = contextFactory;
 
-            CurrentTextFragments = _currentNode.TextBlock.Paragraphs;
+            var context = _contextFactory.Create();
+            var conditionContext = new DialogueParagraphConditionContext(context);
+            CurrentTextFragments = GetTextBlockParagraphs(conditionContext);
             CurrentOptions = _currentNode.Options.ToArray();
         }
 
