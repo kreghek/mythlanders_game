@@ -74,14 +74,14 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     {
         return new[]
         {
-            // To debug text events
-            new ICampaignStageTemplateFactory[]
-            {
-                new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]{
-                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
-                    new ChallengeCampaignStageTemplateFactory(),
-                })
-            },
+            //// To debug text events
+            //new ICampaignStageTemplateFactory[]
+            //{
+            //    new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]{
+            //        new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+            //        new ChallengeCampaignStageTemplateFactory(),
+            //    })
+            //},
 
             //// To debug crisis
             //new ICampaignStageTemplateFactory[]
