@@ -1,4 +1,6 @@
-﻿using Rpg.Client.Core.Dialogues;
+﻿using Client.Core.Dialogues;
+
+using Rpg.Client.Core.Dialogues;
 
 namespace Client.Assets.DialogueOptionAftermath;
 

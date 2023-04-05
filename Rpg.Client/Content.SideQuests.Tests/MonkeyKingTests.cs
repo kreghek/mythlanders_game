@@ -5,6 +5,7 @@ using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.Dialogues;
 using Client.Core.Dialogues;
+using Client.GameScreens.TextDialogue;
 
 using Core.Dices;
 

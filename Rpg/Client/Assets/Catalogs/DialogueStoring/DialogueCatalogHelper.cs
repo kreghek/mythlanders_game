@@ -32,11 +32,15 @@ internal static class DialogueCatalogHelper
                 if (dialogueDtoParagraph.Text is not null)
                 {
                     // Regular paragraph
-                    var paragraph = new DialogueParagraph(GetSpeaker(dialogueDtoParagraph.Speaker),
-                        $"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}")
+                    var paragraphContext = new DialogueParagraphConfig
                     {
                         EnvironmentEffects = environmentEffects
                     };
+                    
+                    var paragraph = new DialogueParagraph(
+                        GetSpeaker(dialogueDtoParagraph.Speaker),
+                        $"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}",
+                        paragraphContext);
 
                     paragraphs.Add(paragraph);
                 }
@@ -46,13 +50,16 @@ internal static class DialogueCatalogHelper
 
                     foreach (var reaction in dialogueDtoParagraph.Reactions)
                     {
-                        // TODO Check hero in the party
-
-                        var paragraph = new DialogueParagraph(GetSpeaker(reaction.Hero),
-                            $"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}_reaction_{reaction.Hero}")
+                        var paragraphContext = new DialogueParagraphConfig
                         {
-                            EnvironmentEffects = environmentEffects
+                            EnvironmentEffects = environmentEffects,
+                            Conditions = new[]{ new HasHeroParagraphCondition(GetSpeaker(reaction.Hero))}
                         };
+
+                        var paragraph = new DialogueParagraph(
+                            GetSpeaker(reaction.Hero),
+                            $"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}_reaction_{reaction.Hero}",
+                            paragraphContext);
 
                         paragraphs.Add(paragraph);
                     }
@@ -155,5 +162,20 @@ internal static class DialogueCatalogHelper
         }
 
         return unitName;
+    }
+}
+
+internal sealed class HasHeroParagraphCondition: IDialogueParagraphCondition
+{
+    private readonly UnitName _hero;
+
+    public HasHeroParagraphCondition(UnitName hero)
+    {
+        _hero = hero;
+    }
+
+    public bool Check(IDialogueParagraphConditionContext context)
+    {
+        return context.CurrentHeroes.Contains(_hero.ToString().ToLower());
     }
 }
