@@ -149,8 +149,8 @@ internal static class CommonCombatVisualization
                     { IsLoop = true })
         };
 
-        var _innerState = new SequentialState(subStates);
-        return _innerState;
+        var innerState = new SequentialState(subStates);
+        return innerState;
     }
 
     private static Combatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution)
