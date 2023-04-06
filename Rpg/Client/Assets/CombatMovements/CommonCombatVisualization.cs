@@ -11,6 +11,7 @@ using Core.Combats;
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.GameScreens.Combat.GameObjects;
+using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 
 namespace Client.Assets.CombatMovements;
 

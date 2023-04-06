@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using Client.GameScreens.Combat.GameObjects;
 
@@ -6,22 +7,17 @@ using Microsoft.Xna.Framework;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
 {
-    internal sealed class SequentialState : IActorVisualizationState
+    public sealed class SequentialState : IActorVisualizationState
     {
         private readonly IReadOnlyList<IActorVisualizationState> _subStates;
         private int _subStateIndex;
-
-        public SequentialState(IReadOnlyList<IActorVisualizationState> subStates)
-        {
-            _subStates = subStates;
-        }
 
         public SequentialState(params IActorVisualizationState[] subStates)
         {
             _subStates = subStates;
         }
 
-        public bool CanBeReplaced => true;
+        public bool CanBeReplaced => _subStates.All(x => x.CanBeReplaced);
 
         public bool IsComplete { get; private set; }
 

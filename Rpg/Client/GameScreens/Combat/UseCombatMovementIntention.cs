@@ -9,6 +9,7 @@ using Core.Combats;
 
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
+using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 
 namespace Rpg.Client.GameScreens.Combat;
 

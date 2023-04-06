@@ -1,6 +1,5 @@
 using System.Linq;
 
-using Client.Assets.InteractionDeliveryObjects;
 using Client.Assets.States.Primitives;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
@@ -12,10 +11,7 @@ using Core.Combats.TargetSelectors;
 
 using JetBrains.Annotations;
 
-using Microsoft.Xna.Framework;
-
-using Rpg.Client.GameScreens;
-using Rpg.Client.GameScreens.Combat.GameObjects;
+using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 
 namespace Client.Assets.CombatMovements.Hero.Amazon;
 
@@ -80,21 +76,5 @@ internal class ArrowOfMoranaFactory : CombatMovementFactoryBase
 
         var targetCombatUnit = firstImposeItem.MaterializedTargets.FirstOrDefault();
         return targetCombatUnit;
-    }
-}
-
-internal sealed class EnergyArrowInteractionDeliveryFactory: IDeliveryFactory
-{
-    private readonly GameObjectContentStorage _gameObjectContentStorage;
-
-    public EnergyArrowInteractionDeliveryFactory(GameObjectContentStorage gameObjectContentStorage)
-    {
-        _gameObjectContentStorage = gameObjectContentStorage;
-    }
-    
-    /// <inheritdoc />
-    public IInteractionDelivery Create(CombatEffectImposeItem interactionImpose, Vector2 startPoint, Vector2 targetPoint)
-    {
-        return new EnergyArrowProjectile(startPoint, targetPoint, _gameObjectContentStorage.GetBulletGraphics());
     }
 }
