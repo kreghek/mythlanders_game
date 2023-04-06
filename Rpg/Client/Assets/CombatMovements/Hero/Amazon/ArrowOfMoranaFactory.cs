@@ -1,4 +1,4 @@
-﻿using Core.Combats;
+using Core.Combats;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 
 namespace Client.Assets.CombatMovements.Hero.Amazon;
 
-internal class FinishWoundedFactory : CombatMovementFactoryBase
+internal class ArrowOfMoranaFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(0, 7);

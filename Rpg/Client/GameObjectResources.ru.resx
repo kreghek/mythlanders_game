@@ -685,4 +685,34 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
   </data>
+  <data name="BalticThunder" xml:space="preserve">
+    <value>Балтийский шторм</value>
+  </data>
+  <data name="BalticThunder_Description" xml:space="preserve">
+    <value>Наносит урон 4ед. ближайшему в линии противнику и ставит метку на 2 хода. Следующее атакующее движение не требует энергии.</value>
+  </data>
+  <data name="ArrowOfMorana" xml:space="preserve">
+    <value>Стрела Мораны</value>
+  </data>
+  <data name="ArrowOfMorana_Description" xml:space="preserve">
+    <value>Наносит 2ед. урона самому слабому противнику с меткой.</value>
+  </data>
+  <data name="WingsOfVeles" xml:space="preserve">
+    <value>Крылья Велеса</value>
+  </data>
+  <data name="WingsOfVeles_Description" xml:space="preserve">
+    <value>Увеличивает урон любых атакующих движений на 1ед. И снижает стоимость всех атакующих навыков на 1ед энергии.</value>
+  </data>
+  <data name="UndercutValues" xml:space="preserve">
+    <value>Подрезать ценности</value>
+  </data>
+  <data name="UndercutValues_Description" xml:space="preserve">
+    <value>Наносит урон 1ед. ближайшему в линии противнику. Если это был самый сильный противник, то накладывает кровотечение на 2 раунда, наносящее урон 1ед. здоровью каждый раунд.</value>
+  </data>
+  <data name="WindWheel" xml:space="preserve">
+    <value>Ветренное колесо</value>
+  </data>
+  <data name="WindWheel_Description" xml:space="preserve">
+    <value>Наносит урон 4 ед. самому сильному противнику с меткой. И пропускает следующий ход.</value>
+  </data>
 </root>

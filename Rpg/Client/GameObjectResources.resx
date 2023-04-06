@@ -352,10 +352,10 @@
     <comment>Skill</comment>
   </data>
   <data name="FinishWounded" xml:space="preserve">
-    <value>Finish a wounded</value><comment>Combat Movement</comment>
+    <value>Finish a wounded</value><comment>Combat Movement Amazon</comment>
   </data>
   <data name="FinishWounded_Description" xml:space="preserve">
-    <value /><comment>Combat Movement</comment>
+    <value /><comment>Combat Movement Amazon</comment>
   </data>
   <data name="FlockAlphaTactics" xml:space="preserve">
     <value>Flock Alpha Tactics</value>
@@ -707,11 +707,11 @@
   </data>
   <data name="VelesProtection" xml:space="preserve">
     <value>Veles protection</value>
-    <comment>Combat Movement</comment>
+    <comment>Combat Movement Digital wolf</comment>
   </data>
   <data name="VelesProtection_Description" xml:space="preserve">
-    <value></value>
-    <comment>Combat Movement</comment>
+    <value />
+    <comment>Combat Movement Digital wolf</comment>
   </data>
   <data name="Volkolak" xml:space="preserve">
     <value>Volkolak</value>
@@ -754,5 +754,35 @@
   <data name="ZduhachMight" xml:space="preserve">
       <value>Zduhach Might</value>
     <comment>Skill</comment>
+  </data>
+  <data name="BalticThunder" xml:space="preserve">
+    <value>Baltic thunder</value><comment>Combat Movement Robber</comment>
+  </data>
+  <data name="BalticThunder_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Robber</comment>
+  </data>
+  <data name="ArrowOfMorana" xml:space="preserve">
+    <value>Arrow of Morana</value><comment>Combat Movement Robber</comment>
+  </data>
+  <data name="ArrowOfMorana_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Robber</comment>
+  </data>
+  <data name="WingsOfVeles" xml:space="preserve">
+    <value>Wings Of Veles</value><comment>Combat Movement Robber</comment>
+  </data>
+  <data name="WingsOfVeles_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Robber</comment>
+  </data>
+  <data name="UndercutValues" xml:space="preserve">
+    <value>Undercut values</value><comment>Combat Movement Robber</comment>
+  </data>
+  <data name="UndercutValues_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Robber</comment>
+  </data>
+  <data name="WindWheel" xml:space="preserve">
+    <value>Wind wheel</value><comment>Combat movement Robber</comment>
+  </data>
+  <data name="WindWheel_Description" xml:space="preserve">
+    <value /><comment>Combat movement Robber</comment>
   </data>
 </root>
