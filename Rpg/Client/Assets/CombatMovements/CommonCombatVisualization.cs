@@ -4,6 +4,7 @@ using System.Linq;
 using Client.Assets.States.Primitives;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
+using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
 
@@ -64,8 +65,8 @@ internal static class CommonCombatVisualization
                     { IsLoop = true })
         };
 
-        var _innerState = new SequentialState(subStates);
-        return _innerState;
+        var innerState = new SequentialState(subStates);
+        return innerState;
     }
 
     public static IActorVisualizationState CreateSingleMeleeVisualization(IActorAnimator actorAnimator,

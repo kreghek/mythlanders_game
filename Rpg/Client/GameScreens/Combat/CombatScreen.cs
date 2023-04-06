@@ -5,6 +5,7 @@ using System.Linq;
 
 using Client.Assets.Catalogs;
 using Client.Assets.CombatMovements;
+using Client.Assets.States.Primitives;
 using Client.Assets.StoryPointJobs;
 using Client.Core;
 using Client.Core.Campaigns;
@@ -50,7 +51,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private readonly UpdatableAnimationManager _animationManager;
     private readonly CombatScreenTransitionArguments _args;
-    private readonly IList<IInteractionDelivery> _bulletObjects;
+    private readonly InteractionDeliveryManager _interactionDeliveryManager;
     private readonly Camera2D _camera;
     private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
     private readonly ICombatantPositionProvider _combatantPositionProvider;
@@ -111,7 +112,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _gameObjects = new List<CombatantGameObject>();
         _corpseObjects = new List<CorpseGameObject>();
-        _bulletObjects = new List<IInteractionDelivery>();
+        _interactionDeliveryManager = new InteractionDeliveryManager();
 
         _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();
@@ -474,7 +475,13 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatMovementsHandPanel.WaitPicked += CombatMovementsHandPanel_WaitPicked;
 
         var intentionFactory =
-            new BotCombatActorIntentionFactory(_animationManager, _combatMovementVisualizer, _gameObjects);
+            new BotCombatActorIntentionFactory(
+                _animationManager,
+                _combatMovementVisualizer,
+                _gameObjects,
+                _interactionDeliveryManager,
+                _gameObjectContentStorage
+            );
         _combatCore.Initialize(
             CombatantFactory.CreateHeroes(_playerCombatantBehaviour, _globeProvider.Globe.Player),
             CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(intentionFactory),
@@ -505,8 +512,13 @@ internal class CombatScreen : GameScreenWithMenuBase
     {
         _targetMarkers.EriseTargets();
 
-        var intention = new UseCombatMovementIntention(e.CombatMovement, _animationManager, _combatMovementVisualizer,
-            _gameObjects);
+        var intention = new UseCombatMovementIntention(
+            e.CombatMovement,
+            _animationManager,
+            _combatMovementVisualizer,
+            _gameObjects,
+            _interactionDeliveryManager,
+            _gameObjectContentStorage);
 
         _playerCombatantBehaviour.Assign(intention);
     }
@@ -735,7 +747,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void DrawBullets(SpriteBatch spriteBatch)
     {
-        foreach (var bullet in _bulletObjects)
+        foreach (var bullet in _interactionDeliveryManager.GetActiveSnapshot())
         {
             bullet.Draw(spriteBatch);
         }
@@ -804,26 +816,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void DrawCombatMoveTargets(SpriteBatch spriteBatch)
     {
         _targetMarkers.Draw(spriteBatch);
-    }
-
-    private void DrawCombatSequenceProgress(SpriteBatch spriteBatch)
-    {
-        if (_globeNode.AssignedCombats is not null)
-        {
-            var sumSequenceLength = _globeNode.AssignedCombats.Combats.Count;
-
-            var completeCombatCount = _globeNode.AssignedCombats.CompletedCombats.Count + 1;
-
-            var position = new Vector2(ResolutionIndependentRenderer.VirtualBounds.Center.X, 5);
-
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                string.Format(UiResource.CombatProgressTemplate, completeCombatCount, sumSequenceLength),
-                position, Color.White);
-
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                string.Format(UiResource.MonsterDangerTemplate, 1),
-                position + new Vector2(0, 10), Color.White);
-        }
     }
 
     private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffsetX,
@@ -901,7 +893,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         DrawCombatants(spriteBatch);
 
-        foreach (var bullet in _bulletObjects)
+        foreach (var bullet in _interactionDeliveryManager.GetActiveSnapshot())
         {
             bullet.Draw(spriteBatch);
         }
@@ -1100,11 +1092,11 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void HandleBullets(GameTime gameTime)
     {
-        foreach (var bullet in _bulletObjects.ToArray())
+        foreach (var bullet in _interactionDeliveryManager.GetActiveSnapshot())
         {
             if (bullet.IsDestroyed)
             {
-                _bulletObjects.Remove(bullet);
+                _interactionDeliveryManager.Unregister(bullet);
             }
             else
             {

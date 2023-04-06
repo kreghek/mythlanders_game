@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Engine;
+using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
 

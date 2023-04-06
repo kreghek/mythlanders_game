@@ -3,15 +3,14 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects
+namespace Client.GameScreens.Combat.GameObjects;
+
+internal interface IInteractionDelivery
 {
-    internal interface IInteractionDelivery
-    {
-        bool IsDestroyed { get; }
+    bool IsDestroyed { get; }
 
-        void Draw(SpriteBatch spriteBatch);
-        void Update(GameTime gameTime);
+    void Draw(SpriteBatch spriteBatch);
+    void Update(GameTime gameTime);
 
-        event EventHandler? InteractionPerformed;
-    }
+    event EventHandler? InteractionPerformed;
 }

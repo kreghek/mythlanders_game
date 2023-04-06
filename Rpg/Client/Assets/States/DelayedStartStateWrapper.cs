@@ -1,3 +1,5 @@
+using Client.GameScreens.Combat.GameObjects;
+
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.GameScreens.Combat.GameObjects;
