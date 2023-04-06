@@ -41,7 +41,7 @@ internal sealed class UseCombatMovementIntention : IIntention
     private IActorVisualizationState GetMovementVisualizationState(CombatantGameObject actorGameObject,
         CombatMovementExecution movementExecution, CombatMovementInstance combatMovement)
     {
-        var context = new CombatMovementVisualizationContext(_combatantGameObjects.ToArray(), _interactionDeliveryManager, _gameObjectContentStorage);
+        var context = new CombatMovementVisualizationContext(actorGameObject, _combatantGameObjects.ToArray(), _interactionDeliveryManager, _gameObjectContentStorage);
 
         return _combatMovementVisualizer.GetMovementVisualizationState(combatMovement.SourceMovement.Sid,
             actorGameObject.Animator, movementExecution, context);

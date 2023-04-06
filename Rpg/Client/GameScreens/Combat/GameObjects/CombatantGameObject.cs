@@ -72,7 +72,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
     public Vector2 InteractionPoint => Position - _combatantGraphicsConfig.InteractionPoint;
 
     public bool IsActive { get; set; }
-    public Vector2 LaunchPoint => Position - Vector2.UnitY * 64;
+    public Vector2 LaunchPoint => Position - _combatantGraphicsConfig.LaunchPoint;
 
     public Vector2 StatsPanelOrigin => Position - _combatantGraphicsConfig.StatsPanelOrigin;
 

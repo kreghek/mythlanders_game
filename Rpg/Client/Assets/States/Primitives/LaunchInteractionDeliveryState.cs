@@ -52,7 +52,7 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
     {
         foreach (var imposeItem in _imposeItems)
         {
-            var interactionDelivery = _deliveryFactory.Create(imposeItem.ImposeItem, _animator.GraphicRoot.Position, imposeItem.TargetPosition);
+            var interactionDelivery = _deliveryFactory.Create(imposeItem.ImposeItem, imposeItem.StartPosition, imposeItem.TargetPosition);
 
             _interactionDeliveryManager.Register(interactionDelivery);
             _activeInteractionDeliveryList.Add(interactionDelivery);
@@ -63,8 +63,18 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
                     throw new InvalidOperationException();
                 }
 
+                ImposeEffect(imposeItem);
+
                 _activeInteractionDeliveryList.Remove((IInteractionDelivery)sender);
             };
+        }
+    }
+
+    private static void ImposeEffect(InteractionDeliveryInfo imposeItem)
+    {
+        foreach (var target in imposeItem.ImposeItem.MaterializedTargets)
+        {
+            imposeItem.ImposeItem.ImposeDelegate(target);
         }
     }
 

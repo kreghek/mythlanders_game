@@ -13,4 +13,5 @@ internal interface ICombatMovementVisualizationContext
     
     InteractionDeliveryManager InteractionDeliveryManager { get; }
     GameObjectContentStorage GameObjectContentStorage { get; }
+    CombatantGameObject ActorGameObject { get; }
 }

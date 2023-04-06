@@ -17,10 +17,12 @@ internal sealed class CombatMovementVisualizationContext : ICombatMovementVisual
     private readonly GameObjectContentStorage _gameObjectContentStorage;
 
     public CombatMovementVisualizationContext(
+        CombatantGameObject actorGameObject,
         IReadOnlyCollection<CombatantGameObject> gameObjects,
         InteractionDeliveryManager interactionDeliveryManager,
         GameObjectContentStorage gameObjectContentStorage)
     {
+        ActorGameObject = actorGameObject;
         _gameObjects = gameObjects;
         _interactionDeliveryManager = interactionDeliveryManager;
         _gameObjectContentStorage = gameObjectContentStorage;
@@ -33,4 +35,6 @@ internal sealed class CombatMovementVisualizationContext : ICombatMovementVisual
 
     public InteractionDeliveryManager InteractionDeliveryManager => _interactionDeliveryManager;
     public GameObjectContentStorage GameObjectContentStorage => _gameObjectContentStorage;
+
+    public CombatantGameObject ActorGameObject { get; }
 }
