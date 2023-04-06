@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core.AnimationFrameSets;
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
@@ -44,8 +45,13 @@ internal sealed class CombatMovementVisualizer : ICombatMovementVisualizer
     {
         if (!_movementVisualizationDict.TryGetValue(sid, out var factory))
         {
-            return CommonCombatVisualization.CreateMeleeVisualization(actorAnimator, movementExecution,
-                visualizationContext);
+            var config = new SingleMeleeVisualizationConfig(
+                    new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8),
+                    new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8) { IsLoop = true });
+
+            return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
+                visualizationContext,
+                config);
         }
 
         return factory.CreateVisualization(actorAnimator, movementExecution, visualizationContext);

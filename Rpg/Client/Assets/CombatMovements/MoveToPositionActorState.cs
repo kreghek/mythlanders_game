@@ -60,10 +60,6 @@ internal sealed class MoveToPositionActorState : IActorVisualizationState
 
             var currentPosition = _moveFunction.CalcPosition(t);
 
-            //var jumpTopPosition = Vector2.UnitY * -24 * (float)Math.Sin((float)_counter / DURATION * Math.PI);
-
-            //var fullPosition = horizontalPosition + jumpTopPosition;
-
             _animator.GraphicRoot.Position = currentPosition;
         }
         else
