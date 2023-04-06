@@ -157,7 +157,8 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
                 _campaign.CompleteCurrentStage();
             };
 
-            aftermathButton.OnHover += (s, e) => {
+            aftermathButton.OnHover += (s, e) =>
+            {
                 var hintText = GameObjectResources.ResourceManager.GetString($"{aftermath.Sid.ResourceName}_Hint");
 
                 if (hintText is not null)
@@ -168,7 +169,8 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
                 }
             };
 
-            aftermathButton.OnLeave += (s, e) => {
+            aftermathButton.OnLeave += (s, e) =>
+            {
                 _aftermathHint = null;
                 _aftermathOnHover = null;
             };

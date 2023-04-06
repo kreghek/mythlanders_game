@@ -10,7 +10,7 @@ using Rpg.Client.GameScreens;
 
 namespace Client.Assets.CombatMovements.Hero.Amazon;
 
-internal sealed class EnergyArrowInteractionDeliveryFactory: IDeliveryFactory
+internal sealed class EnergyArrowInteractionDeliveryFactory : IDeliveryFactory
 {
     private readonly GameObjectContentStorage _gameObjectContentStorage;
 
@@ -18,7 +18,7 @@ internal sealed class EnergyArrowInteractionDeliveryFactory: IDeliveryFactory
     {
         _gameObjectContentStorage = gameObjectContentStorage;
     }
-    
+
     /// <inheritdoc />
     public IInteractionDelivery Create(CombatEffectImposeItem interactionImpose, Vector2 startPoint, Vector2 targetPoint)
     {

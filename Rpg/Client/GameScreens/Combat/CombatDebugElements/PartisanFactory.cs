@@ -8,7 +8,7 @@ using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class PartisanFactory: IHeroCombatantFactory
+public class PartisanFactory : IHeroCombatantFactory
 {
     public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
     {

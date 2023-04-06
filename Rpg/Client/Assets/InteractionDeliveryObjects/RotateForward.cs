@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 
 namespace Client.Assets.InteractionDeliveryObjects;
 
-internal sealed class RotateForward: IRotationFunction
+internal sealed class RotateForward : IRotationFunction
 {
     private readonly Vector2 _startPosition;
     private readonly Vector2 _targetPosition;
@@ -14,7 +14,7 @@ internal sealed class RotateForward: IRotationFunction
         _startPosition = startPosition;
         _targetPosition = targetPosition;
     }
-    
+
     /// <inheritdoc />
     public float CalculateRadianAngle(float t)
     {

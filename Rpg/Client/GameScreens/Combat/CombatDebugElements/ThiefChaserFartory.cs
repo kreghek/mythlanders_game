@@ -5,7 +5,7 @@ using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class ThiefChaserFactory: IMonsterCombatantFactory
+public class ThiefChaserFactory : IMonsterCombatantFactory
 {
     public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex)
     {

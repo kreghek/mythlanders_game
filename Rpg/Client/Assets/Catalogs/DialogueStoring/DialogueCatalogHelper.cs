@@ -36,7 +36,7 @@ internal static class DialogueCatalogHelper
                     {
                         EnvironmentEffects = environmentEffects
                     };
-                    
+
                     var paragraph = new DialogueParagraph(
                         GetSpeaker(dialogueDtoParagraph.Speaker),
                         $"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}",
@@ -53,7 +53,7 @@ internal static class DialogueCatalogHelper
                         var paragraphContext = new DialogueParagraphConfig
                         {
                             EnvironmentEffects = environmentEffects,
-                            Conditions = new[]{ new HasHeroParagraphCondition(GetSpeaker(reaction.Hero))}
+                            Conditions = new[] { new HasHeroParagraphCondition(GetSpeaker(reaction.Hero)) }
                         };
 
                         var paragraph = new DialogueParagraph(
@@ -165,7 +165,7 @@ internal static class DialogueCatalogHelper
     }
 }
 
-internal sealed class HasHeroParagraphCondition: IDialogueParagraphCondition
+internal sealed class HasHeroParagraphCondition : IDialogueParagraphCondition
 {
     private readonly UnitName _hero;
 

@@ -16,7 +16,7 @@ using Rpg.Client.GameScreens;
 
 namespace Client.GameScreens.Combat.Ui;
 
-internal sealed class WaitIconButton: ButtonBase
+internal sealed class WaitIconButton : ButtonBase
 {
     private readonly Texture2D _icon;
     private readonly Rectangle? _iconRect;
@@ -74,11 +74,11 @@ internal class CombatMovementsHandPanel : ControlBase
         IsEnabled = true;
 
         _waitButton =
-            new WaitIconButton(new IconData(game.Content.Load<Texture2D>("Sprites/Ui/SmallVerticalButtonIcons_White"), 
+            new WaitIconButton(new IconData(game.Content.Load<Texture2D>("Sprites/Ui/SmallVerticalButtonIcons_White"),
             new Rectangle(
-                SPECIAL_BUTTONS_ICON_WIDTH * 2, 
-                SPECIAL_BUTTONS_ICON_HEIGHT, 
-                SPECIAL_BUTTONS_ICON_WIDTH, 
+                SPECIAL_BUTTONS_ICON_WIDTH * 2,
+                SPECIAL_BUTTONS_ICON_HEIGHT,
+                SPECIAL_BUTTONS_ICON_WIDTH,
                 SPECIAL_BUTTONS_ICON_HEIGHT)));
         _waitButton.OnClick += WaitButton_OnClick;
     }
@@ -170,7 +170,7 @@ internal class CombatMovementsHandPanel : ControlBase
 
         _waitButton.Rect = new Rectangle(
             buttonsRect.Right,
-            buttonsRect.Top, 
+            buttonsRect.Top,
             SPECIAL_BUTTONS_ICON_WIDTH + CONTENT_MARGIN * 2,
             SPECIAL_BUTTONS_ICON_HEIGHT + CONTENT_MARGIN * 2);
 

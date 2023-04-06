@@ -10,7 +10,7 @@ namespace Client.Assets.CombatMovements;
 internal interface ICombatMovementVisualizationContext
 {
     CombatantGameObject GetCombatActor(Combatant combatant);
-    
+
     InteractionDeliveryManager InteractionDeliveryManager { get; }
     GameObjectContentStorage GameObjectContentStorage { get; }
     CombatantGameObject ActorGameObject { get; }

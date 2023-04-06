@@ -39,7 +39,7 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
         _interactionDeliveryManager = interactionDeliveryManager;
 
         _activeInteractionDeliveryList = new List<IInteractionDelivery>();
-        
+
         _launchAnimation.End += LaunchAnimation_End;
     }
 
@@ -80,7 +80,7 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
 
     /// <inheritdoc />
     public bool CanBeReplaced => false;
-    
+
     /// <inheritdoc />
     public bool IsComplete { get; private set; }
 
@@ -97,7 +97,7 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
         {
             _animator.PlayAnimation(_launchAnimation);
         }
-        
+
         _counter += gameTime.ElapsedGameTime.TotalSeconds;
 
         if (_activeInteractionDeliveryList.Any())

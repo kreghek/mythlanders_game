@@ -13,9 +13,9 @@ internal sealed class EnergyArrowProjectile : ProjectileBase
 {
     private const double LIFETIME_DURATION_SECONDS = 0.3;
     private const int FPS = 8 * 3;
-    
+
     private readonly ParticleSystem _tailParticleSystem;
-    
+
     public EnergyArrowProjectile(Vector2 startPosition,
         Vector2 endPosition,
         Texture2D bulletTexture,
@@ -31,22 +31,22 @@ internal sealed class EnergyArrowProjectile : ProjectileBase
         var particleGenerator = new TailParticleGenerator(new[] { bulletTexture });
         _tailParticleSystem = new ParticleSystem(startPosition, particleGenerator);
     }
-    
+
     protected override void DrawForegroundAdditionalEffects(SpriteBatch spriteBatch)
     {
         base.DrawForegroundAdditionalEffects(spriteBatch);
-    
+
         _tailParticleSystem.Draw(spriteBatch);
     }
-    
+
     protected override void UpdateAdditionalEffects(GameTime gameTime)
     {
         base.UpdateAdditionalEffects(gameTime);
-    
+
         _tailParticleSystem.MoveEmitter(CurrentPosition);
         _tailParticleSystem.Update(gameTime);
     }
-    
+
     private static IAnimationFrameSet CreateFrameSet()
     {
         return AnimationFrameSetFactory.CreateSequential(0, frameCount: 4, fps: FPS, frameWidth: 64,

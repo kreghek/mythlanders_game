@@ -31,7 +31,7 @@ internal class CombatantFactory
         Player player)
     {
         var formationSlots = player.Heroes.Select(hero => new FormationSlot(hero.FormationPosition.ColumentIndex, hero.FormationPosition.LineIndex)
-        { 
+        {
             Combatant = _factories[hero.ClassSid].Create("", combatActorBehaviour, hero.HitPoints)
         }).ToArray();
 

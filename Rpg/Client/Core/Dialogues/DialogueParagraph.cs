@@ -13,14 +13,14 @@ internal sealed class DialogueParagraph
         Speaker = speaker;
 
         EnvironmentEffects = config.EnvironmentEffects;
-        
+
         Conditions = config.Conditions;
     }
 
     public IReadOnlyCollection<IDialogueEnvironmentEffect> EnvironmentEffects { get; }
     public UnitName Speaker { get; }
     public string TextSid { get; }
-    
+
     public IReadOnlyCollection<IDialogueParagraphCondition> Conditions { get; }
 }
 

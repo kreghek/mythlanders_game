@@ -23,7 +23,7 @@ internal sealed class PlayAnimationActorState : IActorVisualizationState
         _animation = animation;
         _animator = animator;
         _duration = duration ?? new Duration(0.25);
-        
+
         _animation.End += Animation_End;
     }
 
@@ -34,7 +34,7 @@ internal sealed class PlayAnimationActorState : IActorVisualizationState
 
     /// <inheritdoc />
     public bool CanBeReplaced => false;
-    
+
     /// <inheritdoc />
     public bool IsComplete { get; private set; }
 
@@ -58,7 +58,7 @@ internal sealed class PlayAnimationActorState : IActorVisualizationState
         {
             _animator.PlayAnimation(_animation);
         }
-        
+
         _counter += gameTime.ElapsedGameTime.TotalSeconds;
 
         if (_counter <= _duration.Seconds)

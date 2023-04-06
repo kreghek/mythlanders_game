@@ -57,11 +57,15 @@ internal class FieldManeuversVisualizer
     /// <summary>
     /// Current combatant for which maneuver controls draw.
     /// </summary>
-    public Combatant? Combatant { get => _combatant; set { 
+    public Combatant? Combatant
+    {
+        get => _combatant; set
+        {
             _combatant = value;
             _selectedCoords = null;
             _selectedManeuverButton = null;
-        } }
+        }
+    }
 
     public bool IsHidden { get; internal set; }
 

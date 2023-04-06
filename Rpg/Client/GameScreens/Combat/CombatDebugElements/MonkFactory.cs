@@ -9,7 +9,7 @@ using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class MonkFactory: IHeroCombatantFactory
+public class MonkFactory : IHeroCombatantFactory
 {
     public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
     {

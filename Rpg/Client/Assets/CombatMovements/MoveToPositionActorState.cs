@@ -27,7 +27,7 @@ internal sealed class MoveToPositionActorState : IActorVisualizationState
 
     /// <inheritdoc />
     public bool CanBeReplaced => false;
-    
+
     /// <inheritdoc />
     public bool IsComplete { get; private set; }
 

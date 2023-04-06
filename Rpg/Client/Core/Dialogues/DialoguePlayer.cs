@@ -32,7 +32,7 @@ namespace Rpg.Client.Core.Dialogues
         public void SelectOption(DialogueOption option)
         {
             var context = _contextFactory.Create();
-            
+
             _currentNode = option.Next;
 
             if (_currentNode != DialogueNode.EndNode)
