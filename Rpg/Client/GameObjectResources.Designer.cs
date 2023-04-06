@@ -141,11 +141,47 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Arrow of Morana.
+        /// </summary>
+        internal static string ArrowOfMorana {
+            get {
+                return ResourceManager.GetString("ArrowOfMorana", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ArrowOfMorana_Description {
+            get {
+                return ResourceManager.GetString("ArrowOfMorana_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Arrow rain.
         /// </summary>
         internal static string ArrowRain {
             get {
                 return ResourceManager.GetString("ArrowRain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Art of Combat.
+        /// </summary>
+        internal static string ArtOfCombat {
+            get {
+                return ResourceManager.GetString("ArtOfCombat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ArtOfCombat_Description {
+            get {
+                return ResourceManager.GetString("ArtOfCombat_Description", resourceCulture);
             }
         }
         
@@ -173,6 +209,24 @@ namespace Client {
         internal static string Assaulter {
             get {
                 return ResourceManager.GetString("Assaulter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Baltic thunder.
+        /// </summary>
+        internal static string BalticThunder {
+            get {
+                return ResourceManager.GetString("BalticThunder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string BalticThunder_Description {
+            get {
+                return ResourceManager.GetString("BalticThunder_Description", resourceCulture);
             }
         }
         
@@ -753,6 +807,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hand of Thousand Forms and Intentions.
+        /// </summary>
+        internal static string HandOfThousandForms {
+            get {
+                return ResourceManager.GetString("HandOfThousandForms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move to vanguard and deal 2 damage to the nearest enemy in lane. If the monk was already in the vanguard, then deal 1 bonus damage..
+        /// </summary>
+        internal static string HandOfThousandForms_Description {
+            get {
+                return ResourceManager.GetString("HandOfThousandForms_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Healing salve.
         /// </summary>
         internal static string HealingSalve {
@@ -803,6 +875,24 @@ namespace Client {
         internal static string Hermitage {
             get {
                 return ResourceManager.GetString("Hermitage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hidden intention.
+        /// </summary>
+        internal static string HiddenIntention {
+            get {
+                return ResourceManager.GetString("HiddenIntention", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string HiddenIntention_Description {
+            get {
+                return ResourceManager.GetString("HiddenIntention_Description", resourceCulture);
             }
         }
         
@@ -870,11 +960,22 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Ignore.
         /// </summary>
         internal static string Ignore_CrisisAftermath {
             get {
                 return ResourceManager.GetString("Ignore_CrisisAftermath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inflict wrath on the entire group of heroes!
+        ///- Everyone takes 1 damage penalty for 1 combat.
+        ///- Berimir takes an additional 1 damage penalty for all combats until the end of the campaign..
+        /// </summary>
+        internal static string Ignore_CrisisAftermath_Hint {
+            get {
+                return ResourceManager.GetString("Ignore_CrisisAftermath_Hint", resourceCulture);
             }
         }
         
@@ -1023,6 +1124,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Masterful staff hit.
+        /// </summary>
+        internal static string MasterfulStaffHit {
+            get {
+                return ResourceManager.GetString("MasterfulStaffHit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string MasterfulStaffHit_Description {
+            get {
+                return ResourceManager.GetString("MasterfulStaffHit_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gelik.
         /// </summary>
         internal static string Medjay {
@@ -1086,6 +1205,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ninth trigram.
+        /// </summary>
+        internal static string NinthTrigram {
+            get {
+                return ResourceManager.GetString("NinthTrigram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string NinthTrigram_Description {
+            get {
+                return ResourceManager.GetString("NinthTrigram_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Old good brawl.
         /// </summary>
         internal static string OldGoodBrawl {
@@ -1131,7 +1268,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Pay attention.
         /// </summary>
         internal static string Prey_CrisisAftermath {
             get {
@@ -1140,7 +1277,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to One of the heroes feels the haunting presence of the his faith ancient ones. They demand his attention. They demand his help. Such requests cannot be ignored. Especially in the dark future, where only ancient forces make heroes..
         /// </summary>
         internal static string Preying_Crisis {
             get {
@@ -1491,6 +1628,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Undercut values.
+        /// </summary>
+        internal static string UndercutValues {
+            get {
+                return ResourceManager.GetString("UndercutValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string UndercutValues_Description {
+            get {
+                return ResourceManager.GetString("UndercutValues_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Vampire bite.
         /// </summary>
         internal static string VampireBite {
@@ -1559,6 +1714,42 @@ namespace Client {
         internal static string WideSwordSlash {
             get {
                 return ResourceManager.GetString("WideSwordSlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wind wheel.
+        /// </summary>
+        internal static string WindWheel {
+            get {
+                return ResourceManager.GetString("WindWheel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string WindWheel_Description {
+            get {
+                return ResourceManager.GetString("WindWheel_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wings Of Veles.
+        /// </summary>
+        internal static string WingsOfVeles {
+            get {
+                return ResourceManager.GetString("WingsOfVeles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string WingsOfVeles_Description {
+            get {
+                return ResourceManager.GetString("WingsOfVeles_Description", resourceCulture);
             }
         }
         

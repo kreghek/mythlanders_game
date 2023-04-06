@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.CombatMovements.Hero.Amazon;
 using Client.Assets.States.Primitives;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
+using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
 
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.GameScreens.Combat.GameObjects;
+using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 
 namespace Client.Assets.CombatMovements;
 
@@ -64,8 +67,37 @@ internal static class CommonCombatVisualization
                     { IsLoop = true })
         };
 
-        var _innerState = new SequentialState(subStates);
-        return _innerState;
+        var innerState = new SequentialState(subStates);
+        return innerState;
+    }
+
+    public static IActorVisualizationState CreateSingleDistanceVisualization(IActorAnimator actorAnimator,
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+    {
+        var startPosition = actorAnimator.GraphicRoot.Position;
+        var targetCombatant = GetFirstTargetOrDefault(movementExecution);
+
+        var targetPosition = targetCombatant is not null
+            ? visualizationContext.GetCombatActor(targetCombatant).InteractionPoint
+            : startPosition;
+
+        var subStates = new IActorVisualizationState[]
+        {
+            // Prepare to launch
+            new PlayAnimationActorState(actorAnimator,
+                new LinearAnimationFrameSet(Enumerable.Range(8, 2).ToArray(), 8, CommonConstants.FrameSize.X,
+                    CommonConstants.FrameSize.Y, 8)),
+            new LaunchAndWaitInteractionDeliveryState(
+                actorAnimator,
+                new LinearAnimationFrameSet(Enumerable.Range(8 + 2, 2).ToArray(), 8, CommonConstants.FrameSize.X,
+                    CommonConstants.FrameSize.Y, 8),
+                movementExecution.EffectImposeItems.Select(x=>new InteractionDeliveryInfo(x, visualizationContext.ActorGameObject.LaunchPoint, targetPosition)).ToArray(),
+                new EnergyArrowInteractionDeliveryFactory(visualizationContext.GameObjectContentStorage),
+                visualizationContext.InteractionDeliveryManager)
+        };
+
+        var innerState = new SequentialState(subStates);
+        return innerState;
     }
 
     public static IActorVisualizationState CreateSingleMeleeVisualization(IActorAnimator actorAnimator,
@@ -117,8 +149,8 @@ internal static class CommonCombatVisualization
                     { IsLoop = true })
         };
 
-        var _innerState = new SequentialState(subStates);
-        return _innerState;
+        var innerState = new SequentialState(subStates);
+        return innerState;
     }
 
     private static Combatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution)

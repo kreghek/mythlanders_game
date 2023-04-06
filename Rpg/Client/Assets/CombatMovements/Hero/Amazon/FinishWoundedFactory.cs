@@ -6,7 +6,6 @@ using JetBrains.Annotations;
 
 namespace Client.Assets.CombatMovements.Hero.Amazon;
 
-[UsedImplicitly]
 internal class FinishWoundedFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />

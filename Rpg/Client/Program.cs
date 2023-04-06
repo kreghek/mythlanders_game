@@ -8,8 +8,6 @@ using Microsoft.Extensions.Logging;
 
 using NReco.Logging.File;
 
-using Rpg.Client;
-
 static ILogger<TestamentGame> CreateLogging()
 {
     using var loggerFactory = LoggerFactory.Create(builder =>
@@ -63,6 +61,11 @@ static GameMode ReadGameMode()
         if (setting == "Mode=Demo")
         {
             return GameMode.Demo;
+        }
+
+        if (setting == "Recording")
+        {
+            return GameMode.Demo & GameMode.Recording;
         }
     }
 

@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
@@ -110,6 +111,18 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
             actionButton.Draw(spriteBatch);
         }
 
+        if (_aftermathHint is not null && _aftermathOnHover is not null)
+        {
+            var textSize = _uiContentStorage.GetMainFont().MeasureString(_aftermathHint.Text);
+            _aftermathHint.Rect = new Rectangle(
+                Mouse.GetState().X + 5,
+                Mouse.GetState().Y + 5,
+                (int)textSize.X + ControlBase.CONTENT_MARGIN * 2 + 5, // this is from text hint draw method
+                (int)textSize.Y + ControlBase.CONTENT_MARGIN * 2 + 15);
+
+            _aftermathHint.Draw(spriteBatch);
+        }
+
         spriteBatch.End();
     }
 
@@ -139,14 +152,34 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
                         new CampaignScreenTransitionArguments(_campaign));
                 };
 
+
                 AddModal(underConstructionModal, false);
                 _campaign.CompleteCurrentStage();
+            };
+
+            aftermathButton.OnHover += (s, e) => {
+                var hintText = GameObjectResources.ResourceManager.GetString($"{aftermath.Sid.ResourceName}_Hint");
+
+                if (hintText is not null)
+                {
+                    var normalizedText = StringHelper.LineBreaking(hintText, 60);
+                    _aftermathHint = new TextHint(normalizedText);
+                    _aftermathOnHover = (ControlBase?)s;
+                }
+            };
+
+            aftermathButton.OnLeave += (s, e) => {
+                _aftermathHint = null;
+                _aftermathOnHover = null;
             };
         }
 
         _soundtrackManager.PlaySilence();
         _soundEffectInstance.Play();
     }
+
+    private TextHint? _aftermathHint;
+    private ControlBase? _aftermathOnHover;
 
     protected override void UpdateContent(GameTime gameTime)
     {

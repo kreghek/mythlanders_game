@@ -1,4 +1,6 @@
-﻿using Rpg.Client.Assets.GlobalEffects;
+﻿using Client.Core.Dialogues;
+
+using Rpg.Client.Assets.GlobalEffects;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
 

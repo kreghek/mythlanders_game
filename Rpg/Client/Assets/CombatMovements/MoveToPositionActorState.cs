@@ -4,7 +4,6 @@ using Client.GameScreens.Combat.GameObjects;
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
-using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Client.Assets.CombatMovements;
 
@@ -23,19 +22,16 @@ internal sealed class MoveToPositionActorState : IActorVisualizationState
         _animation = animation;
         _animator = animator;
         _moveFunction = moveFunction;
-        if (duration is not null)
-        {
-            _duration = duration;
-        }
-        else
-        {
-            _duration = new Duration(0.25);
-        }
+        _duration = duration ?? new Duration(0.25);
     }
 
+    /// <inheritdoc />
     public bool CanBeReplaced => false;
+    
+    /// <inheritdoc />
     public bool IsComplete { get; private set; }
 
+    /// <inheritdoc />
     public void Cancel()
     {
         if (IsComplete)
@@ -43,6 +39,7 @@ internal sealed class MoveToPositionActorState : IActorVisualizationState
         }
     }
 
+    /// <inheritdoc />
     public void Update(GameTime gameTime)
     {
         if (IsComplete)

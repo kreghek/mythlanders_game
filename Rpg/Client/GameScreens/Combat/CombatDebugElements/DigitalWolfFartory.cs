@@ -4,9 +4,9 @@ using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class DigitalWolfFactory
+public class DigitalWolfFactory : IMonsterCombatantFactory
 {
-    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour)
+    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex)
     {
         // ReSharper disable once UseObjectOrCollectionInitializer
         var monsterSequence = CreateCombatMoveVariation();

@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 
 using Rpg.Client.Assets.GraphicConfigs.Monsters;
 using Rpg.Client.Core;
+using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Monsters
 {
@@ -27,8 +28,13 @@ namespace Rpg.Client.Assets.Monsters
                 {
                 },
 
-                UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
+                UnitGraphicsConfig = new AspidGraphicsConfig()
             };
+        }
+
+        public override UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
+        {
+            return new AspidGraphicsConfig();
         }
     }
 }

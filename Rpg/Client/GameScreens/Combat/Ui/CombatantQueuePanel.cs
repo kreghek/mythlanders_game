@@ -60,30 +60,26 @@ internal sealed class CombatantQueuePanel : ControlBase
         HandleEffectHint(mousePosition);
     }
 
-    protected override Point CalcTextureOffset()
-    {
-        return ControlTextures.CombatMove;
-    }
+    protected override Point CalcTextureOffset() => ControlTextures.CombatMove;
 
-    protected override Color CalculateColor()
-    {
-        return Color.White;
-    }
+    protected override Color CalculateColor() => Color.White;
+
+    private const int RESOLVE_WIDTH = 12;
+    private const int PORTRAIN_WIDTH = 32;
+
+    public Point CalcContentSize() => new((RESOLVE_WIDTH + PORTRAIN_WIDTH) * (_activeCombat.Combatants.Count + 1), 48);
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
         _monsterCombatMoveInfoList.Clear();
         _effectInfoList.Clear();
 
-        spriteBatch.Draw(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(), contentRect,
+        spriteBatch.Draw(UiThemeManager.UiContentStorage.GetModalShadowTexture(), contentRect,
             new Rectangle(ControlTextures.Shadow, new Point(32, 32)), Color.Lerp(Color.White, Color.Transparent, 0.5f));
 
         for (var index = 0; index < _activeCombat.RoundQueue.Count; index++)
         {
             var combatant = _activeCombat.RoundQueue[index];
-
-            const int RESOLVE_WIDTH = 12;
-            const int PORTRAIN_WIDTH = 32;
 
             var combatantQueuePosition =
                 new Vector2(contentRect.Location.X + (index * (PORTRAIN_WIDTH + RESOLVE_WIDTH + CONTENT_MARGIN)),

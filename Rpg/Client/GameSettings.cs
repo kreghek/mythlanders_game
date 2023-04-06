@@ -1,4 +1,6 @@
-﻿namespace Rpg.Client
+﻿using Client;
+
+namespace Rpg.Client
 {
     internal sealed class GameSettings
     {

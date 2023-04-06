@@ -7,7 +7,6 @@ using JetBrains.Annotations;
 
 namespace Client.Assets.CombatMovements.Hero.Amazon;
 
-[UsedImplicitly]
 internal class TrackerSavvyFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />

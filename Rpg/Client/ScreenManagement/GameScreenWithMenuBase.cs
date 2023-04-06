@@ -83,7 +83,7 @@ internal abstract class GameScreenWithMenuBase : GameScreenBase
             {
                 var settingsButton = new ResourceTextButton(nameof(UiResource.SettingsButtonTitle));
                 settingsButton.OnClick += SettingsButton_OnClick;
-                _menuButtons.Add(settingsButton);
+                _menuButtons.Insert(0, settingsButton);
             }
 
             _menuCreated = true;

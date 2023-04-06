@@ -8,22 +8,22 @@ using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class SwordsmanFactory
+public class SwordsmanFactory : IHeroCombatantFactory
 {
-    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour,
-        IStatValue swordsmanHeroHitpointsStat)
+    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
     {
-        var movementPool = new List<CombatMovement>();
+        var movementPool = new List<CombatMovement>
+        {
+            CreateMovement<RiseYourSwordsFactory>(),
 
-        movementPool.Add(CreateMovement<RiseYourSwordsFactory>());
+            CreateMovement<DieBySwordFactory>(),
 
-        movementPool.Add(CreateMovement<DieBySwordFactory>());
+            CreateMovement<StayStrongFactory>(),
 
-        movementPool.Add(CreateMovement<StayStrongFactory>());
+            CreateMovement<HitFromShoulderFactory>(),
 
-        movementPool.Add(CreateMovement<HitFromShoulderFactory>());
-
-        movementPool.Add(CreateMovement<LookOutFactory>());
+            CreateMovement<LookOutFactory>()
+        };
 
         var heroSequence = new CombatMovementSequence();
 
@@ -36,7 +36,7 @@ public class SwordsmanFactory
         }
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, swordsmanHeroHitpointsStat);
+        stats.SetValue(UnitStatType.HitPoints, hitpointsStat);
         stats.SetValue(UnitStatType.ShieldPoints, 4);
         stats.SetValue(UnitStatType.Resolve, 5);
 

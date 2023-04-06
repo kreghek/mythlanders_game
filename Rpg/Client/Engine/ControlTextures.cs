@@ -16,6 +16,7 @@ namespace Rpg.Client.Engine
         public static Point Shadow { get; } = CalcPointByIndex(6);
         public static Point Speech { get; } = CalcPointByIndex(3);
         public static Point Transparent { get; } = CalcPointByIndex(8);
+        public static Point Button2 { get; } = CalcPointByIndex(7);
 
         private static Point CalcPointByIndex(int index)
         {

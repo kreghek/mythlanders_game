@@ -8,40 +8,39 @@ using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-internal static class CombatantFactory
+internal class CombatantFactory
 {
+    private static IDictionary<string, IHeroCombatantFactory> _factories = new Dictionary<string, IHeroCombatantFactory>
+    {
+        { "swordsman", new SwordsmanFactory() },
+        { "amazon", new AmazonFactory() },
+        { "partisan", new PartisanFactory() },
+        { "robber", new RobberFactory() },
+        { "monk", new MonkFactory() },
+    };
+
+    private static IDictionary<string, IMonsterCombatantFactory> _monsterfactories = new Dictionary<string, IMonsterCombatantFactory>
+    {
+        { "digitalwolf", new DigitalWolfFactory() },
+        { "chaser", new ThiefChaserFactory() },
+        { "aspid", new AspidFactory() },
+        { "volkolakwarrior", new VolkolakWarriorFactory() },
+    };
+
     public static IReadOnlyCollection<FormationSlot> CreateHeroes(ICombatActorBehaviour combatActorBehaviour,
         Player player)
     {
-        var swordsmanHeroFactory = new SwordsmanFactory();
-        var amazonHeroFactory = new AmazonFactory();
-        var partisanHeroFactory = new PartisanFactory();
+        var formationSlots = player.Heroes.Select(hero => new FormationSlot(hero.FormationPosition.ColumentIndex, hero.FormationPosition.LineIndex)
+        { 
+            Combatant = _factories[hero.ClassSid].Create("", combatActorBehaviour, hero.HitPoints)
+        }).ToArray();
 
-        var swordsmanHeroHitpointsStat = player.Heroes.Single(x => x.ClassSid == "swordsman").HitPoints;
-
-        return new[]
-        {
-            new FormationSlot(0, 1)
-            {
-                Combatant = swordsmanHeroFactory.Create("Berimir", combatActorBehaviour, swordsmanHeroHitpointsStat)
-            },
-            new FormationSlot(1, 0)
-            {
-                Combatant = amazonHeroFactory.Create("Diana", combatActorBehaviour)
-            },
-            new FormationSlot(1, 2)
-            {
-                Combatant = partisanHeroFactory.Create("Deaf (the)", combatActorBehaviour)
-            }
-        };
+        return formationSlots;
     }
 
     public static IReadOnlyCollection<FormationSlot> CreateMonsters(ICombatActorBehaviour combatActorBehaviour,
         IReadOnlyCollection<MonsterCombatantPrefab> monsters)
     {
-        var chaserFactory = new ThiefChaserFactory();
-        var wolfFactory = new DigitalWolfFactory();
-
         var formation = new List<FormationSlot>();
 
         foreach (var monsterCombatantPrefab in monsters)
@@ -49,8 +48,7 @@ internal static class CombatantFactory
             var formationSlot = new FormationSlot(monsterCombatantPrefab.FormationInfo.ColumentIndex,
                 monsterCombatantPrefab.FormationInfo.LineIndex);
 
-            var monsterCombatant = CreateMonsterCombatant(combatActorBehaviour: combatActorBehaviour,
-                monsterCombatantPrefab: monsterCombatantPrefab, wolfFactory: wolfFactory, chaserFactory: chaserFactory);
+            var monsterCombatant = CreateMonsterCombatant(combatActorBehaviour, monsterCombatantPrefab);
 
             formationSlot.Combatant = monsterCombatant;
 
@@ -58,35 +56,12 @@ internal static class CombatantFactory
         }
 
         return formation;
-
-        // return new[]
-        // {
-        //     new FormationSlot(0, 1)
-        //     {
-        //         Combatant = chaserFactory.Create("Chaser", combatActorBehaviour, 0)
-        //     },
-        //     new FormationSlot(1, 2)
-        //     {
-        //         Combatant = chaserFactory.Create("Guard Chaser", combatActorBehaviour, 1)
-        //     },
-        //     new FormationSlot(0, 2)
-        //     {
-        //         Combatant = wolfFactory.Create("Evil Digital wolf", combatActorBehaviour)
-        //     }
-        // };
     }
 
     private static Combatant CreateMonsterCombatant(
         ICombatActorBehaviour combatActorBehaviour,
-        MonsterCombatantPrefab monsterCombatantPrefab,
-        DigitalWolfFactory wolfFactory,
-        ThiefChaserFactory chaserFactory)
+        MonsterCombatantPrefab monsterCombatantPrefab)
     {
-        return monsterCombatantPrefab.ClassSid switch
-        {
-            "digitalwolf" => wolfFactory.Create("Evil Digital wolf", combatActorBehaviour),
-            "chaser" => chaserFactory.Create("Chaser", combatActorBehaviour, monsterCombatantPrefab.Variation),
-            _ => throw new Exception()
-        };
+        return _monsterfactories[monsterCombatantPrefab.ClassSid].Create(monsterCombatantPrefab.ClassSid, combatActorBehaviour, monsterCombatantPrefab.Variation);
     }
 }

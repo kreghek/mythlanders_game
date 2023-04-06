@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Core;
@@ -20,10 +21,12 @@ namespace Rpg.Client.Core.Dialogues
             _storyPointCatalog = storyPointCatalog;
             _player = player;
 
-            CurrentDualogueEvent = currentDialogueEvent;
+            CurrentDialogueEvent = currentDialogueEvent;
+
+            CurrentHeroes = player.Heroes.Select(x => x.ClassSid).ToArray();
         }
 
-        public DialogueEvent CurrentDualogueEvent { get; }
+        public DialogueEvent CurrentDialogueEvent { get; }
 
         public void AddNewCharacter(Hero unit)
         {
@@ -62,5 +65,8 @@ namespace Rpg.Client.Core.Dialogues
         {
             //_globe.Biomes.SelectMany(x => x.Nodes).Single(x => x.Sid == locationSid).IsAvailable = true;
         }
+
+        /// <inheritdoc />
+        public IReadOnlyCollection<string> CurrentHeroes { get; }
     }
 }

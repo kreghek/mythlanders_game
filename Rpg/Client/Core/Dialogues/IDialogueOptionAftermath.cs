@@ -1,4 +1,6 @@
-﻿namespace Rpg.Client.Core.Dialogues
+﻿using Client.Core.Dialogues;
+
+namespace Rpg.Client.Core.Dialogues
 {
     internal interface IDialogueOptionAftermath
     {

@@ -2,114 +2,107 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
-using Rpg.Client.GameScreens.Combat.GameObjects;
 
-namespace Rpg.Client.Assets.States.Primitives
+namespace Client.Assets.States.Primitives;
+
+/// <summary>
+/// The state starts to play a animation and creates a projectile.
+/// </summary>
+internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizationState
 {
-    /// <summary>
-    /// The state starts to play a animation and creates a projectile.
-    /// </summary>
-    internal sealed class LaunchInteractionDeliveryState : IActorVisualizationState
+    private readonly IList<IInteractionDelivery> _activeInteractionDeliveryList;
+
+    private readonly IActorAnimator _animator;
+    private readonly IAnimationFrameSet _launchAnimation;
+    private readonly IReadOnlyCollection<InteractionDeliveryInfo> _imposeItems;
+    private readonly IDeliveryFactory _deliveryFactory;
+    private readonly InteractionDeliveryManager _interactionDeliveryManager;
+
+    private double _counter;
+
+    public LaunchAndWaitInteractionDeliveryState(IActorAnimator animator,
+        IAnimationFrameSet launchAnimation,
+        IReadOnlyCollection<InteractionDeliveryInfo> imposeItems,
+        IDeliveryFactory deliveryFactory,
+        InteractionDeliveryManager interactionDeliveryManager)
     {
-        private const double DEFAULT_DURATION_SECONDS = 1;
+        _animator = animator;
+        _launchAnimation = launchAnimation;
+        _imposeItems = imposeItems;
+        _deliveryFactory = deliveryFactory;
+        _interactionDeliveryManager = interactionDeliveryManager;
 
-        private readonly IList<IInteractionDelivery> _activeInteractionDeliveryList;
-        private readonly double _animationDuration;
+        _activeInteractionDeliveryList = new List<IInteractionDelivery>();
+        
+        _launchAnimation.End += LaunchAnimation_End;
+    }
 
-        private readonly PredefinedAnimationSid _animationSid;
-        private readonly SoundEffectInstance? _createProjectileSound;
-        private readonly UnitGraphics _graphics;
-        private readonly IReadOnlyCollection<IInteractionDelivery> _interactionDelivery;
-        private readonly IList<IInteractionDelivery> _interactionDeliveryManager;
+    private void LaunchAnimation_End(object? sender, EventArgs e)
+    {
+        LaunchInteractionDelivery();
+    }
 
-        private double _counter;
-
-        private bool _interactionDeliveryLaunched;
-
-        private LaunchInteractionDeliveryState(UnitGraphics graphics,
-            IReadOnlyCollection<IInteractionDelivery> interactionDelivery,
-            IList<IInteractionDelivery> interactionDeliveryManager)
+    private void LaunchInteractionDelivery()
+    {
+        foreach (var imposeItem in _imposeItems)
         {
-            _graphics = graphics;
-            _interactionDelivery = interactionDelivery;
-            _interactionDeliveryManager = interactionDeliveryManager;
+            var interactionDelivery = _deliveryFactory.Create(imposeItem.ImposeItem, imposeItem.StartPosition, imposeItem.TargetPosition);
 
-            _activeInteractionDeliveryList = new List<IInteractionDelivery>(interactionDelivery);
-        }
-
-        public LaunchInteractionDeliveryState(UnitGraphics graphics,
-            IReadOnlyCollection<IInteractionDelivery> interactionDelivery,
-            IList<IInteractionDelivery> interactionDeliveryManager,
-            SoundEffectInstance? createProjectileSound,
-            PredefinedAnimationSid animationSid,
-            double animationDuration = DEFAULT_DURATION_SECONDS) :
-            this(graphics, interactionDelivery, interactionDeliveryManager)
-        {
-            _createProjectileSound = createProjectileSound;
-            _animationSid = animationSid;
-            _animationDuration = animationDuration;
-        }
-
-        private void LaunchInteractionDelivery(IReadOnlyCollection<IInteractionDelivery> interactionDelivery)
-        {
-            foreach (var delivery in interactionDelivery)
+            _interactionDeliveryManager.Register(interactionDelivery);
+            _activeInteractionDeliveryList.Add(interactionDelivery);
+            interactionDelivery.InteractionPerformed += (sender, _) =>
             {
-                _interactionDeliveryManager.Add(delivery);
-                delivery.InteractionPerformed += (sender, _) =>
+                if (sender is null)
                 {
-                    if (sender is null)
-                    {
-                        throw new InvalidOperationException();
-                    }
-
-                    _activeInteractionDeliveryList.Remove((IInteractionDelivery)sender);
-                };
-            }
-        }
-
-        public bool CanBeReplaced => false;
-        public bool IsComplete { get; private set; }
-
-        public void Cancel()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            if (_counter == 0)
-            {
-                _graphics.PlayAnimation(_animationSid);
-            }
-
-            _counter += gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (_counter > _animationDuration)
-            {
-                // Unit animation is completed
-                if (!_activeInteractionDeliveryList.Any())
-                {
-                    // And all interaction delivery animations are completed
-                    IsComplete = true;
+                    throw new InvalidOperationException();
                 }
-            }
-            else if (_counter > _animationDuration / 2)
-            {
-                if (!_interactionDeliveryLaunched)
-                {
-                    LaunchInteractionDelivery(_interactionDelivery);
 
-                    _interactionDeliveryLaunched = true;
+                ImposeEffect(imposeItem);
 
-                    _createProjectileSound?.Play();
-                }
-            }
+                _activeInteractionDeliveryList.Remove((IInteractionDelivery)sender);
+            };
+        }
+    }
+
+    private static void ImposeEffect(InteractionDeliveryInfo imposeItem)
+    {
+        foreach (var target in imposeItem.ImposeItem.MaterializedTargets)
+        {
+            imposeItem.ImposeItem.ImposeDelegate(target);
+        }
+    }
+
+    /// <inheritdoc />
+    public bool CanBeReplaced => false;
+    
+    /// <inheritdoc />
+    public bool IsComplete { get; private set; }
+
+    /// <inheritdoc />
+    public void Cancel()
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
+    public void Update(GameTime gameTime)
+    {
+        if (_counter == 0)
+        {
+            _animator.PlayAnimation(_launchAnimation);
+        }
+        
+        _counter += gameTime.ElapsedGameTime.TotalSeconds;
+
+        if (_activeInteractionDeliveryList.Any())
+        {
+            IsComplete = true;
         }
     }
 }

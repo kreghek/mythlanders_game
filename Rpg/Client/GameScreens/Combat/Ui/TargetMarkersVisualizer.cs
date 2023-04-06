@@ -12,11 +12,13 @@ using Rpg.Client.Engine;
 
 namespace Client.GameScreens.Combat.Ui;
 
-internal sealed class TargetMarkers
+internal sealed class TargetMarkersVisualizer
 {
     private double _counter;
     private ITargetMarkerContext? _targetMarkerContext;
     private IReadOnlyCollection<CombatMoveTargetEstimate>? _targets;
+
+    public IReadOnlyCollection<CombatMoveTargetEstimate>? Targets => _targets;
 
     public void Draw(SpriteBatch spriteBatch)
     {
@@ -96,10 +98,11 @@ internal sealed class TargetMarkers
         var neutralColor = Color.Cyan;
         var aggressionColor = Color.Red;
 
+        var mainColor = isAgression ? aggressionColor : neutralColor;
         spriteBatch.DrawCircle(targetPosition,
             (int)(MARKER_RADIUS - MARKER_RADIUR_DIFF * Math.Clamp(Math.Sin(_counter * 15), 0, 1)),
             16,
-            isAgression ? aggressionColor : neutralColor,
+            mainColor,
             2);
 
         if (isAgression)

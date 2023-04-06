@@ -103,10 +103,10 @@
   </data>
   <data name="AfterlifeWhirlwind" xml:space="preserve">
     <value>Afterlife whirlwind</value>
-    <comment>Combat movement</comment>
+    <comment>Combat movement Chaser</comment>
   </data>
   <data name="AfterlifeWhirlwind_Description" xml:space="preserve">
-    <value></value>
+    <value /><comment>Combat movement Chaser</comment>
   </data>
   <data name="Archer" xml:space="preserve">
     <value>Hawk</value>
@@ -133,6 +133,12 @@
   <data name="ArrowRain" xml:space="preserve">
       <value>Arrow rain</value>
     <comment>Skill</comment>
+  </data>
+  <data name="ArtOfCombat" xml:space="preserve">
+    <value>Art of Combat</value><comment>Combat movement Monk</comment>
+  </data>
+  <data name="ArtOfCombat_Description" xml:space="preserve">
+    <value /><comment>Combat movement Monk</comment>
   </data>
   <data name="AsceticRobe" xml:space="preserve">
     <value>Ascetic robe</value><comment>Equipment</comment>
@@ -193,6 +199,9 @@
   <data name="BringBeastDown_Description" xml:space="preserve">
     <value /><comment>Combat Movemeent</comment>
   </data>
+  <data name="BuyFood_CrisisAftermath" xml:space="preserve">
+    <value /><comment>Crisis Aftermath</comment>
+  </data>
   <data name="Castle" xml:space="preserve">
     <value>Grim Castle in the Rock</value>
     <comment>Location</comment>
@@ -241,6 +250,9 @@
     <value>Sardo</value>
     <comment>Hero</comment>
   </data>
+  <data name="Conversation_CrisisAftermath" xml:space="preserve">
+    <value />
+  </data>
   <data name="CriticalHit" xml:space="preserve">
     <value>Critical hit</value>
     <comment>Perk</comment>
@@ -256,6 +268,9 @@
   <data name="CyberClaws_Description" xml:space="preserve">
     <value></value>
     <comment>Combat Movement</comment>
+  </data>
+  <data name="DamageTogether_CrisisAftermath" xml:space="preserve">
+    <value /><comment>Crisis Aftermath</comment>
   </data>
   <data name="DarkLight" xml:space="preserve">
       <value>Dark light</value>
@@ -279,6 +294,9 @@
   <data name="DestroyedVillage" xml:space="preserve">
     <value>Destroyed village</value>
     <comment>Location</comment>
+  </data>
+  <data name="DestroyTheSickSource_CrisisAftermath" xml:space="preserve">
+    <value /><comment>CrisisAftermath</comment>
   </data>
   <data name="DieBySword" xml:space="preserve">
       <value>Die by the sword</value>
@@ -334,10 +352,10 @@
     <comment>Skill</comment>
   </data>
   <data name="FinishWounded" xml:space="preserve">
-    <value>Finish a wounded</value><comment>Combat Movement</comment>
+    <value>Finish a wounded</value><comment>Combat Movement Amazon</comment>
   </data>
   <data name="FinishWounded_Description" xml:space="preserve">
-    <value /><comment>Combat Movement</comment>
+    <value /><comment>Combat Movement Amazon</comment>
   </data>
   <data name="FlockAlphaTactics" xml:space="preserve">
     <value>Flock Alpha Tactics</value>
@@ -362,6 +380,12 @@
     <value>Guardian woman</value>
     <comment>Hero</comment>
   </data>
+  <data name="HandOfThousandForms" xml:space="preserve">
+    <value>Hand of Thousand Forms and Intentions</value><comment>Combat Movement Monk</comment>
+  </data>
+  <data name="HandOfThousandForms_Description" xml:space="preserve">
+    <value>Move to vanguard and deal 2 damage to the nearest enemy in lane. If the monk was already in the vanguard, then deal 1 bonus damage.</value>
+  </data>
   <data name="HealingSalve" xml:space="preserve">
       <value>Healing salve</value>
     <comment>Skill</comment>
@@ -384,6 +408,12 @@
   <data name="Hermitage" xml:space="preserve">
     <value>Hermitage</value>
     <comment>Location</comment>
+  </data>
+  <data name="HiddenIntention" xml:space="preserve">
+    <value>Hidden intention</value><comment>Combat movement Monk</comment>
+  </data>
+  <data name="HiddenIntention_Description" xml:space="preserve">
+    <value /><comment>Combat movement Monk</comment>
   </data>
   <data name="HitFromShoulder" xml:space="preserve">
     <value>Hit from the shoulder</value><comment>Combat Movement Swordsman</comment>
@@ -408,6 +438,14 @@
   </data>
   <data name="Hunt_Description" xml:space="preserve">
     <value /><comment>Combat Movement Amazon</comment>
+  </data>
+  <data name="Ignore_CrisisAftermath" xml:space="preserve">
+    <value>Ignore</value><comment>Crisis Aftermath</comment>
+  </data>
+  <data name="Ignore_CrisisAftermath_Hint" xml:space="preserve">
+    <value>Inflict wrath on the entire group of heroes!
+- Everyone takes 1 damage penalty for 1 combat.
+- Berimir takes an additional 1 damage penalty for all combats until the end of the campaign.</value>
   </data>
   <data name="ImprovedArmor" xml:space="preserve">
     <value>Improved armor</value>
@@ -466,6 +504,12 @@
     <value>Mass heal</value>
     <comment>Skill</comment>
   </data>
+  <data name="MasterfulStaffHit" xml:space="preserve">
+    <value>Masterful staff hit</value><comment>Combat movement Monk</comment>
+  </data>
+  <data name="MasterfulStaffHit_Description" xml:space="preserve">
+    <value /><comment>Combat movement Monk</comment>
+  </data>
   <data name="Medjay" xml:space="preserve">
     <value>Gelik</value>
     <comment>Hero</comment>
@@ -492,11 +536,17 @@
   <data name="NanoMetalLongCloths" xml:space="preserve">
     <value>Nano-metal long cloths</value><comment>Equipment</comment>
   </data>
+  <data name="NinthTrigram" xml:space="preserve">
+    <value>Ninth trigram</value><comment>Combat movement Monk</comment>
+  </data>
+  <data name="NinthTrigram_Description" xml:space="preserve">
+    <value /><comment>Combat movement Monk</comment>
+  </data>
   <data name="OldGoodBrawl" xml:space="preserve">
-    <value>Old good brawl</value><comment>Combat movement</comment>
+    <value>Old good brawl</value><comment>Combat movement Partisan</comment>
   </data>
   <data name="OldGoodBrawl_Description" xml:space="preserve">
-    <value /><comment>Combat movement</comment>
+    <value /><comment>Combat movement Partisan</comment>
   </data>
   <data name="Oldman" xml:space="preserve">
     <value>Oldman</value>
@@ -511,8 +561,11 @@
     <comment>Location</comment>
   </data>
   <data name="Preying_Crisis" xml:space="preserve">
-    <value></value>
+    <value>One of the heroes feels the haunting presence of the his faith ancient ones. They demand his attention. They demand his help. Such requests cannot be ignored. Especially in the dark future, where only ancient forces make heroes.</value>
     <comment>Crisis</comment>
+  </data>
+  <data name="Prey_CrisisAftermath" xml:space="preserve">
+    <value>Pay attention</value><comment>Crisis Aftermath</comment>
   </data>
   <data name="RapidShot" xml:space="preserve">
     <value>Rapid shot</value>
@@ -534,6 +587,9 @@
   </data>
   <data name="RiseYourSwords_Description" xml:space="preserve">
     <value /><comment>Combat Movement Swordsman</comment>
+  </data>
+  <data name="RunOut_CrisisAftermath" xml:space="preserve">
+    <value />
   </data>
   <data name="Sabotage" xml:space="preserve">
     <value>Sabotage</value>
@@ -567,6 +623,12 @@
   <data name="Starvation_Crisis" xml:space="preserve">
     <value></value>
     <comment>Crisis</comment>
+  </data>
+  <data name="StarveAll_CrisisAftermath" xml:space="preserve">
+    <value /><comment>Crisis Aftermath</comment>
+  </data>
+  <data name="Starve_CrisisAftermath" xml:space="preserve">
+    <value /><comment>Crisis Aftermath</comment>
   </data>
   <data name="StayStrong" xml:space="preserve">
     <value>Stay strong</value><comment>Combat Movement Swordsman</comment>
@@ -616,6 +678,9 @@
     <value>Tactical maneuver</value>
     <comment>Skill</comment>
   </data>
+  <data name="TakeAllDamageByOneHero_CrisisAftermath" xml:space="preserve">
+    <value /><comment>Crisis Aftermath</comment>
+  </data>
   <data name="Thicket" xml:space="preserve">
     <value>Dark Thicket</value>
     <comment>Location</comment>
@@ -630,17 +695,23 @@
   <data name="TrackerSavvy_Description" xml:space="preserve">
     <value /><comment>Combat Movement Amazon</comment>
   </data>
+  <data name="TryToFight_CrisisAftermath" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TryToRunOut_CrisisAftermath" xml:space="preserve">
+    <value /><comment>Crisis Aftermath</comment>
+  </data>
   <data name="VampireBite" xml:space="preserve">
       <value>Vampire bite</value>
     <comment>Skill</comment>
   </data>
   <data name="VelesProtection" xml:space="preserve">
     <value>Veles protection</value>
-    <comment>Combat Movement</comment>
+    <comment>Combat Movement Digital wolf</comment>
   </data>
   <data name="VelesProtection_Description" xml:space="preserve">
-    <value></value>
-    <comment>Combat Movement</comment>
+    <value />
+    <comment>Combat Movement Digital wolf</comment>
   </data>
   <data name="Volkolak" xml:space="preserve">
     <value>Volkolak</value>
@@ -684,40 +755,34 @@
       <value>Zduhach Might</value>
     <comment>Skill</comment>
   </data>
-  <data name="TakeAllDamageByOneHero_CrisisAftermath" xml:space="preserve">
-    <value /><comment>Crisis Aftermath</comment>
+  <data name="BalticThunder" xml:space="preserve">
+    <value>Baltic thunder</value><comment>Combat Movement Robber</comment>
   </data>
-  <data name="DamageTogether_CrisisAftermath" xml:space="preserve">
-    <value /><comment>Crisis Aftermath</comment>
+  <data name="BalticThunder_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Robber</comment>
   </data>
-  <data name="TryToRunOut_CrisisAftermath" xml:space="preserve">
-    <value /><comment>Crisis Aftermath</comment>
+  <data name="ArrowOfMorana" xml:space="preserve">
+    <value>Arrow of Morana</value><comment>Combat Movement Robber</comment>
   </data>
-  <data name="TryToFight_CrisisAftermath" xml:space="preserve">
-    <value />
+  <data name="ArrowOfMorana_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Robber</comment>
   </data>
-  <data name="Conversation_CrisisAftermath" xml:space="preserve">
-    <value />
+  <data name="WingsOfVeles" xml:space="preserve">
+    <value>Wings Of Veles</value><comment>Combat Movement Robber</comment>
   </data>
-  <data name="RunOut_CrisisAftermath" xml:space="preserve">
-    <value />
+  <data name="WingsOfVeles_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Robber</comment>
   </data>
-  <data name="DestroyTheSickSource_CrisisAftermath" xml:space="preserve">
-    <value /><comment>CrisisAftermath</comment>
+  <data name="UndercutValues" xml:space="preserve">
+    <value>Undercut values</value><comment>Combat Movement Robber</comment>
   </data>
-  <data name="Starve_CrisisAftermath" xml:space="preserve">
-    <value /><comment>Crisis Aftermath</comment>
+  <data name="UndercutValues_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Robber</comment>
   </data>
-  <data name="StarveAll_CrisisAftermath" xml:space="preserve">
-    <value /><comment>Crisis Aftermath</comment>
+  <data name="WindWheel" xml:space="preserve">
+    <value>Wind wheel</value><comment>Combat movement Robber</comment>
   </data>
-  <data name="BuyFood_CrisisAftermath" xml:space="preserve">
-    <value /><comment>Crisis Aftermath</comment>
-  </data>
-  <data name="Prey_CrisisAftermath" xml:space="preserve">
-    <value /><comment>Crisis Aftermath</comment>
-  </data>
-  <data name="Ignore_CrisisAftermath" xml:space="preserve">
-    <value /><comment>Crisis Aftermath</comment>
+  <data name="WindWheel_Description" xml:space="preserve">
+    <value /><comment>Combat movement Robber</comment>
   </data>
 </root>
