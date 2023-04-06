@@ -10,6 +10,11 @@ namespace Client.GameScreens.Combat.CombatDebugElements;
 
 public class RobberFactory : IHeroCombatantFactory
 {
+    private static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory
+    {
+        return Activator.CreateInstance<T>().CreateMovement();
+    }
+
     public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
     {
         var movementPool = new List<CombatMovement>
@@ -45,10 +50,5 @@ public class RobberFactory : IHeroCombatantFactory
             Sid = sid, IsPlayerControlled = true
         };
         return hero;
-    }
-
-    private static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory
-    {
-        return Activator.CreateInstance<T>().CreateMovement();
     }
 }

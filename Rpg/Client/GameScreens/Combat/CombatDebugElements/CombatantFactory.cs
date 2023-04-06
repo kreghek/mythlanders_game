@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using Client.Core;
@@ -10,30 +9,33 @@ namespace Client.GameScreens.Combat.CombatDebugElements;
 
 internal class CombatantFactory
 {
-    private static IDictionary<string, IHeroCombatantFactory> _factories = new Dictionary<string, IHeroCombatantFactory>
-    {
-        { "swordsman", new SwordsmanFactory() },
-        { "amazon", new AmazonFactory() },
-        { "partisan", new PartisanFactory() },
-        { "robber", new RobberFactory() },
-        { "monk", new MonkFactory() },
-    };
+    private static readonly IDictionary<string, IHeroCombatantFactory> _factories =
+        new Dictionary<string, IHeroCombatantFactory>
+        {
+            { "swordsman", new SwordsmanFactory() },
+            { "amazon", new AmazonFactory() },
+            { "partisan", new PartisanFactory() },
+            { "robber", new RobberFactory() },
+            { "monk", new MonkFactory() }
+        };
 
-    private static IDictionary<string, IMonsterCombatantFactory> _monsterfactories = new Dictionary<string, IMonsterCombatantFactory>
-    {
-        { "digitalwolf", new DigitalWolfFactory() },
-        { "chaser", new ThiefChaserFactory() },
-        { "aspid", new AspidFactory() },
-        { "volkolakwarrior", new VolkolakWarriorFactory() },
-    };
+    private static readonly IDictionary<string, IMonsterCombatantFactory> _monsterfactories =
+        new Dictionary<string, IMonsterCombatantFactory>
+        {
+            { "digitalwolf", new DigitalWolfFactory() },
+            { "chaser", new ThiefChaserFactory() },
+            { "aspid", new AspidFactory() },
+            { "volkolakwarrior", new VolkolakWarriorFactory() }
+        };
 
     public static IReadOnlyCollection<FormationSlot> CreateHeroes(ICombatActorBehaviour combatActorBehaviour,
         Player player)
     {
-        var formationSlots = player.Heroes.Select(hero => new FormationSlot(hero.FormationPosition.ColumentIndex, hero.FormationPosition.LineIndex)
-        {
-            Combatant = _factories[hero.ClassSid].Create("", combatActorBehaviour, hero.HitPoints)
-        }).ToArray();
+        var formationSlots = player.Heroes.Select(hero =>
+            new FormationSlot(hero.FormationPosition.ColumentIndex, hero.FormationPosition.LineIndex)
+            {
+                Combatant = _factories[hero.ClassSid].Create("", combatActorBehaviour, hero.HitPoints)
+            }).ToArray();
 
         return formationSlots;
     }
@@ -62,6 +64,7 @@ internal class CombatantFactory
         ICombatActorBehaviour combatActorBehaviour,
         MonsterCombatantPrefab monsterCombatantPrefab)
     {
-        return _monsterfactories[monsterCombatantPrefab.ClassSid].Create(monsterCombatantPrefab.ClassSid, combatActorBehaviour, monsterCombatantPrefab.Variation);
+        return _monsterfactories[monsterCombatantPrefab.ClassSid].Create(monsterCombatantPrefab.ClassSid,
+            combatActorBehaviour, monsterCombatantPrefab.Variation);
     }
 }

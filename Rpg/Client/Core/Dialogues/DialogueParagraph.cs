@@ -17,23 +17,23 @@ internal sealed class DialogueParagraph
         Conditions = config.Conditions;
     }
 
+    public IReadOnlyCollection<IDialogueParagraphCondition> Conditions { get; }
+
     public IReadOnlyCollection<IDialogueEnvironmentEffect> EnvironmentEffects { get; }
     public UnitName Speaker { get; }
     public string TextSid { get; }
-
-    public IReadOnlyCollection<IDialogueParagraphCondition> Conditions { get; }
 }
 
 internal sealed class DialogueParagraphConfig
 {
-    public IReadOnlyCollection<IDialogueParagraphCondition> Conditions { get; init; }
-    public IReadOnlyCollection<IDialogueEnvironmentEffect> EnvironmentEffects { get; init; }
-
     public DialogueParagraphConfig()
     {
         Conditions = ArraySegment<IDialogueParagraphCondition>.Empty;
         EnvironmentEffects = ArraySegment<IDialogueEnvironmentEffect>.Empty;
     }
+
+    public IReadOnlyCollection<IDialogueParagraphCondition> Conditions { get; init; }
+    public IReadOnlyCollection<IDialogueEnvironmentEffect> EnvironmentEffects { get; init; }
 }
 
 internal interface IDialogueParagraphCondition

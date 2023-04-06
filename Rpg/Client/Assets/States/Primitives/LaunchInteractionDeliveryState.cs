@@ -19,10 +19,10 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
     private readonly IList<IInteractionDelivery> _activeInteractionDeliveryList;
 
     private readonly IActorAnimator _animator;
-    private readonly IAnimationFrameSet _launchAnimation;
-    private readonly IReadOnlyCollection<InteractionDeliveryInfo> _imposeItems;
     private readonly IDeliveryFactory _deliveryFactory;
+    private readonly IReadOnlyCollection<InteractionDeliveryInfo> _imposeItems;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
+    private readonly IAnimationFrameSet _launchAnimation;
 
     private double _counter;
 
@@ -43,6 +43,14 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
         _launchAnimation.End += LaunchAnimation_End;
     }
 
+    private static void ImposeEffect(InteractionDeliveryInfo imposeItem)
+    {
+        foreach (var target in imposeItem.ImposeItem.MaterializedTargets)
+        {
+            imposeItem.ImposeItem.ImposeDelegate(target);
+        }
+    }
+
     private void LaunchAnimation_End(object? sender, EventArgs e)
     {
         LaunchInteractionDelivery();
@@ -52,7 +60,8 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
     {
         foreach (var imposeItem in _imposeItems)
         {
-            var interactionDelivery = _deliveryFactory.Create(imposeItem.ImposeItem, imposeItem.StartPosition, imposeItem.TargetPosition);
+            var interactionDelivery = _deliveryFactory.Create(imposeItem.ImposeItem, imposeItem.StartPosition,
+                imposeItem.TargetPosition);
 
             _interactionDeliveryManager.Register(interactionDelivery);
             _activeInteractionDeliveryList.Add(interactionDelivery);
@@ -67,14 +76,6 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
 
                 _activeInteractionDeliveryList.Remove((IInteractionDelivery)sender);
             };
-        }
-    }
-
-    private static void ImposeEffect(InteractionDeliveryInfo imposeItem)
-    {
-        foreach (var target in imposeItem.ImposeItem.MaterializedTargets)
-        {
-            imposeItem.ImposeItem.ImposeDelegate(target);
         }
     }
 

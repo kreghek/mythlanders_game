@@ -143,7 +143,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
             new ICampaignStageTemplateFactory[]
             {
-                new CombatCampaignStageTemplateFactory(locationSid, _services),
+                new CombatCampaignStageTemplateFactory(locationSid, _services)
                 // new CombatCampaignStageTemplateFactory(locationSid, _services),
                 // new CombatCampaignStageTemplateFactory(locationSid, _services)
             },
@@ -164,9 +164,9 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                     new FindingEventCampaignStageTemplateFactory()
                 }, _services)
             },
-            
+
             // For demo only
-            
+
             new ICampaignStageTemplateFactory[]
             {
                 new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]

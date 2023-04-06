@@ -3,8 +3,6 @@ using Core.Combats.CombatantEffects;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
-using JetBrains.Annotations;
-
 namespace Client.Assets.CombatMovements.Hero.Amazon;
 
 internal class WingsOfVelesFactory : CombatMovementFactoryBase

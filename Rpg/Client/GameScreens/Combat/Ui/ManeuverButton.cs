@@ -21,7 +21,10 @@ namespace Client.GameScreens.Combat.Ui
             return ControlTextures.CombatMove;
         }
 
-        protected override Color CalculateColor() => IsEnabled ? Color.White : Color.Lerp(Color.DarkGray, Color.Transparent, 0.5f);
+        protected override Color CalculateColor()
+        {
+            return IsEnabled ? Color.White : Color.Lerp(Color.DarkGray, Color.Transparent, 0.5f);
+        }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
         {

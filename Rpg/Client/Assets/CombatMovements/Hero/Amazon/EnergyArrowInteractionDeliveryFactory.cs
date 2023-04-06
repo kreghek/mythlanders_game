@@ -20,7 +20,8 @@ internal sealed class EnergyArrowInteractionDeliveryFactory : IDeliveryFactory
     }
 
     /// <inheritdoc />
-    public IInteractionDelivery Create(CombatEffectImposeItem interactionImpose, Vector2 startPoint, Vector2 targetPoint)
+    public IInteractionDelivery Create(CombatEffectImposeItem interactionImpose, Vector2 startPoint,
+        Vector2 targetPoint)
     {
         return new EnergyArrowProjectile(startPoint, targetPoint, _gameObjectContentStorage.GetBulletGraphics());
     }

@@ -35,6 +35,9 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
     private readonly SoundtrackManager _soundtrackManager;
     private readonly IUiContentStorage _uiContentStorage;
 
+    private TextHint? _aftermathHint;
+    private ControlBase? _aftermathOnHover;
+
     public CrisisScreen(TestamentGame game, CrisisScreenTransitionArguments args) : base(game)
     {
         _campaign = args.Campaign;
@@ -152,7 +155,6 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
                         new CampaignScreenTransitionArguments(_campaign));
                 };
 
-
                 AddModal(underConstructionModal, false);
                 _campaign.CompleteCurrentStage();
             };
@@ -179,9 +181,6 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
         _soundtrackManager.PlaySilence();
         _soundEffectInstance.Play();
     }
-
-    private TextHint? _aftermathHint;
-    private ControlBase? _aftermathOnHover;
 
     protected override void UpdateContent(GameTime gameTime)
     {

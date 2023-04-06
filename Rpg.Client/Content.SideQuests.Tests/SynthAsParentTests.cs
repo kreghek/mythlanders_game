@@ -13,7 +13,6 @@ using FluentAssertions;
 
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
-using Rpg.Client.GameScreens.Speech;
 using Rpg.Client.GameScreens.Speech.Ui;
 
 namespace Content.SideQuests.Tests;

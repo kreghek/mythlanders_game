@@ -7,23 +7,6 @@ namespace Client.GameScreens.Combat.CombatDebugElements;
 
 public class AspidFactory : IMonsterCombatantFactory
 {
-    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex)
-    {
-        var monsterSequence = CreateCombatMoveVariation(variationIndex);
-
-        var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, 6);
-        stats.SetValue(UnitStatType.ShieldPoints, 4);
-        stats.SetValue(UnitStatType.Resolve, 5);
-
-        var monster = new Combatant("aspid", monsterSequence, stats, combatActorBehaviour)
-        {
-            Sid = sid, IsPlayerControlled = false
-        };
-
-        return monster;
-    }
-
     private static CombatMovementSequence CreateCombatMoveVariation(int variationIndex)
     {
         var moveTemplate = new[,]
@@ -51,5 +34,22 @@ public class AspidFactory : IMonsterCombatantFactory
         }
 
         return monsterSequence;
+    }
+
+    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex)
+    {
+        var monsterSequence = CreateCombatMoveVariation(variationIndex);
+
+        var stats = new CombatantStatsConfig();
+        stats.SetValue(UnitStatType.HitPoints, 6);
+        stats.SetValue(UnitStatType.ShieldPoints, 4);
+        stats.SetValue(UnitStatType.Resolve, 5);
+
+        var monster = new Combatant("aspid", monsterSequence, stats, combatActorBehaviour)
+        {
+            Sid = sid, IsPlayerControlled = false
+        };
+
+        return monster;
     }
 }

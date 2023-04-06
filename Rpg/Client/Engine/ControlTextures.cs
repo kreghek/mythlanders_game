@@ -8,6 +8,7 @@ namespace Rpg.Client.Engine
         private const int TEXTURE_SIZE = 32;
 
         public static Point Button { get; } = Point.Zero;
+        public static Point Button2 { get; } = CalcPointByIndex(7);
         public static Point CombatMove { get; } = CalcPointByIndex(2);
         public static Point OptionHover { get; } = CalcPointByIndex(5);
         public static Point OptionNormal { get; } = CalcPointByIndex(4);
@@ -16,7 +17,6 @@ namespace Rpg.Client.Engine
         public static Point Shadow { get; } = CalcPointByIndex(6);
         public static Point Speech { get; } = CalcPointByIndex(3);
         public static Point Transparent { get; } = CalcPointByIndex(8);
-        public static Point Button2 { get; } = CalcPointByIndex(7);
 
         private static Point CalcPointByIndex(int index)
         {

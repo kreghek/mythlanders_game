@@ -16,20 +16,19 @@ internal sealed class TargetMarkersVisualizer
 {
     private double _counter;
     private ITargetMarkerContext? _targetMarkerContext;
-    private IReadOnlyCollection<CombatMoveTargetEstimate>? _targets;
 
-    public IReadOnlyCollection<CombatMoveTargetEstimate>? Targets => _targets;
+    public IReadOnlyCollection<CombatMoveTargetEstimate>? Targets { get; private set; }
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        if (_targets is null || _targetMarkerContext is null)
+        if (Targets is null || _targetMarkerContext is null)
         {
             return;
         }
 
         var actorGameObject = _targetMarkerContext.GetCombatantGameObject(_targetMarkerContext.CurrentCombatant);
 
-        foreach (var targetEstimate in _targets)
+        foreach (var targetEstimate in Targets)
         {
             var gameObject = _targetMarkerContext.GetCombatantGameObject(targetEstimate.Target);
             DrawTargetMarker(spriteBatch,
@@ -41,9 +40,9 @@ internal sealed class TargetMarkersVisualizer
 
     public void EriseTargets()
     {
-        if (_targets is not null && _targetMarkerContext is not null)
+        if (Targets is not null && _targetMarkerContext is not null)
         {
-            foreach (var target in _targets)
+            foreach (var target in Targets)
             {
                 var gameObject = _targetMarkerContext.GetCombatantGameObject(target.Target);
 
@@ -51,7 +50,7 @@ internal sealed class TargetMarkersVisualizer
             }
         }
 
-        _targets = null;
+        Targets = null;
     }
 
     public void SetTargets(Combatant actor, IReadOnlyCollection<IEffectInstance> effectInstances,
@@ -66,10 +65,10 @@ internal sealed class TargetMarkersVisualizer
             allTargets.AddRange(targets);
         }
 
-        _targets = allTargets;
+        Targets = allTargets;
         _targetMarkerContext = targetMarkerContext;
 
-        foreach (var target in _targets)
+        foreach (var target in Targets)
         {
             var gameObject = targetMarkerContext.GetCombatantGameObject(target.Target);
 
@@ -79,7 +78,7 @@ internal sealed class TargetMarkersVisualizer
 
     public void Update(GameTime gameTime)
     {
-        if (_targets is not null)
+        if (Targets is not null)
         {
             _counter += gameTime.ElapsedGameTime.TotalSeconds;
         }

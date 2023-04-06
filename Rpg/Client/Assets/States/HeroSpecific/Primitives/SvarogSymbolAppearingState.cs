@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Assets.InteractionDeliveryObjects;
 using Rpg.Client.Core;
-using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.HeroSpecific.Primitives
 {

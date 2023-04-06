@@ -51,7 +51,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private readonly UpdatableAnimationManager _animationManager;
     private readonly CombatScreenTransitionArguments _args;
-    private readonly InteractionDeliveryManager _interactionDeliveryManager;
     private readonly Camera2D _camera;
     private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
     private readonly ICombatantPositionProvider _combatantPositionProvider;
@@ -71,6 +70,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly Globe _globe;
     private readonly GlobeNode _globeNode;
     private readonly GlobeProvider _globeProvider;
+    private readonly InteractionDeliveryManager _interactionDeliveryManager;
     private readonly IJobProgressResolver _jobProgressResolver;
     private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
     private readonly FieldManeuverIndicatorPanel _maneuversIndicator;
@@ -147,7 +147,8 @@ internal class CombatScreen : GameScreenWithMenuBase
         soundtrackManager.PlayCombatTrack((BiomeType)((int)args.Location.Sid / 100 * 100));
 
         _maneuversVisualizer =
-            new FieldManeuversVisualizer(_combatantPositionProvider, new ManeuverContext(_combatCore), _uiContentStorage.GetTitlesFont());
+            new FieldManeuversVisualizer(_combatantPositionProvider, new ManeuverContext(_combatCore),
+                _uiContentStorage.GetTitlesFont());
 
         _maneuversIndicator = new FieldManeuverIndicatorPanel(UiThemeManager.UiContentStorage.GetTitlesFont(),
             new ManeuverContext(_combatCore));
@@ -759,7 +760,8 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             var contentSize = _combatantQueuePanel.CalcContentSize();
 
-            _combatantQueuePanel.Rect = new Rectangle(new Point(contentRectangle.Center.X - contentSize.X / 2, contentRectangle.Top),
+            _combatantQueuePanel.Rect = new Rectangle(
+                new Point(contentRectangle.Center.X - contentSize.X / 2, contentRectangle.Top),
                 contentSize);
             _combatantQueuePanel.Draw(spriteBatch);
         }
@@ -971,19 +973,22 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             var barSize = MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare());
             var color = Color.Lerp(Color.Red, Color.Transparent, 0.5f);
-            spriteBatch.DrawArc(barCenter, RADIUS_HP, SIDES, MathHelper.ToRadians(START_ANGLE), barSize, color, BAR_WIDTH);
+            spriteBatch.DrawArc(barCenter, RADIUS_HP, SIDES, MathHelper.ToRadians(START_ANGLE), barSize, color,
+                BAR_WIDTH);
 
-            var textX = Math.Cos(MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare() + START_ANGLE)) * (RADIUS_HP - 2) + barCenter.X;
-            var textY = Math.Sin(MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare() + START_ANGLE)) * (RADIUS_HP - 2) + barCenter.Y;
+            var textX = Math.Cos(MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare() + START_ANGLE)) *
+                (RADIUS_HP - 2) + barCenter.X;
+            var textY = Math.Sin(MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare() + START_ANGLE)) *
+                (RADIUS_HP - 2) + barCenter.Y;
 
             for (var offsetX = -1; offsetX <= 1; offsetX++)
             {
-                for (int offsetY = -1; offsetY <= 1; offsetY++)
+                for (var offsetY = -1; offsetY <= 1; offsetY++)
                 {
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                                    hp.Current.ToString(),
-                                    new Vector2((float)textX + offsetX, (float)textY + offsetY),
-                                    Color.White);
+                        hp.Current.ToString(),
+                        new Vector2((float)textX + offsetX, (float)textY + offsetY),
+                        Color.White);
                 }
             }
 
@@ -998,14 +1003,17 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             var barSize = MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare());
             var color = Color.Lerp(Color.Blue, Color.Transparent, 0.5f);
-            spriteBatch.DrawArc(barCenter, RADIUS_SP, SIDES, MathHelper.ToRadians(START_ANGLE), barSize, color, BAR_WIDTH);
+            spriteBatch.DrawArc(barCenter, RADIUS_SP, SIDES, MathHelper.ToRadians(START_ANGLE), barSize, color,
+                BAR_WIDTH);
 
-            var textX = Math.Cos(MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare() + START_ANGLE)) * (RADIUS_SP + 2) + barCenter.X;
-            var textY = Math.Sin(MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare() + START_ANGLE)) * (RADIUS_SP + 2) + barCenter.Y;
+            var textX = Math.Cos(MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare() + START_ANGLE)) *
+                (RADIUS_SP + 2) + barCenter.X;
+            var textY = Math.Sin(MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare() + START_ANGLE)) *
+                (RADIUS_SP + 2) + barCenter.Y;
 
             for (var offsetX = -1; offsetX <= 1; offsetX++)
             {
-                for (int offsetY = -1; offsetY <= 1; offsetY++)
+                for (var offsetY = -1; offsetY <= 1; offsetY++)
                 {
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                         sp.Current.ToString(),

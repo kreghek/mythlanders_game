@@ -4,4 +4,5 @@ using Microsoft.Xna.Framework;
 
 namespace Client.Assets.States.Primitives;
 
-internal sealed record InteractionDeliveryInfo(CombatEffectImposeItem ImposeItem, Vector2 StartPosition, Vector2 TargetPosition);
+internal sealed record InteractionDeliveryInfo(CombatEffectImposeItem ImposeItem, Vector2 StartPosition,
+    Vector2 TargetPosition);

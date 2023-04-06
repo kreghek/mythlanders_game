@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 
-using Microsoft.Xna.Framework;
-
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.GraphicConfigs.Heroes

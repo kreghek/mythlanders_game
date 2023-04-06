@@ -6,8 +6,6 @@ using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
 
-using Rpg.Client.GameScreens.Combat.GameObjects;
-
 namespace Rpg.Client.Assets.States.Primitives
 {
     /// <summary>

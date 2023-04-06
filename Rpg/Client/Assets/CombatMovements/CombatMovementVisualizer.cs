@@ -7,8 +7,6 @@ using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
 
-using Rpg.Client.GameScreens.Combat.GameObjects;
-
 namespace Client.Assets.CombatMovements;
 
 internal sealed class CombatMovementVisualizer : ICombatMovementVisualizer

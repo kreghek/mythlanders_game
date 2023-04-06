@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Microsoft.Xna.Framework;
+
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.GraphicConfigs.Monsters
@@ -8,8 +10,8 @@ namespace Rpg.Client.Assets.GraphicConfigs.Monsters
     {
         public VolkolakWarriorGraphicsConfig()
         {
-            StatsPanelOrigin = new Microsoft.Xna.Framework.Vector2(-16, 64 + 8);
-            ShadowOrigin = new Microsoft.Xna.Framework.Vector2(-16, -16);
+            StatsPanelOrigin = new Vector2(-16, 64 + 8);
+            ShadowOrigin = new Vector2(-16, -16);
         }
 
         public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()

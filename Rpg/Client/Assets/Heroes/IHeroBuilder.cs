@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 using Rpg.Client.Core;
 using Rpg.Client.GameScreens;
 

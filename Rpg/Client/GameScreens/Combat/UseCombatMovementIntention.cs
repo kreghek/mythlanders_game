@@ -17,13 +17,14 @@ internal sealed class UseCombatMovementIntention : IIntention
 {
     private readonly IAnimationManager _animationManager;
     private readonly IList<CombatantGameObject> _combatantGameObjects;
-    private readonly InteractionDeliveryManager _interactionDeliveryManager;
-    private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly CombatMovementInstance _combatMovement;
     private readonly ICombatMovementVisualizer _combatMovementVisualizer;
+    private readonly GameObjectContentStorage _gameObjectContentStorage;
+    private readonly InteractionDeliveryManager _interactionDeliveryManager;
 
     public UseCombatMovementIntention(CombatMovementInstance combatMovement, IAnimationManager animationManager,
-        ICombatMovementVisualizer combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects, InteractionDeliveryManager interactionDeliveryManager, GameObjectContentStorage gameObjectContentStorage)
+        ICombatMovementVisualizer combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects,
+        InteractionDeliveryManager interactionDeliveryManager, GameObjectContentStorage gameObjectContentStorage)
     {
         _combatMovement = combatMovement;
         _animationManager = animationManager;
@@ -41,7 +42,8 @@ internal sealed class UseCombatMovementIntention : IIntention
     private IActorVisualizationState GetMovementVisualizationState(CombatantGameObject actorGameObject,
         CombatMovementExecution movementExecution, CombatMovementInstance combatMovement)
     {
-        var context = new CombatMovementVisualizationContext(actorGameObject, _combatantGameObjects.ToArray(), _interactionDeliveryManager, _gameObjectContentStorage);
+        var context = new CombatMovementVisualizationContext(actorGameObject, _combatantGameObjects.ToArray(),
+            _interactionDeliveryManager, _gameObjectContentStorage);
 
         return _combatMovementVisualizer.GetMovementVisualizationState(combatMovement.SourceMovement.Sid,
             actorGameObject.Animator, movementExecution, context);

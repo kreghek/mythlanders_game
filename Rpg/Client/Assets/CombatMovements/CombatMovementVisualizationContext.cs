@@ -13,8 +13,6 @@ namespace Client.Assets.CombatMovements;
 internal sealed class CombatMovementVisualizationContext : ICombatMovementVisualizationContext
 {
     private readonly IReadOnlyCollection<CombatantGameObject> _gameObjects;
-    private readonly InteractionDeliveryManager _interactionDeliveryManager;
-    private readonly GameObjectContentStorage _gameObjectContentStorage;
 
     public CombatMovementVisualizationContext(
         CombatantGameObject actorGameObject,
@@ -24,8 +22,8 @@ internal sealed class CombatMovementVisualizationContext : ICombatMovementVisual
     {
         ActorGameObject = actorGameObject;
         _gameObjects = gameObjects;
-        _interactionDeliveryManager = interactionDeliveryManager;
-        _gameObjectContentStorage = gameObjectContentStorage;
+        InteractionDeliveryManager = interactionDeliveryManager;
+        GameObjectContentStorage = gameObjectContentStorage;
     }
 
     public CombatantGameObject GetCombatActor(Combatant combatant)
@@ -33,8 +31,9 @@ internal sealed class CombatMovementVisualizationContext : ICombatMovementVisual
         return _gameObjects.Single(x => x.Combatant == combatant);
     }
 
-    public InteractionDeliveryManager InteractionDeliveryManager => _interactionDeliveryManager;
-    public GameObjectContentStorage GameObjectContentStorage => _gameObjectContentStorage;
+    public InteractionDeliveryManager InteractionDeliveryManager { get; }
+
+    public GameObjectContentStorage GameObjectContentStorage { get; }
 
     public CombatantGameObject ActorGameObject { get; }
 }

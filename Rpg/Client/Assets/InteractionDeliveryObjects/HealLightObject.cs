@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
-using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.InteractionDeliveryObjects
 {

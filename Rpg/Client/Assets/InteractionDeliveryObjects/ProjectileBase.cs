@@ -12,9 +12,8 @@ namespace Client.Assets.InteractionDeliveryObjects;
 
 internal abstract class ProjectileBase : IInteractionDelivery
 {
-    private readonly ProjectileFunctions _functions;
-
     private readonly IAnimationFrameSet _frameSet;
+    private readonly ProjectileFunctions _functions;
     private readonly Sprite _graphics;
     private readonly double _lifetimeDuration;
 

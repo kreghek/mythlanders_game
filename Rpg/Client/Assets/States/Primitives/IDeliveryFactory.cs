@@ -8,5 +8,6 @@ namespace Client.Assets.States.Primitives;
 
 internal interface IDeliveryFactory
 {
-    public IInteractionDelivery Create(CombatEffectImposeItem interactionImpose, Vector2 startPoint, Vector2 targetPoint);
+    public IInteractionDelivery Create(CombatEffectImposeItem interactionImpose, Vector2 startPoint,
+        Vector2 targetPoint);
 }

@@ -10,6 +10,14 @@ internal sealed class InteractionDeliveryManager
     private readonly IList<IInteractionDelivery> _interactionDeliveryList = new List<IInteractionDelivery>();
 
     /// <summary>
+    /// Collection of active interaction delivery objects.
+    /// </summary>
+    public IReadOnlyCollection<IInteractionDelivery> GetActiveSnapshot()
+    {
+        return _interactionDeliveryList.ToArray();
+    }
+
+    /// <summary>
     /// Register interaction delivery object in the game.
     /// </summary>
     public void Register(IInteractionDelivery interactionDelivery)
@@ -18,12 +26,7 @@ internal sealed class InteractionDeliveryManager
     }
 
     /// <summary>
-    /// Collection of active interaction delivery objects.
-    /// </summary>
-    public IReadOnlyCollection<IInteractionDelivery> GetActiveSnapshot() => _interactionDeliveryList.ToArray();
-
-    /// <summary>
-    /// Remove interaction delivery object from 
+    /// Remove interaction delivery object from
     /// </summary>
     public void Unregister(IInteractionDelivery interactionDelivery)
     {

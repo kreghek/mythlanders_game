@@ -19,17 +19,21 @@ internal class FieldManeuversVisualizer
 
     private readonly ICombatantPositionProvider _combatantPositionProvider;
     private readonly IManeuverContext _context;
-    private readonly SpriteFont _spriteFont;
     private readonly CombatFieldSide _heroFieldSide;
     private readonly Matrix<ManeuverButton> _maneuverButtons;
+    private readonly SpriteFont _spriteFont;
 
     private float _animationCounter;
+    private Combatant? _combatant;
 
     private bool _isManeuversAvailable;
 
+    private FieldCoords? _selectedCoords;
+
     private ManeuverButton? _selectedManeuverButton;
 
-    public FieldManeuversVisualizer(ICombatantPositionProvider combatantPositionProvider, IManeuverContext context, SpriteFont spriteFont)
+    public FieldManeuversVisualizer(ICombatantPositionProvider combatantPositionProvider, IManeuverContext context,
+        SpriteFont spriteFont)
     {
         _combatantPositionProvider = combatantPositionProvider;
         _context = context;
@@ -59,7 +63,8 @@ internal class FieldManeuversVisualizer
     /// </summary>
     public Combatant? Combatant
     {
-        get => _combatant; set
+        get => _combatant;
+        set
         {
             _combatant = value;
             _selectedCoords = null;
@@ -133,10 +138,14 @@ internal class FieldManeuversVisualizer
         if (_selectedCoords is not null)
         {
             var position = _combatantPositionProvider.GetPosition(_selectedCoords,
-                            CombatantPositionSide.Heroes);
-            spriteBatch.DrawLine(position, position + Vector2.UnitX * 600, Color.Lerp(Color.Cyan, Color.Transparent, 0.75f), 10);
-            spriteBatch.DrawLine(position - Vector2.UnitY * 60, position + Vector2.UnitY * 60, Color.Lerp(Color.Cyan, Color.Transparent, 0.75f), 10);
-            spriteBatch.DrawString(_spriteFont, _selectedCoords.ColumentIndex == 0 ? "Avangard" : "Readgard", position - new Vector2(20, 20), Color.Lerp(Color.Cyan, Color.Transparent, 0.15f), MathHelper.ToRadians(-90), Vector2.Zero, 1f, SpriteEffects.None, 0);
+                CombatantPositionSide.Heroes);
+            spriteBatch.DrawLine(position, position + Vector2.UnitX * 600,
+                Color.Lerp(Color.Cyan, Color.Transparent, 0.75f), 10);
+            spriteBatch.DrawLine(position - Vector2.UnitY * 60, position + Vector2.UnitY * 60,
+                Color.Lerp(Color.Cyan, Color.Transparent, 0.75f), 10);
+            spriteBatch.DrawString(_spriteFont, _selectedCoords.ColumentIndex == 0 ? "Avangard" : "Readgard",
+                position - new Vector2(20, 20), Color.Lerp(Color.Cyan, Color.Transparent, 0.15f),
+                MathHelper.ToRadians(-90), Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
     }
 
@@ -199,9 +208,6 @@ internal class FieldManeuversVisualizer
         var maneuverButton = (ManeuverButton)sender;
         ManeuverSelected?.Invoke(this, new ManeuverSelectedEventArgs(maneuverButton.FieldCoords));
     }
-
-    private FieldCoords? _selectedCoords;
-    private Combatant? _combatant;
 
     private void ManeuverButton_OnHover(object? sender, EventArgs e)
     {

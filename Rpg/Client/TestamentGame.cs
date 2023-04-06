@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Globalization;
-using System.Threading;
 
 using Client.Assets;
 using Client.Assets.Catalogs;

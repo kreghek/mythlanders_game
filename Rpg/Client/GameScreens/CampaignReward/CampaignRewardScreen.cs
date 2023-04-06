@@ -26,8 +26,8 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
 {
     private readonly ICampaignGenerator _campaignGenerator;
     private readonly ResourceTextButton _moveNextButton;
-    private readonly IUiContentStorage _uiContent;
     private readonly IReadOnlyCollection<IProp> _reward;
+    private readonly IUiContentStorage _uiContent;
 
     public CampaignRewardScreen(TestamentGame game, CampaignRewardScreenTransitionArguments args) : base(game)
     {

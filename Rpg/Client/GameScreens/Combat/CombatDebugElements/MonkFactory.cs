@@ -11,6 +11,11 @@ namespace Client.GameScreens.Combat.CombatDebugElements;
 
 public class MonkFactory : IHeroCombatantFactory
 {
+    private static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory
+    {
+        return Activator.CreateInstance<T>().CreateMovement();
+    }
+
     public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
     {
         var movementPool = new List<CombatMovement>
@@ -46,10 +51,5 @@ public class MonkFactory : IHeroCombatantFactory
             Sid = sid, IsPlayerControlled = true
         };
         return hero;
-    }
-
-    private static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory
-    {
-        return Activator.CreateInstance<T>().CreateMovement();
     }
 }

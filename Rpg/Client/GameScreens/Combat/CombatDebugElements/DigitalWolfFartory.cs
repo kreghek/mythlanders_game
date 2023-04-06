@@ -6,24 +6,6 @@ namespace Client.GameScreens.Combat.CombatDebugElements;
 
 public class DigitalWolfFactory : IMonsterCombatantFactory
 {
-    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex)
-    {
-        // ReSharper disable once UseObjectOrCollectionInitializer
-        var monsterSequence = CreateCombatMoveVariation();
-
-        var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, 6);
-        stats.SetValue(UnitStatType.ShieldPoints, 3);
-        stats.SetValue(UnitStatType.Resolve, 4);
-
-        var monster = new Combatant("digitalwolf", monsterSequence, stats, combatActorBehaviour)
-        {
-            Sid = sid, IsPlayerControlled = false
-        };
-
-        return monster;
-    }
-
     private static CombatMovementSequence CreateCombatMoveVariation()
     {
         var list = new[]
@@ -46,5 +28,23 @@ public class DigitalWolfFactory : IMonsterCombatantFactory
         }
 
         return monsterSequence;
+    }
+
+    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex)
+    {
+        // ReSharper disable once UseObjectOrCollectionInitializer
+        var monsterSequence = CreateCombatMoveVariation();
+
+        var stats = new CombatantStatsConfig();
+        stats.SetValue(UnitStatType.HitPoints, 6);
+        stats.SetValue(UnitStatType.ShieldPoints, 3);
+        stats.SetValue(UnitStatType.Resolve, 4);
+
+        var monster = new Combatant("digitalwolf", monsterSequence, stats, combatActorBehaviour)
+        {
+            Sid = sid, IsPlayerControlled = false
+        };
+
+        return monster;
     }
 }

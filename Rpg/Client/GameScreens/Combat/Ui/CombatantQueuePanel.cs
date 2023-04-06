@@ -23,6 +23,9 @@ internal sealed class CombatantQueuePanel : ControlBase
     private const int BAR_WIDTH = 118;
     private const int PANEL_BACKGROUND_VERTICAL_OFFSET = 12;
     private const int MARGIN = 10;
+
+    private const int RESOLVE_WIDTH = 12;
+    private const int PORTRAIN_WIDTH = 32;
     private readonly CombatCore _activeCombat;
 
     private readonly IList<(Rectangle, ICombatantEffect)> _effectInfoList =
@@ -49,6 +52,11 @@ internal sealed class CombatantQueuePanel : ControlBase
         _gameObjectContentStorage = gameObjectContentStorage;
     }
 
+    public Point CalcContentSize()
+    {
+        return new((RESOLVE_WIDTH + PORTRAIN_WIDTH) * (_activeCombat.Combatants.Count + 1), 48);
+    }
+
     public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         var mouse = Mouse.GetState();
@@ -60,14 +68,15 @@ internal sealed class CombatantQueuePanel : ControlBase
         HandleEffectHint(mousePosition);
     }
 
-    protected override Point CalcTextureOffset() => ControlTextures.CombatMove;
+    protected override Point CalcTextureOffset()
+    {
+        return ControlTextures.CombatMove;
+    }
 
-    protected override Color CalculateColor() => Color.White;
-
-    private const int RESOLVE_WIDTH = 12;
-    private const int PORTRAIN_WIDTH = 32;
-
-    public Point CalcContentSize() => new((RESOLVE_WIDTH + PORTRAIN_WIDTH) * (_activeCombat.Combatants.Count + 1), 48);
+    protected override Color CalculateColor()
+    {
+        return Color.White;
+    }
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {

@@ -32,7 +32,10 @@ internal sealed class WaitIconButton : ButtonBase
         _iconRect = iconData.SourceRect;
     }
 
-    protected override Point CalcTextureOffset() => ControlTextures.Button2;
+    protected override Point CalcTextureOffset()
+    {
+        return ControlTextures.Button2;
+    }
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
     {
@@ -75,11 +78,11 @@ internal class CombatMovementsHandPanel : ControlBase
 
         _waitButton =
             new WaitIconButton(new IconData(game.Content.Load<Texture2D>("Sprites/Ui/SmallVerticalButtonIcons_White"),
-            new Rectangle(
-                SPECIAL_BUTTONS_ICON_WIDTH * 2,
-                SPECIAL_BUTTONS_ICON_HEIGHT,
-                SPECIAL_BUTTONS_ICON_WIDTH,
-                SPECIAL_BUTTONS_ICON_HEIGHT)));
+                new Rectangle(
+                    SPECIAL_BUTTONS_ICON_WIDTH * 2,
+                    SPECIAL_BUTTONS_ICON_HEIGHT,
+                    SPECIAL_BUTTONS_ICON_WIDTH,
+                    SPECIAL_BUTTONS_ICON_HEIGHT)));
         _waitButton.OnClick += WaitButton_OnClick;
     }
 

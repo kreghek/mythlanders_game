@@ -12,7 +12,6 @@ using Core.Dices;
 
 using Rpg.Client.Core;
 using Rpg.Client.GameScreens;
-using Rpg.Client.GameScreens.Speech;
 
 namespace DialoguePlayer;
 

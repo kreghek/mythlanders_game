@@ -190,11 +190,10 @@ internal sealed class TitleScreen : GameScreenBase
                 Color.White);
         }
 
-
         if (!_gameSettings.Mode.HasFlag(GameMode.Recording))
         {
             var socialPosition = new Vector2(ResolutionIndependentRenderer.VirtualBounds.Right - 75,
-            ResolutionIndependentRenderer.VirtualBounds.Bottom - 150);
+                ResolutionIndependentRenderer.VirtualBounds.Bottom - 150);
             spriteBatch.Draw(_uiContentStorage.GetSocialTexture(), socialPosition, Color.White);
         }
 

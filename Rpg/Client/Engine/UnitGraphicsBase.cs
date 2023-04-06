@@ -23,6 +23,7 @@ namespace Rpg.Client.Engine
         private const int FRAME_WIDTH = 256;
         private const int FRAME_HEIGHT = 128;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
+        private readonly UnitGraphicsConfigBase _graphicsConfig;
 
         private readonly IDictionary<PredefinedAnimationSid, IAnimationFrameSet> _predefinedAnimationFrameSets;
         private readonly Sprite _selectedMarker;
@@ -30,7 +31,6 @@ namespace Rpg.Client.Engine
         private IAnimationFrameSet _currentAnimationFrameSet = null!;
         private Sprite _graphics;
         private Sprite[] _outlines;
-        private readonly UnitGraphicsConfigBase _graphicsConfig;
         protected Vector2 _position;
 
         private Sprite[] _sprites;

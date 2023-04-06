@@ -91,7 +91,10 @@ internal static class CommonCombatVisualization
                 actorAnimator,
                 new LinearAnimationFrameSet(Enumerable.Range(8 + 2, 2).ToArray(), 8, CommonConstants.FrameSize.X,
                     CommonConstants.FrameSize.Y, 8),
-                movementExecution.EffectImposeItems.Select(x=>new InteractionDeliveryInfo(x, visualizationContext.ActorGameObject.LaunchPoint, targetPosition)).ToArray(),
+                movementExecution.EffectImposeItems.Select(x =>
+                        new InteractionDeliveryInfo(x, visualizationContext.ActorGameObject.LaunchPoint,
+                            targetPosition))
+                    .ToArray(),
                 new EnergyArrowInteractionDeliveryFactory(visualizationContext.GameObjectContentStorage),
                 visualizationContext.InteractionDeliveryManager)
         };
