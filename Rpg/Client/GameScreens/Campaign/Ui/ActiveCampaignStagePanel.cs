@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 
-using Client.Assets.Catalogs.CampaignGeneration;
-using Client.Assets.StageItems;
 using Client.Core.Campaigns;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
@@ -15,18 +14,21 @@ namespace Client.GameScreens.Campaign.Ui;
 
 internal class ActiveCampaignStagePanel : CampaignStagePanelBase
 {
-    private readonly IList<ButtonBase> _buttonList;
+    private readonly IList<CampaignButton> _buttonList;
     private readonly CampaignStage _campaignStage;
+    private readonly Texture2D _campaignIconsTexture;
     private readonly HeroCampaign _currentCampaign;
     private readonly bool _isActive;
+    private TextHint? _currentHint;
 
-    public ActiveCampaignStagePanel(CampaignStage campaignStage, int stageIndex, HeroCampaign currentCampaign,
+    public ActiveCampaignStagePanel(CampaignStage campaignStage, int stageIndex, Texture2D campaignIconsTexture, HeroCampaign currentCampaign,
         IScreen currentScreen, IScreenManager screenManager, bool isActive) : base(stageIndex)
     {
         _campaignStage = campaignStage;
+        _campaignIconsTexture = campaignIconsTexture;
         _currentCampaign = currentCampaign;
         _isActive = isActive;
-        _buttonList = new List<ButtonBase>();
+        _buttonList = new List<CampaignButton>();
 
         Init(currentScreen, screenManager, isActive);
     }
@@ -65,44 +67,19 @@ internal class ActiveCampaignStagePanel : CampaignStagePanelBase
             var button = _buttonList[buttonIndex];
 
             button.Rect = new Rectangle(
-                contentRect.Left + CONTENT_MARGIN,
+                contentRect.Center.X - 16,
                 topOffset + contentRect.Top + (buttonIndex * BUTTON_MARGIN_HEIGHT),
-                contentRect.Width - CONTENT_MARGIN * 2,
-                BUTTON_HEIGHT);
+                32,
+                32);
 
             button.Draw(spriteBatch);
         }
-    }
 
-    private static string GetStageItemDisplayName(int stageItemIndex, ICampaignStageItem campaignStageItem)
-    {
-        if (campaignStageItem is CombatStageItem)
+        if (_currentHint is not null)
         {
-            var humanReadableCombatNumber = stageItemIndex + 1;
-            return string.Format(UiResource.CampaignStageDisplayNameCombat, humanReadableCombatNumber);
+            _currentHint.Rect = new Rectangle(Mouse.GetState().Position + new Point(0, 16), new Point(200, 50));
+            _currentHint.Draw(spriteBatch);
         }
-
-        if (campaignStageItem is RewardStageItem)
-        {
-            return UiResource.CampaignStageDisplayNameFinish;
-        }
-
-        if (campaignStageItem is DialogueEventStageItem)
-        {
-            return UiResource.CampaignStageDisplayNameTextEvent;
-        }
-
-        if (campaignStageItem is NotImplemenetedStageItem notImplementedStage)
-        {
-            return notImplementedStage.StageSid + " (not implemented)";
-        }
-
-        if (campaignStageItem is RestStageItem)
-        {
-            return UiResource.CampaignStageDisplayName;
-        }
-
-        return "???";
     }
 
     private void Init(IScreen currentScreen, IScreenManager screenManager, bool isActive)
@@ -112,9 +89,10 @@ internal class ActiveCampaignStagePanel : CampaignStagePanelBase
             var campaignStageItem = _campaignStage.Items[i];
 
             var stageItemDisplayName = GetStageItemDisplayName(i, campaignStageItem);
+            var stageIconRect = GetStageItemTexture(campaignStageItem);
 
-            var button = new TextButton(stageItemDisplayName +
-                                        (_campaignStage.IsCompleted ? " (Completed)" : string.Empty));
+            var button = new CampaignButton(new IconData(_campaignIconsTexture, stageIconRect), stageItemDisplayName +
+                                        (_campaignStage.IsCompleted ? " (Завершено)" : string.Empty));
             _buttonList.Add(button);
 
             if (isActive)
@@ -123,6 +101,13 @@ internal class ActiveCampaignStagePanel : CampaignStagePanelBase
                 {
                     campaignStageItem.ExecuteTransition(currentScreen, screenManager, _currentCampaign);
                 };
+
+                button.OnHover += (s, e) =>
+                {
+                    _currentHint = new TextHint(button.Description);
+                };
+
+                button.OnLeave += (s, e) => { _currentHint = null; };
             }
             else
             {

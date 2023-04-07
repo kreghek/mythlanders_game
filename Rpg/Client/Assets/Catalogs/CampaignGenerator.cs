@@ -109,7 +109,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                 {
                     new SacredEventCampaignStageTemplateFactory(),
                     //new ShopCampaignStageTemplateFactory(),
-                    new FindingEventCampaignStageTemplateFactory()
+                    //new FindingEventCampaignStageTemplateFactory()
                 }, _services)
             },
 
@@ -161,7 +161,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                 {
                     new SacredEventCampaignStageTemplateFactory(),
                     //new ShopCampaignStageTemplateFactory(),
-                    new FindingEventCampaignStageTemplateFactory()
+                    //new FindingEventCampaignStageTemplateFactory()
                 }, _services)
             },
 

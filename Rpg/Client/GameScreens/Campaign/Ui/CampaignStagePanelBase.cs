@@ -1,3 +1,9 @@
+using System;
+
+using Client.Assets.Catalogs.CampaignGeneration;
+using Client.Assets.StageItems;
+using Client.Core.Campaigns;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -37,5 +43,69 @@ internal abstract class CampaignStagePanelBase : ControlBase
             contentRect.Height - (CONTENT_MARGIN + STAGE_LABEL_HEIGHT)));
     }
 
+    protected void DoSelected(CampaignButton selectedButton)
+    {
+        Selected?.Invoke(this, new CampaignStageItemSelectedEventArgs(selectedButton.Rect.Center.ToVector2()));
+    }
+
+    public event EventHandler<CampaignStageItemSelectedEventArgs>? Selected;
+
     protected abstract void DrawPanelContent(SpriteBatch spriteBatch, Rectangle rectangle);
+
+    protected static string GetStageItemDisplayName(int stageItemIndex, ICampaignStageItem campaignStageItem)
+    {
+        if (campaignStageItem is CombatStageItem)
+        {
+            return string.Format(UiResource.CampaignStageDisplayNameCombat, stageItemIndex + 1);
+        }
+
+        if (campaignStageItem is RewardStageItem)
+        {
+            return UiResource.CampaignStageDisplayNameFinish;
+        }
+
+        if (campaignStageItem is DialogueEventStageItem)
+        {
+            return UiResource.CampaignStageDisplayNameTextEvent;
+        }
+
+        if (campaignStageItem is NotImplemenetedStageItem notImplemenetedStage)
+        {
+            return notImplemenetedStage.StageSid + " (не для демо)";
+        }
+
+        if (campaignStageItem is RestStageItem)
+        {
+            return UiResource.CampaignStageDisplayName;
+        }
+
+        return "???";
+    }
+
+    protected static Rectangle GetStageItemTexture(ICampaignStageItem campaignStageItem)
+    {
+        var size = new Point(32, 32);
+
+        if (campaignStageItem is CombatStageItem)
+        {
+            return new Rectangle(new Point(0, 0), size);
+        }
+
+        if (campaignStageItem is RewardStageItem)
+        {
+            return new Rectangle(new Point(1, 2), size);
+        }
+
+        if (campaignStageItem is DialogueEventStageItem)
+        {
+            return new Rectangle(new Point(1, 1), size);
+        }
+
+        if (campaignStageItem is RestStageItem)
+        {
+            return new Rectangle(new Point(1, 1), size);
+        }
+
+        return new Rectangle(new Point(1, 0), size);
+    }
 }

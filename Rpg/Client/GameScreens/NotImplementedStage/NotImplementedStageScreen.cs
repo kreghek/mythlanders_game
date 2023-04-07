@@ -17,17 +17,21 @@ internal class NotImplementedStageScreen : GameScreenWithMenuBase
 {
     private readonly HeroCampaign _campaign;
     private readonly IUiContentStorage _uiContentStorage;
+    private readonly TextButton _skipButton;
 
     public NotImplementedStageScreen(TestamentGame game, NotImplementedStageScreenTransitionArguments args) : base(game)
     {
         _campaign = args.Campaign;
 
         _uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();
+
+        _skipButton = new TextButton("Пропустить");
+        _skipButton.OnClick += CloseButton_OnClick;
     }
 
     protected override IList<ButtonBase> CreateMenu()
     {
-        var closeButton = new TextButton("Skip");
+        var closeButton = new TextButton("Пропустить");
         closeButton.OnClick += CloseButton_OnClick;
 
         return new[]
@@ -45,8 +49,15 @@ internal class NotImplementedStageScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
-        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), "Under construction\n\n(press Skip to continue)",
-            contentRect.Center.ToVector2(), Color.Wheat);
+        const string TEXT = "Этап не доступен для демо";
+
+        var size = _uiContentStorage.GetTitlesFont().MeasureString(TEXT);
+
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), TEXT,
+            contentRect.Center.ToVector2() - size, Color.Wheat);
+
+        _skipButton.Rect = new Rectangle(contentRect.Center + new Point((int)size.X + 10), new Point(100, 20));
+        _skipButton.Draw(spriteBatch);
 
         spriteBatch.End();
     }
