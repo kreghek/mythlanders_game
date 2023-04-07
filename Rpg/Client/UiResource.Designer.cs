@@ -511,6 +511,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Avangard.
+        /// </summary>
+        internal static string FieldManeuversVisualizer_Draw_Avanguard {
+            get {
+                return ResourceManager.GetString("FieldManeuversVisualizer_Draw_Avanguard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rearguard.
+        /// </summary>
+        internal static string FieldManeuversVisualizer_Draw_Rearguard {
+            get {
+                return ResourceManager.GetString("FieldManeuversVisualizer_Draw_Rearguard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Formation.
         /// </summary>
         internal static string FormationButtonTitle {

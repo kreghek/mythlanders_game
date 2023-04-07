@@ -279,6 +279,12 @@
   <data name="ExitGameButtonTitle" xml:space="preserve">
     <value>Выйти из игры</value>
   </data>
+  <data name="FieldManeuversVisualizer_Draw_Avanguard" xml:space="preserve">
+    <value>АВАНГАРД</value>
+  </data>
+  <data name="FieldManeuversVisualizer_Draw_Rearguard" xml:space="preserve">
+    <value>ТЫЛ</value>
+  </data>
   <data name="FormationButtonTitle" xml:space="preserve">
     <value>Построение</value>
   </data>

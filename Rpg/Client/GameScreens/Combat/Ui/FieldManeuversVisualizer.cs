@@ -143,7 +143,7 @@ internal class FieldManeuversVisualizer
                 Color.Lerp(Color.Cyan, Color.Transparent, 0.75f), 10);
             spriteBatch.DrawLine(position - Vector2.UnitY * 60, position + Vector2.UnitY * 60,
                 Color.Lerp(Color.Cyan, Color.Transparent, 0.75f), 10);
-            spriteBatch.DrawString(_spriteFont, _selectedCoords.ColumentIndex == 0 ? "Avangard" : "Readgard",
+            spriteBatch.DrawString(_spriteFont, _selectedCoords.ColumentIndex == 0 ? UiResource.FieldManeuversVisualizer_Draw_Avanguard : UiResource.FieldManeuversVisualizer_Draw_Rearguard,
                 position - new Vector2(20, 20), Color.Lerp(Color.Cyan, Color.Transparent, 0.15f),
                 MathHelper.ToRadians(-90), Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
