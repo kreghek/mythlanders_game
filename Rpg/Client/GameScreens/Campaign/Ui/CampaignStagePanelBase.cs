@@ -45,7 +45,7 @@ internal abstract class CampaignStagePanelBase : ControlBase
 
     protected void DoSelected(CampaignButton selectedButton)
     {
-        Selected?.Invoke(this, new CampaignStageItemSelectedEventArgs(selectedButton.Rect.Center.ToVector2()));
+        Selected?.Invoke(this, new CampaignStageItemSelectedEventArgs(selectedButton.Rect.Center.ToVector2(), selectedButton.Description));
     }
 
     public event EventHandler<CampaignStageItemSelectedEventArgs>? Selected;
@@ -69,14 +69,14 @@ internal abstract class CampaignStagePanelBase : ControlBase
             return UiResource.CampaignStageDisplayNameTextEvent;
         }
 
-        if (campaignStageItem is NotImplemenetedStageItem notImplemenetedStage)
-        {
-            return notImplemenetedStage.StageSid + " (не для демо)";
-        }
-
         if (campaignStageItem is RestStageItem)
         {
             return UiResource.CampaignStageDisplayName;
+        }
+
+        if (campaignStageItem is NotImplemenetedStageItem notImplemenetedStage)
+        {
+            return notImplemenetedStage.StageSid + " (не для демо)";
         }
 
         return "???";

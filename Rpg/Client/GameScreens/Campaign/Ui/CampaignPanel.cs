@@ -19,6 +19,7 @@ internal sealed class CampaignPanel : ControlBase
     private readonly int _minIndex;
     private readonly IList<CampaignStagePanelBase> _panelList;
     private readonly IScreenManager _screenManager;
+    private TextHint _currentHint;
 
     public CampaignPanel(HeroCampaign heroCampaign, IScreenManager screenManager, IScreen currentScreen, Texture2D campaignIconsTexture)
     {
@@ -55,6 +56,11 @@ internal sealed class CampaignPanel : ControlBase
 
             stagePanel.Draw(spriteBatch);
         }
+
+        if (_currentHint is not null)
+        { 
+            _currentHint.Draw(spriteBatch);
+        }
     }
 
     internal void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
@@ -85,6 +91,15 @@ internal sealed class CampaignPanel : ControlBase
                 {
                     var stagePanel = new ActiveCampaignStagePanel(stage, stageIndex, _campaignIconsTexture, currentCampaign, _currentScreen,
                         _screenManager, stageIsActive);
+
+                    stagePanel.Selected += (_, e) =>
+                    {
+                        _currentHint = new TextHint(e.Description)
+                        {
+                            Rect = new Rectangle((e.Position + new Vector2(0, 16)).ToPoint(), new Point(200, 50))
+                        };
+                    };
+
                     panelList.Add(stagePanel);
                 }
                 else
