@@ -40,10 +40,17 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
     protected override IList<ButtonBase> CreateMenu()
     {
-        return new[]
+        if (_globe.Globe.Player.Inventory.CalcActualItems().Any())
         {
-            _inventoryButton
-        };
+            return new[]
+            {
+                _inventoryButton
+            };
+        }
+        else
+        { 
+            return Array.Empty<ButtonBase>();
+        }
     }
 
     protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)

@@ -4,7 +4,6 @@ using Client.Core.Campaigns;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
@@ -94,6 +93,8 @@ internal class ActiveCampaignStagePanel : CampaignStagePanelBase
                 {
                     campaignStageItem.ExecuteTransition(currentScreen, screenManager, _currentCampaign);
                 };
+
+                button.OnHover += (s, e) => { DoSelected(button); };
             }
             else
             {

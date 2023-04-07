@@ -160,15 +160,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rest.
-        /// </summary>
-        internal static string CampaignStageDisplayName {
-            get {
-                return ResourceManager.GetString("CampaignStageDisplayName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Combat {0}.
         /// </summary>
         internal static string CampaignStageDisplayNameCombat {
@@ -187,11 +178,29 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rest.
+        /// </summary>
+        internal static string CampaignStageDisplayNameRest {
+            get {
+                return ResourceManager.GetString("CampaignStageDisplayNameRest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Some event.
         /// </summary>
         internal static string CampaignStageDisplayNameTextEvent {
             get {
                 return ResourceManager.GetString("CampaignStageDisplayNameTextEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ???.
+        /// </summary>
+        internal static string CampaignStageDisplayNameUnknown {
+            get {
+                return ResourceManager.GetString("CampaignStageDisplayNameUnknown", resourceCulture);
             }
         }
         
@@ -1092,6 +1101,15 @@ namespace Client {
         internal static string ToTheCombatButtonTitle {
             get {
                 return ResourceManager.GetString("ToTheCombatButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Under construction.
+        /// </summary>
+        internal static string UnderConstructionModalContent {
+            get {
+                return ResourceManager.GetString("UnderConstructionModalContent", resourceCulture);
             }
         }
         

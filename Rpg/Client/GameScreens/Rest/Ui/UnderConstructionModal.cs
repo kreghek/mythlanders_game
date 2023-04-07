@@ -18,7 +18,8 @@ internal sealed class UnderConstructionModal : ModalDialogBase
 
     protected override void DrawContent(SpriteBatch spriteBatch)
     {
-        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), "Under construction", ContentRect.Center.ToVector2(),
+        var size = _uiContentStorage.GetTitlesFont().MeasureString(UiResource.UnderConstructionModalContent);
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), UiResource.UnderConstructionModalContent, ContentRect.Center.ToVector2() - size / 2,
             Color.White);
     }
 }

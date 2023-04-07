@@ -154,17 +154,20 @@
     <value>Complete any campaigns</value>
     <comment>Jobs</comment>
   </data>
-  <data name="CampaignStageDisplayName" xml:space="preserve">
-    <value>Rest</value>
-  </data>
   <data name="CampaignStageDisplayNameCombat" xml:space="preserve">
     <value>Combat {0}</value>
   </data>
   <data name="CampaignStageDisplayNameFinish" xml:space="preserve">
     <value>Finish campaign</value>
   </data>
+  <data name="CampaignStageDisplayNameRest" xml:space="preserve">
+    <value>Rest</value>
+  </data>
   <data name="CampaignStageDisplayNameTextEvent" xml:space="preserve">
     <value>Some event</value>
+  </data>
+  <data name="CampaignStageDisplayNameUnknown" xml:space="preserve">
+    <value>???</value>
   </data>
   <data name="CampaignStageTitle" xml:space="preserve">
     <value>Stage {0}</value>
@@ -484,6 +487,9 @@
   </data>
   <data name="ToTheCombatButtonTitle" xml:space="preserve">
     <value>To The Combat!</value>
+  </data>
+  <data name="UnderConstructionModalContent" xml:space="preserve">
+    <value>Under construction</value>
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp Reward</value>
