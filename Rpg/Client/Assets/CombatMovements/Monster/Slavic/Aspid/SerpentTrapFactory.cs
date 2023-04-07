@@ -1,10 +1,10 @@
-﻿using Core.Combats;
+using Core.Combats;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
-namespace Client.Assets.CombatMovements.Monster.Slavic.Chaser;
+namespace Client.Assets.CombatMovements.Monster.Slavic.Aspid;
 
-internal class ChainHitFactory : SimpleCombatMovementFactoryBase
+internal class SerpentTrapFactory : SimpleCombatMovementFactoryBase
 {
     protected override CombatMovementEffectConfig GetEffects()
     {

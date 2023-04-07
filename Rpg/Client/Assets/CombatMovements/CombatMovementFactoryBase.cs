@@ -1,4 +1,7 @@
-﻿using Client.Engine;
+﻿using System.Linq;
+
+using Client.Core.AnimationFrameSets;
+using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
@@ -34,7 +37,11 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
         CombatMovementExecution movementExecution,
         ICombatMovementVisualizationContext visualizationContext)
     {
+        var config = new SingleMeleeVisualizationConfig(
+                    new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8),
+                    new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8) { IsLoop = true });
+
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
-            visualizationContext);
+            visualizationContext, config);
     }
 }

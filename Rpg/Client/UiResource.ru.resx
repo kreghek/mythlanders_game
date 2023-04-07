@@ -123,6 +123,9 @@
   <data name="AutocombatButtonTitle" xml:space="preserve">
     <value>Автобой</value>
   </data>
+  <data name="AvailableManeuversIndicatorTemplate" xml:space="preserve">
+    <value>Доступны маневры</value>
+  </data>
   <data name="BackButtonTitle" xml:space="preserve">
     <value>Назад</value>
   </data>
@@ -324,6 +327,9 @@
   <data name="InfoButtonTitle" xml:space="preserve">
     <value>Инфо</value>
   </data>
+  <data name="InventoryButtonTitle" xml:space="preserve">
+    <value>Инвентарь</value>
+  </data>
   <data name="LevelUpButtonTitle" xml:space="preserve">
     <value>Повысить</value>
   </data>
@@ -381,6 +387,9 @@
   <data name="RestActionScouting" xml:space="preserve">
     <value>Разведадть местность</value>
   </data>
+  <data name="RestartButtonTitle" xml:space="preserve">
+    <value>Рестарт</value>
+  </data>
   <data name="RestScreen_Title" xml:space="preserve">
     <value>Отдых</value>
   </data>
@@ -435,6 +444,12 @@
   <data name="SkipTutorialButtonTitle" xml:space="preserve">
     <value>Пропустить обучение</value>
   </data>
+  <data name="SlidingPuzzles_TimeCounterTemplate" xml:space="preserve">
+    <value>Время: {0}</value>
+  </data>
+  <data name="SlidingPuzzles_TurnsCounterTemplate" xml:space="preserve">
+    <value>Ходов: {0}</value>
+  </data>
   <data name="StartNewGameButtonTitle" xml:space="preserve">
     <value>Новая игра</value>
   </data>
@@ -461,17 +476,5 @@
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp</value>
-  </data>
-  <data name="SlidingPuzzles_TurnsCounterTemplate" xml:space="preserve">
-    <value>Ходов: {0}</value>
-  </data>
-  <data name="SlidingPuzzles_TimeCounterTemplate" xml:space="preserve">
-    <value>Время: {0}</value>
-  </data>
-  <data name="RestartButtonTitle" xml:space="preserve">
-    <value>Рестарт</value>
-  </data>
-  <data name="AvailableManeuversIndicatorTemplate" xml:space="preserve">
-    <value>Доступны маневры</value>
   </data>
 </root>

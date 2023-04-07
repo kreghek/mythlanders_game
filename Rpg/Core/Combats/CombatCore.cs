@@ -111,7 +111,7 @@ public class CombatCore
                 new CombatantHandChangedEventArgs(CurrentCombatant, movement, handSlotIndex.Value));
 
         var effectContext =
-            new EffectCombatContext(Field, _dice, HandleCombatantDamaged, HandleSwapFieldPositions, this);
+            new EffectCombatContext(Field, _dice, HandleCombatantDamagedToStat, HandleSwapFieldPositions, this);
 
         var effectImposeItems = new List<CombatEffectImposeItem>();
 
@@ -308,11 +308,14 @@ public class CombatCore
         }
     }
 
-    private int HandleCombatantDamaged(Combatant combatant, UnitStatType statType, int damageAmount)
+    private int HandleCombatantDamagedToStat(Combatant combatant, UnitStatType statType, int damageAmount)
     {
-        var remains = TakeStat(combatant, statType, damageAmount);
+        var (remains, wasTaken) = TakeStat(combatant, statType, damageAmount);
 
-        CombatantHasBeenDamaged?.Invoke(this, new CombatantDamagedEventArgs(combatant, statType, damageAmount));
+        if (wasTaken)
+        {
+            CombatantHasBeenDamaged?.Invoke(this, new CombatantDamagedEventArgs(combatant, statType, damageAmount));
+        }
 
         if (combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.Current <= 0)
         {
@@ -438,18 +441,18 @@ public class CombatCore
             combatantEffectLifetimeDispelContext);
     }
 
-    private static int TakeStat(Combatant combatant, UnitStatType statType, int value)
+    private static (int result, bool isTaken) TakeStat(Combatant combatant, UnitStatType statType, int value)
     {
         var stat = combatant.Stats.SingleOrDefault(x => x.Type == statType);
 
-        if (stat is null) return value;
+        if (stat is null) return (value, false);
 
         var d = Math.Min(value, stat.Value.Current);
         stat.Value.Consume(d);
 
         var remains = value - d;
 
-        return remains;
+        return (remains, d > 0);
     }
 
     private void UpdateAllCombatantEffects(CombatantEffectUpdateType updateType,

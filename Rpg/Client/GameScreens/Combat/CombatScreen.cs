@@ -413,6 +413,9 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             _combatMovementsHandPanel.IsEnabled = true;
             _combatMovementsHandPanel.Combatant = e.Combatant;
+
+            _targetMarkers.EriseTargets();
+            _maneuversVisualizer.IsHidden = false;
         }
 
         _maneuversVisualizer.Combatant = e.Combatant;
@@ -786,18 +789,31 @@ internal class CombatScreen : GameScreenWithMenuBase
     {
         if (_targetMarkers.Targets is null)
         {
-            return;
-        }
-
-        foreach (var target in _targetMarkers.Targets)
-        {
-            if (target.Target.IsDead)
+            if (Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
             {
-                continue;
-            }
+                foreach (var combatant in _gameObjects)
+                {
+                    if (combatant.Combatant.IsDead)
+                    {
+                        continue;
+                    }
 
-            var gameObject = GetCombatantGameObject(target.Target);
-            DrawStats(gameObject.StatsPanelOrigin, target.Target, spriteBatch);
+                    DrawStats(combatant.StatsPanelOrigin, combatant.Combatant, spriteBatch);
+                }
+            }
+        }
+        else
+        {
+            foreach (var target in _targetMarkers.Targets)
+            {
+                if (target.Target.IsDead)
+                {
+                    continue;
+                }
+
+                var gameObject = GetCombatantGameObject(target.Target);
+                DrawStats(gameObject.StatsPanelOrigin, target.Target, spriteBatch);
+            }
         }
     }
 

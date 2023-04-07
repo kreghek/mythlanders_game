@@ -93,7 +93,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
             new ICampaignStageTemplateFactory[]
             {
-                new CombatCampaignStageTemplateFactory(locationSid, _services)
+                new CombatCampaignStageTemplateFactory(locationSid, 0)
             },
 
             // Rest
@@ -109,7 +109,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                 {
                     new SacredEventCampaignStageTemplateFactory(),
                     //new ShopCampaignStageTemplateFactory(),
-                    new FindingEventCampaignStageTemplateFactory()
+                    //new FindingEventCampaignStageTemplateFactory()
                 }, _services)
             },
 
@@ -143,7 +143,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
             new ICampaignStageTemplateFactory[]
             {
-                new CombatCampaignStageTemplateFactory(locationSid, _services)
+                new CombatCampaignStageTemplateFactory(locationSid, 1)
                 // new CombatCampaignStageTemplateFactory(locationSid, _services),
                 // new CombatCampaignStageTemplateFactory(locationSid, _services)
             },
@@ -161,7 +161,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                 {
                     new SacredEventCampaignStageTemplateFactory(),
                     //new ShopCampaignStageTemplateFactory(),
-                    new FindingEventCampaignStageTemplateFactory()
+                    //new FindingEventCampaignStageTemplateFactory()
                 }, _services)
             },
 
@@ -204,7 +204,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
             new ICampaignStageTemplateFactory[]
             {
-                new CombatCampaignStageTemplateFactory(locationSid, _services)
+                new CombatCampaignStageTemplateFactory(locationSid, 2)
             }
         };
     }
@@ -219,15 +219,12 @@ internal sealed class CampaignGenerator : ICampaignGenerator
             LocationSid.Desert
         };
 
-        var campaignLengths = new[] { 6, 12, 24 };
-
         var selectedLocations = _dice.RollFromList(availbleLocations, 3).ToList();
 
         var list = new List<HeroCampaign>();
         for (var i = 0; i < selectedLocations.Count; i++)
         {
             var location = selectedLocations[i];
-            var length = campaignLengths[i];
 
             var campaign = CreateCampaign(location);
 

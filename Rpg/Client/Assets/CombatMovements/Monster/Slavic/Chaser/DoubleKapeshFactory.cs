@@ -2,7 +2,7 @@
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
-namespace Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
+namespace Client.Assets.CombatMovements.Monster.Slavic.Chaser;
 
 internal class DoubleKapeshFactory : SimpleCombatMovementFactoryBase
 {

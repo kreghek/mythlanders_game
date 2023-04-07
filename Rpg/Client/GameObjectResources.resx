@@ -130,6 +130,12 @@
     <value />
     <comment>Skill</comment>
   </data>
+  <data name="ArrowOfMorana" xml:space="preserve">
+    <value>Arrow of Morana</value><comment>Combat Movement Robber</comment>
+  </data>
+  <data name="ArrowOfMorana_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Robber</comment>
+  </data>
   <data name="ArrowRain" xml:space="preserve">
       <value>Arrow rain</value>
     <comment>Skill</comment>
@@ -150,6 +156,12 @@
   <data name="Assaulter" xml:space="preserve">
     <value>Haokin</value>
     <comment>Hero</comment>
+  </data>
+  <data name="BalticThunder" xml:space="preserve">
+    <value>Baltic thunder</value><comment>Combat Movement Robber</comment>
+  </data>
+  <data name="BalticThunder_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Robber</comment>
   </data>
   <data name="Battleground" xml:space="preserve">
     <value>Battleground</value>
@@ -276,6 +288,12 @@
       <value>Dark light</value>
     <comment>Skill</comment>
   </data>
+  <data name="DarkRaids" xml:space="preserve">
+    <value>Dark raids</value>
+  </data>
+  <data name="DarkRaids_Description" xml:space="preserve">
+    <value></value>
+  </data>
   <data name="DeathPath" xml:space="preserve">
     <value>Death path</value>
     <comment>Location</comment>
@@ -318,6 +336,12 @@
     <value></value>
     <comment>Combat Movement</comment>
   </data>
+  <data name="EbonySkin" xml:space="preserve">
+    <value>Ebony skin</value>
+  </data>
+  <data name="EbonySkin_Description" xml:space="preserve">
+    <value></value>
+  </data>
   <data name="EgyptianBookOfDeath" xml:space="preserve">
     <value>Egyptian Book of a dead</value><comment>Equipment</comment>
   </data>
@@ -346,6 +370,12 @@
   <data name="EvasionDescription" xml:space="preserve">
     <value>Ability to avoid 50% of any attacks.</value>
     <comment>Perk</comment>
+  </data>
+  <data name="EyesOfChaos" xml:space="preserve">
+    <value>Eyes of chaos</value>
+  </data>
+  <data name="EyesOfChaos_Description" xml:space="preserve">
+    <value></value>
   </data>
   <data name="FingerOfAnubis" xml:space="preserve">
       <value>The Finger of Anubis</value>
@@ -601,6 +631,12 @@
   <data name="ScarabeusKingLeg" xml:space="preserve">
     <value>Scarabeus King's Leg</value><comment>Equipment</comment>
   </data>
+  <data name="SerpentTrap" xml:space="preserve">
+    <value>Serpent trap</value>
+  </data>
+  <data name="SerpentTrap_Description" xml:space="preserve">
+    <value></value>
+  </data>
   <data name="ShipGraveyard" xml:space="preserve">
     <value>Ship Graveyard</value>
     <comment>Location</comment>
@@ -615,6 +651,12 @@
   <data name="Spearman" xml:space="preserve">
     <value>Ping</value>
     <comment>Hero</comment>
+  </data>
+  <data name="SpiralInversion" xml:space="preserve">
+    <value>Spiral Inversion</value>
+  </data>
+  <data name="SpiralInversion_Description" xml:space="preserve">
+    <value></value>
   </data>
   <data name="StaffHit" xml:space="preserve">
       <value>Staff hits</value>
@@ -701,6 +743,12 @@
   <data name="TryToRunOut_CrisisAftermath" xml:space="preserve">
     <value /><comment>Crisis Aftermath</comment>
   </data>
+  <data name="UndercutValues" xml:space="preserve">
+    <value>Undercut values</value><comment>Combat Movement Robber</comment>
+  </data>
+  <data name="UndercutValues_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Robber</comment>
+  </data>
   <data name="VampireBite" xml:space="preserve">
       <value>Vampire bite</value>
     <comment>Skill</comment>
@@ -733,6 +781,18 @@
       <value>Wide sword slash</value>
     <comment>Skill</comment>
   </data>
+  <data name="WindWheel" xml:space="preserve">
+    <value>Wind wheel</value><comment>Combat movement Robber</comment>
+  </data>
+  <data name="WindWheel_Description" xml:space="preserve">
+    <value /><comment>Combat movement Robber</comment>
+  </data>
+  <data name="WingsOfVeles" xml:space="preserve">
+    <value>Wings Of Veles</value><comment>Combat Movement Robber</comment>
+  </data>
+  <data name="WingsOfVeles_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Robber</comment>
+  </data>
   <data name="Wisp" xml:space="preserve">
     <value>Will-o-Wisp</value>
     <comment>Monster</comment>
@@ -754,35 +814,5 @@
   <data name="ZduhachMight" xml:space="preserve">
       <value>Zduhach Might</value>
     <comment>Skill</comment>
-  </data>
-  <data name="BalticThunder" xml:space="preserve">
-    <value>Baltic thunder</value><comment>Combat Movement Robber</comment>
-  </data>
-  <data name="BalticThunder_Description" xml:space="preserve">
-    <value /><comment>Combat Movement Robber</comment>
-  </data>
-  <data name="ArrowOfMorana" xml:space="preserve">
-    <value>Arrow of Morana</value><comment>Combat Movement Robber</comment>
-  </data>
-  <data name="ArrowOfMorana_Description" xml:space="preserve">
-    <value /><comment>Combat Movement Robber</comment>
-  </data>
-  <data name="WingsOfVeles" xml:space="preserve">
-    <value>Wings Of Veles</value><comment>Combat Movement Robber</comment>
-  </data>
-  <data name="WingsOfVeles_Description" xml:space="preserve">
-    <value /><comment>Combat Movement Robber</comment>
-  </data>
-  <data name="UndercutValues" xml:space="preserve">
-    <value>Undercut values</value><comment>Combat Movement Robber</comment>
-  </data>
-  <data name="UndercutValues_Description" xml:space="preserve">
-    <value /><comment>Combat Movement Robber</comment>
-  </data>
-  <data name="WindWheel" xml:space="preserve">
-    <value>Wind wheel</value><comment>Combat movement Robber</comment>
-  </data>
-  <data name="WindWheel_Description" xml:space="preserve">
-    <value /><comment>Combat movement Robber</comment>
   </data>
 </root>

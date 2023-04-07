@@ -132,7 +132,4 @@
   <data name="CurrentQuestButtonTitle" xml:space="preserve">
     <value>Задачи</value>
   </data>
-  <data name="InventoryButtonTitle" xml:space="preserve">
-    <value>Инвентарь</value>
-  </data>
 </root>

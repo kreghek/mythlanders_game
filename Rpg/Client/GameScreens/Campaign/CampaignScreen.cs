@@ -131,7 +131,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
     {
         var currentCampaign = _screenTransitionArguments.Campaign;
 
-        _stagePanel = new CampaignPanel(currentCampaign, ScreenManager, this);
+        _stagePanel = new CampaignPanel(currentCampaign, ScreenManager, this, Game.Content.Load<Texture2D>("Sprites/Ui/CampaignStageIcons"));
     }
 
     private void InventoryButton_OnClick(object? sender, EventArgs e)
