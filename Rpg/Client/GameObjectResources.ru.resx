@@ -146,6 +146,12 @@
     <value>Стреляет энергетическими зарядами.
 Увеличивает урона на 25% за уровень.</value>
   </data>
+  <data name="ArrowOfMorana" xml:space="preserve">
+    <value>Стрела Мораны</value>
+  </data>
+  <data name="ArrowOfMorana_Description" xml:space="preserve">
+    <value>Наносит 2ед. урона самому слабому противнику с меткой.</value>
+  </data>
   <data name="ArrowRain" xml:space="preserve">
     <value>Дождь стрел</value>
   </data>
@@ -163,6 +169,12 @@
   </data>
   <data name="Assaulter" xml:space="preserve">
     <value>Хаокин</value>
+  </data>
+  <data name="BalticThunder" xml:space="preserve">
+    <value>Балтийский шторм</value>
+  </data>
+  <data name="BalticThunder_Description" xml:space="preserve">
+    <value>Наносит урон 4ед. ближайшему в линии противнику и ставит метку на 2 хода. Следующее атакующее движение не требует энергии.</value>
   </data>
   <data name="Battleground" xml:space="preserve">
     <value>Поле брани</value>
@@ -220,7 +232,7 @@
     <value>Цепной удар</value>
   </data>
   <data name="ChainHit_Description" xml:space="preserve">
-    <value>перемещается вперед и наносит урон в 3 ед. самому сильному противнику.</value>
+    <value>Перемещается вперед и наносит урон в 3 ед. самому сильному противнику.</value>
   </data>
   <data name="ChaoticNeuroInterface" xml:space="preserve">
     <value>Хаотический нейро-интерфейс</value>
@@ -278,6 +290,12 @@
   <data name="DarkLight" xml:space="preserve">
     <value>Темная молная</value>
   </data>
+  <data name="DarkRaids" xml:space="preserve">
+    <value>Налеты Тьмы</value>
+  </data>
+  <data name="DarkRaids_Description" xml:space="preserve">
+    <value>Перемещается вперед и наносит два удара каждым капешем 2 ед. урона.</value>
+  </data>
   <data name="DeathPath" xml:space="preserve">
     <value>Тропа смерти</value>
   </data>
@@ -311,6 +329,12 @@
   <data name="DoubleKapesh_Description" xml:space="preserve">
     <value>Перемещается вперед и наносит два удара каждым капешем 2 ед. урона.</value>
   </data>
+  <data name="EbonySkin" xml:space="preserve">
+    <value>Эбонитовая плоть</value>
+  </data>
+  <data name="EbonySkin_Description" xml:space="preserve">
+    <value>Повышает свою защиту на 3 ед. При авто-срабатывании повышает защиту на 1 ед.</value>
+  </data>
   <data name="EgyptianBookOfDeath" xml:space="preserve">
     <value>Египетская книга мертвых</value>
   </data>
@@ -334,6 +358,12 @@
   </data>
   <data name="EvasionDescription" xml:space="preserve">
     <value>Способность избегать 50% любых атак.</value>
+  </data>
+  <data name="EyesOfChaos" xml:space="preserve">
+    <value>Очи Хаоса</value>
+  </data>
+  <data name="EyesOfChaos_Description" xml:space="preserve">
+    <value>Наносит урон 2 ед. всем противникам в авангарде и сам перемещается в авангард.</value>
   </data>
   <data name="FingerOfAnubis" xml:space="preserve">
     <value>Перст Анубиса</value>
@@ -556,6 +586,12 @@
   <data name="ScarabeusKingLeg" xml:space="preserve">
     <value>Лапа Короля жука-скоробея</value>
   </data>
+  <data name="SerpentTrap" xml:space="preserve">
+    <value>Ловушка змея</value>
+  </data>
+  <data name="SerpentTrap_Description" xml:space="preserve">
+    <value>Перемещается вперед и наносит урон в 3 ед. самому сильному противнику.</value>
+  </data>
   <data name="ShipGraveyard" xml:space="preserve">
     <value>Кладбище кораблей</value>
   </data>
@@ -568,6 +604,12 @@
   </data>
   <data name="Spearman" xml:space="preserve">
     <value>Пинг</value>
+  </data>
+  <data name="SpiralInversion" xml:space="preserve">
+    <value>Инверсионная спираль</value>
+  </data>
+  <data name="SpiralInversion_Description" xml:space="preserve">
+    <value>Выбрасывает вперед своё змеиное тело и наносит 2 ед. урона и сжигает 2 ед. энергии самому дальнему противнику. Затем вытягивает противника в авангард.</value>
   </data>
   <data name="StaffHit" xml:space="preserve">
     <value>Удары посохом</value>
@@ -641,6 +683,12 @@
   <data name="TryToRunOut_CrisisAftermath" xml:space="preserve">
     <value>Попытаться убежать</value>
   </data>
+  <data name="UndercutValues" xml:space="preserve">
+    <value>Подрезать ценности</value>
+  </data>
+  <data name="UndercutValues_Description" xml:space="preserve">
+    <value>Наносит урон 1ед. ближайшему в линии противнику. Если это был самый сильный противник, то накладывает кровотечение на 2 раунда, наносящее урон 1ед. здоровью каждый раунд.</value>
+  </data>
   <data name="VampireBite" xml:space="preserve">
     <value>Вампирический удар</value>
   </data>
@@ -665,6 +713,18 @@
   <data name="WideSwordSlash" xml:space="preserve">
     <value>Широкий удар мечом</value>
   </data>
+  <data name="WindWheel" xml:space="preserve">
+    <value>Ветренное колесо</value>
+  </data>
+  <data name="WindWheel_Description" xml:space="preserve">
+    <value>Наносит урон 4 ед. самому сильному противнику с меткой. И пропускает следующий ход.</value>
+  </data>
+  <data name="WingsOfVeles" xml:space="preserve">
+    <value>Крылья Велеса</value>
+  </data>
+  <data name="WingsOfVeles_Description" xml:space="preserve">
+    <value>Увеличивает урон любых атакующих движений на 1ед. И снижает стоимость всех атакующих навыков на 1ед энергии.</value>
+  </data>
   <data name="Wisp" xml:space="preserve">
     <value>Блуждающий огонёк</value>
   </data>
@@ -684,35 +744,5 @@
   </data>
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
-  </data>
-  <data name="BalticThunder" xml:space="preserve">
-    <value>Балтийский шторм</value>
-  </data>
-  <data name="BalticThunder_Description" xml:space="preserve">
-    <value>Наносит урон 4ед. ближайшему в линии противнику и ставит метку на 2 хода. Следующее атакующее движение не требует энергии.</value>
-  </data>
-  <data name="ArrowOfMorana" xml:space="preserve">
-    <value>Стрела Мораны</value>
-  </data>
-  <data name="ArrowOfMorana_Description" xml:space="preserve">
-    <value>Наносит 2ед. урона самому слабому противнику с меткой.</value>
-  </data>
-  <data name="WingsOfVeles" xml:space="preserve">
-    <value>Крылья Велеса</value>
-  </data>
-  <data name="WingsOfVeles_Description" xml:space="preserve">
-    <value>Увеличивает урон любых атакующих движений на 1ед. И снижает стоимость всех атакующих навыков на 1ед энергии.</value>
-  </data>
-  <data name="UndercutValues" xml:space="preserve">
-    <value>Подрезать ценности</value>
-  </data>
-  <data name="UndercutValues_Description" xml:space="preserve">
-    <value>Наносит урон 1ед. ближайшему в линии противнику. Если это был самый сильный противник, то накладывает кровотечение на 2 раунда, наносящее урон 1ед. здоровью каждый раунд.</value>
-  </data>
-  <data name="WindWheel" xml:space="preserve">
-    <value>Ветренное колесо</value>
-  </data>
-  <data name="WindWheel_Description" xml:space="preserve">
-    <value>Наносит урон 4 ед. самому сильному противнику с меткой. И пропускает следующий ход.</value>
   </data>
 </root>

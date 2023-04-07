@@ -1,6 +1,4 @@
 ﻿using Client.Assets.CombatMovements.Monster.Slavic.Aspid;
-using Client.Assets.CombatMovements.Monster.Slavic.Chaser;
-using Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
 using Core.Combats;
 

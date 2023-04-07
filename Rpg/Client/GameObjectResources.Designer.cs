@@ -556,6 +556,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dark raids.
+        /// </summary>
+        internal static string DarkRaids {
+            get {
+                return ResourceManager.GetString("DarkRaids", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DarkRaids_Description {
+            get {
+                return ResourceManager.GetString("DarkRaids_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Death path.
         /// </summary>
         internal static string DeathPath {
@@ -655,6 +673,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ebony skin.
+        /// </summary>
+        internal static string EbonySkin {
+            get {
+                return ResourceManager.GetString("EbonySkin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EbonySkin_Description {
+            get {
+                return ResourceManager.GetString("EbonySkin_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Egyptian Book of a dead.
         /// </summary>
         internal static string EgyptianBookOfDeath {
@@ -723,6 +759,24 @@ namespace Client {
         internal static string EvasionDescription {
             get {
                 return ResourceManager.GetString("EvasionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Eyes of chaos.
+        /// </summary>
+        internal static string EyesOfChaos {
+            get {
+                return ResourceManager.GetString("EyesOfChaos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EyesOfChaos_Description {
+            get {
+                return ResourceManager.GetString("EyesOfChaos_Description", resourceCulture);
             }
         }
         
@@ -1377,6 +1431,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Serpent trap.
+        /// </summary>
+        internal static string SerpentTrap {
+            get {
+                return ResourceManager.GetString("SerpentTrap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string SerpentTrap_Description {
+            get {
+                return ResourceManager.GetString("SerpentTrap_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ship Graveyard.
         /// </summary>
         internal static string ShipGraveyard {
@@ -1409,6 +1481,24 @@ namespace Client {
         internal static string Spearman {
             get {
                 return ResourceManager.GetString("Spearman", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spiral Inversion.
+        /// </summary>
+        internal static string SpiralInversion {
+            get {
+                return ResourceManager.GetString("SpiralInversion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string SpiralInversion_Description {
+            get {
+                return ResourceManager.GetString("SpiralInversion_Description", resourceCulture);
             }
         }
         
