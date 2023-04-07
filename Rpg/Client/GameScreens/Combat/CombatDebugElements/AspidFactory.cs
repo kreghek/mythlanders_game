@@ -1,4 +1,5 @@
-﻿using Client.Assets.CombatMovements.Monster.Slavic.Chaser;
+﻿using Client.Assets.CombatMovements.Monster.Slavic.Aspid;
+using Client.Assets.CombatMovements.Monster.Slavic.Chaser;
 using Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
 using Core.Combats;
@@ -11,15 +12,15 @@ public class AspidFactory : IMonsterCombatantFactory
     {
         var moveTemplate = new[,]
         {
-            { new ChainHitFactory().CreateMovement(), new ChasingFactory().CreateMovement() },
+            { new SerpentTrapFactory().CreateMovement(), new SpiralInversionFactory().CreateMovement() },
 
-            { new DoubleKapeshFactory().CreateMovement(), new AfterlifeWhirlwindFactory().CreateMovement() },
+            { new DarkRaidsFactory().CreateMovement(), new EyesOfChaosFactory().CreateMovement() },
 
-            { new ChasingFactory().CreateMovement(), new GuardianPromiseFactory().CreateMovement() },
+            { new SpiralInversionFactory().CreateMovement(), new EbonySkinFactory().CreateMovement() },
 
-            { new GuardianPromiseFactory().CreateMovement(), new DoubleKapeshFactory().CreateMovement() },
+            { new EbonySkinFactory().CreateMovement(), new DarkRaidsFactory().CreateMovement() },
 
-            { new AfterlifeWhirlwindFactory().CreateMovement(), new ChainHitFactory().CreateMovement() }
+            { new EyesOfChaosFactory().CreateMovement(), new SerpentTrapFactory().CreateMovement() }
         };
 
         var monsterSequence = new CombatMovementSequence();

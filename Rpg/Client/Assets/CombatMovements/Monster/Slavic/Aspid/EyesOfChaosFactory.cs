@@ -1,10 +1,10 @@
-﻿using Core.Combats;
+using Core.Combats;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
-namespace Client.Assets.CombatMovements.Monster.Slavic.Chaser;
+namespace Client.Assets.CombatMovements.Monster.Slavic.Aspid;
 
-internal class ChainHitFactory : SimpleCombatMovementFactoryBase
+internal class EyesOfChaosFactory : SimpleCombatMovementFactoryBase
 {
     protected override CombatMovementEffectConfig GetEffects()
     {
@@ -13,12 +13,13 @@ internal class ChainHitFactory : SimpleCombatMovementFactoryBase
             {
                 new AdjustPositionEffect(new SelfTargetSelector()),
                 new DamageEffect(
-                    new StrongestEnemyTargetSelector(),
+                    new AllVanguardEnemiesTargetSelector(),
                     DamageType.Normal,
-                    Range<int>.CreateMono(3)),
+                    Range<int>.CreateMono(2)),
                 new PushToPositionEffect(
                     new SelfTargetSelector(),
-                    ChangePositionEffectDirection.ToVanguard)
+                    ChangePositionEffectDirection.ToVanguard
+                )
             });
     }
 
