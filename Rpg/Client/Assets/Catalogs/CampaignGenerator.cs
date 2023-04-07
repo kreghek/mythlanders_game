@@ -89,7 +89,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
             //    new CrisisEventCampaignStageTemplateFactory()
             //},
 
-            // Combat
+            //// Combat
 
             new ICampaignStageTemplateFactory[]
             {
@@ -105,12 +105,12 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                     new RestCampaignStageTemplateFactory(),
                     new ShopCampaignStageTemplateFactory()
                 }, _services),
-                new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-                {
-                    new SacredEventCampaignStageTemplateFactory(),
-                    //new ShopCampaignStageTemplateFactory(),
-                    //new FindingEventCampaignStageTemplateFactory()
-                }, _services)
+                //new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+                //{
+                //    new SacredEventCampaignStageTemplateFactory(),
+                //    //new ShopCampaignStageTemplateFactory(),
+                //    //new FindingEventCampaignStageTemplateFactory()
+                //}, _services)
             },
 
             // // Evo
@@ -157,12 +157,12 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                     new RestCampaignStageTemplateFactory(),
                     new ShopCampaignStageTemplateFactory()
                 }, _services),
-                new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-                {
-                    new SacredEventCampaignStageTemplateFactory(),
-                    //new ShopCampaignStageTemplateFactory(),
-                    //new FindingEventCampaignStageTemplateFactory()
-                }, _services)
+                //new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+                //{
+                //    new SacredEventCampaignStageTemplateFactory(),
+                //    //new ShopCampaignStageTemplateFactory(),
+                //    //new FindingEventCampaignStageTemplateFactory()
+                //}, _services)
             },
 
             // For demo only

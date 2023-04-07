@@ -4,7 +4,6 @@ using Client.Core.Campaigns;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
@@ -19,7 +18,6 @@ internal class ActiveCampaignStagePanel : CampaignStagePanelBase
     private readonly Texture2D _campaignIconsTexture;
     private readonly HeroCampaign _currentCampaign;
     private readonly bool _isActive;
-    private TextHint? _currentHint;
 
     public ActiveCampaignStagePanel(CampaignStage campaignStage, int stageIndex, Texture2D campaignIconsTexture, HeroCampaign currentCampaign,
         IScreen currentScreen, IScreenManager screenManager, bool isActive) : base(stageIndex)
@@ -74,12 +72,6 @@ internal class ActiveCampaignStagePanel : CampaignStagePanelBase
 
             button.Draw(spriteBatch);
         }
-
-        if (_currentHint is not null)
-        {
-            _currentHint.Rect = new Rectangle(Mouse.GetState().Position + new Point(0, 16), new Point(200, 50));
-            _currentHint.Draw(spriteBatch);
-        }
     }
 
     private void Init(IScreen currentScreen, IScreenManager screenManager, bool isActive)
@@ -102,12 +94,7 @@ internal class ActiveCampaignStagePanel : CampaignStagePanelBase
                     campaignStageItem.ExecuteTransition(currentScreen, screenManager, _currentCampaign);
                 };
 
-                button.OnHover += (s, e) =>
-                {
-                    _currentHint = new TextHint(button.Description);
-                };
-
-                button.OnLeave += (s, e) => { _currentHint = null; };
+                button.OnHover += (s, e) => { DoSelected(button); };
             }
             else
             {

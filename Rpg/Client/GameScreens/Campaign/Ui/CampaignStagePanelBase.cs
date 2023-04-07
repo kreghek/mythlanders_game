@@ -1,6 +1,5 @@
 using System;
 
-using Client.Assets.Catalogs.CampaignGeneration;
 using Client.Assets.StageItems;
 using Client.Core.Campaigns;
 
@@ -45,7 +44,7 @@ internal abstract class CampaignStagePanelBase : ControlBase
 
     protected void DoSelected(CampaignButton selectedButton)
     {
-        Selected?.Invoke(this, new CampaignStageItemSelectedEventArgs(selectedButton.Rect.Center.ToVector2()));
+        Selected?.Invoke(this, new CampaignStageItemSelectedEventArgs(selectedButton.Rect.Center.ToVector2(), selectedButton.Description));
     }
 
     public event EventHandler<CampaignStageItemSelectedEventArgs>? Selected;
@@ -69,17 +68,17 @@ internal abstract class CampaignStagePanelBase : ControlBase
             return UiResource.CampaignStageDisplayNameTextEvent;
         }
 
-        if (campaignStageItem is NotImplemenetedStageItem notImplemenetedStage)
-        {
-            return notImplemenetedStage.StageSid + " (не для демо)";
-        }
-
         if (campaignStageItem is RestStageItem)
         {
-            return UiResource.CampaignStageDisplayName;
+            return UiResource.CampaignStageDisplayNameRest;
         }
 
-        return "???";
+        //if (campaignStageItem is NotImplemenetedStageItem notImplemenetedStage)
+        //{
+        //    return notImplemenetedStage.StageSid + " (не для демо)";
+        //}
+
+        return UiResource.CampaignStageDisplayNameUnknown;
     }
 
     protected static Rectangle GetStageItemTexture(ICampaignStageItem campaignStageItem)
@@ -93,19 +92,19 @@ internal abstract class CampaignStagePanelBase : ControlBase
 
         if (campaignStageItem is RewardStageItem)
         {
-            return new Rectangle(new Point(1, 2), size);
+            return new Rectangle(new Point(1 * 32, 2 * 32), size);
         }
 
         if (campaignStageItem is DialogueEventStageItem)
         {
-            return new Rectangle(new Point(1, 1), size);
+            return new Rectangle(new Point(1 * 32, 1 * 32), size);
         }
 
         if (campaignStageItem is RestStageItem)
         {
-            return new Rectangle(new Point(1, 1), size);
+            return new Rectangle(new Point(1 * 32, 1 * 32), size);
         }
 
-        return new Rectangle(new Point(1, 0), size);
+        return new Rectangle(new Point(2 * 32, 2 * 32), size);
     }
 }
