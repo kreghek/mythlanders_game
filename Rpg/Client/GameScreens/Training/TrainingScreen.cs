@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using Client.Core;
 using Client.Core.Campaigns;
@@ -83,23 +82,23 @@ namespace Client.GameScreens.Training
                 var trainingButton = new TextButton(character.UnitScheme.Name.ToString());
                 buttonList.Add((trainingButton, character));
 
-                var xpAmount = _player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount;
-                if (xpAmount < character.LevelUpXpAmount)
-                {
-                    trainingButton.IsEnabled = false;
-                }
-                else
-                {
-                    trainingButton.OnClick += (s, e) =>
-                    {
-                        _player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount -=
-                            character.LevelUpXpAmount;
-                        character.LevelUp();
-
-                        MarkButtonAsUsed(trainingButton);
-                        RefreshButtons();
-                    };
-                }
+                // var xpAmount = _player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount;
+                // if (xpAmount < character.LevelUpXpAmount)
+                // {
+                //     trainingButton.IsEnabled = false;
+                // }
+                // else
+                // {
+                //     trainingButton.OnClick += (s, e) =>
+                //     {
+                //         _player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount -=
+                //             character.LevelUpXpAmount;
+                //         character.LevelUp();
+                //
+                //         MarkButtonAsUsed(trainingButton);
+                //         RefreshButtons();
+                //     };
+                // }
             }
 
             _trainingButtons = buttonList;
@@ -123,11 +122,11 @@ namespace Client.GameScreens.Training
         {
             foreach (var button in _trainingButtons)
             {
-                var xpAmount = _player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount;
-                if (xpAmount < button.Item2.LevelUpXpAmount)
-                {
-                    button.Item1.IsEnabled = false;
-                }
+                // var xpAmount = _player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount;
+                // if (xpAmount < button.Item2.LevelUpXpAmount)
+                // {
+                //     button.Item1.IsEnabled = false;
+                // }
             }
         }
     }

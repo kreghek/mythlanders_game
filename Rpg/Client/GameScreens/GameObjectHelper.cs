@@ -2,6 +2,7 @@
 using Client.Core;
 
 using Core.Combats;
+using Core.Crises;
 
 using Rpg.Client.Core;
 
@@ -59,6 +60,11 @@ internal static class GameObjectHelper
         return GetLocalizedInner($"{equipmentType}Equipment");
     }
 
+    public static string GetLocalized(CrisisSid crisisSid)
+    {
+        return GetLocalizedInner(crisisSid.ResourceName);
+    }
+
     public static string GetLocalizedDescription(CombatMovementSid sid)
     {
         return GetLocalizedInner($"{sid.Value}_Description");
@@ -72,6 +78,11 @@ internal static class GameObjectHelper
     public static string GetLocalizedDescription(EquipmentSid equipmentSid)
     {
         return GetLocalizedInner($"{equipmentSid}Description");
+    }
+
+    public static string GetLocalizedProp(string sid)
+    {
+        return GetLocalizedInner($"{sid}_prop");
     }
 
     private static string GetLocalizedInner(string sid)

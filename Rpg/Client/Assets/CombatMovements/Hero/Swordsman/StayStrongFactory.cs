@@ -3,12 +3,17 @@ using Core.Combats.CombatantEffectLifetimes;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
+using JetBrains.Annotations;
+
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
+[UsedImplicitly]
 internal class StayStrongFactory : CombatMovementFactoryBase
 {
-    public override CombatMovementIcon CombatMovementIcon => new CombatMovementIcon(2, 0);
+    /// <inheritdoc />
+    public override CombatMovementIcon CombatMovementIcon => new(2, 0);
 
+    /// <inheritdoc />
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
@@ -19,14 +24,14 @@ internal class StayStrongFactory : CombatMovementFactoryBase
                     new ChangeStatEffect(new SelfTargetSelector(),
                         UnitStatType.Defense,
                         3,
-                        typeof(ToNextCombatantTurnEffectLifetime))
+                        new ToNextCombatantTurnEffectLifetimeFactory())
                 },
                 new IEffect[]
                 {
                     new ChangeStatEffect(new SelfTargetSelector(),
                         UnitStatType.Defense,
                         1,
-                        typeof(ToEndOfCurrentRoundEffectLifetime))
+                        new ToEndOfCurrentRoundEffectLifetimeFactory())
                 })
         )
         {

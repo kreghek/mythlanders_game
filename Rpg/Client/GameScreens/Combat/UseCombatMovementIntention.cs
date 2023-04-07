@@ -2,12 +2,14 @@
 using System.Linq;
 
 using Client.Assets.CombatMovements;
+using Client.Assets.States.Primitives;
 using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
 
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
+using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 
 namespace Rpg.Client.GameScreens.Combat;
 
@@ -17,14 +19,19 @@ internal sealed class UseCombatMovementIntention : IIntention
     private readonly IList<CombatantGameObject> _combatantGameObjects;
     private readonly CombatMovementInstance _combatMovement;
     private readonly ICombatMovementVisualizer _combatMovementVisualizer;
+    private readonly GameObjectContentStorage _gameObjectContentStorage;
+    private readonly InteractionDeliveryManager _interactionDeliveryManager;
 
     public UseCombatMovementIntention(CombatMovementInstance combatMovement, IAnimationManager animationManager,
-        ICombatMovementVisualizer combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects)
+        ICombatMovementVisualizer combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects,
+        InteractionDeliveryManager interactionDeliveryManager, GameObjectContentStorage gameObjectContentStorage)
     {
         _combatMovement = combatMovement;
         _animationManager = animationManager;
         _combatMovementVisualizer = combatMovementVisualizer;
         _combatantGameObjects = combatantGameObjects;
+        _interactionDeliveryManager = interactionDeliveryManager;
+        _gameObjectContentStorage = gameObjectContentStorage;
     }
 
     private CombatantGameObject GetCombatantGameObject(Combatant combatant)
@@ -35,7 +42,8 @@ internal sealed class UseCombatMovementIntention : IIntention
     private IActorVisualizationState GetMovementVisualizationState(CombatantGameObject actorGameObject,
         CombatMovementExecution movementExecution, CombatMovementInstance combatMovement)
     {
-        var context = new CombatMovementVisualizationContext(_combatantGameObjects.ToArray());
+        var context = new CombatMovementVisualizationContext(actorGameObject, _combatantGameObjects.ToArray(),
+            _interactionDeliveryManager, _gameObjectContentStorage);
 
         return _combatMovementVisualizer.GetMovementVisualizationState(combatMovement.SourceMovement.Sid,
             actorGameObject.Animator, movementExecution, context);

@@ -8,9 +8,14 @@ using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class PartisanFactory
+public class PartisanFactory : IHeroCombatantFactory
 {
-    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour)
+    private static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory
+    {
+        return Activator.CreateInstance<T>().CreateMovement();
+    }
+
+    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
     {
         var movementPool = new List<CombatMovement>();
 
@@ -44,10 +49,5 @@ public class PartisanFactory
             Sid = sid, IsPlayerControlled = true
         };
         return hero;
-    }
-
-    private static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory
-    {
-        return Activator.CreateInstance<T>().CreateMovement();
     }
 }

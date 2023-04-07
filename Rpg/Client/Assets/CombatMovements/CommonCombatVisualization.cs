@@ -1,75 +1,58 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.CombatMovements.Hero.Amazon;
 using Client.Assets.States.Primitives;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
+using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
 
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.GameScreens.Combat.GameObjects;
+using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 
 namespace Client.Assets.CombatMovements;
 
 internal static class CommonCombatVisualization
 {
-    public static IActorVisualizationState CreateMeleeVisualization(IActorAnimator actorAnimator,
+    public static IActorVisualizationState CreateSingleDistanceVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
-        var skillAnimationInfo = new SkillAnimationInfo
-        {
-            Items = new[]
-            {
-                new SkillAnimationInfoItem
-                {
-                    Duration = 0.75f,
-                    //HitSound = hitSound,
-                    Interaction = () =>
-                        Interaction(movementExecution.EffectImposeItems),
-                    InteractTime = 0
-                }
-            }
-        };
-
         var startPosition = actorAnimator.GraphicRoot.Position;
-        var targetCombatUnit = GetFirstTargetOrDefault(movementExecution);
+        var targetCombatant = GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
 
-        Vector2 targetPosition;
-
-        if (targetCombatUnit is not null)
-        {
-            var targetActor = visualizationContext.GetCombatActor(targetCombatUnit);
-
-            targetPosition = targetActor.Graphics.Root.Position;
-        }
-        else
-        {
-            targetPosition = actorAnimator.GraphicRoot.Position;
-        }
+        var targetPosition = targetCombatant is not null
+            ? visualizationContext.GetCombatActor(targetCombatant).InteractionPoint
+            : startPosition;
 
         var subStates = new IActorVisualizationState[]
         {
-            new MoveToPositionActorState(actorAnimator,
-                new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, targetPosition),
+            // Prepare to launch
+            new PlayAnimationActorState(actorAnimator,
                 new LinearAnimationFrameSet(Enumerable.Range(8, 2).ToArray(), 8, CommonConstants.FrameSize.X,
                     CommonConstants.FrameSize.Y, 8)),
-            new DirectInteractionState(actorAnimator, skillAnimationInfo,
-                new LinearAnimationFrameSet(Enumerable.Range(10, 8).ToArray(), 8, CommonConstants.FrameSize.X,
-                    CommonConstants.FrameSize.Y, 8)),
-            new MoveToPositionActorState(actorAnimator,
-                new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, startPosition),
-                new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8)
-                    { IsLoop = true })
+            new LaunchAndWaitInteractionDeliveryState(
+                actorAnimator,
+                new LinearAnimationFrameSet(Enumerable.Range(8 + 2, 2).ToArray(), 8, CommonConstants.FrameSize.X,
+                    CommonConstants.FrameSize.Y, 8),
+                movementExecution.EffectImposeItems.Select(x =>
+                        new InteractionDeliveryInfo(x, visualizationContext.ActorGameObject.LaunchPoint,
+                            targetPosition))
+                    .ToArray(),
+                new EnergyArrowInteractionDeliveryFactory(visualizationContext.GameObjectContentStorage),
+                visualizationContext.InteractionDeliveryManager)
         };
 
-        var _innerState = new SequentialState(subStates);
-        return _innerState;
+        var innerState = new SequentialState(subStates);
+        return innerState;
     }
 
     public static IActorVisualizationState CreateSingleMeleeVisualization(IActorAnimator actorAnimator,
-        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext,
+        SingleMeleeVisualizationConfig config)
     {
         var skillAnimationInfo = new SkillAnimationInfo
         {
@@ -87,15 +70,17 @@ internal static class CommonCombatVisualization
         };
 
         var startPosition = actorAnimator.GraphicRoot.Position;
-        var targetCombatUnit = GetFirstTargetOrDefault(movementExecution);
+        var targetCombatant = GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
 
         Vector2 targetPosition;
 
-        if (targetCombatUnit is not null)
+        if (targetCombatant is not null)
         {
-            var targetActor = visualizationContext.GetCombatActor(targetCombatUnit);
+            var targetGameObject = visualizationContext.GetCombatActor(targetCombatant);
 
-            targetPosition = targetActor.Graphics.Root.Position;
+            var targetOffset = targetCombatant.IsPlayerControlled ? new Vector2(32, 0) : new Vector2(-32, 0);
+
+            targetPosition = targetGameObject.Graphics.Root.Position + targetOffset;
         }
         else
         {
@@ -106,26 +91,28 @@ internal static class CommonCombatVisualization
         {
             new MoveToPositionActorState(actorAnimator,
                 new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, targetPosition),
-                new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
-                    CommonConstants.FrameSize.Y, 8)),
+                config.CombatMovementAnimation),
             new DirectInteractionState(actorAnimator, skillAnimationInfo,
                 new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
                     CommonConstants.FrameSize.Y, 8)),
             new MoveToPositionActorState(actorAnimator,
                 new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, startPosition),
-                new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8)
-                    { IsLoop = true })
+                config.BackAnimation)
         };
 
-        var _innerState = new SequentialState(subStates);
-        return _innerState;
+        var innerState = new SequentialState(subStates);
+        return innerState;
     }
 
-    private static Combatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution)
+    private static Combatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution, Combatant actorCombatant)
     {
-        var firstImposeItem = movementExecution.EffectImposeItems.First();
+        var firstImposeItem = movementExecution.EffectImposeItems.FirstOrDefault(x => x.MaterializedTargets.All(t => t != actorCombatant));
+        if (firstImposeItem is null)
+        {
+            return null;
+        }
 
-        var targetCombatUnit = firstImposeItem.MaterializedTargets.FirstOrDefault();
+        var targetCombatUnit = firstImposeItem.MaterializedTargets.FirstOrDefault(t => t != actorCombatant);
         return targetCombatUnit;
     }
 

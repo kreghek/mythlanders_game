@@ -16,24 +16,3 @@ public class InterruptEffect : IEffect
         return new InterruptEffectInstance(this);
     }
 }
-
-public sealed class InterruptEffectInstance : EffectInstanceBase<InterruptEffect>
-{
-    public InterruptEffectInstance(InterruptEffect stunffect) : base(stunffect)
-    {
-    }
-
-
-    public override void AddModifier(IUnitStatModifier modifier)
-    {
-    }
-
-    public override void Influence(Combatant target, IEffectCombatContext context)
-    {
-        context.PassTurn(target);
-    }
-
-    public override void RemoveModifier(IUnitStatModifier modifier)
-    {
-    }
-}

@@ -15,30 +15,29 @@ internal sealed class CampaignPanel : ControlBase
 {
     private const int CAMPAIGN_PAGE_SIZE = 4;
     private readonly IScreen _currentScreen;
+    private readonly Texture2D _campaignIconsTexture;
     private readonly int _minIndex;
     private readonly IList<CampaignStagePanelBase> _panelList;
     private readonly IScreenManager _screenManager;
 
-    public CampaignPanel(HeroCampaign heroCampaign, IScreenManager screenManager, IScreen currentScreen)
+    public CampaignPanel(HeroCampaign heroCampaign, IScreenManager screenManager, IScreen currentScreen, Texture2D campaignIconsTexture)
     {
-        _panelList = new List<CampaignStagePanelBase>();
         _screenManager = screenManager;
         _currentScreen = currentScreen;
+        _campaignIconsTexture = campaignIconsTexture;
+
+        _panelList = new List<CampaignStagePanelBase>();
+
         _minIndex = CampaignStagesPanelHelper.CalcMin(heroCampaign.CurrentStageIndex,
             heroCampaign.CampaignStages.Count, CAMPAIGN_PAGE_SIZE);
 
         InitChildControls(heroCampaign.CampaignStages, heroCampaign, _panelList);
     }
 
-    protected override Point CalcTextureOffset()
-    {
-        return ControlTextures.PanelBlack;
-    }
+    protected override Point CalcTextureOffset() => ControlTextures.PanelBlack;
 
-    protected override Color CalculateColor()
-    {
-        return Color.White;
-    }
+    protected override Color CalculateColor() => Color.White;
+    
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
@@ -77,20 +76,20 @@ internal sealed class CampaignPanel : ControlBase
 
             if (stage.IsCompleted)
             {
-                var stagePanel = new CompleteCampaignStagePanel(stageIndex);
+                var stagePanel = new CompleteCampaignStagePanel(stageIndex, _campaignIconsTexture);
                 panelList.Add(stagePanel);
             }
             else
             {
                 if (stageIsActive)
                 {
-                    var stagePanel = new ActiveCampaignStagePanel(stage, stageIndex, currentCampaign, _currentScreen,
+                    var stagePanel = new ActiveCampaignStagePanel(stage, stageIndex, _campaignIconsTexture, currentCampaign, _currentScreen,
                         _screenManager, stageIsActive);
                     panelList.Add(stagePanel);
                 }
                 else
                 {
-                    var stagePanel = new NextCampaignStagePanel(stage, stageIndex, currentCampaign, _currentScreen,
+                    var stagePanel = new NextCampaignStagePanel(stage, stageIndex, _campaignIconsTexture, currentCampaign, _currentScreen,
                         _screenManager, stageIsActive);
                     panelList.Add(stagePanel);
                 }

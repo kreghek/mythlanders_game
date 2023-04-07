@@ -5,5 +5,9 @@
     /// </summary>
     public interface IProp
     {
+        /// <summary>
+        /// Prop scheme.
+        /// </summary>
+        IPropScheme Scheme { get; }
     }
 }

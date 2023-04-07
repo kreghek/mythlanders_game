@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Core.Dices;
+using Client.Core.Campaigns;
 
-using Rpg.Client.Core.Campaigns;
+using Core.Dices;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 

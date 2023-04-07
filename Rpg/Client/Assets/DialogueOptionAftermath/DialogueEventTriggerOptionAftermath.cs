@@ -15,6 +15,6 @@ internal class DialogueEventTriggerOptionAftermath : IDialogueOptionAftermath
 
     public void Apply(IEventContext dialogContext)
     {
-        dialogContext.CurrentDualogueEvent.Trigger(new DialogueEventTrigger(_trigger));
+        dialogContext.CurrentDialogueEvent.Trigger(new DialogueEventTrigger(_trigger));
     }
 }

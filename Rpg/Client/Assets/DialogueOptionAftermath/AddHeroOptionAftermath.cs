@@ -1,4 +1,5 @@
-﻿using Client.Core.Heroes;
+﻿using Client.Core.Dialogues;
+using Client.Core.Heroes;
 
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;

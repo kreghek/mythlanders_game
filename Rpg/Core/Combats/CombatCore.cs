@@ -50,9 +50,11 @@ public class CombatCore
 
     public void CompleteTurn()
     {
+        var context = new CombatantEffectLifetimeDispelContext(this);
+
         CombatantEndsTurn?.Invoke(this, new CombatantEndsTurnEventArgs(CurrentCombatant));
 
-        CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.EndCombatantTurn);
+        CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.EndCombatantTurn, context);
 
         if (_roundQueue.Any()) RemoveCurrentCombatantFromRoundQueue();
 
@@ -60,7 +62,7 @@ public class CombatCore
         {
             if (!_roundQueue.Any())
             {
-                UpdateAllCombatantEffects(CombatantEffectUpdateType.EndRound);
+                UpdateAllCombatantEffects(CombatantEffectUpdateType.EndRound, context);
 
                 if (Finished)
                 {
@@ -69,7 +71,7 @@ public class CombatCore
                     return;
                 }
 
-                StartRound();
+                StartRound(context);
 
                 CombatantStartsTurn?.Invoke(this, new CombatantTurnStartedEventArgs(CurrentCombatant));
 
@@ -77,12 +79,23 @@ public class CombatCore
             }
 
             if (_roundQueue.First().IsDead)
+            {
                 RemoveCurrentCombatantFromRoundQueue();
+            }
             else
+            {
+                if (Finished)
+                {
+                    var combatResult = CalcResult();
+                    CombatFinished?.Invoke(this, new CombatFinishedEventArgs(combatResult));
+                    return;
+                }
+
                 break;
+            }
         }
 
-        CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn);
+        CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn, context);
 
         CombatantStartsTurn?.Invoke(this, new CombatantTurnStartedEventArgs(CurrentCombatant));
     }
@@ -97,7 +110,8 @@ public class CombatCore
             CombatantUsedMove?.Invoke(this,
                 new CombatantHandChangedEventArgs(CurrentCombatant, movement, handSlotIndex.Value));
 
-        var effectContext = new EffectCombatContext(Field, _dice, HandleCombatantDamaged, HandleSwapFieldPositions);
+        var effectContext =
+            new EffectCombatContext(Field, _dice, HandleCombatantDamagedToStat, HandleSwapFieldPositions, this);
 
         var effectImposeItems = new List<CombatEffectImposeItem>();
 
@@ -175,7 +189,8 @@ public class CombatCore
 
         foreach (var combatant in _allCombatantList) combatant.PrepareToCombat();
 
-        StartRound();
+        var context = new CombatantEffectLifetimeDispelContext(this);
+        StartRound(context);
 
         CombatantStartsTurn?.Invoke(this, new CombatantTurnStartedEventArgs(CurrentCombatant));
     }
@@ -293,11 +308,14 @@ public class CombatCore
         }
     }
 
-    private int HandleCombatantDamaged(Combatant combatant, UnitStatType statType, int value)
+    private int HandleCombatantDamagedToStat(Combatant combatant, UnitStatType statType, int damageAmount)
     {
-        var remains = TakeStat(combatant, statType, value);
+        var (remains, wasTaken) = TakeStat(combatant, statType, damageAmount);
 
-        CombatantHasBeenDamaged?.Invoke(this, new CombatantDamagedEventArgs(combatant, statType, value));
+        if (wasTaken)
+        {
+            CombatantHasBeenDamaged?.Invoke(this, new CombatantDamagedEventArgs(combatant, statType, damageAmount));
+        }
 
         if (combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.Current <= 0)
         {
@@ -411,36 +429,38 @@ public class CombatCore
         }
     }
 
-    private void StartRound()
+    private void StartRound(ICombatantEffectLifetimeDispelContext combatantEffectLifetimeDispelContext)
     {
         MakeUnitRoundQueue();
         RestoreHandsOfAllCombatants();
         RestoreShieldsOfAllCombatants();
         RestoreManeuversOfAllCombatants();
 
-        UpdateAllCombatantEffects(CombatantEffectUpdateType.StartRound);
-        CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn);
+        UpdateAllCombatantEffects(CombatantEffectUpdateType.StartRound, combatantEffectLifetimeDispelContext);
+        CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn,
+            combatantEffectLifetimeDispelContext);
     }
 
-    private static int TakeStat(Combatant combatant, UnitStatType statType, int value)
+    private static (int result, bool isTaken) TakeStat(Combatant combatant, UnitStatType statType, int value)
     {
         var stat = combatant.Stats.SingleOrDefault(x => x.Type == statType);
 
-        if (stat is null) return value;
+        if (stat is null) return (value, false);
 
         var d = Math.Min(value, stat.Value.Current);
         stat.Value.Consume(d);
 
         var remains = value - d;
 
-        return remains;
+        return (remains, d > 0);
     }
 
-    private void UpdateAllCombatantEffects(CombatantEffectUpdateType updateType)
+    private void UpdateAllCombatantEffects(CombatantEffectUpdateType updateType,
+        ICombatantEffectLifetimeDispelContext context)
     {
         foreach (var combatant in _allCombatantList)
             if (!combatant.IsDead)
-                combatant.UpdateEffects(updateType);
+                combatant.UpdateEffects(updateType, context);
     }
 
     public event EventHandler<CombatantHasBeenAddedEventArgs>? CombatantHasBeenAdded;

@@ -1,6 +1,10 @@
 namespace Core.Combats;
 
-public sealed record CombatMovementCost(int Value)
+public sealed record CombatMovementCost(IStatValue Amount)
 {
-    public bool HasCost => Value > 0;
+    public CombatMovementCost(int amount) : this(new StatValue(amount))
+    {
+    }
+
+    public bool HasCost => Amount.Current > 0;
 }

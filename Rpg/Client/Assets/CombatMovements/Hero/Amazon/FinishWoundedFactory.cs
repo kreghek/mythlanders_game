@@ -6,8 +6,10 @@ namespace Client.Assets.CombatMovements.Hero.Amazon;
 
 internal class FinishWoundedFactory : CombatMovementFactoryBase
 {
+    /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(0, 7);
 
+    /// <inheritdoc />
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
@@ -16,7 +18,7 @@ internal class FinishWoundedFactory : CombatMovementFactoryBase
                 new IEffect[]
                 {
                     new DamageEffect(
-                        new WeakestEnemyTargetSelector(),
+                        new WeakestMarkedEnemyTargetSelector(),
                         DamageType.Normal,
                         Range<int>.CreateMono(4))
                 })

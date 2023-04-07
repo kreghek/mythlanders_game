@@ -5,6 +5,7 @@ using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.Dialogues;
 using Client.Core.Dialogues;
+using Client.GameScreens.TextDialogue;
 
 using Core.Dices;
 
@@ -12,7 +13,6 @@ using FluentAssertions;
 
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
-using Rpg.Client.GameScreens.Speech;
 using Rpg.Client.GameScreens.Speech.Ui;
 
 namespace Content.SideQuests.Tests;

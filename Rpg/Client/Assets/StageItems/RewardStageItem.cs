@@ -1,27 +1,56 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using Client.Assets.StoryPointJobs;
 using Client.Core.Campaigns;
-using Client.GameScreens.CommandCenter;
+using Client.GameScreens.CampaignReward;
+
+using Core.Combats;
+using Core.PropDrop;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Campaigns;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.Assets.StageItems
 {
     internal class RewardStageItem : ICampaignStageItem
     {
-        private readonly ICampaignGenerator _campaignGenerator;
+        private readonly IDropResolver _dropResolver;
         private readonly GlobeProvider _globeProvider;
         private readonly IJobProgressResolver _jobProgressResolver;
 
-        public RewardStageItem(ICampaignGenerator campaignGenerator, GlobeProvider globeProvider,
-            IJobProgressResolver jobProgressResolver)
+        public RewardStageItem(GlobeProvider globeProvider,
+            IJobProgressResolver jobProgressResolver, IDropResolver dropResolver)
         {
-            _campaignGenerator = campaignGenerator;
             _globeProvider = globeProvider;
             _jobProgressResolver = jobProgressResolver;
+            _dropResolver = dropResolver;
+        }
+
+        private IReadOnlyCollection<IDropTableScheme> CreateCampaignResources(HeroCampaign currentCampaign)
+        {
+            static IReadOnlyCollection<IDropTableScheme> GetLocationResourceDrop(string sid)
+            {
+                return new[]
+                {
+                    new DropTableScheme(sid, new IDropTableRecordSubScheme[]
+                    {
+                        new DropTableRecordSubScheme(null, new Range<int>(1, 1), sid, 1)
+                    }, 1)
+                };
+            }
+
+            switch (currentCampaign.Location)
+            {
+                case LocationSid.Thicket:
+                    return GetLocationResourceDrop("snow");
+
+                case LocationSid.Desert:
+                    return GetLocationResourceDrop("sand");
+            }
+
+            return ArraySegment<IDropTableScheme>.Empty;
         }
 
         public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
@@ -34,12 +63,11 @@ namespace Client.Assets.StageItems
                 _jobProgressResolver.ApplyProgress(completeCampaignProgress, job);
             }
 
-            var campaigns = _campaignGenerator.CreateSet();
-            screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignSelection,
-                new CommandCenterScreenTransitionArguments
-                {
-                    AvailableCampaigns = campaigns
-                });
+            var campaignResources = CreateCampaignResources(currentCampaign);
+            var drop = _dropResolver.Resolve(campaignResources);
+
+            screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignReward,
+                new CampaignRewardScreenTransitionArguments(currentCampaign, drop));
         }
     }
 }

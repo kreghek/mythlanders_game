@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 
-using Client.Assets.Catalogs.CampaignGeneration;
-using Client.Assets.StageItems;
 using Client.Core.Campaigns;
 
 using Microsoft.Xna.Framework;
@@ -13,20 +11,22 @@ using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Campaign.Ui;
 
-internal class NextCampaignStagePanel : CampaignStagePanelBase
+internal sealed class NextCampaignStagePanel : CampaignStagePanelBase
 {
-    private readonly IList<ButtonBase> _buttonList;
+    private readonly IList<CampaignButton> _buttonList;
     private readonly CampaignStage _campaignStage;
+    private readonly Texture2D _campaignIconsTexture;
     private readonly HeroCampaign _currentCampaign;
     private readonly bool _isActive;
 
-    public NextCampaignStagePanel(CampaignStage campaignStage, int stageIndex, HeroCampaign currentCampaign,
+    public NextCampaignStagePanel(CampaignStage campaignStage, int stageIndex, Texture2D campaignIconsTexture, HeroCampaign currentCampaign,
         IScreen currentScreen, IScreenManager screenManager, bool isActive) : base(stageIndex)
     {
         _campaignStage = campaignStage;
+        _campaignIconsTexture = campaignIconsTexture;
         _currentCampaign = currentCampaign;
         _isActive = isActive;
-        _buttonList = new List<ButtonBase>();
+        _buttonList = new List<CampaignButton>();
 
         Init(currentScreen, screenManager, isActive);
     }
@@ -65,43 +65,12 @@ internal class NextCampaignStagePanel : CampaignStagePanelBase
             var button = _buttonList[buttonIndex];
 
             button.Rect = new Rectangle(
-                contentRect.Left + CONTENT_MARGIN,
+                contentRect.Center.X - 16,
                 topOffset + contentRect.Top + (buttonIndex * BUTTON_MARGIN_HEIGHT),
-                contentRect.Width - CONTENT_MARGIN * 2,
-                BUTTON_HEIGHT);
+                32, 32);
 
             button.Draw(spriteBatch);
         }
-    }
-
-    private static string GetStageItemDisplayName(int stageItemIndex, ICampaignStageItem campaignStageItem)
-    {
-        if (campaignStageItem is CombatStageItem)
-        {
-            return string.Format(UiResource.CampaignStageDisplayNameCombat, stageItemIndex + 1);
-        }
-
-        if (campaignStageItem is RewardStageItem)
-        {
-            return UiResource.CampaignStageDisplayNameFinish;
-        }
-
-        if (campaignStageItem is DialogueEventStageItem)
-        {
-            return UiResource.CampaignStageDisplayNameTextEvent;
-        }
-
-        if (campaignStageItem is NotImplemenetedStageItem notImplemenetedStage)
-        {
-            return notImplemenetedStage.StageSid + " (not implemented)";
-        }
-
-        if (campaignStageItem is RestStageItem)
-        {
-            return UiResource.CampaignStageDisplayName;
-        }
-
-        return "???";
     }
 
     private void Init(IScreen currentScreen, IScreenManager screenManager, bool isActive)
@@ -111,8 +80,9 @@ internal class NextCampaignStagePanel : CampaignStagePanelBase
             var campaignStageItem = _campaignStage.Items[i];
 
             var stageItemDisplayName = GetStageItemDisplayName(i, campaignStageItem);
+            var stageIconRect = GetStageItemTexture(campaignStageItem);
 
-            var button = new TextButton(stageItemDisplayName +
+            var button = new CampaignButton(new IconData(_campaignIconsTexture, stageIconRect), stageItemDisplayName +
                                         (_campaignStage.IsCompleted ? " (Completed)" : string.Empty));
             _buttonList.Add(button);
 
@@ -121,6 +91,11 @@ internal class NextCampaignStagePanel : CampaignStagePanelBase
                 button.OnClick += (s, e) =>
                 {
                     campaignStageItem.ExecuteTransition(currentScreen, screenManager, _currentCampaign);
+                };
+
+                button.OnHover += (_, _) =>
+                {
+                    DoSelected(button);
                 };
             }
             else

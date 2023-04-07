@@ -82,7 +82,7 @@ public class ThiefChaserFactory
                             new SelfTargetSelector(),
                             UnitStatType.Defense,
                             3,
-                            typeof(ToNextCombatantTurnEffectLifetime))
+                            new ToNextCombatantTurnEffectLifetimeFactory())
                     },
                     new IEffect[]
                     {
@@ -90,7 +90,7 @@ public class ThiefChaserFactory
                             new SelfTargetSelector(),
                             UnitStatType.Defense,
                             1,
-                            typeof(ToEndOfCurrentRoundEffectLifetime))
+                            new ToEndOfCurrentRoundEffectLifetimeFactory())
                     })
             )
             {
@@ -105,7 +105,7 @@ public class ThiefChaserFactory
                     {
                         new AdjustPositionEffect(new SelfTargetSelector()),
                         new DamageEffect(
-                            new AllVanguardTargetSelector(),
+                            new AllVanguardEnemiesTargetSelector(),
                             DamageType.Normal,
                             Range<int>.CreateMono(1)),
                         new PushToPositionEffect(

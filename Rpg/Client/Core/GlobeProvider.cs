@@ -278,13 +278,15 @@ namespace Rpg.Client.Core
             return groupDto;
         }
 
-        private static ResourceDto[] GetPlayerResourcesToSave(IReadOnlyCollection<ResourceItem> inventory)
+        private static ResourceDto[] GetPlayerResourcesToSave(Inventory inventory)
         {
-            return inventory.Select(x => new ResourceDto
-            {
-                Amount = x.Amount,
-                Type = x.Type.ToString()
-            }).ToArray();
+            // return inventory.Select(x => new ResourceDto
+            // {
+            //     Amount = x.Amount,
+            //     Type = x.Type.ToString()
+            // }).ToArray();
+
+            throw new Exception();
         }
 
         private string GetSaveName(string playerName)
@@ -419,29 +421,31 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static void LoadPlayerResources(ResourceDto?[]? resources, IReadOnlyCollection<ResourceItem> inventory)
+        private static void LoadPlayerResources(ResourceDto?[]? resources, Inventory inventory)
         {
             if (resources is null)
             {
                 return;
             }
 
-            foreach (var resourceDto in resources)
-            {
-                if (resourceDto is null)
-                {
-                    continue;
-                }
+            // foreach (var resourceDto in resources)
+            // {
+            //     if (resourceDto is null)
+            //     {
+            //         continue;
+            //     }
+            //
+            //     var resource = inventory.SingleOrDefault(x => x.Type.ToString() == resourceDto.Type);
+            //     if (resource is null)
+            //     {
+            //         Debug.Fail("Every resouce in inventory must be same as in the save. Make migration of the save.");
+            //         continue;
+            //     }
+            //
+            //     resource.Amount = resourceDto.Amount;
+            // }
 
-                var resource = inventory.SingleOrDefault(x => x.Type.ToString() == resourceDto.Type);
-                if (resource is null)
-                {
-                    Debug.Fail("Every resouce in inventory must be same as in the save. Make migration of the save.");
-                    continue;
-                }
-
-                resource.Amount = resourceDto.Amount;
-            }
+            throw new Exception();
         }
 
         public sealed class SaveShortInfo

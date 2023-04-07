@@ -1,34 +1,14 @@
-using System.Collections.Generic;
-
 using Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
 using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class DigitalWolfFactory
+public class DigitalWolfFactory : IMonsterCombatantFactory
 {
-    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour)
-    {
-        // ReSharper disable once UseObjectOrCollectionInitializer
-        var monsterSequence = CreateCombatMoveVariation();
-
-        var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, 5);
-        stats.SetValue(UnitStatType.ShieldPoints, 3);
-        stats.SetValue(UnitStatType.Resolve, 4);
-
-        var monster = new Combatant("digitalwolf", monsterSequence, stats, combatActorBehaviour)
-        {
-            Sid = sid, IsPlayerControlled = false
-        };
-
-        return monster;
-    }
-
     private static CombatMovementSequence CreateCombatMoveVariation()
     {
-        var list = new CombatMovement[]
+        var list = new[]
         {
             new CyberClawsFactory().CreateMovement(),
             new VelesProtectionFactory().CreateMovement(),
@@ -36,7 +16,6 @@ public class DigitalWolfFactory
             new RegenerativeProtocolFactory().CreateMovement(),
             new FlockAlphaTacticsFactory().CreateMovement()
         };
-
 
         var monsterSequence = new CombatMovementSequence();
 
@@ -49,5 +28,23 @@ public class DigitalWolfFactory
         }
 
         return monsterSequence;
+    }
+
+    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex)
+    {
+        // ReSharper disable once UseObjectOrCollectionInitializer
+        var monsterSequence = CreateCombatMoveVariation();
+
+        var stats = new CombatantStatsConfig();
+        stats.SetValue(UnitStatType.HitPoints, 6);
+        stats.SetValue(UnitStatType.ShieldPoints, 3);
+        stats.SetValue(UnitStatType.Resolve, 4);
+
+        var monster = new Combatant("digitalwolf", monsterSequence, stats, combatActorBehaviour)
+        {
+            Sid = sid, IsPlayerControlled = false
+        };
+
+        return monster;
     }
 }

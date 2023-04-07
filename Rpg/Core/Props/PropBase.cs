@@ -14,14 +14,14 @@
             Scheme = scheme;
         }
 
-        /// <summary>
-        /// Item schema.
-        /// </summary>
-        public IPropScheme Scheme { get; }
-
         public override string ToString()
         {
             return $"{Scheme}";
         }
+
+        /// <summary>
+        /// Item schema.
+        /// </summary>
+        public IPropScheme Scheme { get; }
     }
 }

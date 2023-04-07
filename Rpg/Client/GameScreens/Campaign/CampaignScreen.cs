@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Engine;
 using Client.GameScreens.Campaign.Ui;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,7 @@ namespace Client.GameScreens.Campaign;
 internal class CampaignScreen : GameScreenWithMenuBase
 {
     private readonly GlobeProvider _globe;
+    private readonly ButtonBase _inventoryButton;
     private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
     private readonly ButtonBase _showStoryPointsButton;
 
@@ -29,13 +31,19 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
         _globe = game.Services.GetRequiredService<GlobeProvider>();
 
-        _showStoryPointsButton = new TextButton("Quests");
+        _showStoryPointsButton = new ResourceTextButton(nameof(UiResource.CurrentQuestButtonTitle));
         _showStoryPointsButton.OnClick += ShowStoryPointsButton_OnClick;
+
+        _inventoryButton = new ResourceTextButton(nameof(UiResource.InventoryButtonTitle));
+        _inventoryButton.OnClick += InventoryButton_OnClick;
     }
 
     protected override IList<ButtonBase> CreateMenu()
     {
-        return ArraySegment<ButtonBase>.Empty;
+        return new[]
+        {
+            _inventoryButton
+        };
     }
 
     protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -123,7 +131,14 @@ internal class CampaignScreen : GameScreenWithMenuBase
     {
         var currentCampaign = _screenTransitionArguments.Campaign;
 
-        _stagePanel = new CampaignPanel(currentCampaign, ScreenManager, this);
+        _stagePanel = new CampaignPanel(currentCampaign, ScreenManager, this, Game.Content.Load<Texture2D>("Sprites/Ui/CampaignStageIcons"));
+    }
+
+    private void InventoryButton_OnClick(object? sender, EventArgs e)
+    {
+        AddModal(
+            new InventoryModal(_globe.Globe.Player.Inventory, Game.Services.GetRequiredService<IUiContentStorage>(),
+                ResolutionIndependentRenderer), false);
     }
 
     private void ShowStoryPointsButton_OnClick(object? sender, EventArgs e)

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using Client.Assets.StoryPointJobs;
 using Client.Core;
-using Client.Core.Heroes;
 
 using Core.Dices;
 
@@ -69,12 +68,6 @@ namespace Rpg.Client.Core
         {
             _globeEvents.Add(globalEvent);
             globalEvent.Initialize(this);
-        }
-
-        public void AddMonster(CombatSource combatSource, Hero unit, int slotIndex)
-        {
-            combatSource.EnemyGroup.Slots[slotIndex].Unit = unit;
-            Updated?.Invoke(this, EventArgs.Empty);
         }
 
         public void Update(IDice dice, IEventCatalog eventCatalog)

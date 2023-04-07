@@ -4,42 +4,11 @@ using System.Linq;
 
 using Client.Core.Heroes;
 
+using Core.Combats;
+
 using Rpg.Client.Core;
 
 namespace Client.Core;
-
-internal sealed class StoryState : IStoryState
-{
-    private readonly Group _heroParty;
-    private readonly IList<CharacterRelation> _relations = new List<CharacterRelation>();
-    private readonly IList<string> _storyKeys = new List<string>();
-
-    public StoryState(Group heroParty)
-    {
-        _heroParty = heroParty;
-    }
-
-    private IReadOnlyCollection<CharacterRelation> GetPlayerUnitsAsFullKnown(Group heroParty)
-    {
-        return heroParty.GetUnits().Select(x => new CharacterRelation(x.UnitScheme.Name)
-            { Level = CharacterKnowledgeLevel.FullName }).ToArray();
-    }
-
-    public IReadOnlyCollection<string> Keys => _storyKeys.ToArray();
-
-    public IReadOnlyCollection<CharacterRelation> CharacterRelations =>
-        _relations.Concat(GetPlayerUnitsAsFullKnown(_heroParty)).ToArray();
-
-    public void AddCharacterRelations(UnitName name)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void AddKey(string storySid, string key)
-    {
-        throw new NotImplementedException();
-    }
-}
 
 internal sealed class Player
 {
@@ -56,20 +25,27 @@ internal sealed class Player
         Pool = new PoolGroup();
         KnownMonsters = new List<UnitScheme>();
 
-        var inventory = CreateInventory();
-
-        Inventory = inventory;
+        Inventory = new Inventory();
 
         _abilities = new HashSet<PlayerAbility>();
 
         Name = CreateRandomName();
 
         StoryState = new StoryState(Party);
+
+        Heroes = new[]
+        {
+            new HeroState("swordsman", new StatValue(5), new FieldCoords(0, 1)),
+            new HeroState("robber", new StatValue(3), new FieldCoords(1, 0)),
+            new HeroState("monk", new StatValue(4), new FieldCoords(1, 2))
+        };
     }
 
     public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
 
-    public IReadOnlyCollection<ResourceItem> Inventory { get; }
+    public IReadOnlyCollection<HeroState> Heroes { get; }
+
+    public Inventory Inventory { get; }
 
     public IList<UnitScheme> KnownMonsters { get; }
 
@@ -92,9 +68,9 @@ internal sealed class Player
 
     public void ClearInventory()
     {
-        foreach (var resourceItem in Inventory)
+        foreach (var resourceItem in Inventory.CalcActualItems())
         {
-            resourceItem.Amount = 0;
+            Inventory.Remove(resourceItem);
         }
     }
 
@@ -117,13 +93,6 @@ internal sealed class Player
     public void MoveToPool(Hero unit)
     {
         Pool.MoveFromGroup(unit, Party);
-    }
-
-    private static IReadOnlyCollection<ResourceItem> CreateInventory()
-    {
-        var inventoryAvailableItems = Enum.GetValues<EquipmentItemType>();
-
-        return inventoryAvailableItems.Select(enumItem => new ResourceItem(enumItem)).ToList();
     }
 
     private static string CreateRandomName()

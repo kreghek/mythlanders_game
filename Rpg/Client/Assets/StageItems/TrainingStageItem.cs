@@ -6,7 +6,6 @@ using Client.GameScreens.Training;
 
 using Core.Dices;
 
-using Rpg.Client.Core.Campaigns;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.Assets.StageItems

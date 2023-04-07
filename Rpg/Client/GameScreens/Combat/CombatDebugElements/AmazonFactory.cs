@@ -8,21 +8,27 @@ using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class AmazonFactory
+public class AmazonFactory : IHeroCombatantFactory
 {
-    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour)
+    private static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory
     {
-        var movementPool = new List<CombatMovement>();
+        return Activator.CreateInstance<T>().CreateMovement();
+    }
 
-        movementPool.Add(CreateMovement<HuntFactory>());
+    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
+    {
+        var movementPool = new List<CombatMovement>
+        {
+            CreateMovement<HuntFactory>(),
 
-        movementPool.Add(CreateMovement<FinishWoundedFactory>());
+            CreateMovement<FinishWoundedFactory>(),
 
-        movementPool.Add(CreateMovement<TrackerSavvyFactory>());
+            CreateMovement<TrackerSavvyFactory>(),
 
-        movementPool.Add(CreateMovement<JustHitBoarWithKnifeFactory>());
+            CreateMovement<JustHitBoarWithKnifeFactory>(),
 
-        movementPool.Add(CreateMovement<BringBeastDownFactory>());
+            CreateMovement<BringBeastDownFactory>()
+        };
 
         var heroSequence = new CombatMovementSequence();
 
@@ -44,10 +50,5 @@ public class AmazonFactory
             Sid = sid, IsPlayerControlled = true
         };
         return hero;
-    }
-
-    private static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory
-    {
-        return Activator.CreateInstance<T>().CreateMovement();
     }
 }

@@ -6,12 +6,12 @@ using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Core;
 using Client.Core.Dialogues;
+using Client.GameScreens.TextDialogue;
 
 using Core.Dices;
 
 using Rpg.Client.Core;
 using Rpg.Client.GameScreens;
-using Rpg.Client.GameScreens.Speech;
 
 namespace DialoguePlayer;
 

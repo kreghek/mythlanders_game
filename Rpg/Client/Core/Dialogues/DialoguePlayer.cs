@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Core.Dialogues;
-
-using Rpg.Client.GameScreens.Speech;
+using Client.GameScreens.TextDialogue;
 
 namespace Rpg.Client.Core.Dialogues
 {
@@ -18,7 +17,9 @@ namespace Rpg.Client.Core.Dialogues
             _currentNode = dialogue.Root;
             _contextFactory = contextFactory;
 
-            CurrentTextFragments = _currentNode.TextBlock.Paragraphs;
+            var context = _contextFactory.Create();
+            var conditionContext = new DialogueParagraphConditionContext(context);
+            CurrentTextFragments = GetTextBlockParagraphs(conditionContext);
             CurrentOptions = _currentNode.Options.ToArray();
         }
 
@@ -30,11 +31,14 @@ namespace Rpg.Client.Core.Dialogues
 
         public void SelectOption(DialogueOption option)
         {
+            var context = _contextFactory.Create();
+
             _currentNode = option.Next;
 
             if (_currentNode != DialogueNode.EndNode)
             {
-                CurrentTextFragments = _currentNode.TextBlock.Paragraphs;
+                var conditionContext = new DialogueParagraphConditionContext(context);
+                CurrentTextFragments = GetTextBlockParagraphs(conditionContext);
                 CurrentOptions = _currentNode.Options.ToArray();
             }
             else
@@ -43,8 +47,16 @@ namespace Rpg.Client.Core.Dialogues
                 CurrentOptions = ArraySegment<DialogueOption>.Empty;
             }
 
-            var context = _contextFactory.Create();
             option.Aftermath?.Apply(context);
+        }
+
+        private IReadOnlyList<DialogueParagraph> GetTextBlockParagraphs(
+            DialogueParagraphConditionContext dialogueParagraphConditionContext)
+        {
+            var paragraphs = _currentNode.TextBlock.Paragraphs
+                .Where(x => x.Conditions.All(c => c.Check(dialogueParagraphConditionContext))).ToArray();
+
+            return paragraphs;
         }
     }
 }

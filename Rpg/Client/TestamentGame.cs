@@ -4,11 +4,13 @@ using System.Diagnostics;
 using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.CombatMovements;
+using Client.Assets.Crises;
 using Client.Core;
 using Client.Core.Dialogues;
 using Client.Engine;
 
 using Core.Dices;
+using Core.PropDrop;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -40,6 +42,10 @@ public sealed class TestamentGame : Game
 
     public TestamentGame(ILogger<TestamentGame> logger, GameMode gameMode)
     {
+        //var newCulture = CultureInfo.GetCultureInfo("en-US");
+        //Thread.CurrentThread.CurrentCulture = newCulture;
+        //Thread.CurrentThread.CurrentUICulture = newCulture;
+
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
@@ -53,7 +59,7 @@ public sealed class TestamentGame : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.Black);
+        GraphicsDevice.Clear(new Color(36, 40, 41));
 
         Debug.Assert(_screenManager is not null);
         Debug.Assert(_spriteBatch is not null);
@@ -239,6 +245,10 @@ public sealed class TestamentGame : Game
 
         Services.AddService<IJobProgressResolver>(new JobProgressResolver());
 
+        var dropResolver = new DropResolver(new DropResolverRandomSource(Services.GetRequiredService<IDice>()),
+            new SchemeService(), new PropFactory());
+        Services.AddService<IDropResolver>(dropResolver);
+
         var dialogueResourceProvider = new DialogueResourceProvider(Content);
 
         var balanceTable = new BalanceTable();
@@ -288,7 +298,8 @@ public sealed class TestamentGame : Game
             Services.GetRequiredService<GlobeProvider>(),
             Services.GetRequiredService<IEventCatalog>(),
             Services.GetRequiredService<IDice>(),
-            Services.GetRequiredService<IJobProgressResolver>());
+            Services.GetRequiredService<IJobProgressResolver>(),
+            Services.GetRequiredService<IDropResolver>());
         Services.AddService<ICampaignGenerator>(campaignGenerator);
 
         Services.AddService(_graphics);
@@ -307,5 +318,8 @@ public sealed class TestamentGame : Game
 
         var movementVisualizer = new CombatMovementVisualizer();
         Services.AddService<ICombatMovementVisualizer>(movementVisualizer);
+
+        var crisesCatalog = new CrisesCatalog();
+        Services.AddService<ICrisesCatalog>(crisesCatalog);
     }
 }

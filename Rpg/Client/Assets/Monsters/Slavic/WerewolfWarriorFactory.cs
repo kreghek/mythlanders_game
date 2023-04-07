@@ -9,7 +9,7 @@ using Rpg.Client.GameScreens;
 namespace Rpg.Client.Assets.Monsters
 {
     [UsedImplicitly]
-    internal sealed class WerewolfWarriorFactory : IMonsterFactory
+    internal sealed class VolkolakWarriorFactory : IMonsterFactory
     {
         public UnitName ClassName => UnitName.VolkolakWarrior;
 

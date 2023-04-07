@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;

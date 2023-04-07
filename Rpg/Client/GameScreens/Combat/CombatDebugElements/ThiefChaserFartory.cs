@@ -1,31 +1,14 @@
-using Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
+using Client.Assets.CombatMovements.Monster.Slavic.Chaser;
 
 using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class ThiefChaserFactory
+public class ThiefChaserFactory : IMonsterCombatantFactory
 {
-    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex)
-    {
-        var monsterSequence = CreateCombatMoveVariation(variationIndex);
-
-        var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, 5);
-        stats.SetValue(UnitStatType.ShieldPoints, 5);
-        stats.SetValue(UnitStatType.Resolve, 7);
-
-        var monster = new Combatant("chaser", monsterSequence, stats, combatActorBehaviour)
-        {
-            Sid = sid, IsPlayerControlled = false
-        };
-
-        return monster;
-    }
-
     private static CombatMovementSequence CreateCombatMoveVariation(int variationIndex)
     {
-        var moveTemplate = new CombatMovement[,]
+        var moveTemplate = new[,]
         {
             { new ChainHitFactory().CreateMovement(), new ChasingFactory().CreateMovement() },
 
@@ -50,5 +33,22 @@ public class ThiefChaserFactory
         }
 
         return monsterSequence;
+    }
+
+    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex)
+    {
+        var monsterSequence = CreateCombatMoveVariation(variationIndex);
+
+        var stats = new CombatantStatsConfig();
+        stats.SetValue(UnitStatType.HitPoints, 6);
+        stats.SetValue(UnitStatType.ShieldPoints, 4);
+        stats.SetValue(UnitStatType.Resolve, 5);
+
+        var monster = new Combatant("chaser", monsterSequence, stats, combatActorBehaviour)
+        {
+            Sid = sid, IsPlayerControlled = false
+        };
+
+        return monster;
     }
 }

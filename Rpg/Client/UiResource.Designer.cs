@@ -313,6 +313,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Move to command center.
+        /// </summary>
+        internal static string CompleteCampaignButtonTitle {
+            get {
+                return ResourceManager.GetString("CompleteCampaignButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Complete the game.
         /// </summary>
         internal static string CompleteGameButtonTitle {
@@ -327,6 +336,15 @@ namespace Client {
         internal static string CreditsButtonTitle {
             get {
                 return ResourceManager.GetString("CreditsButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quests.
+        /// </summary>
+        internal static string CurrentQuestButtonTitle {
+            get {
+                return ResourceManager.GetString("CurrentQuestButtonTitle", resourceCulture);
             }
         }
         
@@ -624,6 +642,15 @@ namespace Client {
         internal static string InfoButtonTitle {
             get {
                 return ResourceManager.GetString("InfoButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory.
+        /// </summary>
+        internal static string InventoryButtonTitle {
+            get {
+                return ResourceManager.GetString("InventoryButtonTitle", resourceCulture);
             }
         }
         

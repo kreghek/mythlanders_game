@@ -23,6 +23,7 @@ namespace Rpg.Client.Engine
         private const int FRAME_WIDTH = 256;
         private const int FRAME_HEIGHT = 128;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
+        private readonly UnitGraphicsConfigBase _graphicsConfig;
 
         private readonly IDictionary<PredefinedAnimationSid, IAnimationFrameSet> _predefinedAnimationFrameSets;
         private readonly Sprite _selectedMarker;
@@ -37,6 +38,7 @@ namespace Rpg.Client.Engine
         public UnitGraphicsBase(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig, bool isNormalOrientation,
             Vector2 position, GameObjectContentStorage gameObjectContentStorage)
         {
+            _graphicsConfig = graphicsConfig;
             _position = position;
             _gameObjectContentStorage = gameObjectContentStorage;
 
@@ -119,7 +121,8 @@ namespace Rpg.Client.Engine
             var shadow = new Sprite(_gameObjectContentStorage.GetUnitShadow())
             {
                 Origin = new Vector2(0.5f, 0.5f),
-                Color = Color.Lerp(Color.Black, Color.Transparent, 0.5f)
+                Color = Color.Lerp(Color.Black, Color.Transparent, 0.5f),
+                Position = _graphicsConfig.ShadowOrigin
             };
             Root.AddChild(shadow);
 

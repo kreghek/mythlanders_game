@@ -181,7 +181,7 @@ internal sealed class TitleScreen : GameScreenBase
             ResolutionIndependentRenderer.VirtualWidth, ResolutionIndependentRenderer.VirtualHeight / 2);
         DrawMenu(spriteBatch, menuRect);
 
-        if (_gameSettings.Mode == GameMode.Demo)
+        if (_gameSettings.Mode.HasFlag(GameMode.Demo) && !_gameSettings.Mode.HasFlag(GameMode.Recording))
         {
             spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), "Demo",
                 new Vector2(
@@ -190,9 +190,12 @@ internal sealed class TitleScreen : GameScreenBase
                 Color.White);
         }
 
-        var socialPosition = new Vector2(ResolutionIndependentRenderer.VirtualBounds.Right - 75,
-            ResolutionIndependentRenderer.VirtualBounds.Bottom - 150);
-        spriteBatch.Draw(_uiContentStorage.GetSocialTexture(), socialPosition, Color.White);
+        if (!_gameSettings.Mode.HasFlag(GameMode.Recording))
+        {
+            var socialPosition = new Vector2(ResolutionIndependentRenderer.VirtualBounds.Right - 75,
+                ResolutionIndependentRenderer.VirtualBounds.Bottom - 150);
+            spriteBatch.Draw(_uiContentStorage.GetSocialTexture(), socialPosition, Color.White);
+        }
 
         spriteBatch.End();
     }

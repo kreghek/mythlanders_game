@@ -2,8 +2,10 @@
 
 using Client;
 using Client.GameScreens.Campaign;
+using Client.GameScreens.CampaignReward;
 using Client.GameScreens.Combat;
 using Client.GameScreens.CommandCenter;
+using Client.GameScreens.Crisis;
 using Client.GameScreens.NotImplementedStage;
 using Client.GameScreens.Rest;
 using Client.GameScreens.SlidingPuzzles;
@@ -15,7 +17,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.GameScreens.Bestiary;
-using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Credits;
 using Rpg.Client.GameScreens.EndGame;
 using Rpg.Client.GameScreens.Hero;
@@ -123,10 +124,14 @@ namespace Rpg.Client.ScreenManagement
                     (CombatScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Rest => new RestScreen(_game,
                     (RestScreenTransitionArguments)screenTransitionArguments),
+                ScreenTransition.Crisis => new CrisisScreen(_game,
+                    (CrisisScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Training => new TrainingScreen(_game,
                     (TrainingScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.SlidingPuzzles => new SlidingPuzzlesScreen(_game,
                     (SlidingPuzzlesScreenTransitionArguments)screenTransitionArguments),
+                ScreenTransition.CampaignReward => new CampaignRewardScreen(_game,
+                    (CampaignRewardScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Bestiary => new BestiaryScreen(_game),
                 ScreenTransition.Credits => new CreditsScreen(_game),
                 ScreenTransition.EndGame => new EndGameScreen(_game),

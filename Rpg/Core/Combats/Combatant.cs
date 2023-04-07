@@ -35,13 +35,17 @@ public sealed class Combatant
 
     public bool IsPlayerControlled { get; init; }
 
+    public IReadOnlyList<CombatMovementInstance> Pool => _pool.ToArray();
+
     public string? Sid { get; init; }
     public IReadOnlyCollection<IUnitStat> Stats { get; }
 
-    public void AddEffect(ICombatantEffect effect)
+    public void AddEffect(ICombatantEffect effect, ICombatantEffectLifetimeImposeContext context)
     {
         effect.Impose(this);
         _effects.Add(effect);
+
+        effect.Lifetime.EffectImposed(effect, context);
     }
 
     public void AssignMoveToHand(int handIndex, CombatMovementInstance movement)
@@ -71,18 +75,13 @@ public sealed class Combatant
         }
     }
 
-    public void RemoveEffect(ICombatantEffect effect)
-    {
-        effect.Dispel(this);
-        _effects.Remove(effect);
-    }
-
     public void SetDead()
     {
         IsDead = true;
     }
 
-    public void UpdateEffects(CombatantEffectUpdateType updateType)
+    public void UpdateEffects(CombatantEffectUpdateType updateType,
+        ICombatantEffectLifetimeDispelContext effectLifetimeDispelContext)
     {
         var context = new CombatantEffectLifetimeUpdateContext(this);
 
@@ -97,7 +96,7 @@ public sealed class Combatant
         foreach (var effect in effectToDispel)
         {
             effect.Dispel(this);
-            RemoveEffect(effect);
+            RemoveEffect(effect, effectLifetimeDispelContext);
         }
     }
 
@@ -111,5 +110,13 @@ public sealed class Combatant
             }
 
         return null;
+    }
+
+    private void RemoveEffect(ICombatantEffect effect, ICombatantEffectLifetimeDispelContext context)
+    {
+        effect.Dispel(this);
+        _effects.Remove(effect);
+
+        effect.Lifetime.EffectDispelled(effect, context);
     }
 }

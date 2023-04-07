@@ -126,4 +126,10 @@
   <data name="StartNewGameButtonTitle" xml:space="preserve">
     <value>新游戏</value>
   </data>
+  <data name="CompleteCampaignButtonTitle" xml:space="preserve">
+    <value>В командный центр</value>
+  </data>
+  <data name="CurrentQuestButtonTitle" xml:space="preserve">
+    <value>Задачи</value>
+  </data>
 </root>

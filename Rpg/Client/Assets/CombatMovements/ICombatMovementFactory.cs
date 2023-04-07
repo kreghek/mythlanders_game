@@ -1,8 +1,7 @@
 ﻿using Client.Engine;
+using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
-
-using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Client.Assets.CombatMovements;
 

@@ -1,8 +1,8 @@
-﻿using Client.Core.Campaigns;
+﻿using Client.Core;
+using Client.Core.Campaigns;
 using Client.GameScreens.Combat;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Campaigns;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.Assets.StageItems;

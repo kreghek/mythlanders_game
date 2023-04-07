@@ -1,11 +1,19 @@
 ﻿using System.Collections.Generic;
 
+using Microsoft.Xna.Framework;
+
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.GraphicConfigs.Heroes
 {
     internal sealed class MaosinGraphicsConfig : UnitGraphicsConfigBase
     {
+        public MaosinGraphicsConfig()
+        {
+            InteractionPoint = new Vector2(0, 64);
+            StatsPanelOrigin = new Vector2(0, 64 + 16);
+        }
+
         public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
         {
             return new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>

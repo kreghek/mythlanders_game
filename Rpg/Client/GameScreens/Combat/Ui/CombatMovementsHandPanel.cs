@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 
 using Client.Assets.CombatMovements;
 using Client.Engine;
@@ -15,6 +16,33 @@ using Rpg.Client.GameScreens;
 
 namespace Client.GameScreens.Combat.Ui;
 
+internal sealed class WaitIconButton : ButtonBase
+{
+    private readonly Texture2D _icon;
+    private readonly Rectangle? _iconRect;
+
+    public WaitIconButton(Texture2D icon)
+    {
+        _icon = icon;
+    }
+
+    public WaitIconButton(IconData iconData)
+    {
+        _icon = iconData.Spritesheet;
+        _iconRect = iconData.SourceRect;
+    }
+
+    protected override Point CalcTextureOffset()
+    {
+        return ControlTextures.Button2;
+    }
+
+    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
+    {
+        spriteBatch.Draw(_icon, contentRect, _iconRect, color);
+    }
+}
+
 internal class CombatMovementsHandPanel : ControlBase
 {
     private const int ICON_SIZE = 64;
@@ -22,10 +50,13 @@ internal class CombatMovementsHandPanel : ControlBase
     private const int BUTTON_MARGIN = 5;
     private const int SKILL_BUTTON_SIZE = ICON_SIZE + BUTTON_PADDING;
     private const int SKILL_SELECTION_OFFSET = SKILL_BUTTON_SIZE / 8;
+    private const int SPECIAL_BUTTONS_ICON_WIDTH = 16;
+    private const int SPECIAL_BUTTONS_ICON_HEIGHT = 32;
 
     private readonly CombatMovementButton?[] _buttons;
     private readonly ICombatMovementVisualizer _combatMovementVisualizer;
     private readonly IUiContentStorage _uiContentStorage;
+    private readonly WaitIconButton _waitButton;
 
     private CombatMovementHint? _activeCombatMovementHint;
     private BurningCombatMovement? _burningCombatMovement;
@@ -34,7 +65,9 @@ internal class CombatMovementsHandPanel : ControlBase
     private EntityButtonBase<CombatMovementInstance>? _hoverButton;
     private KeyboardState? _lastKeyboardState;
 
-    public CombatMovementsHandPanel(IUiContentStorage uiContentStorage,
+    public CombatMovementsHandPanel(
+        Game game,
+        IUiContentStorage uiContentStorage,
         ICombatMovementVisualizer combatMovementVisualizer)
     {
         _buttons = new CombatMovementButton[3];
@@ -42,6 +75,15 @@ internal class CombatMovementsHandPanel : ControlBase
         _uiContentStorage = uiContentStorage;
         _combatMovementVisualizer = combatMovementVisualizer;
         IsEnabled = true;
+
+        _waitButton =
+            new WaitIconButton(new IconData(game.Content.Load<Texture2D>("Sprites/Ui/SmallVerticalButtonIcons_White"),
+                new Rectangle(
+                    SPECIAL_BUTTONS_ICON_WIDTH * 2,
+                    SPECIAL_BUTTONS_ICON_HEIGHT,
+                    SPECIAL_BUTTONS_ICON_WIDTH,
+                    SPECIAL_BUTTONS_ICON_HEIGHT)));
+        _waitButton.OnClick += WaitButton_OnClick;
     }
 
     public Combatant? Combatant
@@ -129,6 +171,14 @@ internal class CombatMovementsHandPanel : ControlBase
             }
         }
 
+        _waitButton.Rect = new Rectangle(
+            buttonsRect.Right,
+            buttonsRect.Top,
+            SPECIAL_BUTTONS_ICON_WIDTH + CONTENT_MARGIN * 2,
+            SPECIAL_BUTTONS_ICON_HEIGHT + CONTENT_MARGIN * 2);
+
+        _waitButton.Draw(spriteBatch);
+
         if (_hoverButton is not null && _activeCombatMovementHint is not null)
         {
             DrawHoverInfo(_hoverButton, _activeCombatMovementHint, spriteBatch);
@@ -173,6 +223,9 @@ internal class CombatMovementsHandPanel : ControlBase
                     button.Update(resolutionIndependentRenderer);
 
                     DetectMouseHoverOnButton(mouseRect, button);
+
+                    button.IsEnabled = Combatant is not null && IsResolveEnought(button.Entity,
+                        Combatant.Stats.Single(x => x.Type == UnitStatType.Resolve));
                 }
             }
 
@@ -199,6 +252,8 @@ internal class CombatMovementsHandPanel : ControlBase
                 _burningCombatMovement = null;
             }
         }
+
+        _waitButton.Update(resolutionIndependentRenderer);
     }
 
     private void CombatMovementButton_OnClick(object? sender, EventArgs e)
@@ -295,6 +350,11 @@ internal class CombatMovementsHandPanel : ControlBase
         return _lastKeyboardState.Value.IsKeyDown(key) && _currentKeyboardState.IsKeyUp(key);
     }
 
+    private static bool IsResolveEnought(CombatMovementInstance combatMovement, IUnitStat currentCombatantResolveStat)
+    {
+        return combatMovement.Cost.Amount.Current <= currentCombatantResolveStat.Value.Current;
+    }
+
     private void KeyboardInputUpdate()
     {
         _currentKeyboardState = Keyboard.GetState();
@@ -373,7 +433,13 @@ internal class CombatMovementsHandPanel : ControlBase
         }
     }
 
+    private void WaitButton_OnClick(object? sender, EventArgs e)
+    {
+        WaitPicked?.Invoke(this, EventArgs.Empty);
+    }
+
     public event EventHandler<CombatMovementPickedEventArgs>? CombatMovementPicked;
+    public event EventHandler? WaitPicked;
 
     public event EventHandler<CombatMovementPickedEventArgs>? CombatMovementHover;
     public event EventHandler<CombatMovementPickedEventArgs>? CombatMovementLeave;

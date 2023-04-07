@@ -16,6 +16,8 @@ internal sealed class FieldManeuverIndicatorPanel : ControlBase
         _context = context;
     }
 
+    public bool IsHidden => _context.ManeuversAvailable.GetValueOrDefault() <= 0;
+
     protected override Point CalcTextureOffset()
     {
         return ControlTextures.PanelBlack;
