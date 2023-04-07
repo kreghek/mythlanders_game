@@ -91,10 +91,10 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
             //// Combat
 
-            //new ICampaignStageTemplateFactory[]
-            //{
-            //    new CombatCampaignStageTemplateFactory(locationSid, 0)
-            //},
+            new ICampaignStageTemplateFactory[]
+            {
+                new CombatCampaignStageTemplateFactory(locationSid, 0)
+            },
 
             // Rest
 
