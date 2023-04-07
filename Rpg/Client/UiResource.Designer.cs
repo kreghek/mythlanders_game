@@ -988,6 +988,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Skip.
+        /// </summary>
+        internal static string SkipButtonTitle {
+            get {
+                return ResourceManager.GetString("SkipButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do not show anymore.
         /// </summary>
         internal static string SkipTutorialButtonTitle {

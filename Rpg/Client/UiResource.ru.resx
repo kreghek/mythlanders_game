@@ -441,6 +441,9 @@
   <data name="SkillManaCostTemplate" xml:space="preserve">
     <value>Требуется {0} пси-энергии</value>
   </data>
+  <data name="SkipButtonTitle" xml:space="preserve">
+    <value>Пропустить</value>
+  </data>
   <data name="SkipTutorialButtonTitle" xml:space="preserve">
     <value>Пропустить обучение</value>
   </data>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Client.Core.Campaigns;
+using Client.Engine;
 using Client.GameScreens.Campaign;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +18,7 @@ internal class NotImplementedStageScreen : GameScreenWithMenuBase
 {
     private readonly HeroCampaign _campaign;
     private readonly IUiContentStorage _uiContentStorage;
-    private readonly TextButton _skipButton;
+    private readonly ButtonBase _skipButton;
 
     public NotImplementedStageScreen(TestamentGame game, NotImplementedStageScreenTransitionArguments args) : base(game)
     {
@@ -25,13 +26,13 @@ internal class NotImplementedStageScreen : GameScreenWithMenuBase
 
         _uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();
 
-        _skipButton = new TextButton("Пропустить");
+        _skipButton = new ResourceTextButton(nameof(UiResource.SkipButtonTitle));
         _skipButton.OnClick += CloseButton_OnClick;
     }
 
     protected override IList<ButtonBase> CreateMenu()
     {
-        var closeButton = new TextButton("Пропустить");
+        var closeButton = new ResourceTextButton(nameof(UiResource.SkipButtonTitle));
         closeButton.OnClick += CloseButton_OnClick;
 
         return new[]
