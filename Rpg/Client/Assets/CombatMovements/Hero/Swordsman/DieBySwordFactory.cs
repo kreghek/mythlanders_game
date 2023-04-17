@@ -1,18 +1,19 @@
-﻿using Client.Assets.States.Primitives;
-using Client.Core.AnimationFrameSets;
+﻿using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.States.Primitives;
+using Client.Core.AnimationFrameSets;
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
+
 using Core.Combats;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
-using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
+using Microsoft.Xna.Framework;
 
 using Rpg.Client.GameScreens.Combat.GameObjects;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
 

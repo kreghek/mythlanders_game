@@ -38,7 +38,7 @@ internal sealed class CampaignPanel : ControlBase
     protected override Point CalcTextureOffset() => ControlTextures.PanelBlack;
 
     protected override Color CalculateColor() => Color.White;
-    
+
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {

@@ -21,8 +21,8 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     private readonly int _templateIndex;
 
     private readonly MonsterCombatantPrefab[][] _monsterCombatantPrefabs = new MonsterCombatantPrefab[][] {
-        
-        new MonsterCombatantPrefab[]{ 
+
+        new MonsterCombatantPrefab[]{
             new MonsterCombatantPrefab("aspid", 0, new FieldCoords(0, 1)),
             //new MonsterCombatantPrefab("chaser", 0, new FieldCoords(0, 1))
             //new MonsterCombatantPrefab("volkolakwarrior", 0, new FieldCoords(1, 2)),
