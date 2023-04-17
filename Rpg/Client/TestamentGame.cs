@@ -44,9 +44,9 @@ public sealed class TestamentGame : Game
 
     public TestamentGame(ILogger<TestamentGame> logger, GameMode gameMode)
     {
-        var newCulture = CultureInfo.GetCultureInfo("en-US");
-        Thread.CurrentThread.CurrentCulture = newCulture;
-        Thread.CurrentThread.CurrentUICulture = newCulture;
+        //var newCulture = CultureInfo.GetCultureInfo("en-US");
+        //Thread.CurrentThread.CurrentCulture = newCulture;
+        //Thread.CurrentThread.CurrentUICulture = newCulture;
 
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
