@@ -58,7 +58,7 @@ internal sealed class CampaignPanel : ControlBase
         }
 
         if (_currentHint is not null)
-        { 
+        {
             _currentHint.Draw(spriteBatch);
         }
     }

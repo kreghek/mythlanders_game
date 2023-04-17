@@ -48,7 +48,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
             };
         }
         else
-        { 
+        {
             return Array.Empty<ButtonBase>();
         }
     }
