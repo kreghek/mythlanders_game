@@ -1,8 +1,7 @@
 using System.Linq;
 
+using Client.Core;
 using Client.Core.Dialogues;
-
-using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.DialogueEventRequirements
 {
