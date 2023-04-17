@@ -1,14 +1,15 @@
 ﻿using System;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
-using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States
 {
-    internal sealed class HealState : IUnitStateEngine
+    internal sealed class HealState : IActorVisualizationState
     {
         private const double DURATION = 1;
         private readonly PredefinedAnimationSid _animationSid;

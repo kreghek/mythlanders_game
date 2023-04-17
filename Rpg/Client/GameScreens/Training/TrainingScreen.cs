@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+
+using Client.Core;
+using Client.Core.Campaigns;
+using Client.Core.Heroes;
+using Client.GameScreens.Campaign;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client;
 using Rpg.Client.Core;
-using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Training
 {
     internal sealed class TrainingScreen : GameScreenWithMenuBase
     {
-        private readonly IReadOnlyList<Unit> _availableUnits;
+        private readonly IReadOnlyList<Hero> _availableUnits;
         private readonly HeroCampaign _campaign;
         private readonly Player _player;
         private readonly IList<ButtonBase> _usedButtons;
-        private IReadOnlyList<(ButtonBase, Unit)> _trainingButtons;
+        private IReadOnlyList<(ButtonBase, Hero)> _trainingButtons;
 
-        public TrainingScreen(EwarGame game, TrainingScreenTransitionArguments args) : base(game)
+        public TrainingScreen(TestamentGame game, TrainingScreenTransitionArguments args) : base(game)
         {
             var globeProvider = game.Services.GetService<GlobeProvider>();
 
@@ -74,30 +75,30 @@ namespace Client.GameScreens.Training
 
         protected override void InitializeContent()
         {
-            var buttonList = new List<(ButtonBase, Unit)>();
+            var buttonList = new List<(ButtonBase, Hero)>();
 
             foreach (var character in _availableUnits)
             {
                 var trainingButton = new TextButton(character.UnitScheme.Name.ToString());
                 buttonList.Add((trainingButton, character));
 
-                var xpAmount = _player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount;
-                if (xpAmount < character.LevelUpXpAmount)
-                {
-                    trainingButton.IsEnabled = false;
-                }
-                else
-                {
-                    trainingButton.OnClick += (s, e) =>
-                    {
-                        _player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount -=
-                            character.LevelUpXpAmount;
-                        character.LevelUp();
-
-                        MarkButtonAsUsed(trainingButton);
-                        RefreshButtons();
-                    };
-                }
+                // var xpAmount = _player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount;
+                // if (xpAmount < character.LevelUpXpAmount)
+                // {
+                //     trainingButton.IsEnabled = false;
+                // }
+                // else
+                // {
+                //     trainingButton.OnClick += (s, e) =>
+                //     {
+                //         _player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount -=
+                //             character.LevelUpXpAmount;
+                //         character.LevelUp();
+                //
+                //         MarkButtonAsUsed(trainingButton);
+                //         RefreshButtons();
+                //     };
+                // }
             }
 
             _trainingButtons = buttonList;
@@ -107,10 +108,8 @@ namespace Client.GameScreens.Training
         {
             _campaign.CompleteCurrentStage();
 
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments
-            {
-                Campaign = _campaign
-            });
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                new CampaignScreenTransitionArguments(_campaign));
         }
 
         private void MarkButtonAsUsed(TextButton trainingButton)
@@ -123,11 +122,11 @@ namespace Client.GameScreens.Training
         {
             foreach (var button in _trainingButtons)
             {
-                var xpAmount = _player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount;
-                if (xpAmount < button.Item2.LevelUpXpAmount)
-                {
-                    button.Item1.IsEnabled = false;
-                }
+                // var xpAmount = _player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount;
+                // if (xpAmount < button.Item2.LevelUpXpAmount)
+                // {
+                //     button.Item1.IsEnabled = false;
+                // }
             }
         }
     }

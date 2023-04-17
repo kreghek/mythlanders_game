@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+
+using Client.Core;
+using Client.Core.Dialogues;
+using Client.Core.Heroes;
 
 namespace Rpg.Client.Core.Dialogues
 {
@@ -9,14 +14,21 @@ namespace Rpg.Client.Core.Dialogues
         private readonly Player _player;
         private readonly IStoryPointCatalog _storyPointCatalog;
 
-        public EventContext(Globe globe, IStoryPointCatalog storyPointCatalog, Player player)
+        public EventContext(Globe globe, IStoryPointCatalog storyPointCatalog, Player player,
+            DialogueEvent currentDialogueEvent)
         {
             _globe = globe;
             _storyPointCatalog = storyPointCatalog;
             _player = player;
+
+            CurrentDialogueEvent = currentDialogueEvent;
+
+            CurrentHeroes = player.Heroes.Select(x => x.ClassSid).ToArray();
         }
 
-        public void AddNewCharacter(Unit unit)
+        public DialogueEvent CurrentDialogueEvent { get; }
+
+        public void AddNewCharacter(Hero unit)
         {
             var freeSlots = _globe.Player.Party.GetFreeSlots()
                 .Where(
@@ -49,9 +61,12 @@ namespace Rpg.Client.Core.Dialogues
             throw new NotImplementedException();
         }
 
-        public void UnlockLocation(GlobeNodeSid locationSid)
+        public void UnlockLocation(LocationSid locationSid)
         {
             //_globe.Biomes.SelectMany(x => x.Nodes).Single(x => x.Sid == locationSid).IsAvailable = true;
         }
+
+        /// <inheritdoc />
+        public IReadOnlyCollection<string> CurrentHeroes { get; }
     }
 }

@@ -123,6 +123,9 @@
   <data name="AutocombatButtonTitle" xml:space="preserve">
     <value>Auto-combat</value>
   </data>
+  <data name="AvailableManeuversIndicatorTemplate" xml:space="preserve">
+    <value>Maneuvers available</value>
+  </data>
   <data name="BackButtonTitle" xml:space="preserve">
     <value>Back</value>
   </data>
@@ -135,6 +138,40 @@
   </data>
   <data name="BiomeLevelText" xml:space="preserve">
     <value>Lvl</value>
+  </data>
+  <data name="CampaignSelectButtonTitle" xml:space="preserve">
+    <value>START</value>
+  </data>
+  <data name="CampaignsJobCompletePatternSid" xml:space="preserve">
+    <value>{0} - done</value>
+    <comment>Jobs</comment>
+  </data>
+  <data name="CampaignsJobProgressPatternSid" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+    <comment>Jobs</comment>
+  </data>
+  <data name="CampaignsJobTitleSid" xml:space="preserve">
+    <value>Complete any campaigns</value>
+    <comment>Jobs</comment>
+  </data>
+  <data name="CampaignStageDisplayNameCombat" xml:space="preserve">
+    <value>Combat {0}</value>
+  </data>
+  <data name="CampaignStageDisplayNameFinish" xml:space="preserve">
+    <value>Finish campaign</value>
+  </data>
+  <data name="CampaignStageDisplayNameRest" xml:space="preserve">
+    <value>Rest</value>
+  </data>
+  <data name="CampaignStageDisplayNameTextEvent" xml:space="preserve">
+    <value>Some event</value>
+  </data>
+  <data name="CampaignStageDisplayNameUnknown" xml:space="preserve">
+    <value>???</value>
+  </data>
+  <data name="CampaignStageTitle" xml:space="preserve">
+    <value>Stage {0}</value>
+    <comment>0 - это номер</comment>
   </data>
   <data name="CloseButtonTitle" xml:space="preserve">
     <value>Close</value>
@@ -178,11 +215,17 @@
   <data name="CombatTutorialText" xml:space="preserve">
     <value />
   </data>
+  <data name="CompleteCampaignButtonTitle" xml:space="preserve">
+    <value>Move to command center</value>
+  </data>
   <data name="CompleteGameButtonTitle" xml:space="preserve">
     <value>Complete the game</value>
   </data>
   <data name="CreditsButtonTitle" xml:space="preserve">
     <value>Credits</value>
+  </data>
+  <data name="CurrentQuestButtonTitle" xml:space="preserve">
+    <value>Quests</value>
   </data>
   <data name="DamageEffectRuleText" xml:space="preserve">
     <value>Damage: {0} - {1} to {2}</value>
@@ -201,6 +244,18 @@
   </data>
   <data name="DecreseDamagePercentEffectRuleText" xml:space="preserve">
     <value>Decrease damage on {0}% of {2} on {1} turns</value>
+  </data>
+  <data name="DefeatsJobCompletePatternSid" xml:space="preserve">
+    <value>{0} - done</value>
+    <comment>Jobs</comment>
+  </data>
+  <data name="DefeatsJobProgressPatternSid" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+    <comment>Jobs</comment>
+  </data>
+  <data name="DefeatsJobTitleSid" xml:space="preserve">
+    <value>Defeats</value>
+    <comment>Jobs</comment>
   </data>
   <data name="DialogueContinueText" xml:space="preserve">
     <value>Press [SPACE] to continue</value>
@@ -226,6 +281,12 @@
   </data>
   <data name="ExitGameButtonTitle" xml:space="preserve">
     <value>Exit game</value>
+  </data>
+  <data name="FieldManeuversVisualizer_Draw_Avanguard" xml:space="preserve">
+    <value>Avangard</value>
+  </data>
+  <data name="FieldManeuversVisualizer_Draw_Rearguard" xml:space="preserve">
+    <value>Rearguard</value>
   </data>
   <data name="FormationButtonTitle" xml:space="preserve">
     <value>Formation</value>
@@ -278,6 +339,9 @@
   <data name="InfoButtonTitle" xml:space="preserve">
     <value>Info</value>
   </data>
+  <data name="InventoryButtonTitle" xml:space="preserve">
+    <value>Inventory</value>
+  </data>
   <data name="LevelUpButtonTitle" xml:space="preserve">
     <value>Level Up</value>
   </data>
@@ -298,6 +362,9 @@
   </data>
   <data name="MediumCombatSequenceText" xml:space="preserve">
     <value>Medium</value>
+  </data>
+  <data name="MiniGame_Victory" xml:space="preserve">
+    <value>Победа!</value>
   </data>
   <data name="MonsterDangerTemplate" xml:space="preserve">
     <value>Danger of the monsters: {0}</value>
@@ -324,6 +391,21 @@
     <value>Reduce incoming damage on {0}% of {2} on {1} turns</value>
     <comment>decreaseDamageEffect.Multiplier * 100 decreaseDamageEffect.Duration,
       decreaseDamageEffect.Target</comment>
+  </data>
+  <data name="RestActionChat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="RestActionImprovedRest" xml:space="preserve">
+    <value>Improved rest</value>
+  </data>
+  <data name="RestActionScouting" xml:space="preserve">
+    <value>Scouting</value>
+  </data>
+  <data name="RestartButtonTitle" xml:space="preserve">
+    <value>Рестарт</value>
+  </data>
+  <data name="RestScreen_Title" xml:space="preserve">
+    <value>Rest</value>
   </data>
   <data name="SettingsButtonTitle" xml:space="preserve">
     <value>Settings</value>
@@ -375,8 +457,17 @@
   <data name="SkillManaCostTemplate" xml:space="preserve">
     <value>Required {0} psy-energy</value>
   </data>
+  <data name="SkipButtonTitle" xml:space="preserve">
+    <value>Skip</value>
+  </data>
   <data name="SkipTutorialButtonTitle" xml:space="preserve">
     <value>Do not show anymore</value>
+  </data>
+  <data name="SlidingPuzzles_TimeCounterTemplate" xml:space="preserve">
+    <value>Timer: {0}</value>
+  </data>
+  <data name="SlidingPuzzles_TurnsCounterTemplate" xml:space="preserve">
+    <value>Turns: {0}</value>
   </data>
   <data name="StartNewGameButtonTitle" xml:space="preserve">
     <value>New game</value>
@@ -403,19 +494,10 @@
   <data name="ToTheCombatButtonTitle" xml:space="preserve">
     <value>To The Combat!</value>
   </data>
+  <data name="UnderConstructionModalContent" xml:space="preserve">
+    <value>Under construction</value>
+  </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp Reward</value>
-  </data>
-  <data name="SlidingPuzzles_TurnsCounterTemplate" xml:space="preserve">
-    <value>Turns: {0}</value>
-  </data>
-  <data name="SlidingPuzzles_TimeCounterTemplate" xml:space="preserve">
-    <value>Timer: {0}</value>
-  </data>
-  <data name="MiniGame_Victory" xml:space="preserve">
-    <value>Победа!</value>
-  </data>
-  <data name="RestartButtonTitle" xml:space="preserve">
-    <value>Рестарт</value>
   </data>
 </root>

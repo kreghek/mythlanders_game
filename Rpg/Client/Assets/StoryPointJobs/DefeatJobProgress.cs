@@ -3,35 +3,34 @@ using System.Collections.Generic;
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.StoryPointJobs
+namespace Client.Assets.StoryPointJobs;
+
+internal sealed class DefeatJobProgress : IJobProgress
 {
-    internal sealed class DefeatJobProgress : IJobProgress
+    private static void ProcessJob(IJob job, ICollection<IJob> modifiedJobs)
     {
-        private static void ProcessJob(IJob job, ICollection<IJob> modifiedJobs)
+        job.Progress++;
+        modifiedJobs.Add(job);
+    }
+
+    public IEnumerable<IJob> ApplyToJobs(IEnumerable<IJob> currentJobs)
+    {
+        if (currentJobs is null)
         {
-            job.Progress++;
-            modifiedJobs.Add(job);
+            throw new ArgumentNullException(nameof(currentJobs));
         }
 
-        public IEnumerable<IJob> ApplyToJobs(IEnumerable<IJob> currentJobs)
+        var modifiedJobs = new List<IJob>();
+        foreach (var job in currentJobs)
         {
-            if (currentJobs is null)
+            if (job.Scheme.Type != JobTypeCatalog.Defeats)
             {
-                throw new ArgumentNullException(nameof(currentJobs));
+                continue;
             }
 
-            var modifiedJobs = new List<IJob>();
-            foreach (var job in currentJobs)
-            {
-                if (job.Scheme.Type != JobTypeCatalog.Defeats)
-                {
-                    continue;
-                }
-
-                ProcessJob(job, modifiedJobs);
-            }
-
-            return modifiedJobs.ToArray();
+            ProcessJob(job, modifiedJobs);
         }
+
+        return modifiedJobs.ToArray();
     }
 }

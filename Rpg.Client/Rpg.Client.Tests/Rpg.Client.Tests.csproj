@@ -20,9 +20,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Include="Assets\Catalogs\DialogueTestResource\TextSequence.json" />
-      <None Remove="Assets\Catalogs\DialogueTestResource\SingleTextWithSingleOption.json" />
-      <EmbeddedResource Include="Assets\Catalogs\DialogueTestResource\SingleTextWithSingleOption.json" />
+      <EmbeddedResource Include="Assets\Catalogs\DialogueTestResource\Simplest.yaml" />
+      <None Remove="Assets\Catalogs\DialogueTestResource\Simplest.yaml" />
+      <None Remove="Assets\Catalogs\DialogueTestResource\TextSequence.yaml" />
+      <EmbeddedResource Include="Assets\Catalogs\DialogueTestResource\TextSequence.yaml" />
     </ItemGroup>
 
     <ItemGroup>

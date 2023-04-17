@@ -1,4 +1,6 @@
-﻿namespace Core.PropDrop
+﻿using Core.Combats;
+
+namespace Core.PropDrop
 {
     /// <summary>
     /// Запись в таблице дропа.
@@ -6,25 +8,17 @@
     public interface IDropTableRecordSubScheme
     {
         /// <summary>
+        /// Possible resource count.
+        /// </summary>
+        /// <remarks>
+        /// Используется только ресурсами.
+        /// </remarks>
+        Range<int> Count { get; }
+
+        /// <summary>
         /// Дополнительный дроп к текущему.
         /// </summary>
         IDropTableScheme[]? Extra { get; }
-
-        /// <summary>
-        /// Максимальное количество ресурсов.
-        /// </summary>
-        /// <remarks>
-        /// Используется только ресурсами.
-        /// </remarks>
-        int MaxCount { get; }
-
-        /// <summary>
-        /// Минимальное количество ресурсов.
-        /// </summary>
-        /// <remarks>
-        /// Используется только ресурсами.
-        /// </remarks>
-        int MinCount { get; }
 
         /// <summary>
         /// Идентификатор схемы предмета.
@@ -42,4 +36,7 @@
         /// </remarks>
         int Weight { get; }
     }
+
+    public sealed record DropTableRecordSubScheme(IDropTableScheme[]? Extra, Range<int> Count,
+        string? SchemeSid, int Weight) : IDropTableRecordSubScheme;
 }

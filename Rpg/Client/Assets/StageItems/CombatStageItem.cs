@@ -1,31 +1,26 @@
-﻿using Rpg.Client.Core;
-using Rpg.Client.Core.Campaigns;
-using Rpg.Client.GameScreens.Combat;
+﻿using Client.Core;
+using Client.Core.Campaigns;
+using Client.GameScreens.Combat;
+
+using Rpg.Client.Core;
 using Rpg.Client.ScreenManagement;
 
-namespace Rpg.Client.Assets.StageItems
+namespace Client.Assets.StageItems;
+
+internal sealed class CombatStageItem : ICampaignStageItem
 {
-    internal sealed class CombatStageItem : ICampaignStageItem
+    private readonly CombatSequence _combatSequence;
+    private readonly GlobeNode _location;
+
+    public CombatStageItem(GlobeNode location, CombatSequence combatSequence)
     {
-        private readonly ICampaignGenerator _campaignGenerator;
-        private readonly CombatSequence _combatSequence;
-        private readonly GlobeNode _location;
+        _location = location;
+        _combatSequence = combatSequence;
+    }
 
-        public CombatStageItem(GlobeNode location, CombatSequence combatSequence, ICampaignGenerator campaignGenerator)
-        {
-            _location = location;
-            _combatSequence = combatSequence;
-            _campaignGenerator = campaignGenerator;
-        }
-
-        public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
-        {
-            screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat, new CombatScreenTransitionArguments
-            {
-                CombatSequence = _combatSequence,
-                Location = _location,
-                CurrentCampaign = currentCampaign
-            });
-        }
+    public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
+    {
+        screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat,
+            new CombatScreenTransitionArguments(currentCampaign, _combatSequence, 0, false, _location, null));
     }
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client;
+using Client.Engine;
+
+using Core.Dices;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -115,7 +118,7 @@ namespace Rpg.Client.GameScreens.Title
                 {
                     _globeProvider.LoadGlobe(saveInfo.FileName);
 
-                    _screenManager.ExecuteTransition(_screen, ScreenTransition.Map, null);
+                    //_screenManager.ExecuteTransition(_screen, ScreenTransition.Map, null);
                 };
 
                 _continueGameButtons.Add(continueGameButton);

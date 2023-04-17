@@ -1,6 +1,6 @@
 ﻿namespace Rpg.Client.Core
 {
-    internal enum UnitName
+    public enum UnitName
     {
         Undefined,
 
@@ -9,12 +9,12 @@
         /// </summary>
         Environment,
 
-        Comissar,
+        Partisan,
         Assaulter,
         Zoologist,
 
         Swordsman,
-        Archer,
+        Robber,
         Herbalist,
 
         Monk,
@@ -34,6 +34,8 @@
         GuardianWoman,
         StrangerWoman,
         Moira,
+        Synth,
+        ChineseOldman,
 
         Marauder,
         BoldMarauder,
@@ -62,7 +64,7 @@
         Huapigui,
         Taote,
 
-        MummyWarrior,
+        Chaser,
         Sphinx,
 
         Hydra,

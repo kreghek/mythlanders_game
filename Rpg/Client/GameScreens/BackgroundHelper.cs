@@ -4,21 +4,21 @@ namespace Rpg.Client.GameScreens
 {
     internal static class BackgroundHelper
     {
-        public static BackgroundType GetBackgroundType(GlobeNodeSid regularTheme)
+        public static BackgroundType GetBackgroundType(LocationSid regularTheme)
         {
             return regularTheme switch
             {
-                GlobeNodeSid.Thicket => BackgroundType.SlavicDarkThicket,
-                GlobeNodeSid.Battleground => BackgroundType.SlavicBattleground,
-                GlobeNodeSid.Swamp => BackgroundType.SlavicSwamp,
-                GlobeNodeSid.DestroyedVillage => BackgroundType.SlavicDestroyedVillage,
+                LocationSid.Thicket => BackgroundType.SlavicDarkThicket,
+                LocationSid.Battleground => BackgroundType.SlavicBattleground,
+                LocationSid.Swamp => BackgroundType.SlavicSwamp,
+                LocationSid.DestroyedVillage => BackgroundType.SlavicDestroyedVillage,
 
-                GlobeNodeSid.Monastery => BackgroundType.ChineseMonastery,
+                LocationSid.Monastery => BackgroundType.ChineseMonastery,
 
-                GlobeNodeSid.Desert => BackgroundType.EgyptianDesert,
-                GlobeNodeSid.SacredPlace => BackgroundType.EgyptianPyramids,
+                LocationSid.Desert => BackgroundType.EgyptianDesert,
+                LocationSid.SacredPlace => BackgroundType.EgyptianPyramids,
 
-                GlobeNodeSid.ShipGraveyard => BackgroundType.GreekShipGraveyard,
+                LocationSid.ShipGraveyard => BackgroundType.GreekShipGraveyard,
 
                 _ => BackgroundType.SlavicBattleground
             };

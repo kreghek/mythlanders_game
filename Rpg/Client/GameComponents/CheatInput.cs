@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Text;
 
+using Core.Dices;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -138,12 +140,12 @@ namespace Rpg.Client.GameComponents
         {
             return unitSchemeSid switch
             {
-                "comissar" => unitSchemeCatalog.Heroes[UnitName.Comissar],
+                "partisan" => unitSchemeCatalog.Heroes[UnitName.Partisan],
                 "assaulter" => unitSchemeCatalog.Heroes[UnitName.Assaulter],
                 "zoologist" => unitSchemeCatalog.Heroes[UnitName.Zoologist],
 
                 "warrior" => unitSchemeCatalog.Heroes[UnitName.Swordsman],
-                "archer" => unitSchemeCatalog.Heroes[UnitName.Archer],
+                "robber" => unitSchemeCatalog.Heroes[UnitName.Robber],
                 "herbalist" => unitSchemeCatalog.Heroes[UnitName.Herbalist],
 
                 "monk" => unitSchemeCatalog.Heroes[UnitName.Monk],
@@ -171,12 +173,12 @@ namespace Rpg.Client.GameComponents
             var unitScheme = GetUnitSchemeByString(unitSchemeSid, _unitSchemeCatalog);
 
             const int DEFAULT_LEVEL = 1;
-            var unit = new Unit(unitScheme, DEFAULT_LEVEL)
-            {
-                IsPlayerControlled = true
-            };
-
-            globe.Player.Pool.AddNewUnit(unit);
+            // var unit = new Hero(unitScheme, DEFAULT_LEVEL)
+            // {
+            //     IsPlayerControlled = true
+            // };
+            //
+            // globe.Player.Pool.AddNewUnit(unit);
 
             // Events
             var targetSystemMarker = GetSystemMarker(unitSchemeSid);
@@ -199,8 +201,8 @@ namespace Rpg.Client.GameComponents
             var targetUnit = globe.Player.GetAll().SingleOrDefault(x => x.UnitScheme == unitScheme);
             var hpAmount = int.Parse(args[1]);
 
-            targetUnit.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value
-                .CurrentChange(hpAmount > 0 ? hpAmount : 0);
+            // targetUnit.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value
+            //     .CurrentChange(hpAmount > 0 ? hpAmount : 0);
         }
 
         private void HandleCreateCombat(string[] commandArgs)
@@ -240,13 +242,15 @@ namespace Rpg.Client.GameComponents
 
         private void HandleGainRes(string[] args)
         {
-            var globeProvider = Game.Services.GetService<GlobeProvider>();
-            var globe = globeProvider.Globe;
+            // var globeProvider = Game.Services.GetService<GlobeProvider>();
+            // var globe = globeProvider.Globe;
+            //
+            // var xpAmount = int.Parse(args[0]);
+            // var resType = Enum.Parse<EquipmentItemType>(args[1], ignoreCase: true);
+            //
+            // globe.Player.Inventory.Single(x => x.Type == resType).Amount += xpAmount;
 
-            var xpAmount = int.Parse(args[0]);
-            var resType = Enum.Parse<EquipmentItemType>(args[1], ignoreCase: true);
-
-            globe.Player.Inventory.Single(x => x.Type == resType).Amount += xpAmount;
+            throw new NotImplementedException();
         }
 
         private void HandleGainXp(string[] args)

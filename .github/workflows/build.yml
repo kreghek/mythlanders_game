@@ -1,10 +1,16 @@
 name: Build
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - 'demo/**'
+      - 'dev/**'
+      - 'master'
+  pull_request:
+    branches:
+      - 'demo/**'
+      - 'dev/**'
+      - 'master'
 
 jobs:
   build:
@@ -13,18 +19,14 @@ jobs:
 
     env:
       MGFXC_WINE_PATH: /home/runner/.winemonogame
-
-    strategy:
-      matrix:
-        runtime:
-          - win-x64
-          - linux-x64
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_CLI_TELEMETRY_OUTPUT: 1
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Setup .NET 6
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
 
@@ -42,40 +44,14 @@ jobs:
 
         rm dotnet-sdk.zip
 
-
     - name: Restore dependencies
       run: dotnet restore Rpg.Client/Rpg.Client.sln
+
+    - name: Build extentions
+      run: dotnet build Rpg/GameContent.Extensions/GameContent.Extensions.csproj --configuration Release
 
     - name: Build
       run: dotnet build Rpg.Client/Rpg.Client.sln --verbosity normal
 
     - name: Test
       run: dotnet test Rpg.Client/Rpg.Client.sln --no-build --verbosity normal
-
-    - name: Publish
-      run: dotnet publish Rpg/Client/Client.csproj --no-restore --verbosity diagnostic --output bin --runtime ${{ matrix.runtime }} --configuration Release --self-contained true
-    - name: Get current time
-      uses: srfrnk/current-time@master
-      id: current-time
-      with:
-        format: YYYY-MM-DD
-    
-    - name: Write version to file
-      uses: DamianReeves/write-file-action@v1.0
-      env:
-        F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
-      with:
-        path: bin/version.txt
-        contents: |
-          ver 0.1-dev#${{ github.run_number }}
-          ${{ env.F_TIME }}
-          ${{ github.sha }}
-        write-mode: overwrite
-
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.4
-      env:
-        F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
-      with:
-        name: ewar-${{ matrix.runtime }}-v0.1-dev${{ github.run_number }}-${{ env.F_TIME }}
-        path: bin

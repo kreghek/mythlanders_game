@@ -1,8 +1,11 @@
-namespace Rpg.Client
+using System;
+
+namespace Client;
+
+[Flags]
+public enum GameMode
 {
-    public enum GameMode
-    {
-        Demo,
-        Full
-    }
+    Demo = 1,
+    Full = 2,
+    Recording = 4
 }

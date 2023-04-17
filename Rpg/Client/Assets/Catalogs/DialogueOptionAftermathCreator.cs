@@ -1,48 +1,61 @@
 using System;
 
-using Rpg.Client.Assets.DialogueOptionAftermath;
+using Client.Assets.Catalogs.DialogueStoring;
+using Client.Assets.DialogueOptionAftermath;
+using Client.Core;
+
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
 
-namespace Rpg.Client.Assets.Catalogs
+namespace Client.Assets.Catalogs;
+
+internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathCreator
 {
-    internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathCreator
+    private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+
+    public DialogueOptionAftermathCreator(IUnitSchemeCatalog unitSchemeCatalog)
     {
-        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+        _unitSchemeCatalog = unitSchemeCatalog;
+    }
 
-        public DialogueOptionAftermathCreator(IUnitSchemeCatalog unitSchemeCatalog)
+    public IDialogueOptionAftermath Create(string typeSid, string data)
+    {
+        IDialogueOptionAftermath? aftermath = null;
+
+        if (typeSid == "MeetHero")
         {
-            _unitSchemeCatalog = unitSchemeCatalog;
+            var heroNameStr = data;
+            var heroName = Enum.Parse<UnitName>(heroNameStr);
+            aftermath = new AddHeroOptionAftermath(_unitSchemeCatalog.Heroes[heroName]);
+        }
+        else if (typeSid == "ActivateStoryPoint")
+        {
+            var spId = data;
+            aftermath = new ActivateStoryPointOptionAftermath(spId);
+        }
+        else if (typeSid == "UnlockLocation")
+        {
+            var sid = data;
+            var locationId = Enum.Parse<LocationSid>(sid);
+            aftermath = new UnlockLocationOptionAftermath(locationId);
+        }
+        else if (typeSid == "Trigger")
+        {
+            var trigger = data;
+            aftermath = new DialogueEventTriggerOptionAftermath(trigger);
+        }
+        else if (typeSid == "SetRelationsToKnown")
+        {
+            var unitName = data;
+            aftermath = new ChangeCharacterRelatationsOptionAftermath(Enum.Parse<UnitName>(unitName),
+                CharacterKnowledgeLevel.FullName);
         }
 
-        public IOptionAftermath Create(string aftermathTypeSid, string data)
+        if (aftermath is null)
         {
-            IOptionAftermath? aftermath = null;
-
-            if (aftermathTypeSid == "MeetHero")
-            {
-                var heroNameStr = data;
-                var heroName = Enum.Parse<UnitName>(heroNameStr);
-                aftermath = new AddHeroOptionAftermath(_unitSchemeCatalog.Heroes[heroName]);
-            }
-            else if (aftermathTypeSid == "ActivateStoryPoint")
-            {
-                var spId = data;
-                aftermath = new AddStoryPointOptionAftermath(spId);
-            }
-            else if (aftermathTypeSid == "UnlockLocation")
-            {
-                var sid = data;
-                var locationId = Enum.Parse<GlobeNodeSid>(sid);
-                aftermath = new UnlockLocationOptionAftermath(locationId);
-            }
-
-            if (aftermath is null)
-            {
-                throw new InvalidOperationException($"Type {aftermathTypeSid} is unknown.");
-            }
-
-            return aftermath;
+            throw new InvalidOperationException($"Type {typeSid} is unknown.");
         }
+
+        return aftermath;
     }
 }

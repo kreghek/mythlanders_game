@@ -2,7 +2,6 @@
 
 using Rpg.Client.Core;
 using Rpg.Client.Core.Equipments;
-using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.Equipments.Sergeant
 {
@@ -15,9 +14,6 @@ namespace Rpg.Client.Assets.Equipments.Sergeant
 
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Warrior;
         public override EquipmentSid Sid => EquipmentSid.CompactSaber;
-
-        protected override SkillSid[] AffectedSkills =>
-            new[] { SkillSid.InspiringRush };
 
         protected override float MultiplicatorByLevel => 0.25f;
 

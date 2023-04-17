@@ -1,20 +1,21 @@
+using Client.Core.Dialogues;
+
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
 
-namespace Rpg.Client.Assets.DialogueOptionAftermath
+namespace Client.Assets.DialogueOptionAftermath;
+
+internal sealed class UnlockLocationOptionAftermath : IDialogueOptionAftermath
 {
-    internal sealed class UnlockLocationOptionAftermath : IOptionAftermath
+    private readonly LocationSid _locationSid;
+
+    public UnlockLocationOptionAftermath(LocationSid locationSid)
     {
-        private readonly GlobeNodeSid _locationSid;
+        _locationSid = locationSid;
+    }
 
-        public UnlockLocationOptionAftermath(GlobeNodeSid locationSid)
-        {
-            _locationSid = locationSid;
-        }
-
-        public void Apply(IEventContext dialogContext)
-        {
-            dialogContext.UnlockLocation(_locationSid);
-        }
+    public void Apply(IEventContext dialogContext)
+    {
+        dialogContext.UnlockLocation(_locationSid);
     }
 }

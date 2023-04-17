@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
-using Rpg.Client.Assets.StoryPointJobs;
+using Client.Assets.StoryPointJobs;
+using Client.Core;
+
+using Core.Dices;
 
 namespace Rpg.Client.Core
 {
@@ -68,12 +70,6 @@ namespace Rpg.Client.Core
             globalEvent.Initialize(this);
         }
 
-        public void AddMonster(CombatSource combatSource, Unit unit, int slotIndex)
-        {
-            combatSource.EnemyGroup.Slots[slotIndex].Unit = unit;
-            Updated?.Invoke(this, EventArgs.Empty);
-        }
-
         public void Update(IDice dice, IEventCatalog eventCatalog)
         {
             UpdateGlobeEvents();
@@ -130,18 +126,6 @@ namespace Rpg.Client.Core
                 else
                 {
                     _globeEvents.Remove(globeEvent);
-                }
-            }
-
-            foreach (var unit in Player.GetAll())
-            {
-                var unitEffectsSnapshot = unit.GlobalEffects.ToArray();
-                foreach (var effect in unitEffectsSnapshot)
-                {
-                    if (!effect.Source.IsActive)
-                    {
-                        unit.RemoveGlobalEffect(effect);
-                    }
                 }
             }
         }

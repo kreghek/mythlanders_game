@@ -15,4 +15,14 @@ namespace Core.PropDrop
         /// <returns> Возвращает экземпляр созданного ресурса. </returns>
         Resource CreateResource(IPropScheme scheme, int count);
     }
+
+    public class PropFactory : IPropFactory
+    {
+        public Resource CreateResource(IPropScheme scheme, int count)
+        {
+            var resource = new Resource(scheme, count);
+
+            return resource;
+        }
+    }
 }

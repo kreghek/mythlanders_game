@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Client;
+using Client.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,7 +18,7 @@ namespace Rpg.Client.GameScreens.EndGame
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IUiContentStorage _uiContentStorage;
 
-        public EndGameScreen(EwarGame game) : base(game)
+        public EndGameScreen(TestamentGame game) : base(game)
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _camera = Game.Services.GetService<Camera2D>();

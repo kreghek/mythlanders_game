@@ -1,67 +1,94 @@
 ﻿using Client;
+using Client.Core;
+
+using Core.Combats;
+using Core.Crises;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Skills;
 
-namespace Rpg.Client.GameScreens
+namespace Rpg.Client.GameScreens;
+
+internal static class GameObjectHelper
 {
-    internal class GameObjectHelper
+    public static string GetLocalized(UnitName unitName)
     {
-        public static string GetLocalized(UnitName unitName)
+        return GetLocalizedInner(unitName.ToString());
+    }
+
+    public static string GetLocalized(CombatMovementSid sid)
+    {
+        return GetLocalizedInner(sid.Value);
+    }
+
+    public static string GetLocalized(CharacterRelation relation)
+    {
+        if (relation.Level == CharacterKnowledgeLevel.FullName)
         {
-            return GetLocalizedInner(unitName.ToString());
+            return GetLocalized(relation.Name);
         }
 
-        public static string GetLocalized(EquipmentSid equipmentSid)
+        return GetLocalizedInner($"{relation.Name}_{relation.Level}");
+    }
+
+    public static string GetLocalized(EquipmentSid equipmentSid)
+    {
+        return GetLocalizedInner(equipmentSid.ToString());
+    }
+
+    public static string GetLocalized(IPerk perk)
+    {
+        return GetLocalizedInner(perk.GetType().Name);
+    }
+
+    public static string GetLocalized(LocationSid locationSid)
+    {
+        return GetLocalizedInner(locationSid.ToString());
+    }
+
+    public static string? GetLocalized(EquipmentItemType? equipmentType)
+    {
+        if (equipmentType is null)
         {
-            return GetLocalizedInner(equipmentSid.ToString());
+            return null;
         }
 
-        public static string GetLocalized(IPerk perk)
+        if (equipmentType == EquipmentItemType.ExperiencePoints)
         {
-            return GetLocalizedInner(perk.GetType().Name);
+            return "Xp";
         }
 
-        public static string GetLocalized(SkillSid skillSid)
-        {
-            return GetLocalizedInner(skillSid.ToString());
-        }
+        return GetLocalizedInner($"{equipmentType}Equipment");
+    }
 
-        public static string GetLocalized(GlobeNodeSid locationSid)
-        {
-            return GetLocalizedInner(locationSid.ToString());
-        }
+    public static string GetLocalized(CrisisSid crisisSid)
+    {
+        return GetLocalizedInner(crisisSid.ResourceName);
+    }
 
-        public static string? GetLocalized(EquipmentItemType? equipmentType)
-        {
-            if (equipmentType is null)
-            {
-                return null;
-            }
+    public static string GetLocalizedDescription(CombatMovementSid sid)
+    {
+        return GetLocalizedInner($"{sid.Value}_Description");
+    }
 
-            if (equipmentType == EquipmentItemType.ExperiencePoints)
-            {
-                return "Xp";
-            }
+    public static string GetLocalizedDescription(IPerk perk)
+    {
+        return GetLocalizedInner($"{perk.GetType().Name}Description");
+    }
 
-            return GetLocalizedInner($"{equipmentType}Equipment");
-        }
+    public static string GetLocalizedDescription(EquipmentSid equipmentSid)
+    {
+        return GetLocalizedInner($"{equipmentSid}Description");
+    }
 
-        public static string GetLocalizedDescription(IPerk perk)
-        {
-            return GetLocalizedInner($"{perk.GetType().Name}Description");
-        }
+    public static string GetLocalizedProp(string sid)
+    {
+        return GetLocalizedInner($"{sid}_prop");
+    }
 
-        public static string GetLocalizedDescription(EquipmentSid equipmentSid)
-        {
-            return GetLocalizedInner($"{equipmentSid}Description");
-        }
-
-        private static string GetLocalizedInner(string sid)
-        {
-            var rm = GameObjectResources.ResourceManager;
-            var name = rm.GetString(sid) ?? sid;
-            return name;
-        }
+    private static string GetLocalizedInner(string sid)
+    {
+        var rm = GameObjectResources.ResourceManager;
+        var name = rm.GetString(sid) ?? sid;
+        return name;
     }
 }

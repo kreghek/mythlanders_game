@@ -1,7 +1,9 @@
 ﻿using Client.Assets;
+using Client.Assets.Heroes;
 
 using Rpg.Client.Assets.GraphicConfigs.Heroes;
 using Rpg.Client.Core;
+using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Heroes
 {
@@ -36,6 +38,11 @@ namespace Rpg.Client.Assets.Heroes
 
                 UnitGraphicsConfig = GetGraphicsConfig()
             };
+        }
+
+        public UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
+        {
+            return GetGraphicsConfig();
         }
     }
 }

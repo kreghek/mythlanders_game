@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Client;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -17,7 +19,7 @@ namespace Rpg.Client.ScreenManagement
 
         private bool _isInitialized;
 
-        public GameScreenBase(EwarGame game)
+        public GameScreenBase(TestamentGame game)
         {
             Game = game;
 
@@ -29,7 +31,7 @@ namespace Rpg.Client.ScreenManagement
             _modals = new List<IModalWindow>();
         }
 
-        public EwarGame Game { get; }
+        public TestamentGame Game { get; }
         public IScreenManager ScreenManager { get; }
         protected Camera2D Camera { get; }
         protected ResolutionIndependentRenderer ResolutionIndependentRenderer { get; }

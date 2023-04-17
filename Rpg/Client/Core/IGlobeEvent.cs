@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Rpg.Client.Core.Skills;
+using Core.Combats;
 
 namespace Rpg.Client.Core
 {
@@ -11,9 +11,9 @@ namespace Rpg.Client.Core
         bool IsActive { get; }
         string Title { get; }
 
-        IReadOnlyCollection<EffectRule> CreateCombatBeginningEffects()
+        IReadOnlyCollection<IEffect> CreateCombatBeginningEffects()
         {
-            return Array.Empty<EffectRule>();
+            return Array.Empty<IEffect>();
         }
 
         IReadOnlyList<GlobeRule> GetRules();

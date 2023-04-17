@@ -34,7 +34,7 @@ namespace Rpg.Client.Core
 
         public IReadOnlyList<IUnitLevelScheme>? Levels { get; init; }
 
-        public IEnumerable<GlobeNodeSid>? LocationSids { get; init; }
+        public IEnumerable<LocationSid>? LocationSids { get; init; }
 
         public int? MinRequiredBiomeLevel { get; init; }
 

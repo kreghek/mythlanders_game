@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.Equipments.Sergeant
 {
@@ -24,13 +22,13 @@ namespace Rpg.Client.Assets.Equipments.Sergeant
             throw new NotImplementedException();
         }
 
-        public IReadOnlyList<EffectRule> CreateCombatBeginningEffects(IEquipmentEffectContext context)
-        {
-            return new[]
-            {
-                SkillRuleFactory.CreatePowerUpFixed(_bonusesByLevel[context.EquipmentLevel], SkillDirection.AllFriendly)
-            };
-        }
+        // public IReadOnlyList<EffectRule> CreateCombatBeginningEffects(IEquipmentEffectContext context)
+        // {
+        //     return new[]
+        //     {
+        //         SkillRuleFactory.CreatePowerUpFixed(_bonusesByLevel[context.EquipmentLevel], SkillDirection.AllFriendly)
+        //     };
+        // }
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Warrior;
 

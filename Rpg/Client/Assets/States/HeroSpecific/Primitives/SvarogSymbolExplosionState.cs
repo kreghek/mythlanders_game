@@ -1,14 +1,15 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Client.GameScreens.Combat.GameObjects;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Assets.InteractionDeliveryObjects;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.HeroSpecific.Primitives
 {
-    internal sealed class SvarogSymbolExplosionState : IUnitStateEngine
+    internal sealed class SvarogSymbolExplosionState : IActorVisualizationState
     {
         private readonly SoundEffectInstance _explosionSoundEffect;
         private readonly UnitGraphics _graphics;

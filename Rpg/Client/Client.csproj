@@ -11,6 +11,7 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <AssemblyName>Testament</AssemblyName>
   </PropertyGroup>
 	<ItemGroup>
 		<Compile Remove="Content\bin\**" />
@@ -21,15 +22,10 @@
 		<None Remove="Content\obj\**" />
 	</ItemGroup>
   <ItemGroup>
-    
-    <None Remove="DialogueResources.fr.resources" />
     <None Remove="DialogueResources.resources" />
     <None Remove="DialogueResources.ru.resources" />
-    <None Remove="Icon.ico" />
-    <None Remove="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DialogueResources.fr.resources" />
     <EmbeddedResource Include="DialogueResources.resources" />
     <EmbeddedResource Include="DialogueResources.ru.resources" />
     <EmbeddedResource Include="Icon.ico" />
@@ -42,11 +38,11 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
+    <PackageReference Include="MonoGame.Primitives2D" Version="1.1.1" />
     <PackageReference Include="Nopipeline.Task" Version="2.2.0" />
     <PackageReference Include="NReco.Logging.File" Version="1.1.5" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\States\MosterSpecific\" />
+	<PackageReference Include="Stateless" Version="5.11.0" />
+	<PackageReference Include="YamlDotNet" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="CreditsResource.Designer.cs">
@@ -156,8 +152,17 @@
 			<_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
 		</AssemblyAttribute>
 	</ItemGroup>
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>Content.SideQuests.Tests</_Parameter1>
+        </AssemblyAttribute>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Core.Balance\Core.Balance.csproj" />
+	  <ProjectReference Include="..\..\Rpg.Client\Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj" />
 	  <ProjectReference Include="..\Core\Core.csproj" />
 	</ItemGroup>
 </Project>

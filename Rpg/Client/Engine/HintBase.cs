@@ -6,7 +6,7 @@ namespace Rpg.Client.Engine
     {
         protected override Color CalculateColor()
         {
-            return Color.Lerp(Color.Transparent, Color.SlateBlue, 0.75f);
+            return Color.Lerp(Color.Transparent, Color.SlateBlue, 0.85f);
         }
     }
 }

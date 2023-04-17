@@ -34,7 +34,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "..\Rpg\Core\Core.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Balance", "..\Rpg\Core.Balance\Core.Balance.csproj", "{5F548959-6301-4C1E-B2D6-A1F0D8C2AE5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeAnalysers", "CodeAnalysers\CodeAnalysers.csproj", "{9B162E0A-6970-499D-A94E-893145C8AE7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeAnalysers", "CodeAnalysers\CodeAnalysers.csproj", "{9B162E0A-6970-499D-A94E-893145C8AE7C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Combats.BotBehaviour", "Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj", "{F7870D69-F526-402F-91EF-FBAF0CCAB883}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameContent.Extensions", "..\Rpg\GameContent.Extensions\GameContent.Extensions.csproj", "{EFA00DFB-4F23-4E21-BABF-069F95377957}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Content.SideQuests.Tests", "Content.SideQuests.Tests\Content.SideQuests.Tests.csproj", "{B896E11E-F39B-4CE7-9897-111969BEDC78}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Text.Client", "..\Rpg\Text.Client\Text.Client.csproj", "{A29D788A-7373-41C2-A1C8-17417BE129E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeAnalisys", "CodeAnalisys", "{0DCFDF5E-947E-453B-8BE8-35C5F7ABE8EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{70AC1DF1-BEF2-4C90-9AFA-F0D41F5555E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,13 +94,35 @@ Global
 		{9B162E0A-6970-499D-A94E-893145C8AE7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B162E0A-6970-499D-A94E-893145C8AE7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B162E0A-6970-499D-A94E-893145C8AE7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7870D69-F526-402F-91EF-FBAF0CCAB883}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7870D69-F526-402F-91EF-FBAF0CCAB883}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7870D69-F526-402F-91EF-FBAF0CCAB883}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7870D69-F526-402F-91EF-FBAF0CCAB883}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFA00DFB-4F23-4E21-BABF-069F95377957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFA00DFB-4F23-4E21-BABF-069F95377957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFA00DFB-4F23-4E21-BABF-069F95377957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFA00DFB-4F23-4E21-BABF-069F95377957}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B896E11E-F39B-4CE7-9897-111969BEDC78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B896E11E-F39B-4CE7-9897-111969BEDC78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B896E11E-F39B-4CE7-9897-111969BEDC78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B896E11E-F39B-4CE7-9897-111969BEDC78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A29D788A-7373-41C2-A1C8-17417BE129E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A29D788A-7373-41C2-A1C8-17417BE129E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A29D788A-7373-41C2-A1C8-17417BE129E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A29D788A-7373-41C2-A1C8-17417BE129E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{013456B7-BC02-4F6B-B1F3-638432F024A7} = {70AC1DF1-BEF2-4C90-9AFA-F0D41F5555E7}
+		{7A49F4AE-97F7-454B-86FD-6294B6C57C0E} = {70AC1DF1-BEF2-4C90-9AFA-F0D41F5555E7}
+		{9B162E0A-6970-499D-A94E-893145C8AE7C} = {0DCFDF5E-947E-453B-8BE8-35C5F7ABE8EA}
+		{A29D788A-7373-41C2-A1C8-17417BE129E9} = {70AC1DF1-BEF2-4C90-9AFA-F0D41F5555E7}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {109FC733-76F8-4327-BE39-B9303FDD86EA}
-		RESX_SortFileContentOnSave = True
 		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail"]}
+		RESX_SortFileContentOnSave = True
+		SolutionGuid = {109FC733-76F8-4327-BE39-B9303FDD86EA}
 	EndGlobalSection
 EndGlobal

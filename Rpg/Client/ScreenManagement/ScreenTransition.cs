@@ -3,10 +3,8 @@
     internal enum ScreenTransition
     {
         Title,
-        Map,
         Campaign,
         CampaignSelection,
-        Party,
         Event,
         Combat,
         Bestiary,
@@ -16,6 +14,14 @@
         Training,
         Armory,
         Tactical,
-        SlidingPuzzles
+        SlidingPuzzles,
+        Rest,
+        Crisis,
+        CampaignReward,
+
+        /// <summary>
+        /// Temporal screen to fake transition to stage items which not implemented yet.
+        /// </summary>
+        NotImplemented
     }
 }

@@ -2,103 +2,109 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Client;
+using Client.Core.Heroes;
 
-namespace Rpg.Client.Core
+using Core.Combats;
+
+using Rpg.Client.Core;
+
+namespace Client.Core;
+
+internal sealed class Player
 {
-    internal sealed class Player
+    private readonly HashSet<PlayerAbility> _abilities;
+
+    public Player(string name) : this()
     {
-        private readonly HashSet<PlayerAbility> _abilities;
+        Name = name;
+    }
 
-        public Player(string name) : this()
+    public Player()
+    {
+        Party = new Group();
+        Pool = new PoolGroup();
+        KnownMonsters = new List<UnitScheme>();
+
+        Inventory = new Inventory();
+
+        _abilities = new HashSet<PlayerAbility>();
+
+        Name = CreateRandomName();
+
+        StoryState = new StoryState(Party);
+
+        Heroes = new[]
         {
-            Name = name;
-        }
+            new HeroState("swordsman", new StatValue(5), new FieldCoords(0, 1)),
+            new HeroState("robber", new StatValue(3), new FieldCoords(1, 0)),
+            new HeroState("monk", new StatValue(4), new FieldCoords(1, 2))
+        };
+    }
 
-        public Player()
+    public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
+
+    public IReadOnlyCollection<HeroState> Heroes { get; }
+
+    public Inventory Inventory { get; }
+
+    public IList<UnitScheme> KnownMonsters { get; }
+
+    public string Name { get; }
+
+    public Group Party { get; }
+
+    public PoolGroup Pool { get; }
+    public IStoryState StoryState { get; }
+
+    public void AddPlayerAbility(PlayerAbility ability)
+    {
+        _abilities.Add(ability);
+    }
+
+    public void ClearAbilities()
+    {
+        _abilities.Clear();
+    }
+
+    public void ClearInventory()
+    {
+        foreach (var resourceItem in Inventory.CalcActualItems())
         {
-            Party = new Group();
-            Pool = new PoolGroup();
-            KnownMonsters = new List<UnitScheme>();
-
-            var inventory = CreateInventory();
-
-            Inventory = inventory;
-
-            _abilities = new HashSet<PlayerAbility>();
-
-            Name = CreateRandomName();
+            Inventory.Remove(resourceItem);
         }
+    }
 
-        public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
+    public IEnumerable<Hero> GetAll()
+    {
+        var unitsInSlots = Party.Slots.Where(x => x.Unit is not null).Select(x => x.Unit!);
+        return unitsInSlots.Concat(Pool.Units);
+    }
 
-        public IReadOnlyCollection<ResourceItem> Inventory { get; }
+    public bool HasAbility(PlayerAbility ability)
+    {
+        return _abilities.Contains(ability);
+    }
 
-        public IList<UnitScheme> KnownMonsters { get; }
+    public void MoveToParty(Hero unit, int slotIndex)
+    {
+        Pool.MoveToGroup(unit, slotIndex, Party);
+    }
 
-        public string Name { get; }
+    public void MoveToPool(Hero unit)
+    {
+        Pool.MoveFromGroup(unit, Party);
+    }
 
-        public Group Party { get; }
+    private static string CreateRandomName()
+    {
+        var first = CreditsResource.NicknameFirstParts.Split(',').Select(x => x.Trim()).ToArray();
+        var last = CreditsResource.NicknameSecondParts.Split(',').Select(x => x.Trim()).ToArray();
 
-        public PoolGroup Pool { get; }
+        var rnd = new Random();
 
-        public void AddPlayerAbility(PlayerAbility ability)
-        {
-            _abilities.Add(ability);
-        }
+        var x = rnd.Next(0, first.Length);
+        var y = rnd.Next(0, last.Length);
 
-        public void ClearAbilities()
-        {
-            _abilities.Clear();
-        }
-
-        public void ClearInventory()
-        {
-            foreach (var resourceItem in Inventory)
-            {
-                resourceItem.Amount = 0;
-            }
-        }
-
-        public IEnumerable<Unit> GetAll()
-        {
-            var unitsInSlots = Party.Slots.Where(x => x.Unit is not null).Select(x => x.Unit!);
-            return unitsInSlots.Concat(Pool.Units);
-        }
-
-        public bool HasAbility(PlayerAbility ability)
-        {
-            return _abilities.Contains(ability);
-        }
-
-        public void MoveToParty(Unit unit, int slotIndex)
-        {
-            Pool.MoveToGroup(unit, slotIndex, Party);
-        }
-
-        public void MoveToPool(Unit unit)
-        {
-            Pool.MoveFromGroup(unit, Party);
-        }
-
-        private static IReadOnlyCollection<ResourceItem> CreateInventory()
-        {
-            var inventoryAvailableItems = Enum.GetValues<EquipmentItemType>();
-
-            return inventoryAvailableItems.Select(enumItem => new ResourceItem(enumItem)).ToList();
-        }
-
-        private static string CreateRandomName()
-        {
-            var first = CreditsResource.NicknameFirstParts.Split(',').Select(x => x.Trim()).ToArray();
-            var last = CreditsResource.NicknameSecondParts.Split(',').Select(x => x.Trim()).ToArray();
-
-            var rnd = new Random();
-
-            var x = rnd.Next(0, first.Length);
-            var y = rnd.Next(0, last.Length);
-
-            return first[x] + " " + last[y];
-        }
+        return first[x] + " " + last[y];
     }
 }

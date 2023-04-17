@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
@@ -7,7 +9,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
 {
-    internal class UnitIdleState : IUnitStateEngine
+    internal class UnitIdleState : IActorVisualizationState
     {
         public UnitIdleState(UnitGraphicsBase unitGraphics, CombatUnitState state)
         {

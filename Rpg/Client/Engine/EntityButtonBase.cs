@@ -1,12 +1,13 @@
-namespace Rpg.Client.Engine
-{
-    internal abstract class EntityButtonBase<T> : ButtonBase
-    {
-        protected EntityButtonBase(T entity)
-        {
-            Entity = entity;
-        }
+using Rpg.Client.Engine;
 
-        public T Entity { get; }
+namespace Client.Engine;
+
+internal abstract class EntityButtonBase<T> : ButtonBase
+{
+    protected EntityButtonBase(T entity)
+    {
+        Entity = entity;
     }
+
+    public T Entity { get; }
 }

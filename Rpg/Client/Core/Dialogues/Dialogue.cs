@@ -1,15 +1,14 @@
+using Client.Core.Dialogues;
+
 namespace Rpg.Client.Core.Dialogues
 {
     internal sealed class Dialogue
     {
-        public Dialogue(EventNode root, EventPosition combatPosition)
+        public Dialogue(DialogueNode root)
         {
             Root = root;
-            CombatPosition = combatPosition;
         }
 
-        public EventPosition CombatPosition { get; }
-
-        public EventNode Root { get; }
+        public DialogueNode Root { get; }
     }
 }

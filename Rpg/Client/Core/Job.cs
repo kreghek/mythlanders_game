@@ -1,31 +1,53 @@
-namespace Rpg.Client.Core
+using Rpg.Client.Core;
+
+namespace Client.Core;
+
+internal sealed class Job : IJob
 {
-    internal sealed class Job : IJob
+    private readonly string _completePatternResourceSid;
+    private readonly string _patternResourceSid;
+
+    private readonly string _titleResourceSid;
+
+    public Job(
+        IJobSubScheme scheme,
+        string titleResourceSid,
+        string patternResourceSid,
+        string completePatternResourceSid)
     {
-        private readonly string _completePattern;
-        private readonly string _pattern;
+        _titleResourceSid = titleResourceSid;
+        _patternResourceSid = patternResourceSid;
+        _completePatternResourceSid = completePatternResourceSid;
+        Scheme = scheme;
+    }
 
-        public Job(string title, string pattern, string completePattern)
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        var rm = UiResource.ResourceManager;
+        if (IsComplete)
         {
-            Title = title;
-            _pattern = pattern;
-            _completePattern = completePattern;
-        }
-
-        public string Title { get; }
-
-        public override string ToString()
-        {
-            if (IsComplete)
+            var completePattern = rm.GetString(_completePatternResourceSid);
+            if (completePattern is not null)
             {
-                return string.Format(_completePattern, Title);
+                return string.Format(completePattern, _titleResourceSid);
             }
 
-            return string.Format(_pattern, Title, Progress, Scheme.Value);
+            return _completePatternResourceSid;
         }
 
-        public bool IsComplete { get; set; }
-        public int Progress { get; set; }
-        public IJobSubScheme Scheme { get; set; } = null!;
+        var inProgressPattern = rm.GetString(_patternResourceSid);
+
+        if (inProgressPattern is not null)
+        {
+            return string.Format(inProgressPattern, rm.GetString(_titleResourceSid), Progress,
+                Scheme.GoalValue.Value);
+        }
+
+        return $"{_titleResourceSid} {Progress}/{Scheme.GoalValue.Value}";
     }
+
+    public bool IsComplete { get; set; }
+    public int Progress { get; set; }
+    public IJobSubScheme Scheme { get; }
 }

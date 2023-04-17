@@ -1,121 +1,102 @@
 ﻿using System;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Combat.GameObjects;
 
-namespace Rpg.Client.Assets.InteractionDeliveryObjects
+namespace Client.Assets.InteractionDeliveryObjects;
+
+internal abstract class ProjectileBase : IInteractionDelivery
 {
-    internal abstract class ProjectileBase : IInteractionDelivery
+    private readonly IAnimationFrameSet _frameSet;
+    private readonly ProjectileFunctions _functions;
+    private readonly Sprite _graphics;
+    private readonly double _lifetimeDuration;
+
+    private double _lifetimeCounter;
+
+    protected ProjectileBase(
+        ProjectileFunctions functions,
+        Texture2D texture,
+        IAnimationFrameSet frameSet,
+        double lifetimeDuration)
     {
-        private readonly AnimationBlocker? _blocker;
-        private readonly Vector2 _endPosition;
-
-        private readonly IAnimationFrameSet _frameSet;
-        private readonly Sprite _graphics;
-        private readonly Action<ICombatUnit>? _interaction;
-        private readonly double _lifetimeDuration;
-        private readonly Vector2 _startPosition;
-        private readonly ICombatUnit? _targetCombatUnit;
-
-        private double _lifetimeCounter;
-
-        protected ProjectileBase(Vector2 startPosition,
-            Vector2 endPosition,
-            Texture2D texture,
-            IAnimationFrameSet frameSet,
-            double lifetimeDuration,
-            AnimationBlocker? blocker,
-            ICombatUnit? targetCombatUnit = null,
-            Action<ICombatUnit>? interaction = null)
+        _graphics = new Sprite(texture)
         {
-            _graphics = new Sprite(texture)
-            {
-                Position = startPosition,
-                SourceRectangle = new Rectangle(0, 0, 1, 1)
-            };
+            Position = functions.MoveFunction.CalcPosition(0),
+            SourceRectangle = new Rectangle(0, 0, 1, 1),
+            Rotation = functions.RotationFunction.CalculateRadianAngle(0)
+        };
 
-            _startPosition = startPosition;
-            _endPosition = endPosition;
-            _blocker = blocker;
-            _targetCombatUnit = targetCombatUnit;
-            _interaction = interaction;
-            _lifetimeDuration = lifetimeDuration;
+        _functions = functions;
+        _lifetimeDuration = lifetimeDuration;
 
-            _frameSet = frameSet;
+        _frameSet = frameSet;
+    }
+
+    protected Vector2 CurrentPosition
+    {
+        get
+        {
+            var t = _lifetimeCounter / _lifetimeDuration;
+            return _functions.MoveFunction.CalcPosition(t);
+        }
+    }
+
+    protected virtual void DrawForegroundAdditionalEffects(SpriteBatch spriteBatch) { }
+
+    protected virtual void UpdateAdditionalEffects(GameTime gameTime) { }
+
+    public event EventHandler? InteractionPerformed;
+
+    /// <inheritdoc />
+    public bool IsDestroyed { get; private set; }
+
+    /// <inheritdoc />
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        if (IsDestroyed)
+        {
+            return;
         }
 
-        protected Vector2 CurrentPosition
+        _graphics.Draw(spriteBatch);
+
+        DrawForegroundAdditionalEffects(spriteBatch);
+    }
+
+    /// <inheritdoc />
+    public void Update(GameTime gameTime)
+    {
+        if (IsDestroyed)
         {
-            get
+            return;
+        }
+
+        _frameSet.Update(gameTime);
+        _graphics.SourceRectangle = _frameSet.GetFrameRect();
+
+        if (_lifetimeCounter < _lifetimeDuration)
+        {
+            _lifetimeCounter += gameTime.ElapsedGameTime.TotalSeconds;
+
+            _graphics.Position = CurrentPosition;
+            var t = _lifetimeCounter / _lifetimeDuration;
+            _graphics.Rotation = _functions.RotationFunction.CalculateRadianAngle((float)t);
+        }
+        else
+        {
+            if (!IsDestroyed)
             {
-                var t = _lifetimeCounter / _lifetimeDuration;
-                var mainPosition = Vector2.Lerp(_startPosition, _endPosition, (float)t);
-                var modifierPosition = CalcPositionModifier(t);
-                return mainPosition + modifierPosition;
+                IsDestroyed = true;
+                InteractionPerformed?.Invoke(this, EventArgs.Empty);
             }
         }
 
-        protected virtual Vector2 CalcPositionModifier(double t)
-        {
-            return Vector2.Zero;
-        }
-
-        protected virtual void DrawForegroundAdditionalEffects(SpriteBatch spriteBatch) { }
-
-        protected virtual void UpdateAdditionalEffects(GameTime gameTime) { }
-
-        public event EventHandler? InteractionPerformed;
-
-        public bool IsDestroyed { get; private set; }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            if (IsDestroyed)
-            {
-                return;
-            }
-
-            _graphics.Draw(spriteBatch);
-
-            DrawForegroundAdditionalEffects(spriteBatch);
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            if (IsDestroyed)
-            {
-                return;
-            }
-
-            _frameSet.Update(gameTime);
-            _graphics.SourceRectangle = _frameSet.GetFrameRect();
-
-            if (_lifetimeCounter < _lifetimeDuration)
-            {
-                _lifetimeCounter += gameTime.ElapsedGameTime.TotalSeconds;
-
-                _graphics.Position = CurrentPosition;
-                _graphics.Rotation = MathF.Atan2(_endPosition.Y - _startPosition.Y, _endPosition.X - _startPosition.X);
-            }
-            else
-            {
-                if (!IsDestroyed)
-                {
-                    IsDestroyed = true;
-                    _blocker?.Release();
-                    InteractionPerformed?.Invoke(this, EventArgs.Empty);
-                    if (_targetCombatUnit is not null)
-                    {
-                        _interaction?.Invoke(_targetCombatUnit);
-                    }
-                }
-            }
-
-            UpdateAdditionalEffects(gameTime);
-        }
+        UpdateAdditionalEffects(gameTime);
     }
 }

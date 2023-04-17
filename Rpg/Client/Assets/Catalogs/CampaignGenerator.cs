@@ -1,212 +1,236 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.Catalogs.CampaignGeneration;
 using Client.Assets.StageItems;
+using Client.Core.Campaigns;
 
-using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.StageItems;
+using Core.Dices;
+using Core.PropDrop;
+
 using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
 
-namespace Rpg.Client.Assets.Catalogs
+namespace Client.Assets.Catalogs;
+
+internal sealed class CampaignGenerator : ICampaignGenerator
 {
-    internal sealed class CampaignGenerator : ICampaignGenerator
+    private readonly IDice _dice;
+    private readonly IDropResolver _dropResolver;
+    private readonly GlobeProvider _globeProvider;
+    private readonly IJobProgressResolver _jobProgressResolver;
+    private readonly CampaignStageTemplateServices _services;
+
+    public CampaignGenerator(IUnitSchemeCatalog unitSchemeCatalog, GlobeProvider globeProvider,
+        IEventCatalog eventCatalog, IDice dice, IJobProgressResolver jobProgressResolver, IDropResolver dropResolver)
     {
-        private readonly IDice _dice;
-        private readonly GlobeProvider _globeProvider;
-        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+        _services = new CampaignStageTemplateServices(unitSchemeCatalog, eventCatalog, globeProvider, dice);
+        _globeProvider = globeProvider;
+        _dice = dice;
+        _jobProgressResolver = jobProgressResolver;
+        _dropResolver = dropResolver;
+    }
 
-        public CampaignGenerator(IUnitSchemeCatalog unitSchemeCatalog, GlobeProvider globeProvider, IDice dice)
+    private HeroCampaign CreateCampaign(LocationSid locationSid)
+    {
+        var shortTemplate = CreateGrindShortTemplate(locationSid);
+
+        var stages = new List<CampaignStage>();
+        foreach (var template in shortTemplate)
         {
-            _unitSchemeCatalog = unitSchemeCatalog;
-            _globeProvider = globeProvider;
-            _dice = dice;
-        }
+            var itemList = new List<ICampaignStageItem>();
 
-        private HeroCampaign CreateCampaign(GlobeNodeSid locationSid, int length)
-        {
-            var stages = new List<CampaignStage>();
-            for (var stageIndex = 0; stageIndex < length; stageIndex++)
+            foreach (var templateItem in template)
             {
-                var stage = CreateStage(locationSid, stageIndex);
-                stages.Add(stage);
-            }
-
-            var rewardStageItem = new RewardStageItem(this);
-            var rewardStage = new CampaignStage
-            {
-                Items = new[]
-                {
-                    rewardStageItem
-                }
-            };
-            stages.Add(rewardStage);
-
-            var campaign = new HeroCampaign
-            {
-                CampaignStages = stages
-            };
-
-            return campaign;
-        }
-
-        private CampaignStage CreateCombatStage(GlobeNodeSid locationSid)
-        {
-            var stageItems = new List<ICampaignStageItem>();
-            for (var combatIndex = 0; combatIndex < 3; combatIndex++)
-            {
-                var combat = new CombatSource
-                {
-                    Level = 1,
-                    EnemyGroup = new Group()
-                };
-
-                var combatSequence = new CombatSequence
-                {
-                    Combats = new[] { combat }
-                };
-
-                var location = new GlobeNode
-                {
-                    Sid = locationSid,
-                    AssignedCombats = combatSequence
-                };
-                var stageItem = new CombatStageItem(location, combatSequence, this);
-
-                var monsterInfos = GetStartMonsterInfoList(locationSid);
-
-                for (var slotIndex = 0; slotIndex < monsterInfos.Count; slotIndex++)
-                {
-                    var scheme = _unitSchemeCatalog.AllMonsters.Single(x => x.Name == monsterInfos[slotIndex].name);
-                    combat.EnemyGroup.Slots[slotIndex].Unit = new Unit(scheme, monsterInfos[slotIndex].level);
-                }
-
-                stageItems.Add(stageItem);
+                var currentStageItems = itemList.ToArray();
+                var stageItem = templateItem.Create(currentStageItems);
+                itemList.Add(stageItem);
             }
 
             var stage = new CampaignStage
             {
-                Items = stageItems.ToArray()
+                Items = itemList
             };
 
-            return stage;
+            stages.Add(stage);
         }
 
-        private CampaignStage CreateSlidingPuzzlesStage()
+        var rewardStageItem = new RewardStageItem(_globeProvider, _jobProgressResolver, _dropResolver);
+        var rewardStage = new CampaignStage
         {
-            var stage = new CampaignStage
+            Items = new[]
             {
-                Items = new[]
+                rewardStageItem
+            }
+        };
+        stages.Add(rewardStage);
+
+        var campaign = new HeroCampaign(locationSid, stages);
+
+        return campaign;
+    }
+
+    private ICampaignStageTemplateFactory[][] CreateGrindShortTemplate(LocationSid locationSid)
+    {
+        return new[]
+        {
+            //// To debug text events
+            //new ICampaignStageTemplateFactory[]
+            //{
+            //    new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]{
+            //        new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+            //        new ChallengeCampaignStageTemplateFactory(),
+            //    })
+            //},
+
+            //// To debug crisis
+            //new ICampaignStageTemplateFactory[]
+            //{
+            //    new CrisisEventCampaignStageTemplateFactory()
+            //},
+
+            //// Combat
+
+            new ICampaignStageTemplateFactory[]
+            {
+                new CombatCampaignStageTemplateFactory(locationSid, 0)
+            },
+
+            // Rest
+
+            new ICampaignStageTemplateFactory[]
+            {
+                new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
                 {
-                    new SlidingPuzzlesStageItem(_globeProvider, _dice)
-                }
-            };
+                    new RestCampaignStageTemplateFactory(),
+                    new ShopCampaignStageTemplateFactory()
+                }, _services),
+                //new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+                //{
+                //    new SacredEventCampaignStageTemplateFactory(),
+                //    //new ShopCampaignStageTemplateFactory(),
+                //    //new FindingEventCampaignStageTemplateFactory()
+                //}, _services)
+            },
 
-            return stage;
-        }
+            // // Evo
+            //
+            // new ICampaignStageTemplateFactory[]
+            // {
+            //     new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+            //     {
+            //         new TrainingCampaignStageTemplateFactory(_services),
+            //         new WorkshopCampaignStageTemplateFactory(_services)
+            //     }, _services),
+            //
+            //     new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+            //     {
+            //         new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+            //         new ChallengeCampaignStageTemplateFactory(),
+            //         new SacredEventCampaignStageTemplateFactory(),
+            //         new MinigameEventCampaignStageTemplateFactory()
+            //     }, _services)
+            // },
 
-        private CampaignStage CreateStage(GlobeNodeSid locationSid, int stageIndex)
-        {
-            var stageType = stageIndex % 3;
+            // Crisis
 
-            if (stageType == 1)
+            new ICampaignStageTemplateFactory[]
             {
-                return CreateTrainingStage();
-            }
+                new CrisisEventCampaignStageTemplateFactory()
+            },
 
-            if (stageType == 2)
+            // Combat
+
+            new ICampaignStageTemplateFactory[]
             {
-                return CreateSlidingPuzzlesStage();
-            }
+                new CombatCampaignStageTemplateFactory(locationSid, 1)
+                // new CombatCampaignStageTemplateFactory(locationSid, _services),
+                // new CombatCampaignStageTemplateFactory(locationSid, _services)
+            },
 
-            return CreateCombatStage(locationSid);
-        }
+            // Rest
 
-        private CampaignStage CreateTrainingStage()
-        {
-            var stage = new CampaignStage
+            new ICampaignStageTemplateFactory[]
             {
-                Items = new[]
+                new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
                 {
-                    new TrainingStageItem(_globeProvider.Globe.Player, _dice)
-                }
-            };
+                    new RestCampaignStageTemplateFactory(),
+                    new ShopCampaignStageTemplateFactory()
+                }, _services),
+                //new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+                //{
+                //    new SacredEventCampaignStageTemplateFactory(),
+                //    //new ShopCampaignStageTemplateFactory(),
+                //    //new FindingEventCampaignStageTemplateFactory()
+                //}, _services)
+            },
 
-            return stage;
-        }
+            // For demo only
 
-        private IReadOnlyList<(UnitName name, int level)> GetStartMonsterInfoList(GlobeNodeSid location)
-        {
-            var availableAllRegularMonsters = _unitSchemeCatalog.AllMonsters.Where(x => !HasPerk<BossMonster>(x, 1));
-
-            var filteredByLocationMonsters = availableAllRegularMonsters.Where(x =>
-                (x.LocationSids is null) || (x.LocationSids is not null && x.LocationSids.Contains(location)));
-
-            var availableMonsters = filteredByLocationMonsters.ToList();
-
-            var rolledUnits = new List<UnitScheme>();
-
-            for (var i = 0; i < 3; i++)
+            new ICampaignStageTemplateFactory[]
             {
-                if (!availableMonsters.Any())
+                new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
                 {
-                    break;
-                }
+                    new MinigameEventCampaignStageTemplateFactory()
+                })
+            },
 
-                var scheme = _dice.RollFromList(availableMonsters, 1).Single();
+            // Evo
 
-                rolledUnits.Add(scheme);
+            // new ICampaignStageTemplateFactory[]
+            // {
+            //     new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+            //     {
+            //         new TrainingCampaignStageTemplateFactory(_services),
+            //         new WorkshopCampaignStageTemplateFactory(_services)
+            //     }, _services),
+            //
+            //     new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+            //     {
+            //         new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+            //         new SacredEventCampaignStageTemplateFactory(),
+            //         new MinigameEventCampaignStageTemplateFactory()
+            //     }, _services)
+            // },
 
-                if (scheme.IsUnique)
-                {
-                    // Remove all unique monsters from roll list.
-                    availableMonsters.RemoveAll(x => x.IsUnique);
-                }
-            }
+            // Crisis
 
-            var units = new List<Unit>();
-            foreach (var unitScheme in rolledUnits)
+            new ICampaignStageTemplateFactory[]
             {
-                var unitLevel = 2;
-                var unit = new Unit(unitScheme, unitLevel);
-                units.Add(unit);
+                new CrisisEventCampaignStageTemplateFactory()
+            },
+
+            // Combat
+
+            new ICampaignStageTemplateFactory[]
+            {
+                new CombatCampaignStageTemplateFactory(locationSid, 2)
             }
+        };
+    }
 
-            return rolledUnits.Select(x => (x.Name, 2)).ToArray();
-        }
-
-        private static bool HasPerk<TPerk>(UnitScheme unitScheme, int combatLevel)
+    public IReadOnlyList<HeroCampaign> CreateSet()
+    {
+        var availbleLocations = new[]
         {
-            var unit = new Unit(unitScheme, combatLevel);
-            return unit.Perks.OfType<TPerk>().Any();
-        }
+            LocationSid.Thicket,
+            LocationSid.Monastery,
+            LocationSid.ShipGraveyard,
+            LocationSid.Desert
+        };
 
-        public IReadOnlyList<HeroCampaign> CreateSet()
+        var selectedLocations = _dice.RollFromList(availbleLocations, 3).ToList();
+
+        var list = new List<HeroCampaign>();
+        for (var i = 0; i < selectedLocations.Count; i++)
         {
-            var availbleLocations = new[]
-            {
-                GlobeNodeSid.Thicket,
-                GlobeNodeSid.Monastery,
-                GlobeNodeSid.ShipGraveyard,
-                GlobeNodeSid.Desert
-            };
+            var location = selectedLocations[i];
 
-            var campaignLengths = new[] { 6, 12, 24 };
+            var campaign = CreateCampaign(location);
 
-            var selectedLocations = _dice.RollFromList(availbleLocations, 3).ToList();
-
-            var list = new List<HeroCampaign>();
-            for (var i = 0; i < selectedLocations.Count; i++)
-            {
-                var location = selectedLocations[i];
-                var length = campaignLengths[i];
-
-                var campaign = CreateCampaign(location, length);
-
-                list.Add(campaign);
-            }
-
-            return list;
+            list.Add(campaign);
         }
+
+        return list;
     }
 }

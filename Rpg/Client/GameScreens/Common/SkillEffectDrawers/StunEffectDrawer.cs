@@ -1,10 +1,9 @@
-﻿using Client;
+﻿using Client.GameScreens.Common.SkillEffectDrawers;
+
+using Core.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Rpg.Client.Core.SkillEffects;
-using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
 {
@@ -17,19 +16,20 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
             _font = font;
         }
 
-        public bool Draw(SpriteBatch spriteBatch, object effectToDisplay, ITargetSelector direction, Vector2 position)
+        public bool Draw(SpriteBatch spriteBatch, IEffectInstance effectToDisplay,
+            Vector2 position)
         {
-            if (effectToDisplay is not StunEffect stunEffect)
-            {
-                return false;
-            }
+            //if (effectToDisplay is not StunEffect stunEffect)
+            //{
+            //    return false;
+            //}
 
-            var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
+            //var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
 
-            spriteBatch.DrawString(_font,
-                string.Format(UiResource.StunEffectRuleText, stunEffect.EffectLifetime.GetTextDescription(),
-                    ruleDirectionText),
-                position, Color.Wheat);
+            //spriteBatch.DrawString(_font,
+            //    string.Format(UiResource.StunEffectRuleText, stunEffect.EffectLifetime.GetTextDescription(),
+            //        ruleDirectionText),
+            //    position, Color.Wheat);
 
             return true;
         }

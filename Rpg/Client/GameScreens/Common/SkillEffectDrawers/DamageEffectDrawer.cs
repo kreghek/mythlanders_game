@@ -1,38 +1,39 @@
-﻿using Client;
+﻿using Core.Combats;
+using Core.Combats.Effects;
+
+using JetBrains.Annotations;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Core.SkillEffects;
-using Rpg.Client.Core.Skills;
+namespace Client.GameScreens.Common.SkillEffectDrawers;
 
-namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
+[UsedImplicitly]
+internal class DamageEffectDrawer : ISkillEffectDrawer
 {
-    internal class DamageEffectDrawer : ISkillEffectDrawer
+    private readonly SpriteFont _font;
+
+    public DamageEffectDrawer(SpriteFont font)
     {
-        private readonly SpriteFont _font;
+        _font = font;
+    }
 
-        public DamageEffectDrawer(SpriteFont font)
+    public bool Draw(SpriteBatch spriteBatch, IEffectInstance effectToDisplay,
+        Vector2 position)
+    {
+        if (effectToDisplay is not DamageEffectInstance attackEffect)
         {
-            _font = font;
+            return false;
         }
 
-        public bool Draw(SpriteBatch spriteBatch, object effectToDisplay, ITargetSelector direction, Vector2 position)
-        {
-            if (effectToDisplay is not DamageEffect attackEffect)
-            {
-                return false;
-            }
+        var damageRange = attackEffect.Damage;
 
-            var damage = attackEffect.CalculateDamage();
+        var targetSelectorText = SkillEffectDrawerHelper.GetLocalized(effectToDisplay.Selector);
+        spriteBatch.DrawString(_font,
+            string.Format(UiResource.DamageEffectRuleText, damageRange.Min, damageRange.Max, targetSelectorText),
+            position,
+            Color.Wheat);
 
-            var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
-            spriteBatch.DrawString(_font,
-                string.Format(UiResource.DamageEffectRuleText, damage.Min, damage.Max, ruleDirectionText),
-                position,
-                Color.Wheat);
-
-            return true;
-        }
+        return true;
     }
 }

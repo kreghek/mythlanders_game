@@ -1,4 +1,5 @@
 using Client;
+using Client.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,7 +19,7 @@ namespace Rpg.Client.GameScreens.Credits
         private readonly IUiContentStorage _uiContentStorage;
         private float _textPosition;
 
-        public CreditsScreen(EwarGame game) : base(game)
+        public CreditsScreen(TestamentGame game) : base(game)
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _resolutionIndependentRenderer = game.Services.GetService<ResolutionIndependentRenderer>();

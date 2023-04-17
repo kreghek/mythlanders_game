@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 
-using Rpg.Client.Core;
+using Client.Core;
+
+using Core.Combats;
 
 namespace Rpg.Client.Assets.Perks
 {

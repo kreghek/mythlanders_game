@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
 
-using Rpg.Client.Core;
-using Rpg.Client.Core.Campaigns;
+using Client.Core.Campaigns;
+using Client.Core.Heroes;
+
 using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Training
 {
     internal sealed class TrainingScreenTransitionArguments : IScreenTransitionArguments
     {
-        public TrainingScreenTransitionArguments(IReadOnlyList<Unit> availableUnits, HeroCampaign campaign)
+        public TrainingScreenTransitionArguments(IReadOnlyList<Hero> availableUnits, HeroCampaign campaign)
         {
             AvailableUnits = availableUnits;
             Campaign = campaign;
         }
 
-        public IReadOnlyList<Unit> AvailableUnits { get; init; }
+        public IReadOnlyList<Hero> AvailableUnits { get; init; }
 
         internal HeroCampaign Campaign { get; }
     }

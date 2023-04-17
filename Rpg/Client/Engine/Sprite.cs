@@ -92,26 +92,20 @@ namespace Rpg.Client.Engine
         /// <param name="zindex">Final rendering zindex.</param>
         protected override void DoDraw(SpriteBatch spriteBatch, float zindex)
         {
-            // no texture? skip
-            if (Texture == null)
-            {
-                return;
-            }
-
             // if source rect is 0,0, set to texture default size
-            var _srcRect = SourceRectangle ?? new Rectangle(0, 0, 0, 0);
-            if (_srcRect.Width == 0)
+            var srcRect = SourceRectangle ?? new Rectangle(0, 0, 0, 0);
+            if (srcRect.Width == 0)
             {
-                _srcRect.Width = Texture.Width;
+                srcRect.Width = Texture.Width;
             }
 
-            if (_srcRect.Height == 0)
+            if (srcRect.Height == 0)
             {
-                _srcRect.Height = Texture.Height;
+                srcRect.Height = Texture.Height;
             }
 
             // calculate origin point
-            var origin = new Vector2(_srcRect.Width * Origin.X, _srcRect.Height * Origin.Y);
+            var origin = new Vector2(srcRect.Width * Origin.X, srcRect.Height * Origin.Y);
 
             // get scale from transformations
             var scale = WorldTransformations.Scale;
@@ -143,7 +137,7 @@ namespace Rpg.Client.Engine
             spriteBatch.Draw(
                 texture: Texture,
                 position: WorldTransformations.Position,
-                sourceRectangle: _srcRect,
+                sourceRectangle: srcRect,
                 color: WorldTransformations.Color,
                 rotation: flipResult.Rotation,
                 origin: origin,

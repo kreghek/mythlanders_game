@@ -1,25 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core.Dialogues;
+
 using Rpg.Client.Core.Dialogues;
 
-namespace Rpg.Client.Assets.DialogueOptionAftermath
+namespace Client.Assets.DialogueOptionAftermath;
+
+internal sealed class CompositeOptionAftermath : IDialogueOptionAftermath
 {
-    internal sealed class CompositeOptionAftermath : IOptionAftermath
+    private readonly IDialogueOptionAftermath[] _list;
+
+    public CompositeOptionAftermath(IEnumerable<IDialogueOptionAftermath> list)
     {
-        private readonly IOptionAftermath[] _list;
+        _list = list.ToArray();
+    }
 
-        public CompositeOptionAftermath(IEnumerable<IOptionAftermath> list)
+    public void Apply(IEventContext dialogContext)
+    {
+        foreach (var item in _list)
         {
-            _list = list.ToArray();
-        }
-
-        public void Apply(IEventContext dialogContext)
-        {
-            foreach (var item in _list)
-            {
-                item.Apply(dialogContext);
-            }
+            item.Apply(dialogContext);
         }
     }
 }

@@ -11,6 +11,8 @@ namespace Rpg.Client.Assets.GraphicConfigs.Heroes
             return new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
             {
                 { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdle() },
+                { PredefinedAnimationSid.MoveBackward, AnimationFrameSetFactory.CreateIdle() },
+                { PredefinedAnimationSid.MoveForward, AnimationFrameSetFactory.CreateIdle() },
                 {
                     PredefinedAnimationSid.Skill1,
                     AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8, frameCount: 8, fps: 8)
