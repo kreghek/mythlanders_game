@@ -18,25 +18,25 @@ using Rpg.Client.GameScreens;
 
 namespace Client.GameScreens.TextDialogue.Ui;
 
-internal sealed class TextFragmentControl : ControlBase
+internal sealed class TextParagraphControl : ControlBase
 {
-    private const int PORTRAIT_SIZE = 32;
+    private const int DISPLAY_NAME_HEIGHT = 32;
     private readonly IReadOnlyCollection<IDialogueEnvironmentEffect> _envCommands;
+    private readonly Vector2 _messageSize;
+    private readonly Vector2 _speakerDisplayNameSize;
     private readonly IDialogueEnvironmentManager _envManager;
 
-    private readonly SpriteFont _font;
+    private readonly SpriteFont _displayNameFont;
     private readonly string? _localizedSpeakerName;
-    private readonly TextFragmentMessageControl _message;
-    private readonly Texture2D _portraitsTexture;
+    private readonly TextParagraphMessageControl _message;
     private readonly UnitName _speaker;
 
     private bool _envCommandsExecuted;
 
-    public TextFragmentControl(DialogueParagraph eventTextFragment, Texture2D portraitsTexture,
+    public TextParagraphControl(DialogueParagraph eventTextFragment,
         SoundEffect textSoundEffect, IDice dice, IDialogueEnvironmentManager envManager, IStoryState storyState)
     {
-        _font = UiThemeManager.UiContentStorage.GetMainFont();
-        _portraitsTexture = portraitsTexture;
+        _displayNameFont = UiThemeManager.UiContentStorage.GetMainFont();
         _envManager = envManager;
         _speaker = eventTextFragment.Speaker;
 
@@ -44,28 +44,27 @@ internal sealed class TextFragmentControl : ControlBase
                            new CharacterRelation(_speaker);
 
         _localizedSpeakerName = GetSpeakerDisplayName(speakerState);
-        _message = new TextFragmentMessageControl(eventTextFragment, textSoundEffect, dice,
+        _message = new TextParagraphMessageControl(eventTextFragment, textSoundEffect, dice,
             _speaker != UnitName.Environment);
         _envCommands = eventTextFragment.EnvironmentEffects;
+
+        _messageSize = _message.CalculateSize();
+        _speakerDisplayNameSize = _localizedSpeakerName is not null ? _displayNameFont.MeasureString(_localizedSpeakerName) : Vector2.Zero;
     }
 
     public bool IsComplete => _message.IsComplete;
 
     public Vector2 CalculateSize()
     {
-        var messageSize = _message.CalculateSize();
-        var portraitSize = new Vector2(PORTRAIT_SIZE, PORTRAIT_SIZE);
+        var width = Math.Max(_messageSize.X, _speakerDisplayNameSize.X);
+        var height = _speakerDisplayNameSize.Y + CONTENT_MARGIN + _messageSize.Y;
 
-        var width = Math.Max(messageSize.X, portraitSize.X);
-        var height = Math.Max(messageSize.Y, portraitSize.Y);
-
-        // TODO use margin
-        return new Vector2(width, height) + Vector2.One * (2 * 4);
+        return new Vector2(width + CONTENT_MARGIN * 2, height + CONTENT_MARGIN * 2);
     }
 
-    public void MoveToCompletion()
+    public void FastComplete()
     {
-        _message.MoveToCompletion();
+        _message.FastComplete();
     }
 
     public void Update(GameTime gameTime)
@@ -103,29 +102,17 @@ internal sealed class TextFragmentControl : ControlBase
     {
         if (_speaker != UnitName.Environment)
         {
-            DrawSpeaker(spriteBatch, clientRect.Location.ToVector2());
+            DrawSpeakerDisplayName(spriteBatch, clientRect.Location.ToVector2());
         }
 
-        var textPosition = clientRect.Location.ToVector2() + Vector2.UnitX * PORTRAIT_SIZE;
-        _message.Rect = new Rectangle(textPosition.ToPoint(),
-            new Point(clientRect.Width, clientRect.Height));
+        var messageTextPosition = clientRect.Location.ToVector2() + new Vector2(0, _speakerDisplayNameSize.Y) + new Vector2(0, CONTENT_MARGIN);
+        _message.Rect = new Rectangle(messageTextPosition.ToPoint(), new Point(clientRect.Width, clientRect.Height));
         _message.Draw(spriteBatch);
     }
 
-    private void DrawSpeaker(SpriteBatch spriteBatch, Vector2 position)
+    private void DrawSpeakerDisplayName(SpriteBatch spriteBatch, Vector2 position)
     {
-        var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(_speaker);
-        spriteBatch.Draw(_portraitsTexture, position, portraitSourceRect, Color.White);
-
-        var speakerNameTextSize = _font.MeasureString(_localizedSpeakerName);
-        var speakerNameTextPosition = position + Vector2.UnitY * PORTRAIT_SIZE;
-
-        var xDiff = speakerNameTextSize.X - PORTRAIT_SIZE;
-
-        var alignedSpeakerNameTextPosition =
-            new Vector2(speakerNameTextPosition.X - xDiff, speakerNameTextPosition.Y);
-
-        spriteBatch.DrawString(_font, _localizedSpeakerName, alignedSpeakerNameTextPosition, Color.White);
+        spriteBatch.DrawString(_displayNameFont, _localizedSpeakerName, position, Color.White);
     }
 
     private static string? GetSpeakerDisplayName(CharacterRelation characterRelation)
