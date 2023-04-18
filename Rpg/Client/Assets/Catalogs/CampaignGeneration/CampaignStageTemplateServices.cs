@@ -1,4 +1,6 @@
-﻿using Core.Dices;
+﻿using Client.Core;
+
+using Core.Dices;
 
 using Rpg.Client.Core;
 

@@ -3,6 +3,7 @@ using System.Linq;
 
 using Client.Assets.Catalogs.CampaignGeneration;
 using Client.Assets.StageItems;
+using Client.Core;
 using Client.Core.Campaigns;
 
 using Core.Dices;
@@ -74,14 +75,14 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     {
         return new[]
         {
-            //// To debug text events
-            //new ICampaignStageTemplateFactory[]
-            //{
-            //    new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]{
-            //        new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
-            //        new ChallengeCampaignStageTemplateFactory(),
-            //    })
-            //},
+            // To debug text events
+            new ICampaignStageTemplateFactory[]
+            {
+                new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]{
+                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+                    new ChallengeCampaignStageTemplateFactory(),
+                })
+            },
 
             //// To debug crisis
             //new ICampaignStageTemplateFactory[]

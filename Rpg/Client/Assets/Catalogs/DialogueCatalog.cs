@@ -4,6 +4,7 @@ using System.Linq;
 
 using Client.Assets.Catalogs.DialogueStoring;
 using Client.Assets.Dialogues;
+using Client.Core;
 using Client.Core.Dialogues;
 
 using Rpg.Client.Assets.Catalogs;

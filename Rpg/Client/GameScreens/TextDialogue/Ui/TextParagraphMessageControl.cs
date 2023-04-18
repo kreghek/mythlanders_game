@@ -11,20 +11,20 @@ using Rpg.Client.GameScreens.Speech.Ui;
 
 namespace Client.GameScreens.TextDialogue.Ui;
 
-internal sealed class TextFragmentMessageControl : ControlBase
+internal sealed class TextParagraphMessageControl : ControlBase
 {
     private readonly SpriteFont _font;
     private readonly bool _isCharacterSpeech;
 
     private readonly Speech _speech;
 
-    public TextFragmentMessageControl(DialogueParagraph eventTextFragment,
+    public TextParagraphMessageControl(DialogueParagraph eventTextFragment,
         SoundEffect textSoundEffect, IDice dice, bool isCharacterSpeech)
     {
         _font = UiThemeManager.UiContentStorage.GetTitlesFont();
 
-        var speechText = SpeechVisualizationHelper.PrepareLocalizedText(eventTextFragment.TextSid);
-        _speech = new Speech(speechText.text, new SpeechSoundWrapper(textSoundEffect), new SpeechRandomProvider(dice));
+        var (text, _) = SpeechVisualizationHelper.PrepareLocalizedText(eventTextFragment.TextSid);
+        _speech = new Speech(text, new SpeechSoundWrapper(textSoundEffect), new SpeechRandomProvider(dice));
         _isCharacterSpeech = isCharacterSpeech;
     }
 
@@ -36,7 +36,7 @@ internal sealed class TextFragmentMessageControl : ControlBase
         return size + Vector2.One * (2 * CONTENT_MARGIN);
     }
 
-    public void MoveToCompletion()
+    public void FastComplete()
     {
         _speech.MoveToCompletion();
     }

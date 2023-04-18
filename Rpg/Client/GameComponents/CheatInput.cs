@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Text;
 
+using Client.Core;
+
 using Core.Dices;
 
 using Microsoft.Xna.Framework;

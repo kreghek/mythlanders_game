@@ -53,7 +53,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
     private readonly GlobeProvider _globeProvider;
     private readonly Player _player;
     private readonly Random _random;
-    private readonly IList<TextFragmentControl> _textFragments;
+    private readonly IList<TextParagraphControl> _textFragments;
     private readonly IUiContentStorage _uiContentStorage;
 
     private double _counter;
@@ -100,7 +100,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         _backgroundTexture.SetData(data);
 
         _dialogueOptions = new DialogueOptions();
-        _textFragments = new List<TextFragmentControl>();
+        _textFragments = new List<TextParagraphControl>();
 
         var dualogueContextFactory =
             new DialogueContextFactory(globe, storyPointCatalog, _player, args.DialogueEvent);
@@ -398,9 +398,8 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         _currentFragmentIndex = 0;
         foreach (var textFragment in _dialoguePlayer.CurrentTextFragments)
         {
-            var textFragmentControl = new TextFragmentControl(
+            var textFragmentControl = new TextParagraphControl(
                 textFragment,
-                _gameObjectContentStorage.GetUnitPortrains(),
                 _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker),
                 _dice,
                 _dialogueEnvironmentManager,
@@ -460,7 +459,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         var maxFragmentIndex = _textFragments.Count - 1;
         if (IsKeyPressed(Keys.Space) && !_textFragments[_currentFragmentIndex].IsComplete)
         {
-            currentFragment.MoveToCompletion();
+            currentFragment.FastComplete();
 
             return;
         }

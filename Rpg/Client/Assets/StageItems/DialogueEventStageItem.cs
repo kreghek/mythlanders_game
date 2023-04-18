@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 
+using Client.Core;
 using Client.Core.Campaigns;
 using Client.GameScreens.TextDialogue;
 

@@ -31,7 +31,6 @@
     <EmbeddedResource Include="Icon.ico" />
     <EmbeddedResource Include="Icon.bmp" />
 	<EmbeddedResource Include="Resources\Balance.json" />
-	<EmbeddedResource Include="Resources\Dialogues\*.json" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
