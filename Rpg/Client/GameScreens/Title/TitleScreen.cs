@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core;
 using Client.Engine;
 using Client.GameScreens.CommandCenter;
 using Client.GameScreens.Common;
@@ -18,7 +19,6 @@ using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.CampaignSelection;
 using Rpg.Client.GameScreens.Title;
 using Rpg.Client.ScreenManagement;
-using Client.Core;
 
 namespace Client.GameScreens.Title;
 
