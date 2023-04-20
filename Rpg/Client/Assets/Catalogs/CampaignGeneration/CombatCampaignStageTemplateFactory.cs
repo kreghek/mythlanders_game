@@ -14,32 +14,36 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
     private readonly LocationSid _locationSid;
-    private readonly int _templateIndex;
 
-    private readonly MonsterCombatantPrefab[][] _monsterCombatantPrefabs = new MonsterCombatantPrefab[][] {
-
-        new MonsterCombatantPrefab[]{
-            new ("aspid", 0, new FieldCoords(0, 1)),
+    private readonly MonsterCombatantPrefab[][] _monsterCombatantPrefabs =
+    {
+        new MonsterCombatantPrefab[]
+        {
+            new("aspid", 0, new FieldCoords(0, 1)),
             //new ("chaser", 0, new FieldCoords(0, 1))
             //new ("volkolakwarrior", 0, new FieldCoords(1, 2)),
             //new ("chaser", 1, new FieldCoords(1, 2)),
-            new ("digitalwolf", 0, new FieldCoords(0, 2))
+            new("digitalwolf", 0, new FieldCoords(0, 2))
         },
 
-        new MonsterCombatantPrefab[]{
-            new ("aspid", 0, new FieldCoords(0, 1)),
+        new MonsterCombatantPrefab[]
+        {
+            new("aspid", 0, new FieldCoords(0, 1)),
             //new ("chaser", 0, new FieldCoords(0, 1))
             //new ("volkolakwarrior", 0, new FieldCoords(1, 2)),
             //new ("chaser", 1, new FieldCoords(1, 2)),
-            new ("digitalwolf", 0, new FieldCoords(1, 1))
+            new("digitalwolf", 0, new FieldCoords(1, 1))
         },
 
-        new MonsterCombatantPrefab[]{
-            new ("aspid", 0, new FieldCoords(0, 1)),
-            new ("digitalwolf", 0, new FieldCoords(0, 2)),
-            new ("digitalwolf", 0, new FieldCoords(1, 1))
+        new MonsterCombatantPrefab[]
+        {
+            new("aspid", 0, new FieldCoords(0, 1)),
+            new("digitalwolf", 0, new FieldCoords(0, 2)),
+            new("digitalwolf", 0, new FieldCoords(1, 1))
         }
     };
+
+    private readonly int _templateIndex;
 
     public CombatCampaignStageTemplateFactory(LocationSid locationSid, int templateIndex)
     {

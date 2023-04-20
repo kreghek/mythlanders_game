@@ -46,8 +46,10 @@ internal sealed class CombatMovementVisualizer : ICombatMovementVisualizer
         if (!_movementVisualizationDict.TryGetValue(sid, out var factory))
         {
             var config = new SingleMeleeVisualizationConfig(
-                    new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8),
-                    new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8) { IsLoop = true });
+                new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
+                    CommonConstants.FrameSize.Y, 8),
+                new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8)
+                    { IsLoop = true });
 
             return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
                 visualizationContext,

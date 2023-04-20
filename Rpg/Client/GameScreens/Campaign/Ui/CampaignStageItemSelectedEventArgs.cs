@@ -12,6 +12,7 @@ internal sealed class CampaignStageItemSelectedEventArgs : EventArgs
         Description = _description;
     }
 
-    public Vector2 Position { get; }
     public string Description { get; }
+
+    public Vector2 Position { get; }
 }

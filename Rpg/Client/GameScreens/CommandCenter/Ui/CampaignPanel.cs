@@ -12,24 +12,39 @@ namespace Client.GameScreens.CommandCenter.Ui;
 internal sealed class CampaignPanel : ControlBase
 {
     private readonly CampaignButton _selectButton;
-    public bool Hover { get; private set; }
 
     public CampaignPanel(HeroCampaign campaign, Texture2D campaignTexture)
     {
         _selectButton = new CampaignButton(campaignTexture, campaign.Location);
         _selectButton.OnClick += (_, _) => { Selected?.Invoke(this, EventArgs.Empty); };
-        _selectButton.OnHover += (_, _) => { Hover = true; _selectButton.Hover = true; };
-        _selectButton.OnLeave += (_, _) => { Hover = false; _selectButton.Hover = false; };
+        _selectButton.OnHover += (_, _) =>
+        {
+            Hover = true;
+            _selectButton.Hover = true;
+        };
+        _selectButton.OnLeave += (_, _) =>
+        {
+            Hover = false;
+            _selectButton.Hover = false;
+        };
     }
+
+    public bool Hover { get; private set; }
 
     public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         _selectButton.Update(resolutionIndependentRenderer);
     }
 
-    protected override Point CalcTextureOffset() => ControlTextures.Transparent;
+    protected override Point CalcTextureOffset()
+    {
+        return ControlTextures.Transparent;
+    }
 
-    protected override Color CalculateColor() => Color.White;
+    protected override Color CalculateColor()
+    {
+        return Color.White;
+    }
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {

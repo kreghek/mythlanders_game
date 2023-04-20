@@ -2,4 +2,5 @@
 
 namespace Client.Assets.CombatMovements;
 
-internal sealed record SingleMeleeVisualizationConfig(IAnimationFrameSet CombatMovementAnimation, IAnimationFrameSet BackAnimation);
+internal sealed record SingleMeleeVisualizationConfig(IAnimationFrameSet CombatMovementAnimation,
+    IAnimationFrameSet BackAnimation);

@@ -19,7 +19,10 @@ internal sealed class CampaignButton : ButtonBase
 
     public string Description { get; }
 
-    protected override Point CalcTextureOffset() => ControlTextures.Campaign;
+    protected override Point CalcTextureOffset()
+    {
+        return ControlTextures.Campaign;
+    }
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
     {

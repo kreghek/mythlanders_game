@@ -9,6 +9,7 @@ namespace Rpg.Client.Engine
 
         public static Point Button { get; } = Point.Zero;
         public static Point Button2 { get; } = CalcPointByIndex(7);
+        public static Point Campaign { get; } = CalcPointByIndex(8);
         public static Point CombatMove { get; } = CalcPointByIndex(2);
         public static Point OptionHover { get; } = CalcPointByIndex(5);
         public static Point OptionNormal { get; } = CalcPointByIndex(4);
@@ -16,7 +17,6 @@ namespace Rpg.Client.Engine
         public static Point PanelBlack { get; } = CalcPointByIndex(6);
         public static Point Shadow { get; } = CalcPointByIndex(6);
         public static Point Speech { get; } = CalcPointByIndex(3);
-        public static Point Campaign { get; } = CalcPointByIndex(8);
         public static Point Transparent { get; } = CalcPointByIndex(9);
 
         private static Point CalcPointByIndex(int index)

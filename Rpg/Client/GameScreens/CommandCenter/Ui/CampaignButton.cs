@@ -20,7 +20,10 @@ internal sealed class CampaignButton : ButtonBase
 
     public bool Hover { get; set; }
 
-    protected override Point CalcTextureOffset() => ControlTextures.CombatMove;
+    protected override Point CalcTextureOffset()
+    {
+        return ControlTextures.CombatMove;
+    }
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {

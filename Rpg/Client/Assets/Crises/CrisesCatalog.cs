@@ -55,7 +55,6 @@ public sealed class CrisesCatalog : ICrisesCatalog
                 new DamageAllCrisisAftermath("Hide")
             }),
 
-
             new Treasues("Treasures", new ICrisisAftermath[]
             {
                 new DamageSingleRandomCrisisAftermath("TakeAll"),
@@ -75,7 +74,7 @@ public sealed class CrisesCatalog : ICrisesCatalog
             {
                 new DamageSingleRandomCrisisAftermath("TakeAll"),
                 new DamageAllCrisisAftermath("Examine")
-            }),
+            })
         };
     }
 

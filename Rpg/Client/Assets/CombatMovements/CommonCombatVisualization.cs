@@ -22,7 +22,8 @@ internal static class CommonCombatVisualization
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
         var startPosition = actorAnimator.GraphicRoot.Position;
-        var targetCombatant = GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
+        var targetCombatant =
+            GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
 
         var targetPosition = targetCombatant is not null
             ? visualizationContext.GetCombatActor(targetCombatant).InteractionPoint
@@ -70,7 +71,8 @@ internal static class CommonCombatVisualization
         };
 
         var startPosition = actorAnimator.GraphicRoot.Position;
-        var targetCombatant = GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
+        var targetCombatant =
+            GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
 
         Vector2 targetPosition;
 
@@ -104,9 +106,12 @@ internal static class CommonCombatVisualization
         return innerState;
     }
 
-    private static Combatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution, Combatant actorCombatant)
+    private static Combatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
+        Combatant actorCombatant)
     {
-        var firstImposeItem = movementExecution.EffectImposeItems.FirstOrDefault(x => x.MaterializedTargets.All(t => t != actorCombatant));
+        var firstImposeItem =
+            movementExecution.EffectImposeItems.FirstOrDefault(x =>
+                x.MaterializedTargets.All(t => t != actorCombatant));
         if (firstImposeItem is null)
         {
             return null;

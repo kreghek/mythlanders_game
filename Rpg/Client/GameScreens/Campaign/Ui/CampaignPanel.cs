@@ -14,14 +14,15 @@ namespace Client.GameScreens.Campaign.Ui;
 internal sealed class CampaignPanel : ControlBase
 {
     private const int CAMPAIGN_PAGE_SIZE = 4;
-    private readonly IScreen _currentScreen;
     private readonly Texture2D _campaignIconsTexture;
+    private readonly IScreen _currentScreen;
     private readonly int _minIndex;
     private readonly IList<CampaignStagePanelBase> _panelList;
     private readonly IScreenManager _screenManager;
     private TextHint _currentHint;
 
-    public CampaignPanel(HeroCampaign heroCampaign, IScreenManager screenManager, IScreen currentScreen, Texture2D campaignIconsTexture)
+    public CampaignPanel(HeroCampaign heroCampaign, IScreenManager screenManager, IScreen currentScreen,
+        Texture2D campaignIconsTexture)
     {
         _screenManager = screenManager;
         _currentScreen = currentScreen;
@@ -35,9 +36,15 @@ internal sealed class CampaignPanel : ControlBase
         InitChildControls(heroCampaign.CampaignStages, heroCampaign, _panelList);
     }
 
-    protected override Point CalcTextureOffset() => ControlTextures.PanelBlack;
+    protected override Point CalcTextureOffset()
+    {
+        return ControlTextures.PanelBlack;
+    }
 
-    protected override Color CalculateColor() => Color.White;
+    protected override Color CalculateColor()
+    {
+        return Color.White;
+    }
 
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
@@ -89,7 +96,8 @@ internal sealed class CampaignPanel : ControlBase
             {
                 if (stageIsActive)
                 {
-                    var stagePanel = new ActiveCampaignStagePanel(stage, stageIndex, _campaignIconsTexture, currentCampaign, _currentScreen,
+                    var stagePanel = new ActiveCampaignStagePanel(stage, stageIndex, _campaignIconsTexture,
+                        currentCampaign, _currentScreen,
                         _screenManager, stageIsActive);
 
                     stagePanel.Selected += (_, e) =>
@@ -104,7 +112,8 @@ internal sealed class CampaignPanel : ControlBase
                 }
                 else
                 {
-                    var stagePanel = new NextCampaignStagePanel(stage, stageIndex, _campaignIconsTexture, currentCampaign, _currentScreen,
+                    var stagePanel = new NextCampaignStagePanel(stage, stageIndex, _campaignIconsTexture,
+                        currentCampaign, _currentScreen,
                         _screenManager, stageIsActive);
                     panelList.Add(stagePanel);
                 }

@@ -21,6 +21,12 @@ internal abstract class CampaignStagePanelBase : ControlBase
 
     public virtual void Update(ResolutionIndependentRenderer resolutionIndependentRenderer) { }
 
+    protected void DoSelected(CampaignButton selectedButton)
+    {
+        Selected?.Invoke(this,
+            new CampaignStageItemSelectedEventArgs(selectedButton.Rect.Center.ToVector2(), selectedButton.Description));
+    }
+
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
         const int STAGE_LABEL_HEIGHT = 20;
@@ -41,13 +47,6 @@ internal abstract class CampaignStagePanelBase : ControlBase
             contentRect.Width,
             contentRect.Height - (CONTENT_MARGIN + STAGE_LABEL_HEIGHT)));
     }
-
-    protected void DoSelected(CampaignButton selectedButton)
-    {
-        Selected?.Invoke(this, new CampaignStageItemSelectedEventArgs(selectedButton.Rect.Center.ToVector2(), selectedButton.Description));
-    }
-
-    public event EventHandler<CampaignStageItemSelectedEventArgs>? Selected;
 
     protected abstract void DrawPanelContent(SpriteBatch spriteBatch, Rectangle rectangle);
 
@@ -75,7 +74,7 @@ internal abstract class CampaignStagePanelBase : ControlBase
 
         //if (campaignStageItem is NotImplemenetedStageItem notImplemenetedStage)
         //{
-        //    return notImplemenetedStage.StageSid + " (не для демо)";
+        //    return notImplemenetedStage.StageSid + " (пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ)";
         //}
 
         return UiResource.CampaignStageDisplayNameUnknown;
@@ -107,4 +106,6 @@ internal abstract class CampaignStagePanelBase : ControlBase
 
         return new Rectangle(new Point(2 * 32, 2 * 32), size);
     }
+
+    public event EventHandler<CampaignStageItemSelectedEventArgs>? Selected;
 }

@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
-using Client.Assets.States.Primitives;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
@@ -9,11 +7,6 @@ using Client.GameScreens.Combat.GameObjects;
 using Core.Combats;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
-
-using Microsoft.Xna.Framework;
-
-using Rpg.Client.GameScreens.Combat.GameObjects;
-using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
@@ -43,12 +36,16 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
         };
     }
 
-    public override IActorVisualizationState CreateVisualization(IActorAnimator actorAnimator, CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+    public override IActorVisualizationState CreateVisualization(IActorAnimator actorAnimator,
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
         var config = new SingleMeleeVisualizationConfig(
-                    new LinearAnimationFrameSet(Enumerable.Range(8, 8).ToArray(), 4, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8),
-                    new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8) { IsLoop = true });
+            new LinearAnimationFrameSet(Enumerable.Range(8, 8).ToArray(), 4, CommonConstants.FrameSize.X,
+                CommonConstants.FrameSize.Y, 8),
+            new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8)
+                { IsLoop = true });
 
-        return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution, visualizationContext, config);
+        return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
+            visualizationContext, config);
     }
 }

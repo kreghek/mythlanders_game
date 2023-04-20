@@ -21,15 +21,15 @@ namespace Client.GameScreens.TextDialogue.Ui;
 internal sealed class TextParagraphControl : ControlBase
 {
     private const int DISPLAY_NAME_HEIGHT = 32;
-    private readonly IReadOnlyCollection<IDialogueEnvironmentEffect> _envCommands;
-    private readonly Vector2 _messageSize;
-    private readonly Vector2 _speakerDisplayNameSize;
-    private readonly IDialogueEnvironmentManager _envManager;
 
     private readonly SpriteFont _displayNameFont;
+    private readonly IReadOnlyCollection<IDialogueEnvironmentEffect> _envCommands;
+    private readonly IDialogueEnvironmentManager _envManager;
     private readonly string? _localizedSpeakerName;
     private readonly TextParagraphMessageControl _message;
+    private readonly Vector2 _messageSize;
     private readonly UnitName _speaker;
+    private readonly Vector2 _speakerDisplayNameSize;
 
     private bool _envCommandsExecuted;
 
@@ -49,7 +49,9 @@ internal sealed class TextParagraphControl : ControlBase
         _envCommands = eventTextFragment.EnvironmentEffects;
 
         _messageSize = _message.CalculateSize();
-        _speakerDisplayNameSize = _localizedSpeakerName is not null ? _displayNameFont.MeasureString(_localizedSpeakerName) : Vector2.Zero;
+        _speakerDisplayNameSize = _localizedSpeakerName is not null
+            ? _displayNameFont.MeasureString(_localizedSpeakerName)
+            : Vector2.Zero;
     }
 
     public bool IsComplete => _message.IsComplete;
@@ -105,7 +107,8 @@ internal sealed class TextParagraphControl : ControlBase
             DrawSpeakerDisplayName(spriteBatch, clientRect.Location.ToVector2());
         }
 
-        var messageTextPosition = clientRect.Location.ToVector2() + new Vector2(0, _speakerDisplayNameSize.Y) + new Vector2(0, CONTENT_MARGIN);
+        var messageTextPosition = clientRect.Location.ToVector2() + new Vector2(0, _speakerDisplayNameSize.Y) +
+                                  new Vector2(0, CONTENT_MARGIN);
         _message.Rect = new Rectangle(messageTextPosition.ToPoint(), new Point(clientRect.Width, clientRect.Height));
         _message.Draw(spriteBatch);
     }

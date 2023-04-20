@@ -14,12 +14,13 @@ namespace Client.GameScreens.Campaign.Ui;
 internal class ActiveCampaignStagePanel : CampaignStagePanelBase
 {
     private readonly IList<CampaignButton> _buttonList;
-    private readonly CampaignStage _campaignStage;
     private readonly Texture2D _campaignIconsTexture;
+    private readonly CampaignStage _campaignStage;
     private readonly HeroCampaign _currentCampaign;
     private readonly bool _isActive;
 
-    public ActiveCampaignStagePanel(CampaignStage campaignStage, int stageIndex, Texture2D campaignIconsTexture, HeroCampaign currentCampaign,
+    public ActiveCampaignStagePanel(CampaignStage campaignStage, int stageIndex, Texture2D campaignIconsTexture,
+        HeroCampaign currentCampaign,
         IScreen currentScreen, IScreenManager screenManager, bool isActive) : base(stageIndex)
     {
         _campaignStage = campaignStage;
@@ -84,7 +85,7 @@ internal class ActiveCampaignStagePanel : CampaignStagePanelBase
             var stageIconRect = GetStageItemTexture(campaignStageItem);
 
             var button = new CampaignButton(new IconData(_campaignIconsTexture, stageIconRect), stageItemDisplayName +
-                                        (_campaignStage.IsCompleted ? " (Завершено)" : string.Empty));
+                (_campaignStage.IsCompleted ? " (Завершено)" : string.Empty));
             _buttonList.Add(button);
 
             if (isActive)

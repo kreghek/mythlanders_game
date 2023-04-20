@@ -47,10 +47,8 @@ internal class CampaignScreen : GameScreenWithMenuBase
                 _inventoryButton
             };
         }
-        else
-        {
-            return Array.Empty<ButtonBase>();
-        }
+
+        return Array.Empty<ButtonBase>();
     }
 
     protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -138,7 +136,8 @@ internal class CampaignScreen : GameScreenWithMenuBase
     {
         var currentCampaign = _screenTransitionArguments.Campaign;
 
-        _stagePanel = new CampaignPanel(currentCampaign, ScreenManager, this, Game.Content.Load<Texture2D>("Sprites/Ui/CampaignStageIcons"));
+        _stagePanel = new CampaignPanel(currentCampaign, ScreenManager, this,
+            Game.Content.Load<Texture2D>("Sprites/Ui/CampaignStageIcons"));
     }
 
     private void InventoryButton_OnClick(object? sender, EventArgs e)

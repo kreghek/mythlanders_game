@@ -17,8 +17,8 @@ namespace Client.GameScreens.NotImplementedStage;
 internal class NotImplementedStageScreen : GameScreenWithMenuBase
 {
     private readonly HeroCampaign _campaign;
-    private readonly IUiContentStorage _uiContentStorage;
     private readonly ButtonBase _skipButton;
+    private readonly IUiContentStorage _uiContentStorage;
 
     public NotImplementedStageScreen(TestamentGame game, NotImplementedStageScreenTransitionArguments args) : base(game)
     {
