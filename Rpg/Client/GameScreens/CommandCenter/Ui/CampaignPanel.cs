@@ -1,44 +1,32 @@
 ﻿using System;
 
 using Client.Core.Campaigns;
-using Client.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 
+using YamlDotNet.Core;
+
 namespace Client.GameScreens.CommandCenter.Ui;
 
-internal class CampaignPanel : ControlBase
+internal sealed class CampaignButton : ButtonBase
 {
-    private readonly HeroCampaign _campaign;
     private readonly Texture2D _campaignTexture;
-    private readonly ButtonBase _selectButton;
+    private readonly LocationSid _location;
 
-    public CampaignPanel(HeroCampaign campaign, Texture2D campaignTexture)
+    public CampaignButton(Texture2D campaignTexture, LocationSid location)
     {
-        _campaign = campaign;
         _campaignTexture = campaignTexture;
-        _selectButton = new ResourceTextButton(nameof(UiResource.CampaignSelectButtonTitle));
-        _selectButton.OnClick += (_, _) => { Selected?.Invoke(this, EventArgs.Empty); };
+        _location = location;
     }
 
-    public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
-    {
-        _selectButton.Update(resolutionIndependentRenderer);
-    }
+    public bool Hover { get; set; }
 
-    protected override Point CalcTextureOffset()
-    {
-        return ControlTextures.CombatMove;
-    }
-
-    protected override Color CalculateColor()
-    {
-        return Color.White;
-    }
+    protected override Point CalcTextureOffset() => ControlTextures.CombatMove;
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
@@ -48,17 +36,42 @@ internal class CampaignPanel : ControlBase
                 contentRect.Top + CONTENT_MARGIN,
                 contentRect.Width - (CONTENT_MARGIN * 2),
                 contentRect.Height - (CONTENT_MARGIN * 2) - 20),
-            new Rectangle(0, 100, 200, 100),
+            new Rectangle(0, Hover ? 0 : 100, 200, Hover? 200 : 100),
             Color.White);
 
         spriteBatch.DrawString(
             UiThemeManager.UiContentStorage.GetTitlesFont(),
-            GameObjectHelper.GetLocalized(_campaign.Location),
+            GameObjectHelper.GetLocalized(_location),
             new Vector2(contentRect.Left + CONTENT_MARGIN, contentRect.Bottom - CONTENT_MARGIN - 20),
             Color.Wheat);
+    }
+}
 
-        _selectButton.Rect =
-            new Rectangle(contentRect.Left + CONTENT_MARGIN, contentRect.Bottom - CONTENT_MARGIN, 100, 20);
+internal sealed class CampaignPanel : ControlBase
+{
+    private readonly CampaignButton _selectButton;
+    public bool Hover { get; private set; }
+
+    public CampaignPanel(HeroCampaign campaign, Texture2D campaignTexture)
+    {
+        _selectButton = new CampaignButton(campaignTexture, campaign.Location);
+        _selectButton.OnClick += (_, _) => { Selected?.Invoke(this, EventArgs.Empty); };
+        _selectButton.OnHover += (_, _) => { Hover = true; _selectButton.Hover = true; };
+        _selectButton.OnLeave += (_, _) => { Hover = false; _selectButton.Hover = false; };
+    }
+
+    public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
+    {
+        _selectButton.Update(resolutionIndependentRenderer);
+    }
+
+    protected override Point CalcTextureOffset() => ControlTextures.Transparent;
+
+    protected override Color CalculateColor() =>  Color.White;
+
+    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
+    {
+        _selectButton.Rect = contentRect;
         _selectButton.Draw(spriteBatch);
     }
 
