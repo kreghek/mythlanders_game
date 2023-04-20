@@ -47,7 +47,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
         var crisesCatalog = game.Services.GetRequiredService<ICrisesCatalog>();
 
-        _crisis = dice.RollFromList(crisesCatalog.GetAll().ToArray());
+        _crisis = dice.RollFromList(crisesCatalog.GetAll().Where(x => x.EventType == args.EventType).ToArray());
 
         _aftermathButtons = new List<CrisisAftermathButton>();
 
@@ -233,6 +233,15 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
             "InfernalSickness" => "InfernalSickness",
             "Starvation" => "Starvation",
             "Preying" => "Preying",
+            "Bandits" => "Bandits",
+            "DesertStorm" => "DesertStorm",
+            "FireCaster" => "FireCaster",
+
+            "Cultists" => "Cultists",
+            "Drone" => "Drone",
+            "Tavern" => "Tavern",
+            "Treasues" => "Treasures",
+
             _ => "ElectricTrap"
         };
     }

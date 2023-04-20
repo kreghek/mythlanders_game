@@ -10,7 +10,7 @@ public sealed class CrisesCatalog : ICrisesCatalog
 
     public CrisesCatalog()
     {
-        _crises = new[]
+        _crises = new ICrisis[]
         {
             new Crisis("MagicTrap", new ICrisisAftermath[]
             {
@@ -38,7 +38,44 @@ public sealed class CrisesCatalog : ICrisesCatalog
             {
                 new DamageSingleRandomCrisisAftermath("Prey"),
                 new DamageAllCrisisAftermath("Ignore")
-            })
+            }),
+            new Crisis("DesertStorm", new ICrisisAftermath[]
+            {
+                new DamageSingleRandomCrisisAftermath("RunAway"),
+                new DamageAllCrisisAftermath("Hide")
+            }),
+            new Crisis("Bandits", new ICrisisAftermath[]
+            {
+                new DamageSingleRandomCrisisAftermath("RunAway"),
+                new DamageAllCrisisAftermath("Hide")
+            }),
+            new Crisis("FireCaster", new ICrisisAftermath[]
+            {
+                new DamageSingleRandomCrisisAftermath("RunAway"),
+                new DamageAllCrisisAftermath("Hide")
+            }),
+
+
+            new Treasues("Treasures", new ICrisisAftermath[]
+            {
+                new DamageSingleRandomCrisisAftermath("TakeAll"),
+                new DamageAllCrisisAftermath("Examine")
+            }),
+            new Treasues("CultOfStar", new ICrisisAftermath[]
+            {
+                new DamageSingleRandomCrisisAftermath("TakeAll"),
+                new DamageAllCrisisAftermath("Examine")
+            }),
+            new Treasues("Drone", new ICrisisAftermath[]
+            {
+                new DamageSingleRandomCrisisAftermath("TakeAll"),
+                new DamageAllCrisisAftermath("Examine")
+            }),
+            new Treasues("Tavern", new ICrisisAftermath[]
+            {
+                new DamageSingleRandomCrisisAftermath("TakeAll"),
+                new DamageAllCrisisAftermath("Examine")
+            }),
         };
     }
 

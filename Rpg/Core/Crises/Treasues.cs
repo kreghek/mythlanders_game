@@ -1,10 +1,10 @@
-namespace Core.Crises;
+﻿namespace Core.Crises;
 
-public sealed class Crisis : ICrisis
+public sealed class Treasues : ICrisis
 {
     private readonly IReadOnlyCollection<ICrisisAftermath> _aftermaths;
 
-    public Crisis(string sid, IReadOnlyCollection<ICrisisAftermath> aftermaths)
+    public Treasues(string sid, IReadOnlyCollection<ICrisisAftermath> aftermaths)
     {
         Sid = new CrisisSid(sid);
         _aftermaths = aftermaths;
@@ -12,7 +12,7 @@ public sealed class Crisis : ICrisis
 
     public CrisisSid Sid { get; }
 
-    public EventType EventType => EventType.Crisis;
+    public EventType EventType => EventType.Treasues;
 
     public IReadOnlyCollection<ICrisisAftermath> GetItems()
     {
