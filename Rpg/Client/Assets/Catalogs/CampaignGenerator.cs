@@ -217,7 +217,9 @@ internal sealed class CampaignGenerator : ICampaignGenerator
             LocationSid.Thicket,
             LocationSid.Monastery,
             LocationSid.ShipGraveyard,
-            LocationSid.Desert
+            LocationSid.Desert,
+
+            LocationSid.Swamp
         };
 
         var selectedLocations = _dice.RollFromList(availbleLocations, 3).ToList();

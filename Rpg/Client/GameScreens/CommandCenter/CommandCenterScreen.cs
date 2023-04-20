@@ -120,7 +120,8 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
                 LocationSid.ShipGraveyard,
                 Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/ShipGraveyard")
             },
-            { LocationSid.Thicket, Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/DarkThinket") }
+            { LocationSid.Thicket, Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/DarkThinket") },
+            { LocationSid.Swamp, Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/GrimSwamp") }
         };
 
         foreach (var campaign in _campaigns)
