@@ -22,10 +22,10 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     private readonly IJobProgressResolver _jobProgressResolver;
     private readonly CampaignStageTemplateServices _services;
 
-    public CampaignGenerator(IUnitSchemeCatalog unitSchemeCatalog, GlobeProvider globeProvider,
+    public CampaignGenerator(GlobeProvider globeProvider,
         IEventCatalog eventCatalog, IDice dice, IJobProgressResolver jobProgressResolver, IDropResolver dropResolver)
     {
-        _services = new CampaignStageTemplateServices(unitSchemeCatalog, eventCatalog, globeProvider, dice);
+        _services = new CampaignStageTemplateServices(eventCatalog, globeProvider, dice);
         _globeProvider = globeProvider;
         _dice = dice;
         _jobProgressResolver = jobProgressResolver;
@@ -106,12 +106,12 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                     new RestCampaignStageTemplateFactory(),
                     new ShopCampaignStageTemplateFactory()
                 }, _services),
-                //new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-                //{
-                //    new SacredEventCampaignStageTemplateFactory(),
-                //    //new ShopCampaignStageTemplateFactory(),
-                //    //new FindingEventCampaignStageTemplateFactory()
-                //}, _services)
+                new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+                {
+                    //new SacredEventCampaignStageTemplateFactory(),
+                    //new ShopCampaignStageTemplateFactory(),
+                    new FindingEventCampaignStageTemplateFactory()
+                }, _services)
             },
 
             // // Evo
@@ -158,12 +158,12 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                     new RestCampaignStageTemplateFactory(),
                     new ShopCampaignStageTemplateFactory()
                 }, _services),
-                //new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-                //{
-                //    new SacredEventCampaignStageTemplateFactory(),
-                //    //new ShopCampaignStageTemplateFactory(),
-                //    //new FindingEventCampaignStageTemplateFactory()
-                //}, _services)
+                new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+                {
+                    //new SacredEventCampaignStageTemplateFactory(),
+                    //new ShopCampaignStageTemplateFactory(),
+                    new FindingEventCampaignStageTemplateFactory()
+                }, _services)
             },
 
             // For demo only

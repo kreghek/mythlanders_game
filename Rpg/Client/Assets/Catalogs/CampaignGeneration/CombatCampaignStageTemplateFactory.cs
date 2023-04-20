@@ -1,16 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 using Client.Assets.StageItems;
 using Client.Core;
 using Client.Core.Campaigns;
-using Client.Core.Heroes;
 
 using Core.Combats;
-using Core.Dices;
 using Core.PropDrop;
 
-using Rpg.Client.Assets.Perks;
 using Rpg.Client.Core;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
@@ -23,25 +19,25 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     private readonly MonsterCombatantPrefab[][] _monsterCombatantPrefabs = new MonsterCombatantPrefab[][] {
 
         new MonsterCombatantPrefab[]{
-            new MonsterCombatantPrefab("aspid", 0, new FieldCoords(0, 1)),
-            //new MonsterCombatantPrefab("chaser", 0, new FieldCoords(0, 1))
-            //new MonsterCombatantPrefab("volkolakwarrior", 0, new FieldCoords(1, 2)),
-            //new MonsterCombatantPrefab("chaser", 1, new FieldCoords(1, 2)),
-            new MonsterCombatantPrefab("digitalwolf", 0, new FieldCoords(0, 2))
+            new ("aspid", 0, new FieldCoords(0, 1)),
+            //new ("chaser", 0, new FieldCoords(0, 1))
+            //new ("volkolakwarrior", 0, new FieldCoords(1, 2)),
+            //new ("chaser", 1, new FieldCoords(1, 2)),
+            new ("digitalwolf", 0, new FieldCoords(0, 2))
         },
 
         new MonsterCombatantPrefab[]{
-            new MonsterCombatantPrefab("aspid", 0, new FieldCoords(0, 1)),
-            //new MonsterCombatantPrefab("chaser", 0, new FieldCoords(0, 1))
-            //new MonsterCombatantPrefab("volkolakwarrior", 0, new FieldCoords(1, 2)),
-            //new MonsterCombatantPrefab("chaser", 1, new FieldCoords(1, 2)),
-            new MonsterCombatantPrefab("digitalwolf", 0, new FieldCoords(1, 1))
+            new ("aspid", 0, new FieldCoords(0, 1)),
+            //new ("chaser", 0, new FieldCoords(0, 1))
+            //new ("volkolakwarrior", 0, new FieldCoords(1, 2)),
+            //new ("chaser", 1, new FieldCoords(1, 2)),
+            new ("digitalwolf", 0, new FieldCoords(1, 1))
         },
 
         new MonsterCombatantPrefab[]{
-            new MonsterCombatantPrefab("aspid", 0, new FieldCoords(0, 1)),
-            new MonsterCombatantPrefab("digitalwolf", 0, new FieldCoords(0, 2)),
-            new MonsterCombatantPrefab("digitalwolf", 0, new FieldCoords(1, 1))
+            new ("aspid", 0, new FieldCoords(0, 1)),
+            new ("digitalwolf", 0, new FieldCoords(0, 2)),
+            new ("digitalwolf", 0, new FieldCoords(1, 1))
         }
     };
 
