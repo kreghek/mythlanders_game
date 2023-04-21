@@ -1,5 +1,6 @@
 ﻿using Client.Assets;
 using Client.Assets.GraphicConfigs.Monsters;
+using Client.Assets.Monsters;
 
 using JetBrains.Annotations;
 

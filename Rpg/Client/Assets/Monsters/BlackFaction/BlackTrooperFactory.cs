@@ -1,4 +1,5 @@
 ﻿using Client.Assets;
+using Client.Assets.Monsters;
 
 using JetBrains.Annotations;
 

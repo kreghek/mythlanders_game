@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.Heroes;
+using Client.Assets.Monsters;
 
-using Rpg.Client.Assets.Monsters;
 using Rpg.Client.Core;
 
 namespace Client.Assets.Catalogs;
