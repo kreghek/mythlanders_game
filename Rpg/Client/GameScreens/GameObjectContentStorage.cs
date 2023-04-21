@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
+using Client.Core;
+
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -101,35 +103,35 @@ namespace Rpg.Client.GameScreens
             _combatBackgroundBaseDict = new Dictionary<BackgroundType, Texture2D[]>
             {
                 {
-                    BackgroundType.SlavicDarkThicket, LoadBackgroundLayers(BiomeType.Slavic, LocationSid.Thicket)
+                    BackgroundType.SlavicDarkThicket, LoadBackgroundLayers(BiomeType.Slavic, LocationSids.Thicket)
                 },
 
                 {
-                    BackgroundType.SlavicBattleground, LoadBackgroundLayers(BiomeType.Slavic, LocationSid.Battleground)
+                    BackgroundType.SlavicBattleground, LoadBackgroundLayers(BiomeType.Slavic, LocationSids.Battleground)
                 },
 
                 {
-                    BackgroundType.SlavicSwamp, LoadBackgroundLayers(BiomeType.Slavic, LocationSid.Swamp)
+                    BackgroundType.SlavicSwamp, LoadBackgroundLayers(BiomeType.Slavic, LocationSids.Swamp)
                 },
 
                 {
                     BackgroundType.SlavicDestroyedVillage,
-                    LoadBackgroundLayers(BiomeType.Slavic, LocationSid.DestroyedVillage)
+                    LoadBackgroundLayers(BiomeType.Slavic, LocationSids.DestroyedVillage)
                 },
 
                 {
-                    BackgroundType.ChineseMonastery, LoadBackgroundLayers(BiomeType.Chinese, LocationSid.Monastery)
+                    BackgroundType.ChineseMonastery, LoadBackgroundLayers(BiomeType.Chinese, LocationSids.Monastery)
                 },
 
                 {
-                    BackgroundType.EgyptianDesert, LoadBackgroundLayers(BiomeType.Egyptian, LocationSid.Desert)
+                    BackgroundType.EgyptianDesert, LoadBackgroundLayers(BiomeType.Egyptian, LocationSids.Desert)
                 },
                 {
-                    BackgroundType.EgyptianPyramids, LoadBackgroundLayers(BiomeType.Egyptian, LocationSid.SacredPlace)
+                    BackgroundType.EgyptianPyramids, LoadBackgroundLayers(BiomeType.Egyptian, LocationSids.SacredPlace)
                 },
 
                 {
-                    BackgroundType.GreekShipGraveyard, LoadBackgroundLayers(BiomeType.Greek, LocationSid.ShipGraveyard)
+                    BackgroundType.GreekShipGraveyard, LoadBackgroundLayers(BiomeType.Greek, LocationSids.ShipGraveyard)
                 }
             };
 
@@ -285,14 +287,14 @@ namespace Rpg.Client.GameScreens
                 { UnitName.ChineseOldman, LoadHeroPortrait("ChineseOldman") }
             };
 
-            Texture2D LoadBackgroundLayer(BiomeType biomeType, LocationSid locationSid, BackgroundLayerType layerType)
+            Texture2D LoadBackgroundLayer(BiomeType biomeType, ILocationSid locationSid, BackgroundLayerType layerType)
             {
                 var imagePath = Path.Combine("Sprites", "GameObjects", "CombatBackgrounds", biomeType.ToString(),
                     locationSid.ToString(), $"{layerType}Layer");
                 return contentManager.Load<Texture2D>(imagePath);
             }
 
-            Texture2D[] LoadBackgroundLayers(BiomeType biomeType, LocationSid locationSid)
+            Texture2D[] LoadBackgroundLayers(BiomeType biomeType, ILocationSid locationSid)
             {
                 return new[]
                 {

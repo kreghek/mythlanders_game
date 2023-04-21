@@ -6,19 +6,17 @@ using Core.Combats;
 
 using JetBrains.Annotations;
 
-using Rpg.Client.Core;
-
-namespace Client.Assets.Catalogs.CampaignGeneration;
+namespace Client.Assets.Catalogs.CampaignGeneration.CombatTemplates;
 
 [UsedImplicitly]
-internal sealed class DarkThicketCombatTemplateFactory : ICombatTemplateFactory
+internal sealed class DesertCombatTemplateFactory : ICombatTemplateFactory
 {
     public IReadOnlyCollection<MonsterCombatantTempate> CreateSet()
     {
         return new[]{
             new MonsterCombatantTempate(
                 new MonsterCombatantTempateLevel(0),
-                new[] { LocationSid.Thicket },
+                new[] { LocationSids.Desert },
                 new MonsterCombatantPrefab[]
                 {
                     new("aspid", 0, new FieldCoords(0, 1)),
@@ -30,7 +28,7 @@ internal sealed class DarkThicketCombatTemplateFactory : ICombatTemplateFactory
 
         new MonsterCombatantTempate(
             new MonsterCombatantTempateLevel(1),
-            new[] { LocationSid.Thicket },
+            new[] { LocationSids.Desert },
             new MonsterCombatantPrefab[]
             {
                 new("aspid", 0, new FieldCoords(0, 1)),
@@ -42,7 +40,7 @@ internal sealed class DarkThicketCombatTemplateFactory : ICombatTemplateFactory
 
         new MonsterCombatantTempate(
             new MonsterCombatantTempateLevel(2),
-            new[] { LocationSid.Thicket },
+            new[] { LocationSids.Desert },
             new MonsterCombatantPrefab[]
             {
                 new("aspid", 0, new FieldCoords(0, 1)),

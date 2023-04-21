@@ -93,28 +93,28 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
         {
             [DialogueConstants.InitialStage] = new IDialogueEventRequirement[]
             {
-                new LocationRequirement(LocationSid.Desert),
+                new LocationRequirement(LocationSids.Desert),
                 new NoSideQuestRequirement()
             },
             [DialogueConstants.SideQuests.SynthAsParent.Stage2_Canon] = new IDialogueEventRequirement[]
             {
-                new LocationRequirement(LocationSid.Desert)
+                new LocationRequirement(LocationSids.Desert)
             },
             [DialogueConstants.SideQuests.SynthAsParent.Stage3_Canon] = new IDialogueEventRequirement[]
             {
-                new LocationRequirement(LocationSid.Desert)
+                new LocationRequirement(LocationSids.Desert)
             },
             [DialogueConstants.SideQuests.SynthAsParent.Stage4_Canon] = new IDialogueEventRequirement[]
             {
-                new LocationRequirement(LocationSid.Desert)
+                new LocationRequirement(LocationSids.Desert)
             },
             [DialogueConstants.SideQuests.SynthAsParent.Stage5_Canon] = new IDialogueEventRequirement[]
             {
-                new LocationRequirement(LocationSid.Desert)
+                new LocationRequirement(LocationSids.Desert)
             },
             [DialogueConstants.SideQuests.SynthAsParent.Stage2_Fast] = new IDialogueEventRequirement[]
             {
-                new LocationRequirement(LocationSid.Desert)
+                new LocationRequirement(LocationSids.Desert)
             }
         };
 

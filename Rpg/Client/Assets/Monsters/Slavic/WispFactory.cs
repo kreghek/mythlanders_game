@@ -1,5 +1,6 @@
 using Client.Assets;
 using Client.Assets.Monsters;
+using Client.Core;
 
 using JetBrains.Annotations;
 
@@ -21,7 +22,7 @@ namespace Rpg.Client.Assets.Monsters
                 Name = UnitName.Wisp,
                 LocationSids = new[]
                 {
-                    LocationSid.DestroyedVillage, LocationSid.Swamp
+                    LocationSids.DestroyedVillage, LocationSids.Swamp
                 },
                 IsMonster = true,
 

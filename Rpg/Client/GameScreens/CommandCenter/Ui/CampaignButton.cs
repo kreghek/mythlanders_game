@@ -1,7 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Client.Core;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 
@@ -10,9 +11,9 @@ namespace Client.GameScreens.CommandCenter.Ui;
 internal sealed class CampaignButton : ButtonBase
 {
     private readonly Texture2D _campaignTexture;
-    private readonly LocationSid _location;
+    private readonly ILocationSid _location;
 
-    public CampaignButton(Texture2D campaignTexture, LocationSid location)
+    public CampaignButton(Texture2D campaignTexture, ILocationSid location)
     {
         _campaignTexture = campaignTexture;
         _location = location;

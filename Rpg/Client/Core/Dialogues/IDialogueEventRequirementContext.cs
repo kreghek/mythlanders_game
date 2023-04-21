@@ -8,6 +8,6 @@ internal interface IDialogueEventRequirementContext
 {
     IReadOnlyCollection<UnitName> ActiveHeroesInParty { get; }
     IReadOnlyCollection<string> ActiveStories { get; }
-    LocationSid CurrentLocation { get; }
+    ILocationSid CurrentLocation { get; }
     IReadOnlyCollection<string> DialogueKeys { get; }
 }

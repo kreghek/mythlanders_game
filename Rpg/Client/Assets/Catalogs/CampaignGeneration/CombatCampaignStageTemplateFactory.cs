@@ -7,6 +7,7 @@ using Client.Core;
 using Client.Core.Campaigns;
 
 using Core.Combats;
+using Core.Dices;
 using Core.PropDrop;
 
 using Rpg.Client.Core;
@@ -24,16 +25,18 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         return factories.OfType<TFactory>().ToArray();
     }
 
-    private readonly LocationSid _locationSid;
+    private readonly ILocationSid _locationSid;
 
     private readonly MonsterCombatantTempate[] _monsterCombatantTemplates;
 
     private readonly MonsterCombatantTempateLevel _monsterLevel;
+    private readonly IDice _dice;
 
-    public CombatCampaignStageTemplateFactory(LocationSid locationSid, MonsterCombatantTempateLevel monsterLevel)
+    public CombatCampaignStageTemplateFactory(ILocationSid locationSid, MonsterCombatantTempateLevel monsterLevel, CampaignStageTemplateServices services)
     {
         _locationSid = locationSid;
         _monsterLevel = monsterLevel;
+        _dice = services.Dice;
 
         var factories = LoadCombatTemplateFactories<ICombatTemplateFactory>();
 
@@ -101,7 +104,9 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
 
     private MonsterCombatantTempate GetApplicableTemplate()
     {
-        return _monsterCombatantTemplates.Single(x => x.Level == _monsterLevel && x.ApplicableLocations.Any(a => a == _locationSid));
+        var templates= _monsterCombatantTemplates.Where(x => x.Level == _monsterLevel && x.ApplicableLocations.Any(a => a == _locationSid)).ToArray();
+
+        return _dice.RollFromList(templates);
     }
 
     /// <inheritdoc />

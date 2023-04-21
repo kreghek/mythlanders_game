@@ -1,5 +1,6 @@
 using Client.Assets;
 using Client.Assets.Monsters;
+using Client.Core;
 
 using JetBrains.Annotations;
 
@@ -21,7 +22,7 @@ namespace Rpg.Client.Assets.Monsters
                 Name = UnitName.Chaser,
                 LocationSids = new[]
                 {
-                    LocationSid.Desert
+                    LocationSids.Desert
                 },
                 IsMonster = true,
 

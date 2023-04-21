@@ -32,7 +32,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         _dropResolver = dropResolver;
     }
 
-    private HeroCampaign CreateCampaign(LocationSid locationSid)
+    private HeroCampaign CreateCampaign(ILocationSid locationSid)
     {
         var shortTemplate = CreateGrindShortTemplate(locationSid);
 
@@ -71,7 +71,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         return campaign;
     }
 
-    private ICampaignStageTemplateFactory[][] CreateGrindShortTemplate(LocationSid locationSid)
+    private ICampaignStageTemplateFactory[][] CreateGrindShortTemplate(ILocationSid locationSid)
     {
         return new[]
         {
@@ -94,7 +94,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
             new ICampaignStageTemplateFactory[]
             {
-                new CombatCampaignStageTemplateFactory(locationSid, 0)
+                new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTempateLevels.Easy, _services)
             },
 
             // Rest
@@ -144,7 +144,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
             new ICampaignStageTemplateFactory[]
             {
-                new CombatCampaignStageTemplateFactory(locationSid, 1)
+                new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTempateLevels.Medium, _services)
                 // new CombatCampaignStageTemplateFactory(locationSid, _services),
                 // new CombatCampaignStageTemplateFactory(locationSid, _services)
             },
@@ -205,7 +205,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
             new ICampaignStageTemplateFactory[]
             {
-                new CombatCampaignStageTemplateFactory(locationSid, 2)
+                new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTempateLevels.Hard, _services)
             }
         };
     }
@@ -214,12 +214,12 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     {
         var availbleLocations = new[]
         {
-            LocationSid.Thicket,
-            LocationSid.Monastery,
-            LocationSid.ShipGraveyard,
-            LocationSid.Desert,
+            LocationSids.Thicket,
+            LocationSids.Monastery,
+            LocationSids.ShipGraveyard,
+            LocationSids.Desert,
 
-            LocationSid.Swamp
+            LocationSids.Swamp
         };
 
         var selectedLocations = _dice.RollFromList(availbleLocations, 3).ToList();

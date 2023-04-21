@@ -4,6 +4,7 @@ using Client;
 using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.Dialogues;
+using Client.Core;
 using Client.Core.Dialogues;
 using Client.GameScreens.TextDialogue;
 
@@ -49,7 +50,7 @@ public class MonkeyKingTests
 
         storyPointCatalog.Init(globeProvider.Globe);
 
-        var questLocations = new[] { LocationSid.Monastery };
+        var questLocations = new[] { LocationSids.Monastery };
 
         // Start testing
 
@@ -78,9 +79,9 @@ public class MonkeyKingTests
     }
 
     private static void QuestNotAvailableInOtherLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider,
-        DialogueEvent textEvent, LocationSid[] availableLocations)
+        DialogueEvent textEvent, LocationSids[] availableLocations)
     {
-        var allLocations = Enum.GetValues<LocationSid>();
+        var allLocations = Enum.GetValues<LocationSids>();
 
         var notAvailableLocations = allLocations.Except(availableLocations).ToArray();
 
@@ -98,7 +99,7 @@ public class MonkeyKingTests
     }
 
     private static void QuestAvailableInApplicableLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider,
-        DialogueEvent textEvent, LocationSid[] availableLocations)
+        DialogueEvent textEvent, LocationSids[] availableLocations)
     {
         foreach (var locationSid in availableLocations)
         {
@@ -114,7 +115,7 @@ public class MonkeyKingTests
     }
 
     private static void CheckEventIsNotAvailableUntilInProgress(DialogueCatalog eventCatalog,
-        GlobeProvider globeProvider, DialogueEvent textEvent, LocationSid[] availableLocations)
+        GlobeProvider globeProvider, DialogueEvent textEvent, LocationSids[] availableLocations)
     {
         foreach (var locationSid in availableLocations)
         {

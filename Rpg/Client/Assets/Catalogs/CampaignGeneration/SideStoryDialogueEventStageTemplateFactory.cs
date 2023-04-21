@@ -3,21 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.StageItems;
+using Client.Core;
 using Client.Core.Campaigns;
 using Client.Core.Dialogues;
 
 using Core.Dices;
 
-using Rpg.Client.Core;
-
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
 internal sealed class SideStoryDialogueEventStageTemplateFactory : ICampaignStageTemplateFactory
 {
-    private readonly LocationSid _locationSid;
+    private readonly ILocationSid _locationSid;
     private readonly CampaignStageTemplateServices _services;
 
-    public SideStoryDialogueEventStageTemplateFactory(LocationSid locationSid, CampaignStageTemplateServices services)
+    public SideStoryDialogueEventStageTemplateFactory(ILocationSid locationSid, CampaignStageTemplateServices services)
     {
         _locationSid = locationSid;
         _services = services;

@@ -1,16 +1,15 @@
 using System.Linq;
 
+using Client.Core;
 using Client.Core.Dialogues;
-
-using Rpg.Client.Core;
 
 namespace Client.Assets.DialogueEventRequirements;
 
 internal sealed class LocationRequirement : IDialogueEventRequirement
 {
-    private readonly LocationSid[] _locationSids;
+    private readonly ILocationSid[] _locationSids;
 
-    public LocationRequirement(params LocationSid[] locationSids)
+    public LocationRequirement(params ILocationSid[] locationSids)
     {
         _locationSids = locationSids;
     }

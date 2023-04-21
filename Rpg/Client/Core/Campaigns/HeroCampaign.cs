@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 
-using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
 
 namespace Client.Core.Campaigns;
 
 internal sealed class HeroCampaign
 {
-    public HeroCampaign(LocationSid location, IReadOnlyList<CampaignStage> campaignStages)
+    public HeroCampaign(ILocationSid location, IReadOnlyList<CampaignStage> campaignStages)
     {
         Location = location;
         CampaignStages = campaignStages;
@@ -17,7 +16,7 @@ internal sealed class HeroCampaign
 
     public int CurrentStageIndex { get; private set; }
 
-    public LocationSid Location { get; }
+    public ILocationSid Location { get; }
 
     internal void CompleteCurrentStage()
     {

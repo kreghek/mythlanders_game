@@ -1,5 +1,6 @@
 using Client.Assets;
 using Client.Assets.Monsters;
+using Client.Core;
 
 using JetBrains.Annotations;
 
@@ -23,7 +24,7 @@ namespace Rpg.Client.Assets.Monsters
                 SupportRank = 0.0f,
 
                 Name = UnitName.VolkolakWarrior,
-                LocationSids = new[] { LocationSid.Swamp },
+                LocationSids = new[] { LocationSids.Swamp },
                 IsUnique = true,
                 IsMonster = true,
                 MinRequiredBiomeLevel = 5,

@@ -18,7 +18,7 @@ namespace Rpg.Client.Core
 
         public bool IsLast { get; internal set; }
 
-        public LocationSid Sid { get; set; }
+        public ILocationSid Sid { get; set; }
 
         public void AssignEvent(DialogueEvent locationEvent)
         {

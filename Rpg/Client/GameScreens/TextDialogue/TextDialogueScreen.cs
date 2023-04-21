@@ -49,7 +49,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
     private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly GameSettings _gameSettings;
-    private readonly LocationSid _globeLocation;
+    private readonly ILocationSid _globeLocation;
     private readonly GlobeProvider _globeProvider;
     private readonly Player _player;
     private readonly Random _random;

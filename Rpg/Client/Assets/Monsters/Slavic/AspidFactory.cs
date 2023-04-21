@@ -17,18 +17,6 @@ namespace Rpg.Client.Assets.Monsters
         {
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {
-                Name = ClassName,
-                LocationSids = new[]
-                {
-                    LocationSid.DestroyedVillage, LocationSid.Swamp
-                },
-                IsMonster = true,
-
-                Levels = new IUnitLevelScheme[]
-                {
-                },
-
-                UnitGraphicsConfig = new AspidGraphicsConfig()
             };
         }
 

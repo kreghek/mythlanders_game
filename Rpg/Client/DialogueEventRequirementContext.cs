@@ -13,14 +13,14 @@ internal class DialogueEventRequirementContext : IDialogueEventRequirementContex
     private readonly IEventCatalog _eventCatalog;
     private readonly Globe _globe;
 
-    public DialogueEventRequirementContext(Globe globe, LocationSid currentLocation, IEventCatalog eventCatalog)
+    public DialogueEventRequirementContext(Globe globe, ILocationSid currentLocation, IEventCatalog eventCatalog)
     {
         _globe = globe;
         CurrentLocation = currentLocation;
         _eventCatalog = eventCatalog;
     }
 
-    public LocationSid CurrentLocation { get; }
+    public ILocationSid CurrentLocation { get; }
     public IReadOnlyCollection<string> DialogueKeys => _globe.Player.StoryState.Keys;
 
     public IReadOnlyCollection<UnitName> ActiveHeroesInParty =>

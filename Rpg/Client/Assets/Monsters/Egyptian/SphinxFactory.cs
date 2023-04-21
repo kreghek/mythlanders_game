@@ -1,5 +1,6 @@
 using Client.Assets;
 using Client.Assets.Monsters;
+using Client.Core;
 
 using JetBrains.Annotations;
 
@@ -19,7 +20,7 @@ namespace Rpg.Client.Assets.Monsters
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {
                 Name = UnitName.Sphinx,
-                LocationSids = new[] { LocationSid.ScreamValley },
+                LocationSids = new[] { LocationSids.ScreamValley },
 
                 IsMonster = true,
 

@@ -144,7 +144,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatCore = CreateCombat();
         _combatDataBehaviourProvider = new CombatActorBehaviourDataProvider(_combatCore);
 
-        soundtrackManager.PlayCombatTrack((BiomeType)((int)args.Location.Sid / 100 * 100));
+        soundtrackManager.PlayCombatTrack(GetBiomeSound(args.Location.Sid));
 
         _maneuversVisualizer =
             new FieldManeuversVisualizer(_combatantPositionProvider, new ManeuverContext(_combatCore),
@@ -156,6 +156,19 @@ internal class CombatScreen : GameScreenWithMenuBase
         _targetMarkers = new TargetMarkersVisualizer();
 
         _dropResolver = game.Services.GetRequiredService<IDropResolver>();
+    }
+
+    private static BiomeType GetBiomeSound(ILocationSid locationSid)
+    {
+        return locationSid.ToString() switch
+        {
+            nameof(LocationSids.Thicket) => BiomeType.Slavic,
+            nameof(LocationSids.Swamp) => BiomeType.Slavic,
+            nameof(LocationSids.Desert) => BiomeType.Egyptian,
+            nameof(LocationSids.ShipGraveyard) => BiomeType.Greek,
+            nameof(LocationSids.Monastery) => BiomeType.Chinese,
+            _ => BiomeType.Slavic,
+        };
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -654,7 +667,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         return new CombatCore(_dice);
     }
 
-    private IReadOnlyCollection<ResourceReward> CreateUiModels(IReadOnlyCollection<IProp> droppedResources)
+    private static IReadOnlyCollection<ResourceReward> CreateUiModels(IReadOnlyCollection<IProp> droppedResources)
     {
         var rewardList = new List<ResourceReward>();
         foreach (var resource in droppedResources.OfType<Resource>().ToArray())
