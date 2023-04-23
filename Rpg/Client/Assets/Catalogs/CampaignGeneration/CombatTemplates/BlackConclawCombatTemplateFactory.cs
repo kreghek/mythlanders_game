@@ -19,8 +19,8 @@ internal sealed class BlackConclawCombatTemplateFactory : ICombatTemplateFactory
                 new[] { LocationSids.Thicket },
                 new MonsterCombatantPrefab[]
                 {
-                    new("black-troop", 0, new FieldCoords(0, 1)),
-                    new("black-troop", 0, new FieldCoords(0, 2))
+                    new("blacktrooper", 0, new FieldCoords(0, 1)),
+                    new("blacktrooper", 1, new FieldCoords(0, 2))
                 }),
 
         new MonsterCombatantTempate(
@@ -28,11 +28,8 @@ internal sealed class BlackConclawCombatTemplateFactory : ICombatTemplateFactory
             new[] { LocationSids.Thicket },
             new MonsterCombatantPrefab[]
             {
-                new("aspid", 0, new FieldCoords(0, 1)),
-                //new ("chaser", 0, new FieldCoords(0, 1))
-                //new ("volkolakwarrior", 0, new FieldCoords(1, 2)),
-                //new ("chaser", 1, new FieldCoords(1, 2)),
-                new("digitalwolf", 0, new FieldCoords(1, 1))
+                new("blacktrooper", 0, new FieldCoords(0, 1)),
+                new("blacktrooper", 1, new FieldCoords(1, 1))
             }),
 
         new MonsterCombatantTempate(
@@ -40,9 +37,9 @@ internal sealed class BlackConclawCombatTemplateFactory : ICombatTemplateFactory
             new[] { LocationSids.Thicket },
             new MonsterCombatantPrefab[]
             {
-                new("aspid", 0, new FieldCoords(0, 1)),
-                new("digitalwolf", 0, new FieldCoords(0, 2)),
-                new("digitalwolf", 0, new FieldCoords(1, 1))
+                new("blacktrooper", 0, new FieldCoords(0, 1)),
+                new("blacktrooper", 1, new FieldCoords(0, 2)),
+                new("blacktrooper", 0, new FieldCoords(1, 1))
             })
         };
     }
