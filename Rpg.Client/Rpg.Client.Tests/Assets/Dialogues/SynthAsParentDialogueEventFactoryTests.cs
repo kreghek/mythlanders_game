@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 
 using Client.Assets.Dialogues;
+using Client.Core;
 using Client.Core.Dialogues;
 
 using FluentAssertions;
@@ -85,7 +86,7 @@ public class SynthAsParentDialogueEventFactoryTests
         var dialogueEvent = factory.CreateEvent(Mock.Of<IDialogueEventFactoryServices>());
 
         var requirementContext = Mock.Of<IDialogueEventRequirementContext>(x =>
-            x.CurrentLocation == LocationSid.Desert &&
+            x.CurrentLocation == LocationSids.Desert &&
             x.ActiveHeroesInParty == new[] { UnitName.Swordsman, UnitName.Partisan } &&
             x.ActiveStories == Array.Empty<string>());
 
@@ -108,7 +109,7 @@ public class SynthAsParentDialogueEventFactoryTests
         var dialogueEvent = factory.CreateEvent(Mock.Of<IDialogueEventFactoryServices>());
 
         var requirementContext = Mock.Of<IDialogueEventRequirementContext>(x =>
-            x.CurrentLocation == LocationSid.Desert &&
+            x.CurrentLocation == LocationSids.Desert &&
             x.ActiveHeroesInParty == new[] { UnitName.Swordsman, UnitName.Partisan } &&
             x.ActiveStories == new[] { "test" });
 
@@ -133,7 +134,7 @@ public class SynthAsParentDialogueEventFactoryTests
         dialogueEvent.Trigger(DialogueConstants.CompleteCurrentStageChallengeTrigger);
 
         var requirementContext = Mock.Of<IDialogueEventRequirementContext>(x =>
-            x.CurrentLocation == LocationSid.Desert &&
+            x.CurrentLocation == LocationSids.Desert &&
             x.ActiveHeroesInParty == new[] { UnitName.Swordsman, UnitName.Partisan } &&
             x.ActiveStories == Array.Empty<string>());
 
@@ -158,7 +159,7 @@ public class SynthAsParentDialogueEventFactoryTests
         dialogueEvent.Trigger(DialogueConstants.SideQuests.SynthAsParent.Stage1_Repair_Trigger);
 
         var requirementContext = Mock.Of<IDialogueEventRequirementContext>(x =>
-            x.CurrentLocation == LocationSid.Desert &&
+            x.CurrentLocation == LocationSids.Desert &&
             x.ActiveHeroesInParty == new[] { UnitName.Swordsman, UnitName.Partisan } &&
             x.ActiveStories == Array.Empty<string>());
 

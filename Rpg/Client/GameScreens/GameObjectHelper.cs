@@ -40,9 +40,9 @@ internal static class GameObjectHelper
         return GetLocalizedInner(perk.GetType().Name);
     }
 
-    public static string GetLocalized(LocationSid locationSid)
+    public static string GetLocalized(ILocationSid locationSid)
     {
-        return GetLocalizedInner(locationSid.ToString());
+        return GetLocalizedInner(locationSid.ToString() ?? string.Empty);
     }
 
     public static string? GetLocalized(EquipmentItemType? equipmentType)

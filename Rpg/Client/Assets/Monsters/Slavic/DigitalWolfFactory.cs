@@ -1,5 +1,7 @@
 ﻿using Client.Assets;
 using Client.Assets.GraphicConfigs.Monsters;
+using Client.Assets.Monsters;
+using Client.Core;
 
 using JetBrains.Annotations;
 
@@ -20,8 +22,8 @@ namespace Rpg.Client.Assets.Monsters
                 Name = UnitName.DigitalWolf,
                 LocationSids = new[]
                 {
-                    LocationSid.Thicket, LocationSid.Battleground, LocationSid.DestroyedVillage,
-                    LocationSid.Swamp
+                    LocationSids.Thicket, LocationSids.Battleground, LocationSids.DestroyedVillage,
+                    LocationSids.Swamp
                 },
                 IsMonster = true,
 

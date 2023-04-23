@@ -35,9 +35,9 @@ internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathC
         }
         else if (typeSid == "UnlockLocation")
         {
-            var sid = data;
-            var locationId = Enum.Parse<LocationSid>(sid);
-            aftermath = new UnlockLocationOptionAftermath(locationId);
+            //var sid = data;
+            //var locationId = Enum.Parse<LocationSids>(sid);
+            //aftermath = new UnlockLocationOptionAftermath(locationId);
         }
         else if (typeSid == "Trigger")
         {

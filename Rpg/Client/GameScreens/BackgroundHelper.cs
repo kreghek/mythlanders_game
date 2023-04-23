@@ -1,24 +1,24 @@
-﻿using Rpg.Client.Core;
+﻿using Client.Core;
 
 namespace Rpg.Client.GameScreens
 {
     internal static class BackgroundHelper
     {
-        public static BackgroundType GetBackgroundType(LocationSid regularTheme)
+        public static BackgroundType GetBackgroundType(ILocationSid regularTheme)
         {
-            return regularTheme switch
+            return regularTheme.ToString() switch
             {
-                LocationSid.Thicket => BackgroundType.SlavicDarkThicket,
-                LocationSid.Battleground => BackgroundType.SlavicBattleground,
-                LocationSid.Swamp => BackgroundType.SlavicSwamp,
-                LocationSid.DestroyedVillage => BackgroundType.SlavicDestroyedVillage,
+                nameof(LocationSids.Thicket) => BackgroundType.SlavicDarkThicket,
+                nameof(LocationSids.Battleground) => BackgroundType.SlavicBattleground,
+                nameof(LocationSids.Swamp) => BackgroundType.SlavicSwamp,
+                nameof(LocationSids.DestroyedVillage) => BackgroundType.SlavicDestroyedVillage,
 
-                LocationSid.Monastery => BackgroundType.ChineseMonastery,
+                nameof(LocationSids.Monastery) => BackgroundType.ChineseMonastery,
 
-                LocationSid.Desert => BackgroundType.EgyptianDesert,
-                LocationSid.SacredPlace => BackgroundType.EgyptianPyramids,
+                nameof(LocationSids.Desert) => BackgroundType.EgyptianDesert,
+                nameof(LocationSids.SacredPlace) => BackgroundType.EgyptianPyramids,
 
-                LocationSid.ShipGraveyard => BackgroundType.GreekShipGraveyard,
+                nameof(LocationSids.ShipGraveyard) => BackgroundType.GreekShipGraveyard,
 
                 _ => BackgroundType.SlavicBattleground
             };

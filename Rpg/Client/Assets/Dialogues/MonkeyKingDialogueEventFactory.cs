@@ -46,7 +46,7 @@ internal sealed class MonkeyKingDialogueEventFactory : IDialogueEventFactory
         {
             [DialogueConstants.InitialStage] = new IDialogueEventRequirement[]
             {
-                new LocationRequirement(LocationSid.Monastery),
+                new LocationRequirement(LocationSids.Monastery),
                 new NoSideQuestRequirement()
             }
         };

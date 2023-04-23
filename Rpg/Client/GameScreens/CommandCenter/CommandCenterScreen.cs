@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Client.Core;
 using Client.Core.Campaigns;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter.Ui;
@@ -8,7 +9,6 @@ using Client.GameScreens.CommandCenter.Ui;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.ScreenManagement;
 
@@ -112,16 +112,16 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
         var index = 0;
 
-        var campaignTexturesDict = new Dictionary<LocationSid, Texture2D>
+        var campaignTexturesDict = new Dictionary<ILocationSid, Texture2D>
         {
-            { LocationSid.Desert, Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/Desert") },
-            { LocationSid.Monastery, Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/Monastery") },
+            { LocationSids.Desert, Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/Desert") },
+            { LocationSids.Monastery, Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/Monastery") },
             {
-                LocationSid.ShipGraveyard,
+                LocationSids.ShipGraveyard,
                 Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/ShipGraveyard")
             },
-            { LocationSid.Thicket, Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/DarkThinket") },
-            { LocationSid.Swamp, Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/GrimSwamp") }
+            { LocationSids.Thicket, Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/DarkThinket") },
+            { LocationSids.Swamp, Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/GrimSwamp") }
         };
 
         foreach (var campaign in _campaigns)

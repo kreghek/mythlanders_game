@@ -4,7 +4,6 @@ using Client.Core;
 using Client.Core.Campaigns;
 using Client.GameScreens.TextDialogue;
 
-using Rpg.Client.Core;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.Assets.StageItems;
@@ -13,9 +12,9 @@ internal sealed class DialogueEventStageItem : ICampaignStageItem
 {
     private readonly IEventCatalog _eventCatalog;
     private readonly string _eventSid;
-    private readonly LocationSid _location;
+    private readonly ILocationSid _location;
 
-    public DialogueEventStageItem(string eventSid, LocationSid location, IEventCatalog eventCatalog)
+    public DialogueEventStageItem(string eventSid, ILocationSid location, IEventCatalog eventCatalog)
     {
         _eventSid = eventSid;
         _location = location;

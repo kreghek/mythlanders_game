@@ -1,4 +1,6 @@
 using Client.Assets;
+using Client.Assets.Monsters;
+using Client.Core;
 
 using JetBrains.Annotations;
 
@@ -24,7 +26,7 @@ namespace Rpg.Client.Assets.Monsters
                 Name = UnitName.Bear,
                 LocationSids = new[]
                 {
-                    LocationSid.Battleground, LocationSid.DestroyedVillage, LocationSid.Swamp
+                    LocationSids.Battleground, LocationSids.DestroyedVillage, LocationSids.Swamp
                 },
                 IsMonster = true,
 

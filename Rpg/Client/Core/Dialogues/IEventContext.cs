@@ -15,5 +15,5 @@ internal interface IEventContext
     void AddNewGlobalEvent(IGlobeEvent globalEvent);
     void AddStoryPoint(string storyPointSid);
     void StartCombat(string sid);
-    void UnlockLocation(LocationSid locationSid);
+    void UnlockLocation(ILocationSid locationSid);
 }

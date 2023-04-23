@@ -4,6 +4,7 @@ using Client;
 using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.Dialogues;
+using Client.Core;
 using Client.Core.Dialogues;
 using Client.GameScreens.TextDialogue;
 
@@ -53,14 +54,14 @@ public class SynthAsParentTests
 
         var textEvent = eventCatalog.Events.Single(x => x.Sid == DialogueConstants.SideQuests.SynthAsParent.Sid);
 
-        QuestNotAvailableInOtherLocations(eventCatalog, globeProvider, textEvent, new[] { LocationSid.Desert });
+        QuestNotAvailableInOtherLocations(eventCatalog, globeProvider, textEvent, new[] { LocationSids.Desert });
 
         // Stage 1 - availability in a campaigns
 
         var requirements = textEvent.GetRequirements();
 
         var dialogueRequirementsContext =
-            new DialogueEventRequirementContext(globeProvider.Globe, LocationSid.Desert, eventCatalog);
+            new DialogueEventRequirementContext(globeProvider.Globe, LocationSids.Desert, eventCatalog);
 
         var stage1IsAvailable = requirements.All(x => x.IsApplicableFor(dialogueRequirementsContext));
 
@@ -85,7 +86,7 @@ public class SynthAsParentTests
 
         // Quest available to continue
 
-        QuestNotAvailableInOtherLocations(eventCatalog, globeProvider, textEvent, new[] { LocationSid.Desert });
+        QuestNotAvailableInOtherLocations(eventCatalog, globeProvider, textEvent, new[] { LocationSids.Desert });
 
         var stage2Requirements = textEvent.GetRequirements();
         var questStage2IsAvailable = stage2Requirements.All(x => x.IsApplicableFor(dialogueRequirementsContext));
@@ -108,9 +109,9 @@ public class SynthAsParentTests
     }
 
     private static void QuestNotAvailableInOtherLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider,
-        DialogueEvent textEvent, LocationSid[] availableLocations)
+        DialogueEvent textEvent, LocationSids[] availableLocations)
     {
-        var allLocations = Enum.GetValues<LocationSid>();
+        var allLocations = Enum.GetValues<LocationSids>();
 
         var notAvailableLocations = allLocations.Except(availableLocations).ToArray();
 

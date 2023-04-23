@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using Client.Assets.StageItems;
 using Client.Core;
 using Client.Core.Campaigns;
 
 using Core.Combats;
+using Core.Dices;
 using Core.PropDrop;
 
 using Rpg.Client.Core;
@@ -13,49 +16,38 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 
 internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
-    private readonly LocationSid _locationSid;
-
-    private readonly MonsterCombatantPrefab[][] _monsterCombatantPrefabs =
+    private static IReadOnlyCollection<TFactory> LoadCombatTemplateFactories<TFactory>()
     {
-        new MonsterCombatantPrefab[]
-        {
-            new("aspid", 0, new FieldCoords(0, 1)),
-            //new ("chaser", 0, new FieldCoords(0, 1))
-            //new ("volkolakwarrior", 0, new FieldCoords(1, 2)),
-            //new ("chaser", 1, new FieldCoords(1, 2)),
-            new("digitalwolf", 0, new FieldCoords(0, 2))
-        },
-
-        new MonsterCombatantPrefab[]
-        {
-            new("aspid", 0, new FieldCoords(0, 1)),
-            //new ("chaser", 0, new FieldCoords(0, 1))
-            //new ("volkolakwarrior", 0, new FieldCoords(1, 2)),
-            //new ("chaser", 1, new FieldCoords(1, 2)),
-            new("digitalwolf", 0, new FieldCoords(1, 1))
-        },
-
-        new MonsterCombatantPrefab[]
-        {
-            new("aspid", 0, new FieldCoords(0, 1)),
-            new("digitalwolf", 0, new FieldCoords(0, 2)),
-            new("digitalwolf", 0, new FieldCoords(1, 1))
-        }
-    };
-
-    private readonly int _templateIndex;
-
-    public CombatCampaignStageTemplateFactory(LocationSid locationSid, int templateIndex)
-    {
-        _locationSid = locationSid;
-        _templateIndex = templateIndex;
+        var assembly = typeof(TFactory).Assembly;
+        var factoryTypes = assembly.GetTypes()
+            .Where(x => typeof(TFactory).IsAssignableFrom(x) && x != typeof(TFactory) && !x.IsAbstract);
+        var factories = factoryTypes.Select(Activator.CreateInstance);
+        return factories.OfType<TFactory>().ToArray();
     }
 
-    private static IDropTableScheme[] GetMonsterDropTables(MonsterCombatantPrefab[] monsterCombatantPrefabs)
+    private readonly ILocationSid _locationSid;
+
+    private readonly MonsterCombatantTempate[] _monsterCombatantTemplates;
+
+    private readonly MonsterCombatantTempateLevel _monsterLevel;
+    private readonly IDice _dice;
+
+    public CombatCampaignStageTemplateFactory(ILocationSid locationSid, MonsterCombatantTempateLevel monsterLevel, CampaignStageTemplateServices services)
+    {
+        _locationSid = locationSid;
+        _monsterLevel = monsterLevel;
+        _dice = services.Dice;
+
+        var factories = LoadCombatTemplateFactories<ICombatTemplateFactory>();
+
+        _monsterCombatantTemplates = factories.Select(x => x.CreateSet()).SelectMany(x => x).ToArray();
+    }
+
+    private static IDropTableScheme[] GetMonsterDropTables(MonsterCombatantTempate monsterCombatantPrefabs)
     {
         var dropTables = new List<IDropTableScheme>();
 
-        foreach (var monsterCombatantPrefab in monsterCombatantPrefabs)
+        foreach (var monsterCombatantPrefab in monsterCombatantPrefabs.Prefabs)
         {
             switch (monsterCombatantPrefab.ClassSid)
             {
@@ -79,9 +71,9 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     /// <inheritdoc />
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        var monsterCombatantPrefabs = _monsterCombatantPrefabs[_templateIndex];
+        var monsterCombatantTemplate = GetApplicableTemplate();
 
-        var monsterResources = GetMonsterDropTables(monsterCombatantPrefabs);
+        var monsterResources = GetMonsterDropTables(monsterCombatantTemplate);
 
         var totalDropTables = new List<IDropTableScheme>();
         totalDropTables.AddRange(monsterResources);
@@ -91,7 +83,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         }, 1));
 
         var combat = new CombatSource(
-            monsterCombatantPrefabs,
+            monsterCombatantTemplate.Prefabs,
             new CombatReward(totalDropTables.ToArray())
         );
 
@@ -108,6 +100,13 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         var stageItem = new CombatStageItem(location, combatSequence);
 
         return stageItem;
+    }
+
+    private MonsterCombatantTempate GetApplicableTemplate()
+    {
+        var templates = _monsterCombatantTemplates.Where(x => x.Level == _monsterLevel && x.ApplicableLocations.Any(a => a == _locationSid)).ToArray();
+
+        return _dice.RollFromList(templates);
     }
 
     /// <inheritdoc />

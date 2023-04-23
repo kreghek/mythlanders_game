@@ -1,4 +1,5 @@
 using Client.Assets;
+using Client.Core;
 
 using JetBrains.Annotations;
 
@@ -24,7 +25,7 @@ namespace Rpg.Client.Assets.Monsters
                 Name = UnitName.Basilisk,
                 LocationSids = new[]
                 {
-                    LocationSid.Pit, LocationSid.Swamp
+                    LocationSids.Pit, LocationSids.Swamp
                 },
                 IsMonster = true,
 

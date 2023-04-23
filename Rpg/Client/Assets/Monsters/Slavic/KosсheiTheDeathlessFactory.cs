@@ -1,4 +1,6 @@
 using Client.Assets;
+using Client.Assets.Monsters;
+using Client.Core;
 
 using JetBrains.Annotations;
 
@@ -31,7 +33,7 @@ namespace Rpg.Client.Assets.Monsters
                 },
 
                 UnitGraphicsConfig = new SingleSpriteGraphicsConfig(),
-                LocationSids = new[] { LocationSid.Castle },
+                LocationSids = new[] { LocationSids.Castle },
                 MinRequiredBiomeLevel = 10,
 
                 SchemeAutoTransition = new UnitSchemeAutoTransition

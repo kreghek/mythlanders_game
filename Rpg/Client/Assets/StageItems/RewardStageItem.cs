@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.StoryPointJobs;
+using Client.Core;
 using Client.Core.Campaigns;
 using Client.GameScreens.CampaignReward;
 
@@ -28,7 +29,7 @@ namespace Client.Assets.StageItems
             _dropResolver = dropResolver;
         }
 
-        private IReadOnlyCollection<IDropTableScheme> CreateCampaignResources(HeroCampaign currentCampaign)
+        private static IReadOnlyCollection<IDropTableScheme> CreateCampaignResources(HeroCampaign currentCampaign)
         {
             static IReadOnlyCollection<IDropTableScheme> GetLocationResourceDrop(string sid)
             {
@@ -41,12 +42,12 @@ namespace Client.Assets.StageItems
                 };
             }
 
-            switch (currentCampaign.Location)
+            switch (currentCampaign.Location.ToString())
             {
-                case LocationSid.Thicket:
+                case nameof(LocationSids.Thicket):
                     return GetLocationResourceDrop("snow");
 
-                case LocationSid.Desert:
+                case nameof(LocationSids.Desert):
                     return GetLocationResourceDrop("sand");
             }
 

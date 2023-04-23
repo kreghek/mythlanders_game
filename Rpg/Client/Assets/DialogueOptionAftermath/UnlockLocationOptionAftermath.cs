@@ -1,15 +1,15 @@
+using Client.Core;
 using Client.Core.Dialogues;
 
-using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
 
 namespace Client.Assets.DialogueOptionAftermath;
 
 internal sealed class UnlockLocationOptionAftermath : IDialogueOptionAftermath
 {
-    private readonly LocationSid _locationSid;
+    private readonly ILocationSid _locationSid;
 
-    public UnlockLocationOptionAftermath(LocationSid locationSid)
+    public UnlockLocationOptionAftermath(ILocationSid locationSid)
     {
         _locationSid = locationSid;
     }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Client.Core;
+
 using Core.Balance;
 
 namespace Rpg.Client.Core
@@ -34,7 +36,7 @@ namespace Rpg.Client.Core
 
         public IReadOnlyList<IUnitLevelScheme>? Levels { get; init; }
 
-        public IEnumerable<LocationSid>? LocationSids { get; init; }
+        public IEnumerable<ILocationSid>? LocationSids { get; init; }
 
         public int? MinRequiredBiomeLevel { get; init; }
 

@@ -25,7 +25,8 @@ internal class CombatantFactory
             { "digitalwolf", new DigitalWolfFactory() },
             { "chaser", new ThiefChaserFactory() },
             { "aspid", new AspidFactory() },
-            { "volkolakwarrior", new VolkolakWarriorFactory() }
+            { "volkolakwarrior", new VolkolakWarriorFactory() },
+            { "blacktrooper", new BlackTroopFactory() }
         };
 
     public static IReadOnlyCollection<FormationSlot> CreateHeroes(ICombatActorBehaviour combatActorBehaviour,

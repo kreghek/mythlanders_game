@@ -1,4 +1,6 @@
 using Client.Assets;
+using Client.Assets.Monsters;
+using Client.Core;
 
 using JetBrains.Annotations;
 
@@ -25,14 +27,14 @@ namespace Rpg.Client.Assets.Monsters
                 Name = UnitName.BoldMarauder,
                 LocationSids = new[]
                 {
-                    LocationSid.Thicket, LocationSid.Swamp, LocationSid.Battleground, LocationSid.DeathPath,
-                    LocationSid.Mines,
+                    LocationSids.Thicket, LocationSids.Swamp, LocationSids.Battleground, LocationSids.DeathPath,
+                    LocationSids.Mines,
 
-                    LocationSid.Desert, LocationSid.SacredPlace,
+                    LocationSids.Desert, LocationSids.SacredPlace,
 
-                    LocationSid.ShipGraveyard,
+                    LocationSids.ShipGraveyard,
 
-                    LocationSid.Monastery
+                    LocationSids.Monastery
                 },
                 IsMonster = true,
 
