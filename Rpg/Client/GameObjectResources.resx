@@ -815,4 +815,34 @@
       <value>Zduhach Might</value>
     <comment>Skill</comment>
   </data>
+  <data name="GrimResolve" xml:space="preserve">
+    <value>Grim resolve</value><comment>Combat Movement Black Trooper</comment>
+  </data>
+  <data name="GrimResolve_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Black Trooper</comment>
+  </data>
+  <data name="DanceWithThePast" xml:space="preserve">
+    <value>Dance with the Past</value><comment>Combat Movement Black Trooper</comment>
+  </data>
+  <data name="DanceWithThePast_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Black Trooper</comment>
+  </data>
+  <data name="FatalBlow" xml:space="preserve">
+    <value>Fatal blow</value><comment>Combat Movement Black Trooper</comment>
+  </data>
+  <data name="FatalBlow_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Black Trooper</comment>
+  </data>
+  <data name="MadnessWithinEyes" xml:space="preserve">
+    <value>Madness within eyes</value><comment>Combat Movement Black Trooper</comment>
+  </data>
+  <data name="MadnessWithinEyes_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Black Trooper</comment>
+  </data>
+  <data name="LastChanceToPeace" xml:space="preserve">
+    <value>Last chance to peace</value><comment>Combat Movement Black Trooper</comment>
+  </data>
+  <data name="LastChanceToPeace_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Black Trooper</comment>
+  </data>
 </root>

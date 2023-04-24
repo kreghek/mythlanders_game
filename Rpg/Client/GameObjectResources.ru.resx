@@ -745,4 +745,34 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
   </data>
+  <data name="GrimResolve" xml:space="preserve">
+    <value>Мрачная решимость</value>
+  </data>
+  <data name="GrimResolve_Description" xml:space="preserve">
+    <value>Наносит 2 ед. урона и сжигает 2 ед. энергии самому дальнему противнику. Затем вытягивает противника в авангард.</value>
+  </data>
+  <data name="DanceWithThePast" xml:space="preserve">
+    <value>Танец с Прошлым</value>
+  </data>
+  <data name="DanceWithThePast_Description" xml:space="preserve">
+    <value>Перемещается в авангард и два удара 2 ед. урона.</value>
+  </data>
+  <data name="FatalBlow" xml:space="preserve">
+    <value>Роковой удар</value>
+  </data>
+  <data name="FatalBlow_Description" xml:space="preserve">
+    <value>Наносит 2 ед. урона и сжигает 2 ед. энергии самому дальнему противнику. Затем вытягивает противника в авангард.</value>
+  </data>
+  <data name="MadnessWithinEyes" xml:space="preserve">
+    <value>Безумие в глазах</value>
+  </data>
+  <data name="MadnessWithinEyes_Description" xml:space="preserve">
+    <value>Повышает свою защиту на 3 ед. При авто-срабатывании повышает защиту на 1 ед.</value>
+  </data>
+  <data name="LastChanceToPeace" xml:space="preserve">
+    <value>Последний шанс на мир</value>
+  </data>
+  <data name="LastChanceToPeace_Description" xml:space="preserve">
+    <value>Наносит урон 2 ед. всем противникам в авангарде и сам перемещается в авангард.</value>
+  </data>
 </root>

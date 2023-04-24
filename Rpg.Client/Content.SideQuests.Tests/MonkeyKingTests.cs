@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Reflection;
 
 using Client;
 using Client.Assets;
@@ -60,8 +61,6 @@ public class MonkeyKingTests
 
         // Stage 1 - availability in a campaigns
 
-        var requirements = textEvent.GetRequirements();
-
         QuestAvailableInApplicableLocations(eventCatalog, globeProvider, textEvent, questLocations);
 
         // Stage 1 - play dialogue and select canon
@@ -79,9 +78,9 @@ public class MonkeyKingTests
     }
 
     private static void QuestNotAvailableInOtherLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider,
-        DialogueEvent textEvent, LocationSids[] availableLocations)
+        DialogueEvent textEvent, ILocationSid[] availableLocations)
     {
-        var allLocations = Enum.GetValues<LocationSids>();
+        var allLocations = GetAllLocationsFromStaticCatalog<ILocationSid>(typeof(LocationSids));
 
         var notAvailableLocations = allLocations.Except(availableLocations).ToArray();
 
@@ -98,8 +97,19 @@ public class MonkeyKingTests
         }
     }
 
+    private static IReadOnlyCollection<TObj> GetAllLocationsFromStaticCatalog<TObj>(Type catalog)
+    {
+        return catalog
+            .GetFields(BindingFlags.Public | BindingFlags.Static)
+            .Where(f => f.FieldType == typeof(TObj))
+            .Select(f => f.GetValue(null))
+            .Where(v => v is not null)
+            .Select(v => (TObj)v!)
+            .ToArray();
+    }
+
     private static void QuestAvailableInApplicableLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider,
-        DialogueEvent textEvent, LocationSids[] availableLocations)
+        DialogueEvent textEvent, ILocationSid[] availableLocations)
     {
         foreach (var locationSid in availableLocations)
         {
@@ -115,7 +125,7 @@ public class MonkeyKingTests
     }
 
     private static void CheckEventIsNotAvailableUntilInProgress(DialogueCatalog eventCatalog,
-        GlobeProvider globeProvider, DialogueEvent textEvent, LocationSids[] availableLocations)
+        GlobeProvider globeProvider, DialogueEvent textEvent, ILocationSid[] availableLocations)
     {
         foreach (var locationSid in availableLocations)
         {
