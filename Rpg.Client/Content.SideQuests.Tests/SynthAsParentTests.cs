@@ -32,7 +32,7 @@ public class SynthAsParentTests
             .Select(v => (TObj)v!)
             .ToArray();
     }
-    
+
     [OneTimeSetUp]
     public void SetUp()
     {
