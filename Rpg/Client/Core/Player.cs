@@ -36,7 +36,7 @@ internal sealed class Player
         Heroes = new[]
         {
             new HeroState("swordsman", new StatValue(5), new FieldCoords(0, 1)),
-            new HeroState("robber", new StatValue(3), new FieldCoords(1, 0)),
+            new HeroState("partisan", new StatValue(3), new FieldCoords(1, 0)),
             new HeroState("monk", new StatValue(4), new FieldCoords(1, 2))
         };
     }
