@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Reflection;
 
 using Client;
 using Client.Assets;
@@ -21,6 +22,17 @@ namespace Content.SideQuests.Tests;
 [TestFixture]
 public class SynthAsParentTests
 {
+    private static IReadOnlyCollection<TObj> GetAllLocationsFromStaticCatalog<TObj>(Type catalog)
+    {
+        return catalog
+            .GetFields(BindingFlags.Public | BindingFlags.Static)
+            .Where(f => f.FieldType == typeof(TObj))
+            .Select(f => f.GetValue(null))
+            .Where(v => v is not null)
+            .Select(v => (TObj)v!)
+            .ToArray();
+    }
+    
     [OneTimeSetUp]
     public void SetUp()
     {
@@ -109,9 +121,9 @@ public class SynthAsParentTests
     }
 
     private static void QuestNotAvailableInOtherLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider,
-        DialogueEvent textEvent, LocationSids[] availableLocations)
+        DialogueEvent textEvent, ILocationSid[] availableLocations)
     {
-        var allLocations = Enum.GetValues<LocationSids>();
+        var allLocations = GetAllLocationsFromStaticCatalog<ILocationSid>(typeof(LocationSids));
 
         var notAvailableLocations = allLocations.Except(availableLocations).ToArray();
 

@@ -547,6 +547,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dance with the Past.
+        /// </summary>
+        internal static string DanceWithThePast {
+            get {
+                return ResourceManager.GetString("DanceWithThePast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DanceWithThePast_Description {
+            get {
+                return ResourceManager.GetString("DanceWithThePast_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dark light.
         /// </summary>
         internal static string DarkLight {
@@ -781,6 +799,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fatal blow.
+        /// </summary>
+        internal static string FatalBlow {
+            get {
+                return ResourceManager.GetString("FatalBlow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string FatalBlow_Description {
+            get {
+                return ResourceManager.GetString("FatalBlow_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Finger of Anubis.
         /// </summary>
         internal static string FingerOfAnubis {
@@ -831,6 +867,24 @@ namespace Client {
         internal static string GreyWolf {
             get {
                 return ResourceManager.GetString("GreyWolf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grim resolve.
+        /// </summary>
+        internal static string GrimResolve {
+            get {
+                return ResourceManager.GetString("GrimResolve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string GrimResolve_Description {
+            get {
+                return ResourceManager.GetString("GrimResolve_Description", resourceCulture);
             }
         }
         
@@ -1134,6 +1188,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last chance to peace.
+        /// </summary>
+        internal static string LastChanceToPeace {
+            get {
+                return ResourceManager.GetString("LastChanceToPeace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string LastChanceToPeace_Description {
+            get {
+                return ResourceManager.GetString("LastChanceToPeace_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Look out!.
         /// </summary>
         internal static string LookOut {
@@ -1148,6 +1220,24 @@ namespace Client {
         internal static string LookOut_Description {
             get {
                 return ResourceManager.GetString("LookOut_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Madness within eyes.
+        /// </summary>
+        internal static string MadnessWithinEyes {
+            get {
+                return ResourceManager.GetString("MadnessWithinEyes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string MadnessWithinEyes_Description {
+            get {
+                return ResourceManager.GetString("MadnessWithinEyes_Description", resourceCulture);
             }
         }
         
