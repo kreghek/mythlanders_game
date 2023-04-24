@@ -22,6 +22,14 @@ namespace Content.SideQuests.Tests;
 [TestFixture]
 public class SynthAsParentTests
 {
+    [OneTimeSetUp]
+    public void SetUp()
+    {
+        var newCulture = CultureInfo.GetCultureInfo("ru-RU");
+        Thread.CurrentThread.CurrentCulture = newCulture;
+        Thread.CurrentThread.CurrentUICulture = newCulture;
+    }
+
     private static IReadOnlyCollection<TObj> GetAllLocationsFromStaticCatalog<TObj>(Type catalog)
     {
         return catalog
@@ -31,14 +39,6 @@ public class SynthAsParentTests
             .Where(v => v is not null)
             .Select(v => (TObj)v!)
             .ToArray();
-    }
-
-    [OneTimeSetUp]
-    public void SetUp()
-    {
-        var newCulture = CultureInfo.GetCultureInfo("ru-RU");
-        Thread.CurrentThread.CurrentCulture = newCulture;
-        Thread.CurrentThread.CurrentUICulture = newCulture;
     }
 
     [Test]

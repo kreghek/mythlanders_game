@@ -16,23 +16,16 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 
 internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
-    private static IReadOnlyCollection<TFactory> LoadCombatTemplateFactories<TFactory>()
-    {
-        var assembly = typeof(TFactory).Assembly;
-        var factoryTypes = assembly.GetTypes()
-            .Where(x => typeof(TFactory).IsAssignableFrom(x) && x != typeof(TFactory) && !x.IsAbstract);
-        var factories = factoryTypes.Select(Activator.CreateInstance);
-        return factories.OfType<TFactory>().ToArray();
-    }
+    private readonly IDice _dice;
 
     private readonly ILocationSid _locationSid;
 
     private readonly MonsterCombatantTempate[] _monsterCombatantTemplates;
 
     private readonly MonsterCombatantTempateLevel _monsterLevel;
-    private readonly IDice _dice;
 
-    public CombatCampaignStageTemplateFactory(ILocationSid locationSid, MonsterCombatantTempateLevel monsterLevel, CampaignStageTemplateServices services)
+    public CombatCampaignStageTemplateFactory(ILocationSid locationSid, MonsterCombatantTempateLevel monsterLevel,
+        CampaignStageTemplateServices services)
     {
         _locationSid = locationSid;
         _monsterLevel = monsterLevel;
@@ -41,6 +34,14 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         var factories = LoadCombatTemplateFactories<ICombatTemplateFactory>();
 
         _monsterCombatantTemplates = factories.Select(x => x.CreateSet()).SelectMany(x => x).ToArray();
+    }
+
+    private MonsterCombatantTempate GetApplicableTemplate()
+    {
+        var templates = _monsterCombatantTemplates
+            .Where(x => x.Level == _monsterLevel && x.ApplicableLocations.Any(a => a == _locationSid)).ToArray();
+
+        return _dice.RollFromList(templates);
     }
 
     private static IDropTableScheme[] GetMonsterDropTables(MonsterCombatantTempate monsterCombatantPrefabs)
@@ -66,6 +67,15 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         }
 
         return dropTables.ToArray();
+    }
+
+    private static IReadOnlyCollection<TFactory> LoadCombatTemplateFactories<TFactory>()
+    {
+        var assembly = typeof(TFactory).Assembly;
+        var factoryTypes = assembly.GetTypes()
+            .Where(x => typeof(TFactory).IsAssignableFrom(x) && x != typeof(TFactory) && !x.IsAbstract);
+        var factories = factoryTypes.Select(Activator.CreateInstance);
+        return factories.OfType<TFactory>().ToArray();
     }
 
     /// <inheritdoc />
@@ -100,13 +110,6 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         var stageItem = new CombatStageItem(location, combatSequence);
 
         return stageItem;
-    }
-
-    private MonsterCombatantTempate GetApplicableTemplate()
-    {
-        var templates = _monsterCombatantTemplates.Where(x => x.Level == _monsterLevel && x.ApplicableLocations.Any(a => a == _locationSid)).ToArray();
-
-        return _dice.RollFromList(templates);
     }
 
     /// <inheritdoc />

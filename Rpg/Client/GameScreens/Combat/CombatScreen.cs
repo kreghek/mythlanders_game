@@ -158,19 +158,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         _dropResolver = game.Services.GetRequiredService<IDropResolver>();
     }
 
-    private static BiomeType GetBiomeSound(ILocationSid locationSid)
-    {
-        return locationSid.ToString() switch
-        {
-            nameof(LocationSids.Thicket) => BiomeType.Slavic,
-            nameof(LocationSids.Swamp) => BiomeType.Slavic,
-            nameof(LocationSids.Desert) => BiomeType.Egyptian,
-            nameof(LocationSids.ShipGraveyard) => BiomeType.Greek,
-            nameof(LocationSids.Monastery) => BiomeType.Chinese,
-            _ => BiomeType.Slavic,
-        };
-    }
-
     protected override IList<ButtonBase> CreateMenu()
     {
         var surrenderButton = new ResourceTextButton(nameof(UiResource.SurrenderButtonTitle));
@@ -1087,6 +1074,19 @@ internal class CombatScreen : GameScreenWithMenuBase
     {
         //_combatCore.Surrender();
         _combatFinishedVictory = false;
+    }
+
+    private static BiomeType GetBiomeSound(ILocationSid locationSid)
+    {
+        return locationSid.ToString() switch
+        {
+            nameof(LocationSids.Thicket) => BiomeType.Slavic,
+            nameof(LocationSids.Swamp) => BiomeType.Slavic,
+            nameof(LocationSids.Desert) => BiomeType.Egyptian,
+            nameof(LocationSids.ShipGraveyard) => BiomeType.Greek,
+            nameof(LocationSids.Monastery) => BiomeType.Chinese,
+            _ => BiomeType.Slavic
+        };
     }
 
     private CombatantGameObject GetCombatantGameObject(Combatant combatant)

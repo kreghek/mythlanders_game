@@ -15,9 +15,7 @@ namespace Rpg.Client.Assets.Monsters
 
         public override UnitScheme Create(IBalanceTable balanceTable)
         {
-            return new UnitScheme(balanceTable.GetCommonUnitBasics())
-            {
-            };
+            return new UnitScheme(balanceTable.GetCommonUnitBasics());
         }
 
         public override UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)

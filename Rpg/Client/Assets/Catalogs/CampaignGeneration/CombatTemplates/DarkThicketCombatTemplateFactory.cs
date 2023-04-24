@@ -13,7 +13,8 @@ internal sealed class DarkThicketCombatTemplateFactory : ICombatTemplateFactory
 {
     public IReadOnlyCollection<MonsterCombatantTempate> CreateSet()
     {
-        return new[]{
+        return new[]
+        {
             new MonsterCombatantTempate(
                 new MonsterCombatantTempateLevel(0),
                 new[] { LocationSids.Thicket },
@@ -26,27 +27,27 @@ internal sealed class DarkThicketCombatTemplateFactory : ICombatTemplateFactory
                     new("digitalwolf", 0, new FieldCoords(0, 2))
                 }),
 
-        new MonsterCombatantTempate(
-            new MonsterCombatantTempateLevel(1),
-            new[] { LocationSids.Thicket },
-            new MonsterCombatantPrefab[]
-            {
-                new("aspid", 0, new FieldCoords(0, 1)),
-                //new ("chaser", 0, new FieldCoords(0, 1))
-                //new ("volkolakwarrior", 0, new FieldCoords(1, 2)),
-                //new ("chaser", 1, new FieldCoords(1, 2)),
-                new("digitalwolf", 0, new FieldCoords(1, 1))
-            }),
+            new MonsterCombatantTempate(
+                new MonsterCombatantTempateLevel(1),
+                new[] { LocationSids.Thicket },
+                new MonsterCombatantPrefab[]
+                {
+                    new("aspid", 0, new FieldCoords(0, 1)),
+                    //new ("chaser", 0, new FieldCoords(0, 1))
+                    //new ("volkolakwarrior", 0, new FieldCoords(1, 2)),
+                    //new ("chaser", 1, new FieldCoords(1, 2)),
+                    new("digitalwolf", 0, new FieldCoords(1, 1))
+                }),
 
-        new MonsterCombatantTempate(
-            new MonsterCombatantTempateLevel(2),
-            new[] { LocationSids.Thicket },
-            new MonsterCombatantPrefab[]
-            {
-                new("aspid", 0, new FieldCoords(0, 1)),
-                new("digitalwolf", 0, new FieldCoords(0, 2)),
-                new("digitalwolf", 0, new FieldCoords(1, 1))
-            })
+            new MonsterCombatantTempate(
+                new MonsterCombatantTempateLevel(2),
+                new[] { LocationSids.Thicket },
+                new MonsterCombatantPrefab[]
+                {
+                    new("aspid", 0, new FieldCoords(0, 1)),
+                    new("digitalwolf", 0, new FieldCoords(0, 2)),
+                    new("digitalwolf", 0, new FieldCoords(1, 1))
+                })
         };
     }
 }
