@@ -206,10 +206,10 @@
     <value>This is the Master of the location. The monster is the most powerfull in this part of the world. It has +250% HP and doubled armor.</value><comment>Perk</comment>
   </data>
   <data name="BringBeastDown" xml:space="preserve">
-    <value>Bring the Beast down</value><comment>Combat Movemeent</comment>
+    <value>Bring the Beast down</value><comment>Combat Movement Amazon</comment>
   </data>
   <data name="BringBeastDown_Description" xml:space="preserve">
-    <value /><comment>Combat Movemeent</comment>
+    <value /><comment>Combat Movement Amazon</comment>
   </data>
   <data name="BuyFood_CrisisAftermath" xml:space="preserve">
     <value /><comment>Crisis Aftermath</comment>
@@ -220,11 +220,11 @@
   </data>
   <data name="ChainHit" xml:space="preserve">
     <value>Chain hit</value>
-    <comment>Combat Movement</comment>
+    <comment>Combat Movement Chaser</comment>
   </data>
   <data name="ChainHit_Description" xml:space="preserve">
     <value></value>
-    <comment>Combat Movement</comment>
+    <comment>Combat Movement Chaser</comment>
   </data>
   <data name="ChaoticNeuroInterface" xml:space="preserve">
     <value>Chaotic neuro-interface</value><comment>Equipment</comment>
@@ -275,11 +275,11 @@
   </data>
   <data name="CyberClaws" xml:space="preserve">
     <value>Cyber-claws</value>
-    <comment>Combat Movement</comment>
+    <comment>Combat Movement Digital wolf</comment>
   </data>
   <data name="CyberClaws_Description" xml:space="preserve">
     <value></value>
-    <comment>Combat Movement</comment>
+    <comment>Combat Movement Digital wolf</comment>
   </data>
   <data name="DamageTogether_CrisisAftermath" xml:space="preserve">
     <value /><comment>Crisis Aftermath</comment>
@@ -330,11 +330,11 @@
   </data>
   <data name="DoubleKapesh" xml:space="preserve">
     <value>Double kapesh!</value>
-    <comment>Combat Movement</comment>
+    <comment>Combat Movement Chaser</comment>
   </data>
   <data name="DoubleKapesh_Description" xml:space="preserve">
     <value></value>
-    <comment>Combat Movement</comment>
+    <comment>Combat Movement Chaser</comment>
   </data>
   <data name="EbonySkin" xml:space="preserve">
     <value>Ebony skin</value>
@@ -353,11 +353,11 @@
   </data>
   <data name="EnergeticBite" xml:space="preserve">
     <value>Energetic bite</value>
-    <comment>Combat Movement</comment>
+    <comment>Combat Movement Digital Wolf</comment>
   </data>
   <data name="EnergeticBite_Description" xml:space="preserve">
     <value></value>
-    <comment>Combat Movement</comment>
+    <comment>Combat Movement Digital Wolf</comment>
   </data>
   <data name="EnergyShot" xml:space="preserve">
       <value>Energy shot</value>
@@ -400,11 +400,11 @@
   </data>
   <data name="GuardianPromise" xml:space="preserve">
     <value>Promise of a tomb guardian</value>
-    <comment>Combat Movement</comment>
+    <comment>Combat Movement Chaser</comment>
   </data>
   <data name="GuardianPromise_Description" xml:space="preserve">
     <value></value>
-    <comment>Combat Movement</comment>
+    <comment>Combat Movement Chaser</comment>
   </data>
   <data name="GuardianWoman" xml:space="preserve">
     <value>Guardian woman</value>
@@ -499,10 +499,10 @@
   </data>
   <data name="InspirationalBreakthrough" xml:space="preserve">
     <value>Inspirational breakthrough</value>
-    <comment>Combat Movement</comment>
+    <comment>Combat Movement Partisan</comment>
   </data>
   <data name="InspirationalBreakthrough_Description" xml:space="preserve">
-    <value /><comment>Combat Movement</comment>
+    <value /><comment>Combat Movement Partisan</comment>
   </data>
   <data name="InspiringRush" xml:space="preserve">
     <value>Inspiring rush</value>
@@ -623,10 +623,10 @@
   </data>
   <data name="Sabotage" xml:space="preserve">
     <value>Sabotage</value>
-    <comment>Combat Movement</comment>
+    <comment>Combat Movement Partisan</comment>
   </data>
   <data name="Sabotage_Description" xml:space="preserve">
-    <value /><comment>Combat Movement</comment>
+    <value /><comment>Combat Movement Partisan</comment>
   </data>
   <data name="ScarabeusKingLeg" xml:space="preserve">
     <value>Scarabeus King's Leg</value><comment>Equipment</comment>
@@ -688,10 +688,10 @@
     <comment>Skill</comment>
   </data>
   <data name="SurpriseManeuver" xml:space="preserve">
-    <value>Surprise maneuver</value><comment>Combat Movement</comment>
+    <value>Surprise maneuver</value><comment>Combat Movement Partisan</comment>
   </data>
   <data name="SurpriseManeuver_Description" xml:space="preserve">
-    <value /><comment>Combat Movement</comment>
+    <value /><comment>Combat Movement Partisan</comment>
   </data>
   <data name="SvarogBlastFurnace" xml:space="preserve">
       <value>Svarog's Blast Furnace</value>
