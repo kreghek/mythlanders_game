@@ -3,6 +3,8 @@ using System.Linq;
 
 using Client.Core.Campaigns;
 
+using CombatDicesTeam.Graphs;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -75,14 +77,14 @@ internal sealed class CampaignPanel : ControlBase
     }
 
 
-    private void InitChildControls(ICampaignGraph<ICampaignStageItem> campaignGraph, HeroCampaign currentCampaign,
+    private void InitChildControls(IGraph<ICampaignStageItem> campaignGraph, HeroCampaign currentCampaign,
         IList<CampaignStagePanelBase> panelList)
     {
         var roots = GetRoots(campaignGraph);
 
         foreach (var root in roots)
         {
-            ICampaignGraphNode<ICampaignStageItem> current = root;
+            IGraphNode<ICampaignStageItem> current = root;
             while (campaignGraph.GetNext(current).Any())
             {
                 var stageIsActive = (currentCampaign.CurrentStage is null && current == root) ||
@@ -118,7 +120,7 @@ internal sealed class CampaignPanel : ControlBase
         }
     }
 
-    private IReadOnlyCollection<ICampaignGraphNode<ICampaignStageItem>> GetRoots(ICampaignGraph<ICampaignStageItem> campaignGraph)
+    private IReadOnlyCollection<IGraphNode<ICampaignStageItem>> GetRoots(IGraph<ICampaignStageItem> campaignGraph)
     {
         // Look node are not targets for other nodes.
         

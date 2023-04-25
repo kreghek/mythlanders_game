@@ -1,16 +1,18 @@
-﻿namespace Client.Core.Campaigns;
+﻿using CombatDicesTeam.Graphs;
+
+namespace Client.Core.Campaigns;
 
 internal sealed class HeroCampaign
 {
-    public HeroCampaign(ILocationSid location, ICampaignGraph<ICampaignStageItem> stages)
+    public HeroCampaign(ILocationSid location, IGraph<ICampaignStageItem> stages)
     {
         Location = location;
         Stages = stages;
     }
 
-    public ICampaignGraph<ICampaignStageItem> Stages { get; }
+    public IGraph<ICampaignStageItem> Stages { get; }
 
-    public ICampaignGraphNode<ICampaignStageItem>? CurrentStage { get; private set; }
+    public IGraphNode<ICampaignStageItem>? CurrentStage { get; private set; }
 
     public ILocationSid Location { get; }
 

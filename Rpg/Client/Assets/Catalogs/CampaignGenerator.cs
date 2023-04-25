@@ -7,6 +7,8 @@ using Client.Assets.StageItems;
 using Client.Core;
 using Client.Core.Campaigns;
 
+using CombatDicesTeam.Graphs;
+
 using Core.Dices;
 using Core.PropDrop;
 
@@ -48,11 +50,11 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         var rewardStageItem = new RewardStageItem(_globeProvider, _jobProgressResolver, _dropResolver);
         campaignWay.Add(rewardStageItem);
 
-        var campaignGraph = new CampaignGraph<ICampaignStageItem>();
-        ICampaignGraphNode<ICampaignStageItem>? prevCampaignNode = null;
+        var campaignGraph = new Graph<ICampaignStageItem>();
+        IGraphNode<ICampaignStageItem>? prevCampaignNode = null;
         foreach (var campaignStageItem in campaignWay)
         {
-            var campaignGraphNode = new CampaignGraphNode<ICampaignStageItem>(campaignStageItem);
+            var campaignGraphNode = new GraphNode<ICampaignStageItem>(campaignStageItem);
             campaignGraph.AddNode(campaignGraphNode);
 
             if (prevCampaignNode is not null)
