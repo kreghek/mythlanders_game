@@ -48,10 +48,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeAnalisys", "CodeAnalisy
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{70AC1DF1-BEF2-4C90-9AFA-F0D41F5555E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CombatDicesTeam.Graphs", "CombatDicesTeam.Graphs\CombatDicesTeam.Graphs.csproj", "{28F79C6E-4325-4805-9005-CD6A2F69E138}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CombatDicesTeam.Graphs.Visualization", "CombatDicesTeam.Graphs.Visualization\CombatDicesTeam.Graphs.Visualization.csproj", "{D475772B-3D8E-4097-BA73-EB7DBBD1C246}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -114,14 +110,6 @@ Global
 		{A29D788A-7373-41C2-A1C8-17417BE129E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A29D788A-7373-41C2-A1C8-17417BE129E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A29D788A-7373-41C2-A1C8-17417BE129E9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{28F79C6E-4325-4805-9005-CD6A2F69E138}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28F79C6E-4325-4805-9005-CD6A2F69E138}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{28F79C6E-4325-4805-9005-CD6A2F69E138}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{28F79C6E-4325-4805-9005-CD6A2F69E138}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D475772B-3D8E-4097-BA73-EB7DBBD1C246}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D475772B-3D8E-4097-BA73-EB7DBBD1C246}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D475772B-3D8E-4097-BA73-EB7DBBD1C246}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D475772B-3D8E-4097-BA73-EB7DBBD1C246}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

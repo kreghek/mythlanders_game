@@ -33,6 +33,8 @@
 	<EmbeddedResource Include="Resources\Balance.json" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CombatDicesTeam.Graphs" Version="0.1.0-alpha" />
+    <PackageReference Include="CombatDicesTeam.Graphs.Visualization" Version="0.1.0-alpha" />
     <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
@@ -160,7 +162,6 @@
         </AssemblyAttribute>
     </ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Rpg.Client\CombatDicesTeam.Graphs\CombatDicesTeam.Graphs.csproj" />
 	  <ProjectReference Include="..\Core.Balance\Core.Balance.csproj" />
 	  <ProjectReference Include="..\..\Rpg.Client\Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj" />
 	  <ProjectReference Include="..\Core\Core.csproj" />
