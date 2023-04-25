@@ -1,6 +1,4 @@
-﻿using Rpg.Client.Core.Campaigns;
-
-namespace Client.Core.Campaigns;
+﻿namespace Client.Core.Campaigns;
 
 internal sealed class HeroCampaign
 {
@@ -18,6 +16,6 @@ internal sealed class HeroCampaign
 
     internal void CompleteCurrentStage()
     {
-        CurrentStage.Value.IsCompleted = true;
+        //CurrentStage.Value.IsCompleted = true;
     }
 }

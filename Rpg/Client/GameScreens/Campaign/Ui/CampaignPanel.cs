@@ -16,7 +16,6 @@ internal sealed class CampaignPanel : ControlBase
     private const int CAMPAIGN_PAGE_SIZE = 4;
     private readonly Texture2D _campaignIconsTexture;
     private readonly IScreen _currentScreen;
-    private readonly int _minIndex;
     private readonly IList<CampaignStagePanelBase> _panelList;
     private readonly IScreenManager _screenManager;
     private TextHint _currentHint;
@@ -29,9 +28,6 @@ internal sealed class CampaignPanel : ControlBase
         _campaignIconsTexture = campaignIconsTexture;
 
         _panelList = new List<CampaignStagePanelBase>();
-
-        _minIndex = CampaignStagesPanelHelper.CalcMin(heroCampaign.CurrentStage,
-            heroCampaign.Stages.Count, CAMPAIGN_PAGE_SIZE);
 
         InitChildControls(heroCampaign.Stages, heroCampaign, _panelList);
     }
@@ -94,7 +90,7 @@ internal sealed class CampaignPanel : ControlBase
 
                 if (stageIsActive)
                 {
-                    var stagePanel = new CurrentCampaignStagePanel(stage, stageIndex, _campaignIconsTexture,
+                    var stagePanel = new CurrentCampaignStagePanel(current.Value, 0, _campaignIconsTexture,
                         currentCampaign, _currentScreen,
                         _screenManager, stageIsActive);
 
@@ -102,7 +98,7 @@ internal sealed class CampaignPanel : ControlBase
                 }
                 else
                 {
-                    var stagePanel = new NextCampaignStagePanel(stage, stageIndex, _campaignIconsTexture,
+                    var stagePanel = new NextCampaignStagePanel(current.Value, 0, _campaignIconsTexture,
                         currentCampaign, _currentScreen,
                         _screenManager, stageIsActive);
                     
@@ -118,15 +114,7 @@ internal sealed class CampaignPanel : ControlBase
                 }
             }
 
-            var next = campaignGraph.GetNext(current).Single();
-        }
-
-        for (var stageIndex = _minIndex; stageIndex < _minIndex + CAMPAIGN_PAGE_SIZE; stageIndex++)
-        {
-            var stage = campaignGraph[stageIndex];
-            var stageIsActive = stageIndex == currentCampaign.CurrentStage;
-
-            
+            current = campaignGraph.GetNext(current).Single();
         }
     }
 
@@ -150,5 +138,7 @@ internal sealed class CampaignPanel : ControlBase
                 }
             }
         }
+
+        return nodesOpenList;
     }
 }
