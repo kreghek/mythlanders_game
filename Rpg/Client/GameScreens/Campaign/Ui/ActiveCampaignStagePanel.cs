@@ -5,21 +5,20 @@ using Client.Core.Campaigns;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Campaign.Ui;
 
-internal class ActiveCampaignStagePanel : CampaignStagePanelBase
+internal class CurrentCampaignStagePanel : CampaignStagePanelBase
 {
     private readonly IList<CampaignButton> _buttonList;
     private readonly Texture2D _campaignIconsTexture;
-    private readonly CampaignStage _campaignStage;
+    private readonly ICampaignStageItem _campaignStage;
     private readonly HeroCampaign _currentCampaign;
     private readonly bool _isActive;
 
-    public ActiveCampaignStagePanel(CampaignStage campaignStage, int stageIndex, Texture2D campaignIconsTexture,
+    public CurrentCampaignStagePanel(ICampaignStageItem campaignStage, int stageIndex, Texture2D campaignIconsTexture,
         HeroCampaign currentCampaign,
         IScreen currentScreen, IScreenManager screenManager, bool isActive) : base(stageIndex)
     {
@@ -32,6 +31,7 @@ internal class ActiveCampaignStagePanel : CampaignStagePanelBase
         Init(currentScreen, screenManager, isActive);
     }
 
+    /// <inheritdoc />
     public override void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         foreach (var button in _buttonList)
@@ -77,30 +77,27 @@ internal class ActiveCampaignStagePanel : CampaignStagePanelBase
 
     private void Init(IScreen currentScreen, IScreenManager screenManager, bool isActive)
     {
-        for (var i = 0; i < _campaignStage.Items.Count; i++)
+        var i = 0;
+
+
+        var stageItemDisplayName = GetStageItemDisplayName(i, _campaignStage);
+        var stageIconRect = GetStageItemTexture(_campaignStage);
+
+        var button = new CampaignButton(new IconData(_campaignIconsTexture, stageIconRect), stageItemDisplayName);
+        _buttonList.Add(button);
+
+        if (isActive)
         {
-            var campaignStageItem = _campaignStage.Items[i];
-
-            var stageItemDisplayName = GetStageItemDisplayName(i, campaignStageItem);
-            var stageIconRect = GetStageItemTexture(campaignStageItem);
-
-            var button = new CampaignButton(new IconData(_campaignIconsTexture, stageIconRect), stageItemDisplayName +
-                (_campaignStage.IsCompleted ? " (Завершено)" : string.Empty));
-            _buttonList.Add(button);
-
-            if (isActive)
+            button.OnClick += (s, e) =>
             {
-                button.OnClick += (s, e) =>
-                {
-                    campaignStageItem.ExecuteTransition(currentScreen, screenManager, _currentCampaign);
-                };
+                _campaignStage.ExecuteTransition(currentScreen, screenManager, _currentCampaign);
+            };
 
-                button.OnHover += (s, e) => { DoSelected(button); };
-            }
-            else
-            {
-                button.IsEnabled = false;
-            }
+            button.OnHover += (s, e) => { DoSelected(button); };
+        }
+        else
+        {
+            button.IsEnabled = false;
         }
     }
 }

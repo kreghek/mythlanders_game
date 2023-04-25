@@ -7,7 +7,7 @@ namespace Client.GameScreens.Campaign.Ui;
 
 internal class CompleteCampaignStagePanel : CampaignStagePanelBase
 {
-    public CompleteCampaignStagePanel(int stageIndex, Texture2D _campaignIconsTexture) : base(stageIndex)
+    public CompleteCampaignStagePanel(int stageIndex) : base(stageIndex)
     {
     }
 

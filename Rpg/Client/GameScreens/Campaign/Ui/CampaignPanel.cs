@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using Client.Core.Campaigns;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
 using Rpg.Client.ScreenManagement;
 
@@ -30,10 +30,10 @@ internal sealed class CampaignPanel : ControlBase
 
         _panelList = new List<CampaignStagePanelBase>();
 
-        _minIndex = CampaignStagesPanelHelper.CalcMin(heroCampaign.CurrentStageIndex,
-            heroCampaign.CampaignStages.Count, CAMPAIGN_PAGE_SIZE);
+        _minIndex = CampaignStagesPanelHelper.CalcMin(heroCampaign.CurrentStage,
+            heroCampaign.Stages.Count, CAMPAIGN_PAGE_SIZE);
 
-        InitChildControls(heroCampaign.CampaignStages, heroCampaign, _panelList);
+        InitChildControls(heroCampaign.Stages, heroCampaign, _panelList);
     }
 
     protected override Point CalcTextureOffset()
@@ -79,34 +79,24 @@ internal sealed class CampaignPanel : ControlBase
     }
 
 
-    private void InitChildControls(IReadOnlyList<CampaignStage> stages, HeroCampaign currentCampaign,
+    private void InitChildControls(ICampaignGraph<ICampaignStageItem> campaignGraph, HeroCampaign currentCampaign,
         IList<CampaignStagePanelBase> panelList)
     {
-        for (var stageIndex = _minIndex; stageIndex < _minIndex + CAMPAIGN_PAGE_SIZE; stageIndex++)
-        {
-            var stage = stages[stageIndex];
-            var stageIsActive = stageIndex == currentCampaign.CurrentStageIndex;
+        var roots = GetRoots(campaignGraph);
 
-            if (stage.IsCompleted)
+        foreach (var root in roots)
+        {
+            ICampaignGraphNode<ICampaignStageItem> current = root;
+            while (campaignGraph.GetNext(current).Any())
             {
-                var stagePanel = new CompleteCampaignStagePanel(stageIndex, _campaignIconsTexture);
-                panelList.Add(stagePanel);
-            }
-            else
-            {
+                var stageIsActive = (currentCampaign.CurrentStage is null && current == root) ||
+                                    campaignGraph.GetNext(currentCampaign.CurrentStage).Contains(current);
+
                 if (stageIsActive)
                 {
-                    var stagePanel = new ActiveCampaignStagePanel(stage, stageIndex, _campaignIconsTexture,
+                    var stagePanel = new CurrentCampaignStagePanel(stage, stageIndex, _campaignIconsTexture,
                         currentCampaign, _currentScreen,
                         _screenManager, stageIsActive);
-
-                    stagePanel.Selected += (_, e) =>
-                    {
-                        _currentHint = new TextHint(e.Description)
-                        {
-                            Rect = new Rectangle((e.Position + new Vector2(0, 16)).ToPoint(), new Point(200, 50))
-                        };
-                    };
 
                     panelList.Add(stagePanel);
                 }
@@ -115,7 +105,48 @@ internal sealed class CampaignPanel : ControlBase
                     var stagePanel = new NextCampaignStagePanel(stage, stageIndex, _campaignIconsTexture,
                         currentCampaign, _currentScreen,
                         _screenManager, stageIsActive);
+                    
+                    stagePanel.Selected += (_, e) =>
+                    {
+                        _currentHint = new TextHint(e.Description)
+                        {
+                            Rect = new Rectangle((e.Position + new Vector2(0, 16)).ToPoint(), new Point(200, 50))
+                        };
+                    };
+                    
                     panelList.Add(stagePanel);
+                }
+            }
+
+            var next = campaignGraph.GetNext(current).Single();
+        }
+
+        for (var stageIndex = _minIndex; stageIndex < _minIndex + CAMPAIGN_PAGE_SIZE; stageIndex++)
+        {
+            var stage = campaignGraph[stageIndex];
+            var stageIsActive = stageIndex == currentCampaign.CurrentStage;
+
+            
+        }
+    }
+
+    private IReadOnlyCollection<ICampaignGraphNode<ICampaignStageItem>> GetRoots(ICampaignGraph<ICampaignStageItem> campaignGraph)
+    {
+        // Look node are not targets for other nodes.
+        
+        var nodesOpenList = campaignGraph.GetAllNodes().ToList();
+
+        foreach (var node in nodesOpenList.ToArray())
+        {
+            var otherNodes = campaignGraph.GetAllNodes().Where(x=>x != node).ToArray();
+
+            foreach (var otherNode in otherNodes)
+            {
+                var nextNodes = campaignGraph.GetNext(otherNode);
+                
+                if (nextNodes.Contains(node))
+                {
+                    nodesOpenList.Remove(node);
                 }
             }
         }

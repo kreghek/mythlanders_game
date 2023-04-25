@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.Catalogs.CampaignGeneration;
@@ -10,7 +11,6 @@ using Core.Dices;
 using Core.PropDrop;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Campaigns;
 
 namespace Client.Assets.Catalogs;
 
@@ -34,46 +34,43 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
     private HeroCampaign CreateCampaign(ILocationSid locationSid)
     {
-        var shortTemplate = CreateGrindShortTemplate(locationSid);
+        var shortTemplateFactories = CreateGrindShortTemplate(locationSid);
 
-        var stages = new List<CampaignStage>();
-        foreach (var template in shortTemplate)
+        // Create campaign way
+        var campaignWay = new List<ICampaignStageItem>();
+        
+        foreach (var templateFactory in shortTemplateFactories)
         {
-            var itemList = new List<ICampaignStageItem>();
-
-            foreach (var templateItem in template)
-            {
-                var currentStageItems = itemList.ToArray();
-                var stageItem = templateItem.Create(currentStageItems);
-                itemList.Add(stageItem);
-            }
-
-            var stage = new CampaignStage
-            {
-                Items = itemList
-            };
-
-            stages.Add(stage);
+            var stageItem = templateFactory.Create(campaignWay.ToArray());
+            campaignWay.Add(stageItem);
         }
 
         var rewardStageItem = new RewardStageItem(_globeProvider, _jobProgressResolver, _dropResolver);
-        var rewardStage = new CampaignStage
-        {
-            Items = new[]
-            {
-                rewardStageItem
-            }
-        };
-        stages.Add(rewardStage);
+        campaignWay.Add(rewardStageItem);
 
-        var campaign = new HeroCampaign(locationSid, stages);
+        var campaignGraph = new CampaignGraph<ICampaignStageItem>();
+        ICampaignGraphNode<ICampaignStageItem>? prevCampaignNode = null;
+        foreach (var campaignStageItem in campaignWay)
+        {
+            var campaignGraphNode = new CampaignGraphNode<ICampaignStageItem>(campaignStageItem);
+            campaignGraph.AddNode(campaignGraphNode);
+
+            if (prevCampaignNode is not null)
+            {
+                campaignGraph.ConnectNodes(prevCampaignNode, campaignGraphNode);
+            }
+
+            prevCampaignNode = campaignGraphNode;
+        }
+
+        var campaign = new HeroCampaign(locationSid, campaignGraph);
 
         return campaign;
     }
 
-    private ICampaignStageTemplateFactory[][] CreateGrindShortTemplate(ILocationSid locationSid)
+    private ICampaignStageTemplateFactory[] CreateGrindShortTemplate(ILocationSid locationSid)
     {
-        return new[]
+        return new ICampaignStageTemplateFactory[]
         {
             //// To debug text events
             //new ICampaignStageTemplateFactory[]
@@ -92,27 +89,19 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
             //// Combat
 
-            new ICampaignStageTemplateFactory[]
-            {
-                new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTempateLevels.Easy, _services)
-            },
+            new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTempateLevels.Easy, _services),
 
             // Rest
 
-            new ICampaignStageTemplateFactory[]
+            new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
             {
-                new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-                {
-                    new RestCampaignStageTemplateFactory(),
-                    new ShopCampaignStageTemplateFactory()
-                }, _services),
-                new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-                {
-                    //new SacredEventCampaignStageTemplateFactory(),
-                    //new ShopCampaignStageTemplateFactory(),
-                    new FindingEventCampaignStageTemplateFactory()
-                }, _services)
-            },
+                new RestCampaignStageTemplateFactory(),
+                new ShopCampaignStageTemplateFactory(),
+                //new SacredEventCampaignStageTemplateFactory(),
+                //new ShopCampaignStageTemplateFactory(),
+                new FindingEventCampaignStageTemplateFactory()
+            }, _services),
+            
 
             // // Evo
             //
@@ -135,46 +124,30 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
             // Crisis
 
-            new ICampaignStageTemplateFactory[]
-            {
-                new CrisisEventCampaignStageTemplateFactory()
-            },
+            
+            new CrisisEventCampaignStageTemplateFactory(),
 
             // Combat
 
-            new ICampaignStageTemplateFactory[]
-            {
-                new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTempateLevels.Medium, _services)
-                // new CombatCampaignStageTemplateFactory(locationSid, _services),
-                // new CombatCampaignStageTemplateFactory(locationSid, _services)
-            },
+            new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTempateLevels.Medium, _services),
 
             // Rest
 
-            new ICampaignStageTemplateFactory[]
+            new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
             {
-                new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-                {
-                    new RestCampaignStageTemplateFactory(),
-                    new ShopCampaignStageTemplateFactory()
-                }, _services),
-                new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-                {
-                    //new SacredEventCampaignStageTemplateFactory(),
-                    //new ShopCampaignStageTemplateFactory(),
-                    new FindingEventCampaignStageTemplateFactory()
-                }, _services)
-            },
+                new RestCampaignStageTemplateFactory(),
+                new ShopCampaignStageTemplateFactory(),
+                //new SacredEventCampaignStageTemplateFactory(),
+                //new ShopCampaignStageTemplateFactory(),
+                new FindingEventCampaignStageTemplateFactory()
+            }, _services),
 
             // For demo only
 
-            new ICampaignStageTemplateFactory[]
+            new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
             {
-                new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-                {
-                    new MinigameEventCampaignStageTemplateFactory()
-                })
-            },
+                new MinigameEventCampaignStageTemplateFactory()
+            }),
 
             // Evo
 
@@ -196,17 +169,11 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
             // Crisis
 
-            new ICampaignStageTemplateFactory[]
-            {
-                new CrisisEventCampaignStageTemplateFactory()
-            },
+            new CrisisEventCampaignStageTemplateFactory(),
 
             // Combat
 
-            new ICampaignStageTemplateFactory[]
-            {
-                new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTempateLevels.Hard, _services)
-            }
+            new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTempateLevels.Hard, _services)
         };
     }
 
