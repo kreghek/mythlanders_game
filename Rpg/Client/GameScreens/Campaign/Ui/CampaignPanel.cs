@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
+using Client.Assets.StageItems;
+using Client.Core;
 using Client.Core.Campaigns;
 
 using CombatDicesTeam.Graphs;
+using CombatDicesTeam.Graphs.Visualization;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,12 +19,10 @@ namespace Client.GameScreens.Campaign.Ui;
 
 internal sealed class CampaignPanel : ControlBase
 {
-    private const int CAMPAIGN_PAGE_SIZE = 4;
     private readonly Texture2D _campaignIconsTexture;
     private readonly IScreen _currentScreen;
-    private readonly IList<CampaignStagePanelBase> _panelList;
     private readonly IScreenManager _screenManager;
-    private TextHint _currentHint;
+    private TextHint? _currentHint;
 
     public CampaignPanel(HeroCampaign heroCampaign, IScreenManager screenManager, IScreen currentScreen,
         Texture2D campaignIconsTexture)
@@ -29,9 +31,8 @@ internal sealed class CampaignPanel : ControlBase
         _currentScreen = currentScreen;
         _campaignIconsTexture = campaignIconsTexture;
 
-        _panelList = new List<CampaignStagePanelBase>();
 
-        InitChildControls(heroCampaign.Stages, heroCampaign, _panelList);
+        InitChildControls(heroCampaign.Stages, heroCampaign);
     }
 
     protected override Point CalcTextureOffset()
@@ -47,19 +48,10 @@ internal sealed class CampaignPanel : ControlBase
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
-        for (var stagePanelIndex = 0; stagePanelIndex < CAMPAIGN_PAGE_SIZE; stagePanelIndex++)
+        foreach (var button in _buttonList)
         {
-            var stagePanel = _panelList[stagePanelIndex];
-
-            const int STAGE_ITEM_PANEL_WIDTH = 200;
-
-            stagePanel.Rect = new Rectangle(
-                contentRect.Left + (STAGE_ITEM_PANEL_WIDTH + CONTENT_MARGIN) * stagePanelIndex,
-                contentRect.Top + CONTENT_MARGIN,
-                STAGE_ITEM_PANEL_WIDTH,
-                contentRect.Height - CONTENT_MARGIN * 2);
-
-            stagePanel.Draw(spriteBatch);
+            button.Rect = new Rectangle(button.Position.X + contentRect.Left, button.Position.Y + contentRect.Top, 32, 32);
+            button.Draw(spriteBatch);
         }
 
         if (_currentHint is not null)
@@ -70,77 +62,96 @@ internal sealed class CampaignPanel : ControlBase
 
     internal void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
     {
-        foreach (var panel in _panelList)
+        foreach (var button in _buttonList)
         {
-            panel.Update(resolutionIndependentRenderer);
+            button.Update(resolutionIndependentRenderer);
         }
     }
 
 
-    private void InitChildControls(IGraph<ICampaignStageItem> campaignGraph, HeroCampaign currentCampaign,
-        IList<CampaignStagePanelBase> panelList)
+    private sealed class VisualizerConfig : ILayoutConfig
     {
-        var roots = GetRoots(campaignGraph);
+        public int NodeSize => 32 * 2 + CONTENT_MARGIN * 2;
+    }
+    
+    protected static Rectangle GetStageItemTexture(ICampaignStageItem campaignStageItem)
+    {
+        var size = new Point(32, 32);
 
-        foreach (var root in roots)
+        if (campaignStageItem is CombatStageItem)
         {
-            IGraphNode<ICampaignStageItem> current = root;
-            while (campaignGraph.GetNext(current).Any())
-            {
-                var stageIsActive = (currentCampaign.CurrentStage is null && current == root) ||
-                                    campaignGraph.GetNext(currentCampaign.CurrentStage).Contains(current);
-
-                if (stageIsActive)
-                {
-                    var stagePanel = new CurrentCampaignStagePanel(current.Value, 0, _campaignIconsTexture,
-                        currentCampaign, _currentScreen,
-                        _screenManager, stageIsActive);
-
-                    panelList.Add(stagePanel);
-                }
-                else
-                {
-                    var stagePanel = new NextCampaignStagePanel(current.Value, 0, _campaignIconsTexture,
-                        currentCampaign, _currentScreen,
-                        _screenManager, stageIsActive);
-                    
-                    stagePanel.Selected += (_, e) =>
-                    {
-                        _currentHint = new TextHint(e.Description)
-                        {
-                            Rect = new Rectangle((e.Position + new Vector2(0, 16)).ToPoint(), new Point(200, 50))
-                        };
-                    };
-                    
-                    panelList.Add(stagePanel);
-                }
-            }
-
-            current = campaignGraph.GetNext(current).Single();
+            return new Rectangle(new Point(0, 0), size);
         }
+
+        if (campaignStageItem is RewardStageItem)
+        {
+            return new Rectangle(new Point(1 * 32, 2 * 32), size);
+        }
+
+        if (campaignStageItem is DialogueEventStageItem)
+        {
+            return new Rectangle(new Point(1 * 32, 1 * 32), size);
+        }
+
+        if (campaignStageItem is RestStageItem)
+        {
+            return new Rectangle(new Point(1 * 32, 1 * 32), size);
+        }
+
+        return new Rectangle(new Point(2 * 32, 2 * 32), size);
+    }
+    
+    protected static string GetStageItemDisplayName(ICampaignStageItem campaignStageItem)
+    {
+        if (campaignStageItem is CombatStageItem)
+        {
+            return string.Format(UiResource.CampaignStageDisplayNameCombat, 0);
+        }
+
+        if (campaignStageItem is RewardStageItem)
+        {
+            return UiResource.CampaignStageDisplayNameFinish;
+        }
+
+        if (campaignStageItem is DialogueEventStageItem)
+        {
+            return UiResource.CampaignStageDisplayNameTextEvent;
+        }
+
+        if (campaignStageItem is RestStageItem)
+        {
+            return UiResource.CampaignStageDisplayNameRest;
+        }
+
+        return UiResource.CampaignStageDisplayNameUnknown;
     }
 
-    private IReadOnlyCollection<IGraphNode<ICampaignStageItem>> GetRoots(IGraph<ICampaignStageItem> campaignGraph)
+    private readonly IList<CampaignButton> _buttonList = new List<CampaignButton>();
+    
+    private void InitChildControls(IGraph<ICampaignStageItem> campaignGraph, HeroCampaign currentCampaign)
     {
-        // Look node are not targets for other nodes.
-        
-        var nodesOpenList = campaignGraph.GetAllNodes().ToList();
+        var horizontalVisualizer = new HorizontalGraphVisualizer<ICampaignStageItem>();
+        var graphNodeLayouts = horizontalVisualizer.Create(campaignGraph, new VisualizerConfig());
 
-        foreach (var node in nodesOpenList.ToArray())
+        foreach (var graphNodeLayout in graphNodeLayouts)
         {
-            var otherNodes = campaignGraph.GetAllNodes().Where(x=>x != node).ToArray();
-
-            foreach (var otherNode in otherNodes)
+            var stageItemDisplayName = GetStageItemDisplayName(graphNodeLayout.Node.Payload);
+            var stageIconRect = GetStageItemTexture(graphNodeLayout.Node.Payload);
+            
+            var button = new CampaignButton(new IconData(_campaignIconsTexture, stageIconRect), stageItemDisplayName, graphNodeLayout.Position);
+            button.OnHover += (s, e) =>
             {
-                var nextNodes = campaignGraph.GetNext(otherNode);
-                
-                if (nextNodes.Contains(node))
+                _currentHint = new TextHint(button.Description)
                 {
-                    nodesOpenList.Remove(node);
-                }
-            }
-        }
+                    Rect = new Rectangle((button.Rect.Center.ToVector2() + new Vector2(0, 16)).ToPoint(), new Point(200, 50))
+                };
+            };
+            button.OnClick += (s, e) =>
+            {
+                graphNodeLayout.Node.Payload.ExecuteTransition(_currentScreen, _screenManager, currentCampaign);
+            };
 
-        return nodesOpenList;
+            _buttonList.Add(button);
+        }
     }
 }
