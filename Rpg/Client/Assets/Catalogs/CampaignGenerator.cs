@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.Catalogs.CampaignGeneration;
-using Client.Assets.StageItems;
 using Client.Core;
 using Client.Core.Campaigns;
 
@@ -20,19 +18,13 @@ namespace Client.Assets.Catalogs;
 internal sealed class CampaignGenerator : ICampaignGenerator
 {
     private readonly IDice _dice;
-    private readonly IDropResolver _dropResolver;
-    private readonly GlobeProvider _globeProvider;
-    private readonly IJobProgressResolver _jobProgressResolver;
     private readonly CampaignStageTemplateServices _services;
 
     public CampaignGenerator(GlobeProvider globeProvider,
         IEventCatalog eventCatalog, IDice dice, IJobProgressResolver jobProgressResolver, IDropResolver dropResolver)
     {
         _services = new CampaignStageTemplateServices(eventCatalog, globeProvider, jobProgressResolver, dropResolver, dice);
-        _globeProvider = globeProvider;
         _dice = dice;
-        _jobProgressResolver = jobProgressResolver;
-        _dropResolver = dropResolver;
     }
 
     private HeroCampaign CreateCampaign(ILocationSid locationSid)
@@ -199,9 +191,12 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         return wayGraph;
     }
 
+    /// <summary>
+    /// Create set of different campaigns
+    /// </summary>
     public IReadOnlyList<HeroCampaign> CreateSet()
     {
-        var availbleLocations = new[]
+        var availableLocations = new[]
         {
             LocationSids.Thicket,
             LocationSids.Monastery,
@@ -211,13 +206,11 @@ internal sealed class CampaignGenerator : ICampaignGenerator
             LocationSids.Swamp
         };
 
-        var selectedLocations = _dice.RollFromList(availbleLocations, 3).ToList();
+        var selectedLocations = _dice.RollFromList(availableLocations, 3).ToList();
 
         var list = new List<HeroCampaign>();
-        for (var i = 0; i < selectedLocations.Count; i++)
+        foreach (var location in selectedLocations)
         {
-            var location = selectedLocations[i];
-
             var campaign = CreateCampaign(location);
 
             list.Add(campaign);
