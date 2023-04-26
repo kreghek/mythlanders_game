@@ -6,6 +6,9 @@ using Client.Assets.StageItems;
 using Client.Core;
 using Client.Core.Campaigns;
 
+using CombatDicesTeam.Graphs;
+using CombatDicesTeam.Graphs.Generation.TemplateBased;
+
 using Core.Combats;
 using Core.Dices;
 using Core.PropDrop;
@@ -116,5 +119,22 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     public bool CanCreate(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
         return true;
+    }
+
+    /// <inheritdoc />
+    public IGraphNode<ICampaignStageItem> Create(IGraphTemplateContext<ICampaignStageItem> context)
+    {
+        return new GraphNode<ICampaignStageItem>(Create(MapContextToCurrentStageItems(context)));
+    }
+
+    private static ICampaignStageItem[] MapContextToCurrentStageItems(IGraphTemplateContext<ICampaignStageItem> context)
+    {
+        return context.CurrentWay.Select(x => x.Payload).ToArray();
+    }
+
+    /// <inheritdoc />
+    public bool CanCreate(IGraphTemplateContext<ICampaignStageItem> context)
+    {
+        return CanCreate(MapContextToCurrentStageItems(context));
     }
 }

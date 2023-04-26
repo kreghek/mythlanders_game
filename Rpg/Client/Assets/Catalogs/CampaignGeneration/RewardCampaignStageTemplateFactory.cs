@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.StageItems;
@@ -9,8 +9,15 @@ using CombatDicesTeam.Graphs.Generation.TemplateBased;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
-internal sealed class FindingEventCampaignStageTemplateFactory : ICampaignStageTemplateFactory
+internal sealed class RewardCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
+    private readonly CampaignStageTemplateServices _services;
+
+    public RewardCampaignStageTemplateFactory(CampaignStageTemplateServices services)
+    {
+        _services = services;
+    }
+
     public bool CanCreate(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
         return true;
@@ -18,7 +25,7 @@ internal sealed class FindingEventCampaignStageTemplateFactory : ICampaignStageT
 
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        return new FindingStageItem();
+        return new RewardStageItem(_services.GlobeProvider, _services.JobProgressResolver, _services.DropResolver);
     }
     
     /// <inheritdoc />

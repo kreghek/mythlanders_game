@@ -8,6 +8,7 @@ using Client.Core;
 using Client.Core.Campaigns;
 
 using CombatDicesTeam.Graphs;
+using CombatDicesTeam.Graphs.Generation.TemplateBased;
 
 using Core.Dices;
 using Core.PropDrop;
@@ -27,7 +28,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     public CampaignGenerator(GlobeProvider globeProvider,
         IEventCatalog eventCatalog, IDice dice, IJobProgressResolver jobProgressResolver, IDropResolver dropResolver)
     {
-        _services = new CampaignStageTemplateServices(eventCatalog, globeProvider, dice);
+        _services = new CampaignStageTemplateServices(eventCatalog, globeProvider, jobProgressResolver, dropResolver, dice);
         _globeProvider = globeProvider;
         _dice = dice;
         _jobProgressResolver = jobProgressResolver;
@@ -36,43 +37,24 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
     private HeroCampaign CreateCampaign(ILocationSid locationSid)
     {
-        var shortTemplateFactories = CreateGrindShortTemplate(locationSid);
+        var shortTemplateGraph = CreateGrindShortTemplate(locationSid);
 
-        // Create campaign way
-        var campaignWay = new List<ICampaignStageItem>();
-        
-        foreach (var templateFactory in shortTemplateFactories)
-        {
-            var stageItem = templateFactory.Create(campaignWay.ToArray());
-            campaignWay.Add(stageItem);
-        }
+        var graphGenerator =
+            new TemplateBasedGraphGenerator<ICampaignStageItem>(
+                new TemplateConfig<ICampaignStageItem>(shortTemplateGraph));
 
-        var rewardStageItem = new RewardStageItem(_globeProvider, _jobProgressResolver, _dropResolver);
-        campaignWay.Add(rewardStageItem);
-
-        var campaignGraph = new Graph<ICampaignStageItem>();
-        IGraphNode<ICampaignStageItem>? prevCampaignNode = null;
-        foreach (var campaignStageItem in campaignWay)
-        {
-            var campaignGraphNode = new GraphNode<ICampaignStageItem>(campaignStageItem);
-            campaignGraph.AddNode(campaignGraphNode);
-
-            if (prevCampaignNode is not null)
-            {
-                campaignGraph.ConnectNodes(prevCampaignNode, campaignGraphNode);
-            }
-
-            prevCampaignNode = campaignGraphNode;
-        }
+        var campaignGraph = graphGenerator.Create();
 
         var campaign = new HeroCampaign(locationSid, campaignGraph);
 
         return campaign;
     }
 
-    private ICampaignStageTemplateFactory[] CreateGrindShortTemplate(ILocationSid locationSid)
+    private IGraph<GraphWay<ICampaignStageItem>> CreateGrindShortTemplate(ILocationSid locationSid)
     {
-        return new ICampaignStageTemplateFactory[]
+        var wayGraph = new Graph<GraphWay<ICampaignStageItem>>();
+
+        var wayTemplates = new ICampaignStageTemplateFactory[]
         {
             //// To debug text events
             //new ICampaignStageTemplateFactory[]
@@ -177,6 +159,44 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
             new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTempateLevels.Hard, _services)
         };
+        
+        var regularWay = new GraphWay<ICampaignStageItem>(wayTemplates);
+        var way11Node = new GraphNode<GraphWay<ICampaignStageItem>>(regularWay);
+        var way12Node = new GraphNode<GraphWay<ICampaignStageItem>>(regularWay);
+        var way13Node = new GraphNode<GraphWay<ICampaignStageItem>>(regularWay);
+        
+        var way2Node = new GraphNode<GraphWay<ICampaignStageItem>>(regularWay);
+        
+        var way31Node = new GraphNode<GraphWay<ICampaignStageItem>>(regularWay);
+        var way32Node = new GraphNode<GraphWay<ICampaignStageItem>>(regularWay);
+        
+        var rewardNode = new GraphNode<GraphWay<ICampaignStageItem>>(new GraphWay<ICampaignStageItem>(new[]
+        {
+            new RewardCampaignStageTemplateFactory(_services)
+        }));
+        
+        wayGraph.AddNode(way11Node);
+        wayGraph.AddNode(way12Node);
+        wayGraph.AddNode(way13Node);
+        
+        wayGraph.AddNode(way2Node);
+        
+        wayGraph.ConnectNodes(way11Node, way2Node);
+        wayGraph.ConnectNodes(way12Node, way2Node);
+        wayGraph.ConnectNodes(way13Node, way2Node);
+        
+        wayGraph.AddNode(way31Node);
+        wayGraph.AddNode(way32Node);
+        
+        wayGraph.ConnectNodes(way2Node, way31Node);
+        wayGraph.ConnectNodes(way2Node, way32Node);
+        
+        wayGraph.AddNode(rewardNode);
+        
+        wayGraph.ConnectNodes(way31Node, rewardNode);
+        wayGraph.ConnectNodes(way32Node, rewardNode);
+        
+        return wayGraph;
     }
 
     public IReadOnlyList<HeroCampaign> CreateSet()
