@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -13,6 +14,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using MonoGame;
+
 using Rpg.Client.Engine;
 using Rpg.Client.ScreenManagement;
 
@@ -22,12 +25,14 @@ internal sealed class CampaignPanel : ControlBase
 {
     private readonly Texture2D _campaignIconsTexture;
     private readonly IScreen _currentScreen;
+    private readonly HeroCampaign _heroCampaign;
     private readonly IScreenManager _screenManager;
     private TextHint? _currentHint;
 
     public CampaignPanel(HeroCampaign heroCampaign, IScreenManager screenManager, IScreen currentScreen,
         Texture2D campaignIconsTexture)
     {
+        _heroCampaign = heroCampaign;
         _screenManager = screenManager;
         _currentScreen = currentScreen;
         _campaignIconsTexture = campaignIconsTexture;
@@ -57,6 +62,18 @@ internal sealed class CampaignPanel : ControlBase
                 button.Position.Y + contentRect.Top+ (int)Scroll.Y,
                 32, 32);
             button.Draw(spriteBatch);
+        }
+
+        foreach (var button in _buttonList)
+        {
+            var nextNodes = _heroCampaign.Stages.GetNext(button.GraphNodeLayout.Node);
+
+            var nextButtons = _buttonList.Where(x => nextNodes.Contains(x.GraphNodeLayout.Node)).ToArray();
+
+            foreach (var nextButton in nextButtons)
+            {
+                spriteBatch.DrawLine(button.Rect.Center.ToVector2(), nextButton.Rect.Center.ToVector2(), Color.LightCyan);
+            }
         }
 
         if (_currentHint is not null)
@@ -159,18 +176,49 @@ internal sealed class CampaignPanel : ControlBase
     private readonly IList<CampaignButton> _buttonList = new List<CampaignButton>();
 
     private Rectangle? _graphRect;
-    
+
+    private sealed class Transformer : IGraphNodeLayoutTransformer<ICampaignStageItem>
+    {
+        private readonly Random _random;
+
+        public Transformer(Random random)
+        {
+            _random = random;
+        }
+
+        public IGraphNodeLayout<ICampaignStageItem> Get(IGraphNodeLayout<ICampaignStageItem> layout)
+        {
+            var offset = new Position(_random.Next(16), _random.Next(16));
+            var position = new Position(layout.Position.X + offset.X, layout.Position.Y + offset.Y);
+
+            return new GraphNodeLayout<ICampaignStageItem>(layout.Node, position, layout.Size);
+        }
+    }
+
     private void InitChildControls(IGraph<ICampaignStageItem> campaignGraph, HeroCampaign currentCampaign)
     {
         var horizontalVisualizer = new HorizontalGraphVisualizer<ICampaignStageItem>();
         var graphNodeLayouts = horizontalVisualizer.Create(campaignGraph, new VisualizerConfig());
+
+        var random = new Random(1);
+
+        var postProcessors = new ILayoutPostProcessor<ICampaignStageItem>[] { 
+            new PushHorizontallyPostProcessor<ICampaignStageItem>(16),
+            new RotatePostProcessor<ICampaignStageItem>(random.NextDouble() * Math.PI),
+            new RepeatPostProcessor<ICampaignStageItem>(5, new RetryTransformLayoutPostProcessor<ICampaignStageItem>(new Transformer(random), new IntersectsGraphNodeLayoutValidator<ICampaignStageItem>(), 5))
+        };
+
+        foreach (var postProcessor in postProcessors)
+        {
+            graphNodeLayouts = postProcessor.Process(graphNodeLayouts);
+        }
 
         foreach (var graphNodeLayout in graphNodeLayouts)
         {
             var stageItemDisplayName = GetStageItemDisplayName(graphNodeLayout.Node.Payload);
             var stageIconRect = GetStageItemTexture(graphNodeLayout.Node.Payload);
             
-            var button = new CampaignButton(new IconData(_campaignIconsTexture, stageIconRect), stageItemDisplayName, graphNodeLayout.Position);
+            var button = new CampaignButton(new IconData(_campaignIconsTexture, stageIconRect), stageItemDisplayName, graphNodeLayout.Position, graphNodeLayout);
             button.OnHover += (s, e) =>
             {
                 _currentHint = new TextHint(button.Description)

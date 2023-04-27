@@ -1,4 +1,6 @@
-﻿using CombatDicesTeam.Graphs.Visualization;
+﻿using Client.Core.Campaigns;
+
+using CombatDicesTeam.Graphs.Visualization;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,16 +14,18 @@ internal sealed class CampaignButton : ButtonBase
     private readonly Texture2D _icon;
     private readonly Rectangle? _iconRect;
 
-    public CampaignButton(IconData iconData, string description, Position position)
+    public CampaignButton(IconData iconData, string description, Position position, IGraphNodeLayout<Core.Campaigns.ICampaignStageItem> graphNodeLayout)
     {
         _icon = iconData.Spritesheet;
         _iconRect = iconData.SourceRect;
         Description = description;
         Position = position;
+        GraphNodeLayout = graphNodeLayout;
     }
 
     public string Description { get; }
     public Position Position { get; }
+    public IGraphNodeLayout<ICampaignStageItem> GraphNodeLayout { get; }
 
     protected override Point CalcTextureOffset()
     {
