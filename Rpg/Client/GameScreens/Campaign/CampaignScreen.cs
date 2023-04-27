@@ -86,6 +86,10 @@ internal class CampaignScreen : GameScreenWithMenuBase
         InitializeCampaignItemButtons();
     }
 
+    private bool _isCampaignPresentation = true;
+
+    private double _presentationDetayCounter = 3;
+
     protected override void UpdateContent(GameTime gameTime)
     {
         base.UpdateContent(gameTime);
@@ -93,6 +97,25 @@ internal class CampaignScreen : GameScreenWithMenuBase
         if (_stagePanel is not null)
         {
             _stagePanel.Update(ResolutionIndependentRenderer);
+
+            if (_isCampaignPresentation)
+            {
+                if (_presentationDetayCounter > 0)
+                {
+                    _presentationDetayCounter -= gameTime.ElapsedGameTime.TotalSeconds;
+                }
+                else
+                {
+                    if ((_stagePanel.Scroll - _stagePanel.StartScroll).Length() > 10)
+                    {
+                        _stagePanel.Scroll = Vector2.Lerp(_stagePanel.Scroll, _stagePanel.StartScroll, (float)gameTime.ElapsedGameTime.TotalSeconds * 0.3f);
+                    }
+                    else
+                    {
+                        _isCampaignPresentation = false;
+                    }
+                }
+            }
         }
 
         _showStoryPointsButton.Update(ResolutionIndependentRenderer);
@@ -137,7 +160,8 @@ internal class CampaignScreen : GameScreenWithMenuBase
         var currentCampaign = _screenTransitionArguments.Campaign;
 
         _stagePanel = new CampaignPanel(currentCampaign, ScreenManager, this,
-            Game.Content.Load<Texture2D>("Sprites/Ui/CampaignStageIcons"));
+            Game.Content.Load<Texture2D>("Sprites/Ui/CampaignStageIcons"),
+            ResolutionIndependentRenderer);
     }
 
     private void InventoryButton_OnClick(object? sender, EventArgs e)

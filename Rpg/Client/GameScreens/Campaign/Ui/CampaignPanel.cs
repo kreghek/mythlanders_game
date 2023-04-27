@@ -30,14 +30,14 @@ internal sealed class CampaignPanel : ControlBase
     private TextHint? _currentHint;
 
     public CampaignPanel(HeroCampaign heroCampaign, IScreenManager screenManager, IScreen currentScreen,
-        Texture2D campaignIconsTexture)
+        Texture2D campaignIconsTexture,
+        ResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         _heroCampaign = heroCampaign;
         _screenManager = screenManager;
         _currentScreen = currentScreen;
         _campaignIconsTexture = campaignIconsTexture;
-
-
+        ResolutionIndependentRenderer = resolutionIndependentRenderer;
         InitChildControls(heroCampaign.Stages, heroCampaign);
     }
 
@@ -52,6 +52,7 @@ internal sealed class CampaignPanel : ControlBase
     }
 
     public Vector2 Scroll { get; set; }
+    public ResolutionIndependentRenderer ResolutionIndependentRenderer { get; }
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
@@ -72,7 +73,17 @@ internal sealed class CampaignPanel : ControlBase
 
             foreach (var nextButton in nextButtons)
             {
-                spriteBatch.DrawLine(button.Rect.Center.ToVector2(), nextButton.Rect.Center.ToVector2(), Color.LightCyan);
+                var buttonPosition = button.Rect.Center.ToVector2();
+                var nextPosition = nextButton.Rect.Center.ToVector2();
+
+                var direction = buttonPosition - nextPosition;
+
+                var angle = Math.Atan2(direction.Y, direction.X);
+
+                var startLinePoint = new Vector2((int)(Math.Cos(angle + Math.PI) * 16 + buttonPosition.X), (int)(Math.Sin(angle + Math.PI) * 16 + buttonPosition.Y));
+                var targetLinePoint = new Vector2((int)(Math.Cos(angle ) * 16 + nextPosition.X), (int)(Math.Sin(angle) * 16 + nextPosition.Y));
+
+                spriteBatch.DrawLine(startLinePoint, targetLinePoint, Color.LightCyan);
             }
         }
 
@@ -103,7 +114,7 @@ internal sealed class CampaignPanel : ControlBase
                 _oldScroll = Scroll;
             }
 
-            Scroll = _oldScroll.Value + rirPosition;
+            Scroll = _oldScroll.Value - (_mouseDrag.Value - rirPosition);
         }
         else
         {
@@ -121,7 +132,7 @@ internal sealed class CampaignPanel : ControlBase
         public int NodeSize => 32 * 2 + CONTENT_MARGIN * 2;
     }
     
-    protected static Rectangle GetStageItemTexture(ICampaignStageItem campaignStageItem)
+    private static Rectangle GetStageItemTexture(ICampaignStageItem campaignStageItem)
     {
         var size = new Point(32, 32);
 
@@ -148,7 +159,7 @@ internal sealed class CampaignPanel : ControlBase
         return new Rectangle(new Point(2 * 32, 2 * 32), size);
     }
     
-    protected static string GetStageItemDisplayName(ICampaignStageItem campaignStageItem)
+    private static string GetStageItemDisplayName(ICampaignStageItem campaignStageItem)
     {
         if (campaignStageItem is CombatStageItem)
         {
@@ -188,7 +199,7 @@ internal sealed class CampaignPanel : ControlBase
 
         public IGraphNodeLayout<ICampaignStageItem> Get(IGraphNodeLayout<ICampaignStageItem> layout)
         {
-            var offset = new Position(_random.Next(16), _random.Next(16));
+            var offset = new Position(_random.Next(-20, 20), _random.Next(-20, 20));
             var position = new Position(layout.Position.X + offset.X, layout.Position.Y + offset.Y);
 
             return new GraphNodeLayout<ICampaignStageItem>(layout.Node, position, layout.Size);
@@ -205,7 +216,7 @@ internal sealed class CampaignPanel : ControlBase
         var postProcessors = new ILayoutPostProcessor<ICampaignStageItem>[] { 
             new PushHorizontallyPostProcessor<ICampaignStageItem>(16),
             new RotatePostProcessor<ICampaignStageItem>(random.NextDouble() * Math.PI),
-            new RepeatPostProcessor<ICampaignStageItem>(5, new RetryTransformLayoutPostProcessor<ICampaignStageItem>(new Transformer(random), new IntersectsGraphNodeLayoutValidator<ICampaignStageItem>(), 5))
+            new RepeatPostProcessor<ICampaignStageItem>(5, new RetryTransformLayoutPostProcessor<ICampaignStageItem>(new Transformer(random), new IntersectsGraphNodeLayoutValidator<ICampaignStageItem>(), 10))
         };
 
         foreach (var postProcessor in postProcessors)
@@ -234,11 +245,49 @@ internal sealed class CampaignPanel : ControlBase
             _buttonList.Add(button);
         }
 
+        var rewardNodeLayout = graphNodeLayouts.Single(x => x.Node.Payload is RewardStageItem);
+        RewardScroll = new Vector2(-rewardNodeLayout.Position.X + ResolutionIndependentRenderer.VirtualBounds.Center.X, -rewardNodeLayout.Position.Y + ResolutionIndependentRenderer.VirtualBounds.Center.Y);
+        Scroll = RewardScroll;
+
+        var roots = GetRoots(_heroCampaign.Stages);
+
+        var startNodeLayouts = graphNodeLayouts.Where(x => roots.Contains(x.Node));
+        var startNodeLayout = startNodeLayouts.First();
+
+        StartScroll = new Vector2(-startNodeLayout.Position.X + ResolutionIndependentRenderer.VirtualBounds.Center.X, -startNodeLayout.Position.Y + ResolutionIndependentRenderer.VirtualBounds.Center.Y);
+
         _graphRect = new Rectangle(
             graphNodeLayouts.Min(x => x.Position.X),
             graphNodeLayouts.Min(x => x.Position.Y),
             graphNodeLayouts.Max(x => x.Position.X + 32),
             graphNodeLayouts.Max(x => x.Position.Y + 32)
         );
-    } 
+    }
+
+    private static IReadOnlyCollection<IGraphNode<ICampaignStageItem>> GetRoots(IGraph<ICampaignStageItem> campaignGraph)
+    {
+        // Look node are not targets for other nodes.
+
+        var nodesOpenList = campaignGraph.GetAllNodes().ToList();
+
+        foreach (var node in nodesOpenList.ToArray())
+        {
+            var otherNodes = campaignGraph.GetAllNodes().Where(x => x != node).ToArray();
+
+            foreach (var otherNode in otherNodes)
+            {
+                var nextNodes = campaignGraph.GetNext(otherNode);
+
+                if (nextNodes.Contains(node))
+                {
+                    nodesOpenList.Remove(node);
+                }
+            }
+        }
+
+        return nodesOpenList;
+    }
+
+    public Vector2 RewardScroll { get; private set; }
+    public Vector2 StartScroll { get; private set; }
 }
