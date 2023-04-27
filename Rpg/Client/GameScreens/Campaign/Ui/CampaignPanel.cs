@@ -11,6 +11,7 @@ using CombatDicesTeam.Graphs.Visualization;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Engine;
 using Rpg.Client.ScreenManagement;
@@ -45,12 +46,16 @@ internal sealed class CampaignPanel : ControlBase
         return Color.White;
     }
 
+    public Vector2 Scroll { get; set; }
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
         foreach (var button in _buttonList)
         {
-            button.Rect = new Rectangle(button.Position.X + contentRect.Left, button.Position.Y + contentRect.Top, 32, 32);
+            button.Rect = new Rectangle(
+                button.Position.X + contentRect.Left + (int)Scroll.X,
+                button.Position.Y + contentRect.Top+ (int)Scroll.Y,
+                32, 32);
             button.Draw(spriteBatch);
         }
 
@@ -66,9 +71,34 @@ internal sealed class CampaignPanel : ControlBase
         {
             button.Update(resolutionIndependentRenderer);
         }
+
+        if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+        {
+            var mouseState = Mouse.GetState();
+            var mousePosition = mouseState.Position.ToVector2();
+
+            var rirPosition =
+                resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mousePosition);
+
+            if (_mouseDrag is null)
+            {
+                _mouseDrag = rirPosition;
+                _oldScroll = Scroll;
+            }
+
+            Scroll = _oldScroll.Value + rirPosition;
+        }
+        else
+        {
+            _mouseDrag = null;
+            _oldScroll = null;
+        }
     }
 
+    private Vector2? _oldScroll;
 
+    private Vector2? _mouseDrag;
+    
     private sealed class VisualizerConfig : ILayoutConfig
     {
         public int NodeSize => 32 * 2 + CONTENT_MARGIN * 2;
@@ -127,6 +157,8 @@ internal sealed class CampaignPanel : ControlBase
     }
 
     private readonly IList<CampaignButton> _buttonList = new List<CampaignButton>();
+
+    private Rectangle? _graphRect;
     
     private void InitChildControls(IGraph<ICampaignStageItem> campaignGraph, HeroCampaign currentCampaign)
     {
@@ -153,5 +185,12 @@ internal sealed class CampaignPanel : ControlBase
 
             _buttonList.Add(button);
         }
-    }
+
+        _graphRect = new Rectangle(
+            graphNodeLayouts.Min(x => x.Position.X),
+            graphNodeLayouts.Min(x => x.Position.Y),
+            graphNodeLayouts.Max(x => x.Position.X + 32),
+            graphNodeLayouts.Max(x => x.Position.Y + 32)
+        );
+    } 
 }
