@@ -23,7 +23,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private readonly ButtonBase _showStoryPointsButton;
 
     private bool _showStoryPoints;
-    private CampaignPanel? _stagePanel;
+    private CampaignMap? _campaignMap;
 
     public CampaignScreen(TestamentGame game, CampaignScreenTransitionArguments screenTransitionArguments) : base(game)
     {
@@ -62,10 +62,10 @@ internal class CampaignScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
-        if (_stagePanel is not null)
+        if (_campaignMap is not null)
         {
-            _stagePanel.Rect = contentRect;
-            _stagePanel.Draw(spriteBatch);
+            _campaignMap.Rect = contentRect;
+            _campaignMap.Draw(spriteBatch);
         }
 
         const int STORY_POINT_PANEL_WIDTH = 200;
@@ -94,9 +94,9 @@ internal class CampaignScreen : GameScreenWithMenuBase
     {
         base.UpdateContent(gameTime);
 
-        if (_stagePanel is not null)
+        if (_campaignMap is not null)
         {
-            _stagePanel.Update(ResolutionIndependentRenderer);
+            _campaignMap.Update(ResolutionIndependentRenderer);
 
             if (_isCampaignPresentation)
             {
@@ -106,13 +106,14 @@ internal class CampaignScreen : GameScreenWithMenuBase
                 }
                 else
                 {
-                    if ((_stagePanel.Scroll - _stagePanel.StartScroll).Length() > 10)
+                    if ((_campaignMap.Scroll - _campaignMap.StartScroll).Length() > 10)
                     {
-                        _stagePanel.Scroll = Vector2.Lerp(_stagePanel.Scroll, _stagePanel.StartScroll, (float)gameTime.ElapsedGameTime.TotalSeconds * 0.3f);
+                        _campaignMap.Scroll = Vector2.Lerp(_campaignMap.Scroll, _campaignMap.StartScroll, (float)gameTime.ElapsedGameTime.TotalSeconds * 0.3f);
                     }
                     else
                     {
                         _isCampaignPresentation = false;
+                        _campaignMap.State = CampaignMap.MapState.Interactive;
                     }
                 }
             }
@@ -159,7 +160,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
     {
         var currentCampaign = _screenTransitionArguments.Campaign;
 
-        _stagePanel = new CampaignPanel(currentCampaign, ScreenManager, this,
+        _campaignMap = new CampaignMap(currentCampaign, ScreenManager, this,
             Game.Content.Load<Texture2D>("Sprites/Ui/CampaignStageIcons"),
             ResolutionIndependentRenderer);
     }

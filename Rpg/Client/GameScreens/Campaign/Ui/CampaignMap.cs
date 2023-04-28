@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 using Client.Assets.StageItems;
-using Client.Core;
 using Client.Core.Campaigns;
 
 using CombatDicesTeam.Graphs;
@@ -21,15 +19,17 @@ using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Campaign.Ui;
 
-internal sealed class CampaignPanel : ControlBase
+internal sealed class CampaignMap : ControlBase
 {
     private readonly Texture2D _campaignIconsTexture;
     private readonly IScreen _currentScreen;
     private readonly HeroCampaign _heroCampaign;
     private readonly IScreenManager _screenManager;
+    private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+    
     private TextHint? _currentHint;
 
-    public CampaignPanel(HeroCampaign heroCampaign, IScreenManager screenManager, IScreen currentScreen,
+    public CampaignMap(HeroCampaign heroCampaign, IScreenManager screenManager, IScreen currentScreen,
         Texture2D campaignIconsTexture,
         ResolutionIndependentRenderer resolutionIndependentRenderer)
     {
@@ -37,7 +37,7 @@ internal sealed class CampaignPanel : ControlBase
         _screenManager = screenManager;
         _currentScreen = currentScreen;
         _campaignIconsTexture = campaignIconsTexture;
-        ResolutionIndependentRenderer = resolutionIndependentRenderer;
+        _resolutionIndependentRenderer = resolutionIndependentRenderer;
         InitChildControls(heroCampaign.Stages, heroCampaign);
     }
 
@@ -51,8 +51,17 @@ internal sealed class CampaignPanel : ControlBase
         return Color.White;
     }
 
-    public Vector2 Scroll { get; set; }
-    public ResolutionIndependentRenderer ResolutionIndependentRenderer { get; }
+    /// <summary>
+    /// Current scroll of map.
+    /// </summary>
+    public Vector2 Scroll
+    {
+        get => _scroll;
+        set
+        {
+            _scroll = _graphRect is not null ? NormalizeScroll(value, _graphRect.Value) : value;
+        } 
+    }
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
@@ -95,46 +104,101 @@ internal sealed class CampaignPanel : ControlBase
 
     internal void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
     {
+        if (State == MapState.Presentation)
+        {
+            return;
+        }
+        
         foreach (var button in _buttonList)
         {
             button.Update(resolutionIndependentRenderer);
         }
 
-        if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+        HandleMapScrollingMyMouse(resolutionIndependentRenderer);
+    }
+
+    private void HandleMapScrollingMyMouse(ResolutionIndependentRenderer resolutionIndependentRenderer)
+    {
+        var mouseState = Mouse.GetState();
+        if (mouseState.LeftButton == ButtonState.Pressed)
         {
-            var mouseState = Mouse.GetState();
             var mousePosition = mouseState.Position.ToVector2();
 
-            var rirPosition =
+            var rirMousePosition =
                 resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mousePosition);
 
-            if (_mouseDrag is null)
+            if (_dragData is null)
             {
-                _mouseDrag = rirPosition;
-                _oldScroll = Scroll;
+                _dragData = new DragData(Scroll, rirMousePosition);
+                ClearCampaignItemHint();
             }
 
-            Scroll = _oldScroll.Value - (_mouseDrag.Value - rirPosition);
+            Scroll = _dragData.DragScroll - (_dragData.StartMousePosition - rirMousePosition);
         }
         else
         {
-            _mouseDrag = null;
-            _oldScroll = null;
+            _dragData = null;
         }
     }
 
-    private Vector2? _oldScroll;
+    private DragData? _dragData;
 
-    private Vector2? _mouseDrag;
+    private sealed record DragData(Vector2 DragScroll, Vector2 StartMousePosition);
+
+    private void ClearCampaignItemHint()
+    {
+        _currentHint = null;
+    }
+
+    private static Vector2 NormalizeScroll(Vector2 currentScroll, Rectangle boundingGraphRect)
+    {
+        var scroll = currentScroll;
+        
+        if (currentScroll.X < boundingGraphRect.Left)
+        {
+            scroll.X = boundingGraphRect.Left;
+        }
+
+        if (currentScroll.X > boundingGraphRect.Right)
+        {
+            scroll.X = boundingGraphRect.Right;
+        }
+        
+        if (currentScroll.Y < boundingGraphRect.Top)
+        {
+            scroll.Y = boundingGraphRect.Top;
+        }
+
+        if (currentScroll.Y > boundingGraphRect.Bottom)
+        {
+            scroll.Y = boundingGraphRect.Bottom;
+        }
+
+        return scroll;
+    }
     
+    public enum MapState
+    {
+        Presentation,
+        Interactive
+    }
+
+    /// <summary>
+    /// State of map.
+    /// </summary>
+    public MapState State { get; set; }
+
     private sealed class VisualizerConfig : ILayoutConfig
     {
-        public int NodeSize => 32 * 2 + CONTENT_MARGIN * 2;
+        /// <inheritdoc />
+        public int NodeSize => LAYOUT_NODE_SIZE * 2 + CONTENT_MARGIN * 2;
     }
+
+    private const int LAYOUT_NODE_SIZE = 32;
     
     private static Rectangle GetStageItemTexture(ICampaignStageItem campaignStageItem)
     {
-        var size = new Point(32, 32);
+        var size = new Point(LAYOUT_NODE_SIZE, LAYOUT_NODE_SIZE);
 
         if (campaignStageItem is CombatStageItem)
         {
@@ -143,20 +207,20 @@ internal sealed class CampaignPanel : ControlBase
 
         if (campaignStageItem is RewardStageItem)
         {
-            return new Rectangle(new Point(1 * 32, 2 * 32), size);
+            return new Rectangle(new Point(1 * LAYOUT_NODE_SIZE, 2 * LAYOUT_NODE_SIZE), size);
         }
 
         if (campaignStageItem is DialogueEventStageItem)
         {
-            return new Rectangle(new Point(1 * 32, 1 * 32), size);
+            return new Rectangle(new Point(1 * LAYOUT_NODE_SIZE, 1 * LAYOUT_NODE_SIZE), size);
         }
 
         if (campaignStageItem is RestStageItem)
         {
-            return new Rectangle(new Point(1 * 32, 1 * 32), size);
+            return new Rectangle(new Point(1 * LAYOUT_NODE_SIZE, 1 * LAYOUT_NODE_SIZE), size);
         }
 
-        return new Rectangle(new Point(2 * 32, 2 * 32), size);
+        return new Rectangle(new Point(2 * LAYOUT_NODE_SIZE, 2 * LAYOUT_NODE_SIZE), size);
     }
     
     private static string GetStageItemDisplayName(ICampaignStageItem campaignStageItem)
@@ -187,16 +251,18 @@ internal sealed class CampaignPanel : ControlBase
     private readonly IList<CampaignButton> _buttonList = new List<CampaignButton>();
 
     private Rectangle? _graphRect;
+    private Vector2 _scroll;
 
-    private sealed class Transformer : IGraphNodeLayoutTransformer<ICampaignStageItem>
+    private sealed class RandomPositionLayoutTransformer : IGraphNodeLayoutTransformer<ICampaignStageItem>
     {
         private readonly Random _random;
 
-        public Transformer(Random random)
+        public RandomPositionLayoutTransformer(Random random)
         {
             _random = random;
         }
 
+        /// <inheritdoc />
         public IGraphNodeLayout<ICampaignStageItem> Get(IGraphNodeLayout<ICampaignStageItem> layout)
         {
             var offset = new Position(_random.Next(-20, 20), _random.Next(-20, 20));
@@ -216,7 +282,7 @@ internal sealed class CampaignPanel : ControlBase
         var postProcessors = new ILayoutPostProcessor<ICampaignStageItem>[] { 
             new PushHorizontallyPostProcessor<ICampaignStageItem>(16),
             new RotatePostProcessor<ICampaignStageItem>(random.NextDouble() * Math.PI),
-            new RepeatPostProcessor<ICampaignStageItem>(5, new RetryTransformLayoutPostProcessor<ICampaignStageItem>(new Transformer(random), new IntersectsGraphNodeLayoutValidator<ICampaignStageItem>(), 10))
+            new RepeatPostProcessor<ICampaignStageItem>(5, new RetryTransformLayoutPostProcessor<ICampaignStageItem>(new RandomPositionLayoutTransformer(random), new IntersectsGraphNodeLayoutValidator<ICampaignStageItem>(), 10))
         };
 
         foreach (var postProcessor in postProcessors)
@@ -226,27 +292,13 @@ internal sealed class CampaignPanel : ControlBase
 
         foreach (var graphNodeLayout in graphNodeLayouts)
         {
-            var stageItemDisplayName = GetStageItemDisplayName(graphNodeLayout.Node.Payload);
-            var stageIconRect = GetStageItemTexture(graphNodeLayout.Node.Payload);
-            
-            var button = new CampaignButton(new IconData(_campaignIconsTexture, stageIconRect), stageItemDisplayName, graphNodeLayout.Position, graphNodeLayout);
-            button.OnHover += (s, e) =>
-            {
-                _currentHint = new TextHint(button.Description)
-                {
-                    Rect = new Rectangle((button.Rect.Center.ToVector2() + new Vector2(0, 16)).ToPoint(), new Point(200, 50))
-                };
-            };
-            button.OnClick += (s, e) =>
-            {
-                graphNodeLayout.Node.Payload.ExecuteTransition(_currentScreen, _screenManager, currentCampaign);
-            };
+            var button = CreateCampaignButton(currentCampaign: currentCampaign, graphNodeLayout: graphNodeLayout);
 
             _buttonList.Add(button);
         }
 
         var rewardNodeLayout = graphNodeLayouts.Single(x => x.Node.Payload is RewardStageItem);
-        RewardScroll = new Vector2(-rewardNodeLayout.Position.X + ResolutionIndependentRenderer.VirtualBounds.Center.X, -rewardNodeLayout.Position.Y + ResolutionIndependentRenderer.VirtualBounds.Center.Y);
+        RewardScroll = new Vector2(-rewardNodeLayout.Position.X + _resolutionIndependentRenderer.VirtualBounds.Center.X, -rewardNodeLayout.Position.Y + _resolutionIndependentRenderer.VirtualBounds.Center.Y);
         Scroll = RewardScroll;
 
         var roots = GetRoots(_heroCampaign.Stages);
@@ -254,7 +306,7 @@ internal sealed class CampaignPanel : ControlBase
         var startNodeLayouts = graphNodeLayouts.Where(x => roots.Contains(x.Node));
         var startNodeLayout = startNodeLayouts.First();
 
-        StartScroll = new Vector2(-startNodeLayout.Position.X + ResolutionIndependentRenderer.VirtualBounds.Center.X, -startNodeLayout.Position.Y + ResolutionIndependentRenderer.VirtualBounds.Center.Y);
+        StartScroll = new Vector2(-startNodeLayout.Position.X + _resolutionIndependentRenderer.VirtualBounds.Center.X, -startNodeLayout.Position.Y + _resolutionIndependentRenderer.VirtualBounds.Center.Y);
 
         _graphRect = new Rectangle(
             graphNodeLayouts.Min(x => x.Position.X),
@@ -262,6 +314,54 @@ internal sealed class CampaignPanel : ControlBase
             graphNodeLayouts.Max(x => x.Position.X + 32),
             graphNodeLayouts.Max(x => x.Position.Y + 32)
         );
+    }
+
+    private CampaignButton CreateCampaignButton(HeroCampaign currentCampaign, IGraphNodeLayout<ICampaignStageItem> graphNodeLayout)
+    {
+        var stageItemDisplayName = GetStageItemDisplayName(graphNodeLayout.Node.Payload);
+        var stageIconRect = GetStageItemTexture(graphNodeLayout.Node.Payload);
+
+        var button = new CampaignButton(new IconData(_campaignIconsTexture, stageIconRect), stageItemDisplayName,
+            graphNodeLayout.Position, graphNodeLayout);
+        button.OnHover += (_, _) =>
+        {
+            _currentHint = new TextHint(button.Description)
+            {
+                Rect = new Rectangle((button.Rect.Center.ToVector2() + new Vector2(0, 16)).ToPoint(), new Point(200, 50))
+            };
+        };
+
+        button.OnLeave += (_, _) => { ClearCampaignItemHint(); };
+
+        button.OnClick += (_, _) =>
+        {
+            if (State != MapState.Interactive)
+            {
+                return;
+            }
+
+            if (_heroCampaign.CurrentStage is null)
+            {
+                // Means campaign just started. Available only root nodes.
+
+                var roots = GetRoots(_heroCampaign.Stages);
+
+                if (roots.Contains(button.GraphNodeLayout.Node))
+                {
+                    graphNodeLayout.Node.Payload.ExecuteTransition(_currentScreen, _screenManager,
+                        currentCampaign);
+                }
+            }
+            else
+            {
+                if (_heroCampaign.Stages.GetNext(_heroCampaign.CurrentStage).Contains(graphNodeLayout.Node))
+                {
+                    graphNodeLayout.Node.Payload.ExecuteTransition(_currentScreen, _screenManager,
+                        currentCampaign);
+                }
+            }
+        };
+        return button;
     }
 
     private static IReadOnlyCollection<IGraphNode<ICampaignStageItem>> GetRoots(IGraph<ICampaignStageItem> campaignGraph)
@@ -288,6 +388,13 @@ internal sealed class CampaignPanel : ControlBase
         return nodesOpenList;
     }
 
-    public Vector2 RewardScroll { get; private set; }
+    /// <summary>
+    /// Scroll to show reward node layout.
+    /// </summary>
+    private Vector2 RewardScroll { get; set; }
+    
+    /// <summary>
+    /// Scroll to show start node layouts.
+    /// </summary>
     public Vector2 StartScroll { get; private set; }
 }
