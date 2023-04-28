@@ -88,7 +88,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
     private bool _isCampaignPresentation = true;
 
-    private double _presentationDetayCounter = 3;
+    private double _presentationDelayCounter = 3;
 
     protected override void UpdateContent(GameTime gameTime)
     {
@@ -98,28 +98,34 @@ internal class CampaignScreen : GameScreenWithMenuBase
         {
             _campaignMap.Update(ResolutionIndependentRenderer);
 
-            if (_isCampaignPresentation)
-            {
-                if (_presentationDetayCounter > 0)
-                {
-                    _presentationDetayCounter -= gameTime.ElapsedGameTime.TotalSeconds;
-                }
-                else
-                {
-                    if ((_campaignMap.Scroll - _campaignMap.StartScroll).Length() > 10)
-                    {
-                        _campaignMap.Scroll = Vector2.Lerp(_campaignMap.Scroll, _campaignMap.StartScroll, (float)gameTime.ElapsedGameTime.TotalSeconds * 0.3f);
-                    }
-                    else
-                    {
-                        _isCampaignPresentation = false;
-                        _campaignMap.State = CampaignMap.MapState.Interactive;
-                    }
-                }
-            }
+            UpdateMapPresentation(gameTime);
         }
 
         _showStoryPointsButton.Update(ResolutionIndependentRenderer);
+    }
+
+    private void UpdateMapPresentation(GameTime gameTime)
+    {
+        if (_isCampaignPresentation)
+        {
+            if (_presentationDelayCounter > 0)
+            {
+                _presentationDelayCounter -= gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            else
+            {
+                if ((_campaignMap.Scroll - _campaignMap.StartScroll).Length() > 10)
+                {
+                    _campaignMap.Scroll = Vector2.Lerp(_campaignMap.Scroll, _campaignMap.StartScroll,
+                        (float)gameTime.ElapsedGameTime.TotalSeconds * 0.3f);
+                }
+                else
+                {
+                    _isCampaignPresentation = false;
+                    _campaignMap.State = CampaignMap.MapState.Interactive;
+                }
+            }
+        }
     }
 
     private void DrawCurrentStoryPoints(SpriteBatch spriteBatch, Rectangle contentRect)
