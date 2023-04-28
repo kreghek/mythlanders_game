@@ -68,17 +68,17 @@ internal sealed class CampaignMap : ControlBase
         foreach (var button in _buttonList)
         {
             button.Rect = new Rectangle(
-                button.Position.X + contentRect.Left + (int)Scroll.X,
-                button.Position.Y + contentRect.Top+ (int)Scroll.Y,
+                button.SourceGraphNodeLayout.Position.X + contentRect.Left + (int)Scroll.X,
+                button.SourceGraphNodeLayout.Position.Y + contentRect.Top+ (int)Scroll.Y,
                 32, 32);
             button.Draw(spriteBatch);
         }
 
         foreach (var button in _buttonList)
         {
-            var nextNodes = _heroCampaign.Stages.GetNext(button.GraphNodeLayout.Node);
+            var nextNodes = _heroCampaign.Stages.GetNext(button.SourceGraphNodeLayout.Node);
 
-            var nextButtons = _buttonList.Where(x => nextNodes.Contains(x.GraphNodeLayout.Node)).ToArray();
+            var nextButtons = _buttonList.Where(x => nextNodes.Contains(x.SourceGraphNodeLayout.Node)).ToArray();
 
             foreach (var nextButton in nextButtons)
             {
@@ -320,12 +320,12 @@ internal sealed class CampaignMap : ControlBase
     {
         var stageItemDisplayName = GetStageItemDisplayName(graphNodeLayout.Node.Payload);
         var stageIconRect = GetStageItemTexture(graphNodeLayout.Node.Payload);
+        var stageDisplayInfo = new CampaignStageDisplayInfo(stageItemDisplayName);
 
-        var button = new CampaignButton(new IconData(_campaignIconsTexture, stageIconRect), stageItemDisplayName,
-            graphNodeLayout.Position, graphNodeLayout);
+        var button = new CampaignButton(new IconData(_campaignIconsTexture, stageIconRect), stageDisplayInfo, graphNodeLayout);
         button.OnHover += (_, _) =>
         {
-            _currentHint = new TextHint(button.Description)
+            _currentHint = new TextHint(button.StageInfo.HintText)
             {
                 Rect = new Rectangle((button.Rect.Center.ToVector2() + new Vector2(0, 16)).ToPoint(), new Point(200, 50))
             };
@@ -346,7 +346,7 @@ internal sealed class CampaignMap : ControlBase
 
                 var roots = GetRoots(_heroCampaign.Stages);
 
-                if (roots.Contains(button.GraphNodeLayout.Node))
+                if (roots.Contains(button.SourceGraphNodeLayout.Node))
                 {
                     graphNodeLayout.Node.Payload.ExecuteTransition(_currentScreen, _screenManager,
                         currentCampaign);
