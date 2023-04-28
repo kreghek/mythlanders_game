@@ -59,7 +59,7 @@ internal sealed class CampaignMap : ControlBase
         get => _scroll;
         set
         {
-            _scroll = _graphRect is not null ? NormalizeScroll(value, _graphRect.Value) : value;
+            _scroll = _graphRect is not null ? NormalizeScroll(value, _graphRect.Value, _resolutionIndependentRenderer.VirtualBounds) : value;
         } 
     }
 
@@ -150,28 +150,28 @@ internal sealed class CampaignMap : ControlBase
         _currentHint = null;
     }
 
-    private static Vector2 NormalizeScroll(Vector2 currentScroll, Rectangle boundingGraphRect)
+    private static Vector2 NormalizeScroll(Vector2 currentScroll, Rectangle boundingGraphRect, Rectangle virtualBounding)
     {
         var scroll = currentScroll;
         
-        if (currentScroll.X < boundingGraphRect.Left)
+        if (currentScroll.X > -(boundingGraphRect.Left - virtualBounding.Center.X))
         {
-            scroll.X = boundingGraphRect.Left;
+            scroll.X = -(boundingGraphRect.Left - virtualBounding.Center.X);
         }
 
-        if (currentScroll.X > boundingGraphRect.Right)
+        if (currentScroll.X < -(boundingGraphRect.Right - virtualBounding.Center.X))
         {
-            scroll.X = boundingGraphRect.Right;
+            scroll.X = -(boundingGraphRect.Right - virtualBounding.Center.X);
         }
         
-        if (currentScroll.Y < boundingGraphRect.Top)
+        if (currentScroll.Y > -(boundingGraphRect.Top - virtualBounding.Center.Y))
         {
-            scroll.Y = boundingGraphRect.Top;
+            scroll.Y = -(boundingGraphRect.Top - virtualBounding.Center.Y);
         }
 
-        if (currentScroll.Y > boundingGraphRect.Bottom)
+        if (currentScroll.Y < -(boundingGraphRect.Bottom - virtualBounding.Center.Y))
         {
-            scroll.Y = boundingGraphRect.Bottom;
+            scroll.Y = -(boundingGraphRect.Bottom - virtualBounding.Center.Y);
         }
 
         return scroll;
