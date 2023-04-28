@@ -98,32 +98,34 @@ internal class CampaignScreen : GameScreenWithMenuBase
         {
             _campaignMap.Update(ResolutionIndependentRenderer);
 
-            UpdateMapPresentation(gameTime);
+            UpdateMapPresentation(gameTime, _campaignMap);
         }
 
         _showStoryPointsButton.Update(ResolutionIndependentRenderer);
     }
 
-    private void UpdateMapPresentation(GameTime gameTime)
+    private void UpdateMapPresentation(GameTime gameTime, CampaignMap campaignMap)
     {
-        if (_isCampaignPresentation)
+        if (!_isCampaignPresentation)
         {
-            if (_presentationDelayCounter > 0)
+            return;
+        }
+
+        if (_presentationDelayCounter > 0)
+        {
+            _presentationDelayCounter -= gameTime.ElapsedGameTime.TotalSeconds;
+        }
+        else
+        {
+            if ((campaignMap.Scroll - campaignMap.StartScroll).Length() > 10)
             {
-                _presentationDelayCounter -= gameTime.ElapsedGameTime.TotalSeconds;
+                campaignMap.Scroll = Vector2.Lerp(campaignMap.Scroll, campaignMap.StartScroll,
+                    (float)gameTime.ElapsedGameTime.TotalSeconds * 0.5f);
             }
             else
             {
-                if ((_campaignMap.Scroll - _campaignMap.StartScroll).Length() > 10)
-                {
-                    _campaignMap.Scroll = Vector2.Lerp(_campaignMap.Scroll, _campaignMap.StartScroll,
-                        (float)gameTime.ElapsedGameTime.TotalSeconds * 0.3f);
-                }
-                else
-                {
-                    _isCampaignPresentation = false;
-                    _campaignMap.State = CampaignMap.MapState.Interactive;
-                }
+                _isCampaignPresentation = false;
+                campaignMap.State = CampaignMap.MapState.Interactive;
             }
         }
     }
