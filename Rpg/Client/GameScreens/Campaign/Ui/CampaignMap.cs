@@ -333,6 +333,7 @@ internal sealed class CampaignMap : ControlBase
 
         button.OnLeave += (_, _) => { ClearCampaignItemHint(); };
 
+        var trasitionData = new TrasitionData(_currentScreen, _screenManager, currentCampaign);
         button.OnClick += (_, _) =>
         {
             if (State != MapState.Interactive)
@@ -348,21 +349,27 @@ internal sealed class CampaignMap : ControlBase
 
                 if (roots.Contains(button.SourceGraphNodeLayout.Node))
                 {
-                    graphNodeLayout.Node.Payload.ExecuteTransition(_currentScreen, _screenManager,
-                        currentCampaign);
+                    SelectCampaignStage(graphNodeLayout.Node, trasitionData);
                 }
             }
             else
             {
                 if (_heroCampaign.Stages.GetNext(_heroCampaign.CurrentStage).Contains(graphNodeLayout.Node))
                 {
-                    graphNodeLayout.Node.Payload.ExecuteTransition(_currentScreen, _screenManager,
-                        currentCampaign);
+                    SelectCampaignStage(graphNodeLayout.Node, trasitionData);
                 }
             }
         };
         return button;
     }
+
+    private static void SelectCampaignStage(IGraphNode<ICampaignStageItem> stageNode, TrasitionData trasitionData)
+    {
+        trasitionData.CurrentCampaign.CurrentStage = stageNode;
+        stageNode.Payload.ExecuteTransition(trasitionData.CurrentScreen, trasitionData.ScreenManager, trasitionData.CurrentCampaign);
+    }
+
+    private sealed record TrasitionData(IScreen CurrentScreen, IScreenManager ScreenManager, HeroCampaign CurrentCampaign);
 
     private static IReadOnlyCollection<IGraphNode<ICampaignStageItem>> GetRoots(IGraph<ICampaignStageItem> campaignGraph)
     {

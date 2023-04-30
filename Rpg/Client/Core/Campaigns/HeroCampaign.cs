@@ -12,12 +12,7 @@ internal sealed class HeroCampaign
 
     public IGraph<ICampaignStageItem> Stages { get; }
 
-    public IGraphNode<ICampaignStageItem>? CurrentStage { get; private set; }
+    public IGraphNode<ICampaignStageItem>? CurrentStage { get; set; }
 
     public ILocationSid Location { get; }
-
-    internal void CompleteCurrentStage()
-    {
-        //CurrentStage.Value.IsCompleted = true;
-    }
 }
