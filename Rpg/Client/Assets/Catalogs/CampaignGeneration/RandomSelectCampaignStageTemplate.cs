@@ -26,6 +26,11 @@ internal sealed class RandomSelectCampaignStageTemplateFactory : ICampaignStageT
         _services = services;
     }
 
+    private static ICampaignStageItem[] MapContextToCurrentStageItems(IGraphTemplateContext<ICampaignStageItem> context)
+    {
+        return context.CurrentWay.Select(x => x.Payload).ToArray();
+    }
+
     /// <inheritdoc />
     public bool CanCreate(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
@@ -55,11 +60,6 @@ internal sealed class RandomSelectCampaignStageTemplateFactory : ICampaignStageT
     public IGraphNode<ICampaignStageItem> Create(IGraphTemplateContext<ICampaignStageItem> context)
     {
         return new GraphNode<ICampaignStageItem>(Create(MapContextToCurrentStageItems(context)));
-    }
-
-    private static ICampaignStageItem[] MapContextToCurrentStageItems(IGraphTemplateContext<ICampaignStageItem> context)
-    {
-        return context.CurrentWay.Select(x => x.Payload).ToArray();
     }
 
     /// <inheritdoc />

@@ -35,6 +35,11 @@ internal sealed class SideStoryDialogueEventStageTemplateFactory : ICampaignStag
         return availableStories;
     }
 
+    private static ICampaignStageItem[] MapContextToCurrentStageItems(IGraphTemplateContext<ICampaignStageItem> context)
+    {
+        return context.CurrentWay.Select(x => x.Payload).ToArray();
+    }
+
     private static bool MeetRequirements(DialogueEvent textEvent, DialogueEventRequirementContext requirementContext)
     {
         var dialogueEventRequirements = textEvent.GetRequirements();
@@ -73,11 +78,6 @@ internal sealed class SideStoryDialogueEventStageTemplateFactory : ICampaignStag
     public IGraphNode<ICampaignStageItem> Create(IGraphTemplateContext<ICampaignStageItem> context)
     {
         return new GraphNode<ICampaignStageItem>(Create(MapContextToCurrentStageItems(context)));
-    }
-
-    private static ICampaignStageItem[] MapContextToCurrentStageItems(IGraphTemplateContext<ICampaignStageItem> context)
-    {
-        return context.CurrentWay.Select(x => x.Payload).ToArray();
     }
 
     /// <inheritdoc />

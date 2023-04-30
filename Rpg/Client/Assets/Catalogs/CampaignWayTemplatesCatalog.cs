@@ -19,7 +19,8 @@ internal sealed class CampaignWayTemplatesCatalog
     public CampaignWayTemplatesCatalog(GlobeProvider globeProvider,
         IEventCatalog eventCatalog, IDice dice, IJobProgressResolver jobProgressResolver, IDropResolver dropResolver)
     {
-        _services = new CampaignStageTemplateServices(eventCatalog, globeProvider, jobProgressResolver, dropResolver, dice);
+        _services = new CampaignStageTemplateServices(eventCatalog, globeProvider, jobProgressResolver, dropResolver,
+            dice);
     }
 
     /// <summary>
@@ -61,7 +62,6 @@ internal sealed class CampaignWayTemplatesCatalog
 
             // Crisis
 
-            
             new CrisisEventCampaignStageTemplateFactory()
         };
 
@@ -109,7 +109,7 @@ internal sealed class CampaignWayTemplatesCatalog
 
             // Crisis
 
-            new CrisisEventCampaignStageTemplateFactory(),
+            new CrisisEventCampaignStageTemplateFactory()
         };
 
         var way3Templates = new ICampaignStageTemplateFactory[]

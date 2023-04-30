@@ -10,6 +10,11 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 
 internal sealed class SacredEventCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
+    private static ICampaignStageItem[] MapContextToCurrentStageItems(IGraphTemplateContext<ICampaignStageItem> context)
+    {
+        return context.CurrentWay.Select(x => x.Payload).ToArray();
+    }
+
     public bool CanCreate(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
         return true;
@@ -24,11 +29,6 @@ internal sealed class SacredEventCampaignStageTemplateFactory : ICampaignStageTe
     public IGraphNode<ICampaignStageItem> Create(IGraphTemplateContext<ICampaignStageItem> context)
     {
         return new GraphNode<ICampaignStageItem>(Create(MapContextToCurrentStageItems(context)));
-    }
-
-    private static ICampaignStageItem[] MapContextToCurrentStageItems(IGraphTemplateContext<ICampaignStageItem> context)
-    {
-        return context.CurrentWay.Select(x => x.Payload).ToArray();
     }
 
     /// <inheritdoc />

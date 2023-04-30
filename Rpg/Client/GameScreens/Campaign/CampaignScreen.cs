@@ -21,9 +21,13 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private readonly ButtonBase _inventoryButton;
     private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
     private readonly ButtonBase _showStoryPointsButton;
+    private CampaignMap? _campaignMap;
+
+    private bool _isCampaignPresentation = true;
+
+    private double _presentationDelayCounter = 3;
 
     private bool _showStoryPoints;
-    private CampaignMap? _campaignMap;
 
     public CampaignScreen(TestamentGame game, CampaignScreenTransitionArguments screenTransitionArguments) : base(game)
     {
@@ -86,10 +90,6 @@ internal class CampaignScreen : GameScreenWithMenuBase
         InitializeCampaignItemButtons();
     }
 
-    private bool _isCampaignPresentation = true;
-
-    private double _presentationDelayCounter = 3;
-
     protected override void UpdateContent(GameTime gameTime)
     {
         base.UpdateContent(gameTime);
@@ -102,32 +102,6 @@ internal class CampaignScreen : GameScreenWithMenuBase
         }
 
         _showStoryPointsButton.Update(ResolutionIndependentRenderer);
-    }
-
-    private void UpdateMapPresentation(GameTime gameTime, CampaignMap campaignMap)
-    {
-        if (!_isCampaignPresentation)
-        {
-            return;
-        }
-
-        if (_presentationDelayCounter > 0)
-        {
-            _presentationDelayCounter -= gameTime.ElapsedGameTime.TotalSeconds;
-        }
-        else
-        {
-            if ((campaignMap.Scroll - campaignMap.StartScroll).Length() > 10)
-            {
-                campaignMap.Scroll = Vector2.Lerp(campaignMap.Scroll, campaignMap.StartScroll,
-                    (float)gameTime.ElapsedGameTime.TotalSeconds * 0.5f);
-            }
-            else
-            {
-                _isCampaignPresentation = false;
-                campaignMap.State = CampaignMap.MapState.Interactive;
-            }
-        }
     }
 
     private void DrawCurrentStoryPoints(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -183,5 +157,31 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private void ShowStoryPointsButton_OnClick(object? sender, EventArgs e)
     {
         _showStoryPoints = !_showStoryPoints;
+    }
+
+    private void UpdateMapPresentation(GameTime gameTime, CampaignMap campaignMap)
+    {
+        if (!_isCampaignPresentation)
+        {
+            return;
+        }
+
+        if (_presentationDelayCounter > 0)
+        {
+            _presentationDelayCounter -= gameTime.ElapsedGameTime.TotalSeconds;
+        }
+        else
+        {
+            if ((campaignMap.Scroll - campaignMap.StartScroll).Length() > 10)
+            {
+                campaignMap.Scroll = Vector2.Lerp(campaignMap.Scroll, campaignMap.StartScroll,
+                    (float)gameTime.ElapsedGameTime.TotalSeconds * 0.5f);
+            }
+            else
+            {
+                _isCampaignPresentation = false;
+                campaignMap.State = CampaignMap.MapState.Interactive;
+            }
+        }
     }
 }

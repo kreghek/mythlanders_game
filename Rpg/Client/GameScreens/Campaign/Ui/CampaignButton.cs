@@ -26,14 +26,14 @@ internal sealed class CampaignButton : ButtonBase
     }
 
     /// <summary>
-    /// Info of stage to display.
-    /// </summary>
-    public CampaignStageDisplayInfo StageInfo { get; }
-
-    /// <summary>
     /// Source node layout.
     /// </summary>
     public IGraphNodeLayout<ICampaignStageItem> SourceGraphNodeLayout { get; }
+
+    /// <summary>
+    /// Info of stage to display.
+    /// </summary>
+    public CampaignStageDisplayInfo StageInfo { get; }
 
     protected override Point CalcTextureOffset()
     {

@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets.Catalogs.CampaignGeneration;
 using Client.Core;
 using Client.Core.Campaigns;
 
 using CombatDicesTeam.Graphs.Generation.TemplateBased;
 
 using Core.Dices;
-using Core.PropDrop;
 
 using Rpg.Client.Core;
 
@@ -16,8 +14,8 @@ namespace Client.Assets.Catalogs;
 
 internal sealed class CampaignGenerator : ICampaignGenerator
 {
-    private readonly CampaignWayTemplatesCatalog _wayTemplatesCatalog;
     private readonly IDice _dice;
+    private readonly CampaignWayTemplatesCatalog _wayTemplatesCatalog;
 
     public CampaignGenerator(CampaignWayTemplatesCatalog wayTemplatesCatalog, IDice dice)
     {

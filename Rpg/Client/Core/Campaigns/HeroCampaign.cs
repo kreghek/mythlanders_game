@@ -10,9 +10,9 @@ internal sealed class HeroCampaign
         Stages = stages;
     }
 
-    public IGraph<ICampaignStageItem> Stages { get; }
-
     public IGraphNode<ICampaignStageItem>? CurrentStage { get; set; }
 
     public ILocationSid Location { get; }
+
+    public IGraph<ICampaignStageItem> Stages { get; }
 }
