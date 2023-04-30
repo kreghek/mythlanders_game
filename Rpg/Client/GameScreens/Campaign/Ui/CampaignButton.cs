@@ -29,7 +29,7 @@ internal sealed class CampaignButton : ButtonBase
     /// Info of stage to display.
     /// </summary>
     public CampaignStageDisplayInfo StageInfo { get; }
-    
+
     /// <summary>
     /// Source node layout.
     /// </summary>

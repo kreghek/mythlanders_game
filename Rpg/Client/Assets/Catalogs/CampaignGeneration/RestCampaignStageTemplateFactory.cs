@@ -20,7 +20,7 @@ internal sealed class RestCampaignStageTemplateFactory : ICampaignStageTemplateF
     {
         return new RestStageItem();
     }
-    
+
     /// <inheritdoc />
     public IGraphNode<ICampaignStageItem> Create(IGraphTemplateContext<ICampaignStageItem> context)
     {

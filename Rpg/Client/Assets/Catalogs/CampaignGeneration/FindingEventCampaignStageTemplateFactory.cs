@@ -20,7 +20,7 @@ internal sealed class FindingEventCampaignStageTemplateFactory : ICampaignStageT
     {
         return new FindingStageItem();
     }
-    
+
     /// <inheritdoc />
     public IGraphNode<ICampaignStageItem> Create(IGraphTemplateContext<ICampaignStageItem> context)
     {

@@ -27,7 +27,7 @@ internal sealed class RewardCampaignStageTemplateFactory : ICampaignStageTemplat
     {
         return new RewardStageItem(_services.GlobeProvider, _services.JobProgressResolver, _services.DropResolver);
     }
-    
+
     /// <inheritdoc />
     public IGraphNode<ICampaignStageItem> Create(IGraphTemplateContext<ICampaignStageItem> context)
     {

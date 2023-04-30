@@ -130,33 +130,33 @@ internal sealed class CampaignWayTemplatesCatalog
         var regular3Way = new GraphWay<ICampaignStageItem>(way3Templates);
         var way31Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular3Way);
         var way32Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular3Way);
-        
+
         var rewardNode = new GraphNode<GraphWay<ICampaignStageItem>>(new GraphWay<ICampaignStageItem>(new[]
         {
             new RewardCampaignStageTemplateFactory(_services)
         }));
-        
+
         wayGraph.AddNode(way11Node);
         wayGraph.AddNode(way12Node);
         wayGraph.AddNode(way13Node);
-        
+
         wayGraph.AddNode(way2Node);
-        
+
         wayGraph.ConnectNodes(way11Node, way2Node);
         wayGraph.ConnectNodes(way12Node, way2Node);
         wayGraph.ConnectNodes(way13Node, way2Node);
-        
+
         wayGraph.AddNode(way31Node);
         wayGraph.AddNode(way32Node);
-        
+
         wayGraph.ConnectNodes(way2Node, way31Node);
         wayGraph.ConnectNodes(way2Node, way32Node);
-        
+
         wayGraph.AddNode(rewardNode);
-        
+
         wayGraph.ConnectNodes(way31Node, rewardNode);
         wayGraph.ConnectNodes(way32Node, rewardNode);
-        
+
         return wayGraph;
     }
 }

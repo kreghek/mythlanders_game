@@ -27,7 +27,7 @@ internal sealed class TrainingCampaignStageTemplateFactory : ICampaignStageTempl
     {
         return new TrainingStageItem(_services.GlobeProvider.Globe.Player, _services.Dice);
     }
-    
+
     /// <inheritdoc />
     public IGraphNode<ICampaignStageItem> Create(IGraphTemplateContext<ICampaignStageItem> context)
     {

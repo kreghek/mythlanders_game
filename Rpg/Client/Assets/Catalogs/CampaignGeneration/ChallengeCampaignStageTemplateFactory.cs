@@ -19,7 +19,7 @@ internal sealed class ChallengeCampaignStageTemplateFactory : ICampaignStageTemp
     {
         return new NotImplemenetedStageItem("Challenge");
     }
-    
+
     /// <inheritdoc />
     public IGraphNode<ICampaignStageItem> Create(IGraphTemplateContext<ICampaignStageItem> context)
     {

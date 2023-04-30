@@ -50,7 +50,7 @@ internal sealed class RandomSelectCampaignStageTemplateFactory : ICampaignStageT
 
         throw new InvalidOperationException("Can't select template to create stage.");
     }
-    
+
     /// <inheritdoc />
     public IGraphNode<ICampaignStageItem> Create(IGraphTemplateContext<ICampaignStageItem> context)
     {

@@ -68,7 +68,7 @@ internal sealed class SideStoryDialogueEventStageTemplateFactory : ICampaignStag
 
         return new DialogueEventStageItem(rolledStory.Sid, _locationSid, _services.EventCatalog);
     }
-    
+
     /// <inheritdoc />
     public IGraphNode<ICampaignStageItem> Create(IGraphTemplateContext<ICampaignStageItem> context)
     {

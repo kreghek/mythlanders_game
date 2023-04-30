@@ -26,7 +26,7 @@ internal sealed class CampaignMap : ControlBase
     private readonly HeroCampaign _heroCampaign;
     private readonly IScreenManager _screenManager;
     private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
-    
+
     private TextHint? _currentHint;
 
     public CampaignMap(HeroCampaign heroCampaign, IScreenManager screenManager, IScreen currentScreen,
@@ -60,7 +60,7 @@ internal sealed class CampaignMap : ControlBase
         set
         {
             _scroll = _graphRect is not null ? NormalizeScroll(value, _graphRect.Value, _resolutionIndependentRenderer.VirtualBounds) : value;
-        } 
+        }
     }
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
@@ -69,7 +69,7 @@ internal sealed class CampaignMap : ControlBase
         {
             button.Rect = new Rectangle(
                 button.SourceGraphNodeLayout.Position.X + contentRect.Left + (int)Scroll.X,
-                button.SourceGraphNodeLayout.Position.Y + contentRect.Top+ (int)Scroll.Y,
+                button.SourceGraphNodeLayout.Position.Y + contentRect.Top + (int)Scroll.Y,
                 32, 32);
             button.Draw(spriteBatch);
         }
@@ -90,7 +90,7 @@ internal sealed class CampaignMap : ControlBase
                 var angle = Math.Atan2(direction.Y, direction.X);
 
                 var startLinePoint = new Vector2((int)(Math.Cos(angle + Math.PI) * 16 + buttonPosition.X), (int)(Math.Sin(angle + Math.PI) * 16 + buttonPosition.Y));
-                var targetLinePoint = new Vector2((int)(Math.Cos(angle ) * 16 + nextPosition.X), (int)(Math.Sin(angle) * 16 + nextPosition.Y));
+                var targetLinePoint = new Vector2((int)(Math.Cos(angle) * 16 + nextPosition.X), (int)(Math.Sin(angle) * 16 + nextPosition.Y));
 
                 spriteBatch.DrawLine(startLinePoint, targetLinePoint, Color.LightCyan);
             }
@@ -108,7 +108,7 @@ internal sealed class CampaignMap : ControlBase
         {
             return;
         }
-        
+
         foreach (var button in _buttonList)
         {
             button.Update(resolutionIndependentRenderer);
@@ -153,7 +153,7 @@ internal sealed class CampaignMap : ControlBase
     private static Vector2 NormalizeScroll(Vector2 currentScroll, Rectangle boundingGraphRect, Rectangle virtualBounding)
     {
         var scroll = currentScroll;
-        
+
         if (currentScroll.X > -(boundingGraphRect.Left - virtualBounding.Center.X))
         {
             scroll.X = -(boundingGraphRect.Left - virtualBounding.Center.X);
@@ -163,7 +163,7 @@ internal sealed class CampaignMap : ControlBase
         {
             scroll.X = -(boundingGraphRect.Right - virtualBounding.Center.X);
         }
-        
+
         if (currentScroll.Y > -(boundingGraphRect.Top - virtualBounding.Center.Y))
         {
             scroll.Y = -(boundingGraphRect.Top - virtualBounding.Center.Y);
@@ -176,7 +176,7 @@ internal sealed class CampaignMap : ControlBase
 
         return scroll;
     }
-    
+
     public enum MapState
     {
         Presentation,
@@ -195,7 +195,7 @@ internal sealed class CampaignMap : ControlBase
     }
 
     private const int LAYOUT_NODE_SIZE = 32;
-    
+
     private static Rectangle GetStageItemTexture(ICampaignStageItem campaignStageItem)
     {
         var size = new Point(LAYOUT_NODE_SIZE, LAYOUT_NODE_SIZE);
@@ -222,7 +222,7 @@ internal sealed class CampaignMap : ControlBase
 
         return new Rectangle(new Point(2 * LAYOUT_NODE_SIZE, 2 * LAYOUT_NODE_SIZE), size);
     }
-    
+
     private static string GetStageItemDisplayName(ICampaignStageItem campaignStageItem)
     {
         if (campaignStageItem is CombatStageItem)
@@ -279,7 +279,7 @@ internal sealed class CampaignMap : ControlBase
 
         var random = new Random(1);
 
-        var postProcessors = new ILayoutPostProcessor<ICampaignStageItem>[] { 
+        var postProcessors = new ILayoutPostProcessor<ICampaignStageItem>[] {
             new PushHorizontallyPostProcessor<ICampaignStageItem>(16),
             new RotatePostProcessor<ICampaignStageItem>(random.NextDouble() * Math.PI),
             new RepeatPostProcessor<ICampaignStageItem>(5, new RetryTransformLayoutPostProcessor<ICampaignStageItem>(new RandomPositionLayoutTransformer(random), new IntersectsGraphNodeLayoutValidator<ICampaignStageItem>(), 10))
@@ -399,7 +399,7 @@ internal sealed class CampaignMap : ControlBase
     /// Scroll to show reward node layout.
     /// </summary>
     private Vector2 RewardScroll { get; set; }
-    
+
     /// <summary>
     /// Scroll to show start node layouts.
     /// </summary>

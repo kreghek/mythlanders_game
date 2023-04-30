@@ -19,7 +19,7 @@ internal sealed class SacredEventCampaignStageTemplateFactory : ICampaignStageTe
     {
         return new NotImplemenetedStageItem("Sacred place");
     }
-    
+
     /// <inheritdoc />
     public IGraphNode<ICampaignStageItem> Create(IGraphTemplateContext<ICampaignStageItem> context)
     {

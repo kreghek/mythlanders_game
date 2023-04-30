@@ -20,7 +20,7 @@ internal sealed class MinigameEventCampaignStageTemplateFactory : ICampaignStage
     {
         return new SlidingPuzzlesStageItem();
     }
-    
+
     /// <inheritdoc />
     public IGraphNode<ICampaignStageItem> Create(IGraphTemplateContext<ICampaignStageItem> context)
     {

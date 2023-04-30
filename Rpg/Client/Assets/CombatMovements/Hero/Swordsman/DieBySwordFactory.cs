@@ -43,7 +43,7 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
             new LinearAnimationFrameSet(Enumerable.Range(8, 8).ToArray(), 4, CommonConstants.FrameSize.X,
                 CommonConstants.FrameSize.Y, 8),
             new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8)
-                { IsLoop = true });
+            { IsLoop = true });
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);

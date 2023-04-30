@@ -40,7 +40,7 @@ internal sealed class PrioritySelectCampaignStageTemplateFactory : ICampaignStag
 
         throw new InvalidOperationException("Can't select template to create stage.");
     }
-    
+
     /// <inheritdoc />
     public IGraphNode<ICampaignStageItem> Create(IGraphTemplateContext<ICampaignStageItem> context)
     {

@@ -20,7 +20,7 @@ internal sealed class CrisisEventCampaignStageTemplateFactory : ICampaignStageTe
     {
         return new CrisisStageItem();
     }
-    
+
     /// <inheritdoc />
     public IGraphNode<ICampaignStageItem> Create(IGraphTemplateContext<ICampaignStageItem> context)
     {

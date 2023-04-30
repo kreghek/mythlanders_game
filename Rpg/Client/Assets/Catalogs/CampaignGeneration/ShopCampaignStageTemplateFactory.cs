@@ -19,7 +19,7 @@ internal sealed class ShopCampaignStageTemplateFactory : ICampaignStageTemplateF
     {
         return new NotImplemenetedStageItem("Shop");
     }
-    
+
     /// <inheritdoc />
     public IGraphNode<ICampaignStageItem> Create(IGraphTemplateContext<ICampaignStageItem> context)
     {

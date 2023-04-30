@@ -9,7 +9,7 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 /// <summary>
 /// Factory of campaign stage from a template.
 /// </summary>
-internal interface ICampaignStageTemplateFactory: IGraphTemplate<ICampaignStageItem>
+internal interface ICampaignStageTemplateFactory : IGraphTemplate<ICampaignStageItem>
 {
     public bool CanCreate(IReadOnlyList<ICampaignStageItem> currentStageItems);
 
