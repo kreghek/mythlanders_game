@@ -1,27 +1,18 @@
-﻿using System.Collections.Generic;
-
-using Rpg.Client.Core.Campaigns;
+﻿using CombatDicesTeam.Graphs;
 
 namespace Client.Core.Campaigns;
 
 internal sealed class HeroCampaign
 {
-    public HeroCampaign(ILocationSid location, IReadOnlyList<CampaignStage> campaignStages)
+    public HeroCampaign(ILocationSid location, IGraph<ICampaignStageItem> stages)
     {
         Location = location;
-        CampaignStages = campaignStages;
+        Stages = stages;
     }
 
-    public IReadOnlyList<CampaignStage> CampaignStages { get; }
+    public IGraph<ICampaignStageItem> Stages { get; }
 
-    public int CurrentStageIndex { get; private set; }
+    public IGraphNode<ICampaignStageItem>? CurrentStage { get; set; }
 
     public ILocationSid Location { get; }
-
-    internal void CompleteCurrentStage()
-    {
-        CampaignStages[CurrentStageIndex].IsCompleted = true;
-
-        CurrentStageIndex++;
-    }
 }

@@ -7,6 +7,9 @@ using Client.Core;
 using Client.Core.Campaigns;
 using Client.Core.Dialogues;
 
+using CombatDicesTeam.Graphs;
+using CombatDicesTeam.Graphs.Generation.TemplateBased;
+
 using Core.Dices;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
@@ -64,5 +67,22 @@ internal sealed class SideStoryDialogueEventStageTemplateFactory : ICampaignStag
         }
 
         return new DialogueEventStageItem(rolledStory.Sid, _locationSid, _services.EventCatalog);
+    }
+    
+    /// <inheritdoc />
+    public IGraphNode<ICampaignStageItem> Create(IGraphTemplateContext<ICampaignStageItem> context)
+    {
+        return new GraphNode<ICampaignStageItem>(Create(MapContextToCurrentStageItems(context)));
+    }
+
+    private static ICampaignStageItem[] MapContextToCurrentStageItems(IGraphTemplateContext<ICampaignStageItem> context)
+    {
+        return context.CurrentWay.Select(x => x.Payload).ToArray();
+    }
+
+    /// <inheritdoc />
+    public bool CanCreate(IGraphTemplateContext<ICampaignStageItem> context)
+    {
+        return CanCreate(MapContextToCurrentStageItems(context));
     }
 }

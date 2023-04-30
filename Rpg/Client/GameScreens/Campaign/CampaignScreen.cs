@@ -23,7 +23,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private readonly ButtonBase _showStoryPointsButton;
 
     private bool _showStoryPoints;
-    private CampaignPanel? _stagePanel;
+    private CampaignMap? _campaignMap;
 
     public CampaignScreen(TestamentGame game, CampaignScreenTransitionArguments screenTransitionArguments) : base(game)
     {
@@ -62,10 +62,10 @@ internal class CampaignScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
-        if (_stagePanel is not null)
+        if (_campaignMap is not null)
         {
-            _stagePanel.Rect = contentRect;
-            _stagePanel.Draw(spriteBatch);
+            _campaignMap.Rect = contentRect;
+            _campaignMap.Draw(spriteBatch);
         }
 
         const int STORY_POINT_PANEL_WIDTH = 200;
@@ -86,16 +86,48 @@ internal class CampaignScreen : GameScreenWithMenuBase
         InitializeCampaignItemButtons();
     }
 
+    private bool _isCampaignPresentation = true;
+
+    private double _presentationDelayCounter = 3;
+
     protected override void UpdateContent(GameTime gameTime)
     {
         base.UpdateContent(gameTime);
 
-        if (_stagePanel is not null)
+        if (_campaignMap is not null)
         {
-            _stagePanel.Update(ResolutionIndependentRenderer);
+            _campaignMap.Update(ResolutionIndependentRenderer);
+
+            UpdateMapPresentation(gameTime, _campaignMap);
         }
 
         _showStoryPointsButton.Update(ResolutionIndependentRenderer);
+    }
+
+    private void UpdateMapPresentation(GameTime gameTime, CampaignMap campaignMap)
+    {
+        if (!_isCampaignPresentation)
+        {
+            return;
+        }
+
+        if (_presentationDelayCounter > 0)
+        {
+            _presentationDelayCounter -= gameTime.ElapsedGameTime.TotalSeconds;
+        }
+        else
+        {
+            if ((campaignMap.Scroll - campaignMap.StartScroll).Length() > 10)
+            {
+                campaignMap.Scroll = Vector2.Lerp(campaignMap.Scroll, campaignMap.StartScroll,
+                    (float)gameTime.ElapsedGameTime.TotalSeconds * 0.5f);
+            }
+            else
+            {
+                _isCampaignPresentation = false;
+                campaignMap.State = CampaignMap.MapState.Interactive;
+            }
+        }
     }
 
     private void DrawCurrentStoryPoints(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -136,8 +168,9 @@ internal class CampaignScreen : GameScreenWithMenuBase
     {
         var currentCampaign = _screenTransitionArguments.Campaign;
 
-        _stagePanel = new CampaignPanel(currentCampaign, ScreenManager, this,
-            Game.Content.Load<Texture2D>("Sprites/Ui/CampaignStageIcons"));
+        _campaignMap = new CampaignMap(currentCampaign, ScreenManager, this,
+            Game.Content.Load<Texture2D>("Sprites/Ui/CampaignStageIcons"),
+            ResolutionIndependentRenderer);
     }
 
     private void InventoryButton_OnClick(object? sender, EventArgs e)

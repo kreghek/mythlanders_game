@@ -293,12 +293,16 @@ public sealed class TestamentGame : Game
                 Services.GetRequiredService<IEventCatalog>(),
                 Services.GetRequiredService<IStoryPointInitializer>()));
 
-        var campaignGenerator = new CampaignGenerator(
-            Services.GetRequiredService<GlobeProvider>(),
+        var campaignWayTemplateCatalog = new CampaignWayTemplatesCatalog(Services.GetRequiredService<GlobeProvider>(),
             Services.GetRequiredService<IEventCatalog>(),
             Services.GetRequiredService<IDice>(),
             Services.GetRequiredService<IJobProgressResolver>(),
             Services.GetRequiredService<IDropResolver>());
+        
+        var campaignGenerator = new CampaignGenerator(
+            campaignWayTemplateCatalog,
+            Services.GetRequiredService<IDice>());
+        
         Services.AddService<ICampaignGenerator>(campaignGenerator);
 
         Services.AddService(_graphics);
