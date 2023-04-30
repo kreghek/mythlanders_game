@@ -29,7 +29,7 @@ internal sealed class CampaignWayTemplatesCatalog
     {
         var wayGraph = new Graph<GraphWay<ICampaignStageItem>>();
 
-        var wayTemplates = new ICampaignStageTemplateFactory[]
+        var way1Templates = new ICampaignStageTemplateFactory[]
         {
             //// To debug text events
             //new ICampaignStageTemplateFactory[]
@@ -56,36 +56,17 @@ internal sealed class CampaignWayTemplatesCatalog
             {
                 new RestCampaignStageTemplateFactory(),
                 new ShopCampaignStageTemplateFactory(),
-                //new SacredEventCampaignStageTemplateFactory(),
-                //new ShopCampaignStageTemplateFactory(),
                 new FindingEventCampaignStageTemplateFactory()
             }, _services),
-            
-
-            // // Evo
-            //
-            // new ICampaignStageTemplateFactory[]
-            // {
-            //     new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-            //     {
-            //         new TrainingCampaignStageTemplateFactory(_services),
-            //         new WorkshopCampaignStageTemplateFactory(_services)
-            //     }, _services),
-            //
-            //     new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-            //     {
-            //         new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
-            //         new ChallengeCampaignStageTemplateFactory(),
-            //         new SacredEventCampaignStageTemplateFactory(),
-            //         new MinigameEventCampaignStageTemplateFactory()
-            //     }, _services)
-            // },
 
             // Crisis
 
             
-            new CrisisEventCampaignStageTemplateFactory(),
+            new CrisisEventCampaignStageTemplateFactory()
+        };
 
+        var way2Templates = new ICampaignStageTemplateFactory[]
+        {
             // Combat
 
             new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTempateLevels.Medium, _services),
@@ -129,21 +110,26 @@ internal sealed class CampaignWayTemplatesCatalog
             // Crisis
 
             new CrisisEventCampaignStageTemplateFactory(),
+        };
 
+        var way3Templates = new ICampaignStageTemplateFactory[]
+        {
             // Combat
 
             new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTempateLevels.Hard, _services)
         };
-        
-        var regularWay = new GraphWay<ICampaignStageItem>(wayTemplates);
-        var way11Node = new GraphNode<GraphWay<ICampaignStageItem>>(regularWay);
-        var way12Node = new GraphNode<GraphWay<ICampaignStageItem>>(regularWay);
-        var way13Node = new GraphNode<GraphWay<ICampaignStageItem>>(regularWay);
-        
-        var way2Node = new GraphNode<GraphWay<ICampaignStageItem>>(regularWay);
-        
-        var way31Node = new GraphNode<GraphWay<ICampaignStageItem>>(regularWay);
-        var way32Node = new GraphNode<GraphWay<ICampaignStageItem>>(regularWay);
+
+        var regular1Way = new GraphWay<ICampaignStageItem>(way1Templates);
+        var way11Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular1Way);
+        var way12Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular1Way);
+        var way13Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular1Way);
+
+        var regular2Way = new GraphWay<ICampaignStageItem>(way2Templates);
+        var way2Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular2Way);
+
+        var regular3Way = new GraphWay<ICampaignStageItem>(way3Templates);
+        var way31Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular3Way);
+        var way32Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular3Way);
         
         var rewardNode = new GraphNode<GraphWay<ICampaignStageItem>>(new GraphWay<ICampaignStageItem>(new[]
         {

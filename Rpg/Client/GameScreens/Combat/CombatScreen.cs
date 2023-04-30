@@ -269,7 +269,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         return null;
     }
 
-    private CombatRewards CalculateRewardGaining(
+    private static CombatRewards CalculateRewardGaining(
         IReadOnlyCollection<IProp> droppedResources)
     {
         var uiRewards = CreateUiModels(droppedResources);
@@ -585,7 +585,6 @@ internal class CombatScreen : GameScreenWithMenuBase
                 else
                 {
                     _globeProvider.Globe.Update(_dice, _eventCatalog);
-                    _currentCampaign.CompleteCurrentStage();
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
                         new CampaignScreenTransitionArguments(_currentCampaign));
 

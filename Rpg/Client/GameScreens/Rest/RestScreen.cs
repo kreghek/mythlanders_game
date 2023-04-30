@@ -97,7 +97,6 @@ internal sealed class RestScreen : GameScreenWithMenuBase
                 };
 
                 AddModal(underConstructionModal, false);
-                _campaign.CompleteCurrentStage();
             };
         }
     }

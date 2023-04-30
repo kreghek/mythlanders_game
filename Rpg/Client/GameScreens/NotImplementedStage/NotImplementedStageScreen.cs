@@ -69,8 +69,6 @@ internal class NotImplementedStageScreen : GameScreenWithMenuBase
 
     private void CloseButton_OnClick(object? sender, EventArgs e)
     {
-        _campaign.CompleteCurrentStage();
-
         ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
             new CampaignScreenTransitionArguments(_campaign));
     }

@@ -381,7 +381,6 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
     private void HandleDialogueEnd()
     {
         _globeProvider.Globe.Update(_dice, _eventCatalog);
-        _currentCampaign.CompleteCurrentStage();
         _dialogueEnvironmentManager.Clean();
         ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
             new CampaignScreenTransitionArguments(_currentCampaign));

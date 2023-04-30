@@ -156,7 +156,6 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
                 };
 
                 AddModal(underConstructionModal, false);
-                _campaign.CompleteCurrentStage();
             };
 
             aftermathButton.OnHover += (s, e) =>
