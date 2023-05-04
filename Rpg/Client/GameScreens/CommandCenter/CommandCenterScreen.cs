@@ -5,6 +5,7 @@ using Client.Core;
 using Client.Core.Campaigns;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter.Ui;
+using Client.GameScreens.VoiceCombat;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -132,8 +133,11 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
             panels.Add(panel);
             panel.Selected += (_, _) =>
             {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                    new CampaignScreenTransitionArguments(campaign));
+                //ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                //    new CampaignScreenTransitionArguments(campaign));
+
+                ScreenManager.ExecuteTransition(this, ScreenTransition.VoiceCombat,
+                    new VoiceCombatScreenTransitionArguments(campaign));
             };
 
             index++;

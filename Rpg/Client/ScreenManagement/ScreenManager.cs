@@ -12,6 +12,7 @@ using Client.GameScreens.SlidingPuzzles;
 using Client.GameScreens.TextDialogue;
 using Client.GameScreens.Title;
 using Client.GameScreens.Training;
+using Client.GameScreens.VoiceCombat;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -137,6 +138,8 @@ namespace Rpg.Client.ScreenManagement
                 ScreenTransition.EndGame => new EndGameScreen(_game),
                 ScreenTransition.NotImplemented => new NotImplementedStageScreen(_game,
                     (NotImplementedStageScreenTransitionArguments)screenTransitionArguments),
+                ScreenTransition.VoiceCombat => new VoiceCombatScreen(_game,
+                (VoiceCombatScreenTransitionArguments)screenTransitionArguments),
                 _ => throw new ArgumentException("Unknown transition", nameof(targetTransition))
             };
         }
