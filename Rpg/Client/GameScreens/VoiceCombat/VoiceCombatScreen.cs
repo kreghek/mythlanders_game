@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
+using Client.Core;
 using Client.Core.Campaigns;
+using Client.Core.Dialogues;
 using Client.Engine;
 using Client.GameScreens.Campaign;
+using Client.GameScreens.TextDialogue.Ui;
+
+using Core.Dices;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
+using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
+using Rpg.Client.GameScreens.Speech.Ui;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.VoiceCombat;
@@ -172,7 +180,7 @@ internal abstract class DialogueScreenBase : GameScreenWithMenuBase
         Right
     }
 
-    private const int SPEAKER_FRAME_SIZE = 256;
+    protected const int SPEAKER_FRAME_SIZE = 256;
 
     protected void DrawSpeakerPortrait(SpriteBatch spriteBatch, UnitName speakerSid, Rectangle contentRect, CombatantPositionSide side)
     {
@@ -223,6 +231,127 @@ internal abstract class DialogueScreenBase : GameScreenWithMenuBase
     }
 }
 
+internal class VoiceCombatOptionButton : ButtonBase
+{
+    private const int MARGIN = 5;
+    private readonly SpriteFont _font;
+    private readonly string _optionText;
+
+    public VoiceCombatOptionButton(int number, string resourceSid)
+    {
+        _optionText = $"{number}. {resourceSid}";
+
+        _font = UiThemeManager.UiContentStorage.GetTitlesFont();
+        Number = number;
+    }
+
+    public int Number { get; }
+
+    public Vector2 GetContentSize()
+    {
+        var textSize = _font.MeasureString(_optionText) + new Vector2(MARGIN * 2, MARGIN * 2);
+        return textSize;
+    }
+
+    protected override Point CalcTextureOffset()
+    {
+        if (_buttonState == UiButtonState.Hover || _buttonState == UiButtonState.Pressed)
+        {
+            return ControlTextures.OptionHover;
+        }
+
+        return ControlTextures.OptionNormal;
+    }
+
+    protected Color CalculateTextColor()
+    {
+        if (_buttonState == UiButtonState.Hover || _buttonState == UiButtonState.Pressed)
+        {
+            return Color.Wheat;
+        }
+
+        return Color.SaddleBrown;
+    }
+
+    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
+    {
+        var textSize = GetContentSize();
+        var heightDiff = contentRect.Height - textSize.Y;
+        var textPosition = new Vector2(
+            contentRect.Left + MARGIN,
+            heightDiff / 2 + contentRect.Top);
+
+        var textColor = CalculateTextColor();
+        spriteBatch.DrawString(_font, _optionText, textPosition, textColor);
+    }
+}
+
+internal class VoiceCombatOptions : ControlBase
+{
+    private const int OPTION_BUTTON_MARGIN = 5;
+
+    public VoiceCombatOptions()
+    {
+        Options = new List<VoiceCombatOptionButton>();
+    }
+
+    public IList<VoiceCombatOptionButton> Options { get; }
+
+    public int GetHeight()
+    {
+        var sumOptionHeight = Options.Sum(x => CalcOptionButtonSize(x).Y) + OPTION_BUTTON_MARGIN;
+
+        return sumOptionHeight;
+    }
+
+    public void SelectOption(int number)
+    {
+        Options.SingleOrDefault(x => x.Number == number)?.Click();
+    }
+
+    public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
+    {
+        foreach (var button in Options)
+        {
+            button.Update(resolutionIndependentRenderer);
+        }
+    }
+
+    protected override Point CalcTextureOffset()
+    {
+        return ControlTextures.PanelBlack;
+    }
+
+    protected override Color CalculateColor()
+    {
+        return Color.White;
+    }
+
+    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
+    {
+        var lastTopButtonPosition = 0;
+        foreach (var button in Options)
+        {
+            var optionButtonSize = CalcOptionButtonSize(button);
+            var optionPosition = new Vector2(OPTION_BUTTON_MARGIN + contentRect.Left,
+                lastTopButtonPosition + contentRect.Top).ToPoint();
+
+            button.Rect = new Rectangle(optionPosition, optionButtonSize + new Point(1000, 0));
+
+            button.Draw(spriteBatch);
+
+            lastTopButtonPosition += optionButtonSize.Y;
+        }
+    }
+
+    private static Point CalcOptionButtonSize(VoiceCombatOptionButton button)
+    {
+        var contentSize = button.GetContentSize();
+        return (contentSize + Vector2.One * CONTENT_MARGIN + Vector2.UnitY * OPTION_BUTTON_MARGIN)
+            .ToPoint();
+    }
+}
+
 internal class VoiceCombatScreen : DialogueScreenBase
 {
     private class VoiceCombatant
@@ -242,12 +371,18 @@ internal class VoiceCombatScreen : DialogueScreenBase
     private readonly VoiceCombatant _leftCombatant;
     private readonly VoiceCombatant _rightCombatant;
 
+    private readonly VoiceCombatOptions _voiceCombatOptions;
+
     public VoiceCombatScreen(TestamentGame game, VoiceCombatScreenTransitionArguments args) : base(game, args.Campaign)
     {
         _campaign = args.Campaign;
 
         _leftCombatant = new VoiceCombatant(13, UnitName.Assaulter);
         _rightCombatant = new VoiceCombatant(10, UnitName.ChineseOldman);
+
+        _voiceCombatOptions = new VoiceCombatOptions();
+
+        _heroMoves = new List<VoiceCombatMove> { new VoiceCombatMove("Alert!"), new VoiceCombatMove("TheGoodWeather") };
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -264,7 +399,38 @@ internal class VoiceCombatScreen : DialogueScreenBase
 
     protected override void InitializeContent()
     {
-        
+        InitDialogueControls();
+
+
+    }
+
+    private sealed class VoiceCombatMove {
+        public VoiceCombatMove(string textSid)
+        {
+            TextSid = textSid;
+        }
+
+        public string TextSid { get; }
+    }
+
+    private readonly IList<VoiceCombatMove> _heroMoves;
+
+    private void InitDialogueControls()
+    {
+
+        var optionNumber = 1;
+        _voiceCombatOptions.Options.Clear();
+        foreach (var move in _heroMoves)
+        {
+            var optionButton = new VoiceCombatOptionButton(optionNumber, move.TextSid);
+            optionButton.OnClick += (_, _) =>
+            {
+                
+            };
+
+            _voiceCombatOptions.Options.Add(optionButton);
+            optionNumber++;
+        }
     }
 
     private void CloseButton_OnClick(object? sender, EventArgs e)
@@ -273,9 +439,24 @@ internal class VoiceCombatScreen : DialogueScreenBase
             new CampaignScreenTransitionArguments(_campaign));
     }
 
-    protected override void DrawHud(SpriteBatch spriteBatch, Rectangle contentRect)
+    protected override void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
     {
-        DrawSpeakerPortrait(spriteBatch, _leftCombatant.Sid, contentRect, CombatantPositionSide.Left);
-        DrawSpeakerPortrait(spriteBatch, _rightCombatant.Sid, contentRect, CombatantPositionSide.Right);
+        DrawSpeakerPortrait(spriteBatch, _leftCombatant.Sid, contentRectangle, CombatantPositionSide.Left);
+        DrawSpeakerPortrait(spriteBatch, _rightCombatant.Sid, contentRectangle, CombatantPositionSide.Right);
+
+        spriteBatch.Begin(
+            sortMode: SpriteSortMode.Deferred,
+            blendState: BlendState.AlphaBlend,
+            samplerState: SamplerState.PointClamp,
+            depthStencilState: DepthStencilState.None,
+            rasterizerState: RasterizerState.CullNone,
+            transformMatrix: Camera.GetViewTransformationMatrix());
+
+        _voiceCombatOptions.Rect = new Rectangle(SPEAKER_FRAME_SIZE, contentRectangle.Bottom - _voiceCombatOptions.GetHeight() - 100,
+                contentRectangle.Width - SPEAKER_FRAME_SIZE * 2,
+                _voiceCombatOptions.GetHeight());
+        _voiceCombatOptions.Draw(spriteBatch);
+
+        spriteBatch.End();
     }
 }
