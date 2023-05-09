@@ -33,7 +33,7 @@ internal class VoiceCombatOptions : ControlBase
 
     public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
     {
-        foreach (var button in Options)
+        foreach (var button in Options.ToArray())
         {
             button.Update(resolutionIndependentRenderer);
         }

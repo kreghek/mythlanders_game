@@ -15,7 +15,7 @@ using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.VoiceCombat;
 
-internal abstract class DialogueScreenBase : GameScreenWithMenuBase
+internal abstract class CombatScreenBase : GameScreenWithMenuBase
 {
     private const int BACKGROUND_LAYERS_COUNT = 3;
     private const float BACKGROUND_LAYERS_SPEED = 0.1f;
@@ -32,7 +32,7 @@ internal abstract class DialogueScreenBase : GameScreenWithMenuBase
 
     private readonly Texture2D _backgroundTexture;
 
-    protected DialogueScreenBase(TestamentGame game, HeroCampaign campaign) : base(game)
+    protected CombatScreenBase(TestamentGame game, HeroCampaign campaign) : base(game)
     {
         _campaign = campaign;
 

@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Client.Core;
 using Client.Core.Campaigns;
-using Client.Core.Dialogues;
 using Client.Engine;
 using Client.GameScreens.Campaign;
-using Client.GameScreens.TextDialogue.Ui;
 
 using Core.Dices;
 
@@ -14,23 +11,26 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Speech.Ui;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.VoiceCombat;
 
-internal class VoiceCombatScreen : DialogueScreenBase
+internal class VoiceCombatScreen : CombatScreenBase
 {
     private class VoiceCombatant
     {
-        public int Hp { get; set; }
+        public Dictionary<VoiceCombatantStatType, int> Stats { get; }
         public UnitName Sid { get; }
 
-        public VoiceCombatant(int hp, UnitName sid)
+        public VoiceCombatant(int conviction, int aspiration, UnitName sid)
         {
-            Hp = hp;
+            Stats = new Dictionary<VoiceCombatantStatType, int>
+            {
+                { VoiceCombatantStatType.Conviction, conviction },
+                { VoiceCombatantStatType.Aspiration, aspiration }
+            };
+
             Sid = sid;
         }
     }
@@ -46,12 +46,29 @@ internal class VoiceCombatScreen : DialogueScreenBase
     {
         _campaign = args.Campaign;
 
-        _leftCombatant = new VoiceCombatant(13, UnitName.Assaulter);
-        _rightCombatant = new VoiceCombatant(10, UnitName.ChineseOldman);
+        _uiContentStorage = game.Services.GetService<IUiContentStorage>();
+        _dice = game.Services.GetService<IDice>();
+
+        _leftCombatant = new VoiceCombatant(13, 10, UnitName.Assaulter);
+        _rightCombatant = new VoiceCombatant(10, 8, UnitName.ChineseOldman);
 
         _voiceCombatOptions = new VoiceCombatOptions();
 
-        _heroMoves = new List<VoiceCombatMove> { new VoiceCombatMove("Alert!"), new VoiceCombatMove("TheGoodWeather") };
+        _availableHeroMoves = new List<VoiceCombatMove> { 
+            new VoiceCombatMove("Alert!", VoiceCombatMoveType.Domination, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
+            new VoiceCombatMove("TheGoodWeather", VoiceCombatMoveType.Diplomacy, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
+            new VoiceCombatMove("TwoPlusTowIsFive", VoiceCombatMoveType.Sophistic, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1))
+        };
+
+        _availableNpcMoves = new List<VoiceCombatMove> {
+            new VoiceCombatMove("Alert!", VoiceCombatMoveType.Domination, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
+            new VoiceCombatMove("TheGoodWeather", VoiceCombatMoveType.Diplomacy, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
+            new VoiceCombatMove("TwoPlusTowIsFive", VoiceCombatMoveType.Sophistic, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1))
+        };
+
+        _currentNpcMoves = new List<VoiceCombatMove>();
+
+        SelectNewOptionSet();
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -79,17 +96,17 @@ internal class VoiceCombatScreen : DialogueScreenBase
     }
 
     private sealed class VoiceCombatMove {
-        public VoiceCombatMove(string textSid, VoiceCombatMoveType type, IReadOnlyCollection<IVoiceCombatMoveEffect> effects)
+        public VoiceCombatMove(string textSid, VoiceCombatMoveType type, VoiceCombatMoveDamage damage)
         {
             TextSid = textSid;
             Type = type;
-            Effects = effects;
+            Damage = damage;
         }
 
         public string TextSid { get; }
 
         public VoiceCombatMoveType Type { get; }
-        public IReadOnlyCollection<IVoiceCombatMoveEffect> Effects { get; }
+        public VoiceCombatMoveDamage Damage { get; }
     }
 
     private enum VoiceCombatMoveType
@@ -99,39 +116,60 @@ internal class VoiceCombatScreen : DialogueScreenBase
         Sophistic
     }
 
-    private interface IVoiceCombatMoveEffect
+    private enum VoiceCombatantStatType
     {
-
+        Conviction,
+        Aspiration
     }
 
-    private interface IVoiceCombatMoveEffectTargetSelector
-    {
+    private sealed record VoiceCombatMoveDamage(VoiceCombatantStatType TargetStat, int Value);
 
-    }
+    private int HERO_OPTION_COUNT = 3;
 
-    private sealed class VoiceCombatMoveInstace
-    {
-
-    }
-
-    private readonly IList<VoiceCombatMove> _heroMoves;
+    private readonly IList<VoiceCombatMove> _availableHeroMoves;
+    private readonly IList<VoiceCombatMove> _availableNpcMoves;
+    private readonly IList<VoiceCombatMove> _currentNpcMoves;
+    private readonly IUiContentStorage _uiContentStorage;
+    private readonly IDice _dice;
 
     private void InitDialogueControls()
     {
+        CreateOptionControls();
+    }
 
+    private void CreateOptionControls()
+    {
         var optionNumber = 1;
         _voiceCombatOptions.Options.Clear();
-        foreach (var move in _heroMoves)
+        foreach (var move in _currentNpcMoves)
         {
             var optionButton = new VoiceCombatOptionButton(optionNumber, move.TextSid);
             optionButton.OnClick += (_, _) =>
             {
-                
+                var statValue = _rightCombatant.Stats[move.Damage.TargetStat];
+                var resultStateValue = statValue - move.Damage.Value;
+                _rightCombatant.Stats[move.Damage.TargetStat] = resultStateValue;
+
+                SelectNewOptionSet();
+
+                CreateOptionControls();
             };
 
             _voiceCombatOptions.Options.Add(optionButton);
             optionNumber++;
         }
+    }
+
+    private void SelectNewOptionSet()
+    {
+        _currentNpcMoves.Clear();
+
+        var hand = _dice.RollFromList(_availableHeroMoves, HERO_OPTION_COUNT);
+
+        foreach (var item in hand)
+        {
+            _currentNpcMoves.Add(item);
+        }        
     }
 
     private void CloseButton_OnClick(object? sender, EventArgs e)
@@ -152,6 +190,10 @@ internal class VoiceCombatScreen : DialogueScreenBase
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
+
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), _leftCombatant.Stats[VoiceCombatantStatType.Conviction].ToString(), new Vector2(contentRectangle.Left, contentRectangle.Top), Color.White);
+
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), _rightCombatant.Stats[VoiceCombatantStatType.Conviction].ToString(), new Vector2(contentRectangle.Right - 50, contentRectangle.Top), Color.White);
 
         _voiceCombatOptions.Rect = new Rectangle(SPEAKER_FRAME_SIZE, contentRectangle.Bottom - _voiceCombatOptions.GetHeight() - 100,
                 contentRectangle.Width - SPEAKER_FRAME_SIZE * 2,
