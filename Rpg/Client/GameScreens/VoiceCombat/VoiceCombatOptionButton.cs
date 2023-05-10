@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 
@@ -14,7 +15,7 @@ internal class VoiceCombatOptionButton : ButtonBase
 
     public VoiceCombatOptionButton(int number, string resourceSid)
     {
-        var localizedText = GameObjectHelper.GetLocalizedVoiceCombatMove(resourceSid);
+        var localizedText = StringHelper.LineBreaking(GameObjectHelper.GetLocalizedVoiceCombatMove(resourceSid), 30);
         _optionText = $"{number}. {localizedText}";
 
         _font = UiThemeManager.UiContentStorage.GetTitlesFont();
