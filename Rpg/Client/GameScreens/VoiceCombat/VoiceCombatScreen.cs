@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Client.Core.Campaigns;
 using Client.Engine;
@@ -41,6 +42,7 @@ internal class VoiceCombatScreen : CombatScreenBase
     private readonly VoiceCombatant _rightCombatant;
 
     private readonly VoiceCombatOptions _voiceCombatOptions;
+    private VoiceCombatMove? _intentedCpuMove;
 
     public VoiceCombatScreen(TestamentGame game, VoiceCombatScreenTransitionArguments args) : base(game, args.Campaign)
     {
@@ -60,7 +62,7 @@ internal class VoiceCombatScreen : CombatScreenBase
             new VoiceCombatMove("TwoPlusTowIsFive", VoiceCombatMoveType.Sophistic, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1))
         };
 
-        _availableNpcMoves = new List<VoiceCombatMove> {
+        _availableCpuMoves = new List<VoiceCombatMove> {
             new VoiceCombatMove("Alert!", VoiceCombatMoveType.Domination, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
             new VoiceCombatMove("TheGoodWeather", VoiceCombatMoveType.Diplomacy, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
             new VoiceCombatMove("TwoPlusTowIsFive", VoiceCombatMoveType.Sophistic, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1))
@@ -69,6 +71,13 @@ internal class VoiceCombatScreen : CombatScreenBase
         _currentNpcMoves = new List<VoiceCombatMove>();
 
         SelectNewOptionSet();
+
+        IntentCpuMove();
+    }
+
+    private void IntentCpuMove()
+    {
+        _intentedCpuMove = _dice.RollFromList(_availableCpuMoves.ToArray());
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -76,7 +85,7 @@ internal class VoiceCombatScreen : CombatScreenBase
         var closeButton = new ResourceTextButton(nameof(UiResource.SkipButtonTitle));
         closeButton.OnClick += CloseButton_OnClick;
 
-        return new[]
+        return new ButtonBase[]
         {
             closeButton
         };
@@ -124,10 +133,10 @@ internal class VoiceCombatScreen : CombatScreenBase
 
     private sealed record VoiceCombatMoveDamage(VoiceCombatantStatType TargetStat, int Value);
 
-    private int HERO_OPTION_COUNT = 3;
+    private const int HERO_OPTION_COUNT = 3;
 
     private readonly IList<VoiceCombatMove> _availableHeroMoves;
-    private readonly IList<VoiceCombatMove> _availableNpcMoves;
+    private readonly IList<VoiceCombatMove> _availableCpuMoves;
     private readonly IList<VoiceCombatMove> _currentNpcMoves;
     private readonly IUiContentStorage _uiContentStorage;
     private readonly IDice _dice;
@@ -146,9 +155,9 @@ internal class VoiceCombatScreen : CombatScreenBase
             var optionButton = new VoiceCombatOptionButton(optionNumber, move.TextSid);
             optionButton.OnClick += (_, _) =>
             {
-                var statValue = _rightCombatant.Stats[move.Damage.TargetStat];
-                var resultStateValue = statValue - move.Damage.Value;
-                _rightCombatant.Stats[move.Damage.TargetStat] = resultStateValue;
+                UseMove(move, _rightCombatant);
+
+                HandleCpuTurn();
 
                 SelectNewOptionSet();
 
@@ -158,6 +167,24 @@ internal class VoiceCombatScreen : CombatScreenBase
             _voiceCombatOptions.Options.Add(optionButton);
             optionNumber++;
         }
+    }
+
+    private void UseMove(VoiceCombatMove move, VoiceCombatant targetCombatant)
+    {
+        var voiceCombatantStatType = move.Damage.TargetStat;
+        var statValue = targetCombatant.Stats[voiceCombatantStatType];
+        var resultStateValue = statValue - move.Damage.Value;
+        targetCombatant.Stats[voiceCombatantStatType] = resultStateValue;
+    }
+
+    private void HandleCpuTurn()
+    {
+        if (_intentedCpuMove is not null)
+        {
+            UseMove(_intentedCpuMove, _leftCombatant);
+        }
+        
+        IntentCpuMove();
     }
 
     private void SelectNewOptionSet()
