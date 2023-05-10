@@ -58,12 +58,17 @@ internal class VoiceCombatOptions : ControlBase
             var optionPosition = new Vector2(OPTION_BUTTON_MARGIN + contentRect.Left,
                 lastTopButtonPosition + contentRect.Top).ToPoint();
 
-            button.Rect = new Rectangle(optionPosition, optionButtonSize + new Point(1000, 0));
+            button.Rect = new Rectangle(optionPosition, AlignToWidth(optionButtonSize, contentRect.Width));
 
             button.Draw(spriteBatch);
 
             lastTopButtonPosition += optionButtonSize.Y;
         }
+    }
+
+    private static Point AlignToWidth(Point optionButtonSize, int parentWidth)
+    {
+        return new Point(MathHelper.Max(optionButtonSize.X, parentWidth), optionButtonSize.Y);
     }
 
     private static Point CalcOptionButtonSize(VoiceCombatOptionButton button)
