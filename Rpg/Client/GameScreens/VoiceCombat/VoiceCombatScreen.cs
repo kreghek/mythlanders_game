@@ -24,12 +24,13 @@ internal class VoiceCombatScreen : CombatScreenBase
         public Dictionary<VoiceCombatantStatType, int> Stats { get; }
         public UnitName Sid { get; }
 
-        public VoiceCombatant(int conviction, int aspiration, UnitName sid)
+        public VoiceCombatant(int conviction, int aspiration, int stamina, UnitName sid)
         {
             Stats = new Dictionary<VoiceCombatantStatType, int>
             {
                 { VoiceCombatantStatType.Conviction, conviction },
-                { VoiceCombatantStatType.Aspiration, aspiration }
+                { VoiceCombatantStatType.Aspiration, aspiration },
+                { VoiceCombatantStatType.Stamina, stamina }
             };
 
             Sid = sid;
@@ -51,8 +52,8 @@ internal class VoiceCombatScreen : CombatScreenBase
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();
         _dice = game.Services.GetService<IDice>();
 
-        _leftCombatant = new VoiceCombatant(13, 10, UnitName.Assaulter);
-        _rightCombatant = new VoiceCombatant(10, 8, UnitName.ChineseOldman);
+        _leftCombatant = new VoiceCombatant(13, 10, 0, UnitName.Assaulter);
+        _rightCombatant = new VoiceCombatant(10, 8, 0, UnitName.ChineseOldman);
 
         _voiceCombatOptions = new VoiceCombatOptions();
 
@@ -128,7 +129,8 @@ internal class VoiceCombatScreen : CombatScreenBase
     private enum VoiceCombatantStatType
     {
         Conviction,
-        Aspiration
+        Aspiration,
+        Stamina
     }
 
     private sealed record VoiceCombatMoveDamage(VoiceCombatantStatType TargetStat, int Value);
@@ -173,7 +175,9 @@ internal class VoiceCombatScreen : CombatScreenBase
     {
         var voiceCombatantStatType = move.Damage.TargetStat;
         var statValue = targetCombatant.Stats[voiceCombatantStatType];
-        var resultStateValue = statValue - move.Damage.Value;
+        var staminaPenalty = -targetCombatant.Stats[VoiceCombatantStatType.Stamina];
+        var totalDamage = move.Damage.Value + staminaPenalty;
+        var resultStateValue = statValue - totalDamage;
         targetCombatant.Stats[voiceCombatantStatType] = resultStateValue;
     }
 
