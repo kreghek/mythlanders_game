@@ -35,6 +35,8 @@ internal class VoiceCombatScreen : CombatScreenBase
 
             Sid = sid;
         }
+
+        public bool IsDead => Stats[VoiceCombatantStatType.Conviction] <= 0 || Stats[VoiceCombatantStatType.Aspiration] <= 0;
     }
 
     private readonly HeroCampaign _campaign;
@@ -159,11 +161,25 @@ internal class VoiceCombatScreen : CombatScreenBase
             {
                 UseMove(move, _rightCombatant);
 
-                HandleCpuTurn();
+                if (!_rightCombatant.IsDead)
+                {
+                    HandleCpuTurn();
 
-                SelectNewOptionSet();
+                    if (!_leftCombatant.IsDead)
+                    {
+                        SelectNewOptionSet();
 
-                CreateOptionControls();
+                        CreateOptionControls();
+                    }
+                    else
+                    {
+                        EndVoiceCombat();
+                    }
+                }
+                else
+                {
+                    EndVoiceCombat();
+                }
             };
 
             _voiceCombatOptions.Options.Add(optionButton);
@@ -171,7 +187,12 @@ internal class VoiceCombatScreen : CombatScreenBase
         }
     }
 
-    private void UseMove(VoiceCombatMove move, VoiceCombatant targetCombatant)
+    private void EndVoiceCombat()
+    {
+        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments(_campaign));
+    }
+
+    private static void UseMove(VoiceCombatMove move, VoiceCombatant targetCombatant)
     {
         var voiceCombatantStatType = move.Damage.TargetStat;
         var statValue = targetCombatant.Stats[voiceCombatantStatType];
@@ -222,9 +243,8 @@ internal class VoiceCombatScreen : CombatScreenBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
-        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), _leftCombatant.Stats[VoiceCombatantStatType.Conviction].ToString(), new Vector2(contentRectangle.Left, contentRectangle.Top), Color.White);
-
-        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), _rightCombatant.Stats[VoiceCombatantStatType.Conviction].ToString(), new Vector2(contentRectangle.Right - 50, contentRectangle.Top), Color.White);
+        DrawCombatantStats(_leftCombatant, spriteBatch, contentRectangle, CombatantPositionSide.Left);
+        DrawCombatantStats(_rightCombatant, spriteBatch, contentRectangle, CombatantPositionSide.Right);
 
         _voiceCombatOptions.Rect = new Rectangle(SPEAKER_FRAME_SIZE, contentRectangle.Bottom - _voiceCombatOptions.GetHeight() - 100,
                 contentRectangle.Width - SPEAKER_FRAME_SIZE * 2,
@@ -232,5 +252,15 @@ internal class VoiceCombatScreen : CombatScreenBase
         _voiceCombatOptions.Draw(spriteBatch);
 
         spriteBatch.End();
+    }
+
+    private void DrawCombatantStats(VoiceCombatant combatant, SpriteBatch spriteBatch, Rectangle contentRectangle, CombatantPositionSide side)
+    {
+        const int STAT_PANEL_WIDTH = 250;
+        var statPosition = side == CombatantPositionSide.Left ? contentRectangle.Left : contentRectangle.Right - STAT_PANEL_WIDTH;
+
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), $"Уверенность: {combatant.Stats[VoiceCombatantStatType.Conviction]}", new Vector2(statPosition, contentRectangle.Top), Color.White);
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), $"Стремление: {combatant.Stats[VoiceCombatantStatType.Aspiration]}", new Vector2(statPosition, contentRectangle.Top + 20), Color.White);
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), $"Выдержка: {combatant.Stats[VoiceCombatantStatType.Stamina]}", new Vector2(statPosition, contentRectangle.Top + 40), Color.White);
     }
 }

@@ -68,7 +68,7 @@ internal class VoiceCombatOptions : ControlBase
 
     private static Point AlignToWidth(Point optionButtonSize, int parentWidth)
     {
-        return new Point(MathHelper.Max(optionButtonSize.X, parentWidth), optionButtonSize.Y);
+        return new Point(MathHelper.Max(optionButtonSize.X, parentWidth) - OPTION_BUTTON_MARGIN, optionButtonSize.Y);
     }
 
     private static Point CalcOptionButtonSize(VoiceCombatOptionButton button)
