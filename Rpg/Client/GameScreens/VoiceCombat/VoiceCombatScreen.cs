@@ -57,15 +57,15 @@ internal class VoiceCombatScreen : CombatScreenBase
         _voiceCombatOptions = new VoiceCombatOptions();
 
         _availableHeroMoves = new List<VoiceCombatMove> { 
-            new VoiceCombatMove("Alert!", VoiceCombatMoveType.Domination, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
-            new VoiceCombatMove("TheGoodWeather", VoiceCombatMoveType.Diplomacy, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
-            new VoiceCombatMove("TwoPlusTowIsFive", VoiceCombatMoveType.Sophistic, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1))
+            new("HaventBeenPunchedInTheFaceForALongTime", VoiceCombatMoveType.Domination, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
+            new("TheGoodWeather", VoiceCombatMoveType.Diplomacy, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
+            new("TwoPlusTwoIsFive", VoiceCombatMoveType.Sophistic, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1))
         };
 
         _availableCpuMoves = new List<VoiceCombatMove> {
-            new VoiceCombatMove("Alert!", VoiceCombatMoveType.Domination, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
-            new VoiceCombatMove("TheGoodWeather", VoiceCombatMoveType.Diplomacy, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
-            new VoiceCombatMove("TwoPlusTowIsFive", VoiceCombatMoveType.Sophistic, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1))
+            new("HaventBeenPunchedInTheFaceForALongTime", VoiceCombatMoveType.Domination, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
+            new("TheGoodWeather", VoiceCombatMoveType.Diplomacy, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
+            new("TwoPlusTwoIsFive", VoiceCombatMoveType.Sophistic, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1))
         };
 
         _currentNpcMoves = new List<VoiceCombatMove>();

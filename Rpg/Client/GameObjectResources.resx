@@ -845,4 +845,13 @@
   <data name="LastChanceToPeace_Description" xml:space="preserve">
     <value /><comment>Combat Movement Black Trooper</comment>
   </data>
+  <data name="HaventBeenPunchedInTheFaceForALongTime_voice" xml:space="preserve">
+    <value>Haven't been punched in the face for a long time?</value><comment>Voice</comment>
+  </data>
+  <data name="TheGoodWeather" xml:space="preserve">
+    <value>The good weather today...</value><comment>Voice</comment>
+  </data>
+  <data name="TwoPlusTwoIsFive" xml:space="preserve">
+    <value>Two plus two is five...</value><comment>Voice</comment>
+  </data>
 </root>
