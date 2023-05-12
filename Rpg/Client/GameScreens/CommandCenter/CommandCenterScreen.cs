@@ -133,11 +133,8 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
             panels.Add(panel);
             panel.Selected += (_, _) =>
             {
-                //ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                //    new CampaignScreenTransitionArguments(campaign));
-
-                ScreenManager.ExecuteTransition(this, ScreenTransition.VoiceCombat,
-                    new VoiceCombatScreenTransitionArguments(campaign));
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                    new CampaignScreenTransitionArguments(campaign));
             };
 
             index++;
