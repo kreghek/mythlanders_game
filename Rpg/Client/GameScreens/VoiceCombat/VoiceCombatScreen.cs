@@ -259,8 +259,8 @@ internal class VoiceCombatScreen : CombatScreenBase
         const int STAT_PANEL_WIDTH = 250;
         var statPosition = side == CombatantPositionSide.Left ? contentRectangle.Left : contentRectangle.Right - STAT_PANEL_WIDTH;
 
-        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), $"Уверенность: {combatant.Stats[VoiceCombatantStatType.Conviction]}", new Vector2(statPosition, contentRectangle.Top), Color.White);
-        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), $"Стремление: {combatant.Stats[VoiceCombatantStatType.Aspiration]}", new Vector2(statPosition, contentRectangle.Top + 20), Color.White);
-        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), $"Выдержка: {combatant.Stats[VoiceCombatantStatType.Stamina]}", new Vector2(statPosition, contentRectangle.Top + 40), Color.White);
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), string.Format(UiResource.VoiceCombatStat_ConvictionLableTemplate, combatant.Stats[VoiceCombatantStatType.Conviction]), new Vector2(statPosition, contentRectangle.Top), Color.White);
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), string.Format(UiResource.VoiceCombatStat_AspirationLableTemplate, combatant.Stats[VoiceCombatantStatType.Aspiration]), new Vector2(statPosition, contentRectangle.Top + 20), Color.White);
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), string.Format(UiResource.VoiceCombatStat_StaminaLableTemplate, combatant.Stats[VoiceCombatantStatType.Stamina]), new Vector2(statPosition, contentRectangle.Top + 40), Color.White);
     }
 }
