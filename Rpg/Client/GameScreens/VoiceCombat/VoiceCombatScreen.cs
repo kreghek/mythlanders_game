@@ -59,7 +59,7 @@ internal class VoiceCombatScreen : CombatScreenBase
 
         _voiceCombatOptions = new VoiceCombatOptions();
 
-        _availableHeroMoves = new List<VoiceCombatMove> { 
+        _availableHeroMoves = new List<VoiceCombatMove> {
             new("HaventBeenPunchedInTheFaceForALongTime", VoiceCombatMoveType.Domination, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
             new("TheGoodWeather", VoiceCombatMoveType.Diplomacy, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
             new("TwoPlusTwoIsFive", VoiceCombatMoveType.Sophistic, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1))
@@ -107,7 +107,8 @@ internal class VoiceCombatScreen : CombatScreenBase
         _voiceCombatOptions.Update(ResolutionIndependentRenderer);
     }
 
-    private sealed class VoiceCombatMove {
+    private sealed class VoiceCombatMove
+    {
         public VoiceCombatMove(string textSid, VoiceCombatMoveType type, VoiceCombatMoveDamage damage)
         {
             TextSid = textSid;
@@ -208,7 +209,7 @@ internal class VoiceCombatScreen : CombatScreenBase
         {
             UseMove(_intentedCpuMove, _leftCombatant);
         }
-        
+
         IntentCpuMove();
     }
 
@@ -221,7 +222,7 @@ internal class VoiceCombatScreen : CombatScreenBase
         foreach (var item in hand)
         {
             _currentNpcMoves.Add(item);
-        }        
+        }
     }
 
     private void CloseButton_OnClick(object? sender, EventArgs e)

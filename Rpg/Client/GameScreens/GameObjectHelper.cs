@@ -84,7 +84,7 @@ internal static class GameObjectHelper
     {
         return GetLocalizedInner($"{sid}_prop");
     }
-    
+
     public static string GetLocalizedVoiceCombatMove(string sid)
     {
         return GetLocalizedInner($"{sid}_voice");
