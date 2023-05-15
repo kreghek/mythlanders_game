@@ -156,7 +156,7 @@ internal class VoiceCombatScreen : CombatScreenBase
         _voiceCombatOptions.Options.Clear();
         foreach (var move in _currentNpcMoves)
         {
-            var optionButton = new VoiceCombatOptionButton(optionNumber, move.TextSid);
+            var optionButton = new VoiceCombatOptionButton(optionNumber, move.TextSid, move.Type.ToString());
             optionButton.OnClick += (_, _) =>
             {
                 UseMove(move, _rightCombatant);

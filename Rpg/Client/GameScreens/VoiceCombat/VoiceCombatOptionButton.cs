@@ -13,17 +13,24 @@ internal class VoiceCombatOptionButton : ButtonBase
     private readonly SpriteFont _font;
     private readonly string _optionText;
 
-    public VoiceCombatOptionButton(int number, string resourceSid)
+    public VoiceCombatOptionButton(int number, string resourceSid, string description)
     {
         var localizedText = StringHelper.LineBreaking(GameObjectHelper.GetLocalizedVoiceCombatMove(resourceSid), 30);
-        _optionText = $"{number}. {localizedText}";
+        _optionText = $"{number}. {localizedText}\n({description})";
 
         _font = UiThemeManager.UiContentStorage.GetTitlesFont();
         Number = number;
     }
 
+    /// <summary>
+    /// Option number in the option list.
+    /// </summary>
     public int Number { get; }
 
+    /// <summary>
+    /// Get size of text.
+    /// Used in outer code to make the control rect.
+    /// </summary>
     public Vector2 GetContentSize()
     {
         var textSize = _font.MeasureString(_optionText) + new Vector2(MARGIN * 2, MARGIN * 2);
@@ -40,7 +47,7 @@ internal class VoiceCombatOptionButton : ButtonBase
         return ControlTextures.OptionNormal;
     }
 
-    protected Color CalculateTextColor()
+    private Color CalculateTextColor()
     {
         if (_buttonState == UiButtonState.Hover || _buttonState == UiButtonState.Pressed)
         {

@@ -5,10 +5,8 @@ using Client.Core.Campaigns;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
-using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.ScreenManagement;
@@ -166,6 +164,8 @@ internal abstract class CombatScreenBase : GameScreenWithMenuBase
 
     protected const int SPEAKER_FRAME_SIZE = 256;
 
+    protected virtual Point GetPortraitSheet() => new(0, 0);
+
     protected void DrawSpeakerPortrait(SpriteBatch spriteBatch, UnitName speakerSid, Rectangle contentRect, CombatantPositionSide side)
     {
 
@@ -183,8 +183,8 @@ internal abstract class CombatScreenBase : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
-        var col = 0;
-        var row = 0;
+        var col = GetPortraitSheet().X;
+        var row = GetPortraitSheet().Y;
         // var col = _frameIndex % 2;
         // var row = _frameIndex / 2;
 
