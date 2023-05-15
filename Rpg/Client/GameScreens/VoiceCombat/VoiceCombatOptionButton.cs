@@ -47,16 +47,6 @@ internal class VoiceCombatOptionButton : ButtonBase
         return ControlTextures.OptionNormal;
     }
 
-    private Color CalculateTextColor()
-    {
-        if (_buttonState == UiButtonState.Hover || _buttonState == UiButtonState.Pressed)
-        {
-            return Color.Wheat;
-        }
-
-        return Color.SaddleBrown;
-    }
-
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
     {
         var textSize = GetContentSize();
@@ -67,5 +57,15 @@ internal class VoiceCombatOptionButton : ButtonBase
 
         var textColor = CalculateTextColor();
         spriteBatch.DrawString(_font, _optionText, textPosition, textColor);
+    }
+
+    private Color CalculateTextColor()
+    {
+        if (_buttonState == UiButtonState.Hover || _buttonState == UiButtonState.Pressed)
+        {
+            return Color.Wheat;
+        }
+
+        return Color.SaddleBrown;
     }
 }

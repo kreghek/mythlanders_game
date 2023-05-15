@@ -5,7 +5,6 @@ using Client.Core;
 using Client.Core.Campaigns;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter.Ui;
-using Client.GameScreens.VoiceCombat;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

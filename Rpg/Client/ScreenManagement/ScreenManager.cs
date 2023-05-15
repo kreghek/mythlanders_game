@@ -139,7 +139,7 @@ namespace Rpg.Client.ScreenManagement
                 ScreenTransition.NotImplemented => new NotImplementedStageScreen(_game,
                     (NotImplementedStageScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.VoiceCombat => new VoiceCombatScreen(_game,
-                (VoiceCombatScreenTransitionArguments)screenTransitionArguments),
+                    (VoiceCombatScreenTransitionArguments)screenTransitionArguments),
                 _ => throw new ArgumentException("Unknown transition", nameof(targetTransition))
             };
         }

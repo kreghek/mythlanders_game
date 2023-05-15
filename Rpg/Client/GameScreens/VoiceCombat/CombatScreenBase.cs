@@ -23,12 +23,14 @@ internal abstract class CombatScreenBase : GameScreenWithMenuBase
     /// </summary>
     private const float BG_CENTER_OFFSET_PERCENTAGE = 0;
 
-    private readonly HeroCampaign _campaign;
-    private readonly GameObjectContentStorage _gameObjectContentStorage;
-    private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
-    private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
+    protected const int SPEAKER_FRAME_SIZE = 256;
 
     private readonly Texture2D _backgroundTexture;
+
+    private readonly HeroCampaign _campaign;
+    private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
+    private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
+    private readonly GameObjectContentStorage _gameObjectContentStorage;
 
     protected CombatScreenBase(TestamentGame game, HeroCampaign campaign) : base(game)
     {
@@ -57,46 +59,14 @@ internal abstract class CombatScreenBase : GameScreenWithMenuBase
 
     protected abstract void DrawHud(SpriteBatch spriteBatch, Rectangle contentRect);
 
-    private void DrawGameObjects(SpriteBatch spriteBatch)
+    protected void DrawSpeakerPortrait(SpriteBatch spriteBatch, UnitName speakerSid, Rectangle contentRect,
+        CombatantPositionSide side)
     {
-        var backgroundType = BackgroundHelper.GetBackgroundType(_campaign.Location);
-
-        var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
-
-        const int BG_START_OFFSET = -100;
-        const int BG_MAX_OFFSET = 200;
-
-        DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
-
-        DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
-
-        spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
-            blendState: BlendState.AlphaBlend,
-            samplerState: SamplerState.PointClamp,
-            depthStencilState: DepthStencilState.None,
-            rasterizerState: RasterizerState.CullNone,
-            transformMatrix: Camera.GetViewTransformationMatrix());
-        spriteBatch.Draw(_backgroundTexture, ResolutionIndependentRenderer.VirtualBounds,
-            Color.Lerp(Color.Transparent, Color.White, 0.5f));
-        spriteBatch.End();
-    }
-
-    private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
-        int backgroundMaxOffset)
-    {
-        var xFloat = backgroundStartOffset +
-                     -1 * BG_CENTER_OFFSET_PERCENTAGE * BACKGROUND_LAYERS_SPEED * 2 * backgroundMaxOffset;
-        var roundedX = (int)Math.Round(xFloat);
-
-        var position = new Vector2(roundedX, 0);
-
-        var position3d = new Vector3(position, 0);
-
-        var worldTransformationMatrix = Camera.GetViewTransformationMatrix();
-        worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
-
-        var matrix = Matrix.CreateTranslation(translationVector + position3d)
-                     * Matrix.CreateScale(scaleVector);
+        if (speakerSid == UnitName.Environment)
+        {
+            // This text describes environment. There is no speaker.
+            return;
+        }
 
         spriteBatch.Begin(
             sortMode: SpriteSortMode.Deferred,
@@ -104,16 +74,41 @@ internal abstract class CombatScreenBase : GameScreenWithMenuBase
             samplerState: SamplerState.PointClamp,
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
-            transformMatrix: matrix);
+            transformMatrix: Camera.GetViewTransformationMatrix());
 
-        spriteBatch.Draw(backgrounds[3], Vector2.Zero, Color.White);
+        var col = GetPortraitSheet().X;
+        var row = GetPortraitSheet().Y;
+        // var col = _frameIndex % 2;
+        // var row = _frameIndex / 2;
 
-        foreach (var obj in _foregroundLayerObjects)
-        {
-            obj.Draw(spriteBatch);
-        }
+        var targetRect = GetTargetRect(contentRect, side);
+
+        spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(speakerSid),
+            targetRect,
+            new Rectangle(
+                col * SPEAKER_FRAME_SIZE,
+                row * SPEAKER_FRAME_SIZE,
+                SPEAKER_FRAME_SIZE,
+                SPEAKER_FRAME_SIZE),
+            Color.White,
+            rotation: 0,
+            origin: Vector2.Zero,
+            effects: side == CombatantPositionSide.Left ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+            layerDepth: 0);
 
         spriteBatch.End();
+    }
+
+    protected virtual Point GetPortraitSheet()
+    {
+        return new(0, 0);
+    }
+
+    protected override void UpdateContent(GameTime gameTime)
+    {
+        base.UpdateContent(gameTime);
+
+        UpdateBackgroundObjects(gameTime);
     }
 
     private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
@@ -156,24 +151,22 @@ internal abstract class CombatScreenBase : GameScreenWithMenuBase
         }
     }
 
-    protected enum CombatantPositionSide
+    private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
+        int backgroundMaxOffset)
     {
-        Left,
-        Right
-    }
+        var xFloat = backgroundStartOffset +
+                     -1 * BG_CENTER_OFFSET_PERCENTAGE * BACKGROUND_LAYERS_SPEED * 2 * backgroundMaxOffset;
+        var roundedX = (int)Math.Round(xFloat);
 
-    protected const int SPEAKER_FRAME_SIZE = 256;
+        var position = new Vector2(roundedX, 0);
 
-    protected virtual Point GetPortraitSheet() => new(0, 0);
+        var position3d = new Vector3(position, 0);
 
-    protected void DrawSpeakerPortrait(SpriteBatch spriteBatch, UnitName speakerSid, Rectangle contentRect, CombatantPositionSide side)
-    {
+        var worldTransformationMatrix = Camera.GetViewTransformationMatrix();
+        worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
 
-        if (speakerSid == UnitName.Environment)
-        {
-            // This text describes environment. There is no speaker.
-            return;
-        }
+        var matrix = Matrix.CreateTranslation(translationVector + position3d)
+                     * Matrix.CreateScale(scaleVector);
 
         spriteBatch.Begin(
             sortMode: SpriteSortMode.Deferred,
@@ -181,28 +174,39 @@ internal abstract class CombatScreenBase : GameScreenWithMenuBase
             samplerState: SamplerState.PointClamp,
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
+            transformMatrix: matrix);
+
+        spriteBatch.Draw(backgrounds[3], Vector2.Zero, Color.White);
+
+        foreach (var obj in _foregroundLayerObjects)
+        {
+            obj.Draw(spriteBatch);
+        }
+
+        spriteBatch.End();
+    }
+
+    private void DrawGameObjects(SpriteBatch spriteBatch)
+    {
+        var backgroundType = BackgroundHelper.GetBackgroundType(_campaign.Location);
+
+        var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
+
+        const int BG_START_OFFSET = -100;
+        const int BG_MAX_OFFSET = 200;
+
+        DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
+
+        DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
+
+        spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+            blendState: BlendState.AlphaBlend,
+            samplerState: SamplerState.PointClamp,
+            depthStencilState: DepthStencilState.None,
+            rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
-
-        var col = GetPortraitSheet().X;
-        var row = GetPortraitSheet().Y;
-        // var col = _frameIndex % 2;
-        // var row = _frameIndex / 2;
-
-        var targetRect = GetTargetRect(contentRect, side);
-
-        spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(speakerSid),
-            targetRect,
-            new Rectangle(
-                col * SPEAKER_FRAME_SIZE,
-                row * SPEAKER_FRAME_SIZE,
-                SPEAKER_FRAME_SIZE,
-                SPEAKER_FRAME_SIZE),
-            Color.White,
-            rotation: 0,
-            origin: Vector2.Zero,
-            effects: side == CombatantPositionSide.Left ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
-            layerDepth: 0);
-
+        spriteBatch.Draw(_backgroundTexture, ResolutionIndependentRenderer.VirtualBounds,
+            Color.Lerp(Color.Transparent, Color.White, 0.5f));
         spriteBatch.End();
     }
 
@@ -211,14 +215,7 @@ internal abstract class CombatScreenBase : GameScreenWithMenuBase
         var xPosition = side == CombatantPositionSide.Left ? 0 : contentRect.Right - SPEAKER_FRAME_SIZE;
 
         return new Rectangle(xPosition, contentRect.Bottom - SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE,
-                SPEAKER_FRAME_SIZE);
-    }
-
-    protected override void UpdateContent(GameTime gameTime)
-    {
-        base.UpdateContent(gameTime);
-
-        UpdateBackgroundObjects(gameTime);
+            SPEAKER_FRAME_SIZE);
     }
 
     private void UpdateBackgroundObjects(GameTime gameTime)
@@ -232,5 +229,11 @@ internal abstract class CombatScreenBase : GameScreenWithMenuBase
         {
             obj.Update(gameTime);
         }
+    }
+
+    protected enum CombatantPositionSide
+    {
+        Left,
+        Right
     }
 }

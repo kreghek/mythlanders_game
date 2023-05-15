@@ -19,30 +19,18 @@ namespace Client.GameScreens.VoiceCombat;
 
 internal class VoiceCombatScreen : CombatScreenBase
 {
-    private class VoiceCombatant
-    {
-        public Dictionary<VoiceCombatantStatType, int> Stats { get; }
-        public UnitName Sid { get; }
+    private const int HERO_OPTION_COUNT = 3;
+    private readonly IList<VoiceCombatMove> _availableCpuMoves;
 
-        public VoiceCombatant(int conviction, int aspiration, int stamina, UnitName sid)
-        {
-            Stats = new Dictionary<VoiceCombatantStatType, int>
-            {
-                { VoiceCombatantStatType.Conviction, conviction },
-                { VoiceCombatantStatType.Aspiration, aspiration },
-                { VoiceCombatantStatType.Stamina, stamina }
-            };
-
-            Sid = sid;
-        }
-
-        public bool IsDead => Stats[VoiceCombatantStatType.Conviction] <= 0 || Stats[VoiceCombatantStatType.Aspiration] <= 0;
-    }
+    private readonly IList<VoiceCombatMove> _availableHeroMoves;
 
     private readonly HeroCampaign _campaign;
+    private readonly IList<VoiceCombatMove> _currentNpcMoves;
+    private readonly IDice _dice;
 
     private readonly VoiceCombatant _leftCombatant;
     private readonly VoiceCombatant _rightCombatant;
+    private readonly IUiContentStorage _uiContentStorage;
 
     private readonly VoiceCombatOptions _voiceCombatOptions;
     private VoiceCombatMove? _intentedCpuMove;
@@ -59,16 +47,24 @@ internal class VoiceCombatScreen : CombatScreenBase
 
         _voiceCombatOptions = new VoiceCombatOptions();
 
-        _availableHeroMoves = new List<VoiceCombatMove> {
-            new("HaventBeenPunchedInTheFaceForALongTime", VoiceCombatMoveType.Domination, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
-            new("TheGoodWeather", VoiceCombatMoveType.Diplomacy, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
-            new("TwoPlusTwoIsFive", VoiceCombatMoveType.Sophistic, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1))
+        _availableHeroMoves = new List<VoiceCombatMove>
+        {
+            new("HaventBeenPunchedInTheFaceForALongTime", VoiceCombatMoveType.Domination,
+                new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
+            new("TheGoodWeather", VoiceCombatMoveType.Diplomacy,
+                new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
+            new("TwoPlusTwoIsFive", VoiceCombatMoveType.Sophistic,
+                new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1))
         };
 
-        _availableCpuMoves = new List<VoiceCombatMove> {
-            new("HaventBeenPunchedInTheFaceForALongTime", VoiceCombatMoveType.Domination, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
-            new("TheGoodWeather", VoiceCombatMoveType.Diplomacy, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
-            new("TwoPlusTwoIsFive", VoiceCombatMoveType.Sophistic, new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1))
+        _availableCpuMoves = new List<VoiceCombatMove>
+        {
+            new("HaventBeenPunchedInTheFaceForALongTime", VoiceCombatMoveType.Domination,
+                new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
+            new("TheGoodWeather", VoiceCombatMoveType.Diplomacy,
+                new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1)),
+            new("TwoPlusTwoIsFive", VoiceCombatMoveType.Sophistic,
+                new VoiceCombatMoveDamage(VoiceCombatantStatType.Conviction, 1))
         };
 
         _currentNpcMoves = new List<VoiceCombatMove>();
@@ -76,11 +72,6 @@ internal class VoiceCombatScreen : CombatScreenBase
         SelectNewOptionSet();
 
         IntentCpuMove();
-    }
-
-    private void IntentCpuMove()
-    {
-        _intentedCpuMove = _dice.RollFromList(_availableCpuMoves.ToArray());
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -92,6 +83,31 @@ internal class VoiceCombatScreen : CombatScreenBase
         {
             closeButton
         };
+    }
+
+    protected override void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
+    {
+        DrawSpeakerPortrait(spriteBatch, _leftCombatant.Sid, contentRectangle, CombatantPositionSide.Left);
+        DrawSpeakerPortrait(spriteBatch, _rightCombatant.Sid, contentRectangle, CombatantPositionSide.Right);
+
+        spriteBatch.Begin(
+            sortMode: SpriteSortMode.Deferred,
+            blendState: BlendState.AlphaBlend,
+            samplerState: SamplerState.PointClamp,
+            depthStencilState: DepthStencilState.None,
+            rasterizerState: RasterizerState.CullNone,
+            transformMatrix: Camera.GetViewTransformationMatrix());
+
+        DrawCombatantStats(_leftCombatant, spriteBatch, contentRectangle, CombatantPositionSide.Left);
+        DrawCombatantStats(_rightCombatant, spriteBatch, contentRectangle, CombatantPositionSide.Right);
+
+        _voiceCombatOptions.Rect = new Rectangle(SPEAKER_FRAME_SIZE,
+            contentRectangle.Bottom - _voiceCombatOptions.GetHeight() - 100,
+            contentRectangle.Width - SPEAKER_FRAME_SIZE * 2,
+            _voiceCombatOptions.GetHeight());
+        _voiceCombatOptions.Draw(spriteBatch);
+
+        spriteBatch.End();
     }
 
 
@@ -107,48 +123,10 @@ internal class VoiceCombatScreen : CombatScreenBase
         _voiceCombatOptions.Update(ResolutionIndependentRenderer);
     }
 
-    private sealed class VoiceCombatMove
+    private void CloseButton_OnClick(object? sender, EventArgs e)
     {
-        public VoiceCombatMove(string textSid, VoiceCombatMoveType type, VoiceCombatMoveDamage damage)
-        {
-            TextSid = textSid;
-            Type = type;
-            Damage = damage;
-        }
-
-        public string TextSid { get; }
-
-        public VoiceCombatMoveType Type { get; }
-        public VoiceCombatMoveDamage Damage { get; }
-    }
-
-    private enum VoiceCombatMoveType
-    {
-        Diplomacy,
-        Domination,
-        Sophistic
-    }
-
-    private enum VoiceCombatantStatType
-    {
-        Conviction,
-        Aspiration,
-        Stamina
-    }
-
-    private sealed record VoiceCombatMoveDamage(VoiceCombatantStatType TargetStat, int Value);
-
-    private const int HERO_OPTION_COUNT = 3;
-
-    private readonly IList<VoiceCombatMove> _availableHeroMoves;
-    private readonly IList<VoiceCombatMove> _availableCpuMoves;
-    private readonly IList<VoiceCombatMove> _currentNpcMoves;
-    private readonly IUiContentStorage _uiContentStorage;
-    private readonly IDice _dice;
-
-    private void InitDialogueControls()
-    {
-        CreateOptionControls();
+        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+            new CampaignScreenTransitionArguments(_campaign));
     }
 
     private void CreateOptionControls()
@@ -188,19 +166,32 @@ internal class VoiceCombatScreen : CombatScreenBase
         }
     }
 
-    private void EndVoiceCombat()
+    private void DrawCombatantStats(VoiceCombatant combatant, SpriteBatch spriteBatch, Rectangle contentRectangle,
+        CombatantPositionSide side)
     {
-        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments(_campaign));
+        const int STAT_PANEL_WIDTH = 250;
+        var statPosition = side == CombatantPositionSide.Left
+            ? contentRectangle.Left
+            : contentRectangle.Right - STAT_PANEL_WIDTH;
+
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(),
+            string.Format(UiResource.VoiceCombatStat_ConvictionLableTemplate,
+                combatant.Stats[VoiceCombatantStatType.Conviction]), new Vector2(statPosition, contentRectangle.Top),
+            Color.White);
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(),
+            string.Format(UiResource.VoiceCombatStat_AspirationLableTemplate,
+                combatant.Stats[VoiceCombatantStatType.Aspiration]),
+            new Vector2(statPosition, contentRectangle.Top + 20), Color.White);
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(),
+            string.Format(UiResource.VoiceCombatStat_StaminaLableTemplate,
+                combatant.Stats[VoiceCombatantStatType.Stamina]), new Vector2(statPosition, contentRectangle.Top + 40),
+            Color.White);
     }
 
-    private static void UseMove(VoiceCombatMove move, VoiceCombatant targetCombatant)
+    private void EndVoiceCombat()
     {
-        var voiceCombatantStatType = move.Damage.TargetStat;
-        var statValue = targetCombatant.Stats[voiceCombatantStatType];
-        var staminaPenalty = -targetCombatant.Stats[VoiceCombatantStatType.Stamina];
-        var totalDamage = move.Damage.Value + staminaPenalty;
-        var resultStateValue = statValue - totalDamage;
-        targetCombatant.Stats[voiceCombatantStatType] = resultStateValue;
+        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+            new CampaignScreenTransitionArguments(_campaign));
     }
 
     private void HandleCpuTurn()
@@ -211,6 +202,16 @@ internal class VoiceCombatScreen : CombatScreenBase
         }
 
         IntentCpuMove();
+    }
+
+    private void InitDialogueControls()
+    {
+        CreateOptionControls();
+    }
+
+    private void IntentCpuMove()
+    {
+        _intentedCpuMove = _dice.RollFromList(_availableCpuMoves.ToArray());
     }
 
     private void SelectNewOptionSet()
@@ -225,43 +226,66 @@ internal class VoiceCombatScreen : CombatScreenBase
         }
     }
 
-    private void CloseButton_OnClick(object? sender, EventArgs e)
+    private static void UseMove(VoiceCombatMove move, VoiceCombatant targetCombatant)
     {
-        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-            new CampaignScreenTransitionArguments(_campaign));
+        var voiceCombatantStatType = move.Damage.TargetStat;
+        var statValue = targetCombatant.Stats[voiceCombatantStatType];
+        var staminaPenalty = -targetCombatant.Stats[VoiceCombatantStatType.Stamina];
+        var totalDamage = move.Damage.Value + staminaPenalty;
+        var resultStateValue = statValue - totalDamage;
+        targetCombatant.Stats[voiceCombatantStatType] = resultStateValue;
     }
 
-    protected override void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
+    private class VoiceCombatant
     {
-        DrawSpeakerPortrait(spriteBatch, _leftCombatant.Sid, contentRectangle, CombatantPositionSide.Left);
-        DrawSpeakerPortrait(spriteBatch, _rightCombatant.Sid, contentRectangle, CombatantPositionSide.Right);
+        public VoiceCombatant(int conviction, int aspiration, int stamina, UnitName sid)
+        {
+            Stats = new Dictionary<VoiceCombatantStatType, int>
+            {
+                { VoiceCombatantStatType.Conviction, conviction },
+                { VoiceCombatantStatType.Aspiration, aspiration },
+                { VoiceCombatantStatType.Stamina, stamina }
+            };
 
-        spriteBatch.Begin(
-            sortMode: SpriteSortMode.Deferred,
-            blendState: BlendState.AlphaBlend,
-            samplerState: SamplerState.PointClamp,
-            depthStencilState: DepthStencilState.None,
-            rasterizerState: RasterizerState.CullNone,
-            transformMatrix: Camera.GetViewTransformationMatrix());
+            Sid = sid;
+        }
 
-        DrawCombatantStats(_leftCombatant, spriteBatch, contentRectangle, CombatantPositionSide.Left);
-        DrawCombatantStats(_rightCombatant, spriteBatch, contentRectangle, CombatantPositionSide.Right);
+        public bool IsDead => Stats[VoiceCombatantStatType.Conviction] <= 0 ||
+                              Stats[VoiceCombatantStatType.Aspiration] <= 0;
 
-        _voiceCombatOptions.Rect = new Rectangle(SPEAKER_FRAME_SIZE, contentRectangle.Bottom - _voiceCombatOptions.GetHeight() - 100,
-                contentRectangle.Width - SPEAKER_FRAME_SIZE * 2,
-                _voiceCombatOptions.GetHeight());
-        _voiceCombatOptions.Draw(spriteBatch);
-
-        spriteBatch.End();
+        public UnitName Sid { get; }
+        public Dictionary<VoiceCombatantStatType, int> Stats { get; }
     }
 
-    private void DrawCombatantStats(VoiceCombatant combatant, SpriteBatch spriteBatch, Rectangle contentRectangle, CombatantPositionSide side)
+    private sealed class VoiceCombatMove
     {
-        const int STAT_PANEL_WIDTH = 250;
-        var statPosition = side == CombatantPositionSide.Left ? contentRectangle.Left : contentRectangle.Right - STAT_PANEL_WIDTH;
+        public VoiceCombatMove(string textSid, VoiceCombatMoveType type, VoiceCombatMoveDamage damage)
+        {
+            TextSid = textSid;
+            Type = type;
+            Damage = damage;
+        }
 
-        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), string.Format(UiResource.VoiceCombatStat_ConvictionLableTemplate, combatant.Stats[VoiceCombatantStatType.Conviction]), new Vector2(statPosition, contentRectangle.Top), Color.White);
-        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), string.Format(UiResource.VoiceCombatStat_AspirationLableTemplate, combatant.Stats[VoiceCombatantStatType.Aspiration]), new Vector2(statPosition, contentRectangle.Top + 20), Color.White);
-        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), string.Format(UiResource.VoiceCombatStat_StaminaLableTemplate, combatant.Stats[VoiceCombatantStatType.Stamina]), new Vector2(statPosition, contentRectangle.Top + 40), Color.White);
+        public VoiceCombatMoveDamage Damage { get; }
+
+        public string TextSid { get; }
+
+        public VoiceCombatMoveType Type { get; }
     }
+
+    private enum VoiceCombatMoveType
+    {
+        Diplomacy,
+        Domination,
+        Sophistic
+    }
+
+    private enum VoiceCombatantStatType
+    {
+        Conviction,
+        Aspiration,
+        Stamina
+    }
+
+    private sealed record VoiceCombatMoveDamage(VoiceCombatantStatType TargetStat, int Value);
 }
