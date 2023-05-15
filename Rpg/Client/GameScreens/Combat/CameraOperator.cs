@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using Client.Engine;
 
 using Microsoft.Xna.Framework;
 
@@ -14,66 +11,6 @@ internal interface ICameraState
 {
     bool IsComplete { get; }
     void Update(GameTime gameTime, Camera2D camera);
-}
-
-internal sealed class OverviewCameraState: ICameraState
-{
-    private readonly Vector2 _overviewPosition;
-    
-    
-    public OverviewCameraState(Vector2 overviewPosition)
-    {
-        _overviewPosition = overviewPosition;
-    }
-
-    private static float Lerp(float a, float b, float t)
-    {
-        return a * (1 - t) + b * t;
-    }
-
-    public bool IsComplete => false;
-
-    public void Update(GameTime gameTime, Camera2D camera)
-    {
-        camera.Zoom = Lerp(camera.Zoom, 1f, (float)gameTime.ElapsedGameTime.TotalSeconds * 10);
-
-        var distance = (camera.Position - _overviewPosition).Length();
-        if (distance > 0.1f)
-        {
-            camera.Position = Vector2.Lerp(camera.Position, _overviewPosition, (float)gameTime.ElapsedGameTime.TotalSeconds)
-                .ToIntVector2();
-        }
-        
-        camera.RecalculateTransformationMatrices();
-    }
-}
-
-internal sealed class FollowActorCameraState : ICameraState
-{
-    private readonly IActorAnimator _combatActor;
-    private readonly Func<bool> _completeDelegate;
-
-    public FollowActorCameraState(IActorAnimator combatActor, Func<bool> completeDelegate)
-    {
-        _combatActor = combatActor;
-        _completeDelegate = completeDelegate;
-    }
-
-    private static float Lerp(float a, float b, float t)
-    {
-        return a * (1 - t) + b * t;
-    }
-
-    public bool IsComplete => _completeDelegate();
-
-    public void Update(GameTime gameTime, Camera2D camera)
-    {
-        camera.Zoom = Lerp(camera.Zoom, 2f, (float)gameTime.ElapsedGameTime.TotalSeconds * 2);
-        camera.Position = Vector2.Lerp(camera.Position, _combatActor.GraphicRoot.Position,
-            (float)gameTime.ElapsedGameTime.TotalSeconds * 5f).ToIntVector2();
-        
-        camera.RecalculateTransformationMatrices();
-    }
 }
 
 public static class Vector2Extensions

@@ -8,6 +8,7 @@ using Client.GameScreens.Campaign.Ui;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
@@ -164,6 +165,15 @@ internal class CampaignScreen : GameScreenWithMenuBase
         if (!_isCampaignPresentation)
         {
             return;
+        }
+
+        if (Keyboard.GetState().IsKeyDown(Keys.Space))
+        {
+            _presentationDelayCounter = 0;
+            _isCampaignPresentation = false;
+            campaignMap.State = CampaignMap.MapState.Interactive;
+
+            campaignMap.Scroll = campaignMap.StartScroll;
         }
 
         if (_presentationDelayCounter > 0)

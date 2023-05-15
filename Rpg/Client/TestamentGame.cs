@@ -203,7 +203,6 @@ public sealed class TestamentGame : Game
         _resolutionIndependence.ScreenHeight = realScreenHeight;
         _resolutionIndependence.Initialize();
 
-        _camera.Zoom = 1f;
         _camera.Position = _resolutionIndependence.VirtualBounds.Center.ToVector2();
         _camera.RecalculateTransformationMatrices();
     }

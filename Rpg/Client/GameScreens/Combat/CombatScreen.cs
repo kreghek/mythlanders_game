@@ -110,7 +110,6 @@ internal class CombatScreen : GameScreenWithMenuBase
             Zoom = 1,
             Position = _mainCamera.Position
         };
-        _objectCamera.RecalculateTransformationMatrices();
 
         _cameraOperator = new CameraOperator(_objectCamera, new OverviewCameraState(_mainCamera.Position));
 

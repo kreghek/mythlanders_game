@@ -33,7 +33,7 @@ namespace Rpg.Client.Engine
             ScreenHeight = 768;
         }
 
-        public Rectangle VirtualBounds => new Rectangle(0, 0, VirtualWidth, VirtualHeight);
+        public Rectangle VirtualBounds => new (0, 0, VirtualWidth, VirtualHeight);
 
         public void BeginDraw()
         {
