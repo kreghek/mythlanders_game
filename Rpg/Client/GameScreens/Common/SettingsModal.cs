@@ -164,10 +164,6 @@ internal sealed class SettingsModal : ModalDialogBase
         _resolutionIndependentRenderer.ScreenWidth = realScreenWidth;
         _resolutionIndependentRenderer.ScreenHeight = realScreenHeight;
         _resolutionIndependentRenderer.Initialize();
-
-        _camera.Zoom = 1f;
-        _camera.Position = _resolutionIndependentRenderer.VirtualBounds.Center.ToVector2();
-        _camera.RecalculateTransformationMatrices();
     }
 
     private static void SwitchLanguageButton_OnClick(object? sender, EventArgs e)

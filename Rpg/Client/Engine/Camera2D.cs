@@ -1,59 +1,57 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
+
+using MonoGame.Extended;
 
 namespace Rpg.Client.Engine
 {
     internal class Camera2D
     {
-        private bool _isViewTransformationDirty = true;
-        private Vector2 _position;
-        private float _rotation;
-        private Matrix _transform = Matrix.Identity;
-        private float _zoom;
-
         protected ResolutionIndependentRenderer ResolutionIndependentRenderer;
+        private readonly OrthographicCamera _innerCamera;
+        public Vector2 Origin => _innerCamera.Origin;
 
-        public Camera2D(ResolutionIndependentRenderer resolutionIndependence)
+        public Camera2D(ResolutionIndependentRenderer resolutionIndependence, MonoGame.Extended.ViewportAdapters.BoxingViewportAdapter viewportAdapter)
         {
             ResolutionIndependentRenderer = resolutionIndependence;
 
-            _zoom = 1f;
-            _rotation = 0.0f;
-            _position = Vector2.Zero;
+            _innerCamera = new OrthographicCamera(viewportAdapter);
         }
 
         public Vector2 Position
         {
-            get => _position;
+            get => _innerCamera.Position;
             set
             {
-                _position = value;
-                _isViewTransformationDirty = true;
+                _innerCamera.Position = value;
             }
         }
 
-        public float Rotation
-        {
-            get => _rotation;
-            set
-            {
-                _rotation = value;
-                _isViewTransformationDirty = true;
-            }
+        public void LookAt(Vector2 position)
+        { 
+            _innerCamera.Position = position;
         }
 
         public float Zoom
         {
-            get => _zoom;
+            get => _innerCamera.Zoom;
             set
             {
-                _zoom = value;
-                if (_zoom < 0.1f)
-                {
-                    _zoom = 0.1f;
-                }
-
-                _isViewTransformationDirty = true;
+                _innerCamera.Zoom = value;
             }
+        }
+
+        public void ZoomIn(float deltaZoom, Vector2 zoomCenter)
+        {
+            float pastZoom = Zoom;
+            _innerCamera.ZoomIn(deltaZoom);
+            Position += (zoomCenter - _innerCamera.Origin - Position) * ((Zoom - pastZoom) / Zoom);
+        }
+
+        public void ZoomOut(float deltaZoom)
+        {
+            _innerCamera.ZoomOut(deltaZoom);
         }
 
         /// <summary>
@@ -62,30 +60,12 @@ namespace Rpg.Client.Engine
         /// <returns></returns>
         public Matrix GetViewTransformationMatrix()
         {
-            if (_isViewTransformationDirty)
-            {
-                var virtualCenterWidth = ResolutionIndependentRenderer.VirtualWidth * 0.5f;
-                var virtualCenterHeight = ResolutionIndependentRenderer.VirtualHeight * 0.5f;
-                var origin = new Vector2(virtualCenterWidth * 1/Zoom - virtualCenterWidth,
-                    virtualCenterHeight * 1/Zoom - virtualCenterHeight);
-
-                _transform = Matrix.CreateTranslation(new Vector3(-_position, 0)) *
-                             //Matrix.CreateTranslation(new Vector3(-origin, 0)) *
-                             //Matrix.CreateTranslation(new Vector3(-origin, 0.0f))*
-                             Matrix.CreateRotationZ(_rotation) *
-                             Matrix.CreateScale(_zoom, _zoom, 1) *
-                             Matrix.CreateTranslation(new Vector3(virtualCenterWidth, virtualCenterHeight, 0.0f)) *
-                             ResolutionIndependentRenderer.GetTransformationMatrix();
-
-                _isViewTransformationDirty = false;
-            }
-
-            return _transform;
+            return _innerCamera.GetViewMatrix();
         }
 
-        public void RecalculateTransformationMatrices()
+        internal Vector2 ScaleMouseToScreenCoordinates(Vector2 screenPosition)
         {
-            _isViewTransformationDirty = true;
+            return _innerCamera.ScreenToWorld(screenPosition);
         }
     }
 }

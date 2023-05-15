@@ -18,6 +18,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using MonoGame.Extended.ViewportAdapters;
+using MonoGame.Extended;
+
 using Rpg.Client;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
@@ -86,11 +89,13 @@ public sealed class TestamentGame : Game
         soundtrackComponent.Initialize(soundtrackManager);
         Components.Add(soundtrackComponent);
 
-        _resolutionIndependence = new ResolutionIndependentRenderer(this);
-        Services.AddService(_resolutionIndependence);
+        var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 848, 480);
 
-        _camera = new Camera2D(_resolutionIndependence);
+        _camera = new Camera2D(_resolutionIndependence, viewportAdapter);
         Services.AddService(_camera);
+
+        _resolutionIndependence = new ResolutionIndependentRenderer(this, _camera, viewportAdapter);
+        Services.AddService(_resolutionIndependence);
 
         Services.AddService(_gameSettings);
 
@@ -202,9 +207,6 @@ public sealed class TestamentGame : Game
         _resolutionIndependence.ScreenWidth = realScreenWidth;
         _resolutionIndependence.ScreenHeight = realScreenHeight;
         _resolutionIndependence.Initialize();
-
-        _camera.Position = _resolutionIndependence.VirtualBounds.Center.ToVector2();
-        _camera.RecalculateTransformationMatrices();
     }
 
     private void InitUiThemeManager()

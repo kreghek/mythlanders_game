@@ -31,12 +31,12 @@ internal sealed class FollowActorCameraState : ICameraState
     /// <inheritdoc/>
     public void Update(GameTime gameTime, Camera2D camera)
     {
-        camera.Zoom = Lerp(camera.Zoom, FOLLOWING_ZOOM, (float)gameTime.ElapsedGameTime.TotalSeconds * 2);
+        //camera.Zoom = Lerp(camera.Zoom, FOLLOWING_ZOOM, (float)gameTime.ElapsedGameTime.TotalSeconds * 2);
         
         var spriteSizeY = 128;
         
-        var actorViewPoint = _combatActor.GraphicRoot.Position - new Vector2(0, spriteSizeY * 0.5f);
-         camera.Position = Vector2.Lerp(camera.Position, actorViewPoint,
-             (float)gameTime.ElapsedGameTime.TotalSeconds * 5f);
+        var actorFollowPoint = _combatActor.GraphicRoot.Position - new Vector2(0, spriteSizeY * 0.5f);
+        //camera.LookAt(Vector2.Lerp(camera.Position, actorFollowPoint,            (float)gameTime.ElapsedGameTime.TotalSeconds * 5f));
+        camera.LookAt(_combatActor.GraphicRoot.Position);
     }
 }

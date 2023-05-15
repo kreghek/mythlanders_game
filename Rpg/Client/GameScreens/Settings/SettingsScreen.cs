@@ -199,11 +199,6 @@ namespace Rpg.Client.GameScreens.Settings
             _resolutionIndependentRenderer.ScreenWidth = realScreenWidth;
             _resolutionIndependentRenderer.ScreenHeight = realScreenHeight;
             _resolutionIndependentRenderer.Initialize();
-
-            _camera.Zoom = 1f;
-            _camera.Position = new Vector2(_resolutionIndependentRenderer.VirtualWidth / 2,
-                _resolutionIndependentRenderer.VirtualHeight / 2);
-            _camera.RecalculateTransformationMatrices();
         }
 
         private void InitSelectedMonitorResolution(GlobeProvider globeProvider)

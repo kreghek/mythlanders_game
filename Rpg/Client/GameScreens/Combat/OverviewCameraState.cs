@@ -23,8 +23,12 @@ internal sealed class OverviewCameraState: ICameraState
 
     public void Update(GameTime gameTime, Camera2D camera)
     {
-        const float BASE_ZOOM = 1f;
-        camera.Zoom = Lerp(camera.Zoom, BASE_ZOOM, (float)gameTime.ElapsedGameTime.TotalSeconds * 10);
+        const float BASE_ZOOM = 2f;
+
+        if (camera.Zoom < BASE_ZOOM)
+        {
+            camera.ZoomIn((float)gameTime.ElapsedGameTime.TotalSeconds * 10, camera.Origin);
+        }
 
         var distance = (camera.Position - _overviewPosition).Length();
         if (distance > 0.1f)

@@ -105,7 +105,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _globeProvider = game.Services.GetService<GlobeProvider>();
         _mainCamera = Game.Services.GetService<Camera2D>();
-        _objectCamera = new Camera2D(ResolutionIndependentRenderer)
+        _objectCamera = new Camera2D(ResolutionIndependentRenderer, ResolutionIndependentRenderer.ViewportAdapter)
         {
             Zoom = 1,
             Position = _mainCamera.Position
@@ -182,6 +182,17 @@ internal class CombatScreen : GameScreenWithMenuBase
         DrawGameObjects(spriteBatch);
 
         DrawHud(spriteBatch, contentRectangle);
+
+        spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+            blendState: BlendState.AlphaBlend,
+            samplerState: SamplerState.PointClamp,
+            depthStencilState: DepthStencilState.None,
+            rasterizerState: RasterizerState.CullNone,
+            transformMatrix: _objectCamera.GetViewTransformationMatrix());
+
+        spriteBatch.DrawCircle(_objectCamera.Origin, 10, 8, Color.Red);
+
+        spriteBatch.End();
     }
 
     protected override void InitializeContent()
