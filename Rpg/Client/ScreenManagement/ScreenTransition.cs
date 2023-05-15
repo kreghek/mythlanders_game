@@ -22,6 +22,7 @@
         /// <summary>
         /// Temporal screen to fake transition to stage items which not implemented yet.
         /// </summary>
-        NotImplemented
+        NotImplemented,
+        VoiceCombat
     }
 }

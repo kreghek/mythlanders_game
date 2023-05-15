@@ -775,4 +775,13 @@
   <data name="LastChanceToPeace_Description" xml:space="preserve">
     <value>Наносит урон 2 ед. всем противникам в авангарде и сам перемещается в авангард.</value>
   </data>
+  <data name="HaventBeenPunchedInTheFaceForALongTime_voice" xml:space="preserve">
+    <value>Давно по морде не получал?!</value>
+  </data>
+  <data name="TheGoodWeather_voice" xml:space="preserve">
+    <value>Какая сегодня прекрасная погода...</value>
+  </data>
+  <data name="TwoPlusTwoIsFive_voice" xml:space="preserve">
+    <value>Два плюс два будет пять...</value>
+  </data>
 </root>

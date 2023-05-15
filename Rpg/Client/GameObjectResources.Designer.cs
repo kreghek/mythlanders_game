@@ -934,6 +934,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Haven&apos;t been punched in the face for a long time?.
+        /// </summary>
+        internal static string HaventBeenPunchedInTheFaceForALongTime_voice {
+            get {
+                return ResourceManager.GetString("HaventBeenPunchedInTheFaceForALongTime_voice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Healing salve.
         /// </summary>
         internal static string HealingSalve {
@@ -1755,6 +1764,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The good weather today....
+        /// </summary>
+        internal static string TheGoodWeather_voice {
+            get {
+                return ResourceManager.GetString("TheGoodWeather_voice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dark Thicket.
         /// </summary>
         internal static string Thicket {
@@ -1805,6 +1823,15 @@ namespace Client {
         internal static string TryToRunOut_CrisisAftermath {
             get {
                 return ResourceManager.GetString("TryToRunOut_CrisisAftermath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Two plus two is five....
+        /// </summary>
+        internal static string TwoPlusTwoIsFive_voice {
+            get {
+                return ResourceManager.GetString("TwoPlusTwoIsFive_voice", resourceCulture);
             }
         }
         
