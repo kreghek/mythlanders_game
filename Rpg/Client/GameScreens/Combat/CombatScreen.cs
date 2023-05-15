@@ -51,7 +51,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private readonly UpdatableAnimationManager _animationManager;
     private readonly CombatScreenTransitionArguments _args;
-    private readonly Camera2D _camera;
+    private readonly Camera2D _mainCamera;
     private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
     private readonly ICombatantPositionProvider _combatantPositionProvider;
     private readonly CombatCore _combatCore;
@@ -95,6 +95,8 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
+    private readonly Camera2D _objectCamera;
+    private readonly CameraOperator _cameraOperator;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -102,7 +104,15 @@ internal class CombatScreen : GameScreenWithMenuBase
         var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
 
         _globeProvider = game.Services.GetService<GlobeProvider>();
-        _camera = Game.Services.GetService<Camera2D>();
+        _mainCamera = Game.Services.GetService<Camera2D>();
+        _objectCamera = new Camera2D(ResolutionIndependentRenderer)
+        {
+            Zoom = 1,
+            Position = _mainCamera.Position
+        };
+        _objectCamera.RecalculateTransformationMatrices();
+
+        _cameraOperator = new CameraOperator(_objectCamera, new OverviewCameraState(_mainCamera.Position));
 
         _globe = _globeProvider.Globe;
 
@@ -219,6 +229,8 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
 
         _animationManager.Update(gameTime.ElapsedGameTime.TotalSeconds);
+        
+        _cameraOperator.Update(gameTime);
     }
 
     //private static void AddMonstersFromCombatIntoKnownMonsters(Client.Core.Heroes.Hero monster,
@@ -296,7 +308,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             : CombatantPositionSide.Monsters;
         var gameObject =
             new CombatantGameObject(e.Combatant, graphicConfig, e.FieldInfo.CombatantCoords, _combatantPositionProvider,
-                _gameObjectContentStorage, _camera, _screenShaker, combatantSide);
+                _gameObjectContentStorage, _objectCamera, _screenShaker, combatantSide);
         _gameObjects.Add(gameObject);
 
         // var combatant = e.Combatant;
@@ -484,7 +496,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _combatMovementVisualizer,
                 _gameObjects,
                 _interactionDeliveryManager,
-                _gameObjectContentStorage
+                _gameObjectContentStorage,
+                _cameraOperator
             );
         _combatCore.Initialize(
             CombatantFactory.CreateHeroes(_playerCombatantBehaviour, _globeProvider.Globe.Player),
@@ -522,7 +535,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             _combatMovementVisualizer,
             _gameObjects,
             _interactionDeliveryManager,
-            _gameObjectContentStorage);
+            _gameObjectContentStorage,
+            _cameraOperator);
 
         _playerCombatantBehaviour.Assign(intention);
     }
@@ -703,7 +717,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             var position = new Vector2(roundedX, roundedY);
             var position3d = new Vector3(position, 0);
 
-            var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
+            var worldTransformationMatrix = _objectCamera.GetViewTransformationMatrix();
             worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
 
             var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
@@ -852,8 +866,8 @@ internal class CombatScreen : GameScreenWithMenuBase
         var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
         var shakeVector3d = new Vector3(shakeVector, 0);
 
-        var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
-        worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
+        var worldTransformationMatrix = _objectCamera.GetViewTransformationMatrix();
+        worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
 
         var matrix = Matrix.CreateTranslation(translationVector + position3d + shakeVector3d)
                      * Matrix.CreateScale(scaleVector);
@@ -893,7 +907,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
         var shakeVector3d = new Vector3(shakeVector, 0);
 
-        var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
+        var worldTransformationMatrix = _objectCamera.GetViewTransformationMatrix();
         worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
 
         var matrix = Matrix.CreateTranslation(translationVector + shakeVector3d)
@@ -933,7 +947,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             samplerState: SamplerState.PointClamp,
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
-            transformMatrix: _camera.GetViewTransformationMatrix());
+            transformMatrix: _mainCamera.GetViewTransformationMatrix());
 
         if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {

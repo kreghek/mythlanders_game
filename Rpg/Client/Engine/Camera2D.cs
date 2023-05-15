@@ -23,7 +23,7 @@ namespace Rpg.Client.Engine
         {
             ResolutionIndependentRenderer = resolutionIndependence;
 
-            _zoom = 0.1f;
+            _zoom = 1f;
             _rotation = 0.0f;
             _position = Vector2.Zero;
         }

@@ -19,24 +19,27 @@ internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
     private readonly IList<CombatantGameObject> _combatantGameObjects;
     private readonly ICombatMovementVisualizer _combatMovementVisualizer;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
+    private readonly CameraOperator _cameraOperator;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
 
     public BotCombatActorIntentionFactory(IAnimationManager animationManager,
         ICombatMovementVisualizer combatMovementVisualizer,
         IList<CombatantGameObject> combatantGameObjects,
         InteractionDeliveryManager interactionDeliveryManager,
-        GameObjectContentStorage gameObjectContentStorage)
+        GameObjectContentStorage gameObjectContentStorage,
+        CameraOperator cameraOperator)
     {
         _animationManager = animationManager;
         _combatMovementVisualizer = combatMovementVisualizer;
         _combatantGameObjects = combatantGameObjects;
         _interactionDeliveryManager = interactionDeliveryManager;
         _gameObjectContentStorage = gameObjectContentStorage;
+        _cameraOperator = cameraOperator;
     }
 
     public IIntention CreateCombatMovement(CombatMovementInstance combatMovement)
     {
         return new UseCombatMovementIntention(combatMovement, _animationManager, _combatMovementVisualizer,
-            _combatantGameObjects, _interactionDeliveryManager, _gameObjectContentStorage);
+            _combatantGameObjects, _interactionDeliveryManager, _gameObjectContentStorage, _cameraOperator);
     }
 }

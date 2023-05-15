@@ -3,6 +3,7 @@ using System.Linq;
 
 using Client.Assets.CombatMovements;
 using Client.Assets.States.Primitives;
+using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
@@ -20,11 +21,13 @@ internal sealed class UseCombatMovementIntention : IIntention
     private readonly CombatMovementInstance _combatMovement;
     private readonly ICombatMovementVisualizer _combatMovementVisualizer;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
+    private readonly CameraOperator _cameraOperator;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
 
     public UseCombatMovementIntention(CombatMovementInstance combatMovement, IAnimationManager animationManager,
         ICombatMovementVisualizer combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects,
-        InteractionDeliveryManager interactionDeliveryManager, GameObjectContentStorage gameObjectContentStorage)
+        InteractionDeliveryManager interactionDeliveryManager, GameObjectContentStorage gameObjectContentStorage,
+        CameraOperator cameraOperator)
     {
         _combatMovement = combatMovement;
         _animationManager = animationManager;
@@ -32,6 +35,7 @@ internal sealed class UseCombatMovementIntention : IIntention
         _combatantGameObjects = combatantGameObjects;
         _interactionDeliveryManager = interactionDeliveryManager;
         _gameObjectContentStorage = gameObjectContentStorage;
+        _cameraOperator = cameraOperator;
     }
 
     private CombatantGameObject GetCombatantGameObject(Combatant combatant)
@@ -56,7 +60,9 @@ internal sealed class UseCombatMovementIntention : IIntention
 
         var mainAnimationBlocker = _animationManager.CreateAndRegisterBlocker();
 
-        mainAnimationBlocker.Released += (sender, args) =>
+        var executionIsComplete = false; 
+
+        mainAnimationBlocker.Released += (_, _) =>
         {
             // Wait some time to separate turns of different actors
 
@@ -67,6 +73,8 @@ internal sealed class UseCombatMovementIntention : IIntention
             {
                 movementExecution.CompleteDelegate();
                 combatCore.CompleteTurn();
+
+                executionIsComplete = true;
             };
         };
 
@@ -81,6 +89,8 @@ internal sealed class UseCombatMovementIntention : IIntention
             new AnimationBlockerTerminatorActorState(mainAnimationBlocker));
 
         actorGameObject.AddStateEngine(actorState);
+
+        _cameraOperator.AddState(new FollowActorCameraState(actorGameObject.Animator, () => executionIsComplete));
     }
 
     public void Make(CombatCore combatCore)
