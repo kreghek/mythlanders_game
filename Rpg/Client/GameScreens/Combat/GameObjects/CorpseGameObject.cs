@@ -14,18 +14,16 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private readonly ICamera2DAdapter _camera;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly UnitGraphics _graphics;
-        private readonly ScreenShaker _screenShaker;
         private double _counter;
 
         private bool _startToDeath;
         private bool _startToWound;
 
-        public CorpseGameObject(UnitGraphics graphics, ICamera2DAdapter camera, ScreenShaker screenShaker,
+        public CorpseGameObject(UnitGraphics graphics, ICamera2DAdapter camera,
             GameObjectContentStorage gameObjectContentStorage)
         {
             _graphics = graphics;
             _camera = camera;
-            _screenShaker = screenShaker;
             _gameObjectContentStorage = gameObjectContentStorage;
         }
 
@@ -67,42 +65,24 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 var allWhite = _gameObjectContentStorage.GetAllWhiteEffect();
                 spriteBatch.End();
 
-                var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
-                var shakeVector3d = new Vector3(shakeVector, 0);
-
-                var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
-                worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
-
-                var matrix = Matrix.CreateTranslation(translationVector + shakeVector3d)
-                             * Matrix.CreateScale(scaleVector);
-
                 spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
                     blendState: BlendState.AlphaBlend,
                     samplerState: SamplerState.PointClamp,
                     depthStencilState: DepthStencilState.None,
                     rasterizerState: RasterizerState.CullNone,
-                    transformMatrix: matrix,
+                    transformMatrix: _camera.GetViewTransformationMatrix(),
                     effect: allWhite);
             }
             else
             {
                 spriteBatch.End();
 
-                var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
-                var shakeVector3d = new Vector3(shakeVector, 0);
-
-                var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
-                worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
-
-                var matrix = Matrix.CreateTranslation(translationVector + shakeVector3d)
-                             * Matrix.CreateScale(scaleVector);
-
                 spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
                     blendState: BlendState.AlphaBlend,
                     samplerState: SamplerState.PointClamp,
                     depthStencilState: DepthStencilState.None,
                     rasterizerState: RasterizerState.CullNone,
-                    transformMatrix: matrix);
+                    transformMatrix: _camera.GetViewTransformationMatrix());
             }
 
             _graphics.Draw(spriteBatch);

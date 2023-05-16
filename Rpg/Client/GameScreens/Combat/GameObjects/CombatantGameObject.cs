@@ -102,7 +102,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
         deathSoundEffect.Play();
 
-        var corpse = new CorpseGameObject(Graphics, _camera, _screenShaker, _gameObjectContentStorage);
+        var corpse = new CorpseGameObject(Graphics, _camera, _gameObjectContentStorage);
 
         MoveIndicatorsToCorpse(corpse);
 
@@ -151,15 +151,6 @@ internal sealed class CombatantGameObject : EwarRenderableBase
             var allWhite = _gameObjectContentStorage.GetAllWhiteEffect();
             spriteBatch.End();
 
-            var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
-            var shakeVector3d = new Vector3(shakeVector, 0);
-
-            var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
-            worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
-
-            var matrix = Matrix.CreateTranslation(translationVector + shakeVector3d)
-                         * Matrix.CreateScale(scaleVector);
-
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
                 samplerState: SamplerState.PointClamp,
@@ -171,15 +162,6 @@ internal sealed class CombatantGameObject : EwarRenderableBase
         else
         {
             spriteBatch.End();
-
-            var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
-            var shakeVector3d = new Vector3(shakeVector, 0);
-
-            var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
-            worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
-
-            var matrix = Matrix.CreateTranslation(translationVector + shakeVector3d)
-                         * Matrix.CreateScale(scaleVector);
 
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,

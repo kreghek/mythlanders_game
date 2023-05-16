@@ -716,15 +716,6 @@ internal class CombatScreen : GameScreenWithMenuBase
             var position = new Vector2(roundedX, roundedY);
             var position3d = new Vector3(position, 0);
 
-            var worldTransformationMatrix = _combatActionCamera.GetViewTransformationMatrix();
-            worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
-
-            var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
-            var shakeVector3d = new Vector3(shakeVector, 0);
-
-            var matrix = Matrix.CreateTranslation(translationVector + position3d + shakeVector3d)
-                         * Matrix.CreateScale(scaleVector);
-
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
@@ -862,15 +853,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         var position = new Vector2(roundedX, roundedY);
         var position3d = new Vector3(position, 0);
 
-        var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
-        var shakeVector3d = new Vector3(shakeVector, 0);
-
-        var worldTransformationMatrix = _combatActionCamera.GetViewTransformationMatrix();
-        worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
-
-        var matrix = Matrix.CreateTranslation(translationVector + position3d + shakeVector3d)
-                     * Matrix.CreateScale(scaleVector);
-
         spriteBatch.Begin(
             sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
@@ -902,15 +884,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET_X, BG_MAX_OFFSET_X, BG_START_OFFSET_Y,
             BG_MAX_OFFSET_Y);
-
-        var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
-        var shakeVector3d = new Vector3(shakeVector, 0);
-
-        var worldTransformationMatrix = _combatActionCamera.GetViewTransformationMatrix();
-        worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
-
-        var matrix = Matrix.CreateTranslation(translationVector + shakeVector3d)
-                     * Matrix.CreateScale(scaleVector);
 
         spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
