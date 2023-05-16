@@ -196,8 +196,6 @@ namespace Rpg.Client.GameScreens.Settings
         {
             _resolutionIndependentRenderer.VirtualWidth = 848;
             _resolutionIndependentRenderer.VirtualHeight = 480;
-            _resolutionIndependentRenderer.ScreenWidth = realScreenWidth;
-            _resolutionIndependentRenderer.ScreenHeight = realScreenHeight;
             _resolutionIndependentRenderer.Initialize();
         }
 

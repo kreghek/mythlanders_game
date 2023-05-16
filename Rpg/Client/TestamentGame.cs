@@ -94,7 +94,7 @@ public sealed class TestamentGame : Game
         _camera = new Camera2D(_resolutionIndependence, viewportAdapter);
         Services.AddService(_camera);
 
-        _resolutionIndependence = new ResolutionIndependentRenderer(this, _camera, viewportAdapter);
+        _resolutionIndependence = new ResolutionIndependentRenderer(_camera, viewportAdapter);
         Services.AddService(_resolutionIndependence);
 
         Services.AddService(_gameSettings);
@@ -204,8 +204,6 @@ public sealed class TestamentGame : Game
     {
         _resolutionIndependence.VirtualWidth = 848;
         _resolutionIndependence.VirtualHeight = 480;
-        _resolutionIndependence.ScreenWidth = realScreenWidth;
-        _resolutionIndependence.ScreenHeight = realScreenHeight;
         _resolutionIndependence.Initialize();
     }
 
