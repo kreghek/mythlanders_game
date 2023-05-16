@@ -8,6 +8,7 @@ using Client.GameScreens.Campaign.Ui;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
@@ -166,6 +167,8 @@ internal class CampaignScreen : GameScreenWithMenuBase
             return;
         }
 
+        HandleSkipPresentation(campaignMap);
+
         if (_presentationDelayCounter > 0)
         {
             _presentationDelayCounter -= gameTime.ElapsedGameTime.TotalSeconds;
@@ -183,5 +186,19 @@ internal class CampaignScreen : GameScreenWithMenuBase
                 campaignMap.State = CampaignMap.MapState.Interactive;
             }
         }
+    }
+
+    private void HandleSkipPresentation(CampaignMap campaignMap)
+    {
+        if (!Keyboard.GetState().IsKeyDown(Keys.Space))
+        {
+            return;
+        }
+
+        _presentationDelayCounter = 0;
+        _isCampaignPresentation = false;
+        campaignMap.State = CampaignMap.MapState.Interactive;
+
+        campaignMap.Scroll = campaignMap.StartScroll;
     }
 }

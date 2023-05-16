@@ -51,7 +51,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private readonly UpdatableAnimationManager _animationManager;
     private readonly CombatScreenTransitionArguments _args;
-    private readonly Camera2D _camera;
+    private readonly ICamera2DAdapter _mainCamera;
     private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
     private readonly ICombatantPositionProvider _combatantPositionProvider;
     private readonly CombatCore _combatCore;
@@ -95,6 +95,8 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
+    private readonly ICamera2DAdapter _combatActionCamera;
+    private readonly CameraOperator _cameraOperator;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -102,7 +104,14 @@ internal class CombatScreen : GameScreenWithMenuBase
         var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
 
         _globeProvider = game.Services.GetService<GlobeProvider>();
-        _camera = Game.Services.GetService<Camera2D>();
+        _mainCamera = Game.Services.GetService<ICamera2DAdapter>();
+        _combatActionCamera = new Camera2DAdapter(ResolutionIndependentRenderer.ViewportAdapter)
+        {
+            Zoom = 1,
+            Position = _mainCamera.Position
+        };
+
+        _cameraOperator = new CameraOperator(_combatActionCamera, new OverviewCameraOperatorTask(_mainCamera.Position));
 
         _globe = _globeProvider.Globe;
 
@@ -133,7 +142,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _gameSettings = game.Services.GetService<GameSettings>();
 
-        _combatantPositionProvider = new CombatantPositionProvider(ResolutionIndependentRenderer.VirtualWidth);
+        _combatantPositionProvider = new CombatantPositionProvider(ResolutionIndependentRenderer.VirtualBounds.Width);
 
         _screenShaker = new ScreenShaker();
 
@@ -219,6 +228,8 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
 
         _animationManager.Update(gameTime.ElapsedGameTime.TotalSeconds);
+        
+        _cameraOperator.Update(gameTime);
     }
 
     //private static void AddMonstersFromCombatIntoKnownMonsters(Client.Core.Heroes.Hero monster,
@@ -296,7 +307,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             : CombatantPositionSide.Monsters;
         var gameObject =
             new CombatantGameObject(e.Combatant, graphicConfig, e.FieldInfo.CombatantCoords, _combatantPositionProvider,
-                _gameObjectContentStorage, _camera, _screenShaker, combatantSide);
+                _gameObjectContentStorage, _combatActionCamera, _screenShaker, combatantSide);
         _gameObjects.Add(gameObject);
 
         // var combatant = e.Combatant;
@@ -484,7 +495,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _combatMovementVisualizer,
                 _gameObjects,
                 _interactionDeliveryManager,
-                _gameObjectContentStorage
+                _gameObjectContentStorage,
+                _cameraOperator
             );
         _combatCore.Initialize(
             CombatantFactory.CreateHeroes(_playerCombatantBehaviour, _globeProvider.Globe.Player),
@@ -522,7 +534,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             _combatMovementVisualizer,
             _gameObjects,
             _interactionDeliveryManager,
-            _gameObjectContentStorage);
+            _gameObjectContentStorage,
+            _cameraOperator);
 
         _playerCombatantBehaviour.Assign(intention);
     }
@@ -703,22 +716,13 @@ internal class CombatScreen : GameScreenWithMenuBase
             var position = new Vector2(roundedX, roundedY);
             var position3d = new Vector3(position, 0);
 
-            var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
-            worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
-
-            var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
-            var shakeVector3d = new Vector3(shakeVector, 0);
-
-            var matrix = Matrix.CreateTranslation(translationVector + position3d + shakeVector3d)
-                         * Matrix.CreateScale(scaleVector);
-
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
                 samplerState: SamplerState.PointClamp,
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
-                transformMatrix: matrix);
+                transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
 
             spriteBatch.Draw(backgrounds[i], Vector2.Zero, Color.White);
 
@@ -849,22 +853,13 @@ internal class CombatScreen : GameScreenWithMenuBase
         var position = new Vector2(roundedX, roundedY);
         var position3d = new Vector3(position, 0);
 
-        var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
-        var shakeVector3d = new Vector3(shakeVector, 0);
-
-        var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
-        worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
-
-        var matrix = Matrix.CreateTranslation(translationVector + position3d + shakeVector3d)
-                     * Matrix.CreateScale(scaleVector);
-
         spriteBatch.Begin(
             sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
             samplerState: SamplerState.PointClamp,
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
-            transformMatrix: matrix);
+            transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
 
         spriteBatch.Draw(backgrounds[4], Vector2.Zero, Color.White);
 
@@ -890,21 +885,12 @@ internal class CombatScreen : GameScreenWithMenuBase
         DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET_X, BG_MAX_OFFSET_X, BG_START_OFFSET_Y,
             BG_MAX_OFFSET_Y);
 
-        var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
-        var shakeVector3d = new Vector3(shakeVector, 0);
-
-        var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
-        worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
-
-        var matrix = Matrix.CreateTranslation(translationVector + shakeVector3d)
-                     * Matrix.CreateScale(scaleVector);
-
         spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
             samplerState: SamplerState.PointClamp,
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
-            transformMatrix: matrix);
+            transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
 
         DrawBullets(spriteBatch);
 
@@ -933,7 +919,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             samplerState: SamplerState.PointClamp,
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
-            transformMatrix: _camera.GetViewTransformationMatrix());
+            transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
 
         if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
@@ -955,8 +941,18 @@ internal class CombatScreen : GameScreenWithMenuBase
             DrawCombatMoveTargets(spriteBatch);
 
             DrawCombatMovementsPanel(spriteBatch, contentRectangle);
+            
+            DrawCombatantStats(spriteBatch);
         }
+        
+        spriteBatch.End();
 
+        spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+            blendState: BlendState.AlphaBlend,
+            samplerState: SamplerState.PointClamp,
+            depthStencilState: DepthStencilState.None,
+            rasterizerState: RasterizerState.CullNone,
+            transformMatrix: _mainCamera.GetViewTransformationMatrix());
         try
         {
             DrawCombatantQueue(spriteBatch, contentRectangle);
@@ -966,8 +962,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             // TODO Fix NRE in the end of the combat with more professional way 
         }
-
-        DrawCombatantStats(spriteBatch);
 
         spriteBatch.End();
     }
@@ -1115,7 +1109,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void HandleBackgrounds()
     {
         var mouse = Mouse.GetState();
-        var mouseRir = ResolutionIndependentRenderer.ScaleMouseToScreenCoordinates(new Vector2(mouse.X, mouse.Y));
+        var mouseRir = ResolutionIndependentRenderer.ConvertScreenToWorldCoordinates(new Vector2(mouse.X, mouse.Y));
 
         var screenCenterX = ResolutionIndependentRenderer.VirtualBounds.Center.X;
         var rawPercentageX = (mouseRir.X - screenCenterX) / screenCenterX;

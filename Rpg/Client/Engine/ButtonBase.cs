@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Client.Engine;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -27,7 +29,7 @@ namespace Rpg.Client.Engine
             PlayClickSoundIfExists();
         }
 
-        public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
+        public void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)
         {
             UpdateContent();
 
@@ -89,13 +91,13 @@ namespace Rpg.Client.Engine
         {
         }
 
-        private bool CheckMouseOver(ResolutionIndependentRenderer resolutionIndependentRenderer)
+        private bool CheckMouseOver(IResolutionIndependentRenderer resolutionIndependentRenderer)
         {
             var mouseState = Mouse.GetState();
             var mousePosition = mouseState.Position.ToVector2();
 
             var rirPosition =
-                resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mousePosition);
+                resolutionIndependentRenderer.ConvertScreenToWorldCoordinates(mousePosition);
             var mouseRect = new Rectangle(rirPosition.ToPoint(), new Point(1, 1));
 
             return IsMouseOver(mouseRect);

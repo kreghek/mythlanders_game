@@ -28,7 +28,7 @@ internal class InventoryModal : ModalDialogBase
     private InventoryUiItem[]? _currentInventoryItems;
 
     public InventoryModal(Inventory inventory, IUiContentStorage uiContentStorage,
-        ResolutionIndependentRenderer resolutionIndependentRenderer) : base(uiContentStorage,
+        IResolutionIndependentRenderer resolutionIndependentRenderer) : base(uiContentStorage,
         resolutionIndependentRenderer)
     {
         _inventory = inventory;

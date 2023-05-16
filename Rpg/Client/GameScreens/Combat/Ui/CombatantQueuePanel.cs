@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Engine;
+
 using Core.Combats;
 using Core.Combats.CombatantEffectLifetimes;
 
@@ -57,11 +59,11 @@ internal sealed class CombatantQueuePanel : ControlBase
         return new((RESOLVE_WIDTH + PORTRAIN_WIDTH) * (_activeCombat.Combatants.Count + 1), 48);
     }
 
-    public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
+    public void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         var mouse = Mouse.GetState();
         var mousePosition =
-            resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mouse.Position.ToVector2()).ToPoint();
+            resolutionIndependentRenderer.ConvertScreenToWorldCoordinates(mouse.Position.ToVector2()).ToPoint();
 
         HandleMonsterCombatMoveHint(mousePosition);
 

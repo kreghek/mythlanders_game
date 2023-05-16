@@ -197,7 +197,7 @@ internal class CombatMovementsHandPanel : ControlBase
         _activeCombatMovementHint = null;
     }
 
-    internal void Update(GameTime gameTime, ResolutionIndependentRenderer resolutionIndependentRenderer)
+    internal void Update(GameTime gameTime, IResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         if (!IsEnabled)
         {
@@ -211,7 +211,7 @@ internal class CombatMovementsHandPanel : ControlBase
             var mouse = Mouse.GetState();
             var mouseRect =
                 new Rectangle(
-                    resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mouse.Position.ToVector2()).ToPoint(),
+                    resolutionIndependentRenderer.ConvertScreenToWorldCoordinates(mouse.Position.ToVector2()).ToPoint(),
                     new Point(1, 1));
 
             var oldHoverButton = _hoverButton;

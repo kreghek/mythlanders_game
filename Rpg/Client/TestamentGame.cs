@@ -18,6 +18,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using MonoGame.Extended.ViewportAdapters;
+
 using Rpg.Client;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
@@ -33,9 +35,6 @@ public sealed class TestamentGame : Game
     private readonly GameSettings _gameSettings;
     private readonly GraphicsDeviceManager _graphics;
     private readonly ILogger<TestamentGame> _logger;
-    private Camera2D _camera;
-
-    private ResolutionIndependentRenderer _resolutionIndependence;
     private ScreenManager? _screenManager;
 
     private SpriteBatch? _spriteBatch;
@@ -86,11 +85,13 @@ public sealed class TestamentGame : Game
         soundtrackComponent.Initialize(soundtrackManager);
         Components.Add(soundtrackComponent);
 
-        _resolutionIndependence = new ResolutionIndependentRenderer(this);
-        Services.AddService(_resolutionIndependence);
+        var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 848, 480);
 
-        _camera = new Camera2D(_resolutionIndependence);
-        Services.AddService(_camera);
+        var camera = new Camera2DAdapter(viewportAdapter);
+        Services.AddService<ICamera2DAdapter>(camera);
+
+        var resolutionIndependence = new ResolutionIndependentRenderer(camera, viewportAdapter);
+        Services.AddService<IResolutionIndependentRenderer>(resolutionIndependence);
 
         Services.AddService(_gameSettings);
 
@@ -102,7 +103,7 @@ public sealed class TestamentGame : Game
         var HEIGHT = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 #endif
 
-        InitializeResolutionIndependence(WIDTH, HEIGHT);
+        InitializeResolutionIndependence(resolutionIndependence);
 
 #if DEBUG
         _graphics.IsFullScreen = false;
@@ -195,17 +196,9 @@ public sealed class TestamentGame : Game
         Components.Add(trackNameDisplay);
     }
 
-    private void InitializeResolutionIndependence(int realScreenWidth, int realScreenHeight)
+    private void InitializeResolutionIndependence(ResolutionIndependentRenderer resolutionIndependentRenderer)
     {
-        _resolutionIndependence.VirtualWidth = 848;
-        _resolutionIndependence.VirtualHeight = 480;
-        _resolutionIndependence.ScreenWidth = realScreenWidth;
-        _resolutionIndependence.ScreenHeight = realScreenHeight;
-        _resolutionIndependence.Initialize();
-
-        _camera.Zoom = 1f;
-        _camera.Position = _resolutionIndependence.VirtualBounds.Center.ToVector2();
-        _camera.RecalculateTransformationMatrices();
+        resolutionIndependentRenderer.Initialize();
     }
 
     private void InitUiThemeManager()

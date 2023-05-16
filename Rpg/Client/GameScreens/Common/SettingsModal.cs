@@ -22,15 +22,15 @@ internal sealed class SettingsModal : ModalDialogBase
     private const int BUTTON_WIDTH = 100;
 
     private readonly IList<ButtonBase> _buttons;
-    private readonly Camera2D _camera;
+    private readonly ICamera2DAdapter _camera;
     private readonly IScreen _currentScreen;
     private readonly Game _game;
     private readonly GameSettings _gameSettings;
     private readonly GlobeProvider _globeProvider;
-    private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+    private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
 
     public SettingsModal(IUiContentStorage uiContentStorage,
-        ResolutionIndependentRenderer resolutionIndependentRenderer, Game game,
+        IResolutionIndependentRenderer resolutionIndependentRenderer, Game game,
         IScreen currentScreen, bool isGameStarted = true) : base(uiContentStorage,
         resolutionIndependentRenderer)
     {
@@ -38,7 +38,7 @@ internal sealed class SettingsModal : ModalDialogBase
         _game = game;
         _currentScreen = currentScreen;
 
-        _camera = game.Services.GetService<Camera2D>();
+        _camera = game.Services.GetService<ICamera2DAdapter>();
 
         _gameSettings = game.Services.GetService<GameSettings>();
 
@@ -98,7 +98,7 @@ internal sealed class SettingsModal : ModalDialogBase
     }
 
     protected override void UpdateContent(GameTime gameTime,
-        ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
+        IResolutionIndependentRenderer resolutionIndependenceRenderer)
     {
         base.UpdateContent(gameTime, resolutionIndependenceRenderer);
 
@@ -159,15 +159,7 @@ internal sealed class SettingsModal : ModalDialogBase
 
     private void InitializeResolutionIndependence(int realScreenWidth, int realScreenHeight)
     {
-        _resolutionIndependentRenderer.VirtualWidth = 848;
-        _resolutionIndependentRenderer.VirtualHeight = 480;
-        _resolutionIndependentRenderer.ScreenWidth = realScreenWidth;
-        _resolutionIndependentRenderer.ScreenHeight = realScreenHeight;
         _resolutionIndependentRenderer.Initialize();
-
-        _camera.Zoom = 1f;
-        _camera.Position = _resolutionIndependentRenderer.VirtualBounds.Center.ToVector2();
-        _camera.RecalculateTransformationMatrices();
     }
 
     private static void SwitchLanguageButton_OnClick(object? sender, EventArgs e)

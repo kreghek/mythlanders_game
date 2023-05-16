@@ -201,13 +201,8 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
             var roundedX = (int)Math.Round(xFloat);
             var position = new Vector2(roundedX, 0);
 
+            //TODO Restore parallax
             var position3d = new Vector3(position, 0);
-
-            var worldTransformationMatrix = Camera.GetViewTransformationMatrix();
-            worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
-
-            var matrix = Matrix.CreateTranslation(translationVector + position3d)
-                         * Matrix.CreateScale(scaleVector);
 
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
@@ -215,7 +210,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
                 samplerState: SamplerState.PointClamp,
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
-                transformMatrix: matrix);
+                transformMatrix: Camera.GetViewTransformationMatrix());
 
             spriteBatch.Draw(backgrounds[i], Vector2.Zero, Color.White);
 
@@ -258,7 +253,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         // var row = _frameIndex / 2;
 
         spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(speaker),
-            new Rectangle(0, ResolutionIndependentRenderer.VirtualHeight - SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE,
+            new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Height - SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE),
             new Rectangle(col * SPEAKER_FRAME_SIZE, row * SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE),
@@ -278,19 +273,13 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
 
         var position3d = new Vector3(position, 0);
 
-        var worldTransformationMatrix = Camera.GetViewTransformationMatrix();
-        worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
-
-        var matrix = Matrix.CreateTranslation(translationVector + position3d)
-                     * Matrix.CreateScale(scaleVector);
-
         spriteBatch.Begin(
             sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
             samplerState: SamplerState.PointClamp,
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
-            transformMatrix: matrix);
+            transformMatrix: Camera.GetViewTransformationMatrix());
 
         spriteBatch.Draw(backgrounds[3], Vector2.Zero, Color.White);
 

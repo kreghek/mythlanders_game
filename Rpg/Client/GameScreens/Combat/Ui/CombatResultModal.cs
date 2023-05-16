@@ -28,7 +28,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         public CombatResultModal(IUiContentStorage uiContentStorage,
             GameObjectContentStorage gameObjectContentStorage,
-            ResolutionIndependentRenderer resolutionIndependentRenderer,
+            IResolutionIndependentRenderer resolutionIndependentRenderer,
             CombatResult combatResult,
             CombatRewards combatRewards) : base(uiContentStorage, resolutionIndependentRenderer)
         {
@@ -83,7 +83,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         }
 
         protected override void UpdateContent(GameTime gameTime,
-            ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
+            IResolutionIndependentRenderer resolutionIndependenceRenderer)
         {
             base.UpdateContent(gameTime, resolutionIndependenceRenderer);
 

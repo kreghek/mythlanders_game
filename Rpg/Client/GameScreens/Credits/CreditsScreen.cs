@@ -12,20 +12,20 @@ namespace Rpg.Client.GameScreens.Credits
     internal sealed class CreditsScreen : GameScreenBase
     {
         private readonly ResourceTextButton _backButton;
-        private readonly Camera2D _camera;
+        private readonly ICamera2DAdapter _camera;
         private readonly string _creditsText;
         private readonly SpriteFont _font;
-        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IUiContentStorage _uiContentStorage;
         private float _textPosition;
 
         public CreditsScreen(TestamentGame game) : base(game)
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
-            _resolutionIndependentRenderer = game.Services.GetService<ResolutionIndependentRenderer>();
-            _camera = Game.Services.GetService<Camera2D>();
+            _resolutionIndependentRenderer = game.Services.GetService<IResolutionIndependentRenderer>();
+            _camera = Game.Services.GetService<ICamera2DAdapter>();
 
-            _textPosition = _resolutionIndependentRenderer.VirtualHeight + 100;
+            _textPosition = _resolutionIndependentRenderer.VirtualBounds.Height + 100;
 
             _creditsText = CreditsResource.ResourceManager.GetString("Credits") ?? string.Empty;
 

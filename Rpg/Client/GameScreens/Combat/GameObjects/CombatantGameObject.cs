@@ -23,7 +23,7 @@ namespace Client.GameScreens.Combat.GameObjects;
 internal sealed class CombatantGameObject : EwarRenderableBase
 {
     private readonly IList<IActorVisualizationState> _actorStateEngineList;
-    private readonly Camera2D _camera;
+    private readonly ICamera2DAdapter _camera;
     private readonly UnitGraphicsConfigBase _combatantGraphicsConfig;
     private readonly CombatantPositionSide _combatantSide;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -35,7 +35,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
     public CombatantGameObject(Combatant combatant, UnitGraphicsConfigBase combatantGraphicsConfig,
         FieldCoords formationCoords, ICombatantPositionProvider unitPositionProvider,
         GameObjectContentStorage gameObjectContentStorage,
-        Camera2D camera, ScreenShaker screenShaker,
+        ICamera2DAdapter camera, ScreenShaker screenShaker,
         CombatantPositionSide combatantSide)
     {
         _actorStateEngineList = new List<IActorVisualizationState>();
@@ -102,7 +102,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
         deathSoundEffect.Play();
 
-        var corpse = new CorpseGameObject(Graphics, _camera, _screenShaker, _gameObjectContentStorage);
+        var corpse = new CorpseGameObject(Graphics, _camera, _gameObjectContentStorage);
 
         MoveIndicatorsToCorpse(corpse);
 
@@ -151,42 +151,24 @@ internal sealed class CombatantGameObject : EwarRenderableBase
             var allWhite = _gameObjectContentStorage.GetAllWhiteEffect();
             spriteBatch.End();
 
-            var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
-            var shakeVector3d = new Vector3(shakeVector, 0);
-
-            var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
-            worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
-
-            var matrix = Matrix.CreateTranslation(translationVector + shakeVector3d)
-                         * Matrix.CreateScale(scaleVector);
-
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
                 samplerState: SamplerState.PointClamp,
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
-                transformMatrix: matrix,
+                transformMatrix: _camera.GetViewTransformationMatrix(),
                 effect: allWhite);
         }
         else
         {
             spriteBatch.End();
 
-            var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
-            var shakeVector3d = new Vector3(shakeVector, 0);
-
-            var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
-            worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
-
-            var matrix = Matrix.CreateTranslation(translationVector + shakeVector3d)
-                         * Matrix.CreateScale(scaleVector);
-
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
                 samplerState: SamplerState.PointClamp,
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
-                transformMatrix: matrix);
+                transformMatrix: _camera.GetViewTransformationMatrix());
         }
 
         Graphics.Draw(spriteBatch);

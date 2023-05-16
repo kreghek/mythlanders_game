@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Client.Core.Campaigns;
+using Client.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -31,7 +32,7 @@ internal sealed class CampaignPanel : ControlBase
 
     public bool Hover { get; private set; }
 
-    public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
+    public void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         _selectButton.Update(resolutionIndependentRenderer);
     }

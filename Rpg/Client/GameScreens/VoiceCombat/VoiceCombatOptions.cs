@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Client.Engine;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -31,7 +33,7 @@ internal class VoiceCombatOptions : ControlBase
         Options.SingleOrDefault(x => x.Number == number)?.Click();
     }
 
-    public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
+    public void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         foreach (var button in Options.ToArray())
         {
