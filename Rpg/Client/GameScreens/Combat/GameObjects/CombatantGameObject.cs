@@ -165,7 +165,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
                 samplerState: SamplerState.PointClamp,
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
-                transformMatrix: matrix,
+                transformMatrix: _camera.GetViewTransformationMatrix(),
                 effect: allWhite);
         }
         else
@@ -186,7 +186,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
                 samplerState: SamplerState.PointClamp,
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
-                transformMatrix: matrix);
+                transformMatrix: _camera.GetViewTransformationMatrix());
         }
 
         Graphics.Draw(spriteBatch);

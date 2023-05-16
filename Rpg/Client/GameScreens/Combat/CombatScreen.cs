@@ -191,6 +191,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             transformMatrix: _objectCamera.GetViewTransformationMatrix());
 
         spriteBatch.DrawCircle(_objectCamera.Origin, 10, 8, Color.Red);
+        spriteBatch.DrawCircle(contentRectangle.Center.ToVector2(), 10, 8, Color.GreenYellow);
 
         spriteBatch.End();
     }
@@ -742,7 +743,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 samplerState: SamplerState.PointClamp,
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
-                transformMatrix: matrix);
+                transformMatrix: _objectCamera.GetViewTransformationMatrix());
 
             spriteBatch.Draw(backgrounds[i], Vector2.Zero, Color.White);
 
@@ -888,7 +889,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             samplerState: SamplerState.PointClamp,
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
-            transformMatrix: matrix);
+            transformMatrix: _objectCamera.GetViewTransformationMatrix());
 
         spriteBatch.Draw(backgrounds[4], Vector2.Zero, Color.White);
 
@@ -928,7 +929,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             samplerState: SamplerState.PointClamp,
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
-            transformMatrix: matrix);
+            transformMatrix: _objectCamera.GetViewTransformationMatrix());
 
         DrawBullets(spriteBatch);
 
