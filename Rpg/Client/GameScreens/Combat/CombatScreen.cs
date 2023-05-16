@@ -958,7 +958,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             samplerState: SamplerState.PointClamp,
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
-            transformMatrix: _mainCamera.GetViewTransformationMatrix());
+            transformMatrix: _objectCamera.GetViewTransformationMatrix());
 
         if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
@@ -980,8 +980,18 @@ internal class CombatScreen : GameScreenWithMenuBase
             DrawCombatMoveTargets(spriteBatch);
 
             DrawCombatMovementsPanel(spriteBatch, contentRectangle);
+            
+            DrawCombatantStats(spriteBatch);
         }
+        
+        spriteBatch.End();
 
+        spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+            blendState: BlendState.AlphaBlend,
+            samplerState: SamplerState.PointClamp,
+            depthStencilState: DepthStencilState.None,
+            rasterizerState: RasterizerState.CullNone,
+            transformMatrix: _mainCamera.GetViewTransformationMatrix());
         try
         {
             DrawCombatantQueue(spriteBatch, contentRectangle);
@@ -991,8 +1001,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             // TODO Fix NRE in the end of the combat with more professional way 
         }
-
-        DrawCombatantStats(spriteBatch);
 
         spriteBatch.End();
     }
