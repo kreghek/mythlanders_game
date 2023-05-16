@@ -12,6 +12,6 @@ namespace Rpg.Client.Engine
         void Close();
         void Draw(SpriteBatch spriteBatch);
         void Show();
-        void Update(GameTime gameTime, IResolutionIndependentRenderer? resolutionIndependenceRenderer = null);
+        void Update(GameTime gameTime, IResolutionIndependentRenderer resolutionIndependenceRenderer);
     }
 }

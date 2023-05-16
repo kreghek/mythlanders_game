@@ -68,7 +68,7 @@ namespace Rpg.Client.Engine
         }
 
         protected virtual void UpdateContent(GameTime gameTime,
-            IResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
+            IResolutionIndependentRenderer resolutionIndependenceRenderer)
         {
             // Empty implementation to avoid empty implementation in every concrete class.
             // Some of the modals in just informational. So they are not handle any logic.
@@ -152,7 +152,7 @@ namespace Rpg.Client.Engine
             IsVisible = true;
         }
 
-        public void Update(GameTime gameTime, IResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
+        public void Update(GameTime gameTime, IResolutionIndependentRenderer resolutionIndependenceRenderer)
         {
             // Poll for current keyboard state
             var state = Keyboard.GetState();

@@ -98,7 +98,7 @@ internal sealed class SettingsModal : ModalDialogBase
     }
 
     protected override void UpdateContent(GameTime gameTime,
-        IResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
+        IResolutionIndependentRenderer resolutionIndependenceRenderer)
     {
         base.UpdateContent(gameTime, resolutionIndependenceRenderer);
 

@@ -91,7 +91,7 @@ namespace Rpg.Client.GameScreens.Title
         }
 
         protected override void UpdateContent(GameTime gameTime,
-            IResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
+            IResolutionIndependentRenderer resolutionIndependenceRenderer)
         {
             base.UpdateContent(gameTime, resolutionIndependenceRenderer);
 

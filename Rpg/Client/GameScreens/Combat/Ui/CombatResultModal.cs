@@ -83,7 +83,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         }
 
         protected override void UpdateContent(GameTime gameTime,
-            IResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
+            IResolutionIndependentRenderer resolutionIndependenceRenderer)
         {
             base.UpdateContent(gameTime, resolutionIndependenceRenderer);
 
