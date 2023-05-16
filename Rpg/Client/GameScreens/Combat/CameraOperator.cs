@@ -12,14 +12,19 @@ internal class CameraOperator
     private readonly ICamera2DAdapter _ownedCamera;
     private readonly IList<ICameraOperatorTask> _taskList;
 
-    private ICameraOperatorTask _mainCameraState;
+    private readonly ICameraOperatorTask _idleTask;
 
-    public CameraOperator(ICamera2DAdapter camera, ICameraOperatorTask startCameraState)
+    /// <summary>
+    /// Construct the operator.
+    /// </summary>
+    /// <param name="camera">Owned camera to operate.</param>
+    /// <param name="idleTask">Task to do the task list complete.</param>
+    public CameraOperator(ICamera2DAdapter camera, ICameraOperatorTask idleTask)
     {
         _ownedCamera = camera;
 
         _taskList = new List<ICameraOperatorTask>();
-        _mainCameraState = startCameraState;
+        _idleTask = idleTask;
     }
 
     /// <summary>
@@ -39,18 +44,11 @@ internal class CameraOperator
         HandleCameraStates(gameTime);
     }
 
-    internal void SetMasterState(OverviewCameraState mainCameraState)
-    {
-        _taskList.Clear();
-
-        _mainCameraState = mainCameraState;
-    }
-
     private void HandleCameraStates(GameTime gameTime)
     {
         if (!_taskList.Any())
         {
-            _mainCameraState.DoWork(gameTime, _ownedCamera);
+            _idleTask.DoWork(gameTime, _ownedCamera);
             return;
         }
 
@@ -63,7 +61,7 @@ internal class CameraOperator
 
             if (!_taskList.Any())
             {
-                _mainCameraState.DoWork(gameTime, _ownedCamera);
+                _idleTask.DoWork(gameTime, _ownedCamera);
             }
         }
     }

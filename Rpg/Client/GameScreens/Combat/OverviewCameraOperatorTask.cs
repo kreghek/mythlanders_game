@@ -3,19 +3,16 @@ using System;
 using Client.Engine;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-
-using Rpg.Client.Engine;
 
 namespace Client.GameScreens.Combat;
 
-internal sealed class OverviewCameraState: ICameraOperatorTask
+internal sealed class OverviewCameraOperatorTask: ICameraOperatorTask
 {
     private readonly Vector2 _overviewPosition;
     private readonly Vector2 _overviewOrigin;
 
 
-    public OverviewCameraState(Vector2 overviewPosition)
+    public OverviewCameraOperatorTask(Vector2 overviewPosition)
     {
         _overviewPosition = overviewPosition;
         _overviewOrigin = _overviewPosition + new Vector2(848 / 2f, 480 / 2f);
@@ -25,11 +22,13 @@ internal sealed class OverviewCameraState: ICameraOperatorTask
     {
         return a * (1 - t) + b * t;
     }
-
+    
+    /// <inheritdoc/>
     public bool IsComplete => false;
 
     private const float BASE_ZOOM = 1.0f;
     
+    /// <inheritdoc/>
     public void DoWork(GameTime gameTime, ICamera2DAdapter camera)
     {
         if (Math.Abs(camera.Zoom - BASE_ZOOM) > 0.05)

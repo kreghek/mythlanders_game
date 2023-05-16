@@ -4,26 +4,20 @@ using Client.Engine;
 
 using Microsoft.Xna.Framework;
 
-using Rpg.Client.Engine;
-
 namespace Client.GameScreens.Combat;
 
-internal sealed class FollowActorCameraState : ICameraOperatorTask
+internal sealed class FollowActorOperatorCameraTask : ICameraOperatorTask
 {
     private readonly IActorAnimator _combatActor;
     private readonly Func<bool> _completeDelegate;
 
-    public FollowActorCameraState(IActorAnimator combatActor, Func<bool> completeDelegate)
+    public FollowActorOperatorCameraTask(IActorAnimator combatActor, Func<bool> completeDelegate)
     {
         _combatActor = combatActor;
         _completeDelegate = completeDelegate;
     }
 
-    private static float Lerp(float a, float b, float t)
-    {
-        return a * (1 - t) + b * t;
-    }
-
+    /// <inheritdoc/>
     public bool IsComplete => _completeDelegate();
 
     const float FOLLOWING_ZOOM = 2f;

@@ -90,7 +90,7 @@ internal sealed class UseCombatMovementIntention : IIntention
 
         actorGameObject.AddStateEngine(actorState);
 
-        _cameraOperator.AddState(new FollowActorCameraState(actorGameObject.Animator, () => executionIsComplete));
+        _cameraOperator.AddState(new FollowActorOperatorCameraTask(actorGameObject.Animator, () => executionIsComplete));
     }
 
     public void Make(CombatCore combatCore)
