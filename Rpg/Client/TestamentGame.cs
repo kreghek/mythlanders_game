@@ -35,9 +35,6 @@ public sealed class TestamentGame : Game
     private readonly GameSettings _gameSettings;
     private readonly GraphicsDeviceManager _graphics;
     private readonly ILogger<TestamentGame> _logger;
-    private ICamera2DAdapter _camera;
-
-    private IResolutionIndependentRenderer _resolutionIndependence;
     private ScreenManager? _screenManager;
 
     private SpriteBatch? _spriteBatch;
@@ -90,11 +87,11 @@ public sealed class TestamentGame : Game
 
         var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 848, 480);
 
-        _camera = new Camera2DAdapter(viewportAdapter);
-        Services.AddService(_camera);
+        var camera = new Camera2DAdapter(viewportAdapter);
+        Services.AddService<ICamera2DAdapter>(camera);
 
-        _resolutionIndependence = new ResolutionIndependentRenderer(_camera, viewportAdapter);
-        Services.AddService(_resolutionIndependence);
+        var resolutionIndependence = new ResolutionIndependentRenderer(camera, viewportAdapter);
+        Services.AddService<IResolutionIndependentRenderer>(resolutionIndependence);
 
         Services.AddService(_gameSettings);
 
@@ -106,7 +103,7 @@ public sealed class TestamentGame : Game
         var HEIGHT = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 #endif
 
-        InitializeResolutionIndependence();
+        InitializeResolutionIndependence(resolutionIndependence);
 
 #if DEBUG
         _graphics.IsFullScreen = false;
@@ -199,9 +196,9 @@ public sealed class TestamentGame : Game
         Components.Add(trackNameDisplay);
     }
 
-    private void InitializeResolutionIndependence()
+    private void InitializeResolutionIndependence(ResolutionIndependentRenderer resolutionIndependentRenderer)
     {
-        _resolutionIndependence.Initialize();
+        resolutionIndependentRenderer.Initialize();
     }
 
     private void InitUiThemeManager()
