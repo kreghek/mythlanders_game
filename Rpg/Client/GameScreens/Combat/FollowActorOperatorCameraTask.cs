@@ -22,22 +22,24 @@ internal sealed class FollowActorOperatorCameraTask : ICameraOperatorTask
 
     const float FOLLOWING_ZOOM = 2f;
     
+    private const double ZOOM_THRESHOLD = 0.05;
+    
+    private const int ZOOM_SPEED = 10;
+    
     /// <inheritdoc/>
     public void DoWork(GameTime gameTime, ICamera2DAdapter camera)
     {
-        var spriteSizeY = 128;
+        var actorFollowPoint = GetActorFollowPoint();
         
-        var actorFollowPoint = _combatActor.GraphicRoot.Position - new Vector2(0, spriteSizeY * 0.5f);
-        
-        if (Math.Abs(camera.Zoom - FOLLOWING_ZOOM) > 0.05)
+        if (Math.Abs(camera.Zoom - FOLLOWING_ZOOM) > ZOOM_THRESHOLD)
         {
             if (camera.Zoom < FOLLOWING_ZOOM)
             {
-                camera.ZoomIn((float)gameTime.ElapsedGameTime.TotalSeconds * 10, actorFollowPoint);
+                camera.ZoomIn((float)gameTime.ElapsedGameTime.TotalSeconds * ZOOM_SPEED, actorFollowPoint);
             }
             else if (camera.Zoom > FOLLOWING_ZOOM)
             {
-                camera.ZoomOut((float)gameTime.ElapsedGameTime.TotalSeconds * 10, actorFollowPoint);
+                camera.ZoomOut((float)gameTime.ElapsedGameTime.TotalSeconds * ZOOM_SPEED, actorFollowPoint);
             }
             else
             {
@@ -49,5 +51,11 @@ internal sealed class FollowActorOperatorCameraTask : ICameraOperatorTask
             camera.Zoom = FOLLOWING_ZOOM;
             camera.ZoomIn(0.01f, actorFollowPoint);
         }
+    }
+
+    private Vector2 GetActorFollowPoint()
+    {
+        const int SPRITE_SIZE_Y = 128;
+        return _combatActor.GraphicRoot.Position - new Vector2(0, SPRITE_SIZE_Y * 0.5f);
     }
 }

@@ -12,7 +12,7 @@ internal class Camera2DAdapter : ICamera2DAdapter
     /// <summary>
     /// Center of the camera view.
     /// </summary>
-    public Vector2 ViewCenter => _innerCamera.Origin;
+    private Vector2 ViewCenter => _innerCamera.Origin;
 
     public Camera2DAdapter(BoxingViewportAdapter viewportAdapter)
     {

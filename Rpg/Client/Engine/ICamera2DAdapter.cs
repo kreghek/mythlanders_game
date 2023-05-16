@@ -5,11 +5,6 @@ namespace Client.Engine;
 internal interface ICamera2DAdapter
 {
     /// <summary>
-    /// Center of the camera view.
-    /// </summary>
-    Vector2 ViewCenter { get; }
-
-    /// <summary>
     /// Camera position.
     /// </summary>
     Vector2 Position { get; set; }
