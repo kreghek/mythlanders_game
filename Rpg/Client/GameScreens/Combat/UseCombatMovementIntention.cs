@@ -17,11 +17,11 @@ namespace Rpg.Client.GameScreens.Combat;
 internal sealed class UseCombatMovementIntention : IIntention
 {
     private readonly IAnimationManager _animationManager;
+    private readonly CameraOperator _cameraOperator;
     private readonly IList<CombatantGameObject> _combatantGameObjects;
     private readonly CombatMovementInstance _combatMovement;
     private readonly ICombatMovementVisualizer _combatMovementVisualizer;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
-    private readonly CameraOperator _cameraOperator;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
 
     public UseCombatMovementIntention(CombatMovementInstance combatMovement, IAnimationManager animationManager,
@@ -90,7 +90,8 @@ internal sealed class UseCombatMovementIntention : IIntention
 
         actorGameObject.AddStateEngine(actorState);
 
-        _cameraOperator.AddState(new FollowActorOperatorCameraTask(actorGameObject.Animator, () => executionIsComplete));
+        _cameraOperator.AddState(
+            new FollowActorOperatorCameraTask(actorGameObject.Animator, () => executionIsComplete));
     }
 
     public void Make(CombatCore combatCore)

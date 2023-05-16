@@ -10,8 +10,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 using MonoGame;
 
-using Rpg.Client.Engine;
-
 namespace Client.GameScreens.Combat.Ui;
 
 internal class FieldManeuversVisualizer

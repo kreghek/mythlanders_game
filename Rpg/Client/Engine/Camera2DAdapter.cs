@@ -9,15 +9,15 @@ internal class Camera2DAdapter : ICamera2DAdapter
 {
     private readonly OrthographicCamera _innerCamera;
 
-    /// <summary>
-    /// Center of the camera view.
-    /// </summary>
-    private Vector2 ViewCenter => _innerCamera.Origin;
-
     public Camera2DAdapter(BoxingViewportAdapter viewportAdapter)
     {
         _innerCamera = new OrthographicCamera(viewportAdapter);
     }
+
+    /// <summary>
+    /// Center of the camera view.
+    /// </summary>
+    private Vector2 ViewCenter => _innerCamera.Origin;
 
     /// <summary>
     /// Camera position.
@@ -25,10 +25,7 @@ internal class Camera2DAdapter : ICamera2DAdapter
     public Vector2 Position
     {
         get => _innerCamera.Position;
-        set
-        {
-            _innerCamera.Position = value;
-        }
+        set => _innerCamera.Position = value;
     }
 
     /// <summary>
@@ -37,10 +34,7 @@ internal class Camera2DAdapter : ICamera2DAdapter
     public float Zoom
     {
         get => _innerCamera.Zoom;
-        set
-        {
-            _innerCamera.Zoom = value;
-        }
+        set => _innerCamera.Zoom = value;
     }
 
     /// <summary>
@@ -48,7 +42,7 @@ internal class Camera2DAdapter : ICamera2DAdapter
     /// </summary>
     public void ZoomIn(float deltaZoom, Vector2 zoomCenter)
     {
-        float pastZoom = Zoom;
+        var pastZoom = Zoom;
         _innerCamera.ZoomIn(deltaZoom);
         Position += (zoomCenter - ViewCenter - Position) * ((Zoom - pastZoom) / Zoom);
     }
@@ -58,13 +52,13 @@ internal class Camera2DAdapter : ICamera2DAdapter
     /// </summary>
     public void ZoomOut(float deltaZoom, Vector2 zoomCenter)
     {
-        float pastZoom = Zoom;
+        var pastZoom = Zoom;
         _innerCamera.ZoomOut(deltaZoom);
         Position += (zoomCenter - ViewCenter - Position) * ((Zoom - pastZoom) / Zoom);
     }
 
     /// <summary>
-    /// Returns transformation matrix of game objects. 
+    /// Returns transformation matrix of game objects.
     /// </summary>
     public Matrix GetViewTransformationMatrix()
     {

@@ -51,8 +51,9 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private readonly UpdatableAnimationManager _animationManager;
     private readonly CombatScreenTransitionArguments _args;
-    private readonly ICamera2DAdapter _mainCamera;
+    private readonly CameraOperator _cameraOperator;
     private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
+    private readonly ICamera2DAdapter _combatActionCamera;
     private readonly ICombatantPositionProvider _combatantPositionProvider;
     private readonly CombatCore _combatCore;
     private readonly ICombatActorBehaviourDataProvider _combatDataBehaviourProvider;
@@ -72,6 +73,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly GlobeProvider _globeProvider;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
     private readonly IJobProgressResolver _jobProgressResolver;
+    private readonly ICamera2DAdapter _mainCamera;
     private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
     private readonly FieldManeuverIndicatorPanel _maneuversIndicator;
     private readonly FieldManeuversVisualizer _maneuversVisualizer;
@@ -95,8 +97,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
-    private readonly ICamera2DAdapter _combatActionCamera;
-    private readonly CameraOperator _cameraOperator;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {

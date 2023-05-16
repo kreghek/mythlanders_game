@@ -8,6 +8,11 @@ namespace Client.GameScreens.Combat;
 
 internal sealed class FollowActorOperatorCameraTask : ICameraOperatorTask
 {
+    private const float FOLLOWING_ZOOM = 2f;
+
+    private const double ZOOM_THRESHOLD = 0.05;
+
+    private const int ZOOM_SPEED = 10;
     private readonly IActorAnimator _combatActor;
     private readonly Func<bool> _completeDelegate;
 
@@ -17,16 +22,16 @@ internal sealed class FollowActorOperatorCameraTask : ICameraOperatorTask
         _completeDelegate = completeDelegate;
     }
 
-    /// <inheritdoc/>
+    private Vector2 GetActorFollowPoint()
+    {
+        const int SPRITE_SIZE_Y = 128;
+        return _combatActor.GraphicRoot.Position - new Vector2(0, SPRITE_SIZE_Y * 0.5f);
+    }
+
+    /// <inheritdoc />
     public bool IsComplete => _completeDelegate();
 
-    const float FOLLOWING_ZOOM = 2f;
-
-    private const double ZOOM_THRESHOLD = 0.05;
-
-    private const int ZOOM_SPEED = 10;
-
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void DoWork(GameTime gameTime, ICamera2DAdapter camera)
     {
         var actorFollowPoint = GetActorFollowPoint();
@@ -51,11 +56,5 @@ internal sealed class FollowActorOperatorCameraTask : ICameraOperatorTask
             camera.Zoom = FOLLOWING_ZOOM;
             camera.ZoomIn(0.01f, actorFollowPoint);
         }
-    }
-
-    private Vector2 GetActorFollowPoint()
-    {
-        const int SPRITE_SIZE_Y = 128;
-        return _combatActor.GraphicRoot.Position - new Vector2(0, SPRITE_SIZE_Y * 0.5f);
     }
 }

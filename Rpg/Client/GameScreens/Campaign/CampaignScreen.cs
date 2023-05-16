@@ -139,6 +139,20 @@ internal class CampaignScreen : GameScreenWithMenuBase
         }
     }
 
+    private void HandleSkipPresentation(CampaignMap campaignMap)
+    {
+        if (!Keyboard.GetState().IsKeyDown(Keys.Space))
+        {
+            return;
+        }
+
+        _presentationDelayCounter = 0;
+        _isCampaignPresentation = false;
+        campaignMap.State = CampaignMap.MapState.Interactive;
+
+        campaignMap.Scroll = campaignMap.StartScroll;
+    }
+
     private void InitializeCampaignItemButtons()
     {
         var currentCampaign = _screenTransitionArguments.Campaign;
@@ -186,19 +200,5 @@ internal class CampaignScreen : GameScreenWithMenuBase
                 campaignMap.State = CampaignMap.MapState.Interactive;
             }
         }
-    }
-
-    private void HandleSkipPresentation(CampaignMap campaignMap)
-    {
-        if (!Keyboard.GetState().IsKeyDown(Keys.Space))
-        {
-            return;
-        }
-
-        _presentationDelayCounter = 0;
-        _isCampaignPresentation = false;
-        campaignMap.State = CampaignMap.MapState.Interactive;
-
-        campaignMap.Scroll = campaignMap.StartScroll;
     }
 }

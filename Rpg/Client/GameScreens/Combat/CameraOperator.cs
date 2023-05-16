@@ -9,10 +9,9 @@ namespace Client.GameScreens.Combat;
 
 internal class CameraOperator
 {
+    private readonly ICameraOperatorTask _idleTask;
     private readonly ICamera2DAdapter _ownedCamera;
     private readonly IList<ICameraOperatorTask> _taskList;
-
-    private readonly ICameraOperatorTask _idleTask;
 
     /// <summary>
     /// Construct the operator.

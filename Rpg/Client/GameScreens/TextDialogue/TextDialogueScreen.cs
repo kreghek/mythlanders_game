@@ -253,7 +253,8 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         // var row = _frameIndex / 2;
 
         spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(speaker),
-            new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Height - SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE,
+            new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Height - SPEAKER_FRAME_SIZE,
+                SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE),
             new Rectangle(col * SPEAKER_FRAME_SIZE, row * SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE),

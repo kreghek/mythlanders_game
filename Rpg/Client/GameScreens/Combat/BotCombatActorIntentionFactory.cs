@@ -16,10 +16,10 @@ namespace Client.GameScreens.Combat;
 internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
 {
     private readonly IAnimationManager _animationManager;
+    private readonly CameraOperator _cameraOperator;
     private readonly IList<CombatantGameObject> _combatantGameObjects;
     private readonly ICombatMovementVisualizer _combatMovementVisualizer;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
-    private readonly CameraOperator _cameraOperator;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
 
     public BotCombatActorIntentionFactory(IAnimationManager animationManager,
