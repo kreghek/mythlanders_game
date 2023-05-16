@@ -29,14 +29,14 @@ namespace Rpg.Client.GameScreens.Title
         private readonly IEventCatalog _eventCatalog;
         private readonly GlobeProvider _globeProvider;
         private readonly IList<ButtonBase> _pageButtons;
-        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IScreen _screen;
         private readonly IScreenManager _screenManager;
 
         private int _pageIndex;
 
         public ContinueGameModal(IUiContentStorage uiContentStorage,
-            ResolutionIndependentRenderer resolutionIndependentRenderer, GlobeProvider globeProvider, IDice dice,
+            IResolutionIndependentRenderer resolutionIndependentRenderer, GlobeProvider globeProvider, IDice dice,
             IEventCatalog eventCatalog, IScreenManager screenManager, IScreen screen) : base(uiContentStorage,
             resolutionIndependentRenderer)
         {
@@ -91,7 +91,7 @@ namespace Rpg.Client.GameScreens.Title
         }
 
         protected override void UpdateContent(GameTime gameTime,
-            ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
+            IResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
         {
             base.UpdateContent(gameTime, resolutionIndependenceRenderer);
 

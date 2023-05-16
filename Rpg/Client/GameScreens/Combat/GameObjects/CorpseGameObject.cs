@@ -1,3 +1,4 @@
+using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
@@ -10,7 +11,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
     internal sealed class CorpseGameObject : EwarRenderableBase
     {
-        private readonly Camera2D _camera;
+        private readonly ICamera2DAdapter _camera;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly UnitGraphics _graphics;
         private readonly ScreenShaker _screenShaker;
@@ -19,7 +20,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private bool _startToDeath;
         private bool _startToWound;
 
-        public CorpseGameObject(UnitGraphics graphics, Camera2D camera, ScreenShaker screenShaker,
+        public CorpseGameObject(UnitGraphics graphics, ICamera2DAdapter camera, ScreenShaker screenShaker,
             GameObjectContentStorage gameObjectContentStorage)
         {
             _graphics = graphics;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Client.Engine;
 using Client.GameScreens.TextDialogue.Ui;
 
 using Microsoft.Xna.Framework;
@@ -33,7 +34,7 @@ namespace Rpg.Client.GameScreens.Speech.Ui
             Options.SingleOrDefault(x => x.Number == number)?.Click();
         }
 
-        public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
+        public void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)
         {
             foreach (var button in Options)
             {

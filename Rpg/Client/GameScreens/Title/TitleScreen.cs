@@ -28,7 +28,7 @@ internal sealed class TitleScreen : GameScreenBase
     private const int BUTTON_WIDTH = 150;
     private const int TITLE_PORTRAIT_COUNT = 3;
     private readonly IList<ButtonBase> _buttons;
-    private readonly Camera2D _camera;
+    private readonly ICamera2DAdapter _camera;
     private readonly ICampaignGenerator _campaignGenerator;
     private readonly IDice _dice;
     private readonly IEventCatalog _eventCatalog;
@@ -39,7 +39,7 @@ internal sealed class TitleScreen : GameScreenBase
 
     private readonly ParticleSystem _particleSystem;
     private readonly ParticleSystem[] _pulseParticleSystems;
-    private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+    private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
 
     private readonly Random _rnd = new Random();
     private readonly SettingsModal _settingsModal;
@@ -54,8 +54,8 @@ internal sealed class TitleScreen : GameScreenBase
     {
         _globeProvider = Game.Services.GetService<GlobeProvider>();
 
-        _camera = Game.Services.GetService<Camera2D>();
-        _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
+        _camera = Game.Services.GetService<ICamera2DAdapter>();
+        _resolutionIndependentRenderer = Game.Services.GetService<IResolutionIndependentRenderer>();
         _eventCatalog = game.Services.GetService<IEventCatalog>();
         _campaignGenerator = game.Services.GetService<ICampaignGenerator>();
 
@@ -113,10 +113,10 @@ internal sealed class TitleScreen : GameScreenBase
             CreatePulseParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2() +
                                       new Vector2(0, 80)),
             CreatePulseParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2()
-                                      + Vector2.UnitX * (0.25f * _resolutionIndependentRenderer.VirtualWidth) +
+                                      + Vector2.UnitX * (0.25f * _resolutionIndependentRenderer.VirtualBounds.Width) +
                                       new Vector2(0, 60)),
             CreatePulseParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2()
-                - Vector2.UnitX * (0.25f * _resolutionIndependentRenderer.VirtualWidth) + new Vector2(0, 50))
+                - Vector2.UnitX * (0.25f * _resolutionIndependentRenderer.VirtualBounds.Width) + new Vector2(0, 50))
         };
 
         _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this,
@@ -170,16 +170,16 @@ internal sealed class TitleScreen : GameScreenBase
             new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Center.X - 128, 0, 256, 480),
             sourceRectangle: null, Color.Lerp(Color.White, Color.Transparent, 0.3f));
 
-        var heroesRect = new Rectangle(0, 0, ResolutionIndependentRenderer.VirtualWidth,
-            ResolutionIndependentRenderer.VirtualHeight / 2);
+        var heroesRect = new Rectangle(0, 0, ResolutionIndependentRenderer.VirtualBounds.Width,
+            ResolutionIndependentRenderer.VirtualBounds.Height / 2);
         DrawHeroes(spriteBatch, heroesRect);
 
         var logoRect = new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Center.Y - 128,
-            ResolutionIndependentRenderer.VirtualWidth, 64);
+            ResolutionIndependentRenderer.VirtualBounds.Width, 64);
         DrawLogo(spriteBatch, logoRect);
 
         var menuRect = new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Center.Y,
-            ResolutionIndependentRenderer.VirtualWidth, ResolutionIndependentRenderer.VirtualHeight / 2);
+            ResolutionIndependentRenderer.VirtualBounds.Width, ResolutionIndependentRenderer.VirtualBounds.Height / 2);
         DrawMenu(spriteBatch, menuRect);
 
         if (_gameSettings.Mode.HasFlag(GameMode.Demo) && !_gameSettings.Mode.HasFlag(GameMode.Recording))

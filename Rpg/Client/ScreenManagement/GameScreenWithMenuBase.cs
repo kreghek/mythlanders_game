@@ -16,7 +16,7 @@ namespace Rpg.Client.ScreenManagement;
 
 internal abstract class GameScreenWithMenuBase : GameScreenBase
 {
-    private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+    private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
     private readonly SettingsModal _settingsModal;
 
     private KeyboardState _lastKeyboardState;
@@ -27,7 +27,7 @@ internal abstract class GameScreenWithMenuBase : GameScreenBase
     protected GameScreenWithMenuBase(TestamentGame game) : base(game)
     {
         var uiContentStorage = game.Services.GetService<IUiContentStorage>();
-        _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
+        _resolutionIndependentRenderer = Game.Services.GetService<IResolutionIndependentRenderer>();
 
         _settingsModal = new SettingsModal(uiContentStorage, _resolutionIndependentRenderer, Game, this);
         AddModal(_settingsModal, isLate: true);

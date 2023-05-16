@@ -14,15 +14,15 @@ namespace Rpg.Client.GameScreens.EndGame
     internal sealed class EndGameScreen : GameScreenBase
     {
         private readonly ButtonBase _backButton;
-        private readonly Camera2D _camera;
-        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly ICamera2DAdapter _camera;
+        private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IUiContentStorage _uiContentStorage;
 
         public EndGameScreen(TestamentGame game) : base(game)
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
-            _camera = Game.Services.GetService<Camera2D>();
-            _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
+            _camera = Game.Services.GetService<ICamera2DAdapter>();
+            _resolutionIndependentRenderer = Game.Services.GetService<IResolutionIndependentRenderer>();
 
             _backButton = new ResourceTextButton(nameof(UiResource.CompleteGameButtonTitle));
             _backButton.OnClick += (_, _) =>

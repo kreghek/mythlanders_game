@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 
 using Client;
+using Client.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,8 +24,8 @@ namespace Rpg.Client.GameScreens.Settings
         private const int BUTTON_WIDTH = 100;
 
         private readonly List<ButtonBase> _buttons;
-        private readonly Camera2D _camera;
-        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly ICamera2DAdapter _camera;
+        private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
 
         private readonly IReadOnlyDictionary<ButtonBase, (int Width, int Height)> _resolutionsButtonsInfos;
         private ButtonBase? _selectedMonitorResolutionButton;
@@ -34,8 +35,8 @@ namespace Rpg.Client.GameScreens.Settings
         {
             var uiContentService = game.Services.GetService<IUiContentStorage>();
 
-            _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
-            _camera = Game.Services.GetService<Camera2D>();
+            _resolutionIndependentRenderer = Game.Services.GetService<IResolutionIndependentRenderer>();
+            _camera = Game.Services.GetService<ICamera2DAdapter>();
 
             var buttonTexture = uiContentService.GetControlBackgroundTexture();
             var font = uiContentService.GetMainFont();
@@ -194,8 +195,6 @@ namespace Rpg.Client.GameScreens.Settings
 
         private void InitializeResolutionIndependence(int realScreenWidth, int realScreenHeight)
         {
-            _resolutionIndependentRenderer.VirtualWidth = 848;
-            _resolutionIndependentRenderer.VirtualHeight = 480;
             _resolutionIndependentRenderer.Initialize();
         }
 

@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Client.Engine;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Engine
@@ -10,6 +12,6 @@ namespace Rpg.Client.Engine
         void Close();
         void Draw(SpriteBatch spriteBatch);
         void Show();
-        void Update(GameTime gameTime, ResolutionIndependentRenderer? resolutionIndependenceRenderer = null);
+        void Update(GameTime gameTime, IResolutionIndependentRenderer? resolutionIndependenceRenderer = null);
     }
 }

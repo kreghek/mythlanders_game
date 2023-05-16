@@ -23,7 +23,7 @@ namespace Client.GameScreens.Combat.GameObjects;
 internal sealed class CombatantGameObject : EwarRenderableBase
 {
     private readonly IList<IActorVisualizationState> _actorStateEngineList;
-    private readonly Camera2D _camera;
+    private readonly ICamera2DAdapter _camera;
     private readonly UnitGraphicsConfigBase _combatantGraphicsConfig;
     private readonly CombatantPositionSide _combatantSide;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -35,7 +35,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
     public CombatantGameObject(Combatant combatant, UnitGraphicsConfigBase combatantGraphicsConfig,
         FieldCoords formationCoords, ICombatantPositionProvider unitPositionProvider,
         GameObjectContentStorage gameObjectContentStorage,
-        Camera2D camera, ScreenShaker screenShaker,
+        ICamera2DAdapter camera, ScreenShaker screenShaker,
         CombatantPositionSide combatantSide)
     {
         _actorStateEngineList = new List<IActorVisualizationState>();

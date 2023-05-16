@@ -4,6 +4,7 @@ using System.Linq;
 
 using Client.Assets.StageItems;
 using Client.Core.Campaigns;
+using Client.Engine;
 
 using CombatDicesTeam.Graphs;
 using CombatDicesTeam.Graphs.Visualization;
@@ -33,7 +34,7 @@ internal sealed class CampaignMap : ControlBase
     private readonly Texture2D _campaignIconsTexture;
     private readonly IScreen _currentScreen;
     private readonly HeroCampaign _heroCampaign;
-    private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+    private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
     private readonly IScreenManager _screenManager;
 
     private TextHint? _currentHint;
@@ -45,7 +46,7 @@ internal sealed class CampaignMap : ControlBase
 
     public CampaignMap(HeroCampaign heroCampaign, IScreenManager screenManager, IScreen currentScreen,
         Texture2D campaignIconsTexture,
-        ResolutionIndependentRenderer resolutionIndependentRenderer)
+        IResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         _heroCampaign = heroCampaign;
         _screenManager = screenManager;
@@ -132,7 +133,7 @@ internal sealed class CampaignMap : ControlBase
         }
     }
 
-    internal void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
+    internal void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         if (State == MapState.Presentation)
         {
@@ -279,7 +280,7 @@ internal sealed class CampaignMap : ControlBase
         return new Rectangle(new Point(2 * LAYOUT_NODE_SIZE, 2 * LAYOUT_NODE_SIZE), size);
     }
 
-    private void HandleMapScrollingMyMouse(ResolutionIndependentRenderer resolutionIndependentRenderer)
+    private void HandleMapScrollingMyMouse(IResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         var mouseState = Mouse.GetState();
         if (mouseState.LeftButton == ButtonState.Pressed)
@@ -287,7 +288,7 @@ internal sealed class CampaignMap : ControlBase
             var mousePosition = mouseState.Position.ToVector2();
 
             var rirMousePosition =
-                resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mousePosition);
+                resolutionIndependentRenderer.ConvertScreenToWorldCoordinates(mousePosition);
 
             if (_dragData is null)
             {

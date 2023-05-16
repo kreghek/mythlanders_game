@@ -51,7 +51,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private readonly UpdatableAnimationManager _animationManager;
     private readonly CombatScreenTransitionArguments _args;
-    private readonly Camera2D _mainCamera;
+    private readonly ICamera2DAdapter _mainCamera;
     private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
     private readonly ICombatantPositionProvider _combatantPositionProvider;
     private readonly CombatCore _combatCore;
@@ -95,7 +95,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
-    private readonly Camera2D _objectCamera;
+    private readonly ICamera2DAdapter _objectCamera;
     private readonly CameraOperator _cameraOperator;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
@@ -104,8 +104,8 @@ internal class CombatScreen : GameScreenWithMenuBase
         var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
 
         _globeProvider = game.Services.GetService<GlobeProvider>();
-        _mainCamera = Game.Services.GetService<Camera2D>();
-        _objectCamera = new Camera2D(ResolutionIndependentRenderer, ResolutionIndependentRenderer.ViewportAdapter)
+        _mainCamera = Game.Services.GetService<ICamera2DAdapter>();
+        _objectCamera = new Camera2DAdapter(ResolutionIndependentRenderer.ViewportAdapter)
         {
             Zoom = 1,
             Position = _mainCamera.Position
@@ -142,7 +142,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _gameSettings = game.Services.GetService<GameSettings>();
 
-        _combatantPositionProvider = new CombatantPositionProvider(ResolutionIndependentRenderer.VirtualWidth);
+        _combatantPositionProvider = new CombatantPositionProvider(ResolutionIndependentRenderer.VirtualBounds.Width);
 
         _screenShaker = new ScreenShaker();
 
@@ -182,18 +182,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         DrawGameObjects(spriteBatch);
 
         DrawHud(spriteBatch, contentRectangle);
-
-        spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
-            blendState: BlendState.AlphaBlend,
-            samplerState: SamplerState.PointClamp,
-            depthStencilState: DepthStencilState.None,
-            rasterizerState: RasterizerState.CullNone,
-            transformMatrix: _objectCamera.GetViewTransformationMatrix());
-
-        spriteBatch.DrawCircle(_objectCamera.Origin, 10, 8, Color.Red);
-        spriteBatch.DrawCircle(contentRectangle.Center.ToVector2(), 10, 8, Color.GreenYellow);
-
-        spriteBatch.End();
     }
 
     protected override void InitializeContent()
@@ -1148,7 +1136,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void HandleBackgrounds()
     {
         var mouse = Mouse.GetState();
-        var mouseRir = ResolutionIndependentRenderer.ScaleMouseToScreenCoordinates(new Vector2(mouse.X, mouse.Y));
+        var mouseRir = ResolutionIndependentRenderer.ConvertScreenToWorldCoordinates(new Vector2(mouse.X, mouse.Y));
 
         var screenCenterX = ResolutionIndependentRenderer.VirtualBounds.Center.X;
         var rawPercentageX = (mouseRir.X - screenCenterX) / screenCenterX;

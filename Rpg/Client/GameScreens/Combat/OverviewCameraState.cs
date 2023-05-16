@@ -1,5 +1,7 @@
 using System;
 
+using Client.Engine;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -28,7 +30,7 @@ internal sealed class OverviewCameraState: ICameraState
 
     private const float BASE_ZOOM = 1.0f;
     
-    public void Update(GameTime gameTime, Camera2D camera)
+    public void Update(GameTime gameTime, ICamera2DAdapter camera)
     {
         if (Math.Abs(camera.Zoom - BASE_ZOOM) > 0.05)
         {

@@ -1,5 +1,6 @@
 using System;
 
+using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
@@ -155,7 +156,7 @@ internal class FieldManeuversVisualizer
     /// <summary>
     /// Update state of the panel
     /// </summary>
-    public void Update(ResolutionIndependentRenderer rir)
+    public void Update(IResolutionIndependentRenderer rir)
     {
         if (Combatant is null)
         {

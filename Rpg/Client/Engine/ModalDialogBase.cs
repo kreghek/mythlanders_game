@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Client.Engine;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -22,13 +24,13 @@ namespace Rpg.Client.Engine
         private readonly Texture2D _backgroundTopTexture;
         private readonly TextButton _closeButton;
         private readonly Rectangle _dialogRect;
-        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly Texture2D _shadowTexture;
         private readonly Texture2D _topSymbolTexture;
         public EventHandler? Closed;
 
         protected ModalDialogBase(IUiContentStorage uiContentStorage,
-            ResolutionIndependentRenderer resolutionIndependentRenderer)
+            IResolutionIndependentRenderer resolutionIndependentRenderer)
         {
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
 
@@ -38,8 +40,8 @@ namespace Rpg.Client.Engine
             _topSymbolTexture = uiContentStorage.GetModalTopSymbolTextures();
 
             _dialogRect = new Rectangle(
-                (_resolutionIndependentRenderer.VirtualWidth / 2) - (MODAL_WIDTH / 2),
-                (_resolutionIndependentRenderer.VirtualHeight / 2) - (MODAL_HEIGHT / 2),
+                (_resolutionIndependentRenderer.VirtualBounds.Width / 2) - (MODAL_WIDTH / 2),
+                (_resolutionIndependentRenderer.VirtualBounds.Height / 2) - (MODAL_HEIGHT / 2),
                 MODAL_WIDTH,
                 MODAL_HEIGHT);
 
@@ -66,7 +68,7 @@ namespace Rpg.Client.Engine
         }
 
         protected virtual void UpdateContent(GameTime gameTime,
-            ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
+            IResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
         {
             // Empty implementation to avoid empty implementation in every concrete class.
             // Some of the modals in just informational. So they are not handle any logic.
@@ -98,8 +100,8 @@ namespace Rpg.Client.Engine
         private void DrawScreenShadow(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_shadowTexture,
-                new Rectangle(0, 0, _resolutionIndependentRenderer.VirtualWidth,
-                    _resolutionIndependentRenderer.VirtualHeight),
+                new Rectangle(0, 0, _resolutionIndependentRenderer.VirtualBounds.Width,
+                    _resolutionIndependentRenderer.VirtualBounds.Height),
                 Color.White * 0.5f);
         }
 
@@ -150,7 +152,7 @@ namespace Rpg.Client.Engine
             IsVisible = true;
         }
 
-        public void Update(GameTime gameTime, ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
+        public void Update(GameTime gameTime, IResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
         {
             // Poll for current keyboard state
             var state = Keyboard.GetState();

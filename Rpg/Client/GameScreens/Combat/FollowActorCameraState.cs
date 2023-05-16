@@ -29,7 +29,7 @@ internal sealed class FollowActorCameraState : ICameraState
     const float FOLLOWING_ZOOM = 2f;
     
     /// <inheritdoc/>
-    public void Update(GameTime gameTime, Camera2D camera)
+    public void Update(GameTime gameTime, ICamera2DAdapter camera)
     {
         var spriteSizeY = 128;
         

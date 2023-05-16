@@ -16,7 +16,7 @@ namespace Rpg.Client.GameScreens.Common
         private readonly ResourceTextButton _skipTutorialButton;
 
         public TutorialModal(TutorialPageDrawerBase pageDrawer, IUiContentStorage uiContentStorage,
-            ResolutionIndependentRenderer resolutionIndependentRenderer, Player player) : base(uiContentStorage,
+            IResolutionIndependentRenderer resolutionIndependentRenderer, Player player) : base(uiContentStorage,
             resolutionIndependentRenderer)
         {
             _pageDrawer = pageDrawer;
@@ -40,7 +40,7 @@ namespace Rpg.Client.GameScreens.Common
         }
 
         protected override void UpdateContent(GameTime gameTime,
-            ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
+            IResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
         {
             base.UpdateContent(gameTime, resolutionIndependenceRenderer);
 

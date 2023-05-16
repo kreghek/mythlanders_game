@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Engine;
+
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.Engine;
@@ -10,7 +12,7 @@ namespace Client.GameScreens.Combat;
 internal interface ICameraState
 {
     bool IsComplete { get; }
-    void Update(GameTime gameTime, Camera2D camera);
+    void Update(GameTime gameTime, ICamera2DAdapter camera);
 }
 
 public static class Vector2Extensions
@@ -23,12 +25,12 @@ public static class Vector2Extensions
 
 internal class CameraOperator
 {
-    private readonly Camera2D _camera;
+    private readonly ICamera2DAdapter _camera;
     private readonly IList<ICameraState> _cameraStateList;
 
     private ICameraState _mainCameraState;
 
-    public CameraOperator(Camera2D camera, ICameraState startCameraState)
+    public CameraOperator(ICamera2DAdapter camera, ICameraState startCameraState)
     {
         _camera = camera;
 

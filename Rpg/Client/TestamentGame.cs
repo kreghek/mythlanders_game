@@ -19,7 +19,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using MonoGame.Extended.ViewportAdapters;
-using MonoGame.Extended;
 
 using Rpg.Client;
 using Rpg.Client.Core;
@@ -36,9 +35,9 @@ public sealed class TestamentGame : Game
     private readonly GameSettings _gameSettings;
     private readonly GraphicsDeviceManager _graphics;
     private readonly ILogger<TestamentGame> _logger;
-    private Camera2D _camera;
+    private ICamera2DAdapter _camera;
 
-    private ResolutionIndependentRenderer _resolutionIndependence;
+    private IResolutionIndependentRenderer _resolutionIndependence;
     private ScreenManager? _screenManager;
 
     private SpriteBatch? _spriteBatch;
@@ -91,7 +90,7 @@ public sealed class TestamentGame : Game
 
         var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 848, 480);
 
-        _camera = new Camera2D(_resolutionIndependence, viewportAdapter);
+        _camera = new Camera2DAdapter(viewportAdapter);
         Services.AddService(_camera);
 
         _resolutionIndependence = new ResolutionIndependentRenderer(_camera, viewportAdapter);
@@ -107,7 +106,7 @@ public sealed class TestamentGame : Game
         var HEIGHT = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 #endif
 
-        InitializeResolutionIndependence(WIDTH, HEIGHT);
+        InitializeResolutionIndependence();
 
 #if DEBUG
         _graphics.IsFullScreen = false;
@@ -200,10 +199,8 @@ public sealed class TestamentGame : Game
         Components.Add(trackNameDisplay);
     }
 
-    private void InitializeResolutionIndependence(int realScreenWidth, int realScreenHeight)
+    private void InitializeResolutionIndependence()
     {
-        _resolutionIndependence.VirtualWidth = 848;
-        _resolutionIndependence.VirtualHeight = 480;
         _resolutionIndependence.Initialize();
     }
 

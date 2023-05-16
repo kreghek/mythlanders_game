@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Client;
+using Client.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,16 +26,16 @@ namespace Rpg.Client.ScreenManagement
 
             ScreenManager = game.Services.GetService<IScreenManager>();
 
-            Camera = Game.Services.GetService<Camera2D>();
-            ResolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
+            Camera = Game.Services.GetService<ICamera2DAdapter>();
+            ResolutionIndependentRenderer = Game.Services.GetService<IResolutionIndependentRenderer>();
 
             _modals = new List<IModalWindow>();
         }
 
         public TestamentGame Game { get; }
         public IScreenManager ScreenManager { get; }
-        protected Camera2D Camera { get; }
-        protected ResolutionIndependentRenderer ResolutionIndependentRenderer { get; }
+        protected ICamera2DAdapter Camera { get; }
+        protected IResolutionIndependentRenderer ResolutionIndependentRenderer { get; }
 
         protected void AddModal(IModalWindow modal, bool isLate)
         {
