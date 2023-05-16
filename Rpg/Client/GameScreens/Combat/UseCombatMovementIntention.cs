@@ -60,7 +60,7 @@ internal sealed class UseCombatMovementIntention : IIntention
 
         var mainAnimationBlocker = _animationManager.CreateAndRegisterBlocker();
 
-        var executionIsComplete = false; 
+        var executionIsComplete = false;
 
         mainAnimationBlocker.Released += (_, _) =>
         {

@@ -27,7 +27,7 @@ internal class ResolutionIndependentRenderer : IResolutionIndependentRenderer
     public void BeginDraw()
     {
     }
-        
+
 
     public void Initialize()
     {

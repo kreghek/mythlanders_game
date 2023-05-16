@@ -228,7 +228,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
 
         _animationManager.Update(gameTime.ElapsedGameTime.TotalSeconds);
-        
+
         _cameraOperator.Update(gameTime);
     }
 
@@ -941,10 +941,10 @@ internal class CombatScreen : GameScreenWithMenuBase
             DrawCombatMoveTargets(spriteBatch);
 
             DrawCombatMovementsPanel(spriteBatch, contentRectangle);
-            
+
             DrawCombatantStats(spriteBatch);
         }
-        
+
         spriteBatch.End();
 
         spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,

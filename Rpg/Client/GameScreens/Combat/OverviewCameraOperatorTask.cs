@@ -22,9 +22,9 @@ internal sealed class OverviewCameraOperatorTask : ICameraOperatorTask
     public bool IsComplete => false;
 
     private const float BASE_ZOOM = 1.0f;
-    
+
     private const double ZOOM_THRESHOLD = 0.05;
-    
+
     private const int ZOOM_SPEED = 10;
 
     /// <inheritdoc/>

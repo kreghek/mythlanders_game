@@ -8,7 +8,7 @@ namespace Client.Engine;
 internal class Camera2DAdapter : ICamera2DAdapter
 {
     private readonly OrthographicCamera _innerCamera;
-        
+
     /// <summary>
     /// Center of the camera view.
     /// </summary>

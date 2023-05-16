@@ -13,7 +13,7 @@ internal interface ICameraOperatorTask
     /// Is task complete.
     /// </summary>
     bool IsComplete { get; }
-    
+
     /// <summary>
     /// Operate the specified camera.
     /// </summary>

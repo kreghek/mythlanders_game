@@ -21,16 +21,16 @@ internal sealed class FollowActorOperatorCameraTask : ICameraOperatorTask
     public bool IsComplete => _completeDelegate();
 
     const float FOLLOWING_ZOOM = 2f;
-    
+
     private const double ZOOM_THRESHOLD = 0.05;
-    
+
     private const int ZOOM_SPEED = 10;
-    
+
     /// <inheritdoc/>
     public void DoWork(GameTime gameTime, ICamera2DAdapter camera)
     {
         var actorFollowPoint = GetActorFollowPoint();
-        
+
         if (Math.Abs(camera.Zoom - FOLLOWING_ZOOM) > ZOOM_THRESHOLD)
         {
             if (camera.Zoom < FOLLOWING_ZOOM)
