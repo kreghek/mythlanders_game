@@ -5,44 +5,35 @@ using Client.Engine;
 
 using Microsoft.Xna.Framework;
 
-using Rpg.Client.Engine;
-
 namespace Client.GameScreens.Combat;
-
-internal interface ICameraState
-{
-    bool IsComplete { get; }
-    void Update(GameTime gameTime, ICamera2DAdapter camera);
-}
-
-public static class Vector2Extensions
-{
-    public static Vector2 ToIntVector2(this Vector2 source)
-    {
-        return new Vector2((int)source.X, (int)source.Y);
-    }
-}
 
 internal class CameraOperator
 {
-    private readonly ICamera2DAdapter _camera;
-    private readonly IList<ICameraState> _cameraStateList;
+    private readonly ICamera2DAdapter _ownedCamera;
+    private readonly IList<ICameraOperatorTask> _taskList;
 
-    private ICameraState _mainCameraState;
+    private ICameraOperatorTask _mainCameraState;
 
-    public CameraOperator(ICamera2DAdapter camera, ICameraState startCameraState)
+    public CameraOperator(ICamera2DAdapter camera, ICameraOperatorTask startCameraState)
     {
-        _camera = camera;
+        _ownedCamera = camera;
 
-        _cameraStateList = new List<ICameraState>();
+        _taskList = new List<ICameraOperatorTask>();
         _mainCameraState = startCameraState;
     }
 
-    public void AddState(ICameraState actorState)
+    /// <summary>
+    /// Add assign task to operator.
+    /// </summary>
+    public void AddState(ICameraOperatorTask task)
     {
-        _cameraStateList.Add(actorState);
+        _taskList.Add(task);
     }
 
+    /// <summary>
+    /// Update camera operator state.
+    /// </summary>
+    /// <param name="gameTime"></param>
     public void Update(GameTime gameTime)
     {
         HandleCameraStates(gameTime);
@@ -50,29 +41,29 @@ internal class CameraOperator
 
     internal void SetMasterState(OverviewCameraState mainCameraState)
     {
-        _cameraStateList.Clear();
+        _taskList.Clear();
 
         _mainCameraState = mainCameraState;
     }
 
     private void HandleCameraStates(GameTime gameTime)
     {
-        if (!_cameraStateList.Any())
+        if (!_taskList.Any())
         {
-            _mainCameraState.Update(gameTime, _camera);
+            _mainCameraState.DoWork(gameTime, _ownedCamera);
             return;
         }
 
-        var activeState = _cameraStateList.First();
-        activeState.Update(gameTime, _camera);
+        var activeState = _taskList.First();
+        activeState.DoWork(gameTime, _ownedCamera);
 
         if (activeState.IsComplete)
         {
-            _cameraStateList.Remove(activeState);
+            _taskList.Remove(activeState);
 
-            if (!_cameraStateList.Any())
+            if (!_taskList.Any())
             {
-                _mainCameraState.Update(gameTime, _camera);
+                _mainCameraState.DoWork(gameTime, _ownedCamera);
             }
         }
     }

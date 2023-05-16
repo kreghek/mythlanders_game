@@ -9,7 +9,7 @@ using Rpg.Client.Engine;
 
 namespace Client.GameScreens.Combat;
 
-internal sealed class OverviewCameraState: ICameraState
+internal sealed class OverviewCameraState: ICameraOperatorTask
 {
     private readonly Vector2 _overviewPosition;
     private readonly Vector2 _overviewOrigin;
@@ -30,7 +30,7 @@ internal sealed class OverviewCameraState: ICameraState
 
     private const float BASE_ZOOM = 1.0f;
     
-    public void Update(GameTime gameTime, ICamera2DAdapter camera)
+    public void DoWork(GameTime gameTime, ICamera2DAdapter camera)
     {
         if (Math.Abs(camera.Zoom - BASE_ZOOM) > 0.05)
         {

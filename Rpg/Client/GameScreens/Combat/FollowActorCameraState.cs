@@ -8,7 +8,7 @@ using Rpg.Client.Engine;
 
 namespace Client.GameScreens.Combat;
 
-internal sealed class FollowActorCameraState : ICameraState
+internal sealed class FollowActorCameraState : ICameraOperatorTask
 {
     private readonly IActorAnimator _combatActor;
     private readonly Func<bool> _completeDelegate;
@@ -29,7 +29,7 @@ internal sealed class FollowActorCameraState : ICameraState
     const float FOLLOWING_ZOOM = 2f;
     
     /// <inheritdoc/>
-    public void Update(GameTime gameTime, ICamera2DAdapter camera)
+    public void DoWork(GameTime gameTime, ICamera2DAdapter camera)
     {
         var spriteSizeY = 128;
         
