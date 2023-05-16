@@ -1,3 +1,5 @@
+using System;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -24,29 +26,35 @@ internal sealed class OverviewCameraState: ICameraState
 
     public bool IsComplete => false;
 
-    float BASE_ZOOM = 1.0f;
+    private const float BASE_ZOOM = 1.0f;
     
     public void Update(GameTime gameTime, Camera2D camera)
     {
-        
-
-        if (Keyboard.GetState().IsKeyDown(Keys.Up))
+        if (Math.Abs(camera.Zoom - BASE_ZOOM) > 0.05)
         {
-            BASE_ZOOM += 0.1f;
+
+            if (camera.Zoom < BASE_ZOOM)
+            {
+                camera.ZoomIn((float)gameTime.ElapsedGameTime.TotalSeconds * 10, _overviewOrigin);
+            }
+            else if (camera.Zoom > BASE_ZOOM)
+            {
+                camera.ZoomOut((float)gameTime.ElapsedGameTime.TotalSeconds * 10, _overviewOrigin);
+            }
+            else
+            {
+                camera.Zoom = BASE_ZOOM;
+            }
         }
-
-        //camera.ZoomIn(1, _overviewOrigin);
-        
-         if (camera.Zoom < BASE_ZOOM)
-         {
-             camera.ZoomIn((float)gameTime.ElapsedGameTime.TotalSeconds * 10, _overviewOrigin);
-         }
-
-        // var distance = (camera.Position - _overviewPosition).Length();
-        // if (distance > 0.1f)
-        // {
-        //     camera.Position = Vector2.Lerp(camera.Position, _overviewPosition, (float)gameTime.ElapsedGameTime.TotalSeconds)
-        //         /*.ToIntVector2()*/;
-        // }
+        else
+        {
+            camera.Zoom = BASE_ZOOM;
+            var distance = (camera.Position - _overviewPosition).Length();
+            if (distance > 0.1f)
+            {
+                camera.Position = Vector2.Lerp(camera.Position, _overviewPosition, (float)gameTime.ElapsedGameTime.TotalSeconds)
+                    /*.ToIntVector2()*/;
+             }
+        }
     }
 }

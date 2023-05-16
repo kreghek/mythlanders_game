@@ -46,12 +46,14 @@ namespace Rpg.Client.Engine
         {
             float pastZoom = Zoom;
             _innerCamera.ZoomIn(deltaZoom);
-            Position += (zoomCenter - _innerCamera.Origin - Position) * ((Zoom - pastZoom) / Zoom);
+            Position += (zoomCenter - Origin - Position) * ((Zoom - pastZoom) / Zoom);
         }
 
-        public void ZoomOut(float deltaZoom)
+        public void ZoomOut(float deltaZoom, Vector2 zoomCenter)
         {
+            float pastZoom = Zoom;
             _innerCamera.ZoomOut(deltaZoom);
+            Position += (zoomCenter - Origin - Position) * ((Zoom - pastZoom) / Zoom);
         }
 
         /// <summary>
