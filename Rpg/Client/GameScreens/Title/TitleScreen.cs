@@ -124,9 +124,8 @@ internal sealed class TitleScreen : GameScreenBase
         AddModal(_settingsModal, isLate: true);
     }
 
-    public void StartClearNewGame(GlobeProvider globeProvider, IEventCatalog eventCatalog,
-        IScreen currentScreen, IScreenManager screenManager,
-        Action? clearScreenHandlersDelegate)
+    public void StartClearNewGame(GlobeProvider globeProvider, IScreen currentScreen,
+        IScreenManager screenManager)
     {
         globeProvider.GenerateNew();
 
@@ -134,24 +133,11 @@ internal sealed class TitleScreen : GameScreenBase
 
         screenManager.ExecuteTransition(
             currentScreen,
-            ScreenTransition.CampaignSelection,
+            ScreenTransition.CommandCenter,
             new CommandCenterScreenTransitionArguments
             {
                 AvailableCampaigns = campaigns
             });
-
-        //globeProvider.Globe.IsNodeInitialized = true;
-
-        //var firstAvailableNodeInBiome =
-        //    globeProvider.Globe.Biomes.SelectMany(x => x.Nodes)
-        //        .First(x => x.IsAvailable);
-
-        //MapScreen.HandleLocationSelect(autoCombat: false, node: firstAvailableNodeInBiome,
-        //    availableEvent: firstAvailableNodeInBiome.AssignedEvent,
-        //    eventCatalog: eventCatalog,
-        //    currentScreen: currentScreen,
-        //    screenManager,
-        //    clearScreenHandlersDelegate);
     }
 
     protected override void DrawContent(SpriteBatch spriteBatch)
@@ -397,6 +383,6 @@ internal sealed class TitleScreen : GameScreenBase
 
     private void StartButton_OnClick(object? sender, EventArgs e)
     {
-        StartClearNewGame(_globeProvider, _eventCatalog, this, ScreenManager, () => { });
+        StartClearNewGame(_globeProvider, this, ScreenManager);
     }
 }

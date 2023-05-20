@@ -218,8 +218,8 @@ namespace Rpg.Client.Core
             var startHeroNames = new[]
             {
                 UnitName.Swordsman,
-                UnitName.Partisan,
-                UnitName.Assaulter
+                //UnitName.Partisan,
+                //UnitName.Assaulter
             };
 
             var startHeroes = startHeroNames.Select(x => CreateStartHero(x)).ToArray();

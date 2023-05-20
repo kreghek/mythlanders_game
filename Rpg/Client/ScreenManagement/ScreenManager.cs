@@ -116,7 +116,7 @@ namespace Rpg.Client.ScreenManagement
                 ScreenTransition.Title => new TitleScreen(_game),
                 ScreenTransition.Campaign => new CampaignScreen(_game,
                     (CampaignScreenTransitionArguments)screenTransitionArguments),
-                ScreenTransition.CampaignSelection => new CommandCenterScreen(_game,
+                ScreenTransition.CommandCenter => new CommandCenterScreen(_game,
                     (CommandCenterScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Hero => new HeroScreen(_game),
                 ScreenTransition.Event => new TextDialogueScreen(_game,

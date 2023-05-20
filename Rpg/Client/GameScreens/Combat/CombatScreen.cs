@@ -615,7 +615,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             var campaignGenerator = Game.Services.GetService<ICampaignGenerator>();
             var campaigns = campaignGenerator.CreateSet();
 
-            ScreenManager.ExecuteTransition(this, ScreenTransition.CampaignSelection,
+            ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
                 new CommandCenterScreenTransitionArguments
                 {
                     AvailableCampaigns = campaigns
@@ -633,7 +633,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             var campaignGenerator = Game.Services.GetService<ICampaignGenerator>();
             var campaigns = campaignGenerator.CreateSet();
 
-            ScreenManager.ExecuteTransition(this, ScreenTransition.CampaignSelection,
+            ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
                 new CommandCenterScreenTransitionArguments
                 {
                     AvailableCampaigns = campaigns

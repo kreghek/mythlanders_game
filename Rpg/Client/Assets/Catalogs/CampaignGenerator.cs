@@ -8,8 +8,6 @@ using CombatDicesTeam.Graphs.Generation.TemplateBased;
 
 using Core.Dices;
 
-using Rpg.Client.Core;
-
 namespace Client.Assets.Catalogs;
 
 internal sealed class CampaignGenerator : ICampaignGenerator
