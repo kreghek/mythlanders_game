@@ -9,20 +9,21 @@ using Rpg.Client.Core;
 
 namespace Client.Assets.CombatMovements;
 
+/// <summary>
+/// Play specified animation until it ends.
+/// </summary>
+/// <remarks>
+/// To play animation longer just repeat animation multiple times.
+/// </remarks>
 internal sealed class PlayAnimationActorState : IActorVisualizationState
 {
     private readonly IAnimationFrameSet _animation;
     private readonly IActorAnimator _animator;
-    private readonly Duration _duration;
 
-    private double _counter;
-
-    public PlayAnimationActorState(IActorAnimator animator, IAnimationFrameSet animation,
-        Duration? duration = null)
+    public PlayAnimationActorState(IActorAnimator animator, IAnimationFrameSet animation)
     {
         _animation = animation;
         _animator = animator;
-        _duration = duration ?? new Duration(0.25);
 
         _animation.End += Animation_End;
     }
@@ -46,6 +47,8 @@ internal sealed class PlayAnimationActorState : IActorVisualizationState
         }
     }
 
+    private bool _animationStarted;
+
     /// <inheritdoc />
     public void Update(GameTime gameTime)
     {
@@ -54,20 +57,10 @@ internal sealed class PlayAnimationActorState : IActorVisualizationState
             return;
         }
 
-        if (_counter == 0)
+        if (!_animationStarted)
         {
             _animator.PlayAnimation(_animation);
-        }
-
-        _counter += gameTime.ElapsedGameTime.TotalSeconds;
-
-        if (_counter <= _duration.Seconds)
-        {
-            _counter += gameTime.ElapsedGameTime.TotalSeconds;
-        }
-        else
-        {
-            IsComplete = true;
+            _animationStarted = true;
         }
     }
 }

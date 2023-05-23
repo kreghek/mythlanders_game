@@ -29,6 +29,8 @@ namespace Rpg.Client.Core.AnimationFrameSets
             if (_index < _animationSequence.Count - 1)
             {
                 _index++;
+                current = GetCurrentAnimationFrameSet();
+                current.End += CurrentAnimationFrameSet_End;
             }
             else
             {

@@ -7,6 +7,8 @@ using Core.Combats;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
+using Rpg.Client.Core.AnimationFrameSets;
+
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
 internal class DieBySwordFactory : CombatMovementFactoryBase
@@ -38,7 +40,13 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
+        var keepSwordStrongerAnimation = new CompositeAnimationFrameSet(new[] {
+            new LinearAnimationFrameSet(Enumerable.Range(8 * 2, 8).ToArray(), 8, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8),
+            new LinearAnimationFrameSet(new[]{ 8 * 2 + 8 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8)
+        });
+
         var config = new SingleMeleeVisualizationConfig(
+            keepSwordStrongerAnimation,
             new LinearAnimationFrameSet(Enumerable.Range(8, 8).ToArray(), 4, CommonConstants.FrameSize.X,
                 CommonConstants.FrameSize.Y, 8),
             new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8)
