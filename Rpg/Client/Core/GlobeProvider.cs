@@ -75,8 +75,6 @@ namespace Rpg.Client.Core
             InitStartStoryPoint(globe, _storyPointInitializer);
             AssignStartHeroes(globe);
 
-            CreateStartCombat(globe);
-
             Globe = globe;
         }
 
@@ -198,11 +196,6 @@ namespace Rpg.Client.Core
                 JsonSerializer.Serialize(saveDto, options: new JsonSerializerOptions { WriteIndented = true });
 
             return serializedSaveData;
-        }
-
-        private void CreateStartCombat(Globe globe)
-        {
-            //_biomeGenerator.CreateStartCombat(globe);
         }
 
         private Hero CreateStartHero(UnitName heroName)

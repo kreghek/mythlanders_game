@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 namespace Client.Assets.Catalogs.CampaignGeneration.CombatTemplates;
 
 [UsedImplicitly]
-internal sealed class DarkThicketCombatTemplateFactory : ICombatTemplateFactory
+internal sealed class BattlegroundCombatTemplateFactory : ICombatTemplateFactory
 {
     public IReadOnlyCollection<MonsterCombatantTempate> CreateSet()
     {
@@ -17,7 +17,7 @@ internal sealed class DarkThicketCombatTemplateFactory : ICombatTemplateFactory
         {
             new MonsterCombatantTempate(
                 new MonsterCombatantTempateLevel(0),
-                new[] { LocationSids.Thicket },
+                new[] { LocationSids.Battleground },
                 new MonsterCombatantPrefab[]
                 {
                     new("aspid", 0, new FieldCoords(0, 1)),
@@ -29,7 +29,7 @@ internal sealed class DarkThicketCombatTemplateFactory : ICombatTemplateFactory
 
             new MonsterCombatantTempate(
                 new MonsterCombatantTempateLevel(1),
-                new[] { LocationSids.Thicket },
+                new[] { LocationSids.Battleground },
                 new MonsterCombatantPrefab[]
                 {
                     new("aspid", 0, new FieldCoords(0, 1)),
@@ -41,7 +41,7 @@ internal sealed class DarkThicketCombatTemplateFactory : ICombatTemplateFactory
 
             new MonsterCombatantTempate(
                 new MonsterCombatantTempateLevel(2),
-                new[] { LocationSids.Thicket },
+                new[] { LocationSids.Battleground },
                 new MonsterCombatantPrefab[]
                 {
                     new("aspid", 0, new FieldCoords(0, 1)),

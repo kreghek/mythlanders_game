@@ -48,7 +48,9 @@ internal sealed class CampaignGenerator : ICampaignGenerator
             LocationSids.ShipGraveyard,
             LocationSids.Desert,
 
-            LocationSids.Swamp
+            LocationSids.Swamp,
+
+            LocationSids.Battleground
         };
 
         var selectedLocations = _dice.RollFromList(availableLocations, 3).ToList();
