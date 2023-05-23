@@ -2,7 +2,6 @@
 
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
-using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
 using Core.Combats.Effects;
@@ -36,7 +35,7 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
         };
     }
 
-    public override IActorVisualizationState CreateVisualization(IActorAnimator actorAnimator,
+    public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
         var config = new SingleMeleeVisualizationConfig(

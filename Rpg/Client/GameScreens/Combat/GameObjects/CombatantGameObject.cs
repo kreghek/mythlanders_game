@@ -76,6 +76,8 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
     public Vector2 StatsPanelOrigin => Position - _combatantGraphicsConfig.StatsPanelOrigin;
 
+    public Vector2 MeleeHitOffset => Position + new Vector2(_combatantSide == CombatantPositionSide.Heroes ? _combatantGraphicsConfig.MeleeHitXOffset : -_combatantGraphicsConfig.MeleeHitXOffset, 0);
+
     public void AddStateEngine(IActorVisualizationState actorStateEngine)
     {
         foreach (var state in _actorStateEngineList.ToArray())

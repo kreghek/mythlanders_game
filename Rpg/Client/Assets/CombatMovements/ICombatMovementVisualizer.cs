@@ -1,5 +1,5 @@
-﻿using Client.Engine;
-using Client.GameScreens.Combat.GameObjects;
+﻿using Client.Assets.CombatMovements.Hero.Swordsman;
+using Client.Engine;
 
 using Core.Combats;
 
@@ -9,6 +9,6 @@ internal interface ICombatMovementVisualizer
 {
     CombatMovementIcon GetMoveIcon(CombatMovementSid sid);
 
-    IActorVisualizationState GetMovementVisualizationState(CombatMovementSid sid, IActorAnimator actorAnimator,
+    CombatMovementScene GetMovementVisualizationState(CombatMovementSid sid, IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext);
 }

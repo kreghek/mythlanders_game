@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
-using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
 
@@ -40,7 +40,7 @@ internal sealed class CombatMovementVisualizer : ICombatMovementVisualizer
         return factory.CombatMovementIcon;
     }
 
-    public IActorVisualizationState GetMovementVisualizationState(CombatMovementSid sid, IActorAnimator actorAnimator,
+    public CombatMovementScene GetMovementVisualizationState(CombatMovementSid sid, IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
         if (!_movementVisualizationDict.TryGetValue(sid, out var factory))

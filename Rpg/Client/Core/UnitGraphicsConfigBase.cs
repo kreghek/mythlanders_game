@@ -11,6 +11,8 @@ namespace Rpg.Client.Core
         public Vector2 ShadowOrigin { get; protected set; } = new Vector2(0, 0);
         public Vector2 StatsPanelOrigin { get; protected set; } = new Vector2(0, 64 + 4);
 
+        public int MeleeHitXOffset { get; protected set; } = 64;
+
         public abstract IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations();
     }
 }

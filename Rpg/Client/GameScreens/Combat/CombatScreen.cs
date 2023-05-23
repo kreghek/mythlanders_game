@@ -186,7 +186,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     protected override void InitializeContent()
     {
-        CombatInitialize();
+        InitializeCombat();
 
         _maneuversVisualizer.ManeuverSelected += ManeuverVisualizer_ManeuverSelected;
     }
@@ -470,7 +470,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     //     unitGameObject.AddChild(passIndicator);
     // }
 
-    private void CombatInitialize()
+    private void InitializeCombat()
     {
         _combatCore.CombatantHasBeenAdded += CombatCode_CombatantHasBeenAdded;
         _combatCore.CombatantHasBeenDefeated += CombatCode_CombatantHasBeenDefeated;

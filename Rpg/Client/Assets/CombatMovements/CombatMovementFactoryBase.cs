@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 
+using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
-using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
 
@@ -33,7 +33,7 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
     /// <param name="movementExecution">Materialized move execution.</param>
     /// <param name="visualizationContext">Combat context to interact with combat field.</param>
     /// <returns></returns>
-    public virtual IActorVisualizationState CreateVisualization(IActorAnimator actorAnimator,
+    public virtual CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution,
         ICombatMovementVisualizationContext visualizationContext)
     {
@@ -43,7 +43,6 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
             new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8)
                 { IsLoop = true });
 
-        return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
-            visualizationContext, config);
+        return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution, visualizationContext, config);
     }
 }
