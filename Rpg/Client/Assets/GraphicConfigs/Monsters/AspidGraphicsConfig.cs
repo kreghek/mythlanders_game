@@ -12,7 +12,7 @@ namespace Rpg.Client.Assets.GraphicConfigs.Monsters
         {
             StatsPanelOrigin = new Vector2(0, 64 + 20);
             InteractionPoint = Vector2.UnitY * 48;
-            MeleeHitXOffset = 96;
+            MeleeHitXOffset = 128;
         }
 
         public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()

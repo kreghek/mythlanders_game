@@ -41,14 +41,17 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
         var keepSwordStrongerAnimation = new CompositeAnimationFrameSet(new[] {
-            new LinearAnimationFrameSet(Enumerable.Range(8 * 2, 8).ToArray(), 8, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8),
-            new LinearAnimationFrameSet(new[]{ 8 * 2 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8)
+            new LinearAnimationFrameSet(Enumerable.Range(8 * 3 + 5, 1).ToArray(), 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8)
         });
+
+        var chargeAnimation = new LinearAnimationFrameSet(Enumerable.Range(8 + 4, 2).ToArray(), 4, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8);
+
+        var hitAnimation = new LinearAnimationFrameSet(Enumerable.Range(8 + 2, 8 -2).ToArray(), 4, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8);
 
         var config = new SingleMeleeVisualizationConfig(
             keepSwordStrongerAnimation,
-            new LinearAnimationFrameSet(Enumerable.Range(8, 8).ToArray(), 4, CommonConstants.FrameSize.X,
-                CommonConstants.FrameSize.Y, 8),
+            chargeAnimation,
+            hitAnimation,
             new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8)
                 { IsLoop = true });
 

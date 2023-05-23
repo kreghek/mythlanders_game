@@ -95,9 +95,7 @@ internal static class CommonCombatVisualization
             new MoveToPositionActorState(actorAnimator,
                 new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, targetPosition),
                 config.CombatMovementAnimation),
-            new DirectInteractionState(actorAnimator, skillAnimationInfo,
-                new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
-                    CommonConstants.FrameSize.Y, 8)),
+            new DirectInteractionState(actorAnimator, skillAnimationInfo, config.HitAnimation),
             new MoveToPositionActorState(actorAnimator,
                 new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, startPosition),
                 config.BackAnimation)
