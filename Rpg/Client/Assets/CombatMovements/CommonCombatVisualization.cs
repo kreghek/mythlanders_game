@@ -92,9 +92,12 @@ internal static class CommonCombatVisualization
         var subStates = new IActorVisualizationState[]
         {
             new PlayAnimationActorState(actorAnimator, config.PrepareMovementAnimation),
-            new MoveToPositionActorState(actorAnimator,
-                new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, targetPosition),
-                config.CombatMovementAnimation),
+            new ParallelState(new[]{
+                new MoveToPositionActorState(actorAnimator,
+                    new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, targetPosition),
+                    config.CombatMovementAnimation),
+                
+            }),
             new DirectInteractionState(actorAnimator, skillAnimationInfo, config.HitAnimation),
             new MoveToPositionActorState(actorAnimator,
                 new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, startPosition),

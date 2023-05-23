@@ -1,11 +1,56 @@
-﻿using Client.Engine;
+﻿using System;
+
+using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
 
+using MonoGame.Extended.Sprites;
+
 using Rpg.Client.Core;
 
 namespace Client.Assets.CombatMovements;
+
+internal sealed class PlayCustomEffectAnimation : IActorVisualizationState
+{
+    private readonly IMoveFunction _moveFunction;
+    private readonly IAnimationFrameSet _animation;
+
+    /// <inheritdoc />
+    public bool CanBeReplaced => true;
+
+    /// <inheritdoc />
+    public bool IsComplete { get; private set; }
+
+    public PlayCustomEffectAnimation(IMoveFunction moveFunction, IAnimationFrameSet animation)
+    {
+        _moveFunction = moveFunction;
+        _animation = animation;
+
+        _animation.End += Animation_End;
+    }
+
+    private void Animation_End(object? sender, EventArgs e)
+    {
+        IsComplete = true;
+    }
+
+    public void Cancel()
+    {
+    }
+
+    private bool _animationStarted;
+
+    public void Update(GameTime gameTime)
+    {
+        if (IsComplete)
+        {
+            return;
+        }
+
+        _animation.Update(gameTime);
+    }
+}
 
 internal sealed class MoveToPositionActorState : IActorVisualizationState
 {
