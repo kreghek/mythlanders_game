@@ -42,7 +42,7 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
     {
         var keepSwordStrongerAnimation = new CompositeAnimationFrameSet(new[] {
             new LinearAnimationFrameSet(Enumerable.Range(8 * 2, 8).ToArray(), 8, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8),
-            new LinearAnimationFrameSet(new[]{ 8 * 2 + 8 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8)
+            new LinearAnimationFrameSet(new[]{ 8 * 2 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8)
         });
 
         var config = new SingleMeleeVisualizationConfig(
