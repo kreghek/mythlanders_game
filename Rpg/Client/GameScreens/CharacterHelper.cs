@@ -10,7 +10,7 @@ public static class CharacterHelper
         ("Slavic", new[]{ "Aspid", "CorruptedBear", "DigitalWolf", "HornedFrog", "Stryga", "Volkolak", "Wisp" }),
         ("Egyptian", new[]{ "Chaser" }),
         ("Chinese", new[]{ "Huapigui" }),
-        ("Black", new[]{ "Marauder", "Trooper" })
+        ("Black", new[]{ "Marauder", "BoldMarauder", "BlackTrooper" })
     };
 
     public static string GetCultureSid(string classSid)

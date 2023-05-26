@@ -153,7 +153,7 @@ namespace Rpg.Client.GameScreens
                 UnitName.Oldman => 6,
                 UnitName.Aspid => 7,
                 UnitName.DigitalWolf => 8,
-                UnitName.Bear => 9,
+                UnitName.CorruptedBear => 9,
                 UnitName.Wisp => 10,
                 UnitName.Volkolak or UnitName.VolkolakWarrior => 11,
                 UnitName.Partisan => 13,

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
+using Client.Assets.CombatMovements;
 using Client.Core;
 
 using Microsoft.Xna.Framework.Audio;
@@ -240,7 +241,7 @@ internal class GameObjectContentStorage
             { UnitName.BlackTrooper, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
             { UnitName.DigitalWolf, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") },
-            { UnitName.Bear, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BearDeath") },
+            { UnitName.CorruptedBear, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BearDeath") },
             { UnitName.Wisp, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/WhispDeath") },
             { UnitName.Aspid, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/AspidDeath") },
             {
@@ -276,10 +277,10 @@ internal class GameObjectContentStorage
             { UnitName.Herbalist, LoadHeroPortrait("Herbalist") },
             { UnitName.Assaulter, LoadHeroPortrait("Assaulter") },
             { UnitName.Monk, LoadHeroPortrait("Monk") },
-            { UnitName.Guardian, LoadHeroPortrait("Spearman") },
+            { UnitName.Guardian, LoadHeroPortrait("Guardian") },
             { UnitName.Hoplite, LoadHeroPortrait("Hoplite") },
-            { UnitName.Synth, LoadHeroPortrait("DamagedSynth") },
-            { UnitName.ChineseOldman, LoadHeroPortrait("ChineseOldman") }
+            //{ UnitName.Synth, LoadHeroPortrait("DamagedSynth") },
+            //{ UnitName.ChineseOldman, LoadHeroPortrait("ChineseOldman") }
         };
 
         Texture2D LoadBackgroundLayer(BiomeType biomeType, ILocationSid locationSid, BackgroundLayerType layerType)
@@ -303,7 +304,7 @@ internal class GameObjectContentStorage
 
         Texture2D LoadHeroPortrait(string classSid)
         {
-            return contentManager.Load<Texture2D>(Path.Combine("Sprites","GameObjects","Heroes", classSid, "Portrait"));
+            return contentManager.Load<Texture2D>(Path.Combine(CommonConstants.PathToCharacterSprites, "Heroes", classSid, "Portrait"));
         }
 
         _puzzleTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/Puzzle");
@@ -411,7 +412,7 @@ internal class GameObjectContentStorage
             { UnitName.DigitalWolf, LoadMonsterTexture(contentManager, "DigitalWolf") },
             { UnitName.Aspid, LoadMonsterTexture(contentManager, "Aspid") },
             { UnitName.Wisp, LoadMonsterTexture(contentManager, "Wisp") },
-            { UnitName.Bear, LoadMonsterTexture(contentManager, "Bear") },
+            { UnitName.CorruptedBear, LoadMonsterTexture(contentManager, "CorruptedBear") },
             { UnitName.VolkolakWarrior, LoadMonsterTexture(contentManager, "Volkolak") },
             { UnitName.Volkolak, LoadMonsterTexture(contentManager, "Volkolak") },
             { UnitName.Stryga, LoadMonsterTexture(contentManager, "Stryga") },
@@ -419,7 +420,7 @@ internal class GameObjectContentStorage
 
             { UnitName.Huapigui, LoadMonsterTexture(contentManager, "Huapigui") },
 
-            { UnitName.Chaser, LoadMonsterTexture(contentManager, "Mummy") }
+            { UnitName.Chaser, LoadMonsterTexture(contentManager, "Chaser") }
         };
     }
 

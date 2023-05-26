@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Client.Core;
+
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;

@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Client.Core;
+
+using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;

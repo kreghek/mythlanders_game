@@ -504,7 +504,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _args.CombatSequence.Combats.First().Monsters));
 
         _combatantQueuePanel = new CombatantQueuePanel(_combatCore,
-            _uiContentStorage, new CombatantThumbnailProvider(Game.Content));
+            _uiContentStorage, new CombatantThumbnailProvider(Game.Content, Game.Services.GetRequiredService<IUnitGraphicsCatalog>()));
     }
 
     private void CombatMovementsHandPanel_CombatMovementHover(object? sender, CombatMovementPickedEventArgs e)

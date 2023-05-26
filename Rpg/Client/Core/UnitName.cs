@@ -47,7 +47,7 @@
         SwampWomanFish, // болотная русалка
         Drekava, // Дрекавак
         DigitalWolf,
-        Bear,
+        CorruptedBear,
         Volkolak,
         Dead, // Умертивие
         Wisp,

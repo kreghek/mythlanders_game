@@ -1,5 +1,7 @@
+using Client.Assets.GraphicConfigs.Heroes;
+using Client.Core;
+
 using Rpg.Client.Assets.Equipments.Archer;
-using Rpg.Client.Assets.GraphicConfigs.Heroes;
 using Rpg.Client.Assets.Heroes;
 using Rpg.Client.Core;
 
@@ -21,7 +23,7 @@ internal class RobberFactory : HeroFactoryBase
 
     protected override UnitGraphicsConfigBase GetGraphicsConfig()
     {
-        return new ArcherGraphicsConfig();
+        return new RobberGraphicsConfig();
     }
 
     protected override IUnitLevelScheme[] GetLevels()

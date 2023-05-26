@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core;
 using Client.GameScreens;
 
 using Microsoft.Xna.Framework;
