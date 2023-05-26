@@ -15,7 +15,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Rpg.Client;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Title;
 using Rpg.Client.ScreenManagement;
 
@@ -329,7 +328,7 @@ internal sealed class TitleScreen : GameScreenBase
             return new[]
             {
                 UnitName.Swordsman, UnitName.Robber, UnitName.Herbalist, UnitName.Assaulter, UnitName.Monk,
-                UnitName.Spearman, UnitName.Hoplite
+                UnitName.Guardian, UnitName.Hoplite
             };
         }
 

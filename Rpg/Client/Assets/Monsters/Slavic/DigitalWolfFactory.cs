@@ -2,11 +2,11 @@
 using Client.Assets.GraphicConfigs.Monsters;
 using Client.Assets.Monsters;
 using Client.Core;
+using Client.GameScreens;
 
 using JetBrains.Annotations;
 
 using Rpg.Client.Core;
-using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Monsters
 {

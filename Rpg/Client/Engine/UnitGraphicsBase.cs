@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.GameScreens;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
-using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Engine
 {

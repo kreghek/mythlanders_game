@@ -11,4 +11,7 @@
 		  <PrivateAssets>All</PrivateAssets>
 	  </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\Sprites\GameObjects\Characters\Npc\NewFolder\" />
+  </ItemGroup>
 </Project>

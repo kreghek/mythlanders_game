@@ -10,7 +10,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.SlidingPuzzles

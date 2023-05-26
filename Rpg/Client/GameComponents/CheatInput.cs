@@ -151,7 +151,7 @@ namespace Rpg.Client.GameComponents
                 "herbalist" => unitSchemeCatalog.Heroes[UnitName.Herbalist],
 
                 "monk" => unitSchemeCatalog.Heroes[UnitName.Monk],
-                "spearman" => unitSchemeCatalog.Heroes[UnitName.Spearman],
+                "spearman" => unitSchemeCatalog.Heroes[UnitName.Guardian],
                 "missionary" => unitSchemeCatalog.Heroes[UnitName.Sage],
 
                 "priest" => unitSchemeCatalog.Heroes[UnitName.Priest],

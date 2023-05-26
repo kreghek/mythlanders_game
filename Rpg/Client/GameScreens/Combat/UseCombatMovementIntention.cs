@@ -4,6 +4,7 @@ using System.Linq;
 using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Assets.States.Primitives;
+using Client.GameScreens;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 

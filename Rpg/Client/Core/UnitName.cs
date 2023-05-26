@@ -18,7 +18,7 @@
         Herbalist,
 
         Monk,
-        Spearman,
+        Guardian,
         Sage,
 
         Priest,
