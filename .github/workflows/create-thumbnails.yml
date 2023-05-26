@@ -1,4 +1,4 @@
-name: Code Linter
+name: Create thumbnails
 
 on:
   workflow_dispatch
