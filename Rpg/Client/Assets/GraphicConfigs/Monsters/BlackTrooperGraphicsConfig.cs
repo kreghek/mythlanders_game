@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-using Client.Core;
+using Client.Assets.GraphicConfigs.Monsters;
 
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.GraphicConfigs.Monsters
 {
-    internal sealed class BlackTrooperGraphicsConfig : UnitGraphicsConfigBase
+    internal sealed class BlackTrooperGraphicsConfig : BlackMonsterGraphicConfig
     {
         public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
         {

@@ -5,8 +5,6 @@ using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
 
-using MonoGame.Extended.Sprites;
-
 using Rpg.Client.Core;
 
 namespace Client.Assets.CombatMovements;

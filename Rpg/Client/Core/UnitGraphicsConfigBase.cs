@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 
 using Microsoft.Xna.Framework;
 
@@ -18,6 +17,5 @@ internal abstract class UnitGraphicsConfigBase
 
     public abstract IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations();
 
-    public virtual string ThumbnalPath => Path.Combine("Sprites", "GameObjects", "Characters", "Heroes",
-    GetType().Name[..^14], "Thumbnail");
+    public abstract string ThumbnalPath { get; }
 }

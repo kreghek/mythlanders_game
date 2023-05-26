@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-using Client.Core;
+using Client.Assets.GraphicConfigs.Heroes;
 
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.GraphicConfigs.Heroes
 {
-    internal sealed class HopliteGraphicsConfig : UnitGraphicsConfigBase
+    internal sealed class HopliteGraphicsConfig : HeroGraphicConfig
     {
         public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
         {

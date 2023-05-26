@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using Client.Assets.GraphicConfigs.Monsters;
 using Client.Core;
 
 using Microsoft.Xna.Framework;
@@ -8,7 +9,7 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.GraphicConfigs.Monsters
 {
-    internal sealed class VolkolakGraphicsConfig : UnitGraphicsConfigBase
+    internal sealed class VolkolakGraphicsConfig : SlavicMonsterGraphicConfig
     {
         public VolkolakGraphicsConfig()
         {

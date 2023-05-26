@@ -139,7 +139,7 @@ internal sealed class CombatantQueuePanel : ControlBase
         spriteBatch.Draw(_combatantThumbnailProvider.Get(combatant.ClassSid),
             portraitDestRect,
             sourceRectangle: null,
-            Color.White,
+            side == Side.Left ? Color.White : Color.Lerp(Color.White, Color.Red, 0.15f),
             effects: effect,
             rotation: 0, origin: Vector2.Zero, layerDepth: 0);
     }

@@ -8,7 +8,7 @@ using Rpg.Client.Core;
 
 namespace Client.Assets.GraphicConfigs.Monsters;
 
-internal sealed class DigitalWolfGraphicsConfig : UnitGraphicsConfigBase
+internal sealed class DigitalWolfGraphicsConfig : SlavicMonsterGraphicConfig
 {
     public DigitalWolfGraphicsConfig()
     {

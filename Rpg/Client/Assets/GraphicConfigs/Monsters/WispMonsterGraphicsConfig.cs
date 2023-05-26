@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 
+using Client.Assets.GraphicConfigs.Monsters;
 using Client.Core;
 
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.GraphicConfigs.Monsters
 {
-    internal sealed class WispMonsterGraphicsConfig : UnitGraphicsConfigBase
+    internal sealed class WispMonsterGraphicsConfig : SlavicMonsterGraphicConfig
     {
         public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
         {

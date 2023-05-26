@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 
+using Client.Assets.GraphicConfigs.Monsters;
 using Client.Core;
 
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.GraphicConfigs.Monsters
 {
-    internal sealed class KocheyDeadFormGraphicsConfig : UnitGraphicsConfigBase
+    internal sealed class KocheyDeadFormGraphicsConfig : SlavicMonsterGraphicConfig
     {
         public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
         {

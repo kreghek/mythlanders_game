@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-
-using Client.Core;
 
 using Rpg.Client.Core;
 
 namespace Client.Assets.GraphicConfigs.Heroes;
 
-internal sealed class RobberGraphicsConfig : UnitGraphicsConfigBase
+internal sealed class RobberGraphicsConfig : HeroGraphicConfig
 {
     public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
     {
