@@ -17,12 +17,12 @@ internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
     private readonly IAnimationManager _animationManager;
     private readonly CameraOperator _cameraOperator;
     private readonly IList<CombatantGameObject> _combatantGameObjects;
-    private readonly ICombatMovementVisualizer _combatMovementVisualizer;
+    private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
 
     public BotCombatActorIntentionFactory(IAnimationManager animationManager,
-        ICombatMovementVisualizer combatMovementVisualizer,
+        ICombatMovementVisualizationProvider combatMovementVisualizer,
         IList<CombatantGameObject> combatantGameObjects,
         InteractionDeliveryManager interactionDeliveryManager,
         GameObjectContentStorage gameObjectContentStorage,

@@ -10,7 +10,7 @@ using Core.Combats;
 
 namespace Client.Assets.CombatMovements;
 
-internal sealed class CombatMovementVisualizer : ICombatMovementVisualizer
+internal sealed class CombatMovementVisualizer : ICombatMovementVisualizationProvider
 {
     private readonly IDictionary<CombatMovementSid, ICombatMovementFactory> _movementVisualizationDict;
 

@@ -313,7 +313,7 @@ public sealed class TestamentGame : Game
         Services.AddService<IUnitGraphicsCatalog>(unitGraphicsCatalog);
 
         var movementVisualizer = new CombatMovementVisualizer();
-        Services.AddService<ICombatMovementVisualizer>(movementVisualizer);
+        Services.AddService<ICombatMovementVisualizationProvider>(movementVisualizer);
 
         var crisesCatalog = new CrisesCatalog();
         Services.AddService<ICrisesCatalog>(crisesCatalog);

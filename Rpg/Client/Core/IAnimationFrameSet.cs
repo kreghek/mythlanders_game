@@ -11,5 +11,4 @@ internal interface IAnimationFrameSet
     void Reset();
     void Update(GameTime gameTime);
     event EventHandler? End;
-    event EventHandler<AnimationKeyFrameEventArgs>? KeyFrameHandled;
 }

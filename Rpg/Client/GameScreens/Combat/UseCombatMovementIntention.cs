@@ -22,12 +22,12 @@ internal sealed class UseCombatMovementIntention : IIntention
     private readonly CameraOperator _cameraOperator;
     private readonly IList<CombatantGameObject> _combatantGameObjects;
     private readonly CombatMovementInstance _combatMovement;
-    private readonly ICombatMovementVisualizer _combatMovementVisualizer;
+    private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
 
     public UseCombatMovementIntention(CombatMovementInstance combatMovement, IAnimationManager animationManager,
-        ICombatMovementVisualizer combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects,
+        ICombatMovementVisualizationProvider combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects,
         InteractionDeliveryManager interactionDeliveryManager, GameObjectContentStorage gameObjectContentStorage,
         CameraOperator cameraOperator)
     {

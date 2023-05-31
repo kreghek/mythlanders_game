@@ -7,8 +7,6 @@ using Core.Combats;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
-using Rpg.Client.Core.AnimationFrameSets;
-
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
 internal class DieBySwordFactory : CombatMovementFactoryBase

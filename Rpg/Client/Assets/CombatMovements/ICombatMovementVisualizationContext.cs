@@ -6,6 +6,9 @@ using Core.Combats;
 
 namespace Client.Assets.CombatMovements;
 
+/// <summary>
+/// Services and cobat movement context.
+/// </summary>
 internal interface ICombatMovementVisualizationContext
 {
     CombatantGameObject ActorGameObject { get; }

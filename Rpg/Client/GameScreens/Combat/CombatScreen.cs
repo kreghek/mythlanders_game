@@ -57,7 +57,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly ICombatantPositionProvider _combatantPositionProvider;
     private readonly CombatCore _combatCore;
     private readonly ICombatActorBehaviourDataProvider _combatDataBehaviourProvider;
-    private readonly ICombatMovementVisualizer _combatMovementVisualizer;
+    private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
     private readonly IList<CorpseGameObject> _corpseObjects;
     private readonly HeroCampaign _currentCampaign;
     private readonly IDice _dice;
@@ -127,7 +127,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();
         _animationManager = new UpdatableAnimationManager(new AnimationManager());
         _dice = Game.Services.GetService<IDice>();
-        _combatMovementVisualizer = Game.Services.GetRequiredService<ICombatMovementVisualizer>();
+        _combatMovementVisualizer = Game.Services.GetRequiredService<ICombatMovementVisualizationProvider>();
 
         var bgofSelector = Game.Services.GetService<BackgroundObjectFactorySelector>();
 
