@@ -20,6 +20,11 @@ foreach ($file in $fileList) {
 	if (Test-Path -Path $metaFile -PathType Leaf) {
 		# Чтение координат из текстового файла
 		$coordinates = Get-Content -Path $metaFile
+		
+		if ($coordinates -eq "ignore"){
+			$image.Dispose()
+			continue
+		}
 
 		# Разделение координат по пробелу и преобразование в числа
 		$x = [double]$coordinates.Split(" ")[0]
