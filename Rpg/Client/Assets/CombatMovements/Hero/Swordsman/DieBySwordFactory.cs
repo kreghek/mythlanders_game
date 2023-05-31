@@ -61,7 +61,7 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
             visualizationContext, config);
     }
 
-    private static LinearAnimationFrameSet ConvertToAnimation(SpredsheetAnimationData spredsheetAnimationData, string animation)
+    private static LinearAnimationFrameSet ConvertToAnimation(SpriteAtlasAnimationData spredsheetAnimationData, string animation)
     {
         var spredsheetAnimationDataCycles = spredsheetAnimationData.Cycles[animation];
 

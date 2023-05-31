@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Linq;
 
+using Client.Assets.GraphicConfigs.Monsters;
+
 namespace Client.GameScreens;
 
-public static class CharacterHelper
+internal static class CharacterHelper
 {
-    private static readonly (string CultureSid, string[] ClassSids)[] _map = new []
+    private static readonly (CharacterCultureSid CharacterCultureSid, string[] ClassSids)[] _map = new []
     {
-        ("Slavic", new[]{ "Aspid", "CorruptedBear", "DigitalWolf", "HornedFrog", "Stryga", "Volkolak", "Wisp" }),
-        ("Egyptian", new[]{ "Chaser" }),
-        ("Chinese", new[]{ "Huapigui" }),
-        ("Black", new[]{ "Marauder", "BoldMarauder", "BlackTrooper" })
+        (CharacterCultureSid.Slavic, new[]{ "Aspid", "CorruptedBear", "DigitalWolf", "HornedFrog", "Stryga", "Volkolak", "Wisp" }),
+        (CharacterCultureSid.Egyptian, new[]{ "Chaser" }),
+        (CharacterCultureSid.Chinese, new[]{ "Huapigui" }),
+        (CharacterCultureSid.Black, new[]{ "Marauder", "BoldMarauder", "BlackTrooper" })
     };
 
-    public static string GetCultureSid(string classSid)
+    public static CharacterCultureSid GetCultureSid(string classSid)
     {
-        return _map.Single(x => x.ClassSids.Contains(classSid)).CultureSid;
+        return _map.Single(x => x.ClassSids.Contains(classSid)).CharacterCultureSid;
     }
 }

@@ -318,7 +318,7 @@ internal class GameObjectContentStorage
 
         _puzzleTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/Puzzle");
 
-        _animationSetDict = new Dictionary<string, SpredsheetAnimationData> {
+        _animationSetDict = new Dictionary<string, SpriteAtlasAnimationData> {
             { "Swordsman", GetAnimationInner("Swordsman") }
         };
     }
@@ -440,13 +440,13 @@ internal class GameObjectContentStorage
     private static Texture2D LoadMonsterTexture(ContentManager contentManager, string classSid)
     {
         var cultureSid = CharacterHelper.GetCultureSid(classSid);
-        var path = Path.Combine("Sprites", "GameObjects", "Characters", "Monsters", cultureSid, classSid, "Full");
+        var path = Path.Combine("Sprites", "GameObjects", "Characters", "Monsters", cultureSid.ToString(), classSid, "Full");
         return contentManager.Load<Texture2D>(path);
     }
 
-    private IDictionary<string, SpredsheetAnimationData>? _animationSetDict;
+    private IDictionary<string, SpriteAtlasAnimationData>? _animationSetDict;
 
-    internal SpredsheetAnimationData GetAnimation(string animationSet)
+    internal SpriteAtlasAnimationData GetAnimation(string animationSet)
     {
         if (_animationSetDict is null)
         {
@@ -456,11 +456,11 @@ internal class GameObjectContentStorage
         return _animationSetDict[animationSet];
     }
 
-    private SpredsheetAnimationData GetAnimationInner(string animationSet)
+    private SpriteAtlasAnimationData GetAnimationInner(string animationSet)
     {
         var contentManager = GetContentManager();
         var json = contentManager.Load<string>(Path.Combine("Animations", animationSet));
-        return JsonConvert.DeserializeObject<SpredsheetAnimationData>(json);
+        return JsonConvert.DeserializeObject<SpriteAtlasAnimationData>(json);
     }
 
     private ContentManager GetContentManager()

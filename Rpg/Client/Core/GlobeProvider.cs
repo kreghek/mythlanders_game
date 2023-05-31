@@ -39,7 +39,7 @@ namespace Rpg.Client.Core
             _eventCatalog = eventCatalog;
             _storyPointInitializer = storyPointInitializer;
             var binPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            _storagePath = Path.Combine(binPath, "CDT", "UpcomingPastJRPG");
+            _storagePath = Path.Combine(binPath, "CDT", "Testament");
         }
 
         public (int Width, int Height)? ChoisedUserMonitorResolution { get; set; } = null;
@@ -211,8 +211,8 @@ namespace Rpg.Client.Core
             var startHeroNames = new[]
             {
                 UnitName.Swordsman,
-                //UnitName.Partisan,
-                //UnitName.Assaulter
+                UnitName.Partisan,
+                UnitName.Assaulter
             };
 
             var startHeroes = startHeroNames.Select(x => CreateStartHero(x)).ToArray();

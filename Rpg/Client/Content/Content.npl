@@ -210,7 +210,7 @@
         },
 		"Animations":
 		{
-			"path": "Animations/*.sf",
+            "path": "Animations/*.sf",
             "recursive": "False",
             "action": "build",
             "importer": "RawStringImporter",
