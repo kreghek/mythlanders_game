@@ -2,5 +2,5 @@
 
 internal abstract class EgyptianMonsterGraphicConfig : MonsterGraphicConfig
 {
-    protected override CultureSid CultureSid => CultureSid.Egyptian;
+    protected override CharacterCultureSid CultureSid => CharacterCultureSid.Egyptian;
 }

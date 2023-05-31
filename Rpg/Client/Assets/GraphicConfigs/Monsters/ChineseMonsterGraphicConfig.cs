@@ -2,5 +2,5 @@
 
 internal abstract class ChineseMonsterGraphicConfig : MonsterGraphicConfig
 {
-    protected override CultureSid CultureSid => CultureSid.Chinese;
+    protected override CharacterCultureSid CultureSid => CharacterCultureSid.Chinese;
 }

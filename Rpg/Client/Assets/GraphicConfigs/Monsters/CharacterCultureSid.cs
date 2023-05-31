@@ -1,6 +1,6 @@
 ﻿namespace Client.Assets.GraphicConfigs.Monsters;
 
-internal enum CultureSid
+internal enum CharacterCultureSid
 {
     Slavic,
     Chinese,

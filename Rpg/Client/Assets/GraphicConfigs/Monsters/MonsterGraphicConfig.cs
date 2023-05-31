@@ -7,6 +7,6 @@ namespace Client.Assets.GraphicConfigs.Monsters;
 
 internal abstract class MonsterGraphicConfig: UnitGraphicsConfigBase
 {
-    protected abstract CultureSid CultureSid { get; }
+    protected abstract CharacterCultureSid CultureSid { get; }
     public override string ThumbnailPath => Path.Combine(CommonConstants.PathToCharacterSprites, "Monsters", CultureSid.ToString(), GetType().Name[..^14], "Thumbnail");
 }

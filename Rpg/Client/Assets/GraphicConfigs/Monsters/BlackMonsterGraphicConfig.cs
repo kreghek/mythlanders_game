@@ -2,5 +2,5 @@
 
 internal abstract class BlackMonsterGraphicConfig : MonsterGraphicConfig
 {
-    protected override CultureSid CultureSid => CultureSid.Black;
+    protected override CharacterCultureSid CultureSid => CharacterCultureSid.Black;
 }
