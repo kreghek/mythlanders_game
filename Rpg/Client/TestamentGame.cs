@@ -312,7 +312,7 @@ public sealed class TestamentGame : Game
         var unitGraphicsCatalog = new UnitGraphicsCatalog(gameObjectsContentStorage);
         Services.AddService<IUnitGraphicsCatalog>(unitGraphicsCatalog);
 
-        var movementVisualizer = new CombatMovementVisualizer();
+        var movementVisualizer = new TestamentCombatMovementVisualizationProvider();
         Services.AddService<ICombatMovementVisualizationProvider>(movementVisualizer);
 
         var crisesCatalog = new CrisesCatalog();

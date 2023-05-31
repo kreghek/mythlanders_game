@@ -4,10 +4,13 @@ using System.IO;
 
 using Client.Assets.CombatMovements;
 using Client.Core;
+using Client.Engine;
 
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+
+using Newtonsoft.Json;
 
 using Rpg.Client.Core;
 using Rpg.Client.GameScreens;
@@ -76,8 +79,12 @@ internal class GameObjectContentStorage
         throw new InvalidOperationException();
     }
 
+    private ContentManager? _contentManager;
+
     public void LoadContent(ContentManager contentManager)
     {
+        _contentManager = contentManager;
+
         _mapNodes = contentManager.Load<Texture2D>("Sprites/GameObjects/MapNodes");
         _combatUnitMarkers = contentManager.Load<Texture2D>("Sprites/GameObjects/CombatUnitMarkers");
 
@@ -429,5 +436,17 @@ internal class GameObjectContentStorage
         var cultureSid = CharacterHelper.GetCultureSid(classSid);
         var path = Path.Combine("Sprites", "GameObjects", "Characters", "Monsters", cultureSid, classSid, "Full");
         return contentManager.Load<Texture2D>(path);
+    }
+
+    internal SpredsheetAnimationData GetAnimation(string animationSet)
+    {
+        var contentManager = GetContentManager();
+        var json = contentManager.Load<string>(Path.Combine("Animations", animationSet));
+        return JsonConvert.DeserializeObject<SpredsheetAnimationData>(json);
+    }
+
+    private ContentManager GetContentManager()
+    {
+        return _contentManager ?? throw new InvalidOperationException("Storage is not loaded.");
     }
 }

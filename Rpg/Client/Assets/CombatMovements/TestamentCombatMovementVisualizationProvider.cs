@@ -10,11 +10,11 @@ using Core.Combats;
 
 namespace Client.Assets.CombatMovements;
 
-internal sealed class CombatMovementVisualizer : ICombatMovementVisualizationProvider
+internal sealed class TestamentCombatMovementVisualizationProvider : ICombatMovementVisualizationProvider
 {
     private readonly IDictionary<CombatMovementSid, ICombatMovementFactory> _movementVisualizationDict;
 
-    public CombatMovementVisualizer()
+    public TestamentCombatMovementVisualizationProvider()
     {
         var movementFactories = LoadFactories<ICombatMovementFactory>();
 
