@@ -42,18 +42,20 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
 
         var keepSwordStrongerAnimation = ConvertToAnimation(swordsmanAnimationSet, "prepare-sword");
 
-        //var keepSwordStrongerAnimation = new LinearAnimationFrameSet(Enumerable.Range(8 * 3 + 5, 1).ToArray(), 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8);
+        var chargeAnimation = ConvertToAnimation(swordsmanAnimationSet, "charge");
 
-        var chargeAnimation = new LinearAnimationFrameSet(Enumerable.Range(8 + 4, 2).ToArray(), 4, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8);
+        var hitAnimation = ConvertToAnimation(swordsmanAnimationSet, "hit");
 
-        var hitAnimation = new LinearAnimationFrameSet(Enumerable.Range(8 + 2, 8 -2).ToArray(), 4, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8);
+        var hitCompleteAnimation = ConvertToAnimation(swordsmanAnimationSet, "hit-complete");
+
+        var backAnimation = ConvertToAnimation(swordsmanAnimationSet, "back");
 
         var config = new SingleMeleeVisualizationConfig(
             keepSwordStrongerAnimation,
             chargeAnimation,
             hitAnimation,
-            new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8)
-                { IsLoop = true });
+            hitCompleteAnimation,
+            backAnimation);
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);
@@ -67,6 +69,9 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
             spredsheetAnimationDataCycles.Frames,
             spredsheetAnimationDataCycles.Fps,
             spredsheetAnimationData.TextureAtlas.RegionWidth,
-            spredsheetAnimationData.TextureAtlas.RegionHeight, 8);
+            spredsheetAnimationData.TextureAtlas.RegionHeight, 8)
+        { 
+            IsLooping = spredsheetAnimationDataCycles.IsLooping
+        };
     }
 }

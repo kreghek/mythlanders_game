@@ -31,7 +31,7 @@ internal class LinearAnimationFrameSet : IAnimationFrameSet
         _textureColumns = textureColumns;
     }
 
-    public bool IsLoop { get; init; }
+    public bool IsLooping { get; init; }
 
     private static Rectangle CalcRect(int frameIndex, int cols, int frameWidth, int frameHeight)
     {
@@ -69,7 +69,7 @@ internal class LinearAnimationFrameSet : IAnimationFrameSet
 
             if (_frameListIndex > _frames.Count - 1)
             {
-                if (IsLoop)
+                if (IsLooping)
                 {
                     _frameListIndex = 0;
                 }
