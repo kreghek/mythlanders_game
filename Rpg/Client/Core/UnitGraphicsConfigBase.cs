@@ -17,5 +17,5 @@ internal abstract class UnitGraphicsConfigBase
 
     public abstract IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations();
 
-    public abstract string ThumbnalPath { get; }
+    public abstract string ThumbnailPath { get; }
 }
