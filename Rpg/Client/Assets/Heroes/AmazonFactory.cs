@@ -1,4 +1,6 @@
-﻿using Rpg.Client.Assets.Equipments.Amazon;
+﻿using Client.Core;
+
+using Rpg.Client.Assets.Equipments.Amazon;
 using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Core;
 

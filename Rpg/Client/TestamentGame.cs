@@ -8,6 +8,7 @@ using Client.Assets.Crises;
 using Client.Core;
 using Client.Core.Dialogues;
 using Client.Engine;
+using Client.GameScreens;
 
 using Core.Dices;
 using Core.PropDrop;
@@ -24,7 +25,6 @@ using Rpg.Client;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameComponents;
-using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.ScreenManagement;
 
@@ -41,10 +41,6 @@ public sealed class TestamentGame : Game
 
     public TestamentGame(ILogger<TestamentGame> logger, GameMode gameMode)
     {
-        //var newCulture = CultureInfo.GetCultureInfo("en-US");
-        //Thread.CurrentThread.CurrentCulture = newCulture;
-        //Thread.CurrentThread.CurrentUICulture = newCulture;
-
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
@@ -312,8 +308,8 @@ public sealed class TestamentGame : Game
         var unitGraphicsCatalog = new UnitGraphicsCatalog(gameObjectsContentStorage);
         Services.AddService<IUnitGraphicsCatalog>(unitGraphicsCatalog);
 
-        var movementVisualizer = new CombatMovementVisualizer();
-        Services.AddService<ICombatMovementVisualizer>(movementVisualizer);
+        var movementVisualizer = new TestamentCombatMovementVisualizationProvider();
+        Services.AddService<ICombatMovementVisualizationProvider>(movementVisualizer);
 
         var crisesCatalog = new CrisesCatalog();
         Services.AddService<ICrisesCatalog>(crisesCatalog);

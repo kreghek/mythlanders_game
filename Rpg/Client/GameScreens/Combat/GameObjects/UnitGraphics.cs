@@ -1,8 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Client.Core;
+
+using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens;
 
 namespace Client.GameScreens.Combat.GameObjects;
 

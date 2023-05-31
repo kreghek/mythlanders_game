@@ -1,5 +1,5 @@
+using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Engine;
-using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
 using Core.Combats.CombatantEffectLifetimes;
@@ -47,7 +47,7 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
     }
 
     /// <inheritdoc />
-    public override IActorVisualizationState CreateVisualization(IActorAnimator actorAnimator,
+    public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution,
         ICombatMovementVisualizationContext visualizationContext)
     {

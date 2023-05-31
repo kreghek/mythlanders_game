@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 
+using Client.Assets.GraphicConfigs.Monsters;
+
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.GraphicConfigs
 {
-    internal sealed class SingleSpriteGraphicsConfig : UnitGraphicsConfigBase
+    internal sealed class SingleSpriteGraphicsConfig : SlavicMonsterGraphicConfig
     {
         public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
         {

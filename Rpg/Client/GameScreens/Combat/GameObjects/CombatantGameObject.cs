@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.CombatMovements;
+using Client.Core;
 using Client.Engine;
 
 using Core.Combats;
@@ -12,7 +13,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
@@ -75,6 +75,8 @@ internal sealed class CombatantGameObject : EwarRenderableBase
     public Vector2 LaunchPoint => Position - _combatantGraphicsConfig.LaunchPoint;
 
     public Vector2 StatsPanelOrigin => Position - _combatantGraphicsConfig.StatsPanelOrigin;
+
+    public Vector2 MeleeHitOffset => Position + new Vector2(_combatantSide == CombatantPositionSide.Heroes ? _combatantGraphicsConfig.MeleeHitXOffset : -_combatantGraphicsConfig.MeleeHitXOffset, 0);
 
     public void AddStateEngine(IActorVisualizationState actorStateEngine)
     {

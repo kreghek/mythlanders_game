@@ -57,7 +57,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly ICombatantPositionProvider _combatantPositionProvider;
     private readonly CombatCore _combatCore;
     private readonly ICombatActorBehaviourDataProvider _combatDataBehaviourProvider;
-    private readonly ICombatMovementVisualizer _combatMovementVisualizer;
+    private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
     private readonly IList<CorpseGameObject> _corpseObjects;
     private readonly HeroCampaign _currentCampaign;
     private readonly IDice _dice;
@@ -127,7 +127,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();
         _animationManager = new UpdatableAnimationManager(new AnimationManager());
         _dice = Game.Services.GetService<IDice>();
-        _combatMovementVisualizer = Game.Services.GetRequiredService<ICombatMovementVisualizer>();
+        _combatMovementVisualizer = Game.Services.GetRequiredService<ICombatMovementVisualizationProvider>();
 
         var bgofSelector = Game.Services.GetService<BackgroundObjectFactorySelector>();
 
@@ -186,7 +186,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     protected override void InitializeContent()
     {
-        CombatInitialize();
+        InitializeCombat();
 
         _maneuversVisualizer.ManeuverSelected += ManeuverVisualizer_ManeuverSelected;
     }
@@ -470,7 +470,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     //     unitGameObject.AddChild(passIndicator);
     // }
 
-    private void CombatInitialize()
+    private void InitializeCombat()
     {
         _combatCore.CombatantHasBeenAdded += CombatCode_CombatantHasBeenAdded;
         _combatCore.CombatantHasBeenDefeated += CombatCode_CombatantHasBeenDefeated;
@@ -504,7 +504,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _args.CombatSequence.Combats.First().Monsters));
 
         _combatantQueuePanel = new CombatantQueuePanel(_combatCore,
-            _uiContentStorage, _gameObjectContentStorage);
+            _uiContentStorage, new CombatantThumbnailProvider(Game.Content, Game.Services.GetRequiredService<IUnitGraphicsCatalog>()));
     }
 
     private void CombatMovementsHandPanel_CombatMovementHover(object? sender, CombatMovementPickedEventArgs e)
@@ -615,7 +615,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             var campaignGenerator = Game.Services.GetService<ICampaignGenerator>();
             var campaigns = campaignGenerator.CreateSet();
 
-            ScreenManager.ExecuteTransition(this, ScreenTransition.CampaignSelection,
+            ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
                 new CommandCenterScreenTransitionArguments
                 {
                     AvailableCampaigns = campaigns
@@ -633,7 +633,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             var campaignGenerator = Game.Services.GetService<ICampaignGenerator>();
             var campaigns = campaignGenerator.CreateSet();
 
-            ScreenManager.ExecuteTransition(this, ScreenTransition.CampaignSelection,
+            ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
                 new CommandCenterScreenTransitionArguments
                 {
                     AvailableCampaigns = campaigns

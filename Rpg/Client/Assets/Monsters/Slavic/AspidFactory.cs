@@ -1,26 +1,26 @@
-using Client.Assets;
+using Client.Assets.GraphicConfigs.Monsters;
+using Client.Core;
+using Client.GameScreens;
 
 using JetBrains.Annotations;
 
-using Rpg.Client.Assets.GraphicConfigs.Monsters;
+using Rpg.Client.Assets.Monsters;
 using Rpg.Client.Core;
-using Rpg.Client.GameScreens;
 
-namespace Rpg.Client.Assets.Monsters
+namespace Client.Assets.Monsters.Slavic;
+
+[UsedImplicitly]
+internal sealed class AspidFactory : MonsterFactoryBase
 {
-    [UsedImplicitly]
-    internal sealed class AspidFactory : MonsterFactoryBase
+    public override UnitName ClassName => UnitName.Aspid;
+
+    public override UnitScheme Create(IBalanceTable balanceTable)
     {
-        public override UnitName ClassName => UnitName.Aspid;
+        return new UnitScheme(balanceTable.GetCommonUnitBasics());
+    }
 
-        public override UnitScheme Create(IBalanceTable balanceTable)
-        {
-            return new UnitScheme(balanceTable.GetCommonUnitBasics());
-        }
-
-        public override UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
-        {
-            return new AspidGraphicsConfig();
-        }
+    public override UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
+    {
+        return new AspidGraphicsConfig();
     }
 }

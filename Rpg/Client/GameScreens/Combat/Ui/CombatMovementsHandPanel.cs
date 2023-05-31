@@ -54,7 +54,7 @@ internal class CombatMovementsHandPanel : ControlBase
     private const int SPECIAL_BUTTONS_ICON_HEIGHT = 32;
 
     private readonly CombatMovementButton?[] _buttons;
-    private readonly ICombatMovementVisualizer _combatMovementVisualizer;
+    private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
     private readonly IUiContentStorage _uiContentStorage;
     private readonly WaitIconButton _waitButton;
 
@@ -68,7 +68,7 @@ internal class CombatMovementsHandPanel : ControlBase
     public CombatMovementsHandPanel(
         Game game,
         IUiContentStorage uiContentStorage,
-        ICombatMovementVisualizer combatMovementVisualizer)
+        ICombatMovementVisualizationProvider combatMovementVisualizer)
     {
         _buttons = new CombatMovementButton[3];
 

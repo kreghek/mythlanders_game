@@ -1,3 +1,5 @@
+using Client.Core;
+
 using Rpg.Client.Assets.Equipments.Sergeant;
 using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Core;

@@ -4,9 +4,8 @@ using System.Linq;
 
 using Client.Assets.Heroes;
 using Client.Assets.Monsters;
-
-using Rpg.Client.Core;
-using Rpg.Client.GameScreens;
+using Client.Core;
+using Client.GameScreens;
 
 namespace Client.Assets.Catalogs;
 

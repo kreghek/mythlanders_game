@@ -1,3 +1,5 @@
+using Client.Core;
+
 using Rpg.Client.Assets.Equipments.Swordsman;
 using Rpg.Client.Assets.GraphicConfigs.Heroes;
 using Rpg.Client.Core;

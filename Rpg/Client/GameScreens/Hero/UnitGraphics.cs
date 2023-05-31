@@ -1,3 +1,6 @@
+using Client.Core;
+using Client.GameScreens;
+
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;

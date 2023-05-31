@@ -4,7 +4,7 @@
     {
         Title,
         Campaign,
-        CampaignSelection,
+        CommandCenter,
         Event,
         Combat,
         Bestiary,

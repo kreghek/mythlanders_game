@@ -2,10 +2,9 @@
 
 using Client.Core.Campaigns;
 
-namespace Rpg.Client.Core
+namespace Client.Core;
+
+internal interface ICampaignGenerator
 {
-    internal interface ICampaignGenerator
-    {
-        IReadOnlyList<HeroCampaign> CreateSet();
-    }
+    IReadOnlyList<HeroCampaign> CreateSet();
 }

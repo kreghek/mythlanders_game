@@ -2,7 +2,9 @@
 using System.Linq;
 
 using Client.Assets.CombatMovements;
+using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Assets.States.Primitives;
+using Client.GameScreens;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 
@@ -20,12 +22,12 @@ internal sealed class UseCombatMovementIntention : IIntention
     private readonly CameraOperator _cameraOperator;
     private readonly IList<CombatantGameObject> _combatantGameObjects;
     private readonly CombatMovementInstance _combatMovement;
-    private readonly ICombatMovementVisualizer _combatMovementVisualizer;
+    private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
 
     public UseCombatMovementIntention(CombatMovementInstance combatMovement, IAnimationManager animationManager,
-        ICombatMovementVisualizer combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects,
+        ICombatMovementVisualizationProvider combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects,
         InteractionDeliveryManager interactionDeliveryManager, GameObjectContentStorage gameObjectContentStorage,
         CameraOperator cameraOperator)
     {
@@ -43,7 +45,7 @@ internal sealed class UseCombatMovementIntention : IIntention
         return _combatantGameObjects.First(x => x.Combatant == combatant);
     }
 
-    private IActorVisualizationState GetMovementVisualizationState(CombatantGameObject actorGameObject,
+    private CombatMovementScene GetMovementVisualizationState(CombatantGameObject actorGameObject,
         CombatMovementExecution movementExecution, CombatMovementInstance combatMovement)
     {
         var context = new CombatMovementVisualizationContext(actorGameObject, _combatantGameObjects.ToArray(),
@@ -54,13 +56,11 @@ internal sealed class UseCombatMovementIntention : IIntention
     }
 
     private void PlaybackCombatMovementExecution(CombatMovementExecution movementExecution,
-        IActorVisualizationState movementState, CombatCore combatCore)
+        CombatMovementScene movementScene, CombatCore combatCore)
     {
         var actorGameObject = GetCombatantGameObject(combatCore.CurrentCombatant);
 
         var mainAnimationBlocker = _animationManager.CreateAndRegisterBlocker();
-
-        var executionIsComplete = false;
 
         mainAnimationBlocker.Released += (_, _) =>
         {
@@ -73,8 +73,6 @@ internal sealed class UseCombatMovementIntention : IIntention
             {
                 movementExecution.CompleteDelegate();
                 combatCore.CompleteTurn();
-
-                executionIsComplete = true;
             };
         };
 
@@ -83,15 +81,17 @@ internal sealed class UseCombatMovementIntention : IIntention
             new DelayActorState(new Duration(0.75f)),
 
             // Main move animation.
-            movementState,
+            movementScene.ActorState,
 
             // Release the main animation blocker to say the main move is ended.
             new AnimationBlockerTerminatorActorState(mainAnimationBlocker));
 
         actorGameObject.AddStateEngine(actorState);
 
-        _cameraOperator.AddState(
-            new FollowActorOperatorCameraTask(actorGameObject.Animator, () => executionIsComplete));
+        foreach (var cameraTask in movementScene.CameraOperatorTaskSequence)
+        {
+            _cameraOperator.AddState(cameraTask);
+        }
     }
 
     public void Make(CombatCore combatCore)

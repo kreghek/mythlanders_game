@@ -1,5 +1,5 @@
-﻿using Client.Engine;
-using Client.GameScreens.Combat.GameObjects;
+﻿using Client.Assets.CombatMovements.Hero.Swordsman;
+using Client.Engine;
 
 using Core.Combats;
 
@@ -11,6 +11,6 @@ internal interface ICombatMovementFactory
     string Sid { get; }
     CombatMovement CreateMovement();
 
-    IActorVisualizationState CreateVisualization(IActorAnimator actorAnimator,
+    CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext);
 }

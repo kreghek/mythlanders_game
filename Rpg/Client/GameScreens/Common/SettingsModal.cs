@@ -22,7 +22,6 @@ internal sealed class SettingsModal : ModalDialogBase
     private const int BUTTON_WIDTH = 100;
 
     private readonly IList<ButtonBase> _buttons;
-    private readonly ICamera2DAdapter _camera;
     private readonly IScreen _currentScreen;
     private readonly Game _game;
     private readonly GameSettings _gameSettings;
@@ -38,24 +37,17 @@ internal sealed class SettingsModal : ModalDialogBase
         _game = game;
         _currentScreen = currentScreen;
 
-        _camera = game.Services.GetService<ICamera2DAdapter>();
-
         _gameSettings = game.Services.GetService<GameSettings>();
 
         _buttons = new List<ButtonBase>
         {
             CreateSwitchFullScreenButton(),
             CreateSwitchResolutionButton(),
-            CreateSwitchMusicButton()
+            CreateSwitchMusicButton(),
+            CreateSwitchLanguageButton()
         };
 
-        if (_gameSettings.Mode == GameMode.Full)
-        {
-            // Switch language only for showcase.
-            // On a showcase use default russian language.
-            _buttons.Add(CreateSwitchLanguageButton());
-        }
-        else
+        if (_gameSettings.Mode == GameMode.Demo)
         {
             if (isGameStarted)
             {
@@ -157,7 +149,7 @@ internal sealed class SettingsModal : ModalDialogBase
         screenManager.ExecuteTransition(_currentScreen, ScreenTransition.Title, null);
     }
 
-    private void InitializeResolutionIndependence(int realScreenWidth, int realScreenHeight)
+    private void InitializeResolutionIndependence()
     {
         _resolutionIndependentRenderer.Initialize();
     }
@@ -210,7 +202,7 @@ internal sealed class SettingsModal : ModalDialogBase
         var width = _game.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
         var height = _game.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
 
-        InitializeResolutionIndependence(width, height);
+        InitializeResolutionIndependence();
 
         graphicsManager.PreferredBackBufferWidth = width;
         graphicsManager.PreferredBackBufferHeight = height;
@@ -227,7 +219,7 @@ internal sealed class SettingsModal : ModalDialogBase
             var width = 848;
             var height = 480;
 
-            InitializeResolutionIndependence(width, height);
+            InitializeResolutionIndependence();
 
             graphicsManager.PreferredBackBufferWidth = width;
             graphicsManager.PreferredBackBufferHeight = height;
@@ -237,7 +229,7 @@ internal sealed class SettingsModal : ModalDialogBase
             var width = _game.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
             var height = _game.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
 
-            InitializeResolutionIndependence(width, height);
+            InitializeResolutionIndependence();
 
             graphicsManager.PreferredBackBufferWidth = width;
             graphicsManager.PreferredBackBufferHeight = height;

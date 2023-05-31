@@ -8,8 +8,6 @@ using CombatDicesTeam.Graphs.Generation.TemplateBased;
 
 using Core.Dices;
 
-using Rpg.Client.Core;
-
 namespace Client.Assets.Catalogs;
 
 internal sealed class CampaignGenerator : ICampaignGenerator
@@ -50,7 +48,9 @@ internal sealed class CampaignGenerator : ICampaignGenerator
             LocationSids.ShipGraveyard,
             LocationSids.Desert,
 
-            LocationSids.Swamp
+            LocationSids.Swamp,
+
+            LocationSids.Battleground
         };
 
         var selectedLocations = _dice.RollFromList(availableLocations, 3).ToList();

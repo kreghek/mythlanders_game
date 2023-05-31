@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 
+using Client.Assets.GraphicConfigs.Heroes;
+
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.GraphicConfigs.Heroes
 {
-    internal sealed class SwordsmanGraphicsConfig : UnitGraphicsConfigBase
+    internal sealed class SwordsmanGraphicsConfig : HeroGraphicConfig
     {
         public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
         {

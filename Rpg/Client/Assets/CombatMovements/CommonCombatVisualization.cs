@@ -2,9 +2,11 @@
 using System.Linq;
 
 using Client.Assets.CombatMovements.Hero.Amazon;
+using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Assets.States.Primitives;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
+using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
@@ -18,7 +20,7 @@ namespace Client.Assets.CombatMovements;
 
 internal static class CommonCombatVisualization
 {
-    public static IActorVisualizationState CreateSingleDistanceVisualization(IActorAnimator actorAnimator,
+    public static CombatMovementScene CreateSingleDistanceVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
         var startPosition = actorAnimator.GraphicRoot.Position;
@@ -48,10 +50,10 @@ internal static class CommonCombatVisualization
         };
 
         var innerState = new SequentialState(subStates);
-        return innerState;
+        return new CombatMovementScene(innerState, new[] { new FollowActorOperatorCameraTask(actorAnimator, () => innerState.IsComplete) });
     }
 
-    public static IActorVisualizationState CreateSingleMeleeVisualization(IActorAnimator actorAnimator,
+    public static CombatMovementScene CreateSingleMeleeVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext,
         SingleMeleeVisualizationConfig config)
     {
@@ -80,9 +82,7 @@ internal static class CommonCombatVisualization
         {
             var targetGameObject = visualizationContext.GetCombatActor(targetCombatant);
 
-            var targetOffset = targetCombatant.IsPlayerControlled ? new Vector2(32, 0) : new Vector2(-32, 0);
-
-            targetPosition = targetGameObject.Graphics.Root.Position + targetOffset;
+            targetPosition = targetGameObject.MeleeHitOffset;
         }
         else
         {
@@ -91,19 +91,19 @@ internal static class CommonCombatVisualization
 
         var subStates = new IActorVisualizationState[]
         {
+            new PlayAnimationActorState(actorAnimator, config.PrepareMovementAnimation),
             new MoveToPositionActorState(actorAnimator,
                 new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, targetPosition),
                 config.CombatMovementAnimation),
-            new DirectInteractionState(actorAnimator, skillAnimationInfo,
-                new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
-                    CommonConstants.FrameSize.Y, 8)),
+            new DirectInteractionState(actorAnimator, skillAnimationInfo, config.HitAnimation),
+            new PlayAnimationActorState(actorAnimator, config.HitCompleteAnimation),
             new MoveToPositionActorState(actorAnimator,
                 new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, startPosition),
                 config.BackAnimation)
         };
 
         var innerState = new SequentialState(subStates);
-        return innerState;
+        return new CombatMovementScene(innerState, new[] { new FollowActorOperatorCameraTask(actorAnimator, () => innerState.IsComplete) });
     }
 
     private static Combatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,

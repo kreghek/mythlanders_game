@@ -1,9 +1,10 @@
 ﻿using Client.Assets;
 using Client.Assets.Heroes;
+using Client.Core;
+using Client.GameScreens;
 
 using Rpg.Client.Assets.GraphicConfigs.Heroes;
 using Rpg.Client.Core;
-using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Heroes
 {

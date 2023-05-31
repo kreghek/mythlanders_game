@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 
+using Client.Assets.GraphicConfigs.Monsters;
+
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.GraphicConfigs.Monsters
 {
-    internal sealed class VolkolakWarriorGraphicsConfig : UnitGraphicsConfigBase
+    internal sealed class VolkolakWarriorGraphicsConfig : SlavicMonsterGraphicConfig
     {
         public VolkolakWarriorGraphicsConfig()
         {

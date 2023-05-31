@@ -1,5 +1,7 @@
-﻿using Rpg.Client.Core;
-using Rpg.Client.GameScreens;
+﻿using Client.Core;
+using Client.GameScreens;
+
+using Rpg.Client.Core;
 
 namespace Client.Assets.Monsters;
 

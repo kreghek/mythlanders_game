@@ -1,12 +1,14 @@
 ﻿using Client.Assets.States.Primitives;
+using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
 
-using Rpg.Client.GameScreens;
-
 namespace Client.Assets.CombatMovements;
 
+/// <summary>
+/// Services and cobat movement context.
+/// </summary>
 internal interface ICombatMovementVisualizationContext
 {
     CombatantGameObject ActorGameObject { get; }

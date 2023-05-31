@@ -1,19 +1,19 @@
 using Client.Assets;
 using Client.Assets.Monsters;
 using Client.Core;
+using Client.GameScreens;
 
 using JetBrains.Annotations;
 
 using Rpg.Client.Assets.GraphicConfigs.Monsters;
 using Rpg.Client.Core;
-using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Monsters
 {
     [UsedImplicitly]
-    internal sealed class BearFactory : IMonsterFactory
+    internal sealed class CorruptedBearFactory : IMonsterFactory
     {
-        public UnitName ClassName => UnitName.Bear;
+        public UnitName ClassName => UnitName.CorruptedBear;
 
         public UnitScheme Create(IBalanceTable balanceTable)
         {
@@ -23,7 +23,7 @@ namespace Rpg.Client.Assets.Monsters
                 DamageDealerRank = 0.5f,
                 SupportRank = 0.0f,
 
-                Name = UnitName.Bear,
+                Name = UnitName.CorruptedBear,
                 LocationSids = new[]
                 {
                     LocationSids.Battleground, LocationSids.DestroyedVillage, LocationSids.Swamp

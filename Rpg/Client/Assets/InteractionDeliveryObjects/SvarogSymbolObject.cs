@@ -1,12 +1,12 @@
 ﻿using System;
 
+using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.InteractionDeliveryObjects
 {

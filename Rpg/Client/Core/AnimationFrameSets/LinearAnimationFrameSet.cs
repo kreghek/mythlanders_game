@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using Microsoft.Xna.Framework;
 
@@ -15,10 +14,11 @@ internal class LinearAnimationFrameSet : IAnimationFrameSet
     private readonly IReadOnlyList<int> _frames;
 
     private readonly int _frameWidth;
+    private readonly float _fps;
     private readonly int _textureColumns;
+
     private double _frameCounter;
     private int _frameListIndex;
-
     private bool _isEnded;
 
     public LinearAnimationFrameSet(IReadOnlyList<int> frames, float fps, int frameWidth,
@@ -31,30 +31,13 @@ internal class LinearAnimationFrameSet : IAnimationFrameSet
         _textureColumns = textureColumns;
     }
 
-    public bool IsLoop { get; init; }
-
-    public IReadOnlyCollection<IAnimationKeyFrame>? KeyFrames { get; init; }
-    private float _fps { get; }
+    public bool IsLooping { get; init; }
 
     private static Rectangle CalcRect(int frameIndex, int cols, int frameWidth, int frameHeight)
     {
         var col = frameIndex % cols;
         var row = frameIndex / cols;
         return new Rectangle(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
-    }
-
-    private void HandleKeyFrames(int currentFrameIndex)
-    {
-        if (KeyFrames is null)
-        {
-            return;
-        }
-
-        var currentKeyFrame = KeyFrames.SingleOrDefault(x => x.Index == currentFrameIndex);
-        if (currentKeyFrame is not null)
-        {
-            KeyFrameHandled?.Invoke(this, new AnimationKeyFrameEventArgs(currentKeyFrame));
-        }
     }
 
     public bool IsIdle { get; init; }
@@ -86,7 +69,7 @@ internal class LinearAnimationFrameSet : IAnimationFrameSet
 
             if (_frameListIndex > _frames.Count - 1)
             {
-                if (IsLoop)
+                if (IsLooping)
                 {
                     _frameListIndex = 0;
                 }
@@ -97,11 +80,8 @@ internal class LinearAnimationFrameSet : IAnimationFrameSet
                     End?.Invoke(this, EventArgs.Empty);
                 }
             }
-
-            HandleKeyFrames(_frames[_frameListIndex]);
         }
     }
 
     public event EventHandler? End;
-    public event EventHandler<AnimationKeyFrameEventArgs>? KeyFrameHandled;
 }

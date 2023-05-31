@@ -114,14 +114,12 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
         var campaignTexturesDict = new Dictionary<ILocationSid, Texture2D>
         {
-            { LocationSids.Desert, Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/Desert") },
-            { LocationSids.Monastery, Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/Monastery") },
-            {
-                LocationSids.ShipGraveyard,
-                Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/ShipGraveyard")
-            },
-            { LocationSids.Thicket, Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/DarkThinket") },
-            { LocationSids.Swamp, Game.Content.Load<Texture2D>("Sprites/GameObjects/Campaigns/GrimSwamp") }
+            { LocationSids.Desert, LoadCampaignTumbnailImage("Desert") },
+            { LocationSids.Monastery, LoadCampaignTumbnailImage("Monastery") },
+            { LocationSids.ShipGraveyard, LoadCampaignTumbnailImage("ShipGraveyard") },
+            { LocationSids.Thicket, LoadCampaignTumbnailImage("DarkThinket") },
+            { LocationSids.Swamp, LoadCampaignTumbnailImage("GrimSwamp") },
+            { LocationSids.Battleground, LoadCampaignTumbnailImage("Battleground") }
         };
 
         foreach (var campaign in _campaigns)
@@ -145,6 +143,11 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         _commandButtons[1] = new TextButton("Armory");
         _commandButtons[2] = new TextButton("Adjutant");
         _commandButtons[3] = new TextButton("Chronicles");
+
+        Texture2D LoadCampaignTumbnailImage(string textureName)
+        {
+            return Game.Content.Load<Texture2D>($"Sprites/GameObjects/Campaigns/{textureName}");
+        }
     }
 
     protected override void UpdateContent(GameTime gameTime)

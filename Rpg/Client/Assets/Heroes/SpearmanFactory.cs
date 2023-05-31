@@ -1,3 +1,5 @@
+using Client.Core;
+
 using Rpg.Client.Assets.Equipments.Spearman;
 using Rpg.Client.Assets.GraphicConfigs.Heroes;
 using Rpg.Client.Core;
@@ -6,7 +8,7 @@ namespace Rpg.Client.Assets.Heroes
 {
     internal class SpearmanFactory : HeroFactoryBase
     {
-        public override UnitName HeroName => UnitName.Spearman;
+        public override UnitName HeroName => UnitName.Guardian;
 
         protected override IEquipmentScheme[] GetEquipment()
         {
@@ -20,7 +22,7 @@ namespace Rpg.Client.Assets.Heroes
 
         protected override UnitGraphicsConfigBase GetGraphicsConfig()
         {
-            return new SpearmanGraphicsConfig();
+            return new GuardsmanGraphicsConfig();
         }
 
         protected override IUnitLevelScheme[] GetLevels()

@@ -1,3 +1,5 @@
+using Client.Core;
+
 using JetBrains.Annotations;
 
 using Rpg.Client.Assets.Equipments.Monk;

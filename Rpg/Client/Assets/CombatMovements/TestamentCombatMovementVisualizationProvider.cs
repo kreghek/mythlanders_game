@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
-using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
 
 namespace Client.Assets.CombatMovements;
 
-internal sealed class CombatMovementVisualizer : ICombatMovementVisualizer
+internal sealed class TestamentCombatMovementVisualizationProvider : ICombatMovementVisualizationProvider
 {
     private readonly IDictionary<CombatMovementSid, ICombatMovementFactory> _movementVisualizationDict;
 
-    public CombatMovementVisualizer()
+    public TestamentCombatMovementVisualizationProvider()
     {
         var movementFactories = LoadFactories<ICombatMovementFactory>();
 
@@ -40,16 +40,21 @@ internal sealed class CombatMovementVisualizer : ICombatMovementVisualizer
         return factory.CombatMovementIcon;
     }
 
-    public IActorVisualizationState GetMovementVisualizationState(CombatMovementSid sid, IActorAnimator actorAnimator,
+    public CombatMovementScene GetMovementVisualizationState(CombatMovementSid sid, IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
         if (!_movementVisualizationDict.TryGetValue(sid, out var factory))
         {
             var config = new SingleMeleeVisualizationConfig(
+                new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8),
+                new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
+                    CommonConstants.FrameSize.Y, 8),
+                new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
+                    CommonConstants.FrameSize.Y, 8),
                 new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
                     CommonConstants.FrameSize.Y, 8),
                 new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8)
-                    { IsLoop = true });
+                    { IsLooping = true });
 
             return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
                 visualizationContext,

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.CommandCenter;
@@ -12,7 +13,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.ScreenManagement;
 
@@ -84,7 +84,7 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
     private void MoveNext()
     {
         var campaigns = _campaignGenerator.CreateSet();
-        ScreenManager.ExecuteTransition(this, ScreenTransition.CampaignSelection,
+        ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
             new CommandCenterScreenTransitionArguments
             {
                 AvailableCampaigns = campaigns

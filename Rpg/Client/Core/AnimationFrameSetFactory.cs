@@ -21,7 +21,7 @@ namespace Rpg.Client.Core
             return new LinearAnimationFrameSet(frames, fps,
                 frameWidth, frameHeight, textureColumns)
             {
-                IsLoop = true,
+                IsLooping = true,
                 IsIdle = true
             };
         }
@@ -42,7 +42,7 @@ namespace Rpg.Client.Core
             return new LinearAnimationFrameSet(frames, fps,
                 frameWidth, frameHeight, textureColumns)
             {
-                IsLoop = true,
+                IsLooping = true,
                 IsIdle = true
             };
         }
@@ -55,7 +55,7 @@ namespace Rpg.Client.Core
             return new LinearAnimationFrameSet(frames, fps,
                 frameWidth, frameHeight, textureColumns)
             {
-                IsLoop = isLoop
+                IsLooping = isLoop
             };
         }
 
@@ -75,7 +75,7 @@ namespace Rpg.Client.Core
             return new LinearAnimationFrameSet(frames, fps,
                 frameWidth, frameHeight, textureColumns)
             {
-                IsLoop = isLoop
+                IsLooping = isLoop
             };
         }
     }
