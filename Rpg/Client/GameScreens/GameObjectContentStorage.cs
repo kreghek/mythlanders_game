@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonoGame.Extended.Sprites;
+
 using Newtonsoft.Json;
 
 using Rpg.Client.Core;
@@ -315,6 +317,10 @@ internal class GameObjectContentStorage
         }
 
         _puzzleTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/Puzzle");
+
+        _animationSetDict = new Dictionary<string, SpredsheetAnimationData> {
+            { "Swordsman", GetAnimationInner("Swordsman") }
+        };
     }
 
     internal Texture2D GetBulletGraphics()
@@ -438,7 +444,19 @@ internal class GameObjectContentStorage
         return contentManager.Load<Texture2D>(path);
     }
 
+    private IDictionary<string, SpredsheetAnimationData>? _animationSetDict;
+
     internal SpredsheetAnimationData GetAnimation(string animationSet)
+    {
+        if (_animationSetDict is null)
+        {
+            throw new InvalidOperationException("Storage is not loaded.");
+        }
+
+        return _animationSetDict[animationSet];
+    }
+
+    private SpredsheetAnimationData GetAnimationInner(string animationSet)
     {
         var contentManager = GetContentManager();
         var json = contentManager.Load<string>(Path.Combine("Animations", animationSet));
