@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-using Client.Core.AnimationFrameSets;
+﻿using Client.Core.AnimationFrameSets;
 using Client.Engine;
 
 using Core.Combats;
@@ -63,7 +61,8 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
             visualizationContext, config);
     }
 
-    private static IAnimationFrameSet ConvertToAnimation(SpriteAtlasAnimationData spredsheetAnimationData, string animation)
+    private static IAnimationFrameSet ConvertToAnimation(SpriteAtlasAnimationData spredsheetAnimationData,
+        string animation)
     {
         var spredsheetAnimationDataCycles = spredsheetAnimationData.Cycles[animation];
 

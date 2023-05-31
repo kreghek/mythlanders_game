@@ -16,7 +16,6 @@ internal sealed class AspidGraphicsConfig : SlavicMonsterGraphicConfig
     }
 
 
-
     public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
     {
         return new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>

@@ -459,54 +459,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         // See UpdateCombatFinished next
     }
 
-    // private void Combat_UnitPassed(object? sender, CombatUnit e)
-    // {
-    //     var unitGameObject = GetUnitGameObject(e);
-    //     var textPosition = GetUnitGameObject(e).Position;
-    //     var font = _uiContentStorage.GetCombatIndicatorFont();
-    //
-    //     var passIndicator = new SkipTextIndicator(textPosition, font);
-    //
-    //     unitGameObject.AddChild(passIndicator);
-    // }
-
-    private void InitializeCombat()
-    {
-        _combatCore.CombatantHasBeenAdded += CombatCode_CombatantHasBeenAdded;
-        _combatCore.CombatantHasBeenDefeated += CombatCode_CombatantHasBeenDefeated;
-        _combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
-        _combatCore.CombatantStartsTurn += CombatCore_CombatantStartsTurn;
-        _combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;
-        _combatCore.CombatantHasBeenMoved += CombatCore_CombatantHasBeenMoved;
-        _combatCore.CombatFinished += CombatCore_CombatFinished;
-        _combatCore.CombatantUsedMove += CombatCore_CombatantUsedMove;
-
-        // _combatCore.UnitPassedTurn += Combat_UnitPassed;
-
-        _combatMovementsHandPanel = new CombatMovementsHandPanel(Game, _uiContentStorage, _combatMovementVisualizer);
-        _combatMovementsHandPanel.CombatMovementPicked += CombatMovementsHandPanel_CombatMovementPicked;
-        _combatMovementsHandPanel.CombatMovementHover += CombatMovementsHandPanel_CombatMovementHover;
-        _combatMovementsHandPanel.CombatMovementLeave += CombatMovementsHandPanel_CombatMovementLeave;
-        _combatMovementsHandPanel.WaitPicked += CombatMovementsHandPanel_WaitPicked;
-
-        var intentionFactory =
-            new BotCombatActorIntentionFactory(
-                _animationManager,
-                _combatMovementVisualizer,
-                _gameObjects,
-                _interactionDeliveryManager,
-                _gameObjectContentStorage,
-                _cameraOperator
-            );
-        _combatCore.Initialize(
-            CombatantFactory.CreateHeroes(_playerCombatantBehaviour, _globeProvider.Globe.Player),
-            CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(intentionFactory),
-                _args.CombatSequence.Combats.First().Monsters));
-
-        _combatantQueuePanel = new CombatantQueuePanel(_combatCore,
-            _uiContentStorage, new CombatantThumbnailProvider(Game.Content, Game.Services.GetRequiredService<IUnitGraphicsCatalog>()));
-    }
-
     private void CombatMovementsHandPanel_CombatMovementHover(object? sender, CombatMovementPickedEventArgs e)
     {
         var selectorContext =
@@ -1178,6 +1130,55 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             gameObject.Update(gameTime);
         }
+    }
+
+    // private void Combat_UnitPassed(object? sender, CombatUnit e)
+    // {
+    //     var unitGameObject = GetUnitGameObject(e);
+    //     var textPosition = GetUnitGameObject(e).Position;
+    //     var font = _uiContentStorage.GetCombatIndicatorFont();
+    //
+    //     var passIndicator = new SkipTextIndicator(textPosition, font);
+    //
+    //     unitGameObject.AddChild(passIndicator);
+    // }
+
+    private void InitializeCombat()
+    {
+        _combatCore.CombatantHasBeenAdded += CombatCode_CombatantHasBeenAdded;
+        _combatCore.CombatantHasBeenDefeated += CombatCode_CombatantHasBeenDefeated;
+        _combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
+        _combatCore.CombatantStartsTurn += CombatCore_CombatantStartsTurn;
+        _combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;
+        _combatCore.CombatantHasBeenMoved += CombatCore_CombatantHasBeenMoved;
+        _combatCore.CombatFinished += CombatCore_CombatFinished;
+        _combatCore.CombatantUsedMove += CombatCore_CombatantUsedMove;
+
+        // _combatCore.UnitPassedTurn += Combat_UnitPassed;
+
+        _combatMovementsHandPanel = new CombatMovementsHandPanel(Game, _uiContentStorage, _combatMovementVisualizer);
+        _combatMovementsHandPanel.CombatMovementPicked += CombatMovementsHandPanel_CombatMovementPicked;
+        _combatMovementsHandPanel.CombatMovementHover += CombatMovementsHandPanel_CombatMovementHover;
+        _combatMovementsHandPanel.CombatMovementLeave += CombatMovementsHandPanel_CombatMovementLeave;
+        _combatMovementsHandPanel.WaitPicked += CombatMovementsHandPanel_WaitPicked;
+
+        var intentionFactory =
+            new BotCombatActorIntentionFactory(
+                _animationManager,
+                _combatMovementVisualizer,
+                _gameObjects,
+                _interactionDeliveryManager,
+                _gameObjectContentStorage,
+                _cameraOperator
+            );
+        _combatCore.Initialize(
+            CombatantFactory.CreateHeroes(_playerCombatantBehaviour, _globeProvider.Globe.Player),
+            CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(intentionFactory),
+                _args.CombatSequence.Combats.First().Monsters));
+
+        _combatantQueuePanel = new CombatantQueuePanel(_combatCore,
+            _uiContentStorage,
+            new CombatantThumbnailProvider(Game.Content, Game.Services.GetRequiredService<IUnitGraphicsCatalog>()));
     }
 
     private void ManeuverVisualizer_ManeuverSelected(object? sender, ManeuverSelectedEventArgs e)

@@ -9,12 +9,12 @@ namespace Client.Core.AnimationFrameSets;
 
 internal class LinearAnimationFrameSet : IAnimationFrameSet
 {
+    private readonly float _fps;
     private readonly int _frameHeight;
 
     private readonly IReadOnlyList<int> _frames;
 
     private readonly int _frameWidth;
-    private readonly float _fps;
     private readonly int _textureColumns;
 
     private double _frameCounter;

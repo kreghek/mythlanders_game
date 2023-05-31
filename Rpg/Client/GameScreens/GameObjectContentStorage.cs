@@ -10,8 +10,6 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-using MonoGame.Extended.Sprites;
-
 using Newtonsoft.Json;
 
 using Rpg.Client.Core;
@@ -22,22 +20,26 @@ namespace Client.GameScreens;
 internal class GameObjectContentStorage
 {
     private Effect _allWhiteEffect;
+
+    private IDictionary<string, SpriteAtlasAnimationData>? _animationSetDict;
     private Texture2D _arrowTexture;
 
     private IDictionary<BackgroundType, Texture2D[]> _combatBackgroundBaseDict;
     private IDictionary<(BackgroundType, BackgroundLayerType, int), Texture2D> _combatBackgroundObjectsDict;
 
     private Texture2D _combatUnitMarkers;
+
+    private ContentManager? _contentManager;
     private IDictionary<UnitName, SoundEffect> _deathSoundDict;
     private Texture2D _equipmentIcons;
     private SpriteFont _font;
     private IDictionary<UnitName, Texture2D> _heroPortraitsTextureDict;
+    private IDictionary<UnitName, Texture2D> _heroTextureDict;
 
     private Texture2D? _mapNodes;
     private Texture2D _mapTexture;
     private IDictionary<UnitName, Texture2D> _monsterUnitTextureDict;
     private Texture2D _particlesTexture;
-    private IDictionary<UnitName, Texture2D> _heroTextureDict;
     private Texture2D _puzzleTexture;
     private Texture2D _shadowTexture;
 
@@ -80,8 +82,6 @@ internal class GameObjectContentStorage
 
         throw new InvalidOperationException();
     }
-
-    private ContentManager? _contentManager;
 
     public void LoadContent(ContentManager contentManager)
     {
@@ -287,7 +287,7 @@ internal class GameObjectContentStorage
             { UnitName.Assaulter, LoadHeroPortrait("Assaulter") },
             { UnitName.Monk, LoadHeroPortrait("Monk") },
             { UnitName.Guardian, LoadHeroPortrait("Guardian") },
-            { UnitName.Hoplite, LoadHeroPortrait("Hoplite") },
+            { UnitName.Hoplite, LoadHeroPortrait("Hoplite") }
             //{ UnitName.Synth, LoadHeroPortrait("DamagedSynth") },
             //{ UnitName.ChineseOldman, LoadHeroPortrait("ChineseOldman") }
         };
@@ -313,14 +313,26 @@ internal class GameObjectContentStorage
 
         Texture2D LoadHeroPortrait(string classSid)
         {
-            return contentManager.Load<Texture2D>(Path.Combine(CommonConstants.PathToCharacterSprites, "Heroes", classSid, "Portrait"));
+            return contentManager.Load<Texture2D>(Path.Combine(CommonConstants.PathToCharacterSprites, "Heroes",
+                classSid, "Portrait"));
         }
 
         _puzzleTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/Puzzle");
 
-        _animationSetDict = new Dictionary<string, SpriteAtlasAnimationData> {
+        _animationSetDict = new Dictionary<string, SpriteAtlasAnimationData>
+        {
             { "Swordsman", GetAnimationInner("Swordsman") }
         };
+    }
+
+    internal SpriteAtlasAnimationData GetAnimation(string animationSet)
+    {
+        if (_animationSetDict is null)
+        {
+            throw new InvalidOperationException("Storage is not loaded.");
+        }
+
+        return _animationSetDict[animationSet];
     }
 
     internal Texture2D GetBulletGraphics()
@@ -409,6 +421,18 @@ internal class GameObjectContentStorage
         return _shadowTexture;
     }
 
+    private SpriteAtlasAnimationData GetAnimationInner(string animationSet)
+    {
+        var contentManager = GetContentManager();
+        var json = contentManager.Load<string>(Path.Combine("Animations", animationSet));
+        return JsonConvert.DeserializeObject<SpriteAtlasAnimationData>(json);
+    }
+
+    private ContentManager GetContentManager()
+    {
+        return _contentManager ?? throw new InvalidOperationException("Storage is not loaded.");
+    }
+
     private static Texture2D LoadHeroesTexture(ContentManager contentManager, string classSid)
     {
         var path = Path.Combine("Sprites", "GameObjects", "Characters", "Heroes", classSid, "Full");
@@ -440,31 +464,8 @@ internal class GameObjectContentStorage
     private static Texture2D LoadMonsterTexture(ContentManager contentManager, string classSid)
     {
         var cultureSid = CharacterHelper.GetCultureSid(classSid);
-        var path = Path.Combine("Sprites", "GameObjects", "Characters", "Monsters", cultureSid.ToString(), classSid, "Full");
+        var path = Path.Combine("Sprites", "GameObjects", "Characters", "Monsters", cultureSid.ToString(), classSid,
+            "Full");
         return contentManager.Load<Texture2D>(path);
-    }
-
-    private IDictionary<string, SpriteAtlasAnimationData>? _animationSetDict;
-
-    internal SpriteAtlasAnimationData GetAnimation(string animationSet)
-    {
-        if (_animationSetDict is null)
-        {
-            throw new InvalidOperationException("Storage is not loaded.");
-        }
-
-        return _animationSetDict[animationSet];
-    }
-
-    private SpriteAtlasAnimationData GetAnimationInner(string animationSet)
-    {
-        var contentManager = GetContentManager();
-        var json = contentManager.Load<string>(Path.Combine("Animations", animationSet));
-        return JsonConvert.DeserializeObject<SpriteAtlasAnimationData>(json);
-    }
-
-    private ContentManager GetContentManager()
-    {
-        return _contentManager ?? throw new InvalidOperationException("Storage is not loaded.");
     }
 }

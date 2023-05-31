@@ -20,6 +20,7 @@ internal sealed class CombatantQueuePanel : ControlBase
     private const int RESOLVE_WIDTH = 12;
     private const int PORTRAIN_WIDTH = 32;
     private readonly CombatCore _activeCombat;
+    private readonly ICombatantThumbnailProvider _combatantThumbnailProvider;
 
     private readonly IList<(Rectangle, ICombatantEffect)> _effectInfoList =
         new List<(Rectangle, ICombatantEffect)>();
@@ -28,7 +29,6 @@ internal sealed class CombatantQueuePanel : ControlBase
         new List<(Rectangle, CombatMovementInstance)>();
 
     private readonly IUiContentStorage _uiContentStorage;
-    private readonly ICombatantThumbnailProvider _combatantThumbnailProvider;
     private HintBase? _combatMoveHint;
 
     private HintBase? _effectHint;
@@ -132,7 +132,8 @@ internal sealed class CombatantQueuePanel : ControlBase
         return hint;
     }
 
-    private void DrawCombatantThumbnail(SpriteBatch spriteBatch, Rectangle portraitDestRect, Combatant combatant, Side side)
+    private void DrawCombatantThumbnail(SpriteBatch spriteBatch, Rectangle portraitDestRect, Combatant combatant,
+        Side side)
     {
         var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 

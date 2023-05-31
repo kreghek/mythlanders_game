@@ -8,6 +8,10 @@ internal abstract class LocationSpecificCombatTemplateFactory : ICombatTemplateF
 {
     protected abstract ILocationSid LocationSid { get; }
 
+    protected abstract MonsterCombatantPrefab[] GetLevel0();
+    protected abstract MonsterCombatantPrefab[] GetLevel1();
+    protected abstract MonsterCombatantPrefab[] GetLevel2();
+
     public IReadOnlyCollection<MonsterCombatantTempate> CreateSet()
     {
         return new[]
@@ -28,8 +32,4 @@ internal abstract class LocationSpecificCombatTemplateFactory : ICombatTemplateF
                 GetLevel2())
         };
     }
-
-    protected abstract MonsterCombatantPrefab[] GetLevel0();
-    protected abstract MonsterCombatantPrefab[] GetLevel1();
-    protected abstract MonsterCombatantPrefab[] GetLevel2();
 }

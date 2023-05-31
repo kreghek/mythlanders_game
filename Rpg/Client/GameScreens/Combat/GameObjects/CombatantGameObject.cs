@@ -74,9 +74,13 @@ internal sealed class CombatantGameObject : EwarRenderableBase
     public bool IsActive { get; set; }
     public Vector2 LaunchPoint => Position - _combatantGraphicsConfig.LaunchPoint;
 
-    public Vector2 StatsPanelOrigin => Position - _combatantGraphicsConfig.StatsPanelOrigin;
+    public Vector2 MeleeHitOffset => Position +
+                                     new Vector2(
+                                         _combatantSide == CombatantPositionSide.Heroes
+                                             ? _combatantGraphicsConfig.MeleeHitXOffset
+                                             : -_combatantGraphicsConfig.MeleeHitXOffset, 0);
 
-    public Vector2 MeleeHitOffset => Position + new Vector2(_combatantSide == CombatantPositionSide.Heroes ? _combatantGraphicsConfig.MeleeHitXOffset : -_combatantGraphicsConfig.MeleeHitXOffset, 0);
+    public Vector2 StatsPanelOrigin => Position - _combatantGraphicsConfig.StatsPanelOrigin;
 
     public void AddStateEngine(IActorVisualizationState actorStateEngine)
     {

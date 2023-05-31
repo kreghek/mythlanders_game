@@ -20,6 +20,8 @@ internal sealed class PlayAnimationActorState : IActorVisualizationState
     private readonly IAnimationFrameSet _animation;
     private readonly IActorAnimator _animator;
 
+    private bool _animationStarted;
+
     public PlayAnimationActorState(IActorAnimator animator, IAnimationFrameSet animation)
     {
         _animation = animation;
@@ -46,8 +48,6 @@ internal sealed class PlayAnimationActorState : IActorVisualizationState
         {
         }
     }
-
-    private bool _animationStarted;
 
     /// <inheritdoc />
     public void Update(GameTime gameTime)

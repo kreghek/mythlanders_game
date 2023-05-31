@@ -50,7 +50,8 @@ internal static class CommonCombatVisualization
         };
 
         var innerState = new SequentialState(subStates);
-        return new CombatMovementScene(innerState, new[] { new FollowActorOperatorCameraTask(actorAnimator, () => innerState.IsComplete) });
+        return new CombatMovementScene(innerState,
+            new[] { new FollowActorOperatorCameraTask(actorAnimator, () => innerState.IsComplete) });
     }
 
     public static CombatMovementScene CreateSingleMeleeVisualization(IActorAnimator actorAnimator,
@@ -103,7 +104,8 @@ internal static class CommonCombatVisualization
         };
 
         var innerState = new SequentialState(subStates);
-        return new CombatMovementScene(innerState, new[] { new FollowActorOperatorCameraTask(actorAnimator, () => innerState.IsComplete) });
+        return new CombatMovementScene(innerState,
+            new[] { new FollowActorOperatorCameraTask(actorAnimator, () => innerState.IsComplete) });
     }
 
     private static Combatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
