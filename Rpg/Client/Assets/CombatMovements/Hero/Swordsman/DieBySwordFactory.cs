@@ -7,6 +7,8 @@ using Core.Combats;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
+using Rpg.Client.Core;
+
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
 internal class DieBySwordFactory : CombatMovementFactoryBase
@@ -61,7 +63,7 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
             visualizationContext, config);
     }
 
-    private static LinearAnimationFrameSet ConvertToAnimation(SpriteAtlasAnimationData spredsheetAnimationData, string animation)
+    private static IAnimationFrameSet ConvertToAnimation(SpriteAtlasAnimationData spredsheetAnimationData, string animation)
     {
         var spredsheetAnimationDataCycles = spredsheetAnimationData.Cycles[animation];
 

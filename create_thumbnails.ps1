@@ -1,3 +1,5 @@
+Add-Type -AssemblyName System.Drawing
+
 # Задаем путь к директории и маску файлов
 $dirPath = ".\Rpg\Content\Content\Sprites\GameObjects\Characters"
 $fileMask = "Full.png"

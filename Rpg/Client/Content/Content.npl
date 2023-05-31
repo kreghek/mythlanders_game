@@ -208,13 +208,13 @@
             "importer": "RawStringImporter",
             "processor": "RawStringProcessor"
         },
-		"Animations":
-		{
+        "Animations":
+        {
             "path": "Animations/*.sf",
             "recursive": "False",
             "action": "build",
             "importer": "RawStringImporter",
             "processor": "RawStringProcessor"
-		}
+        }
 	}
 }
