@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
 using Client.Assets.GraphicConfigs.Monsters;
-using Client.Core;
 
 using Microsoft.Xna.Framework;
 
