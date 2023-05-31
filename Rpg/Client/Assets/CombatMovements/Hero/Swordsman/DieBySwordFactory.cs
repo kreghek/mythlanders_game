@@ -72,7 +72,7 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
             spredsheetAnimationDataCycles.Fps,
             spredsheetAnimationData.TextureAtlas.RegionWidth,
             spredsheetAnimationData.TextureAtlas.RegionHeight, 8)
-        { 
+        {
             IsLooping = spredsheetAnimationDataCycles.IsLooping
         };
     }

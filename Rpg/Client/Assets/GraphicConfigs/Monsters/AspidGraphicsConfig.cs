@@ -15,7 +15,7 @@ internal sealed class AspidGraphicsConfig : SlavicMonsterGraphicConfig
         MeleeHitXOffset = 128;
     }
 
-    
+
 
     public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
     {

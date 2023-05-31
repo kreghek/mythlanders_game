@@ -7,7 +7,7 @@ namespace Client.GameScreens;
 
 internal static class CharacterHelper
 {
-    private static readonly (CharacterCultureSid CharacterCultureSid, string[] ClassSids)[] _map = new []
+    private static readonly (CharacterCultureSid CharacterCultureSid, string[] ClassSids)[] _map = new[]
     {
         (CharacterCultureSid.Slavic, new[]{ "Aspid", "CorruptedBear", "DigitalWolf", "HornedFrog", "Stryga", "Volkolak", "Wisp" }),
         (CharacterCultureSid.Egyptian, new[]{ "Chaser" }),
