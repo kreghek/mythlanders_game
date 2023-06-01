@@ -20,6 +20,7 @@ internal sealed class UseCombatMovementIntention : IIntention
 {
     private readonly IAnimationManager _animationManager;
     private readonly CameraOperator _cameraOperator;
+    private readonly IHighlightService _highlightService;
     private readonly IList<CombatantGameObject> _combatantGameObjects;
     private readonly CombatMovementInstance _combatMovement;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
@@ -29,7 +30,8 @@ internal sealed class UseCombatMovementIntention : IIntention
     public UseCombatMovementIntention(CombatMovementInstance combatMovement, IAnimationManager animationManager,
         ICombatMovementVisualizationProvider combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects,
         InteractionDeliveryManager interactionDeliveryManager, GameObjectContentStorage gameObjectContentStorage,
-        CameraOperator cameraOperator)
+        CameraOperator cameraOperator,
+        IHighlightService highlightService)
     {
         _combatMovement = combatMovement;
         _animationManager = animationManager;
@@ -38,6 +40,7 @@ internal sealed class UseCombatMovementIntention : IIntention
         _interactionDeliveryManager = interactionDeliveryManager;
         _gameObjectContentStorage = gameObjectContentStorage;
         _cameraOperator = cameraOperator;
+        _highlightService = highlightService;
     }
 
     private CombatantGameObject GetCombatantGameObject(Combatant combatant)
@@ -64,7 +67,9 @@ internal sealed class UseCombatMovementIntention : IIntention
 
         mainAnimationBlocker.Released += (_, _) =>
         {
-            // Wait some time to separate turns of different actors
+            _highlightService.ClearTargets();
+
+            // Wait for some time to separate turns of different actors
 
             var delayBlocker = new DelayBlocker(new Duration(1));
             _animationManager.RegisterBlocker(delayBlocker);
@@ -92,6 +97,8 @@ internal sealed class UseCombatMovementIntention : IIntention
         {
             _cameraOperator.AddState(cameraTask);
         }
+
+        _highlightService.AddTargets(movementExecution.EffectImposeItems.SelectMany(x=>x.MaterializedTargets).Select(x=>GetCombatantGameObject(x).Animator).ToArray());
     }
 
     public void Make(CombatCore combatCore)

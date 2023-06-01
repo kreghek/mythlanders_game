@@ -44,11 +44,70 @@ using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Combat;
 
+internal interface ICombatSceneContext 
+{
+    ICombatSceneScope? CurrentScope { get; }
+
+}
+
+internal sealed class CombatSceneContext : ICombatSceneContext
+{
+    public CombatSceneContext(IReadOnlyList<IActorAnimator> actors)
+    {
+        if (actors.Any())
+        {
+            CurrentScope = new CombatSceneScope(actors);
+        }
+    }
+
+    public ICombatSceneScope? CurrentScope { get; }
+}
+
+internal interface ICombatSceneScope
+{
+    IReadOnlyList<IActorAnimator> Actors { get; }
+}
+
+internal sealed class CombatSceneScope : ICombatSceneScope
+{
+    public IReadOnlyList<IActorAnimator> Actors { get; }
+
+    public CombatSceneScope(IReadOnlyList<IActorAnimator> actors)
+    {
+        Actors = actors;
+    }
+}
+
+internal interface IHighlightService
+{
+    void AddTargets(IActorAnimator[] actorAnimators);
+    void ClearTargets();
+    ICombatSceneContext CreateContext();
+}
+
+internal sealed class HighlightService : IHighlightService
+{
+    private readonly List<IActorAnimator> _currentActors = new List<IActorAnimator>();
+
+    public void AddTargets(IActorAnimator[] actorAnimators)
+    {
+        _currentActors.AddRange(actorAnimators);
+    }
+
+    public void ClearTargets()
+    {
+        _currentActors.Clear();
+    }
+
+    public ICombatSceneContext CreateContext()
+    {
+        return new CombatSceneContext(_currentActors);
+    }
+}
+
 internal class CombatScreen : GameScreenWithMenuBase
 {
     private const int BACKGROUND_LAYERS_COUNT = 4;
-    private const float BACKGROUND_LAYERS_SPEED_X = 0.1f;
-    private const float BACKGROUND_LAYERS_SPEED_Y = 0.05f;
 
     private readonly UpdatableAnimationManager _animationManager;
     private readonly CombatScreenTransitionArguments _args;
@@ -63,6 +122,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly HeroCampaign _currentCampaign;
     private readonly IDice _dice;
     private readonly IDropResolver _dropResolver;
+    private readonly HighlightService _highlightService;
     private readonly IEventCatalog _eventCatalog;
     private readonly IReadOnlyList<IBackgroundObject> _farLayerObjects;
     private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
@@ -163,6 +223,8 @@ internal class CombatScreen : GameScreenWithMenuBase
         _targetMarkers = new TargetMarkersVisualizer();
 
         _dropResolver = game.Services.GetRequiredService<IDropResolver>();
+
+        _highlightService = new HighlightService();
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -209,7 +271,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         HandleBullets(gameTime);
 
-        HandleUnits(gameTime);
+        UpdateCombatants(gameTime);
 
         if (!_combatCore.Finished && _combatFinishedVictory is null)
         {
@@ -483,7 +545,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             _gameObjects,
             _interactionDeliveryManager,
             _gameObjectContentStorage,
-            _cameraOperator);
+            _cameraOperator,
+            _highlightService);
 
         _manualCombatantBehaviour.Assign(intention);
     }
@@ -647,8 +710,10 @@ internal class CombatScreen : GameScreenWithMenuBase
     }
 
 
-    private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds)
+    private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds, ICombatSceneContext combatSceneContext)
     {
+        var color = combatSceneContext.CurrentScope is null ? Color.White : Color.Lerp(Color.White, Color.Black, 0.75f);
+
         for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
         {
             spriteBatch.Begin(
@@ -659,7 +724,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
 
-            spriteBatch.Draw(backgrounds[i], Vector2.Zero, Color.White);
+            spriteBatch.Draw(backgrounds[i], Vector2.Zero, color);
 
             if (i == 0 /*Cloud layer*/)
             {
@@ -687,7 +752,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DrawBullets(SpriteBatch spriteBatch)
+    private void DrawInteractionDeliveryItems(SpriteBatch spriteBatch)
     {
         foreach (var bullet in _interactionDeliveryManager.GetActiveSnapshot())
         {
@@ -708,7 +773,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DrawCombatants(SpriteBatch spriteBatch)
+    private void DrawCombatants(SpriteBatch spriteBatch, ICombatSceneContext combatSceneContext)
     {
         var corpseList = _corpseObjects.OrderBy(x => x.GetZIndex()).ToArray();
         foreach (var gameObject in corpseList)
@@ -719,7 +784,10 @@ internal class CombatScreen : GameScreenWithMenuBase
         var list = _gameObjects.OrderBy(x => x.GetZIndex()).ToArray();
         foreach (var gameObject in list)
         {
-            gameObject.Draw(spriteBatch);
+            if ((combatSceneContext.CurrentScope is not null && combatSceneContext.CurrentScope.Actors.Contains(gameObject.Animator)) || combatSceneContext.CurrentScope is null)
+            {
+                gameObject.Draw(spriteBatch);
+            }
         }
     }
 
@@ -800,7 +868,9 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 
-        DrawBackgroundLayers(spriteBatch, backgrounds);
+        var combatSceneContext = GetSceneContext();
+
+        DrawBackgroundLayers(spriteBatch, backgrounds, combatSceneContext);
 
         spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
@@ -809,18 +879,18 @@ internal class CombatScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
 
-        DrawBullets(spriteBatch);
+        DrawInteractionDeliveryItems(spriteBatch);
 
-        DrawCombatants(spriteBatch);
-
-        foreach (var bullet in _interactionDeliveryManager.GetActiveSnapshot())
-        {
-            bullet.Draw(spriteBatch);
-        }
+        DrawCombatants(spriteBatch, combatSceneContext);
 
         spriteBatch.End();
 
         DrawForegroundLayers(spriteBatch, backgrounds);
+    }
+
+    private ICombatSceneContext GetSceneContext()
+    {
+        return _highlightService.CreateContext();
     }
 
     private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
@@ -1067,7 +1137,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _globe.GlobeLevel.Level++;
     }
 
-    private void HandleUnits(GameTime gameTime)
+    private void UpdateCombatants(GameTime gameTime)
     {
         foreach (var gameObject in _gameObjects.ToArray())
         {
@@ -1117,7 +1187,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _gameObjects,
                 _interactionDeliveryManager,
                 _gameObjectContentStorage,
-                _cameraOperator
+                _cameraOperator,
+                _highlightService
             );
         _combatCore.Initialize(
             CombatantFactory.CreateHeroes(_manualCombatantBehaviour, _globeProvider.Globe.Player),

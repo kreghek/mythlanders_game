@@ -16,6 +16,7 @@ internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
 {
     private readonly IAnimationManager _animationManager;
     private readonly CameraOperator _cameraOperator;
+    private readonly IHighlightService _highlightService;
     private readonly IList<CombatantGameObject> _combatantGameObjects;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -26,7 +27,8 @@ internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
         IList<CombatantGameObject> combatantGameObjects,
         InteractionDeliveryManager interactionDeliveryManager,
         GameObjectContentStorage gameObjectContentStorage,
-        CameraOperator cameraOperator)
+        CameraOperator cameraOperator,
+        IHighlightService highlightService)
     {
         _animationManager = animationManager;
         _combatMovementVisualizer = combatMovementVisualizer;
@@ -34,11 +36,13 @@ internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
         _interactionDeliveryManager = interactionDeliveryManager;
         _gameObjectContentStorage = gameObjectContentStorage;
         _cameraOperator = cameraOperator;
+        _highlightService = highlightService;
     }
 
     public IIntention CreateCombatMovement(CombatMovementInstance combatMovement)
     {
         return new UseCombatMovementIntention(combatMovement, _animationManager, _combatMovementVisualizer,
-            _combatantGameObjects, _interactionDeliveryManager, _gameObjectContentStorage, _cameraOperator);
+            _combatantGameObjects, _interactionDeliveryManager, _gameObjectContentStorage, _cameraOperator,
+            _highlightService);
     }
 }
