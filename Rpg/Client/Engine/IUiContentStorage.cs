@@ -12,12 +12,12 @@ namespace Rpg.Client.Engine
     {
         bool ContentWasLoaded { get; }
 
-        Texture2D GetBiomeBackground(BiomeType type);
+        Texture2D GetBiomeBackground(BiomeCulture type);
         Texture2D GetButtonIndicatorsTexture();
         SpriteFont GetCombatIndicatorFont();
         Texture2D GetCombatMoveIconsTexture();
         Texture2D GetCombatSkillPanelTexture();
-        IReadOnlyCollection<CombatSoundtrack> GetCombatSongs(BiomeType currentBiome);
+        IReadOnlyCollection<CombatSoundtrack> GetCombatSongs(BiomeCulture currentBiome);
         Texture2D GetControlBackgroundTexture();
         Texture2D GetCursorsTexture();
         Song GetDefeatSong();

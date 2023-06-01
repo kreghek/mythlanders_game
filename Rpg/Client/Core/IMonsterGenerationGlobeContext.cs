@@ -4,7 +4,7 @@ namespace Rpg.Client.Core
 {
     internal interface IMonsterGenerationGlobeContext
     {
-        IReadOnlyCollection<BiomeType> BiomesWithBosses { get; }
+        IReadOnlyCollection<BiomeCulture> BiomesWithBosses { get; }
         int GlobeProgressLevel { get; }
     }
 }

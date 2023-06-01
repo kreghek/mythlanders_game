@@ -12,6 +12,6 @@ namespace Rpg.Client.Core
         }
 
         public int GlobeProgressLevel { get; }
-        public IReadOnlyCollection<BiomeType> BiomesWithBosses { get; }
+        public IReadOnlyCollection<BiomeCulture> BiomesWithBosses { get; }
     }
 }

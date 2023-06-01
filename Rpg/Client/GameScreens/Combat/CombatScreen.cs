@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 
 using Client.Assets.Catalogs;
 using Client.Assets.CombatMovements;
@@ -651,23 +652,10 @@ internal class CombatScreen : GameScreenWithMenuBase
     }
 
 
-    private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds,
-        int backgroundStartOffsetX,
-        int backgroundMaxOffsetX, int backgroundStartOffsetY, int backgroundMaxOffsetY)
+    private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds)
     {
         for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
         {
-            var xFloat = backgroundStartOffsetX + _bgCenterOffsetPercentageX * (BACKGROUND_LAYERS_COUNT - i - 1) *
-                BACKGROUND_LAYERS_SPEED_X * backgroundMaxOffsetX;
-            var roundedX = (int)Math.Round(xFloat);
-
-            var yFloat = backgroundStartOffsetY + _bgCenterOffsetPercentageY * (BACKGROUND_LAYERS_COUNT - i - 1) *
-                BACKGROUND_LAYERS_SPEED_Y * backgroundMaxOffsetY;
-            var roundedY = (int)Math.Round(yFloat);
-
-            var position = new Vector2(roundedX, roundedY);
-            var position3d = new Vector3(position, 0);
-
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
@@ -834,8 +822,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         const int BG_START_OFFSET_Y = -20;
         const int BG_MAX_OFFSET_Y = 40;
 
-        DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET_X, BG_MAX_OFFSET_X, BG_START_OFFSET_Y,
-            BG_MAX_OFFSET_Y);
+        DrawBackgroundLayers(spriteBatch, backgrounds);
 
         spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
@@ -1021,17 +1008,15 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatFinishedVictory = false;
     }
 
-    private static BiomeType GetBiomeSound(ILocationSid locationSid)
+    private static BiomeCulture GetBiomeSound(ILocationSid locationSid)
     {
-        return locationSid.ToString() switch
+        var biomeCultureAttribute = locationSid.GetType().GetCustomAttribute<BiomeCultureAttribute>();
+        if (biomeCultureAttribute is null)
         {
-            nameof(LocationSids.Thicket) => BiomeType.Slavic,
-            nameof(LocationSids.Swamp) => BiomeType.Slavic,
-            nameof(LocationSids.Desert) => BiomeType.Egyptian,
-            nameof(LocationSids.ShipGraveyard) => BiomeType.Greek,
-            nameof(LocationSids.Monastery) => BiomeType.Chinese,
-            _ => BiomeType.Slavic
-        };
+            return BiomeCulture.Slavic;
+        }
+
+        return biomeCultureAttribute.Culture;
     }
 
     private CombatantGameObject GetCombatantGameObject(Combatant combatant)

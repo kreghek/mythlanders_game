@@ -112,35 +112,35 @@ internal class GameObjectContentStorage
         _combatBackgroundBaseDict = new Dictionary<BackgroundType, Texture2D[]>
         {
             {
-                BackgroundType.SlavicDarkThicket, LoadBackgroundLayers(BiomeType.Slavic, LocationSids.Thicket)
+                BackgroundType.SlavicDarkThicket, LoadBackgroundLayers(BiomeCulture.Slavic, LocationSids.Thicket)
             },
 
             {
-                BackgroundType.SlavicBattleground, LoadBackgroundLayers(BiomeType.Slavic, LocationSids.Battleground)
+                BackgroundType.SlavicBattleground, LoadBackgroundLayers(BiomeCulture.Slavic, LocationSids.Battleground)
             },
 
             {
-                BackgroundType.SlavicSwamp, LoadBackgroundLayers(BiomeType.Slavic, LocationSids.Swamp)
+                BackgroundType.SlavicSwamp, LoadBackgroundLayers(BiomeCulture.Slavic, LocationSids.Swamp)
             },
 
             {
                 BackgroundType.SlavicDestroyedVillage,
-                LoadBackgroundLayers(BiomeType.Slavic, LocationSids.DestroyedVillage)
+                LoadBackgroundLayers(BiomeCulture.Slavic, LocationSids.DestroyedVillage)
             },
 
             {
-                BackgroundType.ChineseMonastery, LoadBackgroundLayers(BiomeType.Chinese, LocationSids.Monastery)
+                BackgroundType.ChineseMonastery, LoadBackgroundLayers(BiomeCulture.Chinese, LocationSids.Monastery)
             },
 
             {
-                BackgroundType.EgyptianDesert, LoadBackgroundLayers(BiomeType.Egyptian, LocationSids.Desert)
+                BackgroundType.EgyptianDesert, LoadBackgroundLayers(BiomeCulture.Egyptian, LocationSids.Desert)
             },
             {
-                BackgroundType.EgyptianPyramids, LoadBackgroundLayers(BiomeType.Egyptian, LocationSids.SacredPlace)
+                BackgroundType.EgyptianPyramids, LoadBackgroundLayers(BiomeCulture.Egyptian, LocationSids.SacredPlace)
             },
 
             {
-                BackgroundType.GreekShipGraveyard, LoadBackgroundLayers(BiomeType.Greek, LocationSids.ShipGraveyard)
+                BackgroundType.GreekShipGraveyard, LoadBackgroundLayers(BiomeCulture.Greek, LocationSids.ShipGraveyard)
             }
         };
 
@@ -292,14 +292,14 @@ internal class GameObjectContentStorage
             //{ UnitName.ChineseOldman, LoadHeroPortrait("ChineseOldman") }
         };
 
-        Texture2D LoadBackgroundLayer(BiomeType biomeType, ILocationSid locationSid, BackgroundLayerType layerType)
+        Texture2D LoadBackgroundLayer(BiomeCulture biomeType, ILocationSid locationSid, BackgroundLayerType layerType)
         {
             var imagePath = Path.Combine("Sprites", "GameObjects", "CombatBackgrounds", biomeType.ToString(),
                 locationSid.ToString(), $"{layerType}Layer");
             return contentManager.Load<Texture2D>(imagePath);
         }
 
-        Texture2D[] LoadBackgroundLayers(BiomeType biomeType, ILocationSid locationSid)
+        Texture2D[] LoadBackgroundLayers(BiomeCulture biomeType, ILocationSid locationSid)
         {
             return new[]
             {
