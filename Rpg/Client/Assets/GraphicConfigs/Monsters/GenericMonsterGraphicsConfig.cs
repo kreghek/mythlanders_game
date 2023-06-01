@@ -6,8 +6,15 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.GraphicConfigs.Monsters
 {
-    internal sealed class GenericMonsterGraphicsConfig : SlavicMonsterGraphicConfig
+    internal sealed class GenericMonsterGraphicsConfig : MonsterGraphicConfig
     {
+        public GenericMonsterGraphicsConfig(UnitName name, CharacterCultureSid cultureSid) : base(name)
+        {
+            CultureSid = cultureSid;
+        }
+
+        protected override CharacterCultureSid CultureSid { get; }
+
         public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
         {
             return new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>

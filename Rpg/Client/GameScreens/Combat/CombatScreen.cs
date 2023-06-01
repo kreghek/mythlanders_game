@@ -779,20 +779,8 @@ internal class CombatScreen : GameScreenWithMenuBase
         _targetMarkers.Draw(spriteBatch);
     }
 
-    private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffsetX,
-        int backgroundMaxOffsetX, int backgroundStartOffsetY, int backgroundMaxOffsetY)
+    private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds)
     {
-        var xFloat = backgroundStartOffsetX + _bgCenterOffsetPercentageX * (-1) *
-            BACKGROUND_LAYERS_SPEED_X * backgroundMaxOffsetX;
-        var roundedX = (int)Math.Round(xFloat);
-
-        var yFloat = backgroundStartOffsetY + _bgCenterOffsetPercentageY * (-1) *
-            BACKGROUND_LAYERS_SPEED_Y * backgroundMaxOffsetY;
-        var roundedY = (int)Math.Round(yFloat);
-
-        var position = new Vector2(roundedX, roundedY);
-        var position3d = new Vector3(position, 0);
-
         spriteBatch.Begin(
             sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
@@ -817,11 +805,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 
-        const int BG_START_OFFSET_X = -100;
-        const int BG_MAX_OFFSET_X = 200;
-        const int BG_START_OFFSET_Y = -20;
-        const int BG_MAX_OFFSET_Y = 40;
-
         DrawBackgroundLayers(spriteBatch, backgrounds);
 
         spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
@@ -842,8 +825,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         spriteBatch.End();
 
-        DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET_X, BG_MAX_OFFSET_X, BG_START_OFFSET_Y + 20,
-            BG_MAX_OFFSET_Y);
+        DrawForegroundLayers(spriteBatch, backgrounds);
     }
 
     private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)

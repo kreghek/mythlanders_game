@@ -8,6 +8,10 @@ namespace Rpg.Client.Assets.GraphicConfigs.Monsters
 {
     internal sealed class BlackTrooperGraphicsConfig : BlackMonsterGraphicConfig
     {
+        public BlackTrooperGraphicsConfig(UnitName unit) : base(unit)
+        {
+        }
+
         public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
         {
             return new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>

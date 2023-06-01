@@ -8,6 +8,10 @@ namespace Rpg.Client.Assets.GraphicConfigs.Heroes
 {
     internal sealed class GuardsmanGraphicsConfig : HeroGraphicConfig
     {
+        public GuardsmanGraphicsConfig(UnitName name) : base(name)
+        {
+        }
+
         public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
         {
             return new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>

@@ -1,7 +1,10 @@
+using Client.Assets.CombatMovements;
+using System.IO;
+
+using Client.Assets.GraphicConfigs;
 using Client.Core;
 
 using Rpg.Client.Assets.Equipments.Sergeant;
-using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
@@ -22,7 +25,7 @@ namespace Rpg.Client.Assets.Heroes
 
         protected override UnitGraphicsConfigBase GetGraphicsConfig()
         {
-            return new SingleSpriteGraphicsConfig();
+            return new SingleSpriteGraphicsConfig(Path.Combine(CommonConstants.PathToCharacterSprites, "Heroes", HeroName.ToString(), "Thumbnail"));
         }
 
         protected override IUnitLevelScheme[] GetLevels()

@@ -10,7 +10,7 @@ namespace Rpg.Client.Assets.GraphicConfigs.Monsters
 {
     internal sealed class VolkolakWarriorGraphicsConfig : SlavicMonsterGraphicConfig
     {
-        public VolkolakWarriorGraphicsConfig()
+        public VolkolakWarriorGraphicsConfig(UnitName unit) : base(unit)
         {
             StatsPanelOrigin = new Vector2(-16, 64 + 8);
             ShadowOrigin = new Vector2(-16, -16);

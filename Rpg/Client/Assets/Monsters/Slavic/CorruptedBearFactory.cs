@@ -1,6 +1,4 @@
-using Client.Assets;
 using Client.Assets.GraphicConfigs.Monsters;
-using Client.Assets.Monsters;
 using Client.Core;
 using Client.GameScreens;
 
@@ -13,9 +11,9 @@ using Rpg.Client.Core;
 namespace Client.Assets.Monsters.Slavic;
 
 [UsedImplicitly]
-internal sealed class WispFactory : MonsterFactoryBase
+internal sealed class CorruptedBearFactory : MonsterFactoryBase
 {
-    public override UnitName ClassName => UnitName.Wisp;
+    public override UnitName ClassName => UnitName.CorruptedBear;
 
     public override CharacterCultureSid Culture => CharacterCultureSid.Slavic;
 
@@ -23,12 +21,20 @@ internal sealed class WispFactory : MonsterFactoryBase
     {
         return new UnitScheme(balanceTable.GetCommonUnitBasics())
         {
-            Name = UnitName.Wisp,
+            TankRank = 0.5f,
+            DamageDealerRank = 0.5f,
+            SupportRank = 0.0f,
+
+            Name = UnitName.CorruptedBear,
             LocationSids = new[]
             {
-                LocationSids.DestroyedVillage, LocationSids.Swamp
+                LocationSids.Battleground, LocationSids.DestroyedVillage, LocationSids.Swamp
             },
-            IsMonster = true
+            IsMonster = true,
+
+            Levels = new IUnitLevelScheme[]
+            {
+            }
         };
     }
 

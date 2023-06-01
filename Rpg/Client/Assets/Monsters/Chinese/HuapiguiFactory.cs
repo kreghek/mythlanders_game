@@ -1,5 +1,5 @@
 ﻿using Client.Assets;
-using Client.Assets.Monsters;
+using Client.Assets.GraphicConfigs.Monsters;
 using Client.Core;
 using Client.GameScreens;
 
@@ -11,11 +11,13 @@ using Rpg.Client.Core;
 namespace Rpg.Client.Assets.Monsters
 {
     [UsedImplicitly]
-    internal sealed class HuapiguiFactory : IMonsterFactory
+    internal sealed class HuapiguiFactory : MonsterFactoryBase
     {
-        public UnitName ClassName => UnitName.Huapigui;
+        public override UnitName ClassName => UnitName.Huapigui;
 
-        public UnitScheme Create(IBalanceTable balanceTable)
+        public override CharacterCultureSid Culture => CharacterCultureSid.Chinese;
+
+        public override UnitScheme Create(IBalanceTable balanceTable)
         {
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {
@@ -28,15 +30,13 @@ namespace Rpg.Client.Assets.Monsters
 
                 Levels = new IUnitLevelScheme[]
                 {
-                },
-
-                UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
+                }
             };
         }
 
-        public UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
+        public override UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
         {
-            return new GenericMonsterGraphicsConfig();
+            return new GenericMonsterGraphicsConfig(ClassName, Culture);
         }
     }
 }

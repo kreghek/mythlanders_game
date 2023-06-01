@@ -14,6 +14,8 @@ internal sealed class AspidFactory : MonsterFactoryBase
 {
     public override UnitName ClassName => UnitName.Aspid;
 
+    public override CharacterCultureSid Culture => CharacterCultureSid.Slavic;
+
     public override UnitScheme Create(IBalanceTable balanceTable)
     {
         return new UnitScheme(balanceTable.GetCommonUnitBasics());
@@ -21,6 +23,6 @@ internal sealed class AspidFactory : MonsterFactoryBase
 
     public override UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
     {
-        return new AspidGraphicsConfig();
+        return new AspidGraphicsConfig(ClassName);
     }
 }

@@ -26,7 +26,7 @@ internal class MonkFactory : HeroFactoryBase
 
     protected override UnitGraphicsConfigBase GetGraphicsConfig()
     {
-        return new MaosinGraphicsConfig();
+        return new MaosinGraphicsConfig(HeroName);
     }
 
     protected override IUnitLevelScheme[] GetLevels()

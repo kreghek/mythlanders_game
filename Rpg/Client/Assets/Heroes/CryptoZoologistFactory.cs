@@ -1,35 +1,38 @@
+using Client.Assets.CombatMovements;
+using Client.Assets.GraphicConfigs;
+using System.IO;
+
 using Client.Core;
 
 using Rpg.Client.Assets.Equipments.Zoologist;
-using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Core;
+using Rpg.Client.Assets.Heroes;
 
-namespace Rpg.Client.Assets.Heroes
+namespace Client.Assets.Heroes;
+
+internal class CryptoZoologistFactory : HeroFactoryBase
 {
-    internal class CryptoZoologistFactory : HeroFactoryBase
+    public override UnitName HeroName => UnitName.Zoologist;
+
+    protected override IEquipmentScheme[] GetEquipment()
     {
-        public override UnitName HeroName => UnitName.Zoologist;
-
-        protected override IEquipmentScheme[] GetEquipment()
+        return new IEquipmentScheme[]
         {
-            return new IEquipmentScheme[]
-            {
-                new BioExtractor(),
-                new ScientistRobe(),
-                new DetectiveOculars()
-            };
-        }
+            new BioExtractor(),
+            new ScientistRobe(),
+            new DetectiveOculars()
+        };
+    }
 
-        protected override UnitGraphicsConfigBase GetGraphicsConfig()
-        {
-            return new SingleSpriteGraphicsConfig();
-        }
+    protected override UnitGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new SingleSpriteGraphicsConfig(Path.Combine(CommonConstants.PathToCharacterSprites, "Heroes", HeroName.ToString(), "Thumbnail"));
+    }
 
-        protected override IUnitLevelScheme[] GetLevels()
+    protected override IUnitLevelScheme[] GetLevels()
+    {
+        return new IUnitLevelScheme[]
         {
-            return new IUnitLevelScheme[]
-            {
-            };
-        }
+        };
     }
 }

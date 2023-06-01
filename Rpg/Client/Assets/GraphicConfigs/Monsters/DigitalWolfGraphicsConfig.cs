@@ -8,7 +8,7 @@ namespace Client.Assets.GraphicConfigs.Monsters;
 
 internal sealed class DigitalWolfGraphicsConfig : SlavicMonsterGraphicConfig
 {
-    public DigitalWolfGraphicsConfig()
+    public DigitalWolfGraphicsConfig(UnitName unit) : base(unit)
     {
         InteractionPoint = new Vector2(64, 16);
         StatsPanelOrigin = new Vector2(32, 64 - 10);
