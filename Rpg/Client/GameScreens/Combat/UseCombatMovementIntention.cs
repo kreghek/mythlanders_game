@@ -4,6 +4,7 @@ using System.Linq;
 using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Assets.States.Primitives;
+using Client.Engine;
 using Client.GameScreens;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
@@ -98,7 +99,13 @@ internal sealed class UseCombatMovementIntention : IIntention
             _cameraOperator.AddState(cameraTask);
         }
 
-        _highlightService.AddTargets(movementExecution.EffectImposeItems.SelectMany(x=>x.MaterializedTargets).Select(x=>GetCombatantGameObject(x).Animator).ToArray());
+        var targetCombatants = movementExecution.EffectImposeItems.SelectMany(x => x.MaterializedTargets).ToArray();
+        var targetCombatantAnimators = targetCombatants.Select(x => GetCombatantGameObject(x).Animator).ToArray();
+        var focusedAnimators = new HashSet<IActorAnimator>(targetCombatantAnimators)
+        {
+            actorGameObject.Animator
+        };
+        _highlightService.AddTargets(focusedAnimators);
     }
 
     public void Make(CombatCore combatCore)

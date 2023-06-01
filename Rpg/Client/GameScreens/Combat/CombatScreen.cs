@@ -44,67 +44,6 @@ using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Combat;
 
-internal interface ICombatSceneContext 
-{
-    ICombatSceneScope? CurrentScope { get; }
-
-}
-
-internal sealed class CombatSceneContext : ICombatSceneContext
-{
-    public CombatSceneContext(IReadOnlyList<IActorAnimator> actors)
-    {
-        if (actors.Any())
-        {
-            CurrentScope = new CombatSceneScope(actors);
-        }
-    }
-
-    public ICombatSceneScope? CurrentScope { get; }
-}
-
-internal interface ICombatSceneScope
-{
-    IReadOnlyList<IActorAnimator> Actors { get; }
-}
-
-internal sealed class CombatSceneScope : ICombatSceneScope
-{
-    public IReadOnlyList<IActorAnimator> Actors { get; }
-
-    public CombatSceneScope(IReadOnlyList<IActorAnimator> actors)
-    {
-        Actors = actors;
-    }
-}
-
-internal interface IHighlightService
-{
-    void AddTargets(IActorAnimator[] actorAnimators);
-    void ClearTargets();
-    ICombatSceneContext CreateContext();
-}
-
-internal sealed class HighlightService : IHighlightService
-{
-    private readonly List<IActorAnimator> _currentActors = new List<IActorAnimator>();
-
-    public void AddTargets(IActorAnimator[] actorAnimators)
-    {
-        _currentActors.AddRange(actorAnimators);
-    }
-
-    public void ClearTargets()
-    {
-        _currentActors.Clear();
-    }
-
-    public ICombatSceneContext CreateContext()
-    {
-        return new CombatSceneContext(_currentActors);
-    }
-}
-
 internal class CombatScreen : GameScreenWithMenuBase
 {
     private const int BACKGROUND_LAYERS_COUNT = 4;
