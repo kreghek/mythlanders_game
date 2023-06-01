@@ -78,14 +78,11 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
     private readonly FieldManeuverIndicatorPanel _maneuversIndicator;
     private readonly FieldManeuversVisualizer _maneuversVisualizer;
-    private readonly ManualCombatActorBehaviour _playerCombatantBehaviour;
+    private readonly ManualCombatActorBehaviour _manualCombatantBehaviour;
     private readonly ScreenShaker _screenShaker;
 
     private readonly TargetMarkersVisualizer _targetMarkers;
     private readonly IUiContentStorage _uiContentStorage;
-
-    private float _bgCenterOffsetPercentageX;
-    private float _bgCenterOffsetPercentageY;
 
     private bool _bossWasDefeat;
 
@@ -149,7 +146,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _jobProgressResolver = new JobProgressResolver();
 
-        _playerCombatantBehaviour = new ManualCombatActorBehaviour();
+        _manualCombatantBehaviour = new ManualCombatActorBehaviour();
 
         _combatCore = CreateCombat();
         _combatDataBehaviourProvider = new CombatActorBehaviourDataProvider(_combatCore);
@@ -220,8 +217,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
 
         _screenShaker.Update(gameTime);
-
-        HandleBackgrounds();
 
         if (_combatFinishedVictory is not null)
         {
@@ -490,7 +485,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             _gameObjectContentStorage,
             _cameraOperator);
 
-        _playerCombatantBehaviour.Assign(intention);
+        _manualCombatantBehaviour.Assign(intention);
     }
 
     private void CombatMovementsHandPanel_WaitPicked(object? sender, EventArgs e)
@@ -499,7 +494,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         var intention = new WaitIntention();
 
-        _playerCombatantBehaviour.Assign(intention);
+        _manualCombatantBehaviour.Assign(intention);
     }
 
     private void CombatResultModal_Closed(object? sender, EventArgs e)
@@ -1025,20 +1020,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         return 0;
     }
 
-    private void HandleBackgrounds()
-    {
-        var mouse = Mouse.GetState();
-        var mouseRir = ResolutionIndependentRenderer.ConvertScreenToWorldCoordinates(new Vector2(mouse.X, mouse.Y));
-
-        var screenCenterX = ResolutionIndependentRenderer.VirtualBounds.Center.X;
-        var rawPercentageX = (mouseRir.X - screenCenterX) / screenCenterX;
-        _bgCenterOffsetPercentageX = NormalizePercentage(rawPercentageX);
-
-        var screenCenterY = ResolutionIndependentRenderer.VirtualBounds.Center.Y;
-        var rawPercentageY = (mouseRir.Y - screenCenterY) / screenCenterY;
-        _bgCenterOffsetPercentageY = NormalizePercentage(rawPercentageY);
-    }
-
     private void HandleBullets(GameTime gameTime)
     {
         foreach (var bullet in _interactionDeliveryManager.GetActiveSnapshot())
@@ -1139,7 +1120,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _cameraOperator
             );
         _combatCore.Initialize(
-            CombatantFactory.CreateHeroes(_playerCombatantBehaviour, _globeProvider.Globe.Player),
+            CombatantFactory.CreateHeroes(_manualCombatantBehaviour, _globeProvider.Globe.Player),
             CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(intentionFactory),
                 _args.CombatSequence.Combats.First().Monsters));
 
@@ -1161,18 +1142,8 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             var maneuverIntention = new ManeverIntention(maneuverDirection.Value);
 
-            _playerCombatantBehaviour.Assign(maneuverIntention);
+            _manualCombatantBehaviour.Assign(maneuverIntention);
         }
-    }
-
-    private static float NormalizePercentage(float value)
-    {
-        return value switch
-        {
-            < -1 => -1,
-            > 1 => 1,
-            _ => value
-        };
     }
 
     private void RestoreGroupAfterCombat()
