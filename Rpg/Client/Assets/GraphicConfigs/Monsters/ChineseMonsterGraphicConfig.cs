@@ -2,7 +2,7 @@
 
 namespace Client.Assets.GraphicConfigs.Monsters;
 
-internal abstract class ChineseMonsterGraphicConfig : MonsterGraphicConfig
+internal abstract class ChineseMonsterGraphicConfig : MonsterGraphicsConfig
 {
     protected ChineseMonsterGraphicConfig(UnitName unit) : base(unit)
     {

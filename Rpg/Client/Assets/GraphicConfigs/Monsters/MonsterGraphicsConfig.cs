@@ -7,11 +7,11 @@ using Rpg.Client.Core;
 
 namespace Client.Assets.GraphicConfigs.Monsters;
 
-internal abstract class MonsterGraphicConfig : UnitGraphicsConfigBase
+internal abstract class MonsterGraphicsConfig : UnitGraphicsConfigBase
 {
     private readonly UnitName _unit;
 
-    public MonsterGraphicConfig(UnitName unit)
+    public MonsterGraphicsConfig(UnitName unit)
     {
         _unit = unit;
     }

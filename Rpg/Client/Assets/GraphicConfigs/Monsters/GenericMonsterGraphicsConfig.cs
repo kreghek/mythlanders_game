@@ -6,7 +6,7 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.GraphicConfigs.Monsters
 {
-    internal sealed class GenericMonsterGraphicsConfig : MonsterGraphicConfig
+    internal sealed class GenericMonsterGraphicsConfig : MonsterGraphicsConfig
     {
         public GenericMonsterGraphicsConfig(UnitName name, CharacterCultureSid cultureSid) : base(name)
         {

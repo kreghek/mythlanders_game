@@ -2,7 +2,7 @@
 
 namespace Client.Assets.GraphicConfigs.Monsters;
 
-internal abstract class BlackMonsterGraphicConfig : MonsterGraphicConfig
+internal abstract class BlackMonsterGraphicConfig : MonsterGraphicsConfig
 {
     protected BlackMonsterGraphicConfig(UnitName unit) : base(unit)
     {
