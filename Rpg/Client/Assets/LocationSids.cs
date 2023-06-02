@@ -62,10 +62,10 @@ internal static class LocationSids
     [LocationCulture(LocationCulture.Greek)]
     public static ILocationSid Labyrinth { get; } = new LocationSid(nameof(Labyrinth));
 
-    [LocationCulture(LocationCulture.Cosmos)]
+    [LocationCulture(LocationCulture.Cosmic)]
     public static ILocationSid ChangingLabyrinth { get; } = new LocationSid(nameof(ChangingLabyrinth));
-    [LocationCulture(LocationCulture.Cosmos)]
+    [LocationCulture(LocationCulture.Cosmic)]
     public static ILocationSid Nothing { get; } = new LocationSid(nameof(Nothing));
-    [LocationCulture(LocationCulture.Cosmos)]
+    [LocationCulture(LocationCulture.Cosmic)]
     public static ILocationSid Epicenter { get; } = new LocationSid(nameof(Epicenter));
 }
