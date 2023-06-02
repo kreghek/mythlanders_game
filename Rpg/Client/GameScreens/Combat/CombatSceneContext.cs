@@ -5,6 +5,9 @@ using Client.Engine;
 
 namespace Client.GameScreens.Combat;
 
+/// <summary>
+/// Base imlementation of the combat scene context.
+/// </summary>
 internal sealed class CombatSceneContext : ICombatSceneContext
 {
     public CombatSceneContext(IReadOnlyList<IActorAnimator> actors)
@@ -15,5 +18,6 @@ internal sealed class CombatSceneContext : ICombatSceneContext
         }
     }
 
+    /// <inheritdoc/>
     public ICombatSceneScope? CurrentScope { get; }
 }
