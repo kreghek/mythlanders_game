@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 
+using Client.Assets;
+
 namespace Rpg.Client.Core
 {
     internal class MonsterGenerationGlobeContext : IMonsterGenerationGlobeContext

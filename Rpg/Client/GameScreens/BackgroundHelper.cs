@@ -1,4 +1,5 @@
-﻿using Client.Core;
+﻿using Client.Assets;
+using Client.Core;
 
 namespace Rpg.Client.GameScreens
 {

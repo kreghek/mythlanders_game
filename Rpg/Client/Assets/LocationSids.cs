@@ -1,6 +1,6 @@
-﻿using Rpg.Client.Core;
+﻿using Client.Core;
 
-namespace Client.Core;
+namespace Client.Assets;
 
 internal static class LocationSids
 {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
+using Client.Assets;
 using Client.Assets.CombatMovements;
 using Client.Core;
 using Client.Engine;

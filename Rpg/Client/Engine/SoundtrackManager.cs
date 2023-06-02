@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 
-using Microsoft.Xna.Framework.Media;
+using Client.Assets;
 
-using Rpg.Client.Core;
+using Microsoft.Xna.Framework.Media;
 
 namespace Rpg.Client.Engine
 {

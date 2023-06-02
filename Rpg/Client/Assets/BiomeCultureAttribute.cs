@@ -1,8 +1,6 @@
 ﻿using System;
 
-using Rpg.Client.Core;
-
-namespace Client.Core;
+namespace Client.Assets;
 
 [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = false)]
 sealed class BiomeCultureAttribute : Attribute
@@ -15,5 +13,5 @@ sealed class BiomeCultureAttribute : Attribute
         _biomeCulture = biomeCulture;
     }
 
-    public BiomeCulture Culture => _biomeCulture; 
+    public BiomeCulture Culture => _biomeCulture;
 }

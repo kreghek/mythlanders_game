@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
+using Client.Assets;
+
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
-
-using Rpg.Client.Core;
 
 namespace Rpg.Client.Engine
 {

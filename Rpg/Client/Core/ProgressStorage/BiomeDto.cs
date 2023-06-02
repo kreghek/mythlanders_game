@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Client.Assets;
+
 namespace Rpg.Client.Core.ProgressStorage
 {
     internal sealed record BiomeDto

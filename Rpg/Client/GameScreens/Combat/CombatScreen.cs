@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
+using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.CombatMovements;
 using Client.Assets.States.Primitives;
