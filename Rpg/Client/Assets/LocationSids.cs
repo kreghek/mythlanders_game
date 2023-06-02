@@ -83,6 +83,7 @@ internal static class LocationSids
 
 
     [LocationCulture(LocationCulture.Greek)]
+    [LocationTheme(LocationTheme.GreekShipGraveyard)]
     public static ILocationSid ShipGraveyard { get; } = new LocationSid(nameof(ShipGraveyard));
 
     [LocationCulture(LocationCulture.Greek)]

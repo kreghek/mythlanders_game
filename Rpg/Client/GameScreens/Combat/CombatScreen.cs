@@ -805,7 +805,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void DrawGameObjects(SpriteBatch spriteBatch)
     {
-        var backgroundType = LocationThemeHelper.GetBackgroundType(_globeNode.Sid);
+        var backgroundType = LocationHelper.GetLocationTheme(_globeNode.Sid);
 
         var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 
@@ -998,14 +998,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private static LocationCulture ExtractCultureFromLocation(ILocationSid locationSid)
     {
-        var biomeCultureAttribute = locationSid.GetType().GetCustomAttribute<LocationCultureAttribute>();
-        if (biomeCultureAttribute is null)
-        {
-            Debug.Fail("Everylocation must be assigned to culture.");
-            return LocationCulture.Slavic;
-        }
-
-        return biomeCultureAttribute.Culture;
+        return LocationHelper.GetLocationCulture(locationSid);
     }
 
     private CombatantGameObject GetCombatantGameObject(Combatant combatant)

@@ -177,7 +177,7 @@ internal abstract class CombatScreenBase : GameScreenWithMenuBase
 
     private void DrawGameObjects(SpriteBatch spriteBatch)
     {
-        var backgroundType = LocationThemeHelper.GetBackgroundType(_campaign.Location);
+        var backgroundType = LocationHelper.GetLocationTheme(_campaign.Location);
 
         var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 

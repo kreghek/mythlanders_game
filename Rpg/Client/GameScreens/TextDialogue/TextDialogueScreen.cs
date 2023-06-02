@@ -293,7 +293,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
 
     private void DrawGameObjects(SpriteBatch spriteBatch)
     {
-        var backgroundType = LocationThemeHelper.GetBackgroundType(_globeLocation);
+        var backgroundType = LocationHelper.GetLocationTheme(_globeLocation);
 
         var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 
