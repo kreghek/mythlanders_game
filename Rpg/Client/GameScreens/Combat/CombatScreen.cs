@@ -999,7 +999,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private static LocationCulture ExtractCultureFromLocation(ILocationSid locationSid)
     {
-        var biomeCultureAttribute = locationSid.GetType().GetCustomAttribute<BiomeCultureAttribute>();
+        var biomeCultureAttribute = locationSid.GetType().GetCustomAttribute<LocationCultureAttribute>();
         if (biomeCultureAttribute is null)
         {
             Debug.Fail("Everylocation must be assigned to culture.");
