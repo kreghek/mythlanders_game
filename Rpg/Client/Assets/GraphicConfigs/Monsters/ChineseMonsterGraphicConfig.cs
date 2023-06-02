@@ -1,6 +1,12 @@
-﻿namespace Client.Assets.GraphicConfigs.Monsters;
+﻿using Rpg.Client.Core;
 
-internal abstract class ChineseMonsterGraphicConfig : MonsterGraphicConfig
+namespace Client.Assets.GraphicConfigs.Monsters;
+
+internal abstract class ChineseMonsterGraphicConfig : MonsterGraphicsConfig
 {
+    protected ChineseMonsterGraphicConfig(UnitName unit) : base(unit)
+    {
+    }
+
     protected override CharacterCultureSid CultureSid => CharacterCultureSid.Chinese;
 }

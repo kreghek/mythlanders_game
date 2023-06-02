@@ -4,8 +4,7 @@ using System.Linq;
 using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Assets.States.Primitives;
-using Client.GameScreens;
-using Client.GameScreens.Combat;
+using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
@@ -14,12 +13,13 @@ using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 
-namespace Rpg.Client.GameScreens.Combat;
+namespace Client.GameScreens.Combat;
 
 internal sealed class UseCombatMovementIntention : IIntention
 {
     private readonly IAnimationManager _animationManager;
     private readonly CameraOperator _cameraOperator;
+    private readonly IShadeService _shadeService;
     private readonly IList<CombatantGameObject> _combatantGameObjects;
     private readonly CombatMovementInstance _combatMovement;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
@@ -29,7 +29,8 @@ internal sealed class UseCombatMovementIntention : IIntention
     public UseCombatMovementIntention(CombatMovementInstance combatMovement, IAnimationManager animationManager,
         ICombatMovementVisualizationProvider combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects,
         InteractionDeliveryManager interactionDeliveryManager, GameObjectContentStorage gameObjectContentStorage,
-        CameraOperator cameraOperator)
+        CameraOperator cameraOperator,
+        IShadeService shadeService)
     {
         _combatMovement = combatMovement;
         _animationManager = animationManager;
@@ -38,6 +39,7 @@ internal sealed class UseCombatMovementIntention : IIntention
         _interactionDeliveryManager = interactionDeliveryManager;
         _gameObjectContentStorage = gameObjectContentStorage;
         _cameraOperator = cameraOperator;
+        _shadeService = shadeService;
     }
 
     private CombatantGameObject GetCombatantGameObject(Combatant combatant)
@@ -64,7 +66,9 @@ internal sealed class UseCombatMovementIntention : IIntention
 
         mainAnimationBlocker.Released += (_, _) =>
         {
-            // Wait some time to separate turns of different actors
+            _shadeService.DropTargets();
+
+            // Wait for some time to separate turns of different actors
 
             var delayBlocker = new DelayBlocker(new Duration(1));
             _animationManager.RegisterBlocker(delayBlocker);
@@ -92,6 +96,14 @@ internal sealed class UseCombatMovementIntention : IIntention
         {
             _cameraOperator.AddState(cameraTask);
         }
+
+        var targetCombatants = movementExecution.EffectImposeItems.SelectMany(x => x.MaterializedTargets).ToArray();
+        var targetCombatantAnimators = targetCombatants.Select(x => GetCombatantGameObject(x).Animator).ToArray();
+        var focusedAnimators = new HashSet<IActorAnimator>(targetCombatantAnimators)
+        {
+            actorGameObject.Animator
+        };
+        _shadeService.AddTargets(focusedAnimators);
     }
 
     public void Make(CombatCore combatCore)

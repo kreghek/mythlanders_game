@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 
-using Microsoft.Xna.Framework.Media;
+using Client.Assets;
 
-using Rpg.Client.Core;
+using Microsoft.Xna.Framework.Media;
 
 namespace Rpg.Client.Engine
 {
@@ -13,7 +13,7 @@ namespace Rpg.Client.Engine
         private readonly Random _random;
         private bool _changeTrack;
 
-        private BiomeType _currentBiome;
+        private LocationCulture _currentBiome;
         private Song? _currentSong;
 
         private Song? _customSong;
@@ -38,7 +38,7 @@ namespace Rpg.Client.Engine
             IsInitialized = true;
         }
 
-        public void PlayCombatTrack(BiomeType type)
+        public void PlayCombatTrack(LocationCulture type)
         {
             _currentBiome = type;
             ChangeState(SoundtrackType.Combat);

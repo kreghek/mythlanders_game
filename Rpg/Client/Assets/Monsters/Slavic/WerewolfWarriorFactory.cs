@@ -29,12 +29,6 @@ namespace Rpg.Client.Assets.Monsters
                 IsMonster = true,
                 MinRequiredBiomeLevel = 5,
 
-                Levels = new IUnitLevelScheme[]
-                {
-                },
-
-                UnitGraphicsConfig = new VolkolakWarriorGraphicsConfig(),
-
                 SchemeAutoTransition = new UnitSchemeAutoTransition
                 {
                     HpShare = 0.5f,
@@ -46,13 +40,7 @@ namespace Rpg.Client.Assets.Monsters
 
                         Name = UnitName.Volkolak,
                         IsUnique = true,
-                        IsMonster = true,
-
-                        Levels = new IUnitLevelScheme[]
-                        {
-                        },
-
-                        UnitGraphicsConfig = new VolkolakGraphicsConfig()
+                        IsMonster = true
                     }
                 }
             };
@@ -60,7 +48,7 @@ namespace Rpg.Client.Assets.Monsters
 
         public UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
         {
-            return new VolkolakWarriorGraphicsConfig();
+            return new VolkolakWarriorGraphicsConfig(ClassName);
         }
     }
 }

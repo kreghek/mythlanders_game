@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
+using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.CombatMovements;
 using Client.Assets.States.Primitives;
@@ -32,7 +33,6 @@ using MonoGame;
 using Rpg.Client;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
@@ -46,8 +46,6 @@ namespace Client.GameScreens.Combat;
 internal class CombatScreen : GameScreenWithMenuBase
 {
     private const int BACKGROUND_LAYERS_COUNT = 4;
-    private const float BACKGROUND_LAYERS_SPEED_X = 0.1f;
-    private const float BACKGROUND_LAYERS_SPEED_Y = 0.05f;
 
     private readonly UpdatableAnimationManager _animationManager;
     private readonly CombatScreenTransitionArguments _args;
@@ -62,6 +60,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly HeroCampaign _currentCampaign;
     private readonly IDice _dice;
     private readonly IDropResolver _dropResolver;
+    private readonly ShadeService _shadeService;
     private readonly IEventCatalog _eventCatalog;
     private readonly IReadOnlyList<IBackgroundObject> _farLayerObjects;
     private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
@@ -77,14 +76,11 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
     private readonly FieldManeuverIndicatorPanel _maneuversIndicator;
     private readonly FieldManeuversVisualizer _maneuversVisualizer;
-    private readonly ManualCombatActorBehaviour _playerCombatantBehaviour;
+    private readonly ManualCombatActorBehaviour _manualCombatantBehaviour;
     private readonly ScreenShaker _screenShaker;
 
     private readonly TargetMarkersVisualizer _targetMarkers;
     private readonly IUiContentStorage _uiContentStorage;
-
-    private float _bgCenterOffsetPercentageX;
-    private float _bgCenterOffsetPercentageY;
 
     private bool _bossWasDefeat;
 
@@ -148,12 +144,12 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _jobProgressResolver = new JobProgressResolver();
 
-        _playerCombatantBehaviour = new ManualCombatActorBehaviour();
+        _manualCombatantBehaviour = new ManualCombatActorBehaviour();
 
         _combatCore = CreateCombat();
         _combatDataBehaviourProvider = new CombatActorBehaviourDataProvider(_combatCore);
 
-        soundtrackManager.PlayCombatTrack(GetBiomeSound(args.Location.Sid));
+        soundtrackManager.PlayCombatTrack(ExtractCultureFromLocation(args.Location.Sid));
 
         _maneuversVisualizer =
             new FieldManeuversVisualizer(_combatantPositionProvider, new ManeuverContext(_combatCore),
@@ -165,6 +161,8 @@ internal class CombatScreen : GameScreenWithMenuBase
         _targetMarkers = new TargetMarkersVisualizer();
 
         _dropResolver = game.Services.GetRequiredService<IDropResolver>();
+
+        _shadeService = new ShadeService();
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -211,7 +209,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         HandleBullets(gameTime);
 
-        HandleUnits(gameTime);
+        UpdateCombatants(gameTime);
 
         if (!_combatCore.Finished && _combatFinishedVictory is null)
         {
@@ -219,8 +217,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
 
         _screenShaker.Update(gameTime);
-
-        HandleBackgrounds();
 
         if (_combatFinishedVictory is not null)
         {
@@ -487,9 +483,10 @@ internal class CombatScreen : GameScreenWithMenuBase
             _gameObjects,
             _interactionDeliveryManager,
             _gameObjectContentStorage,
-            _cameraOperator);
+            _cameraOperator,
+            _shadeService);
 
-        _playerCombatantBehaviour.Assign(intention);
+        _manualCombatantBehaviour.Assign(intention);
     }
 
     private void CombatMovementsHandPanel_WaitPicked(object? sender, EventArgs e)
@@ -498,7 +495,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         var intention = new WaitIntention();
 
-        _playerCombatantBehaviour.Assign(intention);
+        _manualCombatantBehaviour.Assign(intention);
     }
 
     private void CombatResultModal_Closed(object? sender, EventArgs e)
@@ -651,23 +648,12 @@ internal class CombatScreen : GameScreenWithMenuBase
     }
 
 
-    private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds,
-        int backgroundStartOffsetX,
-        int backgroundMaxOffsetX, int backgroundStartOffsetY, int backgroundMaxOffsetY)
+    private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds, ICombatShadeContext combatSceneContext)
     {
+        var color = combatSceneContext.CurrentScope is null ? Color.White : Color.Lerp(Color.White, Color.Black, 0.75f);
+
         for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
         {
-            var xFloat = backgroundStartOffsetX + _bgCenterOffsetPercentageX * (BACKGROUND_LAYERS_COUNT - i - 1) *
-                BACKGROUND_LAYERS_SPEED_X * backgroundMaxOffsetX;
-            var roundedX = (int)Math.Round(xFloat);
-
-            var yFloat = backgroundStartOffsetY + _bgCenterOffsetPercentageY * (BACKGROUND_LAYERS_COUNT - i - 1) *
-                BACKGROUND_LAYERS_SPEED_Y * backgroundMaxOffsetY;
-            var roundedY = (int)Math.Round(yFloat);
-
-            var position = new Vector2(roundedX, roundedY);
-            var position3d = new Vector3(position, 0);
-
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
@@ -676,7 +662,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
 
-            spriteBatch.Draw(backgrounds[i], Vector2.Zero, Color.White);
+            spriteBatch.Draw(backgrounds[i], Vector2.Zero, color);
 
             if (i == 0 /*Cloud layer*/)
             {
@@ -704,7 +690,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DrawBullets(SpriteBatch spriteBatch)
+    private void DrawInteractionDeliveryItems(SpriteBatch spriteBatch)
     {
         foreach (var bullet in _interactionDeliveryManager.GetActiveSnapshot())
         {
@@ -725,7 +711,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DrawCombatants(SpriteBatch spriteBatch)
+    private void DrawCombatants(SpriteBatch spriteBatch, ICombatShadeContext combatSceneContext)
     {
         var corpseList = _corpseObjects.OrderBy(x => x.GetZIndex()).ToArray();
         foreach (var gameObject in corpseList)
@@ -736,7 +722,10 @@ internal class CombatScreen : GameScreenWithMenuBase
         var list = _gameObjects.OrderBy(x => x.GetZIndex()).ToArray();
         foreach (var gameObject in list)
         {
-            gameObject.Draw(spriteBatch);
+            if ((combatSceneContext.CurrentScope is not null && combatSceneContext.CurrentScope.FocusedActors.Contains(gameObject.Animator)) || combatSceneContext.CurrentScope is null)
+            {
+                gameObject.Draw(spriteBatch);
+            }
         }
     }
 
@@ -791,20 +780,8 @@ internal class CombatScreen : GameScreenWithMenuBase
         _targetMarkers.Draw(spriteBatch);
     }
 
-    private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffsetX,
-        int backgroundMaxOffsetX, int backgroundStartOffsetY, int backgroundMaxOffsetY)
+    private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds)
     {
-        var xFloat = backgroundStartOffsetX + _bgCenterOffsetPercentageX * (-1) *
-            BACKGROUND_LAYERS_SPEED_X * backgroundMaxOffsetX;
-        var roundedX = (int)Math.Round(xFloat);
-
-        var yFloat = backgroundStartOffsetY + _bgCenterOffsetPercentageY * (-1) *
-            BACKGROUND_LAYERS_SPEED_Y * backgroundMaxOffsetY;
-        var roundedY = (int)Math.Round(yFloat);
-
-        var position = new Vector2(roundedX, roundedY);
-        var position3d = new Vector3(position, 0);
-
         spriteBatch.Begin(
             sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
@@ -825,17 +802,13 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void DrawGameObjects(SpriteBatch spriteBatch)
     {
-        var backgroundType = BackgroundHelper.GetBackgroundType(_globeNode.Sid);
+        var locationTheme = LocationHelper.GetLocationTheme(_globeNode.Sid);
 
-        var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
+        var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(locationTheme);
 
-        const int BG_START_OFFSET_X = -100;
-        const int BG_MAX_OFFSET_X = 200;
-        const int BG_START_OFFSET_Y = -20;
-        const int BG_MAX_OFFSET_Y = 40;
+        var combatSceneContext = GetSceneContext();
 
-        DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET_X, BG_MAX_OFFSET_X, BG_START_OFFSET_Y,
-            BG_MAX_OFFSET_Y);
+        DrawBackgroundLayers(spriteBatch, backgrounds, combatSceneContext);
 
         spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
@@ -844,19 +817,18 @@ internal class CombatScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
 
-        DrawBullets(spriteBatch);
+        DrawInteractionDeliveryItems(spriteBatch);
 
-        DrawCombatants(spriteBatch);
-
-        foreach (var bullet in _interactionDeliveryManager.GetActiveSnapshot())
-        {
-            bullet.Draw(spriteBatch);
-        }
+        DrawCombatants(spriteBatch, combatSceneContext);
 
         spriteBatch.End();
 
-        DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET_X, BG_MAX_OFFSET_X, BG_START_OFFSET_Y + 20,
-            BG_MAX_OFFSET_Y);
+        DrawForegroundLayers(spriteBatch, backgrounds);
+    }
+
+    private ICombatShadeContext GetSceneContext()
+    {
+        return _shadeService.CreateContext();
     }
 
     private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
@@ -1021,17 +993,9 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatFinishedVictory = false;
     }
 
-    private static BiomeType GetBiomeSound(ILocationSid locationSid)
+    private static LocationCulture ExtractCultureFromLocation(ILocationSid locationSid)
     {
-        return locationSid.ToString() switch
-        {
-            nameof(LocationSids.Thicket) => BiomeType.Slavic,
-            nameof(LocationSids.Swamp) => BiomeType.Slavic,
-            nameof(LocationSids.Desert) => BiomeType.Egyptian,
-            nameof(LocationSids.ShipGraveyard) => BiomeType.Greek,
-            nameof(LocationSids.Monastery) => BiomeType.Chinese,
-            _ => BiomeType.Slavic
-        };
+        return LocationHelper.GetLocationCulture(locationSid);
     }
 
     private CombatantGameObject GetCombatantGameObject(Combatant combatant)
@@ -1056,20 +1020,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         // TODO Like in How wants to be a millionaire?
         // The reaching of some of levels gains unbreakable level.
         return 0;
-    }
-
-    private void HandleBackgrounds()
-    {
-        var mouse = Mouse.GetState();
-        var mouseRir = ResolutionIndependentRenderer.ConvertScreenToWorldCoordinates(new Vector2(mouse.X, mouse.Y));
-
-        var screenCenterX = ResolutionIndependentRenderer.VirtualBounds.Center.X;
-        var rawPercentageX = (mouseRir.X - screenCenterX) / screenCenterX;
-        _bgCenterOffsetPercentageX = NormalizePercentage(rawPercentageX);
-
-        var screenCenterY = ResolutionIndependentRenderer.VirtualBounds.Center.Y;
-        var rawPercentageY = (mouseRir.Y - screenCenterY) / screenCenterY;
-        _bgCenterOffsetPercentageY = NormalizePercentage(rawPercentageY);
     }
 
     private void HandleBullets(GameTime gameTime)
@@ -1119,7 +1069,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _globe.GlobeLevel.Level++;
     }
 
-    private void HandleUnits(GameTime gameTime)
+    private void UpdateCombatants(GameTime gameTime)
     {
         foreach (var gameObject in _gameObjects.ToArray())
         {
@@ -1169,10 +1119,11 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _gameObjects,
                 _interactionDeliveryManager,
                 _gameObjectContentStorage,
-                _cameraOperator
+                _cameraOperator,
+                _shadeService
             );
         _combatCore.Initialize(
-            CombatantFactory.CreateHeroes(_playerCombatantBehaviour, _globeProvider.Globe.Player),
+            CombatantFactory.CreateHeroes(_manualCombatantBehaviour, _globeProvider.Globe.Player),
             CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(intentionFactory),
                 _args.CombatSequence.Combats.First().Monsters));
 
@@ -1194,18 +1145,8 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             var maneuverIntention = new ManeverIntention(maneuverDirection.Value);
 
-            _playerCombatantBehaviour.Assign(maneuverIntention);
+            _manualCombatantBehaviour.Assign(maneuverIntention);
         }
-    }
-
-    private static float NormalizePercentage(float value)
-    {
-        return value switch
-        {
-            < -1 => -1,
-            > 1 => 1,
-            _ => value
-        };
     }
 
     private void RestoreGroupAfterCombat()

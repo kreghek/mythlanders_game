@@ -6,6 +6,10 @@ namespace Client.Assets.GraphicConfigs.Heroes;
 
 internal sealed class RobberGraphicsConfig : HeroGraphicConfig
 {
+    public RobberGraphicsConfig(UnitName name) : base(name)
+    {
+    }
+
     public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
     {
         return new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>

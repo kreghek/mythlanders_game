@@ -36,19 +36,13 @@ namespace Rpg.Client.Assets.Monsters
 
                     LocationSids.Monastery
                 },
-                IsMonster = true,
-
-                Levels = new IUnitLevelScheme[]
-                {
-                },
-
-                UnitGraphicsConfig = new BlackTrooperGraphicsConfig()
+                IsMonster = true
             };
         }
 
         public UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
         {
-            return new BlackTrooperGraphicsConfig();
+            return new BlackTrooperGraphicsConfig(ClassName);
         }
     }
 }

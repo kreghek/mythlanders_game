@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
+using Client.Assets;
+
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
-
-using Rpg.Client.Core;
 
 namespace Rpg.Client.Engine
 {
@@ -12,12 +12,12 @@ namespace Rpg.Client.Engine
     {
         bool ContentWasLoaded { get; }
 
-        Texture2D GetBiomeBackground(BiomeType type);
+        Texture2D GetBiomeBackground(LocationCulture type);
         Texture2D GetButtonIndicatorsTexture();
         SpriteFont GetCombatIndicatorFont();
         Texture2D GetCombatMoveIconsTexture();
         Texture2D GetCombatSkillPanelTexture();
-        IReadOnlyCollection<CombatSoundtrack> GetCombatSongs(BiomeType currentBiome);
+        IReadOnlyCollection<CombatSoundtrack> GetCombatSongs(LocationCulture currentBiome);
         Texture2D GetControlBackgroundTexture();
         Texture2D GetCursorsTexture();
         Song GetDefeatSong();

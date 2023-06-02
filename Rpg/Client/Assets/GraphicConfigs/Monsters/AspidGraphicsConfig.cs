@@ -8,13 +8,12 @@ namespace Client.Assets.GraphicConfigs.Monsters;
 
 internal sealed class AspidGraphicsConfig : SlavicMonsterGraphicConfig
 {
-    public AspidGraphicsConfig()
+    public AspidGraphicsConfig(UnitName unit) : base(unit)
     {
         StatsPanelOrigin = new Vector2(0, 64 + 20);
         InteractionPoint = Vector2.UnitY * 48;
         MeleeHitXOffset = 128;
     }
-
 
     public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
     {

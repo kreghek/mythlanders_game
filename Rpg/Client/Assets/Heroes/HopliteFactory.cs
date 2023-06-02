@@ -22,7 +22,7 @@ namespace Rpg.Client.Assets.Heroes
 
         protected override UnitGraphicsConfigBase GetGraphicsConfig()
         {
-            return new HopliteGraphicsConfig();
+            return new HopliteGraphicsConfig(HeroName);
         }
 
         protected override IUnitLevelScheme[] GetLevels()

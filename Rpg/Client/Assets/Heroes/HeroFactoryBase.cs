@@ -14,7 +14,7 @@ namespace Rpg.Client.Assets.Heroes
 
         protected virtual UnitGraphicsConfigBase GetGraphicsConfig()
         {
-            return new GenericHeroGraphicsConfig();
+            return new GenericHeroGraphicsConfig(HeroName);
         }
 
         protected abstract IUnitLevelScheme[] GetLevels();

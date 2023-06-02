@@ -1,4 +1,5 @@
-﻿using Client.Core;
+﻿using Client.Assets;
+using Client.Core;
 using Client.Core.Campaigns;
 using Client.Core.Dialogues;
 
@@ -9,7 +10,7 @@ namespace Rpg.Client.Core
         public CombatSequence? AssignedCombats { get; set; }
         public DialogueEvent? AssignedEvent { get; private set; }
 
-        public BiomeType BiomeType { get; init; }
+        public LocationCulture BiomeType { get; init; }
         public HeroCampaign? Campaign { get; set; }
 
         public EquipmentItemType? EquipmentItem { get; set; }

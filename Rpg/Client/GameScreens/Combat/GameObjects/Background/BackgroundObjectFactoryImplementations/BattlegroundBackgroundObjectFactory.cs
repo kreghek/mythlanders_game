@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using Client.Assets;
 using Client.GameScreens;
 
 using Microsoft.Xna.Framework;
@@ -24,7 +25,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             {
                 var y = (i * 71f) / 710;
                 var cloud = new BackgroundCloud(
-                    _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(BackgroundType.SlavicBattleground,
+                    _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(LocationTheme.SlavicBattleground,
                         BackgroundLayerType.Clouds, 0),
                     i,
                     new Vector2(0, 40 + y),
@@ -43,7 +44,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
 
             var bannerObject = new PositionalAnimatedObject(
                 _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(
-                    BackgroundType.SlavicBattleground,
+                    LocationTheme.SlavicBattleground,
                     BackgroundLayerType.Closest,
                     0),
                 AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 0, 1, 2, 3 }, fps: 2, isLoop: true,

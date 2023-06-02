@@ -23,7 +23,7 @@ internal class RobberFactory : HeroFactoryBase
 
     protected override UnitGraphicsConfigBase GetGraphicsConfig()
     {
-        return new RobberGraphicsConfig();
+        return new RobberGraphicsConfig(HeroName);
     }
 
     protected override IUnitLevelScheme[] GetLevels()

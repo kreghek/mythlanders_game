@@ -1,46 +1,33 @@
-using Client.Assets;
-using Client.Assets.Monsters;
-using Client.Core;
-using Client.GameScreens;
+using Client.Assets.GraphicConfigs.Monsters;
 
 using JetBrains.Annotations;
 
-using Rpg.Client.Assets.GraphicConfigs;
+using Rpg.Client.Assets.Monsters;
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Monsters
+namespace Client.Assets.Monsters.Slavic;
+
+[UsedImplicitly]
+internal sealed class HornedFrogFactory : MonsterFactoryBase
 {
-    [UsedImplicitly]
-    internal sealed class HornedFrogFactory : IMonsterFactory
+    public override UnitName ClassName => UnitName.HornedFrog;
+
+    public override CharacterCultureSid Culture => CharacterCultureSid.Slavic;
+
+    public override UnitScheme Create(IBalanceTable balanceTable)
     {
-        public UnitName ClassName => UnitName.HornedFrog;
-
-        public UnitScheme Create(IBalanceTable balanceTable)
+        return new UnitScheme(balanceTable.GetCommonUnitBasics())
         {
-            return new UnitScheme(balanceTable.GetCommonUnitBasics())
+            TankRank = 1.0f,
+            DamageDealerRank = 0.0f,
+            SupportRank = 0.0f,
+
+            Name = UnitName.HornedFrog,
+            LocationSids = new[]
             {
-                TankRank = 1.0f,
-                DamageDealerRank = 0.0f,
-                SupportRank = 0.0f,
-
-                Name = UnitName.HornedFrog,
-                LocationSids = new[]
-                {
-                    LocationSids.Pit, LocationSids.Swamp
-                },
-                IsMonster = true,
-
-                Levels = new IUnitLevelScheme[]
-                {
-                },
-
-                UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
-            };
-        }
-
-        public UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
-        {
-            return new SingleSpriteGraphicsConfig();
-        }
+                LocationSids.Pit, LocationSids.Swamp
+            },
+            IsMonster = true
+        };
     }
 }

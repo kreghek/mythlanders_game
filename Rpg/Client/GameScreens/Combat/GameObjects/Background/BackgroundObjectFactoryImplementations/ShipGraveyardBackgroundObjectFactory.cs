@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets;
 using Client.GameScreens;
 
 using Core.Dices;
@@ -24,7 +25,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Size = BgMainObjectSchemeSize.Size256,
                 Origin = Vector2.Zero,
                 SpriteIndex = 1,
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0),
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 0),
                 BackgroundLayerType = BackgroundLayerType.Main
             },
             new StaticBgMainObjectScheme
@@ -33,7 +34,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Size = BgMainObjectSchemeSize.Size256,
                 Origin = Vector2.Zero,
                 SpriteIndex = 2,
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0),
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 0),
                 BackgroundLayerType = BackgroundLayerType.Main
             },
             new StaticBgMainObjectScheme
@@ -43,7 +44,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Size = BgMainObjectSchemeSize.Size256,
                 Origin = Vector2.Zero,
                 SpriteIndex = 3,
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 0)
             },
             new StaticBgMainObjectScheme
             {
@@ -52,7 +53,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Size = BgMainObjectSchemeSize.Size256,
                 Origin = Vector2.Zero,
                 SpriteIndex = 4,
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 0)
             },
             new StaticBgMainObjectScheme
             {
@@ -61,7 +62,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Size = BgMainObjectSchemeSize.Size256,
                 Origin = Vector2.Zero,
                 SpriteIndex = 5,
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 0)
             },
             new StaticBgMainObjectScheme
             {
@@ -70,7 +71,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Size = BgMainObjectSchemeSize.Size256,
                 Origin = Vector2.Zero,
                 SpriteIndex = 6,
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 0)
             },
             new StaticBgMainObjectScheme
             {
@@ -78,7 +79,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Size = BgMainObjectSchemeSize.Size256,
                 Origin = Vector2.Zero,
                 SpriteIndex = 7,
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 0)
             },
 
             new StaticBgMainObjectScheme
@@ -87,7 +88,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
                 SpriteIndex = 1,
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new StaticBgMainObjectScheme
             {
@@ -96,7 +97,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
                 SpriteIndex = 2,
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new StaticBgMainObjectScheme
             {
@@ -105,7 +106,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
                 SpriteIndex = 3,
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new StaticBgMainObjectScheme
             {
@@ -114,7 +115,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
                 SpriteIndex = 4,
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new StaticBgMainObjectScheme
             {
@@ -123,7 +124,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
                 SpriteIndex = 5,
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new StaticBgMainObjectScheme
             {
@@ -132,7 +133,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
                 SpriteIndex = 6,
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new StaticBgMainObjectScheme
             {
@@ -141,7 +142,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
                 SpriteIndex = 7,
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new StaticBgMainObjectScheme
             {
@@ -150,7 +151,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
                 SpriteIndex = 8,
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new StaticBgMainObjectScheme
             {
@@ -159,7 +160,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
                 SpriteIndex = 9,
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new AnimatedBgMainObjectScheme
             {
@@ -169,7 +170,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Origin = new Vector2(0.5f, 0.75f),
                 AnimationFrameSet = AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 0 }, fps: 0.5f,
                     frameWidth: 64, frameHeight: 64, textureColumns: 8, isLoop: true),
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2)
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Far, 2)
             },
             new StaticBgMainObjectScheme
             {
@@ -178,7 +179,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = new Vector2(0.5f, 1 - 0.125f),
                 SpriteIndex = 9,
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2)
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Far, 2)
             },
             new StaticBgMainObjectScheme
             {
@@ -187,7 +188,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = new Vector2(0.5f, 0.75f),
                 SpriteIndex = 10,
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2)
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Far, 2)
             },
             new StaticBgMainObjectScheme
             {
@@ -196,7 +197,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
                 SpriteIndex = 11,
-                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2)
+                Texture = new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Far, 2)
             }
         };
 
@@ -365,7 +366,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             return new[]
             {
                 new HaribdaBackgroundObject(
-                    _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(BackgroundType.GreekShipGraveyard,
+                    _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(LocationTheme.GreekShipGraveyard,
                         BackgroundLayerType.Far, 0), _haribdaPosition)
             };
         }
@@ -427,19 +428,19 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
         private class StaticBgMainObjectScheme : IBgMainObjectScheme
         {
             private static readonly
-                Dictionary<(BackgroundType Location, BackgroundLayerType Layer, int SpritesheetIndex), int>
+                Dictionary<(LocationTheme Location, BackgroundLayerType Layer, int SpritesheetIndex), int>
                 _colCountDicts =
-                    new Dictionary<(BackgroundType Location, BackgroundLayerType Layer, int SpritesheetIndex), int>
+                    new Dictionary<(LocationTheme Location, BackgroundLayerType Layer, int SpritesheetIndex), int>
                     {
-                        { new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0), 3 },
-                        { new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1), 3 },
-                        { new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2), 8 }
+                        { new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 0), 3 },
+                        { new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 1), 3 },
+                        { new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Far, 2), 8 }
                     };
 
             public Vector2 Origin { get; set; }
             public int SpriteIndex { get; set; }
 
-            public (BackgroundType Location, BackgroundLayerType Layer, int SpritesheetIndex) Texture { get; set; }
+            public (LocationTheme Location, BackgroundLayerType Layer, int SpritesheetIndex) Texture { get; set; }
             public BgMainObjectSchemeSize Size { get; set; }
             public bool IsPassable { get; set; }
             public BackgroundLayerType BackgroundLayerType { get; set; }
@@ -461,7 +462,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
         {
             public IAnimationFrameSet AnimationFrameSet { get; set; }
             public Vector2 Origin { get; set; }
-            public (BackgroundType Location, BackgroundLayerType Layer, int SpritesheetIndex) Texture { get; set; }
+            public (LocationTheme Location, BackgroundLayerType Layer, int SpritesheetIndex) Texture { get; set; }
             public BackgroundLayerType BackgroundLayerType { get; set; }
             public bool IsPassable { get; set; }
             public BgMainObjectSchemeSize Size { get; set; }

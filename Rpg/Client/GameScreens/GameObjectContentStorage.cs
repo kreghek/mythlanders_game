@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
+using Client.Assets;
 using Client.Assets.CombatMovements;
 using Client.Core;
 using Client.Engine;
@@ -24,8 +25,8 @@ internal class GameObjectContentStorage
     private IDictionary<string, SpriteAtlasAnimationData>? _animationSetDict;
     private Texture2D _arrowTexture;
 
-    private IDictionary<BackgroundType, Texture2D[]> _combatBackgroundBaseDict;
-    private IDictionary<(BackgroundType, BackgroundLayerType, int), Texture2D> _combatBackgroundObjectsDict;
+    private IDictionary<LocationTheme, Texture2D[]> _combatBackgroundBaseDict;
+    private IDictionary<(LocationTheme, BackgroundLayerType, int), Texture2D> _combatBackgroundObjectsDict;
 
     private Texture2D _combatUnitMarkers;
 
@@ -109,87 +110,87 @@ internal class GameObjectContentStorage
 
         LoadMonsters(contentManager);
 
-        _combatBackgroundBaseDict = new Dictionary<BackgroundType, Texture2D[]>
+        _combatBackgroundBaseDict = new Dictionary<LocationTheme, Texture2D[]>
         {
             {
-                BackgroundType.SlavicDarkThicket, LoadBackgroundLayers(BiomeType.Slavic, LocationSids.Thicket)
+                LocationTheme.SlavicDarkThicket, LoadBackgroundLayers(LocationCulture.Slavic, LocationSids.Thicket)
             },
 
             {
-                BackgroundType.SlavicBattleground, LoadBackgroundLayers(BiomeType.Slavic, LocationSids.Battleground)
+                LocationTheme.SlavicBattleground, LoadBackgroundLayers(LocationCulture.Slavic, LocationSids.Battleground)
             },
 
             {
-                BackgroundType.SlavicSwamp, LoadBackgroundLayers(BiomeType.Slavic, LocationSids.Swamp)
+                LocationTheme.SlavicSwamp, LoadBackgroundLayers(LocationCulture.Slavic, LocationSids.Swamp)
             },
 
             {
-                BackgroundType.SlavicDestroyedVillage,
-                LoadBackgroundLayers(BiomeType.Slavic, LocationSids.DestroyedVillage)
+                LocationTheme.SlavicDestroyedVillage,
+                LoadBackgroundLayers(LocationCulture.Slavic, LocationSids.DestroyedVillage)
             },
 
             {
-                BackgroundType.ChineseMonastery, LoadBackgroundLayers(BiomeType.Chinese, LocationSids.Monastery)
+                LocationTheme.ChineseMonastery, LoadBackgroundLayers(LocationCulture.Chinese, LocationSids.Monastery)
             },
 
             {
-                BackgroundType.EgyptianDesert, LoadBackgroundLayers(BiomeType.Egyptian, LocationSids.Desert)
+                LocationTheme.EgyptianDesert, LoadBackgroundLayers(LocationCulture.Egyptian, LocationSids.Desert)
             },
             {
-                BackgroundType.EgyptianPyramids, LoadBackgroundLayers(BiomeType.Egyptian, LocationSids.SacredPlace)
+                LocationTheme.EgyptianSacredPlace, LoadBackgroundLayers(LocationCulture.Egyptian, LocationSids.SacredPlace)
             },
 
             {
-                BackgroundType.GreekShipGraveyard, LoadBackgroundLayers(BiomeType.Greek, LocationSids.ShipGraveyard)
+                LocationTheme.GreekShipGraveyard, LoadBackgroundLayers(LocationCulture.Greek, LocationSids.ShipGraveyard)
             }
         };
 
-        _combatBackgroundObjectsDict = new Dictionary<(BackgroundType, BackgroundLayerType, int), Texture2D>
+        _combatBackgroundObjectsDict = new Dictionary<(LocationTheme, BackgroundLayerType, int), Texture2D>
         {
             {
-                new(BackgroundType.SlavicBattleground, BackgroundLayerType.Closest, 0),
+                new(LocationTheme.SlavicBattleground, BackgroundLayerType.Closest, 0),
                 contentManager.Load<Texture2D>(
                     "Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Closest256x256_0")
             },
 
             {
-                new(BackgroundType.SlavicBattleground, BackgroundLayerType.Clouds, 0),
+                new(LocationTheme.SlavicBattleground, BackgroundLayerType.Clouds, 0),
                 contentManager.Load<Texture2D>(
                     "Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Clouds256x256_0")
             },
 
             {
-                new(BackgroundType.ChineseMonastery, BackgroundLayerType.Main, 0),
+                new(LocationTheme.ChineseMonastery, BackgroundLayerType.Main, 0),
                 contentManager.Load<Texture2D>(
                     "Sprites/GameObjects/CombatBackgrounds/Chinese/Monastery/Main256x256_0")
             },
 
             {
-                new(BackgroundType.ChineseMonastery, BackgroundLayerType.Far, 0),
+                new(LocationTheme.ChineseMonastery, BackgroundLayerType.Far, 0),
                 contentManager.Load<Texture2D>(
                     "Sprites/GameObjects/CombatBackgrounds/Chinese/Monastery/Far256x256_0")
             },
 
             {
-                new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0),
+                new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 0),
                 contentManager.Load<Texture2D>(
                     "Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Main256x256_0")
             },
 
             {
-                new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 0),
+                new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Far, 0),
                 contentManager.Load<Texture2D>(
                     "Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Far256x256_0")
             },
 
             {
-                new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1),
+                new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Main, 1),
                 contentManager.Load<Texture2D>(
                     "Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Main64x64_0")
             },
 
             {
-                new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2),
+                new(LocationTheme.GreekShipGraveyard, BackgroundLayerType.Far, 2),
                 contentManager.Load<Texture2D>(
                     "Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Far64x64_0")
             }
@@ -292,14 +293,14 @@ internal class GameObjectContentStorage
             //{ UnitName.ChineseOldman, LoadHeroPortrait("ChineseOldman") }
         };
 
-        Texture2D LoadBackgroundLayer(BiomeType biomeType, ILocationSid locationSid, BackgroundLayerType layerType)
+        Texture2D LoadBackgroundLayer(LocationCulture biomeType, ILocationSid locationSid, BackgroundLayerType layerType)
         {
             var imagePath = Path.Combine("Sprites", "GameObjects", "CombatBackgrounds", biomeType.ToString(),
                 locationSid.ToString(), $"{layerType}Layer");
             return contentManager.Load<Texture2D>(imagePath);
         }
 
-        Texture2D[] LoadBackgroundLayers(BiomeType biomeType, ILocationSid locationSid)
+        Texture2D[] LoadBackgroundLayers(LocationCulture biomeType, ILocationSid locationSid)
         {
             return new[]
             {
@@ -340,15 +341,15 @@ internal class GameObjectContentStorage
         return _arrowTexture;
     }
 
-    internal Texture2D GetCombatBackgroundObjectsTexture(BackgroundType backgroundType,
+    internal Texture2D GetCombatBackgroundObjectsTexture(LocationTheme backgroundType,
         BackgroundLayerType layerType, int spriteSheetIndex)
     {
         return _combatBackgroundObjectsDict[new(backgroundType, layerType, spriteSheetIndex)];
     }
 
-    internal Texture2D[] GetCombatBackgrounds(BackgroundType backgroundType)
+    internal Texture2D[] GetCombatBackgrounds(LocationTheme locationTheme)
     {
-        return _combatBackgroundBaseDict[backgroundType];
+        return _combatBackgroundBaseDict[locationTheme];
     }
 
     internal Texture2D GetCombatUnitMarker()

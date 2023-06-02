@@ -1,6 +1,12 @@
-﻿namespace Client.Assets.GraphicConfigs.Monsters;
+﻿using Rpg.Client.Core;
 
-internal abstract class BlackMonsterGraphicConfig : MonsterGraphicConfig
+namespace Client.Assets.GraphicConfigs.Monsters;
+
+internal abstract class BlackMonsterGraphicConfig : MonsterGraphicsConfig
 {
+    protected BlackMonsterGraphicConfig(UnitName unit) : base(unit)
+    {
+    }
+
     protected override CharacterCultureSid CultureSid => CharacterCultureSid.Black;
 }
