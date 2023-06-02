@@ -16,7 +16,7 @@ internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
 {
     private readonly IAnimationManager _animationManager;
     private readonly CameraOperator _cameraOperator;
-    private readonly IHighlightService _highlightService;
+    private readonly IShadeService _highlightService;
     private readonly IList<CombatantGameObject> _combatantGameObjects;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -28,7 +28,7 @@ internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
         InteractionDeliveryManager interactionDeliveryManager,
         GameObjectContentStorage gameObjectContentStorage,
         CameraOperator cameraOperator,
-        IHighlightService highlightService)
+        IShadeService highlightService)
     {
         _animationManager = animationManager;
         _combatMovementVisualizer = combatMovementVisualizer;

@@ -21,7 +21,7 @@ internal sealed class UseCombatMovementIntention : IIntention
 {
     private readonly IAnimationManager _animationManager;
     private readonly CameraOperator _cameraOperator;
-    private readonly IHighlightService _highlightService;
+    private readonly IShadeService _highlightService;
     private readonly IList<CombatantGameObject> _combatantGameObjects;
     private readonly CombatMovementInstance _combatMovement;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
@@ -32,7 +32,7 @@ internal sealed class UseCombatMovementIntention : IIntention
         ICombatMovementVisualizationProvider combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects,
         InteractionDeliveryManager interactionDeliveryManager, GameObjectContentStorage gameObjectContentStorage,
         CameraOperator cameraOperator,
-        IHighlightService highlightService)
+        IShadeService highlightService)
     {
         _combatMovement = combatMovement;
         _animationManager = animationManager;
@@ -68,7 +68,7 @@ internal sealed class UseCombatMovementIntention : IIntention
 
         mainAnimationBlocker.Released += (_, _) =>
         {
-            _highlightService.ClearTargets();
+            _highlightService.DropTargets();
 
             // Wait for some time to separate turns of different actors
 

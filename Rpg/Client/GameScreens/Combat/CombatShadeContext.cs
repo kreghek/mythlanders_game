@@ -6,12 +6,12 @@ using Client.Engine;
 namespace Client.GameScreens.Combat;
 
 /// <summary>
-/// Base imlementation of the combat scene context.
+/// Base imlementation of the combat scene shade state.
 /// Create scope if any actors in the focus.
 /// </summary>
-internal sealed class CombatSceneContext : ICombatSceneContext
+internal sealed class CombatShadeContext : ICombatShadeContext
 {
-    public CombatSceneContext(IReadOnlyList<IActorAnimator> actors)
+    public CombatShadeContext(IReadOnlyList<IActorAnimator> actors)
     {
         if (actors.Any())
         {

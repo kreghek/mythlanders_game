@@ -648,7 +648,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     }
 
 
-    private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds, ICombatSceneContext combatSceneContext)
+    private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds, ICombatShadeContext combatSceneContext)
     {
         var color = combatSceneContext.CurrentScope is null ? Color.White : Color.Lerp(Color.White, Color.Black, 0.75f);
 
@@ -711,7 +711,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DrawCombatants(SpriteBatch spriteBatch, ICombatSceneContext combatSceneContext)
+    private void DrawCombatants(SpriteBatch spriteBatch, ICombatShadeContext combatSceneContext)
     {
         var corpseList = _corpseObjects.OrderBy(x => x.GetZIndex()).ToArray();
         foreach (var gameObject in corpseList)
@@ -826,7 +826,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         DrawForegroundLayers(spriteBatch, backgrounds);
     }
 
-    private ICombatSceneContext GetSceneContext()
+    private ICombatShadeContext GetSceneContext()
     {
         return _highlightService.CreateContext();
     }

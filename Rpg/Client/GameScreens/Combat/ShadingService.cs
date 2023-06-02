@@ -7,7 +7,7 @@ namespace Client.GameScreens.Combat;
 /// <summary>
 /// Base implementation.
 /// </summary>
-internal sealed class ShadingService : IHighlightService
+internal sealed class ShadingService : IShadeService
 {
     private readonly List<IActorAnimator> _currentActors = new List<IActorAnimator>();
 
@@ -18,14 +18,14 @@ internal sealed class ShadingService : IHighlightService
     }
 
     /// <inheritdoc/>
-    public void ClearTargets()
+    public void DropTargets()
     {
         _currentActors.Clear();
     }
 
     /// <inheritdoc/>
-    public ICombatSceneContext CreateContext()
+    public ICombatShadeContext CreateContext()
     {
-        return new CombatSceneContext(_currentActors);
+        return new CombatShadeContext(_currentActors);
     }
 }
