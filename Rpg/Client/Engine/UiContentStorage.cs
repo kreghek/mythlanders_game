@@ -198,7 +198,7 @@ namespace Rpg.Client.Engine
                     contentManager.Load<Song>("Audio/Background/Combat_Egyptian01")),
                 new CombatSoundtrack(LocationCulture.Egyptian,
                     contentManager.Load<Song>("Audio/Background/Combat_Egyptian02")),
-                new CombatSoundtrack(LocationCulture.Egyptian, 
+                new CombatSoundtrack(LocationCulture.Egyptian,
                     contentManager.Load<Song>("Audio/Background/Combat_Egyptian01_Intro"),
                     CombatSoundtrackRole.Intro),
 

@@ -2,11 +2,12 @@
 
 using Client.Assets;
 using Client.Assets.CombatMovements;
-using Client.Assets.GraphicConfigs.Monsters;
 using Client.Assets.GraphicConfigs;
+using Client.Assets.GraphicConfigs.Monsters;
 using Client.Assets.Monsters;
 using Client.Core;
 using Client.GameScreens;
+
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Monsters

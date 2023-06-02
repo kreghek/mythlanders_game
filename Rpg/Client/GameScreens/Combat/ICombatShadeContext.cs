@@ -6,7 +6,7 @@
 /// <remarks>
 /// Used to detect combat movement visualization and shade environment.
 /// </remarks>
-internal interface ICombatShadeContext 
+internal interface ICombatShadeContext
 {
     /// <summary>
     /// Current scope is defined when any actors in the focus.

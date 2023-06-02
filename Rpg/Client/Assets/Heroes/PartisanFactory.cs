@@ -1,6 +1,6 @@
-using Client.Assets.CombatMovements;
 using System.IO;
 
+using Client.Assets.CombatMovements;
 using Client.Assets.GraphicConfigs;
 using Client.Core;
 

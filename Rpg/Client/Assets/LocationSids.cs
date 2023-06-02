@@ -13,7 +13,7 @@ internal static class LocationSids
     public static ILocationSid Swamp { get; } = new LocationSid(nameof(Swamp));
 
     [LocationCulture(LocationCulture.Slavic)]
-     public static ILocationSid Pit { get; } = new LocationSid(nameof(Pit));
+    public static ILocationSid Pit { get; } = new LocationSid(nameof(Pit));
 
     [LocationTheme(LocationTheme.SlavicBattleground)]
     [LocationCulture(LocationCulture.Slavic)]
