@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 
 using Client.Assets;
 using Client.Assets.Catalogs;
@@ -23,8 +22,6 @@ using Core.Combats.BotBehaviour;
 using Core.Dices;
 using Core.PropDrop;
 using Core.Props;
-
-using JetBrains.Annotations;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
