@@ -21,7 +21,7 @@ internal sealed class UseCombatMovementIntention : IIntention
 {
     private readonly IAnimationManager _animationManager;
     private readonly CameraOperator _cameraOperator;
-    private readonly IShadeService _highlightService;
+    private readonly IShadeService _shadeService;
     private readonly IList<CombatantGameObject> _combatantGameObjects;
     private readonly CombatMovementInstance _combatMovement;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
@@ -32,7 +32,7 @@ internal sealed class UseCombatMovementIntention : IIntention
         ICombatMovementVisualizationProvider combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects,
         InteractionDeliveryManager interactionDeliveryManager, GameObjectContentStorage gameObjectContentStorage,
         CameraOperator cameraOperator,
-        IShadeService highlightService)
+        IShadeService shadeService)
     {
         _combatMovement = combatMovement;
         _animationManager = animationManager;
@@ -41,7 +41,7 @@ internal sealed class UseCombatMovementIntention : IIntention
         _interactionDeliveryManager = interactionDeliveryManager;
         _gameObjectContentStorage = gameObjectContentStorage;
         _cameraOperator = cameraOperator;
-        _highlightService = highlightService;
+        _shadeService = shadeService;
     }
 
     private CombatantGameObject GetCombatantGameObject(Combatant combatant)
@@ -68,7 +68,7 @@ internal sealed class UseCombatMovementIntention : IIntention
 
         mainAnimationBlocker.Released += (_, _) =>
         {
-            _highlightService.DropTargets();
+            _shadeService.DropTargets();
 
             // Wait for some time to separate turns of different actors
 
@@ -105,7 +105,7 @@ internal sealed class UseCombatMovementIntention : IIntention
         {
             actorGameObject.Animator
         };
-        _highlightService.AddTargets(focusedAnimators);
+        _shadeService.AddTargets(focusedAnimators);
     }
 
     public void Make(CombatCore combatCore)

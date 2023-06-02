@@ -60,7 +60,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly HeroCampaign _currentCampaign;
     private readonly IDice _dice;
     private readonly IDropResolver _dropResolver;
-    private readonly ShadingService _highlightService;
+    private readonly ShadingService _shadeService;
     private readonly IEventCatalog _eventCatalog;
     private readonly IReadOnlyList<IBackgroundObject> _farLayerObjects;
     private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
@@ -162,7 +162,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _dropResolver = game.Services.GetRequiredService<IDropResolver>();
 
-        _highlightService = new ShadingService();
+        _shadeService = new ShadingService();
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -484,7 +484,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             _interactionDeliveryManager,
             _gameObjectContentStorage,
             _cameraOperator,
-            _highlightService);
+            _shadeService);
 
         _manualCombatantBehaviour.Assign(intention);
     }
@@ -828,7 +828,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private ICombatShadeContext GetSceneContext()
     {
-        return _highlightService.CreateContext();
+        return _shadeService.CreateContext();
     }
 
     private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
@@ -1120,7 +1120,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _interactionDeliveryManager,
                 _gameObjectContentStorage,
                 _cameraOperator,
-                _highlightService
+                _shadeService
             );
         _combatCore.Initialize(
             CombatantFactory.CreateHeroes(_manualCombatantBehaviour, _globeProvider.Globe.Player),
