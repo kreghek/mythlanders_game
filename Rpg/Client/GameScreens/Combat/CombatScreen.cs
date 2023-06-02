@@ -24,6 +24,8 @@ using Core.Dices;
 using Core.PropDrop;
 using Core.Props;
 
+using JetBrains.Annotations;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -151,7 +153,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatCore = CreateCombat();
         _combatDataBehaviourProvider = new CombatActorBehaviourDataProvider(_combatCore);
 
-        soundtrackManager.PlayCombatTrack(GetBiomeSound(args.Location.Sid));
+        soundtrackManager.PlayCombatTrack(ExtractCultureFromLocation(args.Location.Sid));
 
         _maneuversVisualizer =
             new FieldManeuversVisualizer(_combatantPositionProvider, new ManeuverContext(_combatCore),
@@ -995,12 +997,13 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatFinishedVictory = false;
     }
 
-    private static BiomeCulture GetBiomeSound(ILocationSid locationSid)
+    private static LocationCulture ExtractCultureFromLocation(ILocationSid locationSid)
     {
         var biomeCultureAttribute = locationSid.GetType().GetCustomAttribute<BiomeCultureAttribute>();
         if (biomeCultureAttribute is null)
         {
-            return BiomeCulture.Slavic;
+            Debug.Fail("Everylocation must be assigned to culture.");
+            return LocationCulture.Slavic;
         }
 
         return biomeCultureAttribute.Culture;

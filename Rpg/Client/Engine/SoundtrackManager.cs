@@ -13,7 +13,7 @@ namespace Rpg.Client.Engine
         private readonly Random _random;
         private bool _changeTrack;
 
-        private BiomeCulture _currentBiome;
+        private LocationCulture _currentBiome;
         private Song? _currentSong;
 
         private Song? _customSong;
@@ -38,7 +38,7 @@ namespace Rpg.Client.Engine
             IsInitialized = true;
         }
 
-        public void PlayCombatTrack(BiomeCulture type)
+        public void PlayCombatTrack(LocationCulture type)
         {
             _currentBiome = type;
             ChangeState(SoundtrackType.Combat);

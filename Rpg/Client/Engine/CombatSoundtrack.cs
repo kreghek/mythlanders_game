@@ -9,18 +9,18 @@ namespace Rpg.Client.Engine
 {
     internal struct CombatSoundtrack
     {
-        public BiomeCulture ApplicableBiome;
+        public LocationCulture ApplicableBiome;
         public CombatSoundtrackRole Role;
         public Song Soundtrack;
 
-        public CombatSoundtrack(BiomeCulture applicableBiome, CombatSoundtrackRole role, Song soundtrack)
+        public CombatSoundtrack(LocationCulture applicableBiome, CombatSoundtrackRole role, Song soundtrack)
         {
             ApplicableBiome = applicableBiome;
             Role = role;
             Soundtrack = soundtrack;
         }
 
-        public CombatSoundtrack(BiomeCulture applicableBiome, Song soundtrack) : this(applicableBiome,
+        public CombatSoundtrack(LocationCulture applicableBiome, Song soundtrack) : this(applicableBiome,
             CombatSoundtrackRole.Regular, soundtrack)
         {
         }

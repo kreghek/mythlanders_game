@@ -8,6 +8,6 @@ namespace Rpg.Client.Core.ProgressStorage
     {
         public bool IsComplete { get; init; }
         public IEnumerable<GlobeNodeDto?>? Nodes { get; init; }
-        public BiomeCulture Type { get; init; }
+        public LocationCulture Type { get; init; }
     }
 }

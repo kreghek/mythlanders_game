@@ -10,7 +10,7 @@ namespace Rpg.Client.Core
         public CombatSequence? AssignedCombats { get; set; }
         public DialogueEvent? AssignedEvent { get; private set; }
 
-        public BiomeCulture BiomeType { get; init; }
+        public LocationCulture BiomeType { get; init; }
         public HeroCampaign? Campaign { get; set; }
 
         public EquipmentItemType? EquipmentItem { get; set; }

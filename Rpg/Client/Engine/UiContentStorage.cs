@@ -13,7 +13,7 @@ namespace Rpg.Client.Engine
 {
     internal sealed class UiContentStorage : IUiContentStorage
     {
-        private IDictionary<BiomeCulture, Texture2D> _biomeBackgroundDict;
+        private IDictionary<LocationCulture, Texture2D> _biomeBackgroundDict;
         private Texture2D _buttonIndicatorsTexture;
         private IDictionary<string, SpriteFont> _combatIndicatorFonts;
         private Texture2D _combatMoveIconTextres;
@@ -173,12 +173,12 @@ namespace Rpg.Client.Engine
             _modalBottomTextures = new[] { contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogBackgroundBottom1") };
             _combatMoveIconTextres = contentManager.Load<Texture2D>("Sprites/Ui/CombatMoveIcons");
 
-            _biomeBackgroundDict = new Dictionary<BiomeCulture, Texture2D>
+            _biomeBackgroundDict = new Dictionary<LocationCulture, Texture2D>
             {
-                { BiomeCulture.Slavic, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
-                { BiomeCulture.Chinese, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
-                { BiomeCulture.Egyptian, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
-                { BiomeCulture.Greek, contentManager.Load<Texture2D>("Sprites/Ui/Biome") }
+                { LocationCulture.Slavic, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
+                { LocationCulture.Chinese, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
+                { LocationCulture.Egyptian, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
+                { LocationCulture.Greek, contentManager.Load<Texture2D>("Sprites/Ui/Biome") }
             };
 
             _titleTrack = contentManager.Load<Song>("Audio/Background/Title");
@@ -190,24 +190,24 @@ namespace Rpg.Client.Engine
             };
             _combatTracks = new[]
             {
-                new CombatSoundtrack(BiomeCulture.Slavic, contentManager.Load<Song>("Audio/Background/Combat_Slavic01")),
-                new CombatSoundtrack(BiomeCulture.Slavic, contentManager.Load<Song>("Audio/Background/Combat_Slavic02")),
-                new CombatSoundtrack(BiomeCulture.Chinese, contentManager.Load<Song>("Audio/Background/Combat_Chinese01")),
-                new CombatSoundtrack(BiomeCulture.Chinese, contentManager.Load<Song>("Audio/Background/Combat_Chinese02")),
-                new CombatSoundtrack(BiomeCulture.Egyptian,
+                new CombatSoundtrack(LocationCulture.Slavic, contentManager.Load<Song>("Audio/Background/Combat_Slavic01")),
+                new CombatSoundtrack(LocationCulture.Slavic, contentManager.Load<Song>("Audio/Background/Combat_Slavic02")),
+                new CombatSoundtrack(LocationCulture.Chinese, contentManager.Load<Song>("Audio/Background/Combat_Chinese01")),
+                new CombatSoundtrack(LocationCulture.Chinese, contentManager.Load<Song>("Audio/Background/Combat_Chinese02")),
+                new CombatSoundtrack(LocationCulture.Egyptian,
                     contentManager.Load<Song>("Audio/Background/Combat_Egyptian01")),
-                new CombatSoundtrack(BiomeCulture.Egyptian,
+                new CombatSoundtrack(LocationCulture.Egyptian,
                     contentManager.Load<Song>("Audio/Background/Combat_Egyptian02")),
-                new CombatSoundtrack(BiomeCulture.Egyptian, CombatSoundtrackRole.Intro,
+                new CombatSoundtrack(LocationCulture.Egyptian, CombatSoundtrackRole.Intro,
                     contentManager.Load<Song>("Audio/Background/Combat_Egyptian01_Intro")),
 
-                new CombatSoundtrack(BiomeCulture.Greek,
+                new CombatSoundtrack(LocationCulture.Greek,
                     contentManager.Load<Song>("Audio/Background/Combat_Greek01")),
-                new CombatSoundtrack(BiomeCulture.Greek, CombatSoundtrackRole.Intro,
+                new CombatSoundtrack(LocationCulture.Greek, CombatSoundtrackRole.Intro,
                     contentManager.Load<Song>("Audio/Background/Combat_Greek01_Intro")),
-                new CombatSoundtrack(BiomeCulture.Greek,
+                new CombatSoundtrack(LocationCulture.Greek,
                     contentManager.Load<Song>("Audio/Background/Combat_Greek02")),
-                new CombatSoundtrack(BiomeCulture.Greek, CombatSoundtrackRole.Intro,
+                new CombatSoundtrack(LocationCulture.Greek, CombatSoundtrackRole.Intro,
                     contentManager.Load<Song>("Audio/Background/Combat_Greek02_Intro"))
             };
 
@@ -273,7 +273,7 @@ namespace Rpg.Client.Engine
             return _modalShadowTexture;
         }
 
-        public Texture2D GetBiomeBackground(BiomeCulture type)
+        public Texture2D GetBiomeBackground(LocationCulture type)
         {
             return _biomeBackgroundDict[type];
         }
@@ -298,7 +298,7 @@ namespace Rpg.Client.Engine
             return _introTrack;
         }
 
-        public IReadOnlyCollection<CombatSoundtrack> GetCombatSongs(BiomeCulture currentBiome)
+        public IReadOnlyCollection<CombatSoundtrack> GetCombatSongs(LocationCulture currentBiome)
         {
             return _combatTracks.Where(x => x.ApplicableBiome == currentBiome && x.Role == CombatSoundtrackRole.Regular)
                 .ToList();
