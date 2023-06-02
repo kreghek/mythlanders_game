@@ -9,5 +9,5 @@ namespace Client.GameScreens.Combat;
 /// </summary>
 internal interface ICombatSceneScope
 {
-    IReadOnlyList<IActorAnimator> Actors { get; }
+    IReadOnlyList<IActorAnimator> FocusedActors { get; }
 }

@@ -4,12 +4,15 @@ using Client.Engine;
 
 namespace Client.GameScreens.Combat;
 
+/// <summary>
+/// Base combat scope implementation.
+/// </summary>
 internal sealed class CombatSceneScope : ICombatSceneScope
 {
-    public IReadOnlyList<IActorAnimator> Actors { get; }
+    public IReadOnlyList<IActorAnimator> FocusedActors { get; }
 
     public CombatSceneScope(IReadOnlyList<IActorAnimator> actors)
     {
-        Actors = actors;
+        FocusedActors = actors;
     }
 }

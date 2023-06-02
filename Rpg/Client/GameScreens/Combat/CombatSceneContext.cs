@@ -7,6 +7,7 @@ namespace Client.GameScreens.Combat;
 
 /// <summary>
 /// Base imlementation of the combat scene context.
+/// Create scope if any actors in the focus.
 /// </summary>
 internal sealed class CombatSceneContext : ICombatSceneContext
 {

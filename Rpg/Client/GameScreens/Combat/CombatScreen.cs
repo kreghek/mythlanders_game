@@ -725,7 +725,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         var list = _gameObjects.OrderBy(x => x.GetZIndex()).ToArray();
         foreach (var gameObject in list)
         {
-            if ((combatSceneContext.CurrentScope is not null && combatSceneContext.CurrentScope.Actors.Contains(gameObject.Animator)) || combatSceneContext.CurrentScope is null)
+            if ((combatSceneContext.CurrentScope is not null && combatSceneContext.CurrentScope.FocusedActors.Contains(gameObject.Animator)) || combatSceneContext.CurrentScope is null)
             {
                 gameObject.Draw(spriteBatch);
             }
