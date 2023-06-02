@@ -9,10 +9,10 @@ namespace Client.GameScreens.Combat;
 /// </summary>
 internal sealed class CombatShadeScope : ICombatShadeScope
 {
-    public IReadOnlyList<IActorAnimator> FocusedActors { get; }
-
     public CombatShadeScope(IReadOnlyList<IActorAnimator> actors)
     {
         FocusedActors = actors;
     }
+
+    public IReadOnlyList<IActorAnimator> FocusedActors { get; }
 }

@@ -11,19 +11,19 @@ internal sealed class ShadeService : IShadeService
 {
     private readonly List<IActorAnimator> _currentActors = new List<IActorAnimator>();
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void AddTargets(IReadOnlyCollection<IActorAnimator> animators)
     {
         _currentActors.AddRange(animators);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void DropTargets()
     {
         _currentActors.Clear();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public ICombatShadeContext CreateContext()
     {
         return new CombatShadeContext(_currentActors);

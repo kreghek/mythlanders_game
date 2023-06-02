@@ -190,10 +190,14 @@ namespace Rpg.Client.Engine
             };
             _combatTracks = new[]
             {
-                new CombatSoundtrack(LocationCulture.Slavic, contentManager.Load<Song>("Audio/Background/Combat_Slavic01")),
-                new CombatSoundtrack(LocationCulture.Slavic, contentManager.Load<Song>("Audio/Background/Combat_Slavic02")),
-                new CombatSoundtrack(LocationCulture.Chinese, contentManager.Load<Song>("Audio/Background/Combat_Chinese01")),
-                new CombatSoundtrack(LocationCulture.Chinese, contentManager.Load<Song>("Audio/Background/Combat_Chinese02")),
+                new CombatSoundtrack(LocationCulture.Slavic,
+                    contentManager.Load<Song>("Audio/Background/Combat_Slavic01")),
+                new CombatSoundtrack(LocationCulture.Slavic,
+                    contentManager.Load<Song>("Audio/Background/Combat_Slavic02")),
+                new CombatSoundtrack(LocationCulture.Chinese,
+                    contentManager.Load<Song>("Audio/Background/Combat_Chinese01")),
+                new CombatSoundtrack(LocationCulture.Chinese,
+                    contentManager.Load<Song>("Audio/Background/Combat_Chinese02")),
                 new CombatSoundtrack(LocationCulture.Egyptian,
                     contentManager.Load<Song>("Audio/Background/Combat_Egyptian01")),
                 new CombatSoundtrack(LocationCulture.Egyptian,
@@ -303,7 +307,8 @@ namespace Rpg.Client.Engine
 
         public IReadOnlyCollection<CombatSoundtrack> GetCombatSongs(LocationCulture currentBiome)
         {
-            return _combatTracks.Where(x => x.Culture == currentBiome && x.SoundtrackRole == CombatSoundtrackRole.Regular)
+            return _combatTracks
+                .Where(x => x.Culture == currentBiome && x.SoundtrackRole == CombatSoundtrackRole.Regular)
                 .ToList();
         }
 

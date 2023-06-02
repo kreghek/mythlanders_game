@@ -9,7 +9,8 @@ namespace Client.Assets;
 /// </summary>
 internal record CombatSoundtrack(LocationCulture Culture, Song Soundtrack, CombatSoundtrackRole SoundtrackRole)
 {
-    public CombatSoundtrack(LocationCulture culture, Song soundtrack) : this(culture, soundtrack, CombatSoundtrackRole.Regular)
+    public CombatSoundtrack(LocationCulture culture, Song soundtrack) : this(culture, soundtrack,
+        CombatSoundtrackRole.Regular)
     {
     }
 }

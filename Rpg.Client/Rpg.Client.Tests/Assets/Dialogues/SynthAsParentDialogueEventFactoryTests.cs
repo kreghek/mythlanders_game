@@ -3,7 +3,6 @@ using System.Linq;
 
 using Client.Assets;
 using Client.Assets.Dialogues;
-using Client.Core;
 using Client.Core.Dialogues;
 
 using FluentAssertions;

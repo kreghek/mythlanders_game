@@ -117,7 +117,8 @@ internal class GameObjectContentStorage
             },
 
             {
-                LocationTheme.SlavicBattleground, LoadBackgroundLayers(LocationCulture.Slavic, LocationSids.Battleground)
+                LocationTheme.SlavicBattleground,
+                LoadBackgroundLayers(LocationCulture.Slavic, LocationSids.Battleground)
             },
 
             {
@@ -137,11 +138,13 @@ internal class GameObjectContentStorage
                 LocationTheme.EgyptianDesert, LoadBackgroundLayers(LocationCulture.Egyptian, LocationSids.Desert)
             },
             {
-                LocationTheme.EgyptianSacredPlace, LoadBackgroundLayers(LocationCulture.Egyptian, LocationSids.SacredPlace)
+                LocationTheme.EgyptianSacredPlace,
+                LoadBackgroundLayers(LocationCulture.Egyptian, LocationSids.SacredPlace)
             },
 
             {
-                LocationTheme.GreekShipGraveyard, LoadBackgroundLayers(LocationCulture.Greek, LocationSids.ShipGraveyard)
+                LocationTheme.GreekShipGraveyard,
+                LoadBackgroundLayers(LocationCulture.Greek, LocationSids.ShipGraveyard)
             }
         };
 
@@ -293,7 +296,8 @@ internal class GameObjectContentStorage
             //{ UnitName.ChineseOldman, LoadHeroPortrait("ChineseOldman") }
         };
 
-        Texture2D LoadBackgroundLayer(LocationCulture biomeType, ILocationSid locationSid, BackgroundLayerType layerType)
+        Texture2D LoadBackgroundLayer(LocationCulture biomeType, ILocationSid locationSid,
+            BackgroundLayerType layerType)
         {
             var imagePath = Path.Combine("Sprites", "GameObjects", "CombatBackgrounds", biomeType.ToString(),
                 locationSid.ToString(), $"{layerType}Layer");

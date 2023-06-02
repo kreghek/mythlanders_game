@@ -10,7 +10,6 @@ namespace Client.Assets.Monsters.Slavic;
 [UsedImplicitly]
 internal sealed class VampireFactory : MonsterFactoryBase
 {
-
     public override UnitName ClassName => UnitName.Vampire;
 
     public override CharacterCultureSid Culture => CharacterCultureSid.Slavic;

@@ -13,17 +13,15 @@ namespace Client.GameScreens;
 /// </summary>
 internal static class LocationHelper
 {
-    /// <summary>
-    /// Get metadata attribute from location sids catalog.
-    /// </summary>
-    /// <returns>Returns attribute of null. Null applicable only for debug/development.</returns>
-    private static TMetadataAttribute? GetLocationMetadataAttribute<TMetadataAttribute>(ILocationSid location) where TMetadataAttribute : Attribute
+    public static LocationCulture GetLocationCulture(ILocationSid location)
     {
-        var sids = typeof(LocationSids).GetProperties(BindingFlags.Static | BindingFlags.Public);
-        var locationProp = sids.Single(x => x.GetValue(null) == location);
+        var cultureAttr = GetLocationMetadataAttribute<LocationCultureAttribute>(location);
+        if (cultureAttr is null)
+        {
+            Debug.Fail("Location culture is not defined.");
+        }
 
-        var metadataAttribute = locationProp.GetCustomAttribute<TMetadataAttribute>();
-        return metadataAttribute;
+        return cultureAttr.Culture;
     }
 
     public static LocationTheme GetLocationTheme(ILocationSid location)
@@ -37,14 +35,17 @@ internal static class LocationHelper
         return themeAttr.Theme;
     }
 
-    public static LocationCulture GetLocationCulture(ILocationSid location)
+    /// <summary>
+    /// Get metadata attribute from location sids catalog.
+    /// </summary>
+    /// <returns>Returns attribute of null. Null applicable only for debug/development.</returns>
+    private static TMetadataAttribute? GetLocationMetadataAttribute<TMetadataAttribute>(ILocationSid location)
+        where TMetadataAttribute : Attribute
     {
-        var cultureAttr = GetLocationMetadataAttribute<LocationCultureAttribute>(location);
-        if (cultureAttr is null)
-        {
-            Debug.Fail("Location culture is not defined.");
-        }
+        var sids = typeof(LocationSids).GetProperties(BindingFlags.Static | BindingFlags.Public);
+        var locationProp = sids.Single(x => x.GetValue(null) == location);
 
-        return cultureAttr.Culture;
+        var metadataAttribute = locationProp.GetCustomAttribute<TMetadataAttribute>();
+        return metadataAttribute;
     }
 }

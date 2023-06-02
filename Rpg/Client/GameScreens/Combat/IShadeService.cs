@@ -15,12 +15,12 @@ internal interface IShadeService
     void AddTargets(IReadOnlyCollection<IActorAnimator> animators);
 
     /// <summary>
-    /// Drop sshhading state.
-    /// </summary>
-    void DropTargets();
-
-    /// <summary>
     /// Create instance of shading context.
     /// </summary>
     ICombatShadeContext CreateContext();
+
+    /// <summary>
+    /// Drop sshhading state.
+    /// </summary>
+    void DropTargets();
 }

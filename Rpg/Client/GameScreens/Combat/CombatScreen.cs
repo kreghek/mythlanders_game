@@ -60,7 +60,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly HeroCampaign _currentCampaign;
     private readonly IDice _dice;
     private readonly IDropResolver _dropResolver;
-    private readonly ShadeService _shadeService;
     private readonly IEventCatalog _eventCatalog;
     private readonly IReadOnlyList<IBackgroundObject> _farLayerObjects;
     private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
@@ -78,6 +77,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly FieldManeuversVisualizer _maneuversVisualizer;
     private readonly ManualCombatActorBehaviour _manualCombatantBehaviour;
     private readonly ScreenShaker _screenShaker;
+    private readonly ShadeService _shadeService;
 
     private readonly TargetMarkersVisualizer _targetMarkers;
     private readonly IUiContentStorage _uiContentStorage;
@@ -648,7 +648,8 @@ internal class CombatScreen : GameScreenWithMenuBase
     }
 
 
-    private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds, ICombatShadeContext combatSceneContext)
+    private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds,
+        ICombatShadeContext combatSceneContext)
     {
         var color = combatSceneContext.CurrentScope is null ? Color.White : Color.Lerp(Color.White, Color.Black, 0.75f);
 
@@ -690,14 +691,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DrawInteractionDeliveryItems(SpriteBatch spriteBatch)
-    {
-        foreach (var bullet in _interactionDeliveryManager.GetActiveSnapshot())
-        {
-            bullet.Draw(spriteBatch);
-        }
-    }
-
     private void DrawCombatantQueue(SpriteBatch spriteBatch, Rectangle contentRectangle)
     {
         if (_combatantQueuePanel is not null)
@@ -722,7 +715,9 @@ internal class CombatScreen : GameScreenWithMenuBase
         var list = _gameObjects.OrderBy(x => x.GetZIndex()).ToArray();
         foreach (var gameObject in list)
         {
-            if ((combatSceneContext.CurrentScope is not null && combatSceneContext.CurrentScope.FocusedActors.Contains(gameObject.Animator)) || combatSceneContext.CurrentScope is null)
+            if ((combatSceneContext.CurrentScope is not null &&
+                 combatSceneContext.CurrentScope.FocusedActors.Contains(gameObject.Animator)) ||
+                combatSceneContext.CurrentScope is null)
             {
                 gameObject.Draw(spriteBatch);
             }
@@ -826,11 +821,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         DrawForegroundLayers(spriteBatch, backgrounds);
     }
 
-    private ICombatShadeContext GetSceneContext()
-    {
-        return _shadeService.CreateContext();
-    }
-
     private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
     {
         if (_gameSettings.IsRecordMode)
@@ -888,6 +878,14 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
 
         spriteBatch.End();
+    }
+
+    private void DrawInteractionDeliveryItems(SpriteBatch spriteBatch)
+    {
+        foreach (var bullet in _interactionDeliveryManager.GetActiveSnapshot())
+        {
+            bullet.Draw(spriteBatch);
+        }
     }
 
     private void DrawStats(Vector2 statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
@@ -1015,6 +1013,11 @@ internal class CombatScreen : GameScreenWithMenuBase
         return nextIndex;
     }
 
+    private ICombatShadeContext GetSceneContext()
+    {
+        return _shadeService.CreateContext();
+    }
+
     private int GetUnbreakableLevel()
     {
         // TODO Like in How wants to be a millionaire?
@@ -1067,19 +1070,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void HandleGlobeVictoryResult()
     {
         _globe.GlobeLevel.Level++;
-    }
-
-    private void UpdateCombatants(GameTime gameTime)
-    {
-        foreach (var gameObject in _gameObjects.ToArray())
-        {
-            gameObject.Update(gameTime);
-        }
-
-        foreach (var gameObject in _corpseObjects.ToArray())
-        {
-            gameObject.Update(gameTime);
-        }
     }
 
     // private void Combat_UnitPassed(object? sender, CombatUnit e)
@@ -1249,6 +1239,19 @@ internal class CombatScreen : GameScreenWithMenuBase
         foreach (var obj in _cloudLayerObjects)
         {
             obj.Update(gameTime);
+        }
+    }
+
+    private void UpdateCombatants(GameTime gameTime)
+    {
+        foreach (var gameObject in _gameObjects.ToArray())
+        {
+            gameObject.Update(gameTime);
+        }
+
+        foreach (var gameObject in _corpseObjects.ToArray())
+        {
+            gameObject.Update(gameTime);
         }
     }
 

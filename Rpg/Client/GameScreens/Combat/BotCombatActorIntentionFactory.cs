@@ -8,7 +8,6 @@ using Core.Combats;
 using Core.Combats.BotBehaviour;
 
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Combat;
 
 namespace Client.GameScreens.Combat;
 
@@ -16,11 +15,11 @@ internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
 {
     private readonly IAnimationManager _animationManager;
     private readonly CameraOperator _cameraOperator;
-    private readonly IShadeService _shadeService;
     private readonly IList<CombatantGameObject> _combatantGameObjects;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
+    private readonly IShadeService _shadeService;
 
     public BotCombatActorIntentionFactory(IAnimationManager animationManager,
         ICombatMovementVisualizationProvider combatMovementVisualizer,

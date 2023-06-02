@@ -19,6 +19,6 @@ internal sealed class CombatShadeContext : ICombatShadeContext
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public ICombatShadeScope? CurrentScope { get; }
 }

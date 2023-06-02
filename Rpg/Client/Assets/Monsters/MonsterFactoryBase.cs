@@ -14,15 +14,15 @@ namespace Rpg.Client.Assets.Monsters
 {
     internal abstract class MonsterFactoryBase : IMonsterFactory
     {
-        public abstract UnitName ClassName { get; }
-
         public abstract CharacterCultureSid Culture { get; }
+        public abstract UnitName ClassName { get; }
 
         public abstract UnitScheme Create(IBalanceTable balanceTable);
 
         public virtual UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
         {
-            return new SingleSpriteGraphicsConfig(Path.Combine(CommonConstants.PathToCharacterSprites, "Monsters", Culture.ToString(), ClassName.ToString(), "Thumbnail"));
+            return new SingleSpriteGraphicsConfig(Path.Combine(CommonConstants.PathToCharacterSprites, "Monsters",
+                Culture.ToString(), ClassName.ToString(), "Thumbnail"));
         }
     }
 }

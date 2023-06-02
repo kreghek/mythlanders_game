@@ -1,5 +1,4 @@
 using Client.Assets.GraphicConfigs.Monsters;
-using Client.Assets.Monsters;
 using Client.Core;
 using Client.GameScreens;
 

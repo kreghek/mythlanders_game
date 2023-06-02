@@ -26,7 +26,8 @@ internal class AmazonFactory : HeroFactoryBase
 
     protected override UnitGraphicsConfigBase GetGraphicsConfig()
     {
-        return new SingleSpriteGraphicsConfig(Path.Combine(CommonConstants.PathToCharacterSprites, "Heroes", HeroName.ToString(), "Thumbnail"));
+        return new SingleSpriteGraphicsConfig(Path.Combine(CommonConstants.PathToCharacterSprites, "Heroes",
+            HeroName.ToString(), "Thumbnail"));
     }
 
     protected override IUnitLevelScheme[] GetLevels()

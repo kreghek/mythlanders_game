@@ -25,7 +25,8 @@ namespace Rpg.Client.Assets.Heroes
 
         protected override UnitGraphicsConfigBase GetGraphicsConfig()
         {
-            return new SingleSpriteGraphicsConfig(Path.Combine(CommonConstants.PathToCharacterSprites, "Heroes", HeroName.ToString(), "Thumbnail"));
+            return new SingleSpriteGraphicsConfig(Path.Combine(CommonConstants.PathToCharacterSprites, "Heroes",
+                HeroName.ToString(), "Thumbnail"));
         }
 
         protected override IUnitLevelScheme[] GetLevels()
