@@ -60,7 +60,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly HeroCampaign _currentCampaign;
     private readonly IDice _dice;
     private readonly IDropResolver _dropResolver;
-    private readonly ShadingService _shadeService;
+    private readonly ShadeService _shadeService;
     private readonly IEventCatalog _eventCatalog;
     private readonly IReadOnlyList<IBackgroundObject> _farLayerObjects;
     private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
@@ -162,7 +162,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _dropResolver = game.Services.GetRequiredService<IDropResolver>();
 
-        _shadeService = new ShadingService();
+        _shadeService = new ShadeService();
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -802,9 +802,9 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void DrawGameObjects(SpriteBatch spriteBatch)
     {
-        var backgroundType = LocationHelper.GetLocationTheme(_globeNode.Sid);
+        var locationTheme = LocationHelper.GetLocationTheme(_globeNode.Sid);
 
-        var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
+        var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(locationTheme);
 
         var combatSceneContext = GetSceneContext();
 

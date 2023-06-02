@@ -177,9 +177,9 @@ internal abstract class CombatScreenBase : GameScreenWithMenuBase
 
     private void DrawGameObjects(SpriteBatch spriteBatch)
     {
-        var backgroundType = LocationHelper.GetLocationTheme(_campaign.Location);
+        var theme = LocationHelper.GetLocationTheme(_campaign.Location);
 
-        var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
+        var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(theme);
 
         const int BG_START_OFFSET = -100;
         const int BG_MAX_OFFSET = 200;

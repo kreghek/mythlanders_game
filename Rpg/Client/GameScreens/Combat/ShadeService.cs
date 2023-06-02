@@ -5,9 +5,9 @@ using Client.Engine;
 namespace Client.GameScreens.Combat;
 
 /// <summary>
-/// Base implementation.
+/// Base implementation of shade service.
 /// </summary>
-internal sealed class ShadingService : IShadeService
+internal sealed class ShadeService : IShadeService
 {
     private readonly List<IActorAnimator> _currentActors = new List<IActorAnimator>();
 

@@ -17,7 +17,7 @@ internal static class LocationHelper
     /// Get metadata attribute from location sids catalog.
     /// </summary>
     /// <returns>Returns attribute of null. Null applicable only for debug/development.</returns>
-    public static TMetadataAttribute? GetLocationMetadataAttribute<TMetadataAttribute>(ILocationSid location) where TMetadataAttribute:Attribute
+    private static TMetadataAttribute? GetLocationMetadataAttribute<TMetadataAttribute>(ILocationSid location) where TMetadataAttribute:Attribute
     {
         var sids = typeof(LocationSids).GetProperties(BindingFlags.Static | BindingFlags.Public);
         var locationProp = sids.Single(x => x.GetValue(null) == location);

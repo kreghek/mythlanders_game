@@ -347,9 +347,9 @@ internal class GameObjectContentStorage
         return _combatBackgroundObjectsDict[new(backgroundType, layerType, spriteSheetIndex)];
     }
 
-    internal Texture2D[] GetCombatBackgrounds(LocationTheme backgroundType)
+    internal Texture2D[] GetCombatBackgrounds(LocationTheme locationTheme)
     {
-        return _combatBackgroundBaseDict[backgroundType];
+        return _combatBackgroundBaseDict[locationTheme];
     }
 
     internal Texture2D GetCombatUnitMarker()

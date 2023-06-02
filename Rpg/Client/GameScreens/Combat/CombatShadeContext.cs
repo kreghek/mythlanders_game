@@ -15,7 +15,7 @@ internal sealed class CombatShadeContext : ICombatShadeContext
     {
         if (actors.Any())
         {
-            CurrentScope = new CombatSceneScope(actors);
+            CurrentScope = new CombatShadeScope(actors);
         }
     }
 

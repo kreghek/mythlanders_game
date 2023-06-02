@@ -5,8 +5,6 @@ using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Assets.States.Primitives;
 using Client.Engine;
-using Client.GameScreens;
-using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
@@ -15,7 +13,7 @@ using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 
-namespace Rpg.Client.GameScreens.Combat;
+namespace Client.GameScreens.Combat;
 
 internal sealed class UseCombatMovementIntention : IIntention
 {
