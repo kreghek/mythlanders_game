@@ -36,7 +36,6 @@ using MonoGame;
 using Rpg.Client;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
@@ -806,7 +805,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void DrawGameObjects(SpriteBatch spriteBatch)
     {
-        var backgroundType = BackgroundHelper.GetBackgroundType(_globeNode.Sid);
+        var backgroundType = LocationThemeHelper.GetBackgroundType(_globeNode.Sid);
 
         var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 

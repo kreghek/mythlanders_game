@@ -19,7 +19,6 @@ using Rpg.Client;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.GameScreens.Speech.Tutorial;
@@ -294,7 +293,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
 
     private void DrawGameObjects(SpriteBatch spriteBatch)
     {
-        var backgroundType = BackgroundHelper.GetBackgroundType(_globeLocation);
+        var backgroundType = LocationThemeHelper.GetBackgroundType(_globeLocation);
 
         var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets;
 using Client.GameScreens;
 
 using Core.Dices;
@@ -41,7 +42,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                     var row = objectSpriteIndex / COL_COUNT;
                     var sourceRectangle = new Rectangle(col * 256, row * 256, 256, 256);
                     var houseObject = new PositionalStaticObject(
-                        _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(BackgroundType.ChineseMonastery,
+                        _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(LocationTheme.ChineseMonastery,
                             BackgroundLayerType.Far, 0),
                         position,
                         sourceRectangle,
@@ -96,7 +97,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 var position = new Vector2(objectIndex * 256, topPosition);
 
                 var floorObject = new PositionalStaticObject(
-                    _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(BackgroundType.ChineseMonastery,
+                    _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(LocationTheme.ChineseMonastery,
                         BackgroundLayerType.Main, 0),
                     position,
                     sourceRectangle,

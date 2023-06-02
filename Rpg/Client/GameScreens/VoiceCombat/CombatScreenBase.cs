@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
-using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.ScreenManagement;
 
@@ -178,7 +177,7 @@ internal abstract class CombatScreenBase : GameScreenWithMenuBase
 
     private void DrawGameObjects(SpriteBatch spriteBatch)
     {
-        var backgroundType = BackgroundHelper.GetBackgroundType(_campaign.Location);
+        var backgroundType = LocationThemeHelper.GetBackgroundType(_campaign.Location);
 
         var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 
