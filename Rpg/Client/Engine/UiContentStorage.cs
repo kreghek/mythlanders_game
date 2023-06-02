@@ -198,17 +198,20 @@ namespace Rpg.Client.Engine
                     contentManager.Load<Song>("Audio/Background/Combat_Egyptian01")),
                 new CombatSoundtrack(LocationCulture.Egyptian,
                     contentManager.Load<Song>("Audio/Background/Combat_Egyptian02")),
-                new CombatSoundtrack(LocationCulture.Egyptian, CombatSoundtrackRole.Intro,
-                    contentManager.Load<Song>("Audio/Background/Combat_Egyptian01_Intro")),
+                new CombatSoundtrack(LocationCulture.Egyptian, 
+                    contentManager.Load<Song>("Audio/Background/Combat_Egyptian01_Intro"),
+                    CombatSoundtrackRole.Intro),
 
                 new CombatSoundtrack(LocationCulture.Greek,
                     contentManager.Load<Song>("Audio/Background/Combat_Greek01")),
-                new CombatSoundtrack(LocationCulture.Greek, CombatSoundtrackRole.Intro,
-                    contentManager.Load<Song>("Audio/Background/Combat_Greek01_Intro")),
+                new CombatSoundtrack(LocationCulture.Greek,
+                    contentManager.Load<Song>("Audio/Background/Combat_Greek01_Intro"),
+                    CombatSoundtrackRole.Intro),
                 new CombatSoundtrack(LocationCulture.Greek,
                     contentManager.Load<Song>("Audio/Background/Combat_Greek02")),
-                new CombatSoundtrack(LocationCulture.Greek, CombatSoundtrackRole.Intro,
-                    contentManager.Load<Song>("Audio/Background/Combat_Greek02_Intro"))
+                new CombatSoundtrack(LocationCulture.Greek,
+                    contentManager.Load<Song>("Audio/Background/Combat_Greek02_Intro"),
+                    CombatSoundtrackRole.Intro)
             };
 
             _victoryTrack = contentManager.Load<Song>("Audio/Background/Victory");
@@ -300,7 +303,7 @@ namespace Rpg.Client.Engine
 
         public IReadOnlyCollection<CombatSoundtrack> GetCombatSongs(LocationCulture currentBiome)
         {
-            return _combatTracks.Where(x => x.ApplicableBiome == currentBiome && x.Role == CombatSoundtrackRole.Regular)
+            return _combatTracks.Where(x => x.Culture == currentBiome && x.SoundtrackRole == CombatSoundtrackRole.Regular)
                 .ToList();
         }
 
