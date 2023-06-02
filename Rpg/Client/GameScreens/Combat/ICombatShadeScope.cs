@@ -7,7 +7,7 @@ namespace Client.GameScreens.Combat;
 /// <summary>
 /// Current combat scope. Store actors in the focus.
 /// </summary>
-internal interface ICombatSceneScope
+internal interface ICombatShadeScope
 {
     IReadOnlyList<IActorAnimator> FocusedActors { get; }
 }

@@ -20,5 +20,5 @@ internal sealed class CombatSceneContext : ICombatSceneContext
     }
 
     /// <inheritdoc/>
-    public ICombatSceneScope? CurrentScope { get; }
+    public ICombatShadeScope? CurrentScope { get; }
 }

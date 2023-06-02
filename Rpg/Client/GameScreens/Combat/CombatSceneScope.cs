@@ -7,7 +7,7 @@ namespace Client.GameScreens.Combat;
 /// <summary>
 /// Base combat scope implementation.
 /// </summary>
-internal sealed class CombatSceneScope : ICombatSceneScope
+internal sealed class CombatSceneScope : ICombatShadeScope
 {
     public IReadOnlyList<IActorAnimator> FocusedActors { get; }
 

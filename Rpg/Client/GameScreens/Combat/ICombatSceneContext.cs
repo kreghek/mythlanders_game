@@ -11,5 +11,5 @@ internal interface ICombatSceneContext
     /// <summary>
     /// Current scope is defined when any actors in the focus.
     /// </summary>
-    ICombatSceneScope? CurrentScope { get; }
+    ICombatShadeScope? CurrentScope { get; }
 }
