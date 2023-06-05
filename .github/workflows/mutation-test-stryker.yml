@@ -44,13 +44,13 @@ jobs:
         rm dotnet-sdk.zip
 
     - name: Restore dependencies
-      run: dotnet restore Rpg.Client/Rpg.Client.sln
+      run: dotnet restore
 
     - name: Build extentions
-      run: dotnet build Rpg/GameContent.Extensions/GameContent.Extensions.csproj --configuration Release
+      run: dotnet build src/GameContent.Extensions/GameContent.Extensions.csproj --configuration Release
 
     - name: Build
-      run: dotnet build Rpg.Client/Rpg.Client.sln --verbosity normal
+      run: dotnet build --verbosity normal
 
     - name: Setup Stryker
       run: |
@@ -58,5 +58,5 @@ jobs:
 
     - name: Kill the mutants!
       run: |
-        cd Rpg.Client/Rpg.Client.Tests
-        dotnet stryker --project=/home/runner/work/ewar/ewar/Rpg/Client/Client.csproj --reporter "cleartexttree"
+        cd tests/Client.Tests
+        dotnet stryker --project=/home/runner/work/ewar/ewar/src/Client/Client.csproj --reporter "cleartexttree"
