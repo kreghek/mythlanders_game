@@ -109,7 +109,7 @@
   </Target>
 
     <ItemGroup>
-        <ProjectReference Include="../../Rpg.Client/CodeAnalysers/CodeAnalysers.csproj">
+        <ProjectReference Include="../../code_analysers/CodeAnalysers.csproj">
             <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
             <OutputItemType>Analyzer</OutputItemType>
         </ProjectReference>
@@ -125,31 +125,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>Rpg.Client.Tests</_Parameter1>
-		</AssemblyAttribute>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
-		</AssemblyAttribute>
-	</ItemGroup>
-	<ItemGroup>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>BalanceConverter</_Parameter1>
-		</AssemblyAttribute>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
-		</AssemblyAttribute>
-	</ItemGroup>
-	<ItemGroup>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>BalanceGenerator</_Parameter1>
-		</AssemblyAttribute>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
-		</AssemblyAttribute>
-	</ItemGroup>
-	<ItemGroup>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>DialoguePlayer</_Parameter1>
+			<_Parameter1>Client.Tests</_Parameter1>
 		</AssemblyAttribute>
 		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
 			<_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
@@ -165,10 +141,7 @@
     </ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Core.Balance\Core.Balance.csproj" />
-	  <ProjectReference Include="..\..\Rpg.Client\Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj" />
+	  <ProjectReference Include="..\Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj" />
 	  <ProjectReference Include="..\Core\Core.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Assets\Monsters\Greek\" />
 	</ItemGroup>
 </Project>

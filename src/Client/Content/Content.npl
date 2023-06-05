@@ -1,5 +1,5 @@
 {
-	"root": "../../Content/Content/",
+	"root": "../../GameContent/Content/",
 	"references":
     [
         // Reference paths are not affected by root.

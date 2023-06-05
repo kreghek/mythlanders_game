@@ -16,18 +16,15 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Rpg\Client\Client.csproj" />
+      <ProjectReference Include="..\..\src\Client\Client.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Include="Assets\Catalogs\DialogueTestResource\Simplest.yaml" />
-      <None Remove="Assets\Catalogs\DialogueTestResource\Simplest.yaml" />
-      <None Remove="Assets\Catalogs\DialogueTestResource\TextSequence.yaml" />
-      <EmbeddedResource Include="Assets\Catalogs\DialogueTestResource\TextSequence.yaml" />
+      <EmbeddedResource Include="Assets\Catalogs\DialogueTestResource\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="../../Rpg.Client/CodeAnalysers/CodeAnalysers.csproj">
+        <ProjectReference Include="../src/code_analysers/CodeAnalysers.csproj">
             <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
             <OutputItemType>Analyzer</OutputItemType>
         </ProjectReference>
