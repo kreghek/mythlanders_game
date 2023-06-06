@@ -157,6 +157,9 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
         _campaignMap = new CampaignMap(currentCampaign, ScreenManager, this,
             Game.Content.Load<Texture2D>("Sprites/Ui/CampaignStageIcons"),
+            Game.Content.Load<Texture2D>("Sprites/Ui/MapBackground"),
+            Game.Content.Load<Texture2D>("Sprites/Ui/MapItemShadow"),
+            Game.Content.Load<Texture2D>("Sprites/Ui/MapDisplay"),
             ResolutionIndependentRenderer);
     }
 

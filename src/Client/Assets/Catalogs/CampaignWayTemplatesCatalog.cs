@@ -26,7 +26,7 @@ internal sealed class CampaignWayTemplatesCatalog
     /// </summary>
     public IGraph<GraphWay<ICampaignStageItem>> CreateGrindShortTemplate(ILocationSid locationSid)
     {
-        var wayGraph = new Graph<GraphWay<ICampaignStageItem>>();
+        var wayGraph = new DirectedGraph<GraphWay<ICampaignStageItem>>();
 
         var way1Templates = new ICampaignStageTemplateFactory[]
         {

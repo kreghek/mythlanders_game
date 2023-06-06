@@ -30,6 +30,9 @@ internal sealed class CampaignMap : ControlBase
 
     private readonly IList<CampaignButton> _buttonList = new List<CampaignButton>();
     private readonly Texture2D _campaignIconsTexture;
+    private readonly Texture2D _backgroundTexture;
+    private readonly Texture2D _shadowTexture;
+    private readonly Texture2D _hudTexture;
     private readonly IScreen _currentScreen;
     private readonly HeroCampaign _heroCampaign;
     private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
@@ -44,12 +47,18 @@ internal sealed class CampaignMap : ControlBase
 
     public CampaignMap(HeroCampaign heroCampaign, IScreenManager screenManager, IScreen currentScreen,
         Texture2D campaignIconsTexture,
+        Texture2D backgroundTexture,
+        Texture2D shadowTexture,
+        Texture2D hudTexture,
         IResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         _heroCampaign = heroCampaign;
         _screenManager = screenManager;
         _currentScreen = currentScreen;
         _campaignIconsTexture = campaignIconsTexture;
+        _backgroundTexture = backgroundTexture;
+        _shadowTexture = shadowTexture;
+        _hudTexture = hudTexture;
         _resolutionIndependentRenderer = resolutionIndependentRenderer;
         InitChildControls(heroCampaign.Stages, heroCampaign);
     }
@@ -92,12 +101,31 @@ internal sealed class CampaignMap : ControlBase
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
+        for (int i = -2; i < 10; i++)
+        {
+            for (int j = -2; j < 10; j++)
+            {
+                var tilePosition = new Vector2(i * _backgroundTexture.Width, j * _backgroundTexture.Height)
+                                    + new Vector2(contentRect.Left + (int)Scroll.X, contentRect.Top + (int)Scroll.Y);
+                spriteBatch.Draw(_backgroundTexture,
+                    tilePosition, Color.White);
+            }
+        }
+
         foreach (var button in _buttonList)
         {
             button.Rect = new Rectangle(
                 button.SourceGraphNodeLayout.Position.X + contentRect.Left + (int)Scroll.X,
                 button.SourceGraphNodeLayout.Position.Y + contentRect.Top + (int)Scroll.Y,
                 32, 32);
+
+            spriteBatch.Draw(_shadowTexture,
+                new Rectangle(button.Rect.Center.X - _shadowTexture.Width / 2, button.Rect.Center.Y - _shadowTexture.Height / 2, _shadowTexture.Width, _shadowTexture.Height),
+                Color.White);
+        }
+
+        foreach (var button in _buttonList)
+        {
             button.Draw(spriteBatch);
         }
 
@@ -124,6 +152,8 @@ internal sealed class CampaignMap : ControlBase
                 spriteBatch.DrawLine(startLinePoint, targetLinePoint, Color.LightCyan);
             }
         }
+
+        spriteBatch.Draw(_hudTexture, Vector2.Zero, Color.Lerp(Color.White, Color.Transparent, 0.5f));
 
         if (_currentHint is not null)
         {
@@ -307,7 +337,7 @@ internal sealed class CampaignMap : ControlBase
         var horizontalVisualizer = new HorizontalGraphVisualizer<ICampaignStageItem>();
         var graphNodeLayouts = horizontalVisualizer.Create(campaignGraph, new VisualizerConfig());
 
-        var random = new Random(1);
+        var random = new Random(currentCampaign.Seed);
 
         var postProcessors = new ILayoutPostProcessor<ICampaignStageItem>[]
         {
