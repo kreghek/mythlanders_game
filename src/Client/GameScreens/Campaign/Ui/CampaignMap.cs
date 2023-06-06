@@ -337,7 +337,7 @@ internal sealed class CampaignMap : ControlBase
         var horizontalVisualizer = new HorizontalGraphVisualizer<ICampaignStageItem>();
         var graphNodeLayouts = horizontalVisualizer.Create(campaignGraph, new VisualizerConfig());
 
-        var random = new Random(1);
+        var random = new Random(currentCampaign.Seed);
 
         var postProcessors = new ILayoutPostProcessor<ICampaignStageItem>[]
         {

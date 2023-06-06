@@ -31,7 +31,9 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var campaignGraph = graphGenerator.Create();
 
-        var campaign = new HeroCampaign(locationSid, campaignGraph);
+        var seed = _dice.RollD100();
+
+        var campaign = new HeroCampaign(locationSid, campaignGraph, seed);
 
         return campaign;
     }

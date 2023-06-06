@@ -4,10 +4,11 @@ namespace Client.Core.Campaigns;
 
 internal sealed class HeroCampaign
 {
-    public HeroCampaign(ILocationSid location, IGraph<ICampaignStageItem> stages)
+    public HeroCampaign(ILocationSid location, IGraph<ICampaignStageItem> stages, int seed)
     {
         Location = location;
         Stages = stages;
+        Seed = seed;
     }
 
     public IGraphNode<ICampaignStageItem>? CurrentStage { get; set; }
@@ -15,4 +16,5 @@ internal sealed class HeroCampaign
     public ILocationSid Location { get; }
 
     public IGraph<ICampaignStageItem> Stages { get; }
+    public int Seed { get; }
 }
