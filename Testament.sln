@@ -3,20 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D89326DF-EE4E-4EE9-8C4E-112776FA7D85}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		..\.github\workflows\build.yml = ..\.github\workflows\build.yml
-		..\.github\workflows\calibreapp-image-actions.yml = ..\.github\workflows\calibreapp-image-actions.yml
-		src\Client\Client.csproj = src\Client\Client.csproj
-		..\Rpg\Client\.config\dotnet-tools.json = ..\Rpg\Client\.config\dotnet-tools.json
-		..\.github\workflows\linter.yml = ..\.github\workflows\linter.yml
-		..\.github\workflows\mutation-test-stryker.yml = ..\.github\workflows\mutation-test-stryker.yml
-		..\.github\workflows\publish.yml = ..\.github\workflows\publish.yml
-		..\.github\workflows\remove-old-artifacts.yml = ..\.github\workflows\remove-old-artifacts.yml
-		..\.github\workflows\resharper-inspections.yml = ..\.github\workflows\resharper-inspections.yml
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeAnalisys", "CodeAnalisys", "{0DCFDF5E-947E-453B-8BE8-35C5F7ABE8EA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "src\Client\Client.csproj", "{2A8E21E3-F27B-49E8-8B2D-BE7F10BC3377}"
@@ -91,8 +77,8 @@ Global
 		{9C8B04BE-29F3-4B00-9485-BA782873D78B} = {5D45D065-CBD8-4E1B-84AD-06A413E0A7C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail"]}
-		RESX_SortFileContentOnSave = True
 		SolutionGuid = {109FC733-76F8-4327-BE39-B9303FDD86EA}
+		RESX_SortFileContentOnSave = True
+		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail"]}
 	EndGlobalSection
 EndGlobal

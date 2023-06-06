@@ -79,7 +79,7 @@ public class DialogueCatalogTests
     private static string ReadResource(string name)
     {
         using var stream = Assembly.GetExecutingAssembly()
-            .GetManifestResourceStream($"Rpg.Client.Tests.Assets.Catalogs.DialogueTestResource.{name}.yaml");
+            .GetManifestResourceStream($"Client.Tests.Assets.Catalogs.DialogueTestResource.{name}.yaml");
 
         if (stream is not null)
         {
