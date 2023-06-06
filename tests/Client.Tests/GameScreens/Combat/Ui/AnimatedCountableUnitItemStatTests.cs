@@ -1,4 +1,5 @@
 using Client.GameScreens.Combat;
+using Client.GameScreens.Combat.Ui.CombatResultModalModels;
 
 using FluentAssertions;
 
