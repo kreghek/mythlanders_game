@@ -1,7 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Client.Core;
 
-using Rpg.Client.Core;
-using Rpg.Client.Engine;
+using Microsoft.Xna.Framework;
 
 namespace Client.Engine;
 

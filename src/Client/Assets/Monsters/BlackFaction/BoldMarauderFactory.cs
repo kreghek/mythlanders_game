@@ -6,42 +6,40 @@ using Client.GameScreens;
 using JetBrains.Annotations;
 
 using Rpg.Client.Assets.GraphicConfigs.Monsters;
-using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Monsters
+namespace Client.Assets.Monsters.BlackFaction;
+
+[UsedImplicitly]
+internal sealed class BoldMarauderFactory : IMonsterFactory
 {
-    [UsedImplicitly]
-    internal sealed class BoldMarauderFactory : IMonsterFactory
+    public UnitName ClassName => UnitName.BoldMarauder;
+
+    public UnitScheme Create(IBalanceTable balanceTable)
     {
-        public UnitName ClassName => UnitName.BoldMarauder;
-
-        public UnitScheme Create(IBalanceTable balanceTable)
+        return new UnitScheme(balanceTable.GetCommonUnitBasics())
         {
-            return new UnitScheme(balanceTable.GetCommonUnitBasics())
+            TankRank = 0.5f,
+            DamageDealerRank = 0.5f,
+            SupportRank = 0.0f,
+            Resolve = 9,
+
+            Name = UnitName.BoldMarauder,
+            LocationSids = new[]
             {
-                TankRank = 0.5f,
-                DamageDealerRank = 0.5f,
-                SupportRank = 0.0f,
-                Resolve = 9,
+                LocationSids.Thicket, LocationSids.Swamp, LocationSids.Battleground, LocationSids.DeathPath,
+                LocationSids.Mines,
 
-                Name = UnitName.BoldMarauder,
-                LocationSids = new[]
-                {
-                    LocationSids.Thicket, LocationSids.Swamp, LocationSids.Battleground, LocationSids.DeathPath,
-                    LocationSids.Mines,
+                LocationSids.Desert, LocationSids.SacredPlace,
 
-                    LocationSids.Desert, LocationSids.SacredPlace,
+                LocationSids.ShipGraveyard,
 
-                    LocationSids.ShipGraveyard,
+                LocationSids.Monastery
+            }
+        };
+    }
 
-                    LocationSids.Monastery
-                }
-            };
-        }
-
-        public UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
-        {
-            return new MarauderGraphicsConfig(ClassName);
-        }
+    public UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
+    {
+        return new MarauderGraphicsConfig(ClassName);
     }
 }

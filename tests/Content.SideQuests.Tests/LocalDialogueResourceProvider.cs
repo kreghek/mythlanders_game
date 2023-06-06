@@ -1,6 +1,6 @@
 using System.Text;
 
-using Rpg.Client.Assets.Catalogs;
+using Client.Assets.Catalogs;
 
 namespace Content.SideQuests.Tests;
 

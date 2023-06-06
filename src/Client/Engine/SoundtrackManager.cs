@@ -1,235 +1,235 @@
 ﻿using System;
 using System.Linq;
 
+using Client;
 using Client.Assets;
 
 using Microsoft.Xna.Framework.Media;
 
-namespace Rpg.Client.Engine
+namespace Client.Engine;
+
+internal sealed class SoundtrackManager
 {
-    internal sealed class SoundtrackManager
+    private readonly GameSettings _gameSettings;
+    private readonly Random _random;
+    private bool _changeTrack;
+
+    private LocationCulture _currentBiome;
+    private Song? _currentSong;
+
+    private Song? _customSong;
+
+    private SoundtrackType _state;
+
+    private IUiContentStorage? _uiContentStorage;
+
+    public SoundtrackManager(GameSettings gameSettings)
     {
-        private readonly GameSettings _gameSettings;
-        private readonly Random _random;
-        private bool _changeTrack;
+        _random = new Random();
+        _gameSettings = gameSettings;
+    }
 
-        private LocationCulture _currentBiome;
-        private Song? _currentSong;
+    public string? CurrentTrackName => _currentSong?.Name;
 
-        private Song? _customSong;
+    public bool IsInitialized { get; private set; }
 
-        private SoundtrackType _state;
+    public void Initialize(IUiContentStorage uiContentStorage)
+    {
+        _uiContentStorage = uiContentStorage;
+        IsInitialized = true;
+    }
 
-        private IUiContentStorage? _uiContentStorage;
+    public void PlayCombatTrack(LocationCulture type)
+    {
+        _currentBiome = type;
+        ChangeState(SoundtrackType.Combat);
+    }
 
-        public SoundtrackManager(GameSettings gameSettings)
+    public void PlayDefeatTrack()
+    {
+        ChangeState(SoundtrackType.Defeat);
+    }
+
+    public void PlayMapTrack()
+    {
+        ChangeState(SoundtrackType.Map);
+    }
+
+    public void PlaySilence()
+    {
+        _customSong = null;
+        _state = SoundtrackType.Silence;
+    }
+
+    public void PlayTitleTrack()
+    {
+        ChangeState(SoundtrackType.Title);
+    }
+
+    public void PlayVictoryTrack()
+    {
+        ChangeState(SoundtrackType.Victory);
+    }
+
+    public void Update()
+    {
+        if (!IsInitialized)
         {
-            _random = new Random();
-            _gameSettings = gameSettings;
+            return;
         }
 
-        public string? CurrentTrackName => _currentSong?.Name;
+        MediaPlayer.Volume = _gameSettings.MusicVolume;
 
-        public bool IsInitialized { get; private set; }
-
-        public void Initialize(IUiContentStorage uiContentStorage)
+        switch (_state)
         {
-            _uiContentStorage = uiContentStorage;
-            IsInitialized = true;
-        }
+            case SoundtrackType.Silence:
+                _currentSong = null;
+                MediaPlayer.Stop();
+                break;
 
-        public void PlayCombatTrack(LocationCulture type)
-        {
-            _currentBiome = type;
-            ChangeState(SoundtrackType.Combat);
-        }
+            case SoundtrackType.Intro:
+                if (_changeTrack)
+                {
+                    _changeTrack = false;
 
-        public void PlayDefeatTrack()
-        {
-            ChangeState(SoundtrackType.Defeat);
-        }
-
-        public void PlayMapTrack()
-        {
-            ChangeState(SoundtrackType.Map);
-        }
-
-        public void PlaySilence()
-        {
-            _customSong = null;
-            _state = SoundtrackType.Silence;
-        }
-
-        public void PlayTitleTrack()
-        {
-            ChangeState(SoundtrackType.Title);
-        }
-
-        public void PlayVictoryTrack()
-        {
-            ChangeState(SoundtrackType.Victory);
-        }
-
-        public void Update()
-        {
-            if (!IsInitialized)
-            {
-                return;
-            }
-
-            MediaPlayer.Volume = _gameSettings.MusicVolume;
-
-            switch (_state)
-            {
-                case SoundtrackType.Silence:
-                    _currentSong = null;
-                    MediaPlayer.Stop();
-                    break;
-
-                case SoundtrackType.Intro:
-                    if (_changeTrack)
+                    if (_uiContentStorage is not null)
                     {
-                        _changeTrack = false;
-
-                        if (_uiContentStorage is not null)
-                        {
-                            MediaPlayer.IsRepeating = true;
-                            _currentSong = _uiContentStorage.GetIntroSong();
-                            MediaPlayer.Play(_currentSong, TimeSpan.Zero);
-                        }
+                        MediaPlayer.IsRepeating = true;
+                        _currentSong = _uiContentStorage.GetIntroSong();
+                        MediaPlayer.Play(_currentSong, TimeSpan.Zero);
                     }
+                }
 
-                    break;
+                break;
 
-                case SoundtrackType.Title:
-                    if (_changeTrack)
+            case SoundtrackType.Title:
+                if (_changeTrack)
+                {
+                    _changeTrack = false;
+
+                    if (_uiContentStorage is not null)
                     {
-                        _changeTrack = false;
-
-                        if (_uiContentStorage is not null)
-                        {
-                            MediaPlayer.IsRepeating = true;
-                            _currentSong = _uiContentStorage.GetTitleSong();
-                            MediaPlayer.Play(_currentSong, TimeSpan.Zero);
-                        }
+                        MediaPlayer.IsRepeating = true;
+                        _currentSong = _uiContentStorage.GetTitleSong();
+                        MediaPlayer.Play(_currentSong, TimeSpan.Zero);
                     }
+                }
 
-                    break;
+                break;
 
-                case SoundtrackType.Map:
-                    if (_changeTrack)
+            case SoundtrackType.Map:
+                if (_changeTrack)
+                {
+                    _changeTrack = false;
+
+                    if (_uiContentStorage is not null)
                     {
-                        _changeTrack = false;
+                        var songs = _uiContentStorage.GetMapSong().ToArray();
+                        var soundIndex = _random.Next(0, songs.Length);
+                        var song = songs[soundIndex];
 
-                        if (_uiContentStorage is not null)
-                        {
-                            var songs = _uiContentStorage.GetMapSong().ToArray();
-                            var soundIndex = _random.Next(0, songs.Length);
-                            var song = songs[soundIndex];
+                        _currentSong = song;
 
-                            _currentSong = song;
-
-                            MediaPlayer.IsRepeating = true;
-                            MediaPlayer.Play(song, TimeSpan.Zero);
-                        }
+                        MediaPlayer.IsRepeating = true;
+                        MediaPlayer.Play(song, TimeSpan.Zero);
                     }
+                }
 
-                    break;
+                break;
 
-                case SoundtrackType.Combat:
-                    if (_changeTrack)
+            case SoundtrackType.Combat:
+                if (_changeTrack)
+                {
+                    _changeTrack = false;
+
+                    if (_uiContentStorage is not null)
                     {
-                        _changeTrack = false;
+                        var songDataList = _uiContentStorage.GetCombatSongs(_currentBiome).ToArray();
+                        var soundIndex = _random.Next(0, songDataList.Length);
+                        var songData = songDataList[soundIndex];
 
-                        if (_uiContentStorage is not null)
-                        {
-                            var songDataList = _uiContentStorage.GetCombatSongs(_currentBiome).ToArray();
-                            var soundIndex = _random.Next(0, songDataList.Length);
-                            var songData = songDataList[soundIndex];
+                        _currentSong = songData.Soundtrack;
 
-                            _currentSong = songData.Soundtrack;
-
-                            MediaPlayer.IsRepeating = true;
-                            MediaPlayer.Play(_currentSong, TimeSpan.Zero);
-                        }
+                        MediaPlayer.IsRepeating = true;
+                        MediaPlayer.Play(_currentSong, TimeSpan.Zero);
                     }
+                }
 
-                    break;
+                break;
 
-                case SoundtrackType.Victory:
-                    if (_changeTrack)
+            case SoundtrackType.Victory:
+                if (_changeTrack)
+                {
+                    _changeTrack = false;
+
+                    if (_uiContentStorage is not null)
                     {
-                        _changeTrack = false;
+                        var song = _uiContentStorage.GetVictorySong();
 
-                        if (_uiContentStorage is not null)
-                        {
-                            var song = _uiContentStorage.GetVictorySong();
+                        _currentSong = song;
 
-                            _currentSong = song;
-
-                            MediaPlayer.IsRepeating = false;
-                            MediaPlayer.Play(song, TimeSpan.Zero);
-                        }
+                        MediaPlayer.IsRepeating = false;
+                        MediaPlayer.Play(song, TimeSpan.Zero);
                     }
+                }
 
-                    break;
+                break;
 
-                case SoundtrackType.Defeat:
-                    if (_changeTrack)
+            case SoundtrackType.Defeat:
+                if (_changeTrack)
+                {
+                    _changeTrack = false;
+
+                    if (_uiContentStorage is not null)
                     {
-                        _changeTrack = false;
+                        var song = _uiContentStorage.GetDefeatSong();
 
-                        if (_uiContentStorage is not null)
-                        {
-                            var song = _uiContentStorage.GetDefeatSong();
+                        _currentSong = song;
 
-                            _currentSong = song;
-
-                            MediaPlayer.IsRepeating = false;
-                            MediaPlayer.Play(song, TimeSpan.Zero);
-                        }
+                        MediaPlayer.IsRepeating = false;
+                        MediaPlayer.Play(song, TimeSpan.Zero);
                     }
+                }
 
-                    break;
+                break;
 
-                case SoundtrackType.Custom:
-                    if (_changeTrack)
+            case SoundtrackType.Custom:
+                if (_changeTrack)
+                {
+                    _changeTrack = false;
+
+                    if (_uiContentStorage is not null && _customSong is not null)
                     {
-                        _changeTrack = false;
+                        _currentSong = _customSong;
 
-                        if (_uiContentStorage is not null && _customSong is not null)
-                        {
-                            _currentSong = _customSong;
-
-                            MediaPlayer.IsRepeating = true;
-                            MediaPlayer.Play(_customSong, TimeSpan.Zero);
-                        }
+                        MediaPlayer.IsRepeating = true;
+                        MediaPlayer.Play(_customSong, TimeSpan.Zero);
                     }
+                }
 
-                    break;
-            }
+                break;
         }
+    }
 
-        internal void PlayCustomTrack(Song song)
+    internal void PlayCustomTrack(Song song)
+    {
+        MediaPlayer.Stop();
+        _customSong = song;
+        ChangeState(SoundtrackType.Custom);
+    }
+
+    internal void PlayIntroTrack()
+    {
+        ChangeState(SoundtrackType.Intro);
+    }
+
+    private void ChangeState(SoundtrackType targetState)
+    {
+        if (_state != targetState)
         {
-            MediaPlayer.Stop();
-            _customSong = song;
-            ChangeState(SoundtrackType.Custom);
+            _changeTrack = true;
         }
 
-        internal void PlayIntroTrack()
-        {
-            ChangeState(SoundtrackType.Intro);
-        }
-
-        private void ChangeState(SoundtrackType targetState)
-        {
-            if (_state != targetState)
-            {
-                _changeTrack = true;
-            }
-
-            _state = targetState;
-        }
+        _state = targetState;
     }
 }

@@ -5,125 +5,124 @@ using System.Linq;
 using Client;
 using Client.Engine;
 using Client.GameScreens;
+using Client.GameScreens.Combat;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels;
 
-namespace Rpg.Client.GameScreens.Combat.Ui
+namespace Client.GameScreens.Combat.Ui;
+
+internal sealed class CombatResultModal : ModalDialogBase
 {
-    internal sealed class CombatResultModal : ModalDialogBase
+    private const int MARGIN = 5;
+    private const int BLOCK_MARGIN = MARGIN;
+    private readonly CombatResultsBiomeProgression _biomeProgression;
+
+    private readonly ButtonBase _closeButton;
+    private readonly CombatRewardList _combatRewardList;
+
+    private readonly CombatResultTitle _title;
+
+    private double _iterationCounter;
+
+    public CombatResultModal(IUiContentStorage uiContentStorage,
+        GameObjectContentStorage gameObjectContentStorage,
+        IResolutionIndependentRenderer resolutionIndependentRenderer,
+        CombatResult combatResult,
+        CombatRewards combatRewards) : base(uiContentStorage, resolutionIndependentRenderer)
     {
-        private const int MARGIN = 5;
-        private const int BLOCK_MARGIN = MARGIN;
-        private readonly CombatResultsBiomeProgression _biomeProgression;
+        CombatResult = combatResult;
+        _closeButton = new ResourceTextButton(nameof(UiResource.CloseButtonTitle));
+        _closeButton.OnClick += CloseButton_OnClick;
 
-        private readonly ButtonBase _closeButton;
-        private readonly CombatRewardList _combatRewardList;
+        _title = new CombatResultTitle(combatResult);
 
-        private readonly CombatResultTitle _title;
+        //var biomeProgress = new AnimatedCountableUnitItemStat(combatRewards.BiomeProgress);
 
-        private double _iterationCounter;
+        //_biomeProgression = new CombatResultsBiomeProgression(biomeProgress);
 
-        public CombatResultModal(IUiContentStorage uiContentStorage,
-            GameObjectContentStorage gameObjectContentStorage,
-            IResolutionIndependentRenderer resolutionIndependentRenderer,
-            CombatResult combatResult,
-            CombatRewards combatRewards) : base(uiContentStorage, resolutionIndependentRenderer)
+        var resourceRewards = combatRewards.InventoryRewards.Select(x => new AnimatedCountableUnitItemStat(x))
+            .ToArray();
+
+        _combatRewardList = new CombatRewardList(
+            gameObjectContentStorage.GetEquipmentIcons(),
+            resourceRewards
+        );
+    }
+
+    internal CombatResult CombatResult { get; }
+
+    protected override void DrawContent(SpriteBatch spriteBatch)
+    {
+        _title.Rect = new Rectangle(ContentRect.Location, new Point(ContentRect.Width, 50));
+        _title.Draw(spriteBatch);
+
+        var benefitsPosition = new Vector2(ContentRect.Location.X + MARGIN, _title.Rect.Bottom + MARGIN);
+        var benefitsRect = new Rectangle(benefitsPosition.ToPoint(),
+            new Point(ContentRect.Width, ContentRect.Height - _title.Rect.Height - MARGIN));
+
+        switch (CombatResult)
         {
-            CombatResult = combatResult;
-            _closeButton = new ResourceTextButton(nameof(UiResource.CloseButtonTitle));
-            _closeButton.OnClick += CloseButton_OnClick;
-
-            _title = new CombatResultTitle(combatResult);
-
-            //var biomeProgress = new AnimatedCountableUnitItemStat(combatRewards.BiomeProgress);
-
-            //_biomeProgression = new CombatResultsBiomeProgression(biomeProgress);
-
-            var resourceRewards = combatRewards.InventoryRewards.Select(x => new AnimatedCountableUnitItemStat(x))
-                .ToArray();
-
-            _combatRewardList = new CombatRewardList(
-                gameObjectContentStorage.GetEquipmentIcons(),
-                resourceRewards
-            );
+            case CombatResult.Victory:
+                DrawVictoryBenefits(spriteBatch, benefitsRect);
+                break;
+            case CombatResult.NextCombat:
+                // Draw nothing
+                break;
+            case CombatResult.Defeat:
+                DrawDefeatBenefits(spriteBatch, benefitsRect);
+                break;
+            default:
+                Debug.Fail("Unknown combat result.");
+                break;
         }
 
-        internal CombatResult CombatResult { get; }
+        _closeButton.Rect = new Rectangle(ContentRect.Center.X - 50, ContentRect.Bottom - 25, 100, 20);
+        _closeButton.Draw(spriteBatch);
+    }
 
-        protected override void DrawContent(SpriteBatch spriteBatch)
+    protected override void UpdateContent(GameTime gameTime,
+        IResolutionIndependentRenderer resolutionIndependenceRenderer)
+    {
+        base.UpdateContent(gameTime, resolutionIndependenceRenderer);
+
+        _iterationCounter += gameTime.ElapsedGameTime.TotalSeconds;
+
+        if (_iterationCounter >= 0.01)
         {
-            _title.Rect = new Rectangle(ContentRect.Location, new Point(ContentRect.Width, 50));
-            _title.Draw(spriteBatch);
-
-            var benefitsPosition = new Vector2(ContentRect.Location.X + MARGIN, _title.Rect.Bottom + MARGIN);
-            var benefitsRect = new Rectangle(benefitsPosition.ToPoint(),
-                new Point(ContentRect.Width, ContentRect.Height - _title.Rect.Height - MARGIN));
-
-            switch (CombatResult)
-            {
-                case CombatResult.Victory:
-                    DrawVictoryBenefits(spriteBatch, benefitsRect);
-                    break;
-                case CombatResult.NextCombat:
-                    // Draw nothing
-                    break;
-                case CombatResult.Defeat:
-                    DrawDefeatBenefits(spriteBatch, benefitsRect);
-                    break;
-                default:
-                    Debug.Fail("Unknown combat result.");
-                    break;
-            }
-
-            _closeButton.Rect = new Rectangle(ContentRect.Center.X - 50, ContentRect.Bottom - 25, 100, 20);
-            _closeButton.Draw(spriteBatch);
+            _combatRewardList.Update();
+            _iterationCounter = 0;
         }
 
-        protected override void UpdateContent(GameTime gameTime,
-            IResolutionIndependentRenderer resolutionIndependenceRenderer)
-        {
-            base.UpdateContent(gameTime, resolutionIndependenceRenderer);
+        Debug.Assert(resolutionIndependenceRenderer is not null, "RIR used everywhere.");
+        _closeButton.Update(resolutionIndependenceRenderer);
+    }
 
-            _iterationCounter += gameTime.ElapsedGameTime.TotalSeconds;
+    private void CloseButton_OnClick(object? sender, EventArgs e)
+    {
+        Close();
+    }
 
-            if (_iterationCounter >= 0.01)
-            {
-                _combatRewardList.Update();
-                _iterationCounter = 0;
-            }
+    private void DrawDefeatBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)
+    {
+        //_biomeProgression.Rect =
+        //    new Rectangle(benefitsRect.Location, new Point(benefitsRect.Width, 32));
+        //_biomeProgression.Draw(spriteBatch);
+    }
 
-            Debug.Assert(resolutionIndependenceRenderer is not null, "RIR used everywhere.");
-            _closeButton.Update(resolutionIndependenceRenderer);
-        }
+    private void DrawVictoryBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)
+    {
+        //_biomeProgression.Rect =
+        //    new Rectangle(benefitsRect.Location, new Point(benefitsRect.Width, 32));
+        //_biomeProgression.Draw(spriteBatch);
 
-        private void CloseButton_OnClick(object? sender, EventArgs e)
-        {
-            Close();
-        }
+        const int REWARD_ITEM_MARGIN = 5;
 
-        private void DrawDefeatBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)
-        {
-            //_biomeProgression.Rect =
-            //    new Rectangle(benefitsRect.Location, new Point(benefitsRect.Width, 32));
-            //_biomeProgression.Draw(spriteBatch);
-        }
-
-        private void DrawVictoryBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)
-        {
-            //_biomeProgression.Rect =
-            //    new Rectangle(benefitsRect.Location, new Point(benefitsRect.Width, 32));
-            //_biomeProgression.Draw(spriteBatch);
-
-            const int REWARD_ITEM_MARGIN = 5;
-
-            _combatRewardList.Rect =
-                new Rectangle(benefitsRect.Location /*+ new Point(0, _biomeProgression.Rect.Height + BLOCK_MARGIN)*/,
-                    new Point(benefitsRect.Width, 2 * (32 + REWARD_ITEM_MARGIN)));
-            _combatRewardList.Draw(spriteBatch);
-        }
+        _combatRewardList.Rect =
+            new Rectangle(benefitsRect.Location /*+ new Point(0, _biomeProgression.Rect.Height + BLOCK_MARGIN)*/,
+                new Point(benefitsRect.Width, 2 * (32 + REWARD_ITEM_MARGIN)));
+        _combatRewardList.Draw(spriteBatch);
     }
 }

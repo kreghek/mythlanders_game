@@ -1,6 +1,5 @@
-namespace Rpg.Client.Core
+namespace Client.Core;
+
+internal sealed class JobScope : IJobScope
 {
-    internal sealed class JobScope : IJobScope
-    {
-    }
 }

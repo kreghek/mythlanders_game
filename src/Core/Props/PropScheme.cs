@@ -1,7 +1,6 @@
-﻿namespace Core.Props
+﻿namespace Core.Props;
+
+public sealed record PropScheme(string Sid) : IPropScheme
 {
-    public sealed record PropScheme(string Sid) : IPropScheme
-    {
-        public string?[]? Tags { get; init; }
-    }
+    public string?[]? Tags { get; init; }
 }

@@ -1,57 +1,56 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Client.Engine;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Engine;
+namespace Client.GameComponents;
 
-namespace Rpg.Client.GameComponents
+internal class TrackNameDisplay : DrawableGameComponent
 {
-    internal class TrackNameDisplay : DrawableGameComponent
+    private readonly SpriteFont _font;
+    private readonly SpriteBatch _spriteBatch;
+
+    public TrackNameDisplay(Game game, SpriteBatch spriteBatch, SpriteFont font) : base(game)
     {
-        private readonly SpriteFont _font;
-        private readonly SpriteBatch _spriteBatch;
+        _spriteBatch = spriteBatch;
+        _font = font;
+    }
 
-        public TrackNameDisplay(Game game, SpriteBatch spriteBatch, SpriteFont font) : base(game)
+    public override void Draw(GameTime gameTime)
+    {
+        var soundTrackManager = Game.Services.GetService<SoundtrackManager>();
+        if (soundTrackManager is null)
         {
-            _spriteBatch = spriteBatch;
-            _font = font;
+            return;
         }
 
-        public override void Draw(GameTime gameTime)
+        var trackName = soundTrackManager.CurrentTrackName;
+        if (trackName is null)
         {
-            var soundTrackManager = Game.Services.GetService<SoundtrackManager>();
-            if (soundTrackManager is null)
-            {
-                return;
-            }
-
-            var trackName = soundTrackManager.CurrentTrackName;
-            if (trackName is null)
-            {
-                return;
-            }
-
-            var size = _font.MeasureString(trackName);
-
-            _spriteBatch.Begin();
-
-            const int BORDER = 2;
-            const int SHADOW_OFFSET = 1;
-            var position = new Vector2(Game.GraphicsDevice.Viewport.Bounds.Right - size.X - BORDER,
-                Game.GraphicsDevice.Viewport.Bounds.Bottom - size.Y - BORDER - 30);
-            var shadowOffset = new Vector2(SHADOW_OFFSET, SHADOW_OFFSET);
-            var shadowPosition = position + shadowOffset;
-
-            _spriteBatch.DrawString(
-                _font,
-                trackName,
-                shadowPosition,
-                Color.Gray);
-            _spriteBatch.DrawString(
-                _font,
-                trackName,
-                position,
-                Color.White);
-            _spriteBatch.End();
+            return;
         }
+
+        var size = _font.MeasureString(trackName);
+
+        _spriteBatch.Begin();
+
+        const int BORDER = 2;
+        const int SHADOW_OFFSET = 1;
+        var position = new Vector2(Game.GraphicsDevice.Viewport.Bounds.Right - size.X - BORDER,
+            Game.GraphicsDevice.Viewport.Bounds.Bottom - size.Y - BORDER - 30);
+        var shadowOffset = new Vector2(SHADOW_OFFSET, SHADOW_OFFSET);
+        var shadowPosition = position + shadowOffset;
+
+        _spriteBatch.DrawString(
+            _font,
+            trackName,
+            shadowPosition,
+            Color.Gray);
+        _spriteBatch.DrawString(
+            _font,
+            trackName,
+            position,
+            Color.White);
+        _spriteBatch.End();
     }
 }

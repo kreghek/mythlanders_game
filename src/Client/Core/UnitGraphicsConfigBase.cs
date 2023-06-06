@@ -2,8 +2,6 @@
 
 using Microsoft.Xna.Framework;
 
-using Rpg.Client.Core;
-
 namespace Client.Core;
 
 internal abstract class UnitGraphicsConfigBase

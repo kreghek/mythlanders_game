@@ -4,8 +4,6 @@ using System.Linq;
 
 using Core.Combats;
 
-using Rpg.Client.Core;
-
 namespace Client.Core.Heroes;
 
 internal sealed class Hero

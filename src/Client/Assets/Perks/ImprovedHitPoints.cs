@@ -3,23 +3,22 @@ using System.Collections.Generic;
 
 using Core.Combats;
 
-namespace Rpg.Client.Assets.Perks
+namespace Client.Assets.Perks;
+
+internal sealed class ImprovedHitPoints : ImprovedStatBase
 {
-    internal sealed class ImprovedHitPoints : ImprovedStatBase
+    private const float HITPOINTS_BONUS = 1.5f;
+
+    public override void ApplyToStats(ref float maxHitpoints, ref float armorBonus)
     {
-        private const float HITPOINTS_BONUS = 1.5f;
+        maxHitpoints = (float)Math.Round(maxHitpoints * HITPOINTS_BONUS);
+    }
 
-        public override void ApplyToStats(ref float maxHitpoints, ref float armorBonus)
+    public override IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers()
+    {
+        return new (UnitStatType, IUnitStatModifier)[]
         {
-            maxHitpoints = (float)Math.Round(maxHitpoints * HITPOINTS_BONUS);
-        }
-
-        public override IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers()
-        {
-            return new (UnitStatType, IUnitStatModifier)[]
-            {
-                new(UnitStatType.HitPoints, new StatModifier(1))
-            };
-        }
+            new(UnitStatType.HitPoints, new StatModifier(1))
+        };
     }
 }

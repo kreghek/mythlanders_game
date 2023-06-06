@@ -3,71 +3,70 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Rpg.Client.Core
+namespace Client.Core;
+
+public static class StringHelper
 {
-    public static class StringHelper
+    public static readonly IReadOnlyList<char> WordBreakers = new[] { ' ' };
+    public static readonly IReadOnlyList<char> SourceNewLineCharacters = new[] { '\n' };
+
+    public static string LineBreaking(string text, int maxInLine)
     {
-        public static readonly IReadOnlyList<char> WordBreakers = new[] { ' ' };
-        public static readonly IReadOnlyList<char> SourceNewLineCharacters = new[] { '\n' };
-
-        public static string LineBreaking(string text, int maxInLine)
+        var items = text.Split(SourceNewLineCharacters.ToArray());
+        var mainSb = new StringBuilder();
+        var singleSb = new StringBuilder();
+        foreach (var item in items)
         {
-            var items = text.Split(SourceNewLineCharacters.ToArray());
-            var mainSb = new StringBuilder();
-            var singleSb = new StringBuilder();
-            foreach (var item in items)
+            var words = item.Split(WordBreakers.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+
+            singleSb.Clear();
+            var isFirstInLine = true;
+            foreach (var word in words)
             {
-                var words = item.Split(WordBreakers.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+                AppendWord(word, singleSb, isFirstInLine);
 
-                singleSb.Clear();
-                var isFirstInLine = true;
-                foreach (var word in words)
+                if (singleSb.Length <= maxInLine)
                 {
-                    AppendWord(word, singleSb, isFirstInLine);
+                    AppendWord(word, mainSb, isFirstInLine);
+                }
+                else
+                {
+                    StartNewLine(mainSb, singleSb);
 
-                    if (singleSb.Length <= maxInLine)
-                    {
-                        AppendWord(word, mainSb, isFirstInLine);
-                    }
-                    else
-                    {
-                        StartNewLine(mainSb, singleSb);
-
-                        AppendWord(word, singleSb, isFirstInLine: true);
-                        AppendWord(word, mainSb, isFirstInLine: true);
-                    }
-
-                    isFirstInLine = false;
+                    AppendWord(word, singleSb, isFirstInLine: true);
+                    AppendWord(word, mainSb, isFirstInLine: true);
                 }
 
-                StartNewLine(mainSb, singleSb: null);
+                isFirstInLine = false;
             }
 
-            return mainSb.ToString().Trim();
+            StartNewLine(mainSb, singleSb: null);
         }
 
-        /// <summary>
-        /// Replaces characters that are not in the font table with the correct ones.
-        /// </summary>
-        internal static string FixText(string text)
+        return mainSb.ToString().Trim();
+    }
+
+    /// <summary>
+    /// Replaces characters that are not in the font table with the correct ones.
+    /// </summary>
+    internal static string FixText(string text)
+    {
+        return text.Replace('�', '�').Replace('�', '�').Replace("�", "...");
+    }
+
+    private static void AppendWord(string word, StringBuilder sb, bool isFirstInLine)
+    {
+        if (!isFirstInLine)
         {
-            return text.Replace('�', '�').Replace('�', '�').Replace("�", "...");
+            sb.Append(' ');
         }
 
-        private static void AppendWord(string word, StringBuilder sb, bool isFirstInLine)
-        {
-            if (!isFirstInLine)
-            {
-                sb.Append(' ');
-            }
+        sb.Append(word);
+    }
 
-            sb.Append(word);
-        }
-
-        private static void StartNewLine(StringBuilder mainSb, StringBuilder? singleSb)
-        {
-            singleSb?.Clear();
-            mainSb.AppendLine();
-        }
+    private static void StartNewLine(StringBuilder mainSb, StringBuilder? singleSb)
+    {
+        singleSb?.Clear();
+        mainSb.AppendLine();
     }
 }

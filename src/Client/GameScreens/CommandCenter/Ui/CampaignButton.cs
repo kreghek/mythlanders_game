@@ -1,10 +1,8 @@
 ﻿using Client.Core;
+using Client.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Rpg.Client.Engine;
-using Rpg.Client.GameScreens;
 
 namespace Client.GameScreens.CommandCenter.Ui;
 

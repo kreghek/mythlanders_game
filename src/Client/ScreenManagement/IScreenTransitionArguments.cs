@@ -1,6 +1,5 @@
-namespace Rpg.Client.ScreenManagement
+namespace Client.ScreenManagement;
+
+internal interface IScreenTransitionArguments
 {
-    internal interface IScreenTransitionArguments
-    {
-    }
 }

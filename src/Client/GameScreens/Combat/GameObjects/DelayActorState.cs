@@ -1,34 +1,31 @@
-﻿using Client.GameScreens.Combat.GameObjects;
+﻿using Microsoft.Xna.Framework;
 
-using Microsoft.Xna.Framework;
+namespace Client.GameScreens.Combat.GameObjects;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects
+public sealed class DelayActorState : IActorVisualizationState
 {
-    public sealed class DelayActorState : IActorVisualizationState
+    private double _counterSeconds;
+
+    public DelayActorState(Duration duration)
     {
-        private double _counterSeconds;
+        _counterSeconds = duration.Seconds;
+    }
 
-        public DelayActorState(Duration duration)
+    public bool CanBeReplaced => true;
+
+    public bool IsComplete => _counterSeconds <= 0;
+
+    public void Cancel()
+    {
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        if (IsComplete)
         {
-            _counterSeconds = duration.Seconds;
+            return;
         }
 
-        public bool CanBeReplaced => true;
-
-        public bool IsComplete => _counterSeconds <= 0;
-
-        public void Cancel()
-        {
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            if (IsComplete)
-            {
-                return;
-            }
-
-            _counterSeconds -= gameTime.ElapsedGameTime.TotalSeconds;
-        }
+        _counterSeconds -= gameTime.ElapsedGameTime.TotalSeconds;
     }
 }

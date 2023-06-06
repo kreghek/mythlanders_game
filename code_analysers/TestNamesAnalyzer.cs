@@ -1,13 +1,13 @@
 using System.Collections.Immutable;
 
-using CodeAnalyzers.Utils;
+using CodeAnalysers.Utils;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace CodeAnalyzers;
+namespace CodeAnalysers;
 
 /// <summary>
 /// Анализатор проверяет, что названия методов тестов соответствуют принятой конвенции кодирования (underscore).

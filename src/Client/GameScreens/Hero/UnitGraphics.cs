@@ -1,19 +1,16 @@
 using Client.Core;
+using Client.Engine;
 using Client.GameScreens;
 
 using Microsoft.Xna.Framework;
 
-using Rpg.Client.Core;
-using Rpg.Client.Engine;
+namespace Client.GameScreens.Hero;
 
-namespace Rpg.Client.GameScreens.Hero
+internal sealed class UnitGraphics : UnitGraphicsBase
 {
-    internal sealed class UnitGraphics : UnitGraphicsBase
+    public UnitGraphics(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig, bool isNormalOrientation,
+        Vector2 position, GameObjectContentStorage gameObjectContentStorage) :
+        base(spriteSheetId, graphicsConfig, isNormalOrientation, position, gameObjectContentStorage)
     {
-        public UnitGraphics(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig, bool isNormalOrientation,
-            Vector2 position, GameObjectContentStorage gameObjectContentStorage) :
-            base(spriteSheetId, graphicsConfig, isNormalOrientation, position, gameObjectContentStorage)
-        {
-        }
     }
 }

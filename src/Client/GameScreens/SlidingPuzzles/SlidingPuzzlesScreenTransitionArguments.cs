@@ -1,16 +1,14 @@
 ﻿using Client.Core.Campaigns;
+using Client.ScreenManagement;
 
-using Rpg.Client.ScreenManagement;
+namespace Client.GameScreens.SlidingPuzzles;
 
-namespace Client.GameScreens.SlidingPuzzles
+internal sealed class SlidingPuzzlesScreenTransitionArguments : IScreenTransitionArguments
 {
-    internal sealed class SlidingPuzzlesScreenTransitionArguments : IScreenTransitionArguments
+    public SlidingPuzzlesScreenTransitionArguments(HeroCampaign campaign)
     {
-        public SlidingPuzzlesScreenTransitionArguments(HeroCampaign campaign)
-        {
-            Campaign = campaign;
-        }
-
-        public HeroCampaign Campaign { get; }
+        Campaign = campaign;
     }
+
+    public HeroCampaign Campaign { get; }
 }

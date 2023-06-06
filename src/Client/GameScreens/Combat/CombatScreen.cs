@@ -14,8 +14,10 @@ using Client.Engine;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Combat.CombatDebugElements;
 using Client.GameScreens.Combat.GameObjects;
+using Client.GameScreens.Combat.GameObjects.Background;
 using Client.GameScreens.Combat.Ui;
 using Client.GameScreens.CommandCenter;
+using Client.ScreenManagement;
 
 using Core.Combats;
 using Core.Combats.BotBehaviour;
@@ -30,16 +32,9 @@ using Microsoft.Xna.Framework.Input;
 
 using MonoGame;
 
-using Rpg.Client;
-using Rpg.Client.Core;
-using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat;
-using Rpg.Client.GameScreens.Combat.GameObjects;
-using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.GameScreens.Combat.Tutorial;
-using Rpg.Client.GameScreens.Combat.Ui;
 using Rpg.Client.GameScreens.Common;
-using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Combat;
 

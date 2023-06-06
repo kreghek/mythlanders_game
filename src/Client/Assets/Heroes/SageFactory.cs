@@ -1,27 +1,27 @@
+using Client.Core;
+
 using Rpg.Client.Assets.Equipments.Sage;
-using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Heroes
+namespace Client.Assets.Heroes;
+
+internal class SageFactory : HeroFactoryBase
 {
-    internal class SageFactory : HeroFactoryBase
+    public override UnitName HeroName => UnitName.Sage;
+
+    protected override IEquipmentScheme[] GetEquipment()
     {
-        public override UnitName HeroName => UnitName.Sage;
-
-        protected override IEquipmentScheme[] GetEquipment()
+        return new IEquipmentScheme[]
         {
-            return new IEquipmentScheme[]
-            {
-                new EmptinessInTheHand(),
-                new DeceptivelyLightRobe(),
-                new MagicAndMechanicalBox()
-            };
-        }
+            new EmptinessInTheHand(),
+            new DeceptivelyLightRobe(),
+            new MagicAndMechanicalBox()
+        };
+    }
 
-        protected override IUnitLevelScheme[] GetLevels()
+    protected override IUnitLevelScheme[] GetLevels()
+    {
+        return new IUnitLevelScheme[]
         {
-            return new IUnitLevelScheme[]
-            {
-            };
-        }
+        };
     }
 }

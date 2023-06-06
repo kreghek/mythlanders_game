@@ -1,36 +1,34 @@
-﻿using Client.GameScreens.Combat.GameObjects;
+﻿using Client.Engine;
+using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
 
-using Rpg.Client.Engine;
+namespace Client.GameScreens.Combat.GameObjects.CommonStates;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
+internal class EmptyState : IActorVisualizationState
 {
-    internal class EmptyState : IActorVisualizationState
+    private readonly AnimationBlocker _mainStateBlocker;
+
+    public EmptyState(AnimationBlocker mainStateBlocker)
     {
-        private readonly AnimationBlocker _mainStateBlocker;
+        _mainStateBlocker = mainStateBlocker;
+    }
 
-        public EmptyState(AnimationBlocker mainStateBlocker)
+    public bool CanBeReplaced => true;
+
+    public bool IsComplete { get; private set; }
+
+    public void Cancel()
+    {
+        _mainStateBlocker.Release();
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        if (!IsComplete)
         {
-            _mainStateBlocker = mainStateBlocker;
-        }
-
-        public bool CanBeReplaced => true;
-
-        public bool IsComplete { get; private set; }
-
-        public void Cancel()
-        {
+            IsComplete = true;
             _mainStateBlocker.Release();
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            if (!IsComplete)
-            {
-                IsComplete = true;
-                _mainStateBlocker.Release();
-            }
         }
     }
 }

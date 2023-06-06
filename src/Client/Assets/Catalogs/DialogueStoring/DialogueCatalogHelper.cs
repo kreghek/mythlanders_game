@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.DialogueOptionAftermath;
+using Client.Core;
 using Client.Core.Dialogues;
-
-using Rpg.Client.Core;
-using Rpg.Client.Core.Dialogues;
 
 namespace Client.Assets.Catalogs.DialogueStoring;
 

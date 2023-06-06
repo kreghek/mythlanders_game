@@ -1,8 +1,6 @@
 using Client.Core;
 using Client.Core.Dialogues;
 
-using Rpg.Client.Core.Dialogues;
-
 namespace Client.Assets.DialogueOptionAftermath;
 
 internal sealed class UnlockLocationOptionAftermath : IDialogueOptionAftermath

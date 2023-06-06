@@ -1,8 +1,6 @@
 using Client.Core;
 using Client.Core.Campaigns;
-
-using Rpg.Client.Core;
-using Rpg.Client.Core.Dialogues;
+using Client.Core.Dialogues;
 
 namespace Client.GameScreens.Combat;
 

@@ -1,15 +1,14 @@
 ﻿using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 
-namespace Rpg.Client.Engine
+namespace Client.Engine;
+
+internal interface IUiSoundStorage
 {
-    internal interface IUiSoundStorage
-    {
-        bool ContentWasLoaded { get; }
+    bool ContentWasLoaded { get; }
 
-        SoundEffect GetButtonClickEffect();
-        SoundEffect GetButtonHoverEffect();
+    SoundEffect GetButtonClickEffect();
+    SoundEffect GetButtonHoverEffect();
 
-        void LoadContent(ContentManager contentManager);
-    }
+    void LoadContent(ContentManager contentManager);
 }

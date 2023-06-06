@@ -1,9 +1,8 @@
-﻿namespace Rpg.Client.GameScreens.Combat.GameObjects
+﻿namespace Client.GameScreens.Combat.GameObjects;
+
+internal enum CombatPowerRange
 {
-    internal enum CombatPowerRange
-    {
-        Undefined = 0,
-        Melee,
-        Distant
-    }
+    Undefined = 0,
+    Melee,
+    Distant
 }

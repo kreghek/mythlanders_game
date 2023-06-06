@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Client;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.CampaignReward;
 using Client.GameScreens.Combat;
@@ -23,169 +22,168 @@ using Rpg.Client.GameScreens.EndGame;
 using Rpg.Client.GameScreens.Hero;
 using Rpg.Client.GameScreens.Intro;
 
-namespace Rpg.Client.ScreenManagement
+namespace Client.ScreenManagement;
+
+internal class ScreenManager : IScreenManager
 {
-    internal class ScreenManager : IScreenManager
+    private const double TRANSITION_DURATION = 1;
+    private readonly TestamentGame _game;
+    private readonly GameSettings _gameSettings;
+    private readonly Texture2D _transitionTexture;
+    private bool _screenChanged;
+
+    private double? _transitionCounter;
+
+    public ScreenManager(TestamentGame game, GameSettings gameSettings)
     {
-        private const double TRANSITION_DURATION = 1;
-        private readonly TestamentGame _game;
-        private readonly GameSettings _gameSettings;
-        private readonly Texture2D _transitionTexture;
-        private bool _screenChanged;
+        _game = game;
+        _gameSettings = gameSettings;
+        var colors = new[] { Color.Black };
+        _transitionTexture = new Texture2D(game.GraphicsDevice, 1, 1);
+        _transitionTexture.SetData(colors);
+    }
 
-        private double? _transitionCounter;
+    public IScreen? ActiveScreen { get; set; }
 
-        public ScreenManager(TestamentGame game, GameSettings gameSettings)
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        if (ActiveScreen is not null)
         {
-            _game = game;
-            _gameSettings = gameSettings;
-            var colors = new[] { Color.Black };
-            _transitionTexture = new Texture2D(game.GraphicsDevice, 1, 1);
-            _transitionTexture.SetData(colors);
+            ActiveScreen.Draw(spriteBatch);
         }
 
-        public IScreen? ActiveScreen { get; set; }
+        DrawTransition(spriteBatch);
+    }
 
-        public void Draw(SpriteBatch spriteBatch)
+    public void InitStartScreen()
+    {
+        if (_gameSettings.Mode == GameMode.Full)
         {
-            if (ActiveScreen is not null)
-            {
-                ActiveScreen.Draw(spriteBatch);
-            }
+            var startScreen = new IntroScreen(_game);
+            ActiveScreen = startScreen;
+        }
+        else
+        {
+            var startScreen = new TitleScreen(_game);
+            ActiveScreen = startScreen;
+        }
+    }
 
-            DrawTransition(spriteBatch);
+    public void Update(GameTime gameTime)
+    {
+        if (ActiveScreen is null)
+        {
+            return;
         }
 
-        public void InitStartScreen()
-        {
-            if (_gameSettings.Mode == GameMode.Full)
-            {
-                var startScreen = new IntroScreen(_game);
-                ActiveScreen = startScreen;
-            }
-            else
-            {
-                var startScreen = new TitleScreen(_game);
-                ActiveScreen = startScreen;
-            }
-        }
+        ActiveScreen.Update(gameTime);
 
-        public void Update(GameTime gameTime)
-        {
-            if (ActiveScreen is null)
-            {
-                return;
-            }
-
-            ActiveScreen.Update(gameTime);
-
-            if (ActiveScreen.TargetScreen is not null)
-            {
-                if (_transitionCounter is null)
-                {
-                    _transitionCounter = 0;
-                }
-            }
-
-            if (_transitionCounter is not null)
-            {
-                if (_transitionCounter.Value < TRANSITION_DURATION)
-                {
-                    _transitionCounter += gameTime.ElapsedGameTime.TotalSeconds;
-
-                    if (_transitionCounter.Value > TRANSITION_DURATION / 2 && !_screenChanged)
-                    {
-                        _screenChanged = true;
-
-                        ActiveScreen = ActiveScreen.TargetScreen;
-                    }
-                }
-                else
-                {
-                    _transitionCounter = null;
-                    _screenChanged = false;
-                }
-            }
-        }
-
-        private IScreen CreateScreenToTransit(ScreenTransition targetTransition,
-            IScreenTransitionArguments screenTransitionArguments)
-        {
-            return targetTransition switch
-            {
-                ScreenTransition.Title => new TitleScreen(_game),
-                ScreenTransition.Campaign => new CampaignScreen(_game,
-                    (CampaignScreenTransitionArguments)screenTransitionArguments),
-                ScreenTransition.CommandCenter => new CommandCenterScreen(_game,
-                    (CommandCenterScreenTransitionArguments)screenTransitionArguments),
-                ScreenTransition.Hero => new HeroScreen(_game),
-                ScreenTransition.Event => new TextDialogueScreen(_game,
-                    (TextDialogueScreenTransitionArgs)screenTransitionArguments),
-                ScreenTransition.Combat => new CombatScreen(_game,
-                    (CombatScreenTransitionArguments)screenTransitionArguments),
-                ScreenTransition.Rest => new RestScreen(_game,
-                    (RestScreenTransitionArguments)screenTransitionArguments),
-                ScreenTransition.Crisis => new CrisisScreen(_game,
-                    (CrisisScreenTransitionArguments)screenTransitionArguments),
-                ScreenTransition.Training => new TrainingScreen(_game,
-                    (TrainingScreenTransitionArguments)screenTransitionArguments),
-                ScreenTransition.SlidingPuzzles => new SlidingPuzzlesScreen(_game,
-                    (SlidingPuzzlesScreenTransitionArguments)screenTransitionArguments),
-                ScreenTransition.CampaignReward => new CampaignRewardScreen(_game,
-                    (CampaignRewardScreenTransitionArguments)screenTransitionArguments),
-                ScreenTransition.Bestiary => new BestiaryScreen(_game),
-                ScreenTransition.Credits => new CreditsScreen(_game),
-                ScreenTransition.EndGame => new EndGameScreen(_game),
-                ScreenTransition.NotImplemented => new NotImplementedStageScreen(_game,
-                    (NotImplementedStageScreenTransitionArguments)screenTransitionArguments),
-                ScreenTransition.VoiceCombat => new VoiceCombatScreen(_game,
-                    (VoiceCombatScreenTransitionArguments)screenTransitionArguments),
-                _ => throw new ArgumentException("Unknown transition", nameof(targetTransition))
-            };
-        }
-
-        private void DrawTransition(SpriteBatch spriteBatch)
+        if (ActiveScreen.TargetScreen is not null)
         {
             if (_transitionCounter is null)
             {
-                return;
+                _transitionCounter = 0;
             }
+        }
 
-            spriteBatch.Begin();
-
-            var t = _transitionCounter.Value / TRANSITION_DURATION;
-
-            if (t < 0.5)
+        if (_transitionCounter is not null)
+        {
+            if (_transitionCounter.Value < TRANSITION_DURATION)
             {
-                var t2 = t * 2;
-                spriteBatch.Draw(_transitionTexture,
-                    new Rectangle(
-                        0,
-                        0,
-                        (int)(_game.GraphicsDevice.Viewport.Width * t2),
-                        _game.GraphicsDevice.Viewport.Height),
-                    Color.White);
+                _transitionCounter += gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (_transitionCounter.Value > TRANSITION_DURATION / 2 && !_screenChanged)
+                {
+                    _screenChanged = true;
+
+                    ActiveScreen = ActiveScreen.TargetScreen;
+                }
             }
             else
             {
-                var t2 = (t - 0.5) * 2;
-                spriteBatch.Draw(_transitionTexture,
-                    new Rectangle(
-                        (int)(_game.GraphicsDevice.Viewport.Width * t2),
-                        0,
-                        _game.GraphicsDevice.Viewport.Width,
-                        _game.GraphicsDevice.Viewport.Height),
-                    Color.White);
+                _transitionCounter = null;
+                _screenChanged = false;
             }
-
-            spriteBatch.End();
         }
+    }
 
-        public void ExecuteTransition(IScreen currentScreen, ScreenTransition targetTransition,
-            IScreenTransitionArguments args)
+    private IScreen CreateScreenToTransit(ScreenTransition targetTransition,
+        IScreenTransitionArguments screenTransitionArguments)
+    {
+        return targetTransition switch
         {
-            var targetScreen = CreateScreenToTransit(targetTransition, args);
-            currentScreen.TargetScreen = targetScreen;
+            ScreenTransition.Title => new TitleScreen(_game),
+            ScreenTransition.Campaign => new CampaignScreen(_game,
+                (CampaignScreenTransitionArguments)screenTransitionArguments),
+            ScreenTransition.CommandCenter => new CommandCenterScreen(_game,
+                (CommandCenterScreenTransitionArguments)screenTransitionArguments),
+            ScreenTransition.Hero => new HeroScreen(_game),
+            ScreenTransition.Event => new TextDialogueScreen(_game,
+                (TextDialogueScreenTransitionArgs)screenTransitionArguments),
+            ScreenTransition.Combat => new CombatScreen(_game,
+                (CombatScreenTransitionArguments)screenTransitionArguments),
+            ScreenTransition.Rest => new RestScreen(_game,
+                (RestScreenTransitionArguments)screenTransitionArguments),
+            ScreenTransition.Crisis => new CrisisScreen(_game,
+                (CrisisScreenTransitionArguments)screenTransitionArguments),
+            ScreenTransition.Training => new TrainingScreen(_game,
+                (TrainingScreenTransitionArguments)screenTransitionArguments),
+            ScreenTransition.SlidingPuzzles => new SlidingPuzzlesScreen(_game,
+                (SlidingPuzzlesScreenTransitionArguments)screenTransitionArguments),
+            ScreenTransition.CampaignReward => new CampaignRewardScreen(_game,
+                (CampaignRewardScreenTransitionArguments)screenTransitionArguments),
+            ScreenTransition.Bestiary => new BestiaryScreen(_game),
+            ScreenTransition.Credits => new CreditsScreen(_game),
+            ScreenTransition.EndGame => new EndGameScreen(_game),
+            ScreenTransition.NotImplemented => new NotImplementedStageScreen(_game,
+                (NotImplementedStageScreenTransitionArguments)screenTransitionArguments),
+            ScreenTransition.VoiceCombat => new VoiceCombatScreen(_game,
+                (VoiceCombatScreenTransitionArguments)screenTransitionArguments),
+            _ => throw new ArgumentException("Unknown transition", nameof(targetTransition))
+        };
+    }
+
+    private void DrawTransition(SpriteBatch spriteBatch)
+    {
+        if (_transitionCounter is null)
+        {
+            return;
         }
+
+        spriteBatch.Begin();
+
+        var t = _transitionCounter.Value / TRANSITION_DURATION;
+
+        if (t < 0.5)
+        {
+            var t2 = t * 2;
+            spriteBatch.Draw(_transitionTexture,
+                new Rectangle(
+                    0,
+                    0,
+                    (int)(_game.GraphicsDevice.Viewport.Width * t2),
+                    _game.GraphicsDevice.Viewport.Height),
+                Color.White);
+        }
+        else
+        {
+            var t2 = (t - 0.5) * 2;
+            spriteBatch.Draw(_transitionTexture,
+                new Rectangle(
+                    (int)(_game.GraphicsDevice.Viewport.Width * t2),
+                    0,
+                    _game.GraphicsDevice.Viewport.Width,
+                    _game.GraphicsDevice.Viewport.Height),
+                Color.White);
+        }
+
+        spriteBatch.End();
+    }
+
+    public void ExecuteTransition(IScreen currentScreen, ScreenTransition targetTransition,
+        IScreenTransitionArguments args)
+    {
+        var targetScreen = CreateScreenToTransit(targetTransition, args);
+        currentScreen.TargetScreen = targetScreen;
     }
 }

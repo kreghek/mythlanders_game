@@ -3,8 +3,6 @@ using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 
-using Rpg.Client.Core;
-
 namespace Client.Core.AnimationFrameSets;
 
 internal class LinearAnimationFrameSet : IAnimationFrameSet

@@ -2,50 +2,50 @@
 using System.Collections.Generic;
 
 using Client.Core.Campaigns;
+using Client.Engine;
 using Client.GameScreens.Campaign;
+using Client.ScreenManagement;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
-using Rpg.Client.ScreenManagement;
 
-namespace Client.GameScreens.Tactical
+namespace Client.GameScreens.Tactical;
+
+internal sealed class TacticalScreen : GameScreenWithMenuBase
 {
-    internal sealed class TacticalScreen : GameScreenWithMenuBase
+    private readonly HeroCampaign _campaign;
+
+    public TacticalScreen(TestamentGame game, TacticalScreenTransitionArguments args) : base(game)
     {
-        private readonly HeroCampaign _campaign;
+        _campaign = args.HeroCampaign;
+    }
 
-        public TacticalScreen(TestamentGame game, TacticalScreenTransitionArguments args) : base(game)
+    protected override IList<ButtonBase> CreateMenu()
+    {
+        var closeButton = new TextButton("Close");
+        closeButton.OnClick += CloseButton_OnClick;
+
+        return new[]
         {
-            _campaign = args.HeroCampaign;
-        }
+            closeButton
+        };
+    }
 
-        protected override IList<ButtonBase> CreateMenu()
-        {
-            var closeButton = new TextButton("Close");
-            closeButton.OnClick += CloseButton_OnClick;
+    protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        throw new NotImplementedException();
+    }
 
-            return new[]
-            {
-                closeButton
-            };
-        }
+    protected override void InitializeContent()
+    {
+        throw new NotImplementedException();
+    }
 
-        protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void InitializeContent()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void CloseButton_OnClick(object? sender, EventArgs e)
-        {
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                new CampaignScreenTransitionArguments(_campaign));
-        }
+    private void CloseButton_OnClick(object? sender, EventArgs e)
+    {
+        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+            new CampaignScreenTransitionArguments(_campaign));
     }
 }

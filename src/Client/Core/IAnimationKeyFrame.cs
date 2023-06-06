@@ -1,7 +1,6 @@
-﻿namespace Rpg.Client.Core
+﻿namespace Client.Core;
+
+internal interface IAnimationKeyFrame
 {
-    internal interface IAnimationKeyFrame
-    {
-        int Index { get; }
-    }
+    int Index { get; }
 }

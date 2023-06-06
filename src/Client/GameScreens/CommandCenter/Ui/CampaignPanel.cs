@@ -6,8 +6,6 @@ using Client.Engine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Engine;
-
 namespace Client.GameScreens.CommandCenter.Ui;
 
 internal sealed class CampaignPanel : ControlBase

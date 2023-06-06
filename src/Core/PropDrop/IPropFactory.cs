@@ -1,28 +1,27 @@
 ﻿using Core.Props;
 
-namespace Core.PropDrop
+namespace Core.PropDrop;
+
+/// <summary>
+/// Фабрика предметов.
+/// </summary>
+public interface IPropFactory
 {
     /// <summary>
-    /// Фабрика предметов.
+    /// Создаёт ресурс на основе схемы.
     /// </summary>
-    public interface IPropFactory
-    {
-        /// <summary>
-        /// Создаёт ресурс на основе схемы.
-        /// </summary>
-        /// <param name="scheme"> Схема ресурса. </param>
-        /// <param name="count"> Количество ресурса. </param>
-        /// <returns> Возвращает экземпляр созданного ресурса. </returns>
-        Resource CreateResource(IPropScheme scheme, int count);
-    }
+    /// <param name="scheme"> Схема ресурса. </param>
+    /// <param name="count"> Количество ресурса. </param>
+    /// <returns> Возвращает экземпляр созданного ресурса. </returns>
+    Resource CreateResource(IPropScheme scheme, int count);
+}
 
-    public class PropFactory : IPropFactory
+public class PropFactory : IPropFactory
+{
+    public Resource CreateResource(IPropScheme scheme, int count)
     {
-        public Resource CreateResource(IPropScheme scheme, int count)
-        {
-            var resource = new Resource(scheme, count);
+        var resource = new Resource(scheme, count);
 
-            return resource;
-        }
+        return resource;
     }
 }

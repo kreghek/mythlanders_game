@@ -3,6 +3,7 @@ using System.Linq;
 
 using Client.Assets;
 using Client.Assets.Dialogues;
+using Client.Core;
 using Client.Core.Dialogues;
 
 using FluentAssertions;
@@ -11,9 +12,7 @@ using Moq;
 
 using NUnit.Framework;
 
-using Rpg.Client.Core;
-
-namespace Rpg.Client.Tests.Assets.Dialogues;
+namespace Client.Tests.Assets.Dialogues;
 
 [TestFixture(Category = "Assets")]
 public class SynthAsParentDialogueEventFactoryTests

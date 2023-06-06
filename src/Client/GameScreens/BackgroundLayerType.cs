@@ -1,11 +1,10 @@
-﻿namespace Rpg.Client.GameScreens
+﻿namespace Client.GameScreens;
+
+internal enum BackgroundLayerType
 {
-    internal enum BackgroundLayerType
-    {
-        Clouds, // Rename to horizon
-        Semi, // Rename to Far
-        Far, // Rename to Closest
-        Main,
-        Closest // Rename to foreground
-    }
+    Clouds, // Rename to horizon
+    Semi, // Rename to Far
+    Far, // Rename to Closest
+    Main,
+    Closest // Rename to foreground
 }

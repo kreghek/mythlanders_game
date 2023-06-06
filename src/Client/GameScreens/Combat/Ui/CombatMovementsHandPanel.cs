@@ -11,9 +11,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using Rpg.Client.Engine;
-using Rpg.Client.GameScreens;
-
 namespace Client.GameScreens.Combat.Ui;
 
 internal sealed class WaitIconButton : ButtonBase

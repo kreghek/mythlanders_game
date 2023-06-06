@@ -1,23 +1,24 @@
 using System;
 
-using Rpg.Client.Core;
+using Client.Core;
 
-namespace Rpg.Client.Assets.Equipments.Archer
+using Rpg.Client.Assets.Equipments;
+
+namespace Client.Assets.Equipments.Archer;
+
+internal sealed class Mk3ScoutPowerArmor : IEquipmentScheme
 {
-    internal sealed class Mk3ScoutPowerArmor : IEquipmentScheme
+    public EquipmentSid Sid => EquipmentSid.ArcherMk3ScoutPowerArmor;
+
+    public string GetDescription()
     {
-        public EquipmentSid Sid => EquipmentSid.ArcherMk3ScoutPowerArmor;
-
-        public string GetDescription()
-        {
-            throw new NotImplementedException();
-        }
-
-        public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Archer;
-
-        public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 5
-        };
+        throw new NotImplementedException();
     }
+
+    public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Archer;
+
+    public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
+    {
+        IconOneBasedIndex = 5
+    };
 }

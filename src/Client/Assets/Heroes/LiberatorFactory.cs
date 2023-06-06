@@ -1,27 +1,27 @@
+using Client.Core;
+
 using Rpg.Client.Assets.Equipments.Liberator;
-using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Heroes
+namespace Client.Assets.Heroes;
+
+internal class LiberatorFactory : HeroFactoryBase
 {
-    internal class LiberatorFactory : HeroFactoryBase
+    public override UnitName HeroName => UnitName.Liberator;
+
+    protected override IEquipmentScheme[] GetEquipment()
     {
-        public override UnitName HeroName => UnitName.Liberator;
-
-        protected override IEquipmentScheme[] GetEquipment()
+        return new IEquipmentScheme[]
         {
-            return new IEquipmentScheme[]
-            {
-                new VoiceModulator(),
-                new HiddenExoskeleton(),
-                new NewLawCodexOfFreedom()
-            };
-        }
+            new VoiceModulator(),
+            new HiddenExoskeleton(),
+            new NewLawCodexOfFreedom()
+        };
+    }
 
-        protected override IUnitLevelScheme[] GetLevels()
+    protected override IUnitLevelScheme[] GetLevels()
+    {
+        return new IUnitLevelScheme[]
         {
-            return new IUnitLevelScheme[]
-            {
-            };
-        }
+        };
     }
 }

@@ -1,23 +1,20 @@
 using Client.Core;
 
-using Rpg.Client.Core;
+namespace Client.Assets.StoryPointAftermaths;
 
-namespace Rpg.Client.Assets.StoryPointAftermaths
+internal sealed class AddActivateStoryPointAftermath : IStoryPointAftermath
 {
-    internal sealed class AddActivateStoryPointAftermath : IStoryPointAftermath
+    private readonly Globe _globe;
+    private readonly IStoryPoint _newStoryPoint;
+
+    public AddActivateStoryPointAftermath(IStoryPoint newStoryPoint, Globe globe)
     {
-        private readonly Globe _globe;
-        private readonly IStoryPoint _newStoryPoint;
+        _newStoryPoint = newStoryPoint;
+        _globe = globe;
+    }
 
-        public AddActivateStoryPointAftermath(IStoryPoint newStoryPoint, Globe globe)
-        {
-            _newStoryPoint = newStoryPoint;
-            _globe = globe;
-        }
-
-        public void Apply()
-        {
-            _globe.AddActiveStoryPoint(_newStoryPoint);
-        }
+    public void Apply()
+    {
+        _globe.AddActiveStoryPoint(_newStoryPoint);
     }
 }

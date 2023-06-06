@@ -1,23 +1,24 @@
 using System;
 
-using Rpg.Client.Core;
+using Client.Core;
 
-namespace Rpg.Client.Assets.Equipments.Sage
+using Rpg.Client.Assets.Equipments;
+
+namespace Client.Assets.Equipments.Sage;
+
+internal sealed class DeceptivelyLightRobe : IEquipmentScheme
 {
-    internal sealed class DeceptivelyLightRobe : IEquipmentScheme
+    public EquipmentSid Sid => EquipmentSid.DeceptivelyLightRobe;
+
+    public string GetDescription()
     {
-        public EquipmentSid Sid => EquipmentSid.DeceptivelyLightRobe;
-
-        public string GetDescription()
-        {
-            throw new NotImplementedException();
-        }
-
-        public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Sage;
-
-        public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 4
-        };
+        throw new NotImplementedException();
     }
+
+    public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Sage;
+
+    public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
+    {
+        IconOneBasedIndex = 4
+    };
 }

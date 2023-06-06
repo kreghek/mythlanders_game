@@ -1,6 +1,4 @@
-﻿using Rpg.Client.Core.Dialogues;
-
-namespace Client.Core.Dialogues;
+﻿namespace Client.Core.Dialogues;
 
 internal sealed class DialogueOption
 {

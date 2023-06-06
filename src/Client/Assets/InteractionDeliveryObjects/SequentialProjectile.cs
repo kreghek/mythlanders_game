@@ -7,59 +7,58 @@ using Client.GameScreens.Combat.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Rpg.Client.Assets.InteractionDeliveryObjects
+namespace Client.Assets.InteractionDeliveryObjects;
+
+internal class SequentialProjectile : IInteractionDelivery
 {
-    internal class SequentialProjectile : IInteractionDelivery
+    private readonly IReadOnlyList<IInteractionDelivery> _subs;
+
+    private bool _performed;
+    private int _subIndex;
+
+    public SequentialProjectile(IReadOnlyList<IInteractionDelivery> subs)
     {
-        private readonly IReadOnlyList<IInteractionDelivery> _subs;
+        _subs = subs.ToArray();
+    }
 
-        private bool _performed;
-        private int _subIndex;
+    public bool IsDestroyed { get; private set; }
 
-        public SequentialProjectile(IReadOnlyList<IInteractionDelivery> subs)
+    public event EventHandler? InteractionPerformed;
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        if (IsDestroyed)
         {
-            _subs = subs.ToArray();
+            return;
         }
 
-        public bool IsDestroyed { get; private set; }
-
-        public event EventHandler? InteractionPerformed;
-
-        public void Draw(SpriteBatch spriteBatch)
+        if (_subIndex <= _subs.Count - 1)
         {
-            if (IsDestroyed)
-            {
-                return;
-            }
-
-            if (_subIndex <= _subs.Count - 1)
-            {
-                _subs[_subIndex].Draw(spriteBatch);
-            }
+            _subs[_subIndex].Draw(spriteBatch);
         }
+    }
 
-        public void Update(GameTime gameTime)
+    public void Update(GameTime gameTime)
+    {
+        if (_subIndex <= _subs.Count - 1)
         {
-            if (_subIndex <= _subs.Count - 1)
+            var sub = _subs[_subIndex];
+            if (sub.IsDestroyed)
             {
-                var sub = _subs[_subIndex];
-                if (sub.IsDestroyed)
-                {
-                    _subIndex++;
-                }
-                else
-                {
-                    sub.Update(gameTime);
-                }
+                _subIndex++;
             }
             else
             {
-                if (!_performed)
-                {
-                    _performed = true;
-                    IsDestroyed = true;
-                    InteractionPerformed?.Invoke(this, EventArgs.Empty);
-                }
+                sub.Update(gameTime);
+            }
+        }
+        else
+        {
+            if (!_performed)
+            {
+                _performed = true;
+                IsDestroyed = true;
+                InteractionPerformed?.Invoke(this, EventArgs.Empty);
             }
         }
     }

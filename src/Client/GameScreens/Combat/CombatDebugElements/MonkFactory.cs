@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Monk;
-using Client.Assets.CombatMovements.Hero.Partisan;
 
 using Core.Combats;
 

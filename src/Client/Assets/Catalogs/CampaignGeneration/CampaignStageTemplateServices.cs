@@ -3,8 +3,6 @@
 using Core.Dices;
 using Core.PropDrop;
 
-using Rpg.Client.Core;
-
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
 /// <summary>

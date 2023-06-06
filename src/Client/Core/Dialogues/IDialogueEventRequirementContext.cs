@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 
-using Rpg.Client.Core;
-
 namespace Client.Core.Dialogues;
 
 internal interface IDialogueEventRequirementContext

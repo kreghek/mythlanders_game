@@ -3,71 +3,69 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.StoryPointJobs;
+using Client.Core;
 using Client.Core.Campaigns;
 using Client.GameScreens.CampaignReward;
+using Client.ScreenManagement;
 
 using Core.Combats;
 using Core.PropDrop;
 
-using Rpg.Client.Core;
-using Rpg.Client.ScreenManagement;
+namespace Client.Assets.StageItems;
 
-namespace Client.Assets.StageItems
+internal class RewardStageItem : ICampaignStageItem
 {
-    internal class RewardStageItem : ICampaignStageItem
+    private readonly IDropResolver _dropResolver;
+    private readonly GlobeProvider _globeProvider;
+    private readonly IJobProgressResolver _jobProgressResolver;
+
+    public RewardStageItem(GlobeProvider globeProvider,
+        IJobProgressResolver jobProgressResolver, IDropResolver dropResolver)
     {
-        private readonly IDropResolver _dropResolver;
-        private readonly GlobeProvider _globeProvider;
-        private readonly IJobProgressResolver _jobProgressResolver;
+        _globeProvider = globeProvider;
+        _jobProgressResolver = jobProgressResolver;
+        _dropResolver = dropResolver;
+    }
 
-        public RewardStageItem(GlobeProvider globeProvider,
-            IJobProgressResolver jobProgressResolver, IDropResolver dropResolver)
+    private static IReadOnlyCollection<IDropTableScheme> CreateCampaignResources(HeroCampaign currentCampaign)
+    {
+        static IReadOnlyCollection<IDropTableScheme> GetLocationResourceDrop(string sid)
         {
-            _globeProvider = globeProvider;
-            _jobProgressResolver = jobProgressResolver;
-            _dropResolver = dropResolver;
-        }
-
-        private static IReadOnlyCollection<IDropTableScheme> CreateCampaignResources(HeroCampaign currentCampaign)
-        {
-            static IReadOnlyCollection<IDropTableScheme> GetLocationResourceDrop(string sid)
+            return new[]
             {
-                return new[]
+                new DropTableScheme(sid, new IDropTableRecordSubScheme[]
                 {
-                    new DropTableScheme(sid, new IDropTableRecordSubScheme[]
-                    {
-                        new DropTableRecordSubScheme(null, new Range<int>(1, 1), sid, 1)
-                    }, 1)
-                };
-            }
-
-            switch (currentCampaign.Location.ToString())
-            {
-                case nameof(LocationSids.Thicket):
-                    return GetLocationResourceDrop("snow");
-
-                case nameof(LocationSids.Desert):
-                    return GetLocationResourceDrop("sand");
-            }
-
-            return ArraySegment<IDropTableScheme>.Empty;
+                    new DropTableRecordSubScheme(null, new Range<int>(1, 1), sid, 1)
+                }, 1)
+            };
         }
 
-        public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
+        switch (currentCampaign.Location.ToString())
         {
-            var completeCampaignProgress = new CampaignCompleteJobProgress();
-            var currentJobs = _globeProvider.Globe.ActiveStoryPoints.ToArray();
+            case nameof(LocationSids.Thicket):
+                return GetLocationResourceDrop("snow");
 
-            foreach (var job in currentJobs)
-            {
-                _jobProgressResolver.ApplyProgress(completeCampaignProgress, job);
-            }
-
-            var campaignResources = CreateCampaignResources(currentCampaign);
-            var drop = _dropResolver.Resolve(campaignResources);
-
-            screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignReward,
-                new CampaignRewardScreenTransitionArguments(currentCampaign, drop));
+            case nameof(LocationSids.Desert):
+                return GetLocationResourceDrop("sand");
         }
+
+        return ArraySegment<IDropTableScheme>.Empty;
+    }
+
+    public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
+    {
+        var completeCampaignProgress = new CampaignCompleteJobProgress();
+        var currentJobs = _globeProvider.Globe.ActiveStoryPoints.ToArray();
+
+        foreach (var job in currentJobs)
+        {
+            _jobProgressResolver.ApplyProgress(completeCampaignProgress, job);
+        }
+
+        var campaignResources = CreateCampaignResources(currentCampaign);
+        var drop = _dropResolver.Resolve(campaignResources);
+
+        screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignReward,
+            new CampaignRewardScreenTransitionArguments(currentCampaign, drop));
     }
 }

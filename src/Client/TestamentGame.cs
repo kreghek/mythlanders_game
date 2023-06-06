@@ -9,6 +9,8 @@ using Client.Core;
 using Client.Core.Dialogues;
 using Client.Engine;
 using Client.GameScreens;
+using Client.GameScreens.Combat.GameObjects.Background;
+using Client.ScreenManagement;
 
 using Core.Dices;
 using Core.PropDrop;
@@ -21,12 +23,7 @@ using Microsoft.Xna.Framework.Input;
 
 using MonoGame.Extended.ViewportAdapters;
 
-using Rpg.Client;
-using Rpg.Client.Core;
-using Rpg.Client.Engine;
 using Rpg.Client.GameComponents;
-using Rpg.Client.GameScreens.Combat.GameObjects.Background;
-using Rpg.Client.ScreenManagement;
 
 namespace Client;
 

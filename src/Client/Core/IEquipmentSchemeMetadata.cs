@@ -1,6 +1,5 @@
-namespace Rpg.Client.Core
+namespace Client.Core;
+
+internal interface IEquipmentSchemeMetadata
 {
-    internal interface IEquipmentSchemeMetadata
-    {
-    }
 }

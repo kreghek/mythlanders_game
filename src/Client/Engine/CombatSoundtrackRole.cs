@@ -1,10 +1,9 @@
-﻿namespace Rpg.Client.Engine
+﻿namespace Client.Engine;
+
+internal enum CombatSoundtrackRole
 {
-    internal enum CombatSoundtrackRole
-    {
-        Regular,
-        Intro,
-        Victory,
-        Defeat
-    }
+    Regular,
+    Intro,
+    Victory,
+    Defeat
 }

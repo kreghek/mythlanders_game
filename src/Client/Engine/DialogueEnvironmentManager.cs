@@ -6,8 +6,6 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Media;
 
-using Rpg.Client.Engine;
-
 namespace Client.Engine;
 
 internal sealed class DialogueEnvironmentManager : IDialogueEnvironmentManager

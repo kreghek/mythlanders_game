@@ -1,6 +1,5 @@
-namespace Rpg.Client.Core
+namespace Client.Core;
+
+public interface IJobType
 {
-    public interface IJobType
-    {
-    }
 }

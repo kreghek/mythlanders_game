@@ -1,7 +1,6 @@
 ﻿using Client.Core.Campaigns;
 using Client.GameScreens.NotImplementedStage;
-
-using Rpg.Client.ScreenManagement;
+using Client.ScreenManagement;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 

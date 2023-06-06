@@ -1,8 +1,7 @@
-﻿namespace Rpg.Client.Core
+﻿namespace Client.Core;
+
+internal interface IEquipmentEffectContext
 {
-    internal interface IEquipmentEffectContext
-    {
-        int EquipmentLevel { get; }
-        bool IsInTankingSlot { get; }
-    }
+    int EquipmentLevel { get; }
+    bool IsInTankingSlot { get; }
 }

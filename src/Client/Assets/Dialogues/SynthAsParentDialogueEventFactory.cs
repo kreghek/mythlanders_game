@@ -8,8 +8,6 @@ using Client.Core.Dialogues;
 
 using JetBrains.Annotations;
 
-using Rpg.Client.Core;
-
 using Stateless;
 
 namespace Client.Assets.Dialogues;

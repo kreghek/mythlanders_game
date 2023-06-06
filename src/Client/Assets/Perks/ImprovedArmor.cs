@@ -1,12 +1,11 @@
-﻿namespace Rpg.Client.Assets.Perks
-{
-    internal sealed class ImprovedArmor : ImprovedStatBase
-    {
-        private const float ARMOR_BONUS = 2f;
+﻿namespace Client.Assets.Perks;
 
-        public override void ApplyToStats(ref float maxHitpoints, ref float armorBonus)
-        {
-            armorBonus = ARMOR_BONUS;
-        }
+internal sealed class ImprovedArmor : ImprovedStatBase
+{
+    private const float ARMOR_BONUS = 2f;
+
+    public override void ApplyToStats(ref float maxHitpoints, ref float armorBonus)
+    {
+        armorBonus = ARMOR_BONUS;
     }
 }

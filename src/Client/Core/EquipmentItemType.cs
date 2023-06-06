@@ -1,19 +1,18 @@
-﻿namespace Rpg.Client.Core
+﻿namespace Client.Core;
+
+internal enum EquipmentItemType
 {
-    internal enum EquipmentItemType
-    {
-        ExperiencePoints,
-        Warrior,
-        Archer,
-        Herbalist,
-        Priest,
-        Monk,
-        Spearman,
-        Sage,
-        Liberator,
-        Legionnaire,
-        Medjay,
-        Engineer,
-        Amazon
-    }
+    ExperiencePoints,
+    Warrior,
+    Archer,
+    Herbalist,
+    Priest,
+    Monk,
+    Spearman,
+    Sage,
+    Liberator,
+    Legionnaire,
+    Medjay,
+    Engineer,
+    Amazon
 }

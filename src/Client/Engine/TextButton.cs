@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Rpg.Client.Engine;
+namespace Client.Engine;
 
 internal class TextButton : ButtonBase
 {
@@ -27,8 +27,8 @@ internal class TextButton : ButtonBase
         var widthDiff = contentRect.Width - textSize.X;
         var heightDiff = contentRect.Height - textSize.Y;
         var textPosition = new Vector2(
-            (widthDiff / 2) + contentRect.Left,
-            (heightDiff / 2) + contentRect.Top);
+            widthDiff / 2 + contentRect.Left,
+            heightDiff / 2 + contentRect.Top);
 
         spriteBatch.DrawString(_font, _title, textPosition, Color.SaddleBrown);
     }

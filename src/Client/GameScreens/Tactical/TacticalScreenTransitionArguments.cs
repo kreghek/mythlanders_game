@@ -1,16 +1,14 @@
 ﻿using Client.Core.Campaigns;
+using Client.ScreenManagement;
 
-using Rpg.Client.ScreenManagement;
+namespace Client.GameScreens.Tactical;
 
-namespace Client.GameScreens.Tactical
+internal sealed class TacticalScreenTransitionArguments : IScreenTransitionArguments
 {
-    internal sealed class TacticalScreenTransitionArguments : IScreenTransitionArguments
+    public TacticalScreenTransitionArguments(HeroCampaign heroCampaign)
     {
-        public TacticalScreenTransitionArguments(HeroCampaign heroCampaign)
-        {
-            HeroCampaign = heroCampaign;
-        }
-
-        public HeroCampaign HeroCampaign { get; }
+        HeroCampaign = heroCampaign;
     }
+
+    public HeroCampaign HeroCampaign { get; }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-using Microsoft.Xna.Framework;
+using Client.Core;
 
-using Rpg.Client.Core;
+using Microsoft.Xna.Framework;
 
 namespace Client.Assets.GraphicConfigs.Monsters;
 

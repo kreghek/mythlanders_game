@@ -9,327 +9,326 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 
-namespace Rpg.Client.Engine
+namespace Client.Engine;
+
+internal sealed class UiContentStorage : IUiContentStorage
 {
-    internal sealed class UiContentStorage : IUiContentStorage
+    private IDictionary<LocationCulture, Texture2D> _biomeBackgroundDict;
+    private Texture2D _buttonIndicatorsTexture;
+    private IDictionary<string, SpriteFont> _combatIndicatorFonts;
+    private Texture2D _combatMoveIconTextres;
+    private Texture2D _combatSkillPanelTextre;
+    private CombatSoundtrack[] _combatTracks;
+    private Texture2D? _controlBackgroundTexture;
+    private Texture2D _cursonTextures;
+    private Song _defeatTrack;
+    private Texture2D _effectIconsTexture;
+    private Texture2D _equipmentIconsTexture;
+    private Song _introTrack;
+    private Texture2D[] _introVideoTextures;
+    private Texture2D _logoTexture;
+    private IDictionary<string, SpriteFont> _mainFonts;
+    private Song[] _mapTracks;
+    private Texture2D[] _modalBottomTextures;
+    private Texture2D _modalShadowTexture;
+    private Texture2D _modalsTopSymbolTexture;
+    private Texture2D[] _modalTopTextures;
+    private Texture2D _socialTexture;
+    private Texture2D _titleBackgroundTexture;
+    private IDictionary<string, SpriteFont> _titlesFonts;
+    private Song _titleTrack;
+    private Texture2D _unitPanelTexture;
+    private Song _victoryTrack;
+
+    public Texture2D GetEnvSpeechTexture()
     {
-        private IDictionary<LocationCulture, Texture2D> _biomeBackgroundDict;
-        private Texture2D _buttonIndicatorsTexture;
-        private IDictionary<string, SpriteFont> _combatIndicatorFonts;
-        private Texture2D _combatMoveIconTextres;
-        private Texture2D _combatSkillPanelTextre;
-        private CombatSoundtrack[] _combatTracks;
-        private Texture2D? _controlBackgroundTexture;
-        private Texture2D _cursonTextures;
-        private Song _defeatTrack;
-        private Texture2D _effectIconsTexture;
-        private Texture2D _equipmentIconsTexture;
-        private Song _introTrack;
-        private Texture2D[] _introVideoTextures;
-        private Texture2D _logoTexture;
-        private IDictionary<string, SpriteFont> _mainFonts;
-        private Song[] _mapTracks;
-        private Texture2D[] _modalBottomTextures;
-        private Texture2D _modalShadowTexture;
-        private Texture2D _modalsTopSymbolTexture;
-        private Texture2D[] _modalTopTextures;
-        private Texture2D _socialTexture;
-        private Texture2D _titleBackgroundTexture;
-        private IDictionary<string, SpriteFont> _titlesFonts;
-        private Song _titleTrack;
-        private Texture2D _unitPanelTexture;
-        private Song _victoryTrack;
+        return _modalShadowTexture ?? throw new InvalidOperationException();
+    }
 
-        public Texture2D GetEnvSpeechTexture()
+    private static string GetLanguageKey()
+    {
+        var currentLanguage = Thread.CurrentThread.CurrentUICulture;
+        if (string.Equals(
+                currentLanguage.TwoLetterISOLanguageName,
+                "ru",
+                StringComparison.InvariantCultureIgnoreCase))
         {
-            return _modalShadowTexture ?? throw new InvalidOperationException();
+            return "ru";
         }
 
-        private static string GetLanguageKey()
+        if (string.Equals(
+                currentLanguage.TwoLetterISOLanguageName,
+                "en",
+                StringComparison.InvariantCultureIgnoreCase))
         {
-            var currentLanguage = Thread.CurrentThread.CurrentUICulture;
-            if (string.Equals(
-                    currentLanguage.TwoLetterISOLanguageName,
-                    "ru",
-                    StringComparison.InvariantCultureIgnoreCase))
-            {
-                return "ru";
-            }
-
-            if (string.Equals(
-                    currentLanguage.TwoLetterISOLanguageName,
-                    "en",
-                    StringComparison.InvariantCultureIgnoreCase))
-            {
-                return "en";
-            }
-
-            if (string.Equals(
-                    currentLanguage.TwoLetterISOLanguageName,
-                    "zh",
-                    StringComparison.InvariantCultureIgnoreCase))
-            {
-                return "zh";
-            }
-
-            throw new Exception();
+            return "en";
         }
 
-        private static SpriteFont GetSpriteFont(IDictionary<string, SpriteFont> fontDict, string languageKey)
+        if (string.Equals(
+                currentLanguage.TwoLetterISOLanguageName,
+                "zh",
+                StringComparison.InvariantCultureIgnoreCase))
         {
-            return fontDict[languageKey];
+            return "zh";
         }
 
-        public bool ContentWasLoaded { get; private set; }
+        throw new Exception();
+    }
 
-        public Texture2D GetCursorsTexture()
+    private static SpriteFont GetSpriteFont(IDictionary<string, SpriteFont> fontDict, string languageKey)
+    {
+        return fontDict[languageKey];
+    }
+
+    public bool ContentWasLoaded { get; private set; }
+
+    public Texture2D GetCursorsTexture()
+    {
+        return _cursonTextures;
+    }
+
+    public Texture2D GetControlBackgroundTexture()
+    {
+        return _controlBackgroundTexture;
+    }
+
+    public Texture2D GetEffectIconsTexture()
+    {
+        return _effectIconsTexture;
+    }
+
+    public SpriteFont GetMainFont()
+    {
+        var key = GetLanguageKey();
+        var spriteFont = GetSpriteFont(_mainFonts, key);
+        return spriteFont;
+    }
+
+    public SpriteFont GetTitlesFont()
+    {
+        var key = GetLanguageKey();
+        var spriteFont = GetSpriteFont(_titlesFonts, key);
+        return spriteFont;
+    }
+
+    public SpriteFont GetCombatIndicatorFont()
+    {
+        var key = GetLanguageKey();
+        var spriteFont = GetSpriteFont(_combatIndicatorFonts, key);
+        return spriteFont;
+    }
+
+    public Texture2D[] GetModalBottomTextures()
+    {
+        return _modalBottomTextures ?? throw new InvalidOperationException();
+    }
+
+    public Texture2D[] GetModalTopTextures()
+    {
+        return _modalTopTextures ?? throw new InvalidOperationException();
+    }
+
+    public Texture2D GetModalShadowTexture()
+    {
+        return _modalShadowTexture ?? throw new InvalidOperationException();
+    }
+
+    public Texture2D GetLogoTexture()
+    {
+        return _logoTexture;
+    }
+
+    public Texture2D GetTitleBackgroundTexture()
+    {
+        return _titleBackgroundTexture;
+    }
+
+    public void LoadContent(ContentManager contentManager)
+    {
+        _logoTexture = contentManager.Load<Texture2D>("Sprites/Ui/GameLogo");
+        _socialTexture = contentManager.Load<Texture2D>("Sprites/Ui/Social");
+        _controlBackgroundTexture = contentManager.Load<Texture2D>("Sprites/Ui/ControlBackgrounds");
+
+        _mainFonts = new Dictionary<string, SpriteFont>
         {
-            return _cursonTextures;
+            { "en", contentManager.Load<SpriteFont>("Fonts/Main") },
+            { "ru", contentManager.Load<SpriteFont>("Fonts/Main") },
+            { "zh", contentManager.Load<SpriteFont>("Fonts/MainChinese") }
+        };
+        _titlesFonts = new Dictionary<string, SpriteFont>
+        {
+            { "en", contentManager.Load<SpriteFont>("Fonts/Titles") },
+            { "ru", contentManager.Load<SpriteFont>("Fonts/Titles") },
+            { "zh", contentManager.Load<SpriteFont>("Fonts/TitlesChinese") }
+        };
+        _combatIndicatorFonts = new Dictionary<string, SpriteFont>
+        {
+            { "en", contentManager.Load<SpriteFont>("Fonts/CombatIndicator") },
+            { "ru", contentManager.Load<SpriteFont>("Fonts/CombatIndicator") },
+            { "zh", contentManager.Load<SpriteFont>("Fonts/CombatIndicatorChinese") }
+        };
+
+        _modalShadowTexture = contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogShadow");
+        _modalTopTextures = new[] { contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogBackgroundTop1") };
+        _modalBottomTextures = new[] { contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogBackgroundBottom1") };
+        _combatMoveIconTextres = contentManager.Load<Texture2D>("Sprites/Ui/CombatMoveIcons");
+
+        _biomeBackgroundDict = new Dictionary<LocationCulture, Texture2D>
+        {
+            { LocationCulture.Slavic, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
+            { LocationCulture.Chinese, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
+            { LocationCulture.Egyptian, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
+            { LocationCulture.Greek, contentManager.Load<Texture2D>("Sprites/Ui/Biome") }
+        };
+
+        _titleTrack = contentManager.Load<Song>("Audio/Background/Title");
+        _mapTracks = new[]
+        {
+            contentManager.Load<Song>("Audio/Background/Map"),
+            contentManager.Load<Song>("Audio/Background/Map2"),
+            contentManager.Load<Song>("Audio/Background/Map3")
+        };
+        _combatTracks = new[]
+        {
+            new CombatSoundtrack(LocationCulture.Slavic,
+                contentManager.Load<Song>("Audio/Background/Combat_Slavic01")),
+            new CombatSoundtrack(LocationCulture.Slavic,
+                contentManager.Load<Song>("Audio/Background/Combat_Slavic02")),
+            new CombatSoundtrack(LocationCulture.Chinese,
+                contentManager.Load<Song>("Audio/Background/Combat_Chinese01")),
+            new CombatSoundtrack(LocationCulture.Chinese,
+                contentManager.Load<Song>("Audio/Background/Combat_Chinese02")),
+            new CombatSoundtrack(LocationCulture.Egyptian,
+                contentManager.Load<Song>("Audio/Background/Combat_Egyptian01")),
+            new CombatSoundtrack(LocationCulture.Egyptian,
+                contentManager.Load<Song>("Audio/Background/Combat_Egyptian02")),
+            new CombatSoundtrack(LocationCulture.Egyptian,
+                contentManager.Load<Song>("Audio/Background/Combat_Egyptian01_Intro"),
+                CombatSoundtrackRole.Intro),
+
+            new CombatSoundtrack(LocationCulture.Greek,
+                contentManager.Load<Song>("Audio/Background/Combat_Greek01")),
+            new CombatSoundtrack(LocationCulture.Greek,
+                contentManager.Load<Song>("Audio/Background/Combat_Greek01_Intro"),
+                CombatSoundtrackRole.Intro),
+            new CombatSoundtrack(LocationCulture.Greek,
+                contentManager.Load<Song>("Audio/Background/Combat_Greek02")),
+            new CombatSoundtrack(LocationCulture.Greek,
+                contentManager.Load<Song>("Audio/Background/Combat_Greek02_Intro"),
+                CombatSoundtrackRole.Intro)
+        };
+
+        _victoryTrack = contentManager.Load<Song>("Audio/Background/Victory");
+        _defeatTrack = contentManager.Load<Song>("Audio/Background/Defeat");
+
+        _introTrack = contentManager.Load<Song>("Audio/Intro/Intro");
+
+        _unitPanelTexture = contentManager.Load<Texture2D>("Sprites/Ui/UnitPanel");
+
+        _buttonIndicatorsTexture = contentManager.Load<Texture2D>("Sprites/Ui/ButtonIndicators");
+
+        _effectIconsTexture = contentManager.Load<Texture2D>("Sprites/Ui/SkillEffectIcons");
+
+        var introVideoTextures = new List<Texture2D>(150);
+        for (var i = 1; i <= 150; i++)
+        {
+            var texture = contentManager.Load<Texture2D>($"Video/ezgif-frame-{i:000}");
+            introVideoTextures.Add(texture);
         }
 
-        public Texture2D GetControlBackgroundTexture()
-        {
-            return _controlBackgroundTexture;
-        }
+        _introVideoTextures = introVideoTextures.ToArray();
 
-        public Texture2D GetEffectIconsTexture()
-        {
-            return _effectIconsTexture;
-        }
+        _modalsTopSymbolTexture = contentManager.Load<Texture2D>("Sprites/Ui/ModalHeaders");
 
-        public SpriteFont GetMainFont()
-        {
-            var key = GetLanguageKey();
-            var spriteFont = GetSpriteFont(_mainFonts, key);
-            return spriteFont;
-        }
+        _combatSkillPanelTextre = contentManager.Load<Texture2D>("Sprites/Ui/CombatSkillsPanel");
+        _equipmentIconsTexture = contentManager.Load<Texture2D>("Sprites/Ui/EquipmentIcons");
 
-        public SpriteFont GetTitlesFont()
-        {
-            var key = GetLanguageKey();
-            var spriteFont = GetSpriteFont(_titlesFonts, key);
-            return spriteFont;
-        }
+        _cursonTextures = contentManager.Load<Texture2D>("Sprites/Ui/Cursors");
 
-        public SpriteFont GetCombatIndicatorFont()
-        {
-            var key = GetLanguageKey();
-            var spriteFont = GetSpriteFont(_combatIndicatorFonts, key);
-            return spriteFont;
-        }
+        _titleBackgroundTexture = contentManager.Load<Texture2D>("Sprites/Ui/TitleBackground");
 
-        public Texture2D[] GetModalBottomTextures()
-        {
-            return _modalBottomTextures ?? throw new InvalidOperationException();
-        }
+        ContentWasLoaded = true;
+    }
 
-        public Texture2D[] GetModalTopTextures()
-        {
-            return _modalTopTextures ?? throw new InvalidOperationException();
-        }
+    public Texture2D GetSocialTexture()
+    {
+        return _socialTexture;
+    }
 
-        public Texture2D GetModalShadowTexture()
-        {
-            return _modalShadowTexture ?? throw new InvalidOperationException();
-        }
+    public Texture2D GetCombatSkillPanelTexture()
+    {
+        return _combatSkillPanelTextre;
+    }
 
-        public Texture2D GetLogoTexture()
-        {
-            return _logoTexture;
-        }
+    public Texture2D GetEquipmentTextures()
+    {
+        return _equipmentIconsTexture;
+    }
 
-        public Texture2D GetTitleBackgroundTexture()
-        {
-            return _titleBackgroundTexture;
-        }
+    public Texture2D GetButtonIndicatorsTexture()
+    {
+        return _buttonIndicatorsTexture;
+    }
 
-        public void LoadContent(ContentManager contentManager)
-        {
-            _logoTexture = contentManager.Load<Texture2D>("Sprites/Ui/GameLogo");
-            _socialTexture = contentManager.Load<Texture2D>("Sprites/Ui/Social");
-            _controlBackgroundTexture = contentManager.Load<Texture2D>("Sprites/Ui/ControlBackgrounds");
+    public Texture2D GetModalTopSymbolTextures()
+    {
+        return _modalsTopSymbolTexture;
+    }
 
-            _mainFonts = new Dictionary<string, SpriteFont>
-            {
-                { "en", contentManager.Load<SpriteFont>("Fonts/Main") },
-                { "ru", contentManager.Load<SpriteFont>("Fonts/Main") },
-                { "zh", contentManager.Load<SpriteFont>("Fonts/MainChinese") }
-            };
-            _titlesFonts = new Dictionary<string, SpriteFont>
-            {
-                { "en", contentManager.Load<SpriteFont>("Fonts/Titles") },
-                { "ru", contentManager.Load<SpriteFont>("Fonts/Titles") },
-                { "zh", contentManager.Load<SpriteFont>("Fonts/TitlesChinese") }
-            };
-            _combatIndicatorFonts = new Dictionary<string, SpriteFont>
-            {
-                { "en", contentManager.Load<SpriteFont>("Fonts/CombatIndicator") },
-                { "ru", contentManager.Load<SpriteFont>("Fonts/CombatIndicator") },
-                { "zh", contentManager.Load<SpriteFont>("Fonts/CombatIndicatorChinese") }
-            };
+    public Texture2D GetDisabledTexture()
+    {
+        return _modalShadowTexture;
+    }
 
-            _modalShadowTexture = contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogShadow");
-            _modalTopTextures = new[] { contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogBackgroundTop1") };
-            _modalBottomTextures = new[] { contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogBackgroundBottom1") };
-            _combatMoveIconTextres = contentManager.Load<Texture2D>("Sprites/Ui/CombatMoveIcons");
+    public Texture2D GetBiomeBackground(LocationCulture type)
+    {
+        return _biomeBackgroundDict[type];
+    }
 
-            _biomeBackgroundDict = new Dictionary<LocationCulture, Texture2D>
-            {
-                { LocationCulture.Slavic, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
-                { LocationCulture.Chinese, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
-                { LocationCulture.Egyptian, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
-                { LocationCulture.Greek, contentManager.Load<Texture2D>("Sprites/Ui/Biome") }
-            };
+    public Song GetTitleSong()
+    {
+        return _titleTrack;
+    }
 
-            _titleTrack = contentManager.Load<Song>("Audio/Background/Title");
-            _mapTracks = new[]
-            {
-                contentManager.Load<Song>("Audio/Background/Map"),
-                contentManager.Load<Song>("Audio/Background/Map2"),
-                contentManager.Load<Song>("Audio/Background/Map3")
-            };
-            _combatTracks = new[]
-            {
-                new CombatSoundtrack(LocationCulture.Slavic,
-                    contentManager.Load<Song>("Audio/Background/Combat_Slavic01")),
-                new CombatSoundtrack(LocationCulture.Slavic,
-                    contentManager.Load<Song>("Audio/Background/Combat_Slavic02")),
-                new CombatSoundtrack(LocationCulture.Chinese,
-                    contentManager.Load<Song>("Audio/Background/Combat_Chinese01")),
-                new CombatSoundtrack(LocationCulture.Chinese,
-                    contentManager.Load<Song>("Audio/Background/Combat_Chinese02")),
-                new CombatSoundtrack(LocationCulture.Egyptian,
-                    contentManager.Load<Song>("Audio/Background/Combat_Egyptian01")),
-                new CombatSoundtrack(LocationCulture.Egyptian,
-                    contentManager.Load<Song>("Audio/Background/Combat_Egyptian02")),
-                new CombatSoundtrack(LocationCulture.Egyptian,
-                    contentManager.Load<Song>("Audio/Background/Combat_Egyptian01_Intro"),
-                    CombatSoundtrackRole.Intro),
+    public Texture2D GetUnitStatePanelTexture()
+    {
+        return _unitPanelTexture;
+    }
 
-                new CombatSoundtrack(LocationCulture.Greek,
-                    contentManager.Load<Song>("Audio/Background/Combat_Greek01")),
-                new CombatSoundtrack(LocationCulture.Greek,
-                    contentManager.Load<Song>("Audio/Background/Combat_Greek01_Intro"),
-                    CombatSoundtrackRole.Intro),
-                new CombatSoundtrack(LocationCulture.Greek,
-                    contentManager.Load<Song>("Audio/Background/Combat_Greek02")),
-                new CombatSoundtrack(LocationCulture.Greek,
-                    contentManager.Load<Song>("Audio/Background/Combat_Greek02_Intro"),
-                    CombatSoundtrackRole.Intro)
-            };
+    public IEnumerable<Song> GetMapSong()
+    {
+        return _mapTracks;
+    }
 
-            _victoryTrack = contentManager.Load<Song>("Audio/Background/Victory");
-            _defeatTrack = contentManager.Load<Song>("Audio/Background/Defeat");
+    public Song GetIntroSong()
+    {
+        return _introTrack;
+    }
 
-            _introTrack = contentManager.Load<Song>("Audio/Intro/Intro");
+    public IReadOnlyCollection<CombatSoundtrack> GetCombatSongs(LocationCulture currentBiome)
+    {
+        return _combatTracks
+            .Where(x => x.Culture == currentBiome && x.SoundtrackRole == CombatSoundtrackRole.Regular)
+            .ToList();
+    }
 
-            _unitPanelTexture = contentManager.Load<Texture2D>("Sprites/Ui/UnitPanel");
+    public Song GetVictorySong()
+    {
+        return _victoryTrack;
+    }
 
-            _buttonIndicatorsTexture = contentManager.Load<Texture2D>("Sprites/Ui/ButtonIndicators");
+    public Song GetDefeatSong()
+    {
+        return _defeatTrack;
+    }
 
-            _effectIconsTexture = contentManager.Load<Texture2D>("Sprites/Ui/SkillEffectIcons");
+    public Texture2D GetCombatMoveIconsTexture()
+    {
+        return _combatMoveIconTextres;
+    }
 
-            var introVideoTextures = new List<Texture2D>(150);
-            for (var i = 1; i <= 150; i++)
-            {
-                var texture = contentManager.Load<Texture2D>($"Video/ezgif-frame-{i:000}");
-                introVideoTextures.Add(texture);
-            }
-
-            _introVideoTextures = introVideoTextures.ToArray();
-
-            _modalsTopSymbolTexture = contentManager.Load<Texture2D>("Sprites/Ui/ModalHeaders");
-
-            _combatSkillPanelTextre = contentManager.Load<Texture2D>("Sprites/Ui/CombatSkillsPanel");
-            _equipmentIconsTexture = contentManager.Load<Texture2D>("Sprites/Ui/EquipmentIcons");
-
-            _cursonTextures = contentManager.Load<Texture2D>("Sprites/Ui/Cursors");
-
-            _titleBackgroundTexture = contentManager.Load<Texture2D>("Sprites/Ui/TitleBackground");
-
-            ContentWasLoaded = true;
-        }
-
-        public Texture2D GetSocialTexture()
-        {
-            return _socialTexture;
-        }
-
-        public Texture2D GetCombatSkillPanelTexture()
-        {
-            return _combatSkillPanelTextre;
-        }
-
-        public Texture2D GetEquipmentTextures()
-        {
-            return _equipmentIconsTexture;
-        }
-
-        public Texture2D GetButtonIndicatorsTexture()
-        {
-            return _buttonIndicatorsTexture;
-        }
-
-        public Texture2D GetModalTopSymbolTextures()
-        {
-            return _modalsTopSymbolTexture;
-        }
-
-        public Texture2D GetDisabledTexture()
-        {
-            return _modalShadowTexture;
-        }
-
-        public Texture2D GetBiomeBackground(LocationCulture type)
-        {
-            return _biomeBackgroundDict[type];
-        }
-
-        public Song GetTitleSong()
-        {
-            return _titleTrack;
-        }
-
-        public Texture2D GetUnitStatePanelTexture()
-        {
-            return _unitPanelTexture;
-        }
-
-        public IEnumerable<Song> GetMapSong()
-        {
-            return _mapTracks;
-        }
-
-        public Song GetIntroSong()
-        {
-            return _introTrack;
-        }
-
-        public IReadOnlyCollection<CombatSoundtrack> GetCombatSongs(LocationCulture currentBiome)
-        {
-            return _combatTracks
-                .Where(x => x.Culture == currentBiome && x.SoundtrackRole == CombatSoundtrackRole.Regular)
-                .ToList();
-        }
-
-        public Song GetVictorySong()
-        {
-            return _victoryTrack;
-        }
-
-        public Song GetDefeatSong()
-        {
-            return _defeatTrack;
-        }
-
-        public Texture2D GetCombatMoveIconsTexture()
-        {
-            return _combatMoveIconTextres;
-        }
-
-        public Texture2D[] GetIntroVideo()
-        {
-            return _introVideoTextures;
-        }
+    public Texture2D[] GetIntroVideo()
+    {
+        return _introVideoTextures;
     }
 }

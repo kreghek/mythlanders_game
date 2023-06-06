@@ -1,9 +1,8 @@
-using Rpg.Client.Core;
+using Client.Core;
 
-namespace Rpg.Client.Assets.Equipments
+namespace Client.Assets.Equipments;
+
+public class EquipmentSchemeMetadata : IEquipmentSchemeMetadata
 {
-    public class EquipmentSchemeMetadata : IEquipmentSchemeMetadata
-    {
-        public int IconOneBasedIndex { get; set; }
-    }
+    public int IconOneBasedIndex { get; set; }
 }

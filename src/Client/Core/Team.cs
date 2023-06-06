@@ -1,8 +1,7 @@
-﻿namespace Rpg.Client.Core
+﻿namespace Client.Core;
+
+internal enum Team
 {
-    internal enum Team
-    {
-        Player,
-        Cpu
-    }
+    Player,
+    Cpu
 }

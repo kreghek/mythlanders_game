@@ -1,6 +1,6 @@
-﻿using Microsoft.Xna.Framework.Media;
+﻿using Client.Engine;
 
-using Rpg.Client.Engine;
+using Microsoft.Xna.Framework.Media;
 
 namespace Client.Assets;
 

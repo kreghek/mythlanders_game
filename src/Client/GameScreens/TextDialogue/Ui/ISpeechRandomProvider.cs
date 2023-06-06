@@ -1,7 +1,6 @@
-﻿namespace Rpg.Client.GameScreens.Speech.Ui
+﻿namespace Client.GameScreens.TextDialogue.Ui;
+
+internal interface ISpeechRandomProvider
 {
-    internal interface ISpeechRandomProvider
-    {
-        float RollPlayingSoundOnSymbol();
-    }
+    float RollPlayingSoundOnSymbol();
 }

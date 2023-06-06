@@ -1,4 +1,4 @@
-using Rpg.Client.Core.Dialogues;
+using Client.Core.Dialogues;
 
 namespace Client.Assets.Catalogs.DialogueStoring;
 

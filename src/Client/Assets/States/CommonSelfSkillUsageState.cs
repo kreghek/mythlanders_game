@@ -1,71 +1,71 @@
 ﻿using System;
 
+using Client.Core;
+using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
-using Rpg.Client.Core;
-using Rpg.Client.Engine;
+using Rpg.Client.Assets.States;
 
-namespace Rpg.Client.Assets.States
+namespace Client.Assets.States;
+
+internal class CommonSelfSkillUsageState : IActorVisualizationState
 {
-    internal class CommonSelfSkillUsageState : IActorVisualizationState
+    private readonly AnimationBlocker _mainAnimationBlocker;
+    private readonly IActorVisualizationState[] _subStates;
+
+    private int _subStateIndex;
+
+    public CommonSelfSkillUsageState(UnitGraphics graphics, AnimationBlocker mainAnimationBlocker,
+        Action interaction,
+        SoundEffectInstance hitSound, PredefinedAnimationSid animationSid)
     {
-        private readonly AnimationBlocker _mainAnimationBlocker;
-        private readonly IActorVisualizationState[] _subStates;
+        _mainAnimationBlocker = mainAnimationBlocker;
 
-        private int _subStateIndex;
-
-        public CommonSelfSkillUsageState(UnitGraphics graphics, AnimationBlocker mainAnimationBlocker,
-            Action interaction,
-            SoundEffectInstance hitSound, PredefinedAnimationSid animationSid)
+        _subStates = new IActorVisualizationState[]
         {
-            _mainAnimationBlocker = mainAnimationBlocker;
+            new HealState(graphics, interaction, hitSound, animationSid)
+        };
+    }
 
-            _subStates = new IActorVisualizationState[]
-            {
-                new HealState(graphics, interaction, hitSound, animationSid)
-            };
+    public bool CanBeReplaced => false;
+    public bool IsComplete { get; private set; }
+
+    public void Cancel()
+    {
+        if (IsComplete)
+        {
+            return;
         }
 
-        public bool CanBeReplaced => false;
-        public bool IsComplete { get; private set; }
+        _mainAnimationBlocker.Release();
+    }
 
-        public void Cancel()
+    public void Update(GameTime gameTime)
+    {
+        if (IsComplete)
         {
-            if (IsComplete)
-            {
-                return;
-            }
-
-            _mainAnimationBlocker.Release();
+            return;
         }
 
-        public void Update(GameTime gameTime)
+        if (_subStateIndex < _subStates.Length)
         {
-            if (IsComplete)
+            var currentSubState = _subStates[_subStateIndex];
+            if (currentSubState.IsComplete)
             {
-                return;
-            }
-
-            if (_subStateIndex < _subStates.Length)
-            {
-                var currentSubState = _subStates[_subStateIndex];
-                if (currentSubState.IsComplete)
-                {
-                    _subStateIndex++;
-                }
-                else
-                {
-                    currentSubState.Update(gameTime);
-                }
+                _subStateIndex++;
             }
             else
             {
-                IsComplete = true;
-                _mainAnimationBlocker.Release();
+                currentSubState.Update(gameTime);
             }
+        }
+        else
+        {
+            IsComplete = true;
+            _mainAnimationBlocker.Release();
         }
     }
 }

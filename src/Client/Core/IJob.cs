@@ -1,25 +1,22 @@
-using Client.Core;
+namespace Client.Core;
 
-namespace Rpg.Client.Core
+/// <summary>
+/// Интерфейс произвольной работы и её текущего состояния.
+/// </summary>
+public interface IJob
 {
     /// <summary>
-    /// Интерфейс произвольной работы и её текущего состояния.
+    /// Признак того, что работа завершена.
     /// </summary>
-    public interface IJob
-    {
-        /// <summary>
-        /// Признак того, что работа завершена.
-        /// </summary>
-        bool IsComplete { get; set; }
+    bool IsComplete { get; set; }
 
-        /// <summary>
-        /// Текущий прогресс по работе.
-        /// </summary>
-        int Progress { get; set; }
+    /// <summary>
+    /// Текущий прогресс по работе.
+    /// </summary>
+    int Progress { get; set; }
 
-        /// <summary>
-        /// Схема текущей работы.
-        /// </summary>
-        IJobSubScheme Scheme { get; }
-    }
+    /// <summary>
+    /// Схема текущей работы.
+    /// </summary>
+    IJobSubScheme Scheme { get; }
 }

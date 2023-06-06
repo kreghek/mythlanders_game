@@ -2,34 +2,32 @@ using Client.Core;
 
 using Rpg.Client.Assets.Equipments.Legionnaire;
 using Rpg.Client.Assets.GraphicConfigs.Heroes;
-using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Heroes
+namespace Client.Assets.Heroes;
+
+internal class HopliteFactory : HeroFactoryBase
 {
-    internal class HopliteFactory : HeroFactoryBase
+    public override UnitName HeroName => UnitName.Hoplite;
+
+    protected override IEquipmentScheme[] GetEquipment()
     {
-        public override UnitName HeroName => UnitName.Hoplite;
-
-        protected override IEquipmentScheme[] GetEquipment()
+        return new IEquipmentScheme[]
         {
-            return new IEquipmentScheme[]
-            {
-                new EmberDori(),
-                new EmpoweredMk2MediumPowerArmor(),
-                new BrokenAresSculpture()
-            };
-        }
+            new EmberDori(),
+            new EmpoweredMk2MediumPowerArmor(),
+            new BrokenAresSculpture()
+        };
+    }
 
-        protected override UnitGraphicsConfigBase GetGraphicsConfig()
-        {
-            return new HopliteGraphicsConfig(HeroName);
-        }
+    protected override UnitGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new HopliteGraphicsConfig(HeroName);
+    }
 
-        protected override IUnitLevelScheme[] GetLevels()
+    protected override IUnitLevelScheme[] GetLevels()
+    {
+        return new IUnitLevelScheme[]
         {
-            return new IUnitLevelScheme[]
-            {
-            };
-        }
+        };
     }
 }

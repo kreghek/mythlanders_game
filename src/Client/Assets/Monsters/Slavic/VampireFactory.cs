@@ -1,9 +1,7 @@
 using Client.Assets.GraphicConfigs.Monsters;
+using Client.Core;
 
 using JetBrains.Annotations;
-
-using Rpg.Client.Assets.Monsters;
-using Rpg.Client.Core;
 
 namespace Client.Assets.Monsters.Slavic;
 

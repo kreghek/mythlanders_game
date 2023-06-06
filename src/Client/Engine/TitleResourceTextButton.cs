@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Engine;
-
 namespace Client.Engine;
 
 internal class TitleResourceTextButton : ButtonBase

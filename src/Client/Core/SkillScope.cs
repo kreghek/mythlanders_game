@@ -1,9 +1,8 @@
-﻿namespace Rpg.Client.Core
+﻿namespace Client.Core;
+
+public enum SkillScope
 {
-    public enum SkillScope
-    {
-        Undefined,
-        Single,
-        AllEnemyGroup
-    }
+    Undefined,
+    Single,
+    AllEnemyGroup
 }

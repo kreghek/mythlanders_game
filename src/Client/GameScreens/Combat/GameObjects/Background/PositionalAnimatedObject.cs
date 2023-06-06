@@ -1,38 +1,37 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Client.Core;
+using Client.Engine;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Core;
-using Rpg.Client.Engine;
+namespace Client.GameScreens.Combat.GameObjects.Background;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
+internal sealed class PositionalAnimatedObject : IBackgroundObject
 {
-    internal sealed class PositionalAnimatedObject : IBackgroundObject
+    private readonly IAnimationFrameSet _animationFrameSet;
+    private readonly Sprite _sprite;
+
+    public PositionalAnimatedObject(Texture2D texture, IAnimationFrameSet animationFrameSet, Vector2 position,
+        Vector2? origin = null)
     {
-        private readonly IAnimationFrameSet _animationFrameSet;
-        private readonly Sprite _sprite;
-
-        public PositionalAnimatedObject(Texture2D texture, IAnimationFrameSet animationFrameSet, Vector2 position,
-            Vector2? origin = null)
+        _sprite = new Sprite(texture)
         {
-            _sprite = new Sprite(texture)
-            {
-                Position = position,
-                Origin = origin ?? Vector2.One * 0.5f
-            };
-            _animationFrameSet = animationFrameSet;
-        }
+            Position = position,
+            Origin = origin ?? Vector2.One * 0.5f
+        };
+        _animationFrameSet = animationFrameSet;
+    }
 
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            var sourceRect = _animationFrameSet.GetFrameRect();
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        var sourceRect = _animationFrameSet.GetFrameRect();
 
-            _sprite.SourceRectangle = sourceRect;
-            _sprite.Draw(spriteBatch);
-        }
+        _sprite.SourceRectangle = sourceRect;
+        _sprite.Draw(spriteBatch);
+    }
 
-        public void Update(GameTime gameTime)
-        {
-            _animationFrameSet.Update(gameTime);
-        }
+    public void Update(GameTime gameTime)
+    {
+        _animationFrameSet.Update(gameTime);
     }
 }

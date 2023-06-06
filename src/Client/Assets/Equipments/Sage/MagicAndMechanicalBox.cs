@@ -1,23 +1,22 @@
 ﻿using System;
 
-using Rpg.Client.Core;
+using Client.Core;
 
-namespace Rpg.Client.Assets.Equipments.Sage
+namespace Client.Assets.Equipments.Sage;
+
+internal sealed class MagicAndMechanicalBox : IEquipmentScheme
 {
-    internal sealed class MagicAndMechanicalBox : IEquipmentScheme
+    public EquipmentSid Sid => EquipmentSid.MagicAndMechanicalBox;
+
+    public string GetDescription()
     {
-        public EquipmentSid Sid => EquipmentSid.MagicAndMechanicalBox;
-
-        public string GetDescription()
-        {
-            throw new NotImplementedException();
-        }
-
-        public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Sage;
-
-        public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 4
-        };
+        throw new NotImplementedException();
     }
+
+    public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Sage;
+
+    public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
+    {
+        IconOneBasedIndex = 4
+    };
 }

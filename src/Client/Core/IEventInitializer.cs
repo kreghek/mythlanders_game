@@ -1,7 +1,6 @@
-namespace Rpg.Client.Core
+namespace Client.Core;
+
+internal interface IEventInitializer
 {
-    internal interface IEventInitializer
-    {
-        void Init();
-    }
+    void Init();
 }

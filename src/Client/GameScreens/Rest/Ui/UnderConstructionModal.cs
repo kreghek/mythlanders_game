@@ -3,8 +3,6 @@ using Client.Engine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Engine;
-
 namespace Client.GameScreens.Rest.Ui;
 
 internal sealed class UnderConstructionModal : ModalDialogBase

@@ -2,7 +2,7 @@
 
 using Microsoft.Xna.Framework;
 
-namespace Rpg.Client.Core;
+namespace Client.Core;
 
 internal interface IAnimationFrameSet
 {

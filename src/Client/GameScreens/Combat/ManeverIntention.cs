@@ -1,6 +1,6 @@
 ﻿using Core.Combats;
 
-namespace Rpg.Client.GameScreens.Combat;
+namespace Client.GameScreens.Combat;
 
 internal sealed class ManeverIntention : IIntention
 {

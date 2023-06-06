@@ -1,27 +1,26 @@
-﻿namespace Core.Props
+﻿namespace Core.Props;
+
+/// <summary>
+/// Base class for all items.
+/// </summary>
+public abstract class PropBase : IProp
 {
     /// <summary>
-    /// Base class for all items.
+    /// Constructor.
     /// </summary>
-    public abstract class PropBase : IProp
+    /// <param name="scheme"> Item schema. </param>
+    protected PropBase(IPropScheme scheme)
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="scheme"> Item schema. </param>
-        protected PropBase(IPropScheme scheme)
-        {
-            Scheme = scheme;
-        }
-
-        public override string ToString()
-        {
-            return $"{Scheme}";
-        }
-
-        /// <summary>
-        /// Item schema.
-        /// </summary>
-        public IPropScheme Scheme { get; }
+        Scheme = scheme;
     }
+
+    public override string ToString()
+    {
+        return $"{Scheme}";
+    }
+
+    /// <summary>
+    /// Item schema.
+    /// </summary>
+    public IPropScheme Scheme { get; }
 }

@@ -4,9 +4,7 @@ using Client.Core;
 using Core.Combats;
 using Core.Crises;
 
-using Rpg.Client.Core;
-
-namespace Rpg.Client.GameScreens;
+namespace Client.GameScreens;
 
 internal static class GameObjectHelper
 {

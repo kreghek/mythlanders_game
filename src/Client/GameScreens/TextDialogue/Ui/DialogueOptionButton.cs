@@ -1,8 +1,7 @@
+using Client.Engine;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Speech.Ui;
 
 namespace Client.GameScreens.TextDialogue.Ui;
 

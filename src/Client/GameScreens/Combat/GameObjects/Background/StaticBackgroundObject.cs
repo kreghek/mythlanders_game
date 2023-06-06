@@ -1,13 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
+namespace Client.GameScreens.Combat.GameObjects.Background;
+
+internal sealed class StaticBackgroundObject : BackgroundObjectBase
 {
-    internal sealed class StaticBackgroundObject : BackgroundObjectBase
+    public StaticBackgroundObject(Texture2D spriteAtlas, Rectangle sourceRectangle) : base(spriteAtlas,
+        sourceRectangle)
     {
-        public StaticBackgroundObject(Texture2D spriteAtlas, Rectangle sourceRectangle) : base(spriteAtlas,
-            sourceRectangle)
-        {
-        }
     }
 }

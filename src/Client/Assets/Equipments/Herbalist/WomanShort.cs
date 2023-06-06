@@ -1,23 +1,24 @@
 using System;
 
-using Rpg.Client.Core;
+using Client.Core;
 
-namespace Rpg.Client.Assets.Equipments.Herbalist
+using Rpg.Client.Assets.Equipments;
+
+namespace Client.Assets.Equipments.Herbalist;
+
+internal sealed class WomanShort : IEquipmentScheme
 {
-    internal sealed class WomanShort : IEquipmentScheme
+    public EquipmentSid Sid => EquipmentSid.WomanShort;
+
+    public string GetDescription()
     {
-        public EquipmentSid Sid => EquipmentSid.WomanShort;
-
-        public string GetDescription()
-        {
-            throw new NotImplementedException();
-        }
-
-        public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Herbalist;
-
-        public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 8
-        };
+        throw new NotImplementedException();
     }
+
+    public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Herbalist;
+
+    public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
+    {
+        IconOneBasedIndex = 8
+    };
 }

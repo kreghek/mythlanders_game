@@ -1,74 +1,73 @@
-﻿namespace Rpg.Client.Core
+﻿namespace Client.Core;
+
+public enum UnitName
 {
-    public enum UnitName
-    {
-        Undefined,
+    Undefined,
 
-        /// <summary>
-        /// Used only in the events to describe situations.
-        /// </summary>
-        Environment,
+    /// <summary>
+    /// Used only in the events to describe situations.
+    /// </summary>
+    Environment,
 
-        Partisan,
-        Assaulter,
-        Zoologist,
+    Partisan,
+    Assaulter,
+    Zoologist,
 
-        Swordsman,
-        Robber,
-        Herbalist,
+    Swordsman,
+    Robber,
+    Herbalist,
 
-        Monk,
-        Guardian,
-        Sage,
+    Monk,
+    Guardian,
+    Sage,
 
-        Priest,
-        Medjay,
-        Liberator,
+    Priest,
+    Medjay,
+    Liberator,
 
-        Hoplite,
-        Amazon,
-        Engineer,
+    Hoplite,
+    Amazon,
+    Engineer,
 
-        Hq,
-        Oldman,
-        GuardianWoman,
-        StrangerWoman,
-        Moira,
-        Synth,
-        ChineseOldman,
+    Hq,
+    Oldman,
+    GuardianWoman,
+    StrangerWoman,
+    Moira,
+    Synth,
+    ChineseOldman,
 
-        Marauder,
-        BoldMarauder,
-        BlackTrooper,
+    Marauder,
+    BoldMarauder,
+    BlackTrooper,
 
-        Aspid,
-        Liho, // лихо
-        Kikimore, // кикимора
-        SwampWomanFish, // болотная русалка
-        Drekava, // Дрекавак
-        DigitalWolf,
-        CorruptedBear,
-        Volkolak,
-        Dead, // Умертивие
-        Wisp,
-        Korgorush,
-        Stryga,
-        Vampire, // Вурдалак
-        HornedFrog, // Рогатая жаба
-        Basilisk,
-        KosheyTheImmortal,
-        KosheyTheImmortal2,
-        KosheyTheImmortal3,
-        VolkolakWarrior,
+    Aspid,
+    Liho, // лихо
+    Kikimore, // кикимора
+    SwampWomanFish, // болотная русалка
+    Drekava, // Дрекавак
+    DigitalWolf,
+    CorruptedBear,
+    Volkolak,
+    Dead, // Умертивие
+    Wisp,
+    Korgorush,
+    Stryga,
+    Vampire, // Вурдалак
+    HornedFrog, // Рогатая жаба
+    Basilisk,
+    KosheyTheImmortal,
+    KosheyTheImmortal2,
+    KosheyTheImmortal3,
+    VolkolakWarrior,
 
-        Huapigui,
-        Taote,
+    Huapigui,
+    Taote,
 
-        Chaser,
-        Sphinx,
+    Chaser,
+    Sphinx,
 
-        Hydra,
+    Hydra,
 
-        GreekMonster
-    }
+    GreekMonster
 }

@@ -11,9 +11,6 @@ using Core.Props;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Engine;
-using Rpg.Client.GameScreens;
-
 namespace Client.GameScreens.Campaign.Ui;
 
 internal class InventoryModal : ModalDialogBase

@@ -1,12 +1,11 @@
 using System.Linq;
 
+using Client.Core;
 using Client.Core.Campaigns;
 using Client.GameScreens.Armory;
+using Client.ScreenManagement;
 
 using Core.Dices;
-
-using Rpg.Client.Core;
-using Rpg.Client.ScreenManagement;
 
 namespace Client.Assets.StageItems;
 

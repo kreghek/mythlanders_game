@@ -1,7 +1,6 @@
-﻿namespace Rpg.Client.Engine
+﻿namespace Client.Engine;
+
+internal enum ModalTopSymbol
 {
-    internal enum ModalTopSymbol
-    {
-        Gears
-    }
+    Gears
 }

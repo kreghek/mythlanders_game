@@ -2,34 +2,32 @@ using Client.Core;
 
 using Rpg.Client.Assets.Equipments.Swordsman;
 using Rpg.Client.Assets.GraphicConfigs.Heroes;
-using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Heroes
+namespace Client.Assets.Heroes;
+
+internal class SwordsmanFactory : HeroFactoryBase
 {
-    internal class SwordsmanFactory : HeroFactoryBase
+    public override UnitName HeroName => UnitName.Swordsman;
+
+    protected override IEquipmentScheme[] GetEquipment()
     {
-        public override UnitName HeroName => UnitName.Swordsman;
-
-        protected override IEquipmentScheme[] GetEquipment()
+        return new IEquipmentScheme[]
         {
-            return new IEquipmentScheme[]
-            {
-                new CombatSword(),
-                new Mk2MediumPowerArmor(),
-                new WoodenHandSculpture()
-            };
-        }
+            new CombatSword(),
+            new Mk2MediumPowerArmor(),
+            new WoodenHandSculpture()
+        };
+    }
 
-        protected override UnitGraphicsConfigBase GetGraphicsConfig()
-        {
-            return new SwordsmanGraphicsConfig(HeroName);
-        }
+    protected override UnitGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new SwordsmanGraphicsConfig(HeroName);
+    }
 
-        protected override IUnitLevelScheme[] GetLevels()
+    protected override IUnitLevelScheme[] GetLevels()
+    {
+        return new IUnitLevelScheme[]
         {
-            return new IUnitLevelScheme[]
-            {
-            };
-        }
+        };
     }
 }

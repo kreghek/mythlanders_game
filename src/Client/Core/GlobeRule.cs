@@ -1,7 +1,6 @@
-﻿namespace Rpg.Client.Core
+﻿namespace Client.Core;
+
+internal enum GlobeRule
 {
-    internal enum GlobeRule
-    {
-        DisableBerimir
-    }
+    DisableBerimir
 }

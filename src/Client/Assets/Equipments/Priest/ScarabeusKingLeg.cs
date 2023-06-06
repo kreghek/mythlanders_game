@@ -1,23 +1,22 @@
 using System;
 
-using Rpg.Client.Core;
+using Client.Core;
 
-namespace Rpg.Client.Assets.Equipments.Priest
+namespace Client.Assets.Equipments.Priest;
+
+internal sealed class ScarabeusKingLeg : IEquipmentScheme
 {
-    internal sealed class ScarabeusKingLeg : IEquipmentScheme
+    public EquipmentSid Sid => EquipmentSid.ScarabeusKingLeg;
+
+    public string GetDescription()
     {
-        public EquipmentSid Sid => EquipmentSid.ScarabeusKingLeg;
-
-        public string GetDescription()
-        {
-            throw new NotImplementedException();
-        }
-
-        public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Priest;
-
-        public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 4
-        };
+        throw new NotImplementedException();
     }
+
+    public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Priest;
+
+    public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
+    {
+        IconOneBasedIndex = 4
+    };
 }

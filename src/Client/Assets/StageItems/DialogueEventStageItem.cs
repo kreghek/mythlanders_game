@@ -3,8 +3,7 @@
 using Client.Core;
 using Client.Core.Campaigns;
 using Client.GameScreens.TextDialogue;
-
-using Rpg.Client.ScreenManagement;
+using Client.ScreenManagement;
 
 namespace Client.Assets.StageItems;
 

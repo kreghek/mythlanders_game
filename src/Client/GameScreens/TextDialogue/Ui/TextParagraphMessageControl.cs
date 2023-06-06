@@ -1,4 +1,5 @@
 using Client.Core.Dialogues;
+using Client.Engine;
 
 using Core.Dices;
 
@@ -6,7 +7,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Speech.Ui;
 
 namespace Client.GameScreens.TextDialogue.Ui;

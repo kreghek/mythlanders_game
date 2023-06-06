@@ -3,76 +3,75 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Rpg.Client.Engine
+namespace Client.Engine;
+
+internal class ParticleSystem
 {
-    internal class ParticleSystem
+    private readonly IParticleGenerator _particleGenerator;
+    private readonly IList<IParticle> _particles;
+
+    private Vector2 _emitterLocation;
+
+    private bool _stoped;
+
+    private double _updateCounter;
+
+    public ParticleSystem(Vector2 location, IParticleGenerator particleGenerator)
     {
-        private readonly IParticleGenerator _particleGenerator;
-        private readonly IList<IParticle> _particles;
+        _emitterLocation = location;
+        _particleGenerator = particleGenerator;
+        _particles = new List<IParticle>();
+    }
 
-        private Vector2 _emitterLocation;
-
-        private bool _stoped;
-
-        private double _updateCounter;
-
-        public ParticleSystem(Vector2 location, IParticleGenerator particleGenerator)
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        foreach (var particle in _particles)
         {
-            _emitterLocation = location;
-            _particleGenerator = particleGenerator;
-            _particles = new List<IParticle>();
+            particle.Draw(spriteBatch);
         }
+    }
 
-        public void Draw(SpriteBatch spriteBatch)
+    public void MoveEmitter(Vector2 newEmitterPosition)
+    {
+        _emitterLocation = newEmitterPosition;
+    }
+
+    public void Stop()
+    {
+        _stoped = true;
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        if (!_stoped)
         {
-            foreach (var particle in _particles)
+            _updateCounter += gameTime.ElapsedGameTime.TotalSeconds;
+            if (_updateCounter > _particleGenerator.GetTimeout())
             {
-                particle.Draw(spriteBatch);
-            }
-        }
+                _updateCounter = 0;
 
-        public void MoveEmitter(Vector2 newEmitterPosition)
-        {
-            _emitterLocation = newEmitterPosition;
-        }
+                var total = _particleGenerator.GetCount();
 
-        public void Stop()
-        {
-            _stoped = true;
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            if (!_stoped)
-            {
-                _updateCounter += gameTime.ElapsedGameTime.TotalSeconds;
-                if (_updateCounter > _particleGenerator.GetTimeout())
+                for (var i = 0; i < total; i++)
                 {
-                    _updateCounter = 0;
-
-                    var total = _particleGenerator.GetCount();
-
-                    for (var i = 0; i < total; i++)
-                    {
-                        _particles.Add(GenerateNewParticle());
-                    }
-                }
-            }
-
-            for (var particle = 0; particle < _particles.Count; particle++)
-            {
-                _particles[particle].Update();
-                if (_particles[particle].TTL <= 0)
-                {
-                    _particles.RemoveAt(particle);
-                    particle--;
+                    _particles.Add(GenerateNewParticle());
                 }
             }
         }
 
-        private IParticle GenerateNewParticle()
+        for (var particle = 0; particle < _particles.Count; particle++)
         {
-            return _particleGenerator.GenerateNewParticle(_emitterLocation);
+            _particles[particle].Update();
+            if (_particles[particle].TTL <= 0)
+            {
+                _particles.RemoveAt(particle);
+                particle--;
+            }
         }
+    }
+
+    private IParticle GenerateNewParticle()
+    {
+        return _particleGenerator.GenerateNewParticle(_emitterLocation);
     }
 }

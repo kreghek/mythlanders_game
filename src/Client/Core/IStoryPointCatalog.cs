@@ -1,11 +1,8 @@
 using System.Collections.Generic;
 
-using Client.Core;
+namespace Client.Core;
 
-namespace Rpg.Client.Core
+internal interface IStoryPointCatalog
 {
-    internal interface IStoryPointCatalog
-    {
-        IReadOnlyCollection<IStoryPoint> GetAll();
-    }
+    IReadOnlyCollection<IStoryPoint> GetAll();
 }

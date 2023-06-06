@@ -1,14 +1,11 @@
-using Client.Core.Dialogues;
+namespace Client.Core.Dialogues;
 
-namespace Rpg.Client.Core.Dialogues
+internal sealed class Dialogue
 {
-    internal sealed class Dialogue
+    public Dialogue(DialogueNode root)
     {
-        public Dialogue(DialogueNode root)
-        {
-            Root = root;
-        }
-
-        public DialogueNode Root { get; }
+        Root = root;
     }
+
+    public DialogueNode Root { get; }
 }

@@ -1,25 +1,24 @@
 using System;
 
-using Rpg.Client.Core;
-using Rpg.Client.Core.Equipments;
+using Client.Core;
+using Client.Core.Equipments;
 
-namespace Rpg.Client.Assets.Equipments.Sage
+namespace Client.Assets.Equipments.Sage;
+
+internal sealed class EmptinessInTheHand : SimpleBonusEquipmentBase
 {
-    internal sealed class EmptinessInTheHand : SimpleBonusEquipmentBase
+    public override IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
     {
-        public override IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 4
-        };
+        IconOneBasedIndex = 4
+    };
 
-        public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Sage;
-        public override EquipmentSid Sid => EquipmentSid.EmptinessInTheHand;
+    public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Sage;
+    public override EquipmentSid Sid => EquipmentSid.EmptinessInTheHand;
 
-        protected override float MultiplicatorByLevel => 0.5f;
+    protected override float MultiplicatorByLevel => 0.5f;
 
-        public override string GetDescription()
-        {
-            throw new InvalidOperationException();
-        }
+    public override string GetDescription()
+    {
+        throw new InvalidOperationException();
     }
 }

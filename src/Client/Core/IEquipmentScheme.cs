@@ -3,20 +3,19 @@ using System.Collections.Generic;
 
 using Core.Combats;
 
-namespace Rpg.Client.Core
+namespace Client.Core;
+
+internal interface IEquipmentScheme
 {
-    internal interface IEquipmentScheme
+    IEquipmentSchemeMetadata? Metadata { get; }
+    public EquipmentItemType RequiredResourceToLevelUp { get; }
+
+    EquipmentSid Sid { get; }
+
+    string GetDescription();
+
+    IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers(int equipmentLevel)
     {
-        IEquipmentSchemeMetadata? Metadata { get; }
-        public EquipmentItemType RequiredResourceToLevelUp { get; }
-
-        EquipmentSid Sid { get; }
-
-        string GetDescription();
-
-        IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers(int equipmentLevel)
-        {
-            return Array.Empty<(UnitStatType, IUnitStatModifier)>();
-        }
+        return Array.Empty<(UnitStatType, IUnitStatModifier)>();
     }
 }

@@ -5,16 +5,13 @@ using System.Linq;
 
 using Client.Core;
 using Client.Core.Dialogues;
+using Client.Engine;
 
 using Core.Dices;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-
-using Rpg.Client.Core;
-using Rpg.Client.Engine;
-using Rpg.Client.GameScreens;
 
 namespace Client.GameScreens.TextDialogue.Ui;
 

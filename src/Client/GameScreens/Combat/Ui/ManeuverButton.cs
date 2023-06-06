@@ -1,33 +1,32 @@
-﻿using Core.Combats;
+﻿using Client.Engine;
+
+using Core.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Engine;
+namespace Client.GameScreens.Combat.Ui;
 
-namespace Client.GameScreens.Combat.Ui
+internal class ManeuverButton : ButtonBase
 {
-    internal class ManeuverButton : ButtonBase
+    public ManeuverButton(FieldCoords fieldCoords)
     {
-        public ManeuverButton(FieldCoords fieldCoords)
-        {
-            FieldCoords = fieldCoords;
-        }
+        FieldCoords = fieldCoords;
+    }
 
-        public FieldCoords FieldCoords { get; }
+    public FieldCoords FieldCoords { get; }
 
-        protected override Point CalcTextureOffset()
-        {
-            return ControlTextures.CombatMove;
-        }
+    protected override Point CalcTextureOffset()
+    {
+        return ControlTextures.CombatMove;
+    }
 
-        protected override Color CalculateColor()
-        {
-            return IsEnabled ? Color.White : Color.Lerp(Color.DarkGray, Color.Transparent, 0.5f);
-        }
+    protected override Color CalculateColor()
+    {
+        return IsEnabled ? Color.White : Color.Lerp(Color.DarkGray, Color.Transparent, 0.5f);
+    }
 
-        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
-        {
-        }
+    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
+    {
     }
 }

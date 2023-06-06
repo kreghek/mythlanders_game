@@ -1,24 +1,23 @@
-﻿namespace Rpg.Client.Core
+﻿namespace Client.Core;
+
+internal enum SystemEventMarker
 {
-    internal enum SystemEventMarker
-    {
-        Undefined,
+    Undefined,
 
-        MeetZoologist,
+    MeetZoologist,
 
-        MeetArcher,
-        MeetHerbalist,
+    MeetArcher,
+    MeetHerbalist,
 
-        MeetMonk,
-        MeetSpearman,
-        MeetMissionary,
+    MeetMonk,
+    MeetSpearman,
+    MeetMissionary,
 
-        MeetPriest,
-        MeetMedjay,
-        MeetLiberator,
+    MeetPriest,
+    MeetMedjay,
+    MeetLiberator,
 
-        MeetHoplite,
-        MeetAmazon,
-        MeetEngineer
-    }
+    MeetHoplite,
+    MeetAmazon,
+    MeetEngineer
 }

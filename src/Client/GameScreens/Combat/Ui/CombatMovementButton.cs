@@ -5,8 +5,6 @@ using Core.Combats;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Engine;
-
 namespace Client.GameScreens.Combat.Ui;
 
 internal sealed class CombatMovementButton : EntityButtonBase<CombatMovementInstance>

@@ -6,8 +6,6 @@ using Client.Core.Heroes;
 
 using Core.Combats;
 
-using Rpg.Client.Core;
-
 namespace Client.Core;
 
 internal sealed class Player

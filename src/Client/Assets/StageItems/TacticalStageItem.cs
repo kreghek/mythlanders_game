@@ -1,16 +1,14 @@
 ﻿using Client.Core.Campaigns;
 using Client.GameScreens.Tactical;
+using Client.ScreenManagement;
 
-using Rpg.Client.ScreenManagement;
+namespace Client.Assets.StageItems;
 
-namespace Client.Assets.StageItems
+internal sealed class TacticalStageItem : ICampaignStageItem
 {
-    internal sealed class TacticalStageItem : ICampaignStageItem
+    public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
     {
-        public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
-        {
-            screenManager.ExecuteTransition(currentScreen, ScreenTransition.Tactical,
-                new TacticalScreenTransitionArguments(currentCampaign));
-        }
+        screenManager.ExecuteTransition(currentScreen, ScreenTransition.Tactical,
+            new TacticalScreenTransitionArguments(currentCampaign));
     }
 }

@@ -1,67 +1,65 @@
 ﻿using System;
 
+using Client.Engine;
 using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Engine;
+namespace Client.GameScreens.Combat.Ui;
 
-namespace Rpg.Client.GameScreens.Combat.Ui
+internal sealed class UnitButton : ButtonBase
 {
-    internal sealed class UnitButton : ButtonBase
+    private readonly CombatantGameObject _gameObject;
+    private readonly GameObjectContentStorage _gameObjectContentStorage;
+
+    public UnitButton(CombatantGameObject gameObject, GameObjectContentStorage gameObjectContentStorage)
     {
-        private readonly CombatantGameObject _gameObject;
-        private readonly GameObjectContentStorage _gameObjectContentStorage;
+        _gameObject = gameObject;
+        _gameObjectContentStorage = gameObjectContentStorage;
+    }
 
-        public UnitButton(CombatantGameObject gameObject, GameObjectContentStorage gameObjectContentStorage)
-        {
-            _gameObject = gameObject;
-            _gameObjectContentStorage = gameObjectContentStorage;
-        }
+    protected override Point CalcTextureOffset()
+    {
+        return Point.Zero;
+    }
 
-        protected override Point CalcTextureOffset()
-        {
-            return Point.Zero;
-        }
+    protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
+    {
+        //if (_buttonState == UiButtonState.Hover)
+        //{
+        //    base.DrawBackground(spriteBatch, new Color(200, 0, 0, 50));
+        //}
+    }
 
-        protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
-        {
-            //if (_buttonState == UiButtonState.Hover)
-            //{
-            //    base.DrawBackground(spriteBatch, new Color(200, 0, 0, 50));
-            //}
-        }
+    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
+    {
+        //var unitMarkerTexture = _gameObjectContentStorage.GetCombatUnitMarker();
+        //if (_buttonState == UiButtonState.Hover)
+        //{
+        //    spriteBatch.Draw(unitMarkerTexture,
+        //        new Rectangle(Rect.X, Rect.Bottom - 32, 128, 32),
+        //        new Rectangle(0, 32, 128, 32),
+        //        Color.White);
+        //}
+        //else
+        //{
+        //    spriteBatch.Draw(unitMarkerTexture,
+        //        new Rectangle(Rect.X + 8, Rect.Bottom - 32 + 8, 128 - 16, 32 - 8),
+        //        new Rectangle(0, 32, 128, 32),
+        //        new Color(Color.White, 0.25f));
+        //}
+    }
 
-        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
-        {
-            //var unitMarkerTexture = _gameObjectContentStorage.GetCombatUnitMarker();
-            //if (_buttonState == UiButtonState.Hover)
-            //{
-            //    spriteBatch.Draw(unitMarkerTexture,
-            //        new Rectangle(Rect.X, Rect.Bottom - 32, 128, 32),
-            //        new Rectangle(0, 32, 128, 32),
-            //        Color.White);
-            //}
-            //else
-            //{
-            //    spriteBatch.Draw(unitMarkerTexture,
-            //        new Rectangle(Rect.X + 8, Rect.Bottom - 32 + 8, 128 - 16, 32 - 8),
-            //        new Rectangle(0, 32, 128, 32),
-            //        new Color(Color.White, 0.25f));
-            //}
-        }
+    protected override bool IsMouseOver(Rectangle mouseRect)
+    {
+        var center = Rect.Center.ToVector2();
 
-        protected override bool IsMouseOver(Rectangle mouseRect)
-        {
-            var center = Rect.Center.ToVector2();
+        var distance = (center - mouseRect.Location.ToVector2()).Length();
 
-            var distance = (center - mouseRect.Location.ToVector2()).Length();
+        var radius = Math.Min(Rect.Width, Rect.Height) / 2;
 
-            var radius = Math.Min(Rect.Width, Rect.Height) / 2;
-
-            return distance <= radius;
-        }
+        return distance <= radius;
     }
 }

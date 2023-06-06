@@ -2,8 +2,6 @@
 
 using Client.Core.Heroes;
 
-using Rpg.Client.Core;
-
 namespace Client.Core.Dialogues;
 
 internal interface IEventContext

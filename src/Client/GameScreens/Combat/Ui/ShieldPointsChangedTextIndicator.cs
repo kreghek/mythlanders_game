@@ -1,36 +1,35 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Client.Core;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Core;
+namespace Client.GameScreens.Combat.Ui;
 
-namespace Rpg.Client.GameScreens.Combat.Ui
+internal class ShieldPointsChangedTextIndicator : TextIndicatorBase
 {
-    internal class ShieldPointsChangedTextIndicator : TextIndicatorBase
+    private readonly int _amount;
+    private readonly HitPointsChangeDirection _direction;
+
+    public ShieldPointsChangedTextIndicator(int amount, HitPointsChangeDirection direction,
+        Vector2 startPosition,
+        SpriteFont font, int stackIndex) : base(startPosition + new Vector2(stackIndex * 20, 0), font)
     {
-        private readonly int _amount;
-        private readonly HitPointsChangeDirection _direction;
+        _amount = amount;
+        _direction = direction;
+    }
 
-        public ShieldPointsChangedTextIndicator(int amount, HitPointsChangeDirection direction,
-            Vector2 startPosition,
-            SpriteFont font, int stackIndex) : base(startPosition + new Vector2(stackIndex * 20, 0), font)
+    protected override Color GetColor()
+    {
+        return _direction == HitPointsChangeDirection.Positive ? Color.LightGray : Color.LightGray;
+    }
+
+    protected override string GetText()
+    {
+        if (_amount > 0 && _direction == HitPointsChangeDirection.Positive)
         {
-            _amount = amount;
-            _direction = direction;
+            return $"+<{_amount}>";
         }
 
-        protected override Color GetColor()
-        {
-            return _direction == HitPointsChangeDirection.Positive ? Color.LightGray : Color.LightGray;
-        }
-
-        protected override string GetText()
-        {
-            if (_amount > 0 && _direction == HitPointsChangeDirection.Positive)
-            {
-                return $"+<{_amount}>";
-            }
-
-            return $"<{_amount}>";
-        }
+        return $"<{_amount}>";
     }
 }

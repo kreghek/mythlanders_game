@@ -4,8 +4,6 @@ using JetBrains.Annotations;
 
 using Rpg.Client.Assets.Equipments.Monk;
 using Rpg.Client.Assets.GraphicConfigs.Heroes;
-using Rpg.Client.Assets.Heroes;
-using Rpg.Client.Core;
 
 namespace Client.Assets.Heroes;
 

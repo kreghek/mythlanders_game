@@ -1,9 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Client.Core;
+using Client.Engine;
 
-using Rpg.Client.Core;
-using Rpg.Client.Engine;
-using Rpg.Client.GameScreens;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.VoiceCombat;
 

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.Catalogs.DialogueStoring;
+using Client.Core;
 using Client.Core.Dialogues;
 
 using FluentAssertions;
@@ -10,9 +11,7 @@ using Moq;
 
 using NUnit.Framework;
 
-using Rpg.Client.Core;
-
-namespace Rpg.Client.Tests.Catalogs.DialogueStoring;
+namespace Client.Tests.Catalogs.DialogueStoring;
 
 [TestFixture]
 public class DialogueCatalogHelperTests

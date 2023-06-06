@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.Crises;
+using Client.Core;
 using Client.Core.Campaigns;
+using Client.Engine;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Crisis.Ui;
 using Client.GameScreens.Rest.Ui;
+using Client.ScreenManagement;
 
 using Core.Crises;
 using Core.Dices;
@@ -16,11 +19,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
-using Rpg.Client.Core;
-using Rpg.Client.Engine;
-using Rpg.Client.GameScreens;
-using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Crisis;
 

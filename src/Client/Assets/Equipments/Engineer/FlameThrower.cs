@@ -1,25 +1,24 @@
 ﻿using System;
 
-using Rpg.Client.Core;
-using Rpg.Client.Core.Equipments;
+using Client.Core;
+using Client.Core.Equipments;
 
-namespace Rpg.Client.Assets.Equipments.Engineer
+namespace Client.Assets.Equipments.Engineer;
+
+internal sealed class FlameThrower : SimpleBonusEquipmentBase
 {
-    internal sealed class FlameThrower : SimpleBonusEquipmentBase
+    public override IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
     {
-        public override IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 4
-        };
+        IconOneBasedIndex = 4
+    };
 
-        public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Engineer;
-        public override EquipmentSid Sid => EquipmentSid.FlameThrower;
+    public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Engineer;
+    public override EquipmentSid Sid => EquipmentSid.FlameThrower;
 
-        protected override float MultiplicatorByLevel => 0.5f;
+    protected override float MultiplicatorByLevel => 0.5f;
 
-        public override string GetDescription()
-        {
-            throw new InvalidOperationException();
-        }
+    public override string GetDescription()
+    {
+        throw new InvalidOperationException();
     }
 }

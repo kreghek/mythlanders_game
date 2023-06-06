@@ -5,6 +5,7 @@ using System.Linq;
 using Client.Assets.StageItems;
 using Client.Core.Campaigns;
 using Client.Engine;
+using Client.ScreenManagement;
 
 using CombatDicesTeam.Graphs;
 using CombatDicesTeam.Graphs.Visualization;
@@ -14,9 +15,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using MonoGame;
-
-using Rpg.Client.Engine;
-using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Campaign.Ui;
 

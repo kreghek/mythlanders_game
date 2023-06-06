@@ -1,13 +1,12 @@
 using Microsoft.Xna.Framework;
 
-namespace Rpg.Client.Engine
+namespace Client.Engine;
+
+internal interface IParticleGenerator
 {
-    internal interface IParticleGenerator
-    {
-        IParticle GenerateNewParticle(Vector2 emitterPosition);
+    IParticle GenerateNewParticle(Vector2 emitterPosition);
 
-        int GetCount();
+    int GetCount();
 
-        float GetTimeout();
-    }
+    float GetTimeout();
 }

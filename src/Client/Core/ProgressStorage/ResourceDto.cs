@@ -1,8 +1,7 @@
-﻿namespace Rpg.Client.Core.ProgressStorage
+﻿namespace Client.Core.ProgressStorage;
+
+internal sealed record ResourceDto
 {
-    internal sealed record ResourceDto
-    {
-        public int Amount { get; init; }
-        public string Type { get; init; }
-    }
+    public int Amount { get; init; }
+    public string Type { get; init; }
 }

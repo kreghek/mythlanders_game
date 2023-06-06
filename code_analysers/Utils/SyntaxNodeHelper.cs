@@ -1,47 +1,46 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace CodeAnalyzers.Utils
+namespace CodeAnalysers.Utils;
+
+public static class SyntaxNodeHelper
 {
-    public static class SyntaxNodeHelper
+    public static bool TryGetParentSyntax<T>(SyntaxNode syntaxNode, out T result)
+        where T : SyntaxNode
     {
-        public static bool TryGetParentSyntax<T>(SyntaxNode syntaxNode, out T result)
-            where T : SyntaxNode
+        result = null;
+
+        if (syntaxNode == null)
         {
-            result = null;
+            return false;
+        }
+
+        try
+        {
+            syntaxNode = syntaxNode.Parent;
 
             if (syntaxNode == null)
             {
                 return false;
             }
 
-            try
+            if (syntaxNode is T node)
             {
-                syntaxNode = syntaxNode.Parent;
-
-                if (syntaxNode == null)
-                {
-                    return false;
-                }
-
-                if (syntaxNode is T node)
-                {
-                    result = node;
-                    return true;
-                }
-
-                return TryGetParentSyntax(syntaxNode, out result);
+                result = node;
+                return true;
             }
-            catch
-            {
-                return false;
-            }
+
+            return TryGetParentSyntax(syntaxNode, out result);
         }
-
-        internal static bool IsDocumentationModeOn(this SyntaxNodeAnalysisContext context)
+        catch
         {
-            return context.Node.SyntaxTree?.Options.DocumentationMode
-                   != DocumentationMode.None;
+            return false;
         }
+    }
+
+    internal static bool IsDocumentationModeOn(this SyntaxNodeAnalysisContext context)
+    {
+        return context.Node.SyntaxTree?.Options.DocumentationMode
+               != DocumentationMode.None;
     }
 }

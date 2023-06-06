@@ -2,12 +2,11 @@
 
 using Client.Assets;
 
-namespace Rpg.Client.Core.ProgressStorage
+namespace Client.Core.ProgressStorage;
+
+internal sealed record BiomeDto
 {
-    internal sealed record BiomeDto
-    {
-        public bool IsComplete { get; init; }
-        public IEnumerable<GlobeNodeDto?>? Nodes { get; init; }
-        public LocationCulture Type { get; init; }
-    }
+    public bool IsComplete { get; init; }
+    public IEnumerable<GlobeNodeDto?>? Nodes { get; init; }
+    public LocationCulture Type { get; init; }
 }

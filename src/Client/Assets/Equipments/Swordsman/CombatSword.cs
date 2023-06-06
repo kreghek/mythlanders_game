@@ -1,25 +1,25 @@
 using Client;
+using Client.Core;
+using Client.Core.Equipments;
 
-using Rpg.Client.Core;
-using Rpg.Client.Core.Equipments;
+using Rpg.Client.Assets.Equipments;
 
-namespace Rpg.Client.Assets.Equipments.Swordsman
+namespace Client.Assets.Equipments.Swordsman;
+
+internal sealed class CombatSword : SimpleBonusEquipmentBase
 {
-    internal sealed class CombatSword : SimpleBonusEquipmentBase
+    public override IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
     {
-        public override IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 1
-        };
+        IconOneBasedIndex = 1
+    };
 
-        public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Warrior;
-        public override EquipmentSid Sid => EquipmentSid.CombatSword;
+    public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Warrior;
+    public override EquipmentSid Sid => EquipmentSid.CombatSword;
 
-        protected override float MultiplicatorByLevel => 0.25f;
+    protected override float MultiplicatorByLevel => 0.25f;
 
-        public override string GetDescription()
-        {
-            return GameObjectResources.Aspid;
-        }
+    public override string GetDescription()
+    {
+        return GameObjectResources.Aspid;
     }
 }

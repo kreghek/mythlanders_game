@@ -1,41 +1,40 @@
 using System.Reflection;
 using System.Resources;
 
-using Rpg.Client.Core;
+using Client.Core;
 
-namespace Rpg.Client.GameScreens.Speech.Ui
+namespace Client.GameScreens.TextDialogue.Ui;
+
+public static class SpeechVisualizationHelper
 {
-    public static class SpeechVisualizationHelper
+    private const int MAX_IN_LINE = 60;
+
+    private static readonly ResourceManager _dialogueResourceManager;
+
+    static SpeechVisualizationHelper()
     {
-        private const int MAX_IN_LINE = 60;
+        var assembly = Assembly.GetExecutingAssembly();
 
-        private static readonly ResourceManager _dialogueResourceManager;
+        _dialogueResourceManager = new ResourceManager("Client.DialogueResources", assembly);
+    }
 
-        static SpeechVisualizationHelper()
+    public static (string text, bool isLocalized) PrepareLocalizedText(string dialogueResourceSid)
+    {
+        var (fullText, isLocalized) = GetLocalizedText(dialogueResourceSid);
+        var fixedFullText = StringHelper.FixText(fullText);
+        var wordBreakFullText = StringHelper.LineBreaking(fixedFullText, MAX_IN_LINE);
+
+        return (wordBreakFullText, isLocalized);
+    }
+
+    private static (string text, bool isLocalized) GetLocalizedText(string textSid)
+    {
+        var localizedText = _dialogueResourceManager.GetString(textSid);
+        if (localizedText is not null)
         {
-            var assembly = Assembly.GetExecutingAssembly();
-
-            _dialogueResourceManager = new ResourceManager("Client.DialogueResources", assembly);
+            return (localizedText, true);
         }
 
-        public static (string text, bool isLocalized) PrepareLocalizedText(string dialogueResourceSid)
-        {
-            var (fullText, isLocalized) = GetLocalizedText(dialogueResourceSid);
-            var fixedFullText = StringHelper.FixText(fullText);
-            var wordBreakFullText = StringHelper.LineBreaking(fixedFullText, MAX_IN_LINE);
-
-            return (wordBreakFullText, isLocalized);
-        }
-
-        private static (string text, bool isLocalized) GetLocalizedText(string textSid)
-        {
-            var localizedText = _dialogueResourceManager.GetString(textSid);
-            if (localizedText is not null)
-            {
-                return (localizedText, true);
-            }
-
-            return ($"#{textSid}", false);
-        }
+        return ($"#{textSid}", false);
     }
 }

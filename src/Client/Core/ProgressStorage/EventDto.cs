@@ -1,8 +1,7 @@
-﻿namespace Rpg.Client.Core.ProgressStorage
+﻿namespace Client.Core.ProgressStorage;
+
+internal sealed record EventDto
 {
-    internal sealed record EventDto
-    {
-        public int Counter { get; set; }
-        public string Sid { get; init; }
-    }
+    public int Counter { get; set; }
+    public string Sid { get; init; }
 }

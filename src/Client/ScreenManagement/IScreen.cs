@@ -1,14 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Rpg.Client.ScreenManagement
+namespace Client.ScreenManagement;
+
+internal interface IScreen
 {
-    internal interface IScreen
-    {
-        IScreen? TargetScreen { get; set; }
+    IScreen? TargetScreen { get; set; }
 
-        void Draw(SpriteBatch spriteBatch);
+    void Draw(SpriteBatch spriteBatch);
 
-        void Update(GameTime gameTime);
-    }
+    void Update(GameTime gameTime);
 }

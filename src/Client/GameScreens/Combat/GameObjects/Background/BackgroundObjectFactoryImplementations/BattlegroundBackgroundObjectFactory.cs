@@ -1,58 +1,56 @@
 ﻿using System.Collections.Generic;
 
 using Client.Assets;
+using Client.Core;
 using Client.GameScreens;
 
 using Microsoft.Xna.Framework;
 
-using Rpg.Client.Core;
+namespace Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectFactoryImplementations;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectFactoryImplementations
+internal sealed class BattlegroundBackgroundObjectFactory : IBackgroundObjectFactory
 {
-    internal sealed class BattlegroundBackgroundObjectFactory : IBackgroundObjectFactory
+    private readonly GameObjectContentStorage _gameObjectContentStorage;
+
+    public BattlegroundBackgroundObjectFactory(GameObjectContentStorage gameObjectContentStorage)
     {
-        private readonly GameObjectContentStorage _gameObjectContentStorage;
+        _gameObjectContentStorage = gameObjectContentStorage;
+    }
 
-        public BattlegroundBackgroundObjectFactory(GameObjectContentStorage gameObjectContentStorage)
+    public IReadOnlyList<IBackgroundObject> CreateCloudLayerObjects()
+    {
+        var list = new List<IBackgroundObject>();
+        for (var i = 0; i <= 10; i++)
         {
-            _gameObjectContentStorage = gameObjectContentStorage;
+            var y = i * 71f / 710;
+            var cloud = new BackgroundCloud(
+                _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(LocationTheme.SlavicBattleground,
+                    BackgroundLayerType.Clouds, 0),
+                i,
+                new Vector2(0, 40 + y),
+                new Vector2(1000, 40 + y),
+                1 + i * 31f / 310);
+
+            list.Add(cloud);
         }
 
-        public IReadOnlyList<IBackgroundObject> CreateCloudLayerObjects()
-        {
-            var list = new List<IBackgroundObject>();
-            for (var i = 0; i <= 10; i++)
-            {
-                var y = (i * 71f) / 710;
-                var cloud = new BackgroundCloud(
-                    _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(LocationTheme.SlavicBattleground,
-                        BackgroundLayerType.Clouds, 0),
-                    i,
-                    new Vector2(0, 40 + y),
-                    new Vector2(1000, 40 + y),
-                    1 + (i * 31f) / 310);
+        return list;
+    }
 
-                list.Add(cloud);
-            }
+    public IReadOnlyList<IBackgroundObject> CreateForegroundLayerObjects()
+    {
+        var list = new List<IBackgroundObject>();
 
-            return list;
-        }
+        var bannerObject = new PositionalAnimatedObject(
+            _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(
+                LocationTheme.SlavicBattleground,
+                BackgroundLayerType.Closest,
+                0),
+            AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 0, 1, 2, 3 }, fps: 2, isLoop: true,
+                frameWidth: 256, frameHeight: 256, textureColumns: 1),
+            new Vector2(160, 480 - 128));
+        list.Add(bannerObject);
 
-        public IReadOnlyList<IBackgroundObject> CreateForegroundLayerObjects()
-        {
-            var list = new List<IBackgroundObject>();
-
-            var bannerObject = new PositionalAnimatedObject(
-                _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(
-                    LocationTheme.SlavicBattleground,
-                    BackgroundLayerType.Closest,
-                    0),
-                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 0, 1, 2, 3 }, fps: 2, isLoop: true,
-                    frameWidth: 256, frameHeight: 256, textureColumns: 1),
-                new Vector2(160, 480 - 128));
-            list.Add(bannerObject);
-
-            return list;
-        }
+        return list;
     }
 }

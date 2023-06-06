@@ -1,5 +1,3 @@
-using Rpg.Client.Core;
-
 namespace Client.Core;
 
 internal sealed class Job : IJob

@@ -1,49 +1,46 @@
 ﻿using Client.Assets;
-using Client.Assets.Heroes;
 using Client.Core;
 using Client.GameScreens;
 
 using Rpg.Client.Assets.GraphicConfigs.Heroes;
-using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Heroes
+namespace Client.Assets.Heroes;
+
+internal abstract class HeroFactoryBase : IHeroFactory
 {
-    internal abstract class HeroFactoryBase : IHeroFactory
+    protected abstract IEquipmentScheme[] GetEquipment();
+
+    protected virtual UnitGraphicsConfigBase GetGraphicsConfig()
     {
-        protected abstract IEquipmentScheme[] GetEquipment();
+        return new GenericHeroGraphicsConfig(HeroName);
+    }
 
-        protected virtual UnitGraphicsConfigBase GetGraphicsConfig()
+    protected abstract IUnitLevelScheme[] GetLevels();
+    public abstract UnitName HeroName { get; }
+    public virtual bool IsReleaseReady { get; } = true;
+
+    public UnitScheme Create(IBalanceTable balanceTable)
+    {
+        var record = balanceTable.GetRecord(HeroName.ToString());
+
+        return new UnitScheme(balanceTable.GetCommonUnitBasics())
         {
-            return new GenericHeroGraphicsConfig(HeroName);
-        }
+            TankRank = record.TankRank,
+            DamageDealerRank = record.DamageDealerRank,
+            SupportRank = record.SupportRank,
 
-        protected abstract IUnitLevelScheme[] GetLevels();
-        public abstract UnitName HeroName { get; }
-        public virtual bool IsReleaseReady { get; } = true;
+            Name = HeroName,
 
-        public UnitScheme Create(IBalanceTable balanceTable)
-        {
-            var record = balanceTable.GetRecord(HeroName.ToString());
+            Levels = GetLevels(),
 
-            return new UnitScheme(balanceTable.GetCommonUnitBasics())
-            {
-                TankRank = record.TankRank,
-                DamageDealerRank = record.DamageDealerRank,
-                SupportRank = record.SupportRank,
+            Equipments = GetEquipment(),
 
-                Name = HeroName,
+            UnitGraphicsConfig = GetGraphicsConfig()
+        };
+    }
 
-                Levels = GetLevels(),
-
-                Equipments = GetEquipment(),
-
-                UnitGraphicsConfig = GetGraphicsConfig()
-            };
-        }
-
-        public UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
-        {
-            return GetGraphicsConfig();
-        }
+    public UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
+    {
+        return GetGraphicsConfig();
     }
 }

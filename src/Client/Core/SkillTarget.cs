@@ -1,8 +1,7 @@
-﻿namespace Rpg.Client.Core
+﻿namespace Client.Core;
+
+public enum SkillTarget
 {
-    public enum SkillTarget
-    {
-        Enemy,
-        Friendly
-    }
+    Enemy,
+    Friendly
 }

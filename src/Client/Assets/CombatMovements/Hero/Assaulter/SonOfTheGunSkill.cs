@@ -1,6 +1,5 @@
-﻿namespace Rpg.Client.Assets.Skills.Hero.Assaulter
+﻿namespace Client.Assets.CombatMovements.Hero.Assaulter;
+
+internal class SonOfTheGunSkill
 {
-    internal class SonOfTheGunSkill
-    {
-    }
 }

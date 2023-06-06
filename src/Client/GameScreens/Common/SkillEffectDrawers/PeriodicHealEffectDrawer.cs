@@ -1,38 +1,35 @@
-using Client.GameScreens.Common.SkillEffectDrawers;
-
 using Core.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
+namespace Client.GameScreens.Common.SkillEffectDrawers;
+
+internal class PeriodicHealEffectDrawer : ISkillEffectDrawer
 {
-    internal class PeriodicHealEffectDrawer : ISkillEffectDrawer
+    private readonly SpriteFont _font;
+
+    public PeriodicHealEffectDrawer(SpriteFont font)
     {
-        private readonly SpriteFont _font;
+        _font = font;
+    }
 
-        public PeriodicHealEffectDrawer(SpriteFont font)
-        {
-            _font = font;
-        }
+    public bool Draw(SpriteBatch spriteBatch, IEffectInstance effectToDisplay,
+        Vector2 position)
+    {
+        //if (effectToDisplay is not PeriodicHealEffect periodicHealEffect)
+        //{
+        //    return false;
+        //}
 
-        public bool Draw(SpriteBatch spriteBatch, IEffectInstance effectToDisplay,
-            Vector2 position)
-        {
-            //if (effectToDisplay is not PeriodicHealEffect periodicHealEffect)
-            //{
-            //    return false;
-            //}
+        //var heal = periodicHealEffect.CalculateHeal();
+        //var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
 
-            //var heal = periodicHealEffect.CalculateHeal();
-            //var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
+        //spriteBatch.DrawString(_font,
+        //    string.Format(UiResource.PeriodicHealEffectRuleText, heal.Min, heal.Max,
+        //        ruleDirectionText, periodicHealEffect.EffectLifetime.GetTextDescription()),
+        //    position, Color.Wheat);
 
-            //spriteBatch.DrawString(_font,
-            //    string.Format(UiResource.PeriodicHealEffectRuleText, heal.Min, heal.Max,
-            //        ruleDirectionText, periodicHealEffect.EffectLifetime.GetTextDescription()),
-            //    position, Color.Wheat);
-
-            return true;
-        }
+        return true;
     }
 }

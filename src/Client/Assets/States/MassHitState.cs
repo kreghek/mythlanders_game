@@ -1,61 +1,59 @@
 ﻿using System;
 
+using Client.Core;
 using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
 
-using Rpg.Client.Core;
+namespace Client.Assets.States;
 
-namespace Rpg.Client.Assets.States
+internal sealed class MassHitState : IActorVisualizationState
 {
-    internal sealed class MassHitState : IActorVisualizationState
+    private const double DURATION = 1;
+    private readonly PredefinedAnimationSid _animationSid;
+    private readonly Action _attackInteractions;
+    private readonly UnitGraphics _graphics;
+
+    private double _counter;
+
+    private bool _interactionExecuted;
+
+    public MassHitState(UnitGraphics graphics, Action attackInteractions, PredefinedAnimationSid animationSid)
     {
-        private const double DURATION = 1;
-        private readonly PredefinedAnimationSid _animationSid;
-        private readonly Action _attackInteractions;
-        private readonly UnitGraphics _graphics;
+        _graphics = graphics;
 
-        private double _counter;
+        _attackInteractions = attackInteractions;
+        _animationSid = animationSid;
+    }
 
-        private bool _interactionExecuted;
+    public bool CanBeReplaced => false;
+    public bool IsComplete { get; private set; }
 
-        public MassHitState(UnitGraphics graphics, Action attackInteractions, PredefinedAnimationSid animationSid)
+    public void Cancel()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        if (_counter == 0)
         {
-            _graphics = graphics;
-
-            _attackInteractions = attackInteractions;
-            _animationSid = animationSid;
+            _graphics.PlayAnimation(_animationSid);
         }
 
-        public bool CanBeReplaced => false;
-        public bool IsComplete { get; private set; }
+        _counter += gameTime.ElapsedGameTime.TotalSeconds;
 
-        public void Cancel()
+        if (_counter > DURATION)
         {
-            throw new NotImplementedException();
+            IsComplete = true;
         }
-
-        public void Update(GameTime gameTime)
+        else if (_counter > DURATION / 2)
         {
-            if (_counter == 0)
+            if (!_interactionExecuted)
             {
-                _graphics.PlayAnimation(_animationSid);
-            }
+                _interactionExecuted = true;
 
-            _counter += gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (_counter > DURATION)
-            {
-                IsComplete = true;
-            }
-            else if (_counter > DURATION / 2)
-            {
-                if (!_interactionExecuted)
-                {
-                    _interactionExecuted = true;
-
-                    _attackInteractions();
-                }
+                _attackInteractions();
             }
         }
     }

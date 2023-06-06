@@ -2,8 +2,6 @@
 
 using Client.Core;
 
-using Rpg.Client.Core;
-
 namespace Client.Assets.GraphicConfigs;
 
 internal sealed class SingleSpriteGraphicsConfig : UnitGraphicsConfigBase

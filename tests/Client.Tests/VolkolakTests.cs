@@ -1,9 +1,8 @@
 ﻿using NUnit.Framework;
 
-namespace Rpg.Client.Tests
+namespace Client.Tests;
+
+[TestFixture]
+public class VolkolakTests
 {
-    [TestFixture]
-    public class VolkolakTests
-    {
-    }
 }

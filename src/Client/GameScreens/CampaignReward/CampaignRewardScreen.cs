@@ -6,15 +6,13 @@ using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.CommandCenter;
+using Client.ScreenManagement;
 
 using Core.Props;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Rpg.Client.Engine;
-using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.CampaignReward;
 

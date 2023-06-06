@@ -1,25 +1,23 @@
 using Client;
+using Client.Core;
+using Client.Core.Equipments;
 
-using Rpg.Client.Core;
-using Rpg.Client.Core.Equipments;
+namespace Client.Assets.Equipments.Medjay;
 
-namespace Rpg.Client.Assets.Equipments.Medjay
+internal sealed class UltraLightSaber : SimpleBonusEquipmentBase
 {
-    internal sealed class UltraLightSaber : SimpleBonusEquipmentBase
+    public override IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
     {
-        public override IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 4
-        };
+        IconOneBasedIndex = 4
+    };
 
-        public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Medjay;
-        public override EquipmentSid Sid => EquipmentSid.TribalEquipment;
+    public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Medjay;
+    public override EquipmentSid Sid => EquipmentSid.TribalEquipment;
 
-        protected override float MultiplicatorByLevel => 0.5f;
+    protected override float MultiplicatorByLevel => 0.5f;
 
-        public override string GetDescription()
-        {
-            return GameObjectResources.Aspid;
-        }
+    public override string GetDescription()
+    {
+        return GameObjectResources.Aspid;
     }
 }

@@ -1,27 +1,27 @@
+using Client.Core;
+
 using Rpg.Client.Assets.Equipments.Priest;
-using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Heroes
+namespace Client.Assets.Heroes;
+
+internal class PriestFactory : HeroFactoryBase
 {
-    internal class PriestFactory : HeroFactoryBase
+    public override UnitName HeroName => UnitName.Priest;
+
+    protected override IEquipmentScheme[] GetEquipment()
     {
-        public override UnitName HeroName => UnitName.Priest;
-
-        protected override IEquipmentScheme[] GetEquipment()
+        return new IEquipmentScheme[]
         {
-            return new IEquipmentScheme[]
-            {
-                new EgyptianBookOfDeath(),
-                new NanoMetalLongCloths(),
-                new ScarabeusKingLeg()
-            };
-        }
+            new EgyptianBookOfDeath(),
+            new NanoMetalLongCloths(),
+            new ScarabeusKingLeg()
+        };
+    }
 
-        protected override IUnitLevelScheme[] GetLevels()
+    protected override IUnitLevelScheme[] GetLevels()
+    {
+        return new IUnitLevelScheme[]
         {
-            return new IUnitLevelScheme[]
-            {
-            };
-        }
+        };
     }
 }

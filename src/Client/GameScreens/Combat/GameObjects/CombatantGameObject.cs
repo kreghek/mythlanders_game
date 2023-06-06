@@ -5,18 +5,14 @@ using System.Linq;
 using Client.Assets.CombatMovements;
 using Client.Core;
 using Client.Engine;
+using Client.GameScreens.Combat.Ui;
 
 using Core.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Core;
-using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Combat;
-using Rpg.Client.GameScreens.Combat.GameObjects;
 using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
-using Rpg.Client.GameScreens.Combat.Ui;
 
 namespace Client.GameScreens.Combat.GameObjects;
 

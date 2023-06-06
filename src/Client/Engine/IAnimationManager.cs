@@ -1,21 +1,20 @@
-namespace Rpg.Client.Engine
+namespace Client.Engine;
+
+internal interface IAnimationManager
 {
-    internal interface IAnimationManager
+    bool HasBlockers { get; }
+    void DropBlockers();
+    void RegisterBlocker(IAnimationBlocker blocker);
+}
+
+internal static class IAnimationManagerExtensions
+{
+    public static IAnimationBlocker CreateAndRegisterBlocker(this IAnimationManager animationManager)
     {
-        bool HasBlockers { get; }
-        void DropBlockers();
-        void RegisterBlocker(IAnimationBlocker blocker);
-    }
+        var blocker = new AnimationBlocker();
 
-    internal static class IAnimationManagerExtensions
-    {
-        public static IAnimationBlocker CreateAndRegisterBlocker(this IAnimationManager animationManager)
-        {
-            var blocker = new AnimationBlocker();
+        animationManager.RegisterBlocker(blocker);
 
-            animationManager.RegisterBlocker(blocker);
-
-            return blocker;
-        }
+        return blocker;
     }
 }

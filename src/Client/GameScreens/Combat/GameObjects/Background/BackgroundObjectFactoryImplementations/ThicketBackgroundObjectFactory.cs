@@ -4,31 +4,30 @@ using Client.GameScreens;
 
 using Microsoft.Xna.Framework;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectFactoryImplementations
+namespace Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectFactoryImplementations;
+
+internal sealed class ThicketBackgroundObjectFactory : IBackgroundObjectFactory
 {
-    internal sealed class ThicketBackgroundObjectFactory : IBackgroundObjectFactory
+    private readonly GameObjectContentStorage _gameObjectContentStorage;
+
+    public ThicketBackgroundObjectFactory(GameObjectContentStorage gameObjectContentStorage)
     {
-        private readonly GameObjectContentStorage _gameObjectContentStorage;
+        _gameObjectContentStorage = gameObjectContentStorage;
+    }
 
-        public ThicketBackgroundObjectFactory(GameObjectContentStorage gameObjectContentStorage)
-        {
-            _gameObjectContentStorage = gameObjectContentStorage;
-        }
+    public IReadOnlyList<IBackgroundObject> CreateCloudLayerObjects()
+    {
+        return new List<IBackgroundObject>(0);
+    }
 
-        public IReadOnlyList<IBackgroundObject> CreateCloudLayerObjects()
-        {
-            return new List<IBackgroundObject>(0);
-        }
+    public IReadOnlyList<IBackgroundObject> CreateForegroundLayerObjects()
+    {
+        var list = new List<IBackgroundObject>();
 
-        public IReadOnlyList<IBackgroundObject> CreateForegroundLayerObjects()
-        {
-            var list = new List<IBackgroundObject>();
+        var weatherObject = new WeatherAnimatedObject(_gameObjectContentStorage.GetParticlesTexture(),
+            new Rectangle(0, 32, 32, 32));
+        list.Add(weatherObject);
 
-            var weatherObject = new WeatherAnimatedObject(_gameObjectContentStorage.GetParticlesTexture(),
-                new Rectangle(0, 32, 32, 32));
-            list.Add(weatherObject);
-
-            return list;
-        }
+        return list;
     }
 }

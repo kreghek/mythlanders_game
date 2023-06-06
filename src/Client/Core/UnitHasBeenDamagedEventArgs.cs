@@ -1,9 +1,8 @@
 using System;
 
-namespace Rpg.Client.Core
+namespace Client.Core;
+
+internal sealed class UnitHasBeenDamagedEventArgs : EventArgs
 {
-    internal sealed class UnitHasBeenDamagedEventArgs : EventArgs
-    {
-        public DamageResult? Result { get; init; }
-    }
+    public DamageResult? Result { get; init; }
 }

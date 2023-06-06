@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace Rpg.Client.Core
-{
-    internal sealed class GlobeLevel
-    {
-        public int Level { get; set; }
+namespace Client.Core;
 
-        public int MonsterLevel => (int)Math.Log(Level + 1, 32) + 1;
-    }
+internal sealed class GlobeLevel
+{
+    public int Level { get; set; }
+
+    public int MonsterLevel => (int)Math.Log(Level + 1, 32) + 1;
 }

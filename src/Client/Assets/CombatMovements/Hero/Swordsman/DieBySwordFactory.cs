@@ -1,11 +1,10 @@
-﻿using Client.Core.AnimationFrameSets;
+﻿using Client.Core;
+using Client.Core.AnimationFrameSets;
 using Client.Engine;
 
 using Core.Combats;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
-
-using Rpg.Client.Core;
 
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
 

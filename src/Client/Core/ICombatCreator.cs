@@ -1,16 +1,13 @@
-﻿using Client.Core;
+﻿namespace Client.Core;
 
-namespace Rpg.Client.Core
+internal interface ICombatCreator
 {
-    internal interface ICombatCreator
-    {
-        string Sid { get; }
+    string Sid { get; }
 
-        CombatSequence Create();
-    }
+    CombatSequence Create();
+}
 
-    internal interface ICombatAssetCatalog
-    {
-        ICombatCreator GetAsset(int sid);
-    }
+internal interface ICombatAssetCatalog
+{
+    ICombatCreator GetAsset(int sid);
 }

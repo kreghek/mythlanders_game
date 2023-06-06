@@ -1,8 +1,7 @@
-﻿namespace Rpg.Client.Core
+﻿namespace Client.Core;
+
+internal sealed class UnitSchemeAutoTransition
 {
-    internal sealed class UnitSchemeAutoTransition
-    {
-        public float HpShare { get; set; }
-        public UnitScheme NextScheme { get; set; }
-    }
+    public float HpShare { get; set; }
+    public UnitScheme NextScheme { get; set; }
 }

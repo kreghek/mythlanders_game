@@ -1,25 +1,26 @@
 using System;
 
-using Rpg.Client.Core;
-using Rpg.Client.Core.Equipments;
+using Client.Core;
+using Client.Core.Equipments;
 
-namespace Rpg.Client.Assets.Equipments.Archer
+using Rpg.Client.Assets.Equipments;
+
+namespace Client.Assets.Equipments.Archer;
+
+internal sealed class ArcherPulsarBow : SimpleBonusEquipmentBase
 {
-    internal sealed class ArcherPulsarBow : SimpleBonusEquipmentBase
+    public override IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
     {
-        public override IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 4
-        };
+        IconOneBasedIndex = 4
+    };
 
-        public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Archer;
-        public override EquipmentSid Sid => EquipmentSid.ArcherPulsarBow;
+    public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Archer;
+    public override EquipmentSid Sid => EquipmentSid.ArcherPulsarBow;
 
-        protected override float MultiplicatorByLevel => 0.25f;
+    protected override float MultiplicatorByLevel => 0.25f;
 
-        public override string GetDescription()
-        {
-            throw new InvalidOperationException();
-        }
+    public override string GetDescription()
+    {
+        throw new InvalidOperationException();
     }
 }

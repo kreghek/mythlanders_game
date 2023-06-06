@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Rpg.Client.Core.ProgressStorage
+namespace Client.Core.ProgressStorage;
+
+internal sealed record GroupDto
 {
-    internal sealed record GroupDto
-    {
-        public IEnumerable<PlayerUnitDto> Units { get; init; }
-    }
+    public IEnumerable<PlayerUnitDto> Units { get; init; }
 }

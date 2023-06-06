@@ -1,8 +1,7 @@
 using Client.Core;
 
-namespace Rpg.Client.Assets.Perks
+namespace Client.Assets.Perks;
+
+internal class PowerUpAura : IPerk
 {
-    internal class PowerUpAura : IPerk
-    {
-    }
 }

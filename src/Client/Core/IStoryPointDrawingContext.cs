@@ -1,6 +1,5 @@
-namespace Rpg.Client.Core
+namespace Client.Core;
+
+public interface IStoryPointDrawingContext
 {
-    public interface IStoryPointDrawingContext
-    {
-    }
 }

@@ -5,8 +5,11 @@ using System.Linq;
 using Client.Core;
 using Client.Core.Campaigns;
 using Client.Core.Dialogues;
+using Client.Engine;
 using Client.GameScreens.Campaign;
+using Client.GameScreens.Combat.GameObjects.Background;
 using Client.GameScreens.TextDialogue.Ui;
+using Client.ScreenManagement;
 
 using Core.Dices;
 
@@ -15,15 +18,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using Rpg.Client;
-using Rpg.Client.Core;
-using Rpg.Client.Core.Dialogues;
-using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.GameScreens.Speech.Tutorial;
-using Rpg.Client.GameScreens.Speech.Ui;
-using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.TextDialogue;
 

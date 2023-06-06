@@ -1,23 +1,22 @@
 ﻿using System;
 
-using Rpg.Client.Core;
+using Client.Core;
 
-namespace Rpg.Client.Assets.Equipments.Engineer
+namespace Client.Assets.Equipments.Engineer;
+
+internal sealed class HeavyCooperHandmadeArmor : IEquipmentScheme
 {
-    internal sealed class HeavyCooperHandmadeArmor : IEquipmentScheme
+    public EquipmentSid Sid => EquipmentSid.HeavyCooperHandmadeArmor;
+
+    public string GetDescription()
     {
-        public EquipmentSid Sid => EquipmentSid.HeavyCooperHandmadeArmor;
-
-        public string GetDescription()
-        {
-            throw new NotImplementedException();
-        }
-
-        public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Engineer;
-
-        public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 4
-        };
+        throw new NotImplementedException();
     }
+
+    public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Engineer;
+
+    public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
+    {
+        IconOneBasedIndex = 4
+    };
 }

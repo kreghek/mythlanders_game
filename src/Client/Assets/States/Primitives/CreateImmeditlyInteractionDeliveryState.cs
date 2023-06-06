@@ -6,66 +6,65 @@ using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
 
-namespace Rpg.Client.Assets.States.Primitives
+namespace Client.Assets.States.Primitives;
+
+internal class CreateImmeditlyInteractionDeliveryState : IActorVisualizationState
 {
-    internal class CreateImmeditlyInteractionDeliveryState : IActorVisualizationState
+    private readonly IList<IInteractionDelivery> _activeInteractionDeliveryList;
+    private readonly IReadOnlyList<IInteractionDelivery> _interactionDeliveries;
+    private readonly IList<IInteractionDelivery> _interactionDeliveryManager;
+
+    private bool _isLaunched;
+
+    public CreateImmeditlyInteractionDeliveryState(
+        IReadOnlyList<IInteractionDelivery> interactionDeliveries,
+        IList<IInteractionDelivery> interactionDeliveryManager)
     {
-        private readonly IList<IInteractionDelivery> _activeInteractionDeliveryList;
-        private readonly IReadOnlyList<IInteractionDelivery> _interactionDeliveries;
-        private readonly IList<IInteractionDelivery> _interactionDeliveryManager;
+        _activeInteractionDeliveryList = new List<IInteractionDelivery>(interactionDeliveries);
 
-        private bool _isLaunched;
+        _interactionDeliveries = interactionDeliveries;
+        _interactionDeliveryManager = interactionDeliveryManager;
+    }
 
-        public CreateImmeditlyInteractionDeliveryState(
-            IReadOnlyList<IInteractionDelivery> interactionDeliveries,
-            IList<IInteractionDelivery> interactionDeliveryManager)
+    private void Item_InteractionPerformed(object? sender, EventArgs e)
+    {
+        if (sender is null)
         {
-            _activeInteractionDeliveryList = new List<IInteractionDelivery>(interactionDeliveries);
-
-            _interactionDeliveries = interactionDeliveries;
-            _interactionDeliveryManager = interactionDeliveryManager;
+            throw new InvalidOperationException();
         }
 
-        private void Item_InteractionPerformed(object? sender, EventArgs e)
+        var interactionDelivery = (IInteractionDelivery)sender;
+        _activeInteractionDeliveryList.Remove(interactionDelivery);
+
+        interactionDelivery.InteractionPerformed -= Item_InteractionPerformed;
+    }
+
+    public bool CanBeReplaced => false;
+
+    public bool IsComplete { get; private set; }
+
+    public void Cancel()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        if (!_isLaunched)
         {
-            if (sender is null)
+            foreach (var item in _interactionDeliveries)
             {
-                throw new InvalidOperationException();
+                _interactionDeliveryManager.Add(item);
+                item.InteractionPerformed += Item_InteractionPerformed;
             }
 
-            var interactionDelivery = (IInteractionDelivery)sender;
-            _activeInteractionDeliveryList.Remove(interactionDelivery);
-
-            interactionDelivery.InteractionPerformed -= Item_InteractionPerformed;
+            _isLaunched = true;
         }
 
-        public bool CanBeReplaced => false;
-
-        public bool IsComplete { get; private set; }
-
-        public void Cancel()
+        if (!_activeInteractionDeliveryList.Any())
         {
-            throw new NotImplementedException();
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            if (!_isLaunched)
-            {
-                foreach (var item in _interactionDeliveries)
-                {
-                    _interactionDeliveryManager.Add(item);
-                    item.InteractionPerformed += Item_InteractionPerformed;
-                }
-
-                _isLaunched = true;
-            }
-
-            if (!_activeInteractionDeliveryList.Any())
-            {
-                // And all interaction delivery animations are completed
-                IsComplete = true;
-            }
+            // And all interaction delivery animations are completed
+            IsComplete = true;
         }
     }
 }

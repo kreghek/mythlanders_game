@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core;
 using Client.Engine;
 using Client.GameScreens.Campaign.Ui;
+using Client.ScreenManagement;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
-using Rpg.Client.Core;
-using Rpg.Client.Engine;
-using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Campaign;
 

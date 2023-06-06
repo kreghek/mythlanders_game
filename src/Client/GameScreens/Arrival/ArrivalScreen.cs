@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Client.Engine;
+using Client.ScreenManagement;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Rpg.Client.Engine;
-using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Arrival;
 

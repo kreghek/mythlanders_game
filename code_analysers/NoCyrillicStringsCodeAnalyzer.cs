@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace CodeAnalyzers;
+namespace CodeAnalysers;
 
 /// <summary>
 /// Анализатор находит строки содержащие кириллицу, которые используется в качестве аргументов методов,

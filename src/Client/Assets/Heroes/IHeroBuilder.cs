@@ -1,8 +1,6 @@
 using Client.Core;
 using Client.GameScreens;
 
-using Rpg.Client.Core;
-
 namespace Client.Assets.Heroes;
 
 internal interface IHeroFactory

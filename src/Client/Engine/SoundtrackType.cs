@@ -1,14 +1,13 @@
-﻿namespace Rpg.Client.Engine
+﻿namespace Client.Engine;
+
+internal enum SoundtrackType
 {
-    internal enum SoundtrackType
-    {
-        Silence,
-        Intro,
-        Title,
-        Map,
-        Combat,
-        Victory,
-        Defeat,
-        Custom
-    }
+    Silence,
+    Intro,
+    Title,
+    Map,
+    Combat,
+    Victory,
+    Defeat,
+    Custom
 }

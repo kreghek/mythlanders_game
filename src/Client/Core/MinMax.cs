@@ -1,8 +1,7 @@
-﻿namespace Rpg.Client.Core
+﻿namespace Client.Core;
+
+public class MinMax<T>
 {
-    public class MinMax<T>
-    {
-        public T Max { get; set; }
-        public T Min { get; set; }
-    }
+    public T Max { get; set; }
+    public T Min { get; set; }
 }

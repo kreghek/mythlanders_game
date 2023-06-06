@@ -1,6 +1,5 @@
-namespace Rpg.Client.Core
+namespace Client.Core;
+
+internal sealed class JobType : IJobType
 {
-    internal sealed class JobType : IJobType
-    {
-    }
 }

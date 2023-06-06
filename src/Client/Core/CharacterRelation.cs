@@ -1,6 +1,4 @@
-﻿using Rpg.Client.Core;
-
-namespace Client.Core;
+﻿namespace Client.Core;
 
 public sealed class CharacterRelation
 {

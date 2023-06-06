@@ -1,27 +1,27 @@
-﻿using Rpg.Client.Assets.Equipments.Engineer;
-using Rpg.Client.Core;
+﻿using Client.Core;
 
-namespace Rpg.Client.Assets.Heroes
+using Rpg.Client.Assets.Equipments.Engineer;
+
+namespace Client.Assets.Heroes;
+
+internal class EngineerFactory : HeroFactoryBase
 {
-    internal class EngineerFactory : HeroFactoryBase
+    public override UnitName HeroName => UnitName.Engineer;
+
+    protected override IEquipmentScheme[] GetEquipment()
     {
-        public override UnitName HeroName => UnitName.Engineer;
-
-        protected override IEquipmentScheme[] GetEquipment()
+        return new IEquipmentScheme[]
         {
-            return new IEquipmentScheme[]
-            {
-                new FlameThrower(),
-                new HeavyCooperHandmadeArmor(),
-                new ScientificTableOfMaterials()
-            };
-        }
+            new FlameThrower(),
+            new HeavyCooperHandmadeArmor(),
+            new ScientificTableOfMaterials()
+        };
+    }
 
-        protected override IUnitLevelScheme[] GetLevels()
+    protected override IUnitLevelScheme[] GetLevels()
+    {
+        return new IUnitLevelScheme[]
         {
-            return new IUnitLevelScheme[]
-            {
-            };
-        }
+        };
     }
 }

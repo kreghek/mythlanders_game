@@ -2,22 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Client.GameScreens.Common.SkillEffectDrawers;
-
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
+namespace Client.GameScreens.Common.SkillEffectDrawers;
+
+internal static class EffectDrawersCollector
 {
-    internal static class EffectDrawersCollector
+    public static IReadOnlyCollection<ISkillEffectDrawer> GetDrawersInAssembly(SpriteFont font)
     {
-        public static IReadOnlyCollection<ISkillEffectDrawer> GetDrawersInAssembly(SpriteFont font)
-        {
-            var assembly = typeof(ISkillEffectDrawer).Assembly;
-            var drawerTypes = assembly.GetTypes().Where(t =>
-                typeof(ISkillEffectDrawer).IsAssignableFrom(t) && t != typeof(ISkillEffectDrawer));
-            var drawers = drawerTypes.Select(t => Activator.CreateInstance(t, font))
-                .OfType<ISkillEffectDrawer>();
-            return drawers.ToArray();
-        }
+        var assembly = typeof(ISkillEffectDrawer).Assembly;
+        var drawerTypes = assembly.GetTypes().Where(t =>
+            typeof(ISkillEffectDrawer).IsAssignableFrom(t) && t != typeof(ISkillEffectDrawer));
+        var drawers = drawerTypes.Select(t => Activator.CreateInstance(t, font))
+            .OfType<ISkillEffectDrawer>();
+        return drawers.ToArray();
     }
 }

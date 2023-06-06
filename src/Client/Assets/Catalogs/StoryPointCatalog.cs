@@ -5,8 +5,6 @@ using System.Linq;
 using Client.Assets.Dialogues;
 using Client.Core;
 
-using Rpg.Client.Core;
-
 namespace Client.Assets.Catalogs;
 
 internal sealed class StoryPointCatalog : IStoryPointCatalog, IStoryPointInitializer

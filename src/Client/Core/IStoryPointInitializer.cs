@@ -1,5 +1,3 @@
-using Rpg.Client.Core;
-
 namespace Client.Core;
 
 internal interface IStoryPointInitializer

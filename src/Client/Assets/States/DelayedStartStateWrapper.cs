@@ -2,43 +2,42 @@ using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
 
-namespace Rpg.Client.Assets.States
+namespace Client.Assets.States;
+
+internal sealed class DelayedStartStateWrapper : IActorVisualizationState
 {
-    internal sealed class DelayedStartStateWrapper : IActorVisualizationState
+    private readonly IActorVisualizationState _mainState;
+    private double _delayCounter;
+
+    public DelayedStartStateWrapper(IActorVisualizationState mainState, float delayDurationSeconds = 0f)
     {
-        private readonly IActorVisualizationState _mainState;
-        private double _delayCounter;
+        _mainState = mainState;
+        _delayCounter = delayDurationSeconds;
+    }
 
-        public DelayedStartStateWrapper(IActorVisualizationState mainState, float delayDurationSeconds = 0f)
+    public bool CanBeReplaced => true;
+
+    public bool IsComplete => _mainState.IsComplete;
+
+    public void Cancel()
+    {
+        // Nothing to release.
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        if (IsComplete)
         {
-            _mainState = mainState;
-            _delayCounter = delayDurationSeconds;
+            return;
         }
 
-        public bool CanBeReplaced => true;
-
-        public bool IsComplete => _mainState.IsComplete;
-
-        public void Cancel()
+        if (_delayCounter > 0)
         {
-            // Nothing to release.
+            _delayCounter -= gameTime.ElapsedGameTime.TotalSeconds;
         }
-
-        public void Update(GameTime gameTime)
+        else
         {
-            if (IsComplete)
-            {
-                return;
-            }
-
-            if (_delayCounter > 0)
-            {
-                _delayCounter -= gameTime.ElapsedGameTime.TotalSeconds;
-            }
-            else
-            {
-                _mainState.Update(gameTime);
-            }
+            _mainState.Update(gameTime);
         }
     }
 }

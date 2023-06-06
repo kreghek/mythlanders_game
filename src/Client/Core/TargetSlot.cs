@@ -1,4 +1,3 @@
-﻿namespace Rpg.Client.Core
-{
-    internal record TargetSlot(int SlotIndex, bool IsPlayerSide);
-}
+﻿namespace Client.Core;
+
+internal record TargetSlot(int SlotIndex, bool IsPlayerSide);

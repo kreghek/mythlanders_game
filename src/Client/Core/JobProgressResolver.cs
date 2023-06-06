@@ -1,44 +1,43 @@
 using System.Linq;
 
-namespace Rpg.Client.Core
+namespace Client.Core;
+
+public sealed class JobProgressResolver : IJobProgressResolver
 {
-    public sealed class JobProgressResolver : IJobProgressResolver
+    public void ApplyProgress(IJobProgress progress, IJobExecutable target)
     {
-        public void ApplyProgress(IJobProgress progress, IJobExecutable target)
+        if (target.CurrentJobs is null)
         {
-            if (target.CurrentJobs is null)
+            // Перки у которых нет работ, не могут развиваться.
+
+            // Некоторые перки (например врождённые таланты), не прокачиваются.
+            // Сразу игнорируем их.
+            return;
+        }
+
+        var affectedJobs = progress.ApplyToJobs(target.CurrentJobs);
+
+        foreach (var job in affectedJobs)
+        {
+            // Опеределяем, какие из прогрессировавших работ завершены.
+            // И фиксируем их состояние завершения.
+            if (job.Progress >= job.Scheme.GoalValue.Value)
             {
-                // Перки у которых нет работ, не могут развиваться.
-
-                // Некоторые перки (например врождённые таланты), не прокачиваются.
-                // Сразу игнорируем их.
-                return;
+                job.IsComplete = true;
             }
+        }
 
-            var affectedJobs = progress.ApplyToJobs(target.CurrentJobs);
+        if (target.IsComplete)
+        {
+            return;
+        }
 
-            foreach (var job in affectedJobs)
-            {
-                // Опеределяем, какие из прогрессировавших работ завершены.
-                // И фиксируем их состояние завершения.
-                if (job.Progress >= job.Scheme.GoalValue.Value)
-                {
-                    job.IsComplete = true;
-                }
-            }
+        // Опеределяем, все ли работы выполнены.
+        var allJobsAreComplete = target.CurrentJobs.All(x => x.IsComplete);
 
-            if (target.IsComplete)
-            {
-                return;
-            }
-
-            // Опеределяем, все ли работы выполнены.
-            var allJobsAreComplete = target.CurrentJobs.All(x => x.IsComplete);
-
-            if (allJobsAreComplete)
-            {
-                target.HandleCompletion();
-            }
+        if (allJobsAreComplete)
+        {
+            target.HandleCompletion();
         }
     }
 }

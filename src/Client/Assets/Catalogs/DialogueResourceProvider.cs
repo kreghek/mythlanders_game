@@ -1,7 +1,5 @@
 using Microsoft.Xna.Framework.Content;
 
-using Rpg.Client.Assets.Catalogs;
-
 namespace Client.Assets.Catalogs;
 
 internal sealed class DialogueResourceProvider : IDialogueResourceProvider

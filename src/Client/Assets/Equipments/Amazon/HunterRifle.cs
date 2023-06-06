@@ -1,25 +1,26 @@
 ﻿using System;
 
-using Rpg.Client.Core;
-using Rpg.Client.Core.Equipments;
+using Client.Core;
+using Client.Core.Equipments;
 
-namespace Rpg.Client.Assets.Equipments.Amazon
+using Rpg.Client.Assets.Equipments;
+
+namespace Client.Assets.Equipments.Amazon;
+
+internal sealed class HunterRifle : SimpleBonusEquipmentBase
 {
-    internal sealed class HunterRifle : SimpleBonusEquipmentBase
+    public override IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
     {
-        public override IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 4
-        };
+        IconOneBasedIndex = 4
+    };
 
-        public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Amazon;
-        public override EquipmentSid Sid => EquipmentSid.ArcherPulsarBow2;
+    public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Amazon;
+    public override EquipmentSid Sid => EquipmentSid.ArcherPulsarBow2;
 
-        protected override float MultiplicatorByLevel => 0.5f;
+    protected override float MultiplicatorByLevel => 0.5f;
 
-        public override string GetDescription()
-        {
-            throw new InvalidOperationException();
-        }
+    public override string GetDescription()
+    {
+        throw new InvalidOperationException();
     }
 }

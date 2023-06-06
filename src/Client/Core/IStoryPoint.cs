@@ -1,16 +1,13 @@
 using System;
 
-using Rpg.Client.Core;
+namespace Client.Core;
 
-namespace Client.Core
+public interface IStoryPoint : IJobExecutable
 {
-    public interface IStoryPoint : IJobExecutable
-    {
-        string Sid { get; }
-        string? TitleSid { get; init; }
+    string Sid { get; }
+    string? TitleSid { get; init; }
 
-        void Draw(IStoryPointDrawingContext context);
+    void Draw(IStoryPointDrawingContext context);
 
-        event EventHandler? Completed;
-    }
+    event EventHandler? Completed;
 }

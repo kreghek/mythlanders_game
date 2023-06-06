@@ -1,7 +1,6 @@
-namespace Rpg.Client.Core
+namespace Client.Core;
+
+internal interface ICombatSkillContext
 {
-    internal interface ICombatSkillContext
-    {
-        int GetRedCombatEnergy();
-    }
+    int GetRedCombatEnergy();
 }

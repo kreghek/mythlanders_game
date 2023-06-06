@@ -3,21 +3,20 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Rpg.Client.Engine
+namespace Client.Engine;
+
+/// <summary>
+/// Structure to pass data into IconButton constructor.
+/// </summary>
+internal record IconData
 {
-    /// <summary>
-    /// Structure to pass data into IconButton constructor.
-    /// </summary>
-    internal record IconData
+    public IconData(Texture2D spritesheet, Rectangle sourceRect)
     {
-        public IconData(Texture2D spritesheet, Rectangle sourceRect)
-        {
-            Spritesheet = spritesheet ?? throw new ArgumentNullException(nameof(spritesheet));
-            SourceRect = sourceRect;
-        }
-
-        public Rectangle SourceRect { get; }
-
-        public Texture2D Spritesheet { get; }
+        Spritesheet = spritesheet ?? throw new ArgumentNullException(nameof(spritesheet));
+        SourceRect = sourceRect;
     }
+
+    public Rectangle SourceRect { get; }
+
+    public Texture2D Spritesheet { get; }
 }

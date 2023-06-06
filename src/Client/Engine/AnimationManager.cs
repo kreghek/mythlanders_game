@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Rpg.Client.Engine;
-
 namespace Client.Engine;
 
 internal class AnimationManager : IAnimationManager

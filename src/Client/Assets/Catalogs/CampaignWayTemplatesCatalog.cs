@@ -8,8 +8,6 @@ using CombatDicesTeam.Graphs.Generation.TemplateBased;
 using Core.Dices;
 using Core.PropDrop;
 
-using Rpg.Client.Core;
-
 namespace Client.Assets.Catalogs;
 
 internal sealed class CampaignWayTemplatesCatalog

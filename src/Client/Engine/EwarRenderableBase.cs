@@ -2,36 +2,35 @@
 
 using Microsoft.Xna.Framework;
 
-namespace Rpg.Client.Engine
+namespace Client.Engine;
+
+internal abstract class EwarRenderableBase : Renderable
 {
-    internal abstract class EwarRenderableBase : Renderable
+    public virtual void Update(GameTime gameTime)
     {
-        public virtual void Update(GameTime gameTime)
-        {
-            var children = Children.ToList();
+        var children = Children.ToList();
 
-            foreach (var ewarDrawableComponent in children.OfType<EwarRenderableBase>())
+        foreach (var ewarDrawableComponent in children.OfType<EwarRenderableBase>())
+        {
+            if (ewarDrawableComponent.Parent == this)
             {
-                if (ewarDrawableComponent.Parent == this)
-                {
-                    ewarDrawableComponent.Update(gameTime);
-                }
+                ewarDrawableComponent.Update(gameTime);
             }
         }
+    }
 
-        protected override void AfterAddChild(Renderable child)
+    protected override void AfterAddChild(Renderable child)
+    {
+        if (child is EwarRenderableBase ewarRenderable)
         {
-            if (child is EwarRenderableBase ewarRenderable)
-            {
-                ewarRenderable.Initialize();
-            }
+            ewarRenderable.Initialize();
         }
+    }
 
-        protected virtual void DoInitialize() { }
+    protected virtual void DoInitialize() { }
 
-        private void Initialize()
-        {
-            DoInitialize();
-        }
+    private void Initialize()
+    {
+        DoInitialize();
     }
 }

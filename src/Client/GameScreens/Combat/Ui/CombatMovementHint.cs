@@ -1,13 +1,12 @@
 using System;
 
+using Client.Core;
+using Client.Engine;
+
 using Core.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Rpg.Client.Core;
-using Rpg.Client.Engine;
-using Rpg.Client.GameScreens;
 
 namespace Client.GameScreens.Combat.Ui;
 

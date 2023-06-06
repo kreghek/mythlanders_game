@@ -1,10 +1,9 @@
 using Client.Core.Heroes;
 
-namespace Rpg.Client.Core
+namespace Client.Core;
+
+internal interface IUnitLevelScheme
 {
-    internal interface IUnitLevelScheme
-    {
-        int Level { get; }
-        void Apply(Hero unit);
-    }
+    int Level { get; }
+    void Apply(Hero unit);
 }

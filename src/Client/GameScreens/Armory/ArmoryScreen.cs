@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 
+using Client.Core;
 using Client.Core.Campaigns;
+using Client.Engine;
+using Client.ScreenManagement;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Rpg.Client.Core;
-using Rpg.Client.Engine;
-using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Armory;
 

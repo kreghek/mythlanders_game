@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Rpg.Client.Core;
-
 namespace Client.Core;
 
 internal sealed class StoryState : IStoryState

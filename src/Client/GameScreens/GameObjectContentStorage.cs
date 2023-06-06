@@ -13,9 +13,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Newtonsoft.Json;
 
-using Rpg.Client.Core;
-using Rpg.Client.GameScreens;
-
 namespace Client.GameScreens;
 
 internal class GameObjectContentStorage

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using Rpg.Client.Core;
+using Client.Core;
 
 namespace Client.Assets.GraphicConfigs.Heroes;
 

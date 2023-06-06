@@ -1,12 +1,11 @@
-namespace Rpg.Client.Core
+namespace Client.Core;
+
+internal enum PlayerAbility
 {
-    internal enum PlayerAbility
-    {
-        SkipTutorials,
-        ReadMapTutorial,
-        ReadEventTutorial,
-        ReadCombatTutorial,
-        AvailableTanks,
-        AvailableAutocombats
-    }
+    SkipTutorials,
+    ReadMapTutorial,
+    ReadEventTutorial,
+    ReadCombatTutorial,
+    AvailableTanks,
+    AvailableAutocombats
 }

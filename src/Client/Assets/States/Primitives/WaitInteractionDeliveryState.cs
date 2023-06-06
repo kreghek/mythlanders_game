@@ -6,68 +6,67 @@ using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
 
-namespace Rpg.Client.Assets.States.Primitives
+namespace Client.Assets.States.Primitives;
+
+/// <summary>
+/// The state starts to play a animation and creates a projectile.
+/// </summary>
+internal sealed class WaitInteractionDeliveryState : IActorVisualizationState
 {
-    /// <summary>
-    /// The state starts to play a animation and creates a projectile.
-    /// </summary>
-    internal sealed class WaitInteractionDeliveryState : IActorVisualizationState
+    private readonly IList<IInteractionDelivery> _activeInteractionDeliveryList;
+    private readonly IReadOnlyCollection<IInteractionDelivery> _interactionDeliveryList;
+    private readonly IList<IInteractionDelivery> _interactionDeliveryManager;
+
+    private bool _launched;
+
+    public WaitInteractionDeliveryState(
+        IReadOnlyCollection<IInteractionDelivery> interactionDeliveryList,
+        IList<IInteractionDelivery> interactionDeliveryManager)
     {
-        private readonly IList<IInteractionDelivery> _activeInteractionDeliveryList;
-        private readonly IReadOnlyCollection<IInteractionDelivery> _interactionDeliveryList;
-        private readonly IList<IInteractionDelivery> _interactionDeliveryManager;
+        _activeInteractionDeliveryList = new List<IInteractionDelivery>(interactionDeliveryList);
 
-        private bool _launched;
-
-        public WaitInteractionDeliveryState(
-            IReadOnlyCollection<IInteractionDelivery> interactionDeliveryList,
-            IList<IInteractionDelivery> interactionDeliveryManager)
+        foreach (var delivery in interactionDeliveryList)
         {
-            _activeInteractionDeliveryList = new List<IInteractionDelivery>(interactionDeliveryList);
-
-            foreach (var delivery in interactionDeliveryList)
+            delivery.InteractionPerformed += (sender, _) =>
             {
-                delivery.InteractionPerformed += (sender, _) =>
+                if (sender is null)
                 {
-                    if (sender is null)
-                    {
-                        throw new InvalidOperationException();
-                    }
-
-                    _activeInteractionDeliveryList.Remove((IInteractionDelivery)sender);
-                };
-            }
-
-            _interactionDeliveryList = interactionDeliveryList;
-            _interactionDeliveryManager = interactionDeliveryManager;
-        }
-
-        public bool CanBeReplaced => false;
-        public bool IsComplete { get; private set; }
-
-        public void Cancel()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            if (!_launched)
-            {
-                foreach (var item in _interactionDeliveryList)
-                {
-                    _interactionDeliveryManager.Add(item);
+                    throw new InvalidOperationException();
                 }
 
-                _launched = true;
+                _activeInteractionDeliveryList.Remove((IInteractionDelivery)sender);
+            };
+        }
+
+        _interactionDeliveryList = interactionDeliveryList;
+        _interactionDeliveryManager = interactionDeliveryManager;
+    }
+
+    public bool CanBeReplaced => false;
+    public bool IsComplete { get; private set; }
+
+    public void Cancel()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        if (!_launched)
+        {
+            foreach (var item in _interactionDeliveryList)
+            {
+                _interactionDeliveryManager.Add(item);
             }
 
-            // Unit animation is completed
-            if (!_activeInteractionDeliveryList.Any())
-            {
-                // And all interaction delivery animations are completed
-                IsComplete = true;
-            }
+            _launched = true;
+        }
+
+        // Unit animation is completed
+        if (!_activeInteractionDeliveryList.Any())
+        {
+            // And all interaction delivery animations are completed
+            IsComplete = true;
         }
     }
 }

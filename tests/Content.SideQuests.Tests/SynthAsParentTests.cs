@@ -8,14 +8,13 @@ using Client.Assets.Dialogues;
 using Client.Core;
 using Client.Core.Dialogues;
 using Client.GameScreens.TextDialogue;
+using Client.GameScreens.TextDialogue.Ui;
 
 using Core.Dices;
 
 using FluentAssertions;
 
-using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
-using Rpg.Client.GameScreens.Speech.Ui;
 
 namespace Content.SideQuests.Tests;
 

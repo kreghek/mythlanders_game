@@ -1,34 +1,35 @@
 using System;
 using System.Collections.Generic;
 
+using Client.Core;
+
 using Core.Combats;
 
-using Rpg.Client.Core;
+using Rpg.Client.Assets.Equipments;
 
-namespace Rpg.Client.Assets.Equipments.Swordsman
+namespace Client.Assets.Equipments.Swordsman;
+
+internal sealed class Mk2MediumPowerArmor : IEquipmentScheme
 {
-    internal sealed class Mk2MediumPowerArmor : IEquipmentScheme
+    public EquipmentSid Sid => EquipmentSid.Mk2MediumPowerArmor;
+
+    public string GetDescription()
     {
-        public EquipmentSid Sid => EquipmentSid.Mk2MediumPowerArmor;
+        throw new NotImplementedException();
+    }
 
-        public string GetDescription()
+    public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Warrior;
+
+    public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
+    {
+        IconOneBasedIndex = 2
+    };
+
+    public IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers(int equipmentLevel)
+    {
+        return new (UnitStatType, IUnitStatModifier)[]
         {
-            throw new NotImplementedException();
-        }
-
-        public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Warrior;
-
-        public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 2
+            new(UnitStatType.HitPoints, new StatModifier((int)(equipmentLevel * 0.2f)))
         };
-
-        public IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers(int equipmentLevel)
-        {
-            return new (UnitStatType, IUnitStatModifier)[]
-            {
-                new(UnitStatType.HitPoints, new StatModifier((int)(equipmentLevel * 0.2f)))
-            };
-        }
     }
 }

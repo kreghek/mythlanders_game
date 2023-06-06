@@ -1,10 +1,9 @@
-﻿namespace Rpg.Client.Engine
+﻿namespace Client.Engine;
+
+internal enum UiButtonState
 {
-    internal enum UiButtonState
-    {
-        Undefined,
-        OutOfButton,
-        Hover,
-        Pressed
-    }
+    Undefined,
+    OutOfButton,
+    Hover,
+    Pressed
 }

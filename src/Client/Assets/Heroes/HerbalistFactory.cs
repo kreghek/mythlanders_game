@@ -1,27 +1,27 @@
+using Client.Core;
+
 using Rpg.Client.Assets.Equipments.Herbalist;
-using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Heroes
+namespace Client.Assets.Heroes;
+
+internal class HerbalistFactory : HeroFactoryBase
 {
-    internal class HerbalistFactory : HeroFactoryBase
+    public override UnitName HeroName => UnitName.Herbalist;
+
+    protected override IEquipmentScheme[] GetEquipment()
     {
-        public override UnitName HeroName => UnitName.Herbalist;
-
-        protected override IEquipmentScheme[] GetEquipment()
+        return new IEquipmentScheme[]
         {
-            return new IEquipmentScheme[]
-            {
-                new HerbBag(),
-                new WomanShort(),
-                new BookOfHerbs()
-            };
-        }
+            new HerbBag(),
+            new WomanShort(),
+            new BookOfHerbs()
+        };
+    }
 
-        protected override IUnitLevelScheme[] GetLevels()
+    protected override IUnitLevelScheme[] GetLevels()
+    {
+        return new IUnitLevelScheme[]
         {
-            return new IUnitLevelScheme[]
-            {
-            };
-        }
+        };
     }
 }

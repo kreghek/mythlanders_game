@@ -1,5 +1,3 @@
-using Rpg.Client.Engine;
-
 namespace Client.Engine;
 
 internal abstract class EntityButtonBase<T> : ButtonBase

@@ -6,36 +6,33 @@ using Client.GameScreens;
 
 using JetBrains.Annotations;
 
-using Rpg.Client.Core;
+namespace Client.Assets.Monsters.Slavic;
 
-namespace Rpg.Client.Assets.Monsters
+[UsedImplicitly]
+internal sealed class DigitalWolfFactory : IMonsterFactory
 {
-    [UsedImplicitly]
-    internal sealed class DigitalWolfFactory : IMonsterFactory
+    public UnitName ClassName => UnitName.DigitalWolf;
+
+    public UnitScheme Create(IBalanceTable balanceTable)
     {
-        public UnitName ClassName => UnitName.DigitalWolf;
-
-        public UnitScheme Create(IBalanceTable balanceTable)
+        return new UnitScheme(balanceTable.GetCommonUnitBasics())
         {
-            return new UnitScheme(balanceTable.GetCommonUnitBasics())
+            Name = UnitName.DigitalWolf,
+            LocationSids = new[]
             {
-                Name = UnitName.DigitalWolf,
-                LocationSids = new[]
-                {
-                    LocationSids.Thicket, LocationSids.Battleground, LocationSids.DestroyedVillage,
-                    LocationSids.Swamp
-                },
-                IsMonster = true,
+                LocationSids.Thicket, LocationSids.Battleground, LocationSids.DestroyedVillage,
+                LocationSids.Swamp
+            },
+            IsMonster = true,
 
-                Levels = new IUnitLevelScheme[]
-                {
-                }
-            };
-        }
+            Levels = new IUnitLevelScheme[]
+            {
+            }
+        };
+    }
 
-        public UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
-        {
-            return new DigitalWolfGraphicsConfig(ClassName);
-        }
+    public UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
+    {
+        return new DigitalWolfGraphicsConfig(ClassName);
     }
 }

@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Campaign;
+using Client.ScreenManagement;
 
 using Core.Dices;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Rpg.Client.Core;
-using Rpg.Client.Engine;
-using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.VoiceCombat;
 

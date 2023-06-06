@@ -1,8 +1,7 @@
-﻿namespace Rpg.Client.Core.EventSerialization
+﻿namespace Client.Core.EventSerialization;
+
+internal sealed record EventTextFragmentStorageModel
 {
-    internal sealed record EventTextFragmentStorageModel
-    {
-        public string? Speaker { get; set; }
-        public string Text { get; set; }
-    }
+    public string? Speaker { get; set; }
+    public string Text { get; set; }
 }

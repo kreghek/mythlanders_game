@@ -7,10 +7,6 @@ using Client.Assets.Dialogues;
 using Client.Core;
 using Client.Core.Dialogues;
 
-using Rpg.Client.Assets.Catalogs;
-using Rpg.Client.Core;
-using Rpg.Client.Core.Dialogues;
-
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 

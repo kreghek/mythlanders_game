@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Client.Core;
 using Client.Core.Campaigns;
+using Client.GameScreens.Combat.GameObjects.Background;
+using Client.ScreenManagement;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Rpg.Client.Core;
-using Rpg.Client.GameScreens.Combat.GameObjects.Background;
-using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.VoiceCombat;
 

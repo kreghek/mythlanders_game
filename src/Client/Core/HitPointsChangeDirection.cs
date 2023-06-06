@@ -1,8 +1,7 @@
-namespace Rpg.Client.Core
+namespace Client.Core;
+
+internal enum HitPointsChangeDirection
 {
-    internal enum HitPointsChangeDirection
-    {
-        Positive,
-        Negative
-    }
+    Positive,
+    Negative
 }

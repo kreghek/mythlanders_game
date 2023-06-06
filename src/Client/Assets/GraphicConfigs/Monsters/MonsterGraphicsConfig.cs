@@ -3,8 +3,6 @@
 using Client.Assets.CombatMovements;
 using Client.Core;
 
-using Rpg.Client.Core;
-
 namespace Client.Assets.GraphicConfigs.Monsters;
 
 internal abstract class MonsterGraphicsConfig : UnitGraphicsConfigBase

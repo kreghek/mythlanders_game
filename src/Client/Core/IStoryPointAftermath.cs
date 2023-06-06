@@ -1,7 +1,6 @@
-namespace Rpg.Client.Core
+namespace Client.Core;
+
+public interface IStoryPointAftermath
 {
-    public interface IStoryPointAftermath
-    {
-        void Apply();
-    }
+    void Apply();
 }

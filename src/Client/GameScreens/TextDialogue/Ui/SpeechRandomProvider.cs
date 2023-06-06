@@ -1,19 +1,18 @@
 ﻿using Core.Dices;
 
-namespace Rpg.Client.GameScreens.Speech.Ui
+namespace Client.GameScreens.TextDialogue.Ui;
+
+internal sealed class SpeechRandomProvider : ISpeechRandomProvider
 {
-    internal sealed class SpeechRandomProvider : ISpeechRandomProvider
+    private readonly IDice _dice;
+
+    public SpeechRandomProvider(IDice dice)
     {
-        private readonly IDice _dice;
+        _dice = dice;
+    }
 
-        public SpeechRandomProvider(IDice dice)
-        {
-            _dice = dice;
-        }
-
-        public float RollPlayingSoundOnSymbol()
-        {
-            return _dice.Roll(100) * 0.01f;
-        }
+    public float RollPlayingSoundOnSymbol()
+    {
+        return _dice.Roll(100) * 0.01f;
     }
 }

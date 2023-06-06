@@ -1,8 +1,7 @@
-﻿namespace Rpg.Client.ScreenManagement
+﻿namespace Client.ScreenManagement;
+
+internal interface IScreenManager
 {
-    internal interface IScreenManager
-    {
-        void ExecuteTransition(IScreen currentScreen, ScreenTransition targetTransition,
-            IScreenTransitionArguments args);
-    }
+    void ExecuteTransition(IScreen currentScreen, ScreenTransition targetTransition,
+        IScreenTransitionArguments args);
 }

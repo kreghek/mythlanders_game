@@ -1,8 +1,7 @@
-﻿namespace Rpg.Client.GameScreens.Speech.Ui
+﻿namespace Client.GameScreens.TextDialogue.Ui;
+
+internal interface ISpeechSoundWrapper
 {
-    internal interface ISpeechSoundWrapper
-    {
-        public double Duration { get; }
-        public void Play();
-    }
+    public double Duration { get; }
+    public void Play();
 }

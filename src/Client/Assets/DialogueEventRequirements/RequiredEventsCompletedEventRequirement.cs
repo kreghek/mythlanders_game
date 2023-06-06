@@ -3,32 +3,31 @@ using System.Linq;
 using Client.Core;
 using Client.Core.Dialogues;
 
-namespace Rpg.Client.Assets.DialogueEventRequirements
+namespace Client.Assets.DialogueEventRequirements;
+
+internal sealed class RequiredEventsCompletedEventRequirement : IDialogueEventRequirement
 {
-    internal sealed class RequiredEventsCompletedEventRequirement : IDialogueEventRequirement
+    private readonly IEventCatalog _eventCatalog;
+    private readonly string[] _requiredEvents;
+
+    public RequiredEventsCompletedEventRequirement(IEventCatalog eventCatalog, string[] requiredEvents)
     {
-        private readonly IEventCatalog _eventCatalog;
-        private readonly string[] _requiredEvents;
+        _eventCatalog = eventCatalog;
+        _requiredEvents = requiredEvents;
+    }
 
-        public RequiredEventsCompletedEventRequirement(IEventCatalog eventCatalog, string[] requiredEvents)
+    public bool IsApplicableFor(IDialogueEventRequirementContext context)
+    {
+        foreach (var eventSid in _requiredEvents)
         {
-            _eventCatalog = eventCatalog;
-            _requiredEvents = requiredEvents;
-        }
+            var eventInfo = _eventCatalog.Events.SingleOrDefault(x => x.Sid == eventSid);
 
-        public bool IsApplicableFor(IDialogueEventRequirementContext context)
-        {
-            foreach (var eventSid in _requiredEvents)
+            if (eventInfo?.Completed != true)
             {
-                var eventInfo = _eventCatalog.Events.SingleOrDefault(x => x.Sid == eventSid);
-
-                if (eventInfo?.Completed != true)
-                {
-                    return false;
-                }
+                return false;
             }
-
-            return true;
         }
+
+        return true;
     }
 }

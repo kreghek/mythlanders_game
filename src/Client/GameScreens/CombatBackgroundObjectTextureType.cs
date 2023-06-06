@@ -1,9 +1,8 @@
-﻿namespace Rpg.Client.GameScreens
+﻿namespace Client.GameScreens;
+
+internal enum CombatBackgroundObjectTextureType
 {
-    internal enum CombatBackgroundObjectTextureType
-    {
-        Undefined,
-        Clouds,
-        Banner
-    }
+    Undefined,
+    Clouds,
+    Banner
 }

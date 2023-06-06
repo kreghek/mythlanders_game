@@ -4,7 +4,7 @@ using Core.Combats.TargetSelectors;
 
 using JetBrains.Annotations;
 
-namespace Client.Assets.CombatMovements.Hero.Partisan;
+namespace Client.Assets.CombatMovements.Hero.Monk;
 
 [UsedImplicitly]
 internal class HiddenIntentionFactory : CombatMovementFactoryBase

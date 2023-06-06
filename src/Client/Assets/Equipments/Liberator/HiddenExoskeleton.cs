@@ -1,23 +1,24 @@
 ﻿using System;
 
-using Rpg.Client.Core;
+using Client.Core;
 
-namespace Rpg.Client.Assets.Equipments.Liberator
+using Rpg.Client.Assets.Equipments;
+
+namespace Client.Assets.Equipments.Liberator;
+
+internal sealed class HiddenExoskeleton : IEquipmentScheme
 {
-    internal sealed class HiddenExoskeleton : IEquipmentScheme
+    public EquipmentSid Sid => EquipmentSid.HiddenExoskeleton;
+
+    public string GetDescription()
     {
-        public EquipmentSid Sid => EquipmentSid.HiddenExoskeleton;
-
-        public string GetDescription()
-        {
-            throw new NotImplementedException();
-        }
-
-        public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Liberator;
-
-        public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 4
-        };
+        throw new NotImplementedException();
     }
+
+    public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Liberator;
+
+    public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
+    {
+        IconOneBasedIndex = 4
+    };
 }

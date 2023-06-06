@@ -1,8 +1,7 @@
-namespace Rpg.Client.Core
+namespace Client.Core;
+
+internal enum CombatUnitState
 {
-    internal enum CombatUnitState
-    {
-        Idle,
-        Defense
-    }
+    Idle,
+    Defense
 }

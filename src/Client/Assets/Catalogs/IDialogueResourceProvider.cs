@@ -1,7 +1,6 @@
-namespace Rpg.Client.Assets.Catalogs
+namespace Client.Assets.Catalogs;
+
+internal interface IDialogueResourceProvider
 {
-    internal interface IDialogueResourceProvider
-    {
-        string GetResource(string resourceSid);
-    }
+    string GetResource(string resourceSid);
 }

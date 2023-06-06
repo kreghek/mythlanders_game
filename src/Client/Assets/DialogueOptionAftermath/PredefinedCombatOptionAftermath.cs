@@ -1,7 +1,5 @@
 ﻿using Client.Core.Dialogues;
 
-using Rpg.Client.Core.Dialogues;
-
 namespace Client.Assets.DialogueOptionAftermath;
 
 internal class PredefinedCombatOptionAftermath : IDialogueOptionAftermath

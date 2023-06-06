@@ -3,22 +3,21 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Rpg.Client.GameScreens.Combat.Ui
+namespace Client.GameScreens.Combat.Ui;
+
+internal sealed class BlockAnyDamageTextIndicator : TextIndicatorBase
 {
-    internal sealed class BlockAnyDamageTextIndicator : TextIndicatorBase
+    public BlockAnyDamageTextIndicator(Vector2 startPosition, SpriteFont font) : base(startPosition, font)
     {
-        public BlockAnyDamageTextIndicator(Vector2 startPosition, SpriteFont font) : base(startPosition, font)
-        {
-        }
+    }
 
-        protected override Color GetColor()
-        {
-            return Color.LightGray;
-        }
+    protected override Color GetColor()
+    {
+        return Color.LightGray;
+    }
 
-        protected override string GetText()
-        {
-            return UiResource.IndicatorBlockAnyDamage;
-        }
+    protected override string GetText()
+    {
+        return UiResource.IndicatorBlockAnyDamage;
     }
 }

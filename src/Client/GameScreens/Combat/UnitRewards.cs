@@ -1,9 +1,6 @@
-using Client.GameScreens.Combat;
+namespace Client.GameScreens.Combat;
 
-namespace Rpg.Client.GameScreens.Combat
+internal sealed record CombatRewardsItem
 {
-    internal sealed record CombatRewardsItem
-    {
-        public ResourceReward? Xp { get; set; }
-    }
+    public ResourceReward? Xp { get; set; }
 }

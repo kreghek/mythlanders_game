@@ -5,8 +5,6 @@ using Client.Assets.GraphicConfigs;
 using Client.Core;
 
 using Rpg.Client.Assets.Equipments.Amazon;
-using Rpg.Client.Assets.Heroes;
-using Rpg.Client.Core;
 
 namespace Client.Assets.Heroes;
 

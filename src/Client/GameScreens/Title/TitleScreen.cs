@@ -6,17 +6,15 @@ using Client.Core;
 using Client.Engine;
 using Client.GameScreens.CommandCenter;
 using Client.GameScreens.Common;
+using Client.ScreenManagement;
 
 using Core.Dices;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client;
-using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Title;
-using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Title;
 

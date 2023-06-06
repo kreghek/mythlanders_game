@@ -1,9 +1,8 @@
-﻿namespace Rpg.Client.GameScreens.Combat.Ui
+﻿namespace Client.GameScreens.Combat.Ui;
+
+internal enum CombatResult
 {
-    internal enum CombatResult
-    {
-        Victory,
-        NextCombat,
-        Defeat
-    }
+    Victory,
+    NextCombat,
+    Defeat
 }
