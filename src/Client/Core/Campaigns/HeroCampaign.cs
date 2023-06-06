@@ -14,7 +14,7 @@ internal sealed class HeroCampaign
     public IGraphNode<ICampaignStageItem>? CurrentStage { get; set; }
 
     public ILocationSid Location { get; }
+    public int Seed { get; }
 
     public IGraph<ICampaignStageItem> Stages { get; }
-    public int Seed { get; }
 }

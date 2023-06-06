@@ -13,12 +13,18 @@ public sealed class MultipleCombatantTurnEffectLifetime : ICombatantEffectLifeti
 
     public void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context)
     {
-        if (updateType == CombatantEffectUpdateType.EndRound) _currentRoundEnd = true;
+        if (updateType == CombatantEffectUpdateType.EndRound)
+        {
+            _currentRoundEnd = true;
+        }
 
         if (_currentRoundEnd && updateType == CombatantEffectUpdateType.EndRound)
         {
             Counter--;
-            if (Counter == 0) IsDead = true;
+            if (Counter == 0)
+            {
+                IsDead = true;
+            }
         }
     }
 

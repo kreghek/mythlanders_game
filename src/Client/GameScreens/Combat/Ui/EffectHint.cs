@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 
 using Client.Engine;
-
 using Client.GameScreens.Common.SkillEffectDrawers;
 
 using Core.Combats;

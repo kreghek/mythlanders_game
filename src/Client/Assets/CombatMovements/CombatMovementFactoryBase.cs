@@ -46,7 +46,7 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
             new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
                 CommonConstants.FrameSize.Y, 8),
             new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8)
-            { IsLooping = true });
+                { IsLooping = true });
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);

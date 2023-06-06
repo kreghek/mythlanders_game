@@ -6,9 +6,15 @@ public sealed class ToNextCombatantTurnEffectLifetime : ICombatantEffectLifetime
 
     public void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context)
     {
-        if (updateType == CombatantEffectUpdateType.EndRound) _currentRoundEnd = true;
+        if (updateType == CombatantEffectUpdateType.EndRound)
+        {
+            _currentRoundEnd = true;
+        }
 
-        if (_currentRoundEnd && updateType == CombatantEffectUpdateType.StartCombatantTurn) IsDead = true;
+        if (_currentRoundEnd && updateType == CombatantEffectUpdateType.StartCombatantTurn)
+        {
+            IsDead = true;
+        }
     }
 
     public void EffectImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context)

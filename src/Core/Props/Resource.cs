@@ -9,7 +9,10 @@ public sealed class Resource : PropBase
     [ExcludeFromCodeCoverage]
     public Resource(IPropScheme scheme, int count) : base(scheme)
     {
-        if (count <= 0) throw new ArgumentException("Resources cannot be 0 or less.", nameof(count));
+        if (count <= 0)
+        {
+            throw new ArgumentException("Resources cannot be 0 or less.", nameof(count));
+        }
 
         _count = count;
     }
@@ -22,7 +25,10 @@ public sealed class Resource : PropBase
         get => _count;
         set
         {
-            if (value <= 0) throw new ArgumentException("Value cannot be less than or equal to 0.");
+            if (value <= 0)
+            {
+                throw new ArgumentException("Value cannot be less than or equal to 0.");
+            }
 
             _count = value;
             DoChange();

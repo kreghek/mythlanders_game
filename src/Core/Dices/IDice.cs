@@ -69,12 +69,20 @@ public static class DiceExtensions
         if (min > max)
             // ReSharper disable once LocalizableElement
             // Exception's messages shouldn't be localized.
+        {
             throw new ArgumentException($"Max value {max} can't be least min {min}.",
                 nameof(max));
+        }
 
-        if (dice == null) throw new ArgumentNullException(nameof(dice));
+        if (dice == null)
+        {
+            throw new ArgumentNullException(nameof(dice));
+        }
 
-        if (min == max) return min;
+        if (min == max)
+        {
+            return min;
+        }
 
         var range = max - min;
         var roll = dice.Roll(range + 1);
@@ -84,7 +92,10 @@ public static class DiceExtensions
 
     public static int Roll2D6(this IDice dice)
     {
-        if (dice is null) throw new ArgumentNullException(nameof(dice));
+        if (dice is null)
+        {
+            throw new ArgumentNullException(nameof(dice));
+        }
 
         return dice.Roll(6) + dice.Roll(6);
     }
@@ -98,9 +109,15 @@ public static class DiceExtensions
     /// <returns> Случайный элемент из списка. </returns>
     public static int RollArrayIndex<T>(this IDice dice, IList<T> list)
     {
-        if (dice is null) throw new ArgumentNullException(nameof(dice));
+        if (dice is null)
+        {
+            throw new ArgumentNullException(nameof(dice));
+        }
 
-        if (list is null) throw new ArgumentNullException(nameof(list));
+        if (list is null)
+        {
+            throw new ArgumentNullException(nameof(list));
+        }
 
         var rollIndex = dice.Roll(0, list.Count - 1);
         return rollIndex;
@@ -108,21 +125,30 @@ public static class DiceExtensions
 
     public static int RollD100(this IDice dice)
     {
-        if (dice is null) throw new ArgumentNullException(nameof(dice));
+        if (dice is null)
+        {
+            throw new ArgumentNullException(nameof(dice));
+        }
 
         return dice.Roll(100);
     }
 
     public static int RollD3(this IDice dice)
     {
-        if (dice is null) throw new ArgumentNullException(nameof(dice));
+        if (dice is null)
+        {
+            throw new ArgumentNullException(nameof(dice));
+        }
 
         return dice.Roll(3);
     }
 
     public static int RollD6(this IDice dice)
     {
-        if (dice is null) throw new ArgumentNullException(nameof(dice));
+        if (dice is null)
+        {
+            throw new ArgumentNullException(nameof(dice));
+        }
 
         return dice.Roll(6);
     }
@@ -136,11 +162,20 @@ public static class DiceExtensions
     /// <returns> Случайный элемент из списка. </returns>
     public static T RollFromList<T>(this IDice dice, IReadOnlyList<T> list)
     {
-        if (dice is null) throw new ArgumentNullException(nameof(dice));
+        if (dice is null)
+        {
+            throw new ArgumentNullException(nameof(dice));
+        }
 
-        if (list is null) throw new ArgumentNullException(nameof(list));
+        if (list is null)
+        {
+            throw new ArgumentNullException(nameof(list));
+        }
 
-        if (list.Count == 1) return list[0];
+        if (list.Count == 1)
+        {
+            return list[0];
+        }
 
         var rollIndex = dice.Roll(0, list.Count - 1);
         var item = list[rollIndex];
@@ -157,16 +192,24 @@ public static class DiceExtensions
     /// <returns> Случайный элемент из списка. </returns>
     public static IEnumerable<T> RollFromList<T>(this IDice dice, IList<T> list, int count)
     {
-        if (dice is null) throw new ArgumentNullException(nameof(dice));
+        if (dice is null)
+        {
+            throw new ArgumentNullException(nameof(dice));
+        }
 
-        if (list is null) throw new ArgumentNullException(nameof(list));
+        if (list is null)
+        {
+            throw new ArgumentNullException(nameof(list));
+        }
 
         if (list.Count < count)
             // ReSharper disable once LocalizableElement
             // Exception's messages shouldn't be localized.
+        {
             throw new ArgumentException(
                 $"The requested count {count} must be bigger or equal that list length {list.Count}.",
                 nameof(count));
+        }
 
         var openList = new List<T>(list);
 

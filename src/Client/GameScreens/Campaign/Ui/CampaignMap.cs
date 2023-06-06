@@ -27,16 +27,16 @@ internal sealed class CampaignMap : ControlBase
     }
 
     private const int LAYOUT_NODE_SIZE = 32;
+    private readonly Texture2D _backgroundTexture;
 
     private readonly IList<CampaignButton> _buttonList = new List<CampaignButton>();
     private readonly Texture2D _campaignIconsTexture;
-    private readonly Texture2D _backgroundTexture;
-    private readonly Texture2D _shadowTexture;
-    private readonly Texture2D _hudTexture;
     private readonly IScreen _currentScreen;
     private readonly HeroCampaign _heroCampaign;
+    private readonly Texture2D _hudTexture;
     private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
     private readonly IScreenManager _screenManager;
+    private readonly Texture2D _shadowTexture;
 
     private TextHint? _currentHint;
 
@@ -101,12 +101,12 @@ internal sealed class CampaignMap : ControlBase
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
-        for (int i = -2; i < 10; i++)
+        for (var i = -2; i < 10; i++)
         {
-            for (int j = -2; j < 10; j++)
+            for (var j = -2; j < 10; j++)
             {
                 var tilePosition = new Vector2(i * _backgroundTexture.Width, j * _backgroundTexture.Height)
-                                    + new Vector2(contentRect.Left + (int)Scroll.X, contentRect.Top + (int)Scroll.Y);
+                                   + new Vector2(contentRect.Left + (int)Scroll.X, contentRect.Top + (int)Scroll.Y);
                 spriteBatch.Draw(_backgroundTexture,
                     tilePosition, Color.White);
             }
@@ -120,7 +120,8 @@ internal sealed class CampaignMap : ControlBase
                 32, 32);
 
             spriteBatch.Draw(_shadowTexture,
-                new Rectangle(button.Rect.Center.X - _shadowTexture.Width / 2, button.Rect.Center.Y - _shadowTexture.Height / 2, _shadowTexture.Width, _shadowTexture.Height),
+                new Rectangle(button.Rect.Center.X - _shadowTexture.Width / 2,
+                    button.Rect.Center.Y - _shadowTexture.Height / 2, _shadowTexture.Width, _shadowTexture.Height),
                 Color.White);
         }
 

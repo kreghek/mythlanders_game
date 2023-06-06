@@ -20,7 +20,10 @@ public class StatValue : IStatValue
     public void AddModifier(IUnitStatModifier modifier)
     {
         _modifiers.Add(modifier);
-        if (Current > ActualMax) Current = ActualMax;
+        if (Current > ActualMax)
+        {
+            Current = ActualMax;
+        }
 
         ModifierAdded?.Invoke(this, new EventArgs());
     }
@@ -34,7 +37,10 @@ public class StatValue : IStatValue
     {
         Current -= value;
 
-        if (Current < 0) Current = 0;
+        if (Current < 0)
+        {
+            Current = 0;
+        }
     }
 
     public void CurrentChange(int newCurrent)
@@ -46,7 +52,10 @@ public class StatValue : IStatValue
     {
         Current += value;
 
-        if (Current > Base) Current = Base;
+        if (Current > Base)
+        {
+            Current = Base;
+        }
     }
 
     public void RemoveModifier(IUnitStatModifier modifier)

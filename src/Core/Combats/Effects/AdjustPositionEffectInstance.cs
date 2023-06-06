@@ -15,15 +15,18 @@ public sealed class AdjustPositionEffectInstance : EffectInstanceBase<AdjustPosi
         var heroSide = context.Field.HeroSide;
 
         var isHeroOnTheList = heroSide[currentCoords with
-        {
-            ColumentIndex = 0
-        }].Combatant is not null ||
+                              {
+                                  ColumentIndex = 0
+                              }].Combatant is not null ||
                               heroSide[currentCoords with
                               {
                                   ColumentIndex = 1
                               }].Combatant is not null;
 
-        if (isHeroOnTheList) return;
+        if (isHeroOnTheList)
+        {
+            return;
+        }
 
         var isHeroAbove = currentCoords.LineIndex > 0 &&
                           (heroSide[new FieldCoords(ColumentIndex: 0, LineIndex: currentCoords.LineIndex - 1)]
@@ -38,26 +41,32 @@ public sealed class AdjustPositionEffectInstance : EffectInstanceBase<AdjustPosi
                                .Combatant is not null);
 
         if (isHeroAbove)
+        {
             context.NotifySwapFieldPosition(target, currentCoords, targetSide,
                 currentCoords with
                 {
                     LineIndex = currentCoords.LineIndex - 1
                 },
                 targetSide);
+        }
         else if (isHeroBelow)
+        {
             context.NotifySwapFieldPosition(target, currentCoords, targetSide,
                 currentCoords with
                 {
                     LineIndex = currentCoords.LineIndex + 1
                 },
                 targetSide);
+        }
         else
+        {
             context.NotifySwapFieldPosition(target, currentCoords, targetSide,
                 currentCoords with
                 {
                     LineIndex = 1
                 },
                 targetSide);
+        }
     }
 
     private static CombatFieldSide GetTargetSide(Combatant target, CombatField field)

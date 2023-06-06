@@ -24,7 +24,10 @@ public class DropResolver : IDropResolver
     {
         try
         {
-            if (record.SchemeSid is null) throw new InvalidOperationException();
+            if (record.SchemeSid is null)
+            {
+                throw new InvalidOperationException();
+            }
 
             var scheme = _schemeService.GetScheme<IPropScheme>(record.SchemeSid);
 
@@ -45,6 +48,7 @@ public class DropResolver : IDropResolver
 
         var openDropTables = new List<IDropTableScheme>(dropTables);
         while (openDropTables.Any())
+        {
             try
             {
                 var table = openDropTables[0];
@@ -67,21 +71,29 @@ public class DropResolver : IDropResolver
                 Debug.Assert(table.Rolls > 0,
                     "There is no reason to have zero rolls in table. This is most likely a mistake.");
                 var rolls = table.Rolls;
-                if (rolls == 0) rolls = 1;
+                if (rolls == 0)
+                {
+                    rolls = 1;
+                }
 
                 for (var rollIndex = 0; rollIndex < rolls; rollIndex++)
                 {
                     var rolledWeight = _randomSource.RollWeight(totalWeight);
                     var recMod = DropRoller.GetRecord(recMods, rolledWeight);
 
-                    if (recMod?.SchemeSid == null) continue;
+                    if (recMod?.SchemeSid == null)
+                    {
+                        continue;
+                    }
 
                     rolledRecords.Add(recMod);
 
                     if (recMod.Extra != null)
                         //TODO Доделать учёт Rolls для экстра.
                         // Сейчас все экстра гарантированно выпадают по разу.
+                    {
                         openDropTables.AddRange(recMod.Extra);
+                    }
                 }
 
                 openDropTables.RemoveAt(0);
@@ -91,6 +103,7 @@ public class DropResolver : IDropResolver
                 openDropTables.RemoveAt(0);
                 //TODO FIX
             }
+        }
 
         var props = rolledRecords.Select(GenerateProp).ToArray();
 

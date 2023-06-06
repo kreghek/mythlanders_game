@@ -47,7 +47,10 @@ public sealed class LifeDrawEffectInstance : EffectInstanceBase<LifeDrawEffect>
     {
         var stat = combatant.Stats.SingleOrDefault(x => x.Type == statType);
 
-        if (stat is null) return value;
+        if (stat is null)
+        {
+            return value;
+        }
 
         var d = Math.Min(value, stat.Value.Current);
         stat.Value.Consume(d);

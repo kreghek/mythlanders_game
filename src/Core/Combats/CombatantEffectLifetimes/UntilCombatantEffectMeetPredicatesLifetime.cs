@@ -11,7 +11,10 @@ public sealed class UntilCombatantEffectMeetPredicatesLifetime : ICombatantEffec
 
     private void Combat_CombatantUsedMove(object? sender, CombatantHandChangedEventArgs e)
     {
-        if (_combatMovePredicates.All(x => x.Check(e.Move))) IsDead = true;
+        if (_combatMovePredicates.All(x => x.Check(e.Move)))
+        {
+            IsDead = true;
+        }
     }
 
     public bool IsDead { get; private set; }

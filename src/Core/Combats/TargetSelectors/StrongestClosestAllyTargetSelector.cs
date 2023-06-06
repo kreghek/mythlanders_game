@@ -37,14 +37,20 @@ public sealed class StrongestClosestAllyTargetSelector : ITargetSelector
         {
             var slot = actorSide[coords];
 
-            if (slot.Combatant is not null) neighbourCombatants.Add((slot.Combatant, priority));
+            if (slot.Combatant is not null)
+            {
+                neighbourCombatants.Add((slot.Combatant, priority));
+            }
         }
 
         var sortedCombatants = neighbourCombatants.OrderByDescending(x => x.proprity)
             .ThenByDescending(x => x.combatant.Stats.Single(s => s.Type == UnitStatType.HitPoints).Value.Current)
             .Select(x => x.combatant).ToArray();
 
-        if (!sortedCombatants.Any()) return Array.Empty<Combatant>();
+        if (!sortedCombatants.Any())
+        {
+            return Array.Empty<Combatant>();
+        }
 
         return new[]
         {

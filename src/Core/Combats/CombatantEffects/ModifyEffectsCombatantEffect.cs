@@ -18,17 +18,29 @@ public sealed class ModifyEffectsCombatantEffect : ICombatantEffect
     public void Dispel(Combatant combatant)
     {
         foreach (var combatMovementInstance in combatant.Hand)
+        {
             if (combatMovementInstance is not null)
+            {
                 foreach (var effectInstance in combatMovementInstance.Effects)
+                {
                     effectInstance.RemoveModifier(_statModifier);
+                }
+            }
+        }
     }
 
     public void Impose(Combatant combatant)
     {
         foreach (var combatMovementInstance in combatant.Hand)
+        {
             if (combatMovementInstance is not null)
+            {
                 foreach (var effectInstance in combatMovementInstance.Effects)
+                {
                     effectInstance.AddModifier(_statModifier);
+                }
+            }
+        }
     }
 
     public void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context)

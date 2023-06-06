@@ -7,11 +7,14 @@ public sealed class ClosestInLineTargetSelector : ITargetSelector
         var actorLine = 0;
 
         for (var columnIndex = 0; columnIndex < context.ActorSide.ColumnCount; columnIndex++)
-            for (var lineIndex = 0; lineIndex < context.ActorSide.LineCount; lineIndex++)
+        for (var lineIndex = 0; lineIndex < context.ActorSide.LineCount; lineIndex++)
+        {
+            var fieldCoords = new FieldCoords(columnIndex, lineIndex);
+            if (context.ActorSide[fieldCoords].Combatant == actor)
             {
-                var fieldCoords = new FieldCoords(columnIndex, lineIndex);
-                if (context.ActorSide[fieldCoords].Combatant == actor) actorLine = lineIndex;
+                actorLine = lineIndex;
             }
+        }
 
         var vanguardCoords = new FieldCoords(0, actorLine);
         var closestEnemySlot = context.EnemySide[vanguardCoords];
@@ -21,7 +24,10 @@ public sealed class ClosestInLineTargetSelector : ITargetSelector
             closestEnemySlot = context.EnemySide[rearCoords];
         }
 
-        if (closestEnemySlot.Combatant is null) return ArraySegment<Combatant>.Empty;
+        if (closestEnemySlot.Combatant is null)
+        {
+            return ArraySegment<Combatant>.Empty;
+        }
 
         return new[]
         {

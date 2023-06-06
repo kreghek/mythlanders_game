@@ -25,7 +25,10 @@ internal class StatPercentThresholdEffectLifetime : ICombatantEffectLifetime
                 return;
             }
 
-            if (stat.Value.GetShare() < _minShare) IsDead = true;
+            if (stat.Value.GetShare() < _minShare)
+            {
+                IsDead = true;
+            }
         }
     }
 

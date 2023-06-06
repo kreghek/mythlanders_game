@@ -7,11 +7,14 @@ public sealed class MostShieldChargedEnemyTargetSelector : MostEnemyStatValueTar
         var enemies = context.EnemySide.GetAllCombatants().ToArray();
 
         if (enemies.Any())
+        {
             return new[]
             {
                 enemies.OrderByDescending(x => GetStatCurrentValue(x, UnitStatType.ShieldPoints))
                     .First()
             };
+        }
+
         return Array.Empty<Combatant>();
     }
 }

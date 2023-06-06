@@ -11,11 +11,14 @@ public sealed class WeakestMarkedEnemyTargetSelector : MostEnemyStatValueTargetS
             .ToArray();
 
         if (enemies.Any())
+        {
             return new[]
             {
                 enemies.OrderBy(x => GetStatCurrentValue(x, UnitStatType.HitPoints))
                     .First()
             };
+        }
+
         return Array.Empty<Combatant>();
     }
 }

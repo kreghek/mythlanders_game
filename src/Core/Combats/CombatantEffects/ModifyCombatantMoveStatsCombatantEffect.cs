@@ -20,12 +20,14 @@ public sealed class ModifyCombatantMoveStatsCombatantEffect : CombatantEffectBas
         var allCombatMoves = GetAllCombatMoves(combatant);
 
         foreach (var combatMovementInstance in allCombatMoves)
+        {
             switch (_stats)
             {
                 case CombatantMoveStats.Cost:
                     combatMovementInstance.Cost.Amount.RemoveModifier(_modifier);
                     break;
             }
+        }
     }
 
     public override void Impose(Combatant combatant)
@@ -35,12 +37,14 @@ public sealed class ModifyCombatantMoveStatsCombatantEffect : CombatantEffectBas
         var allCombatMoves = GetAllCombatMoves(combatant);
 
         foreach (var combatMovementInstance in allCombatMoves)
+        {
             switch (_stats)
             {
                 case CombatantMoveStats.Cost:
                     combatMovementInstance.Cost.Amount.AddModifier(_modifier);
                     break;
             }
+        }
     }
 
     private static IEnumerable<CombatMovementInstance> GetAllCombatMoves(Combatant combatant)

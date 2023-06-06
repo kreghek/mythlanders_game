@@ -26,10 +26,15 @@ public sealed class DamageEffectInstance : EffectInstanceBase<DamageEffect>
 
         var damageRemains = context.DamageCombatantStat(target, UnitStatType.ShieldPoints, absorbedDamage);
 
-        if (BaseEffect.DamageType == DamageType.ShieldsOnly) return;
+        if (BaseEffect.DamageType == DamageType.ShieldsOnly)
+        {
+            return;
+        }
 
         if (damageRemains > 0)
+        {
             context.DamageCombatantStat(target, UnitStatType.HitPoints, damageRemains);
+        }
     }
 
     public override void RemoveModifier(IUnitStatModifier modifier)

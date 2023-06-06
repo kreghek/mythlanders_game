@@ -4,7 +4,10 @@ public sealed class ToEndOfCurrentRoundEffectLifetime : ICombatantEffectLifetime
 {
     public void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context)
     {
-        if (updateType == CombatantEffectUpdateType.EndRound) IsDead = true;
+        if (updateType == CombatantEffectUpdateType.EndRound)
+        {
+            IsDead = true;
+        }
     }
 
     public void EffectImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context)

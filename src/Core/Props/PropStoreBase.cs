@@ -25,7 +25,10 @@ public abstract class PropStoreBase : IPropStore
     private void DoEventInner(EventHandler<PropStoreEventArgs>? @event,
         IProp? prop)
     {
-        if (prop == null) throw new ArgumentNullException(nameof(prop));
+        if (prop == null)
+        {
+            throw new ArgumentNullException(nameof(prop));
+        }
 
         @event?.Invoke(this, new PropStoreEventArgs(prop));
     }
@@ -46,11 +49,15 @@ public abstract class PropStoreBase : IPropStore
             .SingleOrDefault(x => x.Scheme == resource.Scheme);
 
         if (currentResource == null)
+        {
             throw new InvalidOperationException($"В инвентаре не найден ресурс со схемой {resource.Scheme}.");
+        }
 
         if (currentResource.Count < resource.Count)
+        {
             throw new InvalidOperationException(
                 $"Попытка удалить {resource.Count} ресурсов {resource.Scheme} больше чем есть в инвентаре.");
+        }
 
         if (currentResource.Count == resource.Count)
         {

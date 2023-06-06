@@ -56,7 +56,10 @@ public sealed class Combatant
     public CombatMovementInstance? PopNextPoolMovement()
     {
         var move = _pool.FirstOrDefault();
-        if (move is not null) _pool.RemoveAt(0);
+        if (move is not null)
+        {
+            _pool.RemoveAt(0);
+        }
 
         return move;
     }
@@ -68,7 +71,9 @@ public sealed class Combatant
             if (!_pool.Any())
                 // Pool is empty.
                 // Stop to prepare first movements.
+            {
                 break;
+            }
 
             _hand[i] = _pool.First();
             _pool.RemoveAt(0);
@@ -90,7 +95,10 @@ public sealed class Combatant
         {
             effect.Update(updateType, context);
 
-            if (effect.Lifetime.IsDead) effectToDispel.Add(effect);
+            if (effect.Lifetime.IsDead)
+            {
+                effectToDispel.Add(effect);
+            }
         }
 
         foreach (var effect in effectToDispel)
@@ -103,11 +111,13 @@ public sealed class Combatant
     internal int? DropMovementFromHand(CombatMovementInstance movement)
     {
         for (var i = 0; i < _hand.Length; i++)
+        {
             if (_hand[i] == movement)
             {
                 _hand[i] = null;
                 return i;
             }
+        }
 
         return null;
     }

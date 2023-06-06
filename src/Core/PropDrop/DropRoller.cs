@@ -14,16 +14,24 @@ public static class DropRoller
     public static IDropTableRecordSubScheme GetRecord(IDropTableRecordSubScheme[] records, int roll)
     {
         if (roll == 0)
+        {
             throw new ArgumentOutOfRangeException(nameof(roll),
                 "Результат выбора записи в таблице дропа не может быть 0.");
+        }
 
-        if (records == null) throw new ArgumentNullException(nameof(records));
+        if (records == null)
+        {
+            throw new ArgumentNullException(nameof(records));
+        }
 
         var pointer = 1;
 
         foreach (var record in records)
         {
-            if (roll >= pointer && roll <= (pointer + record.Weight) - 1) return record;
+            if (roll >= pointer && roll <= (pointer + record.Weight) - 1)
+            {
+                return record;
+            }
 
             pointer += record.Weight;
         }
