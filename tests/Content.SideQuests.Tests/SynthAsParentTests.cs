@@ -14,8 +14,6 @@ using Core.Dices;
 
 using FluentAssertions;
 
-using Rpg.Client.Core.Dialogues;
-
 namespace Content.SideQuests.Tests;
 
 [TestFixture]

@@ -1,7 +1,6 @@
+using Client.Assets.Equipments.Swordsman;
+using Client.Assets.GraphicConfigs.Heroes;
 using Client.Core;
-
-using Rpg.Client.Assets.Equipments.Swordsman;
-using Rpg.Client.Assets.GraphicConfigs.Heroes;
 
 namespace Client.Assets.Heroes;
 

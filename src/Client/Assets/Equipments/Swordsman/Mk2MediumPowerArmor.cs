@@ -5,8 +5,6 @@ using Client.Core;
 
 using Core.Combats;
 
-using Rpg.Client.Assets.Equipments;
-
 namespace Client.Assets.Equipments.Swordsman;
 
 internal sealed class Mk2MediumPowerArmor : IEquipmentScheme

@@ -1,6 +1,5 @@
+using Client.Assets.Equipments.Sage;
 using Client.Core;
-
-using Rpg.Client.Assets.Equipments.Sage;
 
 namespace Client.Assets.Heroes;
 

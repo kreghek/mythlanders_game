@@ -1,6 +1,5 @@
+using Client.Assets.Equipments.Medjay;
 using Client.Core;
-
-using Rpg.Client.Assets.Equipments.Medjay;
 
 namespace Client.Assets.Heroes;
 

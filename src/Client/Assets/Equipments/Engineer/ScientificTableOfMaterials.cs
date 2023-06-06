@@ -2,8 +2,6 @@
 
 using Client.Core;
 
-using Rpg.Client.Assets.Equipments;
-
 namespace Client.Assets.Equipments.Engineer;
 
 internal sealed class ScientificTableOfMaterials : IEquipmentScheme

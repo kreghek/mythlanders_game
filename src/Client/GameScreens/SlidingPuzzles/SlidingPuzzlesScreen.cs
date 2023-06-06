@@ -11,8 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Engine;
-
 namespace Client.GameScreens.SlidingPuzzles;
 
 internal sealed class SlidingPuzzlesScreen : GameScreenWithMenuBase

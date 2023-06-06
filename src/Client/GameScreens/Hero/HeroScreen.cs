@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Client;
 using Client.Core;
 using Client.Engine;
-using Client.GameScreens;
 using Client.ScreenManagement;
 
 using Microsoft.Xna.Framework;

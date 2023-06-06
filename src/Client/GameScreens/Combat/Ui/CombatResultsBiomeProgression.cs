@@ -1,4 +1,3 @@
-using Client;
 using Client.Engine;
 using Client.GameScreens.Combat.Ui.CombatResultModalModels;
 

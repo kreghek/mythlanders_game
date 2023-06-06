@@ -1,10 +1,15 @@
 ﻿using System;
 
+using Client.GameScreens.Bestiary;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.CampaignReward;
 using Client.GameScreens.Combat;
 using Client.GameScreens.CommandCenter;
+using Client.GameScreens.Credits;
 using Client.GameScreens.Crisis;
+using Client.GameScreens.EndGame;
+using Client.GameScreens.Hero;
+using Client.GameScreens.Intro;
 using Client.GameScreens.NotImplementedStage;
 using Client.GameScreens.Rest;
 using Client.GameScreens.SlidingPuzzles;
@@ -15,12 +20,6 @@ using Client.GameScreens.VoiceCombat;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Rpg.Client.GameScreens.Bestiary;
-using Rpg.Client.GameScreens.Credits;
-using Rpg.Client.GameScreens.EndGame;
-using Rpg.Client.GameScreens.Hero;
-using Rpg.Client.GameScreens.Intro;
 
 namespace Client.ScreenManagement;
 

@@ -2,8 +2,6 @@ using System;
 
 using Client.Core;
 
-using Rpg.Client.Assets.Equipments;
-
 namespace Client.Assets.Equipments.Priest;
 
 internal sealed class NanoMetalLongCloths : IEquipmentScheme

@@ -1,5 +1,4 @@
-﻿using Client;
-using Client.Core;
+﻿using Client.Core;
 
 using Core.Combats;
 using Core.Crises;

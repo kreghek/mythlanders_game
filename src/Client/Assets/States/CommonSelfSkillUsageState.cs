@@ -7,8 +7,6 @@ using Client.GameScreens.Combat.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
-using Rpg.Client.Assets.States;
-
 namespace Client.Assets.States;
 
 internal class CommonSelfSkillUsageState : IActorVisualizationState

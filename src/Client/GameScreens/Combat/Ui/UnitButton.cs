@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Client.Engine;
-using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;

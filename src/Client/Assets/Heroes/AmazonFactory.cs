@@ -1,10 +1,9 @@
 ﻿using System.IO;
 
 using Client.Assets.CombatMovements;
+using Client.Assets.Equipments.Amazon;
 using Client.Assets.GraphicConfigs;
 using Client.Core;
-
-using Rpg.Client.Assets.Equipments.Amazon;
 
 namespace Client.Assets.Heroes;
 

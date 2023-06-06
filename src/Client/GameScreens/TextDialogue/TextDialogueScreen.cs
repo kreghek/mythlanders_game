@@ -8,6 +8,8 @@ using Client.Core.Dialogues;
 using Client.Engine;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Combat.GameObjects.Background;
+using Client.GameScreens.Common;
+using Client.GameScreens.TextDialogue.Tutorial;
 using Client.GameScreens.TextDialogue.Ui;
 using Client.ScreenManagement;
 
@@ -17,9 +19,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
-using Rpg.Client.GameScreens.Common;
-using Rpg.Client.GameScreens.Speech.Tutorial;
 
 namespace Client.GameScreens.TextDialogue;
 

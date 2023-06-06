@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 
-using Client;
 using Client.Assets;
 
 using Microsoft.Xna.Framework.Media;

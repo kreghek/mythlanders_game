@@ -3,8 +3,6 @@ using System;
 using Client.Core;
 using Client.Core.Equipments;
 
-using Rpg.Client.Assets.Equipments;
-
 namespace Client.Assets.Equipments.Spearman;
 
 internal sealed class EliteGuardsmanSpear : SimpleBonusEquipmentBase

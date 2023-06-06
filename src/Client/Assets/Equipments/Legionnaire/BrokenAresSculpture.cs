@@ -2,8 +2,6 @@ using System;
 
 using Client.Core;
 
-using Rpg.Client.Assets.Equipments;
-
 namespace Client.Assets.Equipments.Legionnaire;
 
 internal sealed class BrokenAresSculpture : IEquipmentScheme

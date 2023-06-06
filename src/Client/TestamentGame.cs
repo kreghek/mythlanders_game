@@ -8,6 +8,7 @@ using Client.Assets.Crises;
 using Client.Core;
 using Client.Core.Dialogues;
 using Client.Engine;
+using Client.GameComponents;
 using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects.Background;
 using Client.ScreenManagement;
@@ -22,8 +23,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using MonoGame.Extended.ViewportAdapters;
-
-using Rpg.Client.GameComponents;
 
 namespace Client;
 

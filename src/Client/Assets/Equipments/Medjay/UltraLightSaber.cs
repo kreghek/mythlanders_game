@@ -1,4 +1,3 @@
-using Client;
 using Client.Core;
 using Client.Core.Equipments;
 

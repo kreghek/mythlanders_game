@@ -1,6 +1,5 @@
+using Client.Assets.Equipments.Priest;
 using Client.Core;
-
-using Rpg.Client.Assets.Equipments.Priest;
 
 namespace Client.Assets.Heroes;
 

@@ -8,13 +8,11 @@ using Client.Core.AnimationFrameSets;
 using Client.Engine;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
+using Client.GameScreens.Combat.GameObjects.CommonStates;
 
 using Core.Combats;
 
 using Microsoft.Xna.Framework;
-
-using Rpg.Client.GameScreens.Combat.GameObjects;
-using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 
 namespace Client.Assets.CombatMovements;
 

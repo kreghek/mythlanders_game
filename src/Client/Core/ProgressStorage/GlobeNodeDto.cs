@@ -1,6 +1,4 @@
-﻿using Client.Core;
-
-namespace Client.Core.ProgressStorage;
+﻿namespace Client.Core.ProgressStorage;
 
 internal sealed record GlobeNodeDto
 {

@@ -1,10 +1,9 @@
 using System.IO;
 
 using Client.Assets.CombatMovements;
+using Client.Assets.Equipments.Assaulter;
 using Client.Assets.GraphicConfigs;
 using Client.Core;
-
-using Rpg.Client.Assets.Equipments.Assaulter;
 
 namespace Client.Assets.Heroes;
 

@@ -1,5 +1,4 @@
 ﻿using Client.Core;
-using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
 

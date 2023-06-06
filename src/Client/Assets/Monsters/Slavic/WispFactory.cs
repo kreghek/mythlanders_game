@@ -4,8 +4,6 @@ using Client.GameScreens;
 
 using JetBrains.Annotations;
 
-using Rpg.Client.Assets.GraphicConfigs.Monsters;
-
 namespace Client.Assets.Monsters.Slavic;
 
 [UsedImplicitly]

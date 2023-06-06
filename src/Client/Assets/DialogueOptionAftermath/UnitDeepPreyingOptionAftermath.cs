@@ -1,7 +1,6 @@
-﻿using Client.Core;
+﻿using Client.Assets.GlobalEffects;
+using Client.Core;
 using Client.Core.Dialogues;
-
-using Rpg.Client.Assets.GlobalEffects;
 
 namespace Client.Assets.DialogueOptionAftermath;
 

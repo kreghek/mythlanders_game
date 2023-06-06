@@ -1,8 +1,6 @@
-﻿using Client.Assets;
+﻿using Client.Assets.GraphicConfigs.Heroes;
 using Client.Core;
 using Client.GameScreens;
-
-using Rpg.Client.Assets.GraphicConfigs.Heroes;
 
 namespace Client.Assets.Heroes;
 

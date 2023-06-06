@@ -1,6 +1,5 @@
+using Client.Assets.Equipments.Herbalist;
 using Client.Core;
-
-using Rpg.Client.Assets.Equipments.Herbalist;
 
 namespace Client.Assets.Heroes;
 

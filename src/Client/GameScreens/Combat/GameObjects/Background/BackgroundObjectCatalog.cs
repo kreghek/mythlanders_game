@@ -1,11 +1,8 @@
 using System.Collections.Generic;
 
 using Client.Assets;
-using Client.GameScreens;
 
 using Microsoft.Xna.Framework;
-
-using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 
 namespace Client.GameScreens.Combat.GameObjects.Background;
 

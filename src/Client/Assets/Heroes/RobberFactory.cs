@@ -1,7 +1,6 @@
+using Client.Assets.Equipments.Archer;
 using Client.Assets.GraphicConfigs.Heroes;
 using Client.Core;
-
-using Rpg.Client.Assets.Equipments.Archer;
 
 namespace Client.Assets.Heroes;
 

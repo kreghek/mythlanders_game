@@ -6,11 +6,9 @@ using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Assets.States.Primitives;
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
+using Client.GameScreens.Combat.GameObjects.CommonStates;
 
 using Core.Combats;
-
-using Rpg.Client.GameScreens.Combat.GameObjects;
-using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 
 namespace Client.GameScreens.Combat;
 

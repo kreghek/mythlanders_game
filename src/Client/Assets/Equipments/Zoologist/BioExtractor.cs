@@ -1,8 +1,5 @@
-using Client;
 using Client.Core;
 using Client.Core.Equipments;
-
-using Rpg.Client.Assets.Equipments;
 
 namespace Client.Assets.Equipments.Zoologist;
 

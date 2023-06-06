@@ -2,23 +2,17 @@
 using System.Diagnostics;
 using System.Linq;
 
-using Client;
 using Client.Engine;
-using Client.GameScreens;
-using Client.GameScreens.Combat;
+using Client.GameScreens.Combat.Ui.CombatResultModalModels;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels;
 
 namespace Client.GameScreens.Combat.Ui;
 
 internal sealed class CombatResultModal : ModalDialogBase
 {
     private const int MARGIN = 5;
-    private const int BLOCK_MARGIN = MARGIN;
-    private readonly CombatResultsBiomeProgression _biomeProgression;
 
     private readonly ButtonBase _closeButton;
     private readonly CombatRewardList _combatRewardList;

@@ -3,8 +3,6 @@
 using Client.Core;
 using Client.Core.Equipments;
 
-using Rpg.Client.Assets.Equipments;
-
 namespace Client.Assets.Equipments.Amazon;
 
 internal sealed class HunterRifle : SimpleBonusEquipmentBase

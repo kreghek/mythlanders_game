@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
 
-using Client;
 using Client.Core;
 using Client.Engine;
 using Client.ScreenManagement;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Rpg.Client.Engine;
 
 namespace Client.GameScreens.Bestiary;
 

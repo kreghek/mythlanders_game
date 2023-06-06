@@ -7,8 +7,6 @@ using Client.GameScreens.Combat.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Engine;
-
 namespace Client.Assets.InteractionDeliveryObjects;
 
 internal sealed class GasBomb : IInteractionDelivery

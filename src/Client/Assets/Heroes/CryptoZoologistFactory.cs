@@ -1,10 +1,9 @@
 using System.IO;
 
 using Client.Assets.CombatMovements;
+using Client.Assets.Equipments.Zoologist;
 using Client.Assets.GraphicConfigs;
 using Client.Core;
-
-using Rpg.Client.Assets.Equipments.Zoologist;
 
 namespace Client.Assets.Heroes;
 

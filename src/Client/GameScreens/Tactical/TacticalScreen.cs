@@ -9,8 +9,6 @@ using Client.ScreenManagement;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Engine;
-
 namespace Client.GameScreens.Tactical;
 
 internal sealed class TacticalScreen : GameScreenWithMenuBase

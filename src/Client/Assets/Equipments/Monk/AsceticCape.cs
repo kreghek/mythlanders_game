@@ -5,8 +5,6 @@ using Client.Core;
 
 using Core.Combats;
 
-using Rpg.Client.Assets.Equipments;
-
 namespace Client.Assets.Equipments.Monk;
 
 internal sealed class AsceticCape : IEquipmentScheme

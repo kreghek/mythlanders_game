@@ -7,8 +7,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.GameScreens.Speech.Ui;
-
 namespace Client.GameScreens.TextDialogue.Ui;
 
 internal sealed class TextParagraphMessageControl : ControlBase

@@ -1,6 +1,5 @@
+using Client.Assets.Equipments.Liberator;
 using Client.Core;
-
-using Rpg.Client.Assets.Equipments.Liberator;
 
 namespace Client.Assets.Heroes;
 

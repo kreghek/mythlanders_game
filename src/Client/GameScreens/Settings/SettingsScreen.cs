@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 
-using Client;
 using Client.Core;
 using Client.Engine;
 using Client.ScreenManagement;

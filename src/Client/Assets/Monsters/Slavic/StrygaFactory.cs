@@ -1,4 +1,3 @@
-using Client.Assets;
 using Client.Assets.GraphicConfigs.Monsters;
 using Client.Core;
 

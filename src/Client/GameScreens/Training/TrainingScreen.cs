@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using Client.Core;
 using Client.Core.Campaigns;
-using Client.Core.Heroes;
 using Client.Engine;
 using Client.GameScreens.Campaign;
 using Client.ScreenManagement;
@@ -15,19 +14,14 @@ namespace Client.GameScreens.Training;
 
 internal sealed class TrainingScreen : GameScreenWithMenuBase
 {
-    private readonly IReadOnlyList<Hero> _availableUnits;
+    private readonly IReadOnlyList<Core.Heroes.Hero> _availableUnits;
     private readonly HeroCampaign _campaign;
-    private readonly Player _player;
-    private readonly IList<ButtonBase> _usedButtons;
-    private IReadOnlyList<(ButtonBase, Hero)> _trainingButtons;
+    private IReadOnlyList<(ButtonBase, Core.Heroes.Hero)> _trainingButtons;
 
     public TrainingScreen(TestamentGame game, TrainingScreenTransitionArguments args) : base(game)
     {
         var globeProvider = game.Services.GetService<GlobeProvider>();
 
-        _usedButtons = new List<ButtonBase>();
-
-        _player = globeProvider.Globe.Player;
         _availableUnits = args.AvailableUnits;
 
         _campaign = args.Campaign;
@@ -73,7 +67,7 @@ internal sealed class TrainingScreen : GameScreenWithMenuBase
 
     protected override void InitializeContent()
     {
-        var buttonList = new List<(ButtonBase, Hero)>();
+        var buttonList = new List<(ButtonBase, Core.Heroes.Hero)>();
 
         foreach (var character in _availableUnits)
         {
@@ -106,23 +100,5 @@ internal sealed class TrainingScreen : GameScreenWithMenuBase
     {
         ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
             new CampaignScreenTransitionArguments(_campaign));
-    }
-
-    private void MarkButtonAsUsed(TextButton trainingButton)
-    {
-        _usedButtons.Add(trainingButton);
-        trainingButton.IsEnabled = false;
-    }
-
-    private void RefreshButtons()
-    {
-        foreach (var button in _trainingButtons)
-        {
-            // var xpAmount = _player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount;
-            // if (xpAmount < button.Item2.LevelUpXpAmount)
-            // {
-            //     button.Item1.IsEnabled = false;
-            // }
-        }
     }
 }

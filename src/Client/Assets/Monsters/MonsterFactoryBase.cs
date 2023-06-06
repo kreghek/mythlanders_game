@@ -1,6 +1,5 @@
 ﻿using System.IO;
 
-using Client.Assets;
 using Client.Assets.CombatMovements;
 using Client.Assets.GraphicConfigs;
 using Client.Assets.GraphicConfigs.Monsters;

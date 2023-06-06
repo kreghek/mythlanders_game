@@ -8,8 +8,6 @@ using FluentAssertions;
 
 using NUnit.Framework;
 
-using Rpg.Client.GameScreens.Combat;
-
 namespace Client.Tests.GameScreens.Combat;
 
 [TestFixture]

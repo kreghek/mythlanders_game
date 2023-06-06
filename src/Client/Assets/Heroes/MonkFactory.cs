@@ -1,9 +1,8 @@
+using Client.Assets.Equipments.Monk;
+using Client.Assets.GraphicConfigs.Heroes;
 using Client.Core;
 
 using JetBrains.Annotations;
-
-using Rpg.Client.Assets.Equipments.Monk;
-using Rpg.Client.Assets.GraphicConfigs.Heroes;
 
 namespace Client.Assets.Heroes;
 

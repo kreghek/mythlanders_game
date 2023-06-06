@@ -3,8 +3,6 @@
 using Client.Core;
 using Client.Core.Equipments;
 
-using Rpg.Client.Assets.Equipments;
-
 namespace Client.Assets.Equipments.Liberator;
 
 internal sealed class VoiceModulator : SimpleBonusEquipmentBase

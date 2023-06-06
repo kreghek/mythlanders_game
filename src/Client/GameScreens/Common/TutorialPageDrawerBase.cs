@@ -1,5 +1,4 @@
-﻿using Client;
-using Client.Core;
+﻿using Client.Core;
 using Client.Engine;
 
 using Microsoft.Xna.Framework;

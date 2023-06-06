@@ -10,8 +10,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using Rpg.Client.GameScreens.Combat.Ui;
-
 namespace Client.GameScreens.Combat.Ui;
 
 internal sealed class CombatantQueuePanel : ControlBase

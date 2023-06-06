@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Client;
 using Client.Core;
 using Client.Engine;
 using Client.ScreenManagement;
@@ -11,8 +10,6 @@ using Core.Dices;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Rpg.Client.Engine;
 
 namespace Client.GameScreens.Title;
 

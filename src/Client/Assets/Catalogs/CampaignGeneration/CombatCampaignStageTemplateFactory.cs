@@ -13,8 +13,6 @@ using Core.Combats;
 using Core.Dices;
 using Core.PropDrop;
 
-using Rpg.Client.Core;
-
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
 internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplateFactory

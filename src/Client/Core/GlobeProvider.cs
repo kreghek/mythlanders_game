@@ -12,8 +12,6 @@ using Client.Core.ProgressStorage;
 using Core.Combats;
 using Core.Dices;
 
-using Rpg.Client.Core.ProgressStorage;
-
 namespace Client.Core;
 
 internal sealed class GlobeProvider

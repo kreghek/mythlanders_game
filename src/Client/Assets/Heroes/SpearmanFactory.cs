@@ -1,7 +1,6 @@
+using Client.Assets.Equipments.Spearman;
+using Client.Assets.GraphicConfigs.Heroes;
 using Client.Core;
-
-using Rpg.Client.Assets.Equipments.Spearman;
-using Rpg.Client.Assets.GraphicConfigs.Heroes;
 
 namespace Client.Assets.Heroes;
 

@@ -13,9 +13,6 @@ using Core.Dices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Title;
-
 namespace Client.GameScreens.Title;
 
 internal sealed class TitleScreen : GameScreenBase

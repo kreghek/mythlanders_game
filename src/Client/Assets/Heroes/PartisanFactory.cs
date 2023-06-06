@@ -1,10 +1,9 @@
 using System.IO;
 
 using Client.Assets.CombatMovements;
+using Client.Assets.Equipments.Sergeant;
 using Client.Assets.GraphicConfigs;
 using Client.Core;
-
-using Rpg.Client.Assets.Equipments.Sergeant;
 
 namespace Client.Assets.Heroes;
 

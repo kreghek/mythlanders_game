@@ -1,6 +1,5 @@
-﻿using Client.Core;
-
-using Rpg.Client.Assets.Equipments.Engineer;
+﻿using Client.Assets.Equipments.Engineer;
+using Client.Core;
 
 namespace Client.Assets.Heroes;
 
