@@ -19,11 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       working-directory : ./
-    strategy:
-      matrix:
-        solution:
-        - Rpg.Client
-      fail-fast: false
     steps:
       - uses: actions/checkout@v2
 
@@ -32,7 +27,7 @@ jobs:
       - run: dotnet tool install --global dotnet-format --version 5.1.225507
 
       - name: Format codebase ${{ matrix.solution }}
-        run: dotnet-format Rpg.Client/${{ matrix.solution }}.sln --fix-whitespace --fix-style --verbosity detailed
+        run: dotnet-format --fix-whitespace --fix-style --verbosity detailed
         working-directory: ${{env.working-directory}}
 
       - name: Commit changes
@@ -79,10 +74,10 @@ jobs:
           rm dotnet-sdk.zip
 
       - name: Restore dependencies
-        run: dotnet restore Rpg.Client/Rpg.Client.sln
+        run: dotnet restore
       
       - name: Build extentions
-        run: dotnet build Rpg/GameContent.Extensions/GameContent.Extensions.csproj --configuration Release
+        run: dotnet build src/GameContent.Extensions/GameContent.Extensions.csproj --configuration Release
 
       - name: Setup ReSharper Command Line Tools
         run: dotnet tool install --global JetBrains.ReSharper.GlobalTools --version 2022.3.2
@@ -90,10 +85,10 @@ jobs:
       # Building of the project is important step to resolve bin dependensies.
       # See docs https://www.jetbrains.com/help/resharper/CleanupCode.html#9663f16d
       - name: Build
-        run: dotnet build Rpg.Client/Rpg.Client.sln --verbosity normal
+        run: dotnet build --verbosity normal
 
       - name: Clean up codebase via ReSharper Command Line Tools
-        run: jb cleanupcode --profile="Full Cleanup" Rpg.Client.sln
+        run: jb cleanupcode --profile="Full Cleanup" Testament.sln
         working-directory: ${{env.working-directory}}
 
       - name: Commit changes

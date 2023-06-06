@@ -5,12 +5,12 @@ on:
     branches:
       - 'demo/**'
       - 'dev/**'
-      - 'master'
+      - 'main'
   pull_request:
     branches:
       - 'demo/**'
       - 'dev/**'
-      - 'master'
+      - 'main'
 
 jobs:
   build:
@@ -45,13 +45,13 @@ jobs:
         rm dotnet-sdk.zip
 
     - name: Restore dependencies
-      run: dotnet restore Rpg.Client/Rpg.Client.sln
+      run: dotnet restore
 
     - name: Build extentions
-      run: dotnet build Rpg/GameContent.Extensions/GameContent.Extensions.csproj --configuration Release
+      run: dotnet build src/GameContent.Extensions/GameContent.Extensions.csproj --configuration Release
 
     - name: Build
-      run: dotnet build Rpg.Client/Rpg.Client.sln --verbosity normal
+      run: dotnet build --verbosity normal
 
     - name: Test
-      run: dotnet test Rpg.Client/Rpg.Client.sln --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal
