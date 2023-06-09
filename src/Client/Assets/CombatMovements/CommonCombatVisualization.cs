@@ -6,6 +6,7 @@ using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Assets.States.Primitives;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
+using Client.Engine.MoveFunctions;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.CommonStates;

@@ -4,7 +4,7 @@ using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class AspidFactory : IMonsterCombatantFactory
+public class AspidCombatantFactory : IMonsterCombatantFactory
 {
     private static CombatMovementSequence CreateCombatMoveVariation(int variationIndex)
     {

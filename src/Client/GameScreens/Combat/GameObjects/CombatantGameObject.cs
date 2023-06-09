@@ -5,6 +5,7 @@ using System.Linq;
 using Client.Assets.CombatMovements;
 using Client.Core;
 using Client.Engine;
+using Client.Engine.MoveFunctions;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
 using Client.GameScreens.Combat.Ui;
 
