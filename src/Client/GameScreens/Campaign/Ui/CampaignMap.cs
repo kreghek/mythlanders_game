@@ -336,23 +336,9 @@ internal sealed class CampaignMap : ControlBase
     private void InitChildControls(IGraph<ICampaignStageItem> campaignGraph, HeroCampaign currentCampaign)
     {
         var horizontalVisualizer = new HorizontalGraphVisualizer<ICampaignStageItem>();
-        var graphNodeLayouts = horizontalVisualizer.Create(campaignGraph, new VisualizerConfig());
-
-        var random = new Random(currentCampaign.Seed);
-
-        var postProcessors = new ILayoutPostProcessor<ICampaignStageItem>[]
-        {
-            new PushHorizontallyPostProcessor<ICampaignStageItem>(16),
-            new RotatePostProcessor<ICampaignStageItem>(random.NextDouble() * Math.PI * 0.5f),
-            new RepeatPostProcessor<ICampaignStageItem>(5,
-                new RetryTransformLayoutPostProcessor<ICampaignStageItem>(new RandomPositionLayoutTransformer(random),
-                    new IntersectsGraphNodeLayoutValidator<ICampaignStageItem>(), 10))
-        };
-
-        foreach (var postProcessor in postProcessors)
-        {
-            graphNodeLayouts = postProcessor.Process(graphNodeLayouts);
-        }
+        var visualizatorConfig = new VisualizerConfig();
+        var graphNodeLayouts = horizontalVisualizer.Create(campaignGraph, visualizatorConfig);
+        graphNodeLayouts = ApplyPostProcessTransformations(currentCampaign, visualizatorConfig, graphNodeLayouts);
 
         foreach (var graphNodeLayout in graphNodeLayouts)
         {
@@ -380,6 +366,32 @@ internal sealed class CampaignMap : ControlBase
             graphNodeLayouts.Max(x => x.Position.X + 32),
             graphNodeLayouts.Max(x => x.Position.Y + 32)
         );
+    }
+
+    private static IReadOnlyCollection<IGraphNodeLayout<ICampaignStageItem>> ApplyPostProcessTransformations(
+        HeroCampaign currentCampaign,
+        VisualizerConfig visualizatorConfig,
+        IReadOnlyCollection<IGraphNodeLayout<ICampaignStageItem>> graphNodeLayouts)
+    {
+        var random = new Random(currentCampaign.Seed);
+
+        const int REPEAT_ALL_TRANSFORMATIONS_COUNT = 5;
+        const int RETRY_TRANSFORMATIONS_COUNT = 10;
+        var postProcessors = new ILayoutPostProcessor<ICampaignStageItem>[]
+        {
+            new PushHorizontallyPostProcessor<ICampaignStageItem>(visualizatorConfig.NodeSize / 2),
+            new RotatePostProcessor<ICampaignStageItem>(random.NextDouble() * Math.PI * 0.5f),
+            new RepeatPostProcessor<ICampaignStageItem>(REPEAT_ALL_TRANSFORMATIONS_COUNT,
+                new RetryTransformLayoutPostProcessor<ICampaignStageItem>(new RandomPositionLayoutTransformer(random),
+                    new IntersectsGraphNodeLayoutValidator<ICampaignStageItem>(), RETRY_TRANSFORMATIONS_COUNT))
+        };
+
+        foreach (var postProcessor in postProcessors)
+        {
+            graphNodeLayouts = postProcessor.Process(graphNodeLayouts);
+        }
+
+        return graphNodeLayouts;
     }
 
     private static Vector2 NormalizeScroll(Vector2 currentScroll, Rectangle boundingGraphRect,
