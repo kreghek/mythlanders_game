@@ -1,6 +1,7 @@
 using System;
 
 using Client.Core;
+using Client.Core.AnimationFrameSets;
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
@@ -24,6 +25,12 @@ internal sealed class PlayAnimationActorState : IActorVisualizationState
     public PlayAnimationActorState(IActorAnimator animator, IAnimationFrameSet animation)
     {
         _animation = animation;
+
+        if (_animation is LinearAnimationFrameSet linear && linear.IsLooping)
+        {
+            throw new InvalidOperationException();
+        }
+
         _animator = animator;
 
         _animation.End += Animation_End;

@@ -15,11 +15,13 @@ internal sealed class FollowActorOperatorCameraTask : ICameraOperatorTask
     private const int ZOOM_SPEED = 10;
     private readonly IActorAnimator _combatActor;
     private readonly Func<bool> _completeDelegate;
+    private Vector2 _lastActorPosition;
 
     public FollowActorOperatorCameraTask(IActorAnimator combatActor, Func<bool> completeDelegate)
     {
         _combatActor = combatActor;
         _completeDelegate = completeDelegate;
+        _lastActorPosition = GetActorFollowPoint();
     }
 
     private Vector2 GetActorFollowPoint()
@@ -54,7 +56,10 @@ internal sealed class FollowActorOperatorCameraTask : ICameraOperatorTask
         else
         {
             camera.Zoom = FOLLOWING_ZOOM;
-            camera.ZoomIn(0.01f, actorFollowPoint);
+            var actorPositionDiff = _lastActorPosition - actorFollowPoint;
+            camera.Position -= actorPositionDiff;
         }
+
+        _lastActorPosition = actorFollowPoint;
     }
 }
