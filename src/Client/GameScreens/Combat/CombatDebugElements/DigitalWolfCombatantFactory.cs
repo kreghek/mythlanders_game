@@ -4,7 +4,7 @@ using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class DigitalWolfFactory : IMonsterCombatantFactory
+public class DigitalWolfCombatantFactory : IMonsterCombatantFactory
 {
     private static CombatMovementSequence CreateCombatMoveVariation()
     {

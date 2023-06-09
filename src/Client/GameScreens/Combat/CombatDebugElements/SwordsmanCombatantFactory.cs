@@ -8,7 +8,7 @@ using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class SwordsmanFactory : IHeroCombatantFactory
+public class SwordsmanCombatantFactory : IHeroCombatantFactory
 {
     private static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory
     {

@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 
 using Client.Assets.CombatMovements;
-using Client.Assets.CombatMovements.Hero.Monk;
+using Client.Assets.CombatMovements.Hero.Amazon;
 
 using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class MonkFactory : IHeroCombatantFactory
+public class AmazonCombatantFactory : IHeroCombatantFactory
 {
     private static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory
     {
@@ -19,15 +19,15 @@ public class MonkFactory : IHeroCombatantFactory
     {
         var movementPool = new List<CombatMovement>
         {
-            CreateMovement<HandOfThousandFormsFactory>(),
+            CreateMovement<HuntFactory>(),
 
-            CreateMovement<NinthTrigramFactory>(),
+            CreateMovement<FinishWoundedFactory>(),
 
-            CreateMovement<ArtOfCombatFactory>(),
+            CreateMovement<TrackerSavvyFactory>(),
 
-            CreateMovement<MasterfulStaffHitFactory>(),
+            CreateMovement<JustHitBoarWithKnifeFactory>(),
 
-            CreateMovement<HiddenIntentionFactory>()
+            CreateMovement<BringBeastDownFactory>()
         };
 
         var heroSequence = new CombatMovementSequence();
@@ -41,11 +41,11 @@ public class MonkFactory : IHeroCombatantFactory
         }
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, hitpointsStat);
-        stats.SetValue(UnitStatType.ShieldPoints, 3);
-        stats.SetValue(UnitStatType.Resolve, 7);
+        stats.SetValue(UnitStatType.HitPoints, 3);
+        stats.SetValue(UnitStatType.ShieldPoints, 0);
+        stats.SetValue(UnitStatType.Resolve, 4);
 
-        var hero = new Combatant("monk", heroSequence, stats, combatActorBehaviour)
+        var hero = new Combatant("amazon", heroSequence, stats, combatActorBehaviour)
         {
             Sid = sid, IsPlayerControlled = true
         };

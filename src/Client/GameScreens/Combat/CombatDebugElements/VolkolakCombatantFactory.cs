@@ -1,24 +1,24 @@
-﻿using Client.Assets.CombatMovements.Monster.Black.BlackTroop;
+﻿using Client.Assets.CombatMovements.Monster.Slavic.Chaser;
 
 using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class BlackTroopFactory : IMonsterCombatantFactory
+public class VolkolakCombatantFactory : IMonsterCombatantFactory
 {
     private static CombatMovementSequence CreateCombatMoveVariation(int variationIndex)
     {
         var moveTemplate = new[,]
         {
-            { new GrimResolveFactory().CreateMovement(), new FatalBlowFactory().CreateMovement() },
+            { new ChainHitFactory().CreateMovement(), new ChasingFactory().CreateMovement() },
 
-            { new DanceWithThePastFactory().CreateMovement(), new LastChanceToPeaceFactory().CreateMovement() },
+            { new DoubleKapeshFactory().CreateMovement(), new AfterlifeWhirlwindFactory().CreateMovement() },
 
-            { new FatalBlowFactory().CreateMovement(), new MadnessWithinEyesFactory().CreateMovement() },
+            { new ChasingFactory().CreateMovement(), new GuardianPromiseFactory().CreateMovement() },
 
-            { new MadnessWithinEyesFactory().CreateMovement(), new DanceWithThePastFactory().CreateMovement() },
+            { new GuardianPromiseFactory().CreateMovement(), new DoubleKapeshFactory().CreateMovement() },
 
-            { new LastChanceToPeaceFactory().CreateMovement(), new GrimResolveFactory().CreateMovement() }
+            { new AfterlifeWhirlwindFactory().CreateMovement(), new ChainHitFactory().CreateMovement() }
         };
 
         var monsterSequence = new CombatMovementSequence();
@@ -44,7 +44,7 @@ public class BlackTroopFactory : IMonsterCombatantFactory
         stats.SetValue(UnitStatType.ShieldPoints, 4);
         stats.SetValue(UnitStatType.Resolve, 5);
 
-        var monster = new Combatant("blacktrooper", monsterSequence, stats, combatActorBehaviour)
+        var monster = new Combatant("volkolakwarrior", monsterSequence, stats, combatActorBehaviour)
         {
             Sid = sid, IsPlayerControlled = false
         };

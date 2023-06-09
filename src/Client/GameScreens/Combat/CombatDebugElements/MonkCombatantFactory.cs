@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 
 using Client.Assets.CombatMovements;
-using Client.Assets.CombatMovements.Hero.Partisan;
+using Client.Assets.CombatMovements.Hero.Monk;
 
 using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class PartisanFactory : IHeroCombatantFactory
+public class MonkCombatantFactory : IHeroCombatantFactory
 {
     private static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory
     {
@@ -17,17 +17,18 @@ public class PartisanFactory : IHeroCombatantFactory
 
     public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
     {
-        var movementPool = new List<CombatMovement>();
+        var movementPool = new List<CombatMovement>
+        {
+            CreateMovement<HandOfThousandFormsFactory>(),
 
-        movementPool.Add(CreateMovement<InspirationalBreakthroughFactory>());
+            CreateMovement<NinthTrigramFactory>(),
 
-        movementPool.Add(CreateMovement<SabotageFactory>());
+            CreateMovement<ArtOfCombatFactory>(),
 
-        movementPool.Add(CreateMovement<SurpriseManeuverFactory>());
+            CreateMovement<MasterfulStaffHitFactory>(),
 
-        movementPool.Add(CreateMovement<BlankShotFactory>());
-
-        movementPool.Add(CreateMovement<OldGoodBrawlFactory>());
+            CreateMovement<HiddenIntentionFactory>()
+        };
 
         var heroSequence = new CombatMovementSequence();
 
@@ -40,11 +41,11 @@ public class PartisanFactory : IHeroCombatantFactory
         }
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, 4);
+        stats.SetValue(UnitStatType.HitPoints, hitpointsStat);
         stats.SetValue(UnitStatType.ShieldPoints, 3);
         stats.SetValue(UnitStatType.Resolve, 7);
 
-        var hero = new Combatant("partisan", heroSequence, stats, combatActorBehaviour)
+        var hero = new Combatant("monk", heroSequence, stats, combatActorBehaviour)
         {
             Sid = sid, IsPlayerControlled = true
         };

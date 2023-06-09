@@ -4,7 +4,7 @@ using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class ThiefChaserFactory : IMonsterCombatantFactory
+public class ChaserCombatantFactory : IMonsterCombatantFactory
 {
     private static CombatMovementSequence CreateCombatMoveVariation(int variationIndex)
     {

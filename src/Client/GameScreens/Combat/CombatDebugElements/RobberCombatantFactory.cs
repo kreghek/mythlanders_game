@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 using Client.Assets.CombatMovements;
@@ -8,7 +8,7 @@ using Core.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class AmazonFactory : IHeroCombatantFactory
+public class RobberCombatantFactory : IHeroCombatantFactory
 {
     private static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory
     {
@@ -19,15 +19,15 @@ public class AmazonFactory : IHeroCombatantFactory
     {
         var movementPool = new List<CombatMovement>
         {
-            CreateMovement<HuntFactory>(),
+            CreateMovement<BalticThunderFactory>(), // hunt
 
-            CreateMovement<FinishWoundedFactory>(),
+            CreateMovement<ArrowOfMoranaFactory>(), // finish
 
-            CreateMovement<TrackerSavvyFactory>(),
+            CreateMovement<WingsOfVelesFactory>(), // tracker
 
-            CreateMovement<JustHitBoarWithKnifeFactory>(),
+            CreateMovement<UndercutValuesFactory>(), // just
 
-            CreateMovement<BringBeastDownFactory>()
+            CreateMovement<WindWheelFactory>() // bring
         };
 
         var heroSequence = new CombatMovementSequence();
@@ -41,11 +41,11 @@ public class AmazonFactory : IHeroCombatantFactory
         }
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, 3);
+        stats.SetValue(UnitStatType.HitPoints, hitpointsStat);
         stats.SetValue(UnitStatType.ShieldPoints, 0);
         stats.SetValue(UnitStatType.Resolve, 4);
 
-        var hero = new Combatant("amazon", heroSequence, stats, combatActorBehaviour)
+        var hero = new Combatant("robber", heroSequence, stats, combatActorBehaviour)
         {
             Sid = sid, IsPlayerControlled = true
         };
