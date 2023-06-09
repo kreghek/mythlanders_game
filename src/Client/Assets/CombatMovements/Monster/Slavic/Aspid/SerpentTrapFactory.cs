@@ -9,28 +9,8 @@ namespace Client.Assets.CombatMovements.Monster.Slavic.Aspid;
 
 internal class SerpentTrapFactory : SimpleCombatMovementFactoryBase
 {
-    protected override CombatMovementEffectConfig GetEffects()
-    {
-        return CombatMovementEffectConfig.Create(
-            new IEffect[]
-            {
-                new AdjustPositionEffect(new SelfTargetSelector()),
-                new DamageEffect(
-                    new StrongestEnemyTargetSelector(),
-                    DamageType.Normal,
-                    Range<int>.CreateMono(3)),
-                new PushToPositionEffect(
-                    new SelfTargetSelector(),
-                    ChangePositionEffectDirection.ToVanguard)
-            });
-    }
-
-    protected override CombatMovementTags GetTags()
-    {
-        return CombatMovementTags.Attack;
-    }
-
-    public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator, CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+    public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
         var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Aspid");
 
@@ -53,5 +33,26 @@ internal class SerpentTrapFactory : SimpleCombatMovementFactoryBase
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);
+    }
+
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(
+            new IEffect[]
+            {
+                new AdjustPositionEffect(new SelfTargetSelector()),
+                new DamageEffect(
+                    new StrongestEnemyTargetSelector(),
+                    DamageType.Normal,
+                    Range<int>.CreateMono(3)),
+                new PushToPositionEffect(
+                    new SelfTargetSelector(),
+                    ChangePositionEffectDirection.ToVanguard)
+            });
+    }
+
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
     }
 }

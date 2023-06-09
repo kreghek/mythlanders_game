@@ -39,7 +39,8 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
         };
     }
 
-    public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator, CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+    public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
         var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("DigitalWolf");
 
@@ -54,7 +55,6 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
         var waitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "digital-wait");
 
         var jumpBackAnimation = AnimationHelper.ConvertToAnimation(animationSet, "jump-back");
-
 
         var skillAnimationInfo = new SkillAnimationInfo
         {
@@ -93,14 +93,17 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
             new PlayAnimationActorState(actorAnimator, preparingGrinAnimation),
 
             new MoveToPositionActorState(actorAnimator,
-                new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, actorAnimator.GraphicRoot.Position + new Vector2(50, -256)), jumpAnimation),
+                new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position,
+                    actorAnimator.GraphicRoot.Position + new Vector2(50, -256)), jumpAnimation),
             // TODO Launch particle system - raining cyan digital particles
             new DelayActorState(new Duration(1)),
 
-            new MoveToPositionActorState(actorAnimator, new SlowDownMoveFunction(targetPosition + new Vector2(-50, -256), targetPosition), chargeAnimation),
+            new MoveToPositionActorState(actorAnimator,
+                new SlowDownMoveFunction(targetPosition + new Vector2(-50, -256), targetPosition), chargeAnimation),
             new DirectInteractionState(actorAnimator, skillAnimationInfo, biteAnimation),
             new PlayAnimationActorState(actorAnimator, waitAnimation),
-            new MoveToPositionActorState(actorAnimator, new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, startPosition), jumpBackAnimation)
+            new MoveToPositionActorState(actorAnimator,
+                new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, startPosition), jumpBackAnimation)
         };
 
         var innerState = new SequentialState(subStates);
