@@ -1,16 +1,18 @@
-﻿using Client.Assets.CombatMovements.Hero.Swordsman;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Assets.States.Primitives;
 using Client.Engine;
-using Client.GameScreens.Combat.GameObjects.CommonStates;
-using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat;
+using Client.GameScreens.Combat.GameObjects;
+using Client.GameScreens.Combat.GameObjects.CommonStates;
 
 using Core.Combats;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
+
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
