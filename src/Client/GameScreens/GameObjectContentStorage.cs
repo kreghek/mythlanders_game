@@ -324,7 +324,8 @@ internal class GameObjectContentStorage
         _animationSetDict = new Dictionary<string, SpriteAtlasAnimationData>
         {
             { "Swordsman", GetAnimationInner("Swordsman") },
-            { "DigitalWolf", GetAnimationInner("DigitalWolf") }
+            { "DigitalWolf", GetAnimationInner("DigitalWolf") },
+            { "Aspid", GetAnimationInner("Aspid") }
         };
     }
 
