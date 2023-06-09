@@ -50,7 +50,5 @@ internal class CyberClawsFactory : CombatMovementFactoryBase
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);
-
-        return base.CreateVisualization(actorAnimator, movementExecution, visualizationContext);
     }
 }
