@@ -1,6 +1,4 @@
-﻿using Client.Core;
-using Client.Core.AnimationFrameSets;
-using Client.Engine;
+﻿using Client.Engine;
 
 using Core.Combats;
 using Core.Combats.Effects;
@@ -39,15 +37,15 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
     {
         var swordsmanAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Swordsman");
 
-        var keepSwordStrongerAnimation = ConvertToAnimation(swordsmanAnimationSet, "prepare-sword");
+        var keepSwordStrongerAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "prepare-sword");
 
-        var chargeAnimation = ConvertToAnimation(swordsmanAnimationSet, "charge");
+        var chargeAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "charge");
 
-        var hitAnimation = ConvertToAnimation(swordsmanAnimationSet, "hit");
+        var hitAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "hit");
 
-        var hitCompleteAnimation = ConvertToAnimation(swordsmanAnimationSet, "hit-complete");
+        var hitCompleteAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "hit-complete");
 
-        var backAnimation = ConvertToAnimation(swordsmanAnimationSet, "back");
+        var backAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "back");
 
         var config = new SingleMeleeVisualizationConfig(
             keepSwordStrongerAnimation,
@@ -58,20 +56,5 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);
-    }
-
-    private static IAnimationFrameSet ConvertToAnimation(SpriteAtlasAnimationData spredsheetAnimationData,
-        string animation)
-    {
-        var spredsheetAnimationDataCycles = spredsheetAnimationData.Cycles[animation];
-
-        return new LinearAnimationFrameSet(
-            spredsheetAnimationDataCycles.Frames,
-            spredsheetAnimationDataCycles.Fps,
-            spredsheetAnimationData.TextureAtlas.RegionWidth,
-            spredsheetAnimationData.TextureAtlas.RegionHeight, 8)
-        {
-            IsLooping = spredsheetAnimationDataCycles.IsLooping
-        };
     }
 }

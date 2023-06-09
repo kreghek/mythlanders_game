@@ -1,4 +1,7 @@
-﻿using Core.Combats;
+﻿using Client.Assets.CombatMovements.Hero.Swordsman;
+using Client.Engine;
+
+using Core.Combats;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
@@ -24,5 +27,30 @@ internal class CyberClawsFactory : CombatMovementFactoryBase
         {
             Tags = CombatMovementTags.Attack
         };
+    }
+
+    public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator, CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+    {
+        var digitalAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("DigitalWolf");
+
+        var preparingGrinAnimation = AnimationHelper.ConvertToAnimation(digitalAnimationSet, "grin");
+
+        var jumpAnimation = AnimationHelper.ConvertToAnimation(digitalAnimationSet, "raging-jump");
+
+        var biteAnimation = AnimationHelper.ConvertToAnimation(digitalAnimationSet, "direct-bite");
+
+        var jumpBackAnimation = AnimationHelper.ConvertToAnimation(digitalAnimationSet, "jump-back");
+
+        var config = new SingleMeleeVisualizationConfig(
+            preparingGrinAnimation,
+            jumpAnimation,
+            biteAnimation,
+            biteAnimation,
+            jumpBackAnimation);
+
+        return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
+            visualizationContext, config);
+
+        return base.CreateVisualization(actorAnimator, movementExecution, visualizationContext);
     }
 }
