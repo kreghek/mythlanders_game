@@ -4,8 +4,16 @@ using Client.Engine;
 
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
+/// <summary>
+/// Auxiliary class to group methods to work with animations.
+/// </summary>
 internal static class AnimationHelper
 {
+    /// <summary>
+    /// Convert animation from content to game engine animation.
+    /// </summary>
+    /// <param name="spredsheetAnimationData">Content animation.</param>
+    /// <param name="animation">Animation name.</param>
     public static IAnimationFrameSet ConvertToAnimation(SpriteAtlasAnimationData spredsheetAnimationData,
         string animation)
     {

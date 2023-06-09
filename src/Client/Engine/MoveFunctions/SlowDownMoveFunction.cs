@@ -2,7 +2,7 @@
 
 using Microsoft.Xna.Framework;
 
-namespace Client.Engine;
+namespace Client.Engine.MoveFunctions;
 
 public sealed class SlowDownMoveFunction : IMoveFunction
 {

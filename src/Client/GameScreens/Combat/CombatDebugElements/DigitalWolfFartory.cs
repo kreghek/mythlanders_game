@@ -10,8 +10,6 @@ public class DigitalWolfFactory : IMonsterCombatantFactory
     {
         var list = new[]
         {
-            new EnergeticBiteFactory().CreateMovement(), // TODO
-
             new CyberClawsFactory().CreateMovement(),
             new VelesProtectionFactory().CreateMovement(),
             new EnergeticBiteFactory().CreateMovement(),
