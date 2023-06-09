@@ -343,7 +343,7 @@ internal sealed class CampaignMap : ControlBase
         var postProcessors = new ILayoutPostProcessor<ICampaignStageItem>[]
         {
             new PushHorizontallyPostProcessor<ICampaignStageItem>(16),
-            new RotatePostProcessor<ICampaignStageItem>(random.NextDouble() * Math.PI),
+            new RotatePostProcessor<ICampaignStageItem>(random.NextDouble() * Math.PI * 0.5f),
             new RepeatPostProcessor<ICampaignStageItem>(5,
                 new RetryTransformLayoutPostProcessor<ICampaignStageItem>(new RandomPositionLayoutTransformer(random),
                     new IntersectsGraphNodeLayoutValidator<ICampaignStageItem>(), 10))
