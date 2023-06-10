@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 using Client.Assets.CombatMovements.Hero.Swordsman;
+using Client.Core;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
 
@@ -38,17 +40,34 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
         ICombatMovementVisualizationContext visualizationContext)
     {
         var config = new SingleMeleeVisualizationConfig(
-            new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8),
-            new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
-                CommonConstants.FrameSize.Y, 8),
-            new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
-                CommonConstants.FrameSize.Y, 8),
-            new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
-                CommonConstants.FrameSize.Y, 8),
-            new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8)
-                { IsLooping = true });
+            CreateLinear(new[] { 0 }, 1),
+            CreateLinear(Enumerable.Range(0, 1).ToArray(), 8),
+            CreateLinear(Enumerable.Range(0, 1).ToArray(), 8),
+            CreateLinear(Enumerable.Range(0, 1).ToArray(), 8),
+            CreateLoopingLinear(new[] { 0 }, 1));
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);
+    }
+
+    private static IAnimationFrameSet CreateLinear(IReadOnlyList<int> frames, float fps)
+    {
+        return new LinearAnimationFrameSet(frames,
+            fps,
+            CommonConstants.FrameSize.X,
+            CommonConstants.FrameSize.Y,
+            CommonConstants.FrameCount);
+    }
+
+    private static IAnimationFrameSet CreateLoopingLinear(IReadOnlyList<int> frames, float fps)
+    {
+        return new LinearAnimationFrameSet(frames,
+            fps,
+            CommonConstants.FrameSize.X,
+            CommonConstants.FrameSize.Y,
+            CommonConstants.FrameCount)
+        {
+            IsLooping = true
+        };
     }
 }

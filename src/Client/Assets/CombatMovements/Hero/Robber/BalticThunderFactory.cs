@@ -9,7 +9,7 @@ using Core.Combats.TargetSelectors;
 
 using JetBrains.Annotations;
 
-namespace Client.Assets.CombatMovements.Hero.Amazon;
+namespace Client.Assets.CombatMovements.Hero.Robber;
 
 [UsedImplicitly]
 internal class BalticThunderFactory : CombatMovementFactoryBase

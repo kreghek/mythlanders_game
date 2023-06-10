@@ -3,7 +3,7 @@ using Core.Combats.CombatantEffects;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
-namespace Client.Assets.CombatMovements.Hero.Amazon;
+namespace Client.Assets.CombatMovements.Hero.Robber;
 
 internal class WingsOfVelesFactory : CombatMovementFactoryBase
 {

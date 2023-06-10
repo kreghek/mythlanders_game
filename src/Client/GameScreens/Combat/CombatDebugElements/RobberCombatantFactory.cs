@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 using Client.Assets.CombatMovements;
-using Client.Assets.CombatMovements.Hero.Amazon;
+using Client.Assets.CombatMovements.Hero.Robber;
 
 using Core.Combats;
 
