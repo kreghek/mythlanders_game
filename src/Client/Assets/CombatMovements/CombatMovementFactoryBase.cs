@@ -12,6 +12,27 @@ namespace Client.Assets.CombatMovements;
 
 internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
 {
+    private static IAnimationFrameSet CreateLinear(IReadOnlyList<int> frames, float fps)
+    {
+        return new LinearAnimationFrameSet(frames,
+            fps,
+            CommonConstants.FrameSize.X,
+            CommonConstants.FrameSize.Y,
+            CommonConstants.FrameCount);
+    }
+
+    private static IAnimationFrameSet CreateLoopingLinear(IReadOnlyList<int> frames, float fps)
+    {
+        return new LinearAnimationFrameSet(frames,
+            fps,
+            CommonConstants.FrameSize.X,
+            CommonConstants.FrameSize.Y,
+            CommonConstants.FrameCount)
+        {
+            IsLooping = true
+        };
+    }
+
     /// <summary>
     /// Symbolic identifier of the combat movement.
     /// </summary>
@@ -48,26 +69,5 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);
-    }
-
-    private static IAnimationFrameSet CreateLinear(IReadOnlyList<int> frames, float fps)
-    {
-        return new LinearAnimationFrameSet(frames,
-            fps,
-            CommonConstants.FrameSize.X,
-            CommonConstants.FrameSize.Y,
-            CommonConstants.FrameCount);
-    }
-
-    private static IAnimationFrameSet CreateLoopingLinear(IReadOnlyList<int> frames, float fps)
-    {
-        return new LinearAnimationFrameSet(frames,
-            fps,
-            CommonConstants.FrameSize.X,
-            CommonConstants.FrameSize.Y,
-            CommonConstants.FrameCount)
-        {
-            IsLooping = true
-        };
     }
 }

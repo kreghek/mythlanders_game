@@ -17,18 +17,18 @@ internal sealed class StoryState : IStoryState
         _heroParty = heroParty;
     }
 
-    private static IReadOnlyCollection<CharacterRelation> GetPlayerUnitsAsFullKnown(Group heroParty)
-    {
-        var heroes = heroParty.GetUnits();
-        return heroes.Select(CreateFullyKnownRelations).ToArray();
-    }
-
     private static CharacterRelation CreateFullyKnownRelations(Hero hero)
     {
         return new CharacterRelation(hero.UnitScheme.Name)
         {
             Level = CharacterKnowledgeLevel.FullName
         };
+    }
+
+    private static IReadOnlyCollection<CharacterRelation> GetPlayerUnitsAsFullKnown(Group heroParty)
+    {
+        var heroes = heroParty.GetUnits();
+        return heroes.Select(CreateFullyKnownRelations).ToArray();
     }
 
     public IReadOnlyCollection<string> Keys => _storyKeys.ToArray();
