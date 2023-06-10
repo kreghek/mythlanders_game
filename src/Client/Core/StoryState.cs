@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core.Heroes;
+
 namespace Client.Core;
 
 internal sealed class StoryState : IStoryState
@@ -15,10 +17,18 @@ internal sealed class StoryState : IStoryState
         _heroParty = heroParty;
     }
 
-    private IReadOnlyCollection<CharacterRelation> GetPlayerUnitsAsFullKnown(Group heroParty)
+    private static IReadOnlyCollection<CharacterRelation> GetPlayerUnitsAsFullKnown(Group heroParty)
     {
-        return heroParty.GetUnits().Select(x => new CharacterRelation(x.UnitScheme.Name)
-            { Level = CharacterKnowledgeLevel.FullName }).ToArray();
+        var heroes = heroParty.GetUnits();
+        return heroes.Select(CreateFullyKnownRelations).ToArray();
+    }
+
+    private static CharacterRelation CreateFullyKnownRelations(Hero hero)
+    {
+        return new CharacterRelation(hero.UnitScheme.Name)
+        { 
+            Level = CharacterKnowledgeLevel.FullName 
+        };
     }
 
     public IReadOnlyCollection<string> Keys => _storyKeys.ToArray();
