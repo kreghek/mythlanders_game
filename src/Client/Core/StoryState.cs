@@ -26,8 +26,8 @@ internal sealed class StoryState : IStoryState
     private static CharacterRelation CreateFullyKnownRelations(Hero hero)
     {
         return new CharacterRelation(hero.UnitScheme.Name)
-        { 
-            Level = CharacterKnowledgeLevel.FullName 
+        {
+            Level = CharacterKnowledgeLevel.FullName
         };
     }
 
