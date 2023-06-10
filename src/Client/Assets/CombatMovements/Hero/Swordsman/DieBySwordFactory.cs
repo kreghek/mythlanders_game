@@ -38,19 +38,22 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
         var swordsmanAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Swordsman");
 
         var keepSwordStrongerAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "prepare-sword");
+        var keepSwordSoundEffect = visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameScreens.GameObjectSoundType.SwordPrepare);
 
         var chargeAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "charge");
+        var chargeSoundEffect = visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameScreens.GameObjectSoundType.ArmedMove);
 
         var hitAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "hit");
+        var swordHitSoundEffect = visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameScreens.GameObjectSoundType.SwordSlash);
 
         var hitCompleteAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "hit-complete");
 
         var backAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "back");
 
         var config = new SingleMeleeVisualizationConfig(
-            keepSwordStrongerAnimation,
-            chargeAnimation,
-            hitAnimation,
+            new SoundedAnimation(keepSwordStrongerAnimation, keepSwordSoundEffect.CreateInstance()),
+            new SoundedAnimation(chargeAnimation, chargeSoundEffect.CreateInstance()),
+            new SoundedAnimation(hitAnimation, swordHitSoundEffect.CreateInstance()),
             hitCompleteAnimation,
             backAnimation);
 

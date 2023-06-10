@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.CombatMovements.Hero.Amazon;
@@ -14,6 +15,7 @@ using Client.GameScreens.Combat.GameObjects.CommonStates;
 using Core.Combats;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Client.Assets.CombatMovements;
 
@@ -64,7 +66,7 @@ internal static class CommonCombatVisualization
                 new SkillAnimationInfoItem
                 {
                     Duration = 0.75f,
-                    //HitSound = hitSound,
+                    HitSound = config.HitAnimation.Sound,
                     Interaction = () =>
                         Interaction(movementExecution.EffectImposeItems),
                     InteractTime = 0
@@ -89,13 +91,21 @@ internal static class CommonCombatVisualization
             targetPosition = actorAnimator.GraphicRoot.Position;
         }
 
+        var prepareActorState = CreateSoundedState(()=> {
+                return new PlayAnimationActorState(actorAnimator, config.PrepareMovementAnimation.Animation);
+        }, config.PrepareMovementAnimation.Sound);
+
+        var chargeActorState = CreateSoundedState(() => {
+            return new MoveToPositionActorState(actorAnimator,
+                        new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, targetPosition),
+                        config.CombatMovementAnimation.Animation);
+        }, config.CombatMovementAnimation.Sound);
+
         var subStates = new IActorVisualizationState[]
         {
-            new PlayAnimationActorState(actorAnimator, config.PrepareMovementAnimation),
-            new MoveToPositionActorState(actorAnimator,
-                new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, targetPosition),
-                config.CombatMovementAnimation),
-            new DirectInteractionState(actorAnimator, skillAnimationInfo, config.HitAnimation),
+            prepareActorState,
+            chargeActorState,
+            new DirectInteractionState(actorAnimator, skillAnimationInfo, config.HitAnimation.Animation),
             new PlayAnimationActorState(actorAnimator, config.HitCompleteAnimation),
             new MoveToPositionActorState(actorAnimator,
                 new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, startPosition),
@@ -105,6 +115,17 @@ internal static class CommonCombatVisualization
         var innerState = new SequentialState(subStates);
         return new CombatMovementScene(innerState,
             new[] { new FollowActorOperatorCameraTask(actorAnimator, () => innerState.IsComplete) });
+    }
+
+    private static IActorVisualizationState CreateSoundedState(Func<IActorVisualizationState> baseStateFactory, SoundEffectInstance? soundEffect)
+    {
+        IActorVisualizationState baseActorState = baseStateFactory();
+        if (soundEffect is not null)
+        {
+            baseActorState = new ParallelActionState(new PlaySoundEffectActorState(soundEffect), baseActorState);
+        }
+
+        return baseActorState;
     }
 
     private static Combatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,

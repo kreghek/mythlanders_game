@@ -2,6 +2,7 @@
 
 internal enum GameObjectSoundType
 {
+    SwordPrepare,
     SwordSlash,
     EnergoShot,
     Heal,
@@ -22,5 +23,6 @@ internal enum GameObjectSoundType
     FrogHornsUp,
     Gunshot,
     AssaultRifleBurst,
-    AmazonWarCry
+    AmazonWarCry,
+    ArmedMove
 }
