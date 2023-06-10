@@ -7,20 +7,21 @@ namespace Client.Assets.CombatMovements;
 
 internal sealed class PlaySoundEffectActorState : IActorVisualizationState
 {
+    private readonly SoundEffectInstance _soundEffect;
+
+    private bool _soundPlayed;
+
+    public PlaySoundEffectActorState(SoundEffectInstance soundEffect)
+    {
+        _soundEffect = soundEffect;
+    }
+
     public bool CanBeReplaced => true;
 
     public bool IsComplete => _soundEffect.State == SoundState.Stopped;
 
     public void Cancel()
     {
-    }
-
-    private bool _soundPlayed;
-    private readonly SoundEffectInstance _soundEffect;
-
-    public PlaySoundEffectActorState(SoundEffectInstance soundEffect)
-    {
-        _soundEffect = soundEffect;
     }
 
     public void Update(GameTime gameTime)

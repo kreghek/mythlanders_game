@@ -1,4 +1,5 @@
 ﻿using Client.Engine;
+using Client.GameScreens;
 
 using Core.Combats;
 using Core.Combats.Effects;
@@ -38,13 +39,16 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
         var swordsmanAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Swordsman");
 
         var keepSwordStrongerAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "prepare-sword");
-        var keepSwordSoundEffect = visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameScreens.GameObjectSoundType.SwordPrepare);
+        var keepSwordSoundEffect =
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SwordPrepare);
 
         var chargeAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "charge");
-        var chargeSoundEffect = visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameScreens.GameObjectSoundType.ArmedMove);
+        var chargeSoundEffect =
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.ArmedMove);
 
         var hitAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "hit");
-        var swordHitSoundEffect = visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameScreens.GameObjectSoundType.SwordSlash);
+        var swordHitSoundEffect =
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SwordSlash);
 
         var hitCompleteAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "hit-complete");
 

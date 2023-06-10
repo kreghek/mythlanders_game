@@ -99,11 +99,11 @@ internal static class CommonCombatVisualization
         var chargeActorState = CreateSoundedState(() =>
         {
             return new MoveToPositionActorState(actorAnimator,
-                        new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, targetPosition),
-                        config.CombatMovementAnimation.Animation);
+                new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, targetPosition),
+                config.CombatMovementAnimation.Animation);
         }, config.CombatMovementAnimation.Sound);
 
-        var subStates = new IActorVisualizationState[]
+        var subStates = new[]
         {
             prepareActorState,
             chargeActorState,
@@ -119,9 +119,10 @@ internal static class CommonCombatVisualization
             new[] { new FollowActorOperatorCameraTask(actorAnimator, () => innerState.IsComplete) });
     }
 
-    private static IActorVisualizationState CreateSoundedState(Func<IActorVisualizationState> baseStateFactory, SoundEffectInstance? soundEffect)
+    private static IActorVisualizationState CreateSoundedState(Func<IActorVisualizationState> baseStateFactory,
+        SoundEffectInstance? soundEffect)
     {
-        IActorVisualizationState baseActorState = baseStateFactory();
+        var baseActorState = baseStateFactory();
         if (soundEffect is not null)
         {
             baseActorState = new ParallelActionState(new PlaySoundEffectActorState(soundEffect), baseActorState);
