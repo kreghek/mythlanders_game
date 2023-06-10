@@ -2,9 +2,9 @@
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
-namespace Client.Assets.CombatMovements.Hero.Amazon;
+namespace Client.Assets.CombatMovements.Hero.Robber;
 
-internal class JustHitBoarWithKnifeFactory : CombatMovementFactoryBase
+internal class UndercutValuesFactory : CombatMovementFactoryBase
 {
     public override CombatMovementIcon CombatMovementIcon => new(2, 7);
 

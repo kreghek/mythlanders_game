@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets.CombatMovements.Hero.Amazon;
+using Client.Assets.CombatMovements.Hero.Robber;
 using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Assets.States.Primitives;
 using Client.Core.AnimationFrameSets;

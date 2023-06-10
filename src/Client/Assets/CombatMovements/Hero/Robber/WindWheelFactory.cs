@@ -2,23 +2,26 @@
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
-namespace Client.Assets.CombatMovements.Hero.Amazon;
+namespace Client.Assets.CombatMovements.Hero.Robber;
 
-internal class JustHitBoarWithKnifeFactory : CombatMovementFactoryBase
+internal class WindWheelFactory : CombatMovementFactoryBase
 {
-    public override CombatMovementIcon CombatMovementIcon => new(2, 7);
+    /// <inheritdoc />
+    public override CombatMovementIcon CombatMovementIcon => new(3, 7);
 
+    /// <inheritdoc />
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
-            new CombatMovementCost(2),
+            new CombatMovementCost(3),
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
                     new DamageEffect(
-                        new ClosestInLineTargetSelector(),
+                        new StrongestMarkedEnemyTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(1))
+                        Range<int>.CreateMono(4)),
+                    new InterruptEffect(new SelfTargetSelector())
                 })
         )
         {

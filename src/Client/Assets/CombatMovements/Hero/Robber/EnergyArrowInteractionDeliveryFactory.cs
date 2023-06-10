@@ -7,7 +7,7 @@ using Core.Combats;
 
 using Microsoft.Xna.Framework;
 
-namespace Client.Assets.CombatMovements.Hero.Amazon;
+namespace Client.Assets.CombatMovements.Hero.Robber;
 
 internal sealed class EnergyArrowInteractionDeliveryFactory : IDeliveryFactory
 {
