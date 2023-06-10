@@ -18,5 +18,6 @@ internal sealed record SingleMeleeVisualizationConfig(
         new SoundedAnimation(combatMovementAnimation, null),
         new SoundedAnimation(hitAnimation, null),
         hitCompleteAnimation,
-        backAnimation) { }
+        backAnimation)
+    { }
 }

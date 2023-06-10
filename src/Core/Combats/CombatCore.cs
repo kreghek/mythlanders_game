@@ -140,7 +140,7 @@ public class CombatCore
                 foreach (var effectTarget in effectTargets)
                 {
                     if (effectTarget == CurrentCombatant)
-                        // Does not defence against yourself.
+                    // Does not defence against yourself.
                     {
                         continue;
                     }
@@ -306,13 +306,13 @@ public class CombatCore
         var side = GetCurrentSelectorContext().ActorSide;
 
         for (var col = 0; col < side.ColumnCount; col++)
-        for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
-        {
-            if (CurrentCombatant == side[new FieldCoords(col, lineIndex)].Combatant)
+            for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
             {
-                return new FieldCoords(col, lineIndex);
+                if (CurrentCombatant == side[new FieldCoords(col, lineIndex)].Combatant)
+                {
+                    return new FieldCoords(col, lineIndex);
+                }
             }
-        }
 
         throw new InvalidOperationException();
     }
