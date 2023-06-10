@@ -203,7 +203,9 @@ internal class GameObjectContentStorage
 
         _skillSoundDict = new Dictionary<GameObjectSoundType, SoundEffect>
         {
+            { GameObjectSoundType.SwordPrepare, LoadSkillEffect("PrepareSword") },
             { GameObjectSoundType.SwordSlash, LoadSkillEffect("SwordHitEffect") },
+            { GameObjectSoundType.ArmedMove, LoadSkillEffect("ArmedMove") },
             { GameObjectSoundType.Defence, LoadSkillEffect("ShieldEffect3") },
             { GameObjectSoundType.EnergoShot, LoadSkillEffect("BowStrikeEffect") },
             { GameObjectSoundType.Heal, LoadSkillEffect("HealEffect") },

@@ -14,7 +14,6 @@ internal sealed class DirectInteractionState : IActorVisualizationState
     private readonly IActorAnimator _actor;
     private readonly IAnimationFrameSet _animation;
     private readonly SkillAnimationInfo _animationInfo;
-
     private int _animationItemIndex;
     private bool _animationStarted;
     private double _counter;

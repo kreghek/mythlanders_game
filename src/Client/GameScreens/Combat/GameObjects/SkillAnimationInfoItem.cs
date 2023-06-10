@@ -11,7 +11,7 @@ internal sealed class SkillAnimationInfoItem
     /// </summary>
     public float Duration { get; set; }
 
-    public SoundEffectInstance HitSound { get; set; }
+    public SoundEffectInstance? HitSound { get; set; }
 
     public Action Interaction { get; set; }
 
