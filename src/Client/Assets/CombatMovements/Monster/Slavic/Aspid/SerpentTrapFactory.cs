@@ -1,5 +1,6 @@
 using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Engine;
+using Client.GameScreens;
 
 using Core.Combats;
 using Core.Combats.Effects;
@@ -19,17 +20,19 @@ internal class SerpentTrapFactory : SimpleCombatMovementFactoryBase
         var chargeAnimation = AnimationHelper.ConvertToAnimation(animationSet, "charge");
 
         var hitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "tail-attack");
+        var snakeBiteSoundEffect =
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.AspidBite);
 
         var hitCompleteAnimation = AnimationHelper.ConvertToAnimation(animationSet, "attack-complete");
 
         var backAnimation = AnimationHelper.ConvertToAnimation(animationSet, "back");
 
         var config = new SingleMeleeVisualizationConfig(
-            prepareAnimation,
-            chargeAnimation,
-            hitAnimation,
-            hitCompleteAnimation,
-            backAnimation);
+            new SoundedAnimation(prepareAnimation, null),
+            new SoundedAnimation(chargeAnimation, null),
+            new SoundedAnimation(hitAnimation, snakeBiteSoundEffect.CreateInstance()),
+            new SoundedAnimation(hitCompleteAnimation, null),
+            new SoundedAnimation(backAnimation, null));
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);

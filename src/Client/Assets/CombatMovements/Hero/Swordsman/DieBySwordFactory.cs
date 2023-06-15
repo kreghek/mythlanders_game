@@ -58,8 +58,8 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
             new SoundedAnimation(keepSwordStrongerAnimation, keepSwordSoundEffect.CreateInstance()),
             new SoundedAnimation(chargeAnimation, chargeSoundEffect.CreateInstance()),
             new SoundedAnimation(hitAnimation, swordHitSoundEffect.CreateInstance()),
-            hitCompleteAnimation,
-            backAnimation);
+            new SoundedAnimation(hitCompleteAnimation, null),
+            new SoundedAnimation(backAnimation, null));
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);

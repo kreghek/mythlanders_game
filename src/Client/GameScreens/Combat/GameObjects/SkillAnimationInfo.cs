@@ -4,5 +4,5 @@ namespace Client.GameScreens.Combat.GameObjects;
 
 internal sealed class SkillAnimationInfo
 {
-    public IReadOnlyList<SkillAnimationInfoItem> Items { get; set; }
+    public IReadOnlyList<SkillAnimationStage> Items { get; set; }
 }

@@ -60,7 +60,7 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
         {
             Items = new[]
             {
-                new SkillAnimationInfoItem
+                new SkillAnimationStage
                 {
                     Duration = 0.75f,
                     //HitSound = hitSound,

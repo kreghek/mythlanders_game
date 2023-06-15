@@ -43,11 +43,11 @@ internal class CyberClawsFactory : CombatMovementFactoryBase
         var jumpBackAnimation = AnimationHelper.ConvertToAnimation(digitalAnimationSet, "jump-back");
 
         var config = new SingleMeleeVisualizationConfig(
-            preparingGrinAnimation,
-            jumpAnimation,
-            biteAnimation,
-            biteAnimation,
-            jumpBackAnimation);
+            new SoundedAnimation(preparingGrinAnimation, null),
+            new SoundedAnimation(jumpAnimation, null),
+            new SoundedAnimation(biteAnimation, null),
+            new SoundedAnimation(biteAnimation, null),
+            new SoundedAnimation(jumpBackAnimation, null));
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);

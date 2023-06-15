@@ -63,7 +63,7 @@ internal static class CommonCombatVisualization
         {
             Items = new[]
             {
-                new SkillAnimationInfoItem
+                new SkillAnimationStage
                 {
                     Duration = 0.75f,
                     HitSound = config.HitAnimation.Sound,
@@ -108,10 +108,10 @@ internal static class CommonCombatVisualization
             prepareActorState,
             chargeActorState,
             new DirectInteractionState(actorAnimator, skillAnimationInfo, config.HitAnimation.Animation),
-            new PlayAnimationActorState(actorAnimator, config.HitCompleteAnimation),
+            new PlayAnimationActorState(actorAnimator, config.HitCompleteAnimation.Animation),
             new MoveToPositionActorState(actorAnimator,
                 new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, startPosition),
-                config.BackAnimation)
+                config.BackAnimation.Animation)
         };
 
         var innerState = new SequentialState(subStates);

@@ -61,11 +61,11 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
         ICombatMovementVisualizationContext visualizationContext)
     {
         var config = new SingleMeleeVisualizationConfig(
-            CreateLinear(new[] { 0 }, 1),
-            CreateLinear(Enumerable.Range(0, 1).ToArray(), 8),
-            CreateLinear(Enumerable.Range(0, 1).ToArray(), 8),
-            CreateLinear(Enumerable.Range(0, 1).ToArray(), 8),
-            CreateLoopingLinear(new[] { 0 }, 1));
+            new SoundedAnimation(CreateLinear(new[] { 0 }, 1), null),
+            new SoundedAnimation(CreateLinear(Enumerable.Range(0, 1).ToArray(), 8), null),
+            new SoundedAnimation(CreateLinear(Enumerable.Range(0, 1).ToArray(), 8), null),
+            new SoundedAnimation(CreateLinear(Enumerable.Range(0, 1).ToArray(), 8), null),
+            new SoundedAnimation(CreateLoopingLinear(new[] { 0 }, 1), null));
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);

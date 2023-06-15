@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 
 namespace Client.Core;
 
+// CS0552.cs
 internal interface IAnimationFrameSet
 {
     bool IsIdle { get; }
