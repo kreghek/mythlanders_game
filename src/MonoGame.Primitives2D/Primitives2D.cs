@@ -8,7 +8,7 @@ public static class Primitives2D
 {
 
     private static readonly Dictionary<String, List<Vector2>> _circleCache = new();
-    
+
     private static Texture2D? _pixel;
 
     private static void CreateThePixel(GraphicsResource spriteBatch)
