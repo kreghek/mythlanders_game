@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace Client.GameScreens.Combat.GameObjects;
 
-internal sealed class SkillAnimationInfoItem
+internal sealed class SkillAnimationStage
 {
     /// <summary>
     /// Duration of the item in seconds.
