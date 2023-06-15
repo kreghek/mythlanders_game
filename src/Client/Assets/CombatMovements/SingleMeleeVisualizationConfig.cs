@@ -1,6 +1,4 @@
-﻿using Client.Core;
-
-namespace Client.Assets.CombatMovements;
+﻿namespace Client.Assets.CombatMovements;
 
 internal sealed record SingleMeleeVisualizationConfig(
     SoundedAnimation PrepareMovementAnimation,

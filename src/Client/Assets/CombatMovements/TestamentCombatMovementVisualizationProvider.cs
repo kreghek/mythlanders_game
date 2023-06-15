@@ -46,11 +46,21 @@ internal sealed class TestamentCombatMovementVisualizationProvider : ICombatMove
         if (!_movementVisualizationDict.TryGetValue(sid, out var factory))
         {
             var config = new SingleMeleeVisualizationConfig(
-                new SoundedAnimation(new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8), null),
-                new SoundedAnimation(new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8), null),
-                new SoundedAnimation(new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8), null),
-                new SoundedAnimation(new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8), null),
-                new SoundedAnimation(new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8) { IsLooping = true }, null));
+                new SoundedAnimation(
+                    new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X,
+                        CommonConstants.FrameSize.Y, 8), null),
+                new SoundedAnimation(
+                    new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
+                        CommonConstants.FrameSize.Y, 8), null),
+                new SoundedAnimation(
+                    new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
+                        CommonConstants.FrameSize.Y, 8), null),
+                new SoundedAnimation(
+                    new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
+                        CommonConstants.FrameSize.Y, 8), null),
+                new SoundedAnimation(
+                    new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X,
+                        CommonConstants.FrameSize.Y, 8) { IsLooping = true }, null));
 
             return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
                 visualizationContext,
