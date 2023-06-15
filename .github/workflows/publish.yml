@@ -23,17 +23,12 @@ jobs:
           - mac
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Setup .NET 6
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
-
-    - name: Setup .NETCore 2.1
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 2.1.x
+        dotnet-version: 6.0.*
 
     - name: Setup Wine
       run: |
