@@ -360,6 +360,7 @@ public static class Primitives2D
     /// <param name="length">The length of the line</param>
     /// <param name="angle">The angle of this line from the starting point in radians</param>
     /// <param name="color">The color to use</param>
+    // ReSharper disable once UnusedMember.Global
     public static void DrawLine(this SpriteBatch spriteBatch, Vector2 point, float length, float angle, Color color)
     {
         DrawLine(spriteBatch, point, length, angle, color, 1.0f);
@@ -395,6 +396,7 @@ public static class Primitives2D
             0);
     }
 
+    // ReSharper disable once UnusedMember.Global
     public static void PutPixel(this SpriteBatch spriteBatch, float x, float y, Color color)
     {
         PutPixel(spriteBatch, new Vector2(x, y), color);
@@ -449,6 +451,7 @@ public static class Primitives2D
     /// <param name="radius">The radius of the circle</param>
     /// <param name="sides">The number of sides to generate</param>
     /// <param name="color">The color of the circle</param>
+    // ReSharper disable once UnusedMember.Global
     public static void DrawCircle(this SpriteBatch spriteBatch, float x, float y, float radius, int sides, Color color)
     {
         DrawPoints(spriteBatch, new Vector2(x, y), CreateCircle(radius, sides), color, 1.0f);
