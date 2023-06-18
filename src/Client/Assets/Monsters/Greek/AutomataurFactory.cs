@@ -1,10 +1,5 @@
-﻿using System.IO;
-
-using Client.Assets.CombatMovements;
-using Client.Assets.GraphicConfigs;
-using Client.Assets.GraphicConfigs.Monsters;
+﻿using Client.Assets.GraphicConfigs.Monsters;
 using Client.Core;
-using Client.GameScreens;
 
 using JetBrains.Annotations;
 

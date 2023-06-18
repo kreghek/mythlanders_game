@@ -3,6 +3,7 @@ using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
 namespace Client.Assets.CombatMovements.Monster.Greek.Automaur;
+
 internal sealed class WheelOfDeathFactory : SimpleCombatMovementFactoryBase
 {
     protected override CombatMovementEffectConfig GetEffects()

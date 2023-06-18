@@ -61,7 +61,7 @@ internal sealed class TestamentCombatMovementVisualizationProvider : ICombatMove
                 new SoundedAnimation(
                     new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X,
                             CommonConstants.FrameSize.Y, 8)
-                    { IsLooping = true }, null));
+                        { IsLooping = true }, null));
 
             return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
                 visualizationContext,
