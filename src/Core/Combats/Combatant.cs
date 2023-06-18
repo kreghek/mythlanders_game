@@ -69,8 +69,8 @@ public sealed class Combatant
         for (var i = 0; i < 3; i++)
         {
             if (!_pool.Any())
-                // Pool is empty.
-                // Stop to prepare first movements.
+            // Pool is empty.
+            // Stop to prepare first movements.
             {
                 break;
             }

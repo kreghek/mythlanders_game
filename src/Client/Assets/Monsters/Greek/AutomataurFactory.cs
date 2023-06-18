@@ -11,7 +11,7 @@ using JetBrains.Annotations;
 namespace Client.Assets.Monsters.Greek;
 
 [UsedImplicitly]
-internal class AutomataurFactory: MonsterFactoryBase
+internal class AutomataurFactory : MonsterFactoryBase
 {
     public override UnitName ClassName => UnitName.Automataur;
 
