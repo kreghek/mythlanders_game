@@ -463,7 +463,9 @@ internal class GameObjectContentStorage
 
             { UnitName.Huapigui, LoadMonsterTexture(contentManager, "Huapigui") },
 
-            { UnitName.Chaser, LoadMonsterTexture(contentManager, "Chaser") }
+            { UnitName.Chaser, LoadMonsterTexture(contentManager, "Chaser") },
+
+            { UnitName.Automataur, LoadMonsterTexture(contentManager, "Automataur") }
         };
     }
 
