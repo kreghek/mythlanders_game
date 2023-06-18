@@ -6,7 +6,11 @@ using Client.Assets.GraphicConfigs.Monsters;
 using Client.Core;
 using Client.GameScreens;
 
+using JetBrains.Annotations;
+
 namespace Client.Assets.Monsters.Greek;
+
+[UsedImplicitly]
 internal class AutomataurFactory: MonsterFactoryBase
 {
     public override UnitName ClassName => UnitName.Automataur;
@@ -16,11 +20,5 @@ internal class AutomataurFactory: MonsterFactoryBase
     public override UnitScheme Create(IBalanceTable balanceTable)
     {
         return new UnitScheme(balanceTable.GetCommonUnitBasics());
-    }
-
-    public override UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
-    {
-        return new SingleSpriteGraphicsConfig(Path.Combine(CommonConstants.PathToCharacterSprites, "Monsters", Culture.ToString(),
-            ClassName.ToString(), "Thumbnail"));
     }
 }
