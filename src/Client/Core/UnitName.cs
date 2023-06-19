@@ -67,6 +67,7 @@ public enum UnitName
     Chaser,
     Sphinx,
 
+    Automataur,
     Hydra,
 
     GreekMonster

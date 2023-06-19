@@ -15,8 +15,8 @@ internal sealed class ShipGraveyardCombatTemplateFactory : LocationSpecificComba
     {
         return new MonsterCombatantPrefab[]
         {
-            new("aspid", 0, new FieldCoords(0, 1)),
-            new("digitalwolf", 0, new FieldCoords(0, 2))
+            new("automataur", 0, new FieldCoords(0, 1)),
+            new("automataur", 0, new FieldCoords(0, 2))
         };
     }
 
@@ -24,8 +24,8 @@ internal sealed class ShipGraveyardCombatTemplateFactory : LocationSpecificComba
     {
         return new MonsterCombatantPrefab[]
         {
-            new("aspid", 0, new FieldCoords(0, 1)),
-            new("digitalwolf", 0, new FieldCoords(1, 1))
+            new("automataur", 0, new FieldCoords(0, 1)),
+            new("automataur", 0, new FieldCoords(1, 1))
         };
     }
 
@@ -33,9 +33,9 @@ internal sealed class ShipGraveyardCombatTemplateFactory : LocationSpecificComba
     {
         return new MonsterCombatantPrefab[]
         {
-            new("aspid", 0, new FieldCoords(0, 1)),
-            new("digitalwolf", 0, new FieldCoords(0, 2)),
-            new("digitalwolf", 0, new FieldCoords(1, 1))
+            new("automataur", 0, new FieldCoords(0, 1)),
+            new("automataur", 0, new FieldCoords(0, 2)),
+            new("automataur", 0, new FieldCoords(1, 1))
         };
     }
 }
