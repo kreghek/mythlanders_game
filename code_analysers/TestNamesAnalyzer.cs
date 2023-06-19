@@ -12,30 +12,30 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace CodeAnalysers;
 
 /// <summary>
-/// Анализатор проверяет, что названия методов тестов соответствуют принятой конвенции кодирования (underscore).
-/// При этом допускается, что часть названия будет в camelCase (например для указания названия тестируемых методов).
-/// Под анализ попадают названия методов из неймспейса, содержащего '.Test' и помеченных атрибутом (любым).
+/// The analyzer checks that the names of the test methods correspond to the accepted coding convention (underscore).
+/// In this case, it is allowed that part of the name will be in camelCase (for example, to indicate the name of the methods being tested).
+/// The analysis includes the names of methods from the namespace containing '.Test' and marked with an attribute (any).
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 [UsedImplicitly]
 public sealed class TestNamesAnalyzer : DiagnosticAnalyzer
 {
-    private const string DiagnosticId = "O20003";
-    private const string Title = "Test name must be in snakecase";
-    private const string MessageFormat = "Test name must be in snakecase \"{0}\"";
-    private const string Description = "Transform test name to snakecase.";
-    private const string Category = "CodeQuality";
+    private const string DIAGNOSTIC_ID = "O20003";
+    private const string TITLE = "Test name must be in snakecase";
+    private const string MESSAGE_FORMAT = "Test name must be in snakecase \"{0}\"";
+    private const string DESCRIPTION = "Transform test name to snakecase.";
+    private const string CATEGORY = "CodeQuality";
 
-    public static readonly DiagnosticDescriptor Rule = new(
-        DiagnosticId,
-        Title,
-        MessageFormat,
-        Category,
+    private static readonly DiagnosticDescriptor _rule = new(
+        DIAGNOSTIC_ID,
+        TITLE,
+        MESSAGE_FORMAT,
+        CATEGORY,
         DiagnosticSeverity.Warning,
         true,
-        Description);
+        DESCRIPTION);
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(_rule);
 
     public override void Initialize(AnalysisContext context)
     {
@@ -46,14 +46,14 @@ public sealed class TestNamesAnalyzer : DiagnosticAnalyzer
 
     private static void AnalyzeNode(SyntaxNodeAnalysisContext context)
     {
-        if (!(context.Node is MethodDeclarationSyntax methodDeclaration))
+        if (context.Node is not MethodDeclarationSyntax methodDeclaration)
         {
             return;
         }
 
         if (!SyntaxNodeHelper.TryGetParentSyntax(
                 methodDeclaration,
-                out BaseNamespaceDeclarationSyntax namespaceDeclaration))
+                out BaseNamespaceDeclarationSyntax? namespaceDeclaration))
         {
             return;
         }
@@ -61,15 +61,15 @@ public sealed class TestNamesAnalyzer : DiagnosticAnalyzer
         var methodName = methodDeclaration.Identifier.ToString();
 
         var isPublic = methodDeclaration.Modifiers.Any(SyntaxKind.PublicKeyword);
-        var isTest = namespaceDeclaration.Name.ToString().Contains(".Tests");
+        var isTest = namespaceDeclaration?.Name.ToString().Contains(".Tests");
         var hasAttributes = methodDeclaration.AttributeLists.Any();
         var isSnakeCase = IsSnakeCase(methodName);
 
-        if (isPublic && isTest && hasAttributes && !isSnakeCase)
+        if (isPublic && isTest.GetValueOrDefault() && hasAttributes && !isSnakeCase)
         {
             context.ReportDiagnostic(
                 Diagnostic.Create(
-                    Rule,
+                    _rule,
                     context.Node.GetLocation(),
                     methodName));
         }

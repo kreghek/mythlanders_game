@@ -12,28 +12,28 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace CodeAnalysers;
 
 /// <summary>
-/// Анализатор проверяет наличие документации для публичных не статических свойств и методов.
+/// Check every public member has docs.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 [UsedImplicitly]
 public sealed class XmlDocMissedOnDomainClassAnalyzer : DiagnosticAnalyzer
 {
-    private const string DiagnosticId = "O20001";
-    private const string Title = "Non-static public property should have xmldoc comment";
-    private const string MessageFormat = "Xmldoc comment missed on property \"{0}.{1}\"";
-    private const string Description = "Add xmldoc comment.";
-    private const string Category = "CodeQuality";
+    private const string DIAGNOSTIC_ID = "O20001";
+    private const string TITLE = "Non-static public property should have xmldoc comment";
+    private const string MESSAGE_FORMAT = "Xmldoc comment missed on property \"{0}.{1}\"";
+    private const string DESCRIPTION = "Add xmldoc comment.";
+    private const string CATEGORY = "CodeQuality";
 
-    public static readonly DiagnosticDescriptor Rule = new(
-        DiagnosticId,
-        Title,
-        MessageFormat,
-        Category,
+    private static readonly DiagnosticDescriptor _rule = new(
+        DIAGNOSTIC_ID,
+        TITLE,
+        MESSAGE_FORMAT,
+        CATEGORY,
         DiagnosticSeverity.Warning,
         true,
-        Description);
+        DESCRIPTION);
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(_rule);
 
     public override void Initialize(AnalysisContext context)
     {
@@ -63,11 +63,21 @@ public sealed class XmlDocMissedOnDomainClassAnalyzer : DiagnosticAnalyzer
         {
             context.ReportDiagnostic(
                 Diagnostic.Create(
-                    Rule,
+                    _rule,
                     context.Node.GetLocation(),
-                    classDeclarationSyntax.Identifier.ToString(),
+                    GetClassName(classDeclarationSyntax),
                     methodDeclarationSyntax.Identifier.ToString()));
         }
+    }
+
+    private static string GetClassName(BaseTypeDeclarationSyntax? classDeclarationSyntax)
+    {
+        if (classDeclarationSyntax is null)
+        {
+            return "Unknown class";
+        }
+
+        return classDeclarationSyntax.Identifier.ToString();
     }
 
     private static void AnalyzeNode(SyntaxNodeAnalysisContext context)
@@ -97,7 +107,7 @@ public sealed class XmlDocMissedOnDomainClassAnalyzer : DiagnosticAnalyzer
     {
         if (!SyntaxNodeHelper.TryGetParentSyntax(
                 propertyDeclaration,
-                out ClassDeclarationSyntax classDeclarationSyntax))
+                out ClassDeclarationSyntax? classDeclarationSyntax))
         {
             return;
         }
@@ -110,9 +120,9 @@ public sealed class XmlDocMissedOnDomainClassAnalyzer : DiagnosticAnalyzer
         {
             context.ReportDiagnostic(
                 Diagnostic.Create(
-                    Rule,
+                    _rule,
                     context.Node.GetLocation(),
-                    classDeclarationSyntax.Identifier.ToString(),
+                    GetClassName(classDeclarationSyntax),
                     propertyDeclaration.Identifier.ToString()));
         }
     }
@@ -122,7 +132,7 @@ public sealed class XmlDocMissedOnDomainClassAnalyzer : DiagnosticAnalyzer
     {
         if (!SyntaxNodeHelper.TryGetParentSyntax(
                 fieldDeclaration,
-                out ClassDeclarationSyntax classDeclarationSyntax))
+                out ClassDeclarationSyntax? classDeclarationSyntax))
         {
             return;
         }
@@ -135,9 +145,9 @@ public sealed class XmlDocMissedOnDomainClassAnalyzer : DiagnosticAnalyzer
         {
             context.ReportDiagnostic(
                 Diagnostic.Create(
-                    Rule,
+                    _rule,
                     context.Node.GetLocation(),
-                    classDeclarationSyntax.Identifier.ToString(),
+                    GetClassName(classDeclarationSyntax),
                     fieldDeclaration.GetText()));
         }
     }

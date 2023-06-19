@@ -11,29 +11,29 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace CodeAnalysers;
 
 /// <summary>
-/// Анализатор находит строки содержащие кириллицу, которые используется в качестве аргументов методов,
-/// аргументов конструкторов, свойств классов и выдает предупреждение.
+/// The analyzer finds strings containing Non-Latin, which are used as arguments to methods,
+/// constructor arguments, class properties, and issues a warning.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 [UsedImplicitly]
-public sealed class NoCyrillicStringsCodeAnalyzer : DiagnosticAnalyzer
+public sealed class LatinOnlyStringsCodeAnalyzer : DiagnosticAnalyzer
 {
-    private const string DiagnosticId = "O20002";
-    private const string Title = "Strings can't contains cyrillic symbols";
-    private const string MessageFormat = "String can't contains cyrillic symbols {0}";
-    private const string Description = "Translate string to English.";
-    private const string Category = "CodeQuality";
+    private const string DIAGNOSTIC_ID = "O20002";
+    private const string TITLE = "Strings can't contains cyrillic symbols";
+    private const string MESSAGE_FORMAT = "String can't contains cyrillic symbols {0}";
+    private const string DESCRIPTION = "Translate string to English.";
+    private const string CATEGORY = "CodeQuality";
 
-    public static readonly DiagnosticDescriptor Rule = new(
-        DiagnosticId,
-        Title,
-        MessageFormat,
-        Category,
+    private static readonly DiagnosticDescriptor _rule = new(
+        DIAGNOSTIC_ID,
+        TITLE,
+        MESSAGE_FORMAT,
+        CATEGORY,
         DiagnosticSeverity.Error,
         true,
-        Description);
+        DESCRIPTION);
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(_rule);
 
     public override void Initialize(AnalysisContext context)
     {
@@ -60,9 +60,9 @@ public sealed class NoCyrillicStringsCodeAnalyzer : DiagnosticAnalyzer
                 {
                     var stringValue = argumentSyntax.Expression.ToString();
 
-                    if (IsCyrillic(stringValue))
+                    if (IsBasicLatin(stringValue))
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), stringValue));
+                        context.ReportDiagnostic(Diagnostic.Create(_rule, context.Node.GetLocation(), stringValue));
                     }
                 }
             }
@@ -94,19 +94,21 @@ public sealed class NoCyrillicStringsCodeAnalyzer : DiagnosticAnalyzer
     private static void AnalyzeObjectCreation(SyntaxNodeAnalysisContext context,
         ObjectCreationExpressionSyntax objectCreationExpressionSyntax)
     {
-        if (objectCreationExpressionSyntax.ArgumentList?.Arguments != null)
+        if (objectCreationExpressionSyntax.ArgumentList?.Arguments == null)
         {
-            foreach (var argumentSyntax in objectCreationExpressionSyntax.ArgumentList.Arguments)
-            {
-                if (argumentSyntax.Expression.Kind() is SyntaxKind.StringLiteralExpression
-                    or SyntaxKind.InterpolatedStringExpression)
-                {
-                    var stringValue = argumentSyntax.Expression.ToString();
+            return;
+        }
 
-                    if (IsCyrillic(stringValue))
-                    {
-                        context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), stringValue));
-                    }
+        foreach (var argumentSyntax in objectCreationExpressionSyntax.ArgumentList.Arguments)
+        {
+            if (argumentSyntax.Expression.Kind() is SyntaxKind.StringLiteralExpression
+                or SyntaxKind.InterpolatedStringExpression)
+            {
+                var stringValue = argumentSyntax.Expression.ToString();
+
+                if (IsBasicLatin(stringValue))
+                {
+                    context.ReportDiagnostic(Diagnostic.Create(_rule, context.Node.GetLocation(), stringValue));
                 }
             }
         }
@@ -117,19 +119,21 @@ public sealed class NoCyrillicStringsCodeAnalyzer : DiagnosticAnalyzer
     {
         var expression = propertyDeclaration.ExpressionBody?.Expression;
 
-        if (expression?.Kind() is SyntaxKind.StringLiteralExpression or SyntaxKind.InterpolatedStringExpression)
+        if (expression?.Kind() is not (SyntaxKind.StringLiteralExpression or SyntaxKind.InterpolatedStringExpression))
         {
-            var stringValue = expression.ToString();
+            return;
+        }
 
-            if (IsCyrillic(stringValue))
-            {
-                context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), stringValue));
-            }
+        var stringValue = expression.ToString();
+
+        if (!IsBasicLatin(stringValue))
+        {
+            context.ReportDiagnostic(Diagnostic.Create(_rule, context.Node.GetLocation(), stringValue));
         }
     }
 
-    private static bool IsCyrillic(string stringValue)
+    private static bool IsBasicLatin(string stringValue)
     {
-        return Regex.IsMatch(stringValue, "\\p{IsCyrillic}+");
+        return Regex.IsMatch(stringValue, "\\p{IsBasicLatin}+");
     }
 }
