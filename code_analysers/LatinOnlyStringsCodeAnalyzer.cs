@@ -60,7 +60,7 @@ public sealed class LatinOnlyStringsCodeAnalyzer : DiagnosticAnalyzer
                 {
                     var stringValue = argumentSyntax.Expression.ToString();
 
-                    if (IsBasicLatin(stringValue))
+                    if (!IsBasicLatin(stringValue))
                     {
                         context.ReportDiagnostic(Diagnostic.Create(_rule, context.Node.GetLocation(), stringValue));
                     }
