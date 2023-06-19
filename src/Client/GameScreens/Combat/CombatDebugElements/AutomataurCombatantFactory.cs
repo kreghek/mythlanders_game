@@ -46,7 +46,7 @@ public class AutomataurCombatantFactory : IMonsterCombatantFactory
 
         var monster = new Combatant("automataur", monsterSequence, stats, combatActorBehaviour)
         {
-            Sid = sid, IsPlayerControlled = false
+            DebugSid = sid, IsPlayerControlled = false
         };
 
         return monster;
