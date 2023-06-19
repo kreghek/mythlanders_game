@@ -46,7 +46,7 @@ public class AspidCombatantFactory : IMonsterCombatantFactory
 
         var monster = new Combatant("aspid", monsterSequence, stats, combatActorBehaviour)
         {
-            Sid = sid, IsPlayerControlled = false
+            DebugSid = sid, IsPlayerControlled = false
         };
 
         return monster;

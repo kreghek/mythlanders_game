@@ -46,7 +46,7 @@ public class BlackTroopCombatantFactory : IMonsterCombatantFactory
 
         var monster = new Combatant("blacktrooper", monsterSequence, stats, combatActorBehaviour)
         {
-            Sid = sid, IsPlayerControlled = false
+            DebugSid = sid, IsPlayerControlled = false
         };
 
         return monster;

@@ -47,7 +47,7 @@ public class RobberCombatantFactory : IHeroCombatantFactory
 
         var hero = new Combatant("robber", heroSequence, stats, combatActorBehaviour)
         {
-            Sid = sid, IsPlayerControlled = true
+            DebugSid = sid, IsPlayerControlled = true
         };
         return hero;
     }

@@ -42,7 +42,7 @@ public class DigitalWolfCombatantFactory : IMonsterCombatantFactory
 
         var monster = new Combatant("digitalwolf", monsterSequence, stats, combatActorBehaviour)
         {
-            Sid = sid, IsPlayerControlled = false
+            DebugSid = sid, IsPlayerControlled = false
         };
 
         return monster;

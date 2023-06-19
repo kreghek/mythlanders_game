@@ -47,7 +47,7 @@ public class MonkCombatantFactory : IHeroCombatantFactory
 
         var hero = new Combatant("monk", heroSequence, stats, combatActorBehaviour)
         {
-            Sid = sid, IsPlayerControlled = true
+            DebugSid = sid, IsPlayerControlled = true
         };
         return hero;
     }

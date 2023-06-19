@@ -46,7 +46,7 @@ public class ChaserCombatantFactory : IMonsterCombatantFactory
 
         var monster = new Combatant("chaser", monsterSequence, stats, combatActorBehaviour)
         {
-            Sid = sid, IsPlayerControlled = false
+            DebugSid = sid, IsPlayerControlled = false
         };
 
         return monster;

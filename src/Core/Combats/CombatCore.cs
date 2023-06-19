@@ -20,12 +20,26 @@ public class CombatCore
         _roundQueue = new List<Combatant>();
     }
 
-    public IReadOnlyCollection<Combatant> Combatants => _allCombatantList.ToArray();
+    /// <summary>
+    /// All combatants in the combat.
+    /// </summary>
+    public IReadOnlyCollection<Combatant> CurrentCombatants => _allCombatantList.ToArray();
 
+    /// <summary>
+    /// Current active combatant.
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
     public Combatant CurrentCombatant => _roundQueue.FirstOrDefault() ?? throw new InvalidOperationException();
 
+    /// <summary>
+    /// Combat field.
+    /// </summary>
     public CombatField Field { get; }
 
+    /// <summary>
+    /// Check the combat is finished.
+    /// </summary>
+    //TODO Change to combat state (via interface) - inprogress, victory, failure, draw in current game. 
     public bool Finished
     {
         get
@@ -52,8 +66,15 @@ public class CombatCore
         }
     }
 
+    /// <summary>
+    /// Current combat queue of turns.
+    /// </summary>
     public IReadOnlyList<Combatant> RoundQueue => _roundQueue.ToArray();
 
+    /// <summary>
+    /// Complete current turn of combat.
+    /// Use in the end of combat movement execution.
+    /// </summary>
     public void CompleteTurn()
     {
         var context = new CombatantEffectLifetimeDispelContext(this);
@@ -109,6 +130,9 @@ public class CombatCore
         CombatantStartsTurn?.Invoke(this, new CombatantTurnStartedEventArgs(CurrentCombatant));
     }
 
+    /// <summary>
+    /// Create combat move execution to visualize and apply effects in the right way.
+    /// </summary>
     public CombatMovementExecution CreateCombatMovementExecution(CombatMovementInstance movement)
     {
         CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.Consume(1);
@@ -194,11 +218,16 @@ public class CombatCore
         return movementExecution;
     }
 
-    public ITargetSelectorContext GetCurrentSelectorContext()
+    private ITargetSelectorContext GetCurrentSelectorContext()
     {
         return GetSelectorContext(CurrentCombatant);
     }
 
+    /// <summary>
+    /// Initialize combat.
+    /// </summary>
+    /// <param name="heroes">Combatants of hero side (player)</param>
+    /// <param name="monsters">Combatants of monster side (CPU).</param>
     public void Initialize(IReadOnlyCollection<FormationSlot> heroes, IReadOnlyCollection<FormationSlot> monsters)
     {
         InitializeCombatFieldSide(heroes, Field.HeroSide);
@@ -215,12 +244,21 @@ public class CombatCore
         CombatantStartsTurn?.Invoke(this, new CombatantTurnStartedEventArgs(CurrentCombatant));
     }
 
+    /// <summary>
+    /// Use fo stun.
+    /// </summary>
+    //TODO Check it is unused.
     public void Interrupt()
     {
         CombatantInterrupted?.Invoke(this, new CombatantInterruptedEventArgs(CurrentCombatant));
         CompleteTurn();
     }
 
+    /// <summary>
+    /// Maneuvering of combatant.
+    /// </summary>
+    /// <param name="combatStepDirection"></param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public void UseManeuver(CombatStepDirection combatStepDirection)
     {
         var currentCoords = GetCurrentCoords();
@@ -253,6 +291,9 @@ public class CombatCore
         CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Consume(1);
     }
 
+    /// <summary>
+    /// Used by combatants to restore Resolve stat.
+    /// </summary>
     public void Wait()
     {
         RestoreStatOfAllCombatants(UnitStatType.Resolve);
