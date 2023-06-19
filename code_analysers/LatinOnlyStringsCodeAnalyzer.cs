@@ -19,8 +19,8 @@ namespace CodeAnalysers;
 public sealed class LatinOnlyStringsCodeAnalyzer : DiagnosticAnalyzer
 {
     private const string DIAGNOSTIC_ID = "O20002";
-    private const string TITLE = "Strings can't contains cyrillic symbols";
-    private const string MESSAGE_FORMAT = "String can't contains cyrillic symbols {0}";
+    private const string TITLE = "Strings can't contains non-latin symbols";
+    private const string MESSAGE_FORMAT = TITLE + " {0}";
     private const string DESCRIPTION = "Translate string to English.";
     private const string CATEGORY = "CodeQuality";
 
