@@ -47,7 +47,7 @@ public class AmazonCombatantFactory : IHeroCombatantFactory
 
         var hero = new Combatant("amazon", heroSequence, stats, combatActorBehaviour)
         {
-            Sid = sid, IsPlayerControlled = true
+            DebugSid = sid, IsPlayerControlled = true
         };
         return hero;
     }

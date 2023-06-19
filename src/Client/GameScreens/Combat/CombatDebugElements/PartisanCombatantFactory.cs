@@ -46,7 +46,7 @@ public class PartisanCombatantFactory : IHeroCombatantFactory
 
         var hero = new Combatant("partisan", heroSequence, stats, combatActorBehaviour)
         {
-            Sid = sid, IsPlayerControlled = true
+            DebugSid = sid, IsPlayerControlled = true
         };
         return hero;
     }

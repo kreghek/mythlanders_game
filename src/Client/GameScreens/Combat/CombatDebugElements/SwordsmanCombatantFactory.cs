@@ -47,7 +47,7 @@ public class SwordsmanCombatantFactory : IHeroCombatantFactory
 
         var hero = new Combatant("swordsman", heroSequence, stats, combatActorBehaviour)
         {
-            Sid = sid, IsPlayerControlled = true
+            DebugSid = sid, IsPlayerControlled = true
         };
         return hero;
     }

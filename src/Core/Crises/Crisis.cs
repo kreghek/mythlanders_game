@@ -10,10 +10,20 @@ public sealed class Crisis : ICrisis
         _aftermaths = aftermaths;
     }
 
+    /// <summary>
+    /// Symbolic identifier of event.
+    /// </summary>
     public CrisisSid Sid { get; }
 
+    /// <summary>
+    /// Small event type.
+    /// </summary>
     public EventType EventType => EventType.Crisis;
 
+    /// <summary>
+    /// Small item options.
+    /// </summary>
+    /// <returns></returns>
     public IReadOnlyCollection<ICrisisAftermath> GetItems()
     {
         return _aftermaths;

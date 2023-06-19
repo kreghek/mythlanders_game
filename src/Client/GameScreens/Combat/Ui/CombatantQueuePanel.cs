@@ -43,7 +43,7 @@ internal sealed class CombatantQueuePanel : ControlBase
 
     public Point CalcContentSize()
     {
-        return new((RESOLVE_WIDTH + PORTRAIN_WIDTH) * (_activeCombat.Combatants.Count + 1), 48);
+        return new((RESOLVE_WIDTH + PORTRAIN_WIDTH) * (_activeCombat.CurrentCombatants.Count + 1), 48);
     }
 
     public void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)

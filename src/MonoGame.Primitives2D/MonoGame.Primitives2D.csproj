@@ -10,4 +10,11 @@
       <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="../../code_analysers/CodeAnalysers.csproj">
+            <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+            <OutputItemType>Analyzer</OutputItemType>
+        </ProjectReference>
+    </ItemGroup>
+
 </Project>

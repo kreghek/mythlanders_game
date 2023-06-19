@@ -8,6 +8,9 @@ namespace GameContent.Extensions;
 [ContentProcessor]
 public class RawStringProcessor : ContentProcessor<string, string>
 {
+    /// <summary>
+    /// Process the input content item.
+    /// </summary>
     public override string Process(string input, ContentProcessorContext context)
     {
         context.Logger.LogMessage($"Processing raw {context.OutputFilename}");

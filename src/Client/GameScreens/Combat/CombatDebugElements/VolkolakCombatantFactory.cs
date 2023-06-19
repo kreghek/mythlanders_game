@@ -46,7 +46,7 @@ public class VolkolakCombatantFactory : IMonsterCombatantFactory
 
         var monster = new Combatant("volkolakwarrior", monsterSequence, stats, combatActorBehaviour)
         {
-            Sid = sid, IsPlayerControlled = false
+            DebugSid = sid, IsPlayerControlled = false
         };
 
         return monster;
