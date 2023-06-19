@@ -2,6 +2,8 @@ using System.Collections.Immutable;
 
 using CodeAnalysers.Utils;
 
+using JetBrains.Annotations;
+
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -15,6 +17,7 @@ namespace CodeAnalysers;
 /// Под анализ попадают названия методов из неймспейса, содержащего '.Test' и помеченных атрибутом (любым).
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
+[UsedImplicitly]
 public sealed class TestNamesAnalyzer : DiagnosticAnalyzer
 {
     private const string DiagnosticId = "O20003";

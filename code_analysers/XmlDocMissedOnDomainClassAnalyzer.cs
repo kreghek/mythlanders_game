@@ -2,6 +2,8 @@ using System.Collections.Immutable;
 
 using CodeAnalysers.Utils;
 
+using JetBrains.Annotations;
+
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -13,6 +15,7 @@ namespace CodeAnalysers;
 /// Анализатор проверяет наличие документации для публичных не статических свойств и методов.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
+[UsedImplicitly]
 public sealed class XmlDocMissedOnDomainClassAnalyzer : DiagnosticAnalyzer
 {
     private const string DiagnosticId = "O20001";
@@ -42,22 +45,21 @@ public sealed class XmlDocMissedOnDomainClassAnalyzer : DiagnosticAnalyzer
             SyntaxKind.MethodDeclaration);
     }
 
-    private static void AnalyzeDeclaration(SyntaxNodeAnalysisContext context,
+    private static void AnalyzeMethod(SyntaxNodeAnalysisContext context,
         MethodDeclarationSyntax methodDeclarationSyntax)
     {
         if (!SyntaxNodeHelper.TryGetParentSyntax(
                 methodDeclarationSyntax,
-                out ClassDeclarationSyntax classDeclarationSyntax))
+                out ClassDeclarationSyntax? classDeclarationSyntax))
         {
             return;
         }
 
         var isPublic = methodDeclarationSyntax.Modifiers.Any(SyntaxKind.PublicKeyword);
-        var isStatic = methodDeclarationSyntax.Modifiers.Any(SyntaxKind.StaticKeyword);
 
-        var hasDocumentationComment = methodDeclarationSyntax.HasStructuredTrivia;
+        var hasDocumentationComment = methodDeclarationSyntax.HasStructuredTrivia || methodDeclarationSyntax.HasLeadingTrivia;
 
-        if (isPublic && !isStatic && !hasDocumentationComment)
+        if (isPublic && !hasDocumentationComment)
         {
             context.ReportDiagnostic(
                 Diagnostic.Create(
@@ -79,7 +81,11 @@ public sealed class XmlDocMissedOnDomainClassAnalyzer : DiagnosticAnalyzer
                 return;
 
             case MethodDeclarationSyntax methodDeclarationSyntax:
-                AnalyzeDeclaration(context, methodDeclarationSyntax);
+                AnalyzeMethod(context, methodDeclarationSyntax);
+                return;
+            
+            case FieldDeclarationSyntax fieldDeclarationSyntax:
+                AnalyzeField(context, fieldDeclarationSyntax);
                 return;
 
             default: return;
@@ -97,11 +103,10 @@ public sealed class XmlDocMissedOnDomainClassAnalyzer : DiagnosticAnalyzer
         }
 
         var isPublic = propertyDeclaration.Modifiers.Any(SyntaxKind.PublicKeyword);
-        var isStatic = propertyDeclaration.Modifiers.Any(SyntaxKind.StaticKeyword);
 
         var hasDocumentationComment = propertyDeclaration.HasStructuredTrivia;
 
-        if (isPublic && !isStatic && !hasDocumentationComment)
+        if (isPublic && !hasDocumentationComment)
         {
             context.ReportDiagnostic(
                 Diagnostic.Create(
@@ -109,6 +114,31 @@ public sealed class XmlDocMissedOnDomainClassAnalyzer : DiagnosticAnalyzer
                     context.Node.GetLocation(),
                     classDeclarationSyntax.Identifier.ToString(),
                     propertyDeclaration.Identifier.ToString()));
+        }
+    }
+    
+    private static void AnalyzeField(SyntaxNodeAnalysisContext context,
+        FieldDeclarationSyntax fieldDeclaration)
+    {
+        if (!SyntaxNodeHelper.TryGetParentSyntax(
+                fieldDeclaration,
+                out ClassDeclarationSyntax classDeclarationSyntax))
+        {
+            return;
+        }
+
+        var isPublic = fieldDeclaration.Modifiers.Any(SyntaxKind.PublicKeyword);
+
+        var hasDocumentationComment = fieldDeclaration.HasStructuredTrivia;
+
+        if (isPublic && !hasDocumentationComment)
+        {
+            context.ReportDiagnostic(
+                Diagnostic.Create(
+                    Rule,
+                    context.Node.GetLocation(),
+                    classDeclarationSyntax.Identifier.ToString(),
+                    fieldDeclaration.GetText()));
         }
     }
 }

@@ -1,11 +1,10 @@
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace CodeAnalysers.Utils;
 
 public static class SyntaxNodeHelper
 {
-    public static bool TryGetParentSyntax<T>(SyntaxNode syntaxNode, out T result)
+    public static bool TryGetParentSyntax<T>(SyntaxNode? syntaxNode, out T? result)
         where T : SyntaxNode
     {
         result = null;
@@ -36,11 +35,5 @@ public static class SyntaxNodeHelper
         {
             return false;
         }
-    }
-
-    internal static bool IsDocumentationModeOn(this SyntaxNodeAnalysisContext context)
-    {
-        return context.Node.SyntaxTree?.Options.DocumentationMode
-               != DocumentationMode.None;
     }
 }

@@ -10,6 +10,7 @@ namespace GameContent.Extensions;
 [ContentImporter(".json", DefaultProcessor = "RawStringProcessor")]
 public class RawStringImporter : ContentImporter<string>
 {
+    /// <inheritdoc />
     public override string Import(string filename, ContentImporterContext context)
     {
         context.Logger.LogMessage("Importing raw file: {0}", filename);

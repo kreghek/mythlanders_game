@@ -1,6 +1,8 @@
 ﻿using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
+using JetBrains.Annotations;
+
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -13,6 +15,7 @@ namespace CodeAnalysers;
 /// аргументов конструкторов, свойств классов и выдает предупреждение.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
+[UsedImplicitly]
 public sealed class NoCyrillicStringsCodeAnalyzer : DiagnosticAnalyzer
 {
     private const string DiagnosticId = "O20002";
