@@ -67,8 +67,8 @@ public static class DiceExtensions
     public static int Roll(this IDice dice, int min, int max)
     {
         if (min > max)
-            // ReSharper disable once LocalizableElement
-            // Exception's messages shouldn't be localized.
+        // ReSharper disable once LocalizableElement
+        // Exception's messages shouldn't be localized.
         {
             throw new ArgumentException($"Max value {max} can't be least min {min}.",
                 nameof(max));
@@ -203,8 +203,8 @@ public static class DiceExtensions
         }
 
         if (list.Count < count)
-            // ReSharper disable once LocalizableElement
-            // Exception's messages shouldn't be localized.
+        // ReSharper disable once LocalizableElement
+        // Exception's messages shouldn't be localized.
         {
             throw new ArgumentException(
                 $"The requested count {count} must be bigger or equal that list length {list.Count}.",

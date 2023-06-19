@@ -93,7 +93,7 @@ public sealed class XmlDocMissedOnDomainClassAnalyzer : DiagnosticAnalyzer
             case MethodDeclarationSyntax methodDeclarationSyntax:
                 AnalyzeMethod(context, methodDeclarationSyntax);
                 return;
-            
+
             case FieldDeclarationSyntax fieldDeclarationSyntax:
                 AnalyzeField(context, fieldDeclarationSyntax);
                 return;
@@ -126,7 +126,7 @@ public sealed class XmlDocMissedOnDomainClassAnalyzer : DiagnosticAnalyzer
                     propertyDeclaration.Identifier.ToString()));
         }
     }
-    
+
     private static void AnalyzeField(SyntaxNodeAnalysisContext context,
         FieldDeclarationSyntax fieldDeclaration)
     {

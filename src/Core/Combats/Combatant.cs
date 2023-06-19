@@ -64,7 +64,7 @@ public sealed class Combatant
     /// </summary>
     // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public string? DebugSid { get; init; }
-    
+
     /// <summary>
     /// Current combatant stats.
     /// </summary>
@@ -117,8 +117,8 @@ public sealed class Combatant
         {
             var combatMove = PopNextPoolMovement();
             if (combatMove is null)
-                // Pool is empty.
-                // Stop to prepare first movements.
+            // Pool is empty.
+            // Stop to prepare first movements.
             {
                 break;
             }
