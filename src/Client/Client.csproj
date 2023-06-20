@@ -107,6 +107,13 @@
     <Message Text="Restoring dotnet tools" Importance="High" />
     <Exec Command="dotnet tool restore" />
   </Target>
+
+    <ItemGroup>
+        <ProjectReference Include="../../code_analysers/CodeAnalysers.csproj">
+            <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+            <OutputItemType>Analyzer</OutputItemType>
+        </ProjectReference>
+    </ItemGroup>
     
 	<ItemGroup>
 		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
