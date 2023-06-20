@@ -1,0 +1,24 @@
+{
+  "textureAtlas": {
+    "texture": "..\\Sprites\\GameObjects\\Characters\\Heroes\\Partisan\\Full.png",
+    "regionWidth": 256,
+    "regionHeight": 128
+  },
+  "cycles": {
+    "rifle": {
+      "frames": [8,9,10,11,12,13,14,15],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "prepare-to-charge": {
+      "frames": [16],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "breakthrough": {
+      "frames": [17,18,19,20,21],
+      "isLooping": false,
+      "frameDuration": 0.1
+    }
+  }
+}
