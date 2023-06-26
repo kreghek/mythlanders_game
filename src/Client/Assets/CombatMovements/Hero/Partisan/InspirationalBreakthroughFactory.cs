@@ -39,7 +39,7 @@ internal class InspirationalBreakthroughFactory : CombatMovementFactoryBase
             Tags = CombatMovementTags.Attack
         };
     }
-    
+
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {

@@ -811,11 +811,11 @@ internal class CombatScreen : GameScreenWithMenuBase
             transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
 
         DrawBackVisualEffects(spriteBatch);
-        
+
         DrawInteractionDeliveryItems(spriteBatch);
 
         DrawCombatants(spriteBatch, combatSceneContext);
-        
+
         DrawFrontVisualEffects(spriteBatch);
 
         spriteBatch.End();
@@ -830,7 +830,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             effect.DrawBack(spriteBatch);
         }
     }
-    
+
     private void DrawFrontVisualEffects(SpriteBatch spriteBatch)
     {
         foreach (var effect in _visualEffectManager.Effects)
