@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 
 using Client.Assets;
+using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.Catalogs;
 using Client.Assets.CombatMovements;
 using Client.Assets.States.Primitives;
@@ -40,7 +41,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 {
     private const int BACKGROUND_LAYERS_COUNT = 4;
 
-    private readonly UpdatableAnimationManager _animationManager;
+    private readonly UpdatableAnimationManager _animationBlockManager;
     private readonly CombatScreenTransitionArguments _args;
     private readonly CameraOperator _cameraOperator;
     private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
@@ -63,6 +64,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly GlobeNode _globeNode;
     private readonly GlobeProvider _globeProvider;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
+    private readonly VisualEffectManager _visualEffectManager;
     private readonly IJobProgressResolver _jobProgressResolver;
     private readonly ICamera2DAdapter _mainCamera;
     private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
@@ -111,10 +113,11 @@ internal class CombatScreen : GameScreenWithMenuBase
         _gameObjects = new List<CombatantGameObject>();
         _corpseObjects = new List<CorpseGameObject>();
         _interactionDeliveryManager = new InteractionDeliveryManager();
+        _visualEffectManager = new VisualEffectManager();
 
         _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();
-        _animationManager = new UpdatableAnimationManager(new AnimationManager());
+        _animationBlockManager = new UpdatableAnimationManager(new AnimationManager());
         _dice = Game.Services.GetService<IDice>();
         _combatMovementVisualizer = Game.Services.GetRequiredService<ICombatMovementVisualizationProvider>();
 
@@ -200,7 +203,9 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         UpdateBackgroundObjects(gameTime);
 
-        HandleBullets(gameTime);
+        UpdateInteractionDeliveriesAndUnregisterDestroyed(gameTime);
+
+        UpdateVisualEffectsAndRemoveDestroyed(gameTime);
 
         UpdateCombatants(gameTime);
 
@@ -216,9 +221,22 @@ internal class CombatScreen : GameScreenWithMenuBase
             UpdateCombatFinished(gameTime);
         }
 
-        _animationManager.Update(gameTime.ElapsedGameTime.TotalSeconds);
+        _animationBlockManager.Update(gameTime.ElapsedGameTime.TotalSeconds);
 
         _cameraOperator.Update(gameTime);
+    }
+
+    private void UpdateVisualEffectsAndRemoveDestroyed(GameTime gameTime)
+    {
+        foreach (var combatVisualEffect in _visualEffectManager.Effects)
+        {
+            combatVisualEffect.Update(gameTime);
+
+            if (combatVisualEffect.IsDestroyed)
+            {
+                _visualEffectManager.RemoveEffect(combatVisualEffect);
+            }
+        }
     }
 
     //private static void AddMonstersFromCombatIntoKnownMonsters(Client.Core.Heroes.Hero monster,
@@ -471,7 +489,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         var intention = new UseCombatMovementIntention(
             e.CombatMovement,
-            _animationManager,
+            _animationBlockManager,
             _combatMovementVisualizer,
             _gameObjects,
             _interactionDeliveryManager,
@@ -493,7 +511,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void CombatResultModal_Closed(object? sender, EventArgs e)
     {
-        _animationManager.DropBlockers();
+        _animationBlockManager.DropBlockers();
 
         if (sender is null)
         {
@@ -525,7 +543,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 {
                     if (_finalBossWasDefeat)
                     {
-                        ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame, null);
+                        ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame, new NullScreenTransitionArguments());
 
                         if (_gameSettings.Mode == GameMode.Full)
                         {
@@ -805,13 +823,33 @@ internal class CombatScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
 
+        DrawBackVisualEffects(spriteBatch);
+        
         DrawInteractionDeliveryItems(spriteBatch);
 
         DrawCombatants(spriteBatch, combatSceneContext);
+        
+        DrawFrontVisualEffects(spriteBatch);
 
         spriteBatch.End();
 
         DrawForegroundLayers(spriteBatch, backgrounds);
+    }
+
+    private void DrawBackVisualEffects(SpriteBatch spriteBatch)
+    {
+        foreach (var effect in _visualEffectManager.Effects)
+        {
+            effect.DrawBack(spriteBatch);
+        }
+    }
+    
+    private void DrawFrontVisualEffects(SpriteBatch spriteBatch)
+    {
+        foreach (var effect in _visualEffectManager.Effects)
+        {
+            effect.DrawBack(spriteBatch);
+        }
     }
 
     private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
@@ -830,7 +868,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
-            if (!_animationManager.HasBlockers)
+            if (!_animationBlockManager.HasBlockers)
             {
                 if (!_maneuversVisualizer.IsHidden)
                 {
@@ -1018,7 +1056,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         return 0;
     }
 
-    private void HandleBullets(GameTime gameTime)
+    private void UpdateInteractionDeliveriesAndUnregisterDestroyed(GameTime gameTime)
     {
         foreach (var bullet in _interactionDeliveryManager.GetActiveSnapshot())
         {
@@ -1097,7 +1135,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         var intentionFactory =
             new BotCombatActorIntentionFactory(
-                _animationManager,
+                _animationBlockManager,
                 _combatMovementVisualizer,
                 _gameObjects,
                 _interactionDeliveryManager,
@@ -1263,14 +1301,14 @@ internal class CombatScreen : GameScreenWithMenuBase
     {
         if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
-            if (!_animationManager.HasBlockers)
+            if (!_animationBlockManager.HasBlockers)
             {
                 _maneuversVisualizer.Update(ResolutionIndependentRenderer);
             }
 
             if (_combatMovementsHandPanel is not null)
             {
-                _combatMovementsHandPanel.Readonly = _animationManager.HasBlockers;
+                _combatMovementsHandPanel.Readonly = _animationBlockManager.HasBlockers;
                 _combatMovementsHandPanel.Update(gameTime, ResolutionIndependentRenderer);
             }
         }

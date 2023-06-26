@@ -1,4 +1,5 @@
-﻿using Client.Assets.States.Primitives;
+﻿using Client.Assets.ActorVisualizationStates.Primitives;
+using Client.Assets.States.Primitives;
 using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects;
 

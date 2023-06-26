@@ -91,17 +91,14 @@ internal static class CommonCombatVisualization
             targetPosition = actorAnimator.GraphicRoot.Position;
         }
 
-        var prepareActorState = CreateSoundedState(() =>
-        {
-            return new PlayAnimationActorState(actorAnimator, config.PrepareMovementAnimation.Animation);
-        }, config.PrepareMovementAnimation.Sound);
+        var prepareActorState = CreateSoundedState(
+            () => new PlayAnimationActorState(actorAnimator, config.PrepareMovementAnimation.Animation),
+            config.PrepareMovementAnimation.Sound);
 
-        var chargeActorState = CreateSoundedState(() =>
-        {
-            return new MoveToPositionActorState(actorAnimator,
+        var chargeActorState = CreateSoundedState(
+            () => new MoveToPositionActorState(actorAnimator,
                 new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, targetPosition),
-                config.CombatMovementAnimation.Animation);
-        }, config.CombatMovementAnimation.Sound);
+            config.CombatMovementAnimation.Animation), config.CombatMovementAnimation.Sound);
 
         var subStates = new[]
         {

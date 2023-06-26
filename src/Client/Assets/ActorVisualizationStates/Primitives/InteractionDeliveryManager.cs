@@ -3,7 +3,7 @@ using System.Linq;
 
 using Client.GameScreens.Combat.GameObjects;
 
-namespace Client.Assets.States.Primitives;
+namespace Client.Assets.ActorVisualizationStates.Primitives;
 
 internal sealed class InteractionDeliveryManager
 {
