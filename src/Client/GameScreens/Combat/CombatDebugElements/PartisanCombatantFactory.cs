@@ -17,17 +17,18 @@ public class PartisanCombatantFactory : IHeroCombatantFactory
 
     public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
     {
-        var movementPool = new List<CombatMovement>();
+        var movementPool = new List<CombatMovement>
+        {
+            CreateMovement<InspirationalBreakthroughFactory>(),
 
-        movementPool.Add(CreateMovement<InspirationalBreakthroughFactory>());
+            CreateMovement<SabotageFactory>(),
 
-        movementPool.Add(CreateMovement<SabotageFactory>());
+            CreateMovement<SurpriseManeuverFactory>(),
 
-        movementPool.Add(CreateMovement<SurpriseManeuverFactory>());
+            CreateMovement<BlankShotFactory>(),
 
-        movementPool.Add(CreateMovement<BlankShotFactory>());
-
-        movementPool.Add(CreateMovement<OldGoodBrawlFactory>());
+            CreateMovement<OldGoodBrawlFactory>()
+        };
 
         var heroSequence = new CombatMovementSequence();
 

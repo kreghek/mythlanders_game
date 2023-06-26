@@ -3,7 +3,7 @@
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 
-namespace Client.Assets.CombatMovements.Hero.Swordsman;
+namespace Client.Engine;
 
 /// <summary>
 /// Desription to visualize combat movement scene.

@@ -43,31 +43,49 @@ internal sealed class TestamentCombatMovementVisualizationProvider : ICombatMove
     public CombatMovementScene GetMovementVisualizationState(CombatMovementSid sid, IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
-        if (!_movementVisualizationDict.TryGetValue(sid, out var factory))
+        if (_movementVisualizationDict.TryGetValue(sid, out var factory))
         {
-            var config = new SingleMeleeVisualizationConfig(
-                new SoundedAnimation(
-                    new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X,
-                        CommonConstants.FrameSize.Y, 8), null),
-                new SoundedAnimation(
-                    new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
-                        CommonConstants.FrameSize.Y, 8), null),
-                new SoundedAnimation(
-                    new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
-                        CommonConstants.FrameSize.Y, 8), null),
-                new SoundedAnimation(
-                    new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
-                        CommonConstants.FrameSize.Y, 8), null),
-                new SoundedAnimation(
-                    new LinearAnimationFrameSet(new[] { 0 }, 1, CommonConstants.FrameSize.X,
-                            CommonConstants.FrameSize.Y, 8)
-                    { IsLooping = true }, null));
-
-            return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
-                visualizationContext,
-                config);
+            return factory.CreateVisualization(actorAnimator, movementExecution, visualizationContext);
         }
 
-        return factory.CreateVisualization(actorAnimator, movementExecution, visualizationContext);
+        // Defensive code
+        return CreateDefaultMovementVisualizationState(
+            actorAnimator,
+            movementExecution,
+            visualizationContext);
+    }
+
+    private static CombatMovementScene CreateDefaultMovementVisualizationState(IActorAnimator actorAnimator,
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+    {
+        var config = new SingleMeleeVisualizationConfig(
+            new SoundedAnimation(
+                new LinearAnimationFrameSet(new[]
+                    {
+                        0
+                    }, 1, CommonConstants.FrameSize.X,
+                    CommonConstants.FrameSize.Y, 8), null),
+            new SoundedAnimation(
+                new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
+                    CommonConstants.FrameSize.Y, 8), null),
+            new SoundedAnimation(
+                new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
+                    CommonConstants.FrameSize.Y, 8), null),
+            new SoundedAnimation(
+                new LinearAnimationFrameSet(Enumerable.Range(0, 1).ToArray(), 8, CommonConstants.FrameSize.X,
+                    CommonConstants.FrameSize.Y, 8), null),
+            new SoundedAnimation(
+                new LinearAnimationFrameSet(new[]
+                    {
+                        0
+                    }, 1, CommonConstants.FrameSize.X,
+                    CommonConstants.FrameSize.Y, 8)
+                {
+                    IsLooping = true
+                }, null));
+
+        return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
+            visualizationContext,
+            config);
     }
 }

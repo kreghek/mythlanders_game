@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Assets.States.Primitives;
