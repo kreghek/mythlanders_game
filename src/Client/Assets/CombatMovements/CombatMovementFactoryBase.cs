@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Core;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;

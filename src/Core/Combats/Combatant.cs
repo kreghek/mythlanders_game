@@ -35,6 +35,12 @@ public sealed class Combatant
     public string ClassSid { get; }
 
     /// <summary>
+    /// Identifier for debug.
+    /// </summary>
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
+    public string? DebugSid { get; init; }
+
+    /// <summary>
     /// Current combatant effects.
     /// </summary>
     public IReadOnlyCollection<ICombatantEffect> Effects => _effects.ToArray();
@@ -60,12 +66,6 @@ public sealed class Combatant
     public IReadOnlyList<CombatMovementInstance> Pool => _pool.ToArray();
 
     /// <summary>
-    /// Identifier for debug.
-    /// </summary>
-    // ReSharper disable once UnusedAutoPropertyAccessor.Global
-    public string? DebugSid { get; init; }
-
-    /// <summary>
     /// Current combatant stats.
     /// </summary>
     public IReadOnlyCollection<IUnitStat> Stats { get; }
@@ -74,7 +74,10 @@ public sealed class Combatant
     /// Add effect to combatant.
     /// </summary>
     /// <param name="effect">Effect instance.</param>
-    /// <param name="context">Content to add effect. To handle some reaction on new effects (change stats, moves, other effects).</param>
+    /// <param name="context">
+    /// Content to add effect. To handle some reaction on new effects (change stats, moves, other
+    /// effects).
+    /// </param>
     public void AddEffect(ICombatantEffect effect, ICombatantEffectLifetimeImposeContext context)
     {
         effect.Impose(this);
@@ -117,8 +120,8 @@ public sealed class Combatant
         {
             var combatMove = PopNextPoolMovement();
             if (combatMove is null)
-            // Pool is empty.
-            // Stop to prepare first movements.
+                // Pool is empty.
+                // Stop to prepare first movements.
             {
                 break;
             }

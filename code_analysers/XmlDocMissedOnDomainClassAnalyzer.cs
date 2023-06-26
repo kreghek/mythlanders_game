@@ -45,6 +45,31 @@ public sealed class XmlDocMissedOnDomainClassAnalyzer : DiagnosticAnalyzer
             SyntaxKind.MethodDeclaration);
     }
 
+    private static void AnalyzeField(SyntaxNodeAnalysisContext context,
+        FieldDeclarationSyntax fieldDeclaration)
+    {
+        if (!SyntaxNodeHelper.TryGetParentSyntax(
+                fieldDeclaration,
+                out ClassDeclarationSyntax? classDeclarationSyntax))
+        {
+            return;
+        }
+
+        var isPublic = fieldDeclaration.Modifiers.Any(SyntaxKind.PublicKeyword);
+
+        var hasDocumentationComment = fieldDeclaration.HasStructuredTrivia;
+
+        if (isPublic && !hasDocumentationComment)
+        {
+            context.ReportDiagnostic(
+                Diagnostic.Create(
+                    _rule,
+                    context.Node.GetLocation(),
+                    GetClassName(classDeclarationSyntax),
+                    fieldDeclaration.GetText()));
+        }
+    }
+
     private static void AnalyzeMethod(SyntaxNodeAnalysisContext context,
         MethodDeclarationSyntax methodDeclarationSyntax)
     {
@@ -57,7 +82,8 @@ public sealed class XmlDocMissedOnDomainClassAnalyzer : DiagnosticAnalyzer
 
         var isPublic = methodDeclarationSyntax.Modifiers.Any(SyntaxKind.PublicKeyword);
 
-        var hasDocumentationComment = methodDeclarationSyntax.HasStructuredTrivia || methodDeclarationSyntax.HasLeadingTrivia;
+        var hasDocumentationComment =
+            methodDeclarationSyntax.HasStructuredTrivia || methodDeclarationSyntax.HasLeadingTrivia;
 
         if (isPublic && !hasDocumentationComment)
         {
@@ -68,16 +94,6 @@ public sealed class XmlDocMissedOnDomainClassAnalyzer : DiagnosticAnalyzer
                     GetClassName(classDeclarationSyntax),
                     methodDeclarationSyntax.Identifier.ToString()));
         }
-    }
-
-    private static string GetClassName(BaseTypeDeclarationSyntax? classDeclarationSyntax)
-    {
-        if (classDeclarationSyntax is null)
-        {
-            return "Unknown class";
-        }
-
-        return classDeclarationSyntax.Identifier.ToString();
     }
 
     private static void AnalyzeNode(SyntaxNodeAnalysisContext context)
@@ -127,28 +143,13 @@ public sealed class XmlDocMissedOnDomainClassAnalyzer : DiagnosticAnalyzer
         }
     }
 
-    private static void AnalyzeField(SyntaxNodeAnalysisContext context,
-        FieldDeclarationSyntax fieldDeclaration)
+    private static string GetClassName(BaseTypeDeclarationSyntax? classDeclarationSyntax)
     {
-        if (!SyntaxNodeHelper.TryGetParentSyntax(
-                fieldDeclaration,
-                out ClassDeclarationSyntax? classDeclarationSyntax))
+        if (classDeclarationSyntax is null)
         {
-            return;
+            return "Unknown class";
         }
 
-        var isPublic = fieldDeclaration.Modifiers.Any(SyntaxKind.PublicKeyword);
-
-        var hasDocumentationComment = fieldDeclaration.HasStructuredTrivia;
-
-        if (isPublic && !hasDocumentationComment)
-        {
-            context.ReportDiagnostic(
-                Diagnostic.Create(
-                    _rule,
-                    context.Node.GetLocation(),
-                    GetClassName(classDeclarationSyntax),
-                    fieldDeclaration.GetText()));
-        }
+        return classDeclarationSyntax.Identifier.ToString();
     }
 }

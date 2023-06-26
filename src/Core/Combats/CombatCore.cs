@@ -21,15 +21,15 @@ public class CombatCore
     }
 
     /// <summary>
-    /// All combatants in the combat.
-    /// </summary>
-    public IReadOnlyCollection<Combatant> CurrentCombatants => _allCombatantList.ToArray();
-
-    /// <summary>
     /// Current active combatant.
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     public Combatant CurrentCombatant => _roundQueue.FirstOrDefault() ?? throw new InvalidOperationException();
+
+    /// <summary>
+    /// All combatants in the combat.
+    /// </summary>
+    public IReadOnlyCollection<Combatant> CurrentCombatants => _allCombatantList.ToArray();
 
     /// <summary>
     /// Combat field.
@@ -218,11 +218,6 @@ public class CombatCore
         return movementExecution;
     }
 
-    private ITargetSelectorContext GetCurrentSelectorContext()
-    {
-        return GetSelectorContext(CurrentCombatant);
-    }
-
     /// <summary>
     /// Initialize combat.
     /// </summary>
@@ -358,6 +353,11 @@ public class CombatCore
         }
 
         throw new InvalidOperationException();
+    }
+
+    private ITargetSelectorContext GetCurrentSelectorContext()
+    {
+        return GetSelectorContext(CurrentCombatant);
     }
 
     private ITargetSelectorContext GetSelectorContext(Combatant combatant)

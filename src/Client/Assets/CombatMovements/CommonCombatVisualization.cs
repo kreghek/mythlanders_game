@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.CombatMovements.Hero.Robber;
-using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Assets.States.Primitives;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
@@ -98,7 +97,7 @@ internal static class CommonCombatVisualization
         var chargeActorState = CreateSoundedState(
             () => new MoveToPositionActorState(actorAnimator,
                 new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, targetPosition),
-            config.CombatMovementAnimation.Animation), config.CombatMovementAnimation.Sound);
+                config.CombatMovementAnimation.Animation), config.CombatMovementAnimation.Sound);
 
         var subStates = new[]
         {

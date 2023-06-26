@@ -1,3 +1,5 @@
 namespace Client.ScreenManagement;
 
-internal sealed class NullScreenTransitionArguments : IScreenTransitionArguments { }
+internal sealed class NullScreenTransitionArguments : IScreenTransitionArguments
+{
+}

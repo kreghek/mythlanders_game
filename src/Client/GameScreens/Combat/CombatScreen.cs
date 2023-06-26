@@ -7,7 +7,6 @@ using Client.Assets;
 using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.Catalogs;
 using Client.Assets.CombatMovements;
-using Client.Assets.States.Primitives;
 using Client.Assets.StoryPointJobs;
 using Client.Core;
 using Client.Core.Campaigns;
@@ -64,7 +63,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly GlobeNode _globeNode;
     private readonly GlobeProvider _globeProvider;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
-    private readonly VisualEffectManager _visualEffectManager;
     private readonly IJobProgressResolver _jobProgressResolver;
     private readonly ICamera2DAdapter _mainCamera;
     private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
@@ -76,6 +74,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private readonly TargetMarkersVisualizer _targetMarkers;
     private readonly IUiContentStorage _uiContentStorage;
+    private readonly VisualEffectManager _visualEffectManager;
 
     private bool _bossWasDefeat;
 
@@ -530,7 +529,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                 {
                     if (_finalBossWasDefeat)
                     {
-                        ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame, new NullScreenTransitionArguments());
+                        ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame,
+                            new NullScreenTransitionArguments());
 
                         if (_gameSettings.Mode == GameMode.Full)
                         {
@@ -689,6 +689,14 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
+    private void DrawBackVisualEffects(SpriteBatch spriteBatch)
+    {
+        foreach (var effect in _visualEffectManager.Effects)
+        {
+            effect.DrawBack(spriteBatch);
+        }
+    }
+
     private void DrawCombatantQueue(SpriteBatch spriteBatch, Rectangle contentRectangle)
     {
         if (_combatantQueuePanel is not null)
@@ -793,6 +801,14 @@ internal class CombatScreen : GameScreenWithMenuBase
         spriteBatch.End();
     }
 
+    private void DrawFrontVisualEffects(SpriteBatch spriteBatch)
+    {
+        foreach (var effect in _visualEffectManager.Effects)
+        {
+            effect.DrawBack(spriteBatch);
+        }
+    }
+
     private void DrawGameObjects(SpriteBatch spriteBatch)
     {
         var locationTheme = LocationHelper.GetLocationTheme(_globeNode.Sid);
@@ -821,22 +837,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         spriteBatch.End();
 
         DrawForegroundLayers(spriteBatch, backgrounds);
-    }
-
-    private void DrawBackVisualEffects(SpriteBatch spriteBatch)
-    {
-        foreach (var effect in _visualEffectManager.Effects)
-        {
-            effect.DrawBack(spriteBatch);
-        }
-    }
-
-    private void DrawFrontVisualEffects(SpriteBatch spriteBatch)
-    {
-        foreach (var effect in _visualEffectManager.Effects)
-        {
-            effect.DrawBack(spriteBatch);
-        }
     }
 
     private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
@@ -1041,21 +1041,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         // TODO Like in How wants to be a millionaire?
         // The reaching of some of levels gains unbreakable level.
         return 0;
-    }
-
-    private void UpdateInteractionDeliveriesAndUnregisterDestroyed(GameTime gameTime)
-    {
-        foreach (var bullet in _interactionDeliveryManager.GetActiveSnapshot())
-        {
-            if (bullet.IsDestroyed)
-            {
-                _interactionDeliveryManager.Unregister(bullet);
-            }
-            else
-            {
-                bullet.Update(gameTime);
-            }
-        }
     }
 
     private void HandleGlobe(CombatResult result)
@@ -1303,5 +1288,20 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatantQueuePanel?.Update(ResolutionIndependentRenderer);
 
         _targetMarkers.Update(gameTime);
+    }
+
+    private void UpdateInteractionDeliveriesAndUnregisterDestroyed(GameTime gameTime)
+    {
+        foreach (var bullet in _interactionDeliveryManager.GetActiveSnapshot())
+        {
+            if (bullet.IsDestroyed)
+            {
+                _interactionDeliveryManager.Unregister(bullet);
+            }
+            else
+            {
+                bullet.Update(gameTime);
+            }
+        }
     }
 }

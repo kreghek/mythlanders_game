@@ -6,12 +6,12 @@ namespace Client.Assets.ActorVisualizationStates.Primitives;
 /// <summary>
 /// Visual effect in combat.
 /// </summary>
-interface ICombatVisualEffect
+internal interface ICombatVisualEffect
 {
     /// <summary>
-    /// Update effect state.
+    /// Effect is destroyed. It should be removed from render and updating.
     /// </summary>
-    void Update(GameTime gameTime);
+    bool IsDestroyed { get; }
 
     /// <summary>
     /// Draw background part of effect.
@@ -24,7 +24,7 @@ interface ICombatVisualEffect
     void DrawFront(SpriteBatch spriteBatch);
 
     /// <summary>
-    /// Effect is destroyed. It should be removed from render and updating.
+    /// Update effect state.
     /// </summary>
-    bool IsDestroyed { get; }
+    void Update(GameTime gameTime);
 }

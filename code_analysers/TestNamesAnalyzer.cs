@@ -13,7 +13,8 @@ namespace CodeAnalysers;
 
 /// <summary>
 /// The analyzer checks that the names of the test methods correspond to the accepted coding convention (underscore).
-/// In this case, it is allowed that part of the name will be in camelCase (for example, to indicate the name of the methods being tested).
+/// In this case, it is allowed that part of the name will be in camelCase (for example, to indicate the name of the
+/// methods being tested).
 /// The analysis includes the names of methods from the namespace containing '.Test' and marked with an attribute (any).
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
