@@ -45,11 +45,11 @@ internal class InspirationalBreakthroughFactory : CombatMovementFactoryBase
     {
         var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Partisan");
 
-        var prepareAnimation = AnimationHelper.ConvertToAnimation(animationSet, "prepare-sword");
+        var prepareAnimation = AnimationHelper.ConvertToAnimation(animationSet, "prepare-to-charge");
         var keepSwordSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SwordPrepare);
 
-        var chargeAnimation = AnimationHelper.ConvertToAnimation(animationSet, "charge");
+        var chargeAnimation = AnimationHelper.ConvertToAnimation(animationSet, "breakthrough");
         var chargeSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.ArmedMove);
 
