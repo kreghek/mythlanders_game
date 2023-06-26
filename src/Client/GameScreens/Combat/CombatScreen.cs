@@ -205,7 +205,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         UpdateInteractionDeliveriesAndUnregisterDestroyed(gameTime);
 
-        UpdateVisualEffectsAndRemoveDestroyed(gameTime);
+        _visualEffectManager.Update(gameTime);
 
         UpdateCombatants(gameTime);
 
@@ -224,19 +224,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         _animationBlockManager.Update(gameTime.ElapsedGameTime.TotalSeconds);
 
         _cameraOperator.Update(gameTime);
-    }
-
-    private void UpdateVisualEffectsAndRemoveDestroyed(GameTime gameTime)
-    {
-        foreach (var combatVisualEffect in _visualEffectManager.Effects)
-        {
-            combatVisualEffect.Update(gameTime);
-
-            if (combatVisualEffect.IsDestroyed)
-            {
-                _visualEffectManager.RemoveEffect(combatVisualEffect);
-            }
-        }
     }
 
     //private static void AddMonstersFromCombatIntoKnownMonsters(Client.Core.Heroes.Hero monster,
