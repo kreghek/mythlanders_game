@@ -2,17 +2,19 @@
 
 public sealed class ModifyEffectsCombatantEffectFactory : ICombatantEffectFactory
 {
+    private readonly ICombatantEffectSid _sid;
     private readonly ICombatantEffectLifetimeFactory _lifetimeFactory;
     private readonly int _value;
 
-    public ModifyEffectsCombatantEffectFactory(ICombatantEffectLifetimeFactory lifetimeFactory, int value)
+    public ModifyEffectsCombatantEffectFactory(ICombatantEffectSid sid, ICombatantEffectLifetimeFactory lifetimeFactory, int value)
     {
+        _sid = sid;
         _lifetimeFactory = lifetimeFactory;
         _value = value;
     }
 
     public ICombatantEffect Create()
     {
-        return new ModifyEffectsCombatantEffect(_lifetimeFactory.Create(), _value);
+        return new ModifyEffectsCombatantEffect(_sid, _lifetimeFactory.Create(), _value);
     }
 }

@@ -2,11 +2,13 @@
 
 public sealed class ChangeStatEffect : IEffect
 {
+    private readonly ICombatantEffectSid _combatantEffectSid;
     private readonly ICombatantEffectLifetimeFactory _combatantEffectLifetimeFactory;
 
-    public ChangeStatEffect(ITargetSelector selector, UnitStatType statType, int value,
+    public ChangeStatEffect(ICombatantEffectSid combatantEffectSid, ITargetSelector selector, UnitStatType statType, int value,
         ICombatantEffectLifetimeFactory combatantEffectLifetimeFactory)
     {
+        _combatantEffectSid = combatantEffectSid;
         _combatantEffectLifetimeFactory = combatantEffectLifetimeFactory;
         TargetStatType = statType;
         Selector = selector;
@@ -22,6 +24,6 @@ public sealed class ChangeStatEffect : IEffect
 
     public IEffectInstance CreateInstance()
     {
-        return new ChangeStatEffectInstance(this, _combatantEffectLifetimeFactory.Create());
+        return new ChangeStatEffectInstance(_combatantEffectSid, this, _combatantEffectLifetimeFactory.Create());
     }
 }

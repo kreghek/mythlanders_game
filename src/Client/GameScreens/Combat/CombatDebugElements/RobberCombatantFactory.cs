@@ -50,7 +50,7 @@ public class RobberCombatantFactory : IHeroCombatantFactory
 
         var startupEffects = new[]
         {
-            new GainImpulseOnMoveCombatantEffectFactory(
+            new ImpulseGeneratorCombatantEffectFactory(
                 new CombatantActiveCombatantEffectLifetimeFactory())
         };
 

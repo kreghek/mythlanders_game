@@ -8,7 +8,3 @@ public interface ICombatantEffect
     void Impose(Combatant combatant, ICombatantEffectImposeContext combatantEffectImposeContext);
     void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context);
 }
-
-public interface ICombatantEffectSid
-{
-}

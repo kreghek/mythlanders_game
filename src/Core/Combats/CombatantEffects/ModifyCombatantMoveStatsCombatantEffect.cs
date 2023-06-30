@@ -5,8 +5,10 @@ public sealed class ModifyCombatantMoveStatsCombatantEffect : CombatantEffectBas
     private readonly StatModifier _modifier;
     private readonly CombatantMoveStats _stats;
 
-    public ModifyCombatantMoveStatsCombatantEffect(ICombatantEffectLifetime lifetime, CombatantMoveStats stats,
-        int value) : base(lifetime)
+    public ModifyCombatantMoveStatsCombatantEffect(ICombatantEffectSid sid,
+        ICombatantEffectLifetime lifetime,
+        CombatantMoveStats stats,
+        int value) : base(sid, lifetime)
     {
         _stats = stats;
 
