@@ -2,22 +2,9 @@ namespace Core.Combats.CombatantEffectLifetimes;
 
 public sealed class CombatantActiveCombatantEffectLifetime: ICombatantEffectLifetime
 {
-    private readonly Combatant _monitoringTarget;
-
-    public CombatantActiveCombatantEffectLifetime(Combatant monitoringTarget)
-    {
-        _monitoringTarget = monitoringTarget;
-    }
-
     private void CombatCore_CombatantHasBeenDefeated(object? sender, CombatantDefeatedEventArgs e)
     {
-        if (e.Combatant == _monitoringTarget)
-        {
-            // Bearer of effect is dead.
-            // So effect can't do anything.
-
-            IsExpired = true;
-        }
+        IsExpired = true;
     }
 
     /// <inheritdoc/>

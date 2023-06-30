@@ -5,6 +5,7 @@ using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Swordsman;
 
 using Core.Combats;
+using Core.Combats.CombatantEffects;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -45,7 +46,7 @@ public class SwordsmanCombatantFactory : IHeroCombatantFactory
         stats.SetValue(UnitStatType.ShieldPoints, 4);
         stats.SetValue(UnitStatType.Resolve, 5);
 
-        var hero = new Combatant("swordsman", heroSequence, stats, combatActorBehaviour)
+        var hero = new Combatant("swordsman", heroSequence, stats, combatActorBehaviour, ArraySegment<ICombatantEffectFactory>.Empty)
         {
             DebugSid = sid, IsPlayerControlled = true
         };

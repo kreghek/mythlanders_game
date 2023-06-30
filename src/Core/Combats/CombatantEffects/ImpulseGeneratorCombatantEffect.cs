@@ -2,9 +2,9 @@ using Core.Combats.CombatantEffectLifetimes;
 
 namespace Core.Combats.CombatantEffects;
 
-public sealed class GainImpulseOnMoveCombatantEffect : CombatantEffectBase
+public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
 {
-    public GainImpulseOnMoveCombatantEffect(ICombatantEffectLifetime lifetime) : base(lifetime)
+    public ImpulseGeneratorCombatantEffect(ICombatantEffectLifetime lifetime) : base(lifetime)
     {
     }
 
@@ -20,28 +20,14 @@ public sealed class GainImpulseOnMoveCombatantEffect : CombatantEffectBase
         var targetCombat = (CombatCore)sender!;
 
         // Impulse effect lives until combatant makes an attacking movement.
-        var impulseCombatantEffect = new ImpulseCombatantEffect(new UntilCombatantEffectMeetPredicatesLifetime(new[]
+        const int DAMAGE_BONUS = 1;
+        var impulseCombatantEffect = new ModifyEffectsCombatantEffect(new UntilCombatantEffectMeetPredicatesLifetime(new[]
         {
             new IsAttackCombatMovePredicate()
-        }));
+        }), DAMAGE_BONUS);
         
         e.Combatant.AddEffect(impulseCombatantEffect,
             new CombatantEffectImposeContext(targetCombat),
-            new CombatantEffectLifetimeImposeContext(targetCombat));
-    }
-}
-
-public sealed class GainImpulseOnMoveCombatantEffectFactory : ICombatantEffectFactory
-{
-    private readonly ICombatantEffectLifetimeFactory _lifetimeFactory;
-
-    public GainImpulseOnMoveCombatantEffectFactory(ICombatantEffectLifetimeFactory lifetimeFactory)
-    {
-        _lifetimeFactory = lifetimeFactory;
-    }
-
-    public ICombatantEffect Create()
-    {
-        return new GainImpulseOnMoveCombatantEffect(_lifetimeFactory.Create());
+            new CombatantEffectLifetimeImposeContext(e.Combatant, targetCombat));
     }
 }

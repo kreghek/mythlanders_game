@@ -136,7 +136,7 @@ public sealed class Combatant
             
             var effectImposeContext = new CombatantEffectImposeContext(combatCore);
         
-            var effectLifetimeImposeContext = new CombatantEffectLifetimeImposeContext(combatCore);
+            var effectLifetimeImposeContext = new CombatantEffectLifetimeImposeContext(this, combatCore);
         
             AddEffect(effect, effectImposeContext, effectLifetimeImposeContext);
         }

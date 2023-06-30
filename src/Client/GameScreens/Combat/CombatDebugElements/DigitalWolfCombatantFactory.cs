@@ -1,6 +1,9 @@
+using System;
+
 using Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
 using Core.Combats;
+using Core.Combats.CombatantEffects;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -40,7 +43,7 @@ public class DigitalWolfCombatantFactory : IMonsterCombatantFactory
         stats.SetValue(UnitStatType.ShieldPoints, 3);
         stats.SetValue(UnitStatType.Resolve, 4);
 
-        var monster = new Combatant("digitalwolf", monsterSequence, stats, combatActorBehaviour)
+        var monster = new Combatant("digitalwolf", monsterSequence, stats, combatActorBehaviour, ArraySegment<ICombatantEffectFactory>.Empty)
         {
             DebugSid = sid, IsPlayerControlled = false
         };

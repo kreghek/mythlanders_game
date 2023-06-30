@@ -1,6 +1,9 @@
+using System;
+
 using Client.Assets.CombatMovements.Monster.Slavic.Chaser;
 
 using Core.Combats;
+using Core.Combats.CombatantEffects;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -44,7 +47,7 @@ public class ChaserCombatantFactory : IMonsterCombatantFactory
         stats.SetValue(UnitStatType.ShieldPoints, 4);
         stats.SetValue(UnitStatType.Resolve, 5);
 
-        var monster = new Combatant("chaser", monsterSequence, stats, combatActorBehaviour)
+        var monster = new Combatant("chaser", monsterSequence, stats, combatActorBehaviour, ArraySegment<ICombatantEffectFactory>.Empty)
         {
             DebugSid = sid, IsPlayerControlled = false
         };

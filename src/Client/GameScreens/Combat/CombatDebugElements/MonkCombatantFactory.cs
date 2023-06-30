@@ -5,6 +5,7 @@ using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Monk;
 
 using Core.Combats;
+using Core.Combats.CombatantEffects;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -45,7 +46,7 @@ public class MonkCombatantFactory : IHeroCombatantFactory
         stats.SetValue(UnitStatType.ShieldPoints, 3);
         stats.SetValue(UnitStatType.Resolve, 7);
 
-        var hero = new Combatant("monk", heroSequence, stats, combatActorBehaviour)
+        var hero = new Combatant("monk", heroSequence, stats, combatActorBehaviour, ArraySegment<ICombatantEffectFactory>.Empty )
         {
             DebugSid = sid, IsPlayerControlled = true
         };

@@ -146,7 +146,7 @@ public class CombatCore
         }
 
         var effectContext =
-            new EffectCombatContext(Field, _dice, HandleCombatantDamagedToStat, HandleSwapFieldPositions, this);
+            new EffectCombatContext(CurrentCombatant, Field, _dice, HandleCombatantDamagedToStat, HandleSwapFieldPositions, this);
 
         var effectImposeItems = new List<CombatEffectImposeItem>();
 
