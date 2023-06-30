@@ -1,14 +1,21 @@
+using Core.Combats.CombatantEffects;
+
 namespace Core.Combats;
 
 public sealed class Combatant
 {
+    private readonly IReadOnlyCollection<ICombatantEffectFactory> _startupEffects;
     private readonly IList<ICombatantEffect> _effects = new List<ICombatantEffect>();
     private readonly CombatMovementInstance?[] _hand;
     private readonly IList<CombatMovementInstance> _pool;
 
-    public Combatant(string classSid, CombatMovementSequence sequence, CombatantStatsConfig stats,
-        ICombatActorBehaviour behaviour)
+    public Combatant(string classSid,
+        CombatMovementSequence sequence,
+        CombatantStatsConfig stats,
+        ICombatActorBehaviour behaviour,
+        IReadOnlyCollection<ICombatantEffectFactory> startupEffects)
     {
+        _startupEffects = startupEffects;
         ClassSid = classSid;
         Behaviour = behaviour;
         _pool = new List<CombatMovementInstance>();
@@ -114,7 +121,28 @@ public sealed class Combatant
     /// <summary>
     /// Initial method to make combatant ready to fight.
     /// </summary>
-    public void PrepareToCombat()
+    /// <param name="combatCore"></param>
+    public void PrepareToCombat(CombatCore combatCore)
+    {
+        StartupHand();
+        ApplyStartupEffects(combatCore);
+    }
+
+    private void ApplyStartupEffects(CombatCore combatCore)
+    {
+        foreach (var effectFactory in _startupEffects)
+        {
+            var effect = effectFactory.Create();
+            
+            var effectImposeContext = new CombatantEffectImposeContext(combatCore);
+        
+            var effectLifetimeImposeContext = new CombatantEffectLifetimeImposeContext(combatCore);
+        
+            AddEffect(effect, effectImposeContext, effectLifetimeImposeContext);
+        }
+    }
+
+    private void StartupHand()
     {
         for (var i = 0; i < 3; i++)
         {

@@ -14,6 +14,8 @@ public sealed class AddCombatantEffectEffectInstance : EffectInstanceBase<AddCom
 
     public override void Influence(Combatant target, IEffectCombatContext context)
     {
-        target.AddEffect(_combatantEffectFactory.Create(), context.EffectImposedContext);
+        target.AddEffect(_combatantEffectFactory.Create(), 
+            context.EffectImposedContext, 
+            context.EffectLifetimeImposedContext);
     }
 }

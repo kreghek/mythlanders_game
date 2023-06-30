@@ -46,15 +46,16 @@ public class RobberCombatantFactory : IHeroCombatantFactory
         stats.SetValue(UnitStatType.HitPoints, hitpointsStat);
         stats.SetValue(UnitStatType.ShieldPoints, 0);
         stats.SetValue(UnitStatType.Resolve, 4);
+        
+        var startupEffects = new[]
+        {
+            new GainImpulseOnMoveCombatantEffectFactory(new CombatantActiveCombatantEffectLifetimeFactory())
+        }
 
         var hero = new Combatant("robber", heroSequence, stats, combatActorBehaviour)
         {
             DebugSid = sid, IsPlayerControlled = true
         };
-
-        var effectImposeContext = new CombatantEffectLifetimeImposeContext(combatCore);
-        
-        hero.AddEffect(new GainImpulseOnMoveCombatantEffect(new CombatantActiveCombatantEffectLifetime(hero)), effectImposeContext);
         
         return hero;
     }

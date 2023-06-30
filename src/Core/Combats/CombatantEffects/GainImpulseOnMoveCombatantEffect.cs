@@ -30,3 +30,18 @@ public sealed class GainImpulseOnMoveCombatantEffect : CombatantEffectBase
             new CombatantEffectLifetimeImposeContext(targetCombat));
     }
 }
+
+public sealed class GainImpulseOnMoveCombatantEffectFactory : ICombatantEffectFactory
+{
+    private readonly ICombatantEffectLifetimeFactory _lifetimeFactory;
+
+    public GainImpulseOnMoveCombatantEffectFactory(ICombatantEffectLifetimeFactory lifetimeFactory)
+    {
+        _lifetimeFactory = lifetimeFactory;
+    }
+
+    public ICombatantEffect Create()
+    {
+        return new GainImpulseOnMoveCombatantEffect(_lifetimeFactory.Create());
+    }
+}

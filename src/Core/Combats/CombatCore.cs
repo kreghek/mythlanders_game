@@ -230,7 +230,7 @@ public class CombatCore
 
         foreach (var combatant in _allCombatantList)
         {
-            combatant.PrepareToCombat();
+            combatant.PrepareToCombat(this);
         }
 
         var context = new CombatantEffectLifetimeDispelContext(this);

@@ -7,7 +7,8 @@ public interface IEffectCombatContext
     Combatant Actor { get; }
     IDice Dice { get; }
 
-    ICombatantEffectLifetimeImposeContext EffectImposedContext { get; }
+    ICombatantEffectImposeContext EffectImposedContext { get; }
+    ICombatantEffectLifetimeImposeContext EffectLifetimeImposedContext { get; }
     CombatField Field { get; }
 
     int DamageCombatantStat(Combatant combatant, UnitStatType statType, int value);
