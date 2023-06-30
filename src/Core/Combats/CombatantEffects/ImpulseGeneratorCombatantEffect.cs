@@ -4,6 +4,8 @@ namespace Core.Combats.CombatantEffects;
 
 public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
 {
+    private Combatant? _effectOwner;
+    
     public ImpulseGeneratorCombatantEffect(ICombatantEffectLifetime lifetime) : base(lifetime)
     {
     }
@@ -11,12 +13,21 @@ public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
     public override void Impose(Combatant combatant, ICombatantEffectImposeContext combatantEffectImposeContext)
     {
         base.Impose(combatant, combatantEffectImposeContext);
+
+        _effectOwner = combatant;
         
         combatantEffectImposeContext.Combat.CombatantHasChangePosition += Combat_CombatantHasChangePosition;
     }
 
-    private static void Combat_CombatantHasChangePosition(object? sender, CombatantHasChangedPositionEventArgs e)
+    private void Combat_CombatantHasChangePosition(object? sender, CombatantHasChangedPositionEventArgs e)
     {
+        if (e.Combatant != _effectOwner)
+        {
+            // Event handler will raise for every combatants because it subscribed on whole combat.
+            // So we must check effect bearer.
+            return;
+        }
+
         var targetCombat = (CombatCore)sender!;
 
         // Impulse effect lives until combatant makes an attacking movement.
