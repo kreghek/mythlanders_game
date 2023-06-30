@@ -2,11 +2,13 @@ namespace Core.Combats.CombatantEffects;
 
 public abstract class CombatantEffectBase : ICombatantEffect
 {
-    protected CombatantEffectBase(ICombatantEffectLifetime lifetime)
+    protected CombatantEffectBase(ICombatantEffectSid sid, ICombatantEffectLifetime lifetime)
     {
+        Sid = sid;
         Lifetime = lifetime;
     }
 
+    public ICombatantEffectSid Sid { get; }
     public ICombatantEffectLifetime Lifetime { get; }
 
     public virtual void Dispel(Combatant combatant)
