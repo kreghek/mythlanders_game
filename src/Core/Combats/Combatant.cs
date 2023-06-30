@@ -78,12 +78,12 @@ public sealed class Combatant
     /// Content to add effect. To handle some reaction on new effects (change stats, moves, other
     /// effects).
     /// </param>
-    public void AddEffect(ICombatantEffect effect, ICombatantEffectLifetimeImposeContext context)
+    public void AddEffect(ICombatantEffect effect, ICombatantEffectImposeContext effectImposeContext, ICombatantEffectLifetimeImposeContext lifetimeImposeContext)
     {
-        effect.Impose(this);
+        effect.Impose(this, effectImposeContext);
         _effects.Add(effect);
 
-        effect.Lifetime.EffectImposed(effect, context);
+        effect.Lifetime.HandleOwnerImposed(effect, lifetimeImposeContext);
     }
 
     /// <summary>
@@ -152,7 +152,7 @@ public sealed class Combatant
         {
             effect.Update(updateType, context);
 
-            if (effect.Lifetime.IsDead)
+            if (effect.Lifetime.IsExpired)
             {
                 effectToDispel.Add(effect);
             }
@@ -184,6 +184,6 @@ public sealed class Combatant
         effect.Dispel(this);
         _effects.Remove(effect);
 
-        effect.Lifetime.EffectDispelled(effect, context);
+        effect.Lifetime.HandleOwnerDispelled(effect, context);
     }
 }

@@ -400,7 +400,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void CombatCore_CombatantHasBeenMoved(object? sender, CombatantHasBeenMovedEventArgs e)
+    private void CombatCore_CombatantHasBeenMoved(object? sender, CombatantHasChangedPositionEventArgs e)
     {
         var newWorldPosition = _combatantPositionProvider.GetPosition(e.NewFieldCoords,
             e.FieldSide == _combatCore.Field.HeroSide
@@ -1093,7 +1093,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
         _combatCore.CombatantStartsTurn += CombatCore_CombatantStartsTurn;
         _combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;
-        _combatCore.CombatantHasBeenMoved += CombatCore_CombatantHasBeenMoved;
+        _combatCore.CombatantHasChangePosition += CombatCore_CombatantHasBeenMoved;
         _combatCore.CombatFinished += CombatCore_CombatFinished;
         _combatCore.CombatantUsedMove += CombatCore_CombatantUsedMove;
 

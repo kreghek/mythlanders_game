@@ -6,19 +6,19 @@ public sealed class ToEndOfCurrentRoundEffectLifetime : ICombatantEffectLifetime
     {
         if (updateType == CombatantEffectUpdateType.EndRound)
         {
-            IsDead = true;
+            IsExpired = true;
         }
     }
 
-    public void EffectImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context)
+    public void HandleOwnerImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context)
     {
     }
 
-    public void EffectDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context)
+    public void HandleOwnerDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context)
     {
     }
 
-    public bool IsDead { get; private set; }
+    public bool IsExpired { get; private set; }
 }
 
 public sealed class ToEndOfCurrentRoundEffectLifetimeFactory : ICombatantEffectLifetimeFactory

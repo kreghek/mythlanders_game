@@ -6,3 +6,10 @@ public sealed class MarkCombatantEffect : CombatantEffectBase
     {
     }
 }
+
+public sealed class ImpulseCombatantEffect : CombatantEffectBase
+{
+    public ImpulseCombatantEffect(ICombatantEffectLifetime lifetime) : base(lifetime)
+    {
+    }
+}

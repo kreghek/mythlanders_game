@@ -13,22 +13,22 @@ public sealed class UntilCombatantEffectMeetPredicatesLifetime : ICombatantEffec
     {
         if (_combatMovePredicates.All(x => x.Check(e.Move)))
         {
-            IsDead = true;
+            IsExpired = true;
         }
     }
 
-    public bool IsDead { get; private set; }
+    public bool IsExpired { get; private set; }
 
     public void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context)
     {
     }
 
-    public void EffectImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context)
+    public void HandleOwnerImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context)
     {
         context.Combat.CombatantUsedMove += Combat_CombatantUsedMove;
     }
 
-    public void EffectDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context)
+    public void HandleOwnerDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context)
     {
         context.Combat.CombatantUsedMove -= Combat_CombatantUsedMove;
     }

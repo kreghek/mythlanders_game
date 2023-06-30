@@ -13,7 +13,7 @@ public abstract class CombatantEffectBase : ICombatantEffect
     {
     }
 
-    public virtual void Impose(Combatant combatant)
+    public virtual void Impose(Combatant combatant, ICombatantEffectImposeContext combatantEffectImposeContext)
     {
     }
 

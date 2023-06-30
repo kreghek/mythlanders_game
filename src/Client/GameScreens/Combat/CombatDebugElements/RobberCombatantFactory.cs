@@ -5,6 +5,8 @@ using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Robber;
 
 using Core.Combats;
+using Core.Combats.CombatantEffectLifetimes;
+using Core.Combats.CombatantEffects;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -49,6 +51,11 @@ public class RobberCombatantFactory : IHeroCombatantFactory
         {
             DebugSid = sid, IsPlayerControlled = true
         };
+
+        var effectImposeContext = new CombatantEffectLifetimeImposeContext(combatCore);
+        
+        hero.AddEffect(new GainImpulseOnMoveCombatantEffect(new CombatantActiveCombatantEffectLifetime(hero)), effectImposeContext);
+        
         return hero;
     }
 }

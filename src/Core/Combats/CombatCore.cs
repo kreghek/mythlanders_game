@@ -427,16 +427,16 @@ public class CombatCore
 
         if (sourceCombatant is not null)
         {
-            CombatantHasBeenMoved?.Invoke(this,
-                new CombatantHasBeenMovedEventArgs(sourceCombatant, destinationFieldSide, destinationCoords));
+            CombatantHasChangePosition?.Invoke(this,
+                new CombatantHasChangedPositionEventArgs(sourceCombatant, destinationFieldSide, destinationCoords));
         }
 
         sourceFieldSide[sourceCoords].Combatant = targetCombatant;
 
         if (targetCombatant is not null)
         {
-            CombatantHasBeenMoved?.Invoke(this,
-                new CombatantHasBeenMovedEventArgs(targetCombatant, sourceFieldSide, sourceCoords));
+            CombatantHasChangePosition?.Invoke(this,
+                new CombatantHasChangedPositionEventArgs(targetCombatant, sourceFieldSide, sourceCoords));
         }
     }
 
@@ -577,7 +577,7 @@ public class CombatCore
     public event EventHandler<CombatantDamagedEventArgs>? CombatantHasBeenDamaged;
     public event EventHandler<CombatantDefeatedEventArgs>? CombatantHasBeenDefeated;
     public event EventHandler<CombatantShiftShapedEventArgs>? CombatantShiftShaped;
-    public event EventHandler<CombatantHasBeenMovedEventArgs>? CombatantHasBeenMoved;
+    public event EventHandler<CombatantHasChangedPositionEventArgs>? CombatantHasChangePosition;
     public event EventHandler<CombatFinishedEventArgs>? CombatFinished;
     public event EventHandler<CombatantInterruptedEventArgs>? CombatantInterrupted;
     public event EventHandler<CombatantHandChangedEventArgs>? CombatantAssignedNewMove;

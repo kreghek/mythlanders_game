@@ -30,7 +30,7 @@ public sealed class ModifyCombatantMoveStatsCombatantEffect : CombatantEffectBas
         }
     }
 
-    public override void Impose(Combatant combatant)
+    public override void Impose(Combatant combatant, ICombatantEffectImposeContext combatantEffectImposeContext)
     {
         base.Impose(combatant);
 

@@ -29,7 +29,7 @@ public sealed class ModifyEffectsCombatantEffect : ICombatantEffect
         }
     }
 
-    public void Impose(Combatant combatant)
+    public void Impose(Combatant combatant, ICombatantEffectImposeContext combatantEffectImposeContext)
     {
         foreach (var combatMovementInstance in combatant.Hand)
         {

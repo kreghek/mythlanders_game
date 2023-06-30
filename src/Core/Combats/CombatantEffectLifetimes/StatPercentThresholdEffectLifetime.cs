@@ -11,7 +11,7 @@ internal class StatPercentThresholdEffectLifetime : ICombatantEffectLifetime
         _minShare = minShare;
     }
 
-    public bool IsDead { get; private set; }
+    public bool IsExpired { get; private set; }
 
     public void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context)
     {
@@ -21,22 +21,22 @@ internal class StatPercentThresholdEffectLifetime : ICombatantEffectLifetime
 
             if (stat is null)
             {
-                IsDead = true;
+                IsExpired = true;
                 return;
             }
 
             if (stat.Value.GetShare() < _minShare)
             {
-                IsDead = true;
+                IsExpired = true;
             }
         }
     }
 
-    public void EffectImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context)
+    public void HandleOwnerImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context)
     {
     }
 
-    public void EffectDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context)
+    public void HandleOwnerDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context)
     {
     }
 }
