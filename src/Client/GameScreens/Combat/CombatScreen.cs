@@ -772,9 +772,11 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void DrawCombatantEffects(Vector2 statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
     {
-        foreach (var combatantEffect in combatant.Effects)
+        var orderedCombatantEffects = combatant.Effects.OrderBy(x => x.Sid.ToString()).ToArray();
+        for (var index = 0; index < orderedCombatantEffects.Length; index++)
         {
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatantEffect.Sid.ToString(), statsPanelOrigin,
+            var combatantEffect = orderedCombatantEffects[index];
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatantEffect.Sid.ToString(), statsPanelOrigin + new Vector2(0, index * 15),
                 Color.Aqua);
         }
     }
@@ -876,8 +878,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                 $"{notification.CombatantEffect.Sid} has been imposed",
-                new Vector2(contentRectangle.Center.X, contentRectangle.Top + 5 + index * 15),
-                Color.Lerp(Color.White, Color.Transparent, (float)notification.LifetimeCounter));
+                new Vector2(contentRectangle.Center.X, contentRectangle.Center.Y + index * 15),
+                notification.LifetimeCounter > 0.5 ? Color.White : Color.Lerp(Color.White, Color.Transparent, 1 - (float)notification.LifetimeCounter / 0.5f));
         }
 
         if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)

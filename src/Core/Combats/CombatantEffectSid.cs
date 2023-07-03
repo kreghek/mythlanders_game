@@ -1,16 +1,14 @@
 namespace Core.Combats;
 
-public sealed class CombatantEffectSid : ICombatantEffectSid
+public record CombatantEffectSid(string Value) : ICombatantEffectSid, IComparable
 {
-    private readonly string _value;
-
-    public CombatantEffectSid(string value)
+    public int CompareTo(object? obj)
     {
-        _value = value;
+        return Value.CompareTo(((CombatantEffectSid?)obj)?.Value);
     }
 
     public override string ToString()
     {
-        return _value;
+        return Value;
     }
 }

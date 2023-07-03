@@ -14,9 +14,7 @@ public sealed class MarkEffectInstance : EffectInstanceBase<MarkEffect>
     public override void Influence(Combatant target, IEffectCombatContext context)
     {
         var markEffectSid = CombatantEffectSids.Mark;
-        
-        target.AddEffect(new MarkCombatantEffect(markEffectSid, _lifetime),
-            context.EffectImposedContext, 
-            context.EffectLifetimeImposedContext);
+
+        context.EffectImposedContext.Combat.ImposeCombatantEffect(target, new MarkCombatantEffect(markEffectSid, _lifetime));
     }
 }
