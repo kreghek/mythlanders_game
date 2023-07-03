@@ -877,8 +877,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                 $"{notification.CombatantEffect.Sid} has been imposed",
                 new Vector2(contentRectangle.Center.X, contentRectangle.Top + 5 + index * 15),
-                Color.Lerp(Color.White, Color.Transparent,
-                    (float)notification.Lifetime));
+                Color.Lerp(Color.White, Color.Transparent, (float)notification.LifetimeCounter));
         }
 
         if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)
@@ -1114,27 +1113,29 @@ internal class CombatScreen : GameScreenWithMenuBase
     //     unitGameObject.AddChild(passIndicator);
     // }
 
-    private IList<EffectNotification> _combatantEffectNotifications = new List<EffectNotification>();
+    private readonly IList<EffectNotification> _combatantEffectNotifications = new List<EffectNotification>();
     
     private class EffectNotification
     {
-        private readonly TimeOnly _notificationDuration = new (0, 0, 0, 10);
+        private double _counter; 
+        
+        private readonly TimeOnly _notificationDuration = new (0, 0, 10, 0);
         
         public EffectNotification(ICombatantEffect combatantEffect, EffectNotificationDirection direction)
         {
-            Lifetime = _notificationDuration.ToTimeSpan().TotalSeconds;
+            _counter = _notificationDuration.ToTimeSpan().TotalSeconds;
             CombatantEffect = combatantEffect;
             Direction = direction;
         }
 
-        public double Lifetime { get; private set; }
+        public double LifetimeCounter => _counter / _notificationDuration.ToTimeSpan().TotalSeconds;
 
         public ICombatantEffect CombatantEffect { get; }
         public EffectNotificationDirection Direction { get; }
 
         public void Update(GameTime gameTime)
         {
-            Lifetime -= gameTime.ElapsedGameTime.TotalSeconds;
+            _counter -= gameTime.ElapsedGameTime.TotalSeconds;
         }
     }
 
@@ -1361,7 +1362,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         foreach (var notification in _combatantEffectNotifications.ToArray())
         {
             notification.Update(gameTime);
-            if (notification.Lifetime <= 0)
+            if (notification.LifetimeCounter <= 0)
             {
                 _combatantEffectNotifications.Remove(notification);
             }
