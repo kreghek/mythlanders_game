@@ -4,11 +4,10 @@ namespace Core.Combats.CombatantEffects;
 
 public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
 {
-    private readonly ICombatantEffectSid _generatedSid;
-    private Combatant? _effectOwner;
-
     private const int GENERATED_LIMIT = 2;
     private const int DAMAGE_BONUS = 1;
+    private readonly ICombatantEffectSid _generatedSid;
+    private Combatant? _effectOwner;
 
     public ImpulseGeneratorCombatantEffect(ICombatantEffectSid sid, ICombatantEffectSid generatedSid,
         ICombatantEffectLifetime lifetime) : base(sid, lifetime)
@@ -23,6 +22,11 @@ public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
         _effectOwner = combatant;
 
         combatantEffectImposeContext.Combat.CombatantHasChangePosition += Combat_CombatantHasChangePosition;
+    }
+
+    private IReadOnlyCollection<ICombatantEffect> CollectImpulseEffects(Combatant targetCombatant)
+    {
+        return targetCombatant.Effects.Where(x => x.Sid == _generatedSid).ToArray();
     }
 
     private void Combat_CombatantHasChangePosition(object? sender, CombatantHasChangedPositionEventArgs e)
@@ -58,11 +62,6 @@ public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
 
         // TODO Do damage to targetCombatant
         // TODO Pass turn
-    }
-
-    private IReadOnlyCollection<ICombatantEffect> CollectImpulseEffects(Combatant targetCombatant)
-    {
-        return targetCombatant.Effects.Where(x => x.Sid == _generatedSid).ToArray();
     }
 
     private void GainImpulseUnit(Combatant targetCombatant, CombatCore targetCombat)

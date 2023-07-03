@@ -46,7 +46,8 @@ public class MonkCombatantFactory : IHeroCombatantFactory
         stats.SetValue(UnitStatType.ShieldPoints, 3);
         stats.SetValue(UnitStatType.Resolve, 7);
 
-        var hero = new Combatant("monk", heroSequence, stats, combatActorBehaviour, ArraySegment<ICombatantEffectFactory>.Empty)
+        var hero = new Combatant("monk", heroSequence, stats, combatActorBehaviour,
+            ArraySegment<ICombatantEffectFactory>.Empty)
         {
             DebugSid = sid, IsPlayerControlled = true
         };

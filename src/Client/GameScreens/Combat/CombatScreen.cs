@@ -45,6 +45,19 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly CameraOperator _cameraOperator;
     private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
     private readonly ICamera2DAdapter _combatActionCamera;
+
+    // private void Combat_UnitPassed(object? sender, CombatUnit e)
+    // {
+    //     var unitGameObject = GetUnitGameObject(e);
+    //     var textPosition = GetUnitGameObject(e).Position;
+    //     var font = _uiContentStorage.GetCombatIndicatorFont();
+    //
+    //     var passIndicator = new SkipTextIndicator(textPosition, font);
+    //
+    //     unitGameObject.AddChild(passIndicator);
+    // }
+
+    private readonly IList<EffectNotification> _combatantEffectNotifications = new List<EffectNotification>();
     private readonly ICombatantPositionProvider _combatantPositionProvider;
     private readonly CombatCore _combatCore;
     private readonly ICombatActorBehaviourDataProvider _combatDataBehaviourProvider;
@@ -330,6 +343,12 @@ internal class CombatScreen : GameScreenWithMenuBase
         _corpseObjects.Add(corpse);
 
         _gameObjects.Remove(combatantGameObject);
+    }
+
+    private void CombatCore_CombatantEffectHasBeenImposed(object? sender, CombatantEffectEventArgs e)
+    {
+        _combatantEffectNotifications.Add(
+            new EffectNotification(e.CombatantEffect, EffectNotificationDirection.Imposed));
     }
 
     private void CombatCore_CombatantEndsTurn(object? sender, CombatantEndsTurnEventArgs e)
@@ -697,6 +716,24 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
+    private void DrawCombatantEffects(Vector2 statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
+    {
+        var orderedCombatantEffects = combatant.Effects.OrderBy(x => x.Sid.ToString()).ToArray();
+        for (var index = 0; index < orderedCombatantEffects.Length; index++)
+        {
+            var combatantEffect = orderedCombatantEffects[index];
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatantEffect.Sid.ToString(),
+                statsPanelOrigin + new Vector2(0, index * 15),
+                Color.Aqua);
+        }
+    }
+
+    private void DrawCombatantInWorldInfo(SpriteBatch spriteBatch, CombatantGameObject combatant)
+    {
+        DrawStats(combatant.StatsPanelOrigin, combatant.Combatant, spriteBatch);
+        DrawCombatantEffects(combatant.StatsPanelOrigin, combatant.Combatant, spriteBatch);
+    }
+
     private void DrawCombatantQueue(SpriteBatch spriteBatch, Rectangle contentRectangle)
     {
         if (_combatantQueuePanel is not null)
@@ -761,23 +798,6 @@ internal class CombatScreen : GameScreenWithMenuBase
                 var combatantGameObject = GetCombatantGameObject(target.Target);
                 DrawCombatantInWorldInfo(spriteBatch: spriteBatch, combatant: combatantGameObject);
             }
-        }
-    }
-
-    private void DrawCombatantInWorldInfo(SpriteBatch spriteBatch, CombatantGameObject combatant)
-    {
-        DrawStats(combatant.StatsPanelOrigin, combatant.Combatant, spriteBatch);
-        DrawCombatantEffects(combatant.StatsPanelOrigin, combatant.Combatant, spriteBatch);
-    }
-
-    private void DrawCombatantEffects(Vector2 statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
-    {
-        var orderedCombatantEffects = combatant.Effects.OrderBy(x => x.Sid.ToString()).ToArray();
-        for (var index = 0; index < orderedCombatantEffects.Length; index++)
-        {
-            var combatantEffect = orderedCombatantEffects[index];
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatantEffect.Sid.ToString(), statsPanelOrigin + new Vector2(0, index * 15),
-                Color.Aqua);
         }
     }
 
@@ -879,7 +899,9 @@ internal class CombatScreen : GameScreenWithMenuBase
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                 $"{notification.CombatantEffect.Sid} has been imposed",
                 new Vector2(contentRectangle.Center.X, contentRectangle.Center.Y + index * 15),
-                notification.LifetimeCounter > 0.5 ? Color.White : Color.Lerp(Color.White, Color.Transparent, 1 - (float)notification.LifetimeCounter / 0.5f));
+                notification.LifetimeCounter > 0.5
+                    ? Color.White
+                    : Color.Lerp(Color.White, Color.Transparent, 1 - (float)notification.LifetimeCounter / 0.5f));
         }
 
         if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)
@@ -1104,49 +1126,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         _globe.GlobeLevel.Level++;
     }
 
-    // private void Combat_UnitPassed(object? sender, CombatUnit e)
-    // {
-    //     var unitGameObject = GetUnitGameObject(e);
-    //     var textPosition = GetUnitGameObject(e).Position;
-    //     var font = _uiContentStorage.GetCombatIndicatorFont();
-    //
-    //     var passIndicator = new SkipTextIndicator(textPosition, font);
-    //
-    //     unitGameObject.AddChild(passIndicator);
-    // }
-
-    private readonly IList<EffectNotification> _combatantEffectNotifications = new List<EffectNotification>();
-
-    private class EffectNotification
-    {
-        private double _counter;
-
-        private readonly TimeOnly _notificationDuration = new(0, 0, 10, 0);
-
-        public EffectNotification(ICombatantEffect combatantEffect, EffectNotificationDirection direction)
-        {
-            _counter = _notificationDuration.ToTimeSpan().TotalSeconds;
-            CombatantEffect = combatantEffect;
-            Direction = direction;
-        }
-
-        public double LifetimeCounter => _counter / _notificationDuration.ToTimeSpan().TotalSeconds;
-
-        public ICombatantEffect CombatantEffect { get; }
-        public EffectNotificationDirection Direction { get; }
-
-        public void Update(GameTime gameTime)
-        {
-            _counter -= gameTime.ElapsedGameTime.TotalSeconds;
-        }
-    }
-
-    private enum EffectNotificationDirection
-    {
-        Imposed,
-        Dispelled
-    }
-
     private void InitializeCombat()
     {
         _combatCore.CombatantHasBeenAdded += CombatCode_CombatantHasBeenAdded;
@@ -1185,11 +1164,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatantQueuePanel = new CombatantQueuePanel(_combatCore,
             _uiContentStorage,
             new CombatantThumbnailProvider(Game.Content, Game.Services.GetRequiredService<IUnitGraphicsCatalog>()));
-    }
-
-    private void CombatCore_CombatantEffectHasBeenImposed(object? sender, CombatantEffectEventArgs e)
-    {
-        _combatantEffectNotifications.Add(new EffectNotification(e.CombatantEffect, EffectNotificationDirection.Imposed));
     }
 
     private void ManeuverVisualizer_ManeuverSelected(object? sender, ManeuverSelectedEventArgs e)
@@ -1312,6 +1286,18 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
+    private void UpdateCombatantEffectNotifications(GameTime gameTime)
+    {
+        foreach (var notification in _combatantEffectNotifications.ToArray())
+        {
+            notification.Update(gameTime);
+            if (notification.LifetimeCounter <= 0)
+            {
+                _combatantEffectNotifications.Remove(notification);
+            }
+        }
+    }
+
     private void UpdateCombatants(GameTime gameTime)
     {
         foreach (var gameObject in _gameObjects.ToArray())
@@ -1359,18 +1345,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         UpdateCombatantEffectNotifications(gameTime);
     }
 
-    private void UpdateCombatantEffectNotifications(GameTime gameTime)
-    {
-        foreach (var notification in _combatantEffectNotifications.ToArray())
-        {
-            notification.Update(gameTime);
-            if (notification.LifetimeCounter <= 0)
-            {
-                _combatantEffectNotifications.Remove(notification);
-            }
-        }
-    }
-
     private void UpdateInteractionDeliveriesAndUnregisterDestroyed(GameTime gameTime)
     {
         foreach (var bullet in _interactionDeliveryManager.GetActiveSnapshot())
@@ -1384,5 +1358,34 @@ internal class CombatScreen : GameScreenWithMenuBase
                 bullet.Update(gameTime);
             }
         }
+    }
+
+    private class EffectNotification
+    {
+        private readonly TimeOnly _notificationDuration = new(0, 0, 10, 0);
+        private double _counter;
+
+        public EffectNotification(ICombatantEffect combatantEffect, EffectNotificationDirection direction)
+        {
+            _counter = _notificationDuration.ToTimeSpan().TotalSeconds;
+            CombatantEffect = combatantEffect;
+            Direction = direction;
+        }
+
+        public ICombatantEffect CombatantEffect { get; }
+        public EffectNotificationDirection Direction { get; }
+
+        public double LifetimeCounter => _counter / _notificationDuration.ToTimeSpan().TotalSeconds;
+
+        public void Update(GameTime gameTime)
+        {
+            _counter -= gameTime.ElapsedGameTime.TotalSeconds;
+        }
+    }
+
+    private enum EffectNotificationDirection
+    {
+        Imposed,
+        Dispelled
     }
 }

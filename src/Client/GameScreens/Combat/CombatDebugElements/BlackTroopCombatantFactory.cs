@@ -47,7 +47,8 @@ public class BlackTroopCombatantFactory : IMonsterCombatantFactory
         stats.SetValue(UnitStatType.ShieldPoints, 4);
         stats.SetValue(UnitStatType.Resolve, 5);
 
-        var monster = new Combatant("blacktrooper", monsterSequence, stats, combatActorBehaviour, ArraySegment<ICombatantEffectFactory>.Empty)
+        var monster = new Combatant("blacktrooper", monsterSequence, stats, combatActorBehaviour,
+            ArraySegment<ICombatantEffectFactory>.Empty)
         {
             DebugSid = sid, IsPlayerControlled = false
         };

@@ -43,7 +43,8 @@ public class DigitalWolfCombatantFactory : IMonsterCombatantFactory
         stats.SetValue(UnitStatType.ShieldPoints, 3);
         stats.SetValue(UnitStatType.Resolve, 4);
 
-        var monster = new Combatant("digitalwolf", monsterSequence, stats, combatActorBehaviour, ArraySegment<ICombatantEffectFactory>.Empty)
+        var monster = new Combatant("digitalwolf", monsterSequence, stats, combatActorBehaviour,
+            ArraySegment<ICombatantEffectFactory>.Empty)
         {
             DebugSid = sid, IsPlayerControlled = false
         };

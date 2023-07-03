@@ -46,7 +46,8 @@ public class AmazonCombatantFactory : IHeroCombatantFactory
         stats.SetValue(UnitStatType.ShieldPoints, 0);
         stats.SetValue(UnitStatType.Resolve, 4);
 
-        var hero = new Combatant("amazon", heroSequence, stats, combatActorBehaviour, ArraySegment<ICombatantEffectFactory>.Empty)
+        var hero = new Combatant("amazon", heroSequence, stats, combatActorBehaviour,
+            ArraySegment<ICombatantEffectFactory>.Empty)
         {
             DebugSid = sid, IsPlayerControlled = true
         };

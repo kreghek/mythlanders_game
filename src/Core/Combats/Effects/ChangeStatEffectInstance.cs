@@ -6,7 +6,8 @@ public sealed class ChangeStatEffectInstance : EffectInstanceBase<ChangeStatEffe
 {
     private readonly ICombatantEffectSid _combatantEffectSid;
 
-    public ChangeStatEffectInstance(ICombatantEffectSid combatantEffectSid, ChangeStatEffect baseEffect, ICombatantEffectLifetime combatantEffectLifetime) :
+    public ChangeStatEffectInstance(ICombatantEffectSid combatantEffectSid, ChangeStatEffect baseEffect,
+        ICombatantEffectLifetime combatantEffectLifetime) :
         base(baseEffect)
     {
         _combatantEffectSid = combatantEffectSid;

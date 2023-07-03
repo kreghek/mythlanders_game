@@ -146,7 +146,8 @@ public class CombatCore
         }
 
         var effectContext =
-            new EffectCombatContext(CurrentCombatant, Field, _dice, HandleCombatantDamagedToStat, HandleSwapFieldPositions, this);
+            new EffectCombatContext(CurrentCombatant, Field, _dice, HandleCombatantDamagedToStat,
+                HandleSwapFieldPositions, this);
 
         var effectImposeItems = new List<CombatEffectImposeItem>();
 
@@ -218,6 +219,13 @@ public class CombatCore
         return movementExecution;
     }
 
+    public void ImposeCombatantEffect(Combatant targetCombatant, ICombatantEffect combatantEffect)
+    {
+        targetCombatant.AddEffect(combatantEffect, new CombatantEffectImposeContext(this),
+            new CombatantEffectLifetimeImposeContext(targetCombatant, this));
+        CombatantEffectHasBeenImposed?.Invoke(this, new CombatantEffectEventArgs(targetCombatant, combatantEffect));
+    }
+
     /// <summary>
     /// Initialize combat.
     /// </summary>
@@ -265,31 +273,6 @@ public class CombatCore
         HandleSwapFieldPositions(currentCoords, side, targetCoords, side);
 
         CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Consume(1);
-    }
-
-    private static FieldCoords GetCoordsByDirection(CombatStepDirection combatStepDirection, FieldCoords currentCoords)
-    {
-        var targetCoords = combatStepDirection switch
-        {
-            CombatStepDirection.Up => currentCoords with
-            {
-                LineIndex = currentCoords.LineIndex - 1
-            },
-            CombatStepDirection.Down => currentCoords with
-            {
-                LineIndex = currentCoords.LineIndex + 1
-            },
-            CombatStepDirection.Forward => currentCoords with
-            {
-                ColumentIndex = currentCoords.ColumentIndex - 1
-            },
-            CombatStepDirection.Backward => currentCoords with
-            {
-                ColumentIndex = currentCoords.ColumentIndex + 1
-            },
-            _ => throw new ArgumentOutOfRangeException(nameof(combatStepDirection), combatStepDirection, null)
-        };
-        return targetCoords;
     }
 
     /// <summary>
@@ -341,6 +324,31 @@ public class CombatCore
     {
         return target.Hand.FirstOrDefault(x =>
             x != null && x.SourceMovement.Tags.HasFlag(CombatMovementTags.AutoDefense));
+    }
+
+    private static FieldCoords GetCoordsByDirection(CombatStepDirection combatStepDirection, FieldCoords currentCoords)
+    {
+        var targetCoords = combatStepDirection switch
+        {
+            CombatStepDirection.Up => currentCoords with
+            {
+                LineIndex = currentCoords.LineIndex - 1
+            },
+            CombatStepDirection.Down => currentCoords with
+            {
+                LineIndex = currentCoords.LineIndex + 1
+            },
+            CombatStepDirection.Forward => currentCoords with
+            {
+                ColumentIndex = currentCoords.ColumentIndex - 1
+            },
+            CombatStepDirection.Backward => currentCoords with
+            {
+                ColumentIndex = currentCoords.ColumentIndex + 1
+            },
+            _ => throw new ArgumentOutOfRangeException(nameof(combatStepDirection), combatStepDirection, null)
+        };
+        return targetCoords;
     }
 
     private FieldCoords GetCurrentCoords()
@@ -590,10 +598,4 @@ public class CombatCore
     public event EventHandler<CombatantHandChangedEventArgs>? CombatantUsedMove;
 
     public event EventHandler<CombatantEffectEventArgs>? CombatantEffectHasBeenImposed;
-
-    public void ImposeCombatantEffect(Combatant targetCombatant, ICombatantEffect combatantEffect)
-    {
-        targetCombatant.AddEffect(combatantEffect, new CombatantEffectImposeContext(this), new CombatantEffectLifetimeImposeContext(targetCombatant, this));
-        CombatantEffectHasBeenImposed?.Invoke(this, new CombatantEffectEventArgs(targetCombatant, combatantEffect));
-    }
 }

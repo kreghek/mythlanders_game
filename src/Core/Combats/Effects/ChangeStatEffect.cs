@@ -2,10 +2,11 @@
 
 public sealed class ChangeStatEffect : IEffect
 {
-    private readonly ICombatantEffectSid _combatantEffectSid;
     private readonly ICombatantEffectLifetimeFactory _combatantEffectLifetimeFactory;
+    private readonly ICombatantEffectSid _combatantEffectSid;
 
-    public ChangeStatEffect(ICombatantEffectSid combatantEffectSid, ITargetSelector selector, UnitStatType statType, int value,
+    public ChangeStatEffect(ICombatantEffectSid combatantEffectSid, ITargetSelector selector, UnitStatType statType,
+        int value,
         ICombatantEffectLifetimeFactory combatantEffectLifetimeFactory)
     {
         _combatantEffectSid = combatantEffectSid;

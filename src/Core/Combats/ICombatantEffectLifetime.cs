@@ -17,7 +17,7 @@ public interface ICombatantEffectLifetime
     /// <param name="context"> Context object to access to combat environment. </param>
     /// <remarks>
     /// Example:
-    /// Used to monitor combatant activities. 
+    /// Used to monitor combatant activities.
     /// </remarks>
     void HandleOwnerDispelled(ICombatantEffect owner, ICombatantEffectLifetimeDispelContext context);
 
@@ -28,7 +28,7 @@ public interface ICombatantEffectLifetime
     /// <param name="context"> Context object to access to combat environment. </param>
     /// <remarks>
     /// Example:
-    /// Used to monitor combatant activities. 
+    /// Used to monitor combatant activities.
     /// </remarks>
     void HandleOwnerImposed(ICombatantEffect owner, ICombatantEffectLifetimeImposeContext context);
 

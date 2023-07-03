@@ -15,6 +15,7 @@ public sealed class MarkEffectInstance : EffectInstanceBase<MarkEffect>
     {
         var markEffectSid = CombatantEffectSids.Mark;
 
-        context.EffectImposedContext.Combat.ImposeCombatantEffect(target, new MarkCombatantEffect(markEffectSid, _lifetime));
+        context.EffectImposedContext.Combat.ImposeCombatantEffect(target,
+            new MarkCombatantEffect(markEffectSid, _lifetime));
     }
 }

@@ -5,11 +5,11 @@ namespace Core.Combats;
 /// </summary>
 public sealed class CombatantEffectEventArgs : CombatantEventArgsBase
 {
-    public ICombatantEffect CombatantEffect { get; }
-
     public CombatantEffectEventArgs(Combatant combatant, ICombatantEffect effect) :
         base(combatant)
     {
         CombatantEffect = effect;
     }
+
+    public ICombatantEffect CombatantEffect { get; }
 }

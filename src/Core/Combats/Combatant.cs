@@ -4,10 +4,10 @@ namespace Core.Combats;
 
 public sealed class Combatant
 {
-    private readonly IReadOnlyCollection<ICombatantEffectFactory> _startupEffects;
     private readonly IList<ICombatantEffect> _effects = new List<ICombatantEffect>();
     private readonly CombatMovementInstance?[] _hand;
     private readonly IList<CombatMovementInstance> _pool;
+    private readonly IReadOnlyCollection<ICombatantEffectFactory> _startupEffects;
 
     public Combatant(string classSid,
         CombatMovementSequence sequence,
@@ -85,7 +85,8 @@ public sealed class Combatant
     /// Content to add effect. To handle some reaction on new effects (change stats, moves, other
     /// effects).
     /// </param>
-    public void AddEffect(ICombatantEffect effect, ICombatantEffectImposeContext effectImposeContext, ICombatantEffectLifetimeImposeContext lifetimeImposeContext)
+    public void AddEffect(ICombatantEffect effect, ICombatantEffectImposeContext effectImposeContext,
+        ICombatantEffectLifetimeImposeContext lifetimeImposeContext)
     {
         effect.Impose(this, effectImposeContext);
         _effects.Add(effect);
@@ -126,36 +127,6 @@ public sealed class Combatant
     {
         StartupHand();
         ApplyStartupEffects(combatCore);
-    }
-
-    private void ApplyStartupEffects(CombatCore combatCore)
-    {
-        foreach (var effectFactory in _startupEffects)
-        {
-            var effect = effectFactory.Create();
-
-            var effectImposeContext = new CombatantEffectImposeContext(combatCore);
-
-            var effectLifetimeImposeContext = new CombatantEffectLifetimeImposeContext(this, combatCore);
-
-            AddEffect(effect, effectImposeContext, effectLifetimeImposeContext);
-        }
-    }
-
-    private void StartupHand()
-    {
-        for (var i = 0; i < 3; i++)
-        {
-            var combatMove = PopNextPoolMovement();
-            if (combatMove is null)
-            // Pool is empty.
-            // Stop to prepare first movements.
-            {
-                break;
-            }
-
-            _hand[i] = combatMove;
-        }
     }
 
     /// <summary>
@@ -207,11 +178,41 @@ public sealed class Combatant
         return null;
     }
 
+    private void ApplyStartupEffects(CombatCore combatCore)
+    {
+        foreach (var effectFactory in _startupEffects)
+        {
+            var effect = effectFactory.Create();
+
+            var effectImposeContext = new CombatantEffectImposeContext(combatCore);
+
+            var effectLifetimeImposeContext = new CombatantEffectLifetimeImposeContext(this, combatCore);
+
+            AddEffect(effect, effectImposeContext, effectLifetimeImposeContext);
+        }
+    }
+
     private void RemoveEffect(ICombatantEffect effect, ICombatantEffectLifetimeDispelContext context)
     {
         effect.Dispel(this);
         _effects.Remove(effect);
 
         effect.Lifetime.HandleOwnerDispelled(effect, context);
+    }
+
+    private void StartupHand()
+    {
+        for (var i = 0; i < 3; i++)
+        {
+            var combatMove = PopNextPoolMovement();
+            if (combatMove is null)
+                // Pool is empty.
+                // Stop to prepare first movements.
+            {
+                break;
+            }
+
+            _hand[i] = combatMove;
+        }
     }
 }

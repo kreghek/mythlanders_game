@@ -7,7 +7,7 @@ public sealed class CombatantActiveCombatantEffectLifetime : ICombatantEffectLif
         IsExpired = true;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public bool IsExpired { get; private set; }
 
     public void HandleOwnerDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context)
