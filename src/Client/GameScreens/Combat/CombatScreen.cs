@@ -1118,9 +1118,11 @@ internal class CombatScreen : GameScreenWithMenuBase
     
     private class EffectNotification
     {
+        private readonly TimeOnly _notificationDuration = new (0, 0, 0, 10);
+        
         public EffectNotification(ICombatantEffect combatantEffect, EffectNotificationDirection direction)
         {
-            Lifetime = 1;
+            Lifetime = _notificationDuration.ToTimeSpan().TotalSeconds;
             CombatantEffect = combatantEffect;
             Direction = direction;
         }
