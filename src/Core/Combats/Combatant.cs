@@ -81,7 +81,7 @@ public sealed class Combatant
     /// Add effect to combatant.
     /// </summary>
     /// <param name="effect">Effect instance.</param>
-    /// <param name="context">
+    /// <param name="lifetimeImposeContext">
     /// Content to add effect. To handle some reaction on new effects (change stats, moves, other
     /// effects).
     /// </param>
