@@ -730,7 +730,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DrawCombatantStats(SpriteBatch spriteBatch)
+    private void DrawCombatantsInWorldInfo(SpriteBatch spriteBatch)
     {
         if (_targetMarkers.Targets is null)
         {
@@ -746,8 +746,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                     continue;
                 }
 
-                DrawStats(combatant.StatsPanelOrigin, combatant.Combatant, spriteBatch);
-                DrawCombatantEffects(combatant.StatsPanelOrigin, combatant.Combatant, spriteBatch);
+                DrawCombatantInWorldInfo(spriteBatch: spriteBatch, combatant: combatant);
             }
         }
         else
@@ -758,11 +757,17 @@ internal class CombatScreen : GameScreenWithMenuBase
                 {
                     continue;
                 }
-
-                var gameObject = GetCombatantGameObject(target.Target);
-                DrawStats(gameObject.StatsPanelOrigin, target.Target, spriteBatch);
+                
+                var combatantGameObject = GetCombatantGameObject(target.Target);
+                DrawCombatantInWorldInfo(spriteBatch: spriteBatch, combatant: combatantGameObject);
             }
         }
+    }
+
+    private void DrawCombatantInWorldInfo(SpriteBatch spriteBatch, CombatantGameObject combatant)
+    {
+        DrawStats(combatant.StatsPanelOrigin, combatant.Combatant, spriteBatch);
+        DrawCombatantEffects(combatant.StatsPanelOrigin, combatant.Combatant, spriteBatch);
     }
 
     private void DrawCombatantEffects(Vector2 statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
@@ -886,7 +891,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             DrawCombatMovementsPanel(spriteBatch, contentRectangle);
 
-            DrawCombatantStats(spriteBatch);
+            DrawCombatantsInWorldInfo(spriteBatch);
         }
 
         spriteBatch.End();
