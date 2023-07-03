@@ -734,17 +734,20 @@ internal class CombatScreen : GameScreenWithMenuBase
     {
         if (_targetMarkers.Targets is null)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
+            if (!Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
             {
-                foreach (var combatant in _gameObjects)
-                {
-                    if (combatant.Combatant.IsDead)
-                    {
-                        continue;
-                    }
+                return;
+            }
 
-                    DrawStats(combatant.StatsPanelOrigin, combatant.Combatant, spriteBatch);
+            foreach (var combatant in _gameObjects)
+            {
+                if (combatant.Combatant.IsDead)
+                {
+                    continue;
                 }
+
+                DrawStats(combatant.StatsPanelOrigin, combatant.Combatant, spriteBatch);
+                DrawCombatantEffects(combatant.StatsPanelOrigin, combatant.Combatant, spriteBatch);
             }
         }
         else
@@ -759,6 +762,15 @@ internal class CombatScreen : GameScreenWithMenuBase
                 var gameObject = GetCombatantGameObject(target.Target);
                 DrawStats(gameObject.StatsPanelOrigin, target.Target, spriteBatch);
             }
+        }
+    }
+
+    private void DrawCombatantEffects(Vector2 statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
+    {
+        foreach (var combatantEffect in combatant.Effects)
+        {
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatantEffect.Sid.ToString(), statsPanelOrigin,
+                Color.Aqua);
         }
     }
 
