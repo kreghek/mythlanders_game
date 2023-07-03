@@ -146,7 +146,7 @@ public class CombatCore
         }
 
         var effectContext =
-            new EffectCombatContext(Field, _dice, HandleCombatantDamagedToStat, HandleSwapFieldPositions, this);
+            new EffectCombatContext(CurrentCombatant, Field, _dice, HandleCombatantDamagedToStat, HandleSwapFieldPositions, this);
 
         var effectImposeItems = new List<CombatEffectImposeItem>();
 
@@ -230,7 +230,7 @@ public class CombatCore
 
         foreach (var combatant in _allCombatantList)
         {
-            combatant.PrepareToCombat();
+            combatant.PrepareToCombat(this);
         }
 
         var context = new CombatantEffectLifetimeDispelContext(this);
@@ -258,6 +258,17 @@ public class CombatCore
     {
         var currentCoords = GetCurrentCoords();
 
+        var targetCoords = GetCoordsByDirection(combatStepDirection, currentCoords);
+
+        var side = GetCurrentSelectorContext().ActorSide;
+
+        HandleSwapFieldPositions(currentCoords, side, targetCoords, side);
+
+        CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Consume(1);
+    }
+
+    private static FieldCoords GetCoordsByDirection(CombatStepDirection combatStepDirection, FieldCoords currentCoords)
+    {
         var targetCoords = combatStepDirection switch
         {
             CombatStepDirection.Up => currentCoords with
@@ -278,12 +289,7 @@ public class CombatCore
             },
             _ => throw new ArgumentOutOfRangeException(nameof(combatStepDirection), combatStepDirection, null)
         };
-
-        var side = GetCurrentSelectorContext().ActorSide;
-
-        HandleSwapFieldPositions(currentCoords, side, targetCoords, side);
-
-        CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Consume(1);
+        return targetCoords;
     }
 
     /// <summary>
@@ -427,16 +433,16 @@ public class CombatCore
 
         if (sourceCombatant is not null)
         {
-            CombatantHasBeenMoved?.Invoke(this,
-                new CombatantHasBeenMovedEventArgs(sourceCombatant, destinationFieldSide, destinationCoords));
+            CombatantHasChangePosition?.Invoke(this,
+                new CombatantHasChangedPositionEventArgs(sourceCombatant, destinationFieldSide, destinationCoords));
         }
 
         sourceFieldSide[sourceCoords].Combatant = targetCombatant;
 
         if (targetCombatant is not null)
         {
-            CombatantHasBeenMoved?.Invoke(this,
-                new CombatantHasBeenMovedEventArgs(targetCombatant, sourceFieldSide, sourceCoords));
+            CombatantHasChangePosition?.Invoke(this,
+                new CombatantHasChangedPositionEventArgs(targetCombatant, sourceFieldSide, sourceCoords));
         }
     }
 
@@ -577,9 +583,17 @@ public class CombatCore
     public event EventHandler<CombatantDamagedEventArgs>? CombatantHasBeenDamaged;
     public event EventHandler<CombatantDefeatedEventArgs>? CombatantHasBeenDefeated;
     public event EventHandler<CombatantShiftShapedEventArgs>? CombatantShiftShaped;
-    public event EventHandler<CombatantHasBeenMovedEventArgs>? CombatantHasBeenMoved;
+    public event EventHandler<CombatantHasChangedPositionEventArgs>? CombatantHasChangePosition;
     public event EventHandler<CombatFinishedEventArgs>? CombatFinished;
     public event EventHandler<CombatantInterruptedEventArgs>? CombatantInterrupted;
     public event EventHandler<CombatantHandChangedEventArgs>? CombatantAssignedNewMove;
     public event EventHandler<CombatantHandChangedEventArgs>? CombatantUsedMove;
+
+    public event EventHandler<CombatantEffectEventArgs>? CombatantEffectHasBeenImposed;
+
+    public void ImposeCombatantEffect(Combatant targetCombatant, ICombatantEffect combatantEffect)
+    {
+        targetCombatant.AddEffect(combatantEffect, new CombatantEffectImposeContext(this), new CombatantEffectLifetimeImposeContext(targetCombatant, this));
+        CombatantEffectHasBeenImposed?.Invoke(this, new CombatantEffectEventArgs(targetCombatant, combatantEffect));
+    }
 }

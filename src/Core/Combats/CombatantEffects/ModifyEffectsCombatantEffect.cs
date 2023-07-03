@@ -4,8 +4,9 @@ public sealed class ModifyEffectsCombatantEffect : ICombatantEffect
 {
     private readonly IUnitStatModifier _statModifier;
 
-    public ModifyEffectsCombatantEffect(ICombatantEffectLifetime lifetime, int value)
+    public ModifyEffectsCombatantEffect(ICombatantEffectSid sid, ICombatantEffectLifetime lifetime, int value)
     {
+        Sid = sid;
         Lifetime = lifetime;
         Value = value;
         _statModifier = new StatModifier(Value);
@@ -13,6 +14,7 @@ public sealed class ModifyEffectsCombatantEffect : ICombatantEffect
 
     public int Value { get; }
 
+    public ICombatantEffectSid Sid { get; }
     public ICombatantEffectLifetime Lifetime { get; }
 
     public void Dispel(Combatant combatant)
@@ -29,7 +31,7 @@ public sealed class ModifyEffectsCombatantEffect : ICombatantEffect
         }
     }
 
-    public void Impose(Combatant combatant)
+    public void Impose(Combatant combatant, ICombatantEffectImposeContext combatantEffectImposeContext)
     {
         foreach (var combatMovementInstance in combatant.Hand)
         {

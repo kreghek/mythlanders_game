@@ -1,6 +1,9 @@
-﻿using Client.Assets.CombatMovements.Monster.Black.BlackTroop;
+﻿using System;
+
+using Client.Assets.CombatMovements.Monster.Black.BlackTroop;
 
 using Core.Combats;
+using Core.Combats.CombatantEffects;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -44,7 +47,7 @@ public class BlackTroopCombatantFactory : IMonsterCombatantFactory
         stats.SetValue(UnitStatType.ShieldPoints, 4);
         stats.SetValue(UnitStatType.Resolve, 5);
 
-        var monster = new Combatant("blacktrooper", monsterSequence, stats, combatActorBehaviour)
+        var monster = new Combatant("blacktrooper", monsterSequence, stats, combatActorBehaviour, ArraySegment<ICombatantEffectFactory>.Empty)
         {
             DebugSid = sid, IsPlayerControlled = false
         };

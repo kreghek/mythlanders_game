@@ -13,17 +13,17 @@ public sealed class ToNextCombatantTurnEffectLifetime : ICombatantEffectLifetime
 
         if (_currentRoundEnd && updateType == CombatantEffectUpdateType.StartCombatantTurn)
         {
-            IsDead = true;
+            IsExpired = true;
         }
     }
 
-    public void EffectImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context)
+    public void HandleOwnerImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context)
     {
     }
 
-    public void EffectDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context)
+    public void HandleOwnerDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context)
     {
     }
 
-    public bool IsDead { get; private set; }
+    public bool IsExpired { get; private set; }
 }

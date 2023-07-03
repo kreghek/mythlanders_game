@@ -19,6 +19,7 @@ internal class RiseYourSwordsFactory : CombatMovementFactoryBase
                     new AddCombatantEffectEffect(
                         new AllAllyTargetSelector(),
                         new ModifyEffectsCombatantEffectFactory(
+                            new CombatantEffectSid(Sid),
                             new MultipleCombatantTurnEffectLifetimeFactory(1),
                             1))
                 })

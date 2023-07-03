@@ -5,6 +5,9 @@ using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Robber;
 
 using Core.Combats;
+using Core.Combats.CombatantEffectLifetimes;
+using Core.Combats.CombatantEffects;
+using Core.Combats.TargetSelectors;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -45,10 +48,19 @@ public class RobberCombatantFactory : IHeroCombatantFactory
         stats.SetValue(UnitStatType.ShieldPoints, 0);
         stats.SetValue(UnitStatType.Resolve, 4);
 
-        var hero = new Combatant("robber", heroSequence, stats, combatActorBehaviour)
+        var startupEffects = new[]
+        {
+            new ImpulseGeneratorCombatantEffectFactory(
+                CombatantEffectSids.ImpulseGenerator,
+                CombatantEffectSids.Impulse,
+                new CombatantActiveCombatantEffectLifetimeFactory())
+        };
+
+        var hero = new Combatant("robber", heroSequence, stats, combatActorBehaviour, startupEffects)
         {
             DebugSid = sid, IsPlayerControlled = true
         };
+        
         return hero;
     }
 }

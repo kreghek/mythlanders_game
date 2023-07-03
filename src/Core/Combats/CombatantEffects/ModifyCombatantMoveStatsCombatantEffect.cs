@@ -5,8 +5,10 @@ public sealed class ModifyCombatantMoveStatsCombatantEffect : CombatantEffectBas
     private readonly StatModifier _modifier;
     private readonly CombatantMoveStats _stats;
 
-    public ModifyCombatantMoveStatsCombatantEffect(ICombatantEffectLifetime lifetime, CombatantMoveStats stats,
-        int value) : base(lifetime)
+    public ModifyCombatantMoveStatsCombatantEffect(ICombatantEffectSid sid,
+        ICombatantEffectLifetime lifetime,
+        CombatantMoveStats stats,
+        int value) : base(sid, lifetime)
     {
         _stats = stats;
 
@@ -30,9 +32,9 @@ public sealed class ModifyCombatantMoveStatsCombatantEffect : CombatantEffectBas
         }
     }
 
-    public override void Impose(Combatant combatant)
+    public override void Impose(Combatant combatant, ICombatantEffectImposeContext combatantEffectImposeContext)
     {
-        base.Impose(combatant);
+        base.Impose(combatant, combatantEffectImposeContext);
 
         var allCombatMoves = GetAllCombatMoves(combatant);
 

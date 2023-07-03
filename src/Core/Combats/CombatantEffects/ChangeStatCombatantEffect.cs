@@ -4,8 +4,8 @@ public sealed class ChangeStatCombatantEffect : CombatantEffectBase
 {
     private readonly IUnitStatModifier _statModifier;
 
-    public ChangeStatCombatantEffect(ICombatantEffectLifetime lifetime, UnitStatType statType, int value) :
-        base(lifetime)
+    public ChangeStatCombatantEffect(ICombatantEffectSid sid, ICombatantEffectLifetime lifetime, UnitStatType statType, int value) :
+        base(sid, lifetime)
     {
         StatType = statType;
         Value = value;
@@ -21,7 +21,7 @@ public sealed class ChangeStatCombatantEffect : CombatantEffectBase
         combatant.Stats.Single(x => x.Type == StatType).Value.RemoveModifier(_statModifier);
     }
 
-    public override void Impose(Combatant combatant)
+    public override void Impose(Combatant combatant, ICombatantEffectImposeContext combatantEffectImposeContext)
     {
         combatant.Stats.Single(x => x.Type == StatType).Value.AddModifier(_statModifier);
     }

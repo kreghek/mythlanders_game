@@ -4,7 +4,9 @@ namespace Core.Combats;
 
 public sealed class EffectCombatContext : IEffectCombatContext
 {
-    public EffectCombatContext(CombatField field,
+    public EffectCombatContext(
+        Combatant targetCombatant,
+        CombatField field,
         IDice dice,
         CombatantHasTakenDamagedCallback notifyCombatantDamagedDelegate,
         CombatantHasMovedCallback notifyCombatantMovedDelegate,
@@ -15,7 +17,8 @@ public sealed class EffectCombatContext : IEffectCombatContext
         NotifyCombatantDamagedDelegate = notifyCombatantDamagedDelegate;
         NotifyCombatantMovedDelegate = notifyCombatantMovedDelegate;
 
-        EffectImposedContext = new CombatantEffectLifetimeImposeContext(combatCore);
+        EffectImposedContext = new CombatantEffectImposeContext(combatCore);
+        EffectLifetimeImposedContext = new CombatantEffectLifetimeImposeContext(targetCombatant, combatCore);
     }
 
     public CombatantHasTakenDamagedCallback NotifyCombatantDamagedDelegate { get; }
@@ -43,7 +46,9 @@ public sealed class EffectCombatContext : IEffectCombatContext
         throw new NotImplementedException();
     }
 
-    public ICombatantEffectLifetimeImposeContext EffectImposedContext { get; }
+    public ICombatantEffectLifetimeImposeContext EffectLifetimeImposedContext { get; }
+    
+    public ICombatantEffectImposeContext EffectImposedContext { get; }
 
     public CombatField Field { get; }
     public IDice Dice { get; }

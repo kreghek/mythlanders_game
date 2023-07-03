@@ -4,9 +4,12 @@ namespace Core.Combats.Effects;
 
 public sealed class ChangeStatEffectInstance : EffectInstanceBase<ChangeStatEffect>
 {
-    public ChangeStatEffectInstance(ChangeStatEffect baseEffect, ICombatantEffectLifetime combatantEffectLifetime) :
+    private readonly ICombatantEffectSid _combatantEffectSid;
+
+    public ChangeStatEffectInstance(ICombatantEffectSid combatantEffectSid,  ChangeStatEffect baseEffect, ICombatantEffectLifetime combatantEffectLifetime) :
         base(baseEffect)
     {
+        _combatantEffectSid = combatantEffectSid;
         Lifetime = combatantEffectLifetime;
     }
 
@@ -15,7 +18,8 @@ public sealed class ChangeStatEffectInstance : EffectInstanceBase<ChangeStatEffe
     public override void Influence(Combatant target, IEffectCombatContext context)
     {
         var combatantEffect =
-            new ChangeStatCombatantEffect(Lifetime, BaseEffect.TargetStatType, BaseEffect.Value);
-        target.AddEffect(combatantEffect, context.EffectImposedContext);
+            new ChangeStatCombatantEffect(_combatantEffectSid, Lifetime, BaseEffect.TargetStatType, BaseEffect.Value);
+
+        context.EffectLifetimeImposedContext.Combat.ImposeCombatantEffect(target, combatantEffect);
     }
 }

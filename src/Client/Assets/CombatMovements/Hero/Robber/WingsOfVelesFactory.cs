@@ -14,6 +14,7 @@ internal class WingsOfVelesFactory : CombatMovementFactoryBase
     public override CombatMovement CreateMovement()
     {
         var combatantEffectFactory = new ModifyCombatantMoveStatsCombatantEffectFactory(
+            new CombatantEffectSid(Sid),
             new MultipleCombatantTurnEffectLifetimeFactory(1),
             CombatantMoveStats.Cost,
             -1);
@@ -23,7 +24,7 @@ internal class WingsOfVelesFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new ModifyEffectsEffect(new SelfTargetSelector(), 1),
+                    new ModifyEffectsEffect(new CombatantEffectSid(Sid), new SelfTargetSelector(), 1),
                     new AddCombatantEffectEffect(new SelfTargetSelector(), combatantEffectFactory)
                 })
         );

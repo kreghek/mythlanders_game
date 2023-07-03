@@ -2,8 +2,11 @@ namespace Core.Combats.Effects;
 
 public sealed class ModifyEffectsEffect : IEffect
 {
-    public ModifyEffectsEffect(ITargetSelector selector, int value)
+    private readonly ICombatantEffectSid _effectSid;
+
+    public ModifyEffectsEffect(ICombatantEffectSid effectSid, ITargetSelector selector, int value)
     {
+        _effectSid = effectSid;
         Selector = selector;
         Value = value;
     }
@@ -16,6 +19,6 @@ public sealed class ModifyEffectsEffect : IEffect
 
     public IEffectInstance CreateInstance()
     {
-        return new ModifyEffectsEffectInstance(this);
+        return new ModifyEffectsEffectInstance(_effectSid, this);
     }
 }

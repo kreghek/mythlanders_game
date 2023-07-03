@@ -13,6 +13,7 @@ internal class EbonySkinFactory : SimpleCombatMovementFactoryBase
             new IEffect[]
             {
                 new ChangeStatEffect(
+                    new CombatantEffectSid(Sid),
                     new SelfTargetSelector(),
                     UnitStatType.Defense,
                     3,
@@ -21,6 +22,7 @@ internal class EbonySkinFactory : SimpleCombatMovementFactoryBase
             new IEffect[]
             {
                 new ChangeStatEffect(
+                    new CombatantEffectSid(Sid),
                     new SelfTargetSelector(),
                     UnitStatType.Defense,
                     1,
