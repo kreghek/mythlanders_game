@@ -5,14 +5,19 @@ namespace Core.Combats.Effects;
 
 public sealed class ModifyEffectsEffectInstance : EffectInstanceBase<ModifyEffectsEffect>
 {
-    public ModifyEffectsEffectInstance(ModifyEffectsEffect baseEffect) : base(baseEffect)
+    private readonly ICombatantEffectSid _effectSid;
+
+    public ModifyEffectsEffectInstance(ICombatantEffectSid effectSid, ModifyEffectsEffect baseEffect) : base(baseEffect)
     {
+        _effectSid = effectSid;
     }
 
     public override void Influence(Combatant target, IEffectCombatContext context)
     {
-        target.AddEffect(new ModifyEffectsCombatantEffect(new MultipleCombatantTurnEffectLifetime(1),
-            BaseEffect.Value),
+        target.AddEffect(new ModifyEffectsCombatantEffect(
+                _effectSid, 
+                new MultipleCombatantTurnEffectLifetime(1),
+                BaseEffect.Value),
             context.EffectImposedContext,
             context.EffectLifetimeImposedContext);
     }

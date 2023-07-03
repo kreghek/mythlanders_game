@@ -51,6 +51,8 @@ public class RobberCombatantFactory : IHeroCombatantFactory
         var startupEffects = new[]
         {
             new ImpulseGeneratorCombatantEffectFactory(
+                CombatantEffectSids.ImpulseGenerator,
+                CombatantEffectSids.Impulse,
                 new CombatantActiveCombatantEffectLifetimeFactory())
         };
 

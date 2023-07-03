@@ -21,14 +21,18 @@ internal class StayStrongFactory : CombatMovementFactoryBase
             new CombatMovementEffectConfig(
                 new IEffect[]
                 {
-                    new ChangeStatEffect(new SelfTargetSelector(),
+                    new ChangeStatEffect(
+                        new CombatantEffectSid(Sid),
+                        new SelfTargetSelector(),
                         UnitStatType.Defense,
                         3,
                         new ToNextCombatantTurnEffectLifetimeFactory())
                 },
                 new IEffect[]
                 {
-                    new ChangeStatEffect(new SelfTargetSelector(),
+                    new ChangeStatEffect(
+                        new CombatantEffectSid(Sid),
+                        new SelfTargetSelector(),
                         UnitStatType.Defense,
                         1,
                         new ToEndOfCurrentRoundEffectLifetimeFactory())
