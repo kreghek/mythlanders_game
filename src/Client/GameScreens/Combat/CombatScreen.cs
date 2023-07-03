@@ -400,7 +400,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void CombatCore_CombatantHasBeenMoved(object? sender, CombatantHasChangedPositionEventArgs e)
+    private void CombatCore_CombatantHasChangePosition(object? sender, CombatantHasChangedPositionEventArgs e)
     {
         var newWorldPosition = _combatantPositionProvider.GetPosition(e.NewFieldCoords,
             e.FieldSide == _combatCore.Field.HeroSide
@@ -870,6 +870,17 @@ internal class CombatScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
 
+        for (var index = 0; index < _combatantEffectNotifications.Count; index++)
+        {
+            var notification = _combatantEffectNotifications[index];
+            
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                $"{notification.CombatantEffect.Sid} has been imposed",
+                new Vector2(contentRectangle.Center.X, contentRectangle.Top + 5 + index * 15),
+                Color.Lerp(Color.White, Color.Transparent,
+                    (float)notification.Lifetime));
+        }
+
         if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
             if (!_animationBlockManager.HasBlockers)
@@ -1103,6 +1114,34 @@ internal class CombatScreen : GameScreenWithMenuBase
     //     unitGameObject.AddChild(passIndicator);
     // }
 
+    private IList<EffectNotification> _combatantEffectNotifications = new List<EffectNotification>();
+    
+    private class EffectNotification
+    {
+        public EffectNotification(ICombatantEffect combatantEffect, EffectNotificationDirection direction)
+        {
+            Lifetime = 1;
+            CombatantEffect = combatantEffect;
+            Direction = direction;
+        }
+
+        public double Lifetime { get; private set; }
+
+        public ICombatantEffect CombatantEffect { get; }
+        public EffectNotificationDirection Direction { get; }
+
+        public void Update(GameTime gameTime)
+        {
+            Lifetime -= gameTime.ElapsedGameTime.TotalSeconds;
+        }
+    }
+
+    private enum EffectNotificationDirection
+    {
+        Imposed,
+        Dispelled
+    }
+
     private void InitializeCombat()
     {
         _combatCore.CombatantHasBeenAdded += CombatCode_CombatantHasBeenAdded;
@@ -1110,9 +1149,10 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
         _combatCore.CombatantStartsTurn += CombatCore_CombatantStartsTurn;
         _combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;
-        _combatCore.CombatantHasChangePosition += CombatCore_CombatantHasBeenMoved;
+        _combatCore.CombatantHasChangePosition += CombatCore_CombatantHasChangePosition;
         _combatCore.CombatFinished += CombatCore_CombatFinished;
         _combatCore.CombatantUsedMove += CombatCore_CombatantUsedMove;
+        _combatCore.CombatantEffectHasBeenImposed += CombatCore_CombatantEffectHasBeenImposed;
 
         // _combatCore.UnitPassedTurn += Combat_UnitPassed;
 
@@ -1140,6 +1180,11 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatantQueuePanel = new CombatantQueuePanel(_combatCore,
             _uiContentStorage,
             new CombatantThumbnailProvider(Game.Content, Game.Services.GetRequiredService<IUnitGraphicsCatalog>()));
+    }
+
+    private void CombatCore_CombatantEffectHasBeenImposed(object? sender, CombatantEffectImposedEventArgs e)
+    {
+        _combatantEffectNotifications.Add(new EffectNotification(e.CombatantEffect, EffectNotificationDirection.Imposed));
     }
 
     private void ManeuverVisualizer_ManeuverSelected(object? sender, ManeuverSelectedEventArgs e)
@@ -1305,6 +1350,20 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatantQueuePanel?.Update(ResolutionIndependentRenderer);
 
         _targetMarkers.Update(gameTime);
+
+        UpdateCombatantEffectNotifications(gameTime);
+    }
+
+    private void UpdateCombatantEffectNotifications(GameTime gameTime)
+    {
+        foreach (var notification in _combatantEffectNotifications.ToArray())
+        {
+            notification.Update(gameTime);
+            if (notification.Lifetime <= 0)
+            {
+                _combatantEffectNotifications.Remove(notification);
+            }
+        }
     }
 
     private void UpdateInteractionDeliveriesAndUnregisterDestroyed(GameTime gameTime)

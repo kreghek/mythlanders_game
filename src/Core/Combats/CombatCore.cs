@@ -258,6 +258,17 @@ public class CombatCore
     {
         var currentCoords = GetCurrentCoords();
 
+        var targetCoords = GetCoordsByDirection(combatStepDirection, currentCoords);
+
+        var side = GetCurrentSelectorContext().ActorSide;
+
+        HandleSwapFieldPositions(currentCoords, side, targetCoords, side);
+
+        CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Consume(1);
+    }
+
+    private static FieldCoords GetCoordsByDirection(CombatStepDirection combatStepDirection, FieldCoords currentCoords)
+    {
         var targetCoords = combatStepDirection switch
         {
             CombatStepDirection.Up => currentCoords with
@@ -278,12 +289,7 @@ public class CombatCore
             },
             _ => throw new ArgumentOutOfRangeException(nameof(combatStepDirection), combatStepDirection, null)
         };
-
-        var side = GetCurrentSelectorContext().ActorSide;
-
-        HandleSwapFieldPositions(currentCoords, side, targetCoords, side);
-
-        CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Consume(1);
+        return targetCoords;
     }
 
     /// <summary>
@@ -582,4 +588,12 @@ public class CombatCore
     public event EventHandler<CombatantInterruptedEventArgs>? CombatantInterrupted;
     public event EventHandler<CombatantHandChangedEventArgs>? CombatantAssignedNewMove;
     public event EventHandler<CombatantHandChangedEventArgs>? CombatantUsedMove;
+
+    public event EventHandler<CombatantEffectImposedEventArgs>? CombatantEffectHasBeenImposed;
+
+    public void ImposeCombatantEffect(Combatant targetCombatant, ICombatantEffect combatantEffect)
+    {
+        targetCombatant.AddEffect(combatantEffect, new CombatantEffectImposeContext(this), new CombatantEffectLifetimeImposeContext(targetCombatant, this));
+        CombatantEffectHasBeenImposed?.Invoke(this, new CombatantEffectImposedEventArgs(targetCombatant, combatantEffect));
+    }
 }

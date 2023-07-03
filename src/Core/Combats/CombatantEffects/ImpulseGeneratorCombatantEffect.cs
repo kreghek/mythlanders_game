@@ -8,6 +8,7 @@ public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
     private Combatant? _effectOwner;
 
     private const int GENERATED_LIMIT = 2;
+    private const int DAMAGE_BONUS = 1;
 
     public ImpulseGeneratorCombatantEffect(ICombatantEffectSid sid, ICombatantEffectSid generatedSid,
         ICombatantEffectLifetime lifetime) : base(sid, lifetime)
@@ -42,17 +43,18 @@ public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
         if (currentGeneratedCount < GENERATED_LIMIT)
         {
             // Impulse effect lives until combatant makes an attacking movement.
-            GainImpulseUnit(targetCombatant: targetCombatant, targetCombat: targetCombat);
+            GainImpulseUnit(targetCombatant, targetCombat);
         }
         else
         {
-            ExplodeImpulses();
+            ExplodeImpulses(targetCombatant, targetCombat);
         }
     }
 
-    private void ExplodeImpulses()
+    private void ExplodeImpulses(Combatant targetCombatant, CombatCore targetCombat)
     {
         // TODO Drop effects by sid
+        var impulseEffects = targetCombatant.Effects.Where(x => x.Sid == _generatedSid);
 
         // TODO Do damage to targetCombatant
         // TODO Pass turn
@@ -60,15 +62,12 @@ public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
 
     private void GainImpulseUnit(Combatant targetCombatant, CombatCore targetCombat)
     {
-        const int DAMAGE_BONUS = 1;
         var impulseCombatantEffect = new ModifyEffectsCombatantEffect(_generatedSid,
             new UntilCombatantEffectMeetPredicatesLifetime(new[]
             {
                 new IsAttackCombatMovePredicate()
             }), DAMAGE_BONUS);
-
-        targetCombatant.AddEffect(impulseCombatantEffect,
-            new CombatantEffectImposeContext(targetCombat),
-            new CombatantEffectLifetimeImposeContext(targetCombatant, targetCombat));
+        
+        targetCombat.ImposeCombatantEffect(targetCombatant, impulseCombatantEffect);
     }
 }
