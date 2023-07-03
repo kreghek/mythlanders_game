@@ -6,9 +6,11 @@ public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
 {
     private readonly ICombatantEffectSid _generatedSid;
     private Combatant? _effectOwner;
-    private int _generatedLimit = 2;
-    
-    public ImpulseGeneratorCombatantEffect(ICombatantEffectSid sid, ICombatantEffectSid generatedSid, ICombatantEffectLifetime lifetime) : base(sid, lifetime)
+
+    private const int GENERATED_LIMIT = 2;
+
+    public ImpulseGeneratorCombatantEffect(ICombatantEffectSid sid, ICombatantEffectSid generatedSid,
+        ICombatantEffectLifetime lifetime) : base(sid, lifetime)
     {
         _generatedSid = generatedSid;
     }
@@ -18,14 +20,14 @@ public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
         base.Impose(combatant, combatantEffectImposeContext);
 
         _effectOwner = combatant;
-        
+
         combatantEffectImposeContext.Combat.CombatantHasChangePosition += Combat_CombatantHasChangePosition;
     }
 
     private void Combat_CombatantHasChangePosition(object? sender, CombatantHasChangedPositionEventArgs e)
     {
         var targetCombatant = e.Combatant;
-        
+
         if (targetCombatant != _effectOwner)
         {
             // Event handler will raise for every combatants because it subscribed on whole combat.
@@ -37,27 +39,36 @@ public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
 
         var currentGeneratedCount = targetCombatant.Effects.Count(x => x.Sid == _generatedSid);
 
-        if (currentGeneratedCount < _generatedLimit)
+        if (currentGeneratedCount < GENERATED_LIMIT)
         {
-
             // Impulse effect lives until combatant makes an attacking movement.
-            const int DAMAGE_BONUS = 1;
-            var impulseCombatantEffect = new ModifyEffectsCombatantEffect(_generatedSid,
-                new UntilCombatantEffectMeetPredicatesLifetime(new[]
-                {
-                    new IsAttackCombatMovePredicate()
-                }), DAMAGE_BONUS);
-
-            targetCombatant.AddEffect(impulseCombatantEffect,
-                new CombatantEffectImposeContext(targetCombat),
-                new CombatantEffectLifetimeImposeContext(targetCombatant, targetCombat));
+            GainImpulseUnit(targetCombatant: targetCombatant, targetCombat: targetCombat);
         }
         else
         {
-            // TODO Drop effects by sid
-            
-            // Do damage to targetCombatant
-            // Net turn
+            ExplodeImpulses();
         }
+    }
+
+    private void ExplodeImpulses()
+    {
+        // TODO Drop effects by sid
+
+        // TODO Do damage to targetCombatant
+        // TODO Pass turn
+    }
+
+    private void GainImpulseUnit(Combatant targetCombatant, CombatCore targetCombat)
+    {
+        const int DAMAGE_BONUS = 1;
+        var impulseCombatantEffect = new ModifyEffectsCombatantEffect(_generatedSid,
+            new UntilCombatantEffectMeetPredicatesLifetime(new[]
+            {
+                new IsAttackCombatMovePredicate()
+            }), DAMAGE_BONUS);
+
+        targetCombatant.AddEffect(impulseCombatantEffect,
+            new CombatantEffectImposeContext(targetCombat),
+            new CombatantEffectLifetimeImposeContext(targetCombatant, targetCombat));
     }
 }
