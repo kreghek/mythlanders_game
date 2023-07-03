@@ -60,7 +60,7 @@ public class RobberCombatantFactory : IHeroCombatantFactory
         {
             DebugSid = sid, IsPlayerControlled = true
         };
-        
+
         return hero;
     }
 }

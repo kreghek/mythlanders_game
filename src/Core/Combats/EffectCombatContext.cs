@@ -47,7 +47,7 @@ public sealed class EffectCombatContext : IEffectCombatContext
     }
 
     public ICombatantEffectLifetimeImposeContext EffectLifetimeImposedContext { get; }
-    
+
     public ICombatantEffectImposeContext EffectImposedContext { get; }
 
     public CombatField Field { get; }

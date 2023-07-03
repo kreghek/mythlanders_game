@@ -133,11 +133,11 @@ public sealed class Combatant
         foreach (var effectFactory in _startupEffects)
         {
             var effect = effectFactory.Create();
-            
+
             var effectImposeContext = new CombatantEffectImposeContext(combatCore);
-        
+
             var effectLifetimeImposeContext = new CombatantEffectLifetimeImposeContext(this, combatCore);
-        
+
             AddEffect(effect, effectImposeContext, effectLifetimeImposeContext);
         }
     }
@@ -148,8 +148,8 @@ public sealed class Combatant
         {
             var combatMove = PopNextPoolMovement();
             if (combatMove is null)
-                // Pool is empty.
-                // Stop to prepare first movements.
+            // Pool is empty.
+            // Stop to prepare first movements.
             {
                 break;
             }

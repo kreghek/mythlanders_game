@@ -1,6 +1,6 @@
 namespace Core.Combats.CombatantEffectLifetimes;
 
-public sealed class CombatantActiveCombatantEffectLifetime: ICombatantEffectLifetime
+public sealed class CombatantActiveCombatantEffectLifetime : ICombatantEffectLifetime
 {
     private void CombatCore_CombatantHasBeenDefeated(object? sender, CombatantDefeatedEventArgs e)
     {
@@ -9,7 +9,7 @@ public sealed class CombatantActiveCombatantEffectLifetime: ICombatantEffectLife
 
     /// <inheritdoc/>
     public bool IsExpired { get; private set; }
-    
+
     public void HandleOwnerDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context)
     {
         context.Combat.CombatantHasBeenDefeated -= CombatCore_CombatantHasBeenDefeated;

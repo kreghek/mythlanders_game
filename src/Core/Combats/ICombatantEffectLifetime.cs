@@ -9,7 +9,7 @@ public interface ICombatantEffectLifetime
     /// Effect is expired and must be dispelled.
     /// </summary>
     bool IsExpired { get; }
-    
+
     /// <summary>
     /// Do work to release lifetime object then effect-owner was dispelled.
     /// </summary>
@@ -20,7 +20,7 @@ public interface ICombatantEffectLifetime
     /// Used to monitor combatant activities. 
     /// </remarks>
     void HandleOwnerDispelled(ICombatantEffect owner, ICombatantEffectLifetimeDispelContext context);
-    
+
     /// <summary>
     /// Do work to prepare lifetime object then effect-owner was imposed.
     /// </summary>
@@ -31,7 +31,7 @@ public interface ICombatantEffectLifetime
     /// Used to monitor combatant activities. 
     /// </remarks>
     void HandleOwnerImposed(ICombatantEffect owner, ICombatantEffectLifetimeImposeContext context);
-    
+
     /// <summary>
     /// Updates your own state according combat life cycle.
     /// </summary>

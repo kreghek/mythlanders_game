@@ -75,7 +75,7 @@ public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
 
         var impulseCombatantEffect = new ModifyEffectsCombatantEffect(_generatedSid,
             lifetime, DAMAGE_BONUS);
-        
+
         targetCombat.ImposeCombatantEffect(targetCombatant, impulseCombatantEffect);
     }
 }

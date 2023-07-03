@@ -757,7 +757,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 {
                     continue;
                 }
-                
+
                 var combatantGameObject = GetCombatantGameObject(target.Target);
                 DrawCombatantInWorldInfo(spriteBatch: spriteBatch, combatant: combatantGameObject);
             }
@@ -875,7 +875,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         for (var index = 0; index < _combatantEffectNotifications.Count; index++)
         {
             var notification = _combatantEffectNotifications[index];
-            
+
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                 $"{notification.CombatantEffect.Sid} has been imposed",
                 new Vector2(contentRectangle.Center.X, contentRectangle.Center.Y + index * 15),
@@ -1116,13 +1116,13 @@ internal class CombatScreen : GameScreenWithMenuBase
     // }
 
     private readonly IList<EffectNotification> _combatantEffectNotifications = new List<EffectNotification>();
-    
+
     private class EffectNotification
     {
-        private double _counter; 
-        
-        private readonly TimeOnly _notificationDuration = new (0, 0, 10, 0);
-        
+        private double _counter;
+
+        private readonly TimeOnly _notificationDuration = new(0, 0, 10, 0);
+
         public EffectNotification(ICombatantEffect combatantEffect, EffectNotificationDirection direction)
         {
             _counter = _notificationDuration.ToTimeSpan().TotalSeconds;
