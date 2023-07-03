@@ -1187,7 +1187,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             new CombatantThumbnailProvider(Game.Content, Game.Services.GetRequiredService<IUnitGraphicsCatalog>()));
     }
 
-    private void CombatCore_CombatantEffectHasBeenImposed(object? sender, CombatantEffectImposedEventArgs e)
+    private void CombatCore_CombatantEffectHasBeenImposed(object? sender, CombatantEffectEventArgs e)
     {
         _combatantEffectNotifications.Add(new EffectNotification(e.CombatantEffect, EffectNotificationDirection.Imposed));
     }

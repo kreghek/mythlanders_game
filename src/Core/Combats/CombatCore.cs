@@ -589,11 +589,11 @@ public class CombatCore
     public event EventHandler<CombatantHandChangedEventArgs>? CombatantAssignedNewMove;
     public event EventHandler<CombatantHandChangedEventArgs>? CombatantUsedMove;
 
-    public event EventHandler<CombatantEffectImposedEventArgs>? CombatantEffectHasBeenImposed;
+    public event EventHandler<CombatantEffectEventArgs>? CombatantEffectHasBeenImposed;
 
     public void ImposeCombatantEffect(Combatant targetCombatant, ICombatantEffect combatantEffect)
     {
         targetCombatant.AddEffect(combatantEffect, new CombatantEffectImposeContext(this), new CombatantEffectLifetimeImposeContext(targetCombatant, this));
-        CombatantEffectHasBeenImposed?.Invoke(this, new CombatantEffectImposedEventArgs(targetCombatant, combatantEffect));
+        CombatantEffectHasBeenImposed?.Invoke(this, new CombatantEffectEventArgs(targetCombatant, combatantEffect));
     }
 }

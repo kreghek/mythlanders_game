@@ -54,19 +54,27 @@ public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
     private void ExplodeImpulses(Combatant targetCombatant, CombatCore targetCombat)
     {
         // TODO Drop effects by sid
-        var impulseEffects = targetCombatant.Effects.Where(x => x.Sid == _generatedSid);
+        var impulseEffects = CollectImpulseEffects(targetCombatant);
 
         // TODO Do damage to targetCombatant
         // TODO Pass turn
     }
 
+    private IReadOnlyCollection<ICombatantEffect> CollectImpulseEffects(Combatant targetCombatant)
+    {
+        return targetCombatant.Effects.Where(x => x.Sid == _generatedSid).ToArray();
+    }
+
     private void GainImpulseUnit(Combatant targetCombatant, CombatCore targetCombat)
     {
+        // effect life ends on attack.
+        var lifetime = new UntilCombatantEffectMeetPredicatesLifetime(new[]
+        {
+            new IsAttackCombatMovePredicate()
+        });
+
         var impulseCombatantEffect = new ModifyEffectsCombatantEffect(_generatedSid,
-            new UntilCombatantEffectMeetPredicatesLifetime(new[]
-            {
-                new IsAttackCombatMovePredicate()
-            }), DAMAGE_BONUS);
+            lifetime, DAMAGE_BONUS);
         
         targetCombat.ImposeCombatantEffect(targetCombatant, impulseCombatantEffect);
     }
