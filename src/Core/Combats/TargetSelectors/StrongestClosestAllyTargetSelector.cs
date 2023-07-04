@@ -1,5 +1,13 @@
 ﻿namespace Core.Combats.TargetSelectors;
 
+public sealed class NullTargetSelector : ITargetSelector
+{
+    public IReadOnlyList<Combatant> GetMaterialized(Combatant actor, ITargetSelectorContext context)
+    {
+        throw new NotImplementedException();
+    }
+}
+
 public sealed class StrongestClosestAllyTargetSelector : ITargetSelector
 {
     private static List<(FieldCoords coords, int priority)> GetNeighbourCoords(FieldCoords actorCoords)

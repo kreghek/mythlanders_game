@@ -4,6 +4,8 @@ namespace Core.Combats;
 
 public sealed class EffectCombatContext : IEffectCombatContext
 {
+    private readonly Combatant _targetCombatant;
+
     public EffectCombatContext(
         Combatant targetCombatant,
         CombatField field,
@@ -12,6 +14,7 @@ public sealed class EffectCombatContext : IEffectCombatContext
         CombatantHasMovedCallback notifyCombatantMovedDelegate,
         CombatCore combatCore)
     {
+        _targetCombatant = targetCombatant;
         Field = field;
         Dice = dice;
         NotifyCombatantDamagedDelegate = notifyCombatantDamagedDelegate;
@@ -24,7 +27,7 @@ public sealed class EffectCombatContext : IEffectCombatContext
     public CombatantHasTakenDamagedCallback NotifyCombatantDamagedDelegate { get; }
     public CombatantHasMovedCallback NotifyCombatantMovedDelegate { get; }
 
-    public Combatant Actor => throw new NotImplementedException();
+    public Combatant Actor => _targetCombatant;
 
     public int DamageCombatantStat(Combatant combatant, UnitStatType statType, int value)
     {

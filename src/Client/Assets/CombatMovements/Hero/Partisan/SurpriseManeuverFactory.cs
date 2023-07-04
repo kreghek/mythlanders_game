@@ -21,16 +21,17 @@ internal class SurpriseManeuverFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new PushToPositionEffect(
-                        new StrongestClosestAllyTargetSelector(),
-                        ChangePositionEffectDirection.ToVanguard
+                    new GroupEffect(new StrongestClosestAllyTargetSelector(),
+                        new SwapPositionEffect(
+                            new NullTargetSelector()
+                        ),
+                        new ChangeStatEffect(
+                            new CombatantEffectSid(Sid),
+                            new NullTargetSelector(),
+                            UnitStatType.Defense,
+                            2,
+                        new ToNextCombatantTurnEffectLifetimeFactory())
                     ),
-                    new ChangeStatEffect(
-                        new CombatantEffectSid(Sid),
-                        new StrongestClosestAllyTargetSelector(),
-                        UnitStatType.Defense,
-                        2,
-                        new ToNextCombatantTurnEffectLifetimeFactory()),
                     new ChangeStatEffect(
                         new CombatantEffectSid(Sid),
                         new SelfTargetSelector(),
