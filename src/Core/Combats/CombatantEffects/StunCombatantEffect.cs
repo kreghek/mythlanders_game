@@ -3,7 +3,7 @@
 /// <summary>
 /// Combatant with tis condition will pass next turn.
 /// </summary>
-public class StunCombatantEffect: ICombatantEffect
+public class StunCombatantEffect : ICombatantEffect
 {
     public StunCombatantEffect(ICombatantEffectSid sid, ICombatantEffectLifetime lifetime)
     {

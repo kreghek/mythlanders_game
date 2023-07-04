@@ -51,9 +51,9 @@ internal class CombatScreen : GameScreenWithMenuBase
         var unitGameObject = GetCombatantGameObject(e.Combatant);
         var textPosition = unitGameObject.Position;
         var font = _uiContentStorage.GetCombatIndicatorFont();
-    
+
         var passIndicator = new SkipTextIndicator(textPosition, font);
-    
+
         unitGameObject.AddChild(passIndicator);
     }
 

@@ -225,7 +225,7 @@ public class CombatCore
             new CombatantEffectLifetimeImposeContext(targetCombatant, this));
         CombatantEffectHasBeenImposed?.Invoke(this, new CombatantEffectEventArgs(targetCombatant, combatantEffect));
     }
-    
+
     public void DispelCombatantEffect(Combatant targetCombatant, ICombatantEffect combatantEffect)
     {
         targetCombatant.RemoveEffect(combatantEffect, new CombatantEffectLifetimeDispelContext(this));
