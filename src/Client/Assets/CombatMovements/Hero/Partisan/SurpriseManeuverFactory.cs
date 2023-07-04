@@ -30,7 +30,7 @@ internal class SurpriseManeuverFactory : CombatMovementFactoryBase
                             new NullTargetSelector(),
                             UnitStatType.Defense,
                             2,
-                        new ToNextCombatantTurnEffectLifetimeFactory())
+                            new ToNextCombatantTurnEffectLifetimeFactory())
                     ),
                     new ChangeStatEffect(
                         new CombatantEffectSid(Sid),
