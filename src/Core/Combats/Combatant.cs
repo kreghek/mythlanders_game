@@ -144,7 +144,7 @@ public sealed class Combatant
     public void UpdateEffects(CombatantEffectUpdateType updateType,
         ICombatantEffectLifetimeDispelContext effectLifetimeDispelContext)
     {
-        var context = new CombatantEffectLifetimeUpdateContext(this);
+        var context = new CombatantEffectLifetimeUpdateContext(this, effectLifetimeDispelContext.Combat);
 
         var effectToDispel = new List<ICombatantEffect>();
         foreach (var effect in _effects)
@@ -192,7 +192,7 @@ public sealed class Combatant
         }
     }
 
-    private void RemoveEffect(ICombatantEffect effect, ICombatantEffectLifetimeDispelContext context)
+    public void RemoveEffect(ICombatantEffect effect, ICombatantEffectLifetimeDispelContext context)
     {
         effect.Dispel(this);
         _effects.Remove(effect);

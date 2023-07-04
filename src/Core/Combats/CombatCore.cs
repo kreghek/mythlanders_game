@@ -225,6 +225,12 @@ public class CombatCore
             new CombatantEffectLifetimeImposeContext(targetCombatant, this));
         CombatantEffectHasBeenImposed?.Invoke(this, new CombatantEffectEventArgs(targetCombatant, combatantEffect));
     }
+    
+    public void DispelCombatantEffect(Combatant targetCombatant, ICombatantEffect combatantEffect)
+    {
+        targetCombatant.RemoveEffect(combatantEffect, new CombatantEffectLifetimeDispelContext(this));
+        CombatantEffectHasBeenDispeled?.Invoke(this, new CombatantEffectEventArgs(targetCombatant, combatantEffect));
+    }
 
     /// <summary>
     /// Initialize combat.
@@ -250,7 +256,6 @@ public class CombatCore
     /// <summary>
     /// Use fo stun.
     /// </summary>
-    //TODO Check it is unused.
     public void Interrupt()
     {
         CombatantInterrupted?.Invoke(this, new CombatantInterruptedEventArgs(CurrentCombatant));
@@ -398,7 +403,7 @@ public class CombatCore
         }
     }
 
-    private int HandleCombatantDamagedToStat(Combatant combatant, UnitStatType statType, int damageAmount)
+    public int HandleCombatantDamagedToStat(Combatant combatant, UnitStatType statType, int damageAmount)
     {
         var (remains, wasTaken) = TakeStat(combatant, statType, damageAmount);
 
@@ -596,6 +601,6 @@ public class CombatCore
     public event EventHandler<CombatantInterruptedEventArgs>? CombatantInterrupted;
     public event EventHandler<CombatantHandChangedEventArgs>? CombatantAssignedNewMove;
     public event EventHandler<CombatantHandChangedEventArgs>? CombatantUsedMove;
-
     public event EventHandler<CombatantEffectEventArgs>? CombatantEffectHasBeenImposed;
+    public event EventHandler<CombatantEffectEventArgs>? CombatantEffectHasBeenDispeled;
 }

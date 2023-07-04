@@ -46,16 +46,16 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
     private readonly ICamera2DAdapter _combatActionCamera;
 
-    // private void Combat_UnitPassed(object? sender, CombatUnit e)
-    // {
-    //     var unitGameObject = GetUnitGameObject(e);
-    //     var textPosition = GetUnitGameObject(e).Position;
-    //     var font = _uiContentStorage.GetCombatIndicatorFont();
-    //
-    //     var passIndicator = new SkipTextIndicator(textPosition, font);
-    //
-    //     unitGameObject.AddChild(passIndicator);
-    // }
+    private void Combat_CombatantInterrupted(object? sender, CombatantInterruptedEventArgs e)
+    {
+        var unitGameObject = GetCombatantGameObject(e.Combatant);
+        var textPosition = unitGameObject.Position;
+        var font = _uiContentStorage.GetCombatIndicatorFont();
+    
+        var passIndicator = new SkipTextIndicator(textPosition, font);
+    
+        unitGameObject.AddChild(passIndicator);
+    }
 
     private readonly IList<EffectNotification> _combatantEffectNotifications = new List<EffectNotification>();
     private readonly ICombatantPositionProvider _combatantPositionProvider;
@@ -1137,8 +1137,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatCore.CombatFinished += CombatCore_CombatFinished;
         _combatCore.CombatantUsedMove += CombatCore_CombatantUsedMove;
         _combatCore.CombatantEffectHasBeenImposed += CombatCore_CombatantEffectHasBeenImposed;
-
-        // _combatCore.UnitPassedTurn += Combat_UnitPassed;
+        _combatCore.CombatantInterrupted += Combat_CombatantInterrupted;
 
         _combatMovementsHandPanel = new CombatMovementsHandPanel(Game, _uiContentStorage, _combatMovementVisualizer);
         _combatMovementsHandPanel.CombatMovementPicked += CombatMovementsHandPanel_CombatMovementPicked;
