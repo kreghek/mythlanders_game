@@ -56,20 +56,6 @@ public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
         }
     }
 
-    private void ImpulseSurge(Combatant targetCombatant, CombatCore targetCombat)
-    {
-        var impulseEffects = CollectImpulseEffects(targetCombatant);
-        foreach (var combatantEffect in impulseEffects)
-        {
-            targetCombat.DispelCombatantEffect(targetCombatant, combatantEffect);
-        }
-
-        targetCombat.HandleCombatantDamagedToStat(targetCombatant, UnitStatType.HitPoints, SURGE_DAMAGE);
-
-        targetCombat.ImposeCombatantEffect(targetCombatant,
-            new StunCombatantEffect(CombatantEffectSids.Stun, new ToNextCombatantTurnEffectLifetime()));
-    }
-
     private void GainImpulseUnit(Combatant targetCombatant, CombatCore targetCombat)
     {
         // effect life ends on attack.
@@ -82,5 +68,19 @@ public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
             lifetime, DAMAGE_BONUS);
 
         targetCombat.ImposeCombatantEffect(targetCombatant, impulseCombatantEffect);
+    }
+
+    private void ImpulseSurge(Combatant targetCombatant, CombatCore targetCombat)
+    {
+        var impulseEffects = CollectImpulseEffects(targetCombatant);
+        foreach (var combatantEffect in impulseEffects)
+        {
+            targetCombat.DispelCombatantEffect(targetCombatant, combatantEffect);
+        }
+
+        targetCombat.HandleCombatantDamagedToStat(targetCombatant, UnitStatType.HitPoints, SURGE_DAMAGE);
+
+        targetCombat.ImposeCombatantEffect(targetCombatant,
+            new StunCombatantEffect(CombatantEffectSids.Stun, new ToNextCombatantTurnEffectLifetime()));
     }
 }

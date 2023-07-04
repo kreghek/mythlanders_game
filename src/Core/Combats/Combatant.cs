@@ -129,6 +129,14 @@ public sealed class Combatant
         ApplyStartupEffects(combatCore);
     }
 
+    public void RemoveEffect(ICombatantEffect effect, ICombatantEffectLifetimeDispelContext context)
+    {
+        effect.Dispel(this);
+        _effects.Remove(effect);
+
+        effect.Lifetime.HandleOwnerDispelled(effect, context);
+    }
+
     /// <summary>
     /// Deactivate combatant.
     /// He is not combatant yet.
@@ -192,22 +200,14 @@ public sealed class Combatant
         }
     }
 
-    public void RemoveEffect(ICombatantEffect effect, ICombatantEffectLifetimeDispelContext context)
-    {
-        effect.Dispel(this);
-        _effects.Remove(effect);
-
-        effect.Lifetime.HandleOwnerDispelled(effect, context);
-    }
-
     private void StartupHand()
     {
         for (var i = 0; i < 3; i++)
         {
             var combatMove = PopNextPoolMovement();
             if (combatMove is null)
-            // Pool is empty.
-            // Stop to prepare first movements.
+                // Pool is empty.
+                // Stop to prepare first movements.
             {
                 break;
             }

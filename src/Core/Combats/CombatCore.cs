@@ -219,17 +219,45 @@ public class CombatCore
         return movementExecution;
     }
 
+    public void DispelCombatantEffect(Combatant targetCombatant, ICombatantEffect combatantEffect)
+    {
+        targetCombatant.RemoveEffect(combatantEffect, new CombatantEffectLifetimeDispelContext(this));
+        CombatantEffectHasBeenDispeled?.Invoke(this, new CombatantEffectEventArgs(targetCombatant, combatantEffect));
+    }
+
+    public int HandleCombatantDamagedToStat(Combatant combatant, UnitStatType statType, int damageAmount)
+    {
+        var (remains, wasTaken) = TakeStat(combatant, statType, damageAmount);
+
+        if (wasTaken)
+        {
+            CombatantHasBeenDamaged?.Invoke(this, new CombatantDamagedEventArgs(combatant, statType, damageAmount));
+        }
+
+        if (combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.Current <= 0)
+        {
+            var shiftShape = DetectShapeShifting();
+            if (shiftShape)
+            {
+                CombatantShiftShaped?.Invoke(this, new CombatantShiftShapedEventArgs(combatant));
+            }
+
+            combatant.SetDead();
+            CombatantHasBeenDefeated?.Invoke(this, new CombatantDefeatedEventArgs(combatant));
+
+            var targetSide = GetTargetSide(combatant, Field);
+            var coords = targetSide.GetCombatantCoords(combatant);
+            targetSide[coords].Combatant = null;
+        }
+
+        return remains;
+    }
+
     public void ImposeCombatantEffect(Combatant targetCombatant, ICombatantEffect combatantEffect)
     {
         targetCombatant.AddEffect(combatantEffect, new CombatantEffectImposeContext(this),
             new CombatantEffectLifetimeImposeContext(targetCombatant, this));
         CombatantEffectHasBeenImposed?.Invoke(this, new CombatantEffectEventArgs(targetCombatant, combatantEffect));
-    }
-
-    public void DispelCombatantEffect(Combatant targetCombatant, ICombatantEffect combatantEffect)
-    {
-        targetCombatant.RemoveEffect(combatantEffect, new CombatantEffectLifetimeDispelContext(this));
-        CombatantEffectHasBeenDispeled?.Invoke(this, new CombatantEffectEventArgs(targetCombatant, combatantEffect));
     }
 
     /// <summary>
@@ -401,34 +429,6 @@ public class CombatCore
             var _ = field.MonsterSide.GetCombatantCoords(target);
             return field.MonsterSide;
         }
-    }
-
-    public int HandleCombatantDamagedToStat(Combatant combatant, UnitStatType statType, int damageAmount)
-    {
-        var (remains, wasTaken) = TakeStat(combatant, statType, damageAmount);
-
-        if (wasTaken)
-        {
-            CombatantHasBeenDamaged?.Invoke(this, new CombatantDamagedEventArgs(combatant, statType, damageAmount));
-        }
-
-        if (combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.Current <= 0)
-        {
-            var shiftShape = DetectShapeShifting();
-            if (shiftShape)
-            {
-                CombatantShiftShaped?.Invoke(this, new CombatantShiftShapedEventArgs(combatant));
-            }
-
-            combatant.SetDead();
-            CombatantHasBeenDefeated?.Invoke(this, new CombatantDefeatedEventArgs(combatant));
-
-            var targetSide = GetTargetSide(combatant, Field);
-            var coords = targetSide.GetCombatantCoords(combatant);
-            targetSide[coords].Combatant = null;
-        }
-
-        return remains;
     }
 
     private void HandleSwapFieldPositions(FieldCoords sourceCoords, CombatFieldSide sourceFieldSide,

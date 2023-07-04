@@ -46,17 +46,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
     private readonly ICamera2DAdapter _combatActionCamera;
 
-    private void Combat_CombatantInterrupted(object? sender, CombatantInterruptedEventArgs e)
-    {
-        var unitGameObject = GetCombatantGameObject(e.Combatant);
-        var textPosition = unitGameObject.Position;
-        var font = _uiContentStorage.GetCombatIndicatorFont();
-
-        var passIndicator = new SkipTextIndicator(textPosition, font);
-
-        unitGameObject.AddChild(passIndicator);
-    }
-
     private readonly IList<EffectNotification> _combatantEffectNotifications = new List<EffectNotification>();
     private readonly ICombatantPositionProvider _combatantPositionProvider;
     private readonly CombatCore _combatCore;
@@ -295,6 +284,17 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             InventoryRewards = uiRewards
         };
+    }
+
+    private void Combat_CombatantInterrupted(object? sender, CombatantInterruptedEventArgs e)
+    {
+        var unitGameObject = GetCombatantGameObject(e.Combatant);
+        var textPosition = unitGameObject.Position;
+        var font = _uiContentStorage.GetCombatIndicatorFont();
+
+        var passIndicator = new SkipTextIndicator(textPosition, font);
+
+        unitGameObject.AddChild(passIndicator);
     }
 
     private void CombatCode_CombatantHasBeenAdded(object? sender, CombatantHasBeenAddedEventArgs e)

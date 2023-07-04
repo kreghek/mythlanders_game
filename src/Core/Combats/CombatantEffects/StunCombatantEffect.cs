@@ -13,6 +13,7 @@ public class StunCombatantEffect : ICombatantEffect
 
     public ICombatantEffectLifetime Lifetime { get; }
     public ICombatantEffectSid Sid { get; }
+
     public void Dispel(Combatant combatant)
     {
         // Do nothing
