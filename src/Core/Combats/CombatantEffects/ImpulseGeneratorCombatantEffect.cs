@@ -6,6 +6,7 @@ public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
 {
     private const int GENERATED_LIMIT = 2;
     private const int DAMAGE_BONUS = 1;
+    private const int SURGE_DAMAGE = 3;
     private readonly ICombatantEffectSid _generatedSid;
     private Combatant? _effectOwner;
 
@@ -51,17 +52,22 @@ public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
         }
         else
         {
-            ExplodeImpulses(targetCombatant, targetCombat);
+            ImpulseSurge(targetCombatant, targetCombat);
         }
     }
 
-    private void ExplodeImpulses(Combatant targetCombatant, CombatCore targetCombat)
+    private void ImpulseSurge(Combatant targetCombatant, CombatCore targetCombat)
     {
-        // TODO Drop effects by sid
         var impulseEffects = CollectImpulseEffects(targetCombatant);
+        foreach (var combatantEffect in impulseEffects)
+        {
+            targetCombat.DispelCombatantEffect(targetCombatant, combatantEffect);
+        }
 
-        // TODO Do damage to targetCombatant
-        // TODO Pass turn
+        targetCombat.HandleCombatantDamagedToStat(targetCombatant, UnitStatType.HitPoints, SURGE_DAMAGE);
+
+        targetCombat.ImposeCombatantEffect(targetCombatant,
+            new PassTurnCombatantEffect(CombatantEffectSids.Stun, new ToNextCombatantTurnEffectLifetime()));
     }
 
     private void GainImpulseUnit(Combatant targetCombatant, CombatCore targetCombat)

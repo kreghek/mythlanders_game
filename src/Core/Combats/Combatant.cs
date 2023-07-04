@@ -192,7 +192,7 @@ public sealed class Combatant
         }
     }
 
-    private void RemoveEffect(ICombatantEffect effect, ICombatantEffectLifetimeDispelContext context)
+    public void RemoveEffect(ICombatantEffect effect, ICombatantEffectLifetimeDispelContext context)
     {
         effect.Dispel(this);
         _effects.Remove(effect);
