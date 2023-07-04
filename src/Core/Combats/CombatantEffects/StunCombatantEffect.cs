@@ -1,8 +1,11 @@
 ﻿namespace Core.Combats.CombatantEffects;
 
-public class PassTurnCombatantEffect: ICombatantEffect
+/// <summary>
+/// Combatant with tis condition will pass next turn.
+/// </summary>
+public class StunCombatantEffect: ICombatantEffect
 {
-    public PassTurnCombatantEffect(ICombatantEffectSid sid, ICombatantEffectLifetime lifetime)
+    public StunCombatantEffect(ICombatantEffectSid sid, ICombatantEffectLifetime lifetime)
     {
         Lifetime = lifetime;
         Sid = sid;
@@ -24,7 +27,7 @@ public class PassTurnCombatantEffect: ICombatantEffect
     {
         if (updateType == CombatantEffectUpdateType.StartCombatantTurn)
         {
-            // TODO Pass turn
+            context.CompleteTurn();
         }
     }
 }

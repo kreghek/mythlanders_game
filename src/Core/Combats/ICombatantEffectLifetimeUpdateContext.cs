@@ -3,4 +3,5 @@
 public interface ICombatantEffectLifetimeUpdateContext
 {
     Combatant Combatant { get; }
+    void CompleteTurn();
 }

@@ -256,7 +256,6 @@ public class CombatCore
     /// <summary>
     /// Use fo stun.
     /// </summary>
-    //TODO Check it is unused.
     public void Interrupt()
     {
         CombatantInterrupted?.Invoke(this, new CombatantInterruptedEventArgs(CurrentCombatant));

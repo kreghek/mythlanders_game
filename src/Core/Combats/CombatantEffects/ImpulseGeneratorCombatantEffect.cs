@@ -67,7 +67,7 @@ public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
         targetCombat.HandleCombatantDamagedToStat(targetCombatant, UnitStatType.HitPoints, SURGE_DAMAGE);
 
         targetCombat.ImposeCombatantEffect(targetCombatant,
-            new PassTurnCombatantEffect(CombatantEffectSids.Stun, new ToNextCombatantTurnEffectLifetime()));
+            new StunCombatantEffect(CombatantEffectSids.Stun, new ToNextCombatantTurnEffectLifetime()));
     }
 
     private void GainImpulseUnit(Combatant targetCombatant, CombatCore targetCombat)
