@@ -306,7 +306,40 @@ internal sealed class CampaignMap : ControlBase
             return CampaignNodeState.Passed;
         }
 
+        if (_heroCampaign.CurrentStage is not null)
+        {
+            var availableNodes = GetAvailableNodes(_heroCampaign.CurrentStage);
+
+            if (!availableNodes.Contains(graphNodeLayout.Node))
+            {
+                return CampaignNodeState.Unavailable;
+            }
+        }
+
         return CampaignNodeState.Available;
+    }
+
+    private IEnumerable<IGraphNode<ICampaignStageItem>> GetAvailableNodes(IGraphNode<ICampaignStageItem> baseStage)
+    {
+        var openList = new List<IGraphNode<ICampaignStageItem>>();
+
+        var next = _heroCampaign.Stages.GetNext(baseStage).ToList();
+        openList.AddRange(next);
+
+        while (next.Any())
+        {
+            var nextStored = next.ToArray();
+            next.Clear();
+
+            foreach (var graphNode in nextStored)
+            {
+                var nextInner = _heroCampaign.Stages.GetNext(graphNode);
+                
+                openList.AddRange(nextInner);
+            }
+        }
+
+        return openList;
     }
 
     private static IReadOnlyCollection<IGraphNode<ICampaignStageItem>> GetRoots(
@@ -438,14 +471,14 @@ internal sealed class CampaignMap : ControlBase
     private PresentationScrollData CreatePresentationScrollData(HeroCampaign currentCampaign,
         IReadOnlyCollection<IGraphNodeLayout<ICampaignStageItem>> graphNodeLayouts)
     {
-        var roots = GetRoots(_heroCampaign.Stages);
-
         if (currentCampaign.CurrentStage is null)
         {
             // First make start position is reward node to show all graph
             // target position - one of start node.
             
             var rewardNodeLayout = graphNodeLayouts.Single(x => x.Node.Payload is RewardStageItem);
+            
+            var roots = GetRoots(_heroCampaign.Stages);
             
             var startNodeLayouts = graphNodeLayouts.Where(x => roots.Contains(x.Node));
             var startNodeLayout = startNodeLayouts.First();
@@ -477,11 +510,12 @@ internal sealed class CampaignMap : ControlBase
         return new PresentationScrollData(rewardScroll, startScroll);
     }
 
-    private Vector2 GetScrollByGraphNodeLayout(IGraphNodeLayout<ICampaignStageItem> rewardNodeLayout)
+    private Vector2 GetScrollByGraphNodeLayout(IGraphNodeLayout<ICampaignStageItem> nodeLayout)
     {
+        var screenCenter = _resolutionIndependentRenderer.VirtualBounds.Center;
         return new Vector2(
-            -rewardNodeLayout.Position.X + _resolutionIndependentRenderer.VirtualBounds.Center.X,
-            -rewardNodeLayout.Position.Y + _resolutionIndependentRenderer.VirtualBounds.Center.Y);
+            -nodeLayout.Position.X + screenCenter.X,
+            -nodeLayout.Position.Y + screenCenter.Y);
     }
 
     private static Vector2 NormalizeScroll(Vector2 currentScroll, Rectangle boundingGraphRect,
