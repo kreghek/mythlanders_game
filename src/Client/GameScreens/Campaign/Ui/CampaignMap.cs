@@ -215,8 +215,10 @@ internal sealed class CampaignMap : ControlBase
         var stageIconRect = GetStageItemTexture(graphNodeLayout.Node.Payload);
         var stageDisplayInfo = new CampaignStageDisplayInfo(stageItemDisplayName);
 
+        var buttonState = GetButtonState();
+        
         var button = new CampaignButton(new IconData(_campaignIconsTexture, stageIconRect), stageDisplayInfo,
-            graphNodeLayout);
+            graphNodeLayout, buttonState);
         button.OnHover += (_, _) =>
         {
             _currentHint = new TextHint(button.StageInfo.HintText)
@@ -256,6 +258,11 @@ internal sealed class CampaignMap : ControlBase
             }
         };
         return button;
+    }
+
+    private string GetButtonState()
+    {
+        throw new NotImplementedException();
     }
 
     private static IReadOnlyCollection<IGraphNode<ICampaignStageItem>> GetRoots(
@@ -372,19 +379,44 @@ internal sealed class CampaignMap : ControlBase
 
             _buttonList.Add(button);
         }
-
-        var rewardNodeLayout = graphNodeLayouts.Single(x => x.Node.Payload is RewardStageItem);
-        RewardScroll = new Vector2(-rewardNodeLayout.Position.X + _resolutionIndependentRenderer.VirtualBounds.Center.X,
-            -rewardNodeLayout.Position.Y + _resolutionIndependentRenderer.VirtualBounds.Center.Y);
-        Scroll = RewardScroll;
-
+        
         var roots = GetRoots(_heroCampaign.Stages);
 
-        var startNodeLayouts = graphNodeLayouts.Where(x => roots.Contains(x.Node));
-        var startNodeLayout = startNodeLayouts.First();
+        if (currentCampaign.CurrentStage is null)
+        {
+            // First make start position is one of roots and reward - real reward node.
+            var rewardNodeLayout = graphNodeLayouts.Single(x => x.Node.Payload is RewardStageItem);
+            RewardScroll = new Vector2(
+                -rewardNodeLayout.Position.X + _resolutionIndependentRenderer.VirtualBounds.Center.X,
+                -rewardNodeLayout.Position.Y + _resolutionIndependentRenderer.VirtualBounds.Center.Y);
+            Scroll = RewardScroll;
 
-        StartScroll = new Vector2(-startNodeLayout.Position.X + _resolutionIndependentRenderer.VirtualBounds.Center.X,
-            -startNodeLayout.Position.Y + _resolutionIndependentRenderer.VirtualBounds.Center.Y);
+            var startNodeLayouts = graphNodeLayouts.Where(x => roots.Contains(x.Node));
+            var startNodeLayout = startNodeLayouts.First();
+
+            StartScroll = new Vector2(
+                -startNodeLayout.Position.X + _resolutionIndependentRenderer.VirtualBounds.Center.X,
+                -startNodeLayout.Position.Y + _resolutionIndependentRenderer.VirtualBounds.Center.Y);
+        }
+        else
+        {
+            // now reward node is previous node
+            // and start is next available node
+            
+            var rewardNodeLayout = graphNodeLayouts.Single(x => x.Node == currentCampaign.Path.Last());
+            RewardScroll = new Vector2(
+                -rewardNodeLayout.Position.X + _resolutionIndependentRenderer.VirtualBounds.Center.X,
+                -rewardNodeLayout.Position.Y + _resolutionIndependentRenderer.VirtualBounds.Center.Y);
+            Scroll = RewardScroll;
+
+            var next = currentCampaign.Stages.GetNext(rewardNodeLayout.Node);
+            var startNodeLayouts = graphNodeLayouts.Where(x => next.Contains(x.Node));
+            var startNodeLayout = startNodeLayouts.First();
+
+            StartScroll = new Vector2(
+                -startNodeLayout.Position.X + _resolutionIndependentRenderer.VirtualBounds.Center.X,
+                -startNodeLayout.Position.Y + _resolutionIndependentRenderer.VirtualBounds.Center.Y);
+        }
 
         _graphRect = new Rectangle(
             graphNodeLayouts.Min(x => x.Position.X),
@@ -424,9 +456,15 @@ internal sealed class CampaignMap : ControlBase
 
     private static void SelectCampaignStage(IGraphNode<ICampaignStageItem> stageNode, TrasitionData trasitionData)
     {
-        trasitionData.CurrentCampaign.CurrentStage = stageNode;
+        var campaign = trasitionData.CurrentCampaign;
+        if (campaign.CurrentStage is not null)
+        {
+            campaign.Path.Add(campaign.CurrentStage);
+        }
+
+        campaign.CurrentStage = stageNode;
         stageNode.Payload.ExecuteTransition(trasitionData.CurrentScreen, trasitionData.ScreenManager,
-            trasitionData.CurrentCampaign);
+            campaign);
     }
 
     private sealed record DragData(Vector2 DragScroll, Vector2 StartMousePosition);

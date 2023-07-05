@@ -12,12 +12,15 @@ internal sealed record CampaignStageDisplayInfo(string HintText);
 
 internal sealed class CampaignButton : ButtonBase
 {
+    private readonly string _state;
     private readonly Texture2D _icon;
     private readonly Rectangle? _iconRect;
 
     public CampaignButton(IconData iconData, CampaignStageDisplayInfo stageInfo,
-        IGraphNodeLayout<ICampaignStageItem> sourceGraphNodeLayout)
+        IGraphNodeLayout<ICampaignStageItem> sourceGraphNodeLayout,
+        string state)
     {
+        _state = state;
         _icon = iconData.Spritesheet;
         _iconRect = iconData.SourceRect;
         StageInfo = stageInfo;
@@ -42,5 +45,15 @@ internal sealed class CampaignButton : ButtonBase
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
     {
         spriteBatch.Draw(_icon, contentRect, _iconRect, color);
+    }
+
+    protected override Color CalculateColor()
+    {
+        switch (_state)
+        {
+            case "passed": return Color.Wheat;
+            case "unavailable": return Color.Gray;
+        }
+        return base.CalculateColor();
     }
 }

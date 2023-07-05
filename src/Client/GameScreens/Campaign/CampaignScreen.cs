@@ -27,12 +27,14 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private double _presentationDelayCounter = 3;
 
     private bool _showStoryPoints;
+    private readonly IUiContentStorage _uiContentStorage;
 
     public CampaignScreen(TestamentGame game, CampaignScreenTransitionArguments screenTransitionArguments) : base(game)
     {
         _screenTransitionArguments = screenTransitionArguments;
 
         _globe = game.Services.GetRequiredService<GlobeProvider>();
+        _uiContentStorage = game.Services.GetRequiredService<IUiContentStorage>();
 
         _showStoryPointsButton = new ResourceTextButton(nameof(UiResource.CurrentQuestButtonTitle));
         _showStoryPointsButton.OnClick += ShowStoryPointsButton_OnClick;
@@ -69,6 +71,12 @@ internal class CampaignScreen : GameScreenWithMenuBase
         {
             _campaignMap.Rect = contentRect;
             _campaignMap.Draw(spriteBatch);
+
+            if (_isCampaignPresentation)
+            {
+                spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), "Нажми [SPACE] чтобы пропустить",
+                    new Vector2(contentRect.Center.X, contentRect.Bottom - 50), Color.Wheat);
+            }
         }
 
         const int STORY_POINT_PANEL_WIDTH = 200;
