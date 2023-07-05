@@ -91,6 +91,32 @@ internal sealed class CampaignMap : ControlBase
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
+        DrawBackgroundTiles(spriteBatch: spriteBatch, contentRect: contentRect);
+
+        DrawButtonsWithShadows(spriteBatch: spriteBatch, contentRect: contentRect);
+
+        DrawEdges(spriteBatch);
+
+        DrawDecorationHud(spriteBatch);
+
+        DrawNodeHint(spriteBatch);
+    }
+
+    private void DrawNodeHint(SpriteBatch spriteBatch)
+    {
+        if (_currentHint is not null)
+        {
+            _currentHint.Draw(spriteBatch);
+        }
+    }
+
+    private void DrawDecorationHud(SpriteBatch spriteBatch)
+    {
+        spriteBatch.Draw(_hudTexture, Vector2.Zero, Color.Lerp(Color.White, Color.Transparent, 0.5f));
+    }
+
+    private void DrawBackgroundTiles(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
         for (var i = -2; i < 10; i++)
         {
             for (var j = -2; j < 10; j++)
@@ -101,7 +127,10 @@ internal sealed class CampaignMap : ControlBase
                     tilePosition, Color.White);
             }
         }
+    }
 
+    private void DrawButtonsWithShadows(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
         foreach (var button in _buttonList)
         {
             button.Rect = new Rectangle(
@@ -119,7 +148,10 @@ internal sealed class CampaignMap : ControlBase
         {
             button.Draw(spriteBatch);
         }
+    }
 
+    private void DrawEdges(SpriteBatch spriteBatch)
+    {
         foreach (var button in _buttonList)
         {
             var nextNodes = _heroCampaign.Stages.GetNext(button.SourceGraphNodeLayout.Node);
@@ -128,28 +160,40 @@ internal sealed class CampaignMap : ControlBase
 
             foreach (var nextButton in nextButtons)
             {
+                var lineColor = GetNodeColorByNodeState(nextButton.NodeState);
+                
                 var buttonPosition = button.Rect.Center.ToVector2();
                 var nextPosition = nextButton.Rect.Center.ToVector2();
 
-                var direction = buttonPosition - nextPosition;
+                var points = CalcLinePoints(buttonPosition: buttonPosition, nextPosition: nextPosition);
 
-                var angle = Math.Atan2(direction.Y, direction.X);
-
-                var startLinePoint = new Vector2((int)(Math.Cos(angle + Math.PI) * 16 + buttonPosition.X),
-                    (int)(Math.Sin(angle + Math.PI) * 16 + buttonPosition.Y));
-                var targetLinePoint = new Vector2((int)(Math.Cos(angle) * 16 + nextPosition.X),
-                    (int)(Math.Sin(angle) * 16 + nextPosition.Y));
-
-                spriteBatch.DrawLine(startLinePoint, targetLinePoint, Color.LightCyan);
+                spriteBatch.DrawLine(points.Start, points.End, lineColor);
             }
         }
+    }
 
-        spriteBatch.Draw(_hudTexture, Vector2.Zero, Color.Lerp(Color.White, Color.Transparent, 0.5f));
+    private static (Vector2 Start, Vector2 End) CalcLinePoints(Vector2 buttonPosition, Vector2 nextPosition)
+    {
+        var direction = buttonPosition - nextPosition;
 
-        if (_currentHint is not null)
+        var angle = Math.Atan2(direction.Y, direction.X);
+
+        var startLinePoint = new Vector2((int)(Math.Cos(angle + Math.PI) * 16 + buttonPosition.X),
+            (int)(Math.Sin(angle + Math.PI) * 16 + buttonPosition.Y));
+        var targetLinePoint = new Vector2((int)(Math.Cos(angle) * 16 + nextPosition.X),
+            (int)(Math.Sin(angle) * 16 + nextPosition.Y));
+        return (startLinePoint, targetLinePoint);
+    }
+
+    private static Color GetNodeColorByNodeState(CampaignNodeState nodeState)
+    {
+        return nodeState switch
         {
-            _currentHint.Draw(spriteBatch);
-        }
+            CampaignNodeState.Available => Color.LightCyan,
+            CampaignNodeState.Current or CampaignNodeState.Passed => Color.Wheat,
+            CampaignNodeState.Unavailable => Color.DarkGray,
+            _ => Color.LightCyan
+        };
     }
 
     internal void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)
@@ -380,7 +424,7 @@ internal sealed class CampaignMap : ControlBase
             _buttonList.Add(button);
         }
 
-        Presentation = CreatePresentationScrollData(currentCampaign, graphNodeLayouts);;
+        Presentation = CreatePresentationScrollData(currentCampaign, graphNodeLayouts);
         Scroll = Presentation.Start;
 
         _graphRect = new Rectangle(

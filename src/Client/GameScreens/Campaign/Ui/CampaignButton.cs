@@ -10,7 +10,7 @@ namespace Client.GameScreens.Campaign.Ui;
 
 internal sealed class CampaignButton : ButtonBase
 {
-    private readonly CampaignNodeState _state;
+    public CampaignNodeState NodeState { get; }
     private readonly Texture2D _icon;
     private readonly Rectangle? _iconRect;
 
@@ -18,7 +18,7 @@ internal sealed class CampaignButton : ButtonBase
         IGraphNodeLayout<ICampaignStageItem> sourceGraphNodeLayout,
         CampaignNodeState state)
     {
-        _state = state;
+        NodeState = state;
         _icon = iconData.Spritesheet;
         _iconRect = iconData.SourceRect;
         StageInfo = stageInfo;
@@ -47,7 +47,7 @@ internal sealed class CampaignButton : ButtonBase
 
     protected override Color CalculateColor()
     {
-        return _state switch
+        return NodeState switch
         {
             CampaignNodeState.Passed or CampaignNodeState.Current => Color.Wheat,
             CampaignNodeState.Unavailable => Color.Gray,
