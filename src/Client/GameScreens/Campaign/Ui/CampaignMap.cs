@@ -205,10 +205,10 @@ internal sealed class CampaignMap : ControlBase
         var stageIconRect = GetStageItemTexture(graphNodeLayout.Node.Payload);
         var stageDisplayInfo = new CampaignStageDisplayInfo(stageItemDisplayName);
 
-        var buttonState = GetButtonState();
+        var locationNodeState = GetLocationNodeState(graphNodeLayout);
         
         var button = new CampaignButton(new IconData(_campaignIconsTexture, stageIconRect), stageDisplayInfo,
-            graphNodeLayout, buttonState);
+            graphNodeLayout, locationNodeState);
         button.OnHover += (_, _) =>
         {
             _currentHint = new TextHint(button.StageInfo.HintText)
@@ -250,9 +250,19 @@ internal sealed class CampaignMap : ControlBase
         return button;
     }
 
-    private string GetButtonState()
+    private CampaignNodeState GetLocationNodeState(IGraphNodeLayout<ICampaignStageItem> graphNodeLayout)
     {
-        throw new NotImplementedException();
+        if (graphNodeLayout.Node == _heroCampaign.CurrentStage)
+        {
+            return CampaignNodeState.Current;
+        }
+
+        if (_heroCampaign.Path.Contains(graphNodeLayout.Node))
+        {
+            return CampaignNodeState.Passed;
+        }
+
+        return CampaignNodeState.Available;
     }
 
     private static IReadOnlyCollection<IGraphNode<ICampaignStageItem>> GetRoots(
@@ -359,9 +369,9 @@ internal sealed class CampaignMap : ControlBase
     private void InitChildControls(IGraph<ICampaignStageItem> campaignGraph, HeroCampaign currentCampaign)
     {
         var horizontalVisualizer = new HorizontalGraphVisualizer<ICampaignStageItem>();
-        var visualizatorConfig = new VisualizerConfig();
-        var graphNodeLayouts = horizontalVisualizer.Create(campaignGraph, visualizatorConfig);
-        graphNodeLayouts = ApplyPostProcessTransformations(currentCampaign, visualizatorConfig, graphNodeLayouts);
+        var visualizerConfig = new VisualizerConfig();
+        var graphNodeLayouts = horizontalVisualizer.Create(campaignGraph, visualizerConfig);
+        graphNodeLayouts = ApplyPostProcessTransformations(currentCampaign, visualizerConfig, graphNodeLayouts);
 
         foreach (var graphNodeLayout in graphNodeLayouts)
         {

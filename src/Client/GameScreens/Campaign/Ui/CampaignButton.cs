@@ -8,17 +8,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Campaign.Ui;
 
-internal sealed record CampaignStageDisplayInfo(string HintText);
-
 internal sealed class CampaignButton : ButtonBase
 {
-    private readonly string _state;
+    private readonly CampaignNodeState _state;
     private readonly Texture2D _icon;
     private readonly Rectangle? _iconRect;
 
     public CampaignButton(IconData iconData, CampaignStageDisplayInfo stageInfo,
         IGraphNodeLayout<ICampaignStageItem> sourceGraphNodeLayout,
-        string state)
+        CampaignNodeState state)
     {
         _state = state;
         _icon = iconData.Spritesheet;
@@ -49,11 +47,11 @@ internal sealed class CampaignButton : ButtonBase
 
     protected override Color CalculateColor()
     {
-        switch (_state)
+        return _state switch
         {
-            case "passed": return Color.Wheat;
-            case "unavailable": return Color.Gray;
-        }
-        return base.CalculateColor();
+            CampaignNodeState.Passed or CampaignNodeState.Current => Color.Wheat,
+            CampaignNodeState.Unavailable => Color.Gray,
+            _ => base.CalculateColor()
+        };
     }
 }
