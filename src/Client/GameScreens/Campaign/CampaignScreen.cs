@@ -152,11 +152,17 @@ internal class CampaignScreen : GameScreenWithMenuBase
             return;
         }
 
+        if (campaignMap.Presentation is null)
+        {
+            // Presentation data is not ready yet.
+            return;
+        }
+
         _presentationDelayCounter = 0;
         _isCampaignPresentation = false;
         campaignMap.State = CampaignMap.MapState.Interactive;
 
-        campaignMap.Scroll = campaignMap.StartScroll;
+        campaignMap.Scroll = campaignMap.Presentation.Target;
     }
 
     private void InitializeCampaignItemButtons()
@@ -198,9 +204,15 @@ internal class CampaignScreen : GameScreenWithMenuBase
         }
         else
         {
-            if ((campaignMap.Scroll - campaignMap.StartScroll).Length() > 10)
+            if (campaignMap.Presentation is null)
             {
-                campaignMap.Scroll = Vector2.Lerp(campaignMap.Scroll, campaignMap.StartScroll,
+                // Presentation is not ready yet.
+                return;
+            }
+            
+            if ((campaignMap.Scroll - campaignMap.Presentation.Target).Length() > 10)
+            {
+                campaignMap.Scroll = Vector2.Lerp(campaignMap.Scroll, campaignMap.Presentation.Target,
                     (float)gameTime.ElapsedGameTime.TotalSeconds * 0.5f);
             }
             else
