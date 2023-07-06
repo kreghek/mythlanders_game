@@ -89,6 +89,8 @@ internal sealed class CampaignMap : ControlBase
         return Color.White;
     }
 
+    private float _nodeHighlightCounter;
+
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
         DrawBackgroundTiles(spriteBatch: spriteBatch, contentRect: contentRect);
@@ -97,9 +99,41 @@ internal sealed class CampaignMap : ControlBase
 
         DrawEdges(spriteBatch);
 
+        DrawNodeHighlights(spriteBatch);
+
         DrawDecorationHud(spriteBatch);
 
         DrawNodeHint(spriteBatch);
+    }
+
+    private void DrawNodeHighlights(SpriteBatch spriteBatch)
+    {
+        if (_heroCampaign.CurrentStage is null)
+        {
+            var roots = GetRoots(_heroCampaign.Stages);
+            var rootButtons = _buttonList.Where(x => roots.Contains(x.SourceGraphNodeLayout.Node)).ToArray();
+
+            for (var i = 0; i < rootButtons.Length; i++)
+            {
+                var button = rootButtons[i];
+                spriteBatch.DrawCircle(button.Rect.Center.ToVector2(), 24 + (int)(8 * Math.Sin(_nodeHighlightCounter + i * 133)), 16, TestamentColors.MainSciFi);
+            }
+        }
+        else
+        {
+            var currentButton = _buttonList.Single(x => x.SourceGraphNodeLayout.Node == _heroCampaign.CurrentStage);
+
+            spriteBatch.DrawCircle(currentButton.Rect.Center.ToVector2(), 24 + (int)(8 * Math.Sin(_nodeHighlightCounter + 100)), 16, TestamentColors.MainSciFi);
+
+            var next = _heroCampaign.Stages.GetNext(_heroCampaign.CurrentStage);
+            var nextButtons = _buttonList.Where(x => next.Contains(x.SourceGraphNodeLayout.Node)).ToArray();
+
+            for (var i = 0; i < nextButtons.Length; i++)
+            {
+                var button = nextButtons[i];
+                spriteBatch.DrawCircle(button.Rect.Center.ToVector2(), 24 + (int)(8 * Math.Sin(_nodeHighlightCounter + i * 133)), 16, TestamentColors.MainSciFi);
+            }
+        }
     }
 
     private void DrawNodeHint(SpriteBatch spriteBatch)
@@ -209,6 +243,8 @@ internal sealed class CampaignMap : ControlBase
         }
 
         HandleMapScrollingMyMouse(resolutionIndependentRenderer);
+
+        _nodeHighlightCounter += 0.1f;
     }
 
     private static IReadOnlyCollection<IGraphNodeLayout<ICampaignStageItem>> ApplyPostProcessTransformations(
