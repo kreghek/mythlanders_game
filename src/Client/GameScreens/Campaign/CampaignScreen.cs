@@ -20,6 +20,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private readonly ButtonBase _inventoryButton;
     private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
     private readonly ButtonBase _showStoryPointsButton;
+    private readonly IUiContentStorage _uiContentStorage;
     private CampaignMap? _campaignMap;
 
     private bool _isCampaignPresentation = true;
@@ -27,7 +28,6 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private double _presentationDelayCounter = 3;
 
     private bool _showStoryPoints;
-    private readonly IUiContentStorage _uiContentStorage;
 
     public CampaignScreen(TestamentGame game, CampaignScreenTransitionArguments screenTransitionArguments) : base(game)
     {

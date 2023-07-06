@@ -10,7 +10,6 @@ namespace Client.GameScreens.Campaign.Ui;
 
 internal sealed class CampaignButton : ButtonBase
 {
-    public CampaignNodeState NodeState { get; }
     private readonly Texture2D _icon;
     private readonly Rectangle? _iconRect;
 
@@ -24,6 +23,8 @@ internal sealed class CampaignButton : ButtonBase
         StageInfo = stageInfo;
         SourceGraphNodeLayout = sourceGraphNodeLayout;
     }
+
+    public CampaignNodeState NodeState { get; }
 
     /// <summary>
     /// Source node layout.
@@ -40,11 +41,6 @@ internal sealed class CampaignButton : ButtonBase
         return ControlTextures.Campaign;
     }
 
-    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
-    {
-        spriteBatch.Draw(_icon, contentRect, _iconRect, color);
-    }
-
     protected override Color CalculateColor()
     {
         return NodeState switch
@@ -53,5 +49,10 @@ internal sealed class CampaignButton : ButtonBase
             CampaignNodeState.Unavailable => Color.DarkGray,
             _ => base.CalculateColor()
         };
+    }
+
+    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
+    {
+        spriteBatch.Draw(_icon, contentRect, _iconRect, color);
     }
 }
