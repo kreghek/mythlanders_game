@@ -195,7 +195,7 @@ internal sealed class CampaignMap : ControlBase
             foreach (var nextButton in nextButtons)
             {
                 var lineColor = GetNodeColorByNodeState(nextButton.NodeState);
-                
+
                 var buttonPosition = button.Rect.Center.ToVector2();
                 var nextPosition = nextButton.Rect.Center.ToVector2();
 
@@ -286,7 +286,7 @@ internal sealed class CampaignMap : ControlBase
         var stageDisplayInfo = new CampaignStageDisplayInfo(stageItemDisplayName);
 
         var locationNodeState = GetLocationNodeState(graphNodeLayout);
-        
+
         var button = new CampaignButton(new IconData(_campaignIconsTexture, stageIconRect), stageDisplayInfo,
             graphNodeLayout, locationNodeState);
         button.OnHover += (_, _) =>
@@ -370,7 +370,7 @@ internal sealed class CampaignMap : ControlBase
             foreach (var graphNode in nextStored)
             {
                 var nextInner = _heroCampaign.Stages.GetNext(graphNode);
-                
+
                 openList.AddRange(nextInner);
             }
         }
@@ -534,7 +534,8 @@ internal sealed class CampaignMap : ControlBase
 
             return CreatePresentationScrollDataFromNodeLayouts(prevNodeLayout, nextNodeLayout);
         }
-        else {
+        else
+        {
             var entryLayout = graphNodeLayouts.Single(x => x.Node == currentCampaign.CurrentStage);
             return CreatePresentationScrollDataFromNodeLayouts(entryLayout, entryLayout);
         }
@@ -630,6 +631,6 @@ internal sealed class CampaignMap : ControlBase
         HeroCampaign CurrentCampaign);
 
     public sealed record PresentationScrollData(Vector2 Start, Vector2 Target);
-    
+
     public PresentationScrollData? Presentation { get; private set; }
 }

@@ -209,7 +209,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
                 // Presentation is not ready yet.
                 return;
             }
-            
+
             if ((campaignMap.Scroll - campaignMap.Presentation.Target).Length() > 10)
             {
                 campaignMap.Scroll = Vector2.Lerp(campaignMap.Scroll, campaignMap.Presentation.Target,
