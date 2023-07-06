@@ -75,19 +75,9 @@ internal sealed class CampaignMap : ControlBase
     }
 
     /// <summary>
-    /// Scroll to show start node layouts.
-    /// </summary>
-    public Vector2 StartScroll { get; private set; }
-
-    /// <summary>
     /// State of map.
     /// </summary>
     public MapState State { get; set; }
-
-    /// <summary>
-    /// Scroll to show reward node layout.
-    /// </summary>
-    private Vector2 RewardScroll { get; set; }
 
     protected override Point CalcTextureOffset()
     {
@@ -99,7 +89,67 @@ internal sealed class CampaignMap : ControlBase
         return Color.White;
     }
 
+    private float _nodeHighlightCounter;
+
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
+    {
+        DrawBackgroundTiles(spriteBatch: spriteBatch, contentRect: contentRect);
+
+        DrawButtonsWithShadows(spriteBatch: spriteBatch, contentRect: contentRect);
+
+        DrawEdges(spriteBatch);
+
+        DrawNodeHighlights(spriteBatch);
+
+        DrawDecorationHud(spriteBatch);
+
+        DrawNodeHint(spriteBatch);
+    }
+
+    private void DrawNodeHighlights(SpriteBatch spriteBatch)
+    {
+        if (_heroCampaign.CurrentStage is null)
+        {
+            var roots = GetRoots(_heroCampaign.Stages);
+            var rootButtons = _buttonList.Where(x => roots.Contains(x.SourceGraphNodeLayout.Node)).ToArray();
+
+            for (var i = 0; i < rootButtons.Length; i++)
+            {
+                var button = rootButtons[i];
+                spriteBatch.DrawCircle(button.Rect.Center.ToVector2(), 24 + (int)(8 * Math.Sin(_nodeHighlightCounter + i * 133)), 16, TestamentColors.MainSciFi);
+            }
+        }
+        else
+        {
+            var currentButton = _buttonList.Single(x => x.SourceGraphNodeLayout.Node == _heroCampaign.CurrentStage);
+
+            spriteBatch.DrawCircle(currentButton.Rect.Center.ToVector2(), 16, 16, Color.Wheat, 3);
+
+            var next = _heroCampaign.Stages.GetNext(_heroCampaign.CurrentStage);
+            var nextButtons = _buttonList.Where(x => next.Contains(x.SourceGraphNodeLayout.Node)).ToArray();
+
+            for (var i = 0; i < nextButtons.Length; i++)
+            {
+                var button = nextButtons[i];
+                spriteBatch.DrawCircle(button.Rect.Center.ToVector2(), 16 + (int)(8 * Math.Sin(_nodeHighlightCounter + i * 133)), 16, TestamentColors.MainSciFi, 3);
+            }
+        }
+    }
+
+    private void DrawNodeHint(SpriteBatch spriteBatch)
+    {
+        if (_currentHint is not null)
+        {
+            _currentHint.Draw(spriteBatch);
+        }
+    }
+
+    private void DrawDecorationHud(SpriteBatch spriteBatch)
+    {
+        spriteBatch.Draw(_hudTexture, Vector2.Zero, Color.Lerp(Color.White, Color.Transparent, 0.5f));
+    }
+
+    private void DrawBackgroundTiles(SpriteBatch spriteBatch, Rectangle contentRect)
     {
         for (var i = -2; i < 10; i++)
         {
@@ -111,7 +161,10 @@ internal sealed class CampaignMap : ControlBase
                     tilePosition, Color.White);
             }
         }
+    }
 
+    private void DrawButtonsWithShadows(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
         foreach (var button in _buttonList)
         {
             button.Rect = new Rectangle(
@@ -129,7 +182,10 @@ internal sealed class CampaignMap : ControlBase
         {
             button.Draw(spriteBatch);
         }
+    }
 
+    private void DrawEdges(SpriteBatch spriteBatch)
+    {
         foreach (var button in _buttonList)
         {
             var nextNodes = _heroCampaign.Stages.GetNext(button.SourceGraphNodeLayout.Node);
@@ -138,28 +194,40 @@ internal sealed class CampaignMap : ControlBase
 
             foreach (var nextButton in nextButtons)
             {
+                var lineColor = GetNodeColorByNodeState(nextButton.NodeState);
+                
                 var buttonPosition = button.Rect.Center.ToVector2();
                 var nextPosition = nextButton.Rect.Center.ToVector2();
 
-                var direction = buttonPosition - nextPosition;
+                var points = CalcLinePoints(buttonPosition: buttonPosition, nextPosition: nextPosition);
 
-                var angle = Math.Atan2(direction.Y, direction.X);
-
-                var startLinePoint = new Vector2((int)(Math.Cos(angle + Math.PI) * 16 + buttonPosition.X),
-                    (int)(Math.Sin(angle + Math.PI) * 16 + buttonPosition.Y));
-                var targetLinePoint = new Vector2((int)(Math.Cos(angle) * 16 + nextPosition.X),
-                    (int)(Math.Sin(angle) * 16 + nextPosition.Y));
-
-                spriteBatch.DrawLine(startLinePoint, targetLinePoint, Color.LightCyan);
+                spriteBatch.DrawLine(points.Start, points.End, lineColor);
             }
         }
+    }
 
-        spriteBatch.Draw(_hudTexture, Vector2.Zero, Color.Lerp(Color.White, Color.Transparent, 0.5f));
+    private static (Vector2 Start, Vector2 End) CalcLinePoints(Vector2 buttonPosition, Vector2 nextPosition)
+    {
+        var direction = buttonPosition - nextPosition;
 
-        if (_currentHint is not null)
+        var angle = Math.Atan2(direction.Y, direction.X);
+
+        var startLinePoint = new Vector2((int)(Math.Cos(angle + Math.PI) * 16 + buttonPosition.X),
+            (int)(Math.Sin(angle + Math.PI) * 16 + buttonPosition.Y));
+        var targetLinePoint = new Vector2((int)(Math.Cos(angle) * 16 + nextPosition.X),
+            (int)(Math.Sin(angle) * 16 + nextPosition.Y));
+        return (startLinePoint, targetLinePoint);
+    }
+
+    private static Color GetNodeColorByNodeState(CampaignNodeState nodeState)
+    {
+        return nodeState switch
         {
-            _currentHint.Draw(spriteBatch);
-        }
+            CampaignNodeState.Available => TestamentColors.MainSciFi,
+            CampaignNodeState.Current or CampaignNodeState.Passed => Color.Wheat,
+            CampaignNodeState.Unavailable => Color.DarkGray,
+            _ => Color.LightCyan
+        };
     }
 
     internal void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)
@@ -175,6 +243,8 @@ internal sealed class CampaignMap : ControlBase
         }
 
         HandleMapScrollingMyMouse(resolutionIndependentRenderer);
+
+        _nodeHighlightCounter += 0.1f;
     }
 
     private static IReadOnlyCollection<IGraphNodeLayout<ICampaignStageItem>> ApplyPostProcessTransformations(
@@ -215,8 +285,10 @@ internal sealed class CampaignMap : ControlBase
         var stageIconRect = GetStageItemTexture(graphNodeLayout.Node.Payload);
         var stageDisplayInfo = new CampaignStageDisplayInfo(stageItemDisplayName);
 
+        var locationNodeState = GetLocationNodeState(graphNodeLayout);
+        
         var button = new CampaignButton(new IconData(_campaignIconsTexture, stageIconRect), stageDisplayInfo,
-            graphNodeLayout);
+            graphNodeLayout, locationNodeState);
         button.OnHover += (_, _) =>
         {
             _currentHint = new TextHint(button.StageInfo.HintText)
@@ -228,7 +300,7 @@ internal sealed class CampaignMap : ControlBase
 
         button.OnLeave += (_, _) => { ClearCampaignItemHint(); };
 
-        var trasitionData = new TrasitionData(_currentScreen, _screenManager, currentCampaign);
+        var transitionData = new TransitionData(_currentScreen, _screenManager, currentCampaign);
         button.OnClick += (_, _) =>
         {
             if (State != MapState.Interactive)
@@ -244,18 +316,66 @@ internal sealed class CampaignMap : ControlBase
 
                 if (roots.Contains(button.SourceGraphNodeLayout.Node))
                 {
-                    SelectCampaignStage(graphNodeLayout.Node, trasitionData);
+                    SelectCampaignStage(graphNodeLayout.Node, transitionData);
                 }
             }
             else
             {
                 if (_heroCampaign.Stages.GetNext(_heroCampaign.CurrentStage).Contains(graphNodeLayout.Node))
                 {
-                    SelectCampaignStage(graphNodeLayout.Node, trasitionData);
+                    SelectCampaignStage(graphNodeLayout.Node, transitionData);
                 }
             }
         };
         return button;
+    }
+
+    private CampaignNodeState GetLocationNodeState(IGraphNodeLayout<ICampaignStageItem> graphNodeLayout)
+    {
+        if (graphNodeLayout.Node == _heroCampaign.CurrentStage)
+        {
+            return CampaignNodeState.Current;
+        }
+
+        if (_heroCampaign.Path.Contains(graphNodeLayout.Node))
+        {
+            return CampaignNodeState.Passed;
+        }
+
+        if (_heroCampaign.CurrentStage is not null)
+        {
+            var availableNodes = GetAvailableNodes(_heroCampaign.CurrentStage);
+
+            if (!availableNodes.Contains(graphNodeLayout.Node))
+            {
+                return CampaignNodeState.Unavailable;
+            }
+        }
+
+        return CampaignNodeState.Available;
+    }
+
+    private IEnumerable<IGraphNode<ICampaignStageItem>> GetAvailableNodes(IGraphNode<ICampaignStageItem> baseStage)
+    {
+        var openList = new List<IGraphNode<ICampaignStageItem>>();
+
+        var next = _heroCampaign.Stages.GetNext(baseStage).ToList();
+        openList.AddRange(next);
+
+        while (next.Any())
+        {
+            var nextStored = next.ToArray();
+            next.Clear();
+
+            foreach (var graphNode in nextStored)
+            {
+                var nextInner = _heroCampaign.Stages.GetNext(graphNode);
+                
+                openList.AddRange(nextInner);
+            }
+        }
+
+        return openList;
     }
 
     private static IReadOnlyCollection<IGraphNode<ICampaignStageItem>> GetRoots(
@@ -362,9 +482,9 @@ internal sealed class CampaignMap : ControlBase
     private void InitChildControls(IGraph<ICampaignStageItem> campaignGraph, HeroCampaign currentCampaign)
     {
         var horizontalVisualizer = new HorizontalGraphVisualizer<ICampaignStageItem>();
-        var visualizatorConfig = new VisualizerConfig();
-        var graphNodeLayouts = horizontalVisualizer.Create(campaignGraph, visualizatorConfig);
-        graphNodeLayouts = ApplyPostProcessTransformations(currentCampaign, visualizatorConfig, graphNodeLayouts);
+        var visualizerConfig = new VisualizerConfig();
+        var graphNodeLayouts = horizontalVisualizer.Create(campaignGraph, visualizerConfig);
+        graphNodeLayouts = ApplyPostProcessTransformations(currentCampaign, visualizerConfig, graphNodeLayouts);
 
         foreach (var graphNodeLayout in graphNodeLayouts)
         {
@@ -373,18 +493,8 @@ internal sealed class CampaignMap : ControlBase
             _buttonList.Add(button);
         }
 
-        var rewardNodeLayout = graphNodeLayouts.Single(x => x.Node.Payload is RewardStageItem);
-        RewardScroll = new Vector2(-rewardNodeLayout.Position.X + _resolutionIndependentRenderer.VirtualBounds.Center.X,
-            -rewardNodeLayout.Position.Y + _resolutionIndependentRenderer.VirtualBounds.Center.Y);
-        Scroll = RewardScroll;
-
-        var roots = GetRoots(_heroCampaign.Stages);
-
-        var startNodeLayouts = graphNodeLayouts.Where(x => roots.Contains(x.Node));
-        var startNodeLayout = startNodeLayouts.First();
-
-        StartScroll = new Vector2(-startNodeLayout.Position.X + _resolutionIndependentRenderer.VirtualBounds.Center.X,
-            -startNodeLayout.Position.Y + _resolutionIndependentRenderer.VirtualBounds.Center.Y);
+        Presentation = CreatePresentationScrollData(currentCampaign, graphNodeLayouts);
+        Scroll = Presentation.Start;
 
         _graphRect = new Rectangle(
             graphNodeLayouts.Min(x => x.Position.X),
@@ -392,6 +502,60 @@ internal sealed class CampaignMap : ControlBase
             graphNodeLayouts.Max(x => x.Position.X + 32),
             graphNodeLayouts.Max(x => x.Position.Y + 32)
         );
+    }
+
+    private PresentationScrollData CreatePresentationScrollData(HeroCampaign currentCampaign,
+        IReadOnlyCollection<IGraphNodeLayout<ICampaignStageItem>> graphNodeLayouts)
+    {
+        if (currentCampaign.CurrentStage is null)
+        {
+            // First make start position is reward node to show all graph
+            // target position - one of start node.
+
+            var rewardNodeLayout = graphNodeLayouts.Single(x => x.Node.Payload is RewardStageItem);
+
+            var roots = GetRoots(_heroCampaign.Stages);
+
+            var startNodeLayouts = graphNodeLayouts.Where(x => roots.Contains(x.Node));
+            var startNodeLayout = startNodeLayouts.First();
+
+            return CreatePresentationScrollDataFromNodeLayouts(rewardNodeLayout, startNodeLayout);
+        }
+        else if (currentCampaign.Path.Any())
+        {
+            // now start node is previous node
+            // and target is next available node
+
+            var prevNodeLayout = graphNodeLayouts.Single(x => x.Node == currentCampaign.Path.Last());
+
+            var next = currentCampaign.Stages.GetNext(prevNodeLayout.Node);
+            var startNodeLayouts = graphNodeLayouts.Where(x => next.Contains(x.Node));
+            var nextNodeLayout = startNodeLayouts.First();
+
+            return CreatePresentationScrollDataFromNodeLayouts(prevNodeLayout, nextNodeLayout);
+        }
+        else {
+            var entryLayout = graphNodeLayouts.Single(x => x.Node == currentCampaign.CurrentStage);
+            return CreatePresentationScrollDataFromNodeLayouts(entryLayout, entryLayout);
+        }
+    }
+
+    private PresentationScrollData CreatePresentationScrollDataFromNodeLayouts(IGraphNodeLayout<ICampaignStageItem> rewardNodeLayout,
+        IGraphNodeLayout<ICampaignStageItem> startNodeLayout)
+    {
+        var rewardScroll = GetScrollByGraphNodeLayout(rewardNodeLayout);
+
+        var startScroll = GetScrollByGraphNodeLayout(startNodeLayout);
+
+        return new PresentationScrollData(rewardScroll, startScroll);
+    }
+
+    private Vector2 GetScrollByGraphNodeLayout(IGraphNodeLayout<ICampaignStageItem> nodeLayout)
+    {
+        var screenCenter = _resolutionIndependentRenderer.VirtualBounds.Center;
+        return new Vector2(
+            -nodeLayout.Position.X + screenCenter.X,
+            -nodeLayout.Position.Y + screenCenter.Y);
     }
 
     private static Vector2 NormalizeScroll(Vector2 currentScroll, Rectangle boundingGraphRect,
@@ -422,11 +586,17 @@ internal sealed class CampaignMap : ControlBase
         return scroll;
     }
 
-    private static void SelectCampaignStage(IGraphNode<ICampaignStageItem> stageNode, TrasitionData trasitionData)
+    private static void SelectCampaignStage(IGraphNode<ICampaignStageItem> stageNode, TransitionData transitionData)
     {
-        trasitionData.CurrentCampaign.CurrentStage = stageNode;
-        stageNode.Payload.ExecuteTransition(trasitionData.CurrentScreen, trasitionData.ScreenManager,
-            trasitionData.CurrentCampaign);
+        var campaign = transitionData.CurrentCampaign;
+        if (campaign.CurrentStage is not null)
+        {
+            campaign.Path.Add(campaign.CurrentStage);
+        }
+
+        campaign.CurrentStage = stageNode;
+        stageNode.Payload.ExecuteTransition(transitionData.CurrentScreen, transitionData.ScreenManager,
+            campaign);
     }
 
     private sealed record DragData(Vector2 DragScroll, Vector2 StartMousePosition);
@@ -456,6 +626,10 @@ internal sealed class CampaignMap : ControlBase
         }
     }
 
-    private sealed record TrasitionData(IScreen CurrentScreen, IScreenManager ScreenManager,
+    private sealed record TransitionData(IScreen CurrentScreen, IScreenManager ScreenManager,
         HeroCampaign CurrentCampaign);
+
+    public sealed record PresentationScrollData(Vector2 Start, Vector2 Target);
+    
+    public PresentationScrollData? Presentation { get; private set; }
 }

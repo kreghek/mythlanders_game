@@ -27,12 +27,14 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private double _presentationDelayCounter = 3;
 
     private bool _showStoryPoints;
+    private readonly IUiContentStorage _uiContentStorage;
 
     public CampaignScreen(TestamentGame game, CampaignScreenTransitionArguments screenTransitionArguments) : base(game)
     {
         _screenTransitionArguments = screenTransitionArguments;
 
         _globe = game.Services.GetRequiredService<GlobeProvider>();
+        _uiContentStorage = game.Services.GetRequiredService<IUiContentStorage>();
 
         _showStoryPointsButton = new ResourceTextButton(nameof(UiResource.CurrentQuestButtonTitle));
         _showStoryPointsButton.OnClick += ShowStoryPointsButton_OnClick;
@@ -69,6 +71,12 @@ internal class CampaignScreen : GameScreenWithMenuBase
         {
             _campaignMap.Rect = contentRect;
             _campaignMap.Draw(spriteBatch);
+
+            if (_isCampaignPresentation)
+            {
+                spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), "Нажми [SPACE] чтобы пропустить",
+                    new Vector2(contentRect.Center.X, contentRect.Bottom - 50), Color.Wheat);
+            }
         }
 
         const int STORY_POINT_PANEL_WIDTH = 200;
@@ -144,11 +152,17 @@ internal class CampaignScreen : GameScreenWithMenuBase
             return;
         }
 
+        if (campaignMap.Presentation is null)
+        {
+            // Presentation data is not ready yet.
+            return;
+        }
+
         _presentationDelayCounter = 0;
         _isCampaignPresentation = false;
         campaignMap.State = CampaignMap.MapState.Interactive;
 
-        campaignMap.Scroll = campaignMap.StartScroll;
+        campaignMap.Scroll = campaignMap.Presentation.Target;
     }
 
     private void InitializeCampaignItemButtons()
@@ -190,9 +204,15 @@ internal class CampaignScreen : GameScreenWithMenuBase
         }
         else
         {
-            if ((campaignMap.Scroll - campaignMap.StartScroll).Length() > 10)
+            if (campaignMap.Presentation is null)
             {
-                campaignMap.Scroll = Vector2.Lerp(campaignMap.Scroll, campaignMap.StartScroll,
+                // Presentation is not ready yet.
+                return;
+            }
+            
+            if ((campaignMap.Scroll - campaignMap.Presentation.Target).Length() > 10)
+            {
+                campaignMap.Scroll = Vector2.Lerp(campaignMap.Scroll, campaignMap.Presentation.Target,
                     (float)gameTime.ElapsedGameTime.TotalSeconds * 0.5f);
             }
             else
