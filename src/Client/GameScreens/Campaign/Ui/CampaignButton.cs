@@ -8,21 +8,23 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Campaign.Ui;
 
-internal sealed record CampaignStageDisplayInfo(string HintText);
-
 internal sealed class CampaignButton : ButtonBase
 {
     private readonly Texture2D _icon;
     private readonly Rectangle? _iconRect;
 
     public CampaignButton(IconData iconData, CampaignStageDisplayInfo stageInfo,
-        IGraphNodeLayout<ICampaignStageItem> sourceGraphNodeLayout)
+        IGraphNodeLayout<ICampaignStageItem> sourceGraphNodeLayout,
+        CampaignNodeState state)
     {
+        NodeState = state;
         _icon = iconData.Spritesheet;
         _iconRect = iconData.SourceRect;
         StageInfo = stageInfo;
         SourceGraphNodeLayout = sourceGraphNodeLayout;
     }
+
+    public CampaignNodeState NodeState { get; }
 
     /// <summary>
     /// Source node layout.
@@ -37,6 +39,16 @@ internal sealed class CampaignButton : ButtonBase
     protected override Point CalcTextureOffset()
     {
         return ControlTextures.Campaign;
+    }
+
+    protected override Color CalculateColor()
+    {
+        return NodeState switch
+        {
+            CampaignNodeState.Passed or CampaignNodeState.Current => Color.Wheat,
+            CampaignNodeState.Unavailable => Color.DarkGray,
+            _ => base.CalculateColor()
+        };
     }
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
