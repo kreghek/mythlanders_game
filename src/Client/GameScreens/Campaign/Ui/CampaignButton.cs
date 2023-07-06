@@ -50,7 +50,7 @@ internal sealed class CampaignButton : ButtonBase
         return NodeState switch
         {
             CampaignNodeState.Passed or CampaignNodeState.Current => Color.Wheat,
-            CampaignNodeState.Unavailable => Color.Gray,
+            CampaignNodeState.Unavailable => Color.DarkGray,
             _ => base.CalculateColor()
         };
     }

@@ -123,7 +123,7 @@ internal sealed class CampaignMap : ControlBase
         {
             var currentButton = _buttonList.Single(x => x.SourceGraphNodeLayout.Node == _heroCampaign.CurrentStage);
 
-            spriteBatch.DrawCircle(currentButton.Rect.Center.ToVector2(), 24 + (int)(8 * Math.Sin(_nodeHighlightCounter + 100)), 16, TestamentColors.MainSciFi);
+            spriteBatch.DrawCircle(currentButton.Rect.Center.ToVector2(), 16, 16, Color.Wheat, 3);
 
             var next = _heroCampaign.Stages.GetNext(_heroCampaign.CurrentStage);
             var nextButtons = _buttonList.Where(x => next.Contains(x.SourceGraphNodeLayout.Node)).ToArray();
@@ -131,7 +131,7 @@ internal sealed class CampaignMap : ControlBase
             for (var i = 0; i < nextButtons.Length; i++)
             {
                 var button = nextButtons[i];
-                spriteBatch.DrawCircle(button.Rect.Center.ToVector2(), 24 + (int)(8 * Math.Sin(_nodeHighlightCounter + i * 133)), 16, TestamentColors.MainSciFi);
+                spriteBatch.DrawCircle(button.Rect.Center.ToVector2(), 16 + (int)(8 * Math.Sin(_nodeHighlightCounter + i * 133)), 16, TestamentColors.MainSciFi, 3);
             }
         }
     }
@@ -223,7 +223,7 @@ internal sealed class CampaignMap : ControlBase
     {
         return nodeState switch
         {
-            CampaignNodeState.Available => Color.LightCyan,
+            CampaignNodeState.Available => TestamentColors.MainSciFi,
             CampaignNodeState.Current or CampaignNodeState.Passed => Color.Wheat,
             CampaignNodeState.Unavailable => Color.DarkGray,
             _ => Color.LightCyan
