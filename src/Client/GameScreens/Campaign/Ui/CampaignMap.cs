@@ -475,17 +475,17 @@ internal sealed class CampaignMap : ControlBase
         {
             // First make start position is reward node to show all graph
             // target position - one of start node.
-            
+
             var rewardNodeLayout = graphNodeLayouts.Single(x => x.Node.Payload is RewardStageItem);
-            
+
             var roots = GetRoots(_heroCampaign.Stages);
-            
+
             var startNodeLayouts = graphNodeLayouts.Where(x => roots.Contains(x.Node));
             var startNodeLayout = startNodeLayouts.First();
-            
+
             return CreatePresentationScrollDataFromNodeLayouts(rewardNodeLayout, startNodeLayout);
         }
-        else
+        else if (currentCampaign.Path.Any())
         {
             // now start node is previous node
             // and target is next available node
@@ -497,6 +497,10 @@ internal sealed class CampaignMap : ControlBase
             var nextNodeLayout = startNodeLayouts.First();
 
             return CreatePresentationScrollDataFromNodeLayouts(prevNodeLayout, nextNodeLayout);
+        }
+        else {
+            var entryLayout = graphNodeLayouts.Single(x => x.Node == currentCampaign.CurrentStage);
+            return CreatePresentationScrollDataFromNodeLayouts(entryLayout, entryLayout);
         }
     }
 
