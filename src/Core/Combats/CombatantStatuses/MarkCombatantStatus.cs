@@ -1,4 +1,4 @@
-namespace Core.Combats.CombatantStatus;
+namespace Core.Combats.CombatantStatuses;
 
 public sealed class MarkCombatantStatus : CombatantStatusBase
 {

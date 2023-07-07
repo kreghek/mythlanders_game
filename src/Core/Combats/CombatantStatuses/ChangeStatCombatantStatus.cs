@@ -1,4 +1,4 @@
-namespace Core.Combats.CombatantStatus;
+namespace Core.Combats.CombatantStatuses;
 
 /// <summary>
 /// Change max value of specified combatant's stat.

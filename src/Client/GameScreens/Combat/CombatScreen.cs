@@ -389,32 +389,35 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             var nextIndex = GetIndicatorNextIndex(unitGameObject);
 
-            switch (e.StatType)
+            if (e.StatType == CombatantStatTypes.HitPoints)
             {
-                case ICombatantStatType.HitPoints:
-                    var damageIndicator =
+                var damageIndicator =
                         new HitPointsChangedTextIndicator(-e.Value,
                             HitPointsChangeDirection.Negative,
                             position,
                             font,
                             nextIndex ?? 0);
 
-                    unitGameObject.AddChild(damageIndicator);
+                unitGameObject.AddChild(damageIndicator);
 
-                    unitGameObject.AnimateWound();
-
-                    break;
-
-                case ICombatantStatType.ShieldPoints:
-                    var spIndicator =
+                unitGameObject.AnimateWound();
+            }
+            else if (e.StatType == CombatantStatTypes.ShieldPoints)
+            {
+                var spIndicator =
                         new ShieldPointsChangedTextIndicator(-e.Value,
                             HitPointsChangeDirection.Negative,
                             position,
                             font,
                             nextIndex ?? 0);
 
-                    unitGameObject.AddChild(spIndicator);
-                    break;
+                unitGameObject.AddChild(spIndicator);
+
+                unitGameObject.AnimateShield();
+            }
+            else
+            { 
+                // TODO Display visual effect of stat damage (resolve, maneuvers, etc).
             }
         }
     }
@@ -718,7 +721,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void DrawCombatantEffects(Vector2 statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
     {
-        var orderedCombatantEffects = combatant.Effects.OrderBy(x => x.Sid.ToString()).ToArray();
+        var orderedCombatantEffects = combatant.Statuses.OrderBy(x => x.Sid.ToString()).ToArray();
         for (var index = 0; index < orderedCombatantEffects.Length; index++)
         {
             var combatantEffect = orderedCombatantEffects[index];
@@ -968,7 +971,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         var barCenter = statsPanelOrigin;
 
-        var hp = combatant.Stats.Single(x => x.Type == ICombatantStatType.HitPoints).Value;
+        var hp = combatant.Stats.Single(x => x.Type == CombatantStatTypes.HitPoints).Value;
         if (hp.Current > 0)
         {
             var barSize = MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare());
@@ -998,7 +1001,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 Color.Red);
         }
 
-        var sp = combatant.Stats.Single(x => x.Type == ICombatantStatType.ShieldPoints).Value;
+        var sp = combatant.Stats.Single(x => x.Type == CombatantStatTypes.ShieldPoints).Value;
         if (sp.Current > 0)
         {
             var barSize = MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare());
@@ -1026,26 +1029,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 sp.Current.ToString(),
                 new Vector2((float)textX, (float)textY),
                 Color.Lerp(Color.Blue, Color.Transparent, 0.25f));
-
-            //spriteBatch.DrawRectangle(
-            //    new Rectangle(
-            //        new Point(statsPanelOrigin.Location.X + 10,
-            //            statsPanelOrigin.Location.Y + statsPanelOrigin.Size.Y / 2),
-            //        new Point((int)(statsPanelOrigin.Size.X * sp.GetShare()), statsPanelOrigin.Size.Y / 2)),
-            //    Color.Lerp(Color.Blue, Color.Transparent, 0.5f), 3);
-
-            //spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-            //    sp.Current.ToString(),
-            //    new Vector2(statsPanelOrigin.Location.X + 10,
-            //        statsPanelOrigin.Location.Y + statsPanelOrigin.Size.Y / 2),
-            //    Color.Lerp(Color.White, Color.Transparent, 0.25f));
         }
-
-        //var res = combatant.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.Current;
-        //spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-        //    res.ToString(),
-        //    statsPanelOrigin.Location.ToVector2(),
-        //    Color.Lerp(Color.White, Color.Transparent, 0.25f));
     }
 
     private void DropSelection(Combatant combatant)

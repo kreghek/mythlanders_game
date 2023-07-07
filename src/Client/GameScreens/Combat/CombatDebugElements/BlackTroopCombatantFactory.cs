@@ -3,7 +3,7 @@
 using Client.Assets.CombatMovements.Monster.Black.BlackTroop;
 
 using Core.Combats;
-using Core.Combats.CombatantStatus;
+using Core.Combats.CombatantStatuses;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 

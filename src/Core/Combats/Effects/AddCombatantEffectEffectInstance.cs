@@ -1,4 +1,4 @@
-using Core.Combats.CombatantStatus;
+using Core.Combats.CombatantStatuses;
 
 namespace Core.Combats.Effects;
 

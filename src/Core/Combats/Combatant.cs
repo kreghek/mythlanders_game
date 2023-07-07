@@ -1,21 +1,21 @@
-using Core.Combats.CombatantStatus;
+using Core.Combats.CombatantStatuses;
 
 namespace Core.Combats;
 
 public sealed class Combatant
 {
-    private readonly IList<ICombatantStatus> _effects = new List<ICombatantStatus>();
+    private readonly IList<ICombatantStatus> _statuses = new List<ICombatantStatus>();
     private readonly CombatMovementInstance?[] _hand;
     private readonly IList<CombatMovementInstance> _pool;
-    private readonly IReadOnlyCollection<ICombatantStatusFactory> _startupEffects;
+    private readonly IReadOnlyCollection<ICombatantStatusFactory> _startupStatuses;
 
     public Combatant(string classSid,
         CombatMovementSequence sequence,
         CombatantStatsConfig stats,
         ICombatActorBehaviour behaviour,
-        IReadOnlyCollection<ICombatantStatusFactory> startupEffects)
+        IReadOnlyCollection<ICombatantStatusFactory> startupStatuses)
     {
-        _startupEffects = startupEffects;
+        _startupStatuses = startupStatuses;
         ClassSid = classSid;
         Behaviour = behaviour;
         _pool = new List<CombatMovementInstance>();
@@ -50,7 +50,7 @@ public sealed class Combatant
     /// <summary>
     /// Current combatant effects.
     /// </summary>
-    public IReadOnlyCollection<ICombatantStatus> Effects => _effects.ToArray();
+    public IReadOnlyCollection<ICombatantStatus> Statuses => _statuses.ToArray();
 
     /// <summary>
     /// Current available combatant's movements.
@@ -89,7 +89,7 @@ public sealed class Combatant
         ICombatantStatusLifetimeImposeContext lifetimeImposeContext)
     {
         effect.Impose(this, effectImposeContext);
-        _effects.Add(effect);
+        _statuses.Add(effect);
 
         effect.Lifetime.HandleImposed(effect, lifetimeImposeContext);
     }
@@ -132,7 +132,7 @@ public sealed class Combatant
     public void RemoveEffect(ICombatantStatus effect, ICombatantStatusLifetimeDispelContext context)
     {
         effect.Dispel(this);
-        _effects.Remove(effect);
+        _statuses.Remove(effect);
 
         effect.Lifetime.HandleDispelling(effect, context);
     }
@@ -155,7 +155,7 @@ public sealed class Combatant
         var context = new CombatantEffectLifetimeUpdateContext(this, effectLifetimeDispelContext.Combat);
 
         var effectToDispel = new List<ICombatantStatus>();
-        foreach (var effect in _effects)
+        foreach (var effect in _statuses)
         {
             effect.Update(updateType, context);
 
@@ -188,7 +188,7 @@ public sealed class Combatant
 
     private void ApplyStartupEffects(CombatCore combatCore)
     {
-        foreach (var effectFactory in _startupEffects)
+        foreach (var effectFactory in _startupStatuses)
         {
             var effect = effectFactory.Create();
 

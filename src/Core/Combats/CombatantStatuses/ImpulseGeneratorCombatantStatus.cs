@@ -1,6 +1,6 @@
 using Core.Combats.CombatantEffectLifetimes;
 
-namespace Core.Combats.CombatantStatus;
+namespace Core.Combats.CombatantStatuses;
 
 public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
 {
@@ -28,7 +28,7 @@ public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
 
     private IReadOnlyCollection<ICombatantStatus> CollectImpulseEffects(Combatant targetCombatant)
     {
-        return targetCombatant.Effects.Where(x => x.Sid == _generatedSid).ToArray();
+        return targetCombatant.Statuses.Where(x => x.Sid == _generatedSid).ToArray();
     }
 
     private void Combat_CombatantHasChangePosition(object? sender, CombatantHasChangedPositionEventArgs e)
@@ -44,7 +44,7 @@ public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
 
         var targetCombat = (CombatCore)sender!;
 
-        var currentGeneratedCount = targetCombatant.Effects.Count(x => x.Sid == _generatedSid);
+        var currentGeneratedCount = targetCombatant.Statuses.Count(x => x.Sid == _generatedSid);
 
         if (currentGeneratedCount < GENERATED_LIMIT)
         {

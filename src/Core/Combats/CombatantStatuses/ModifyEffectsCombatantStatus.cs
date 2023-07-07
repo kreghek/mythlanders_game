@@ -1,4 +1,4 @@
-namespace Core.Combats.CombatantStatus;
+namespace Core.Combats.CombatantStatuses;
 
 /// <summary>
 /// Change combat movements effects. Damage, etc.

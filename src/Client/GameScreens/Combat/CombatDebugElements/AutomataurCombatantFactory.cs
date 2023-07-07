@@ -3,7 +3,7 @@ using System;
 using Client.Assets.CombatMovements.Monster.Greek.Automaur;
 
 using Core.Combats;
-using Core.Combats.CombatantStatus;
+using Core.Combats.CombatantStatuses;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 

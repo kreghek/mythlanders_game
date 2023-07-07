@@ -5,7 +5,7 @@ using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Amazon;
 
 using Core.Combats;
-using Core.Combats.CombatantStatus;
+using Core.Combats.CombatantStatuses;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
