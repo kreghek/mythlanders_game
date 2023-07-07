@@ -21,7 +21,7 @@ public sealed class HealEffectInstance : EffectInstanceBase<HealEffect>
     {
         var rolledHeal = context.Dice.Roll(Heal.Min.ActualMax, Heal.Max.ActualMax);
 
-        context.RestoreCombatantStat(target, UnitStatType.HitPoints, rolledHeal);
+        context.RestoreCombatantStat(target, ICombatantStatType.HitPoints, rolledHeal);
     }
 
     public override void RemoveModifier(IUnitStatModifier modifier)

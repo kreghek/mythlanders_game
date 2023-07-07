@@ -391,7 +391,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             switch (e.StatType)
             {
-                case UnitStatType.HitPoints:
+                case ICombatantStatType.HitPoints:
                     var damageIndicator =
                         new HitPointsChangedTextIndicator(-e.Value,
                             HitPointsChangeDirection.Negative,
@@ -405,7 +405,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
                     break;
 
-                case UnitStatType.ShieldPoints:
+                case ICombatantStatType.ShieldPoints:
                     var spIndicator =
                         new ShieldPointsChangedTextIndicator(-e.Value,
                             HitPointsChangeDirection.Negative,
@@ -968,7 +968,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         var barCenter = statsPanelOrigin;
 
-        var hp = combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value;
+        var hp = combatant.Stats.Single(x => x.Type == ICombatantStatType.HitPoints).Value;
         if (hp.Current > 0)
         {
             var barSize = MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare());
@@ -998,7 +998,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 Color.Red);
         }
 
-        var sp = combatant.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value;
+        var sp = combatant.Stats.Single(x => x.Type == ICombatantStatType.ShieldPoints).Value;
         if (sp.Current > 0)
         {
             var barSize = MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare());
@@ -1364,14 +1364,14 @@ internal class CombatScreen : GameScreenWithMenuBase
         private readonly TimeOnly _notificationDuration = new(0, 0, 10, 0);
         private double _counter;
 
-        public EffectNotification(ICombatantEffect combatantEffect, EffectNotificationDirection direction)
+        public EffectNotification(ICombatantStatus combatantEffect, EffectNotificationDirection direction)
         {
             _counter = _notificationDuration.ToTimeSpan().TotalSeconds;
             CombatantEffect = combatantEffect;
             Direction = direction;
         }
 
-        public ICombatantEffect CombatantEffect { get; }
+        public ICombatantStatus CombatantEffect { get; }
         public EffectNotificationDirection Direction { get; }
 
         public double LifetimeCounter => _counter / _notificationDuration.ToTimeSpan().TotalSeconds;

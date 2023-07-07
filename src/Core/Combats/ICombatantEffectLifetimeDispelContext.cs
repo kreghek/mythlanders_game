@@ -1,6 +1,6 @@
 namespace Core.Combats;
 
-public interface ICombatantEffectLifetimeDispelContext
+public interface ICombatantStatusLifetimeDispelContext
 {
     CombatCore Combat { get; }
 }

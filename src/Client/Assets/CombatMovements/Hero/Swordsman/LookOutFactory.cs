@@ -19,7 +19,7 @@ internal class LookOutFactory : CombatMovementFactoryBase
                     new ChangeStatEffect(
                         new CombatantEffectSid(Sid),
                         new ClosestAllyInColumnTargetSelector(),
-                        UnitStatType.Defense,
+                        ICombatantStatType.Defense,
                         3,
                         new ToNextCombatantTurnEffectLifetimeFactory()),
                     new PushToPositionEffect(
@@ -32,7 +32,7 @@ internal class LookOutFactory : CombatMovementFactoryBase
                     new ChangeStatEffect(
                         new CombatantEffectSid(Sid),
                         new SelfTargetSelector(),
-                        UnitStatType.Defense,
+                        ICombatantStatType.Defense,
                         1,
                         new ToEndOfCurrentRoundEffectLifetimeFactory())
                 })

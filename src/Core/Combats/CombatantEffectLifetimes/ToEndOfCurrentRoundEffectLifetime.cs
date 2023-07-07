@@ -1,20 +1,20 @@
 namespace Core.Combats.CombatantEffectLifetimes;
 
-public sealed class ToEndOfCurrentRoundEffectLifetime : ICombatantEffectLifetime
+public sealed class ToEndOfCurrentRoundEffectLifetime : ICombatantStatusLifetime
 {
-    public void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context)
+    public void Update(CombatantStatusUpdateType updateType, ICombatantStatusLifetimeUpdateContext context)
     {
-        if (updateType == CombatantEffectUpdateType.EndRound)
+        if (updateType == CombatantStatusUpdateType.EndRound)
         {
             IsExpired = true;
         }
     }
 
-    public void HandleOwnerImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context)
+    public void HandleImposed(ICombatantStatus combatantEffect, ICombatantStatusLifetimeImposeContext context)
     {
     }
 
-    public void HandleOwnerDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context)
+    public void HandleDispelling(ICombatantStatus combatantEffect, ICombatantStatusLifetimeDispelContext context)
     {
     }
 
@@ -23,7 +23,7 @@ public sealed class ToEndOfCurrentRoundEffectLifetime : ICombatantEffectLifetime
 
 public sealed class ToEndOfCurrentRoundEffectLifetimeFactory : ICombatantEffectLifetimeFactory
 {
-    public ICombatantEffectLifetime Create()
+    public ICombatantStatusLifetime Create()
     {
         return new ToEndOfCurrentRoundEffectLifetime();
     }

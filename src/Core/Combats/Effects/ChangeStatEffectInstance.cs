@@ -4,17 +4,17 @@ namespace Core.Combats.Effects;
 
 public sealed class ChangeStatEffectInstance : EffectInstanceBase<ChangeStatEffect>
 {
-    private readonly ICombatantEffectSid _combatantEffectSid;
+    private readonly ICombatantStatusSid _combatantEffectSid;
 
-    public ChangeStatEffectInstance(ICombatantEffectSid combatantEffectSid, ChangeStatEffect baseEffect,
-        ICombatantEffectLifetime combatantEffectLifetime) :
+    public ChangeStatEffectInstance(ICombatantStatusSid combatantEffectSid, ChangeStatEffect baseEffect,
+        ICombatantStatusLifetime combatantEffectLifetime) :
         base(baseEffect)
     {
         _combatantEffectSid = combatantEffectSid;
         Lifetime = combatantEffectLifetime;
     }
 
-    public ICombatantEffectLifetime Lifetime { get; }
+    public ICombatantStatusLifetime Lifetime { get; }
 
     public override void Influence(Combatant target, IEffectCombatContext context)
     {

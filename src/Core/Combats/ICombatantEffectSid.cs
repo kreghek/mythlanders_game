@@ -1,5 +1,5 @@
 namespace Core.Combats;
 
-public interface ICombatantEffectSid
+public interface ICombatantStatusSid
 {
 }

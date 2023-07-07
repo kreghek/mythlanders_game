@@ -4,9 +4,9 @@ namespace Core.Combats.Effects;
 
 public sealed class MarkEffectInstance : EffectInstanceBase<MarkEffect>
 {
-    private readonly ICombatantEffectLifetime _lifetime;
+    private readonly ICombatantStatusLifetime _lifetime;
 
-    public MarkEffectInstance(MarkEffect baseEffect, ICombatantEffectLifetime lifetime) : base(baseEffect)
+    public MarkEffectInstance(MarkEffect baseEffect, ICombatantStatusLifetime lifetime) : base(baseEffect)
     {
         _lifetime = lifetime;
     }

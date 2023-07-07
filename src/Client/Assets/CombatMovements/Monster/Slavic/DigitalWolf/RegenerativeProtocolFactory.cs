@@ -13,7 +13,7 @@ internal class RegenerativeProtocolFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new ChangeCurrentStatEffect(new SelfTargetSelector(), UnitStatType.HitPoints,
+                    new ChangeCurrentStatEffect(new SelfTargetSelector(), ICombatantStatType.HitPoints,
                         Range<int>.CreateMono(3)),
                     new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
                 })

@@ -2,9 +2,9 @@ namespace Core.Combats.Effects;
 
 public sealed class ModifyEffectsEffect : IEffect
 {
-    private readonly ICombatantEffectSid _effectSid;
+    private readonly ICombatantStatusSid _effectSid;
 
-    public ModifyEffectsEffect(ICombatantEffectSid effectSid, ITargetSelector selector, int value)
+    public ModifyEffectsEffect(ICombatantStatusSid effectSid, ITargetSelector selector, int value)
     {
         _effectSid = effectSid;
         Selector = selector;

@@ -1,10 +1,13 @@
-namespace Core.Combats.CombatantEffects;
+namespace Core.Combats.CombatantStatus;
 
-public sealed class ChangeStatCombatantEffect : CombatantEffectBase
+/// <summary>
+/// Change max value of specified combatant's stat.
+/// </summary>
+public sealed class ChangeStatCombatantStatus : CombatantStatusBase
 {
     private readonly IUnitStatModifier _statModifier;
 
-    public ChangeStatCombatantEffect(ICombatantEffectSid sid, ICombatantEffectLifetime lifetime, UnitStatType statType,
+    public ChangeStatCombatantStatus(ICombatantStatusSid sid, ICombatantStatusLifetime lifetime, ICombatantStatType statType,
         int value) :
         base(sid, lifetime)
     {
@@ -14,7 +17,7 @@ public sealed class ChangeStatCombatantEffect : CombatantEffectBase
         _statModifier = new StatModifier(value);
     }
 
-    public UnitStatType StatType { get; }
+    public ICombatantStatType StatType { get; }
     public int Value { get; }
 
     public override void Dispel(Combatant combatant)
@@ -22,7 +25,7 @@ public sealed class ChangeStatCombatantEffect : CombatantEffectBase
         combatant.Stats.Single(x => x.Type == StatType).Value.RemoveModifier(_statModifier);
     }
 
-    public override void Impose(Combatant combatant, ICombatantEffectImposeContext combatantEffectImposeContext)
+    public override void Impose(Combatant combatant, ICombatantStatusImposeContext combatantEffectImposeContext)
     {
         combatant.Stats.Single(x => x.Type == StatType).Value.AddModifier(_statModifier);
     }

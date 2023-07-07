@@ -3,7 +3,7 @@ using System;
 using Client.Assets.CombatMovements.Monster.Greek.Automaur;
 
 using Core.Combats;
-using Core.Combats.CombatantEffects;
+using Core.Combats.CombatantStatus;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -43,12 +43,12 @@ public class AutomataurCombatantFactory : IMonsterCombatantFactory
         var monsterSequence = CreateCombatMoveVariation(variationIndex);
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, 6);
-        stats.SetValue(UnitStatType.ShieldPoints, 4);
-        stats.SetValue(UnitStatType.Resolve, 5);
+        stats.SetValue(ICombatantStatType.HitPoints, 6);
+        stats.SetValue(ICombatantStatType.ShieldPoints, 4);
+        stats.SetValue(ICombatantStatType.Resolve, 5);
 
         var monster = new Combatant("automataur", monsterSequence, stats, combatActorBehaviour,
-            ArraySegment<ICombatantEffectFactory>.Empty)
+            ArraySegment<ICombatantStatusFactory>.Empty)
         {
             DebugSid = sid,
             IsPlayerControlled = false

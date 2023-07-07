@@ -81,7 +81,7 @@ public class CombatCore
 
         CombatantEndsTurn?.Invoke(this, new CombatantEndsTurnEventArgs(CurrentCombatant));
 
-        CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.EndCombatantTurn, context);
+        CurrentCombatant.UpdateEffects(CombatantStatusUpdateType.EndCombatantTurn, context);
 
         if (_roundQueue.Any())
         {
@@ -92,7 +92,7 @@ public class CombatCore
         {
             if (!_roundQueue.Any())
             {
-                UpdateAllCombatantEffects(CombatantEffectUpdateType.EndRound, context);
+                UpdateAllCombatantEffects(CombatantStatusUpdateType.EndRound, context);
 
                 if (Finished)
                 {
@@ -125,7 +125,7 @@ public class CombatCore
             }
         }
 
-        CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn, context);
+        CurrentCombatant.UpdateEffects(CombatantStatusUpdateType.StartCombatantTurn, context);
 
         CombatantStartsTurn?.Invoke(this, new CombatantTurnStartedEventArgs(CurrentCombatant));
     }
@@ -135,7 +135,7 @@ public class CombatCore
     /// </summary>
     public CombatMovementExecution CreateCombatMovementExecution(CombatMovementInstance movement)
     {
-        CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.Consume(1);
+        CurrentCombatant.Stats.Single(x => x.Type == ICombatantStatType.Resolve).Value.Consume(1);
 
         var handSlotIndex = CurrentCombatant.DropMovementFromHand(movement);
 
@@ -219,13 +219,13 @@ public class CombatCore
         return movementExecution;
     }
 
-    public void DispelCombatantEffect(Combatant targetCombatant, ICombatantEffect combatantEffect)
+    public void DispelCombatantEffect(Combatant targetCombatant, ICombatantStatus combatantEffect)
     {
         targetCombatant.RemoveEffect(combatantEffect, new CombatantEffectLifetimeDispelContext(this));
         CombatantEffectHasBeenDispeled?.Invoke(this, new CombatantEffectEventArgs(targetCombatant, combatantEffect));
     }
 
-    public int HandleCombatantDamagedToStat(Combatant combatant, UnitStatType statType, int damageAmount)
+    public int HandleCombatantDamagedToStat(Combatant combatant, ICombatantStatType statType, int damageAmount)
     {
         var (remains, wasTaken) = TakeStat(combatant, statType, damageAmount);
 
@@ -234,7 +234,7 @@ public class CombatCore
             CombatantHasBeenDamaged?.Invoke(this, new CombatantDamagedEventArgs(combatant, statType, damageAmount));
         }
 
-        if (combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.Current <= 0)
+        if (combatant.Stats.Single(x => x.Type == ICombatantStatType.HitPoints).Value.Current <= 0)
         {
             var shiftShape = DetectShapeShifting();
             if (shiftShape)
@@ -253,7 +253,7 @@ public class CombatCore
         return remains;
     }
 
-    public void ImposeCombatantEffect(Combatant targetCombatant, ICombatantEffect combatantEffect)
+    public void ImposeCombatantEffect(Combatant targetCombatant, ICombatantStatus combatantEffect)
     {
         targetCombatant.AddEffect(combatantEffect, new CombatantEffectImposeContext(this),
             new CombatantEffectLifetimeImposeContext(targetCombatant, this));
@@ -305,7 +305,7 @@ public class CombatCore
 
         HandleSwapFieldPositions(currentCoords, side, targetCoords, side);
 
-        CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Consume(1);
+        CurrentCombatant.Stats.Single(x => x.Type == ICombatantStatType.Maneuver).Value.Consume(1);
     }
 
     /// <summary>
@@ -313,7 +313,7 @@ public class CombatCore
     /// </summary>
     public void Wait()
     {
-        RestoreStatOfAllCombatants(UnitStatType.Resolve);
+        RestoreStatOfAllCombatants(ICombatantStatType.Resolve);
 
         CompleteTurn();
     }
@@ -483,7 +483,7 @@ public class CombatCore
 
         var orderedByResolve = _allCombatantList
             .Where(x => !x.IsDead)
-            .OrderByDescending(x => x.Stats.Single(s => s.Type == UnitStatType.Resolve).Value.Current)
+            .OrderByDescending(x => x.Stats.Single(s => s.Type == ICombatantStatType.Resolve).Value.Current)
             .ThenByDescending(x => x.IsPlayerControlled)
             .ToArray();
 
@@ -530,15 +530,15 @@ public class CombatCore
 
     private void RestoreManeuversOfAllCombatants()
     {
-        RestoreStatOfAllCombatants(UnitStatType.Maneuver);
+        RestoreStatOfAllCombatants(ICombatantStatType.Maneuver);
     }
 
     private void RestoreShieldsOfAllCombatants()
     {
-        RestoreStatOfAllCombatants(UnitStatType.ShieldPoints);
+        RestoreStatOfAllCombatants(ICombatantStatType.ShieldPoints);
     }
 
-    private void RestoreStatOfAllCombatants(UnitStatType statType)
+    private void RestoreStatOfAllCombatants(ICombatantStatType statType)
     {
         var combatants = _allCombatantList.Where(x => !x.IsDead);
         foreach (var combatant in combatants)
@@ -549,19 +549,19 @@ public class CombatCore
         }
     }
 
-    private void StartRound(ICombatantEffectLifetimeDispelContext combatantEffectLifetimeDispelContext)
+    private void StartRound(ICombatantStatusLifetimeDispelContext combatantEffectLifetimeDispelContext)
     {
         MakeUnitRoundQueue();
         RestoreHandsOfAllCombatants();
         RestoreShieldsOfAllCombatants();
         RestoreManeuversOfAllCombatants();
 
-        UpdateAllCombatantEffects(CombatantEffectUpdateType.StartRound, combatantEffectLifetimeDispelContext);
-        CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn,
+        UpdateAllCombatantEffects(CombatantStatusUpdateType.StartRound, combatantEffectLifetimeDispelContext);
+        CurrentCombatant.UpdateEffects(CombatantStatusUpdateType.StartCombatantTurn,
             combatantEffectLifetimeDispelContext);
     }
 
-    private static (int result, bool isTaken) TakeStat(Combatant combatant, UnitStatType statType, int value)
+    private static (int result, bool isTaken) TakeStat(Combatant combatant, ICombatantStatType statType, int value)
     {
         var stat = combatant.Stats.SingleOrDefault(x => x.Type == statType);
 
@@ -578,8 +578,8 @@ public class CombatCore
         return (remains, d > 0);
     }
 
-    private void UpdateAllCombatantEffects(CombatantEffectUpdateType updateType,
-        ICombatantEffectLifetimeDispelContext context)
+    private void UpdateAllCombatantEffects(CombatantStatusUpdateType updateType,
+        ICombatantStatusLifetimeDispelContext context)
     {
         foreach (var combatant in _allCombatantList)
         {

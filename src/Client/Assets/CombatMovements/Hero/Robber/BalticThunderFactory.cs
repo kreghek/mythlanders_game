@@ -3,6 +3,7 @@ using Client.Engine;
 using Core.Combats;
 using Core.Combats.CombatantEffectLifetimes;
 using Core.Combats.CombatantEffects;
+using Core.Combats.CombatantStatus;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 

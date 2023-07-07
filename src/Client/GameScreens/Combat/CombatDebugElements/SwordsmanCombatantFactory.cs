@@ -5,7 +5,7 @@ using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Swordsman;
 
 using Core.Combats;
-using Core.Combats.CombatantEffects;
+using Core.Combats.CombatantStatus;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -42,12 +42,12 @@ public class SwordsmanCombatantFactory : IHeroCombatantFactory
         }
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, hitpointsStat);
-        stats.SetValue(UnitStatType.ShieldPoints, 4);
-        stats.SetValue(UnitStatType.Resolve, 5);
+        stats.SetValue(ICombatantStatType.HitPoints, hitpointsStat);
+        stats.SetValue(ICombatantStatType.ShieldPoints, 4);
+        stats.SetValue(ICombatantStatType.Resolve, 5);
 
         var hero = new Combatant("swordsman", heroSequence, stats, combatActorBehaviour,
-            ArraySegment<ICombatantEffectFactory>.Empty)
+            ArraySegment<ICombatantStatusFactory>.Empty)
         {
             DebugSid = sid, IsPlayerControlled = true
         };

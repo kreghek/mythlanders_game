@@ -1,22 +1,23 @@
 using Core.Combats.CombatantEffectLifetimes;
 
-namespace Core.Combats.CombatantEffects;
+namespace Core.Combats.CombatantStatus;
 
-public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
+public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
 {
     private const int GENERATED_LIMIT = 2;
     private const int DAMAGE_BONUS = 1;
     private const int SURGE_DAMAGE = 3;
-    private readonly ICombatantEffectSid _generatedSid;
+
+    private readonly ICombatantStatusSid _generatedSid;
     private Combatant? _effectOwner;
 
-    public ImpulseGeneratorCombatantEffect(ICombatantEffectSid sid, ICombatantEffectSid generatedSid,
-        ICombatantEffectLifetime lifetime) : base(sid, lifetime)
+    public ImpulseGeneratorCombatantStatus(ICombatantStatusSid sid, ICombatantStatusSid generatedSid,
+        ICombatantStatusLifetime lifetime) : base(sid, lifetime)
     {
         _generatedSid = generatedSid;
     }
 
-    public override void Impose(Combatant combatant, ICombatantEffectImposeContext combatantEffectImposeContext)
+    public override void Impose(Combatant combatant, ICombatantStatusImposeContext combatantEffectImposeContext)
     {
         base.Impose(combatant, combatantEffectImposeContext);
 
@@ -25,7 +26,7 @@ public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
         combatantEffectImposeContext.Combat.CombatantHasChangePosition += Combat_CombatantHasChangePosition;
     }
 
-    private IReadOnlyCollection<ICombatantEffect> CollectImpulseEffects(Combatant targetCombatant)
+    private IReadOnlyCollection<ICombatantStatus> CollectImpulseEffects(Combatant targetCombatant)
     {
         return targetCombatant.Effects.Where(x => x.Sid == _generatedSid).ToArray();
     }
@@ -64,7 +65,7 @@ public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
             new IsAttackCombatMovePredicate()
         });
 
-        var impulseCombatantEffect = new ModifyEffectsCombatantEffect(_generatedSid,
+        var impulseCombatantEffect = new ModifyEffectsCombatantStatus(_generatedSid,
             lifetime, DAMAGE_BONUS);
 
         targetCombat.ImposeCombatantEffect(targetCombatant, impulseCombatantEffect);
@@ -78,9 +79,9 @@ public sealed class ImpulseGeneratorCombatantEffect : CombatantEffectBase
             targetCombat.DispelCombatantEffect(targetCombatant, combatantEffect);
         }
 
-        targetCombat.HandleCombatantDamagedToStat(targetCombatant, UnitStatType.HitPoints, SURGE_DAMAGE);
+        targetCombat.HandleCombatantDamagedToStat(targetCombatant, ICombatantStatType.HitPoints, SURGE_DAMAGE);
 
         targetCombat.ImposeCombatantEffect(targetCombatant,
-            new StunCombatantEffect(CombatantEffectSids.Stun, new ToNextCombatantTurnEffectLifetime()));
+            new StunCombatantStatus(CombatantEffectSids.Stun, new ToNextCombatantTurnEffectLifetime()));
     }
 }

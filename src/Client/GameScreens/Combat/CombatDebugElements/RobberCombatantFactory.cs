@@ -43,9 +43,9 @@ public class RobberCombatantFactory : IHeroCombatantFactory
         }
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, hitpointsStat);
-        stats.SetValue(UnitStatType.ShieldPoints, 0);
-        stats.SetValue(UnitStatType.Resolve, 4);
+        stats.SetValue(ICombatantStatType.HitPoints, hitpointsStat);
+        stats.SetValue(ICombatantStatType.ShieldPoints, 0);
+        stats.SetValue(ICombatantStatType.Resolve, 4);
 
         var startupEffects = new[]
         {

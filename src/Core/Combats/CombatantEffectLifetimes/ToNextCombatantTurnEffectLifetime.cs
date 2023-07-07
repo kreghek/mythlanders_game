@@ -1,27 +1,27 @@
 namespace Core.Combats.CombatantEffectLifetimes;
 
-public sealed class ToNextCombatantTurnEffectLifetime : ICombatantEffectLifetime
+public sealed class ToNextCombatantTurnEffectLifetime : ICombatantStatusLifetime
 {
     private bool _currentRoundEnd;
 
-    public void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context)
+    public void Update(CombatantStatusUpdateType updateType, ICombatantStatusLifetimeUpdateContext context)
     {
-        if (updateType == CombatantEffectUpdateType.EndRound)
+        if (updateType == CombatantStatusUpdateType.EndRound)
         {
             _currentRoundEnd = true;
         }
 
-        if (_currentRoundEnd && updateType == CombatantEffectUpdateType.StartCombatantTurn)
+        if (_currentRoundEnd && updateType == CombatantStatusUpdateType.StartCombatantTurn)
         {
             IsExpired = true;
         }
     }
 
-    public void HandleOwnerImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context)
+    public void HandleImposed(ICombatantStatus combatantEffect, ICombatantStatusLifetimeImposeContext context)
     {
     }
 
-    public void HandleOwnerDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context)
+    public void HandleDispelling(ICombatantStatus combatantEffect, ICombatantStatusLifetimeDispelContext context)
     {
     }
 

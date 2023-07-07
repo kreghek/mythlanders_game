@@ -5,9 +5,9 @@ namespace Core.Combats.Effects;
 
 public sealed class ModifyEffectsEffectInstance : EffectInstanceBase<ModifyEffectsEffect>
 {
-    private readonly ICombatantEffectSid _effectSid;
+    private readonly ICombatantStatusSid _effectSid;
 
-    public ModifyEffectsEffectInstance(ICombatantEffectSid effectSid, ModifyEffectsEffect baseEffect) : base(baseEffect)
+    public ModifyEffectsEffectInstance(ICombatantStatusSid effectSid, ModifyEffectsEffect baseEffect) : base(baseEffect)
     {
         _effectSid = effectSid;
     }

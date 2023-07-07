@@ -2,7 +2,7 @@ namespace Core.Combats.Effects;
 
 public sealed class ChangeCurrentStatEffect : IEffect
 {
-    public ChangeCurrentStatEffect(ITargetSelector selector, UnitStatType statType,
+    public ChangeCurrentStatEffect(ITargetSelector selector, ICombatantStatType statType,
         Range<int> statValue)
     {
         TargetStatType = statType;
@@ -11,7 +11,7 @@ public sealed class ChangeCurrentStatEffect : IEffect
     }
 
     public Range<int> StatValue { get; }
-    public UnitStatType TargetStatType { get; }
+    public ICombatantStatType TargetStatType { get; }
     public ITargetSelector Selector { get; }
 
     public IReadOnlyCollection<IEffectCondition> ImposeConditions => Array.Empty<IEffectCondition>();

@@ -21,7 +21,7 @@ internal class SpiralInversionFactory : SimpleCombatMovementFactoryBase
                     ChangePositionEffectDirection.ToVanguard),
                 new ChangeCurrentStatEffect(
                     new ClosestInLineTargetSelector(),
-                    UnitStatType.Resolve,
+                    ICombatantStatType.Resolve,
                     Range<int>.CreateMono(-2))
             });
     }

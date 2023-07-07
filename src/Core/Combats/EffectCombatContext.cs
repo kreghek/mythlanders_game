@@ -27,7 +27,7 @@ public sealed class EffectCombatContext : IEffectCombatContext
 
     public Combatant Actor { get; }
 
-    public int DamageCombatantStat(Combatant combatant, UnitStatType statType, int value)
+    public int DamageCombatantStat(Combatant combatant, ICombatantStatType statType, int value)
     {
         return NotifyCombatantDamagedDelegate(combatant, statType, value);
     }
@@ -42,14 +42,14 @@ public sealed class EffectCombatContext : IEffectCombatContext
     {
     }
 
-    public void RestoreCombatantStat(Combatant combatant, UnitStatType statType, int value)
+    public void RestoreCombatantStat(Combatant combatant, ICombatantStatType statType, int value)
     {
         throw new NotImplementedException();
     }
 
-    public ICombatantEffectLifetimeImposeContext EffectLifetimeImposedContext { get; }
+    public ICombatantStatusLifetimeImposeContext EffectLifetimeImposedContext { get; }
 
-    public ICombatantEffectImposeContext EffectImposedContext { get; }
+    public ICombatantStatusImposeContext EffectImposedContext { get; }
 
     public CombatField Field { get; }
     public IDice Dice { get; }

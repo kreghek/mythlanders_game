@@ -15,7 +15,7 @@ internal class EbonySkinFactory : SimpleCombatMovementFactoryBase
                 new ChangeStatEffect(
                     new CombatantEffectSid(Sid),
                     new SelfTargetSelector(),
-                    UnitStatType.Defense,
+                    ICombatantStatType.Defense,
                     3,
                     new ToNextCombatantTurnEffectLifetimeFactory())
             },
@@ -24,7 +24,7 @@ internal class EbonySkinFactory : SimpleCombatMovementFactoryBase
                 new ChangeStatEffect(
                     new CombatantEffectSid(Sid),
                     new SelfTargetSelector(),
-                    UnitStatType.Defense,
+                    ICombatantStatType.Defense,
                     1,
                     new ToEndOfCurrentRoundEffectLifetimeFactory())
             });

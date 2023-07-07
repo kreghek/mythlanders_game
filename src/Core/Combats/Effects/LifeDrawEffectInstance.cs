@@ -22,18 +22,18 @@ public sealed class LifeDrawEffectInstance : EffectInstanceBase<LifeDrawEffect>
         var rolledDamage = context.Dice.Roll(Damage.Min.ActualMax, Damage.Max.ActualMax);
 
         var absorbedDamage =
-            Math.Max(rolledDamage - target.Stats.Single(x => x.Type == UnitStatType.Defense).Value.Current, 0);
+            Math.Max(rolledDamage - target.Stats.Single(x => x.Type == ICombatantStatType.Defense).Value.Current, 0);
 
         //var damageRemains = TakeStat(target, UnitStatType.ShieldPoints, absorbedDamage);
 
-        var damageRemains = context.DamageCombatantStat(target, UnitStatType.ShieldPoints, absorbedDamage);
+        var damageRemains = context.DamageCombatantStat(target, ICombatantStatType.ShieldPoints, absorbedDamage);
 
         if (damageRemains > 0)
         {
             //TakeStat(target, UnitStatType.HitPoints, damageRemains);
-            var stealedHitPoints = context.DamageCombatantStat(target, UnitStatType.HitPoints, damageRemains);
+            var stealedHitPoints = context.DamageCombatantStat(target, ICombatantStatType.HitPoints, damageRemains);
 
-            context.Actor.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.Restore(damageRemains);
+            context.Actor.Stats.Single(x => x.Type == ICombatantStatType.HitPoints).Value.Restore(damageRemains);
         }
     }
 
@@ -43,7 +43,7 @@ public sealed class LifeDrawEffectInstance : EffectInstanceBase<LifeDrawEffect>
         Damage.Max.RemoveModifier(modifier);
     }
 
-    private static int TakeStat(Combatant combatant, UnitStatType statType, int value)
+    private static int TakeStat(Combatant combatant, ICombatantStatType statType, int value)
     {
         var stat = combatant.Stats.SingleOrDefault(x => x.Type == statType);
 

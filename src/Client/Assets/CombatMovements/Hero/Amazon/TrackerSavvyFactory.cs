@@ -1,5 +1,6 @@
 ﻿using Core.Combats;
 using Core.Combats.CombatantEffects;
+using Core.Combats.CombatantStatus;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 

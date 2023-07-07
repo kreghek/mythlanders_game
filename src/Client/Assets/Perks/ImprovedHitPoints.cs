@@ -14,11 +14,11 @@ internal sealed class ImprovedHitPoints : ImprovedStatBase
         maxHitpoints = (float)Math.Round(maxHitpoints * HITPOINTS_BONUS);
     }
 
-    public override IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers()
+    public override IReadOnlyCollection<(ICombatantStatType, IUnitStatModifier)> GetStatModifiers()
     {
-        return new (UnitStatType, IUnitStatModifier)[]
+        return new (ICombatantStatType, IUnitStatModifier)[]
         {
-            new(UnitStatType.HitPoints, new StatModifier(1))
+            new(ICombatantStatType.HitPoints, new StatModifier(1))
         };
     }
 }

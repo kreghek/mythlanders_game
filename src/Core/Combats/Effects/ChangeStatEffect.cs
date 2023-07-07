@@ -3,9 +3,9 @@
 public sealed class ChangeStatEffect : IEffect
 {
     private readonly ICombatantEffectLifetimeFactory _combatantEffectLifetimeFactory;
-    private readonly ICombatantEffectSid _combatantEffectSid;
+    private readonly ICombatantStatusSid _combatantEffectSid;
 
-    public ChangeStatEffect(ICombatantEffectSid combatantEffectSid, ITargetSelector selector, UnitStatType statType,
+    public ChangeStatEffect(ICombatantStatusSid combatantEffectSid, ITargetSelector selector, ICombatantStatType statType,
         int value,
         ICombatantEffectLifetimeFactory combatantEffectLifetimeFactory)
     {
@@ -16,7 +16,7 @@ public sealed class ChangeStatEffect : IEffect
         Value = value;
     }
 
-    public UnitStatType TargetStatType { get; }
+    public ICombatantStatType TargetStatType { get; }
     public int Value { get; }
 
     public ITargetSelector Selector { get; }

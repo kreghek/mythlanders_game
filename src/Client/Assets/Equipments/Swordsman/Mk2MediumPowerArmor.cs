@@ -23,11 +23,11 @@ internal sealed class Mk2MediumPowerArmor : IEquipmentScheme
         IconOneBasedIndex = 2
     };
 
-    public IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers(int equipmentLevel)
+    public IReadOnlyCollection<(ICombatantStatType, IUnitStatModifier)> GetStatModifiers(int equipmentLevel)
     {
-        return new (UnitStatType, IUnitStatModifier)[]
+        return new (ICombatantStatType, IUnitStatModifier)[]
         {
-            new(UnitStatType.HitPoints, new StatModifier((int)(equipmentLevel * 0.2f)))
+            new(ICombatantStatType.HitPoints, new StatModifier((int)(equipmentLevel * 0.2f)))
         };
     }
 }

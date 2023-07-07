@@ -1,11 +1,11 @@
 ﻿namespace Core.Combats.CombatantEffectLifetimes;
 
-internal class StatPercentThresholdEffectLifetime : ICombatantEffectLifetime
+internal class StatPercentThresholdEffectLifetime : ICombatantStatusLifetime
 {
     private readonly float _minShare;
-    private readonly UnitStatType _statType;
+    private readonly ICombatantStatType _statType;
 
-    public StatPercentThresholdEffectLifetime(UnitStatType statType, float minShare)
+    public StatPercentThresholdEffectLifetime(ICombatantStatType statType, float minShare)
     {
         _statType = statType;
         _minShare = minShare;
@@ -13,9 +13,9 @@ internal class StatPercentThresholdEffectLifetime : ICombatantEffectLifetime
 
     public bool IsExpired { get; private set; }
 
-    public void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context)
+    public void Update(CombatantStatusUpdateType updateType, ICombatantStatusLifetimeUpdateContext context)
     {
-        if (updateType == CombatantEffectUpdateType.EndRound)
+        if (updateType == CombatantStatusUpdateType.EndRound)
         {
             var stat = context.Combatant.Stats.SingleOrDefault(x => x.Type == _statType);
 
@@ -32,11 +32,11 @@ internal class StatPercentThresholdEffectLifetime : ICombatantEffectLifetime
         }
     }
 
-    public void HandleOwnerImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context)
+    public void HandleImposed(ICombatantStatus combatantEffect, ICombatantStatusLifetimeImposeContext context)
     {
     }
 
-    public void HandleOwnerDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context)
+    public void HandleDispelling(ICombatantStatus combatantEffect, ICombatantStatusLifetimeDispelContext context)
     {
     }
 }

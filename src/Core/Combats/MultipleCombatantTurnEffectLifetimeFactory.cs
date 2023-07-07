@@ -11,7 +11,7 @@ public sealed class MultipleCombatantTurnEffectLifetimeFactory : ICombatantEffec
         _turnCount = turnCount;
     }
 
-    public ICombatantEffectLifetime Create()
+    public ICombatantStatusLifetime Create()
     {
         return new MultipleCombatantTurnEffectLifetime(_turnCount);
     }

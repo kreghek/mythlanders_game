@@ -1,4 +1,4 @@
-using Core.Combats.CombatantEffects;
+using Core.Combats.CombatantStatus;
 
 namespace Core.Combats.TargetSelectors;
 
@@ -7,14 +7,14 @@ public sealed class StrongestMarkedEnemyTargetSelector : MostEnemyStatValueTarge
     public override IReadOnlyList<Combatant> GetMaterialized(Combatant actor, ITargetSelectorContext context)
     {
         var enemies = context.EnemySide.GetAllCombatants()
-            .Where(x => x.Effects.Any(effect => effect is MarkCombatantEffect))
+            .Where(x => x.Effects.Any(effect => effect is MarkCombatantStatus))
             .ToArray();
 
         if (enemies.Any())
         {
             return new[]
             {
-                enemies.OrderByDescending(x => GetStatCurrentValue(x, UnitStatType.HitPoints))
+                enemies.OrderByDescending(x => GetStatCurrentValue(x, ICombatantStatType.HitPoints))
                     .First()
             };
         }

@@ -2,7 +2,7 @@
 
 public sealed class PeriodicEffect : IEffect
 {
-    public PeriodicEffect(ITargetSelector selector, IEffect baseEffect, ICombatantEffectLifetime lifetime)
+    public PeriodicEffect(ITargetSelector selector, IEffect baseEffect, ICombatantStatusLifetime lifetime)
     {
         Selector = selector;
         BaseEffect = baseEffect;
@@ -10,7 +10,7 @@ public sealed class PeriodicEffect : IEffect
     }
 
     public IEffect BaseEffect { get; }
-    public ICombatantEffectLifetime Lifetime { get; }
+    public ICombatantStatusLifetime Lifetime { get; }
 
     public ITargetSelector Selector { get; }
 

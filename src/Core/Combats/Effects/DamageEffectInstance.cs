@@ -22,9 +22,9 @@ public sealed class DamageEffectInstance : EffectInstanceBase<DamageEffect>
         var rolledDamage = context.Dice.Roll(Damage.Min.ActualMax, Damage.Max.ActualMax);
 
         var absorbedDamage =
-            Math.Max(rolledDamage - target.Stats.Single(x => x.Type == UnitStatType.Defense).Value.Current, 0);
+            Math.Max(rolledDamage - target.Stats.Single(x => x.Type == ICombatantStatType.Defense).Value.Current, 0);
 
-        var damageRemains = context.DamageCombatantStat(target, UnitStatType.ShieldPoints, absorbedDamage);
+        var damageRemains = context.DamageCombatantStat(target, ICombatantStatType.ShieldPoints, absorbedDamage);
 
         if (BaseEffect.DamageType == DamageType.ShieldsOnly)
         {
@@ -33,7 +33,7 @@ public sealed class DamageEffectInstance : EffectInstanceBase<DamageEffect>
 
         if (damageRemains > 0)
         {
-            context.DamageCombatantStat(target, UnitStatType.HitPoints, damageRemains);
+            context.DamageCombatantStat(target, ICombatantStatType.HitPoints, damageRemains);
         }
     }
 

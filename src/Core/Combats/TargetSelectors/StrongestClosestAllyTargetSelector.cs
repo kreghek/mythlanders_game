@@ -52,7 +52,7 @@ public sealed class StrongestClosestAllyTargetSelector : ITargetSelector
         }
 
         var sortedCombatants = neighbourCombatants.OrderByDescending(x => x.proprity)
-            .ThenByDescending(x => x.combatant.Stats.Single(s => s.Type == UnitStatType.HitPoints).Value.Current)
+            .ThenByDescending(x => x.combatant.Stats.Single(s => s.Type == ICombatantStatType.HitPoints).Value.Current)
             .Select(x => x.combatant).ToArray();
 
         if (!sortedCombatants.Any())

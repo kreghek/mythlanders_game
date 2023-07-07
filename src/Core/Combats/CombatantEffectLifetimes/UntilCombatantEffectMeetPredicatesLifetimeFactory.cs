@@ -9,7 +9,7 @@ public sealed class UntilCombatantEffectMeetPredicatesLifetimeFactory : ICombata
         _combatMovePredicates = combatMovePredicates;
     }
 
-    public ICombatantEffectLifetime Create()
+    public ICombatantStatusLifetime Create()
     {
         return new UntilCombatantEffectMeetPredicatesLifetime(_combatMovePredicates);
     }

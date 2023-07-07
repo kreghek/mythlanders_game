@@ -2,7 +2,7 @@
 
 public sealed class CombatantDamagedEventArgs : EventArgs
 {
-    public CombatantDamagedEventArgs(Combatant combatant, UnitStatType statType, int value)
+    public CombatantDamagedEventArgs(Combatant combatant, ICombatantStatType statType, int value)
     {
         Combatant = combatant;
         StatType = statType;
@@ -10,6 +10,6 @@ public sealed class CombatantDamagedEventArgs : EventArgs
     }
 
     public Combatant Combatant { get; }
-    public UnitStatType StatType { get; }
+    public ICombatantStatType StatType { get; }
     public int Value { get; }
 }

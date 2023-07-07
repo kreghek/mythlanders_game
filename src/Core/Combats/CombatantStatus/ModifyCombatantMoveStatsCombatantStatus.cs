@@ -1,12 +1,18 @@
-namespace Core.Combats.CombatantEffects;
+namespace Core.Combats.CombatantStatus;
 
-public sealed class ModifyCombatantMoveStatsCombatantEffect : CombatantEffectBase
+/// <summary>
+/// Change combatant's combat moves stat.
+/// Not effect, stats. Exmaple - cost.
+/// </summary>
+//TODO Change target selector.
+//TODO Change only in hand or in pull.
+public sealed class ModifyCombatantMoveStatsCombatantStatus : CombatantStatusBase
 {
     private readonly StatModifier _modifier;
     private readonly CombatantMoveStats _stats;
 
-    public ModifyCombatantMoveStatsCombatantEffect(ICombatantEffectSid sid,
-        ICombatantEffectLifetime lifetime,
+    public ModifyCombatantMoveStatsCombatantStatus(ICombatantStatusSid sid,
+        ICombatantStatusLifetime lifetime,
         CombatantMoveStats stats,
         int value) : base(sid, lifetime)
     {
@@ -32,7 +38,7 @@ public sealed class ModifyCombatantMoveStatsCombatantEffect : CombatantEffectBas
         }
     }
 
-    public override void Impose(Combatant combatant, ICombatantEffectImposeContext combatantEffectImposeContext)
+    public override void Impose(Combatant combatant, ICombatantStatusImposeContext combatantEffectImposeContext)
     {
         base.Impose(combatant, combatantEffectImposeContext);
 

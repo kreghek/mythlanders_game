@@ -12,10 +12,10 @@ namespace Client.GameScreens.Combat.Ui;
 
 internal class EffectHint : HintBase
 {
-    private readonly ICombatantEffect _effect;
+    private readonly ICombatantStatus _effect;
     private readonly ISkillEffectDrawer[] _effectDrawers;
 
-    public EffectHint(ICombatantEffect effect)
+    public EffectHint(ICombatantStatus effect)
     {
         var font = UiThemeManager.UiContentStorage.GetMainFont();
         _effect = effect;

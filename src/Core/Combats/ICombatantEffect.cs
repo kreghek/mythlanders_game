@@ -1,10 +1,13 @@
 namespace Core.Combats;
 
-public interface ICombatantEffect
+/// <summary>
+/// Status assigned on a combatant.
+/// </summary>
+public interface ICombatantStatus
 {
-    ICombatantEffectLifetime Lifetime { get; }
-    ICombatantEffectSid Sid { get; }
+    ICombatantStatusLifetime Lifetime { get; }
+    ICombatantStatusSid Sid { get; }
     void Dispel(Combatant combatant);
-    void Impose(Combatant combatant, ICombatantEffectImposeContext combatantEffectImposeContext);
-    void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context);
+    void Impose(Combatant combatant, ICombatantStatusImposeContext combatantEffectImposeContext);
+    void Update(CombatantStatusUpdateType updateType, ICombatantStatusLifetimeUpdateContext context);
 }

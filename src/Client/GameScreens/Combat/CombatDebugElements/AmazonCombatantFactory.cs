@@ -5,7 +5,7 @@ using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Amazon;
 
 using Core.Combats;
-using Core.Combats.CombatantEffects;
+using Core.Combats.CombatantStatus;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -42,12 +42,12 @@ public class AmazonCombatantFactory : IHeroCombatantFactory
         }
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, 3);
-        stats.SetValue(UnitStatType.ShieldPoints, 0);
-        stats.SetValue(UnitStatType.Resolve, 4);
+        stats.SetValue(ICombatantStatType.HitPoints, 3);
+        stats.SetValue(ICombatantStatType.ShieldPoints, 0);
+        stats.SetValue(ICombatantStatType.Resolve, 4);
 
         var hero = new Combatant("amazon", heroSequence, stats, combatActorBehaviour,
-            ArraySegment<ICombatantEffectFactory>.Empty)
+            ArraySegment<ICombatantStatusFactory>.Empty)
         {
             DebugSid = sid, IsPlayerControlled = true
         };
