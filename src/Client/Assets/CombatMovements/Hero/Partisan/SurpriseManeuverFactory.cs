@@ -28,14 +28,14 @@ internal class SurpriseManeuverFactory : CombatMovementFactoryBase
                         new ChangeStatEffect(
                             new CombatantEffectSid(Sid),
                             new NullTargetSelector(),
-                            ICombatantStatType.Defense,
+                            CombatantStatTypes.Defense,
                             2,
                             new ToNextCombatantTurnEffectLifetimeFactory())
                     ),
                     new ChangeStatEffect(
                         new CombatantEffectSid(Sid),
                         new SelfTargetSelector(),
-                        ICombatantStatType.Defense,
+                        CombatantStatTypes.Defense,
                         2,
                         new ToNextCombatantTurnEffectLifetimeFactory())
                 })

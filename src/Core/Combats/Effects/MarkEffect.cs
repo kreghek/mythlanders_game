@@ -2,9 +2,9 @@ namespace Core.Combats.Effects;
 
 public sealed class MarkEffect : IEffect
 {
-    private readonly ICombatantEffectLifetimeFactory _combatantEffectLifetimeFactory;
+    private readonly ICombatantStatusLifetimeFactory _combatantEffectLifetimeFactory;
 
-    public MarkEffect(ITargetSelector selector, ICombatantEffectLifetimeFactory combatantEffectLifetimeFactory)
+    public MarkEffect(ITargetSelector selector, ICombatantStatusLifetimeFactory combatantEffectLifetimeFactory)
     {
         _combatantEffectLifetimeFactory = combatantEffectLifetimeFactory;
         Selector = selector;

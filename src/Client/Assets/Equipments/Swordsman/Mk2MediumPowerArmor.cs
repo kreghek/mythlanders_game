@@ -27,7 +27,7 @@ internal sealed class Mk2MediumPowerArmor : IEquipmentScheme
     {
         return new (ICombatantStatType, IUnitStatModifier)[]
         {
-            new(ICombatantStatType.HitPoints, new StatModifier((int)(equipmentLevel * 0.2f)))
+            new(CombatantStatTypes.HitPoints, new StatModifier((int)(equipmentLevel * 0.2f)))
         };
     }
 }

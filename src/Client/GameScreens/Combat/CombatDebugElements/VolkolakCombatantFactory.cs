@@ -43,9 +43,9 @@ public class VolkolakCombatantFactory : IMonsterCombatantFactory
         var monsterSequence = CreateCombatMoveVariation(variationIndex);
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(ICombatantStatType.HitPoints, 6);
-        stats.SetValue(ICombatantStatType.ShieldPoints, 4);
-        stats.SetValue(ICombatantStatType.Resolve, 5);
+        stats.SetValue(CombatantStatTypes.HitPoints, 6);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 4);
+        stats.SetValue(CombatantStatTypes.Resolve, 5);
 
         var monster = new Combatant("volkolakwarrior", monsterSequence, stats, combatActorBehaviour,
             ArraySegment<ICombatantStatusFactory>.Empty)

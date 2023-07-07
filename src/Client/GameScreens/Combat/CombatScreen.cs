@@ -719,14 +719,22 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DrawCombatantEffects(Vector2 statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
+    private void DrawCombatantStatuses(Vector2 statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
     {
         var orderedCombatantEffects = combatant.Statuses.OrderBy(x => x.Sid.ToString()).ToArray();
-        for (var index = 0; index < orderedCombatantEffects.Length; index++)
+        for (var statusIndex = 0; statusIndex < orderedCombatantEffects.Length; statusIndex++)
         {
-            var combatantEffect = orderedCombatantEffects[index];
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatantEffect.Sid.ToString(),
-                statsPanelOrigin + new Vector2(0, index * 15),
+            var combatantEffect = orderedCombatantEffects[statusIndex];
+            const int COMBATANT_SPRITE_SIZE = 128;
+            var combatantStatusPosition = (statsPanelOrigin + new Vector2(COMBATANT_SPRITE_SIZE, statusIndex * 15)).ToPoint();
+            const int SIZE = 16;
+            var combatantStatusIconRect = new Rectangle(0, 0, SIZE, SIZE);
+            spriteBatch.Draw(_uiContentStorage.GetEffectIconsTexture(),
+                new Rectangle(combatantStatusPosition, new Point(SIZE, SIZE)),
+                combatantStatusIconRect, Color.White);
+            var localizedStatusName = GameObjectHelper.GetLocalized(combatantEffect.Sid);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), localizedStatusName,
+                statsPanelOrigin + new Vector2(0, statusIndex * 15),
                 Color.Aqua);
         }
     }
@@ -734,7 +742,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void DrawCombatantInWorldInfo(SpriteBatch spriteBatch, CombatantGameObject combatant)
     {
         DrawStats(combatant.StatsPanelOrigin, combatant.Combatant, spriteBatch);
-        DrawCombatantEffects(combatant.StatsPanelOrigin, combatant.Combatant, spriteBatch);
+        DrawCombatantStatuses(combatant.StatsPanelOrigin, combatant.Combatant, spriteBatch);
     }
 
     private void DrawCombatantQueue(SpriteBatch spriteBatch, Rectangle contentRectangle)

@@ -42,9 +42,9 @@ public class SwordsmanCombatantFactory : IHeroCombatantFactory
         }
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(ICombatantStatType.HitPoints, hitpointsStat);
-        stats.SetValue(ICombatantStatType.ShieldPoints, 4);
-        stats.SetValue(ICombatantStatType.Resolve, 5);
+        stats.SetValue(CombatantStatTypes.HitPoints, hitpointsStat);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 4);
+        stats.SetValue(CombatantStatTypes.Resolve, 5);
 
         var hero = new Combatant("swordsman", heroSequence, stats, combatActorBehaviour,
             ArraySegment<ICombatantStatusFactory>.Empty)

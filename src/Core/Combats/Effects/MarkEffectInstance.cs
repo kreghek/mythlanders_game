@@ -1,4 +1,4 @@
-using Core.Combats.CombatantEffects;
+using Core.Combats.CombatantStatuses;
 
 namespace Core.Combats.Effects;
 
@@ -11,11 +11,11 @@ public sealed class MarkEffectInstance : EffectInstanceBase<MarkEffect>
         _lifetime = lifetime;
     }
 
-    public override void Influence(Combatant target, IEffectCombatContext context)
+    public override void Influence(Combatant target, IStatusCombatContext context)
     {
-        var markEffectSid = CombatantEffectSids.Mark;
+        var markEffectSid = CombatantStatusSids.Mark;
 
-        context.EffectImposedContext.Combat.ImposeCombatantEffect(target,
-            new MarkCombatantEffect(markEffectSid, _lifetime));
+        context.StatusImposedContext.Combat.ImposeCombatantEffect(target,
+            new MarkCombatantStatus(markEffectSid, _lifetime));
     }
 }

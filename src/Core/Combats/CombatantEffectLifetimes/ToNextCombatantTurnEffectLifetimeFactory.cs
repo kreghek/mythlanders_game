@@ -1,6 +1,6 @@
 namespace Core.Combats.CombatantEffectLifetimes;
 
-public sealed class ToNextCombatantTurnEffectLifetimeFactory : ICombatantEffectLifetimeFactory
+public sealed class ToNextCombatantTurnEffectLifetimeFactory : ICombatantStatusLifetimeFactory
 {
     public ICombatantStatusLifetime Create()
     {

@@ -1,6 +1,5 @@
 ﻿using Core.Combats;
 using Core.Combats.CombatantEffectLifetimes;
-using Core.Combats.CombatantEffects;
 using Core.Combats.CombatantStatuses;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
@@ -18,7 +17,7 @@ internal class HuntFactory : CombatMovementFactoryBase
     /// <inheritdoc />
     public override CombatMovement CreateMovement()
     {
-        var combatantEffectFactory = new ModifyCombatantMoveStatsCombatantEffectFactory(
+        var combatantEffectFactory = new ModifyCombatantMoveStatsCombatantStatusFactory(
             new CombatantEffectSid(Sid),
             new UntilCombatantEffectMeetPredicatesLifetimeFactory(new IsAttackCombatMovePredicate()),
             CombatantMoveStats.Cost,

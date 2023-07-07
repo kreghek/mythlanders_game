@@ -10,7 +10,7 @@ public sealed class WeakestEnemyTargetSelector : MostEnemyStatValueTargetSelecto
         {
             return new[]
             {
-                enemies.OrderBy(x => GetStatCurrentValue(x, ICombatantStatType.HitPoints))
+                enemies.OrderBy(x => GetStatCurrentValue(x, CombatantStatTypes.HitPoints))
                     .First()
             };
         }

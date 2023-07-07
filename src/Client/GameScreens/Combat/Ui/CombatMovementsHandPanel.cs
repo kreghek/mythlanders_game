@@ -222,7 +222,7 @@ internal class CombatMovementsHandPanel : ControlBase
                     DetectMouseHoverOnButton(mouseRect, button);
 
                     button.IsEnabled = Combatant is not null && IsResolveEnought(button.Entity,
-                        Combatant.Stats.Single(x => x.Type == ICombatantStatType.Resolve));
+                        Combatant.Stats.Single(x => x.Type == CombatantStatTypes.Resolve));
                 }
             }
 

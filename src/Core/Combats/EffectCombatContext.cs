@@ -2,7 +2,7 @@
 
 namespace Core.Combats;
 
-public sealed class EffectCombatContext : IEffectCombatContext
+public sealed class EffectCombatContext : IStatusCombatContext
 {
     public EffectCombatContext(
         Combatant targetCombatant,
@@ -18,8 +18,8 @@ public sealed class EffectCombatContext : IEffectCombatContext
         NotifyCombatantDamagedDelegate = notifyCombatantDamagedDelegate;
         NotifyCombatantMovedDelegate = notifyCombatantMovedDelegate;
 
-        EffectImposedContext = new CombatantEffectImposeContext(combatCore);
-        EffectLifetimeImposedContext = new CombatantEffectLifetimeImposeContext(targetCombatant, combatCore);
+        StatusImposedContext = new CombatantEffectImposeContext(combatCore);
+        StatusLifetimeImposedContext = new CombatantEffectLifetimeImposeContext(targetCombatant, combatCore);
     }
 
     public CombatantHasTakenDamagedCallback NotifyCombatantDamagedDelegate { get; }
@@ -47,9 +47,9 @@ public sealed class EffectCombatContext : IEffectCombatContext
         throw new NotImplementedException();
     }
 
-    public ICombatantStatusLifetimeImposeContext EffectLifetimeImposedContext { get; }
+    public ICombatantStatusLifetimeImposeContext StatusLifetimeImposedContext { get; }
 
-    public ICombatantStatusImposeContext EffectImposedContext { get; }
+    public ICombatantStatusImposeContext StatusImposedContext { get; }
 
     public CombatField Field { get; }
     public IDice Dice { get; }

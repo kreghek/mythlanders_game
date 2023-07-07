@@ -9,19 +9,19 @@ public sealed class CombatantStatsConfig
         _stats = new Dictionary<ICombatantStatType, IStatValue>
         {
             {
-                ICombatantStatType.ShieldPoints, new CombatantStatValue(new StatValue(1))
+                CombatantStatTypes.ShieldPoints, new CombatantStatValue(new StatValue(1))
             },
             {
-                ICombatantStatType.HitPoints, new CombatantStatValue(new StatValue(3))
+                CombatantStatTypes.HitPoints, new CombatantStatValue(new StatValue(3))
             },
             {
-                ICombatantStatType.Resolve, new CombatantStatValue(new StatValue(5))
+                CombatantStatTypes.Resolve, new CombatantStatValue(new StatValue(5))
             },
             {
-                ICombatantStatType.Maneuver, new CombatantStatValue(new StatValue(1))
+                CombatantStatTypes.Maneuver, new CombatantStatValue(new StatValue(1))
             },
             {
-                ICombatantStatType.Defense, new CombatantStatValue(new StatValue(0))
+                CombatantStatTypes.Defense, new CombatantStatValue(new StatValue(0))
             }
         };
     }

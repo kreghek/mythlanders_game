@@ -18,7 +18,7 @@ internal class FlockAlphaTacticsFactory : CombatMovementFactoryBase
                         new StrongestEnemyTargetSelector(),
                         DamageType.Normal,
                         Range<int>.CreateMono(3)),
-                    new ChangeCurrentStatEffect(new StrongestEnemyTargetSelector(), ICombatantStatType.Resolve,
+                    new ChangeCurrentStatEffect(new StrongestEnemyTargetSelector(), CombatantStatTypes.Resolve,
                         Range<int>.CreateMono(-2)),
                     new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToVanguard)
                 })

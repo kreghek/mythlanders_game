@@ -6,7 +6,7 @@ public sealed class PushToPositionEffectInstance : EffectInstanceBase<PushToPosi
     {
     }
 
-    public override void Influence(Combatant target, IEffectCombatContext context)
+    public override void Influence(Combatant target, IStatusCombatContext context)
     {
         var targetSide = GetTargetSide(target, context.Field);
 

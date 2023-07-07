@@ -42,9 +42,9 @@ public class PartisanCombatantFactory : IHeroCombatantFactory
         }
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(ICombatantStatType.HitPoints, 4);
-        stats.SetValue(ICombatantStatType.ShieldPoints, 3);
-        stats.SetValue(ICombatantStatType.Resolve, 7);
+        stats.SetValue(CombatantStatTypes.HitPoints, 4);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 3);
+        stats.SetValue(CombatantStatTypes.Resolve, 7);
 
         var hero = new Combatant("partisan", heroSequence, stats, combatActorBehaviour,
             ArraySegment<ICombatantStatusFactory>.Empty)

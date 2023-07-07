@@ -24,7 +24,7 @@ internal class StayStrongFactory : CombatMovementFactoryBase
                     new ChangeStatEffect(
                         new CombatantEffectSid(Sid),
                         new SelfTargetSelector(),
-                        ICombatantStatType.Defense,
+                        CombatantStatTypes.Defense,
                         3,
                         new ToNextCombatantTurnEffectLifetimeFactory())
                 },
@@ -33,7 +33,7 @@ internal class StayStrongFactory : CombatMovementFactoryBase
                     new ChangeStatEffect(
                         new CombatantEffectSid(Sid),
                         new SelfTargetSelector(),
-                        ICombatantStatType.Defense,
+                        CombatantStatTypes.Defense,
                         1,
                         new ToEndOfCurrentRoundEffectLifetimeFactory())
                 })

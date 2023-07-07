@@ -3,11 +3,11 @@ namespace Core.Combats.CombatantStatuses;
 public sealed class ImpulseGeneratorCombatantStatusFactory : ICombatantStatusFactory
 {
     private readonly ICombatantStatusSid _generatedSid;
-    private readonly ICombatantEffectLifetimeFactory _lifetimeFactory;
+    private readonly ICombatantStatusLifetimeFactory _lifetimeFactory;
     private readonly ICombatantStatusSid _sid;
 
     public ImpulseGeneratorCombatantStatusFactory(ICombatantStatusSid sid, ICombatantStatusSid generatedSid,
-        ICombatantEffectLifetimeFactory lifetimeFactory)
+        ICombatantStatusLifetimeFactory lifetimeFactory)
     {
         _sid = sid;
         _generatedSid = generatedSid;

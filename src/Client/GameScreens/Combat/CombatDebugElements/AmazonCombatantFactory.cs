@@ -42,9 +42,9 @@ public class AmazonCombatantFactory : IHeroCombatantFactory
         }
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(ICombatantStatType.HitPoints, 3);
-        stats.SetValue(ICombatantStatType.ShieldPoints, 0);
-        stats.SetValue(ICombatantStatType.Resolve, 4);
+        stats.SetValue(CombatantStatTypes.HitPoints, 3);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 0);
+        stats.SetValue(CombatantStatTypes.Resolve, 4);
 
         var hero = new Combatant("amazon", heroSequence, stats, combatActorBehaviour,
             ArraySegment<ICombatantStatusFactory>.Empty)

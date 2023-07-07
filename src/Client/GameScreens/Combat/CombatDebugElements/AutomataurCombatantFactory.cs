@@ -43,9 +43,9 @@ public class AutomataurCombatantFactory : IMonsterCombatantFactory
         var monsterSequence = CreateCombatMoveVariation(variationIndex);
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(ICombatantStatType.HitPoints, 6);
-        stats.SetValue(ICombatantStatType.ShieldPoints, 4);
-        stats.SetValue(ICombatantStatType.Resolve, 5);
+        stats.SetValue(CombatantStatTypes.HitPoints, 6);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 4);
+        stats.SetValue(CombatantStatTypes.Resolve, 5);
 
         var monster = new Combatant("automataur", monsterSequence, stats, combatActorBehaviour,
             ArraySegment<ICombatantStatusFactory>.Empty)

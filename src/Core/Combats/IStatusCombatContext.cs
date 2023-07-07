@@ -2,13 +2,13 @@
 
 namespace Core.Combats;
 
-public interface IEffectCombatContext
+public interface IStatusCombatContext
 {
     Combatant Actor { get; }
     IDice Dice { get; }
 
-    ICombatantStatusImposeContext EffectImposedContext { get; }
-    ICombatantStatusLifetimeImposeContext EffectLifetimeImposedContext { get; }
+    ICombatantStatusImposeContext StatusImposedContext { get; }
+    ICombatantStatusLifetimeImposeContext StatusLifetimeImposedContext { get; }
     CombatField Field { get; }
 
     int DamageCombatantStat(Combatant combatant, ICombatantStatType statType, int value);

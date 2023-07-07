@@ -18,7 +18,7 @@ internal sealed class ImprovedHitPoints : ImprovedStatBase
     {
         return new (ICombatantStatType, IUnitStatModifier)[]
         {
-            new(ICombatantStatType.HitPoints, new StatModifier(1))
+            new(CombatantStatTypes.HitPoints, new StatModifier(1))
         };
     }
 }

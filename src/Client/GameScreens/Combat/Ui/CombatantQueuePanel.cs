@@ -100,7 +100,7 @@ internal sealed class CombatantQueuePanel : ControlBase
             }
 
             spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(),
-                combatant.Stats.Single(x => x.Type == ICombatantStatType.Resolve).Value.Current.ToString(),
+                combatant.Stats.Single(x => x.Type == CombatantStatTypes.Resolve).Value.Current.ToString(),
                 combatantQueuePosition, Color.White);
         }
 

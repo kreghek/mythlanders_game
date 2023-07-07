@@ -6,7 +6,7 @@ using Client.Assets.CombatMovements.Hero.Robber;
 
 using Core.Combats;
 using Core.Combats.CombatantEffectLifetimes;
-using Core.Combats.CombatantEffects;
+using Core.Combats.CombatantStatuses;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -43,15 +43,15 @@ public class RobberCombatantFactory : IHeroCombatantFactory
         }
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(ICombatantStatType.HitPoints, hitpointsStat);
-        stats.SetValue(ICombatantStatType.ShieldPoints, 0);
-        stats.SetValue(ICombatantStatType.Resolve, 4);
+        stats.SetValue(CombatantStatTypes.HitPoints, hitpointsStat);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 0);
+        stats.SetValue(CombatantStatTypes.Resolve, 4);
 
         var startupEffects = new[]
         {
-            new ImpulseGeneratorCombatantEffectFactory(
-                CombatantEffectSids.ImpulseGenerator,
-                CombatantEffectSids.Impulse,
+            new ImpulseGeneratorCombatantStatusFactory(
+                CombatantStatusSids.ImpulseGenerator,
+                CombatantStatusSids.Impulse,
                 new CombatantActiveCombatantEffectLifetimeFactory())
         };
 

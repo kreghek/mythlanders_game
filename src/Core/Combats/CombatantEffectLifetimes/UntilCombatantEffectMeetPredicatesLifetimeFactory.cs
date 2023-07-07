@@ -1,6 +1,6 @@
 namespace Core.Combats.CombatantEffectLifetimes;
 
-public sealed class UntilCombatantEffectMeetPredicatesLifetimeFactory : ICombatantEffectLifetimeFactory
+public sealed class UntilCombatantEffectMeetPredicatesLifetimeFactory : ICombatantStatusLifetimeFactory
 {
     private readonly IReadOnlyCollection<ICombatMovePredicate> _combatMovePredicates;
 

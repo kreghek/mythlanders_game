@@ -21,7 +21,7 @@ internal class FatalBlowFactory : SimpleCombatMovementFactoryBase
                     ChangePositionEffectDirection.ToVanguard),
                 new ChangeCurrentStatEffect(
                     new ClosestInLineTargetSelector(),
-                    ICombatantStatType.Resolve,
+                    CombatantStatTypes.Resolve,
                     Range<int>.CreateMono(-2))
             });
     }

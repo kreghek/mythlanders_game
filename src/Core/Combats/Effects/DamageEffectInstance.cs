@@ -17,14 +17,14 @@ public sealed class DamageEffectInstance : EffectInstanceBase<DamageEffect>
         Damage.Max.AddModifier(modifier);
     }
 
-    public override void Influence(Combatant target, IEffectCombatContext context)
+    public override void Influence(Combatant target, IStatusCombatContext context)
     {
         var rolledDamage = context.Dice.Roll(Damage.Min.ActualMax, Damage.Max.ActualMax);
 
         var absorbedDamage =
-            Math.Max(rolledDamage - target.Stats.Single(x => x.Type == ICombatantStatType.Defense).Value.Current, 0);
+            Math.Max(rolledDamage - target.Stats.Single(x => x.Type == CombatantStatTypes.Defense).Value.Current, 0);
 
-        var damageRemains = context.DamageCombatantStat(target, ICombatantStatType.ShieldPoints, absorbedDamage);
+        var damageRemains = context.DamageCombatantStat(target, CombatantStatTypes.ShieldPoints, absorbedDamage);
 
         if (BaseEffect.DamageType == DamageType.ShieldsOnly)
         {
@@ -33,7 +33,7 @@ public sealed class DamageEffectInstance : EffectInstanceBase<DamageEffect>
 
         if (damageRemains > 0)
         {
-            context.DamageCombatantStat(target, ICombatantStatType.HitPoints, damageRemains);
+            context.DamageCombatantStat(target, CombatantStatTypes.HitPoints, damageRemains);
         }
     }
 

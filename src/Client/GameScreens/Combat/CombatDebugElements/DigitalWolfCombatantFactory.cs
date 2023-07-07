@@ -39,9 +39,9 @@ public class DigitalWolfCombatantFactory : IMonsterCombatantFactory
         var monsterSequence = CreateCombatMoveVariation();
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(ICombatantStatType.HitPoints, 6);
-        stats.SetValue(ICombatantStatType.ShieldPoints, 3);
-        stats.SetValue(ICombatantStatType.Resolve, 4);
+        stats.SetValue(CombatantStatTypes.HitPoints, 6);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 3);
+        stats.SetValue(CombatantStatTypes.Resolve, 4);
 
         var monster = new Combatant("digitalwolf", monsterSequence, stats, combatActorBehaviour,
             ArraySegment<ICombatantStatusFactory>.Empty)

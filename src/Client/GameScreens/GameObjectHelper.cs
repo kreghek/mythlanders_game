@@ -87,6 +87,11 @@ internal static class GameObjectHelper
         return GetLocalizedInner($"{sid}_voice");
     }
 
+    internal static string GetLocalized(ICombatantStatusSid sid)
+    {
+        return GetLocalizedInner(sid.ToString() ?? "Unknown");
+    }
+
     private static string GetLocalizedInner(string sid)
     {
         var rm = GameObjectResources.ResourceManager;

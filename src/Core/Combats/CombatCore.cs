@@ -135,7 +135,7 @@ public class CombatCore
     /// </summary>
     public CombatMovementExecution CreateCombatMovementExecution(CombatMovementInstance movement)
     {
-        CurrentCombatant.Stats.Single(x => x.Type == ICombatantStatType.Resolve).Value.Consume(1);
+        CurrentCombatant.Stats.Single(x => x.Type == CombatantStatTypes.Resolve).Value.Consume(1);
 
         var handSlotIndex = CurrentCombatant.DropMovementFromHand(movement);
 
@@ -234,7 +234,7 @@ public class CombatCore
             CombatantHasBeenDamaged?.Invoke(this, new CombatantDamagedEventArgs(combatant, statType, damageAmount));
         }
 
-        if (combatant.Stats.Single(x => x.Type == ICombatantStatType.HitPoints).Value.Current <= 0)
+        if (combatant.Stats.Single(x => x.Type == CombatantStatTypes.HitPoints).Value.Current <= 0)
         {
             var shiftShape = DetectShapeShifting();
             if (shiftShape)
@@ -305,7 +305,7 @@ public class CombatCore
 
         HandleSwapFieldPositions(currentCoords, side, targetCoords, side);
 
-        CurrentCombatant.Stats.Single(x => x.Type == ICombatantStatType.Maneuver).Value.Consume(1);
+        CurrentCombatant.Stats.Single(x => x.Type == CombatantStatTypes.Maneuver).Value.Consume(1);
     }
 
     /// <summary>
@@ -313,7 +313,7 @@ public class CombatCore
     /// </summary>
     public void Wait()
     {
-        RestoreStatOfAllCombatants(ICombatantStatType.Resolve);
+        RestoreStatOfAllCombatants(CombatantStatTypes.Resolve);
 
         CompleteTurn();
     }
@@ -483,7 +483,7 @@ public class CombatCore
 
         var orderedByResolve = _allCombatantList
             .Where(x => !x.IsDead)
-            .OrderByDescending(x => x.Stats.Single(s => s.Type == ICombatantStatType.Resolve).Value.Current)
+            .OrderByDescending(x => x.Stats.Single(s => s.Type == CombatantStatTypes.Resolve).Value.Current)
             .ThenByDescending(x => x.IsPlayerControlled)
             .ToArray();
 
@@ -530,12 +530,12 @@ public class CombatCore
 
     private void RestoreManeuversOfAllCombatants()
     {
-        RestoreStatOfAllCombatants(ICombatantStatType.Maneuver);
+        RestoreStatOfAllCombatants(CombatantStatTypes.Maneuver);
     }
 
     private void RestoreShieldsOfAllCombatants()
     {
-        RestoreStatOfAllCombatants(ICombatantStatType.ShieldPoints);
+        RestoreStatOfAllCombatants(CombatantStatTypes.ShieldPoints);
     }
 
     private void RestoreStatOfAllCombatants(ICombatantStatType statType)

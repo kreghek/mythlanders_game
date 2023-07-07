@@ -1,6 +1,6 @@
 namespace Core.Combats;
 
-public static class CombatantEffectSids
+public static class CombatantStatusSids
 {
     public static ICombatantStatusSid Impulse { get; } = new CombatantEffectSid(nameof(Impulse));
     public static ICombatantStatusSid ImpulseGenerator { get; } = new CombatantEffectSid(nameof(ImpulseGenerator));
