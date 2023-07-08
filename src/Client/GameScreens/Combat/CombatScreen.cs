@@ -348,7 +348,8 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void CombatCore_CombatantEffectHasBeenImposed(object? sender, CombatantEffectEventArgs e)
     {
         _combatantEffectNotifications.Add(
-            new EffectNotification(e.CombatantEffect, EffectNotificationDirection.Imposed));
+            new EffectNotification(e.CombatantEffect, e.Combatant, EffectNotificationDirection.Imposed));
+        _animationBlockManager.RegisterBlocker(new DelayBlocker(new Duration(2)));
     }
 
     private void CombatCore_CombatantEndsTurn(object? sender, CombatantEndsTurnEventArgs e)
@@ -721,20 +722,26 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void DrawCombatantStatuses(Vector2 statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
     {
-        var orderedCombatantEffects = combatant.Statuses.OrderBy(x => x.Sid.ToString()).ToArray();
-        for (var statusIndex = 0; statusIndex < orderedCombatantEffects.Length; statusIndex++)
+        var orderedCombatantStatuses = combatant.Statuses.OrderBy(x => x.Sid.ToString()).ToArray();
+        for (var statusIndex = 0; statusIndex < orderedCombatantStatuses.Length; statusIndex++)
         {
-            var combatantEffect = orderedCombatantEffects[statusIndex];
-            const int COMBATANT_SPRITE_SIZE = 128;
-            var combatantStatusPosition = (statsPanelOrigin + new Vector2(COMBATANT_SPRITE_SIZE, statusIndex * 15)).ToPoint();
-            const int SIZE = 16;
-            var combatantStatusIconRect = new Rectangle(0, 0, SIZE, SIZE);
+            var combatantStatus = orderedCombatantStatuses[statusIndex];
+            const int COMBATANT_SPRITE_SIZE = 32;
+            const int STATUS_ICON_SIZE = 16;
+            const int STATUS_MARGIN = 2;
+            const int STATUS_HEIGHT = STATUS_ICON_SIZE + STATUS_MARGIN;
+
+            var combatantStatusPosition = (statsPanelOrigin + new Vector2(COMBATANT_SPRITE_SIZE, statusIndex * STATUS_HEIGHT)).ToPoint();
+            
+            var combatantStatusIconRect = new Rectangle(0, 0, STATUS_ICON_SIZE, STATUS_ICON_SIZE);
+            var statusIconDestRectangle = new Rectangle(combatantStatusPosition, new Point(STATUS_ICON_SIZE, STATUS_ICON_SIZE));
             spriteBatch.Draw(_uiContentStorage.GetEffectIconsTexture(),
-                new Rectangle(combatantStatusPosition, new Point(SIZE, SIZE)),
+                statusIconDestRectangle,
                 combatantStatusIconRect, Color.White);
-            var localizedStatusName = GameObjectHelper.GetLocalized(combatantEffect.Sid);
+
+            var localizedStatusName = GameObjectHelper.GetLocalized(combatantStatus.Sid);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), localizedStatusName,
-                statsPanelOrigin + new Vector2(0, statusIndex * 15),
+                new Vector2(statusIconDestRectangle.Right + STATUS_MARGIN, statusIconDestRectangle.Y),
                 Color.Aqua);
         }
     }
@@ -903,31 +910,28 @@ internal class CombatScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
 
-        for (var index = 0; index < _combatantEffectNotifications.Count; index++)
-        {
-            var notification = _combatantEffectNotifications[index];
-
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                $"{notification.CombatantEffect.Sid} has been imposed",
-                new Vector2(contentRectangle.Center.X, contentRectangle.Center.Y + index * 15),
-                notification.LifetimeCounter > 0.5
-                    ? Color.White
-                    : Color.Lerp(Color.White, Color.Transparent, 1 - (float)notification.LifetimeCounter / 0.5f));
-        }
-
         if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
             if (!_animationBlockManager.HasBlockers)
             {
                 if (!_maneuversVisualizer.IsHidden)
                 {
-                    _maneuversVisualizer.Draw(spriteBatch);
+                    // ALT to show stats and statuses
+                    // Hide maneuvers to avoid HUD-mess
+                    if (!Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
+                    {
+                        _maneuversVisualizer.Draw(spriteBatch);
+                    }
 
                     if (!_maneuversIndicator.IsHidden)
                     {
-                        _maneuversIndicator.Rect =
-                            new Rectangle(contentRectangle.Center.X - 100, contentRectangle.Bottom - 105, 200, 25);
-                        _maneuversIndicator.Draw(spriteBatch);
+                        // ALT to show stats and statuses
+                        // Hide maneuvers to avoid HUD-mess
+                        if (!Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
+                        {
+                            _maneuversIndicator.Rect = new Rectangle(contentRectangle.Center.X - 100, contentRectangle.Bottom - 105, 200, 25);
+                            _maneuversIndicator.Draw(spriteBatch);
+                        }
                     }
                 }
             }
@@ -951,6 +955,21 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             DrawCombatantQueue(spriteBatch, contentRectangle);
             //DrawCombatSequenceProgress(spriteBatch);
+
+            for (var index = 0; index < _combatantEffectNotifications.Count; index++)
+            {
+                var notification = _combatantEffectNotifications[index];
+
+                var localizedStatusName = GameObjectHelper.GetLocalized(notification.CombatantEffect.Sid);
+                var combatantLocalizedName = GameObjectHelper.GetLocalized(notification.Combatant.ClassSid);
+
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                    $"{localizedStatusName} наложен на {combatantLocalizedName}",
+                    new Vector2(contentRectangle.Center.X, contentRectangle.Top + 50 + index * 15),
+                    notification.LifetimeCounter > 0.5
+                        ? Color.White
+                        : Color.Lerp(Color.White, Color.Transparent, 1 - (float)notification.LifetimeCounter / 0.5f));
+            }
         }
         catch
         {
@@ -1356,14 +1375,16 @@ internal class CombatScreen : GameScreenWithMenuBase
         private readonly TimeOnly _notificationDuration = new(0, 0, 10, 0);
         private double _counter;
 
-        public EffectNotification(ICombatantStatus combatantEffect, EffectNotificationDirection direction)
+        public EffectNotification(ICombatantStatus combatantEffect, Combatant combatant, EffectNotificationDirection direction)
         {
             _counter = _notificationDuration.ToTimeSpan().TotalSeconds;
             CombatantEffect = combatantEffect;
+            Combatant = combatant;
             Direction = direction;
         }
 
         public ICombatantStatus CombatantEffect { get; }
+        public Combatant Combatant { get; }
         public EffectNotificationDirection Direction { get; }
 
         public double LifetimeCounter => _counter / _notificationDuration.ToTimeSpan().TotalSeconds;
