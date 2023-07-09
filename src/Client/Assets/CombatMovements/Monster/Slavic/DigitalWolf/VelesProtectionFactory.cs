@@ -17,7 +17,7 @@ internal class VelesProtectionFactory : CombatMovementFactoryBase
                     new ChangeStatEffect(
                         new CombatantEffectSid(Sid),
                         new SelfTargetSelector(),
-                        UnitStatType.ShieldPoints,
+                        CombatantStatTypes.ShieldPoints,
                         3,
                         new ToNextCombatantTurnEffectLifetimeFactory()),
                     new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)

@@ -1,6 +1,6 @@
 namespace Core.Combats;
 
-public record CombatantEffectSid(string Value) : ICombatantEffectSid, IComparable
+public record CombatantEffectSid(string Value) : ICombatantStatusSid, IComparable
 {
     public override string ToString()
     {

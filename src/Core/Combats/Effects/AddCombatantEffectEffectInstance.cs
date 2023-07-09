@@ -1,19 +1,19 @@
-using Core.Combats.CombatantEffects;
+using Core.Combats.CombatantStatuses;
 
 namespace Core.Combats.Effects;
 
 public sealed class AddCombatantEffectEffectInstance : EffectInstanceBase<AddCombatantEffectEffect>
 {
-    private readonly ICombatantEffectFactory _combatantEffectFactory;
+    private readonly ICombatantStatusFactory _combatantEffectFactory;
 
     public AddCombatantEffectEffectInstance(AddCombatantEffectEffect baseEffect,
-        ICombatantEffectFactory combatantEffectFactory) : base(baseEffect)
+        ICombatantStatusFactory combatantEffectFactory) : base(baseEffect)
     {
         _combatantEffectFactory = combatantEffectFactory;
     }
 
-    public override void Influence(Combatant target, IEffectCombatContext context)
+    public override void Influence(Combatant target, IStatusCombatContext context)
     {
-        context.EffectImposedContext.Combat.ImposeCombatantEffect(target, _combatantEffectFactory.Create());
+        context.StatusImposedContext.Combat.ImposeCombatantEffect(target, _combatantEffectFactory.Create());
     }
 }

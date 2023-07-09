@@ -233,6 +233,11 @@ internal sealed class CombatantGameObject : EwarRenderableBase
         Graphics.Root.Position = Position;
     }
 
+    internal void AnimateShield()
+    {
+        // TODO Display shield effect.
+    }
+
     // private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)
     // {
     //     var shapeShiftBlocker = _animationManager.CreateAndUseBlocker();

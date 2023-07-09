@@ -1,8 +1,8 @@
 namespace Core.Combats.CombatantEffectLifetimes;
 
-public sealed class CombatantActiveCombatantEffectLifetimeFactory : ICombatantEffectLifetimeFactory
+public sealed class CombatantActiveCombatantEffectLifetimeFactory : ICombatantStatusLifetimeFactory
 {
-    public ICombatantEffectLifetime Create()
+    public ICombatantStatusLifetime Create()
     {
         return new CombatantActiveCombatantEffectLifetime();
     }

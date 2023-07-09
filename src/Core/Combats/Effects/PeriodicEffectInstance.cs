@@ -6,7 +6,7 @@ public sealed class PeriodicEffectInstance : EffectInstanceBase<PeriodicEffect>
     {
     }
 
-    public override void Influence(Combatant target, IEffectCombatContext context)
+    public override void Influence(Combatant target, IStatusCombatContext context)
     {
         throw new NotImplementedException();
     }

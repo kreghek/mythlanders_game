@@ -2,7 +2,7 @@ using Core.Combats.CombatantEffectLifetimes;
 
 namespace Core.Combats;
 
-public sealed class MultipleCombatantTurnEffectLifetimeFactory : ICombatantEffectLifetimeFactory
+public sealed class MultipleCombatantTurnEffectLifetimeFactory : ICombatantStatusLifetimeFactory
 {
     private readonly int _turnCount;
 
@@ -11,7 +11,7 @@ public sealed class MultipleCombatantTurnEffectLifetimeFactory : ICombatantEffec
         _turnCount = turnCount;
     }
 
-    public ICombatantEffectLifetime Create()
+    public ICombatantStatusLifetime Create()
     {
         return new MultipleCombatantTurnEffectLifetime(_turnCount);
     }

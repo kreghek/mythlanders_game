@@ -10,7 +10,7 @@ public sealed class StrongestEnemyTargetSelector : MostEnemyStatValueTargetSelec
         {
             return new[]
             {
-                enemies.OrderByDescending(x => GetStatCurrentValue(x, UnitStatType.HitPoints))
+                enemies.OrderByDescending(x => GetStatCurrentValue(x, CombatantStatTypes.HitPoints))
                     .First()
             };
         }

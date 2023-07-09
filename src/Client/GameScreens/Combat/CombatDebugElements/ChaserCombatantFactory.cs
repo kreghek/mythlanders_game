@@ -3,7 +3,7 @@ using System;
 using Client.Assets.CombatMovements.Monster.Slavic.Chaser;
 
 using Core.Combats;
-using Core.Combats.CombatantEffects;
+using Core.Combats.CombatantStatuses;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -43,12 +43,12 @@ public class ChaserCombatantFactory : IMonsterCombatantFactory
         var monsterSequence = CreateCombatMoveVariation(variationIndex);
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, 6);
-        stats.SetValue(UnitStatType.ShieldPoints, 4);
-        stats.SetValue(UnitStatType.Resolve, 5);
+        stats.SetValue(CombatantStatTypes.HitPoints, 6);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 4);
+        stats.SetValue(CombatantStatTypes.Resolve, 5);
 
         var monster = new Combatant("chaser", monsterSequence, stats, combatActorBehaviour,
-            ArraySegment<ICombatantEffectFactory>.Empty)
+            ArraySegment<ICombatantStatusFactory>.Empty)
         {
             DebugSid = sid, IsPlayerControlled = false
         };

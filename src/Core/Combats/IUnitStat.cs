@@ -2,6 +2,6 @@ namespace Core.Combats;
 
 public interface IUnitStat
 {
-    UnitStatType Type { get; }
+    ICombatantStatType Type { get; }
     IStatValue Value { get; }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Core.Combats.CombatantEffectLifetimes;
 
-public sealed class MultipleCombatantTurnEffectLifetime : ICombatantEffectLifetime
+public sealed class MultipleCombatantTurnEffectLifetime : ICombatantStatusLifetime
 {
     private bool _currentRoundEnd;
 
@@ -11,14 +11,14 @@ public sealed class MultipleCombatantTurnEffectLifetime : ICombatantEffectLifeti
 
     public int Counter { get; set; }
 
-    public void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context)
+    public void Update(CombatantStatusUpdateType updateType, ICombatantStatusLifetimeUpdateContext context)
     {
-        if (updateType == CombatantEffectUpdateType.EndRound)
+        if (updateType == CombatantStatusUpdateType.EndRound)
         {
             _currentRoundEnd = true;
         }
 
-        if (_currentRoundEnd && updateType == CombatantEffectUpdateType.EndRound)
+        if (_currentRoundEnd && updateType == CombatantStatusUpdateType.EndRound)
         {
             Counter--;
             if (Counter == 0)
@@ -28,11 +28,11 @@ public sealed class MultipleCombatantTurnEffectLifetime : ICombatantEffectLifeti
         }
     }
 
-    public void HandleOwnerImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context)
+    public void HandleImposed(ICombatantStatus combatantEffect, ICombatantStatusLifetimeImposeContext context)
     {
     }
 
-    public void HandleOwnerDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context)
+    public void HandleDispelling(ICombatantStatus combatantEffect, ICombatantStatusLifetimeDispelContext context)
     {
     }
 

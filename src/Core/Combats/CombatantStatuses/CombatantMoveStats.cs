@@ -1,4 +1,4 @@
-namespace Core.Combats.CombatantEffects;
+namespace Core.Combats.CombatantStatuses;
 
 public enum CombatantMoveStats
 {

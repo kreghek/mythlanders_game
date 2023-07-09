@@ -1,6 +1,6 @@
 ﻿namespace Core.Combats;
 
-public interface ICombatantEffectLifetimeUpdateContext
+public interface ICombatantStatusLifetimeUpdateContext
 {
     Combatant Combatant { get; }
     void CompleteTurn();

@@ -1,21 +1,21 @@
-using Core.Combats.CombatantEffects;
+using Core.Combats.CombatantStatuses;
 
 namespace Core.Combats;
 
 public sealed class Combatant
 {
-    private readonly IList<ICombatantEffect> _effects = new List<ICombatantEffect>();
+    private readonly IList<ICombatantStatus> _statuses = new List<ICombatantStatus>();
     private readonly CombatMovementInstance?[] _hand;
     private readonly IList<CombatMovementInstance> _pool;
-    private readonly IReadOnlyCollection<ICombatantEffectFactory> _startupEffects;
+    private readonly IReadOnlyCollection<ICombatantStatusFactory> _startupStatuses;
 
     public Combatant(string classSid,
         CombatMovementSequence sequence,
         CombatantStatsConfig stats,
         ICombatActorBehaviour behaviour,
-        IReadOnlyCollection<ICombatantEffectFactory> startupEffects)
+        IReadOnlyCollection<ICombatantStatusFactory> startupStatuses)
     {
-        _startupEffects = startupEffects;
+        _startupStatuses = startupStatuses;
         ClassSid = classSid;
         Behaviour = behaviour;
         _pool = new List<CombatMovementInstance>();
@@ -50,7 +50,7 @@ public sealed class Combatant
     /// <summary>
     /// Current combatant effects.
     /// </summary>
-    public IReadOnlyCollection<ICombatantEffect> Effects => _effects.ToArray();
+    public IReadOnlyCollection<ICombatantStatus> Statuses => _statuses.ToArray();
 
     /// <summary>
     /// Current available combatant's movements.
@@ -85,13 +85,13 @@ public sealed class Combatant
     /// Content to add effect. To handle some reaction on new effects (change stats, moves, other
     /// effects).
     /// </param>
-    public void AddEffect(ICombatantEffect effect, ICombatantEffectImposeContext effectImposeContext,
-        ICombatantEffectLifetimeImposeContext lifetimeImposeContext)
+    public void AddEffect(ICombatantStatus effect, ICombatantStatusImposeContext effectImposeContext,
+        ICombatantStatusLifetimeImposeContext lifetimeImposeContext)
     {
         effect.Impose(this, effectImposeContext);
-        _effects.Add(effect);
+        _statuses.Add(effect);
 
-        effect.Lifetime.HandleOwnerImposed(effect, lifetimeImposeContext);
+        effect.Lifetime.HandleImposed(effect, lifetimeImposeContext);
     }
 
     /// <summary>
@@ -129,12 +129,12 @@ public sealed class Combatant
         ApplyStartupEffects(combatCore);
     }
 
-    public void RemoveEffect(ICombatantEffect effect, ICombatantEffectLifetimeDispelContext context)
+    public void RemoveEffect(ICombatantStatus effect, ICombatantStatusLifetimeDispelContext context)
     {
         effect.Dispel(this);
-        _effects.Remove(effect);
+        _statuses.Remove(effect);
 
-        effect.Lifetime.HandleOwnerDispelled(effect, context);
+        effect.Lifetime.HandleDispelling(effect, context);
     }
 
     /// <summary>
@@ -149,13 +149,13 @@ public sealed class Combatant
     /// <summary>
     /// Update combatant effects.
     /// </summary>
-    public void UpdateEffects(CombatantEffectUpdateType updateType,
-        ICombatantEffectLifetimeDispelContext effectLifetimeDispelContext)
+    public void UpdateEffects(CombatantStatusUpdateType updateType,
+        ICombatantStatusLifetimeDispelContext effectLifetimeDispelContext)
     {
         var context = new CombatantEffectLifetimeUpdateContext(this, effectLifetimeDispelContext.Combat);
 
-        var effectToDispel = new List<ICombatantEffect>();
-        foreach (var effect in _effects)
+        var effectToDispel = new List<ICombatantStatus>();
+        foreach (var effect in _statuses)
         {
             effect.Update(updateType, context);
 
@@ -188,7 +188,7 @@ public sealed class Combatant
 
     private void ApplyStartupEffects(CombatCore combatCore)
     {
-        foreach (var effectFactory in _startupEffects)
+        foreach (var effectFactory in _startupStatuses)
         {
             var effect = effectFactory.Create();
 

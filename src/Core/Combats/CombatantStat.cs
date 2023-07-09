@@ -2,12 +2,12 @@ namespace Core.Combats;
 
 public sealed class CombatantStat : IUnitStat
 {
-    public CombatantStat(UnitStatType type, IStatValue value)
+    public CombatantStat(ICombatantStatType type, IStatValue value)
     {
         Type = type;
         Value = value;
     }
 
-    public UnitStatType Type { get; }
+    public ICombatantStatType Type { get; }
     public IStatValue Value { get; }
 }

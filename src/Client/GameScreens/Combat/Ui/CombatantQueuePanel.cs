@@ -19,8 +19,8 @@ internal sealed class CombatantQueuePanel : ControlBase
     private readonly CombatCore _activeCombat;
     private readonly ICombatantThumbnailProvider _combatantThumbnailProvider;
 
-    private readonly IList<(Rectangle, ICombatantEffect)> _effectInfoList =
-        new List<(Rectangle, ICombatantEffect)>();
+    private readonly IList<(Rectangle, ICombatantStatus)> _effectInfoList =
+        new List<(Rectangle, ICombatantStatus)>();
 
     private readonly IList<(Rectangle, CombatMovementInstance)> _monsterCombatMoveInfoList =
         new List<(Rectangle, CombatMovementInstance)>();
@@ -29,7 +29,7 @@ internal sealed class CombatantQueuePanel : ControlBase
     private HintBase? _combatMoveHint;
 
     private HintBase? _effectHint;
-    private ICombatantEffect? _lastEffectWithHint;
+    private ICombatantStatus? _lastEffectWithHint;
     private CombatMovementInstance? _lastMoveWithHint;
 
     public CombatantQueuePanel(CombatCore combat,
@@ -100,7 +100,7 @@ internal sealed class CombatantQueuePanel : ControlBase
             }
 
             spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(),
-                combatant.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.Current.ToString(),
+                combatant.Stats.Single(x => x.Type == CombatantStatTypes.Resolve).Value.Current.ToString(),
                 combatantQueuePosition, Color.White);
         }
 
@@ -108,7 +108,7 @@ internal sealed class CombatantQueuePanel : ControlBase
         _combatMoveHint?.Draw(spriteBatch);
     }
 
-    private static HintBase CreateEffectHint((Rectangle, ICombatantEffect) effectInfo)
+    private static HintBase CreateEffectHint((Rectangle, ICombatantStatus) effectInfo)
     {
         return new EffectHint(effectInfo.Item2)
         {

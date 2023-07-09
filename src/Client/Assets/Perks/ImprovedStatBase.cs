@@ -10,8 +10,8 @@ internal abstract class ImprovedStatBase : IPerk
 {
     public abstract void ApplyToStats(ref float maxHitpoints, ref float armorBonus);
 
-    public virtual IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers()
+    public virtual IReadOnlyCollection<(ICombatantStatType, IUnitStatModifier)> GetStatModifiers()
     {
-        return new (UnitStatType, IUnitStatModifier)[] { };
+        return new (ICombatantStatType, IUnitStatModifier)[] { };
     }
 }

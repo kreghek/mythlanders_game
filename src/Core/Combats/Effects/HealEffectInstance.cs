@@ -17,11 +17,11 @@ public sealed class HealEffectInstance : EffectInstanceBase<HealEffect>
         Heal.Max.AddModifier(modifier);
     }
 
-    public override void Influence(Combatant target, IEffectCombatContext context)
+    public override void Influence(Combatant target, IStatusCombatContext context)
     {
         var rolledHeal = context.Dice.Roll(Heal.Min.ActualMax, Heal.Max.ActualMax);
 
-        context.RestoreCombatantStat(target, UnitStatType.HitPoints, rolledHeal);
+        context.RestoreCombatantStat(target, CombatantStatTypes.HitPoints, rolledHeal);
     }
 
     public override void RemoveModifier(IUnitStatModifier modifier)

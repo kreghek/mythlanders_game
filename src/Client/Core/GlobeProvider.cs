@@ -256,7 +256,7 @@ internal sealed class GlobeProvider
             unit => new PlayerUnitDto
             {
                 SchemeSid = unit.UnitScheme.Name.ToString(),
-                Hp = unit.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.Current,
+                Hp = unit.Stats.Single(x => x.Type == CombatantStatTypes.HitPoints).Value.Current,
                 Level = unit.Level,
                 Equipments = GetCharacterEquipmentToSave(unit)
             });

@@ -1,5 +1,5 @@
 using Core.Combats;
-using Core.Combats.CombatantEffects;
+using Core.Combats.CombatantStatuses;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
@@ -13,7 +13,7 @@ internal class WingsOfVelesFactory : CombatMovementFactoryBase
     /// <inheritdoc />
     public override CombatMovement CreateMovement()
     {
-        var combatantEffectFactory = new ModifyCombatantMoveStatsCombatantEffectFactory(
+        var combatantEffectFactory = new ModifyCombatantMoveStatsCombatantStatusFactory(
             new CombatantEffectSid(Sid),
             new MultipleCombatantTurnEffectLifetimeFactory(1),
             CombatantMoveStats.Cost,

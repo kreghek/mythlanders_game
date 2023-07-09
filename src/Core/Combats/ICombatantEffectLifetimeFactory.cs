@@ -1,6 +1,6 @@
 namespace Core.Combats;
 
-public interface ICombatantEffectLifetimeFactory
+public interface ICombatantStatusLifetimeFactory
 {
-    ICombatantEffectLifetime Create();
+    ICombatantStatusLifetime Create();
 }

@@ -1,7 +1,7 @@
 ﻿namespace Core.Combats;
 
 public sealed record CombatantEffectLifetimeUpdateContext
-    (Combatant Combatant, CombatCore Combat) : ICombatantEffectLifetimeUpdateContext
+    (Combatant Combatant, CombatCore Combat) : ICombatantStatusLifetimeUpdateContext
 {
     public void CompleteTurn()
     {

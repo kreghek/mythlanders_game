@@ -1,10 +1,13 @@
-namespace Core.Combats.CombatantEffects;
+namespace Core.Combats.CombatantStatuses;
 
-public sealed class ModifyEffectsCombatantEffect : ICombatantEffect
+/// <summary>
+/// Change combat movements effects. Damage, etc.
+/// </summary>
+public sealed class ModifyEffectsCombatantStatus : ICombatantStatus
 {
     private readonly IUnitStatModifier _statModifier;
 
-    public ModifyEffectsCombatantEffect(ICombatantEffectSid sid, ICombatantEffectLifetime lifetime, int value)
+    public ModifyEffectsCombatantStatus(ICombatantStatusSid sid, ICombatantStatusLifetime lifetime, int value)
     {
         Sid = sid;
         Lifetime = lifetime;
@@ -14,8 +17,8 @@ public sealed class ModifyEffectsCombatantEffect : ICombatantEffect
 
     public int Value { get; }
 
-    public ICombatantEffectSid Sid { get; }
-    public ICombatantEffectLifetime Lifetime { get; }
+    public ICombatantStatusSid Sid { get; }
+    public ICombatantStatusLifetime Lifetime { get; }
 
     public void Dispel(Combatant combatant)
     {
@@ -31,7 +34,7 @@ public sealed class ModifyEffectsCombatantEffect : ICombatantEffect
         }
     }
 
-    public void Impose(Combatant combatant, ICombatantEffectImposeContext combatantEffectImposeContext)
+    public void Impose(Combatant combatant, ICombatantStatusImposeContext combatantEffectImposeContext)
     {
         foreach (var combatMovementInstance in combatant.Hand)
         {
@@ -45,7 +48,7 @@ public sealed class ModifyEffectsCombatantEffect : ICombatantEffect
         }
     }
 
-    public void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context)
+    public void Update(CombatantStatusUpdateType updateType, ICombatantStatusLifetimeUpdateContext context)
     {
         Lifetime.Update(updateType, context);
     }

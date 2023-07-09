@@ -1,6 +1,6 @@
 namespace Core.Combats;
 
-public sealed class CombatantEffectLifetimeDispelContext : ICombatantEffectLifetimeDispelContext
+public sealed class CombatantEffectLifetimeDispelContext : ICombatantStatusLifetimeDispelContext
 {
     public CombatantEffectLifetimeDispelContext(CombatCore combat)
     {

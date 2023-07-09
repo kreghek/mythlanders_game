@@ -6,7 +6,7 @@ public sealed class SwapPositionEffectInstance : EffectInstanceBase<SwapPosition
     {
     }
 
-    public override void Influence(Combatant target, IEffectCombatContext context)
+    public override void Influence(Combatant target, IStatusCombatContext context)
     {
         var actorSide = GetTargetSide(context.Actor, context.Field);
 

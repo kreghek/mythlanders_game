@@ -10,7 +10,7 @@ public sealed class MostShieldChargedEnemyTargetSelector : MostEnemyStatValueTar
         {
             return new[]
             {
-                enemies.OrderByDescending(x => GetStatCurrentValue(x, UnitStatType.ShieldPoints))
+                enemies.OrderByDescending(x => GetStatCurrentValue(x, CombatantStatTypes.ShieldPoints))
                     .First()
             };
         }

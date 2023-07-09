@@ -1,6 +1,6 @@
 namespace Core.Combats;
 
-public sealed class CombatantEffectImposeContext : ICombatantEffectImposeContext
+public sealed class CombatantEffectImposeContext : ICombatantStatusImposeContext
 {
     public CombatantEffectImposeContext(CombatCore combat)
     {

@@ -1,13 +1,13 @@
-using Core.Combats.CombatantEffects;
+using Core.Combats.CombatantStatuses;
 
 namespace Core.Combats.Effects;
 
 public sealed class AddCombatantEffectEffect : IEffect
 {
-    private readonly ICombatantEffectFactory _combatantEffectFactory;
+    private readonly ICombatantStatusFactory _combatantEffectFactory;
 
 
-    public AddCombatantEffectEffect(ITargetSelector targetSelector, ICombatantEffectFactory combatantEffectFactory)
+    public AddCombatantEffectEffect(ITargetSelector targetSelector, ICombatantStatusFactory combatantEffectFactory)
     {
         _combatantEffectFactory = combatantEffectFactory;
 

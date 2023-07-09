@@ -1,13 +1,5 @@
 ﻿namespace Core.Combats.TargetSelectors;
 
-public sealed class NullTargetSelector : ITargetSelector
-{
-    public IReadOnlyList<Combatant> GetMaterialized(Combatant actor, ITargetSelectorContext context)
-    {
-        throw new NotImplementedException();
-    }
-}
-
 public sealed class StrongestClosestAllyTargetSelector : ITargetSelector
 {
     private static List<(FieldCoords coords, int priority)> GetNeighbourCoords(FieldCoords actorCoords)
@@ -52,7 +44,7 @@ public sealed class StrongestClosestAllyTargetSelector : ITargetSelector
         }
 
         var sortedCombatants = neighbourCombatants.OrderByDescending(x => x.proprity)
-            .ThenByDescending(x => x.combatant.Stats.Single(s => s.Type == UnitStatType.HitPoints).Value.Current)
+            .ThenByDescending(x => x.combatant.Stats.Single(s => s.Type == CombatantStatTypes.HitPoints).Value.Current)
             .Select(x => x.combatant).ToArray();
 
         if (!sortedCombatants.Any())

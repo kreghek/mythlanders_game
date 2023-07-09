@@ -1,26 +1,26 @@
-using Core.Combats.CombatantEffects;
+using Core.Combats.CombatantStatuses;
 
 namespace Core.Combats.Effects;
 
 public sealed class ChangeStatEffectInstance : EffectInstanceBase<ChangeStatEffect>
 {
-    private readonly ICombatantEffectSid _combatantEffectSid;
+    private readonly ICombatantStatusSid _combatantStatusSid;
 
-    public ChangeStatEffectInstance(ICombatantEffectSid combatantEffectSid, ChangeStatEffect baseEffect,
-        ICombatantEffectLifetime combatantEffectLifetime) :
+    public ChangeStatEffectInstance(ICombatantStatusSid combatantEffectSid, ChangeStatEffect baseEffect,
+        ICombatantStatusLifetime combatantStatusLifetime) :
         base(baseEffect)
     {
-        _combatantEffectSid = combatantEffectSid;
-        Lifetime = combatantEffectLifetime;
+        _combatantStatusSid = combatantEffectSid;
+        Lifetime = combatantStatusLifetime;
     }
 
-    public ICombatantEffectLifetime Lifetime { get; }
+    public ICombatantStatusLifetime Lifetime { get; }
 
-    public override void Influence(Combatant target, IEffectCombatContext context)
+    public override void Influence(Combatant target, IStatusCombatContext context)
     {
-        var combatantEffect =
-            new ChangeStatCombatantEffect(_combatantEffectSid, Lifetime, BaseEffect.TargetStatType, BaseEffect.Value);
+        var combatantStatus =
+            new ChangeStatCombatantStatus(_combatantStatusSid, Lifetime, BaseEffect.TargetStatType, BaseEffect.Value);
 
-        context.EffectLifetimeImposedContext.Combat.ImposeCombatantEffect(target, combatantEffect);
+        context.StatusLifetimeImposedContext.Combat.ImposeCombatantEffect(target, combatantStatus);
     }
 }

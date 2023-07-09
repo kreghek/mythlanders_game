@@ -14,7 +14,7 @@ public abstract class EffectInstanceBase<TEffect> : IEffectInstance where TEffec
     {
     }
 
-    public abstract void Influence(Combatant target, IEffectCombatContext context);
+    public abstract void Influence(Combatant target, IStatusCombatContext context);
 
     public virtual void RemoveModifier(IUnitStatModifier modifier)
     {

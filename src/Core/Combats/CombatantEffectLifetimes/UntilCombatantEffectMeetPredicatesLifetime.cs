@@ -1,6 +1,6 @@
 namespace Core.Combats.CombatantEffectLifetimes;
 
-public sealed class UntilCombatantEffectMeetPredicatesLifetime : ICombatantEffectLifetime
+public sealed class UntilCombatantEffectMeetPredicatesLifetime : ICombatantStatusLifetime
 {
     private readonly IReadOnlyCollection<ICombatMovePredicate> _combatMovePredicates;
     private Combatant? _ownedCombatant;
@@ -26,17 +26,17 @@ public sealed class UntilCombatantEffectMeetPredicatesLifetime : ICombatantEffec
 
     public bool IsExpired { get; private set; }
 
-    public void Update(CombatantEffectUpdateType updateType, ICombatantEffectLifetimeUpdateContext context)
+    public void Update(CombatantStatusUpdateType updateType, ICombatantStatusLifetimeUpdateContext context)
     {
     }
 
-    public void HandleOwnerImposed(ICombatantEffect combatantEffect, ICombatantEffectLifetimeImposeContext context)
+    public void HandleImposed(ICombatantStatus combatantEffect, ICombatantStatusLifetimeImposeContext context)
     {
         _ownedCombatant = context.TargetCombatant;
         context.Combat.CombatantUsedMove += Combat_CombatantUsedMove;
     }
 
-    public void HandleOwnerDispelled(ICombatantEffect combatantEffect, ICombatantEffectLifetimeDispelContext context)
+    public void HandleDispelling(ICombatantStatus combatantEffect, ICombatantStatusLifetimeDispelContext context)
     {
         context.Combat.CombatantUsedMove -= Combat_CombatantUsedMove;
     }
