@@ -4,10 +4,10 @@ namespace Core.Combats;
 
 public sealed class Combatant
 {
-    private readonly IList<ICombatantStatus> _statuses = new List<ICombatantStatus>();
     private readonly CombatMovementInstance?[] _hand;
     private readonly IList<CombatMovementInstance> _pool;
     private readonly IReadOnlyCollection<ICombatantStatusFactory> _startupStatuses;
+    private readonly IList<ICombatantStatus> _statuses = new List<ICombatantStatus>();
 
     public Combatant(string classSid,
         CombatMovementSequence sequence,
@@ -48,11 +48,6 @@ public sealed class Combatant
     public string? DebugSid { get; init; }
 
     /// <summary>
-    /// Current combatant effects.
-    /// </summary>
-    public IReadOnlyCollection<ICombatantStatus> Statuses => _statuses.ToArray();
-
-    /// <summary>
     /// Current available combatant's movements.
     /// </summary>
     public IReadOnlyList<CombatMovementInstance?> Hand => _hand;
@@ -76,6 +71,11 @@ public sealed class Combatant
     /// Current combatant stats.
     /// </summary>
     public IReadOnlyCollection<IUnitStat> Stats { get; }
+
+    /// <summary>
+    /// Current combatant effects.
+    /// </summary>
+    public IReadOnlyCollection<ICombatantStatus> Statuses => _statuses.ToArray();
 
     /// <summary>
     /// Add effect to combatant.
@@ -206,8 +206,8 @@ public sealed class Combatant
         {
             var combatMove = PopNextPoolMovement();
             if (combatMove is null)
-            // Pool is empty.
-            // Stop to prepare first movements.
+                // Pool is empty.
+                // Stop to prepare first movements.
             {
                 break;
             }

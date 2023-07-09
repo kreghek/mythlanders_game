@@ -6,10 +6,10 @@ public interface IStatusCombatContext
 {
     Combatant Actor { get; }
     IDice Dice { get; }
+    CombatField Field { get; }
 
     ICombatantStatusImposeContext StatusImposedContext { get; }
     ICombatantStatusLifetimeImposeContext StatusLifetimeImposedContext { get; }
-    CombatField Field { get; }
 
     int DamageCombatantStat(Combatant combatant, ICombatantStatType statType, int value);
 

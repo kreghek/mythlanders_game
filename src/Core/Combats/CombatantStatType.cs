@@ -1,3 +1,5 @@
 ﻿namespace Core.Combats;
 
-public sealed class CombatantStatType : ICombatantStatType { };
+public sealed class CombatantStatType : ICombatantStatType
+{
+}

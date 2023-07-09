@@ -185,6 +185,11 @@ internal sealed class CombatantGameObject : EwarRenderableBase
             transformMatrix: _camera.GetViewTransformationMatrix());
     }
 
+    internal void AnimateShield()
+    {
+        // TODO Display shield effect.
+    }
+
     internal void ChangeState(CombatUnitState visualIdleState)
     {
         _visualIdleState = visualIdleState;
@@ -231,11 +236,6 @@ internal sealed class CombatantGameObject : EwarRenderableBase
     private void ResetActorRootSpritePosition()
     {
         Graphics.Root.Position = Position;
-    }
-
-    internal void AnimateShield()
-    {
-        // TODO Display shield effect.
     }
 
     // private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)

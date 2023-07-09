@@ -7,7 +7,8 @@ public sealed class ChangeStatCombatantStatus : CombatantStatusBase
 {
     private readonly IUnitStatModifier _statModifier;
 
-    public ChangeStatCombatantStatus(ICombatantStatusSid sid, ICombatantStatusLifetime lifetime, ICombatantStatType statType,
+    public ChangeStatCombatantStatus(ICombatantStatusSid sid, ICombatantStatusLifetime lifetime,
+        ICombatantStatType statType,
         int value) :
         base(sid, lifetime)
     {
