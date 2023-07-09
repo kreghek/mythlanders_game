@@ -433,6 +433,9 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void CombatCore_CombatantStartsTurn(object? sender, CombatantTurnStartedEventArgs e)
     {
+        var currentCombatantGameObject = GetCombatantGameObject(_combatCore.CurrentCombatant);
+        currentCombatantGameObject.IsActive = true;
+
         if (_combatMovementsHandPanel is not null && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
             _combatMovementsHandPanel.IsEnabled = true;
