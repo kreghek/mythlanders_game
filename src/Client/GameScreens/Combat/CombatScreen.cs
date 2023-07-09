@@ -417,7 +417,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 unitGameObject.AnimateShield();
             }
             else
-            { 
+            {
                 // TODO Display visual effect of stat damage (resolve, maneuvers, etc).
             }
         }
@@ -732,7 +732,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             const int STATUS_HEIGHT = STATUS_ICON_SIZE + STATUS_MARGIN;
 
             var combatantStatusPosition = (statsPanelOrigin + new Vector2(COMBATANT_SPRITE_SIZE, statusIndex * STATUS_HEIGHT)).ToPoint();
-            
+
             var combatantStatusIconRect = new Rectangle(0, 0, STATUS_ICON_SIZE, STATUS_ICON_SIZE);
             var statusIconDestRectangle = new Rectangle(combatantStatusPosition, new Point(STATUS_ICON_SIZE, STATUS_ICON_SIZE));
             spriteBatch.Draw(_uiContentStorage.GetEffectIconsTexture(),
@@ -964,7 +964,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 var combatantLocalizedName = GameObjectHelper.GetLocalized(notification.Combatant.ClassSid);
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                    $"{localizedStatusName} наложен на {combatantLocalizedName}",
+                    $"{localizedStatusName} пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ {combatantLocalizedName}",
                     new Vector2(contentRectangle.Center.X, contentRectangle.Top + 50 + index * 15),
                     notification.LifetimeCounter > 0.5
                         ? Color.White
