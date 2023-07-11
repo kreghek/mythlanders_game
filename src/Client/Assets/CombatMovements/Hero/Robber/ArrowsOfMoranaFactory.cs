@@ -122,7 +122,10 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
 
         var innerState = new SequentialState(subStates);
         return new CombatMovementScene(innerState,
-            new[] { new FollowActorOperatorCameraTask(actorAnimator, () => innerState.IsComplete) });
+            new[] {
+                new FollowActorOperatorCameraTask(actorAnimator, () => launchRainSourceState.IsComplete),
+                new FollowActorOperatorCameraTask(visualizationContext.GetCombatActor(movementExecution.EffectImposeItems.First().MaterializedTargets.First()).Animator, ()=> innerState.IsComplete)
+            });
     }
 
     private static InteractionDeliveryInfo[] CreateEmptyInteraction(IActorAnimator actorAnimator)
