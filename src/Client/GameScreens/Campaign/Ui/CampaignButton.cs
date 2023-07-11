@@ -48,7 +48,7 @@ internal sealed class CampaignButton : ButtonBase
         return NodeState switch
         {
             CampaignNodeState.Passed or CampaignNodeState.Current => TestamentColors.MainAncient,
-            CampaignNodeState.Unavailable => TestamentColors.MaxDark,
+            CampaignNodeState.Unavailable => TestamentColors.Disabled,
             CampaignNodeState.Available => TestamentColors.MainSciFi,
             _ => base.CalculateColor()
         };

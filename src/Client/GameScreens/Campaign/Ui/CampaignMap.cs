@@ -323,9 +323,9 @@ internal sealed class CampaignMap : ControlBase
                 var buttonPosition = button.Rect.Center.ToVector2();
                 var nextPosition = nextButton.Rect.Center.ToVector2();
 
-                var points = CalcLinePoints(buttonPosition: buttonPosition, nextPosition: nextPosition);
+                var (Start, End) = CalcLinePoints(buttonPosition: buttonPosition, nextPosition: nextPosition);
 
-                spriteBatch.DrawLine(points.Start, points.End, lineColor);
+                spriteBatch.DrawLine(Start, End, lineColor);
             }
         }
     }
@@ -364,33 +364,12 @@ internal sealed class CampaignMap : ControlBase
 
     private void DrawNodeHint(SpriteBatch spriteBatch)
     {
-        if (_currentHint is not null)
+        if (_currentHint is null)
         {
-            _currentHint.Draw(spriteBatch);
-        }
-    }
-
-    private IEnumerable<IGraphNode<ICampaignStageItem>> GetAvailableNodes(IGraphNode<ICampaignStageItem> baseStage)
-    {
-        var openList = new List<IGraphNode<ICampaignStageItem>>();
-
-        var next = _heroCampaign.Stages.GetNext(baseStage).ToList();
-        openList.AddRange(next);
-
-        while (next.Any())
-        {
-            var nextStored = next.ToArray();
-            next.Clear();
-
-            foreach (var graphNode in nextStored)
-            {
-                var nextInner = _heroCampaign.Stages.GetNext(graphNode);
-
-                openList.AddRange(nextInner);
-            }
+            return;
         }
 
-        return openList;
+        _currentHint.Draw(spriteBatch);
     }
 
     private CampaignNodeState GetLocationNodeState(IGraphNodeLayout<ICampaignStageItem> graphNodeLayout)
@@ -407,7 +386,7 @@ internal sealed class CampaignMap : ControlBase
 
         if (_heroCampaign.CurrentStage is not null)
         {
-            var availableNodes = GetAvailableNodes(_heroCampaign.CurrentStage);
+            var availableNodes = _heroCampaign.Stages.GetAvailableNodes(_heroCampaign.CurrentStage);
 
             if (!availableNodes.Contains(graphNodeLayout.Node))
             {
@@ -424,8 +403,8 @@ internal sealed class CampaignMap : ControlBase
         {
             CampaignNodeState.Available => TestamentColors.MainSciFi,
             CampaignNodeState.Current or CampaignNodeState.Passed => TestamentColors.MainAncient,
-            CampaignNodeState.Unavailable => TestamentColors.MaxDark,
-            _ => Color.LightCyan
+            CampaignNodeState.Unavailable => TestamentColors.Disabled,
+            _ => TestamentColors.MainSciFi
         };
     }
 
@@ -636,3 +615,24 @@ internal sealed class CampaignMap : ControlBase
 
     public sealed record PresentationScrollData(Vector2 Start, Vector2 Target);
 }
+
+public static class GraphExtensions
+{
+    public static bool HasWayBetween<T>(this IGraph<T> graph, IGraphNode<T> nodeFrom,
+    IGraphNode<T> nodeTo)
+    {
+        if (nodeFrom == nodeTo)
+            return true;
+
+        return graph.GetNext(nodeFrom)
+        .Select(next => graph.HasWayBetween(next, nodeTo))
+        .Any(x => x);
+    }
+
+    public static IEnumerable<IGraphNode<T>> GetAvailableNodes<T>(this IGraph<T> graph, IGraphNode<T> startNode)
+{
+        return Enumerable.Repeat(startNode, 1)
+        .Concat(graph.GetNext(startNode).SelectMany(graph.GetAvailableNodes))
+        .Distinct();
+    }
+    }
