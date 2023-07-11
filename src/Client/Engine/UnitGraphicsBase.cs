@@ -47,7 +47,7 @@ internal abstract class UnitGraphicsBase
         _position = position;
         _gameObjectContentStorage = gameObjectContentStorage;
 
-        _selectedMarkers = new[]{ 
+        _selectedMarkers = new[]{
             new Sprite(gameObjectContentStorage.GetCombatantMarkers())
             {
                 Origin = new Vector2(0.5f, 0.75f),

@@ -630,9 +630,9 @@ public static class GraphExtensions
     }
 
     public static IEnumerable<IGraphNode<T>> GetAvailableNodes<T>(this IGraph<T> graph, IGraphNode<T> startNode)
-{
+    {
         return Enumerable.Repeat(startNode, 1)
         .Concat(graph.GetNext(startNode).SelectMany(graph.GetAvailableNodes))
         .Distinct();
     }
-    }
+}
