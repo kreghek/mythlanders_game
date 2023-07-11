@@ -6,6 +6,8 @@ using CombatDicesTeam.Graphs.Visualization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonoGame;
+
 namespace Client.GameScreens.Campaign.Ui;
 
 internal sealed class CampaignButton : ButtonBase
@@ -45,8 +47,9 @@ internal sealed class CampaignButton : ButtonBase
     {
         return NodeState switch
         {
-            CampaignNodeState.Passed or CampaignNodeState.Current => Color.Wheat,
-            CampaignNodeState.Unavailable => Color.DarkGray,
+            CampaignNodeState.Passed or CampaignNodeState.Current => TestamentColors.MainAncient,
+            CampaignNodeState.Unavailable => TestamentColors.MaxDark,
+            CampaignNodeState.Available => TestamentColors.MainSciFi,
             _ => base.CalculateColor()
         };
     }
@@ -54,5 +57,10 @@ internal sealed class CampaignButton : ButtonBase
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
     {
         spriteBatch.Draw(_icon, contentRect, _iconRect, color);
+
+        if (NodeState == CampaignNodeState.Passed)
+        {
+            spriteBatch.DrawCircle(contentRect.Center.ToVector2(), 24, 16, TestamentColors.MainAncient);
+        }
     }
 }

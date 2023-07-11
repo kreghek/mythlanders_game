@@ -348,7 +348,7 @@ internal sealed class CampaignMap : ControlBase
         {
             var currentButton = _buttonList.Single(x => x.SourceGraphNodeLayout.Node == _heroCampaign.CurrentStage);
 
-            spriteBatch.DrawCircle(currentButton.Rect.Center.ToVector2(), 16, 16, Color.Wheat, 3);
+            spriteBatch.DrawCircle(currentButton.Rect.Center.ToVector2(), 24, 16, Color.Wheat, 3);
 
             var next = _heroCampaign.Stages.GetNext(_heroCampaign.CurrentStage);
             var nextButtons = _buttonList.Where(x => next.Contains(x.SourceGraphNodeLayout.Node)).ToArray();
@@ -423,8 +423,8 @@ internal sealed class CampaignMap : ControlBase
         return nodeState switch
         {
             CampaignNodeState.Available => TestamentColors.MainSciFi,
-            CampaignNodeState.Current or CampaignNodeState.Passed => Color.Wheat,
-            CampaignNodeState.Unavailable => Color.DarkGray,
+            CampaignNodeState.Current or CampaignNodeState.Passed => TestamentColors.MainAncient,
+            CampaignNodeState.Unavailable => TestamentColors.MaxDark,
             _ => Color.LightCyan
         };
     }
