@@ -1,4 +1,5 @@
 ﻿using Client.Assets.ActorVisualizationStates.Primitives;
+using Client.Core;
 using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects;
 
@@ -16,4 +17,6 @@ internal interface ICombatMovementVisualizationContext
 
     InteractionDeliveryManager InteractionDeliveryManager { get; }
     CombatantGameObject GetCombatActor(Combatant combatant);
+
+    IBattlefieldInteractionContext BattlefieldInteractionContext { get; }
 }
