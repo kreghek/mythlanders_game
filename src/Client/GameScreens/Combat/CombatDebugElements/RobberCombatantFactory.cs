@@ -23,7 +23,7 @@ public class RobberCombatantFactory : IHeroCombatantFactory
         {
             CreateMovement<BalticThunderFactory>(),
 
-            CreateMovement<ArrowsOfMoranaFactory>(), // finish
+            CreateMovement<ArrowsOfMoranaFactory>(),
 
             CreateMovement<WingsOfVelesFactory>(), // tracker
 

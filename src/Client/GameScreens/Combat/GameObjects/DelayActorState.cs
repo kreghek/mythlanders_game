@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Client.Engine;
+
+using Microsoft.Xna.Framework;
 
 namespace Client.GameScreens.Combat.GameObjects;
 

@@ -6,7 +6,7 @@
   },
   "cycles": {
     "prepare-arrow-rain": {
-      "frames": [83,0,1,2,3,4,5,6,7],
+      "frames": [0,1,2,3,4,5,6,7],
       "isLooping": false,
       "frameDuration": 0.2
     },
@@ -20,7 +20,7 @@
       "isLooping": false,
       "frameDuration": 0.2
     },
-    "complete-lauch": {
+    "complete-launch": {
       "frames": [28,29,30,31,24],
       "isLooping": false,
       "frameDuration": 0.15

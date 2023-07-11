@@ -46,8 +46,12 @@ internal sealed class UseCombatMovementIntention : IIntention
     private CombatMovementScene GetMovementVisualizationState(CombatantGameObject actorGameObject,
         CombatMovementExecution movementExecution, CombatMovementInstance combatMovement)
     {
-        var context = new CombatMovementVisualizationContext(actorGameObject, _combatantGameObjects.ToArray(),
-            _interactionDeliveryManager, _gameObjectContentStorage);
+        var context = new CombatMovementVisualizationContext(
+            actorGameObject,
+            _combatantGameObjects.ToArray(),
+            _interactionDeliveryManager,
+            _gameObjectContentStorage,
+            new BattlefieldInteractionContext());
 
         return _combatMovementVisualizer.GetMovementVisualizationState(combatMovement.SourceMovement.Sid,
             actorGameObject.Animator, movementExecution, context);
