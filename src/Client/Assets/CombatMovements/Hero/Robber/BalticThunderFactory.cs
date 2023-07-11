@@ -1,8 +1,6 @@
 using Client.Engine;
 
 using Core.Combats;
-using Core.Combats.CombatantEffectLifetimes;
-using Core.Combats.CombatantStatuses;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
@@ -19,14 +17,6 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
     /// <inheritdoc />
     public override CombatMovement CreateMovement()
     {
-        var combatantEffectFactory = new ModifyCombatantMoveStatsCombatantStatusFactory(
-            new CombatantEffectSid(Sid),
-            new UntilCombatantEffectMeetPredicatesLifetimeFactory(new IsAttackCombatMovePredicate()),
-            CombatantMoveStats.Cost,
-            -1000);
-
-        var freeAttacksEffect = new AddCombatantEffectEffect(new SelfTargetSelector(), combatantEffectFactory);
-
         return new CombatMovement(Sid,
             new CombatMovementCost(3),
             CombatMovementEffectConfig.Create(
@@ -35,10 +25,7 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
                     new DamageEffect(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(4)),
-                    new MarkEffect(new ClosestInLineTargetSelector(),
-                        new MultipleCombatantTurnEffectLifetimeFactory(2)),
-                    freeAttacksEffect
+                        Range<int>.CreateMono(4))
                 })
         )
         {

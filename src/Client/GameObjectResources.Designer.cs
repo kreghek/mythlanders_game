@@ -142,29 +142,29 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Arrow rain.
+        /// </summary>
+        internal static string ArrowRain {
+            get {
+                return ResourceManager.GetString("ArrowRain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Arrow of Morana.
         /// </summary>
-        internal static string ArrowOfMorana {
+        internal static string ArrowsOfMorana {
             get {
-                return ResourceManager.GetString("ArrowOfMorana", resourceCulture);
+                return ResourceManager.GetString("ArrowsOfMorana", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string ArrowOfMorana_Description {
+        internal static string ArrowsOfMorana_Description {
             get {
-                return ResourceManager.GetString("ArrowOfMorana_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Arrow rain.
-        /// </summary>
-        internal static string ArrowRain {
-            get {
-                return ResourceManager.GetString("ArrowRain", resourceCulture);
+                return ResourceManager.GetString("ArrowsOfMorana_Description", resourceCulture);
             }
         }
         

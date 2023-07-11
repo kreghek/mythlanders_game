@@ -21,9 +21,9 @@ public class RobberCombatantFactory : IHeroCombatantFactory
     {
         var movementPool = new List<CombatMovement>
         {
-            CreateMovement<BalticThunderFactory>(), // hunt
+            CreateMovement<BalticThunderFactory>(),
 
-            CreateMovement<ArrowOfMoranaFactory>(), // finish
+            CreateMovement<ArrowsOfMoranaFactory>(), // finish
 
             CreateMovement<WingsOfVelesFactory>(), // tracker
 

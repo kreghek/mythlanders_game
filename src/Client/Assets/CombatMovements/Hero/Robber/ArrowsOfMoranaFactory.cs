@@ -9,10 +9,10 @@ using JetBrains.Annotations;
 namespace Client.Assets.CombatMovements.Hero.Robber;
 
 [UsedImplicitly]
-internal class ArrowOfMoranaFactory : CombatMovementFactoryBase
+internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
-    public override CombatMovementIcon CombatMovementIcon => new(0, 7);
+    public override CombatMovementIcon CombatMovementIcon => new(0, 1);
 
     /// <inheritdoc />
     public override CombatMovement CreateMovement()
@@ -23,9 +23,9 @@ internal class ArrowOfMoranaFactory : CombatMovementFactoryBase
                 new IEffect[]
                 {
                     new DamageEffect(
-                        new WeakestMarkedEnemyTargetSelector(),
+                        new AllEnemiesTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(4))
+                        Range<int>.CreateMono(2))
                 })
         )
         {

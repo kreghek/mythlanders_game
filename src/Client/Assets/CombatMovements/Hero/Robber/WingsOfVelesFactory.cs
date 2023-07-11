@@ -25,7 +25,7 @@ internal class WingsOfVelesFactory : CombatMovementFactoryBase
                 new IEffect[]
                 {
                     new ModifyEffectsEffect(new CombatantEffectSid(Sid), new SelfTargetSelector(), 1),
-                    new AddCombatantEffectEffect(new SelfTargetSelector(), combatantEffectFactory)
+                    new AddCombatantStatusEffect(new SelfTargetSelector(), combatantEffectFactory)
                 })
         );
     }

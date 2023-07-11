@@ -1,4 +1,3 @@
-using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Engine;
 using Client.GameScreens;
 

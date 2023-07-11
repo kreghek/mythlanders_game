@@ -16,7 +16,7 @@ internal class RiseYourSwordsFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new AddCombatantEffectEffect(
+                    new AddCombatantStatusEffect(
                         new AllAllyTargetSelector(),
                         new ModifyEffectsCombatantStatusFactory(
                             new CombatantEffectSid(Sid),

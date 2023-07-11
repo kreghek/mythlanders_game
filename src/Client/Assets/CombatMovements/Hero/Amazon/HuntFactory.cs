@@ -23,7 +23,7 @@ internal class HuntFactory : CombatMovementFactoryBase
             CombatantMoveStats.Cost,
             -1000);
 
-        var freeAttacksEffect = new AddCombatantEffectEffect(new SelfTargetSelector(), combatantEffectFactory);
+        var freeAttacksEffect = new AddCombatantStatusEffect(new SelfTargetSelector(), combatantEffectFactory);
 
         return new CombatMovement(Sid,
             new CombatMovementCost(3),

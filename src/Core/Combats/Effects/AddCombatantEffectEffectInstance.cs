@@ -2,11 +2,11 @@ using Core.Combats.CombatantStatuses;
 
 namespace Core.Combats.Effects;
 
-public sealed class AddCombatantEffectEffectInstance : EffectInstanceBase<AddCombatantEffectEffect>
+public sealed class AddCombatantEffectEffectInstance : EffectInstanceBase<AddCombatantStatusEffect>
 {
     private readonly ICombatantStatusFactory _combatantEffectFactory;
 
-    public AddCombatantEffectEffectInstance(AddCombatantEffectEffect baseEffect,
+    public AddCombatantEffectEffectInstance(AddCombatantStatusEffect baseEffect,
         ICombatantStatusFactory combatantEffectFactory) : base(baseEffect)
     {
         _combatantEffectFactory = combatantEffectFactory;
