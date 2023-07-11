@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Transactions;
 
 using Client.Core;
 using Client.GameScreens;
@@ -36,9 +35,9 @@ internal abstract class UnitGraphicsBase
     private Sprite[] _outlines;
     protected Vector2 _position;
 
-    private Sprite[] _sprites;
-
     private double _selectedMarkerCounter;
+
+    private Sprite[] _sprites;
 
     public UnitGraphicsBase(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig, bool isNormalOrientation,
         Vector2 position, GameObjectContentStorage gameObjectContentStorage)
@@ -47,7 +46,8 @@ internal abstract class UnitGraphicsBase
         _position = position;
         _gameObjectContentStorage = gameObjectContentStorage;
 
-        _selectedMarkers = new[]{
+        _selectedMarkers = new[]
+        {
             new Sprite(gameObjectContentStorage.GetCombatantMarkers())
             {
                 Origin = new Vector2(0.5f, 0.75f),

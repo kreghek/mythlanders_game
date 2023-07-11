@@ -618,21 +618,23 @@ internal sealed class CampaignMap : ControlBase
 
 public static class GraphExtensions
 {
-    public static bool HasWayBetween<T>(this IGraph<T> graph, IGraphNode<T> nodeFrom,
-    IGraphNode<T> nodeTo)
-    {
-        if (nodeFrom == nodeTo)
-            return true;
-
-        return graph.GetNext(nodeFrom)
-        .Select(next => graph.HasWayBetween(next, nodeTo))
-        .Any(x => x);
-    }
-
     public static IEnumerable<IGraphNode<T>> GetAvailableNodes<T>(this IGraph<T> graph, IGraphNode<T> startNode)
     {
         return Enumerable.Repeat(startNode, 1)
-        .Concat(graph.GetNext(startNode).SelectMany(graph.GetAvailableNodes))
-        .Distinct();
+            .Concat(graph.GetNext(startNode).SelectMany(graph.GetAvailableNodes))
+            .Distinct();
+    }
+
+    public static bool HasWayBetween<T>(this IGraph<T> graph, IGraphNode<T> nodeFrom,
+        IGraphNode<T> nodeTo)
+    {
+        if (nodeFrom == nodeTo)
+        {
+            return true;
+        }
+
+        return graph.GetNext(nodeFrom)
+            .Select(next => graph.HasWayBetween(next, nodeTo))
+            .Any(x => x);
     }
 }

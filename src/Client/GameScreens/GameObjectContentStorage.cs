@@ -22,10 +22,10 @@ internal class GameObjectContentStorage
     private IDictionary<string, SpriteAtlasAnimationData>? _animationSetDict;
     private Texture2D _arrowTexture;
 
+    private Texture2D _combatantMarkers;
+
     private IDictionary<LocationTheme, Texture2D[]> _combatBackgroundBaseDict;
     private IDictionary<(LocationTheme, BackgroundLayerType, int), Texture2D> _combatBackgroundObjectsDict;
-
-    private Texture2D _combatantMarkers;
 
     private ContentManager? _contentManager;
     private IDictionary<UnitName, SoundEffect> _deathSoundDict;
@@ -348,6 +348,11 @@ internal class GameObjectContentStorage
         return _arrowTexture;
     }
 
+    internal Texture2D GetCombatantMarkers()
+    {
+        return _combatantMarkers;
+    }
+
     internal Texture2D GetCombatBackgroundObjectsTexture(LocationTheme backgroundType,
         BackgroundLayerType layerType, int spriteSheetIndex)
     {
@@ -357,11 +362,6 @@ internal class GameObjectContentStorage
     internal Texture2D[] GetCombatBackgrounds(LocationTheme locationTheme)
     {
         return _combatBackgroundBaseDict[locationTheme];
-    }
-
-    internal Texture2D GetCombatantMarkers()
-    {
-        return _combatantMarkers;
     }
 
     internal SoundEffect GetDeathSound(UnitName unitName)
