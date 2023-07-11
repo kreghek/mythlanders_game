@@ -25,7 +25,7 @@ internal class GameObjectContentStorage
     private IDictionary<LocationTheme, Texture2D[]> _combatBackgroundBaseDict;
     private IDictionary<(LocationTheme, BackgroundLayerType, int), Texture2D> _combatBackgroundObjectsDict;
 
-    private Texture2D _combatUnitMarkers;
+    private Texture2D _combatantMarkers;
 
     private ContentManager? _contentManager;
     private IDictionary<UnitName, SoundEffect> _deathSoundDict;
@@ -86,7 +86,7 @@ internal class GameObjectContentStorage
         _contentManager = contentManager;
 
         _mapNodes = contentManager.Load<Texture2D>("Sprites/GameObjects/MapNodes");
-        _combatUnitMarkers = contentManager.Load<Texture2D>("Sprites/GameObjects/CombatUnitMarkers");
+        _combatantMarkers = contentManager.Load<Texture2D>("Sprites/GameObjects/CombatantMarkers");
 
         _font = contentManager.Load<SpriteFont>("Fonts/Main");
 
@@ -359,9 +359,9 @@ internal class GameObjectContentStorage
         return _combatBackgroundBaseDict[locationTheme];
     }
 
-    internal Texture2D GetCombatUnitMarker()
+    internal Texture2D GetCombatantMarkers()
     {
-        return _combatUnitMarkers;
+        return _combatantMarkers;
     }
 
     internal SoundEffect GetDeathSound(UnitName unitName)
