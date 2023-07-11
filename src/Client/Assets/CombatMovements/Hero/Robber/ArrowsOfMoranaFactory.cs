@@ -17,6 +17,7 @@ using Client.GameScreens;
 using Microsoft.Xna.Framework.Audio;
 using System;
 using Client.Engine.MoveFunctions;
+using System.Collections.Generic;
 
 namespace Client.Assets.CombatMovements.Hero.Robber;
 
@@ -50,6 +51,8 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
         CombatMovementExecution movementExecution,
         ICombatMovementVisualizationContext visualizationContext)
     {
+        const int TOTAL_ARROW_COUNT = 10;
+
         var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Robber");
 
         // phase 1 - epic stance
@@ -90,7 +93,19 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
                     from target in item.MaterializedTargets
                     select new InteractionDeliveryInfo(item, visualizationContext.GetCombatActor(target).InteractionPoint - new Microsoft.Xna.Framework.Vector2(400, 200), visualizationContext.GetCombatActor(target).InteractionPoint);
 
-        var rainingArrowsProjectilesState = new LaunchInteractionDeliveryState(items.ToArray(),
+        var allArrowItems = new List<InteractionDeliveryInfo>(items);
+        var targetArea = visualizationContext.BattlefieldInteractionContext.GetArea(Team.Cpu);
+        for (var i = 0; i < TOTAL_ARROW_COUNT; i++)
+        {
+            var targetRandomPosition = visualizationContext.Dice.RollPoint(targetArea);
+            var info = new InteractionDeliveryInfo(new CombatEffectImposeItem(combatant => { }, Array.Empty<Combatant>()),
+                targetRandomPosition - new Microsoft.Xna.Framework.Vector2(400, 200),
+                targetRandomPosition);
+
+            allArrowItems.Add(info);
+        }
+
+        var rainingArrowsProjectilesState = new LaunchInteractionDeliveryState(allArrowItems,
             new EnergyArrowInteractionDeliveryFactory(visualizationContext.GameObjectContentStorage),
             visualizationContext.InteractionDeliveryManager);
 
