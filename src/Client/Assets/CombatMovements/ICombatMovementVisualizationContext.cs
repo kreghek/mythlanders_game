@@ -14,11 +14,11 @@ namespace Client.Assets.CombatMovements;
 internal interface ICombatMovementVisualizationContext
 {
     CombatantGameObject ActorGameObject { get; }
+
+    IBattlefieldInteractionContext BattlefieldInteractionContext { get; }
+    IDice Dice { get; }
     GameObjectContentStorage GameObjectContentStorage { get; }
 
     InteractionDeliveryManager InteractionDeliveryManager { get; }
     CombatantGameObject GetCombatActor(Combatant combatant);
-
-    IBattlefieldInteractionContext BattlefieldInteractionContext { get; }
-    IDice Dice { get; }
 }

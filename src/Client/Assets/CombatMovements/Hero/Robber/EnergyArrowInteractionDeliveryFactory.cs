@@ -41,9 +41,9 @@ internal sealed class RainingArrowInteractionDeliveryFactory : IDeliveryFactory
     {
         var arrow = new EnergyArrowProjectile(startPoint, targetPoint, _gameObjectContentStorage.GetBulletGraphics());
         var blast = new EnergyArrowBlast(
-                            targetPoint,
-                            _gameObjectContentStorage.GetBulletGraphics(),
-                            _gameObjectContentStorage.GetParticlesTexture());
+            targetPoint,
+            _gameObjectContentStorage.GetBulletGraphics(),
+            _gameObjectContentStorage.GetParticlesTexture());
 
         var sequentialProjectile = new SequentialProjectile(new IInteractionDelivery[] { arrow, blast });
 

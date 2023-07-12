@@ -119,6 +119,8 @@ internal sealed class LaunchInteractionDeliveryState : IActorVisualizationState
     private readonly IReadOnlyCollection<InteractionDeliveryInfo> _imposeItems;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
 
+    private bool _interactionDeliveryLaunched;
+
     public LaunchInteractionDeliveryState(
         IReadOnlyCollection<InteractionDeliveryInfo> imposeItems,
         IDeliveryFactory deliveryFactory,
@@ -173,8 +175,6 @@ internal sealed class LaunchInteractionDeliveryState : IActorVisualizationState
     {
         throw new NotImplementedException();
     }
-
-    private bool _interactionDeliveryLaunched;
 
     /// <inheritdoc />
     public void Update(GameTime gameTime)

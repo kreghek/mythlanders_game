@@ -31,9 +31,11 @@ internal static class CommonCombatVisualization
             ? visualizationContext.GetCombatActor(targetCombatant).InteractionPoint
             : startPosition;
 
-        var launchAnimation = new LinearAnimationFrameSet(Enumerable.Range(8, 2).ToArray(), 8, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8);
+        var launchAnimation = new LinearAnimationFrameSet(Enumerable.Range(8, 2).ToArray(), 8,
+            CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8);
 
-        var waitProjectileAnimation = new LinearAnimationFrameSet(Enumerable.Range(8 + 2, 2).ToArray(), 8, CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8);
+        var waitProjectileAnimation = new LinearAnimationFrameSet(Enumerable.Range(8 + 2, 2).ToArray(), 8,
+            CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8);
 
         var subStates = new IActorVisualizationState[]
         {

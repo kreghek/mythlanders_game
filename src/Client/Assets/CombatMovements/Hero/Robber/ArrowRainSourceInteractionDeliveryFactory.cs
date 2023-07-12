@@ -24,17 +24,6 @@ internal sealed class ArrowRainSourceInteractionDeliveryFactory : IDeliveryFacto
         _gameObjectContentStorage = gameObjectContentStorage;
     }
 
-    /// <inheritdoc />
-    public IInteractionDelivery Create(CombatEffectImposeItem interactionImpose, Vector2 startPoint,
-        Vector2 targetPoint)
-    {
-        return new Projectile(
-            new ProjectileFunctions(new LinearMoveFunction(startPoint, targetPoint), new RotateNone()),
-            _gameObjectContentStorage.GetBulletGraphics(),
-            CreateFrameSet(),
-            new Duration(1).Seconds);
-    }
-
     private static IAnimationFrameSet CreateFrameSet()
     {
         var rising = AnimationFrameSetFactory.CreateSequential(
@@ -58,5 +47,16 @@ internal sealed class ArrowRainSourceInteractionDeliveryFactory : IDeliveryFacto
         var full = new CompositeAnimationFrameSet(new[] { rising, body });
 
         return full;
+    }
+
+    /// <inheritdoc />
+    public IInteractionDelivery Create(CombatEffectImposeItem interactionImpose, Vector2 startPoint,
+        Vector2 targetPoint)
+    {
+        return new Projectile(
+            new ProjectileFunctions(new LinearMoveFunction(startPoint, targetPoint), new RotateNone()),
+            _gameObjectContentStorage.GetBulletGraphics(),
+            CreateFrameSet(),
+            new Duration(1).Seconds);
     }
 }

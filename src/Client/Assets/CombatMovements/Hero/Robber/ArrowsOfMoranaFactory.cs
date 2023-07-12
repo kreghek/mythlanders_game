@@ -4,9 +4,7 @@ using System.Linq;
 
 using Client.Assets.States.Primitives;
 using Client.Core;
-using Client.Core.AnimationFrameSets;
 using Client.Engine;
-using Client.Engine.MoveFunctions;
 using Client.GameScreens;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
@@ -18,6 +16,7 @@ using Core.Combats.TargetSelectors;
 
 using JetBrains.Annotations;
 
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 namespace Client.Assets.CombatMovements.Hero.Robber;
@@ -81,27 +80,31 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
             visualizationContext.InteractionDeliveryManager);
 
         var waitArrowSourceRisingAnimation = AnimationHelper.ConvertToAnimation(animationSet, "wait-rain-core");
-        var arrowRainSourceRisingState = new ParallelActionState(createArrowRainState, new PlayAnimationActorState(actorAnimator, waitArrowSourceRisingAnimation));
+        var arrowRainSourceRisingState = new ParallelActionState(createArrowRainState,
+            new PlayAnimationActorState(actorAnimator, waitArrowSourceRisingAnimation));
 
         var launchRainSourceState = new SequentialState(launchRainSourceAnimationState, arrowRainSourceRisingState);
 
         // phase 3 - raining arrows
 
         var waitArrowRainAnimation = AnimationHelper.ConvertToAnimation(animationSet, "wait-arrow-rain");
-        var waitArrowRainState = new ParallelActionState(createArrowRainState, new PlayAnimationActorState(actorAnimator, waitArrowRainAnimation));
+        var waitArrowRainState = new ParallelActionState(createArrowRainState,
+            new PlayAnimationActorState(actorAnimator, waitArrowRainAnimation));
 
-        var arrowRainOffset = new Microsoft.Xna.Framework.Vector2(400, 200);
+        var arrowRainOffset = new Vector2(400, 200);
         var items = from item in movementExecution.EffectImposeItems
                     select new InteractionDeliveryInfo(item,
-                    visualizationContext.GetCombatActor(item.MaterializedTargets.First()).InteractionPoint - arrowRainOffset,
-                    visualizationContext.GetCombatActor(item.MaterializedTargets.First()).InteractionPoint);
+                        visualizationContext.GetCombatActor(item.MaterializedTargets.First()).InteractionPoint -
+                        arrowRainOffset,
+                        visualizationContext.GetCombatActor(item.MaterializedTargets.First()).InteractionPoint);
 
         var allArrowItems = new List<InteractionDeliveryInfo>(items);
         var targetArea = visualizationContext.BattlefieldInteractionContext.GetArea(Team.Cpu);
         for (var i = 0; i < TOTAL_ARROW_COUNT; i++)
         {
             var targetRandomPosition = visualizationContext.Dice.RollPoint(targetArea);
-            var emptyInfo = new InteractionDeliveryInfo(new CombatEffectImposeItem(combatant => { }, Array.Empty<Combatant>()),
+            var emptyInfo = new InteractionDeliveryInfo(
+                new CombatEffectImposeItem(combatant => { }, Array.Empty<Combatant>()),
                 targetRandomPosition - arrowRainOffset,
                 targetRandomPosition);
 
@@ -125,18 +128,23 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
 
         var innerState = new SequentialState(subStates);
         return new CombatMovementScene(innerState,
-            new[] {
+            new[]
+            {
                 new FollowActorOperatorCameraTask(actorAnimator, () => launchRainSourceState.IsComplete),
-                new FollowActorOperatorCameraTask(visualizationContext.GetCombatActor(movementExecution.EffectImposeItems.First().MaterializedTargets.First()).Animator, ()=> innerState.IsComplete)
+                new FollowActorOperatorCameraTask(
+                    visualizationContext
+                        .GetCombatActor(movementExecution.EffectImposeItems.First().MaterializedTargets.First())
+                        .Animator, () => innerState.IsComplete)
             });
     }
 
     private static InteractionDeliveryInfo[] CreateEmptyInteraction(IActorAnimator actorAnimator)
     {
-        return new InteractionDeliveryInfo[]
-                {
-            new InteractionDeliveryInfo(new CombatEffectImposeItem(combatant => { }, Array.Empty<Combatant>()), actorAnimator.GraphicRoot.Position, actorAnimator.GraphicRoot.Position + new Microsoft.Xna.Framework.Vector2(0, -400))
-                };
+        return new[]
+        {
+            new InteractionDeliveryInfo(new CombatEffectImposeItem(combatant => { }, Array.Empty<Combatant>()),
+                actorAnimator.GraphicRoot.Position, actorAnimator.GraphicRoot.Position + new Vector2(0, -400))
+        };
     }
 
     private static IActorVisualizationState CreateSoundedState(Func<IActorVisualizationState> baseStateFactory,
