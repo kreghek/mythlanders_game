@@ -89,20 +89,23 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
         var waitArrowRainAnimation = AnimationHelper.ConvertToAnimation(animationSet, "wait-arrow-rain");
         var waitArrowRainState = new ParallelActionState(createArrowRainState, new PlayAnimationActorState(actorAnimator, waitArrowRainAnimation));
 
+        var arrowRainOffset = new Microsoft.Xna.Framework.Vector2(400, 200);
         var items = from item in movementExecution.EffectImposeItems
                     from target in item.MaterializedTargets
-                    select new InteractionDeliveryInfo(item, visualizationContext.GetCombatActor(target).InteractionPoint - new Microsoft.Xna.Framework.Vector2(400, 200), visualizationContext.GetCombatActor(target).InteractionPoint);
+                    select new InteractionDeliveryInfo(item, 
+                    visualizationContext.GetCombatActor(target).InteractionPoint - arrowRainOffset, 
+                    visualizationContext.GetCombatActor(target).InteractionPoint);
 
         var allArrowItems = new List<InteractionDeliveryInfo>(items);
         var targetArea = visualizationContext.BattlefieldInteractionContext.GetArea(Team.Cpu);
         for (var i = 0; i < TOTAL_ARROW_COUNT; i++)
         {
             var targetRandomPosition = visualizationContext.Dice.RollPoint(targetArea);
-            var info = new InteractionDeliveryInfo(new CombatEffectImposeItem(combatant => { }, Array.Empty<Combatant>()),
-                targetRandomPosition - new Microsoft.Xna.Framework.Vector2(400, 200),
+            var emptyInfo = new InteractionDeliveryInfo(new CombatEffectImposeItem(combatant => { }, Array.Empty<Combatant>()),
+                targetRandomPosition - arrowRainOffset,
                 targetRandomPosition);
 
-            allArrowItems.Add(info);
+            allArrowItems.Add(emptyInfo);
         }
 
         var rainingArrowsProjectilesState = new LaunchInteractionDeliveryState(allArrowItems,
