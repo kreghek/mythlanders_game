@@ -91,10 +91,9 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
 
         var arrowRainOffset = new Microsoft.Xna.Framework.Vector2(400, 200);
         var items = from item in movementExecution.EffectImposeItems
-                    from target in item.MaterializedTargets
                     select new InteractionDeliveryInfo(item, 
-                    visualizationContext.GetCombatActor(target).InteractionPoint - arrowRainOffset, 
-                    visualizationContext.GetCombatActor(target).InteractionPoint);
+                    visualizationContext.GetCombatActor(item.MaterializedTargets.First()).InteractionPoint - arrowRainOffset, 
+                    visualizationContext.GetCombatActor(item.MaterializedTargets.First()).InteractionPoint);
 
         var allArrowItems = new List<InteractionDeliveryInfo>(items);
         var targetArea = visualizationContext.BattlefieldInteractionContext.GetArea(Team.Cpu);
@@ -109,7 +108,7 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
         }
 
         var rainingArrowsProjectilesState = new LaunchInteractionDeliveryState(allArrowItems,
-            new EnergyArrowInteractionDeliveryFactory(visualizationContext.GameObjectContentStorage),
+            new RainingArrowInteractionDeliveryFactory(visualizationContext.GameObjectContentStorage),
             visualizationContext.InteractionDeliveryManager);
 
         var rainigArrowsState = new ParallelActionState(waitArrowRainState, rainingArrowsProjectilesState);
