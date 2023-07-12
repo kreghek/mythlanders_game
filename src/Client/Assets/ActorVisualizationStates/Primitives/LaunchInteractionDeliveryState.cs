@@ -178,7 +178,7 @@ internal sealed class LaunchInteractionDeliveryState : IActorVisualizationState
 
     /// <inheritdoc />
     public void Update(GameTime gameTime)
-    { 
+    {
         if (!_interactionDeliveryLaunched)
         {
             LaunchInteractionDelivery();

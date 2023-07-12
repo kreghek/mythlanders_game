@@ -1,23 +1,24 @@
-using Client.Assets.States.Primitives;
-using Client.Core.AnimationFrameSets;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.States.Primitives;
+using Client.Core;
+using Client.Core.AnimationFrameSets;
 using Client.Engine;
-using Client.GameScreens.Combat.GameObjects.CommonStates;
-using Client.GameScreens.Combat.GameObjects;
+using Client.Engine.MoveFunctions;
+using Client.GameScreens;
 using Client.GameScreens.Combat;
+using Client.GameScreens.Combat.GameObjects;
+using Client.GameScreens.Combat.GameObjects.CommonStates;
 
 using Core.Combats;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
 using JetBrains.Annotations;
-using Client.Core;
-using Client.GameScreens;
+
 using Microsoft.Xna.Framework.Audio;
-using System;
-using Client.Engine.MoveFunctions;
-using System.Collections.Generic;
 
 namespace Client.Assets.CombatMovements.Hero.Robber;
 
@@ -91,8 +92,8 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
 
         var arrowRainOffset = new Microsoft.Xna.Framework.Vector2(400, 200);
         var items = from item in movementExecution.EffectImposeItems
-                    select new InteractionDeliveryInfo(item, 
-                    visualizationContext.GetCombatActor(item.MaterializedTargets.First()).InteractionPoint - arrowRainOffset, 
+                    select new InteractionDeliveryInfo(item,
+                    visualizationContext.GetCombatActor(item.MaterializedTargets.First()).InteractionPoint - arrowRainOffset,
                     visualizationContext.GetCombatActor(item.MaterializedTargets.First()).InteractionPoint);
 
         var allArrowItems = new List<InteractionDeliveryInfo>(items);
