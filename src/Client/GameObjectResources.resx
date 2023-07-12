@@ -130,10 +130,10 @@
     <value />
     <comment>Skill</comment>
   </data>
-  <data name="ArrowOfMorana" xml:space="preserve">
+  <data name="ArrowsOfMorana" xml:space="preserve">
     <value>Arrow of Morana</value><comment>Combat Movement Robber</comment>
   </data>
-  <data name="ArrowOfMorana_Description" xml:space="preserve">
+  <data name="ArrowsOfMorana_Description" xml:space="preserve">
     <value /><comment>Combat Movement Robber</comment>
   </data>
   <data name="ArrowRain" xml:space="preserve">

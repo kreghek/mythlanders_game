@@ -153,9 +153,11 @@ public class CombatCore
 
         foreach (var effectInstance in movement.Effects)
         {
+            var effectInstanceClosure = effectInstance;
+
             void EffectInfluenceDelegate(Combatant materializedTarget)
             {
-                effectInstance.Influence(materializedTarget, effectContext);
+                effectInstanceClosure.Influence(materializedTarget, effectContext);
             }
 
             var effectTargets = effectInstance.Selector.GetMaterialized(CurrentCombatant, GetCurrentSelectorContext());

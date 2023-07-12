@@ -146,11 +146,11 @@
     <value>Стреляет энергетическими зарядами.
 Увеличивает урона на 25% за уровень.</value>
   </data>
-  <data name="ArrowOfMorana" xml:space="preserve">
+  <data name="ArrowsOfMorana" xml:space="preserve">
     <value>Стрела Мораны</value>
   </data>
-  <data name="ArrowOfMorana_Description" xml:space="preserve">
-    <value>Наносит 2ед. урона самому слабому противнику с меткой.</value>
+  <data name="ArrowsOfMorana_Description" xml:space="preserve">
+    <value>Наносит 2ед. урона всем притивникам.</value>
   </data>
   <data name="ArrowRain" xml:space="preserve">
     <value>Дождь стрел</value>
@@ -174,7 +174,7 @@
     <value>Балтийский шторм</value>
   </data>
   <data name="BalticThunder_Description" xml:space="preserve">
-    <value>Наносит урон 4ед. ближайшему в линии противнику и ставит метку на 2 хода. Следующее атакующее движение не требует энергии.</value>
+    <value>Наносит урон 4ед. ближайшему в линии противнику.</value>
   </data>
   <data name="Battleground" xml:space="preserve">
     <value>Поле брани</value>

@@ -1,5 +1,3 @@
 ﻿namespace Core.Combats;
 
-public sealed class CombatantStatType : ICombatantStatType
-{
-}
+public sealed record CombatantStatType(string DebugName) : ICombatantStatType;

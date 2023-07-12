@@ -2,12 +2,12 @@ using Core.Combats.CombatantStatuses;
 
 namespace Core.Combats.Effects;
 
-public sealed class AddCombatantEffectEffect : IEffect
+public sealed class AddCombatantStatusEffect : IEffect
 {
     private readonly ICombatantStatusFactory _combatantEffectFactory;
 
 
-    public AddCombatantEffectEffect(ITargetSelector targetSelector, ICombatantStatusFactory combatantEffectFactory)
+    public AddCombatantStatusEffect(ITargetSelector targetSelector, ICombatantStatusFactory combatantEffectFactory)
     {
         _combatantEffectFactory = combatantEffectFactory;
 

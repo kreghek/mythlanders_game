@@ -8,6 +8,7 @@ using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
 
 using Core.Combats;
+using Core.Dices;
 
 namespace Client.GameScreens.Combat;
 
@@ -46,8 +47,13 @@ internal sealed class UseCombatMovementIntention : IIntention
     private CombatMovementScene GetMovementVisualizationState(CombatantGameObject actorGameObject,
         CombatMovementExecution movementExecution, CombatMovementInstance combatMovement)
     {
-        var context = new CombatMovementVisualizationContext(actorGameObject, _combatantGameObjects.ToArray(),
-            _interactionDeliveryManager, _gameObjectContentStorage);
+        var context = new CombatMovementVisualizationContext(
+            actorGameObject,
+            _combatantGameObjects.ToArray(),
+            _interactionDeliveryManager,
+            _gameObjectContentStorage,
+            new BattlefieldInteractionContext(),
+            new LinearDice());
 
         return _combatMovementVisualizer.GetMovementVisualizationState(combatMovement.SourceMovement.Sid,
             actorGameObject.Animator, movementExecution, context);

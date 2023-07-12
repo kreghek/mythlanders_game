@@ -1,5 +1,4 @@
-﻿using Client.Assets.CombatMovements.Hero.Swordsman;
-using Client.Engine;
+﻿using Client.Engine;
 
 using Core.Combats;
 using Core.Combats.Effects;

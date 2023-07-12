@@ -26,7 +26,7 @@ internal class TrackerSavvyFactory : CombatMovementFactoryBase
                 {
                     new ModifyEffectsEffect(new CombatantEffectSid(Sid),
                         new SelfTargetSelector(), 1),
-                    new AddCombatantEffectEffect(new SelfTargetSelector(), combatantEffectFactory)
+                    new AddCombatantStatusEffect(new SelfTargetSelector(), combatantEffectFactory)
                 })
         );
     }

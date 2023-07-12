@@ -327,6 +327,7 @@ internal class GameObjectContentStorage
         {
             { "Swordsman", GetAnimationInner("Swordsman") },
             { "Partisan", GetAnimationInner("Partisan") },
+            { "Robber", GetAnimationInner("Robber") },
 
             { "DigitalWolf", GetAnimationInner("DigitalWolf") },
             { "Aspid", GetAnimationInner("Aspid") }

@@ -2,7 +2,7 @@
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
 
-namespace Client.Assets.CombatMovements.Hero.Swordsman;
+namespace Client.Assets.CombatMovements;
 
 /// <summary>
 /// Auxiliary class to group methods to work with animations.

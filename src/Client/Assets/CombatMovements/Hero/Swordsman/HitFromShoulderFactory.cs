@@ -6,7 +6,7 @@ namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
 internal class HitFromShoulderFactory : CombatMovementFactoryBase
 {
-    public override CombatMovementIcon CombatMovementIcon => new(0, 1);
+    public override CombatMovementIcon CombatMovementIcon => new(1, 0);
 
     public override CombatMovement CreateMovement()
     {
