@@ -1060,6 +1060,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} imposed to {1}.
+        /// </summary>
+        internal static string StatusImposedNotificationTextTemplate {
+            get {
+                return ResourceManager.GetString("StatusImposedNotificationTextTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stun to {1} on {0}.
         /// </summary>
         internal static string StunEffectRuleText {

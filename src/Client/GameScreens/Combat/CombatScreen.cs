@@ -965,9 +965,10 @@ internal class CombatScreen : GameScreenWithMenuBase
 
                 var localizedStatusName = GameObjectHelper.GetLocalized(notification.CombatantEffect.Sid);
                 var combatantLocalizedName = GameObjectHelper.GetLocalized(notification.Combatant.ClassSid);
+                var notificationText = string.Format(UiResource.StatusImposedNotificationTextTemplate, localizedStatusName, combatantLocalizedName);
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                    $"{localizedStatusName} ������� �� {combatantLocalizedName}",
+                    notificationText,
                     new Vector2(contentRectangle.Center.X, contentRectangle.Top + 50 + index * 15),
                     notification.LifetimeCounter > 0.5
                         ? Color.White

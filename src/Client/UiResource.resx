@@ -473,6 +473,9 @@
     <value>New game</value>
     <comment>TitleScreen</comment>
   </data>
+  <data name="StatusImposedNotificationTextTemplate" xml:space="preserve">
+    <value>{0} imposed to {1}</value>
+  </data>
   <data name="StunEffectRuleText" xml:space="preserve">
     <value>Stun to {1} on {0}</value>
   </data>
@@ -497,16 +500,16 @@
   <data name="UnderConstructionModalContent" xml:space="preserve">
     <value>Under construction</value>
   </data>
-  <data name="XpRewardText" xml:space="preserve">
-    <value>Xp Reward</value>
+  <data name="VoiceCombatStat_AspirationLableTemplate" xml:space="preserve">
+    <value>Aspiration: {0}</value>
   </data>
   <data name="VoiceCombatStat_ConvictionLableTemplate" xml:space="preserve">
     <value>Conviction: {0}</value>
   </data>
-  <data name="VoiceCombatStat_AspirationLableTemplate" xml:space="preserve">
-    <value>Aspiration: {0}</value>
-  </data>
   <data name="VoiceCombatStat_StaminaLableTemplate" xml:space="preserve">
     <value>Stamina: {0}</value>
+  </data>
+  <data name="XpRewardText" xml:space="preserve">
+    <value>Xp Reward</value>
   </data>
 </root>
