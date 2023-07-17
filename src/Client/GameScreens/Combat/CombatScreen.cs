@@ -965,7 +965,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
                 var localizedStatusName = GameObjectHelper.GetLocalized(notification.CombatantEffect.Sid);
                 var combatantLocalizedName = GameObjectHelper.GetLocalized(notification.Combatant.ClassSid);
-                var notificationText = string.Format(UiResource.StatusImposedNotificationTextTemplate, localizedStatusName, combatantLocalizedName);
+                var notificationText = string.Format(UiResource.StatusImposedNotificationTextTemplate,
+                    localizedStatusName, combatantLocalizedName);
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                     notificationText,

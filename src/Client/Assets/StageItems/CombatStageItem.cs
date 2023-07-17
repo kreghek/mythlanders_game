@@ -7,16 +7,15 @@ namespace Client.Assets.StageItems;
 
 internal sealed class CombatStageItem : ICampaignStageItem
 {
-    private readonly CombatSequence _combatSequence;
     private readonly GlobeNode _location;
 
     public CombatStageItem(GlobeNode location, CombatSequence combatSequence)
     {
         _location = location;
-        _combatSequence = combatSequence;
+        CombatSequence = combatSequence;
     }
 
-    internal CombatSequence CombatSequence => _combatSequence;
+    internal CombatSequence CombatSequence { get; }
 
     public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
     {

@@ -134,22 +134,6 @@ internal sealed class CombatantGameObject : EwarRenderableBase
         Position = targetPosition;
     }
 
-    private static PredefinedAnimationSid CalcMoveAnimation(Vector2 currentPosition, Vector2 targetPosition)
-    {
-        var combatantCoords = currentPosition;
-        var targetCoords = targetPosition;
-
-        var lineDiff = targetCoords.Y - combatantCoords.Y;
-        var columnDiff = targetCoords.X - combatantCoords.X;
-
-        if (columnDiff > 0 && lineDiff == 0)
-        {
-            return PredefinedAnimationSid.MoveBackward;
-        }
-
-        return PredefinedAnimationSid.MoveForward;
-    }
-
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
@@ -215,6 +199,22 @@ internal sealed class CombatantGameObject : EwarRenderableBase
     internal float GetZIndex()
     {
         return Graphics.Root.Position.Y;
+    }
+
+    private static PredefinedAnimationSid CalcMoveAnimation(Vector2 currentPosition, Vector2 targetPosition)
+    {
+        var combatantCoords = currentPosition;
+        var targetCoords = targetPosition;
+
+        var lineDiff = targetCoords.Y - combatantCoords.Y;
+        var columnDiff = targetCoords.X - combatantCoords.X;
+
+        if (columnDiff > 0 && lineDiff == 0)
+        {
+            return PredefinedAnimationSid.MoveBackward;
+        }
+
+        return PredefinedAnimationSid.MoveForward;
     }
 
     private void HandleEngineStates(GameTime gameTime)
