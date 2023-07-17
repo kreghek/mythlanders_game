@@ -4,7 +4,7 @@ using Core.Combats;
 
 using Microsoft.Xna.Framework;
 
-namespace Client.Assets.States.Primitives;
+namespace Client.Assets.ActorVisualizationStates.Primitives;
 
 internal interface IDeliveryFactory
 {

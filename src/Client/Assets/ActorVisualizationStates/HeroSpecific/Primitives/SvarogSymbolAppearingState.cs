@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 
 using Client.Assets.InteractionDeliveryObjects;
-using Client.Core;
 using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
-namespace Client.Assets.States.HeroSpecific.Primitives;
+namespace Client.Assets.ActorVisualizationStates.HeroSpecific.Primitives;
 
 internal sealed class SvarogSymbolAppearingState : IActorVisualizationState
 {

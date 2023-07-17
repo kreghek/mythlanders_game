@@ -26,7 +26,7 @@ internal class CombatantFactory
             { "chaser", new ChaserCombatantFactory() },
             { "aspid", new AspidCombatantFactory() },
             { "volkolakwarrior", new VolkolakCombatantFactory() },
-            { "blacktrooper", new BlackTroopCombatantFactory() },
+            { "agressor", new AgressorCombatantFactory() },
             { "automataur", new AutomataurCombatantFactory() }
         };
 

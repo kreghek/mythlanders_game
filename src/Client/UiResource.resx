@@ -155,7 +155,7 @@
     <comment>Jobs</comment>
   </data>
   <data name="CampaignStageDisplayNameCombat" xml:space="preserve">
-    <value>Combat {0}</value>
+    <value>Combat</value>
   </data>
   <data name="CampaignStageDisplayNameFinish" xml:space="preserve">
     <value>Finish campaign</value>

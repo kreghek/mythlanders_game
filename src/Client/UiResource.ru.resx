@@ -151,7 +151,7 @@
     <value>Пройти любые кампании</value>
   </data>
   <data name="CampaignStageDisplayNameCombat" xml:space="preserve">
-    <value>Бой {0}</value>
+    <value>Бой</value>
   </data>
   <data name="CampaignStageDisplayNameFinish" xml:space="preserve">
     <value>Завршить кампанию</value>

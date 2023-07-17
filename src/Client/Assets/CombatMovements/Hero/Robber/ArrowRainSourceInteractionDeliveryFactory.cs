@@ -1,5 +1,5 @@
-﻿using Client.Assets.InteractionDeliveryObjects;
-using Client.Assets.States.Primitives;
+﻿using Client.Assets.ActorVisualizationStates.Primitives;
+using Client.Assets.InteractionDeliveryObjects;
 using Client.Core;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;

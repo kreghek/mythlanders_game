@@ -3,7 +3,7 @@ using Core.Combats.CombatantEffectLifetimes;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
-namespace Client.Assets.CombatMovements.Monster.Black.BlackTroop;
+namespace Client.Assets.CombatMovements.Monster.Black.Agressor;
 
 internal class MadnessWithinEyesFactory : SimpleCombatMovementFactoryBase
 {

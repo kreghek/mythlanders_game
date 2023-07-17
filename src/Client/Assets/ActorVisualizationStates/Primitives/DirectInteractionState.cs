@@ -7,7 +7,7 @@ using Client.GameScreens.Combat.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
-namespace Client.Assets.States.Primitives;
+namespace Client.Assets.ActorVisualizationStates.Primitives;
 
 internal sealed class DirectInteractionState : IActorVisualizationState
 {

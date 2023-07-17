@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.StageItems;
+using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.ScreenManagement;
@@ -443,9 +444,13 @@ internal sealed class CampaignMap : ControlBase
 
     private static string GetStageItemDisplayName(ICampaignStageItem campaignStageItem)
     {
-        if (campaignStageItem is CombatStageItem)
+        if (campaignStageItem is CombatStageItem combat)
         {
-            return string.Format(UiResource.CampaignStageDisplayNameCombat, 0);
+            var classSid = combat.CombatSequence.Combats.First().Monsters.First().ClassSid;
+            var monsterClass = Enum.Parse<UnitName>(classSid, true);
+
+            var monsteInfo = GameObjectHelper.GetLocalized(monsterClass);
+            return UiResource.CampaignStageDisplayNameCombat + "\n" + monsteInfo;
         }
 
         if (campaignStageItem is RewardStageItem)
