@@ -39,7 +39,7 @@ public enum UnitName
 
     Marauder,
     BoldMarauder,
-    BlackTrooper,
+    Agressor,
 
     Aspid,
     Liho, // лихо

@@ -19,14 +19,14 @@ internal class ShapeShiftState : IActorVisualizationState
         _graphics = graphics;
         _soundEffectInstance = soundEffectInstance;
         _shapeShiftBlocker = shapeShiftBlocker;
-        var shapeShiftAnimation = graphics.GetAnimationInfo(PredefinedAnimationSid.ShapeShift);
+        //var shapeShiftAnimation = graphics.GetAnimationInfo(PredefinedAnimationSid.ShapeShift);
 
-        shapeShiftAnimation.End += (_, _) =>
-        {
-            _graphics.IsDamaged = false;
-            IsComplete = true;
-            _shapeShiftBlocker.Release();
-        };
+        //shapeShiftAnimation.End += (_, _) =>
+        //{
+        //    _graphics.IsDamaged = false;
+        //    IsComplete = true;
+        //    _shapeShiftBlocker.Release();
+        //};
     }
 
     /// <inheritdoc />
@@ -52,7 +52,7 @@ internal class ShapeShiftState : IActorVisualizationState
         }
 
         _isStarted = true;
-        _graphics.PlayAnimation(PredefinedAnimationSid.ShapeShift);
+        //_graphics.PlayAnimation(PredefinedAnimationSid.ShapeShift);
         _soundEffectInstance.Play();
     }
 }

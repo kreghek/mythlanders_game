@@ -22,7 +22,7 @@ internal sealed class SingleSpriteGraphicsConfig : UnitGraphicsConfigBase
                 AnimationFrameSetFactory.CreateIdle(startFrameIndex: 0, frameCount: 1, fps: 1)
             },
             {
-                PredefinedAnimationSid.Defense,
+                PredefinedAnimationSid.DefenseStance,
                 AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, fps: 1)
             },
 
@@ -32,28 +32,6 @@ internal sealed class SingleSpriteGraphicsConfig : UnitGraphicsConfigBase
             },
             {
                 PredefinedAnimationSid.MoveBackward,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, fps: 1)
-            },
-
-            {
-                PredefinedAnimationSid.Skill1,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, fps: 1)
-            },
-            {
-                PredefinedAnimationSid.Skill2,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, fps: 1)
-            },
-            {
-                PredefinedAnimationSid.Skill3,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, fps: 1)
-            },
-            {
-                PredefinedAnimationSid.Skill4,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, fps: 1)
-            },
-
-            {
-                PredefinedAnimationSid.ShapeShift,
                 AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, fps: 1)
             },
             {

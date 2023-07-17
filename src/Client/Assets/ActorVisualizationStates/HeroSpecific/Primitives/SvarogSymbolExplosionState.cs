@@ -46,7 +46,7 @@ internal sealed class SvarogSymbolExplosionState : IActorVisualizationState
     {
         if (!_started)
         {
-            _graphics.PlayAnimation(PredefinedAnimationSid.Skill1);
+            //_graphics.PlayAnimation(PredefinedAnimationSid.Skill1);
 
             _explosionSoundEffect.Play();
 

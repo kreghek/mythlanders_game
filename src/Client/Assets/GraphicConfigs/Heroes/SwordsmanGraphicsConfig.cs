@@ -19,7 +19,7 @@ internal sealed class SwordsmanGraphicsConfig : HeroGraphicConfig
                 AnimationFrameSetFactory.CreateIdle(startFrameIndex: 0, frameCount: 8, fps: 8)
             },
             {
-                PredefinedAnimationSid.Defense,
+                PredefinedAnimationSid.DefenseStance,
                 AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 1, fps: 0)
             },
             {
@@ -30,29 +30,6 @@ internal sealed class SwordsmanGraphicsConfig : HeroGraphicConfig
                 PredefinedAnimationSid.MoveBackward,
                 AnimationFrameSetFactory.CreateSequential(startFrameIndex: 32, frameCount: 8, fps: 6)
             },
-
-            {
-                PredefinedAnimationSid.Skill1,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8, frameCount: 8, fps: 8)
-            },
-            {
-                PredefinedAnimationSid.Skill2,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, fps: 8)
-            },
-            {
-                PredefinedAnimationSid.Skill3,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 8, fps: 8)
-            },
-            {
-                PredefinedAnimationSid.Skill4,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, fps: 8)
-            },
-
-            {
-                PredefinedAnimationSid.Ult,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 59, frameCount: 2, fps: 8, isLoop: false)
-            },
-
             {
                 PredefinedAnimationSid.Wound,
                 AnimationFrameSetFactory.CreateSequential(startFrameIndex: 40, frameCount: 8, fps: 8, isLoop: false)

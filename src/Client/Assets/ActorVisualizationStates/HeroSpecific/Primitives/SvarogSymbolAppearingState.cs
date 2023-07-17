@@ -48,7 +48,7 @@ internal sealed class SvarogSymbolAppearingState : IActorVisualizationState
         if (!_started)
         {
             _started = true;
-            _graphics.PlayAnimation(PredefinedAnimationSid.Skill3);
+            //_graphics.PlayAnimation(PredefinedAnimationSid.Skill3);
             _symbolAppearingSoundEffect?.Play();
             _interactionDeliveryList.Add(_svarogSymbol);
         }

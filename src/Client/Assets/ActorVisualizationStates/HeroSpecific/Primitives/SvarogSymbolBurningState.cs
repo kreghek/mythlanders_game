@@ -45,7 +45,7 @@ internal sealed class SvarogSymbolBurningState : IActorVisualizationState
     {
         if (!_isStarted)
         {
-            _graphics.PlayAnimation(PredefinedAnimationSid.Ult);
+            //_graphics.PlayAnimation(PredefinedAnimationSid.Ult);
             _isStarted = true;
             _screenShaker.Start(SHAKEING_DURATION_SECONDS, ShakeDirection.FadeOut);
             _risingPowerSoundEffect.Play();

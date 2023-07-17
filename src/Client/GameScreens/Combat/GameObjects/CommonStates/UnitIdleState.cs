@@ -20,7 +20,7 @@ internal class UnitIdleState : IActorVisualizationState
     {
         return state switch
         {
-            CombatUnitState.Defense => PredefinedAnimationSid.Defense,
+            CombatUnitState.Defense => PredefinedAnimationSid.DefenseStance,
             CombatUnitState.Idle => PredefinedAnimationSid.Idle,
             _ => throw new InvalidOperationException()
         };
