@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Core;
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
 
-namespace Client.Assets.States.Primitives;
+namespace Client.Assets.ActorVisualizationStates.Primitives;
 
 /// <summary>
 /// The state starts to play a animation and creates a projectile.
@@ -168,7 +167,7 @@ internal sealed class LaunchInteractionDeliveryState : IActorVisualizationState
     public bool CanBeReplaced => false;
 
     /// <inheritdoc />
-    public bool IsComplete => (_activeInteractionDeliveryList.Any() && _imposeItems.Any()) || !_imposeItems.Any();
+    public bool IsComplete => _activeInteractionDeliveryList.Any() && _imposeItems.Any() || !_imposeItems.Any();
 
     /// <inheritdoc />
     public void Cancel()

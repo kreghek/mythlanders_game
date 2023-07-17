@@ -2,9 +2,9 @@
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
-namespace Client.Assets.CombatMovements.Monster.Black.BlackTroop;
+namespace Client.Assets.CombatMovements.Monster.Black.Agressor;
 
-internal class LastChanceToPeaceFactory : SimpleCombatMovementFactoryBase
+internal class GrimResolveFactory : SimpleCombatMovementFactoryBase
 {
     protected override CombatMovementEffectConfig GetEffects()
     {
@@ -13,13 +13,16 @@ internal class LastChanceToPeaceFactory : SimpleCombatMovementFactoryBase
             {
                 new AdjustPositionEffect(new SelfTargetSelector()),
                 new DamageEffect(
-                    new AllVanguardEnemiesTargetSelector(),
+                    new ClosestInLineTargetSelector(),
                     DamageType.Normal,
                     Range<int>.CreateMono(2)),
                 new PushToPositionEffect(
-                    new SelfTargetSelector(),
-                    ChangePositionEffectDirection.ToVanguard
-                )
+                    new ClosestInLineTargetSelector(),
+                    ChangePositionEffectDirection.ToVanguard),
+                new ChangeCurrentStatEffect(
+                    new ClosestInLineTargetSelector(),
+                    CombatantStatTypes.Resolve,
+                    Range<int>.CreateMono(-2))
             });
     }
 

@@ -2,9 +2,9 @@
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
-namespace Client.Assets.CombatMovements.Monster.Black.BlackTroop;
+namespace Client.Assets.CombatMovements.Monster.Black.Agressor;
 
-internal class DanceWithThePastFactory : SimpleCombatMovementFactoryBase
+internal class FatalBlowFactory : SimpleCombatMovementFactoryBase
 {
     protected override CombatMovementEffectConfig GetEffects()
     {
@@ -16,13 +16,13 @@ internal class DanceWithThePastFactory : SimpleCombatMovementFactoryBase
                     new ClosestInLineTargetSelector(),
                     DamageType.Normal,
                     Range<int>.CreateMono(2)),
-                new DamageEffect(
-                    new ClosestInLineTargetSelector(),
-                    DamageType.Normal,
-                    Range<int>.CreateMono(2)),
                 new PushToPositionEffect(
-                    new SelfTargetSelector(),
-                    ChangePositionEffectDirection.ToVanguard)
+                    new ClosestInLineTargetSelector(),
+                    ChangePositionEffectDirection.ToVanguard),
+                new ChangeCurrentStatEffect(
+                    new ClosestInLineTargetSelector(),
+                    CombatantStatTypes.Resolve,
+                    Range<int>.CreateMono(-2))
             });
     }
 

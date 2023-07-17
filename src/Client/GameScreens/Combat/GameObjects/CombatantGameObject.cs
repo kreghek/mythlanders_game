@@ -125,12 +125,29 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
     public void MoveToFieldCoords(Vector2 targetPosition)
     {
+        var animationSid = CalcMoveAnimation(Animator.GraphicRoot.Position, targetPosition);
         AddStateEngine(new MoveToPositionActorState(Animator,
             new SlowDownMoveFunction(Animator.GraphicRoot.Position, targetPosition),
-            Graphics.GetAnimationInfo(PredefinedAnimationSid.MoveBackward), new Duration(0.5)));
+            Graphics.GetAnimationInfo(animationSid), new Duration(0.5)));
 
         Graphics.ChangePosition(targetPosition);
         Position = targetPosition;
+    }
+
+    private static PredefinedAnimationSid CalcMoveAnimation(Vector2 currentPosition, Vector2 targetPosition)
+    {
+        var combatantCoords = currentPosition;
+        var targetCoords = targetPosition;
+
+        var lineDiff = targetCoords.Y - combatantCoords.Y;
+        var columnDiff = targetCoords.X - combatantCoords.X;
+
+        if (columnDiff > 0 && lineDiff == 0)
+        {
+            return PredefinedAnimationSid.MoveBackward;
+        }
+
+        return PredefinedAnimationSid.MoveForward;
     }
 
     public override void Update(GameTime gameTime)

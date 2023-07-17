@@ -1,12 +1,11 @@
 ﻿using Client.Assets.InteractionDeliveryObjects;
-using Client.Core;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
-namespace Client.Assets.States.HeroSpecific.Primitives;
+namespace Client.Assets.ActorVisualizationStates.HeroSpecific.Primitives;
 
 internal sealed class SvarogSymbolBurningState : IActorVisualizationState
 {
@@ -45,7 +44,7 @@ internal sealed class SvarogSymbolBurningState : IActorVisualizationState
     {
         if (!_isStarted)
         {
-            _graphics.PlayAnimation(PredefinedAnimationSid.Ult);
+            //_graphics.PlayAnimation(PredefinedAnimationSid.Ult);
             _isStarted = true;
             _screenShaker.Start(SHAKEING_DURATION_SECONDS, ShakeDirection.FadeOut);
             _risingPowerSoundEffect.Play();

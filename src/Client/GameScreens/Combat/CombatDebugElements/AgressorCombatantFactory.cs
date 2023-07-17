@@ -1,13 +1,13 @@
 ﻿using System;
 
-using Client.Assets.CombatMovements.Monster.Black.BlackTroop;
+using Client.Assets.CombatMovements.Monster.Black.Agressor;
 
 using Core.Combats;
 using Core.Combats.CombatantStatuses;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
-public class BlackTroopCombatantFactory : IMonsterCombatantFactory
+public class AgressorCombatantFactory : IMonsterCombatantFactory
 {
     private static CombatMovementSequence CreateCombatMoveVariation(int variationIndex)
     {
@@ -47,7 +47,7 @@ public class BlackTroopCombatantFactory : IMonsterCombatantFactory
         stats.SetValue(CombatantStatTypes.ShieldPoints, 4);
         stats.SetValue(CombatantStatTypes.Resolve, 5);
 
-        var monster = new Combatant("blacktrooper", monsterSequence, stats, combatActorBehaviour,
+        var monster = new Combatant("agressor", monsterSequence, stats, combatActorBehaviour,
             ArraySegment<ICombatantStatusFactory>.Empty)
         {
             DebugSid = sid, IsPlayerControlled = false

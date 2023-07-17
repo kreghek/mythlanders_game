@@ -6,7 +6,7 @@ using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
 
-namespace Client.Assets.States.Primitives;
+namespace Client.Assets.ActorVisualizationStates.Primitives;
 
 /// <summary>
 /// The state starts to play a animation and creates a projectile.

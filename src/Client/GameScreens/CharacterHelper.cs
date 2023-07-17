@@ -6,14 +6,14 @@ namespace Client.GameScreens;
 
 internal static class CharacterHelper
 {
-    private static readonly (Assets.GraphicConfigs.Monsters.CharacterCultureSid CharacterCultureSid, string[] ClassSids)
+    private static readonly (CharacterCultureSid CharacterCultureSid, string[] ClassSids)
         [] _map =
         {
             (CharacterCultureSid.Slavic,
                 new[] { "Aspid", "CorruptedBear", "DigitalWolf", "HornedFrog", "Stryga", "Volkolak", "Wisp" }),
             (CharacterCultureSid.Egyptian, new[] { "Chaser" }),
             (CharacterCultureSid.Chinese, new[] { "Huapigui" }),
-            (CharacterCultureSid.Black, new[] { "Marauder", "BoldMarauder", "BlackTrooper" }),
+            (CharacterCultureSid.Black, new[] { "Marauder", "BoldMarauder", "Agressor" }),
             (CharacterCultureSid.Greek, new[] { "Automataur" })
         };
 

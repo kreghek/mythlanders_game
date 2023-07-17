@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.CombatMovements.Hero.Robber;
-using Client.Assets.States.Primitives;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
 using Client.Engine.MoveFunctions;

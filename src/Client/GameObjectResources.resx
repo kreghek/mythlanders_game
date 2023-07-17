@@ -108,9 +108,8 @@
   <data name="AfterlifeWhirlwind_Description" xml:space="preserve">
     <value /><comment>Combat movement Chaser</comment>
   </data>
-  <data name="Archer" xml:space="preserve">
-    <value>Hawk</value>
-    <comment>Hero</comment>
+  <data name="Agressor" xml:space="preserve">
+    <value>Agressor</value>
   </data>
   <data name="ArcherEquipment" xml:space="preserve">
     <value>Broken arrows</value>
@@ -130,15 +129,15 @@
     <value />
     <comment>Skill</comment>
   </data>
+  <data name="ArrowRain" xml:space="preserve">
+      <value>Arrow rain</value>
+    <comment>Skill</comment>
+  </data>
   <data name="ArrowsOfMorana" xml:space="preserve">
     <value>Arrow of Morana</value><comment>Combat Movement Robber</comment>
   </data>
   <data name="ArrowsOfMorana_Description" xml:space="preserve">
     <value /><comment>Combat Movement Robber</comment>
-  </data>
-  <data name="ArrowRain" xml:space="preserve">
-      <value>Arrow rain</value>
-    <comment>Skill</comment>
   </data>
   <data name="ArtOfCombat" xml:space="preserve">
     <value>Art of Combat</value><comment>Combat movement Monk</comment>
@@ -156,6 +155,9 @@
   <data name="Assaulter" xml:space="preserve">
     <value>Haokin</value>
     <comment>Hero</comment>
+  </data>
+  <data name="Automataur" xml:space="preserve">
+    <value>Automataur</value>
   </data>
   <data name="BalticThunder" xml:space="preserve">
     <value>Baltic thunder</value><comment>Combat Movement Robber</comment>
@@ -176,9 +178,6 @@
   </data>
   <data name="BigMonsterDescription" xml:space="preserve">
     <value>This monster is big so it has +50% HP and armor x 2.</value><comment>Perk</comment>
-  </data>
-  <data name="BlackTrooper" xml:space="preserve">
-    <value>Trooper</value>
   </data>
   <data name="BlankShot" xml:space="preserve">
     <value>Blank shot</value><comment>Combat movement Partisan</comment>
@@ -284,6 +283,12 @@
   <data name="DamageTogether_CrisisAftermath" xml:space="preserve">
     <value /><comment>Crisis Aftermath</comment>
   </data>
+  <data name="DanceWithThePast" xml:space="preserve">
+    <value>Dance with the Past</value><comment>Combat Movement Black Trooper</comment>
+  </data>
+  <data name="DanceWithThePast_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Black Trooper</comment>
+  </data>
   <data name="DarkLight" xml:space="preserve">
       <value>Dark light</value>
     <comment>Skill</comment>
@@ -377,6 +382,12 @@
   <data name="EyesOfChaos_Description" xml:space="preserve">
     <value></value>
   </data>
+  <data name="FatalBlow" xml:space="preserve">
+    <value>Fatal blow</value><comment>Combat Movement Black Trooper</comment>
+  </data>
+  <data name="FatalBlow_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Black Trooper</comment>
+  </data>
   <data name="FingerOfAnubis" xml:space="preserve">
       <value>The Finger of Anubis</value>
     <comment>Skill</comment>
@@ -398,6 +409,12 @@
     <value>Grey wolf</value>
     <comment>Monster</comment>
   </data>
+  <data name="GrimResolve" xml:space="preserve">
+    <value>Grim resolve</value><comment>Combat Movement Black Trooper</comment>
+  </data>
+  <data name="GrimResolve_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Black Trooper</comment>
+  </data>
   <data name="GuardianPromise" xml:space="preserve">
     <value>Promise of a tomb guardian</value>
     <comment>Combat Movement Chaser</comment>
@@ -415,6 +432,9 @@
   </data>
   <data name="HandOfThousandForms_Description" xml:space="preserve">
     <value>Move to vanguard and deal 2 damage to the nearest enemy in lane. If the monk was already in the vanguard, then deal 1 bonus damage.</value>
+  </data>
+  <data name="HaventBeenPunchedInTheFaceForALongTime_voice" xml:space="preserve">
+    <value>Haven't been punched in the face for a long time?</value><comment>Voice</comment>
   </data>
   <data name="HealingSalve" xml:space="preserve">
       <value>Healing salve</value>
@@ -517,11 +537,23 @@
   <data name="JustHitBoarWithKnife_Description" xml:space="preserve">
     <value /><comment>Combat movement Amazon</comment>
   </data>
+  <data name="LastChanceToPeace" xml:space="preserve">
+    <value>Last chance to peace</value><comment>Combat Movement Black Trooper</comment>
+  </data>
+  <data name="LastChanceToPeace_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Black Trooper</comment>
+  </data>
   <data name="LookOut" xml:space="preserve">
     <value>Look out!</value><comment>Combat movement Swordsman</comment>
   </data>
   <data name="LookOut_Description" xml:space="preserve">
     <value /><comment>Combat movement Swordsman</comment>
+  </data>
+  <data name="MadnessWithinEyes" xml:space="preserve">
+    <value>Madness within eyes</value><comment>Combat Movement Black Trooper</comment>
+  </data>
+  <data name="MadnessWithinEyes_Description" xml:space="preserve">
+    <value /><comment>Combat Movement Black Trooper</comment>
   </data>
   <data name="MagicTrap_Crisis" xml:space="preserve">
     <value></value>
@@ -617,6 +649,10 @@
   </data>
   <data name="RiseYourSwords_Description" xml:space="preserve">
     <value /><comment>Combat Movement Swordsman</comment>
+  </data>
+  <data name="Robber" xml:space="preserve">
+    <value>Hawk</value>
+    <comment>Hero</comment>
   </data>
   <data name="RunOut_CrisisAftermath" xml:space="preserve">
     <value />
@@ -723,6 +759,9 @@
   <data name="TakeAllDamageByOneHero_CrisisAftermath" xml:space="preserve">
     <value /><comment>Crisis Aftermath</comment>
   </data>
+  <data name="TheGoodWeather_voice" xml:space="preserve">
+    <value>The good weather today...</value><comment>Voice</comment>
+  </data>
   <data name="Thicket" xml:space="preserve">
     <value>Dark Thicket</value>
     <comment>Location</comment>
@@ -742,6 +781,9 @@
   </data>
   <data name="TryToRunOut_CrisisAftermath" xml:space="preserve">
     <value /><comment>Crisis Aftermath</comment>
+  </data>
+  <data name="TwoPlusTwoIsFive_voice" xml:space="preserve">
+    <value>Two plus two is five...</value><comment>Voice</comment>
   </data>
   <data name="UndercutValues" xml:space="preserve">
     <value>Undercut values</value><comment>Combat Movement Robber</comment>
@@ -814,44 +856,5 @@
   <data name="ZduhachMight" xml:space="preserve">
       <value>Zduhach Might</value>
     <comment>Skill</comment>
-  </data>
-  <data name="GrimResolve" xml:space="preserve">
-    <value>Grim resolve</value><comment>Combat Movement Black Trooper</comment>
-  </data>
-  <data name="GrimResolve_Description" xml:space="preserve">
-    <value /><comment>Combat Movement Black Trooper</comment>
-  </data>
-  <data name="DanceWithThePast" xml:space="preserve">
-    <value>Dance with the Past</value><comment>Combat Movement Black Trooper</comment>
-  </data>
-  <data name="DanceWithThePast_Description" xml:space="preserve">
-    <value /><comment>Combat Movement Black Trooper</comment>
-  </data>
-  <data name="FatalBlow" xml:space="preserve">
-    <value>Fatal blow</value><comment>Combat Movement Black Trooper</comment>
-  </data>
-  <data name="FatalBlow_Description" xml:space="preserve">
-    <value /><comment>Combat Movement Black Trooper</comment>
-  </data>
-  <data name="MadnessWithinEyes" xml:space="preserve">
-    <value>Madness within eyes</value><comment>Combat Movement Black Trooper</comment>
-  </data>
-  <data name="MadnessWithinEyes_Description" xml:space="preserve">
-    <value /><comment>Combat Movement Black Trooper</comment>
-  </data>
-  <data name="LastChanceToPeace" xml:space="preserve">
-    <value>Last chance to peace</value><comment>Combat Movement Black Trooper</comment>
-  </data>
-  <data name="LastChanceToPeace_Description" xml:space="preserve">
-    <value /><comment>Combat Movement Black Trooper</comment>
-  </data>
-  <data name="HaventBeenPunchedInTheFaceForALongTime_voice" xml:space="preserve">
-    <value>Haven't been punched in the face for a long time?</value><comment>Voice</comment>
-  </data>
-  <data name="TheGoodWeather_voice" xml:space="preserve">
-    <value>The good weather today...</value><comment>Voice</comment>
-  </data>
-  <data name="TwoPlusTwoIsFive_voice" xml:space="preserve">
-    <value>Two plus two is five...</value><comment>Voice</comment>
   </data>
 </root>

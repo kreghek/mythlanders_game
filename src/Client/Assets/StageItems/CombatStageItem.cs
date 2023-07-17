@@ -16,9 +16,11 @@ internal sealed class CombatStageItem : ICampaignStageItem
         _combatSequence = combatSequence;
     }
 
+    internal CombatSequence CombatSequence => _combatSequence;
+
     public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
     {
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat,
-            new CombatScreenTransitionArguments(currentCampaign, _combatSequence, 0, false, _location, null));
+            new CombatScreenTransitionArguments(currentCampaign, CombatSequence, 0, false, _location, null));
     }
 }

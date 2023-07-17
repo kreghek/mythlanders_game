@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets.States.Primitives;
+using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Engine;
 using Client.Engine.MoveFunctions;
 using Client.GameScreens.Combat;

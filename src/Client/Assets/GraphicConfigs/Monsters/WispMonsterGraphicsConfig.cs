@@ -24,18 +24,6 @@ internal sealed class WispMonsterGraphicsConfig : SlavicMonsterGraphicConfig
                 AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, fps: 1)
             },
             {
-                PredefinedAnimationSid.Skill1,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8, frameCount: 8, fps: 12)
-            },
-            {
-                PredefinedAnimationSid.Skill2,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, fps: 1)
-            },
-            {
-                PredefinedAnimationSid.Skill3,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, fps: 1)
-            },
-            {
                 PredefinedAnimationSid.Wound,
                 AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 2, fps: 8)
             },

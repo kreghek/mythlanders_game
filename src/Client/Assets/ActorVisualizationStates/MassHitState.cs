@@ -5,7 +5,7 @@ using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
 
-namespace Client.Assets.States;
+namespace Client.Assets.ActorVisualizationStates;
 
 internal sealed class MassHitState : IActorVisualizationState
 {

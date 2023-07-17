@@ -250,7 +250,7 @@ internal class GameObjectContentStorage
 
             { UnitName.Marauder, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
             { UnitName.BoldMarauder, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
-            { UnitName.BlackTrooper, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+            { UnitName.Agressor, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
             { UnitName.DigitalWolf, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") },
             { UnitName.CorruptedBear, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BearDeath") },
@@ -454,7 +454,7 @@ internal class GameObjectContentStorage
         {
             { UnitName.Marauder, LoadMonsterTexture(contentManager, "Marauder") },
             { UnitName.BoldMarauder, LoadMonsterTexture(contentManager, "BoldMarauder") },
-            { UnitName.BlackTrooper, LoadMonsterTexture(contentManager, "BlackTrooper") },
+            { UnitName.Agressor, LoadMonsterTexture(contentManager, "Agressor") },
             { UnitName.DigitalWolf, LoadMonsterTexture(contentManager, "DigitalWolf") },
             { UnitName.Aspid, LoadMonsterTexture(contentManager, "Aspid") },
             { UnitName.Wisp, LoadMonsterTexture(contentManager, "Wisp") },
