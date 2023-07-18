@@ -532,20 +532,23 @@ internal sealed class CampaignMap : ControlBase
         var graphNodeLayouts = horizontalVisualizer.Create(campaignGraph, visualizerConfig);
         graphNodeLayouts = ApplyPostProcessTransformations(currentCampaign, visualizerConfig, graphNodeLayouts);
 
+        var graphNodeLayoutCounter = 0;
         foreach (var graphNodeLayout in graphNodeLayouts)
         {
             var button = CreateCampaignButton(currentCampaign, graphNodeLayout);
 
             if (button.SourceGraphNodeLayout.Node.Payload is CombatStageItem combatStageItem)
             {
+                graphNodeLayoutCounter++;
+                
                 var monster = combatStageItem.CombatSequence.Combats.First().Monsters.First();
                 var monsterTexture =
                     _gameObjectContentStorage.GetUnitGraphics(Enum.Parse<UnitName>(monster.ClassSid, true));
 
-                var grayscaleTexture = CreateAnimationSequenceTexture(monsterTexture, new Rectangle(0, 0, 128, 128));
+                var animatedMonsterTexture = CreateAnimationSequenceTexture(monsterTexture, new Rectangle(0, 0, 128, 128), graphNodeLayoutCounter * 133);
 
-                button.DecorativeObjects.Add(new CampaignMapDecorativeObject(grayscaleTexture,
-                    new LinearAnimationFrameSet(new[] { 0, 1, 2, 3, 4, 5, 6, 7 }, 4, 128, 128, 8) { IsLooping = true },
+                button.DecorativeObjects.Add(new CampaignMapDecorativeObject(animatedMonsterTexture,
+                    new LinearAnimationFrameSet(Enumerable.Range(0, 16).ToArray(), 4, 128, 128, 8) { IsLooping = true },
                     new Vector2(16, 0)));
             }
 
@@ -563,7 +566,8 @@ internal sealed class CampaignMap : ControlBase
         );
     }
 
-    private Texture2D CreateAnimationSequenceTexture(Texture2D sourceTexture, Rectangle sourceRect)
+    private Texture2D CreateAnimationSequenceTexture(Texture2D sourceTexture, Rectangle sourceRect,
+        int randomizationSeed)
     {
         var grayScaleTexture = CreateGrayscaleTexture(sourceTexture, sourceRect);
         
@@ -572,49 +576,192 @@ internal sealed class CampaignMap : ControlBase
         //initialize a texture
         var width = sourceRect.Width;
         var height = sourceRect.Height;
-        const int FRAME_COUNT = 8;
-        Texture2D texture = new Texture2D(graphicDevice, width * FRAME_COUNT, height);
+        const int FRAME_COUNT = 16;
+        Texture2D resultTexture = new Texture2D(graphicDevice, width * FRAME_COUNT, height);
         
         var count = width * height;
-        Color[] sourceData = new Color[count];
-        grayScaleTexture.GetData(0, sourceRect, sourceData, 0, count);
 
         for (var frameIndex = 0; frameIndex < FRAME_COUNT; frameIndex++)
         {
-            Color[] data = new Color[count];
+            Texture2D frameTexture;
 
-            if (frameIndex % 7 == 0)
+            if (frameIndex * randomizationSeed % 7 == 0)
             {
-                for (int pixel = 0; pixel < data.Length; pixel++)
-                {
-                    data[pixel] = new Color(0, 0, 0, 0);
-                }
+                frameTexture = CreateEmptyTexture(graphicDevice, grayScaleTexture);
             }
             else
             {
-                for (int pixel = 0; pixel < data.Length; pixel++)
+                if (frameIndex * randomizationSeed * 133 % 13 == 0)
                 {
-                    var oc = sourceData[pixel];
-                    int grayScale = (int)((oc.R * 0.3) + (oc.G * 0.59) + (oc.B * 0.11));
-                    
-                    if (pixel * frameIndex * 133 % 13 == 0)
-                    {
-                        data[pixel] = new Color(0, 0, 0, 0);
-                    }
-                    else
-                    {
-                        // Original pixel
-                        
-                        data[pixel] = new Color(grayScale, grayScale, grayScale, oc.A);
-                    }
+                    frameTexture = CreateRowCorruptedTexture(graphicDevice, grayScaleTexture, randomizationSeed * frameIndex * 133);
+                }
+                else if (frameIndex * randomizationSeed * 133 % 91 == 0)
+                {
+                    frameTexture = CreateSilhouetteCorruptedTexture(graphicDevice, grayScaleTexture);
+                }
+                else if (frameIndex * randomizationSeed * 91 % 133 == 0)
+                {
+                    frameTexture = CreateNoiseCorruptedTexture(graphicDevice, grayScaleTexture,
+                        randomizationSeed * frameIndex * 91);
+                }
+                else
+                {
+                    frameTexture = grayScaleTexture;
                 }
             }
 
-            //set the color
-            texture.SetData(0, new Rectangle(frameIndex * width, 0, width, height), data, 0, count);
+            Color[] frameData = new Color[frameTexture.Width * frameTexture.Height];
+            frameTexture.GetData(frameData);
+            resultTexture.SetData(0,
+                new Rectangle(frameIndex * frameTexture.Width, 0, frameTexture.Width, frameTexture.Height),
+                frameData,
+                0,
+                frameTexture.Width * frameTexture.Height);
         }
 
-        return texture;
+        return resultTexture;
+    }
+    
+    private Texture2D CreateNoiseCorruptedTexture(GraphicsDevice graphicsDevice, Texture2D sourceTexture, int randomizationSeed)
+    {
+        var width = sourceTexture.Width;
+        var height = sourceTexture.Height;
+        var resultTexture = new Texture2D(graphicsDevice, width, height);
+        
+        var count = width * height;
+        var sourceData = new Color[count];
+        sourceTexture.GetData(sourceData);
+
+        var data = new Color[count];
+        
+        for (int pixel = 0; pixel < data.Length; pixel++)
+        {
+            var oc = sourceData[pixel];
+            int grayScale = (int)((oc.R * 0.3) + (oc.G * 0.59) + (oc.B * 0.11));
+                    
+            if (pixel * randomizationSeed * 133 % 13 == 0)
+            {
+                data[pixel] = new Color(0, 0, 0, 0);
+            }
+            else
+            {
+                // Original pixel
+                        
+                data[pixel] = new Color(grayScale, grayScale, grayScale, oc.A);
+            }
+        }
+        
+        resultTexture.SetData(data);
+
+        return resultTexture;
+    }
+    
+    private Texture2D CreateSilhouetteCorruptedTexture(GraphicsDevice graphicsDevice, Texture2D sourceTexture)
+    {
+        var width = sourceTexture.Width;
+        var height = sourceTexture.Height;
+        var resultTexture = new Texture2D(graphicsDevice, width, height);
+        
+        var count = width * height;
+        var sourceData = new Color[count];
+        sourceTexture.GetData(sourceData);
+
+        var data = new Color[count];
+        
+        for (int pixel = 0; pixel < data.Length; pixel++)
+        {
+            data[pixel] = new Color(50, 50, 50);
+        }
+        
+        resultTexture.SetData(data);
+
+        return resultTexture;
+    }
+    
+    private Texture2D CreateEmptyTexture(GraphicsDevice graphicsDevice, Texture2D sourceTexture)
+    {
+        var width = sourceTexture.Width;
+        var height = sourceTexture.Height;
+        var resultTexture = new Texture2D(graphicsDevice, width, height);
+        
+        var count = width * height;
+        var sourceData = new Color[count];
+        sourceTexture.GetData(sourceData);
+
+        var data = new Color[count];
+        
+        for (int pixel = 0; pixel < data.Length; pixel++)
+        {
+            data[pixel] = new Color(0, 0, 0, 0);
+        }
+        
+        resultTexture.SetData(data);
+
+        return resultTexture;
+    }
+
+    private Texture2D CreateRowCorruptedTexture(GraphicsDevice graphicsDevice, Texture2D sourceTexture, int randomizationSeed)
+    {
+        var width = sourceTexture.Width;
+        var height = sourceTexture.Height;
+        var resultTexture = new Texture2D(graphicsDevice, width, height);
+        
+        var count = width * height;
+        Color[] sourceData = new Color[count];
+        sourceTexture.GetData(sourceData);
+
+        var sourceMatrix = ToRectangular(sourceData, width);
+
+        for (int row = 0; row < sourceMatrix.GetLength(1); row++)
+        {
+            if (row * randomizationSeed % 33 == 0)
+            {
+                for (int col = 5; col < sourceMatrix.GetLength(0) - 5; col++)
+                {
+                    sourceMatrix[col, row] = sourceMatrix[col - 5, row];
+                }
+            }
+        }
+
+        var data = To1DArray(sourceMatrix);
+        
+        resultTexture.SetData(data);
+
+        return resultTexture;
+    }
+    
+    private T[,] ToRectangular<T>(T[] flatArray, int width)
+    {
+        int height = (int)Math.Ceiling(flatArray.Length / (double)width);
+        T[,] result = new T[height, width];
+        int rowIndex, colIndex;
+
+        for (int index = 0; index < flatArray.Length; index++)
+        {
+            rowIndex = index / width;
+            colIndex = index % width;
+            result[rowIndex, colIndex] = flatArray[index];
+        }
+        return result;
+    }
+
+    static T[] To1DArray<T>(T[,] input)
+    {
+        // Step 1: get total size of 2D array, and allocate 1D array.
+        int size = input.Length;
+        var result = new T[size];
+        
+        // Step 2: copy 2D array elements into a 1D array.
+        int write = 0;
+        for (int i = 0; i <= input.GetUpperBound(0); i++)
+        {
+            for (int z = 0; z <= input.GetUpperBound(1); z++)
+            {
+                result[write++] = input[i, z];
+            }
+        }
+        // Step 3: return the new array.
+        return result;
     }
 
     private Texture2D CreateGrayscaleTexture(Texture2D sourceTexture, Rectangle sourceRect)
@@ -740,5 +887,24 @@ public static class GraphExtensions
         return graph.GetNext(nodeFrom)
             .Select(next => graph.HasWayBetween(next, nodeTo))
             .Any(x => x);
+    }
+}
+
+public static class TextureExtension
+{
+    /// <summary>
+    /// Creates a new texture from an area of the texture.
+    /// </summary>
+    /// <param name="graphics">The current GraphicsDevice</param>
+    /// <param name="rect">The dimension you want to have</param>
+    /// <returns>The partial Texture.</returns>
+    public static Texture2D CreateTexture(this Texture2D src, GraphicsDevice graphics, Rectangle rect)
+    {
+        Texture2D tex = new Texture2D(graphics, rect.Width, rect.Height);
+        int count = rect.Width * rect.Height;
+        Color[] data = new Color[count];
+        src.GetData(0, rect, data, 0, count);
+        tex.SetData(data);
+        return tex;
     }
 }
