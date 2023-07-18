@@ -546,7 +546,7 @@ internal sealed class CampaignMap : ControlBase
 
                 button.DecorativeObjects.Add(new CampaignMapDecorativeObject(grayscaleTexture,
                     new LinearAnimationFrameSet(new[] { 0, 1, 2, 3, 4, 5, 6, 7 }, 4, 128, 128, 8) { IsLooping = true },
-                    new Vector2(0, 0)));
+                    new Vector2(16, 0)));
             }
 
             _buttonList.Add(button);
@@ -579,11 +579,11 @@ internal sealed class CampaignMap : ControlBase
         Color[] sourceData = new Color[count];
         grayScaleTexture.GetData(0, sourceRect, sourceData, 0, count);
 
-        for (var i = 0; i < FRAME_COUNT; i++)
+        for (var frameIndex = 0; frameIndex < FRAME_COUNT; frameIndex++)
         {
             Color[] data = new Color[count];
 
-            if (i % 7 == 0)
+            if (frameIndex % 7 == 0)
             {
                 for (int pixel = 0; pixel < data.Length; pixel++)
                 {
@@ -594,40 +594,24 @@ internal sealed class CampaignMap : ControlBase
             {
                 for (int pixel = 0; pixel < data.Length; pixel++)
                 {
-                    if (pixel * i * 133 % 5 == 0)
+                    var oc = sourceData[pixel];
+                    int grayScale = (int)((oc.R * 0.3) + (oc.G * 0.59) + (oc.B * 0.11));
+                    
+                    if (pixel * frameIndex * 133 % 13 == 0)
                     {
                         data[pixel] = new Color(0, 0, 0, 0);
-                    }
-                    else if (pixel * i * 733 % 5 == 0)
-                    {
-                        var oc = sourceData[pixel];
-                        int grayScale = (int)((oc.G * 0.59) + (oc.B * 0.11));
-                        data[pixel] = new Color(grayScale, grayScale, grayScale, oc.A);
-                    }
-                    else if (pixel * i * 533 % 5 == 0)
-                    {
-                        var oc = sourceData[pixel];
-                        int grayScale = (int)((oc.R * 0.3) + (oc.B * 0.11));
-                        data[pixel] = new Color(grayScale, grayScale, grayScale, oc.A);
-                    }
-                    else if (pixel * i * 33 % 5 == 0)
-                    {
-                        var oc = sourceData[pixel];
-                        int grayScale = (int)((oc.R * 0.3));
-                        data[pixel] = new Color(grayScale, grayScale, grayScale, oc.A);
                     }
                     else
                     {
                         // Original pixel
-                        var oc = sourceData[pixel];
-                        int grayScale = (int)((oc.R * 0.3) + (oc.G * 0.59) + (oc.B * 0.11));
+                        
                         data[pixel] = new Color(grayScale, grayScale, grayScale, oc.A);
                     }
                 }
             }
 
             //set the color
-            texture.SetData(0, new Rectangle(i * width, 0, width, height), data, 0, count);
+            texture.SetData(0, new Rectangle(frameIndex * width, 0, width, height), data, 0, count);
         }
 
         return texture;
