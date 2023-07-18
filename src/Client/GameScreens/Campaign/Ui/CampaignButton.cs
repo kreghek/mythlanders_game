@@ -1,4 +1,7 @@
-﻿using Client.Core.Campaigns;
+﻿using System.Collections.Generic;
+
+using Client.Core;
+using Client.Core.Campaigns;
 using Client.Engine;
 
 using CombatDicesTeam.Graphs.Visualization;
@@ -10,12 +13,15 @@ using MonoGame;
 
 namespace Client.GameScreens.Campaign.Ui;
 
-internal sealed class CampaignButton : ButtonBase
+internal sealed record CampaignMapDecorativeObject(Texture2D SourceTexture, IAnimationFrameSet AnimationFrameSet,
+    Vector2 RelativePosition);
+
+internal sealed class CampaignNodeButton : ButtonBase
 {
     private readonly Texture2D _icon;
     private readonly Rectangle? _iconRect;
 
-    public CampaignButton(IconData iconData, CampaignStageDisplayInfo stageInfo,
+    public CampaignNodeButton(IconData iconData, CampaignStageDisplayInfo stageInfo,
         IGraphNodeLayout<ICampaignStageItem> sourceGraphNodeLayout,
         CampaignNodeState state)
     {
@@ -24,7 +30,11 @@ internal sealed class CampaignButton : ButtonBase
         _iconRect = iconData.SourceRect;
         StageInfo = stageInfo;
         SourceGraphNodeLayout = sourceGraphNodeLayout;
+
+        DecorativeObjects = new List<CampaignMapDecorativeObject>();
     }
+
+    public IList<CampaignMapDecorativeObject> DecorativeObjects { get; }
 
     public CampaignNodeState NodeState { get; }
 
@@ -58,6 +68,11 @@ internal sealed class CampaignButton : ButtonBase
     {
         spriteBatch.Draw(_icon, contentRect, _iconRect, color);
 
+        foreach (var obj in DecorativeObjects)
+        {
+            spriteBatch.Draw(obj.SourceTexture, new Rectangle(obj.RelativePosition.ToPoint() + contentRect.Center, new Point(48, 48)), obj.AnimationFrameSet.GetFrameRect(), color);
+        }
+        
         if (NodeState == CampaignNodeState.Passed)
         {
             spriteBatch.DrawCircle(contentRect.Center.ToVector2(), 24, 16, TestamentColors.MainAncient);

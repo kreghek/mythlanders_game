@@ -103,7 +103,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
         if (_campaignMap is not null)
         {
-            _campaignMap.Update(ResolutionIndependentRenderer);
+            _campaignMap.Update(gameTime, ResolutionIndependentRenderer);
 
             UpdateMapPresentation(gameTime, _campaignMap);
         }
@@ -174,7 +174,8 @@ internal class CampaignScreen : GameScreenWithMenuBase
             Game.Content.Load<Texture2D>("Sprites/Ui/MapBackground"),
             Game.Content.Load<Texture2D>("Sprites/Ui/MapItemShadow"),
             Game.Content.Load<Texture2D>("Sprites/Ui/MapDisplay"),
-            ResolutionIndependentRenderer);
+            ResolutionIndependentRenderer,
+            Game.Services.GetRequiredService<GameObjectContentStorage>());
     }
 
     private void InventoryButton_OnClick(object? sender, EventArgs e)

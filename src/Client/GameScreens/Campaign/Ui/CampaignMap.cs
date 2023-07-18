@@ -4,6 +4,7 @@ using System.Linq;
 
 using Client.Assets.StageItems;
 using Client.Core;
+using Client.Core.AnimationFrameSets;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.ScreenManagement;
@@ -30,12 +31,13 @@ internal sealed class CampaignMap : ControlBase
     private const int LAYOUT_NODE_SIZE = 32;
     private readonly Texture2D _backgroundTexture;
 
-    private readonly IList<CampaignButton> _buttonList = new List<CampaignButton>();
+    private readonly IList<CampaignNodeButton> _buttonList = new List<CampaignNodeButton>();
     private readonly Texture2D _campaignIconsTexture;
     private readonly IScreen _currentScreen;
     private readonly HeroCampaign _heroCampaign;
     private readonly Texture2D _hudTexture;
     private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
+    private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly IScreenManager _screenManager;
     private readonly Texture2D _shadowTexture;
 
@@ -53,7 +55,8 @@ internal sealed class CampaignMap : ControlBase
         Texture2D backgroundTexture,
         Texture2D shadowTexture,
         Texture2D hudTexture,
-        IResolutionIndependentRenderer resolutionIndependentRenderer)
+        IResolutionIndependentRenderer resolutionIndependentRenderer,
+        GameObjectContentStorage gameObjectContentStorage)
     {
         _heroCampaign = heroCampaign;
         _screenManager = screenManager;
@@ -63,6 +66,7 @@ internal sealed class CampaignMap : ControlBase
         _shadowTexture = shadowTexture;
         _hudTexture = hudTexture;
         _resolutionIndependentRenderer = resolutionIndependentRenderer;
+        _gameObjectContentStorage = gameObjectContentStorage;
         InitChildControls(heroCampaign.Stages, heroCampaign);
     }
 
@@ -109,7 +113,7 @@ internal sealed class CampaignMap : ControlBase
         DrawNodeHint(spriteBatch);
     }
 
-    internal void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)
+    internal void Update(GameTime gameTime, IResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         if (State == MapState.Presentation)
         {
@@ -119,6 +123,10 @@ internal sealed class CampaignMap : ControlBase
         foreach (var button in _buttonList)
         {
             button.Update(resolutionIndependentRenderer);
+            foreach (var obj in button.DecorativeObjects)
+            {
+                obj.AnimationFrameSet.Update(gameTime);
+            }
         }
 
         HandleMapScrollingMyMouse(resolutionIndependentRenderer);
@@ -170,7 +178,7 @@ internal sealed class CampaignMap : ControlBase
         _currentHint = null;
     }
 
-    private CampaignButton CreateCampaignButton(HeroCampaign currentCampaign,
+    private CampaignNodeButton CreateCampaignButton(HeroCampaign currentCampaign,
         IGraphNodeLayout<ICampaignStageItem> graphNodeLayout)
     {
         var stageItemDisplayName = GetStageItemDisplayName(graphNodeLayout.Node.Payload);
@@ -179,7 +187,7 @@ internal sealed class CampaignMap : ControlBase
 
         var locationNodeState = GetLocationNodeState(graphNodeLayout);
 
-        var button = new CampaignButton(new IconData(_campaignIconsTexture, stageIconRect), stageDisplayInfo,
+        var button = new CampaignNodeButton(new IconData(_campaignIconsTexture, stageIconRect), stageDisplayInfo,
             graphNodeLayout, locationNodeState);
         button.OnHover += (_, _) =>
         {
@@ -365,12 +373,7 @@ internal sealed class CampaignMap : ControlBase
 
     private void DrawNodeHint(SpriteBatch spriteBatch)
     {
-        if (_currentHint is null)
-        {
-            return;
-        }
-
-        _currentHint.Draw(spriteBatch);
+        _currentHint?.Draw(spriteBatch);
     }
 
     private CampaignNodeState GetLocationNodeState(IGraphNodeLayout<ICampaignStageItem> graphNodeLayout)
@@ -531,7 +534,20 @@ internal sealed class CampaignMap : ControlBase
 
         foreach (var graphNodeLayout in graphNodeLayouts)
         {
-            var button = CreateCampaignButton(currentCampaign: currentCampaign, graphNodeLayout: graphNodeLayout);
+            var button = CreateCampaignButton(currentCampaign, graphNodeLayout);
+
+            if (button.SourceGraphNodeLayout.Node.Payload is CombatStageItem combatStageItem)
+            {
+                var monster = combatStageItem.CombatSequence.Combats.First().Monsters.First();
+                var monsterTexture =
+                    _gameObjectContentStorage.GetUnitGraphics(Enum.Parse<UnitName>(monster.ClassSid, true));
+
+                var grayscaleTexture = CreateAnimationSequenceTexture(monsterTexture, new Rectangle(0, 0, 128, 128));
+
+                button.DecorativeObjects.Add(new CampaignMapDecorativeObject(grayscaleTexture,
+                    new LinearAnimationFrameSet(new[] { 0, 1, 2, 3, 4, 5, 6, 7 }, 4, 128, 128, 8) { IsLooping = true },
+                    new Vector2(0, 0)));
+            }
 
             _buttonList.Add(button);
         }
@@ -545,6 +561,105 @@ internal sealed class CampaignMap : ControlBase
             graphNodeLayouts.Max(x => x.Position.X + 32),
             graphNodeLayouts.Max(x => x.Position.Y + 32)
         );
+    }
+
+    private Texture2D CreateAnimationSequenceTexture(Texture2D sourceTexture, Rectangle sourceRect)
+    {
+        var grayScaleTexture = CreateGrayscaleTexture(sourceTexture, sourceRect);
+        
+        var graphicDevice = _resolutionIndependentRenderer.ViewportAdapter.GraphicsDevice;
+
+        //initialize a texture
+        var width = sourceRect.Width;
+        var height = sourceRect.Height;
+        const int FRAME_COUNT = 8;
+        Texture2D texture = new Texture2D(graphicDevice, width * FRAME_COUNT, height);
+        
+        var count = width * height;
+        Color[] sourceData = new Color[count];
+        grayScaleTexture.GetData(0, sourceRect, sourceData, 0, count);
+
+        for (var i = 0; i < FRAME_COUNT; i++)
+        {
+            Color[] data = new Color[count];
+
+            if (i % 7 == 0)
+            {
+                for (int pixel = 0; pixel < data.Length; pixel++)
+                {
+                    data[pixel] = new Color(0, 0, 0, 0);
+                }
+            }
+            else
+            {
+                for (int pixel = 0; pixel < data.Length; pixel++)
+                {
+                    if (pixel * i * 133 % 5 == 0)
+                    {
+                        data[pixel] = new Color(0, 0, 0, 0);
+                    }
+                    else if (pixel * i * 733 % 5 == 0)
+                    {
+                        var oc = sourceData[pixel];
+                        int grayScale = (int)((oc.G * 0.59) + (oc.B * 0.11));
+                        data[pixel] = new Color(grayScale, grayScale, grayScale, oc.A);
+                    }
+                    else if (pixel * i * 533 % 5 == 0)
+                    {
+                        var oc = sourceData[pixel];
+                        int grayScale = (int)((oc.R * 0.3) + (oc.B * 0.11));
+                        data[pixel] = new Color(grayScale, grayScale, grayScale, oc.A);
+                    }
+                    else if (pixel * i * 33 % 5 == 0)
+                    {
+                        var oc = sourceData[pixel];
+                        int grayScale = (int)((oc.R * 0.3));
+                        data[pixel] = new Color(grayScale, grayScale, grayScale, oc.A);
+                    }
+                    else
+                    {
+                        // Original pixel
+                        var oc = sourceData[pixel];
+                        int grayScale = (int)((oc.R * 0.3) + (oc.G * 0.59) + (oc.B * 0.11));
+                        data[pixel] = new Color(grayScale, grayScale, grayScale, oc.A);
+                    }
+                }
+            }
+
+            //set the color
+            texture.SetData(0, new Rectangle(i * width, 0, width, height), data, 0, count);
+        }
+
+        return texture;
+    }
+
+    private Texture2D CreateGrayscaleTexture(Texture2D sourceTexture, Rectangle sourceRect)
+    {
+        var graphicDevice = _resolutionIndependentRenderer.ViewportAdapter.GraphicsDevice;
+
+        //initialize a texture
+        var width = sourceRect.Width;
+        var height = sourceRect.Height;
+        Texture2D texture = new Texture2D(graphicDevice, width, height);
+
+        var count = width * height;
+        Color[] sourceData = new Color[count];
+        sourceTexture.GetData(0, sourceRect, sourceData, 0, count);
+
+        //the array holds the color for each pixel in the texture
+        Color[] data = new Color[count];
+        for (int pixel = 0; pixel < data.Length; pixel++)
+        {
+            //the function applies the color according to the specified pixel
+            var oc = sourceData[pixel];
+            int grayScale = (int)((oc.R * 0.3) + (oc.G * 0.59) + (oc.B * 0.11));
+            data[pixel] = new Color(grayScale, grayScale, grayScale, oc.A);
+        }
+
+        //set the color
+        texture.SetData(data);
+
+        return texture;
     }
 
     private static Vector2 NormalizeScroll(Vector2 currentScroll, Rectangle boundingGraphRect,
