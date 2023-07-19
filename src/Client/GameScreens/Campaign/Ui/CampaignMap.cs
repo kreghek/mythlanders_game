@@ -13,8 +13,6 @@ using Client.ScreenManagement;
 using CombatDicesTeam.Graphs;
 using CombatDicesTeam.Graphs.Visualization;
 
-using Core.Dices;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -37,11 +35,11 @@ internal sealed class CampaignMap : ControlBase
     private readonly IList<CampaignNodeButton> _buttonList = new List<CampaignNodeButton>();
     private readonly Texture2D _campaignIconsTexture;
     private readonly IScreen _currentScreen;
+    private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly HeroCampaign _heroCampaign;
     private readonly Texture2D _hudTexture;
     private readonly Texture2D _iconsTexture;
     private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
-    private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly IScreenManager _screenManager;
     private readonly Texture2D _shadowTexture;
 
@@ -184,6 +182,60 @@ internal sealed class CampaignMap : ControlBase
         _currentHint = null;
     }
 
+    private Texture2D CreateAnimationSequenceTexture(Texture2D sourceTexture, Rectangle sourceRect)
+    {
+        var grayScaleTexture = CreateGrayscaleTexture(sourceTexture, sourceRect);
+
+        var graphicDevice = _resolutionIndependentRenderer.ViewportAdapter.GraphicsDevice;
+
+        //initialize a texture
+        var width = sourceRect.Width;
+        var height = sourceRect.Height;
+        const int FRAME_COUNT = 8;
+        var texture = new Texture2D(graphicDevice, width * FRAME_COUNT, height);
+
+        var count = width * height;
+        var sourceData = new Color[count];
+        grayScaleTexture.GetData(0, sourceRect, sourceData, 0, count);
+
+        for (var frameIndex = 0; frameIndex < FRAME_COUNT; frameIndex++)
+        {
+            var data = new Color[count];
+
+            if (frameIndex % 7 == 0)
+            {
+                for (var pixel = 0; pixel < data.Length; pixel++)
+                {
+                    data[pixel] = new Color(0, 0, 0, 0);
+                }
+            }
+            else
+            {
+                for (var pixel = 0; pixel < data.Length; pixel++)
+                {
+                    var oc = sourceData[pixel];
+                    var grayScale = (int)((oc.R * 0.3) + (oc.G * 0.59) + (oc.B * 0.11));
+
+                    if (pixel * frameIndex * 133 % 13 == 0)
+                    {
+                        data[pixel] = new Color(0, 0, 0, 0);
+                    }
+                    else
+                    {
+                        // Original pixel
+
+                        data[pixel] = new Color(grayScale, grayScale, grayScale, oc.A);
+                    }
+                }
+            }
+
+            //set the color
+            texture.SetData(0, new Rectangle(frameIndex * width, 0, width, height), data, 0, count);
+        }
+
+        return texture;
+    }
+
     private CampaignNodeButton CreateCampaignButton(HeroCampaign currentCampaign,
         IGraphNodeLayout<ICampaignStageItem> graphNodeLayout)
     {
@@ -234,6 +286,35 @@ internal sealed class CampaignMap : ControlBase
             }
         };
         return button;
+    }
+
+    private Texture2D CreateGrayscaleTexture(Texture2D sourceTexture, Rectangle sourceRect)
+    {
+        var graphicDevice = _resolutionIndependentRenderer.ViewportAdapter.GraphicsDevice;
+
+        //initialize a texture
+        var width = sourceRect.Width;
+        var height = sourceRect.Height;
+        var texture = new Texture2D(graphicDevice, width, height);
+
+        var count = width * height;
+        var sourceData = new Color[count];
+        sourceTexture.GetData(0, sourceRect, sourceData, 0, count);
+
+        //the array holds the color for each pixel in the texture
+        var data = new Color[count];
+        for (var pixel = 0; pixel < data.Length; pixel++)
+        {
+            //the function applies the color according to the specified pixel
+            var oc = sourceData[pixel];
+            var grayScale = (int)((oc.R * 0.3) + (oc.G * 0.59) + (oc.B * 0.11));
+            data[pixel] = new Color(grayScale, grayScale, grayScale, oc.A);
+        }
+
+        //set the color
+        texture.SetData(data);
+
+        return texture;
     }
 
     private PresentationScrollData CreatePresentationScrollData(HeroCampaign currentCampaign,
@@ -593,89 +674,6 @@ internal sealed class CampaignMap : ControlBase
             graphNodeLayouts.Max(x => x.Position.X + 32),
             graphNodeLayouts.Max(x => x.Position.Y + 32)
         );
-    }
-
-    private Texture2D CreateAnimationSequenceTexture(Texture2D sourceTexture, Rectangle sourceRect)
-    {
-        var grayScaleTexture = CreateGrayscaleTexture(sourceTexture, sourceRect);
-
-        var graphicDevice = _resolutionIndependentRenderer.ViewportAdapter.GraphicsDevice;
-
-        //initialize a texture
-        var width = sourceRect.Width;
-        var height = sourceRect.Height;
-        const int FRAME_COUNT = 8;
-        Texture2D texture = new Texture2D(graphicDevice, width * FRAME_COUNT, height);
-
-        var count = width * height;
-        Color[] sourceData = new Color[count];
-        grayScaleTexture.GetData(0, sourceRect, sourceData, 0, count);
-
-        for (var frameIndex = 0; frameIndex < FRAME_COUNT; frameIndex++)
-        {
-            Color[] data = new Color[count];
-
-            if (frameIndex % 7 == 0)
-            {
-                for (int pixel = 0; pixel < data.Length; pixel++)
-                {
-                    data[pixel] = new Color(0, 0, 0, 0);
-                }
-            }
-            else
-            {
-                for (int pixel = 0; pixel < data.Length; pixel++)
-                {
-                    var oc = sourceData[pixel];
-                    int grayScale = (int)((oc.R * 0.3) + (oc.G * 0.59) + (oc.B * 0.11));
-
-                    if (pixel * frameIndex * 133 % 13 == 0)
-                    {
-                        data[pixel] = new Color(0, 0, 0, 0);
-                    }
-                    else
-                    {
-                        // Original pixel
-
-                        data[pixel] = new Color(grayScale, grayScale, grayScale, oc.A);
-                    }
-                }
-            }
-
-            //set the color
-            texture.SetData(0, new Rectangle(frameIndex * width, 0, width, height), data, 0, count);
-        }
-
-        return texture;
-    }
-
-    private Texture2D CreateGrayscaleTexture(Texture2D sourceTexture, Rectangle sourceRect)
-    {
-        var graphicDevice = _resolutionIndependentRenderer.ViewportAdapter.GraphicsDevice;
-
-        //initialize a texture
-        var width = sourceRect.Width;
-        var height = sourceRect.Height;
-        Texture2D texture = new Texture2D(graphicDevice, width, height);
-
-        var count = width * height;
-        Color[] sourceData = new Color[count];
-        sourceTexture.GetData(0, sourceRect, sourceData, 0, count);
-
-        //the array holds the color for each pixel in the texture
-        Color[] data = new Color[count];
-        for (int pixel = 0; pixel < data.Length; pixel++)
-        {
-            //the function applies the color according to the specified pixel
-            var oc = sourceData[pixel];
-            int grayScale = (int)((oc.R * 0.3) + (oc.G * 0.59) + (oc.B * 0.11));
-            data[pixel] = new Color(grayScale, grayScale, grayScale, oc.A);
-        }
-
-        //set the color
-        texture.SetData(data);
-
-        return texture;
     }
 
     private static Vector2 NormalizeScroll(Vector2 currentScroll, Rectangle boundingGraphRect,

@@ -18,9 +18,9 @@ internal sealed class CombatStageItem : ICampaignStageItem
         Metadata = new CombatMetadata(CombatSequence.Combats[0].Monsters.First(), CombatEstimateDifficulty.Hard);
     }
 
-    internal CombatSequence CombatSequence { get; }
-
     public CombatMetadata Metadata { get; }
+
+    internal CombatSequence CombatSequence { get; }
 
     public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
     {
@@ -29,7 +29,8 @@ internal sealed class CombatStageItem : ICampaignStageItem
     }
 }
 
-internal sealed record CombatMetadata(MonsterCombatantPrefab MonsterLeader, CombatEstimateDifficulty EstimateDifficulty);
+internal sealed record CombatMetadata(MonsterCombatantPrefab MonsterLeader,
+    CombatEstimateDifficulty EstimateDifficulty);
 
 internal enum CombatEstimateDifficulty
 {

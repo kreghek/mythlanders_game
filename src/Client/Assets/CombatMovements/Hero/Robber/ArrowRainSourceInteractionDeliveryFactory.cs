@@ -44,7 +44,7 @@ internal sealed class ArrowRainSourceInteractionDeliveryFactory : IDeliveryFacto
             textureColumns: SfxSpriteConsts.Size64x32.COL_COUNT,
             isLoop: true);
 
-        var full = new CompositeAnimationFrameSet(new[] { rising, body });
+        var full = new CompositeAnimationFrameSet(rising, body);
 
         return full;
     }

@@ -8,8 +8,8 @@ namespace Client.Core.AnimationFrameSets;
 
 internal sealed class SingleFrameSet : IAnimationFrameSet
 {
-    private readonly Rectangle _sourceRect;
     private readonly Duration _duration;
+    private readonly Rectangle _sourceRect;
     private double _counter;
     private bool _isEnded;
 
@@ -20,7 +20,11 @@ internal sealed class SingleFrameSet : IAnimationFrameSet
     }
 
     public bool IsIdle { get; }
-    public Rectangle GetFrameRect() => _sourceRect;
+
+    public Rectangle GetFrameRect()
+    {
+        return _sourceRect;
+    }
 
     public void Reset()
     {

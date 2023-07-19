@@ -13,11 +13,11 @@ internal class RandomCompositeAnimationFrameSet : IAnimationFrameSet
     private readonly IReadOnlyList<IAnimationFrameSet> _animations;
     private readonly IDice _dice;
 
+    private IAnimationFrameSet _currentAnimation;
+
     private bool _isEnded;
 
     private IList<IAnimationFrameSet> _openList;
-
-    private IAnimationFrameSet _currentAnimation;
 
     public RandomCompositeAnimationFrameSet(IReadOnlyList<IAnimationFrameSet> animations, IDice dice)
     {
@@ -31,6 +31,8 @@ internal class RandomCompositeAnimationFrameSet : IAnimationFrameSet
         _currentAnimation.End += CurrentAnimation_End;
     }
 
+    public bool IsLooping { get; init; }
+
     private void CurrentAnimation_End(object? sender, EventArgs e)
     {
         _currentAnimation.End -= CurrentAnimation_End;
@@ -38,8 +40,6 @@ internal class RandomCompositeAnimationFrameSet : IAnimationFrameSet
         _openList.Remove(_currentAnimation);
         _currentAnimation.End += CurrentAnimation_End;
     }
-
-    public bool IsLooping { get; init; }
 
     public bool IsIdle { get; init; }
 
