@@ -67,15 +67,15 @@ internal sealed class CampaignNodeButton : ButtonBase
         foreach (var obj in DecorativeObjects)
         {
             spriteBatch.Draw(obj.SourceTexture,
-                new Rectangle(obj.RelativePosition.ToPoint() + contentRect.Center, obj.Size), 
+                new Rectangle(obj.RelativePosition.ToPoint() + contentRect.Center, obj.Size),
                 obj.AnimationFrameSet.GetFrameRect(),
                 obj.Color ?? color,
                 0,
-                new Vector2(0.5f ,0.5f),
+                new Vector2(0.5f, 0.5f),
                 obj.IsFlipped.GetValueOrDefault() ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
                 0);
         }
-        
+
         if (NodeState == CampaignNodeState.Passed)
         {
             spriteBatch.DrawCircle(contentRect.Center.ToVector2(), 24, 16, TestamentColors.MainAncient);

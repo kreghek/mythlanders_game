@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Client.Core.AnimationFrameSets;
 
-internal sealed class SingleFrameSet:  IAnimationFrameSet
+internal sealed class SingleFrameSet : IAnimationFrameSet
 {
     private readonly Rectangle _sourceRect;
     private readonly Duration _duration;
@@ -18,7 +18,7 @@ internal sealed class SingleFrameSet:  IAnimationFrameSet
         _sourceRect = sourceRect;
         _duration = duration;
     }
-    
+
     public bool IsIdle { get; }
     public Rectangle GetFrameRect() => _sourceRect;
 

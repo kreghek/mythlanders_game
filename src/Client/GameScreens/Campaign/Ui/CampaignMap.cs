@@ -598,7 +598,7 @@ internal sealed class CampaignMap : ControlBase
     private Texture2D CreateAnimationSequenceTexture(Texture2D sourceTexture, Rectangle sourceRect)
     {
         var grayScaleTexture = CreateGrayscaleTexture(sourceTexture, sourceRect);
-        
+
         var graphicDevice = _resolutionIndependentRenderer.ViewportAdapter.GraphicsDevice;
 
         //initialize a texture
@@ -606,7 +606,7 @@ internal sealed class CampaignMap : ControlBase
         var height = sourceRect.Height;
         const int FRAME_COUNT = 8;
         Texture2D texture = new Texture2D(graphicDevice, width * FRAME_COUNT, height);
-        
+
         var count = width * height;
         Color[] sourceData = new Color[count];
         grayScaleTexture.GetData(0, sourceRect, sourceData, 0, count);
@@ -628,7 +628,7 @@ internal sealed class CampaignMap : ControlBase
                 {
                     var oc = sourceData[pixel];
                     int grayScale = (int)((oc.R * 0.3) + (oc.G * 0.59) + (oc.B * 0.11));
-                    
+
                     if (pixel * frameIndex * 133 % 13 == 0)
                     {
                         data[pixel] = new Color(0, 0, 0, 0);
@@ -636,7 +636,7 @@ internal sealed class CampaignMap : ControlBase
                     else
                     {
                         // Original pixel
-                        
+
                         data[pixel] = new Color(grayScale, grayScale, grayScale, oc.A);
                     }
                 }

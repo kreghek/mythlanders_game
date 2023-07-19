@@ -73,7 +73,7 @@ internal class RandomCompositeAnimationFrameSet : IAnimationFrameSet
             else
             {
                 _isEnded = true;
-                End?.Invoke(this, EventArgs.Empty);   
+                End?.Invoke(this, EventArgs.Empty);
             }
         }
     }
