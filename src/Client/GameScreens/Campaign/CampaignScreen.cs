@@ -174,6 +174,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
             Game.Content.Load<Texture2D>("Sprites/Ui/MapBackground"),
             Game.Content.Load<Texture2D>("Sprites/Ui/MapItemShadow"),
             Game.Content.Load<Texture2D>("Sprites/Ui/MapDisplay"),
+            _uiContentStorage.GetEffectIconsTexture(),
             ResolutionIndependentRenderer,
             Game.Services.GetRequiredService<GameObjectContentStorage>());
     }

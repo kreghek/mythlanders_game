@@ -5,6 +5,31 @@ using Microsoft.Xna.Framework;
 
 namespace Client.Core.AnimationFrameSets;
 
+internal sealed class SingleFrameSet:  IAnimationFrameSet
+{
+    private readonly Rectangle _sourceRect;
+
+    public SingleFrameSet(Rectangle sourceRect)
+    {
+        _sourceRect = sourceRect;
+    }
+    
+    public bool IsIdle { get; }
+    public Rectangle GetFrameRect() => _sourceRect;
+
+    public void Reset()
+    {
+        // Do nothing
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        // Nothing to update
+    }
+
+    public event EventHandler? End;
+}
+
 internal class LinearAnimationFrameSet : IAnimationFrameSet
 {
     private readonly float _fps;

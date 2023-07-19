@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.CombatMovements;
 using Client.Assets.StageItems;
 using Client.Core;
 using Client.Core.AnimationFrameSets;
@@ -36,6 +37,7 @@ internal sealed class CampaignMap : ControlBase
     private readonly IScreen _currentScreen;
     private readonly HeroCampaign _heroCampaign;
     private readonly Texture2D _hudTexture;
+    private readonly Texture2D _iconsTexture;
     private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly IScreenManager _screenManager;
@@ -55,6 +57,7 @@ internal sealed class CampaignMap : ControlBase
         Texture2D backgroundTexture,
         Texture2D shadowTexture,
         Texture2D hudTexture,
+        Texture2D iconsTexture,
         IResolutionIndependentRenderer resolutionIndependentRenderer,
         GameObjectContentStorage gameObjectContentStorage)
     {
@@ -65,6 +68,7 @@ internal sealed class CampaignMap : ControlBase
         _backgroundTexture = backgroundTexture;
         _shadowTexture = shadowTexture;
         _hudTexture = hudTexture;
+        _iconsTexture = iconsTexture;
         _resolutionIndependentRenderer = resolutionIndependentRenderer;
         _gameObjectContentStorage = gameObjectContentStorage;
         InitChildControls(heroCampaign.Stages, heroCampaign);
@@ -538,15 +542,29 @@ internal sealed class CampaignMap : ControlBase
 
             if (button.SourceGraphNodeLayout.Node.Payload is CombatStageItem combatStageItem)
             {
-                var monster = combatStageItem.CombatSequence.Combats.First().Monsters.First();
+                var monster = combatStageItem.Metadata.MonsterLeader;
                 var monsterTexture =
                     _gameObjectContentStorage.GetUnitGraphics(Enum.Parse<UnitName>(monster.ClassSid, true));
 
                 var grayscaleTexture = CreateAnimationSequenceTexture(monsterTexture, new Rectangle(0, 0, 128, 128));
 
                 button.DecorativeObjects.Add(new CampaignMapDecorativeObject(grayscaleTexture,
-                    new LinearAnimationFrameSet(new[] { 0, 1, 2, 3, 4, 5, 6, 7 }, 4, 128, 128, 8) { IsLooping = true },
+                    new LinearAnimationFrameSet(
+                        Enumerable.Range(0, 8).ToArray(),
+                        fps: 4,
+                        CommonConstants.FrameSize.X / 2, // divided by 2 to trim attack space 
+                        CommonConstants.FrameSize.Y,
+                        CommonConstants.FrameCount)
+                    {
+                        IsLooping = true
+                    },
                     new Vector2(16, 0)));
+
+                if (combatStageItem.Metadata.EstimateDifficulty == CombatEstimateDifficulty.Hard)
+                {
+                    button.DecorativeObjects.Add(new CampaignMapDecorativeObject(_iconsTexture,
+                        new SingleFrameSet(new Rectangle(0, 2 * 16, 16, 16)), new Vector2(16, -24)));
+                }
             }
 
             _buttonList.Add(button);
