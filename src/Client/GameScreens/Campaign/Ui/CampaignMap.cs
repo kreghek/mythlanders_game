@@ -562,8 +562,11 @@ internal sealed class CampaignMap : ControlBase
 
                 if (combatStageItem.Metadata.EstimateDifficulty == CombatEstimateDifficulty.Hard)
                 {
-                    button.DecorativeObjects.Add(new CampaignMapDecorativeObject(_iconsTexture,
-                        new SingleFrameSet(new Rectangle(0, 2 * 16, 16, 16)), new Vector2(16, -24)));
+                    button.DecorativeObjects.Add(new CampaignMapDecorativeObject(
+                        _iconsTexture,
+                        new CompositeAnimationFrameSet(
+                            new SingleFrameSet(new Rectangle(0, 2 * 16, 16, 16), new Duration(1))) { IsLoop = true },
+                        new Vector2(16, -24)));
                 }
             }
 

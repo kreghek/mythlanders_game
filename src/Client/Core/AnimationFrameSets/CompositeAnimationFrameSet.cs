@@ -10,7 +10,7 @@ internal class CompositeAnimationFrameSet : IAnimationFrameSet
     private readonly IReadOnlyList<IAnimationFrameSet> _animationSequence;
     private int _index;
 
-    public CompositeAnimationFrameSet(IReadOnlyList<IAnimationFrameSet> animationSequence)
+    public CompositeAnimationFrameSet(params IAnimationFrameSet[] animationSequence)
     {
         _animationSequence = animationSequence;
 
