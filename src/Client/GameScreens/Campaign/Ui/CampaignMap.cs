@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.CombatMovements;
 using Client.Assets.StageItems;
 using Client.Core;
+using Client.Core.AnimationFrameSets;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.ScreenManagement;
 
 using CombatDicesTeam.Graphs;
 using CombatDicesTeam.Graphs.Visualization;
+
+using Core.Dices;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -30,12 +34,14 @@ internal sealed class CampaignMap : ControlBase
     private const int LAYOUT_NODE_SIZE = 32;
     private readonly Texture2D _backgroundTexture;
 
-    private readonly IList<CampaignButton> _buttonList = new List<CampaignButton>();
+    private readonly IList<CampaignNodeButton> _buttonList = new List<CampaignNodeButton>();
     private readonly Texture2D _campaignIconsTexture;
     private readonly IScreen _currentScreen;
     private readonly HeroCampaign _heroCampaign;
     private readonly Texture2D _hudTexture;
+    private readonly Texture2D _iconsTexture;
     private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
+    private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly IScreenManager _screenManager;
     private readonly Texture2D _shadowTexture;
 
@@ -53,7 +59,9 @@ internal sealed class CampaignMap : ControlBase
         Texture2D backgroundTexture,
         Texture2D shadowTexture,
         Texture2D hudTexture,
-        IResolutionIndependentRenderer resolutionIndependentRenderer)
+        Texture2D iconsTexture,
+        IResolutionIndependentRenderer resolutionIndependentRenderer,
+        GameObjectContentStorage gameObjectContentStorage)
     {
         _heroCampaign = heroCampaign;
         _screenManager = screenManager;
@@ -62,7 +70,9 @@ internal sealed class CampaignMap : ControlBase
         _backgroundTexture = backgroundTexture;
         _shadowTexture = shadowTexture;
         _hudTexture = hudTexture;
+        _iconsTexture = iconsTexture;
         _resolutionIndependentRenderer = resolutionIndependentRenderer;
+        _gameObjectContentStorage = gameObjectContentStorage;
         InitChildControls(heroCampaign.Stages, heroCampaign);
     }
 
@@ -109,7 +119,7 @@ internal sealed class CampaignMap : ControlBase
         DrawNodeHint(spriteBatch);
     }
 
-    internal void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)
+    internal void Update(GameTime gameTime, IResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         if (State == MapState.Presentation)
         {
@@ -119,6 +129,10 @@ internal sealed class CampaignMap : ControlBase
         foreach (var button in _buttonList)
         {
             button.Update(resolutionIndependentRenderer);
+            foreach (var obj in button.DecorativeObjects)
+            {
+                obj.AnimationFrameSet.Update(gameTime);
+            }
         }
 
         HandleMapScrollingMyMouse(resolutionIndependentRenderer);
@@ -170,7 +184,7 @@ internal sealed class CampaignMap : ControlBase
         _currentHint = null;
     }
 
-    private CampaignButton CreateCampaignButton(HeroCampaign currentCampaign,
+    private CampaignNodeButton CreateCampaignButton(HeroCampaign currentCampaign,
         IGraphNodeLayout<ICampaignStageItem> graphNodeLayout)
     {
         var stageItemDisplayName = GetStageItemDisplayName(graphNodeLayout.Node.Payload);
@@ -179,7 +193,7 @@ internal sealed class CampaignMap : ControlBase
 
         var locationNodeState = GetLocationNodeState(graphNodeLayout);
 
-        var button = new CampaignButton(new IconData(_campaignIconsTexture, stageIconRect), stageDisplayInfo,
+        var button = new CampaignNodeButton(new IconData(_campaignIconsTexture, stageIconRect), stageDisplayInfo,
             graphNodeLayout, locationNodeState);
         button.OnHover += (_, _) =>
         {
@@ -365,12 +379,7 @@ internal sealed class CampaignMap : ControlBase
 
     private void DrawNodeHint(SpriteBatch spriteBatch)
     {
-        if (_currentHint is null)
-        {
-            return;
-        }
-
-        _currentHint.Draw(spriteBatch);
+        _currentHint?.Draw(spriteBatch);
     }
 
     private CampaignNodeState GetLocationNodeState(IGraphNodeLayout<ICampaignStageItem> graphNodeLayout)
@@ -531,7 +540,46 @@ internal sealed class CampaignMap : ControlBase
 
         foreach (var graphNodeLayout in graphNodeLayouts)
         {
-            var button = CreateCampaignButton(currentCampaign: currentCampaign, graphNodeLayout: graphNodeLayout);
+            var button = CreateCampaignButton(currentCampaign, graphNodeLayout);
+
+            if (button.SourceGraphNodeLayout.Node.Payload is CombatStageItem combatStageItem)
+            {
+                var monster = combatStageItem.Metadata.MonsterLeader;
+                var monsterTexture =
+                    _gameObjectContentStorage.GetUnitGraphics(Enum.Parse<UnitName>(monster.ClassSid, true));
+
+                var grayscaleTexture = CreateAnimationSequenceTexture(monsterTexture, new Rectangle(0, 0, 128, 128));
+
+                button.DecorativeObjects.Add(new CampaignMapDecorativeObject(grayscaleTexture,
+                    new LinearAnimationFrameSet(
+                        Enumerable.Range(0, 8).ToArray(),
+                        fps: 4,
+                        CommonConstants.FrameSize.X / 2, // divided by 2 to trim attack space 
+                        CommonConstants.FrameSize.Y,
+                        CommonConstants.FrameCount)
+                    {
+                        IsLooping = true
+                    },
+                    new Vector2(16, 0),
+                    new Point(48, 48),
+                    null,
+                    true));
+
+                if (combatStageItem.Metadata.EstimateDifficulty == CombatEstimateDifficulty.Hard)
+                {
+                    button.DecorativeObjects.Add(new CampaignMapDecorativeObject(
+                        _iconsTexture,
+                        new SingleFrameSet(new Rectangle(3 * 16, 5 * 16, 16, 16), new Duration(1)),
+                        //new RandomCompositeAnimationFrameSet(
+                        //    new[] {
+                        //        new SingleFrameSet(new Rectangle(0, 2 * 16, 16, 16), new Duration(1))
+                        //    },
+                        //    new LinearDice()) { IsLooping = true },
+                        new Vector2(16, -24),
+                        new Point(16, 16),
+                        Color.White));
+                }
+            }
 
             _buttonList.Add(button);
         }
@@ -545,6 +593,89 @@ internal sealed class CampaignMap : ControlBase
             graphNodeLayouts.Max(x => x.Position.X + 32),
             graphNodeLayouts.Max(x => x.Position.Y + 32)
         );
+    }
+
+    private Texture2D CreateAnimationSequenceTexture(Texture2D sourceTexture, Rectangle sourceRect)
+    {
+        var grayScaleTexture = CreateGrayscaleTexture(sourceTexture, sourceRect);
+        
+        var graphicDevice = _resolutionIndependentRenderer.ViewportAdapter.GraphicsDevice;
+
+        //initialize a texture
+        var width = sourceRect.Width;
+        var height = sourceRect.Height;
+        const int FRAME_COUNT = 8;
+        Texture2D texture = new Texture2D(graphicDevice, width * FRAME_COUNT, height);
+        
+        var count = width * height;
+        Color[] sourceData = new Color[count];
+        grayScaleTexture.GetData(0, sourceRect, sourceData, 0, count);
+
+        for (var frameIndex = 0; frameIndex < FRAME_COUNT; frameIndex++)
+        {
+            Color[] data = new Color[count];
+
+            if (frameIndex % 7 == 0)
+            {
+                for (int pixel = 0; pixel < data.Length; pixel++)
+                {
+                    data[pixel] = new Color(0, 0, 0, 0);
+                }
+            }
+            else
+            {
+                for (int pixel = 0; pixel < data.Length; pixel++)
+                {
+                    var oc = sourceData[pixel];
+                    int grayScale = (int)((oc.R * 0.3) + (oc.G * 0.59) + (oc.B * 0.11));
+                    
+                    if (pixel * frameIndex * 133 % 13 == 0)
+                    {
+                        data[pixel] = new Color(0, 0, 0, 0);
+                    }
+                    else
+                    {
+                        // Original pixel
+                        
+                        data[pixel] = new Color(grayScale, grayScale, grayScale, oc.A);
+                    }
+                }
+            }
+
+            //set the color
+            texture.SetData(0, new Rectangle(frameIndex * width, 0, width, height), data, 0, count);
+        }
+
+        return texture;
+    }
+
+    private Texture2D CreateGrayscaleTexture(Texture2D sourceTexture, Rectangle sourceRect)
+    {
+        var graphicDevice = _resolutionIndependentRenderer.ViewportAdapter.GraphicsDevice;
+
+        //initialize a texture
+        var width = sourceRect.Width;
+        var height = sourceRect.Height;
+        Texture2D texture = new Texture2D(graphicDevice, width, height);
+
+        var count = width * height;
+        Color[] sourceData = new Color[count];
+        sourceTexture.GetData(0, sourceRect, sourceData, 0, count);
+
+        //the array holds the color for each pixel in the texture
+        Color[] data = new Color[count];
+        for (int pixel = 0; pixel < data.Length; pixel++)
+        {
+            //the function applies the color according to the specified pixel
+            var oc = sourceData[pixel];
+            int grayScale = (int)((oc.R * 0.3) + (oc.G * 0.59) + (oc.B * 0.11));
+            data[pixel] = new Color(grayScale, grayScale, grayScale, oc.A);
+        }
+
+        //set the color
+        texture.SetData(data);
+
+        return texture;
     }
 
     private static Vector2 NormalizeScroll(Vector2 currentScroll, Rectangle boundingGraphRect,
