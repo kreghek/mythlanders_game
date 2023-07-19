@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 
@@ -12,9 +11,6 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame;
 
 namespace Client.GameScreens.Campaign.Ui;
-
-internal sealed record CampaignMapDecorativeObject(Texture2D SourceTexture, IAnimationFrameSet AnimationFrameSet,
-    Vector2 RelativePosition);
 
 internal sealed class CampaignNodeButton : ButtonBase
 {
@@ -71,12 +67,12 @@ internal sealed class CampaignNodeButton : ButtonBase
         foreach (var obj in DecorativeObjects)
         {
             spriteBatch.Draw(obj.SourceTexture,
-                new Rectangle(obj.RelativePosition.ToPoint() + contentRect.Center, new Point(48, 48)), 
+                new Rectangle(obj.RelativePosition.ToPoint() + contentRect.Center, obj.Size), 
                 obj.AnimationFrameSet.GetFrameRect(),
-                color,
+                obj.Color ?? color,
                 0,
                 new Vector2(0.5f ,0.5f),
-                SpriteEffects.FlipHorizontally,
+                obj.IsFlipped.GetValueOrDefault() ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
                 0);
         }
         

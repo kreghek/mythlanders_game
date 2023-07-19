@@ -13,6 +13,8 @@ using Client.ScreenManagement;
 using CombatDicesTeam.Graphs;
 using CombatDicesTeam.Graphs.Visualization;
 
+using Core.Dices;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -558,15 +560,24 @@ internal sealed class CampaignMap : ControlBase
                     {
                         IsLooping = true
                     },
-                    new Vector2(16, 0)));
+                    new Vector2(16, 0),
+                    new Point(48, 48),
+                    null,
+                    true));
 
                 if (combatStageItem.Metadata.EstimateDifficulty == CombatEstimateDifficulty.Hard)
                 {
                     button.DecorativeObjects.Add(new CampaignMapDecorativeObject(
                         _iconsTexture,
-                        new CompositeAnimationFrameSet(
-                            new SingleFrameSet(new Rectangle(0, 2 * 16, 16, 16), new Duration(1))) { IsLoop = true },
-                        new Vector2(16, -24)));
+                        new SingleFrameSet(new Rectangle(3 * 16, 5 * 16, 16, 16), new Duration(1)),
+                        //new RandomCompositeAnimationFrameSet(
+                        //    new[] {
+                        //        new SingleFrameSet(new Rectangle(0, 2 * 16, 16, 16), new Duration(1))
+                        //    },
+                        //    new LinearDice()) { IsLooping = true },
+                        new Vector2(16, -24),
+                        new Point(16, 16),
+                        Color.White));
                 }
             }
 
