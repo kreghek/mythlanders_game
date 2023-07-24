@@ -18,7 +18,10 @@ internal sealed class ChaserGraphicConfig : EgyptianMonsterGraphicConfig
     {
         return new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
         {
-            { PredefinedAnimationSid.Idle, new LinearAnimationFrameSet(new[]{0}, 0, frameWidth: 128, frameHeight: 150, textureColumns: 3) },
+            {
+                PredefinedAnimationSid.Idle,
+                new LinearAnimationFrameSet(new[] { 0 }, 0, frameWidth: 128, frameHeight: 150, textureColumns: 3)
+            },
             {
                 PredefinedAnimationSid.MoveForward,
                 AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, fps: 1)
