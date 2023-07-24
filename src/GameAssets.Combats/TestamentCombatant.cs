@@ -5,8 +5,6 @@ namespace GameAssets.Combats;
 
 public sealed class TestamentCombatant : ICombatant
 {
-    private readonly CombatMovementInstance?[] _hand;
-    private readonly IList<CombatMovementInstance> _pool;
     private readonly IReadOnlyCollection<ICombatantStatusFactory> _startupStatuses;
     private readonly IList<ICombatantStatus> _statuses = new List<ICombatantStatus>();
 
@@ -25,14 +23,17 @@ public sealed class TestamentCombatant : ICombatant
             { CombatMovementContainerTypes.Hand, new CombatMovementContainer(CombatMovementContainerTypes.Hand) },
             { CombatMovementContainerTypes.Pool, new CombatMovementContainer(CombatMovementContainerTypes.Pool) },
         };
-        
-        _pool = new List<CombatMovementInstance>();
-        _hand = new CombatMovementInstance?[3];
 
+        var hand = GetCombatMovementContainer(CombatMovementContainerTypes.Hand);
+        for (var i = 0; i < 3; i++)
+        {
+            hand.AppendMove(null);
+        }
+        
         foreach (var combatMovement in sequence.Items)
         {
             var instance = new CombatMovementInstance(combatMovement);
-            _pool.Add(instance);
+            _combatMoveContainers[CombatMovementContainerTypes.Pool].AppendMove(instance);
         }
 
         Stats = stats.GetStats();
@@ -56,11 +57,6 @@ public sealed class TestamentCombatant : ICombatant
     public string? DebugSid { get; init; }
 
     /// <summary>
-    /// Current available combatant's movements.
-    /// </summary>
-    public IReadOnlyList<CombatMovementInstance?> Hand => _hand;
-
-    /// <summary>
     /// Is the combatant active?
     /// </summary>
     public bool IsDead { get; private set; }
@@ -69,11 +65,6 @@ public sealed class TestamentCombatant : ICombatant
     /// Combatant side. Player of CPU.
     /// </summary>
     public bool IsPlayerControlled { get; init; }
-
-    /// <summary>
-    /// Combatant's movements to whole combat.
-    /// </summary>
-    public IReadOnlyList<CombatMovementInstance> Pool => _pool.ToArray();
 
     /// <summary>
     /// Current combatant stats.
@@ -104,7 +95,12 @@ public sealed class TestamentCombatant : ICombatant
     /// <param name="movement">Combat movement instance.</param>
     public void AssignMoveToHand(int handIndex, CombatMovementInstance movement)
     {
-        _hand[handIndex] = movement;
+        GetMovementContainer(CombatMovementContainerTypes.Hand).SetMove(movement, handIndex);
+    }
+
+    private ICombatMovementContainer GetMovementContainer(ICombatMovementContainerType containerType)
+    {
+        return CombatMovementContainers.Single(container => container.Type == containerType);
     }
 
     /// <summary>
@@ -113,10 +109,11 @@ public sealed class TestamentCombatant : ICombatant
     /// <returns>Combat movement instance.</returns>
     public CombatMovementInstance? PopNextPoolMovement()
     {
-        var move = _pool.FirstOrDefault();
+        var pool = GetMovementContainer(CombatMovementContainerTypes.Pool);
+        var move = pool.GetItems().FirstOrDefault();
         if (move is not null)
         {
-            _pool.RemoveAt(0);
+            pool.RemoveAt(0);
         }
 
         return move;
@@ -186,11 +183,12 @@ public sealed class TestamentCombatant : ICombatant
 
     internal int? DropMovementFromHand(CombatMovementInstance movement)
     {
-        for (var i = 0; i < _hand.Length; i++)
+        var hand = GetCombatMovementContainer(CombatMovementContainerTypes.Hand);
+        for (var i = 0; i < hand.GetItems().Count; i++)
         {
-            if (_hand[i] == movement)
+            if (hand.GetItems()[i] == movement)
             {
-                _hand[i] = null;
+                hand.SetMove(null, i);
                 return i;
             }
         }
@@ -214,6 +212,8 @@ public sealed class TestamentCombatant : ICombatant
 
     private void StartupHand()
     {
+        var hand = GetCombatMovementContainer(CombatMovementContainerTypes.Hand);
+
         for (var i = 0; i < 3; i++)
         {
             var combatMove = PopNextPoolMovement();
@@ -224,7 +224,7 @@ public sealed class TestamentCombatant : ICombatant
                 break;
             }
 
-            _hand[i] = combatMove;
+            hand.SetMove(combatMove, i);
         }
     }
 }

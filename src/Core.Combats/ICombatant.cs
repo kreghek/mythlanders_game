@@ -1,6 +1,4 @@
-﻿using Core.Combats.CombatantStatuses;
-
-namespace Core.Combats;
+﻿namespace Core.Combats;
 
 public interface ICombatant
 {

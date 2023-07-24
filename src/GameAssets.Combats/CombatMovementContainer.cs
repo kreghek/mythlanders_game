@@ -19,6 +19,11 @@ public sealed class CombatMovementContainer: ICombatMovementContainer
         return _items.ToArray();
     }
 
+    public void AppendMove(CombatMovementInstance? combatMovement)
+    {
+        _items.Add(combatMovement);
+    }
+
     public void SetMove(CombatMovementInstance? combatMovement, int index)
     {
         _items[index] = combatMovement;

@@ -7,4 +7,5 @@ public interface ICombatMovementContainer
 
     void SetMove(CombatMovementInstance? combatMovement, int index);
     void RemoveAt(int index);
+    void AppendMove(CombatMovementInstance? combatMovement);
 }

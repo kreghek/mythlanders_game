@@ -1,7 +1,8 @@
-﻿using Core.Combats;
+﻿using System.Diagnostics;
+
+using Core.Combats;
 
 namespace GameAssets.Combats;
 
-public sealed class CombatMovementContainerType: ICombatMovementContainerType
-{
-}
+[DebuggerDisplay(nameof(DebugName))]
+public sealed record CombatMovementContainerType(string DebugName): ICombatMovementContainerType;

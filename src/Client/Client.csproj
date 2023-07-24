@@ -14,14 +14,14 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
     <AssemblyName>Testament</AssemblyName>
   </PropertyGroup>
-	<ItemGroup>
-		<Compile Remove="Content\bin\**" />
-		<Compile Remove="Content\obj\**" />
-		<EmbeddedResource Remove="Content\bin\**" />
-		<EmbeddedResource Remove="Content\obj\**" />
-		<None Remove="Content\bin\**" />
-		<None Remove="Content\obj\**" />
-	</ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Content\bin\**" />
+    <Compile Remove="Content\obj\**" />
+    <EmbeddedResource Remove="Content\bin\**" />
+    <EmbeddedResource Remove="Content\obj\**" />
+    <None Remove="Content\bin\**" />
+    <None Remove="Content\obj\**" />
+  </ItemGroup>
   <ItemGroup>
     <None Remove="DialogueResources.resources" />
     <None Remove="DialogueResources.ru.resources" />
@@ -47,6 +47,13 @@
     <PackageReference Include="NReco.Logging.File" Version="1.1.5" />
 	<PackageReference Include="Stateless" Version="5.11.0" />
 	<PackageReference Include="YamlDotNet" Version="13.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core.Balance\Core.Balance.csproj" />
+    <ProjectReference Include="..\Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj" />
+    <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\GameAssets.Combats\GameAssets.Combats.csproj" />
+    <ProjectReference Include="..\MonoGame.Primitives2D\MonoGame.Primitives2D.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="CreditsResource.Designer.cs">
@@ -133,12 +140,4 @@
             <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
-	<ItemGroup>
-	  <ProjectReference Include="..\Core.Balance\Core.Balance.csproj" />
-	  <ProjectReference Include="..\Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj" />
-	  <ProjectReference Include="..\Core\Core.csproj" />
-	  <ProjectReference Include="..\Game.Combats.Assets\Game.Combats.Assets.csproj" />
-	  <ProjectReference Include="..\GameAssets.Combats\GameAssets.Combats.csproj" />
-      <ProjectReference Include="..\MonoGame.Primitives2D\MonoGame.Primitives2D.csproj" />
-	</ItemGroup>
 </Project>
