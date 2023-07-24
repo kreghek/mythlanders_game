@@ -255,7 +255,7 @@ public abstract class CombatEngineBase<TCombatant> where TCombatant:ICombatant
         return remains;
     }
 
-    public void ImposeCombatantEffect(Combatant targetCombatant, ICombatantStatus combatantEffect)
+    public void ImposeCombatantEffect(ICombatant targetCombatant, ICombatantStatus combatantEffect)
     {
         targetCombatant.AddEffect(combatantEffect, new CombatantEffectImposeContext(this),
             new CombatantEffectLifetimeImposeContext(targetCombatant, this));

@@ -1,4 +1,6 @@
-﻿namespace Core.Combats;
+﻿using Core.Combats.CombatantStatuses;
+
+namespace Core.Combats;
 
 public interface ICombatant
 {
@@ -53,8 +55,7 @@ public interface ICombatant
     /// <summary>
     /// Initial method to make combatant ready to fight.
     /// </summary>
-    /// <param name="combatCore"></param>
-    void PrepareToCombat(CombatEngineBase combatCore);
+    void PrepareToCombat(ICombatantStartupContext context);
 
     void RemoveStatus(ICombatantStatus effect, ICombatantStatusLifetimeDispelContext context);
 
@@ -69,4 +70,19 @@ public interface ICombatant
     /// </summary>
     void UpdateStatuses(CombatantStatusUpdateType updateType,
         ICombatantStatusLifetimeDispelContext effectLifetimeDispelContext);
+
+    ICombatMovementContainer GetCombatMovementContainer(ICombatMovementContainerType containerType);
+}
+
+public interface ICombatMovementContainer
+{
+    IReadOnlyList<CombatMovementInstance?> Get();
+
+    void SetMove(CombatMovementInstance? combatMovement, int index);
+    void RemoveAt(int index);
+}
+
+public interface ICombatMovementContainerType
+{
+    
 }

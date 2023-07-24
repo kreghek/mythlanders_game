@@ -1194,7 +1194,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         if (maneuverDirection is not null)
         {
-            var maneuverIntention = new ManeverIntention(maneuverDirection.Value);
+            var maneuverIntention = new ManeuverIntention(_combatCore, maneuverDirection.Value);
 
             _manualCombatantBehaviour.Assign(maneuverIntention);
         }

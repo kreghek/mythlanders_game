@@ -19,6 +19,6 @@ public sealed class AddCombatantStatusEffect : IEffect
 
     public IEffectInstance CreateInstance()
     {
-        return new AddCombatantEffectEffectInstance(this, _combatantEffectFactory);
+        return new AddCombatantStatusEffectInstance(this, _combatantEffectFactory);
     }
 }

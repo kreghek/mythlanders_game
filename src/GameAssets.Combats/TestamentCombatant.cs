@@ -19,6 +19,13 @@ public sealed class TestamentCombatant : ICombatant
         _startupStatuses = startupStatuses;
         ClassSid = classSid;
         Behaviour = behaviour;
+
+        _combatMoveContainers = new Dictionary<ICombatMovementContainerType, ICombatMovementContainer>
+        {
+            { CombatMovementContainerTypes.Hand, new CombatMovementContainer() },
+            { CombatMovementContainerTypes.Pool, new CombatMovementContainer() },
+        };
+        
         _pool = new List<CombatMovementInstance>();
         _hand = new CombatMovementInstance?[3];
 
@@ -124,10 +131,10 @@ public sealed class TestamentCombatant : ICombatant
     /// Initial method to make combatant ready to fight.
     /// </summary>
     /// <param name="combatCore"></param>
-    public void PrepareToCombat(CombatEngineBase combatCore)
+    public void PrepareToCombat(ICombatantStartupContext context)
     {
         StartupHand();
-        ApplyStartupEffects(combatCore);
+        ApplyStartupEffects(context);
     }
 
     public void RemoveStatus(ICombatantStatus effect, ICombatantStatusLifetimeDispelContext context)
@@ -155,22 +162,29 @@ public sealed class TestamentCombatant : ICombatant
     {
         var context = new CombatantEffectLifetimeUpdateContext(this, effectLifetimeDispelContext.Combat);
 
-        var effectToDispel = new List<ICombatantStatus>();
-        foreach (var effect in _statuses)
+        var statusesToDispel = new List<ICombatantStatus>();
+        foreach (var status in _statuses)
         {
-            effect.Update(updateType, context);
+            status.Update(updateType, context);
 
-            if (effect.Lifetime.IsExpired)
+            if (status.Lifetime.IsExpired)
             {
-                effectToDispel.Add(effect);
+                statusesToDispel.Add(status);
             }
         }
 
-        foreach (var effect in effectToDispel)
+        foreach (var effect in statusesToDispel)
         {
             effect.Dispel(this);
             RemoveStatus(effect, effectLifetimeDispelContext);
         }
+    }
+
+    private readonly IDictionary<ICombatMovementContainerType, ICombatMovementContainer> _combatMoveContainers;
+
+    public ICombatMovementContainer GetCombatMovementContainer(ICombatMovementContainerType containerType)
+    {
+        return _combatMoveContainers[containerType];
     }
 
     internal int? DropMovementFromHand(CombatMovementInstance movement)
@@ -187,15 +201,15 @@ public sealed class TestamentCombatant : ICombatant
         return null;
     }
 
-    private void ApplyStartupEffects(CombatEngineBase combatCore)
+    private void ApplyStartupEffects(ICombatantStartupContext context)
     {
         foreach (var effectFactory in _startupStatuses)
         {
             var effect = effectFactory.Create();
 
-            var effectImposeContext = new CombatantEffectImposeContext(combatCore);
+            var effectImposeContext = context.ImposeStatusContext;
 
-            var effectLifetimeImposeContext = new CombatantEffectLifetimeImposeContext(this, combatCore);
+            var effectLifetimeImposeContext = context.ImposeStatusLifetimeContext;
 
             AddStatus(effect, effectImposeContext, effectLifetimeImposeContext);
         }
@@ -215,5 +229,40 @@ public sealed class TestamentCombatant : ICombatant
 
             _hand[i] = combatMove;
         }
+    }
+}
+
+public sealed class CombatMovementContainerType: ICombatMovementContainerType
+{
+}
+
+public static class CombatMovementContainerTypes
+{
+    public static ICombatMovementContainerType Hand { get; } = new CombatMovementContainerType();
+    public static ICombatMovementContainerType Pool { get; } = new CombatMovementContainerType();
+}
+
+public sealed class CombatMovementContainer: ICombatMovementContainer
+{
+    private readonly IList<CombatMovementInstance?> _items;
+
+    public CombatMovementContainer()
+    {
+        _items = new List<CombatMovementInstance?>();
+    }
+
+    public IReadOnlyList<CombatMovementInstance?> Get()
+    {
+        return _items.ToArray();
+    }
+
+    public void SetMove(CombatMovementInstance? combatMovement, int index)
+    {
+        _items[index] = combatMovement;
+    }
+
+    public void RemoveAt(int index)
+    {
+        _items.RemoveAt(index);
     }
 }
