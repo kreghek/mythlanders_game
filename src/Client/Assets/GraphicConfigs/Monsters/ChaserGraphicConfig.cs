@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace Client.Assets.GraphicConfigs.Monsters;
 
-internal sealed class ChaserGraphicConfig: EgyptianMonsterGraphicConfig
+internal sealed class ChaserGraphicConfig : EgyptianMonsterGraphicConfig
 {
     public ChaserGraphicConfig() : base(UnitName.Chaser)
     {
