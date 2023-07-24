@@ -1,5 +1,6 @@
 using Client.Assets.GraphicConfigs.Monsters;
 using Client.Core;
+using Client.GameScreens;
 
 using JetBrains.Annotations;
 
@@ -27,5 +28,10 @@ internal sealed class ChaserFactory : MonsterFactoryBase
             {
             }
         };
+    }
+
+    public override UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
+    {
+        return new ChaserGraphicConfig();
     }
 }
