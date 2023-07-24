@@ -1,0 +1,28 @@
+using Core.Dices;
+
+namespace Core.Combats.TargetSelectors;
+
+public sealed class RandomAllyTargetSelector : ITargetSelector
+{
+    private IEnumerable<ICombatant> GetIterator(ITargetSelectorContext context)
+    {
+        for (var lineIndex = 0; lineIndex < context.EnemySide.LineCount; lineIndex++)
+        {
+            var slot = context.ActorSide[new FieldCoords(0, lineIndex)];
+            if (slot.Combatant is not null)
+            {
+                yield return slot.Combatant;
+            }
+        }
+    }
+
+    public IReadOnlyList<ICombatant> GetMaterialized(ICombatant actor, ITargetSelectorContext context)
+    {
+        var enemies = GetIterator(context).ToArray();
+        var target = context.Dice.RollFromList(enemies);
+        return new[]
+        {
+            target
+        };
+    }
+}

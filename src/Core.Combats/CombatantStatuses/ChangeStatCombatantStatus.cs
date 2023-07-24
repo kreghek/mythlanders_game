@@ -21,12 +21,12 @@ public sealed class ChangeStatCombatantStatus : CombatantStatusBase
     public ICombatantStatType StatType { get; }
     public int Value { get; }
 
-    public override void Dispel(Combatant combatant)
+    public override void Dispel(ICombatant combatant)
     {
         combatant.Stats.Single(x => x.Type == StatType).Value.RemoveModifier(_statModifier);
     }
 
-    public override void Impose(Combatant combatant, ICombatantStatusImposeContext combatantEffectImposeContext)
+    public override void Impose(ICombatant combatant, ICombatantStatusImposeContext combatantEffectImposeContext)
     {
         combatant.Stats.Single(x => x.Type == StatType).Value.AddModifier(_statModifier);
     }

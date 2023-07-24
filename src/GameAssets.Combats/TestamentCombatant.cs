@@ -22,8 +22,8 @@ public sealed class TestamentCombatant : ICombatant
 
         _combatMoveContainers = new Dictionary<ICombatMovementContainerType, ICombatMovementContainer>
         {
-            { CombatMovementContainerTypes.Hand, new CombatMovementContainer() },
-            { CombatMovementContainerTypes.Pool, new CombatMovementContainer() },
+            { CombatMovementContainerTypes.Hand, new CombatMovementContainer(CombatMovementContainerTypes.Hand) },
+            { CombatMovementContainerTypes.Pool, new CombatMovementContainer(CombatMovementContainerTypes.Pool) },
         };
         
         _pool = new List<CombatMovementInstance>();
@@ -86,13 +86,8 @@ public sealed class TestamentCombatant : ICombatant
     public IReadOnlyCollection<ICombatantStatus> Statuses => _statuses.ToArray();
 
     /// <summary>
-    /// Add effect to combatant.
+    /// Add a status to combatant.
     /// </summary>
-    /// <param name="effect">Effect instance.</param>
-    /// <param name="lifetimeImposeContext">
-    /// Content to add effect. To handle some reaction on new effects (change stats, moves, other
-    /// effects).
-    /// </param>
     public void AddStatus(ICombatantStatus effect, ICombatantStatusImposeContext statusImposeContext,
         ICombatantStatusLifetimeImposeContext lifetimeImposeContext)
     {
@@ -180,6 +175,8 @@ public sealed class TestamentCombatant : ICombatant
         }
     }
 
+    public IReadOnlyCollection<ICombatMovementContainer> CombatMovementContainers => _combatMoveContainers.Values.ToArray();
+
     private readonly IDictionary<ICombatMovementContainerType, ICombatMovementContainer> _combatMoveContainers;
 
     public ICombatMovementContainer GetCombatMovementContainer(ICombatMovementContainerType containerType)
@@ -229,40 +226,5 @@ public sealed class TestamentCombatant : ICombatant
 
             _hand[i] = combatMove;
         }
-    }
-}
-
-public sealed class CombatMovementContainerType: ICombatMovementContainerType
-{
-}
-
-public static class CombatMovementContainerTypes
-{
-    public static ICombatMovementContainerType Hand { get; } = new CombatMovementContainerType();
-    public static ICombatMovementContainerType Pool { get; } = new CombatMovementContainerType();
-}
-
-public sealed class CombatMovementContainer: ICombatMovementContainer
-{
-    private readonly IList<CombatMovementInstance?> _items;
-
-    public CombatMovementContainer()
-    {
-        _items = new List<CombatMovementInstance?>();
-    }
-
-    public IReadOnlyList<CombatMovementInstance?> Get()
-    {
-        return _items.ToArray();
-    }
-
-    public void SetMove(CombatMovementInstance? combatMovement, int index)
-    {
-        _items[index] = combatMovement;
-    }
-
-    public void RemoveAt(int index)
-    {
-        _items.RemoveAt(index);
     }
 }

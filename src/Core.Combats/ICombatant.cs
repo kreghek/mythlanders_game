@@ -71,18 +71,5 @@ public interface ICombatant
     void UpdateStatuses(CombatantStatusUpdateType updateType,
         ICombatantStatusLifetimeDispelContext effectLifetimeDispelContext);
 
-    ICombatMovementContainer GetCombatMovementContainer(ICombatMovementContainerType containerType);
-}
-
-public interface ICombatMovementContainer
-{
-    IReadOnlyList<CombatMovementInstance?> Get();
-
-    void SetMove(CombatMovementInstance? combatMovement, int index);
-    void RemoveAt(int index);
-}
-
-public interface ICombatMovementContainerType
-{
-    
+    IReadOnlyCollection<ICombatMovementContainer> CombatMovementContainers { get; }
 }

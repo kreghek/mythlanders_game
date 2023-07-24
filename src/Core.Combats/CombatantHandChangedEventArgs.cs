@@ -2,7 +2,7 @@
 
 public sealed class CombatantHandChangedEventArgs : CombatantEventArgsBase
 {
-    public CombatantHandChangedEventArgs(Combatant combatant, CombatMovementInstance move, int handSlotIndex) :
+    public CombatantHandChangedEventArgs(ICombatant combatant, CombatMovementInstance move, int handSlotIndex) :
         base(combatant)
     {
         Move = move;

@@ -18,7 +18,7 @@ public sealed class LifeDrawEffectInstance : EffectInstanceBase<LifeDrawEffect>
         Damage.Max.AddModifier(modifier);
     }
 
-    public override void Influence(Combatant target, IStatusCombatContext context)
+    public override void Influence(ICombatant target, IStatusCombatContext context)
     {
         var rolledDamage = context.Dice.Roll(Damage.Min.ActualMax, Damage.Max.ActualMax);
 
@@ -32,7 +32,7 @@ public sealed class LifeDrawEffectInstance : EffectInstanceBase<LifeDrawEffect>
         if (damageRemains > 0)
         {
             //TakeStat(target, UnitStatType.HitPoints, damageRemains);
-            var stealedHitPoints = context.DamageCombatantStat(target, CombatantStatTypes.HitPoints, damageRemains);
+            var stolenHitPoints = context.DamageCombatantStat(target, CombatantStatTypes.HitPoints, damageRemains);
 
             context.Actor.Stats.Single(x => x.Type == CombatantStatTypes.HitPoints).Value.Restore(damageRemains);
         }
@@ -44,7 +44,7 @@ public sealed class LifeDrawEffectInstance : EffectInstanceBase<LifeDrawEffect>
         Damage.Max.RemoveModifier(modifier);
     }
 
-    private static int TakeStat(Combatant combatant, ICombatantStatType statType, int value)
+    private static int TakeStat(ICombatant combatant, ICombatantStatType statType, int value)
     {
         var stat = combatant.Stats.SingleOrDefault(x => x.Type == statType);
 

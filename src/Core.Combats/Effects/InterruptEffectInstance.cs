@@ -10,7 +10,7 @@ public sealed class InterruptEffectInstance : EffectInstanceBase<InterruptEffect
     {
     }
 
-    public override void Influence(Combatant target, IStatusCombatContext context)
+    public override void Influence(ICombatant target, IStatusCombatContext context)
     {
         context.PassTurn(target);
     }

@@ -4,5 +4,7 @@ namespace Core.Combats;
 
 public interface ICombatantStatusImposeContext
 {
-    void ImposeCombatantEffect(ICombatant target, ICombatantStatusFactory combatantStatusFactory);
+    void ImposeCombatantStatus(ICombatant target, ICombatantStatusFactory combatantStatusFactory);
+
+    CombatEngineBase Combat { get; }
 }

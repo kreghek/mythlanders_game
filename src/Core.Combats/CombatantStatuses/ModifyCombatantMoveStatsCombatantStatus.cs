@@ -21,7 +21,7 @@ public sealed class ModifyCombatantMoveStatsCombatantStatus : CombatantStatusBas
         _modifier = new StatModifier(value);
     }
 
-    public override void Dispel(Combatant combatant)
+    public override void Dispel(ICombatant combatant)
     {
         base.Dispel(combatant);
 
@@ -38,7 +38,7 @@ public sealed class ModifyCombatantMoveStatsCombatantStatus : CombatantStatusBas
         }
     }
 
-    public override void Impose(Combatant combatant, ICombatantStatusImposeContext combatantEffectImposeContext)
+    public override void Impose(ICombatant combatant, ICombatantStatusImposeContext combatantEffectImposeContext)
     {
         base.Impose(combatant, combatantEffectImposeContext);
 
@@ -55,8 +55,8 @@ public sealed class ModifyCombatantMoveStatsCombatantStatus : CombatantStatusBas
         }
     }
 
-    private static IEnumerable<CombatMovementInstance> GetAllCombatMoves(Combatant combatant)
+    private static IEnumerable<CombatMovementInstance> GetAllCombatMoves(ICombatant combatant)
     {
-        return combatant.Hand.Where(x => x is not null).Select(x => x!).Concat(combatant.Pool);
+        return combatant.CombatMovementContainers.SelectMany(x=>x.GetItems()).Where(x => x is not null).Select(x => x!);
     }
 }

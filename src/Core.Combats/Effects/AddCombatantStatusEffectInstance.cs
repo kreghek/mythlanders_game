@@ -14,6 +14,6 @@ public sealed class AddCombatantStatusEffectInstance : EffectInstanceBase<AddCom
 
     public override void Influence(ICombatant target, IStatusCombatContext context)
     {
-        context.StatusImposedContext.ImposeCombatantEffect(target, _combatantStatusFactory);
+        context.StatusImposedContext.ImposeCombatantStatus(target, _combatantStatusFactory);
     }
 }

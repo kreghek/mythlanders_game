@@ -3,7 +3,7 @@ namespace Core.Combats.CombatantEffectLifetimes;
 public sealed class UntilCombatantEffectMeetPredicatesLifetime : ICombatantStatusLifetime
 {
     private readonly IReadOnlyCollection<ICombatMovePredicate> _combatMovePredicates;
-    private Combatant? _ownedCombatant;
+    private ICombatant? _ownedCombatant;
 
     public UntilCombatantEffectMeetPredicatesLifetime(IReadOnlyCollection<ICombatMovePredicate> combatMovePredicates)
     {

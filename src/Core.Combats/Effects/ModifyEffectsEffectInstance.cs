@@ -1,24 +1,21 @@
-using Core.Combats.CombatantEffectLifetimes;
 using Core.Combats.CombatantStatuses;
 
 namespace Core.Combats.Effects;
 
 public sealed class ModifyEffectsEffectInstance : EffectInstanceBase<ModifyEffectsEffect>
 {
-    private readonly ICombatantStatusSid _effectSid;
+    private readonly ICombatantStatusSid _imposedStatusSid;
 
-    public ModifyEffectsEffectInstance(ICombatantStatusSid effectSid, ModifyEffectsEffect baseEffect) : base(baseEffect)
+    public ModifyEffectsEffectInstance(ICombatantStatusSid imposedStatusSid, ModifyEffectsEffect baseEffect) : base(baseEffect)
     {
-        _effectSid = effectSid;
+        _imposedStatusSid = imposedStatusSid;
     }
 
-    public override void Influence(Combatant target, IStatusCombatContext context)
+    public override void Influence(ICombatant target, IStatusCombatContext context)
     {
-        var combatantEffect = new ModifyEffectsCombatantStatus(
-            _effectSid,
-            new MultipleCombatantTurnEffectLifetime(1),
-            BaseEffect.Value);
-
-        context.StatusImposedContext.Combat.ImposeCombatantEffect(target, combatantEffect);
+        context.StatusImposedContext.ImposeCombatantStatus(target,
+            new ModifyEffectsCombatantStatusFactory(_imposedStatusSid,
+                new MultipleCombatantTurnEffectLifetimeFactory(1),
+                BaseEffect.Value));
     }
 }

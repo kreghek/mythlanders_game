@@ -1,3 +1,3 @@
 ﻿namespace Core.Combats;
 
-public delegate void CombatEffectImposeDelegate(Combatant target);
+public delegate void CombatEffectImposeDelegate(ICombatant target);

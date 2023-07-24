@@ -11,15 +11,15 @@ public abstract class CombatantStatusBase : ICombatantStatus
     public ICombatantStatusSid Sid { get; }
     public ICombatantStatusLifetime Lifetime { get; }
 
-    public virtual void Dispel(Combatant combatant)
+    public virtual void Dispel(ICombatant combatant)
     {
     }
 
-    public virtual void Impose(Combatant combatant, ICombatantStatusImposeContext combatantEffectImposeContext)
+    public virtual void Impose(ICombatant combatant, ICombatantStatusImposeContext context)
     {
     }
 
-    public void Update(CombatantStatusUpdateType updateType, ICombatantStatusLifetimeUpdateContext context)
+    public virtual void Update(CombatantStatusUpdateType updateType, ICombatantStatusLifetimeUpdateContext context)
     {
         Lifetime.Update(updateType, context);
     }

@@ -6,7 +6,7 @@ public sealed class AdjustPositionEffectInstance : EffectInstanceBase<AdjustPosi
     {
     }
 
-    public override void Influence(Combatant target, IStatusCombatContext context)
+    public override void Influence(ICombatant target, IStatusCombatContext context)
     {
         var targetSide = GetTargetSide(target, context.Field);
 
@@ -69,7 +69,7 @@ public sealed class AdjustPositionEffectInstance : EffectInstanceBase<AdjustPosi
         }
     }
 
-    private static CombatFieldSide GetTargetSide(Combatant target, CombatField field)
+    private static CombatFieldSide GetTargetSide(ICombatant target, CombatField field)
     {
         try
         {

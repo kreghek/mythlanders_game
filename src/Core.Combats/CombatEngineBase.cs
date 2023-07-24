@@ -4,32 +4,44 @@ using Core.Dices;
 
 namespace Core.Combats;
 
-public abstract class CombatEngineBase<TCombatant> where TCombatant:ICombatant
+public abstract class CombatEngineBase
 {
-    private readonly IList<TCombatant> _allCombatantList;
+    protected readonly IList<ICombatant> _allCombatantList;
 
-    private readonly IDice _dice;
-    private readonly IList<TCombatant> _roundQueue;
+    protected readonly IDice _dice;
+    private readonly IList<ICombatant> _roundQueue;
 
     public CombatEngineBase(IDice dice)
     {
         _dice = dice;
         Field = new CombatField();
 
-        _allCombatantList = new Collection<TCombatant>();
-        _roundQueue = new List<TCombatant>();
+        _allCombatantList = new Collection<ICombatant>();
+        _roundQueue = new List<ICombatant>();
+    }
+    
+    protected void DoCombatMovementAddToContainer(ICombatant combatant, CombatMovementInstance nextMove, int handSlotIndex)
+    {
+        CombatantAssignedNewMove?.Invoke(this,
+            new CombatantHandChangedEventArgs(combatant, nextMove, handSlotIndex));
+    }
+    
+    protected void DoCombatantUsedMovement(ICombatant combatant, CombatMovementInstance movement, int handSlotIndex)
+    {
+        CombatantUsedMove?.Invoke(this,
+            new CombatantHandChangedEventArgs(combatant, movement, handSlotIndex));
     }
 
     /// <summary>
     /// Current active combatant.
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    public TCombatant CurrentCombatant => _roundQueue.FirstOrDefault() ?? throw new InvalidOperationException();
+    public ICombatant CurrentCombatant => _roundQueue.FirstOrDefault() ?? throw new InvalidOperationException();
 
     /// <summary>
     /// All combatants in the combat.
     /// </summary>
-    public IReadOnlyCollection<TCombatant> CurrentCombatants => _allCombatantList.ToArray();
+    public IReadOnlyCollection<ICombatant> CurrentCombatants => _allCombatantList.ToArray();
 
     /// <summary>
     /// Combat field.
@@ -69,7 +81,7 @@ public abstract class CombatEngineBase<TCombatant> where TCombatant:ICombatant
     /// <summary>
     /// Current combat queue of turns.
     /// </summary>
-    public IReadOnlyList<TCombatant> RoundQueue => _roundQueue.ToArray();
+    public IReadOnlyList<ICombatant> RoundQueue => _roundQueue.ToArray();
 
     /// <summary>
     /// Complete current turn of combat.
@@ -133,93 +145,7 @@ public abstract class CombatEngineBase<TCombatant> where TCombatant:ICombatant
     /// <summary>
     /// Create combat move execution to visualize and apply effects in the right way.
     /// </summary>
-    public CombatMovementExecution CreateCombatMovementExecution(CombatMovementInstance movement)
-    {
-        CurrentCombatant.Stats.Single(x => x.Type == CombatantStatTypes.Resolve).Value.Consume(1);
-
-        var handSlotIndex = CurrentCombatant.DropMovementFromHand(movement);
-
-        if (handSlotIndex is not null)
-        {
-            CombatantUsedMove?.Invoke(this,
-                new CombatantHandChangedEventArgs(CurrentCombatant, movement, handSlotIndex.Value));
-        }
-
-        var effectContext =
-            new EffectCombatContext(CurrentCombatant, Field, _dice, HandleCombatantDamagedToStat,
-                HandleSwapFieldPositions, this);
-
-        var effectImposeItems = new List<CombatEffectImposeItem>();
-
-        foreach (var effectInstance in movement.Effects)
-        {
-            var effectInstanceClosure = effectInstance;
-
-            void EffectInfluenceDelegate(Combatant materializedTarget)
-            {
-                effectInstanceClosure.Influence(materializedTarget, effectContext);
-            }
-
-            var effectTargets = effectInstance.Selector.GetMaterialized(CurrentCombatant, GetCurrentSelectorContext());
-
-            if (movement.SourceMovement.Tags.HasFlag(CombatMovementTags.Attack))
-            {
-                foreach (var effectTarget in effectTargets)
-                {
-                    if (effectTarget == CurrentCombatant)
-                    {
-                        // Does not defence against yourself.
-                        continue;
-                    }
-
-                    var targetDefenseMovement = GetAutoDefenseMovement(effectTarget);
-                    var targetIsInQueue = _roundQueue.Any(x => x == effectTarget);
-
-                    if (targetDefenseMovement is not null && targetIsInQueue)
-                    {
-                        foreach (var autoDefenseEffect in targetDefenseMovement.AutoDefenseEffects)
-                        {
-                            void AutoEffectInfluenceDelegate(Combatant materializedTarget)
-                            {
-                                autoDefenseEffect.Influence(materializedTarget, effectContext);
-                            }
-
-                            var autoDefenseEffectTargets =
-                                effectInstance.Selector.GetMaterialized(effectTarget, GetSelectorContext(effectTarget));
-
-                            var autoDefenseEffectImposeItem =
-                                new CombatEffectImposeItem(AutoEffectInfluenceDelegate, autoDefenseEffectTargets);
-
-                            effectImposeItems.Add(autoDefenseEffectImposeItem);
-                        }
-
-                        _roundQueue.Remove(effectTarget);
-                        var autoHandSlotIndex = effectTarget.DropMovementFromHand(targetDefenseMovement);
-
-                        if (autoHandSlotIndex is not null)
-                        {
-                            CombatantUsedMove?.Invoke(this,
-                                new CombatantHandChangedEventArgs(effectTarget, targetDefenseMovement,
-                                    autoHandSlotIndex.Value));
-                        }
-                    }
-                }
-            }
-
-            var effectImposeItem = new CombatEffectImposeItem(EffectInfluenceDelegate, effectTargets);
-
-            // Play auto-defence effects before an attacks.
-            effectImposeItems.Add(effectImposeItem);
-        }
-
-        void CompleteSkillAction()
-        {
-        }
-
-        var movementExecution = new CombatMovementExecution(CompleteSkillAction, effectImposeItems);
-
-        return movementExecution;
-    }
+    public abstract CombatMovementExecution CreateCombatMovementExecution(CombatMovementInstance movement);
 
     public void DispelCombatantEffect(ICombatant targetCombatant, ICombatantStatus combatantEffect)
     {
@@ -257,7 +183,7 @@ public abstract class CombatEngineBase<TCombatant> where TCombatant:ICombatant
 
     public void ImposeCombatantEffect(ICombatant targetCombatant, ICombatantStatus combatantEffect)
     {
-        targetCombatant.AddEffect(combatantEffect, new CombatantEffectImposeContext(this),
+        targetCombatant.AddStatus(combatantEffect, new CombatantEffectImposeContext(this),
             new CombatantEffectLifetimeImposeContext(targetCombatant, this));
         CombatantEffectHasBeenImposed?.Invoke(this, new CombatantEffectEventArgs(targetCombatant, combatantEffect));
     }
@@ -271,10 +197,12 @@ public abstract class CombatEngineBase<TCombatant> where TCombatant:ICombatant
     {
         InitializeCombatFieldSide(heroes, Field.HeroSide);
         InitializeCombatFieldSide(monsters, Field.MonsterSide);
-
+        
         foreach (var combatant in _allCombatantList)
         {
-            combatant.PrepareToCombat(this);
+            var startUpContext = new CombatantStartupContext(new CombatantEffectImposeContext(this),
+                new CombatantEffectLifetimeImposeContext(combatant, this));
+            combatant.PrepareToCombat(startUpContext);
         }
 
         var context = new CombatantEffectLifetimeDispelContext(this);
@@ -355,12 +283,6 @@ public abstract class CombatEngineBase<TCombatant> where TCombatant:ICombatant
         CombatantHasBeenAdded?.Invoke(this, args);
     }
 
-    private static CombatMovementInstance? GetAutoDefenseMovement(ICombatant target)
-    {
-        return target.Hand.FirstOrDefault(x =>
-            x != null && x.SourceMovement.Tags.HasFlag(CombatMovementTags.AutoDefense));
-    }
-
     private static FieldCoords GetCoordsByDirection(CombatStepDirection combatStepDirection, FieldCoords currentCoords)
     {
         var targetCoords = combatStepDirection switch
@@ -404,12 +326,17 @@ public abstract class CombatEngineBase<TCombatant> where TCombatant:ICombatant
         throw new InvalidOperationException();
     }
 
-    private ITargetSelectorContext GetCurrentSelectorContext()
+    protected ITargetSelectorContext GetCurrentSelectorContext()
     {
         return GetSelectorContext(CurrentCombatant);
     }
 
-    private ITargetSelectorContext GetSelectorContext(ICombatant combatant)
+    protected void RemoveCombatantFromQueue(ICombatant combatant)
+    {
+        _roundQueue.Remove(combatant);
+    }
+    
+    protected ITargetSelectorContext GetSelectorContext(ICombatant combatant)
     {
         if (combatant.IsPlayerControlled)
         {
@@ -433,7 +360,7 @@ public abstract class CombatEngineBase<TCombatant> where TCombatant:ICombatant
         }
     }
 
-    private void HandleSwapFieldPositions(FieldCoords sourceCoords, CombatFieldSide sourceFieldSide,
+    protected void HandleSwapFieldPositions(FieldCoords sourceCoords, CombatFieldSide sourceFieldSide,
         FieldCoords destinationCoords, CombatFieldSide destinationFieldSide)
     {
         if (sourceCoords == destinationCoords && sourceFieldSide == destinationFieldSide)
@@ -503,43 +430,6 @@ public abstract class CombatEngineBase<TCombatant> where TCombatant:ICombatant
         _roundQueue.RemoveAt(0);
     }
 
-    private void RestoreCombatantHand(Combatant combatant)
-    {
-        for (var handSlotIndex = 0; handSlotIndex < combatant.Hand.Count; handSlotIndex++)
-        {
-            if (combatant.Hand[handSlotIndex] is null)
-            {
-                var nextMove = combatant.PopNextPoolMovement();
-                if (nextMove is null)
-                {
-                    break;
-                }
-
-                combatant.AssignMoveToHand(handSlotIndex, nextMove);
-                CombatantAssignedNewMove?.Invoke(this,
-                    new CombatantHandChangedEventArgs(combatant, nextMove, handSlotIndex));
-            }
-        }
-    }
-
-    private void RestoreHandsOfAllCombatants()
-    {
-        foreach (var combatant in _allCombatantList)
-        {
-            RestoreCombatantHand(combatant);
-        }
-    }
-
-    private void RestoreManeuversOfAllCombatants()
-    {
-        RestoreStatOfAllCombatants(CombatantStatTypes.Maneuver);
-    }
-
-    private void RestoreShieldsOfAllCombatants()
-    {
-        RestoreStatOfAllCombatants(CombatantStatTypes.ShieldPoints);
-    }
-
     private void RestoreStatOfAllCombatants(ICombatantStatType statType)
     {
         var combatants = _allCombatantList.Where(x => !x.IsDead);
@@ -554,14 +444,14 @@ public abstract class CombatEngineBase<TCombatant> where TCombatant:ICombatant
     private void StartRound(ICombatantStatusLifetimeDispelContext combatantEffectLifetimeDispelContext)
     {
         MakeUnitRoundQueue();
-        RestoreHandsOfAllCombatants();
-        RestoreShieldsOfAllCombatants();
-        RestoreManeuversOfAllCombatants();
+        PrepareCombatantsToNextRound();
 
         UpdateAllCombatantEffects(CombatantStatusUpdateType.StartRound, combatantEffectLifetimeDispelContext);
         CurrentCombatant.UpdateStatuses(CombatantStatusUpdateType.StartCombatantTurn,
             combatantEffectLifetimeDispelContext);
     }
+
+    protected abstract void PrepareCombatantsToNextRound();
 
     private static (int result, bool isTaken) TakeStat(ICombatant combatant, ICombatantStatType statType, int value)
     {
