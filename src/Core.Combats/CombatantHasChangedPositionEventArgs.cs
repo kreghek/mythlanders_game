@@ -2,7 +2,7 @@
 
 public sealed class CombatantHasChangedPositionEventArgs : CombatantEventArgsBase
 {
-    public CombatantHasChangedPositionEventArgs(Combatant combatant, CombatFieldSide fieldSide,
+    public CombatantHasChangedPositionEventArgs(ICombatant combatant, CombatFieldSide fieldSide,
         FieldCoords newFieldCoords) :
         base(combatant)
     {

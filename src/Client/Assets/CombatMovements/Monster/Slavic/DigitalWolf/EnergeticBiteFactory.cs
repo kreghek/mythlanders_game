@@ -13,6 +13,8 @@ using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 using Core.Utils;
 
+using GameAssets.Combats;
+
 using Microsoft.Xna.Framework;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
@@ -111,8 +113,8 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
             new[] { new FollowActorOperatorCameraTask(actorAnimator, () => innerState.IsComplete) });
     }
 
-    private static Combatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
-        Combatant actorCombatant)
+    private static TestamentCombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
+        TestamentCombatant actorCombatant)
     {
         var firstImposeItem =
             movementExecution.EffectImposeItems.FirstOrDefault(x =>

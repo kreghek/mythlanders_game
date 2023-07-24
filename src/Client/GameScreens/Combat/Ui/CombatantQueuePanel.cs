@@ -6,6 +6,8 @@ using Client.Engine;
 
 using Core.Combats;
 
+using GameAssets.Combats;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -129,7 +131,7 @@ internal sealed class CombatantQueuePanel : ControlBase
         return hint;
     }
 
-    private void DrawCombatantThumbnail(SpriteBatch spriteBatch, Rectangle portraitDestRect, Combatant combatant,
+    private void DrawCombatantThumbnail(SpriteBatch spriteBatch, Rectangle portraitDestRect, TestamentCombatant combatant,
         Side side)
     {
         var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;

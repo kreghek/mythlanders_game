@@ -6,6 +6,8 @@ using Client.GameScreens.Combat.GameObjects;
 using Core.Combats;
 using Core.Dices;
 
+using GameAssets.Combats;
+
 namespace Client.Assets.CombatMovements;
 
 /// <summary>
@@ -20,5 +22,5 @@ internal interface ICombatMovementVisualizationContext
     GameObjectContentStorage GameObjectContentStorage { get; }
 
     InteractionDeliveryManager InteractionDeliveryManager { get; }
-    CombatantGameObject GetCombatActor(Combatant combatant);
+    CombatantGameObject GetCombatActor(TestamentCombatant combatant);
 }

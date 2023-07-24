@@ -1,3 +1,3 @@
 namespace Core.Combats;
 
-public sealed record CombatMoveTargetEstimate(Combatant Target, CombatMoveTargetEstimateType EstimateType);
+public sealed record CombatMoveTargetEstimate(ICombatant Target, CombatMoveTargetEstimateType EstimateType);

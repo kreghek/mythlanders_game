@@ -1,4 +1,4 @@
 namespace Core.Combats;
 
-public delegate int CombatantHasTakenDamagedCallback(Combatant targetCombatant, ICombatantStatType damagedStat,
+public delegate int CombatantHasTakenDamagedCallback(ICombatant targetCombatant, ICombatantStatType damagedStat,
     int damageValue);

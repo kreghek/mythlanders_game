@@ -2,12 +2,12 @@
 
 public static class CombatFieldSideExtensions
 {
-    public static IReadOnlyCollection<Combatant> GetAllCombatants(this CombatFieldSide side)
+    public static IReadOnlyCollection<ICombatant> GetAllCombatants(this CombatFieldSide side)
     {
         return GetCombatantsIterator(side, _ => true).ToArray();
     }
 
-    public static IReadOnlyCollection<Combatant> GetColumnCombatants(this CombatFieldSide side, int columnIndex)
+    public static IReadOnlyCollection<ICombatant> GetColumnCombatants(this CombatFieldSide side, int columnIndex)
     {
         return GetCombatantsIterator(side, combatant =>
         {
@@ -17,7 +17,7 @@ public static class CombatFieldSideExtensions
         }).ToArray();
     }
 
-    public static FieldCoords GetCombatantCoords(this CombatFieldSide side, Combatant combatant)
+    public static FieldCoords GetCombatantCoords(this CombatFieldSide side, ICombatant combatant)
     {
         for (var colIndex = 0; colIndex < side.ColumnCount; colIndex++)
         for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
@@ -32,7 +32,7 @@ public static class CombatFieldSideExtensions
         throw new ArgumentException("Not found", nameof(combatant));
     }
 
-    private static IEnumerable<Combatant> GetCombatantsIterator(CombatFieldSide side, Func<Combatant, bool> predicate)
+    private static IEnumerable<ICombatant> GetCombatantsIterator(CombatFieldSide side, Func<ICombatant, bool> predicate)
     {
         for (var colIndex = 0; colIndex < side.ColumnCount; colIndex++)
         for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)

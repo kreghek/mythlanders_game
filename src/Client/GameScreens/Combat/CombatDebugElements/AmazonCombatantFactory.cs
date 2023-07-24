@@ -7,6 +7,8 @@ using Client.Assets.CombatMovements.Hero.Amazon;
 using Core.Combats;
 using Core.Combats.CombatantStatuses;
 
+using GameAssets.Combats;
+
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
 public class AmazonCombatantFactory : IHeroCombatantFactory
@@ -16,7 +18,7 @@ public class AmazonCombatantFactory : IHeroCombatantFactory
         return Activator.CreateInstance<T>().CreateMovement();
     }
 
-    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
+    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
     {
         var movementPool = new List<CombatMovement>
         {
@@ -46,7 +48,7 @@ public class AmazonCombatantFactory : IHeroCombatantFactory
         stats.SetValue(CombatantStatTypes.ShieldPoints, 0);
         stats.SetValue(CombatantStatTypes.Resolve, 4);
 
-        var hero = new Combatant("amazon", heroSequence, stats, combatActorBehaviour,
+        var hero = new TestamentCombatant("amazon", heroSequence, stats, combatActorBehaviour,
             ArraySegment<ICombatantStatusFactory>.Empty)
         {
             DebugSid = sid, IsPlayerControlled = true

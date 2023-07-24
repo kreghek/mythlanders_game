@@ -9,6 +9,8 @@ using Client.GameScreens.Combat.GameObjects;
 using Core.Combats;
 using Core.Dices;
 
+using GameAssets.Combats;
+
 namespace Client.Assets.CombatMovements;
 
 internal sealed class CombatMovementVisualizationContext : ICombatMovementVisualizationContext
@@ -31,7 +33,7 @@ internal sealed class CombatMovementVisualizationContext : ICombatMovementVisual
         Dice = dice;
     }
 
-    public CombatantGameObject GetCombatActor(Combatant combatant)
+    public CombatantGameObject GetCombatActor(TestamentCombatant combatant)
     {
         return _gameObjects.Single(x => x.Combatant == combatant);
     }

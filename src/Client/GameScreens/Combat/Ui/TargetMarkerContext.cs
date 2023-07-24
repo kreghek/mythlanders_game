@@ -5,6 +5,8 @@ using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
 
+using GameAssets.Combats;
+
 namespace Client.GameScreens.Combat.Ui;
 
 internal sealed class TargetMarkerContext : ITargetMarkerContext
@@ -19,11 +21,11 @@ internal sealed class TargetMarkerContext : ITargetMarkerContext
         CurrentCombatant = combatCore.CurrentCombatant;
     }
 
-    public Combatant CurrentCombatant { get; }
+    public TestamentCombatant CurrentCombatant { get; }
 
     public ITargetSelectorContext TargetSelectorContext { get; }
 
-    public CombatantGameObject GetCombatantGameObject(Combatant combatant)
+    public CombatantGameObject GetCombatantGameObject(TestamentCombatant combatant)
     {
         return _combatantGameObjects.First(x => x.Combatant == combatant);
     }

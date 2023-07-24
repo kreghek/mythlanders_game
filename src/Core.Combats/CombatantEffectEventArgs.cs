@@ -5,7 +5,7 @@ namespace Core.Combats;
 /// </summary>
 public sealed class CombatantEffectEventArgs : CombatantEventArgsBase
 {
-    public CombatantEffectEventArgs(Combatant combatant, ICombatantStatus effect) :
+    public CombatantEffectEventArgs(ICombatant combatant, ICombatantStatus effect) :
         base(combatant)
     {
         CombatantEffect = effect;

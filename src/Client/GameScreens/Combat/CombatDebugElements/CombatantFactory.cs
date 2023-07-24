@@ -5,6 +5,8 @@ using Client.Core;
 
 using Core.Combats;
 
+using GameAssets.Combats;
+
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
 internal class CombatantFactory
@@ -62,7 +64,7 @@ internal class CombatantFactory
         return formation;
     }
 
-    private static Combatant CreateMonsterCombatant(
+    private static TestamentCombatant CreateMonsterCombatant(
         ICombatActorBehaviour combatActorBehaviour,
         MonsterCombatantPrefab monsterCombatantPrefab)
     {

@@ -7,6 +7,8 @@ using Client.Engine;
 
 using Core.Combats;
 
+using GameAssets.Combats;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -57,7 +59,7 @@ internal class CombatMovementsHandPanel : ControlBase
 
     private CombatMovementHint? _activeCombatMovementHint;
     private BurningCombatMovement? _burningCombatMovement;
-    private Combatant? _combatant;
+    private TestamentCombatant? _combatant;
     private KeyboardState _currentKeyboardState;
     private EntityButtonBase<CombatMovementInstance>? _hoverButton;
     private KeyboardState? _lastKeyboardState;
@@ -83,7 +85,7 @@ internal class CombatMovementsHandPanel : ControlBase
         _waitButton.OnClick += WaitButton_OnClick;
     }
 
-    public Combatant? Combatant
+    public TestamentCombatant? Combatant
     {
         get => _combatant;
         set

@@ -2,6 +2,6 @@
 
 public interface ICombatantStatusLifetimeUpdateContext
 {
-    Combatant Combatant { get; }
+    ICombatant Combatant { get; }
     void CompleteTurn();
 }

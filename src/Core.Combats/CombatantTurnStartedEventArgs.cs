@@ -2,7 +2,7 @@
 
 public sealed class CombatantTurnStartedEventArgs : CombatantEventArgsBase
 {
-    public CombatantTurnStartedEventArgs(Combatant combatant) : base(combatant)
+    public CombatantTurnStartedEventArgs(ICombatant combatant) : base(combatant)
     {
     }
 }

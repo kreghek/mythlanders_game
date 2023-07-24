@@ -10,6 +10,8 @@ using Client.GameScreens.Combat.GameObjects.CommonStates;
 using Core.Combats;
 using Core.Dices;
 
+using GameAssets.Combats;
+
 namespace Client.GameScreens.Combat;
 
 internal sealed class UseCombatMovementIntention : IIntention
@@ -39,7 +41,7 @@ internal sealed class UseCombatMovementIntention : IIntention
         _shadeService = shadeService;
     }
 
-    private CombatantGameObject GetCombatantGameObject(Combatant combatant)
+    private CombatantGameObject GetCombatantGameObject(TestamentCombatant combatant)
     {
         return _combatantGameObjects.First(x => x.Combatant == combatant);
     }

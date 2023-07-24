@@ -5,6 +5,8 @@ using Client.Engine;
 
 using Core.Combats;
 
+using GameAssets.Combats;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -53,7 +55,7 @@ internal sealed class TargetMarkersVisualizer
         Targets = null;
     }
 
-    public void SetTargets(Combatant actor, IReadOnlyCollection<IEffectInstance> effectInstances,
+    public void SetTargets(TestamentCombatant actor, IReadOnlyCollection<IEffectInstance> effectInstances,
         ITargetMarkerContext targetMarkerContext)
     {
         var allTargets = new List<CombatMoveTargetEstimate>();

@@ -5,7 +5,7 @@ namespace Core.Combats;
 public sealed class EffectCombatContext : IStatusCombatContext
 {
     public EffectCombatContext(
-        Combatant targetCombatant,
+        ICombatant targetCombatant,
         CombatField field,
         IDice dice,
         CombatantHasTakenDamagedCallback notifyCombatantDamagedDelegate,
@@ -25,24 +25,24 @@ public sealed class EffectCombatContext : IStatusCombatContext
     public CombatantHasTakenDamagedCallback NotifyCombatantDamagedDelegate { get; }
     public CombatantHasMovedCallback NotifyCombatantMovedDelegate { get; }
 
-    public Combatant Actor { get; }
+    public ICombatant Actor { get; }
 
-    public int DamageCombatantStat(Combatant combatant, ICombatantStatType statType, int value)
+    public int DamageCombatantStat(ICombatant combatant, ICombatantStatType statType, int value)
     {
         return NotifyCombatantDamagedDelegate(combatant, statType, value);
     }
 
-    public void NotifySwapFieldPosition(Combatant combatant, FieldCoords sourceCoords, CombatFieldSide sourceFieldSide,
+    public void NotifySwapFieldPosition(ICombatant combatant, FieldCoords sourceCoords, CombatFieldSide sourceFieldSide,
         FieldCoords destinationCoords, CombatFieldSide destinationFieldSide)
     {
         NotifyCombatantMovedDelegate(sourceCoords, sourceFieldSide, destinationCoords, destinationFieldSide);
     }
 
-    public void PassTurn(Combatant target)
+    public void PassTurn(ICombatant target)
     {
     }
 
-    public void RestoreCombatantStat(Combatant combatant, ICombatantStatType statType, int value)
+    public void RestoreCombatantStat(ICombatant combatant, ICombatantStatType statType, int value)
     {
         throw new NotImplementedException();
     }

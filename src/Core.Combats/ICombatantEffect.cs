@@ -7,7 +7,7 @@ public interface ICombatantStatus
 {
     ICombatantStatusLifetime Lifetime { get; }
     ICombatantStatusSid Sid { get; }
-    void Dispel(Combatant combatant);
-    void Impose(Combatant combatant, ICombatantStatusImposeContext combatantEffectImposeContext);
+    void Dispel(ICombatant combatant);
+    void Impose(ICombatant combatant, ICombatantStatusImposeContext combatantEffectImposeContext);
     void Update(CombatantStatusUpdateType updateType, ICombatantStatusLifetimeUpdateContext context);
 }

@@ -247,7 +247,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private CombatStepDirection? CalcDirection(Combatant combatant, FieldCoords targetCoords)
+    private CombatStepDirection? CalcDirection(TestamentCombatant combatant, FieldCoords targetCoords)
     {
         var combatantCoords = _combatCore.Field.HeroSide.GetCombatantCoords(combatant);
 
@@ -635,7 +635,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private CombatEngineBase CreateCombat()
     {
-        return new CombatEngine(_dice);
+        return new TestamentCombatEngine(_dice);
     }
 
     private static IReadOnlyCollection<ResourceReward> CreateUiModels(IReadOnlyCollection<IProp> droppedResources)
@@ -795,7 +795,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DrawCombatantStatuses(Vector2 statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
+    private void DrawCombatantStatuses(Vector2 statsPanelOrigin, TestamentCombatant combatant, SpriteBatch spriteBatch)
     {
         var orderedCombatantStatuses = combatant.Statuses.OrderBy(x => x.Sid.ToString()).ToArray();
         for (var statusIndex = 0; statusIndex < orderedCombatantStatuses.Length; statusIndex++)
@@ -994,7 +994,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DrawStats(Vector2 statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
+    private void DrawStats(Vector2 statsPanelOrigin, TestamentCombatant combatant, SpriteBatch spriteBatch)
     {
         const int SIDES = 32;
         const int START_ANGLE = 180 + 30;
@@ -1066,7 +1066,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DropSelection(Combatant combatant)
+    private void DropSelection(TestamentCombatant combatant)
     {
         var oldCombatUnitGameObject = GetCombatantGameObject(combatant);
         oldCombatUnitGameObject.IsActive = false;
@@ -1083,12 +1083,12 @@ internal class CombatScreen : GameScreenWithMenuBase
         return LocationHelper.GetLocationCulture(locationSid);
     }
 
-    private CombatantGameObject GetCombatantGameObject(Combatant combatant)
+    private CombatantGameObject GetCombatantGameObject(TestamentCombatant combatant)
     {
         return _gameObjects.First(x => x.Combatant == combatant);
     }
 
-    private CombatantGameObject? GetCombatantGameObjectOrDefault(Combatant combatant)
+    private CombatantGameObject? GetCombatantGameObjectOrDefault(TestamentCombatant combatant)
     {
         return _gameObjects.FirstOrDefault(x => x.Combatant == combatant);
     }
@@ -1382,7 +1382,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         private readonly TimeOnly _notificationDuration = new(0, 0, 10, 0);
         private double _counter;
 
-        public EffectNotification(ICombatantStatus combatantEffect, Combatant combatant,
+        public EffectNotification(ICombatantStatus combatantEffect, TestamentCombatant combatant,
             EffectNotificationDirection direction)
         {
             _counter = _notificationDuration.ToTimeSpan().TotalSeconds;
@@ -1391,7 +1391,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             Direction = direction;
         }
 
-        public Combatant Combatant { get; }
+        public TestamentCombatant Combatant { get; }
 
         public ICombatantStatus CombatantEffect { get; }
         public EffectNotificationDirection Direction { get; }

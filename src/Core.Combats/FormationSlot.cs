@@ -10,6 +10,6 @@ public class FormationSlot
 
     public int ColumnIndex { get; }
 
-    public Combatant? Combatant { get; set; }
+    public ICombatant? Combatant { get; set; }
     public int LineIndex { get; }
 }

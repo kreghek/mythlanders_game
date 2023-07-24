@@ -1,15 +1,16 @@
+using Core.Combats;
 using Core.Combats.CombatantStatuses;
 
-namespace Core.Combats;
+namespace GameAssets.Combats;
 
-public sealed class Combatant
+public sealed class TestamentCombatant : ICombatant
 {
     private readonly CombatMovementInstance?[] _hand;
     private readonly IList<CombatMovementInstance> _pool;
     private readonly IReadOnlyCollection<ICombatantStatusFactory> _startupStatuses;
     private readonly IList<ICombatantStatus> _statuses = new List<ICombatantStatus>();
 
-    public Combatant(string classSid,
+    public TestamentCombatant(string classSid,
         CombatMovementSequence sequence,
         CombatantStatsConfig stats,
         ICombatActorBehaviour behaviour,
@@ -85,10 +86,10 @@ public sealed class Combatant
     /// Content to add effect. To handle some reaction on new effects (change stats, moves, other
     /// effects).
     /// </param>
-    public void AddEffect(ICombatantStatus effect, ICombatantStatusImposeContext effectImposeContext,
+    public void AddStatus(ICombatantStatus effect, ICombatantStatusImposeContext statusImposeContext,
         ICombatantStatusLifetimeImposeContext lifetimeImposeContext)
     {
-        effect.Impose(this, effectImposeContext);
+        effect.Impose(this, statusImposeContext);
         _statuses.Add(effect);
 
         effect.Lifetime.HandleImposed(effect, lifetimeImposeContext);
@@ -129,7 +130,7 @@ public sealed class Combatant
         ApplyStartupEffects(combatCore);
     }
 
-    public void RemoveEffect(ICombatantStatus effect, ICombatantStatusLifetimeDispelContext context)
+    public void RemoveStatus(ICombatantStatus effect, ICombatantStatusLifetimeDispelContext context)
     {
         effect.Dispel(this);
         _statuses.Remove(effect);
@@ -149,7 +150,7 @@ public sealed class Combatant
     /// <summary>
     /// Update combatant effects.
     /// </summary>
-    public void UpdateEffects(CombatantStatusUpdateType updateType,
+    public void UpdateStatuses(CombatantStatusUpdateType updateType,
         ICombatantStatusLifetimeDispelContext effectLifetimeDispelContext)
     {
         var context = new CombatantEffectLifetimeUpdateContext(this, effectLifetimeDispelContext.Combat);
@@ -168,7 +169,7 @@ public sealed class Combatant
         foreach (var effect in effectToDispel)
         {
             effect.Dispel(this);
-            RemoveEffect(effect, effectLifetimeDispelContext);
+            RemoveStatus(effect, effectLifetimeDispelContext);
         }
     }
 
@@ -196,7 +197,7 @@ public sealed class Combatant
 
             var effectLifetimeImposeContext = new CombatantEffectLifetimeImposeContext(this, combatCore);
 
-            AddEffect(effect, effectImposeContext, effectLifetimeImposeContext);
+            AddStatus(effect, effectImposeContext, effectLifetimeImposeContext);
         }
     }
 

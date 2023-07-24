@@ -2,10 +2,10 @@
 
 public abstract class CombatantEventArgsBase : EventArgs
 {
-    protected CombatantEventArgsBase(Combatant combatant)
+    protected CombatantEventArgsBase(ICombatant combatant)
     {
         Combatant = combatant;
     }
 
-    public Combatant Combatant { get; }
+    public ICombatant Combatant { get; }
 }

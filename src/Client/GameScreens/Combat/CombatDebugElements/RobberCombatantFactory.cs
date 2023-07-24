@@ -8,6 +8,8 @@ using Core.Combats;
 using Core.Combats.CombatantEffectLifetimes;
 using Core.Combats.CombatantStatuses;
 
+using GameAssets.Combats;
+
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
 public class RobberCombatantFactory : IHeroCombatantFactory
@@ -17,7 +19,7 @@ public class RobberCombatantFactory : IHeroCombatantFactory
         return Activator.CreateInstance<T>().CreateMovement();
     }
 
-    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
+    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
     {
         var movementPool = new List<CombatMovement>
         {
@@ -55,7 +57,7 @@ public class RobberCombatantFactory : IHeroCombatantFactory
                 new CombatantActiveCombatantEffectLifetimeFactory())
         };
 
-        var hero = new Combatant("robber", heroSequence, stats, combatActorBehaviour, startupEffects)
+        var hero = new TestamentCombatant("robber", heroSequence, stats, combatActorBehaviour, startupEffects)
         {
             DebugSid = sid, IsPlayerControlled = true
         };

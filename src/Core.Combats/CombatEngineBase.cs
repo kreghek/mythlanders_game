@@ -4,32 +4,32 @@ using Core.Dices;
 
 namespace Core.Combats;
 
-public abstract class CombatEngineBase
+public abstract class CombatEngineBase<TCombatant> where TCombatant:ICombatant
 {
-    private readonly IList<Combatant> _allCombatantList;
+    private readonly IList<TCombatant> _allCombatantList;
 
     private readonly IDice _dice;
-    private readonly IList<Combatant> _roundQueue;
+    private readonly IList<TCombatant> _roundQueue;
 
     public CombatEngineBase(IDice dice)
     {
         _dice = dice;
         Field = new CombatField();
 
-        _allCombatantList = new Collection<Combatant>();
-        _roundQueue = new List<Combatant>();
+        _allCombatantList = new Collection<TCombatant>();
+        _roundQueue = new List<TCombatant>();
     }
 
     /// <summary>
     /// Current active combatant.
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    public Combatant CurrentCombatant => _roundQueue.FirstOrDefault() ?? throw new InvalidOperationException();
+    public TCombatant CurrentCombatant => _roundQueue.FirstOrDefault() ?? throw new InvalidOperationException();
 
     /// <summary>
     /// All combatants in the combat.
     /// </summary>
-    public IReadOnlyCollection<Combatant> CurrentCombatants => _allCombatantList.ToArray();
+    public IReadOnlyCollection<TCombatant> CurrentCombatants => _allCombatantList.ToArray();
 
     /// <summary>
     /// Combat field.
@@ -69,7 +69,7 @@ public abstract class CombatEngineBase
     /// <summary>
     /// Current combat queue of turns.
     /// </summary>
-    public IReadOnlyList<Combatant> RoundQueue => _roundQueue.ToArray();
+    public IReadOnlyList<TCombatant> RoundQueue => _roundQueue.ToArray();
 
     /// <summary>
     /// Complete current turn of combat.
@@ -81,7 +81,7 @@ public abstract class CombatEngineBase
 
         CombatantEndsTurn?.Invoke(this, new CombatantEndsTurnEventArgs(CurrentCombatant));
 
-        CurrentCombatant.UpdateEffects(CombatantStatusUpdateType.EndCombatantTurn, context);
+        CurrentCombatant.UpdateStatuses(CombatantStatusUpdateType.EndCombatantTurn, context);
 
         if (_roundQueue.Any())
         {
@@ -125,7 +125,7 @@ public abstract class CombatEngineBase
             }
         }
 
-        CurrentCombatant.UpdateEffects(CombatantStatusUpdateType.StartCombatantTurn, context);
+        CurrentCombatant.UpdateStatuses(CombatantStatusUpdateType.StartCombatantTurn, context);
 
         CombatantStartsTurn?.Invoke(this, new CombatantTurnStartedEventArgs(CurrentCombatant));
     }
@@ -221,13 +221,13 @@ public abstract class CombatEngineBase
         return movementExecution;
     }
 
-    public void DispelCombatantEffect(Combatant targetCombatant, ICombatantStatus combatantEffect)
+    public void DispelCombatantEffect(ICombatant targetCombatant, ICombatantStatus combatantEffect)
     {
-        targetCombatant.RemoveEffect(combatantEffect, new CombatantEffectLifetimeDispelContext(this));
+        targetCombatant.RemoveStatus(combatantEffect, new CombatantEffectLifetimeDispelContext(this));
         CombatantEffectHasBeenDispeled?.Invoke(this, new CombatantEffectEventArgs(targetCombatant, combatantEffect));
     }
 
-    public int HandleCombatantDamagedToStat(Combatant combatant, ICombatantStatType statType, int damageAmount)
+    public int HandleCombatantDamagedToStat(ICombatant combatant, ICombatantStatType statType, int damageAmount)
     {
         var (remains, wasTaken) = TakeStat(combatant, statType, damageAmount);
 
@@ -348,14 +348,14 @@ public abstract class CombatEngineBase
         return false;
     }
 
-    private void DoCombatantHasBeenAdded(CombatFieldSide targetSide, FieldCoords targetCoords, Combatant combatant)
+    private void DoCombatantHasBeenAdded(CombatFieldSide targetSide, FieldCoords targetCoords, ICombatant combatant)
     {
         var combatFieldInfo = new CombatFieldInfo(targetSide, targetCoords);
         var args = new CombatantHasBeenAddedEventArgs(combatant, combatFieldInfo);
         CombatantHasBeenAdded?.Invoke(this, args);
     }
 
-    private static CombatMovementInstance? GetAutoDefenseMovement(Combatant target)
+    private static CombatMovementInstance? GetAutoDefenseMovement(ICombatant target)
     {
         return target.Hand.FirstOrDefault(x =>
             x != null && x.SourceMovement.Tags.HasFlag(CombatMovementTags.AutoDefense));
@@ -409,7 +409,7 @@ public abstract class CombatEngineBase
         return GetSelectorContext(CurrentCombatant);
     }
 
-    private ITargetSelectorContext GetSelectorContext(Combatant combatant)
+    private ITargetSelectorContext GetSelectorContext(ICombatant combatant)
     {
         if (combatant.IsPlayerControlled)
         {
@@ -419,7 +419,7 @@ public abstract class CombatEngineBase
         return new TargetSelectorContext(Field.MonsterSide, Field.HeroSide, _dice);
     }
 
-    private static CombatFieldSide GetTargetSide(Combatant target, CombatField field)
+    private static CombatFieldSide GetTargetSide(ICombatant target, CombatField field)
     {
         try
         {
@@ -559,11 +559,11 @@ public abstract class CombatEngineBase
         RestoreManeuversOfAllCombatants();
 
         UpdateAllCombatantEffects(CombatantStatusUpdateType.StartRound, combatantEffectLifetimeDispelContext);
-        CurrentCombatant.UpdateEffects(CombatantStatusUpdateType.StartCombatantTurn,
+        CurrentCombatant.UpdateStatuses(CombatantStatusUpdateType.StartCombatantTurn,
             combatantEffectLifetimeDispelContext);
     }
 
-    private static (int result, bool isTaken) TakeStat(Combatant combatant, ICombatantStatType statType, int value)
+    private static (int result, bool isTaken) TakeStat(ICombatant combatant, ICombatantStatType statType, int value)
     {
         var stat = combatant.Stats.SingleOrDefault(x => x.Type == statType);
 
@@ -587,7 +587,7 @@ public abstract class CombatEngineBase
         {
             if (!combatant.IsDead)
             {
-                combatant.UpdateEffects(updateType, context);
+                combatant.UpdateStatuses(updateType, context);
             }
         }
     }

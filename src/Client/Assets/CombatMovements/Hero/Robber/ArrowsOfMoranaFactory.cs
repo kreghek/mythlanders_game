@@ -15,6 +15,8 @@ using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 using Core.Utils;
 
+using GameAssets.Combats;
+
 using JetBrains.Annotations;
 
 using Microsoft.Xna.Framework;
@@ -105,7 +107,7 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
         {
             var targetRandomPosition = visualizationContext.Dice.RollPoint(targetArea);
             var emptyInfo = new InteractionDeliveryInfo(
-                new CombatEffectImposeItem(combatant => { }, Array.Empty<Combatant>()),
+                new CombatEffectImposeItem(combatant => { }, Array.Empty<TestamentCombatant>()),
                 targetRandomPosition - arrowRainOffset,
                 targetRandomPosition);
 
@@ -143,7 +145,7 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
     {
         return new[]
         {
-            new InteractionDeliveryInfo(new CombatEffectImposeItem(combatant => { }, Array.Empty<Combatant>()),
+            new InteractionDeliveryInfo(new CombatEffectImposeItem(combatant => { }, Array.Empty<TestamentCombatant>()),
                 actorAnimator.GraphicRoot.Position, actorAnimator.GraphicRoot.Position + new Vector2(0, -400))
         };
     }

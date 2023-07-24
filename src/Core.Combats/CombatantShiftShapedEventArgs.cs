@@ -2,7 +2,7 @@
 
 public sealed class CombatantShiftShapedEventArgs : CombatantEventArgsBase
 {
-    public CombatantShiftShapedEventArgs(Combatant combatant) : base(combatant)
+    public CombatantShiftShapedEventArgs(ICombatant combatant) : base(combatant)
     {
     }
 }
