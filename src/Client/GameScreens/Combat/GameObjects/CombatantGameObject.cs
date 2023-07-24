@@ -30,7 +30,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
     private CombatUnitState _visualIdleState;
 
-    public CombatantGameObject(TestamentCombatant combatant, UnitGraphicsConfigBase combatantGraphicsConfig,
+    public CombatantGameObject(ICombatant combatant, UnitGraphicsConfigBase combatantGraphicsConfig,
         FieldCoords formationCoords, ICombatantPositionProvider unitPositionProvider,
         GameObjectContentStorage gameObjectContentStorage,
         ICamera2DAdapter camera, ScreenShaker screenShaker,
@@ -63,7 +63,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
     public IActorAnimator Animator { get; }
 
-    public TestamentCombatant Combatant { get; }
+    public ICombatant Combatant { get; }
 
     public UnitGraphics Graphics { get; }
 

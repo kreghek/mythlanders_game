@@ -41,7 +41,7 @@ internal sealed class UseCombatMovementIntention : IIntention
         _shadeService = shadeService;
     }
 
-    private CombatantGameObject GetCombatantGameObject(TestamentCombatant combatant)
+    private CombatantGameObject GetCombatantGameObject(ICombatant combatant)
     {
         return _combatantGameObjects.First(x => x.Combatant == combatant);
     }
@@ -110,13 +110,13 @@ internal sealed class UseCombatMovementIntention : IIntention
         _shadeService.AddTargets(focusedAnimators);
     }
 
-    public void Make(CombatEngineBase combatCore)
+    public void Make(CombatEngineBase combatEngine)
     {
-        var movementExecution = combatCore.CreateCombatMovementExecution(_combatMovement);
+        var movementExecution = combatEngine.CreateCombatMovementExecution(_combatMovement);
 
-        var actorGameObject = GetCombatantGameObject(combatCore.CurrentCombatant);
+        var actorGameObject = GetCombatantGameObject(combatEngine.CurrentCombatant);
         var movementState = GetMovementVisualizationState(actorGameObject, movementExecution, _combatMovement);
 
-        PlaybackCombatMovementExecution(movementExecution, movementState, combatCore);
+        PlaybackCombatMovementExecution(movementExecution, movementState, combatEngine);
     }
 }

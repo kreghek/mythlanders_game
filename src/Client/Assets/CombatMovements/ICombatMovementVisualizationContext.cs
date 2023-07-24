@@ -22,5 +22,5 @@ internal interface ICombatMovementVisualizationContext
     GameObjectContentStorage GameObjectContentStorage { get; }
 
     InteractionDeliveryManager InteractionDeliveryManager { get; }
-    CombatantGameObject GetCombatActor(TestamentCombatant combatant);
+    CombatantGameObject GetCombatActor(ICombatant combatant);
 }

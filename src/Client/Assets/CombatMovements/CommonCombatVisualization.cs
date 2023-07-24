@@ -133,8 +133,8 @@ internal static class CommonCombatVisualization
         return baseActorState;
     }
 
-    private static TestamentCombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
-        TestamentCombatant actorCombatant)
+    private static ICombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
+        ICombatant actorCombatant)
     {
         var firstImposeItem =
             movementExecution.EffectImposeItems.FirstOrDefault(x =>

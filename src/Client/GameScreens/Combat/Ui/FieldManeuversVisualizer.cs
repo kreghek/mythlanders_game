@@ -5,8 +5,6 @@ using Client.GameScreens.Combat.GameObjects;
 
 using Core.Combats;
 
-using GameAssets.Combats;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -25,7 +23,7 @@ internal class FieldManeuversVisualizer
     private readonly SpriteFont _spriteFont;
 
     private float _animationCounter;
-    private TestamentCombatant? _combatant;
+    private ICombatant? _combatant;
 
     private bool _isManeuversAvailable;
 
@@ -62,7 +60,7 @@ internal class FieldManeuversVisualizer
     /// <summary>
     /// Current combatant for which maneuver controls draw.
     /// </summary>
-    public TestamentCombatant? Combatant
+    public ICombatant? Combatant
     {
         get => _combatant;
         set

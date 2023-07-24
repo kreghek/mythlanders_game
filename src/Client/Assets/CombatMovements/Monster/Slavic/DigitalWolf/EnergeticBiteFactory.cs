@@ -113,8 +113,8 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
             new[] { new FollowActorOperatorCameraTask(actorAnimator, () => innerState.IsComplete) });
     }
 
-    private static TestamentCombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
-        TestamentCombatant actorCombatant)
+    private static ICombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
+        ICombatant actorCombatant)
     {
         var firstImposeItem =
             movementExecution.EffectImposeItems.FirstOrDefault(x =>

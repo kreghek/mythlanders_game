@@ -17,7 +17,7 @@ namespace Client.GameScreens.Combat.Ui;
 internal sealed class CombatantQueuePanel : ControlBase
 {
     private const int RESOLVE_WIDTH = 12;
-    private const int PORTRAIN_WIDTH = 32;
+    private const int PORTRAIT_WIDTH = 32;
     private readonly CombatEngineBase _activeCombat;
     private readonly ICombatantThumbnailProvider _combatantThumbnailProvider;
 
@@ -45,7 +45,7 @@ internal sealed class CombatantQueuePanel : ControlBase
 
     public Point CalcContentSize()
     {
-        return new((RESOLVE_WIDTH + PORTRAIN_WIDTH) * (_activeCombat.CurrentCombatants.Count + 1), 48);
+        return new((RESOLVE_WIDTH + PORTRAIT_WIDTH) * (_activeCombat.CurrentCombatants.Count + 1), 48);
     }
 
     public void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)
@@ -82,17 +82,18 @@ internal sealed class CombatantQueuePanel : ControlBase
             var combatant = _activeCombat.RoundQueue[index];
 
             var combatantQueuePosition =
-                new Vector2(contentRect.Location.X + (index * (PORTRAIN_WIDTH + RESOLVE_WIDTH + CONTENT_MARGIN)),
+                new Vector2(contentRect.Location.X + (index * (PORTRAIT_WIDTH + RESOLVE_WIDTH + CONTENT_MARGIN)),
                     contentRect.Location.Y + CONTENT_MARGIN);
 
             var side = combatant.IsPlayerControlled ? Side.Left : Side.Right;
             var portraitDestRect = new Rectangle(combatantQueuePosition.ToPoint() + new Point(RESOLVE_WIDTH, 0),
-                new Point(PORTRAIN_WIDTH, PORTRAIN_WIDTH));
+                new Point(PORTRAIT_WIDTH, PORTRAIT_WIDTH));
             DrawCombatantThumbnail(spriteBatch, portraitDestRect, combatant, side);
 
             if (!combatant.IsPlayerControlled && !combatant.IsDead)
             {
-                var plannedMove = combatant.Hand.First(x => x is not null);
+                var plannedMove = combatant.CombatMovementContainers
+                    .Single(x => x.Type == CombatMovementContainerTypes.Hand).GetItems().First(x => x is not null);
 
                 if (plannedMove is not null)
                 {
@@ -131,7 +132,7 @@ internal sealed class CombatantQueuePanel : ControlBase
         return hint;
     }
 
-    private void DrawCombatantThumbnail(SpriteBatch spriteBatch, Rectangle portraitDestRect, TestamentCombatant combatant,
+    private void DrawCombatantThumbnail(SpriteBatch spriteBatch, Rectangle portraitDestRect, ICombatant combatant,
         Side side)
     {
         var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;

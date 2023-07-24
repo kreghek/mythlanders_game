@@ -21,11 +21,11 @@ internal sealed class TargetMarkerContext : ITargetMarkerContext
         CurrentCombatant = combatCore.CurrentCombatant;
     }
 
-    public TestamentCombatant CurrentCombatant { get; }
+    public ICombatant CurrentCombatant { get; }
 
     public ITargetSelectorContext TargetSelectorContext { get; }
 
-    public CombatantGameObject GetCombatantGameObject(TestamentCombatant combatant)
+    public CombatantGameObject GetCombatantGameObject(ICombatant combatant)
     {
         return _combatantGameObjects.First(x => x.Combatant == combatant);
     }

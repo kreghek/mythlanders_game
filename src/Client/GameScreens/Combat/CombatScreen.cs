@@ -50,7 +50,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private readonly IList<EffectNotification> _combatantEffectNotifications = new List<EffectNotification>();
     private readonly ICombatantPositionProvider _combatantPositionProvider;
-    private readonly CombatEngineBase _combatCore;
+    private readonly TestamentCombatEngine _combatCore;
     private readonly ICombatActorBehaviourDataProvider _combatDataBehaviourProvider;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
     private readonly IList<CorpseGameObject> _corpseObjects;
@@ -247,7 +247,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private CombatStepDirection? CalcDirection(TestamentCombatant combatant, FieldCoords targetCoords)
+    private CombatStepDirection? CalcDirection(ICombatant combatant, FieldCoords targetCoords)
     {
         var combatantCoords = _combatCore.Field.HeroSide.GetCombatantCoords(combatant);
 
@@ -633,7 +633,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private CombatEngineBase CreateCombat()
+    private TestamentCombatEngine CreateCombat()
     {
         return new TestamentCombatEngine(_dice);
     }
@@ -795,7 +795,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DrawCombatantStatuses(Vector2 statsPanelOrigin, TestamentCombatant combatant, SpriteBatch spriteBatch)
+    private void DrawCombatantStatuses(Vector2 statsPanelOrigin, ICombatant combatant, SpriteBatch spriteBatch)
     {
         var orderedCombatantStatuses = combatant.Statuses.OrderBy(x => x.Sid.ToString()).ToArray();
         for (var statusIndex = 0; statusIndex < orderedCombatantStatuses.Length; statusIndex++)
@@ -994,7 +994,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DrawStats(Vector2 statsPanelOrigin, TestamentCombatant combatant, SpriteBatch spriteBatch)
+    private void DrawStats(Vector2 statsPanelOrigin, ICombatant combatant, SpriteBatch spriteBatch)
     {
         const int SIDES = 32;
         const int START_ANGLE = 180 + 30;
@@ -1066,7 +1066,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DropSelection(TestamentCombatant combatant)
+    private void DropSelection(ICombatant combatant)
     {
         var oldCombatUnitGameObject = GetCombatantGameObject(combatant);
         oldCombatUnitGameObject.IsActive = false;
@@ -1083,12 +1083,12 @@ internal class CombatScreen : GameScreenWithMenuBase
         return LocationHelper.GetLocationCulture(locationSid);
     }
 
-    private CombatantGameObject GetCombatantGameObject(TestamentCombatant combatant)
+    private CombatantGameObject GetCombatantGameObject(ICombatant combatant)
     {
         return _gameObjects.First(x => x.Combatant == combatant);
     }
 
-    private CombatantGameObject? GetCombatantGameObjectOrDefault(TestamentCombatant combatant)
+    private CombatantGameObject? GetCombatantGameObjectOrDefault(ICombatant combatant)
     {
         return _gameObjects.FirstOrDefault(x => x.Combatant == combatant);
     }
@@ -1194,7 +1194,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         if (maneuverDirection is not null)
         {
-            var maneuverIntention = new ManeuverIntention(_combatCore, maneuverDirection.Value);
+            var maneuverIntention = new ManeuverIntention(maneuverDirection.Value);
 
             _manualCombatantBehaviour.Assign(maneuverIntention);
         }
@@ -1382,7 +1382,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         private readonly TimeOnly _notificationDuration = new(0, 0, 10, 0);
         private double _counter;
 
-        public EffectNotification(ICombatantStatus combatantEffect, TestamentCombatant combatant,
+        public EffectNotification(ICombatantStatus combatantEffect, ICombatant combatant,
             EffectNotificationDirection direction)
         {
             _counter = _notificationDuration.ToTimeSpan().TotalSeconds;
@@ -1391,7 +1391,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             Direction = direction;
         }
 
-        public TestamentCombatant Combatant { get; }
+        public ICombatant Combatant { get; }
 
         public ICombatantStatus CombatantEffect { get; }
         public EffectNotificationDirection Direction { get; }

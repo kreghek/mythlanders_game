@@ -33,7 +33,7 @@ internal sealed class CombatMovementVisualizationContext : ICombatMovementVisual
         Dice = dice;
     }
 
-    public CombatantGameObject GetCombatActor(TestamentCombatant combatant)
+    public CombatantGameObject GetCombatActor(ICombatant combatant)
     {
         return _gameObjects.Single(x => x.Combatant == combatant);
     }

@@ -2,5 +2,5 @@
 
 public interface IIntention
 {
-    void Make();
+    void Make(CombatEngineBase combatEngine);
 }

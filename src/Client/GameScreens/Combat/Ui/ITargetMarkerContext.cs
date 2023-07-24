@@ -8,8 +8,8 @@ namespace Client.GameScreens.Combat.Ui;
 
 internal interface ITargetMarkerContext
 {
-    TestamentCombatant CurrentCombatant { get; }
+    ICombatant CurrentCombatant { get; }
 
     ITargetSelectorContext TargetSelectorContext { get; }
-    CombatantGameObject GetCombatantGameObject(TestamentCombatant combatant);
+    CombatantGameObject GetCombatantGameObject(ICombatant combatant);
 }
