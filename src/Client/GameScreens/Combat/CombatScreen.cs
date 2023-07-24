@@ -27,6 +27,8 @@ using Core.Dices;
 using Core.PropDrop;
 using Core.Props;
 
+using GameAssets.Combats;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -48,7 +50,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private readonly IList<EffectNotification> _combatantEffectNotifications = new List<EffectNotification>();
     private readonly ICombatantPositionProvider _combatantPositionProvider;
-    private readonly CombatCore _combatCore;
+    private readonly CombatEngineBase _combatCore;
     private readonly ICombatActorBehaviourDataProvider _combatDataBehaviourProvider;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
     private readonly IList<CorpseGameObject> _corpseObjects;
@@ -631,9 +633,9 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private CombatCore CreateCombat()
+    private CombatEngineBase CreateCombat()
     {
-        return new CombatCore(_dice);
+        return new CombatEngine(_dice);
     }
 
     private static IReadOnlyCollection<ResourceReward> CreateUiModels(IReadOnlyCollection<IProp> droppedResources)

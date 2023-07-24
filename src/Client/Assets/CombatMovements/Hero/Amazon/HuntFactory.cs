@@ -3,6 +3,7 @@ using Core.Combats.CombatantEffectLifetimes;
 using Core.Combats.CombatantStatuses;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
+using Core.Utils;
 
 using JetBrains.Annotations;
 

@@ -4,7 +4,7 @@ namespace Client.GameScreens.Combat;
 
 internal sealed class WaitIntention : IIntention
 {
-    public void Make(CombatCore combatCore)
+    public void Make(CombatEngineBase combatCore)
     {
         combatCore.Wait();
     }

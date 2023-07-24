@@ -42,7 +42,7 @@ public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
             return;
         }
 
-        var targetCombat = (CombatCore)sender!;
+        var targetCombat = (CombatEngineBase)sender!;
 
         var currentGeneratedCount = targetCombatant.Statuses.Count(x => x.Sid == _generatedSid);
 
@@ -57,7 +57,7 @@ public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
         }
     }
 
-    private void GainImpulseUnit(Combatant targetCombatant, CombatCore targetCombat)
+    private void GainImpulseUnit(Combatant targetCombatant, CombatEngineBase targetCombat)
     {
         // effect life ends on attack.
         var lifetime = new UntilCombatantEffectMeetPredicatesLifetime(new[]
@@ -71,7 +71,7 @@ public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
         targetCombat.ImposeCombatantEffect(targetCombatant, impulseCombatantEffect);
     }
 
-    private void ImpulseSurge(Combatant targetCombatant, CombatCore targetCombat)
+    private void ImpulseSurge(Combatant targetCombatant, CombatEngineBase targetCombat)
     {
         var impulseEffects = CollectImpulseEffects(targetCombatant);
         foreach (var combatantEffect in impulseEffects)

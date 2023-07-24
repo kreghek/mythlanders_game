@@ -8,7 +8,7 @@ using Client.Core.Campaigns;
 using Client.GameScreens.CampaignReward;
 using Client.ScreenManagement;
 
-using Core.Combats;
+using Core.Utils;
 using Core.PropDrop;
 
 namespace Client.Assets.StageItems;

@@ -1,4 +1,5 @@
 ﻿namespace Core.Combats.Effects;
+using Core.Utils;
 
 public class HealEffect : IEffect
 {

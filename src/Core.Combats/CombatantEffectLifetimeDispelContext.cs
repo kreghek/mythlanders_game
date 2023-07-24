@@ -2,10 +2,10 @@ namespace Core.Combats;
 
 public sealed class CombatantEffectLifetimeDispelContext : ICombatantStatusLifetimeDispelContext
 {
-    public CombatantEffectLifetimeDispelContext(CombatCore combat)
+    public CombatantEffectLifetimeDispelContext(CombatEngineBase combat)
     {
         Combat = combat;
     }
 
-    public CombatCore Combat { get; }
+    public CombatEngineBase Combat { get; }
 }

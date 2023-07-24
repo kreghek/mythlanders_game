@@ -60,7 +60,7 @@ internal sealed class UseCombatMovementIntention : IIntention
     }
 
     private void PlaybackCombatMovementExecution(CombatMovementExecution movementExecution,
-        CombatMovementScene movementScene, CombatCore combatCore)
+        CombatMovementScene movementScene, CombatEngineBase combatCore)
     {
         var actorGameObject = GetCombatantGameObject(combatCore.CurrentCombatant);
 
@@ -108,7 +108,7 @@ internal sealed class UseCombatMovementIntention : IIntention
         _shadeService.AddTargets(focusedAnimators);
     }
 
-    public void Make(CombatCore combatCore)
+    public void Make(CombatEngineBase combatCore)
     {
         var movementExecution = combatCore.CreateCombatMovementExecution(_combatMovement);
 

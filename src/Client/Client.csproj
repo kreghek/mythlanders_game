@@ -137,6 +137,8 @@
 	  <ProjectReference Include="..\Core.Balance\Core.Balance.csproj" />
 	  <ProjectReference Include="..\Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj" />
 	  <ProjectReference Include="..\Core\Core.csproj" />
+	  <ProjectReference Include="..\Game.Combats.Assets\Game.Combats.Assets.csproj" />
+	  <ProjectReference Include="..\GameAssets.Combats\GameAssets.Combats.csproj" />
       <ProjectReference Include="..\MonoGame.Primitives2D\MonoGame.Primitives2D.csproj" />
 	</ItemGroup>
 </Project>

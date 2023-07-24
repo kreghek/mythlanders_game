@@ -1,4 +1,6 @@
-﻿namespace Core.Combats.Effects;
+﻿using Core.Utils;
+
+namespace Core.Combats.Effects;
 
 public sealed class LifeDrawEffect : IEffect
 {

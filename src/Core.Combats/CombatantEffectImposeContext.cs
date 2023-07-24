@@ -2,10 +2,10 @@ namespace Core.Combats;
 
 public sealed class CombatantEffectImposeContext : ICombatantStatusImposeContext
 {
-    public CombatantEffectImposeContext(CombatCore combat)
+    public CombatantEffectImposeContext(CombatEngineBase combat)
     {
         Combat = combat;
     }
 
-    public CombatCore Combat { get; }
+    public CombatEngineBase Combat { get; }
 }

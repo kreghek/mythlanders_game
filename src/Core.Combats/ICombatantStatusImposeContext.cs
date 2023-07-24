@@ -2,5 +2,5 @@
 
 public interface ICombatantStatusImposeContext
 {
-    CombatCore Combat { get; }
+    CombatEngineBase Combat { get; }
 }

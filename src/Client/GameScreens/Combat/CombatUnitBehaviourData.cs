@@ -7,7 +7,7 @@ namespace Client.GameScreens.Combat;
 
 public sealed class CombatUnitBehaviourData : ICombatActorBehaviourData
 {
-    public CombatUnitBehaviourData(CombatCore combat)
+    public CombatUnitBehaviourData(CombatEngineBase combat)
     {
         CurrentActor =
             new CombatUnitBehaviourDataActor(

@@ -4,14 +4,14 @@ using Core.Dices;
 
 namespace Core.Combats;
 
-public class CombatCore
+public abstract class CombatEngineBase
 {
     private readonly IList<Combatant> _allCombatantList;
 
     private readonly IDice _dice;
     private readonly IList<Combatant> _roundQueue;
 
-    public CombatCore(IDice dice)
+    public CombatEngineBase(IDice dice)
     {
         _dice = dice;
         Field = new CombatField();

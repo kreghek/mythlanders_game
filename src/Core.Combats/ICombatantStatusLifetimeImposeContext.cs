@@ -2,6 +2,6 @@ namespace Core.Combats;
 
 public interface ICombatantStatusLifetimeImposeContext
 {
-    CombatCore Combat { get; }
+    CombatEngineBase Combat { get; }
     Combatant TargetCombatant { get; }
 }

@@ -4,9 +4,9 @@ namespace Client.GameScreens.Combat;
 
 public sealed class CombatActorBehaviourDataProvider : ICombatActorBehaviourDataProvider
 {
-    private readonly CombatCore _combat;
+    private readonly CombatEngineBase _combat;
 
-    public CombatActorBehaviourDataProvider(CombatCore combat)
+    public CombatActorBehaviourDataProvider(CombatEngineBase combat)
     {
         _combat = combat;
     }

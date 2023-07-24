@@ -11,7 +11,7 @@ internal sealed class ManeverIntention : IIntention
         _combatStepDirection = combatStepDirection;
     }
 
-    public void Make(CombatCore combatCore)
+    public void Make(CombatEngineBase combatCore)
     {
         combatCore.UseManeuver(_combatStepDirection);
     }

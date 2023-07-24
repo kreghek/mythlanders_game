@@ -9,7 +9,7 @@ using Client.Core.Campaigns;
 using CombatDicesTeam.Graphs;
 using CombatDicesTeam.Graphs.Generation.TemplateBased;
 
-using Core.Combats;
+using Core.Utils;
 using Core.Dices;
 using Core.PropDrop;
 

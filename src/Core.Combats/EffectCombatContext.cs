@@ -10,7 +10,7 @@ public sealed class EffectCombatContext : IStatusCombatContext
         IDice dice,
         CombatantHasTakenDamagedCallback notifyCombatantDamagedDelegate,
         CombatantHasMovedCallback notifyCombatantMovedDelegate,
-        CombatCore combatCore)
+        CombatEngineBase combatCore)
     {
         Actor = targetCombatant;
         Field = field;

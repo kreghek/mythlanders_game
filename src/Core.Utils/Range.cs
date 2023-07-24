@@ -1,4 +1,4 @@
-﻿namespace Core.Combats;
+﻿namespace Core.Utils;
 
 public sealed record Range<T>(T Min, T Max)
 {

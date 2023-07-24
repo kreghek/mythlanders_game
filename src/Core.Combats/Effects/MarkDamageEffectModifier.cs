@@ -1,3 +1,4 @@
+using Core.Utils;
 namespace Core.Combats.Effects;
 
 public sealed class MarkDamageEffectModifier : IDamageEffectModifier

@@ -123,7 +123,7 @@ public sealed class Combatant
     /// Initial method to make combatant ready to fight.
     /// </summary>
     /// <param name="combatCore"></param>
-    public void PrepareToCombat(CombatCore combatCore)
+    public void PrepareToCombat(CombatEngineBase combatCore)
     {
         StartupHand();
         ApplyStartupEffects(combatCore);
@@ -186,7 +186,7 @@ public sealed class Combatant
         return null;
     }
 
-    private void ApplyStartupEffects(CombatCore combatCore)
+    private void ApplyStartupEffects(CombatEngineBase combatCore)
     {
         foreach (var effectFactory in _startupStatuses)
         {

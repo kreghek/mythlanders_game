@@ -2,12 +2,12 @@ namespace Core.Combats;
 
 public sealed class CombatantEffectLifetimeImposeContext : ICombatantStatusLifetimeImposeContext
 {
-    public CombatantEffectLifetimeImposeContext(Combatant targetCombatant, CombatCore combat)
+    public CombatantEffectLifetimeImposeContext(Combatant targetCombatant, CombatEngineBase combat)
     {
         TargetCombatant = targetCombatant;
         Combat = combat;
     }
 
-    public CombatCore Combat { get; }
+    public CombatEngineBase Combat { get; }
     public Combatant TargetCombatant { get; }
 }

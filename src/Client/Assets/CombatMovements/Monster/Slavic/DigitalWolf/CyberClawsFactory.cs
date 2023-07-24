@@ -3,6 +3,7 @@
 using Core.Combats;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
+using Core.Utils;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 

@@ -16,7 +16,7 @@ internal sealed class CombatantQueuePanel : ControlBase
 {
     private const int RESOLVE_WIDTH = 12;
     private const int PORTRAIN_WIDTH = 32;
-    private readonly CombatCore _activeCombat;
+    private readonly CombatEngineBase _activeCombat;
     private readonly ICombatantThumbnailProvider _combatantThumbnailProvider;
 
     private readonly IList<(Rectangle, ICombatantStatus)> _effectInfoList =
@@ -32,7 +32,7 @@ internal sealed class CombatantQueuePanel : ControlBase
     private ICombatantStatus? _lastEffectWithHint;
     private CombatMovementInstance? _lastMoveWithHint;
 
-    public CombatantQueuePanel(CombatCore combat,
+    public CombatantQueuePanel(CombatEngineBase combat,
         IUiContentStorage uiContentStorage,
         ICombatantThumbnailProvider combatantThumbnailProvider)
     {
