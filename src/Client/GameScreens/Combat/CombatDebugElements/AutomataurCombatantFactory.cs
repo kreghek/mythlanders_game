@@ -2,8 +2,8 @@ using System;
 
 using Client.Assets.CombatMovements.Monster.Greek.Automaur;
 
-using Core.Combats;
-using Core.Combats.CombatantStatuses;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
 

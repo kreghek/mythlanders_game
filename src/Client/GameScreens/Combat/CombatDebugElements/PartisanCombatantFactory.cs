@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Partisan;
 
-using Core.Combats;
-using Core.Combats.CombatantStatuses;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
 

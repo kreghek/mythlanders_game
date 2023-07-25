@@ -21,9 +21,10 @@ using Client.GameScreens.CommandCenter;
 using Client.GameScreens.Common;
 using Client.ScreenManagement;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Dices;
+
 using Core.Combats.BotBehaviour;
-using Core.Dices;
 using Core.PropDrop;
 using Core.Props;
 
@@ -212,7 +213,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         UpdateCombatants(gameTime);
 
-        if (!_combatCore.Finished && _combatFinishedVictory is null)
+        if (!_combatCore.IsFinished && _combatFinishedVictory is null)
         {
             UpdateCombatHud(gameTime);
         }
@@ -914,7 +915,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
 
-        if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)
+        if (!_combatCore.IsFinished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
             if (!_animationBlockManager.HasBlockers)
             {
@@ -1341,7 +1342,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void UpdateCombatHud(GameTime gameTime)
     {
-        if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)
+        if (!_combatCore.IsFinished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
             if (!_animationBlockManager.HasBlockers)
             {

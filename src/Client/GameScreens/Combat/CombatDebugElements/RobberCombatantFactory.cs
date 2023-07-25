@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Robber;
 
-using Core.Combats;
-using Core.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+
 using Core.Combats.CombatantStatuses;
 
 using GameAssets.Combats;

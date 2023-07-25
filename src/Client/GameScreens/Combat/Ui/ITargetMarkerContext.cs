@@ -1,8 +1,6 @@
 ﻿using Client.GameScreens.Combat.GameObjects;
 
-using Core.Combats;
-
-using GameAssets.Combats;
+using CombatDicesTeam.Combats;
 
 namespace Client.GameScreens.Combat.Ui;
 

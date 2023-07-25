@@ -1,8 +1,10 @@
+using CombatDicesTeam.Combats;
+
 namespace Core.Combats.TargetSelectors;
 
 public sealed class AllOtherFriendlyTargetSelector : ITargetSelector
 {
-    private IEnumerable<Combats.ICombatant> GetIterator(ITargetSelectorContext context)
+    private IEnumerable<ICombatant> GetIterator(ITargetSelectorContext context)
     {
         for (var lineIndex = 0; lineIndex < context.EnemySide.LineCount; lineIndex++)
         {
@@ -14,7 +16,7 @@ public sealed class AllOtherFriendlyTargetSelector : ITargetSelector
         }
     }
 
-    public IReadOnlyList<Combats.ICombatant> GetMaterialized(Combats.ICombatant actor, ITargetSelectorContext context)
+    public IReadOnlyList<ICombatant> GetMaterialized(ICombatant actor, ITargetSelectorContext context)
     {
         return GetIterator(context).Where(x => x != actor).ToArray();
     }

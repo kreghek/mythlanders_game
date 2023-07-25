@@ -1,7 +1,10 @@
 ﻿using Client.Engine;
 using Client.GameScreens;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 using Core.Utils;
@@ -26,7 +29,7 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
                     new DamageEffect(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(2))
+                        GenericRange<int>.CreateMono(2))
                 })
         )
         {

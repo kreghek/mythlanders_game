@@ -8,12 +8,13 @@ using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 using Core.Utils;
-
-using GameAssets.Combats;
 
 using Microsoft.Xna.Framework;
 
@@ -32,7 +33,7 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
                     new DamageEffect(
                         new MostShieldChargedEnemyTargetSelector(),
                         DamageType.ShieldsOnly,
-                        Range<int>.CreateMono(3)),
+                        GenericRange<int>.CreateMono(3)),
                     new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
                 })
         )

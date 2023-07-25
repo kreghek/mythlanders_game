@@ -1,6 +1,9 @@
-﻿using Core.Combats;
-using Core.Combats.CombatantEffectLifetimes;
-using Core.Combats.CombatantStatuses;
+﻿using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats.CombatantStatuses;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 using Core.Utils;
@@ -34,7 +37,7 @@ internal class HuntFactory : CombatMovementFactoryBase
                     new DamageEffect(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(4)),
+                        GenericRange<int>.CreateMono(4)),
                     new MarkEffect(new ClosestInLineTargetSelector(),
                         new MultipleCombatantTurnEffectLifetimeFactory(2)),
                     freeAttacksEffect

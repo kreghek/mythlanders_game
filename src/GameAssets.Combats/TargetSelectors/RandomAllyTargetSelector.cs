@@ -1,4 +1,5 @@
-using Core.Dices;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Dices;
 
 namespace Core.Combats.TargetSelectors;
 

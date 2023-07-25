@@ -1,4 +1,7 @@
-﻿using Core.Combats;
+﻿using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 using Core.Utils;
@@ -15,7 +18,7 @@ internal class RegenerativeProtocolFactory : CombatMovementFactoryBase
                 new IEffect[]
                 {
                     new ChangeCurrentStatEffect(new SelfTargetSelector(), CombatantStatTypes.HitPoints,
-                        Range<int>.CreateMono(3)),
+                        GenericRange<int>.CreateMono(3)),
                     new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
                 })
         );

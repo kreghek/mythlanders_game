@@ -1,13 +1,15 @@
-﻿namespace Core.Combats.TargetSelectors;
+﻿using CombatDicesTeam.Combats;
+
+namespace Core.Combats.TargetSelectors;
 
 public sealed class AllEnemiesTargetSelector : ITargetSelector
 {
-    private static IEnumerable<Combats.ICombatant> GetIterator(ITargetSelectorContext context)
+    private static IEnumerable<ICombatant> GetIterator(ITargetSelectorContext context)
     {
         return context.EnemySide.GetAllCombatants();
     }
 
-    public IReadOnlyList<Combats.ICombatant> GetMaterialized(Combats.ICombatant actor, ITargetSelectorContext context)
+    public IReadOnlyList<ICombatant> GetMaterialized(ICombatant actor, ITargetSelectorContext context)
     {
         return GetIterator(context).ToArray();
     }

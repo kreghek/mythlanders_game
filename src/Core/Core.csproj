@@ -8,8 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core.Dices\Core.Dices.csproj" />
     <ProjectReference Include="..\Core.Utils\Core.Utils.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CombatDicesTeam.Dices" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,7 @@
-﻿using Core.Dices;
-using Core.Utils;
+﻿using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.Dices;
+using CombatDicesTeam.GenericRanges;
 
 namespace Core.Combats.Effects;
 
@@ -7,10 +9,10 @@ public sealed class HealEffectInstance : EffectInstanceBase<HealEffect>
 {
     public HealEffectInstance(HealEffect healEffect) : base(healEffect)
     {
-        Heal = new Range<IStatValue>(new StatValue(healEffect.Heal.Min), new StatValue(healEffect.Heal.Max));
+        Heal = new GenericRange<IStatValue>(new StatValue(healEffect.Heal.Min), new StatValue(healEffect.Heal.Max));
     }
 
-    public Range<IStatValue> Heal { get; }
+    public GenericRange<IStatValue> Heal { get; }
 
     public override void AddModifier(IUnitStatModifier modifier)
     {

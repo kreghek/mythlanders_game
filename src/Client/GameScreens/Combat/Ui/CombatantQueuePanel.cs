@@ -4,7 +4,7 @@ using System.Linq;
 
 using Client.Engine;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 using GameAssets.Combats;
 
@@ -77,9 +77,9 @@ internal sealed class CombatantQueuePanel : ControlBase
         spriteBatch.Draw(UiThemeManager.UiContentStorage.GetModalShadowTexture(), contentRect,
             new Rectangle(ControlTextures.Shadow, new Point(32, 32)), Color.Lerp(Color.White, Color.Transparent, 0.5f));
 
-        for (var index = 0; index < _activeCombat.RoundQueue.Count; index++)
+        for (var index = 0; index < _activeCombat.CurrentRoundQueue.Count; index++)
         {
-            var combatant = _activeCombat.RoundQueue[index];
+            var combatant = _activeCombat.CurrentRoundQueue[index];
 
             var combatantQueuePosition =
                 new Vector2(contentRect.Location.X + (index * (PORTRAIT_WIDTH + RESOLVE_WIDTH + CONTENT_MARGIN)),

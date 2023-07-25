@@ -5,7 +5,7 @@ using Client.Core.Campaigns;
 using Client.GameScreens.Armory;
 using Client.ScreenManagement;
 
-using Core.Dices;
+using CombatDicesTeam.Dices;
 
 namespace Client.Assets.StageItems;
 

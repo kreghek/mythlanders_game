@@ -1,8 +1,10 @@
-﻿namespace Core.Combats.TargetSelectors;
+﻿using CombatDicesTeam.Combats;
+
+namespace Core.Combats.TargetSelectors;
 
 public sealed class AllAllyTargetSelector : ITargetSelector
 {
-    public IReadOnlyList<Combats.ICombatant> GetMaterialized(Combats.ICombatant actor, ITargetSelectorContext context)
+    public IReadOnlyList<ICombatant> GetMaterialized(ICombatant actor, ITargetSelectorContext context)
     {
         return context.ActorSide.GetAllCombatants().ToArray();
     }

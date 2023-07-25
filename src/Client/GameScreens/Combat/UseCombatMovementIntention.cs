@@ -7,10 +7,8 @@ using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
 
-using Core.Combats;
-using Core.Dices;
-
-using GameAssets.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Dices;
 
 namespace Client.GameScreens.Combat;
 

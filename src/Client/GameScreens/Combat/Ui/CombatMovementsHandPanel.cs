@@ -5,7 +5,7 @@ using System.Linq;
 using Client.Assets.CombatMovements;
 using Client.Engine;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 using GameAssets.Combats;
 

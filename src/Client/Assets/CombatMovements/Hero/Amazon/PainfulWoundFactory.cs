@@ -1,5 +1,7 @@
-﻿using Core.Combats;
-using Core.Combats.Effects;
+﻿using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.TargetSelectors;
 using Core.Utils;
 
@@ -14,7 +16,7 @@ internal class PainfulWoundFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new DamageEffect(new ClosestInLineTargetSelector(), DamageType.Normal, new Range<int>(2, 2))
+                    new DamageEffect(new ClosestInLineTargetSelector(), DamageType.Normal, GenericRange<int>.CreateMono(2))
                     //new PeriodicEffect
                 })
         )

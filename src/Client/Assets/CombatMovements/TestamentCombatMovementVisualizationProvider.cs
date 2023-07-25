@@ -5,7 +5,7 @@ using System.Linq;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 namespace Client.Assets.CombatMovements;
 

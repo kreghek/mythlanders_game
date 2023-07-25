@@ -9,9 +9,7 @@ using Client.Engine.MoveFunctions;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
 using Client.GameScreens.Combat.Ui;
 
-using Core.Combats;
-
-using GameAssets.Combats;
+using CombatDicesTeam.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

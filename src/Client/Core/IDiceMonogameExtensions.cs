@@ -1,4 +1,4 @@
-﻿using Core.Dices;
+﻿using CombatDicesTeam.Dices;
 
 using Microsoft.Xna.Framework;
 

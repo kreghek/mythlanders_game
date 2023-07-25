@@ -1,6 +1,9 @@
 ﻿using Client.Engine;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 using Core.Utils;
@@ -20,7 +23,7 @@ internal class CyberClawsFactory : CombatMovementFactoryBase
                     new DamageEffect(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(3)),
+                        GenericRange<int>.CreateMono(3)),
                     new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToVanguard)
                 })
         )

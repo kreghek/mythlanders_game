@@ -1,3 +1,5 @@
+using CombatDicesTeam.Combats;
+
 namespace Core.Combats.TargetSelectors;
 
 public sealed class ClosestInLineTargetSelector : ITargetSelector

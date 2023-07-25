@@ -1,4 +1,6 @@
-using Core.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Client.Assets.StoryPointJobs;
 
-using Core.Dices;
+using CombatDicesTeam.Dices;
 
 namespace Client.Core;
 

@@ -6,11 +6,11 @@ using Client.Assets.StageItems;
 using Client.Core;
 using Client.Core.Campaigns;
 
+using CombatDicesTeam.Dices;
 using CombatDicesTeam.Graphs;
 using CombatDicesTeam.Graphs.Generation.TemplateBased;
 
 using Core.Utils;
-using Core.Dices;
 using Core.PropDrop;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;

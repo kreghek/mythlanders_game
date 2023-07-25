@@ -1,5 +1,7 @@
-﻿using Core.Combats;
-using Core.Combats.Effects;
+﻿using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.TargetSelectors;
 using Core.Utils;
 
@@ -16,7 +18,7 @@ internal sealed class HuntingForLivesFactory : SimpleCombatMovementFactoryBase
                 new DamageEffect(
                     new ClosestInLineTargetSelector(),
                     DamageType.Normal,
-                    Range<int>.CreateMono(1))
+                    GenericRange<int>.CreateMono(1))
             });
     }
 }

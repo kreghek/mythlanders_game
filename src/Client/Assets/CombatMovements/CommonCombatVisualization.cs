@@ -11,9 +11,7 @@ using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
 
-using Core.Combats;
-
-using GameAssets.Combats;
+using CombatDicesTeam.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;

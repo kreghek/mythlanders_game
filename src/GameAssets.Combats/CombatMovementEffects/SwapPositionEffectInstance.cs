@@ -1,4 +1,7 @@
-﻿namespace Core.Combats.Effects;
+﻿using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+
+namespace Core.Combats.Effects;
 
 public sealed class SwapPositionEffectInstance : EffectInstanceBase<SwapPositionEffect>
 {

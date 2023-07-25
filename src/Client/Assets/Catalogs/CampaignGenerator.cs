@@ -4,9 +4,8 @@ using System.Linq;
 using Client.Core;
 using Client.Core.Campaigns;
 
+using CombatDicesTeam.Dices;
 using CombatDicesTeam.Graphs.Generation.TemplateBased;
-
-using Core.Dices;
 
 namespace Client.Assets.Catalogs;
 

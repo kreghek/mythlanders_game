@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 namespace GameAssets.Combats;
 

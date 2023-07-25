@@ -6,10 +6,8 @@ using Client.Core;
 using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects;
 
-using Core.Combats;
-using Core.Dices;
-
-using GameAssets.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Dices;
 
 namespace Client.Assets.CombatMovements;
 

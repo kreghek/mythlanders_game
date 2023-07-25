@@ -2,8 +2,8 @@
 
 using Client.Assets.CombatMovements.Monster.Slavic.Chaser;
 
-using Core.Combats;
-using Core.Combats.CombatantStatuses;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
 

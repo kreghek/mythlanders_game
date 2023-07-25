@@ -1,6 +1,6 @@
 ﻿using Client.Core;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 using JetBrains.Annotations;
 

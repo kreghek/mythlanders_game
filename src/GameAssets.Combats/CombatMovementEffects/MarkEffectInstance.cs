@@ -1,4 +1,6 @@
-using Core.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+
 using Core.Combats.CombatantStatuses;
 using Core.Combats.Effects;
 

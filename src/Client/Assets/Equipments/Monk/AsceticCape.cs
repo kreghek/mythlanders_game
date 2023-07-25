@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Client.Core;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 namespace Client.Assets.Equipments.Monk;
 

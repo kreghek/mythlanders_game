@@ -10,8 +10,10 @@ using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
 
-using Core.Combats;
-using Core.Combats.Effects;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.TargetSelectors;
 using Core.Utils;
 
@@ -41,7 +43,7 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
                     new DamageEffect(
                         new AllEnemiesTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(2))
+                        GenericRange<int>.CreateMono(2))
                 })
         )
         {

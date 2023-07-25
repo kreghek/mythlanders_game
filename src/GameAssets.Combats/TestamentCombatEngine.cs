@@ -1,5 +1,5 @@
-﻿using Core.Combats;
-using Core.Dices;
+﻿using CombatDicesTeam.Combats;
+using CombatDicesTeam.Dices;
 
 namespace GameAssets.Combats;
 
@@ -41,7 +41,7 @@ public sealed class TestamentCombatEngine: CombatEngineBase
                     }
 
                     var targetDefenseMovement = GetAutoDefenseMovement(effectTarget);
-                    var targetIsInQueue = RoundQueue.Any(x => x == effectTarget);
+                    var targetIsInQueue = CurrentRoundQueue.Any(x => x == effectTarget);
 
                     if (targetDefenseMovement is not null && targetIsInQueue)
                     {

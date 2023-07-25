@@ -1,4 +1,6 @@
-﻿namespace Core.Combats.TargetSelectors;
+﻿using CombatDicesTeam.Combats;
+
+namespace Core.Combats.TargetSelectors;
 
 public abstract class MostEnemyStatValueTargetSelectorBase : ITargetSelector
 {

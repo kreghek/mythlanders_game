@@ -1,5 +1,5 @@
-using Core.Combats;
-using Core.Combats.CombatantStatuses;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
 
 namespace GameAssets.Combats;
 

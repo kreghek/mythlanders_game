@@ -9,8 +9,8 @@ using System.Text.Json.Serialization;
 using Client.Core.Heroes;
 using Client.Core.ProgressStorage;
 
-using Core.Combats;
-using Core.Dices;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Dices;
 
 namespace Client.Core;
 

@@ -3,9 +3,7 @@ using System.Collections.Generic;
 
 using Client.Engine;
 
-using Core.Combats;
-
-using GameAssets.Combats;
+using CombatDicesTeam.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

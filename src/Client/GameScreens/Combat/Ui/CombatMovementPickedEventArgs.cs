@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 namespace Client.GameScreens.Combat.Ui;
 

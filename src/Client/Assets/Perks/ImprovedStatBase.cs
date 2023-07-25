@@ -2,7 +2,7 @@
 
 using Client.Core;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 namespace Client.Assets.Perks;
 

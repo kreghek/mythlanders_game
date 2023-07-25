@@ -27,10 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Tests", "tests\Clien
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Primitives2D", "src\MonoGame.Primitives2D\MonoGame.Primitives2D.csproj", "{AB930C24-82D2-4D9D-996C-D67A141E87B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Combats", "src\Core.Combats\Core.Combats.csproj", "{B545968D-297A-42D0-8554-178CFFA258A0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Dices", "src\Core.Dices\Core.Dices.csproj", "{CA5C99DB-9907-493F-9126-1DC70E636C66}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Utils", "src\Core.Utils\Core.Utils.csproj", "{01D908F9-7BC9-4299-8215-B38B17C95D2C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameAssets.Combats", "src\GameAssets.Combats\GameAssets.Combats.csproj", "{D65FAD3D-3BF9-4440-857A-1F3ABBFF9404}"
@@ -81,14 +77,6 @@ Global
 		{AB930C24-82D2-4D9D-996C-D67A141E87B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB930C24-82D2-4D9D-996C-D67A141E87B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB930C24-82D2-4D9D-996C-D67A141E87B6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B545968D-297A-42D0-8554-178CFFA258A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B545968D-297A-42D0-8554-178CFFA258A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B545968D-297A-42D0-8554-178CFFA258A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B545968D-297A-42D0-8554-178CFFA258A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA5C99DB-9907-493F-9126-1DC70E636C66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA5C99DB-9907-493F-9126-1DC70E636C66}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA5C99DB-9907-493F-9126-1DC70E636C66}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA5C99DB-9907-493F-9126-1DC70E636C66}.Release|Any CPU.Build.0 = Release|Any CPU
 		{01D908F9-7BC9-4299-8215-B38B17C95D2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{01D908F9-7BC9-4299-8215-B38B17C95D2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01D908F9-7BC9-4299-8215-B38B17C95D2C}.Release|Any CPU.ActiveCfg = Release|Any CPU

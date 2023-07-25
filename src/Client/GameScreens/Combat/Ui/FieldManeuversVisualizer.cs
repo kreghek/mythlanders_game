@@ -3,7 +3,7 @@ using System;
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

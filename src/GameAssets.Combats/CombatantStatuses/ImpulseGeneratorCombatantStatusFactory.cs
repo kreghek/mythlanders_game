@@ -1,3 +1,6 @@
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
+
 namespace Core.Combats.CombatantStatuses;
 
 public sealed class ImpulseGeneratorCombatantStatusFactory : ICombatantStatusFactory

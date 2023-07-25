@@ -7,7 +7,7 @@ using Client.Engine.MoveFunctions;
 using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 using Microsoft.Xna.Framework;
 

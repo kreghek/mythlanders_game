@@ -1,15 +1,17 @@
-﻿namespace Core.Combats.Effects;
-using Core.Utils;
+﻿using CombatDicesTeam.Combats;
+using CombatDicesTeam.GenericRanges;
+
+namespace Core.Combats.Effects;
 
 public class HealEffect : IEffect
 {
-    public HealEffect(ITargetSelector selector, Range<int> heal)
+    public HealEffect(ITargetSelector selector, GenericRange<int> heal)
     {
         Selector = selector;
         Heal = heal;
     }
 
-    public Range<int> Heal { get; }
+    public GenericRange<int> Heal { get; }
 
     public ITargetSelector Selector { get; }
 
