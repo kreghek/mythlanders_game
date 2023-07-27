@@ -1,3 +1,5 @@
+using CombatDicesTeam.Combats;
+
 namespace Core.Combats.BotBehaviour;
 
 public sealed class ManualCombatActorBehaviour : ICombatActorBehaviour

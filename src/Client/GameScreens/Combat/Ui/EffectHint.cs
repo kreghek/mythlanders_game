@@ -3,7 +3,7 @@
 using Client.Engine;
 using Client.GameScreens.Common.SkillEffectDrawers;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

@@ -9,7 +9,7 @@ using Client.Engine.MoveFunctions;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
 using Client.GameScreens.Combat.Ui;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -28,7 +28,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
     private CombatUnitState _visualIdleState;
 
-    public CombatantGameObject(Combatant combatant, UnitGraphicsConfigBase combatantGraphicsConfig,
+    public CombatantGameObject(ICombatant combatant, UnitGraphicsConfigBase combatantGraphicsConfig,
         FieldCoords formationCoords, ICombatantPositionProvider unitPositionProvider,
         GameObjectContentStorage gameObjectContentStorage,
         ICamera2DAdapter camera, ScreenShaker screenShaker,
@@ -61,7 +61,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
     public IActorAnimator Animator { get; }
 
-    public Combatant Combatant { get; }
+    public ICombatant Combatant { get; }
 
     public UnitGraphics Graphics { get; }
 

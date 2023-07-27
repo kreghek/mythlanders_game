@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Swordsman;
 
-using Core.Combats;
-using Core.Combats.CombatantStatuses;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
+
+using GameAssets.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -16,7 +18,7 @@ public class SwordsmanCombatantFactory : IHeroCombatantFactory
         return Activator.CreateInstance<T>().CreateMovement();
     }
 
-    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
+    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
     {
         var movementPool = new List<CombatMovement>
         {
@@ -46,7 +48,7 @@ public class SwordsmanCombatantFactory : IHeroCombatantFactory
         stats.SetValue(CombatantStatTypes.ShieldPoints, 4);
         stats.SetValue(CombatantStatTypes.Resolve, 5);
 
-        var hero = new Combatant("swordsman", heroSequence, stats, combatActorBehaviour,
+        var hero = new TestamentCombatant("swordsman", heroSequence, stats, combatActorBehaviour,
             ArraySegment<ICombatantStatusFactory>.Empty)
         {
             DebugSid = sid, IsPlayerControlled = true

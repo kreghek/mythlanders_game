@@ -21,11 +21,14 @@ using Client.GameScreens.CommandCenter;
 using Client.GameScreens.Common;
 using Client.ScreenManagement;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Dices;
+
 using Core.Combats.BotBehaviour;
-using Core.Dices;
 using Core.PropDrop;
 using Core.Props;
+
+using GameAssets.Combats;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
@@ -48,7 +51,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private readonly IList<EffectNotification> _combatantEffectNotifications = new List<EffectNotification>();
     private readonly ICombatantPositionProvider _combatantPositionProvider;
-    private readonly CombatCore _combatCore;
+    private readonly TestamentCombatEngine _combatCore;
     private readonly ICombatActorBehaviourDataProvider _combatDataBehaviourProvider;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
     private readonly IList<CorpseGameObject> _corpseObjects;
@@ -210,7 +213,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         UpdateCombatants(gameTime);
 
-        if (!_combatCore.Finished && _combatFinishedVictory is null)
+        if (!_combatCore.IsFinished && _combatFinishedVictory is null)
         {
             UpdateCombatHud(gameTime);
         }
@@ -245,7 +248,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private CombatStepDirection? CalcDirection(Combatant combatant, FieldCoords targetCoords)
+    private CombatStepDirection? CalcDirection(ICombatant combatant, FieldCoords targetCoords)
     {
         var combatantCoords = _combatCore.Field.HeroSide.GetCombatantCoords(combatant);
 
@@ -631,9 +634,9 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private CombatCore CreateCombat()
+    private TestamentCombatEngine CreateCombat()
     {
-        return new CombatCore(_dice);
+        return new TestamentCombatEngine(_dice);
     }
 
     private static IReadOnlyCollection<ResourceReward> CreateUiModels(IReadOnlyCollection<IProp> droppedResources)
@@ -793,7 +796,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DrawCombatantStatuses(Vector2 statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
+    private void DrawCombatantStatuses(Vector2 statsPanelOrigin, ICombatant combatant, SpriteBatch spriteBatch)
     {
         var orderedCombatantStatuses = combatant.Statuses.OrderBy(x => x.Sid.ToString()).ToArray();
         for (var statusIndex = 0; statusIndex < orderedCombatantStatuses.Length; statusIndex++)
@@ -912,7 +915,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
 
-        if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)
+        if (!_combatCore.IsFinished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
             if (!_animationBlockManager.HasBlockers)
             {
@@ -992,7 +995,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DrawStats(Vector2 statsPanelOrigin, Combatant combatant, SpriteBatch spriteBatch)
+    private void DrawStats(Vector2 statsPanelOrigin, ICombatant combatant, SpriteBatch spriteBatch)
     {
         const int SIDES = 32;
         const int START_ANGLE = 180 + 30;
@@ -1064,7 +1067,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DropSelection(Combatant combatant)
+    private void DropSelection(ICombatant combatant)
     {
         var oldCombatUnitGameObject = GetCombatantGameObject(combatant);
         oldCombatUnitGameObject.IsActive = false;
@@ -1081,12 +1084,12 @@ internal class CombatScreen : GameScreenWithMenuBase
         return LocationHelper.GetLocationCulture(locationSid);
     }
 
-    private CombatantGameObject GetCombatantGameObject(Combatant combatant)
+    private CombatantGameObject GetCombatantGameObject(ICombatant combatant)
     {
         return _gameObjects.First(x => x.Combatant == combatant);
     }
 
-    private CombatantGameObject? GetCombatantGameObjectOrDefault(Combatant combatant)
+    private CombatantGameObject? GetCombatantGameObjectOrDefault(ICombatant combatant)
     {
         return _gameObjects.FirstOrDefault(x => x.Combatant == combatant);
     }
@@ -1192,7 +1195,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         if (maneuverDirection is not null)
         {
-            var maneuverIntention = new ManeverIntention(maneuverDirection.Value);
+            var maneuverIntention = new ManeuverIntention(maneuverDirection.Value);
 
             _manualCombatantBehaviour.Assign(maneuverIntention);
         }
@@ -1339,7 +1342,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void UpdateCombatHud(GameTime gameTime)
     {
-        if (!_combatCore.Finished && _combatCore.CurrentCombatant.IsPlayerControlled)
+        if (!_combatCore.IsFinished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
             if (!_animationBlockManager.HasBlockers)
             {
@@ -1380,7 +1383,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         private readonly TimeOnly _notificationDuration = new(0, 0, 10, 0);
         private double _counter;
 
-        public EffectNotification(ICombatantStatus combatantEffect, Combatant combatant,
+        public EffectNotification(ICombatantStatus combatantEffect, ICombatant combatant,
             EffectNotificationDirection direction)
         {
             _counter = _notificationDuration.ToTimeSpan().TotalSeconds;
@@ -1389,7 +1392,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             Direction = direction;
         }
 
-        public Combatant Combatant { get; }
+        public ICombatant Combatant { get; }
 
         public ICombatantStatus CombatantEffect { get; }
         public EffectNotificationDirection Direction { get; }

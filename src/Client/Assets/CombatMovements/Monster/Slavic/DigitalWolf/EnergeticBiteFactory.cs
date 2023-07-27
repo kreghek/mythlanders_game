@@ -8,9 +8,13 @@ using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
+using Core.Utils;
 
 using Microsoft.Xna.Framework;
 
@@ -29,7 +33,7 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
                     new DamageEffect(
                         new MostShieldChargedEnemyTargetSelector(),
                         DamageType.ShieldsOnly,
-                        Range<int>.CreateMono(3)),
+                        GenericRange<int>.CreateMono(3)),
                     new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
                 })
         )
@@ -110,8 +114,8 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
             new[] { new FollowActorOperatorCameraTask(actorAnimator, () => innerState.IsComplete) });
     }
 
-    private static Combatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
-        Combatant actorCombatant)
+    private static ICombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
+        ICombatant actorCombatant)
     {
         var firstImposeItem =
             movementExecution.EffectImposeItems.FirstOrDefault(x =>

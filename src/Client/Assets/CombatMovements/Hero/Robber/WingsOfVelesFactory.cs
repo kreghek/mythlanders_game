@@ -1,6 +1,7 @@
-using Core.Combats;
-using Core.Combats.CombatantStatuses;
-using Core.Combats.Effects;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
+using CombatDicesTeam.Combats.Effects;
+
 using Core.Combats.TargetSelectors;
 
 namespace Client.Assets.CombatMovements.Hero.Robber;

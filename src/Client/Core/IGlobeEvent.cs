@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 namespace Client.Core;
 

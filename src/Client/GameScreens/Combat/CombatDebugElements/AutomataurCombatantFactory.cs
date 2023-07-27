@@ -2,8 +2,10 @@ using System;
 
 using Client.Assets.CombatMovements.Monster.Greek.Automaur;
 
-using Core.Combats;
-using Core.Combats.CombatantStatuses;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
+
+using GameAssets.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -38,7 +40,7 @@ public class AutomataurCombatantFactory : IMonsterCombatantFactory
         return monsterSequence;
     }
 
-    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex)
+    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex)
     {
         var monsterSequence = CreateCombatMoveVariation(variationIndex);
 
@@ -47,7 +49,7 @@ public class AutomataurCombatantFactory : IMonsterCombatantFactory
         stats.SetValue(CombatantStatTypes.ShieldPoints, 4);
         stats.SetValue(CombatantStatTypes.Resolve, 5);
 
-        var monster = new Combatant("automataur", monsterSequence, stats, combatActorBehaviour,
+        var monster = new TestamentCombatant("automataur", monsterSequence, stats, combatActorBehaviour,
             ArraySegment<ICombatantStatusFactory>.Empty)
         {
             DebugSid = sid,

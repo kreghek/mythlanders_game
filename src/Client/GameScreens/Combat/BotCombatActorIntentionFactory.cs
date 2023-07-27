@@ -5,7 +5,8 @@ using Client.Assets.CombatMovements;
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+
 using Core.Combats.BotBehaviour;
 
 namespace Client.GameScreens.Combat;

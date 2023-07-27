@@ -1,6 +1,7 @@
 ﻿using Client.Core;
 
-using Core.Dices;
+using CombatDicesTeam.Dices;
+
 using Core.PropDrop;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;

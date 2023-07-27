@@ -10,9 +10,14 @@ using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
 
-using Core.Combats;
-using Core.Combats.Effects;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.TargetSelectors;
+using Core.Utils;
+
+using GameAssets.Combats;
 
 using JetBrains.Annotations;
 
@@ -38,7 +43,7 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
                     new DamageEffect(
                         new AllEnemiesTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(2))
+                        GenericRange<int>.CreateMono(2))
                 })
         )
         {
@@ -104,7 +109,7 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
         {
             var targetRandomPosition = visualizationContext.Dice.RollPoint(targetArea);
             var emptyInfo = new InteractionDeliveryInfo(
-                new CombatEffectImposeItem(combatant => { }, Array.Empty<Combatant>()),
+                new CombatEffectImposeItem(combatant => { }, Array.Empty<TestamentCombatant>()),
                 targetRandomPosition - arrowRainOffset,
                 targetRandomPosition);
 
@@ -142,7 +147,7 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
     {
         return new[]
         {
-            new InteractionDeliveryInfo(new CombatEffectImposeItem(combatant => { }, Array.Empty<Combatant>()),
+            new InteractionDeliveryInfo(new CombatEffectImposeItem(combatant => { }, Array.Empty<TestamentCombatant>()),
                 actorAnimator.GraphicRoot.Position, actorAnimator.GraphicRoot.Position + new Vector2(0, -400))
         };
     }

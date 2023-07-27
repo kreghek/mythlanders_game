@@ -1,6 +1,9 @@
-﻿using Core.Combats;
-using Core.Combats.Effects;
+﻿using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.TargetSelectors;
+using Core.Utils;
 
 namespace Client.Assets.CombatMovements.Hero.Amazon;
 
@@ -20,7 +23,7 @@ internal class BringBeastDownFactory : CombatMovementFactoryBase
                     new DamageEffect(
                         new StrongestMarkedEnemyTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(4)),
+                        GenericRange<int>.CreateMono(4)),
                     new InterruptEffect(new SelfTargetSelector())
                 })
         )

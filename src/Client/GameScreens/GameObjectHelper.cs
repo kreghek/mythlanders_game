@@ -1,6 +1,7 @@
 ﻿using Client.Core;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+
 using Core.Crises;
 
 namespace Client.GameScreens;

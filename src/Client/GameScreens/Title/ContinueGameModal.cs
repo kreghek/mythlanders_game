@@ -6,7 +6,7 @@ using Client.Core;
 using Client.Engine;
 using Client.ScreenManagement;
 
-using Core.Dices;
+using CombatDicesTeam.Dices;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

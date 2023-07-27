@@ -1,14 +1,14 @@
 using System.Linq;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 namespace Client.GameScreens.Combat.Ui;
 
 internal sealed class ManeuverContext : IManeuverContext
 {
-    private readonly CombatCore _combatCore;
+    private readonly CombatEngineBase _combatCore;
 
-    public ManeuverContext(CombatCore combatCore)
+    public ManeuverContext(CombatEngineBase combatCore)
     {
         _combatCore = combatCore;
     }

@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Partisan;
 
-using Core.Combats;
-using Core.Combats.CombatantStatuses;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
+
+using GameAssets.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -16,7 +18,7 @@ public class PartisanCombatantFactory : IHeroCombatantFactory
         return Activator.CreateInstance<T>().CreateMovement();
     }
 
-    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
+    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
     {
         var movementPool = new List<CombatMovement>
         {
@@ -46,7 +48,7 @@ public class PartisanCombatantFactory : IHeroCombatantFactory
         stats.SetValue(CombatantStatTypes.ShieldPoints, 3);
         stats.SetValue(CombatantStatTypes.Resolve, 7);
 
-        var hero = new Combatant("partisan", heroSequence, stats, combatActorBehaviour,
+        var hero = new TestamentCombatant("partisan", heroSequence, stats, combatActorBehaviour,
             ArraySegment<ICombatantStatusFactory>.Empty)
         {
             DebugSid = sid, IsPlayerControlled = true

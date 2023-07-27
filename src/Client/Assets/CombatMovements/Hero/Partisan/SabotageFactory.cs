@@ -1,6 +1,10 @@
-using Core.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
+using Core.Utils;
 
 using JetBrains.Annotations;
 
@@ -23,7 +27,7 @@ internal class SabotageFactory : CombatMovementFactoryBase
                     new DamageEffect(
                         new WeakestEnemyTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(3)),
+                        GenericRange<int>.CreateMono(3)),
                     new PushToPositionEffect(
                         new SelfTargetSelector(),
                         ChangePositionEffectDirection.ToRearguard

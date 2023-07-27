@@ -10,7 +10,7 @@ using Client.Core.Dialogues;
 using Client.GameScreens.TextDialogue;
 using Client.GameScreens.TextDialogue.Ui;
 
-using Core.Dices;
+using CombatDicesTeam.Dices;
 
 using FluentAssertions;
 

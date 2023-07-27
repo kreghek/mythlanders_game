@@ -3,7 +3,7 @@ using System.Linq;
 
 using Client.Assets;
 
-using Core.Dices;
+using CombatDicesTeam.Dices;
 
 using Microsoft.Xna.Framework;
 

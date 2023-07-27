@@ -1,4 +1,6 @@
-﻿namespace Core.Combats.BotBehaviour;
+﻿using CombatDicesTeam.Combats;
+
+namespace Core.Combats.BotBehaviour;
 
 /// <summary>
 /// Bot behaviour for combat.

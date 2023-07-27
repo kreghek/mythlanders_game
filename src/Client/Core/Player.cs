@@ -4,7 +4,7 @@ using System.Linq;
 
 using Client.Core.Heroes;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 namespace Client.Core;
 

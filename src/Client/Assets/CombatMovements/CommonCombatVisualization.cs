@@ -11,7 +11,7 @@ using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -131,8 +131,8 @@ internal static class CommonCombatVisualization
         return baseActorState;
     }
 
-    private static Combatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
-        Combatant actorCombatant)
+    private static ICombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
+        ICombatant actorCombatant)
     {
         var firstImposeItem =
             movementExecution.EffectImposeItems.FirstOrDefault(x =>

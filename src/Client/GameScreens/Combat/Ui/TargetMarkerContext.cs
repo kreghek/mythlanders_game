@@ -3,7 +3,7 @@ using System.Linq;
 
 using Client.GameScreens.Combat.GameObjects;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 namespace Client.GameScreens.Combat.Ui;
 
@@ -11,7 +11,7 @@ internal sealed class TargetMarkerContext : ITargetMarkerContext
 {
     private readonly IReadOnlyCollection<CombatantGameObject> _combatantGameObjects;
 
-    public TargetMarkerContext(CombatCore combatCore, IReadOnlyCollection<CombatantGameObject> combatantGameObjects,
+    public TargetMarkerContext(CombatEngineBase combatCore, IReadOnlyCollection<CombatantGameObject> combatantGameObjects,
         TargetSelectorContext selectorContext)
     {
         _combatantGameObjects = combatantGameObjects;
@@ -19,11 +19,11 @@ internal sealed class TargetMarkerContext : ITargetMarkerContext
         CurrentCombatant = combatCore.CurrentCombatant;
     }
 
-    public Combatant CurrentCombatant { get; }
+    public ICombatant CurrentCombatant { get; }
 
     public ITargetSelectorContext TargetSelectorContext { get; }
 
-    public CombatantGameObject GetCombatantGameObject(Combatant combatant)
+    public CombatantGameObject GetCombatantGameObject(ICombatant combatant)
     {
         return _combatantGameObjects.First(x => x.Combatant == combatant);
     }
