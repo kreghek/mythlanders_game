@@ -2,7 +2,7 @@
 
 namespace GameAssets.Combats;
 
-public sealed class CombatMovementContainer: ICombatMovementContainer
+public sealed class CombatMovementContainer : ICombatMovementContainer
 {
     private readonly IList<CombatMovementInstance?> _items;
 

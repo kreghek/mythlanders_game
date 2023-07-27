@@ -10,7 +10,7 @@ public sealed class MarkCombatantStatus : CombatantStatusBase
     }
 }
 
-public sealed class DelegateCombatStatusFactory: ICombatantStatusFactory
+public sealed class DelegateCombatStatusFactory : ICombatantStatusFactory
 {
     private readonly Func<ICombatantStatus> _createDelegate;
 

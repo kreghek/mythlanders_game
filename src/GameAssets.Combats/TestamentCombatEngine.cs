@@ -3,12 +3,12 @@ using CombatDicesTeam.Dices;
 
 namespace GameAssets.Combats;
 
-public sealed class TestamentCombatEngine: CombatEngineBase
+public sealed class TestamentCombatEngine : CombatEngineBase
 {
     public TestamentCombatEngine(IDice dice) : base(dice)
     {
     }
-    
+
     public override CombatMovementExecution CreateCombatMovementExecution(CombatMovementInstance movement)
     {
         SpendCombatMovementResources(movement);
@@ -91,16 +91,16 @@ public sealed class TestamentCombatEngine: CombatEngineBase
 
     private static CombatMovementInstance? GetAutoDefenseMovement(ICombatant target)
     {
-        return target.CombatMovementContainers.Single(x=>x.Type == CombatMovementContainerTypes.Hand).GetItems().FirstOrDefault(x =>
-            x != null && x.SourceMovement.Tags.HasFlag(CombatMovementTags.AutoDefense));
+        return target.CombatMovementContainers.Single(x => x.Type == CombatMovementContainerTypes.Hand).GetItems().FirstOrDefault(x =>
+              x != null && x.SourceMovement.Tags.HasFlag(CombatMovementTags.AutoDefense));
     }
-    
+
     private void SpendCombatMovementResources(CombatMovementInstance movement)
     {
         CurrentCombatant.Stats.Single(x => x.Type == CombatantStatTypes.Resolve).Value.Consume(1);
 
         var handSlotIndex = DropMovementFromHand(
-            CurrentCombatant.CombatMovementContainers.Single(x=>x.Type == CombatMovementContainerTypes.Hand),
+            CurrentCombatant.CombatMovementContainers.Single(x => x.Type == CombatMovementContainerTypes.Hand),
             movement);
 
         if (handSlotIndex is not null)
@@ -123,14 +123,14 @@ public sealed class TestamentCombatEngine: CombatEngineBase
 
         return null;
     }
-    
+
     private void RestoreCombatantHand(ICombatant combatant)
     {
         var hand = combatant.CombatMovementContainers.Single(x => x.Type == CombatMovementContainerTypes.Hand);
         var pool = combatant.CombatMovementContainers.Single(x => x.Type == CombatMovementContainerTypes.Pool);
 
         var handItems = hand.GetItems().ToArray();
-        
+
         for (var handSlotIndex = 0; handSlotIndex < handItems.Length; handSlotIndex++)
         {
             if (handItems[handSlotIndex] is null)
@@ -165,14 +165,14 @@ public sealed class TestamentCombatEngine: CombatEngineBase
             RestoreCombatantHand(combatant);
         }
     }
-    
+
     protected override void PrepareCombatantsToNextRound()
     {
         RestoreHandsOfAllCombatants();
         RestoreShieldsOfAllCombatants();
         RestoreManeuversOfAllCombatants();
     }
-    
+
     private void RestoreManeuversOfAllCombatants()
     {
         RestoreStatOfAllCombatants(CombatantStatTypes.Maneuver);
@@ -182,7 +182,7 @@ public sealed class TestamentCombatEngine: CombatEngineBase
     {
         RestoreStatOfAllCombatants(CombatantStatTypes.ShieldPoints);
     }
-    
+
     private void RestoreStatOfAllCombatants(ICombatantStatType statType)
     {
         var combatants = _allCombatantList.Where(x => !x.IsDead);

@@ -10,8 +10,8 @@ using CombatDicesTeam.Dices;
 using CombatDicesTeam.Graphs;
 using CombatDicesTeam.Graphs.Generation.TemplateBased;
 
-using Core.Utils;
 using Core.PropDrop;
+using Core.Utils;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 

@@ -29,7 +29,7 @@ public sealed class TestamentCombatant : ICombatant
         {
             hand.AppendMove(null);
         }
-        
+
         foreach (var combatMovement in sequence.Items)
         {
             var instance = new CombatMovementInstance(combatMovement);
@@ -218,8 +218,8 @@ public sealed class TestamentCombatant : ICombatant
         {
             var combatMove = PopNextPoolMovement();
             if (combatMove is null)
-                // Pool is empty.
-                // Stop to prepare first movements.
+            // Pool is empty.
+            // Stop to prepare first movements.
             {
                 break;
             }
