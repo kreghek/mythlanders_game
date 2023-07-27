@@ -3,7 +3,6 @@ using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.GenericRanges;
 
 using Core.Combats.TargetSelectors;
-using Core.Utils;
 
 namespace Client.Assets.CombatMovements.Hero.Amazon;
 

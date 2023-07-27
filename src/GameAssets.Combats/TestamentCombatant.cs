@@ -5,6 +5,7 @@ namespace GameAssets.Combats;
 
 public sealed class TestamentCombatant : ICombatant
 {
+    private readonly IDictionary<ICombatMovementContainerType, ICombatMovementContainer> _combatMoveContainers;
     private readonly IReadOnlyCollection<ICombatantStatusFactory> _startupStatuses;
     private readonly IList<ICombatantStatus> _statuses = new List<ICombatantStatus>();
 
@@ -21,7 +22,7 @@ public sealed class TestamentCombatant : ICombatant
         _combatMoveContainers = new Dictionary<ICombatMovementContainerType, ICombatMovementContainer>
         {
             { CombatMovementContainerTypes.Hand, new CombatMovementContainer(CombatMovementContainerTypes.Hand) },
-            { CombatMovementContainerTypes.Pool, new CombatMovementContainer(CombatMovementContainerTypes.Pool) },
+            { CombatMovementContainerTypes.Pool, new CombatMovementContainer(CombatMovementContainerTypes.Pool) }
         };
 
         var hand = GetCombatMovementContainer(CombatMovementContainerTypes.Hand);
@@ -37,6 +38,89 @@ public sealed class TestamentCombatant : ICombatant
         }
 
         Stats = stats.GetStats();
+    }
+
+    /// <summary>
+    /// Assign move from pool to hand.
+    /// </summary>
+    /// <param name="handIndex">Index of hand slot.</param>
+    /// <param name="movement">Combat movement instance.</param>
+    public void AssignMoveToHand(int handIndex, CombatMovementInstance movement)
+    {
+        GetMovementContainer(CombatMovementContainerTypes.Hand).SetMove(movement, handIndex);
+    }
+
+    public ICombatMovementContainer GetCombatMovementContainer(ICombatMovementContainerType containerType)
+    {
+        return _combatMoveContainers[containerType];
+    }
+
+    /// <summary>
+    /// Extract movement from pool if it exists.
+    /// </summary>
+    /// <returns>Combat movement instance.</returns>
+    public CombatMovementInstance? PopNextPoolMovement()
+    {
+        var pool = GetMovementContainer(CombatMovementContainerTypes.Pool);
+        var move = pool.GetItems().FirstOrDefault();
+        if (move is not null)
+        {
+            pool.RemoveAt(0);
+        }
+
+        return move;
+    }
+
+    internal int? DropMovementFromHand(CombatMovementInstance movement)
+    {
+        var hand = GetCombatMovementContainer(CombatMovementContainerTypes.Hand);
+        for (var i = 0; i < hand.GetItems().Count; i++)
+        {
+            if (hand.GetItems()[i] == movement)
+            {
+                hand.SetMove(null, i);
+                return i;
+            }
+        }
+
+        return null;
+    }
+
+    private void ApplyStartupEffects(ICombatantStartupContext context)
+    {
+        foreach (var effectFactory in _startupStatuses)
+        {
+            var effect = effectFactory.Create();
+
+            var effectImposeContext = context.ImposeStatusContext;
+
+            var effectLifetimeImposeContext = context.ImposeStatusLifetimeContext;
+
+            AddStatus(effect, effectImposeContext, effectLifetimeImposeContext);
+        }
+    }
+
+    private ICombatMovementContainer GetMovementContainer(ICombatMovementContainerType containerType)
+    {
+        return CombatMovementContainers.Single(container => container.Type == containerType);
+    }
+
+    private void StartupHand()
+    {
+        var hand = GetCombatMovementContainer(CombatMovementContainerTypes.Hand);
+
+        for (var i = 0; i < 3; i++)
+        {
+            var combatMove = PopNextPoolMovement();
+            if (combatMove is null)
+                // Pool is empty.
+                // Stop to prepare first movements.
+            {
+                break;
+            }
+
+            hand.SetMove(combatMove, i);
+        }
     }
 
     /// <summary>
@@ -86,37 +170,6 @@ public sealed class TestamentCombatant : ICombatant
         _statuses.Add(effect);
 
         effect.Lifetime.HandleImposed(effect, lifetimeImposeContext);
-    }
-
-    /// <summary>
-    /// Assign move from pool to hand.
-    /// </summary>
-    /// <param name="handIndex">Index of hand slot.</param>
-    /// <param name="movement">Combat movement instance.</param>
-    public void AssignMoveToHand(int handIndex, CombatMovementInstance movement)
-    {
-        GetMovementContainer(CombatMovementContainerTypes.Hand).SetMove(movement, handIndex);
-    }
-
-    private ICombatMovementContainer GetMovementContainer(ICombatMovementContainerType containerType)
-    {
-        return CombatMovementContainers.Single(container => container.Type == containerType);
-    }
-
-    /// <summary>
-    /// Extract movement from pool if it exists.
-    /// </summary>
-    /// <returns>Combat movement instance.</returns>
-    public CombatMovementInstance? PopNextPoolMovement()
-    {
-        var pool = GetMovementContainer(CombatMovementContainerTypes.Pool);
-        var move = pool.GetItems().FirstOrDefault();
-        if (move is not null)
-        {
-            pool.RemoveAt(0);
-        }
-
-        return move;
     }
 
     /// <summary>
@@ -172,59 +225,6 @@ public sealed class TestamentCombatant : ICombatant
         }
     }
 
-    public IReadOnlyCollection<ICombatMovementContainer> CombatMovementContainers => _combatMoveContainers.Values.ToArray();
-
-    private readonly IDictionary<ICombatMovementContainerType, ICombatMovementContainer> _combatMoveContainers;
-
-    public ICombatMovementContainer GetCombatMovementContainer(ICombatMovementContainerType containerType)
-    {
-        return _combatMoveContainers[containerType];
-    }
-
-    internal int? DropMovementFromHand(CombatMovementInstance movement)
-    {
-        var hand = GetCombatMovementContainer(CombatMovementContainerTypes.Hand);
-        for (var i = 0; i < hand.GetItems().Count; i++)
-        {
-            if (hand.GetItems()[i] == movement)
-            {
-                hand.SetMove(null, i);
-                return i;
-            }
-        }
-
-        return null;
-    }
-
-    private void ApplyStartupEffects(ICombatantStartupContext context)
-    {
-        foreach (var effectFactory in _startupStatuses)
-        {
-            var effect = effectFactory.Create();
-
-            var effectImposeContext = context.ImposeStatusContext;
-
-            var effectLifetimeImposeContext = context.ImposeStatusLifetimeContext;
-
-            AddStatus(effect, effectImposeContext, effectLifetimeImposeContext);
-        }
-    }
-
-    private void StartupHand()
-    {
-        var hand = GetCombatMovementContainer(CombatMovementContainerTypes.Hand);
-
-        for (var i = 0; i < 3; i++)
-        {
-            var combatMove = PopNextPoolMovement();
-            if (combatMove is null)
-            // Pool is empty.
-            // Stop to prepare first movements.
-            {
-                break;
-            }
-
-            hand.SetMove(combatMove, i);
-        }
-    }
+    public IReadOnlyCollection<ICombatMovementContainer> CombatMovementContainers =>
+        _combatMoveContainers.Values.ToArray();
 }

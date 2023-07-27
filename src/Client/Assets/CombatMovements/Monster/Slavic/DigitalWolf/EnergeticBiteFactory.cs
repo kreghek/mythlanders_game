@@ -14,7 +14,6 @@ using CombatDicesTeam.GenericRanges;
 
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
-using Core.Utils;
 
 using Microsoft.Xna.Framework;
 

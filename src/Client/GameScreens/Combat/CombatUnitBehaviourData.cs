@@ -24,12 +24,12 @@ public sealed class CombatUnitBehaviourData : ICombatActorBehaviourData
             .ToArray();
     }
 
-    public CombatUnitBehaviourDataActor CurrentActor { get; }
-    public IReadOnlyCollection<CombatUnitBehaviourDataActor> Actors { get; }
-
     private IReadOnlyList<CombatMovementInstance?> GetHand(ICombatant combatant)
     {
         return combatant.CombatMovementContainers.Single(x => x.Type == CombatMovementContainerTypes.Hand).GetItems()
             .ToArray();
     }
+
+    public CombatUnitBehaviourDataActor CurrentActor { get; }
+    public IReadOnlyCollection<CombatUnitBehaviourDataActor> Actors { get; }
 }

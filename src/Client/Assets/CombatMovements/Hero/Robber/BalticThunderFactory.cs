@@ -5,7 +5,6 @@ using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.GenericRanges;
 
 using Core.Combats.TargetSelectors;
-using Core.Utils;
 
 using JetBrains.Annotations;
 

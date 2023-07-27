@@ -3,7 +3,6 @@ using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.GenericRanges;
 
 using Core.Combats.TargetSelectors;
-using Core.Utils;
 
 namespace Client.Assets.CombatMovements.Hero.Amazon;
 
@@ -16,7 +15,8 @@ internal class PainfulWoundFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new DamageEffect(new ClosestInLineTargetSelector(), DamageType.Normal, GenericRange<int>.CreateMono(2))
+                    new DamageEffect(new ClosestInLineTargetSelector(), DamageType.Normal,
+                        GenericRange<int>.CreateMono(2))
                     //new PeriodicEffect
                 })
         )
