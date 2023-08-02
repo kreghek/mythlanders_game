@@ -23,7 +23,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
     private readonly Texture2D _mapBackgroundTexture;
 
-    private IReadOnlyList<CampaignPanel>? _availableCampaignPanels;
+    private IReadOnlyList<ICampaignPanel>? _availableCampaignPanels;
 
     public CommandCenterScreen(TestamentGame game, CommandCenterScreenTransitionArguments args) : base(game)
     {
@@ -75,11 +75,11 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         for (var campaignIndex = 0; campaignIndex < _availableCampaignPanels.Count; campaignIndex++)
         {
             var panel = _availableCampaignPanels[campaignIndex];
-            panel.Rect = new Rectangle(
+            panel.SetRect(new Rectangle(
                 campaignOffsetX + contentRect.Left + ControlBase.CONTENT_MARGIN + 200 * campaignIndex,
                 contentRect.Top + ControlBase.CONTENT_MARGIN,
                 200,
-                panel.Hover ? 200 : 100);
+                panel.Hover ? 200 : 100));
             panel.Draw(spriteBatch);
         }
 
@@ -108,33 +108,40 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
     protected override void InitializeContent()
     {
-        var panels = new List<CampaignPanel>();
-
-        var index = 0;
+        var panels = new List<ICampaignPanel>();
 
         var campaignTexturesDict = new Dictionary<ILocationSid, Texture2D>
         {
-            { LocationSids.Desert, LoadCampaignTumbnailImage("Desert") },
-            { LocationSids.Monastery, LoadCampaignTumbnailImage("Monastery") },
-            { LocationSids.ShipGraveyard, LoadCampaignTumbnailImage("ShipGraveyard") },
-            { LocationSids.Thicket, LoadCampaignTumbnailImage("DarkThinket") },
-            { LocationSids.Swamp, LoadCampaignTumbnailImage("GrimSwamp") },
-            { LocationSids.Battleground, LoadCampaignTumbnailImage("Battleground") }
+            { LocationSids.Desert, LoadCampaignThumbnailImage("Desert") },
+            { LocationSids.Monastery, LoadCampaignThumbnailImage("Monastery") },
+            { LocationSids.ShipGraveyard, LoadCampaignThumbnailImage("ShipGraveyard") },
+            { LocationSids.Thicket, LoadCampaignThumbnailImage("DarkThinket") },
+            { LocationSids.Swamp, LoadCampaignThumbnailImage("GrimSwamp") },
+            { LocationSids.Battleground, LoadCampaignThumbnailImage("Battleground") }
         };
 
-        foreach (var campaign in _campaigns)
+        var placeholderTexture = LoadCampaignThumbnailImage("Placeholder");
+
+        for (var campaignIndex = 0; campaignIndex < 3; campaignIndex++)
         {
-            var campaignTexture = campaignTexturesDict[campaign.Location];
-
-            var panel = new CampaignPanel(campaign, campaignTexture);
-            panels.Add(panel);
-            panel.Selected += (_, _) =>
+            if (campaignIndex < _campaigns.Count)
             {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                    new CampaignScreenTransitionArguments(campaign));
-            };
 
-            index++;
+                var campaign = _campaigns[campaignIndex];
+                var campaignTexture = campaignTexturesDict[campaign.Location];
+
+                var panel = new CampaignPanel(campaign, campaignTexture);
+                panels.Add(panel);
+                panel.Selected += (_, _) =>
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                        new CampaignScreenTransitionArguments(campaign));
+                };
+            }
+            else
+            {
+                panels.Add(new PlaceholderCampaignPanel(placeholderTexture));
+            }
         }
 
         _availableCampaignPanels = panels;
@@ -144,7 +151,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         _commandButtons[2] = new TextButton("Adjutant");
         _commandButtons[3] = new TextButton("Chronicles");
 
-        Texture2D LoadCampaignTumbnailImage(string textureName)
+        Texture2D LoadCampaignThumbnailImage(string textureName)
         {
             return Game.Content.Load<Texture2D>($"Sprites/GameObjects/Campaigns/{textureName}");
         }
