@@ -9,6 +9,8 @@ using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter.Ui;
 using Client.ScreenManagement;
 
+using CombatDicesTeam.Dices;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -25,6 +27,8 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
     private IReadOnlyList<ICampaignPanel>? _availableCampaignPanels;
 
+    private readonly PongRectangle _mapPong;
+
     public CommandCenterScreen(TestamentGame game, CommandCenterScreenTransitionArguments args) : base(game)
     {
         _campaigns = args.AvailableCampaigns;
@@ -37,6 +41,22 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
             Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter3"),
             Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter4")
         };
+
+        const int MENU_HEIGHT = 20;
+        var contentRect = new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Location.X,
+                ResolutionIndependentRenderer.VirtualBounds.Location.Y + MENU_HEIGHT,
+                ResolutionIndependentRenderer.VirtualBounds.Width,
+                ResolutionIndependentRenderer.VirtualBounds.Height - MENU_HEIGHT);
+
+        var mapRect = new Rectangle(
+                contentRect.Left + ControlBase.CONTENT_MARGIN,
+                (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN,
+                contentRect.Width - ControlBase.CONTENT_MARGIN * 2,
+                (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2);
+
+        var mapPongRandomSource = new PongRectangleRandomSource(new LinearDice(), 2f);
+
+        _mapPong = new PongRectangle(new Point(_mapBackgroundTexture.Width, _mapBackgroundTexture.Height), mapRect, mapPongRandomSource);
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -61,11 +81,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
             transformMatrix: Camera.GetViewTransformationMatrix());
 
         spriteBatch.Draw(_mapBackgroundTexture,
-            new Rectangle(
-                contentRect.Left + ControlBase.CONTENT_MARGIN,
-                (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN,
-                contentRect.Width - ControlBase.CONTENT_MARGIN * 2,
-                (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2),
+            _mapPong.GetRect(),
             Color.White);
 
         const int CAMPAIGN_CONTROL_WIDTH = 200;
@@ -170,5 +186,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         {
             panel.Update(ResolutionIndependentRenderer);
         }
+
+        _mapPong.Update(gameTime.ElapsedGameTime.TotalSeconds);
     }
 }
