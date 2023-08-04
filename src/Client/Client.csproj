@@ -143,4 +143,9 @@
             <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
+    <ItemGroup>
+      <Reference Include="Steamworks.NET">
+        <HintPath>Steamworks.NET.dll</HintPath>
+      </Reference>
+    </ItemGroup>
 </Project>
