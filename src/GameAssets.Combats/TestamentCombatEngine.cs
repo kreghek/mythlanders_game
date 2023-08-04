@@ -208,4 +208,33 @@ public sealed class TestamentCombatEngine : CombatEngineBase
         CurrentCombatant.Stats.Single(x => Equals(x.Type, CombatantStatTypes.Resolve)).Value
             .Consume(combatMovementCost.Amount.Current);
     }
+
+    protected override void RestoreStatsOnWait()
+    {
+        var combatant = CurrentCombatant;
+        var stat = combatant.Stats.Single(x => Equals(x.Type, CombatantStatTypes.Resolve));
+        var valueToRestore = stat.Value.ActualMax - stat.Value.Current;
+        stat.Value.Restore(valueToRestore);
+    }
+    
+    protected override void SpendManeuverResources()
+    {
+        CurrentCombatant.Stats.Single(x => Equals(x.Type, CombatantStatTypes.Maneuver)).Value.Consume(1);
+    }
+    
+    protected override bool DetectCombatantIsDead(ICombatant combatant)
+    {
+        return combatant.Stats.Single(x => Equals(x.Type, CombatantStatTypes.HitPoints)).Value.Current <= 0;
+    }
+
+    private void RestoreStatOfAllCombatants(ICombatantStatType statType)
+    {
+        var combatants = _allCombatantList.Where(x => !x.IsDead);
+        foreach (var combatant in combatants)
+        {
+            var stat = combatant.Stats.Single(x => x.Type == statType);
+            var valueToRestore = stat.Value.ActualMax - stat.Value.Current;
+            stat.Value.Restore(valueToRestore);
+        }
+    }
 }
