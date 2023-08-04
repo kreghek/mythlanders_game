@@ -89,7 +89,7 @@ public sealed class TestamentCombatEngine : CombatEngineBase
         return movementExecution;
     }
 
-    public CombatMovementInstance? PopNextPoolMovement(ICombatMovementContainer pool)
+    private static CombatMovementInstance? PopNextPoolMovement(ICombatMovementContainer pool)
     {
         var move = pool.GetItems().FirstOrDefault();
         if (move is not null)
@@ -107,16 +107,18 @@ public sealed class TestamentCombatEngine : CombatEngineBase
         RestoreManeuversOfAllCombatants();
     }
 
-    private int? DropMovementFromHand(ICombatMovementContainer hand, CombatMovementInstance movement)
+    private static int? DropMovementFromHand(ICombatMovementContainer hand, CombatMovementInstance movement)
     {
         var handItems = hand.GetItems().ToArray();
         for (var i = 0; i < handItems.Length; i++)
         {
-            if (handItems[i] == movement)
+            if (handItems[i] != movement)
             {
-                handItems[i] = null;
-                return i;
+                continue;
             }
+
+            handItems[i] = null;
+            return i;
         }
 
         return null;
@@ -175,7 +177,7 @@ public sealed class TestamentCombatEngine : CombatEngineBase
         var combatants = _allCombatantList.Where(x => !x.IsDead);
         foreach (var combatant in combatants)
         {
-            var stat = combatant.Stats.Single(x => x.Type == statType);
+            var stat = combatant.Stats.Single(x => Equals(x.Type, statType));
             var valueToRestore = stat.Value.ActualMax - stat.Value.Current;
             stat.Value.Restore(valueToRestore);
         }
@@ -183,15 +185,27 @@ public sealed class TestamentCombatEngine : CombatEngineBase
 
     private void SpendCombatMovementResources(CombatMovementInstance movement)
     {
-        CurrentCombatant.Stats.Single(x => x.Type == CombatantStatTypes.Resolve).Value.Consume(1);
+        SpendCombatantResolve(movement.Cost);
 
-        var handSlotIndex = DropMovementFromHand(
-            CurrentCombatant.CombatMovementContainers.Single(x => x.Type == CombatMovementContainerTypes.Hand),
+        SpendCombatantMovementInHand(movement);
+    }
+
+    private void SpendCombatantMovementInHand(CombatMovementInstance movement)
+    {
+        var hand = CurrentCombatant.CombatMovementContainers.Single(x => x.Type == CombatMovementContainerTypes.Hand);
+        var movementSlotIndexInHand = DropMovementFromHand(
+            hand,
             movement);
 
-        if (handSlotIndex is not null)
+        if (movementSlotIndexInHand is not null)
         {
-            DoCombatantUsedMovement(CurrentCombatant, movement, handSlotIndex.Value);
+            DoCombatantUsedMovement(CurrentCombatant, movement, movementSlotIndexInHand.Value);
         }
+    }
+
+    private void SpendCombatantResolve(CombatMovementCost combatMovementCost)
+    {
+        CurrentCombatant.Stats.Single(x => Equals(x.Type, CombatantStatTypes.Resolve)).Value
+            .Consume(combatMovementCost.Amount.Current);
     }
 }
