@@ -224,12 +224,12 @@ public sealed class TestamentCombatEngine : CombatEngineBase
         var valueToRestore = stat.Value.ActualMax - stat.Value.Current;
         stat.Value.Restore(valueToRestore);
     }
-    
+
     protected override void SpendManeuverResources()
     {
         CurrentCombatant.Stats.Single(x => Equals(x.Type, CombatantStatTypes.Maneuver)).Value.Consume(1);
     }
-    
+
     protected override bool DetectCombatantIsDead(ICombatant combatant)
     {
         return combatant.Stats.Single(x => Equals(x.Type, CombatantStatTypes.HitPoints)).Value.Current <= 0;

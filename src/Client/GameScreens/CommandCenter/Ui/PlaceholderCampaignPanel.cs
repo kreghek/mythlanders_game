@@ -23,7 +23,7 @@ internal sealed class PlaceholderCampaignPanel : ControlBase, ICampaignPanel
 
     public void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)
     {
-        
+
     }
 
     protected override Point CalcTextureOffset()
