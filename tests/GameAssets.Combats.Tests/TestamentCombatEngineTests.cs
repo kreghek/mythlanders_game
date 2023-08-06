@@ -18,7 +18,7 @@ public class TestamentCombatEngineTests
 
         var combatMovementInstance = new CombatMovementInstance(
            new CombatMovement(
-               new CombatMovementSid("1"),
+               new CombatMovementSid("test"),
                new CombatMovementCost(0),
                CombatMovementEffectConfig.Create(ArraySegment<IEffect>.Empty)));
 
@@ -44,7 +44,7 @@ public class TestamentCombatEngineTests
 
         // ACT
 
-        combatEngine.CreateCombatMovementExecution(combatMovementInstance);
+        var _ = combatEngine.CreateCombatMovementExecution(combatMovementInstance);
 
         // ASSERT
 
