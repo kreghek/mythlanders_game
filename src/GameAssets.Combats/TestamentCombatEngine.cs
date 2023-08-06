@@ -89,15 +89,9 @@ public sealed class TestamentCombatEngine : CombatEngineBase
         return movementExecution;
     }
 
-    private static CombatMovementInstance? PopNextPoolMovement(ICombatMovementContainer pool)
+    protected override bool DetectCombatantIsDead(ICombatant combatant)
     {
-        var move = pool.GetItems().FirstOrDefault();
-        if (move is not null)
-        {
-            pool.RemoveAt(0);
-        }
-
-        return move;
+        return combatant.Stats.Single(x => Equals(x.Type, CombatantStatTypes.HitPoints)).Value.Current <= 0;
     }
 
     protected override void PrepareCombatantsToNextRound()
@@ -105,6 +99,19 @@ public sealed class TestamentCombatEngine : CombatEngineBase
         RestoreHandsOfAllCombatants();
         RestoreShieldsOfAllCombatants();
         RestoreManeuversOfAllCombatants();
+    }
+
+    protected override void RestoreStatsOnWait()
+    {
+        var combatant = CurrentCombatant;
+        var stat = combatant.Stats.Single(x => Equals(x.Type, CombatantStatTypes.Resolve));
+        var valueToRestore = stat.Value.ActualMax - stat.Value.Current;
+        stat.Value.Restore(valueToRestore);
+    }
+
+    protected override void SpendManeuverResources()
+    {
+        CurrentCombatant.Stats.Single(x => Equals(x.Type, CombatantStatTypes.Maneuver)).Value.Consume(1);
     }
 
     private static int? DropMovementFromHand(ICombatMovementContainer hand, CombatMovementInstance movement)
@@ -129,6 +136,17 @@ public sealed class TestamentCombatEngine : CombatEngineBase
         return target.CombatMovementContainers.Single(x => x.Type == CombatMovementContainerTypes.Hand).GetItems()
             .FirstOrDefault(x =>
                 x != null && x.SourceMovement.Tags.HasFlag(CombatMovementTags.AutoDefense));
+    }
+
+    private static CombatMovementInstance? PopNextPoolMovement(ICombatMovementContainer pool)
+    {
+        var move = pool.GetItems().FirstOrDefault();
+        if (move is not null)
+        {
+            pool.RemoveAt(0);
+        }
+
+        return move;
     }
 
     private void RestoreCombatantHand(ICombatant combatant)
@@ -187,13 +205,6 @@ public sealed class TestamentCombatEngine : CombatEngineBase
         }
     }
 
-    private void SpendCombatMovementResources(CombatMovementInstance movement)
-    {
-        SpendCombatantResolve(movement.Cost);
-
-        SpendCombatantMovementInHand(movement);
-    }
-
     private void SpendCombatantMovementInHand(CombatMovementInstance movement)
     {
         var hand = CurrentCombatant.CombatMovementContainers.Single(x => x.Type == CombatMovementContainerTypes.Hand);
@@ -217,21 +228,10 @@ public sealed class TestamentCombatEngine : CombatEngineBase
         }
     }
 
-    protected override void RestoreStatsOnWait()
+    private void SpendCombatMovementResources(CombatMovementInstance movement)
     {
-        var combatant = CurrentCombatant;
-        var stat = combatant.Stats.Single(x => Equals(x.Type, CombatantStatTypes.Resolve));
-        var valueToRestore = stat.Value.ActualMax - stat.Value.Current;
-        stat.Value.Restore(valueToRestore);
-    }
+        SpendCombatantResolve(movement.Cost);
 
-    protected override void SpendManeuverResources()
-    {
-        CurrentCombatant.Stats.Single(x => Equals(x.Type, CombatantStatTypes.Maneuver)).Value.Consume(1);
-    }
-
-    protected override bool DetectCombatantIsDead(ICombatant combatant)
-    {
-        return combatant.Stats.Single(x => Equals(x.Type, CombatantStatTypes.HitPoints)).Value.Current <= 0;
+        SpendCombatantMovementInHand(movement);
     }
 }

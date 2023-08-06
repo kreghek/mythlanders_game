@@ -14,18 +14,6 @@ internal sealed class PlaceholderCampaignPanel : ControlBase, ICampaignPanel
         _placeholderTexture = placeholderTexture;
     }
 
-    public bool Hover { get; private set; }
-
-    public void SetRect(Rectangle value)
-    {
-        Rect = value;
-    }
-
-    public void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)
-    {
-
-    }
-
     protected override Point CalcTextureOffset()
     {
         return ControlTextures.Transparent;
@@ -39,5 +27,16 @@ internal sealed class PlaceholderCampaignPanel : ControlBase, ICampaignPanel
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
         spriteBatch.Draw(_placeholderTexture, contentRect, contentColor);
+    }
+
+    public bool Hover { get; private set; }
+
+    public void SetRect(Rectangle value)
+    {
+        Rect = value;
+    }
+
+    public void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)
+    {
     }
 }

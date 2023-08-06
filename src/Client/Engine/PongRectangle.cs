@@ -4,9 +4,9 @@ namespace Client.Engine;
 
 internal class PongRectangle
 {
-    private readonly Point _size;
     private readonly Rectangle _parentRectange;
     private readonly IPongRectangleRandomSource _randomSource;
+    private readonly Point _size;
 
     private Vector2 _bgCurrentPosition;
 
@@ -19,6 +19,11 @@ internal class PongRectangle
         _randomSource = randomSource;
 
         _bgMoveVector = randomSource.GetRandomVector();
+    }
+
+    public Rectangle GetRect()
+    {
+        return new(_bgCurrentPosition.ToPoint(), _size);
     }
 
     public void Update(double timeElapsedSeconds)
@@ -34,6 +39,4 @@ internal class PongRectangle
             _bgMoveVector = _randomSource.GetRandomVector();
         }
     }
-
-    public Rectangle GetRect() => new(_bgCurrentPosition.ToPoint(), _size);
 }

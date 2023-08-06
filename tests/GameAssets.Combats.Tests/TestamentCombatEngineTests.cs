@@ -17,10 +17,10 @@ public class TestamentCombatEngineTests
         // ASSERT
 
         var combatMovementInstance = new CombatMovementInstance(
-           new CombatMovement(
-               new CombatMovementSid("test"),
-               new CombatMovementCost(0),
-               CombatMovementEffectConfig.Create(ArraySegment<IEffect>.Empty)));
+            new CombatMovement(
+                new CombatMovementSid("test"),
+                new CombatMovementCost(0),
+                CombatMovementEffectConfig.Create(ArraySegment<IEffect>.Empty)));
 
         var hero = CreateCombatant(combatMovementInstance);
         var monster = CreateCombatant(combatMovementInstance);
@@ -34,12 +34,12 @@ public class TestamentCombatEngineTests
         combatEngine.Initialize(new[]
             {
                 // hero
-                new FormationSlot(0, 0) { Combatant = hero },
+                new FormationSlot(0, 0) { Combatant = hero }
             },
             new[]
             {
                 // monster
-                new FormationSlot(0, 0) { Combatant = monster },
+                new FormationSlot(0, 0) { Combatant = monster }
             });
 
         // ACT
@@ -48,7 +48,8 @@ public class TestamentCombatEngineTests
 
         // ASSERT
 
-        var factCombatMovements = hero.CombatMovementContainers.Single(x => x.Type == CombatMovementContainerTypes.Hand).GetItems().ToArray();
+        var factCombatMovements = hero.CombatMovementContainers.Single(x => x.Type == CombatMovementContainerTypes.Hand)
+            .GetItems().ToArray();
         factCombatMovements[0].Should().BeNull();
     }
 
@@ -68,9 +69,10 @@ public class TestamentCombatEngineTests
         });
 
         combatantMock.Setup(x => x.Stats)
-            .Returns(new[] {
-                Mock.Of<IUnitStat>(x=>x.Type == CombatantStatTypes.HitPoints && x.Value == new StatValue(1)),
-                Mock.Of<IUnitStat>(x=>x.Type == CombatantStatTypes.ShieldPoints && x.Value == new StatValue(1))
+            .Returns(new[]
+            {
+                Mock.Of<IUnitStat>(x => x.Type == CombatantStatTypes.HitPoints && x.Value == new StatValue(1)),
+                Mock.Of<IUnitStat>(x => x.Type == CombatantStatTypes.ShieldPoints && x.Value == new StatValue(1))
             });
 
         return combatantMock.Object;
