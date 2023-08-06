@@ -1,4 +1,4 @@
-﻿using Core.Utils;
+﻿using CombatDicesTeam.GenericRanges;
 
 namespace Core.PropDrop;
 
@@ -13,7 +13,7 @@ public interface IDropTableRecordSubScheme
     /// <remarks>
     /// Используется только ресурсами.
     /// </remarks>
-    Range<int> Count { get; }
+    GenericRange<int> Count { get; }
 
     /// <summary>
     /// Дополнительный дроп к текущему.
@@ -37,5 +37,5 @@ public interface IDropTableRecordSubScheme
     int Weight { get; }
 }
 
-public sealed record DropTableRecordSubScheme(IDropTableScheme[]? Extra, Range<int> Count,
+public sealed record DropTableRecordSubScheme(IDropTableScheme[]? Extra, GenericRange<int> Count,
     string? SchemeSid, int Weight) : IDropTableRecordSubScheme;

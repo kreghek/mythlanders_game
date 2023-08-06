@@ -17,7 +17,7 @@ internal sealed class MarauderGraphicsConfig : BlackMonsterGraphicConfig
             { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdle(fps: 5) },
             {
                 PredefinedAnimationSid.MoveForward,
-                AnimationFrameSetFactory.CreateEmpty()
+                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 2 }, fps: 8)
             },
             {
                 PredefinedAnimationSid.MoveBackward,

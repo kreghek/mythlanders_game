@@ -35,13 +35,11 @@ internal sealed class TitleScreen : GameScreenBase
     private readonly ParticleSystem[] _pulseParticleSystems;
     private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
 
-    private readonly Random _rnd = new Random();
     private readonly SettingsModal _settingsModal;
     private readonly UnitName[] _showcaseUnits;
     private readonly IUiContentStorage _uiContentStorage;
-    private Vector2 _bgCurrentPosition;
 
-    private Vector2 _bgMoveVector = Vector2.One * 0.2f;
+    private readonly PongRectangle _bgPong;
 
     public TitleScreen(TestamentGame game)
         : base(game)
@@ -116,6 +114,9 @@ internal sealed class TitleScreen : GameScreenBase
         _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this,
             isGameStarted: false);
         AddModal(_settingsModal, isLate: true);
+
+        var bgTexture = _uiContentStorage.GetTitleBackgroundTexture();
+        _bgPong = new PongRectangle(new Point(bgTexture.Width, bgTexture.Height), ResolutionIndependentRenderer.VirtualBounds, new PongRectangleRandomSource(new LinearDice(), 2));
     }
 
     public void StartClearNewGame(GlobeProvider globeProvider, IScreen currentScreen,
@@ -145,7 +146,7 @@ internal sealed class TitleScreen : GameScreenBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: _camera.GetViewTransformationMatrix());
 
-        spriteBatch.Draw(_uiContentStorage.GetTitleBackgroundTexture(), _bgCurrentPosition, Color.White);
+        spriteBatch.Draw(_uiContentStorage.GetTitleBackgroundTexture(), _bgPong.GetRect(), Color.White);
         spriteBatch.Draw(_uiContentStorage.GetModalShadowTexture(),
             new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Center.X - 128, 0, 256, 480),
             sourceRectangle: null, Color.Lerp(Color.White, Color.Transparent, 0.3f));
@@ -198,36 +199,7 @@ internal sealed class TitleScreen : GameScreenBase
             particleSystem.Update(gameTime);
         }
 
-        void CreateRandomMovement()
-        {
-            _bgMoveVector = (new Vector2((float)_rnd.NextDouble(), (float)_rnd.NextDouble()) - Vector2.One * 0.5f) *
-                            0.1f;
-        }
-
-        if (_bgCurrentPosition.X < -150)
-        {
-            _bgCurrentPosition.X = -150;
-            CreateRandomMovement();
-        }
-        else if (_bgCurrentPosition.X > 0)
-        {
-            _bgCurrentPosition.X = 0;
-            CreateRandomMovement();
-        }
-        else if (_bgCurrentPosition.Y < -20)
-        {
-            _bgCurrentPosition.Y = -20;
-            CreateRandomMovement();
-        }
-        else if (_bgCurrentPosition.Y > 0)
-        {
-            _bgCurrentPosition.Y = 0;
-            CreateRandomMovement();
-        }
-        else
-        {
-            _bgCurrentPosition += _bgMoveVector;
-        }
+        _bgPong.Update(gameTime.ElapsedGameTime.TotalSeconds);
     }
 
     private ButtonBase? CreateLoadButtonOrNothing()

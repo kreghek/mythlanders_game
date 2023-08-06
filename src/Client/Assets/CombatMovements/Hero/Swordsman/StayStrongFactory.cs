@@ -4,6 +4,8 @@ using CombatDicesTeam.Combats.Effects;
 
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats;
+
 using JetBrains.Annotations;
 
 namespace Client.Assets.CombatMovements.Hero.Swordsman;

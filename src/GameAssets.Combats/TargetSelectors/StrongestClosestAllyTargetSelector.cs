@@ -1,5 +1,7 @@
 ﻿using CombatDicesTeam.Combats;
 
+using GameAssets.Combats;
+
 namespace Core.Combats.TargetSelectors;
 
 public sealed class StrongestClosestAllyTargetSelector : ITargetSelector

@@ -4,6 +4,8 @@ using CombatDicesTeam.GenericRanges;
 
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats.CombatMovementEffects;
+
 namespace Client.Assets.CombatMovements.Hero.Amazon;
 
 internal class BringBeastDownFactory : CombatMovementFactoryBase
@@ -19,7 +21,7 @@ internal class BringBeastDownFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new DamageEffect(
+                    new DamageEffectWrapper(
                         new StrongestMarkedEnemyTargetSelector(),
                         DamageType.Normal,
                         GenericRange<int>.CreateMono(4)),

@@ -8,8 +8,9 @@ using Client.Core.Campaigns;
 using Client.GameScreens.CampaignReward;
 using Client.ScreenManagement;
 
+using CombatDicesTeam.GenericRanges;
+
 using Core.PropDrop;
-using Core.Utils;
 
 namespace Client.Assets.StageItems;
 
@@ -35,7 +36,7 @@ internal class RewardStageItem : ICampaignStageItem
             {
                 new DropTableScheme(sid, new IDropTableRecordSubScheme[]
                 {
-                    new DropTableRecordSubScheme(null, new Range<int>(1, 1), sid, 1)
+                    new DropTableRecordSubScheme(null, GenericRange<int>.CreateMono(1), sid, 1)
                 }, 1)
             };
         }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using CombatDicesTeam.Combats;
 
+using GameAssets.Combats;
+
 namespace Client.Assets.Perks;
 
 internal sealed class ImprovedHitPoints : ImprovedStatBase

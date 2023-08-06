@@ -12,6 +12,8 @@ using Client.Core.ProgressStorage;
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dices;
 
+using GameAssets.Combats;
+
 namespace Client.Core;
 
 internal sealed class GlobeProvider
@@ -107,12 +109,7 @@ internal sealed class GlobeProvider
 
         var saveDataDto = JsonSerializer.Deserialize<SaveDto>(json);
 
-        if (saveDataDto is null)
-        {
-            throw new InvalidOperationException("Error during loading the last save.");
-        }
-
-        return saveDataDto;
+        return saveDataDto is null ? throw new InvalidOperationException("Error during loading the last save.") : saveDataDto;
     }
 
     public void LoadGlobe(string saveName)

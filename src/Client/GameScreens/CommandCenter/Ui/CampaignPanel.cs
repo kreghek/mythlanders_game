@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.CommandCenter.Ui;
 
-internal sealed class CampaignPanel : ControlBase
+internal sealed class CampaignPanel : ControlBase, ICampaignPanel
 {
     private readonly CampaignButton _selectButton;
 
@@ -49,6 +49,11 @@ internal sealed class CampaignPanel : ControlBase
     {
         _selectButton.Rect = contentRect;
         _selectButton.Draw(spriteBatch);
+    }
+
+    public void SetRect(Rectangle value)
+    {
+        Rect = value;
     }
 
     public event EventHandler? Selected;
