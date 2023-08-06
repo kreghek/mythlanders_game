@@ -42,15 +42,14 @@ public class TestamentCombatEngineTests
                 new FormationSlot(0, 0) { Combatant = monster },
             });
 
-        using var monitor = combatEngine.Monitor();
-
         // ACT
 
         combatEngine.CreateCombatMovementExecution(combatMovementInstance);
 
         // ASSERT
 
-        monitor.Should().Raise(nameof(combatEngine.CombatantUsedMove));
+        var factCombatMovements = hero.CombatMovementContainers.Single(x => x.Type == CombatMovementContainerTypes.Hand).GetItems().ToArray();
+        factCombatMovements[0].Should().BeNull();
     }
 
     private static ICombatant CreateCombatant(CombatMovementInstance combatMovementInstance)

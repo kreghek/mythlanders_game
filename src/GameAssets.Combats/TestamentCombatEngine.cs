@@ -117,7 +117,7 @@ public sealed class TestamentCombatEngine : CombatEngineBase
                 continue;
             }
 
-            handItems[i] = null;
+            hand.SetMove(null, i);
             return i;
         }
 
