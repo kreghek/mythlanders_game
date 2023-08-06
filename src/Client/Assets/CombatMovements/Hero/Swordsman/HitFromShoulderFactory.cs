@@ -5,6 +5,8 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats.CombatMovementEffects;
+
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
 internal class HitFromShoulderFactory : CombatMovementFactoryBase
@@ -18,7 +20,7 @@ internal class HitFromShoulderFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new DamageEffect(
+                    new DamageEffectWrapper(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
                         GenericRange<int>.CreateMono(3)),

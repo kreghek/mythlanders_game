@@ -17,6 +17,7 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats;
+using GameAssets.Combats.CombatMovementEffects;
 
 using JetBrains.Annotations;
 
@@ -39,7 +40,7 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new DamageEffect(
+                    new DamageEffectWrapper(
                         new AllEnemiesTargetSelector(),
                         DamageType.Normal,
                         GenericRange<int>.CreateMono(2))

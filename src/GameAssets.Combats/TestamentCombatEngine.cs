@@ -5,7 +5,7 @@ namespace GameAssets.Combats;
 
 public sealed class TestamentCombatEngine : CombatEngineBase
 {
-    public TestamentCombatEngine(IDice dice) : base(dice)
+    public TestamentCombatEngine(IRoundQueueResolver roundQueueResolver, IDice dice) : base(dice, roundQueueResolver)
     {
     }
 
@@ -177,9 +177,13 @@ public sealed class TestamentCombatEngine : CombatEngineBase
         var combatants = _allCombatantList.Where(x => !x.IsDead);
         foreach (var combatant in combatants)
         {
-            var stat = combatant.Stats.Single(x => Equals(x.Type, statType));
-            var valueToRestore = stat.Value.ActualMax - stat.Value.Current;
-            stat.Value.Restore(valueToRestore);
+            var stat = combatant.Stats.SingleOrDefault(x => Equals(x.Type, statType));
+
+            if (stat is not null)
+            {
+                var valueToRestore = stat.Value.ActualMax - stat.Value.Current;
+                stat.Value.Restore(valueToRestore);
+            }
         }
     }
 
@@ -205,8 +209,12 @@ public sealed class TestamentCombatEngine : CombatEngineBase
 
     private void SpendCombatantResolve(CombatMovementCost combatMovementCost)
     {
-        CurrentCombatant.Stats.Single(x => Equals(x.Type, CombatantStatTypes.Resolve)).Value
-            .Consume(combatMovementCost.Amount.Current);
+        var unitStat = CurrentCombatant.Stats.SingleOrDefault(x => Equals(x.Type, CombatantStatTypes.Resolve));
+
+        if (unitStat is not null)
+        {
+            unitStat.Value.Consume(combatMovementCost.Amount.Current);
+        }
     }
 
     protected override void RestoreStatsOnWait()
@@ -225,16 +233,5 @@ public sealed class TestamentCombatEngine : CombatEngineBase
     protected override bool DetectCombatantIsDead(ICombatant combatant)
     {
         return combatant.Stats.Single(x => Equals(x.Type, CombatantStatTypes.HitPoints)).Value.Current <= 0;
-    }
-
-    private void RestoreStatOfAllCombatants(ICombatantStatType statType)
-    {
-        var combatants = _allCombatantList.Where(x => !x.IsDead);
-        foreach (var combatant in combatants)
-        {
-            var stat = combatant.Stats.Single(x => x.Type == statType);
-            var valueToRestore = stat.Value.ActualMax - stat.Value.Current;
-            stat.Value.Restore(valueToRestore);
-        }
     }
 }

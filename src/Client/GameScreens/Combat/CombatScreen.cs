@@ -636,7 +636,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private TestamentCombatEngine CreateCombat()
     {
-        return new TestamentCombatEngine(_dice);
+        return new TestamentCombatEngine(new CurrentRoundQueueResolver(), _dice);
     }
 
     private static IReadOnlyCollection<ResourceReward> CreateUiModels(IReadOnlyCollection<IProp> droppedResources)

@@ -4,6 +4,8 @@ using CombatDicesTeam.Combats.Effects;
 
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats;
+
 namespace Client.Assets.CombatMovements.Monster.Slavic.Chaser;
 
 internal class GuardianPromiseFactory : SimpleCombatMovementFactoryBase

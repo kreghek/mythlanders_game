@@ -15,6 +15,8 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats.CombatMovementEffects;
+
 using Microsoft.Xna.Framework;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
@@ -29,7 +31,7 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
                 new IEffect[]
                 {
                     new AdjustPositionEffect(new SelfTargetSelector()),
-                    new DamageEffect(
+                    new DamageEffectWrapper(
                         new MostShieldChargedEnemyTargetSelector(),
                         DamageType.ShieldsOnly,
                         GenericRange<int>.CreateMono(3)),
