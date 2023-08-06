@@ -1,5 +1,5 @@
-﻿using Core.Combats;
-using Core.Combats.Effects;
+﻿using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
 
 using JetBrains.Annotations;
 

@@ -1,11 +1,12 @@
-using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Engine;
 
-using Core.Combats;
-using Core.Combats.CombatantEffectLifetimes;
-using Core.Combats.CombatantEffects;
-using Core.Combats.Effects;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.TargetSelectors;
+
+using GameAssets.Combats.CombatMovementEffects;
 
 using JetBrains.Annotations;
 
@@ -20,25 +21,15 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
     /// <inheritdoc />
     public override CombatMovement CreateMovement()
     {
-        var combatantEffectFactory = new ModifyCombatantMoveStatsCombatantEffectFactory(
-            new UntilCombatantEffectMeetPredicatesLifetimeFactory(new IsAttackCombatMovePredicate()),
-            CombatantMoveStats.Cost,
-            -1000);
-
-        var freeAttacksEffect = new AddCombatantEffectEffect(new SelfTargetSelector(), combatantEffectFactory);
-
         return new CombatMovement(Sid,
             new CombatMovementCost(3),
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new DamageEffect(
+                    new DamageEffectWrapper(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(4)),
-                    new MarkEffect(new ClosestInLineTargetSelector(),
-                        new MultipleCombatantTurnEffectLifetimeFactory(2)),
-                    freeAttacksEffect
+                        GenericRange<int>.CreateMono(4))
                 })
         )
         {

@@ -3,7 +3,9 @@ using System.Linq;
 
 using Client.Core;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+
+using GameAssets.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -26,7 +28,8 @@ internal class CombatantFactory
             { "chaser", new ChaserCombatantFactory() },
             { "aspid", new AspidCombatantFactory() },
             { "volkolakwarrior", new VolkolakCombatantFactory() },
-            { "blacktrooper", new BlackTroopCombatantFactory() }
+            { "agressor", new AgressorCombatantFactory() },
+            { "automataur", new AutomataurCombatantFactory() }
         };
 
     public static IReadOnlyCollection<FormationSlot> CreateHeroes(ICombatActorBehaviour combatActorBehaviour,
@@ -61,7 +64,7 @@ internal class CombatantFactory
         return formation;
     }
 
-    private static Combatant CreateMonsterCombatant(
+    private static TestamentCombatant CreateMonsterCombatant(
         ICombatActorBehaviour combatActorBehaviour,
         MonsterCombatantPrefab monsterCombatantPrefab)
     {

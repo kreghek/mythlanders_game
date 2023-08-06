@@ -1,6 +1,11 @@
-using Core.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
+
+using GameAssets.Combats.CombatMovementEffects;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.Aspid;
 
@@ -12,14 +17,14 @@ internal class DarkRaidsFactory : SimpleCombatMovementFactoryBase
             new IEffect[]
             {
                 new AdjustPositionEffect(new SelfTargetSelector()),
-                new DamageEffect(
+                new DamageEffectWrapper(
                     new ClosestInLineTargetSelector(),
                     DamageType.Normal,
-                    Range<int>.CreateMono(2)),
-                new DamageEffect(
+                    GenericRange<int>.CreateMono(2)),
+                new DamageEffectWrapper(
                     new ClosestInLineTargetSelector(),
                     DamageType.Normal,
-                    Range<int>.CreateMono(2)),
+                    GenericRange<int>.CreateMono(2)),
                 new PushToPositionEffect(
                     new SelfTargetSelector(),
                     ChangePositionEffectDirection.ToVanguard)

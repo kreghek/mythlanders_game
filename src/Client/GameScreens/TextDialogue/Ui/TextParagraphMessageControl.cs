@@ -1,7 +1,7 @@
 using Client.Core.Dialogues;
 using Client.Engine;
 
-using Core.Dices;
+using CombatDicesTeam.Dices;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;

@@ -2,7 +2,7 @@
 using Client.Core;
 using Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectFactoryImplementations;
 
-using Core.Dices;
+using CombatDicesTeam.Dices;
 
 namespace Client.GameScreens.Combat.GameObjects.Background;
 

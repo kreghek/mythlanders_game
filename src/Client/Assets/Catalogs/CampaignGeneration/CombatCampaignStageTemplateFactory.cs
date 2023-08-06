@@ -6,11 +6,11 @@ using Client.Assets.StageItems;
 using Client.Core;
 using Client.Core.Campaigns;
 
+using CombatDicesTeam.Dices;
+using CombatDicesTeam.GenericRanges;
 using CombatDicesTeam.Graphs;
 using CombatDicesTeam.Graphs.Generation.TemplateBased;
 
-using Core.Combats;
-using Core.Dices;
 using Core.PropDrop;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
@@ -56,13 +56,13 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
                 case "digitalwolf":
                     dropTables.Add(new DropTableScheme("digital-claws",
                         new IDropTableRecordSubScheme[]
-                            { new DropTableRecordSubScheme(null, new Range<int>(1, 1), "digital-claws", 1) }, 1));
+                            { new DropTableRecordSubScheme(null, GenericRange<int>.CreateMono(1), "digital-claws", 1) }, 1));
                     break;
 
                 case "chaser":
                     dropTables.Add(new DropTableScheme("bandages",
                         new IDropTableRecordSubScheme[]
-                            { new DropTableRecordSubScheme(null, new Range<int>(1, 1), "bandages", 1) }, 1));
+                            { new DropTableRecordSubScheme(null, GenericRange<int>.CreateMono(1), "bandages", 1) }, 1));
                     break;
             }
         }
@@ -95,7 +95,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         totalDropTables.AddRange(monsterResources);
         totalDropTables.Add(new DropTableScheme("combat-xp", new IDropTableRecordSubScheme[]
         {
-            new DropTableRecordSubScheme(null, new Range<int>(1, 2), "combat-xp", 1)
+            new DropTableRecordSubScheme(null, new GenericRange<int>(1, 2), "combat-xp", 1)
         }, 1));
 
         var combat = new CombatSource(

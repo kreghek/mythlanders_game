@@ -22,31 +22,11 @@ internal sealed class DigitalWolfGraphicsConfig : SlavicMonsterGraphicConfig
             { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdleFromGrid(rows: new[] { 0, 1, 2 }) },
             {
                 PredefinedAnimationSid.MoveForward,
-                AnimationFrameSetFactory.CreateEmpty()
+                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 5 }, fps: 6)
             },
             {
                 PredefinedAnimationSid.MoveBackward,
                 AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 5 }, fps: 6)
-            },
-            {
-                PredefinedAnimationSid.Skill1,
-                AnimationFrameSetFactory.CreateEmpty()
-            },
-            {
-                PredefinedAnimationSid.Skill2,
-                AnimationFrameSetFactory.CreateEmpty()
-            },
-            {
-                PredefinedAnimationSid.Skill3,
-                AnimationFrameSetFactory.CreateEmpty()
-            },
-            {
-                PredefinedAnimationSid.Skill4,
-                AnimationFrameSetFactory.CreateEmpty()
-            },
-            {
-                PredefinedAnimationSid.Ult,
-                AnimationFrameSetFactory.CreateEmpty()
             },
             {
                 PredefinedAnimationSid.Wound,

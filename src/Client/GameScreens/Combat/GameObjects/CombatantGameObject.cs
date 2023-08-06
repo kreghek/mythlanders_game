@@ -9,7 +9,7 @@ using Client.Engine.MoveFunctions;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
 using Client.GameScreens.Combat.Ui;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -28,7 +28,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
     private CombatUnitState _visualIdleState;
 
-    public CombatantGameObject(Combatant combatant, UnitGraphicsConfigBase combatantGraphicsConfig,
+    public CombatantGameObject(ICombatant combatant, UnitGraphicsConfigBase combatantGraphicsConfig,
         FieldCoords formationCoords, ICombatantPositionProvider unitPositionProvider,
         GameObjectContentStorage gameObjectContentStorage,
         ICamera2DAdapter camera, ScreenShaker screenShaker,
@@ -61,7 +61,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
     public IActorAnimator Animator { get; }
 
-    public Combatant Combatant { get; }
+    public ICombatant Combatant { get; }
 
     public UnitGraphics Graphics { get; }
 
@@ -125,9 +125,10 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
     public void MoveToFieldCoords(Vector2 targetPosition)
     {
+        var animationSid = CalcMoveAnimation(Animator.GraphicRoot.Position, targetPosition);
         AddStateEngine(new MoveToPositionActorState(Animator,
             new SlowDownMoveFunction(Animator.GraphicRoot.Position, targetPosition),
-            Graphics.GetAnimationInfo(PredefinedAnimationSid.MoveBackward), new Duration(0.5)));
+            Graphics.GetAnimationInfo(animationSid), new Duration(0.5)));
 
         Graphics.ChangePosition(targetPosition);
         Position = targetPosition;
@@ -185,6 +186,11 @@ internal sealed class CombatantGameObject : EwarRenderableBase
             transformMatrix: _camera.GetViewTransformationMatrix());
     }
 
+    internal void AnimateShield()
+    {
+        // TODO Display shield effect.
+    }
+
     internal void ChangeState(CombatUnitState visualIdleState)
     {
         _visualIdleState = visualIdleState;
@@ -193,6 +199,22 @@ internal sealed class CombatantGameObject : EwarRenderableBase
     internal float GetZIndex()
     {
         return Graphics.Root.Position.Y;
+    }
+
+    private static PredefinedAnimationSid CalcMoveAnimation(Vector2 currentPosition, Vector2 targetPosition)
+    {
+        var combatantCoords = currentPosition;
+        var targetCoords = targetPosition;
+
+        var lineDiff = targetCoords.Y - combatantCoords.Y;
+        var columnDiff = targetCoords.X - combatantCoords.X;
+
+        if (columnDiff > 0 && lineDiff == 0)
+        {
+            return PredefinedAnimationSid.MoveBackward;
+        }
+
+        return PredefinedAnimationSid.MoveForward;
     }
 
     private void HandleEngineStates(GameTime gameTime)

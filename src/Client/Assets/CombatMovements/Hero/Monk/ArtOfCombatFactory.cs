@@ -1,6 +1,11 @@
-using Core.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
+
+using GameAssets.Combats.CombatMovementEffects;
 
 using JetBrains.Annotations;
 
@@ -20,15 +25,17 @@ internal class ArtOfCombatFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new DamageEffect(
+                    new DamageEffectWrapper(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(1)),
+                        GenericRange<int>.CreateMono(1)),
                     new PushToPositionEffect(
                         new SelfTargetSelector(),
                         ChangePositionEffectDirection.ToVanguard
                     ),
-                    new ModifyEffectsEffect(new AllOtherRearguardAlliesTargetSelector(), 1)
+                    new ModifyEffectsEffect(new CombatantEffectSid(Sid),
+                        new AllOtherRearguardAlliesTargetSelector(),
+                        1)
                 })
         )
         {

@@ -22,10 +22,10 @@ internal class GameObjectContentStorage
     private IDictionary<string, SpriteAtlasAnimationData>? _animationSetDict;
     private Texture2D _arrowTexture;
 
+    private Texture2D _combatantMarkers;
+
     private IDictionary<LocationTheme, Texture2D[]> _combatBackgroundBaseDict;
     private IDictionary<(LocationTheme, BackgroundLayerType, int), Texture2D> _combatBackgroundObjectsDict;
-
-    private Texture2D _combatUnitMarkers;
 
     private ContentManager? _contentManager;
     private IDictionary<UnitName, SoundEffect> _deathSoundDict;
@@ -86,7 +86,7 @@ internal class GameObjectContentStorage
         _contentManager = contentManager;
 
         _mapNodes = contentManager.Load<Texture2D>("Sprites/GameObjects/MapNodes");
-        _combatUnitMarkers = contentManager.Load<Texture2D>("Sprites/GameObjects/CombatUnitMarkers");
+        _combatantMarkers = contentManager.Load<Texture2D>("Sprites/GameObjects/CombatantMarkers");
 
         _font = contentManager.Load<SpriteFont>("Fonts/Main");
 
@@ -250,7 +250,7 @@ internal class GameObjectContentStorage
 
             { UnitName.Marauder, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
             { UnitName.BoldMarauder, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
-            { UnitName.BlackTrooper, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+            { UnitName.Agressor, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
             { UnitName.DigitalWolf, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") },
             { UnitName.CorruptedBear, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BearDeath") },
@@ -326,6 +326,9 @@ internal class GameObjectContentStorage
         _animationSetDict = new Dictionary<string, SpriteAtlasAnimationData>
         {
             { "Swordsman", GetAnimationInner("Swordsman") },
+            { "Partisan", GetAnimationInner("Partisan") },
+            { "Robber", GetAnimationInner("Robber") },
+
             { "DigitalWolf", GetAnimationInner("DigitalWolf") },
             { "Aspid", GetAnimationInner("Aspid") }
         };
@@ -346,6 +349,11 @@ internal class GameObjectContentStorage
         return _arrowTexture;
     }
 
+    internal Texture2D GetCombatantMarkers()
+    {
+        return _combatantMarkers;
+    }
+
     internal Texture2D GetCombatBackgroundObjectsTexture(LocationTheme backgroundType,
         BackgroundLayerType layerType, int spriteSheetIndex)
     {
@@ -355,11 +363,6 @@ internal class GameObjectContentStorage
     internal Texture2D[] GetCombatBackgrounds(LocationTheme locationTheme)
     {
         return _combatBackgroundBaseDict[locationTheme];
-    }
-
-    internal Texture2D GetCombatUnitMarker()
-    {
-        return _combatUnitMarkers;
     }
 
     internal SoundEffect GetDeathSound(UnitName unitName)
@@ -451,7 +454,7 @@ internal class GameObjectContentStorage
         {
             { UnitName.Marauder, LoadMonsterTexture(contentManager, "Marauder") },
             { UnitName.BoldMarauder, LoadMonsterTexture(contentManager, "BoldMarauder") },
-            { UnitName.BlackTrooper, LoadMonsterTexture(contentManager, "BlackTrooper") },
+            { UnitName.Agressor, LoadMonsterTexture(contentManager, "Agressor") },
             { UnitName.DigitalWolf, LoadMonsterTexture(contentManager, "DigitalWolf") },
             { UnitName.Aspid, LoadMonsterTexture(contentManager, "Aspid") },
             { UnitName.Wisp, LoadMonsterTexture(contentManager, "Wisp") },
@@ -463,7 +466,9 @@ internal class GameObjectContentStorage
 
             { UnitName.Huapigui, LoadMonsterTexture(contentManager, "Huapigui") },
 
-            { UnitName.Chaser, LoadMonsterTexture(contentManager, "Chaser") }
+            { UnitName.Chaser, LoadMonsterTexture(contentManager, "Chaser") },
+
+            { UnitName.Automataur, LoadMonsterTexture(contentManager, "Automataur") }
         };
     }
 

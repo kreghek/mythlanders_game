@@ -1,7 +1,5 @@
 ﻿using System;
 
-using Client.GameScreens.Combat.GameObjects;
-
 namespace Client.Engine;
 
 /// <summary>

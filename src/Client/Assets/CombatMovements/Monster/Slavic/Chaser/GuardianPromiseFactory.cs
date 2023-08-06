@@ -1,7 +1,10 @@
-﻿using Core.Combats;
-using Core.Combats.CombatantEffectLifetimes;
-using Core.Combats.Effects;
+﻿using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats.Effects;
+
 using Core.Combats.TargetSelectors;
+
+using GameAssets.Combats;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.Chaser;
 
@@ -13,16 +16,18 @@ internal class GuardianPromiseFactory : SimpleCombatMovementFactoryBase
             new IEffect[]
             {
                 new ChangeStatEffect(
+                    new CombatantEffectSid(Sid),
                     new SelfTargetSelector(),
-                    UnitStatType.Defense,
+                    CombatantStatTypes.Defense,
                     3,
                     new ToNextCombatantTurnEffectLifetimeFactory())
             },
             new IEffect[]
             {
                 new ChangeStatEffect(
+                    new CombatantEffectSid(Sid),
                     new SelfTargetSelector(),
-                    UnitStatType.Defense,
+                    CombatantStatTypes.Defense,
                     1,
                     new ToEndOfCurrentRoundEffectLifetimeFactory())
             });

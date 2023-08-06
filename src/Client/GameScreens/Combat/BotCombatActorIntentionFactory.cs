@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 
+using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.CombatMovements;
-using Client.Assets.States.Primitives;
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+
 using Core.Combats.BotBehaviour;
 
 namespace Client.GameScreens.Combat;

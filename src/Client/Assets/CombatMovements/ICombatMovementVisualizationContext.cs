@@ -1,8 +1,10 @@
-﻿using Client.Assets.States.Primitives;
+﻿using Client.Assets.ActorVisualizationStates.Primitives;
+using Client.Core;
 using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Dices;
 
 namespace Client.Assets.CombatMovements;
 
@@ -12,8 +14,11 @@ namespace Client.Assets.CombatMovements;
 internal interface ICombatMovementVisualizationContext
 {
     CombatantGameObject ActorGameObject { get; }
+
+    IBattlefieldInteractionContext BattlefieldInteractionContext { get; }
+    IDice Dice { get; }
     GameObjectContentStorage GameObjectContentStorage { get; }
 
     InteractionDeliveryManager InteractionDeliveryManager { get; }
-    CombatantGameObject GetCombatActor(Combatant combatant);
+    CombatantGameObject GetCombatActor(ICombatant combatant);
 }

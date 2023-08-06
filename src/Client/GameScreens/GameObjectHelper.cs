@@ -1,6 +1,7 @@
 ﻿using Client.Core;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+
 using Core.Crises;
 
 namespace Client.GameScreens;
@@ -85,6 +86,11 @@ internal static class GameObjectHelper
     public static string GetLocalizedVoiceCombatMove(string sid)
     {
         return GetLocalizedInner($"{sid}_voice");
+    }
+
+    internal static string GetLocalized(ICombatantStatusSid sid)
+    {
+        return GetLocalizedInner(sid.ToString() ?? "Unknown");
     }
 
     private static string GetLocalizedInner(string sid)

@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Partisan;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
+
+using GameAssets.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -15,19 +18,20 @@ public class PartisanCombatantFactory : IHeroCombatantFactory
         return Activator.CreateInstance<T>().CreateMovement();
     }
 
-    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
+    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
     {
-        var movementPool = new List<CombatMovement>();
+        var movementPool = new List<CombatMovement>
+        {
+            CreateMovement<InspirationalBreakthroughFactory>(),
 
-        movementPool.Add(CreateMovement<InspirationalBreakthroughFactory>());
+            CreateMovement<SabotageFactory>(),
 
-        movementPool.Add(CreateMovement<SabotageFactory>());
+            CreateMovement<SurpriseManeuverFactory>(),
 
-        movementPool.Add(CreateMovement<SurpriseManeuverFactory>());
+            CreateMovement<BlankShotFactory>(),
 
-        movementPool.Add(CreateMovement<BlankShotFactory>());
-
-        movementPool.Add(CreateMovement<OldGoodBrawlFactory>());
+            CreateMovement<OldGoodBrawlFactory>()
+        };
 
         var heroSequence = new CombatMovementSequence();
 
@@ -40,13 +44,14 @@ public class PartisanCombatantFactory : IHeroCombatantFactory
         }
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, 4);
-        stats.SetValue(UnitStatType.ShieldPoints, 3);
-        stats.SetValue(UnitStatType.Resolve, 7);
+        stats.SetValue(CombatantStatTypes.HitPoints, 4);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 3);
+        stats.SetValue(CombatantStatTypes.Resolve, 7);
 
-        var hero = new Combatant("partisan", heroSequence, stats, combatActorBehaviour)
+        var hero = new TestamentCombatant("partisan", heroSequence, stats, combatActorBehaviour,
+            ArraySegment<ICombatantStatusFactory>.Empty)
         {
-            Sid = sid, IsPlayerControlled = true
+            DebugSid = sid, IsPlayerControlled = true
         };
         return hero;
     }

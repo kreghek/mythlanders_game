@@ -5,7 +5,9 @@ using System.Linq;
 using Client.Assets.CombatMovements;
 using Client.Engine;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+
+using GameAssets.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -57,7 +59,7 @@ internal class CombatMovementsHandPanel : ControlBase
 
     private CombatMovementHint? _activeCombatMovementHint;
     private BurningCombatMovement? _burningCombatMovement;
-    private Combatant? _combatant;
+    private ICombatant? _combatant;
     private KeyboardState _currentKeyboardState;
     private EntityButtonBase<CombatMovementInstance>? _hoverButton;
     private KeyboardState? _lastKeyboardState;
@@ -83,7 +85,7 @@ internal class CombatMovementsHandPanel : ControlBase
         _waitButton.OnClick += WaitButton_OnClick;
     }
 
-    public Combatant? Combatant
+    public ICombatant? Combatant
     {
         get => _combatant;
         set
@@ -222,7 +224,7 @@ internal class CombatMovementsHandPanel : ControlBase
                     DetectMouseHoverOnButton(mouseRect, button);
 
                     button.IsEnabled = Combatant is not null && IsResolveEnought(button.Entity,
-                        Combatant.Stats.Single(x => x.Type == UnitStatType.Resolve));
+                        Combatant.Stats.Single(x => x.Type == CombatantStatTypes.Resolve));
                 }
             }
 
@@ -409,9 +411,11 @@ internal class CombatMovementsHandPanel : ControlBase
             //throw new InvalidOperationException("Unit required to be initialized before.");
         }
 
-        for (var buttonIndex = 0; buttonIndex < _combatant.Hand.Count; buttonIndex++)
+        var hand = _combatant.CombatMovementContainers.Single(x => x.Type == CombatMovementContainerTypes.Hand)
+            .GetItems().ToArray();
+        for (var buttonIndex = 0; buttonIndex < hand.Length; buttonIndex++)
         {
-            var movement = _combatant.Hand[buttonIndex];
+            var movement = hand[buttonIndex];
             if (movement is not null)
             {
                 var icon = _combatMovementVisualizer.GetMoveIcon(movement.SourceMovement.Sid);

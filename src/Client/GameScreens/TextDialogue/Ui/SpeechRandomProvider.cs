@@ -1,4 +1,4 @@
-﻿using Core.Dices;
+﻿using CombatDicesTeam.Dices;
 
 namespace Client.GameScreens.TextDialogue.Ui;
 

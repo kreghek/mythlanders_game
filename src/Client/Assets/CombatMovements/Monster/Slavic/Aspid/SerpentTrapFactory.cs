@@ -1,9 +1,14 @@
-using Client.Assets.CombatMovements.Hero.Swordsman;
 using Client.Engine;
+using Client.GameScreens;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
+
+using GameAssets.Combats.CombatMovementEffects;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.Aspid;
 
@@ -19,17 +24,19 @@ internal class SerpentTrapFactory : SimpleCombatMovementFactoryBase
         var chargeAnimation = AnimationHelper.ConvertToAnimation(animationSet, "charge");
 
         var hitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "tail-attack");
+        var snakeBiteSoundEffect =
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.AspidBite);
 
         var hitCompleteAnimation = AnimationHelper.ConvertToAnimation(animationSet, "attack-complete");
 
         var backAnimation = AnimationHelper.ConvertToAnimation(animationSet, "back");
 
         var config = new SingleMeleeVisualizationConfig(
-            prepareAnimation,
-            chargeAnimation,
-            hitAnimation,
-            hitCompleteAnimation,
-            backAnimation);
+            new SoundedAnimation(prepareAnimation, null),
+            new SoundedAnimation(chargeAnimation, null),
+            new SoundedAnimation(hitAnimation, snakeBiteSoundEffect.CreateInstance()),
+            new SoundedAnimation(hitCompleteAnimation, null),
+            new SoundedAnimation(backAnimation, null));
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);
@@ -41,10 +48,10 @@ internal class SerpentTrapFactory : SimpleCombatMovementFactoryBase
             new IEffect[]
             {
                 new AdjustPositionEffect(new SelfTargetSelector()),
-                new DamageEffect(
+                new DamageEffectWrapper(
                     new StrongestEnemyTargetSelector(),
                     DamageType.Normal,
-                    Range<int>.CreateMono(3)),
+                    GenericRange<int>.CreateMono(3)),
                 new PushToPositionEffect(
                     new SelfTargetSelector(),
                     ChangePositionEffectDirection.ToVanguard)

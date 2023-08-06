@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.CombatMovements;
-using Client.Assets.CombatMovements.Hero.Swordsman;
-using Client.Assets.States.Primitives;
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Dices;
 
 namespace Client.GameScreens.Combat;
 
@@ -39,7 +39,7 @@ internal sealed class UseCombatMovementIntention : IIntention
         _shadeService = shadeService;
     }
 
-    private CombatantGameObject GetCombatantGameObject(Combatant combatant)
+    private CombatantGameObject GetCombatantGameObject(ICombatant combatant)
     {
         return _combatantGameObjects.First(x => x.Combatant == combatant);
     }
@@ -47,15 +47,20 @@ internal sealed class UseCombatMovementIntention : IIntention
     private CombatMovementScene GetMovementVisualizationState(CombatantGameObject actorGameObject,
         CombatMovementExecution movementExecution, CombatMovementInstance combatMovement)
     {
-        var context = new CombatMovementVisualizationContext(actorGameObject, _combatantGameObjects.ToArray(),
-            _interactionDeliveryManager, _gameObjectContentStorage);
+        var context = new CombatMovementVisualizationContext(
+            actorGameObject,
+            _combatantGameObjects.ToArray(),
+            _interactionDeliveryManager,
+            _gameObjectContentStorage,
+            new BattlefieldInteractionContext(),
+            new LinearDice());
 
         return _combatMovementVisualizer.GetMovementVisualizationState(combatMovement.SourceMovement.Sid,
             actorGameObject.Animator, movementExecution, context);
     }
 
     private void PlaybackCombatMovementExecution(CombatMovementExecution movementExecution,
-        CombatMovementScene movementScene, CombatCore combatCore)
+        CombatMovementScene movementScene, CombatEngineBase combatCore)
     {
         var actorGameObject = GetCombatantGameObject(combatCore.CurrentCombatant);
 
@@ -103,13 +108,13 @@ internal sealed class UseCombatMovementIntention : IIntention
         _shadeService.AddTargets(focusedAnimators);
     }
 
-    public void Make(CombatCore combatCore)
+    public void Make(CombatEngineBase combatEngine)
     {
-        var movementExecution = combatCore.CreateCombatMovementExecution(_combatMovement);
+        var movementExecution = combatEngine.CreateCombatMovementExecution(_combatMovement);
 
-        var actorGameObject = GetCombatantGameObject(combatCore.CurrentCombatant);
+        var actorGameObject = GetCombatantGameObject(combatEngine.CurrentCombatant);
         var movementState = GetMovementVisualizationState(actorGameObject, movementExecution, _combatMovement);
 
-        PlaybackCombatMovementExecution(movementExecution, movementState, combatCore);
+        PlaybackCombatMovementExecution(movementExecution, movementState, combatEngine);
     }
 }

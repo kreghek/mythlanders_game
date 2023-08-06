@@ -1,6 +1,10 @@
-﻿using Core.Combats;
-using Core.Combats.Effects;
+﻿using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.TargetSelectors;
+
+using GameAssets.Combats.CombatMovementEffects;
 
 namespace Client.Assets.CombatMovements.Hero.Robber;
 
@@ -15,10 +19,10 @@ internal class UndercutValuesFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new DamageEffect(
+                    new DamageEffectWrapper(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(1))
+                        GenericRange<int>.CreateMono(1))
                 })
         )
         {

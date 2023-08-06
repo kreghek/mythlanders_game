@@ -126,8 +126,8 @@
   <data name="AfterlifeWhirlwind_Description" xml:space="preserve">
     <value>Наносит урон 2 ед. всем противникам в авангарде и сам перемещается в авангард.</value>
   </data>
-  <data name="Archer" xml:space="preserve">
-    <value>Сокол</value>
+  <data name="Agressor" xml:space="preserve">
+    <value>Агрессор</value>
   </data>
   <data name="ArcherEquipment" xml:space="preserve">
     <value>Сломанные стрелы</value>
@@ -146,14 +146,14 @@
     <value>Стреляет энергетическими зарядами.
 Увеличивает урона на 25% за уровень.</value>
   </data>
-  <data name="ArrowOfMorana" xml:space="preserve">
-    <value>Стрела Мораны</value>
-  </data>
-  <data name="ArrowOfMorana_Description" xml:space="preserve">
-    <value>Наносит 2ед. урона самому слабому противнику с меткой.</value>
-  </data>
   <data name="ArrowRain" xml:space="preserve">
     <value>Дождь стрел</value>
+  </data>
+  <data name="ArrowsOfMorana" xml:space="preserve">
+    <value>Стрела Мораны</value>
+  </data>
+  <data name="ArrowsOfMorana_Description" xml:space="preserve">
+    <value>Наносит 2ед. урона всем притивникам.</value>
   </data>
   <data name="ArtOfCombat" xml:space="preserve">
     <value>Искусство боя</value>
@@ -170,11 +170,14 @@
   <data name="Assaulter" xml:space="preserve">
     <value>Хаокин</value>
   </data>
+  <data name="Automataur" xml:space="preserve">
+    <value>Автоматавр</value>
+  </data>
   <data name="BalticThunder" xml:space="preserve">
     <value>Балтийский шторм</value>
   </data>
   <data name="BalticThunder_Description" xml:space="preserve">
-    <value>Наносит урон 4ед. ближайшему в линии противнику и ставит метку на 2 хода. Следующее атакующее движение не требует энергии.</value>
+    <value>Наносит урон 4ед. ближайшему в линии противнику.</value>
   </data>
   <data name="Battleground" xml:space="preserve">
     <value>Поле брани</value>
@@ -187,9 +190,6 @@
   </data>
   <data name="BigMonsterDescription" xml:space="preserve">
     <value>Этот монстр большой, поэтому у него +50% к HP и удвоенная броня.</value>
-  </data>
-  <data name="BlackTrooper" xml:space="preserve">
-    <value>Пехотинец</value>
   </data>
   <data name="BlankShot" xml:space="preserve">
     <value>Выстрел в упор</value>
@@ -287,6 +287,12 @@
   <data name="DamageTogether_CrisisAftermath" xml:space="preserve">
     <value>Герои защищаются от ловушки вместе</value>
   </data>
+  <data name="DanceWithThePast" xml:space="preserve">
+    <value>Танец с Прошлым</value>
+  </data>
+  <data name="DanceWithThePast_Description" xml:space="preserve">
+    <value>Перемещается в авангард и два удара 2 ед. урона.</value>
+  </data>
   <data name="DarkLight" xml:space="preserve">
     <value>Темная молная</value>
   </data>
@@ -365,6 +371,12 @@
   <data name="EyesOfChaos_Description" xml:space="preserve">
     <value>Наносит урон 2 ед. всем противникам в авангарде и сам перемещается в авангард.</value>
   </data>
+  <data name="FatalBlow" xml:space="preserve">
+    <value>Роковой удар</value>
+  </data>
+  <data name="FatalBlow_Description" xml:space="preserve">
+    <value>Наносит 2 ед. урона и сжигает 2 ед. энергии самому дальнему противнику. Затем вытягивает противника в авангард.</value>
+  </data>
   <data name="FingerOfAnubis" xml:space="preserve">
     <value>Перст Анубиса</value>
   </data>
@@ -383,6 +395,12 @@
   <data name="GreyWolf" xml:space="preserve">
     <value>Серый волк</value>
   </data>
+  <data name="GrimResolve" xml:space="preserve">
+    <value>Мрачная решимость</value>
+  </data>
+  <data name="GrimResolve_Description" xml:space="preserve">
+    <value>Наносит 2 ед. урона и сжигает 2 ед. энергии самому дальнему противнику. Затем вытягивает противника в авангард.</value>
+  </data>
   <data name="GuardianPromise" xml:space="preserve">
     <value>Обещание стража гробниц</value>
   </data>
@@ -397,6 +415,9 @@
   </data>
   <data name="HandOfThousandForms_Description" xml:space="preserve">
     <value>Перемещается в авангард и наносит 2 ед. урона ближайшему противнику на линии. Если монах уже был в авангарде, то наносит бонусный урон 1ед.</value>
+  </data>
+  <data name="HaventBeenPunchedInTheFaceForALongTime_voice" xml:space="preserve">
+    <value>Давно по морде не получал?!</value>
   </data>
   <data name="HealingSalve" xml:space="preserve">
     <value>Целебная мазь</value>
@@ -485,11 +506,23 @@
   <data name="JustHitBoarWithKnife_Description" xml:space="preserve">
     <value>Наносит урон 1ед. ближайшему в линии противнику. Если это был самый сильный противник, то накладывает кровотечение на 2 раунда, наносящее урон 1ед. здоровью каждый раунд.</value>
   </data>
+  <data name="LastChanceToPeace" xml:space="preserve">
+    <value>Последний шанс на мир</value>
+  </data>
+  <data name="LastChanceToPeace_Description" xml:space="preserve">
+    <value>Наносит урон 2 ед. всем противникам в авангарде и сам перемещается в авангард.</value>
+  </data>
   <data name="LookOut" xml:space="preserve">
     <value>Берегись!</value>
   </data>
   <data name="LookOut_Description" xml:space="preserve">
     <value>Увеличивает защиту ближайшего союзника в столбце на 3 до конца хода союзника. Сам мечник перемещается в авангард. При автосрабатывании, увеличивает свою защиту на 1ед.</value>
+  </data>
+  <data name="MadnessWithinEyes" xml:space="preserve">
+    <value>Безумие в глазах</value>
+  </data>
+  <data name="MadnessWithinEyes_Description" xml:space="preserve">
+    <value>Повышает свою защиту на 3 ед. При авто-срабатывании повышает защиту на 1 ед.</value>
   </data>
   <data name="MagicTrap_Crisis" xml:space="preserve">
     <value>Внезапно герои попадают в мистическую ловушку. Колоссальный столб  молний устремляется вверх, нависает дугой и несется в группу героев. Кажется, молния вытягивает свет из всего вокруг и создает тьму, которую невозможно себе представить. Есть только один шанс, чтобы успеть и не оказаться под ударом. Действовать нужно быстро и точно.</value>
@@ -573,6 +606,9 @@
   </data>
   <data name="RiseYourSwords_Description" xml:space="preserve">
     <value>Увеличивает урон атакующих движений ближнего боя на 1 ед. у всех союзников на 2 хода.</value>
+  </data>
+  <data name="Robber" xml:space="preserve">
+    <value>Сокол</value>
   </data>
   <data name="RunOut_CrisisAftermath" xml:space="preserve">
     <value>Убежать</value>
@@ -665,6 +701,9 @@
   <data name="TakeAllDamageByOneHero_CrisisAftermath" xml:space="preserve">
     <value>Один из героев закрывает всех от заряда</value>
   </data>
+  <data name="TheGoodWeather_voice" xml:space="preserve">
+    <value>Какая сегодня прекрасная погода...</value>
+  </data>
   <data name="Thicket" xml:space="preserve">
     <value>Темная Чаща</value>
   </data>
@@ -682,6 +721,9 @@
   </data>
   <data name="TryToRunOut_CrisisAftermath" xml:space="preserve">
     <value>Попытаться убежать</value>
+  </data>
+  <data name="TwoPlusTwoIsFive_voice" xml:space="preserve">
+    <value>Два плюс два будет пять...</value>
   </data>
   <data name="UndercutValues" xml:space="preserve">
     <value>Подрезать ценности</value>
@@ -744,44 +786,5 @@
   </data>
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
-  </data>
-  <data name="GrimResolve" xml:space="preserve">
-    <value>Мрачная решимость</value>
-  </data>
-  <data name="GrimResolve_Description" xml:space="preserve">
-    <value>Наносит 2 ед. урона и сжигает 2 ед. энергии самому дальнему противнику. Затем вытягивает противника в авангард.</value>
-  </data>
-  <data name="DanceWithThePast" xml:space="preserve">
-    <value>Танец с Прошлым</value>
-  </data>
-  <data name="DanceWithThePast_Description" xml:space="preserve">
-    <value>Перемещается в авангард и два удара 2 ед. урона.</value>
-  </data>
-  <data name="FatalBlow" xml:space="preserve">
-    <value>Роковой удар</value>
-  </data>
-  <data name="FatalBlow_Description" xml:space="preserve">
-    <value>Наносит 2 ед. урона и сжигает 2 ед. энергии самому дальнему противнику. Затем вытягивает противника в авангард.</value>
-  </data>
-  <data name="MadnessWithinEyes" xml:space="preserve">
-    <value>Безумие в глазах</value>
-  </data>
-  <data name="MadnessWithinEyes_Description" xml:space="preserve">
-    <value>Повышает свою защиту на 3 ед. При авто-срабатывании повышает защиту на 1 ед.</value>
-  </data>
-  <data name="LastChanceToPeace" xml:space="preserve">
-    <value>Последний шанс на мир</value>
-  </data>
-  <data name="LastChanceToPeace_Description" xml:space="preserve">
-    <value>Наносит урон 2 ед. всем противникам в авангарде и сам перемещается в авангард.</value>
-  </data>
-  <data name="HaventBeenPunchedInTheFaceForALongTime_voice" xml:space="preserve">
-    <value>Давно по морде не получал?!</value>
-  </data>
-  <data name="TheGoodWeather_voice" xml:space="preserve">
-    <value>Какая сегодня прекрасная погода...</value>
-  </data>
-  <data name="TwoPlusTwoIsFive_voice" xml:space="preserve">
-    <value>Два плюс два будет пять...</value>
   </data>
 </root>

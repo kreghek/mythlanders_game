@@ -4,7 +4,9 @@ using System.Linq;
 
 using Client.Engine;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+
+using GameAssets.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,12 +17,12 @@ namespace Client.GameScreens.Combat.Ui;
 internal sealed class CombatantQueuePanel : ControlBase
 {
     private const int RESOLVE_WIDTH = 12;
-    private const int PORTRAIN_WIDTH = 32;
-    private readonly CombatCore _activeCombat;
+    private const int PORTRAIT_WIDTH = 32;
+    private readonly CombatEngineBase _activeCombat;
     private readonly ICombatantThumbnailProvider _combatantThumbnailProvider;
 
-    private readonly IList<(Rectangle, ICombatantEffect)> _effectInfoList =
-        new List<(Rectangle, ICombatantEffect)>();
+    private readonly IList<(Rectangle, ICombatantStatus)> _effectInfoList =
+        new List<(Rectangle, ICombatantStatus)>();
 
     private readonly IList<(Rectangle, CombatMovementInstance)> _monsterCombatMoveInfoList =
         new List<(Rectangle, CombatMovementInstance)>();
@@ -29,10 +31,10 @@ internal sealed class CombatantQueuePanel : ControlBase
     private HintBase? _combatMoveHint;
 
     private HintBase? _effectHint;
-    private ICombatantEffect? _lastEffectWithHint;
+    private ICombatantStatus? _lastEffectWithHint;
     private CombatMovementInstance? _lastMoveWithHint;
 
-    public CombatantQueuePanel(CombatCore combat,
+    public CombatantQueuePanel(CombatEngineBase combat,
         IUiContentStorage uiContentStorage,
         ICombatantThumbnailProvider combatantThumbnailProvider)
     {
@@ -43,7 +45,7 @@ internal sealed class CombatantQueuePanel : ControlBase
 
     public Point CalcContentSize()
     {
-        return new((RESOLVE_WIDTH + PORTRAIN_WIDTH) * (_activeCombat.Combatants.Count + 1), 48);
+        return new((RESOLVE_WIDTH + PORTRAIT_WIDTH) * (_activeCombat.CurrentCombatants.Count + 1), 48);
     }
 
     public void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)
@@ -75,22 +77,23 @@ internal sealed class CombatantQueuePanel : ControlBase
         spriteBatch.Draw(UiThemeManager.UiContentStorage.GetModalShadowTexture(), contentRect,
             new Rectangle(ControlTextures.Shadow, new Point(32, 32)), Color.Lerp(Color.White, Color.Transparent, 0.5f));
 
-        for (var index = 0; index < _activeCombat.RoundQueue.Count; index++)
+        for (var index = 0; index < _activeCombat.CurrentRoundQueue.Count; index++)
         {
-            var combatant = _activeCombat.RoundQueue[index];
+            var combatant = _activeCombat.CurrentRoundQueue[index];
 
             var combatantQueuePosition =
-                new Vector2(contentRect.Location.X + (index * (PORTRAIN_WIDTH + RESOLVE_WIDTH + CONTENT_MARGIN)),
+                new Vector2(contentRect.Location.X + (index * (PORTRAIT_WIDTH + RESOLVE_WIDTH + CONTENT_MARGIN)),
                     contentRect.Location.Y + CONTENT_MARGIN);
 
             var side = combatant.IsPlayerControlled ? Side.Left : Side.Right;
             var portraitDestRect = new Rectangle(combatantQueuePosition.ToPoint() + new Point(RESOLVE_WIDTH, 0),
-                new Point(PORTRAIN_WIDTH, PORTRAIN_WIDTH));
+                new Point(PORTRAIT_WIDTH, PORTRAIT_WIDTH));
             DrawCombatantThumbnail(spriteBatch, portraitDestRect, combatant, side);
 
             if (!combatant.IsPlayerControlled && !combatant.IsDead)
             {
-                var plannedMove = combatant.Hand.First(x => x is not null);
+                var plannedMove = combatant.CombatMovementContainers
+                    .Single(x => x.Type == CombatMovementContainerTypes.Hand).GetItems().First(x => x is not null);
 
                 if (plannedMove is not null)
                 {
@@ -100,7 +103,7 @@ internal sealed class CombatantQueuePanel : ControlBase
             }
 
             spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(),
-                combatant.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.Current.ToString(),
+                combatant.Stats.Single(x => x.Type == CombatantStatTypes.Resolve).Value.Current.ToString(),
                 combatantQueuePosition, Color.White);
         }
 
@@ -108,7 +111,7 @@ internal sealed class CombatantQueuePanel : ControlBase
         _combatMoveHint?.Draw(spriteBatch);
     }
 
-    private static HintBase CreateEffectHint((Rectangle, ICombatantEffect) effectInfo)
+    private static HintBase CreateEffectHint((Rectangle, ICombatantStatus) effectInfo)
     {
         return new EffectHint(effectInfo.Item2)
         {
@@ -129,7 +132,7 @@ internal sealed class CombatantQueuePanel : ControlBase
         return hint;
     }
 
-    private void DrawCombatantThumbnail(SpriteBatch spriteBatch, Rectangle portraitDestRect, Combatant combatant,
+    private void DrawCombatantThumbnail(SpriteBatch spriteBatch, Rectangle portraitDestRect, ICombatant combatant,
         Side side)
     {
         var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+
+using GameAssets.Combats;
 
 namespace Client.Assets.Perks;
 
@@ -14,11 +16,11 @@ internal sealed class ImprovedHitPoints : ImprovedStatBase
         maxHitpoints = (float)Math.Round(maxHitpoints * HITPOINTS_BONUS);
     }
 
-    public override IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers()
+    public override IReadOnlyCollection<(ICombatantStatType, IUnitStatModifier)> GetStatModifiers()
     {
-        return new (UnitStatType, IUnitStatModifier)[]
+        return new (ICombatantStatType, IUnitStatModifier)[]
         {
-            new(UnitStatType.HitPoints, new StatModifier(1))
+            new(CombatantStatTypes.HitPoints, new StatModifier(1))
         };
     }
 }

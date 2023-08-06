@@ -8,6 +8,8 @@ using Client.GameScreens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonoGame.Extended;
+
 namespace Client.Engine;
 
 internal enum OutlineMode
@@ -26,12 +28,14 @@ internal abstract class UnitGraphicsBase
     private readonly UnitGraphicsConfigBase _graphicsConfig;
 
     private readonly IDictionary<PredefinedAnimationSid, IAnimationFrameSet> _predefinedAnimationFrameSets;
-    private readonly Sprite _selectedMarker;
+    private readonly Sprite[] _selectedMarkers;
 
     private IAnimationFrameSet _currentAnimationFrameSet = null!;
     private Sprite _graphics;
     private Sprite[] _outlines;
     protected Vector2 _position;
+
+    private double _selectedMarkerCounter;
 
     private Sprite[] _sprites;
 
@@ -42,10 +46,18 @@ internal abstract class UnitGraphicsBase
         _position = position;
         _gameObjectContentStorage = gameObjectContentStorage;
 
-        _selectedMarker = new Sprite(gameObjectContentStorage.GetCombatUnitMarker())
+        _selectedMarkers = new[]
         {
-            Origin = new Vector2(0.5f, 0.75f),
-            SourceRectangle = new Rectangle(0, 0, 128, 32)
+            new Sprite(gameObjectContentStorage.GetCombatantMarkers())
+            {
+                Origin = new Vector2(0.5f, 0.75f),
+                SourceRectangle = new Rectangle(0, 0, 32, 32)
+            },
+            new Sprite(gameObjectContentStorage.GetCombatantMarkers())
+            {
+                Origin = new Vector2(0.5f, 0.75f),
+                SourceRectangle = new Rectangle(128 - 32, 0, 32, 32)
+            }
         };
 
         _predefinedAnimationFrameSets = graphicsConfig.GetPredefinedAnimations();
@@ -95,7 +107,7 @@ internal abstract class UnitGraphicsBase
 
     public void Update(GameTime gameTime)
     {
-        HandleSelectionMarker();
+        HandleSelectionMarker(gameTime);
 
         UpdateAnimation(gameTime);
 
@@ -109,7 +121,10 @@ internal abstract class UnitGraphicsBase
     {
         if (Root is not null)
         {
-            Root.RemoveChild(_selectedMarker);
+            foreach (var selectedMarker in _selectedMarkers)
+            {
+                Root.RemoveChild(selectedMarker);
+            }
         }
 
         Root = new SpriteContainer
@@ -126,7 +141,10 @@ internal abstract class UnitGraphicsBase
         };
         Root.AddChild(shadow);
 
-        Root.AddChild(_selectedMarker);
+        foreach (var selectedMarker in _selectedMarkers)
+        {
+            Root.AddChild(selectedMarker);
+        }
 
         _graphics = CreateSprite(spriteSheetId, Vector2.Zero, Color.White);
 
@@ -165,10 +183,19 @@ internal abstract class UnitGraphicsBase
         };
     }
 
-    private void HandleSelectionMarker()
+    private void HandleSelectionMarker(GameTime gameTime)
     {
         var isMarkerDisplayed = _currentAnimationFrameSet.IsIdle && ShowActiveMarker;
-        _selectedMarker.Visible = isMarkerDisplayed;
+        foreach (var selectedMarker in _selectedMarkers)
+        {
+            selectedMarker.Visible = isMarkerDisplayed;
+        }
+
+        _selectedMarkerCounter += gameTime.GetElapsedSeconds();
+        var t = MathHelper.Clamp((float)Math.Sin(_selectedMarkerCounter * 10), -1f, 0.5f);
+
+        _selectedMarkers[0].Position = new Vector2(t * 12 - 64, 0);
+        _selectedMarkers[1].Position = new Vector2(128 - t * 12 - 64, 0);
     }
 
     private void UpdateAnimation(GameTime gameTime)

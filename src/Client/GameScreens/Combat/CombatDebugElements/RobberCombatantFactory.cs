@@ -4,7 +4,12 @@ using System.Collections.Generic;
 using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Robber;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+
+using Core.Combats.CombatantStatuses;
+
+using GameAssets.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements;
 
@@ -15,13 +20,13 @@ public class RobberCombatantFactory : IHeroCombatantFactory
         return Activator.CreateInstance<T>().CreateMovement();
     }
 
-    public Combatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
+    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
     {
         var movementPool = new List<CombatMovement>
         {
-            CreateMovement<BalticThunderFactory>(), // hunt
+            CreateMovement<BalticThunderFactory>(),
 
-            CreateMovement<ArrowOfMoranaFactory>(), // finish
+            CreateMovement<ArrowsOfMoranaFactory>(),
 
             CreateMovement<WingsOfVelesFactory>(), // tracker
 
@@ -41,14 +46,23 @@ public class RobberCombatantFactory : IHeroCombatantFactory
         }
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(UnitStatType.HitPoints, hitpointsStat);
-        stats.SetValue(UnitStatType.ShieldPoints, 0);
-        stats.SetValue(UnitStatType.Resolve, 4);
+        stats.SetValue(CombatantStatTypes.HitPoints, hitpointsStat);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 0);
+        stats.SetValue(CombatantStatTypes.Resolve, 4);
 
-        var hero = new Combatant("robber", heroSequence, stats, combatActorBehaviour)
+        var startupEffects = new[]
         {
-            Sid = sid, IsPlayerControlled = true
+            new ImpulseGeneratorCombatantStatusFactory(
+                CombatantStatusSids.ImpulseGenerator,
+                CombatantStatusSids.Impulse,
+                new OwnerBoundCombatantStatusLifetimeFactory())
         };
+
+        var hero = new TestamentCombatant("robber", heroSequence, stats, combatActorBehaviour, startupEffects)
+        {
+            DebugSid = sid, IsPlayerControlled = true
+        };
+
         return hero;
     }
 }

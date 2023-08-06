@@ -1,7 +1,11 @@
-using Core.Combats;
-using Core.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats.Effects;
+
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
+
+using GameAssets.Combats;
 
 using JetBrains.Annotations;
 
@@ -26,13 +30,15 @@ internal class NinthTrigramFactory : CombatMovementFactoryBase
                         ChangePositionEffectDirection.ToVanguard
                     ),
                     new ChangeStatEffect(
+                        new CombatantEffectSid(Sid),
                         new StrongestClosestAllyTargetSelector(),
-                        UnitStatType.Defense,
+                        CombatantStatTypes.Defense,
                         2,
                         new ToNextCombatantTurnEffectLifetimeFactory()),
                     new ChangeStatEffect(
+                        new CombatantEffectSid(Sid),
                         new SelfTargetSelector(),
-                        UnitStatType.Defense,
+                        CombatantStatTypes.Defense,
                         2,
                         new ToNextCombatantTurnEffectLifetimeFactory())
                 })

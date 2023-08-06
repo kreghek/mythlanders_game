@@ -11,8 +11,9 @@ using Client.GameScreens.Crisis.Ui;
 using Client.GameScreens.Rest.Ui;
 using Client.ScreenManagement;
 
+using CombatDicesTeam.Dices;
+
 using Core.Crises;
-using Core.Dices;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;

@@ -20,6 +20,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private readonly ButtonBase _inventoryButton;
     private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
     private readonly ButtonBase _showStoryPointsButton;
+    private readonly IUiContentStorage _uiContentStorage;
     private CampaignMap? _campaignMap;
 
     private bool _isCampaignPresentation = true;
@@ -33,6 +34,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
         _screenTransitionArguments = screenTransitionArguments;
 
         _globe = game.Services.GetRequiredService<GlobeProvider>();
+        _uiContentStorage = game.Services.GetRequiredService<IUiContentStorage>();
 
         _showStoryPointsButton = new ResourceTextButton(nameof(UiResource.CurrentQuestButtonTitle));
         _showStoryPointsButton.OnClick += ShowStoryPointsButton_OnClick;
@@ -69,6 +71,12 @@ internal class CampaignScreen : GameScreenWithMenuBase
         {
             _campaignMap.Rect = contentRect;
             _campaignMap.Draw(spriteBatch);
+
+            if (_isCampaignPresentation)
+            {
+                spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), "Нажми [SPACE] чтобы пропустить",
+                    new Vector2(contentRect.Center.X, contentRect.Bottom - 50), Color.Wheat);
+            }
         }
 
         const int STORY_POINT_PANEL_WIDTH = 200;
@@ -95,7 +103,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
         if (_campaignMap is not null)
         {
-            _campaignMap.Update(ResolutionIndependentRenderer);
+            _campaignMap.Update(gameTime, ResolutionIndependentRenderer);
 
             UpdateMapPresentation(gameTime, _campaignMap);
         }
@@ -144,11 +152,17 @@ internal class CampaignScreen : GameScreenWithMenuBase
             return;
         }
 
+        if (campaignMap.Presentation is null)
+        {
+            // Presentation data is not ready yet.
+            return;
+        }
+
         _presentationDelayCounter = 0;
         _isCampaignPresentation = false;
         campaignMap.State = CampaignMap.MapState.Interactive;
 
-        campaignMap.Scroll = campaignMap.StartScroll;
+        campaignMap.Scroll = campaignMap.Presentation.Target;
     }
 
     private void InitializeCampaignItemButtons()
@@ -160,7 +174,9 @@ internal class CampaignScreen : GameScreenWithMenuBase
             Game.Content.Load<Texture2D>("Sprites/Ui/MapBackground"),
             Game.Content.Load<Texture2D>("Sprites/Ui/MapItemShadow"),
             Game.Content.Load<Texture2D>("Sprites/Ui/MapDisplay"),
-            ResolutionIndependentRenderer);
+            Game.Content.Load<Texture2D>("Sprites/Ui/Icons16x16"),
+            ResolutionIndependentRenderer,
+            Game.Services.GetRequiredService<GameObjectContentStorage>());
     }
 
     private void InventoryButton_OnClick(object? sender, EventArgs e)
@@ -190,9 +206,15 @@ internal class CampaignScreen : GameScreenWithMenuBase
         }
         else
         {
-            if ((campaignMap.Scroll - campaignMap.StartScroll).Length() > 10)
+            if (campaignMap.Presentation is null)
             {
-                campaignMap.Scroll = Vector2.Lerp(campaignMap.Scroll, campaignMap.StartScroll,
+                // Presentation is not ready yet.
+                return;
+            }
+
+            if ((campaignMap.Scroll - campaignMap.Presentation.Target).Length() > 10)
+            {
+                campaignMap.Scroll = Vector2.Lerp(campaignMap.Scroll, campaignMap.Presentation.Target,
                     (float)gameTime.ElapsedGameTime.TotalSeconds * 0.5f);
             }
             else

@@ -1,8 +1,13 @@
-﻿using Core.Combats;
-using Core.Combats.CombatantEffectLifetimes;
-using Core.Combats.CombatantEffects;
+﻿using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats.CombatantStatuses;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
+
+using GameAssets.Combats.CombatMovementEffects;
 
 using JetBrains.Annotations;
 
@@ -17,22 +22,23 @@ internal class HuntFactory : CombatMovementFactoryBase
     /// <inheritdoc />
     public override CombatMovement CreateMovement()
     {
-        var combatantEffectFactory = new ModifyCombatantMoveStatsCombatantEffectFactory(
+        var combatantEffectFactory = new ModifyCombatantMoveStatsCombatantStatusFactory(
+            new CombatantEffectSid(Sid),
             new UntilCombatantEffectMeetPredicatesLifetimeFactory(new IsAttackCombatMovePredicate()),
             CombatantMoveStats.Cost,
             -1000);
 
-        var freeAttacksEffect = new AddCombatantEffectEffect(new SelfTargetSelector(), combatantEffectFactory);
+        var freeAttacksEffect = new AddCombatantStatusEffect(new SelfTargetSelector(), combatantEffectFactory);
 
         return new CombatMovement(Sid,
             new CombatMovementCost(3),
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new DamageEffect(
+                    new DamageEffectWrapper(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(4)),
+                        GenericRange<int>.CreateMono(4)),
                     new MarkEffect(new ClosestInLineTargetSelector(),
                         new MultipleCombatantTurnEffectLifetimeFactory(2)),
                     freeAttacksEffect

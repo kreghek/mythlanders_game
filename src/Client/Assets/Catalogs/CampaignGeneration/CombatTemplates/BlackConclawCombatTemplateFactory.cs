@@ -2,7 +2,7 @@
 
 using Client.Core;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 using JetBrains.Annotations;
 
@@ -17,30 +17,30 @@ internal sealed class BlackConclawCombatTemplateFactory : ICombatTemplateFactory
         {
             new MonsterCombatantTempate(
                 new MonsterCombatantTempateLevel(0),
-                new[] { LocationSids.Thicket },
+                new[] { LocationSids.Thicket, LocationSids.Desert, LocationSids.Monastery, LocationSids.ShipGraveyard },
                 new MonsterCombatantPrefab[]
                 {
-                    new("blacktrooper", 0, new FieldCoords(0, 1)),
-                    new("blacktrooper", 1, new FieldCoords(0, 2))
+                    new("agressor", 0, new FieldCoords(0, 1)),
+                    new("agressor", 1, new FieldCoords(0, 2))
                 }),
 
             new MonsterCombatantTempate(
                 new MonsterCombatantTempateLevel(1),
-                new[] { LocationSids.Thicket },
+                new[] { LocationSids.Thicket, LocationSids.Desert, LocationSids.Monastery, LocationSids.ShipGraveyard },
                 new MonsterCombatantPrefab[]
                 {
-                    new("blacktrooper", 0, new FieldCoords(0, 1)),
-                    new("blacktrooper", 1, new FieldCoords(1, 1))
+                    new("agressor", 0, new FieldCoords(0, 1)),
+                    new("agressor", 1, new FieldCoords(1, 1))
                 }),
 
             new MonsterCombatantTempate(
                 new MonsterCombatantTempateLevel(2),
-                new[] { LocationSids.Thicket },
+                new[] { LocationSids.Thicket, LocationSids.Desert, LocationSids.Monastery, LocationSids.ShipGraveyard },
                 new MonsterCombatantPrefab[]
                 {
-                    new("blacktrooper", 0, new FieldCoords(0, 1)),
-                    new("blacktrooper", 1, new FieldCoords(0, 2)),
-                    new("blacktrooper", 0, new FieldCoords(1, 1))
+                    new("agressor", 0, new FieldCoords(0, 1)),
+                    new("agressor", 1, new FieldCoords(0, 2)),
+                    new("agressor", 0, new FieldCoords(1, 1))
                 })
         };
     }

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+
+using GameAssets.Combats;
 
 namespace Client.Core.Heroes;
 
@@ -17,9 +19,9 @@ internal sealed class Hero
 
         Stats = new[]
         {
-            new UnitStat(UnitStatType.HitPoints, baseValue: GetBaseHitPoint(unitScheme)),
-            new UnitStat(UnitStatType.ShieldPoints, baseValue: Armor),
-            new UnitStat(UnitStatType.Resolve, baseValue: unitScheme.Resolve)
+            new UnitStat(CombatantStatTypes.HitPoints, baseValue: GetBaseHitPoint(unitScheme)),
+            new UnitStat(CombatantStatTypes.ShieldPoints, baseValue: Armor),
+            new UnitStat(CombatantStatTypes.Resolve, baseValue: unitScheme.Resolve)
         };
 
         Perks = new List<IPerk>();
@@ -67,7 +69,7 @@ internal sealed class Hero
 
     public void RestoreHitPointsAfterCombat()
     {
-        var HitPoints = Stats.Single(x => x.Type == UnitStatType.HitPoints);
+        var HitPoints = Stats.Single(x => x.Type == CombatantStatTypes.HitPoints);
         var hpBonus = (int)Math.Round(HitPoints.Value.ActualMax * UnitScheme.UnitBasics.COMBAT_RESTORE_SHARE,
             MidpointRounding.ToEven);
 
@@ -91,7 +93,7 @@ internal sealed class Hero
         }
     }
 
-    private void ApplyStatModifiers(IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> statModifiers)
+    private void ApplyStatModifiers(IReadOnlyCollection<(ICombatantStatType, IUnitStatModifier)> statModifiers)
     {
         foreach (var statModifier in statModifiers)
         {

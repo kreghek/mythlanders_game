@@ -13,7 +13,8 @@ internal static class CharacterHelper
                 new[] { "Aspid", "CorruptedBear", "DigitalWolf", "HornedFrog", "Stryga", "Volkolak", "Wisp" }),
             (CharacterCultureSid.Egyptian, new[] { "Chaser" }),
             (CharacterCultureSid.Chinese, new[] { "Huapigui" }),
-            (CharacterCultureSid.Black, new[] { "Marauder", "BoldMarauder", "BlackTrooper" })
+            (CharacterCultureSid.Black, new[] { "Marauder", "BoldMarauder", "Agressor" }),
+            (CharacterCultureSid.Greek, new[] { "Automataur" })
         };
 
     public static CharacterCultureSid GetCultureSid(string classSid)

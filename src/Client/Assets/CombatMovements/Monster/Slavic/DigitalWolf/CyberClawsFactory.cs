@@ -1,9 +1,13 @@
-﻿using Client.Assets.CombatMovements.Hero.Swordsman;
-using Client.Engine;
+﻿using Client.Engine;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
+
+using GameAssets.Combats.CombatMovementEffects;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
@@ -17,10 +21,10 @@ internal class CyberClawsFactory : CombatMovementFactoryBase
                 new IEffect[]
                 {
                     new AdjustPositionEffect(new SelfTargetSelector()),
-                    new DamageEffect(
+                    new DamageEffectWrapper(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(3)),
+                        GenericRange<int>.CreateMono(3)),
                     new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToVanguard)
                 })
         )
@@ -43,11 +47,11 @@ internal class CyberClawsFactory : CombatMovementFactoryBase
         var jumpBackAnimation = AnimationHelper.ConvertToAnimation(digitalAnimationSet, "jump-back");
 
         var config = new SingleMeleeVisualizationConfig(
-            preparingGrinAnimation,
-            jumpAnimation,
-            biteAnimation,
-            biteAnimation,
-            jumpBackAnimation);
+            new SoundedAnimation(preparingGrinAnimation, null),
+            new SoundedAnimation(jumpAnimation, null),
+            new SoundedAnimation(biteAnimation, null),
+            new SoundedAnimation(biteAnimation, null),
+            new SoundedAnimation(jumpBackAnimation, null));
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);

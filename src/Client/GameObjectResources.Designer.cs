@@ -88,11 +88,11 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hawk.
+        ///   Looks up a localized string similar to Agressor.
         /// </summary>
-        internal static string Archer {
+        internal static string Agressor {
             get {
-                return ResourceManager.GetString("Archer", resourceCulture);
+                return ResourceManager.GetString("Agressor", resourceCulture);
             }
         }
         
@@ -142,29 +142,29 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Arrow rain.
+        /// </summary>
+        internal static string ArrowRain {
+            get {
+                return ResourceManager.GetString("ArrowRain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Arrow of Morana.
         /// </summary>
-        internal static string ArrowOfMorana {
+        internal static string ArrowsOfMorana {
             get {
-                return ResourceManager.GetString("ArrowOfMorana", resourceCulture);
+                return ResourceManager.GetString("ArrowsOfMorana", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string ArrowOfMorana_Description {
+        internal static string ArrowsOfMorana_Description {
             get {
-                return ResourceManager.GetString("ArrowOfMorana_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Arrow rain.
-        /// </summary>
-        internal static string ArrowRain {
-            get {
-                return ResourceManager.GetString("ArrowRain", resourceCulture);
+                return ResourceManager.GetString("ArrowsOfMorana_Description", resourceCulture);
             }
         }
         
@@ -210,6 +210,15 @@ namespace Client {
         internal static string Assaulter {
             get {
                 return ResourceManager.GetString("Assaulter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automataur.
+        /// </summary>
+        internal static string Automataur {
+            get {
+                return ResourceManager.GetString("Automataur", resourceCulture);
             }
         }
         
@@ -264,15 +273,6 @@ namespace Client {
         internal static string BigMonsterDescription {
             get {
                 return ResourceManager.GetString("BigMonsterDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Trooper.
-        /// </summary>
-        internal static string BlackTrooper {
-            get {
-                return ResourceManager.GetString("BlackTrooper", resourceCulture);
             }
         }
         
@@ -1490,6 +1490,15 @@ namespace Client {
         internal static string RiseYourSwords_Description {
             get {
                 return ResourceManager.GetString("RiseYourSwords_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hawk.
+        /// </summary>
+        internal static string Robber {
+            get {
+                return ResourceManager.GetString("Robber", resourceCulture);
             }
         }
         

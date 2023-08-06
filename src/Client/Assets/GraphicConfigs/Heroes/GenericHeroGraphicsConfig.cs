@@ -16,22 +16,6 @@ internal sealed class GenericHeroGraphicsConfig : HeroGraphicConfig
         {
             { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdle() },
             {
-                PredefinedAnimationSid.Skill1,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8, frameCount: 8, fps: 8)
-            },
-            {
-                PredefinedAnimationSid.Skill2,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 8, fps: 8)
-            },
-            {
-                PredefinedAnimationSid.Skill3,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, fps: 8)
-            },
-            {
-                PredefinedAnimationSid.Skill4,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, fps: 8)
-            },
-            {
                 PredefinedAnimationSid.Wound,
                 AnimationFrameSetFactory.CreateSequential(startFrameIndex: 32, frameCount: 8, fps: 8)
             },

@@ -7,10 +7,9 @@ using Client.Core;
 using Client.Core.Campaigns;
 using Client.Core.Dialogues;
 
+using CombatDicesTeam.Dices;
 using CombatDicesTeam.Graphs;
 using CombatDicesTeam.Graphs.Generation.TemplateBased;
-
-using Core.Dices;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 

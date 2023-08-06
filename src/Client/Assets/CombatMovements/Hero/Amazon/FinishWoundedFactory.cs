@@ -1,6 +1,10 @@
-﻿using Core.Combats;
-using Core.Combats.Effects;
+﻿using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.TargetSelectors;
+
+using GameAssets.Combats.CombatMovementEffects;
 
 namespace Client.Assets.CombatMovements.Hero.Amazon;
 
@@ -17,10 +21,10 @@ internal class FinishWoundedFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new DamageEffect(
+                    new DamageEffectWrapper(
                         new WeakestMarkedEnemyTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(4))
+                        GenericRange<int>.CreateMono(4))
                 })
         )
         {

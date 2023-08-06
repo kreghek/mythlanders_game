@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 
-using Core.Combats;
-using Core.Dices;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Dices;
 
 namespace Client.Core;
 
@@ -12,9 +12,9 @@ internal interface IPerk
     {
     }
 
-    IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers()
+    IReadOnlyCollection<(ICombatantStatType, IUnitStatModifier)> GetStatModifiers()
     {
-        return Array.Empty<(UnitStatType, IUnitStatModifier)>();
+        return Array.Empty<(ICombatantStatType, IUnitStatModifier)>();
     }
 
     bool HandleEvasion(IDice dice)

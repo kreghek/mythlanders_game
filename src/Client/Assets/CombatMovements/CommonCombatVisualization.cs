@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.CombatMovements.Hero.Robber;
-using Client.Assets.CombatMovements.Hero.Swordsman;
-using Client.Assets.States.Primitives;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
 using Client.Engine.MoveFunctions;
@@ -12,7 +11,7 @@ using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -32,16 +31,20 @@ internal static class CommonCombatVisualization
             ? visualizationContext.GetCombatActor(targetCombatant).InteractionPoint
             : startPosition;
 
+        var launchAnimation = new LinearAnimationFrameSet(Enumerable.Range(8, 2).ToArray(), 8,
+            CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8);
+
+        var waitProjectileAnimation = new LinearAnimationFrameSet(Enumerable.Range(8 + 2, 2).ToArray(), 8,
+            CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8);
+
         var subStates = new IActorVisualizationState[]
         {
             // Prepare to launch
             new PlayAnimationActorState(actorAnimator,
-                new LinearAnimationFrameSet(Enumerable.Range(8, 2).ToArray(), 8, CommonConstants.FrameSize.X,
-                    CommonConstants.FrameSize.Y, 8)),
+                launchAnimation),
             new LaunchAndWaitInteractionDeliveryState(
                 actorAnimator,
-                new LinearAnimationFrameSet(Enumerable.Range(8 + 2, 2).ToArray(), 8, CommonConstants.FrameSize.X,
-                    CommonConstants.FrameSize.Y, 8),
+                waitProjectileAnimation,
                 movementExecution.EffectImposeItems.Select(x =>
                         new InteractionDeliveryInfo(x, visualizationContext.ActorGameObject.LaunchPoint,
                             targetPosition))
@@ -63,7 +66,7 @@ internal static class CommonCombatVisualization
         {
             Items = new[]
             {
-                new SkillAnimationInfoItem
+                new SkillAnimationStage
                 {
                     Duration = 0.75f,
                     HitSound = config.HitAnimation.Sound,
@@ -91,27 +94,24 @@ internal static class CommonCombatVisualization
             targetPosition = actorAnimator.GraphicRoot.Position;
         }
 
-        var prepareActorState = CreateSoundedState(() =>
-        {
-            return new PlayAnimationActorState(actorAnimator, config.PrepareMovementAnimation.Animation);
-        }, config.PrepareMovementAnimation.Sound);
+        var prepareActorState = CreateSoundedState(
+            () => new PlayAnimationActorState(actorAnimator, config.PrepareMovementAnimation.Animation),
+            config.PrepareMovementAnimation.Sound);
 
-        var chargeActorState = CreateSoundedState(() =>
-        {
-            return new MoveToPositionActorState(actorAnimator,
+        var chargeActorState = CreateSoundedState(
+            () => new MoveToPositionActorState(actorAnimator,
                 new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, targetPosition),
-                config.CombatMovementAnimation.Animation);
-        }, config.CombatMovementAnimation.Sound);
+                config.CombatMovementAnimation.Animation), config.CombatMovementAnimation.Sound);
 
         var subStates = new[]
         {
             prepareActorState,
             chargeActorState,
             new DirectInteractionState(actorAnimator, skillAnimationInfo, config.HitAnimation.Animation),
-            new PlayAnimationActorState(actorAnimator, config.HitCompleteAnimation),
+            new PlayAnimationActorState(actorAnimator, config.HitCompleteAnimation.Animation),
             new MoveToPositionActorState(actorAnimator,
                 new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, startPosition),
-                config.BackAnimation)
+                config.BackAnimation.Animation)
         };
 
         var innerState = new SequentialState(subStates);
@@ -131,8 +131,8 @@ internal static class CommonCombatVisualization
         return baseActorState;
     }
 
-    private static Combatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
-        Combatant actorCombatant)
+    private static ICombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
+        ICombatant actorCombatant)
     {
         var firstImposeItem =
             movementExecution.EffectImposeItems.FirstOrDefault(x =>

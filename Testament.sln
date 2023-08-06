@@ -25,6 +25,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Balance", "src\Core.Ba
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Tests", "tests\Client.Tests\Client.Tests.csproj", "{9C8B04BE-29F3-4B00-9485-BA782873D78B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Primitives2D", "src\MonoGame.Primitives2D\MonoGame.Primitives2D.csproj", "{AB930C24-82D2-4D9D-996C-D67A141E87B6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameAssets.Combats", "src\GameAssets.Combats\GameAssets.Combats.csproj", "{D65FAD3D-3BF9-4440-857A-1F3ABBFF9404}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameAssets.Combats.Tests", "tests\GameAssets.Combats.Tests\GameAssets.Combats.Tests.csproj", "{82BDFFE2-BD11-40F8-93BA-ACC03188A4A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +73,18 @@ Global
 		{9C8B04BE-29F3-4B00-9485-BA782873D78B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C8B04BE-29F3-4B00-9485-BA782873D78B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C8B04BE-29F3-4B00-9485-BA782873D78B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB930C24-82D2-4D9D-996C-D67A141E87B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB930C24-82D2-4D9D-996C-D67A141E87B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB930C24-82D2-4D9D-996C-D67A141E87B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB930C24-82D2-4D9D-996C-D67A141E87B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D65FAD3D-3BF9-4440-857A-1F3ABBFF9404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D65FAD3D-3BF9-4440-857A-1F3ABBFF9404}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D65FAD3D-3BF9-4440-857A-1F3ABBFF9404}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D65FAD3D-3BF9-4440-857A-1F3ABBFF9404}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82BDFFE2-BD11-40F8-93BA-ACC03188A4A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82BDFFE2-BD11-40F8-93BA-ACC03188A4A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82BDFFE2-BD11-40F8-93BA-ACC03188A4A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82BDFFE2-BD11-40F8-93BA-ACC03188A4A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,10 +93,11 @@ Global
 		{BBF211E2-24A2-4DC7-8586-62EABC08AB28} = {0DCFDF5E-947E-453B-8BE8-35C5F7ABE8EA}
 		{B5422A0D-DBA8-4A42-BA7B-B32F060D2065} = {5D45D065-CBD8-4E1B-84AD-06A413E0A7C8}
 		{9C8B04BE-29F3-4B00-9485-BA782873D78B} = {5D45D065-CBD8-4E1B-84AD-06A413E0A7C8}
+		{82BDFFE2-BD11-40F8-93BA-ACC03188A4A7} = {5D45D065-CBD8-4E1B-84AD-06A413E0A7C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {109FC733-76F8-4327-BE39-B9303FDD86EA}
-		RESX_SortFileContentOnSave = True
 		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail"]}
+		RESX_SortFileContentOnSave = True
+		SolutionGuid = {109FC733-76F8-4327-BE39-B9303FDD86EA}
 	EndGlobalSection
 EndGlobal

@@ -1,6 +1,7 @@
-﻿using Core.Combats;
-using Core.Combats.CombatantEffects;
-using Core.Combats.Effects;
+﻿using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
+using CombatDicesTeam.Combats.Effects;
+
 using Core.Combats.TargetSelectors;
 
 namespace Client.Assets.CombatMovements.Hero.Amazon;
@@ -13,7 +14,8 @@ internal class TrackerSavvyFactory : CombatMovementFactoryBase
     /// <inheritdoc />
     public override CombatMovement CreateMovement()
     {
-        var combatantEffectFactory = new ModifyCombatantMoveStatsCombatantEffectFactory(
+        var combatantEffectFactory = new ModifyCombatantMoveStatsCombatantStatusFactory(
+            new CombatantEffectSid(Sid),
             new MultipleCombatantTurnEffectLifetimeFactory(1),
             CombatantMoveStats.Cost,
             -1);
@@ -23,8 +25,9 @@ internal class TrackerSavvyFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new ModifyEffectsEffect(new SelfTargetSelector(), 1),
-                    new AddCombatantEffectEffect(new SelfTargetSelector(), combatantEffectFactory)
+                    new ModifyEffectsEffect(new CombatantEffectSid(Sid),
+                        new SelfTargetSelector(), 1),
+                    new AddCombatantStatusEffect(new SelfTargetSelector(), combatantEffectFactory)
                 })
         );
     }

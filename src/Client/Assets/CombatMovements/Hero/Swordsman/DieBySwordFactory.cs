@@ -1,9 +1,14 @@
 ﻿using Client.Engine;
 using Client.GameScreens;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
+
+using GameAssets.Combats.CombatMovementEffects;
 
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
@@ -22,10 +27,10 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
                         new SelfTargetSelector(),
                         ChangePositionEffectDirection.ToVanguard
                     ),
-                    new DamageEffect(
+                    new DamageEffectWrapper(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
-                        Range<int>.CreateMono(2))
+                        GenericRange<int>.CreateMono(2))
                 })
         )
         {
@@ -58,8 +63,8 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
             new SoundedAnimation(keepSwordStrongerAnimation, keepSwordSoundEffect.CreateInstance()),
             new SoundedAnimation(chargeAnimation, chargeSoundEffect.CreateInstance()),
             new SoundedAnimation(hitAnimation, swordHitSoundEffect.CreateInstance()),
-            hitCompleteAnimation,
-            backAnimation);
+            new SoundedAnimation(hitCompleteAnimation, null),
+            new SoundedAnimation(backAnimation, null));
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);

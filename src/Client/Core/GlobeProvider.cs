@@ -9,8 +9,10 @@ using System.Text.Json.Serialization;
 using Client.Core.Heroes;
 using Client.Core.ProgressStorage;
 
-using Core.Combats;
-using Core.Dices;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Dices;
+
+using GameAssets.Combats;
 
 namespace Client.Core;
 
@@ -107,12 +109,7 @@ internal sealed class GlobeProvider
 
         var saveDataDto = JsonSerializer.Deserialize<SaveDto>(json);
 
-        if (saveDataDto is null)
-        {
-            throw new InvalidOperationException("Error during loading the last save.");
-        }
-
-        return saveDataDto;
+        return saveDataDto is null ? throw new InvalidOperationException("Error during loading the last save.") : saveDataDto;
     }
 
     public void LoadGlobe(string saveName)
@@ -256,7 +253,7 @@ internal sealed class GlobeProvider
             unit => new PlayerUnitDto
             {
                 SchemeSid = unit.UnitScheme.Name.ToString(),
-                Hp = unit.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.Current,
+                Hp = unit.Stats.Single(x => x.Type == CombatantStatTypes.HitPoints).Value.Current,
                 Level = unit.Level,
                 Equipments = GetCharacterEquipmentToSave(unit)
             });

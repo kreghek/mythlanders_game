@@ -7,20 +7,21 @@
     <TieredCompilation>false</TieredCompilation>
 	<RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
 	<Nullable>enable</Nullable>
+    <NoWarn>O20001</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
     <AssemblyName>Testament</AssemblyName>
   </PropertyGroup>
-	<ItemGroup>
-		<Compile Remove="Content\bin\**" />
-		<Compile Remove="Content\obj\**" />
-		<EmbeddedResource Remove="Content\bin\**" />
-		<EmbeddedResource Remove="Content\obj\**" />
-		<None Remove="Content\bin\**" />
-		<None Remove="Content\obj\**" />
-	</ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Content\bin\**" />
+    <Compile Remove="Content\obj\**" />
+    <EmbeddedResource Remove="Content\bin\**" />
+    <EmbeddedResource Remove="Content\obj\**" />
+    <None Remove="Content\bin\**" />
+    <None Remove="Content\obj\**" />
+  </ItemGroup>
   <ItemGroup>
     <None Remove="DialogueResources.resources" />
     <None Remove="DialogueResources.ru.resources" />
@@ -33,20 +34,29 @@
 	<EmbeddedResource Include="Resources\Balance.json" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CombatDicesTeam.Graphs" Version="1.0.1" />
-    <PackageReference Include="CombatDicesTeam.Graphs.Generation" Version="1.0.0" />
-    <PackageReference Include="CombatDicesTeam.Graphs.Layout" Version="1.0.0" />
-    <PackageReference Include="CombatDicesTeam.Graphs.Visualization" Version="0.3.0-alpha" />
     <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
     <PackageReference Include="MonoGame.Extended" Version="3.8.0" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
-    <PackageReference Include="MonoGame.Primitives2D" Version="1.1.1" />
     <PackageReference Include="Nopipeline.Task" Version="2.2.0" />
     <PackageReference Include="NReco.Logging.File" Version="1.1.5" />
 	<PackageReference Include="Stateless" Version="5.11.0" />
 	<PackageReference Include="YamlDotNet" Version="13.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CombatDicesTeam.Combats" Version="0.1.4-alpha" />
+    <PackageReference Include="CombatDicesTeam.Graphs" Version="1.0.1" />
+    <PackageReference Include="CombatDicesTeam.Graphs.Generation" Version="1.0.0" />
+    <PackageReference Include="CombatDicesTeam.Graphs.Layout" Version="1.0.0" />
+    <PackageReference Include="CombatDicesTeam.Graphs.Visualization" Version="0.3.0-alpha" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core.Balance\Core.Balance.csproj" />
+    <ProjectReference Include="..\Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj" />
+    <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\GameAssets.Combats\GameAssets.Combats.csproj" />
+    <ProjectReference Include="..\MonoGame.Primitives2D\MonoGame.Primitives2D.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="CreditsResource.Designer.cs">
@@ -109,13 +119,6 @@
     <Exec Command="dotnet tool restore" />
   </Target>
 
-    <ItemGroup>
-        <ProjectReference Include="../code_analysers/CodeAnalysers.csproj">
-            <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-            <OutputItemType>Analyzer</OutputItemType>
-        </ProjectReference>
-    </ItemGroup>
-    
 	<ItemGroup>
 		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
 			<_Parameter1>$(AssemblyName).Tests</_Parameter1>
@@ -140,9 +143,4 @@
             <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
-	<ItemGroup>
-	  <ProjectReference Include="..\Core.Balance\Core.Balance.csproj" />
-	  <ProjectReference Include="..\Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj" />
-	  <ProjectReference Include="..\Core\Core.csproj" />
-	</ItemGroup>
 </Project>

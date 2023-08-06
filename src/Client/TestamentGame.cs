@@ -13,7 +13,8 @@ using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects.Background;
 using Client.ScreenManagement;
 
-using Core.Dices;
+using CombatDicesTeam.Dices;
+
 using Core.PropDrop;
 
 using Microsoft.Extensions.DependencyInjection;

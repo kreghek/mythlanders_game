@@ -1,17 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets.CombatMovements.Hero.Swordsman;
-using Client.Assets.States.Primitives;
+using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Engine;
 using Client.Engine.MoveFunctions;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
 
-using Core.Combats;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
+
+using GameAssets.Combats.CombatMovementEffects;
 
 using Microsoft.Xna.Framework;
 
@@ -27,10 +31,10 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
                 new IEffect[]
                 {
                     new AdjustPositionEffect(new SelfTargetSelector()),
-                    new DamageEffect(
+                    new DamageEffectWrapper(
                         new MostShieldChargedEnemyTargetSelector(),
                         DamageType.ShieldsOnly,
-                        Range<int>.CreateMono(3)),
+                        GenericRange<int>.CreateMono(3)),
                     new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
                 })
         )
@@ -60,7 +64,7 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
         {
             Items = new[]
             {
-                new SkillAnimationInfoItem
+                new SkillAnimationStage
                 {
                     Duration = 0.75f,
                     //HitSound = hitSound,
@@ -111,8 +115,8 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
             new[] { new FollowActorOperatorCameraTask(actorAnimator, () => innerState.IsComplete) });
     }
 
-    private static Combatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
-        Combatant actorCombatant)
+    private static ICombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
+        ICombatant actorCombatant)
     {
         var firstImposeItem =
             movementExecution.EffectImposeItems.FirstOrDefault(x =>

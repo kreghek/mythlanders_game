@@ -8,7 +8,7 @@ using Client.Engine;
 using Client.GameScreens.Campaign;
 using Client.ScreenManagement;
 
-using Core.Dices;
+using CombatDicesTeam.Dices;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

@@ -1,7 +1,11 @@
-﻿using Core.Combats;
-using Core.Combats.CombatantEffectLifetimes;
+﻿using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats.Effects;
+
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
+
+using GameAssets.Combats;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
@@ -14,7 +18,11 @@ internal class VelesProtectionFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new ChangeStatEffect(new SelfTargetSelector(), UnitStatType.ShieldPoints, 3,
+                    new ChangeStatEffect(
+                        new CombatantEffectSid(Sid),
+                        new SelfTargetSelector(),
+                        CombatantStatTypes.ShieldPoints,
+                        3,
                         new ToNextCombatantTurnEffectLifetimeFactory()),
                     new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
                 })

@@ -1,6 +1,7 @@
-﻿using Core.Combats;
-using Core.Combats.CombatantEffects;
-using Core.Combats.Effects;
+﻿using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
+using CombatDicesTeam.Combats.Effects;
+
 using Core.Combats.TargetSelectors;
 
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
@@ -16,9 +17,10 @@ internal class RiseYourSwordsFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new AddCombatantEffectEffect(
+                    new AddCombatantStatusEffect(
                         new AllAllyTargetSelector(),
-                        new ModifyEffectsCombatantEffectFactory(
+                        new ModifyEffectsCombatantStatusFactory(
+                            new CombatantEffectSid(Sid),
                             new MultipleCombatantTurnEffectLifetimeFactory(1),
                             1))
                 })

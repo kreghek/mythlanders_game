@@ -1,7 +1,11 @@
-﻿using Core.Combats;
-using Core.Combats.CombatantEffectLifetimes;
+﻿using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats.Effects;
+
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
+
+using GameAssets.Combats;
 
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
@@ -16,8 +20,10 @@ internal class LookOutFactory : CombatMovementFactoryBase
             new CombatMovementEffectConfig(
                 new IEffect[]
                 {
-                    new ChangeStatEffect(new ClosestAllyInColumnTargetSelector(),
-                        UnitStatType.Defense,
+                    new ChangeStatEffect(
+                        new CombatantEffectSid(Sid),
+                        new ClosestAllyInColumnTargetSelector(),
+                        CombatantStatTypes.Defense,
                         3,
                         new ToNextCombatantTurnEffectLifetimeFactory()),
                     new PushToPositionEffect(
@@ -27,8 +33,10 @@ internal class LookOutFactory : CombatMovementFactoryBase
                 },
                 new IEffect[]
                 {
-                    new ChangeStatEffect(new SelfTargetSelector(),
-                        UnitStatType.Defense,
+                    new ChangeStatEffect(
+                        new CombatantEffectSid(Sid),
+                        new SelfTargetSelector(),
+                        CombatantStatTypes.Defense,
                         1,
                         new ToEndOfCurrentRoundEffectLifetimeFactory())
                 })

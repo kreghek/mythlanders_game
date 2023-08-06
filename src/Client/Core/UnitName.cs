@@ -39,7 +39,7 @@ public enum UnitName
 
     Marauder,
     BoldMarauder,
-    BlackTrooper,
+    Agressor,
 
     Aspid,
     Liho, // лихо
@@ -67,6 +67,7 @@ public enum UnitName
     Chaser,
     Sphinx,
 
+    Automataur,
     Hydra,
 
     GreekMonster
