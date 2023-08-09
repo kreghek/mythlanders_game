@@ -11,7 +11,7 @@ internal class TitleResourceTextButton : ButtonBase
     {
         _resourceSid = resourceSid;
 
-        
+
     }
 
     protected override Point CalcTextureOffset()
