@@ -183,6 +183,18 @@
   <data name="CloseButtonTitle" xml:space="preserve">
     <value>Закрыть</value>
   </data>
+  <data name="CombatIndicatorNegativeHpTemplate" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="CombatIndicatorNegativeSpTemplate" xml:space="preserve">
+    <value>&lt;{0}&gt;</value>
+  </data>
+  <data name="CombatIndicatorPositiveHpTemplate" xml:space="preserve">
+    <value>+{0}</value>
+  </data>
+  <data name="CombatIndicatorPositiveSpTemplate" xml:space="preserve">
+    <value>+&lt;{0}&gt;</value>
+  </data>
   <data name="CombatLengthLabel" xml:space="preserve">
     <value>Длительность сражения:</value>
   </data>
@@ -344,6 +356,9 @@
   </data>
   <data name="IndicatorSkipTurn" xml:space="preserve">
     <value>Пропуск!</value>
+  </data>
+  <data name="IndicatorWarmupText" xml:space="preserve">
+    <value>0123456789</value>
   </data>
   <data name="InfoButtonTitle" xml:space="preserve">
     <value>Инфо</value>

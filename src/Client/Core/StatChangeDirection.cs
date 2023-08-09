@@ -1,6 +1,6 @@
 namespace Client.Core;
 
-internal enum HitPointsChangeDirection
+internal enum StatChangeDirection
 {
     Positive,
     Negative

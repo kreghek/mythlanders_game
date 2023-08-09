@@ -259,6 +259,42 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}.
+        /// </summary>
+        internal static string CombatIndicatorNegativeHpTemplate {
+            get {
+                return ResourceManager.GetString("CombatIndicatorNegativeHpTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;{0}&gt;.
+        /// </summary>
+        internal static string CombatIndicatorNegativeSpTemplate {
+            get {
+                return ResourceManager.GetString("CombatIndicatorNegativeSpTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to +{0}.
+        /// </summary>
+        internal static string CombatIndicatorPositiveHpTemplate {
+            get {
+                return ResourceManager.GetString("CombatIndicatorPositiveHpTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to +&lt;{0}&gt;.
+        /// </summary>
+        internal static string CombatIndicatorPositiveSpTemplate {
+            get {
+                return ResourceManager.GetString("CombatIndicatorPositiveSpTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Combat length:.
         /// </summary>
         internal static string CombatLengthLabel {
@@ -696,6 +732,15 @@ namespace Client {
         internal static string IndicatorSkipTurn {
             get {
                 return ResourceManager.GetString("IndicatorSkipTurn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0123456789.
+        /// </summary>
+        internal static string IndicatorWarmupText {
+            get {
+                return ResourceManager.GetString("IndicatorWarmupText", resourceCulture);
             }
         }
         

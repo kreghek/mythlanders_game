@@ -8,9 +8,9 @@ namespace Client.GameScreens.Combat.Ui;
 internal class ShieldPointsChangedTextIndicator : TextIndicatorBase
 {
     private readonly int _amount;
-    private readonly HitPointsChangeDirection _direction;
+    private readonly StatChangeDirection _direction;
 
-    public ShieldPointsChangedTextIndicator(int amount, HitPointsChangeDirection direction,
+    public ShieldPointsChangedTextIndicator(int amount, StatChangeDirection direction,
         Vector2 startPosition,
         SpriteFont font, int stackIndex) : base(startPosition + new Vector2(stackIndex * 20, 0), font)
     {
@@ -20,16 +20,16 @@ internal class ShieldPointsChangedTextIndicator : TextIndicatorBase
 
     protected override Color GetColor()
     {
-        return _direction == HitPointsChangeDirection.Positive ? Color.LightGray : Color.LightGray;
+        return _direction == StatChangeDirection.Positive ? Color.LightGray : Color.LightGray;
     }
 
     protected override string GetText()
     {
-        if (_amount > 0 && _direction == HitPointsChangeDirection.Positive)
+        if (_amount > 0 && _direction == StatChangeDirection.Positive)
         {
-            return $"+<{_amount}>";
+            return string.Format(UiResource.CombatIndicatorPositiveSpTemplate, _amount);
         }
 
-        return $"<{_amount}>";
+        return string.Format(UiResource.CombatIndicatorNegativeSpTemplate, _amount);
     }
 }
