@@ -175,13 +175,13 @@
 				"Quality": "Low"
 			}
 		},
-		"uiFonts":
+		"Fonts":
 		{
 			"path": "Fonts/*.spritefont",
 			"recursive": "True",
 			"action": "build",
 			"importer": "FontDescriptionImporter",
-			"processor": "FontDescriptionProcessor",
+			"processor": "LocalizedFontProcessor",
 			"processorParam":
 			{
 				"PremultiplyAlpha": "True",

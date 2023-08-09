@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AdjutantButtonTitle" xml:space="preserve">
+    <value>Адъютант</value>
+  </data>
   <data name="ArmorLabelTemplate" xml:space="preserve">
     <value>Броня: {0}</value>
+  </data>
+  <data name="ArmoryButtonTitle" xml:space="preserve">
+    <value>Оружейня</value>
   </data>
   <data name="AutocombatButtonTitle" xml:space="preserve">
     <value>Автобой</value>
@@ -131,6 +137,9 @@
   </data>
   <data name="BackToMapMenuButtonTitle" xml:space="preserve">
     <value>На карту</value>
+  </data>
+  <data name="BarraksButtonTitle" xml:space="preserve">
+    <value>Бараки</value>
   </data>
   <data name="BestiaryButtonTitle" xml:space="preserve">
     <value>Бестиарий</value>
@@ -168,8 +177,23 @@
   <data name="CampaignStageTitle" xml:space="preserve">
     <value>Этап {0}</value>
   </data>
+  <data name="ChroniclesButtonTitle" xml:space="preserve">
+    <value>Хроники</value>
+  </data>
   <data name="CloseButtonTitle" xml:space="preserve">
     <value>Закрыть</value>
+  </data>
+  <data name="CombatIndicatorNegativeHpTemplate" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="CombatIndicatorNegativeSpTemplate" xml:space="preserve">
+    <value>&lt;{0}&gt;</value>
+  </data>
+  <data name="CombatIndicatorPositiveHpTemplate" xml:space="preserve">
+    <value>+{0}</value>
+  </data>
+  <data name="CombatIndicatorPositiveSpTemplate" xml:space="preserve">
+    <value>+&lt;{0}&gt;</value>
   </data>
   <data name="CombatLengthLabel" xml:space="preserve">
     <value>Длительность сражения:</value>
@@ -332,6 +356,9 @@
   </data>
   <data name="IndicatorSkipTurn" xml:space="preserve">
     <value>Пропуск!</value>
+  </data>
+  <data name="IndicatorWarmupText" xml:space="preserve">
+    <value>0123456789</value>
   </data>
   <data name="InfoButtonTitle" xml:space="preserve">
     <value>Инфо</value>

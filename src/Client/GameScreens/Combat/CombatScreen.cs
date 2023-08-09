@@ -397,7 +397,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             {
                 var damageIndicator =
                     new HitPointsChangedTextIndicator(-e.Value,
-                        HitPointsChangeDirection.Negative,
+                        StatChangeDirection.Negative,
                         position,
                         font,
                         nextIndex ?? 0);
@@ -410,7 +410,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             {
                 var spIndicator =
                     new ShieldPointsChangedTextIndicator(-e.Value,
-                        HitPointsChangeDirection.Negative,
+                        StatChangeDirection.Negative,
                         position,
                         font,
                         nextIndex ?? 0);

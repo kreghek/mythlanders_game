@@ -6,7 +6,7 @@ of the font in your game, and to change the characters which are available to dr
 with.
 -->
 <XnaContent xmlns:Graphics="Microsoft.Xna.Framework.Content.Pipeline.Graphics">
-  <Asset Type="Graphics:FontDescription">
+  <Asset Type="Graphics:LocalizedFontDescription">
 
     <!--
     Modify this string to change the font that will be imported.
@@ -62,5 +62,17 @@ with.
             <End>&#1112;</End>
         </CharacterRegion>
     </CharacterRegions>
+	  
+	  <ResourceFiles>
+		  <Resx>..\..\Client\UiResource.resx</Resx>
+		  <Resx>..\..\Client\GameObjectResources.resx</Resx>
+		  <Resx>..\..\Client\CreditsResource.resx</Resx>
+		  <Resx>..\..\Client\StoryResources.resx</Resx>
+
+		  <Resx>..\..\Client\UiResource.ru.resx</Resx>
+		  <Resx>..\..\Client\GameObjectResources.ru.resx</Resx>
+		  <Resx>..\..\Client\CreditsResource.ru.resx</Resx>
+		  <Resx>..\..\Client\StoryResources.ru.resx</Resx>
+	  </ResourceFiles>
   </Asset>
 </XnaContent>
