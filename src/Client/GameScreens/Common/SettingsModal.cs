@@ -153,31 +153,7 @@ internal sealed class SettingsModal : ModalDialogBase
 
     private static void SwitchLanguageButton_OnClick(object? sender, EventArgs e)
     {
-        var currentLanguage = Thread.CurrentThread.CurrentUICulture;
-        if (string.Equals(
-                currentLanguage.TwoLetterISOLanguageName,
-                "en",
-                StringComparison.InvariantCultureIgnoreCase))
-        {
-            var newCulture = CultureInfo.GetCultureInfo("zh");
-            Thread.CurrentThread.CurrentCulture = newCulture;
-            Thread.CurrentThread.CurrentUICulture = newCulture;
-        }
-        else if (string.Equals(
-                     currentLanguage.TwoLetterISOLanguageName,
-                     "zh",
-                     StringComparison.InvariantCultureIgnoreCase))
-        {
-            var newCulture = CultureInfo.GetCultureInfo("ru-RU");
-            Thread.CurrentThread.CurrentCulture = newCulture;
-            Thread.CurrentThread.CurrentUICulture = newCulture;
-        }
-        else
-        {
-            var newCulture = CultureInfo.GetCultureInfo("en-US");
-            Thread.CurrentThread.CurrentCulture = newCulture;
-            Thread.CurrentThread.CurrentUICulture = newCulture;
-        }
+        LocalizationHelper.SwitchLanguage();
     }
 
     private void SwitchMusicButton_OnClick(object? sender, EventArgs e)
