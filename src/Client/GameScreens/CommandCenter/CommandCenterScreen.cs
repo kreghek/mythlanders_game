@@ -162,10 +162,10 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
         _availableCampaignPanels = panels;
 
-        _commandButtons[0] = new TextButton("Barraks");
-        _commandButtons[1] = new TextButton("Armory");
-        _commandButtons[2] = new TextButton("Adjutant");
-        _commandButtons[3] = new TextButton("Chronicles");
+        _commandButtons[0] = new ResourceTextButton(nameof(UiResource.BarraksButtonTitle));
+        _commandButtons[1] = new ResourceTextButton(nameof(UiResource.ArmoryButtonTitle));
+        _commandButtons[2] = new ResourceTextButton(nameof(UiResource.AdjutantButtonTitle));
+        _commandButtons[3] = new ResourceTextButton(nameof(UiResource.ChroniclesButtonTitle));
 
         Texture2D LoadCampaignThumbnailImage(string textureName)
         {

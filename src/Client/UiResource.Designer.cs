@@ -61,11 +61,29 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adjutant.
+        /// </summary>
+        internal static string AdjutantButtonTitle {
+            get {
+                return ResourceManager.GetString("AdjutantButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Armor: {0}.
         /// </summary>
         internal static string ArmorLabelTemplate {
             get {
                 return ResourceManager.GetString("ArmorLabelTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Armory.
+        /// </summary>
+        internal static string ArmoryButtonTitle {
+            get {
+                return ResourceManager.GetString("ArmoryButtonTitle", resourceCulture);
             }
         }
         
@@ -102,6 +120,15 @@ namespace Client {
         internal static string BackToMapMenuButtonTitle {
             get {
                 return ResourceManager.GetString("BackToMapMenuButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Barraks.
+        /// </summary>
+        internal static string BarraksButtonTitle {
+            get {
+                return ResourceManager.GetString("BarraksButtonTitle", resourceCulture);
             }
         }
         
@@ -210,6 +237,15 @@ namespace Client {
         internal static string CampaignStageTitle {
             get {
                 return ResourceManager.GetString("CampaignStageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chronicles.
+        /// </summary>
+        internal static string ChroniclesButtonTitle {
+            get {
+                return ResourceManager.GetString("ChroniclesButtonTitle", resourceCulture);
             }
         }
         

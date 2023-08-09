@@ -117,8 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AdjutantButtonTitle" xml:space="preserve">
+    <value>Adjutant</value>
+    <comment>На экран коммандного центра</comment>
+  </data>
   <data name="ArmorLabelTemplate" xml:space="preserve">
     <value>Armor: {0}</value>
+  </data>
+  <data name="ArmoryButtonTitle" xml:space="preserve">
+    <value>Armory</value>
+    <comment>На экран коммандного центра</comment>
   </data>
   <data name="AutocombatButtonTitle" xml:space="preserve">
     <value>Auto-combat</value>
@@ -131,6 +139,10 @@
   </data>
   <data name="BackToMapMenuButtonTitle" xml:space="preserve">
     <value>Back to the map</value>
+  </data>
+  <data name="BarraksButtonTitle" xml:space="preserve">
+    <value>Barraks</value>
+    <comment>На экран коммандного центра</comment>
   </data>
   <data name="BestiaryButtonTitle" xml:space="preserve">
     <value>Bestiary</value>
@@ -172,6 +184,10 @@
   <data name="CampaignStageTitle" xml:space="preserve">
     <value>Stage {0}</value>
     <comment>0 - это номер</comment>
+  </data>
+  <data name="ChroniclesButtonTitle" xml:space="preserve">
+    <value>Chronicles</value>
+    <comment>На экран коммандного центра</comment>
   </data>
   <data name="CloseButtonTitle" xml:space="preserve">
     <value>Close</value>
