@@ -10,8 +10,6 @@ internal class TitleResourceTextButton : ButtonBase
     public TitleResourceTextButton(string resourceSid)
     {
         _resourceSid = resourceSid;
-
-
     }
 
     protected override Point CalcTextureOffset()

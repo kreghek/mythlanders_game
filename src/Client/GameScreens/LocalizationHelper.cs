@@ -3,14 +3,16 @@ using System.Globalization;
 using System.Threading;
 
 namespace Client.GameScreens;
+
 public static class LocalizationHelper
 {
     public static void SwitchLanguage()
     {
-        var langSequence = new[] {
-            (TwoLetters: "ru", Culture: CultureInfo.GetCultureInfo("ru-RU") ),
-            (TwoLetters:"en", Culture: CultureInfo.GetCultureInfo("en-US") ),
-            (TwoLetters:"zh", Culture: CultureInfo.GetCultureInfo("zh") )
+        var langSequence = new[]
+        {
+            (TwoLetters: "ru", Culture: CultureInfo.GetCultureInfo("ru-RU")),
+            (TwoLetters: "en", Culture: CultureInfo.GetCultureInfo("en-US")),
+            (TwoLetters: "zh", Culture: CultureInfo.GetCultureInfo("zh"))
         };
 
         var currentLanguage = Thread.CurrentThread.CurrentUICulture;
@@ -20,9 +22,9 @@ public static class LocalizationHelper
             for (var i = 0; i < langSequence.Length; i++)
             {
                 if (string.Equals(
-                     currentLang.TwoLetterISOLanguageName,
-                     langSequence[i].TwoLetters,
-                     StringComparison.InvariantCultureIgnoreCase))
+                        currentLang.TwoLetterISOLanguageName,
+                        langSequence[i].TwoLetters,
+                        StringComparison.InvariantCultureIgnoreCase))
                 {
                     return i;
                 }
