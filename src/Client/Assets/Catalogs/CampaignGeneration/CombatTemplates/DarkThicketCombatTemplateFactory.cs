@@ -16,7 +16,7 @@ internal sealed class DarkThicketCombatTemplateFactory : LocationSpecificCombatT
         return new MonsterCombatantPrefab[]
         {
             new("aspid", 0, new FieldCoords(0, 1)),
-            new("digitalwolf", 0, new FieldCoords(0, 2))
+            new("digitalwolf", 0, new FieldCoords(1, 1))
         };
     }
 
@@ -25,7 +25,7 @@ internal sealed class DarkThicketCombatTemplateFactory : LocationSpecificCombatT
         return new MonsterCombatantPrefab[]
         {
             new("aspid", 0, new FieldCoords(0, 1)),
-            new("digitalwolf", 0, new FieldCoords(1, 1))
+            new("digitalwolf", 0, new FieldCoords(0, 2))
         };
     }
 

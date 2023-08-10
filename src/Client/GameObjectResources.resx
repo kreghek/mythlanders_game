@@ -513,6 +513,12 @@
     <value>Amount of the hit points increased by 2 times.</value>
     <comment>Perk</comment>
   </data>
+  <data name="Impulse" xml:space="preserve">
+    <value>Impulse</value>
+  </data>
+  <data name="ImpulseGenerator" xml:space="preserve">
+    <value>Impulse generator</value>
+  </data>
   <data name="InfernalSickness_Crisis" xml:space="preserve">
     <value></value>
     <comment>Crisis</comment>
@@ -617,6 +623,9 @@
   <data name="ParaliticChor" xml:space="preserve">
       <value>Paralitic Chor</value>
     <comment>Skill</comment>
+  </data>
+  <data name="Partisan" xml:space="preserve">
+    <value>Partisan</value>
   </data>
   <data name="Pit" xml:space="preserve">
     <value>The Pit</value>
@@ -856,11 +865,5 @@
   <data name="ZduhachMight" xml:space="preserve">
       <value>Zduhach Might</value>
     <comment>Skill</comment>
-  </data>
-  <data name="Impulse" xml:space="preserve">
-    <value>Impulse</value>
-  </data>
-  <data name="ImpulseGenerator" xml:space="preserve">
-    <value>Impulse generator</value>
   </data>
 </root>
