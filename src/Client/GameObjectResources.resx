@@ -857,4 +857,10 @@
       <value>Zduhach Might</value>
     <comment>Skill</comment>
   </data>
+  <data name="Impulse" xml:space="preserve">
+    <value>Impulse</value>
+  </data>
+  <data name="ImpulseGenerator" xml:space="preserve">
+    <value>Impulse generator</value>
+  </data>
 </root>

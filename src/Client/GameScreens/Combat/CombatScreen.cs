@@ -960,24 +960,10 @@ internal class CombatScreen : GameScreenWithMenuBase
         try
         {
             DrawCombatantQueue(spriteBatch, contentRectangle);
+            
             //DrawCombatSequenceProgress(spriteBatch);
 
-            for (var index = 0; index < _combatantEffectNotifications.Count; index++)
-            {
-                var notification = _combatantEffectNotifications[index];
-
-                var localizedStatusName = GameObjectHelper.GetLocalized(notification.CombatantEffect.Sid);
-                var combatantLocalizedName = GameObjectHelper.GetLocalized(notification.Combatant.ClassSid);
-                var notificationText = string.Format(UiResource.StatusImposedNotificationTextTemplate,
-                    localizedStatusName, combatantLocalizedName);
-
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                    notificationText,
-                    new Vector2(contentRectangle.Center.X, contentRectangle.Top + 50 + index * 15),
-                    notification.LifetimeCounter > 0.5
-                        ? Color.White
-                        : Color.Lerp(Color.White, Color.Transparent, 1 - (float)notification.LifetimeCounter / 0.5f));
-            }
+            DrawCombatantEffectNotifications(spriteBatch: spriteBatch, contentRectangle: contentRectangle);
         }
         catch
         {
@@ -986,6 +972,50 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         spriteBatch.End();
     }
+
+    private void DrawCombatantEffectNotifications(SpriteBatch spriteBatch, Rectangle contentRectangle)
+    {
+        for (var index = 0; index < _combatantEffectNotifications.Count; index++)
+        {
+            var notification = _combatantEffectNotifications[index];
+
+            var localizedStatusName = GameObjectHelper.GetLocalized(notification.CombatantEffect.Sid);
+            var combatantLocalizedName = GetCombatantLocalizedName(notification);
+            var notificationText = string.Format(UiResource.StatusImposedNotificationTextTemplate,
+                localizedStatusName, combatantLocalizedName);
+
+            var notificationColor = notification.LifetimeCounter > 0.5
+                ? Color.White
+                : Color.Lerp(Color.White, Color.Transparent, 1 - (float)notification.LifetimeCounter / 0.5f);
+
+            //TODO Make notification control, add animations, add sound, add blocker to play notification's animation and sound
+            // Add status meta-data to store icon, is hidden status, impose(default=true) and dispel notification's display, sound, post-processing effect 
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                notificationText,
+                new Vector2(contentRectangle.Center.X, contentRectangle.Top + 50 + index * 15),
+                notificationColor);
+        }
+    }
+
+    private static string GetCombatantLocalizedName(EffectNotification notification)
+    {
+        var combatantClassSid = FirstLetterUppercase(notification.Combatant.ClassSid);
+        
+        return GameObjectHelper.GetLocalized(combatantClassSid);
+    }
+
+
+    private static string FirstLetterUppercase(string str)
+    {
+        if (str.Length == 0)
+            return string.Empty;
+        
+        if (str.Length == 1)
+            return char.ToUpper(str[0]).ToString();
+        
+        return char.ToUpper(str[0]) + str[1..];
+    }
+
 
     private void DrawInteractionDeliveryItems(SpriteBatch spriteBatch)
     {

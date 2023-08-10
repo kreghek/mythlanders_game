@@ -787,4 +787,10 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
   </data>
+  <data name="Impulse" xml:space="preserve">
+    <value>Импульс</value>
+  </data>
+  <data name="ImpulseGenerator" xml:space="preserve">
+    <value>Генерация импульса</value>
+  </data>
 </root>
