@@ -1431,7 +1431,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Partisan.
+        ///   Looks up a localized string similar to The Deaf.
         /// </summary>
         internal static string Partisan {
             get {
