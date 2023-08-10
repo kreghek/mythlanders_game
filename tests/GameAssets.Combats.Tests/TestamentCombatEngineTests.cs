@@ -59,7 +59,7 @@ public class TestamentCombatEngineTests
             .GetItems().ToArray();
         factCombatMovements[0].Should().BeNull();
     }
-    
+
     [Test]
     public void CreateCombatMovementExecution_AttackToAutoDefence_AutoDefenceEffectsInfluencedOnTarget()
     {
@@ -133,7 +133,7 @@ public class TestamentCombatEngineTests
                 effectImposeItem.ImposeDelegate(materializedTarget);
             }
         }
-        
+
         monsterMock.Verify(x =>
             x.AddStatus(It.Is<ICombatantStatus>(status => status.Sid.ToString() == "test_auto_defence"),
                 It.IsAny<ICombatantStatusImposeContext>(), It.IsAny<ICombatantStatusLifetimeImposeContext>()));
@@ -166,7 +166,7 @@ public class TestamentCombatEngineTests
 
         return combatantMock.Object;
     }
-    
+
     private static Mock<ICombatant> CreateCombatantMock(CombatMovementInstance combatMovementInstance, bool b)
     {
         var combatantMock = new Mock<ICombatant>();
@@ -189,7 +189,7 @@ public class TestamentCombatEngineTests
                 Mock.Of<IUnitStat>(x => x.Type == CombatantStatTypes.ShieldPoints && x.Value == new StatValue(1)),
                 Mock.Of<IUnitStat>(x => x.Type == CombatantStatTypes.Defense && x.Value == new StatValue(0))
             });
-        
+
         combatantMock.SetupGet(x => x.IsPlayerControlled).Returns(b);
 
         return combatantMock;

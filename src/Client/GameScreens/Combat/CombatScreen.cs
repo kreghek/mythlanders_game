@@ -960,7 +960,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         try
         {
             DrawCombatantQueue(spriteBatch, contentRectangle);
-            
+
             //DrawCombatSequenceProgress(spriteBatch);
 
             DrawCombatantEffectNotifications(spriteBatch: spriteBatch, contentRectangle: contentRectangle);
@@ -1000,7 +1000,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private static string GetCombatantLocalizedName(EffectNotification notification)
     {
         var combatantClassSid = FirstLetterUppercase(notification.Combatant.ClassSid);
-        
+
         return GameObjectHelper.GetLocalized(combatantClassSid);
     }
 
@@ -1009,10 +1009,10 @@ internal class CombatScreen : GameScreenWithMenuBase
     {
         if (str.Length == 0)
             return string.Empty;
-        
+
         if (str.Length == 1)
             return char.ToUpper(str[0]).ToString();
-        
+
         return char.ToUpper(str[0]) + str[1..];
     }
 
