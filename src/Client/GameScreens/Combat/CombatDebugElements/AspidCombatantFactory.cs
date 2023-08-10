@@ -45,7 +45,7 @@ public class AspidCombatantFactory : IMonsterCombatantFactory
         var monsterSequence = CreateCombatMoveVariation(variationIndex);
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(CombatantStatTypes.HitPoints, 3);
+        stats.SetValue(CombatantStatTypes.HitPoints, 5);
         stats.SetValue(CombatantStatTypes.Resolve, 5);
 
         var monster = new TestamentCombatant("aspid", monsterSequence, stats, combatActorBehaviour,
