@@ -10,14 +10,14 @@ public sealed class RandomEnemyTargetSelector : ITargetSelector
         var fieldSide = context.EnemySide;
 
         for (var lineIndex = 0; lineIndex < fieldSide.LineCount; lineIndex++)
-            for (var columnIndex = 0; columnIndex < fieldSide.ColumnCount; columnIndex++)
+        for (var columnIndex = 0; columnIndex < fieldSide.ColumnCount; columnIndex++)
+        {
+            var slot = fieldSide[new FieldCoords(columnIndex, lineIndex)];
+            if (slot.Combatant is not null)
             {
-                var slot = fieldSide[new FieldCoords(columnIndex, lineIndex)];
-                if (slot.Combatant is not null)
-                {
-                    yield return slot.Combatant;
-                }
+                yield return slot.Combatant;
             }
+        }
     }
 
     public IReadOnlyList<ICombatant> GetMaterialized(ICombatant actor, ITargetSelectorContext context)

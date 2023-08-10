@@ -19,48 +19,6 @@ namespace GameAssets.Combats.Tests;
 public class TestamentCombatEngineTests
 {
     [Test]
-    public void CreateCombatMovementExecution_CombatMovementInHand_CombatMovementRemovedFromHand()
-    {
-        // ASSERT
-
-        var combatMovementInstance = new CombatMovementInstance(
-            new CombatMovement(
-                new CombatMovementSid("test"),
-                new CombatMovementCost(0),
-                CombatMovementEffectConfig.Create(ArraySegment<IEffect>.Empty)));
-
-        var hero = CreateCombatant(combatMovementInstance, true);
-        var monster = CreateCombatant(combatMovementInstance, false);
-
-        var roundQueueResolverMock = new Mock<IRoundQueueResolver>();
-        roundQueueResolverMock.Setup(x => x.GetCurrentRoundQueue(It.IsAny<IReadOnlyCollection<ICombatant>>()))
-            .Returns(new[] { hero });
-        var roundQueueResolver = roundQueueResolverMock.Object;
-
-        var combatEngine = new TestamentCombatEngine(roundQueueResolver, Mock.Of<IDice>());
-        combatEngine.Initialize(new[]
-            {
-                // hero
-                new FormationSlot(0, 0) { Combatant = hero }
-            },
-            new[]
-            {
-                // monster
-                new FormationSlot(0, 0) { Combatant = monster }
-            });
-
-        // ACT
-
-        var _ = combatEngine.CreateCombatMovementExecution(combatMovementInstance);
-
-        // ASSERT
-
-        var factCombatMovements = hero.CombatMovementContainers.Single(x => x.Type == CombatMovementContainerTypes.Hand)
-            .GetItems().ToArray();
-        factCombatMovements[0].Should().BeNull();
-    }
-
-    [Test]
     public void CreateCombatMovementExecution_AttackToAutoDefence_AutoDefenceEffectsInfluencedOnTarget()
     {
         // ASSERT
@@ -74,7 +32,7 @@ public class TestamentCombatEngineTests
                     new DamageEffectWrapper(
                         new WeakestEnemyTargetSelector(),
                         DamageType.Normal,
-                        GenericRange<int>.CreateMono(1)),
+                        GenericRange<int>.CreateMono(1))
                 }))
             {
                 Tags = CombatMovementTags.Attack
@@ -137,6 +95,48 @@ public class TestamentCombatEngineTests
         monsterMock.Verify(x =>
             x.AddStatus(It.Is<ICombatantStatus>(status => status.Sid.ToString() == "test_auto_defence"),
                 It.IsAny<ICombatantStatusImposeContext>(), It.IsAny<ICombatantStatusLifetimeImposeContext>()));
+    }
+
+    [Test]
+    public void CreateCombatMovementExecution_CombatMovementInHand_CombatMovementRemovedFromHand()
+    {
+        // ASSERT
+
+        var combatMovementInstance = new CombatMovementInstance(
+            new CombatMovement(
+                new CombatMovementSid("test"),
+                new CombatMovementCost(0),
+                CombatMovementEffectConfig.Create(ArraySegment<IEffect>.Empty)));
+
+        var hero = CreateCombatant(combatMovementInstance, true);
+        var monster = CreateCombatant(combatMovementInstance, false);
+
+        var roundQueueResolverMock = new Mock<IRoundQueueResolver>();
+        roundQueueResolverMock.Setup(x => x.GetCurrentRoundQueue(It.IsAny<IReadOnlyCollection<ICombatant>>()))
+            .Returns(new[] { hero });
+        var roundQueueResolver = roundQueueResolverMock.Object;
+
+        var combatEngine = new TestamentCombatEngine(roundQueueResolver, Mock.Of<IDice>());
+        combatEngine.Initialize(new[]
+            {
+                // hero
+                new FormationSlot(0, 0) { Combatant = hero }
+            },
+            new[]
+            {
+                // monster
+                new FormationSlot(0, 0) { Combatant = monster }
+            });
+
+        // ACT
+
+        var _ = combatEngine.CreateCombatMovementExecution(combatMovementInstance);
+
+        // ASSERT
+
+        var factCombatMovements = hero.CombatMovementContainers.Single(x => x.Type == CombatMovementContainerTypes.Hand)
+            .GetItems().ToArray();
+        factCombatMovements[0].Should().BeNull();
     }
 
     private static ICombatant CreateCombatant(CombatMovementInstance combatMovementInstance, bool b)

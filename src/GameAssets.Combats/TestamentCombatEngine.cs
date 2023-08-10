@@ -53,7 +53,8 @@ public sealed class TestamentCombatEngine : CombatEngineBase
                             }
 
                             var autoDefenseEffectTargets =
-                                autoDefenseEffect.Selector.GetMaterialized(effectTarget, GetSelectorContext(effectTarget));
+                                autoDefenseEffect.Selector.GetMaterialized(effectTarget,
+                                    GetSelectorContext(effectTarget));
 
                             var autoDefenseEffectImposeItem =
                                 new CombatEffectImposeItem(AutoEffectInfluenceDelegate, autoDefenseEffectTargets);
