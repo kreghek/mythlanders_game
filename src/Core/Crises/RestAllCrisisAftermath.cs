@@ -1,8 +1,8 @@
-namespace Core.Crises;
+﻿namespace Core.Crises;
 
-public sealed class DamageAllCrisisAftermath : ICrisisAftermath
+public sealed class RestAllCrisisAftermath : ICrisisAftermath
 {
-    public DamageAllCrisisAftermath(string sid)
+    public RestAllCrisisAftermath(string sid)
     {
         Sid = new CrisisAftermathSid(sid);
     }
@@ -22,7 +22,7 @@ public sealed class DamageAllCrisisAftermath : ICrisisAftermath
 
         foreach (var hero in heroes)
         {
-            context.DamageHero(hero, 1);
+            context.RestHero(hero, 1);
         }
     }
 }

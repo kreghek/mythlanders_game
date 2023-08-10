@@ -708,7 +708,7 @@
     <value>Тактический манёвр</value>
   </data>
   <data name="TakeAllDamageByOneHero_CrisisAftermath" xml:space="preserve">
-    <value>Один из героев закрывает всех от заряда</value>
+    <value>Один из героев закрывает всех от заряда своей широкой спиной.</value>
   </data>
   <data name="TheGoodWeather_voice" xml:space="preserve">
     <value>Какая сегодня прекрасная погода...</value>

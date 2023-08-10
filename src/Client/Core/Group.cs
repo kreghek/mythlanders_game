@@ -11,7 +11,7 @@ internal sealed class Group
     {
         Slots = Enumerable
             .Range(0, 6)
-            .Select(x => new GroupSlot { Index = x, IsTankLine = CheckIsTankLine(x) })
+            .Select(x => new GroupSlot { Index = x })
             .ToArray();
     }
 
@@ -20,20 +20,15 @@ internal sealed class Group
     public IEnumerable<GroupSlot> GetFreeSlots()
     {
         return Slots
-            .Where(x => x.Unit is null)
+            .Where(x => x.Hero is null)
             .ToArray();
     }
 
     public IEnumerable<Hero> GetUnits()
     {
         return Slots
-            .Where(x => x.Unit is not null)
-            .Select(x => x.Unit!)
+            .Where(x => x.Hero is not null)
+            .Select(x => x.Hero!)
             .ToArray();
-    }
-
-    private static bool CheckIsTankLine(int slotIndex)
-    {
-        return slotIndex is >= 0 and < 3;
     }
 }

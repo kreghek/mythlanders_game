@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets;
 using Client.Assets.Crises;
 using Client.Core;
 using Client.Core.Campaigns;
@@ -28,6 +29,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
     private readonly IList<CrisisAftermathButton> _aftermathButtons;
     private readonly Texture2D _backgroundTexture;
     private readonly HeroCampaign _campaign;
+    private readonly GlobeProvider _globeProvider;
     private readonly Texture2D _cleanScreenTexture;
     private readonly ICrisis _crisis;
     private readonly SoundEffectInstance _soundEffectInstance;
@@ -40,6 +42,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
     public CrisisScreen(TestamentGame game, CrisisScreenTransitionArguments args) : base(game)
     {
         _campaign = args.Campaign;
+        _globeProvider= Game.Services.GetRequiredService<GlobeProvider>();
 
         _uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();
         var dice = Game.Services.GetRequiredService<IDice>();
@@ -130,7 +133,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
     protected override void InitializeContent()
     {
-        var context = new CrisisAftermathContext();
+        var context = new CrisisAftermathContext(_globeProvider.Globe.Player);
 
         var aftermaths = _crisis.GetItems().ToArray();
         for (var buttonIndex = 0; buttonIndex < aftermaths.Length; buttonIndex++)

@@ -347,13 +347,13 @@ internal sealed class GlobeProvider
         var loadedParty = LoadPlayerGroup(lastSavePlayer.Group);
         foreach (var slot in Globe.Player.Party.Slots)
         {
-            slot.Unit = null;
+            slot.Hero = null;
         }
 
         for (var slotIndex = 0; slotIndex < loadedParty.Count; slotIndex++)
         {
             var unit = loadedParty[slotIndex];
-            Globe.Player.Party.Slots[slotIndex].Unit = unit;
+            Globe.Player.Party.Slots[slotIndex].Hero = unit;
         }
 
         var loadedPool = LoadPlayerGroup(lastSavePlayer.Pool);
