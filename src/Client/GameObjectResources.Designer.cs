@@ -1134,6 +1134,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Impulse.
+        /// </summary>
+        internal static string Impulse {
+            get {
+                return ResourceManager.GetString("Impulse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Impulse generator.
+        /// </summary>
+        internal static string ImpulseGenerator {
+            get {
+                return ResourceManager.GetString("ImpulseGenerator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         internal static string InfernalSickness_Crisis {
@@ -1409,6 +1427,15 @@ namespace Client {
         internal static string ParaliticChor {
             get {
                 return ResourceManager.GetString("ParaliticChor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Deaf.
+        /// </summary>
+        internal static string Partisan {
+            get {
+                return ResourceManager.GetString("Partisan", resourceCulture);
             }
         }
         
