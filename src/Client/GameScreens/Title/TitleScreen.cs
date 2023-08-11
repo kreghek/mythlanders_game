@@ -21,6 +21,8 @@ internal sealed class TitleScreen : GameScreenBase
 
     private const int BUTTON_WIDTH = 150;
     private const int TITLE_PORTRAIT_COUNT = 3;
+
+    private readonly PongRectangle _bgPong;
     private readonly IList<ButtonBase> _buttons;
     private readonly ICamera2DAdapter _camera;
     private readonly ICampaignGenerator _campaignGenerator;
@@ -38,8 +40,6 @@ internal sealed class TitleScreen : GameScreenBase
     private readonly SettingsModal _settingsModal;
     private readonly UnitName[] _showcaseUnits;
     private readonly IUiContentStorage _uiContentStorage;
-
-    private readonly PongRectangle _bgPong;
 
     public TitleScreen(TestamentGame game)
         : base(game)
@@ -116,7 +116,8 @@ internal sealed class TitleScreen : GameScreenBase
         AddModal(_settingsModal, isLate: true);
 
         var bgTexture = _uiContentStorage.GetTitleBackgroundTexture();
-        _bgPong = new PongRectangle(new Point(bgTexture.Width, bgTexture.Height), ResolutionIndependentRenderer.VirtualBounds, new PongRectangleRandomSource(new LinearDice(), 2));
+        _bgPong = new PongRectangle(new Point(bgTexture.Width, bgTexture.Height),
+            ResolutionIndependentRenderer.VirtualBounds, new PongRectangleRandomSource(new LinearDice(), 2));
     }
 
     public void StartClearNewGame(GlobeProvider globeProvider, IScreen currentScreen,

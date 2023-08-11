@@ -61,11 +61,29 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adjutant.
+        /// </summary>
+        internal static string AdjutantButtonTitle {
+            get {
+                return ResourceManager.GetString("AdjutantButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Armor: {0}.
         /// </summary>
         internal static string ArmorLabelTemplate {
             get {
                 return ResourceManager.GetString("ArmorLabelTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Armory.
+        /// </summary>
+        internal static string ArmoryButtonTitle {
+            get {
+                return ResourceManager.GetString("ArmoryButtonTitle", resourceCulture);
             }
         }
         
@@ -102,6 +120,15 @@ namespace Client {
         internal static string BackToMapMenuButtonTitle {
             get {
                 return ResourceManager.GetString("BackToMapMenuButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Barraks.
+        /// </summary>
+        internal static string BarraksButtonTitle {
+            get {
+                return ResourceManager.GetString("BarraksButtonTitle", resourceCulture);
             }
         }
         
@@ -214,11 +241,56 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chronicles.
+        /// </summary>
+        internal static string ChroniclesButtonTitle {
+            get {
+                return ResourceManager.GetString("ChroniclesButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         internal static string CloseButtonTitle {
             get {
                 return ResourceManager.GetString("CloseButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}.
+        /// </summary>
+        internal static string CombatIndicatorNegativeHpTemplate {
+            get {
+                return ResourceManager.GetString("CombatIndicatorNegativeHpTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;{0}&gt;.
+        /// </summary>
+        internal static string CombatIndicatorNegativeSpTemplate {
+            get {
+                return ResourceManager.GetString("CombatIndicatorNegativeSpTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to +{0}.
+        /// </summary>
+        internal static string CombatIndicatorPositiveHpTemplate {
+            get {
+                return ResourceManager.GetString("CombatIndicatorPositiveHpTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to +&lt;{0}&gt;.
+        /// </summary>
+        internal static string CombatIndicatorPositiveSpTemplate {
+            get {
+                return ResourceManager.GetString("CombatIndicatorPositiveSpTemplate", resourceCulture);
             }
         }
         
@@ -664,6 +736,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 0123456789.
+        /// </summary>
+        internal static string IndicatorWarmupText {
+            get {
+                return ResourceManager.GetString("IndicatorWarmupText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Info.
         /// </summary>
         internal static string InfoButtonTitle {
@@ -1047,6 +1128,15 @@ namespace Client {
         internal static string SlidingPuzzles_TurnsCounterTemplate {
             get {
                 return ResourceManager.GetString("SlidingPuzzles_TurnsCounterTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not available in demo.
+        /// </summary>
+        internal static string StageNotImplementedInDemoText {
+            get {
+                return ResourceManager.GetString("StageNotImplementedInDemoText", resourceCulture);
             }
         }
         

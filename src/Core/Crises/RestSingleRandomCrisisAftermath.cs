@@ -1,12 +1,12 @@
-using CombatDicesTeam.Dices;
+﻿using CombatDicesTeam.Dices;
 
 namespace Core.Crises;
 
-public sealed class DamageSingleRandomCrisisAftermath : ICrisisAftermath
+public sealed class RestSingleRandomCrisisAftermath : ICrisisAftermath
 {
     private readonly IDice _dice;
 
-    public DamageSingleRandomCrisisAftermath(string sid, IDice dice)
+    public RestSingleRandomCrisisAftermath(string sid, IDice dice)
     {
         Sid = new CrisisAftermathSid(sid);
         _dice = dice;
@@ -25,7 +25,6 @@ public sealed class DamageSingleRandomCrisisAftermath : ICrisisAftermath
         }
 
         var rolledHero = _dice.RollFromList(heroes.ToArray());
-
-        context.DamageHero(rolledHero, 3);
+        context.RestHero(rolledHero, 3);
     }
 }

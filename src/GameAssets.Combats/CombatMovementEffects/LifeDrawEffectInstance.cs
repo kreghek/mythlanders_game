@@ -28,7 +28,8 @@ public sealed class LifeDrawEffectInstance : EffectInstanceBase<LifeDrawEffect>
         var rolledDamage = context.Dice.Roll(Damage.Min.ActualMax, Damage.Max.ActualMax);
 
         var absorbedDamage =
-            Math.Max(rolledDamage - target.Stats.Single(x => Equals(x.Type, CombatantStatTypes.Defense)).Value.Current, 0);
+            Math.Max(rolledDamage - target.Stats.Single(x => Equals(x.Type, CombatantStatTypes.Defense)).Value.Current,
+                0);
 
         //var damageRemains = TakeStat(target, UnitStatType.ShieldPoints, absorbedDamage);
 

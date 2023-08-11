@@ -8,9 +8,9 @@ namespace Client.GameScreens.Combat.Ui;
 internal class HitPointsChangedTextIndicator : TextIndicatorBase
 {
     private readonly int _amount;
-    private readonly HitPointsChangeDirection _direction;
+    private readonly StatChangeDirection _direction;
 
-    public HitPointsChangedTextIndicator(int amount, HitPointsChangeDirection direction,
+    public HitPointsChangedTextIndicator(int amount, StatChangeDirection direction,
         Vector2 startPosition,
         SpriteFont font, int stackIndex) : base(startPosition + new Vector2(stackIndex * 20, 0), font)
     {
@@ -20,16 +20,16 @@ internal class HitPointsChangedTextIndicator : TextIndicatorBase
 
     protected override Color GetColor()
     {
-        return _direction == HitPointsChangeDirection.Positive ? Color.LightGreen : Color.Red;
+        return _direction == StatChangeDirection.Positive ? Color.LightGreen : Color.Red;
     }
 
     protected override string GetText()
     {
-        if (_amount > 0 && _direction == HitPointsChangeDirection.Positive)
+        if (_amount > 0 && _direction == StatChangeDirection.Positive)
         {
-            return $"+{_amount}";
+            return string.Format(UiResource.CombatIndicatorPositiveHpTemplate, _amount);
         }
 
-        return _amount.ToString();
+        return string.Format(UiResource.CombatIndicatorNegativeHpTemplate, _amount);
     }
 }

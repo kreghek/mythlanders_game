@@ -23,7 +23,7 @@ internal sealed class AgressorFactory : IMonsterFactory
             Name = UnitName.Agressor,
             LocationSids = new[]
             {
-                LocationSids.Thicket, LocationSids.Swamp, LocationSids.Battleground, LocationSids.DeathPath,
+                LocationSids.Swamp, LocationSids.Battleground, LocationSids.DeathPath,
                 LocationSids.Mines,
 
                 LocationSids.Desert, LocationSids.SacredPlace,

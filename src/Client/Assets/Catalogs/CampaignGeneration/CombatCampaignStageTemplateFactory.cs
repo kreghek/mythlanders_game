@@ -56,7 +56,8 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
                 case "digitalwolf":
                     dropTables.Add(new DropTableScheme("digital-claws",
                         new IDropTableRecordSubScheme[]
-                            { new DropTableRecordSubScheme(null, GenericRange<int>.CreateMono(1), "digital-claws", 1) }, 1));
+                            { new DropTableRecordSubScheme(null, GenericRange<int>.CreateMono(1), "digital-claws", 1) },
+                        1));
                     break;
 
                 case "chaser":

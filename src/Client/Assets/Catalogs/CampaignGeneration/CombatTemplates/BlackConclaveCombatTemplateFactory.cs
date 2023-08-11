@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 namespace Client.Assets.Catalogs.CampaignGeneration.CombatTemplates;
 
 [UsedImplicitly]
-internal sealed class BlackConclawCombatTemplateFactory : ICombatTemplateFactory
+internal sealed class BlackConclaveCombatTemplateFactory : ICombatTemplateFactory
 {
     public IReadOnlyCollection<MonsterCombatantTempate> CreateSet()
     {
@@ -17,7 +17,7 @@ internal sealed class BlackConclawCombatTemplateFactory : ICombatTemplateFactory
         {
             new MonsterCombatantTempate(
                 new MonsterCombatantTempateLevel(0),
-                new[] { LocationSids.Thicket, LocationSids.Desert, LocationSids.Monastery, LocationSids.ShipGraveyard },
+                new[] { LocationSids.Desert, LocationSids.Monastery, LocationSids.ShipGraveyard },
                 new MonsterCombatantPrefab[]
                 {
                     new("agressor", 0, new FieldCoords(0, 1)),
@@ -26,7 +26,7 @@ internal sealed class BlackConclawCombatTemplateFactory : ICombatTemplateFactory
 
             new MonsterCombatantTempate(
                 new MonsterCombatantTempateLevel(1),
-                new[] { LocationSids.Thicket, LocationSids.Desert, LocationSids.Monastery, LocationSids.ShipGraveyard },
+                new[] { LocationSids.Desert, LocationSids.Monastery, LocationSids.ShipGraveyard },
                 new MonsterCombatantPrefab[]
                 {
                     new("agressor", 0, new FieldCoords(0, 1)),
@@ -35,7 +35,7 @@ internal sealed class BlackConclawCombatTemplateFactory : ICombatTemplateFactory
 
             new MonsterCombatantTempate(
                 new MonsterCombatantTempateLevel(2),
-                new[] { LocationSids.Thicket, LocationSids.Desert, LocationSids.Monastery, LocationSids.ShipGraveyard },
+                new[] { LocationSids.Desert, LocationSids.Monastery, LocationSids.ShipGraveyard },
                 new MonsterCombatantPrefab[]
                 {
                     new("agressor", 0, new FieldCoords(0, 1)),

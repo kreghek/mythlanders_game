@@ -1,15 +1,10 @@
-using CombatDicesTeam.Dices;
+﻿namespace Core.Crises;
 
-namespace Core.Crises;
-
-public sealed class DamageSingleRandomCrisisAftermath : ICrisisAftermath
+public sealed class RestAllCrisisAftermath : ICrisisAftermath
 {
-    private readonly IDice _dice;
-
-    public DamageSingleRandomCrisisAftermath(string sid, IDice dice)
+    public RestAllCrisisAftermath(string sid)
     {
         Sid = new CrisisAftermathSid(sid);
-        _dice = dice;
     }
 
     public CrisisAftermathSid Sid { get; }
@@ -24,8 +19,9 @@ public sealed class DamageSingleRandomCrisisAftermath : ICrisisAftermath
             // if all heroes was defeat the campaign must be interupted.
         }
 
-        var rolledHero = _dice.RollFromList(heroes.ToArray());
-
-        context.DamageHero(rolledHero, 3);
+        foreach (var hero in heroes)
+        {
+            context.RestHero(hero, 1);
+        }
     }
 }

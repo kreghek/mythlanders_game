@@ -43,15 +43,17 @@ internal abstract class TextIndicatorBase : EwarRenderableBase
 
     protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
     {
+        var text = GetText();
+
         for (var x = -1; x <= 1; x++)
         {
             for (var y = -1; y <= 1; y++)
             {
-                spriteBatch.DrawString(_font, GetText(), _position + new Vector2(x, y), Color.DarkCyan);
+                spriteBatch.DrawString(_font, text, _position + new Vector2(x, y), Color.DarkCyan);
             }
         }
 
-        spriteBatch.DrawString(_font, GetText(), _position, GetColor());
+        spriteBatch.DrawString(_font, text, _position, GetColor());
     }
 
     protected abstract Color GetColor();

@@ -58,8 +58,9 @@ with.
         </CharacterRegion>
         
     </CharacterRegions>
-    <ResourceFiles>
-      <Resx>..\UiResource.zh.resx</Resx>
-    </ResourceFiles>
+	  <ResourceFiles>
+		  <Resx>..\..\Client\UiResource.zh.resx</Resx>
+		  <Resx>..\..\Client\GameObjectResources.zh.resx</Resx>
+	  </ResourceFiles>
   </Asset>
 </XnaContent>
