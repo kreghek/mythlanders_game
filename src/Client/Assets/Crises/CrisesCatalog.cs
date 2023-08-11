@@ -35,9 +35,9 @@ public sealed class CrisesCatalog : ICrisesCatalog
             }),
             new Crisis("Starvation", new ICrisisAftermath[]
             {
-                new DamageSingleRandomCrisisAftermath("Starve", dice),
+                new DamageSingleRandomCrisisAftermath("StarveSolo", dice),
                 new DamageAllCrisisAftermath("StarveAll"),
-                new DamageAllCrisisAftermath("BuyFood")
+                //new DamageAllCrisisAftermath("BuyFood")
             }),
             new Crisis("Preying", new ICrisisAftermath[]
             {

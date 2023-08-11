@@ -144,20 +144,11 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
             aftermathButton.OnClick += (s, e) =>
             {
-                var underConstructionModal = new UnderConstructionModal(
-                    _uiContentStorage,
-                    ResolutionIndependentRenderer);
-
                 aftermath.Apply(context);
 
-                underConstructionModal.Closed += (_, _) =>
-                {
-                    _soundEffectInstance.Stop();
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                        new CampaignScreenTransitionArguments(_campaign));
-                };
-
-                AddModal(underConstructionModal, false);
+                _soundEffectInstance.Stop();
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                    new CampaignScreenTransitionArguments(_campaign));
             };
 
             aftermathButton.OnHover += (s, e) =>

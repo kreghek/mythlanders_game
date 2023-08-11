@@ -35,10 +35,10 @@ internal class CombatantFactory
     public static IReadOnlyCollection<FormationSlot> CreateHeroes(ICombatActorBehaviour combatActorBehaviour,
         Player player)
     {
-        var formationSlots = player.Heroes.Select(hero =>
+        var formationSlots = player.Heroes.Where(x => x.HitPoints.Current > 0).Select(hero =>
             new FormationSlot(hero.FormationPosition.ColumentIndex, hero.FormationPosition.LineIndex)
             {
-                Combatant = _factories[hero.ClassSid].Create("", combatActorBehaviour, hero.HitPoints)
+                Combatant = _factories[hero.ClassSid].Create(hero.ClassSid, combatActorBehaviour, hero.HitPoints)
             }).ToArray();
 
         return formationSlots;

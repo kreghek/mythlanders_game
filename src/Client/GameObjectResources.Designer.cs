@@ -547,6 +547,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DamageTogether_CrisisAftermath_Hint {
+            get {
+                return ResourceManager.GetString("DamageTogether_CrisisAftermath_Hint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dance with the Past.
         /// </summary>
         internal static string DanceWithThePast {
@@ -642,6 +651,15 @@ namespace Client {
         internal static string DestroyTheSickSource_CrisisAftermath {
             get {
                 return ResourceManager.GetString("DestroyTheSickSource_CrisisAftermath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DestroyTheSickSource_CrisisAftermath_Hint {
+            get {
+                return ResourceManager.GetString("DestroyTheSickSource_CrisisAftermath_Hint", resourceCulture);
             }
         }
         
@@ -1395,6 +1413,33 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Obey.
+        /// </summary>
+        internal static string Obey_CrisisAftermath {
+            get {
+                return ResourceManager.GetString("Obey_CrisisAftermath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Obey_CrisisAftermath_Hint {
+            get {
+                return ResourceManager.GetString("Obey_CrisisAftermath_Hint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Obey all.
+        /// </summary>
+        internal static string ObeyAll_CrisisAftermath {
+            get {
+                return ResourceManager.GetString("ObeyAll_CrisisAftermath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Old good brawl.
         /// </summary>
         internal static string OldGoodBrawl {
@@ -1499,6 +1544,33 @@ namespace Client {
         internal static string RegenerativeProtocol_Description {
             get {
                 return ResourceManager.GetString("RegenerativeProtocol_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rest.
+        /// </summary>
+        internal static string Rest_CrisisAftermath {
+            get {
+                return ResourceManager.GetString("Rest_CrisisAftermath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rest all.
+        /// </summary>
+        internal static string RestAll_CrisisAftermath {
+            get {
+                return ResourceManager.GetString("RestAll_CrisisAftermath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string RestAll_CrisisAftermath_Hint {
+            get {
+                return ResourceManager.GetString("RestAll_CrisisAftermath_Hint", resourceCulture);
             }
         }
         
@@ -1658,18 +1730,36 @@ namespace Client {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string Starve_CrisisAftermath {
+        internal static string StarveAll_CrisisAftermath {
             get {
-                return ResourceManager.GetString("Starve_CrisisAftermath", resourceCulture);
+                return ResourceManager.GetString("StarveAll_CrisisAftermath", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string StarveAll_CrisisAftermath {
+        internal static string StarveAll_CrisisAftermath_Hint {
             get {
-                return ResourceManager.GetString("StarveAll_CrisisAftermath", resourceCulture);
+                return ResourceManager.GetString("StarveAll_CrisisAftermath_Hint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string StarveSolo_CrisisAftermath {
+            get {
+                return ResourceManager.GetString("StarveSolo_CrisisAftermath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string StarveSolo_CrisisAftermath_Hint {
+            get {
+                return ResourceManager.GetString("StarveSolo_CrisisAftermath_Hint", resourceCulture);
             }
         }
         
@@ -1796,6 +1886,15 @@ namespace Client {
         internal static string TakeAllDamageByOneHero_CrisisAftermath {
             get {
                 return ResourceManager.GetString("TakeAllDamageByOneHero_CrisisAftermath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string TakeAllDamageByOneHero_CrisisAftermath_Hint {
+            get {
+                return ResourceManager.GetString("TakeAllDamageByOneHero_CrisisAftermath_Hint", resourceCulture);
             }
         }
         
