@@ -42,7 +42,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
     public CrisisScreen(TestamentGame game, CrisisScreenTransitionArguments args) : base(game)
     {
         _campaign = args.Campaign;
-        _globeProvider= Game.Services.GetRequiredService<GlobeProvider>();
+        _globeProvider = Game.Services.GetRequiredService<GlobeProvider>();
 
         _uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();
         var dice = Game.Services.GetRequiredService<IDice>();
