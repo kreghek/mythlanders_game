@@ -84,7 +84,7 @@ internal sealed class RestScreen : GameScreenWithMenuBase
         var chatActionButton = new ResourceTextButton(nameof(UiResource.RestActionChat));
         _actionButtons.Add(chatActionButton);
 
-        var underConstructionTexture = Game.Content.Load<Texture2D>("Sprites/Ui/UnderConstructionBackground");
+        var underConstructionTexture = Game.Content.Load<Texture2D>("Sprites/Ui/UnderContructionBackground");
 
         foreach (var actionButton in _actionButtons)
         {
@@ -96,6 +96,9 @@ internal sealed class RestScreen : GameScreenWithMenuBase
                     {
                         hero.HitPoints.Restore(2);
                     }
+
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                            new CampaignScreenTransitionArguments(_campaign));
                 }
                 else
                 {
