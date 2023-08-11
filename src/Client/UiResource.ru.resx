@@ -489,6 +489,9 @@
   <data name="SlidingPuzzles_TurnsCounterTemplate" xml:space="preserve">
     <value>Ходов: {0}</value>
   </data>
+  <data name="StageNotImplementedInDemoText" xml:space="preserve">
+    <value>Этап не доступен для демо</value>
+  </data>
   <data name="StartNewGameButtonTitle" xml:space="preserve">
     <value>Новая игра</value>
   </data>

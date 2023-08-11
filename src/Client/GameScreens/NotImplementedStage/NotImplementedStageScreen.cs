@@ -17,6 +17,7 @@ internal class NotImplementedStageScreen : GameScreenWithMenuBase
     private readonly HeroCampaign _campaign;
     private readonly ButtonBase _skipButton;
     private readonly IUiContentStorage _uiContentStorage;
+    private Texture2D? _underConstructionTexture;
 
     public NotImplementedStageScreen(TestamentGame game, NotImplementedStageScreenTransitionArguments args) : base(game)
     {
@@ -48,11 +49,13 @@ internal class NotImplementedStageScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
-        const string TEXT = "Этап не доступен для демо";
+        spriteBatch.Draw(_underConstructionTexture, contentRect, Color.White);
 
-        var size = _uiContentStorage.GetTitlesFont().MeasureString(TEXT);
+        var text = UiResource.StageNotImplementedInDemoText;
 
-        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), TEXT,
+        var size = _uiContentStorage.GetTitlesFont().MeasureString(text);
+
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), text,
             contentRect.Center.ToVector2() - size, Color.Wheat);
 
         _skipButton.Rect = new Rectangle(contentRect.Center + new Point((int)size.X + 10), new Point(100, 20));
@@ -63,6 +66,7 @@ internal class NotImplementedStageScreen : GameScreenWithMenuBase
 
     protected override void InitializeContent()
     {
+        _underConstructionTexture = Game.Content.Load<Texture2D>("Sprites/Ui/UnderContructionBackground");
     }
 
     private void CloseButton_OnClick(object? sender, EventArgs e)
