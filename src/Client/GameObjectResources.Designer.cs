@@ -682,6 +682,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Digital wolf.
+        /// </summary>
+        internal static string DigitalWolf {
+            get {
+                return ResourceManager.GetString("DigitalWolf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dope herb.
         /// </summary>
         internal static string DopeHerb {

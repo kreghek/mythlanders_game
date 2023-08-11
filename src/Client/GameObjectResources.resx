@@ -338,6 +338,10 @@
     <value></value>
     <comment>Combat Movement Swordsman</comment>
   </data>
+  <data name="DigitalWolf" xml:space="preserve">
+    <value>Digital wolf</value>
+    <comment>Monster</comment>
+  </data>
   <data name="DopeHerb" xml:space="preserve">
       <value>Dope herb</value>
     <comment>Skill</comment>
