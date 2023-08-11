@@ -9,7 +9,6 @@ using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Crisis.Ui;
-using Client.GameScreens.Rest.Ui;
 using Client.ScreenManagement;
 
 using CombatDicesTeam.Dices;
@@ -29,9 +28,9 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
     private readonly IList<CrisisAftermathButton> _aftermathButtons;
     private readonly Texture2D _backgroundTexture;
     private readonly HeroCampaign _campaign;
-    private readonly GlobeProvider _globeProvider;
     private readonly Texture2D _cleanScreenTexture;
     private readonly ICrisis _crisis;
+    private readonly GlobeProvider _globeProvider;
     private readonly SoundEffectInstance _soundEffectInstance;
     private readonly SoundtrackManager _soundtrackManager;
     private readonly IUiContentStorage _uiContentStorage;

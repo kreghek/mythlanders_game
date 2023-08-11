@@ -10,7 +10,7 @@ namespace Client.Assets;
 
 internal sealed class CrisisAftermathContext : ICrisisAftermathContext
 {
-    private Player _player;
+    private readonly Player _player;
 
     public CrisisAftermathContext(Player player)
     {

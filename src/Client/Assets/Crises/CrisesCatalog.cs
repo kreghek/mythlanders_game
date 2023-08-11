@@ -12,7 +12,6 @@ public sealed class CrisesCatalog : ICrisesCatalog
 
     public CrisesCatalog()
     {
-
         var dice = new LinearDice();
 
         _crises = new ICrisis[]
@@ -36,7 +35,7 @@ public sealed class CrisesCatalog : ICrisesCatalog
             new Crisis("Starvation", new ICrisisAftermath[]
             {
                 new DamageSingleRandomCrisisAftermath("StarveSolo", dice),
-                new DamageAllCrisisAftermath("StarveAll"),
+                new DamageAllCrisisAftermath("StarveAll")
                 //new DamageAllCrisisAftermath("BuyFood")
             }),
             new Crisis("Preying", new ICrisisAftermath[]

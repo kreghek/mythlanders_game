@@ -317,6 +317,16 @@ internal sealed class CampaignMap : ControlBase
         return texture;
     }
 
+    private Texture2D CreateMonsterThumbnailTexture(CombatStageItem combatStageItem)
+    {
+        var monster = combatStageItem.Metadata.MonsterLeader;
+        var monsterTexture =
+            _gameObjectContentStorage.GetUnitGraphics(Enum.Parse<UnitName>(monster.ClassSid, true));
+
+        var grayscaleTexture = CreateAnimationSequenceTexture(monsterTexture, new Rectangle(0, 0, 128, 128));
+        return grayscaleTexture;
+    }
+
     private PresentationScrollData CreatePresentationScrollData(HeroCampaign currentCampaign,
         IReadOnlyCollection<IGraphNodeLayout<ICampaignStageItem>> graphNodeLayouts)
     {
@@ -670,16 +680,6 @@ internal sealed class CampaignMap : ControlBase
             graphNodeLayouts.Max(x => x.Position.X + 32),
             graphNodeLayouts.Max(x => x.Position.Y + 32)
         );
-    }
-
-    private Texture2D CreateMonsterThumbnailTexture(CombatStageItem combatStageItem)
-    {
-        var monster = combatStageItem.Metadata.MonsterLeader;
-        var monsterTexture =
-            _gameObjectContentStorage.GetUnitGraphics(Enum.Parse<UnitName>(monster.ClassSid, true));
-
-        var grayscaleTexture = CreateAnimationSequenceTexture(monsterTexture, new Rectangle(0, 0, 128, 128));
-        return grayscaleTexture;
     }
 
     private static Vector2 NormalizeScroll(Vector2 currentScroll, Rectangle boundingGraphRect,

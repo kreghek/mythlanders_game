@@ -8,6 +8,7 @@ public sealed class HeroStatChangedEventArgs : EventArgs
         Amount = amount;
     }
 
-    public string Hero { get; }
     public int Amount { get; }
+
+    public string Hero { get; }
 }

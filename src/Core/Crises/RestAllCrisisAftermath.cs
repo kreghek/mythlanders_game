@@ -13,7 +13,6 @@ public sealed class RestAllCrisisAftermath : ICrisisAftermath
     {
         var heroes = context.GetAvailableHeroes();
 
-
         if (!heroes.Any())
         {
             // This is not normal.

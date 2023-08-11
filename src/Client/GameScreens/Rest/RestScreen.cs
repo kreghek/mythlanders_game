@@ -19,8 +19,8 @@ internal sealed class RestScreen : GameScreenWithMenuBase
     private readonly IList<ButtonBase> _actionButtons;
 
     private readonly HeroCampaign _campaign;
-    private readonly IUiContentStorage _uiContentStorage;
     private readonly GlobeProvider _globeProvider;
+    private readonly IUiContentStorage _uiContentStorage;
 
     public RestScreen(TestamentGame game, RestScreenTransitionArguments args) : base(game)
     {
@@ -98,7 +98,7 @@ internal sealed class RestScreen : GameScreenWithMenuBase
                     }
 
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                            new CampaignScreenTransitionArguments(_campaign));
+                        new CampaignScreenTransitionArguments(_campaign));
                 }
                 else
                 {

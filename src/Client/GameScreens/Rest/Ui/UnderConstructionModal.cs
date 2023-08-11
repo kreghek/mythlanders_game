@@ -7,8 +7,8 @@ namespace Client.GameScreens.Rest.Ui;
 
 internal sealed class UnderConstructionModal : ModalDialogBase
 {
-    private readonly Texture2D _underConstructionTexture;
     private readonly IUiContentStorage _uiContentStorage;
+    private readonly Texture2D _underConstructionTexture;
 
     public UnderConstructionModal(Texture2D underConstructionTexture,
         IUiContentStorage uiContentStorage,

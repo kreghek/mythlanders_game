@@ -18,7 +18,6 @@ public sealed class DamageSingleRandomCrisisAftermath : ICrisisAftermath
     {
         var heroes = context.GetAvailableHeroes();
 
-
         if (!heroes.Any())
         {
             // This is not normal.
