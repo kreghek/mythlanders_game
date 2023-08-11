@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Campaign;
@@ -19,6 +20,7 @@ internal sealed class RestScreen : GameScreenWithMenuBase
 
     private readonly HeroCampaign _campaign;
     private readonly IUiContentStorage _uiContentStorage;
+    private readonly GlobeProvider _globeProvider;
 
     public RestScreen(TestamentGame game, RestScreenTransitionArguments args) : base(game)
     {
@@ -27,6 +29,8 @@ internal sealed class RestScreen : GameScreenWithMenuBase
         _actionButtons = new List<ButtonBase>();
 
         _uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();
+
+        _globeProvider = Game.Services.GetRequiredService<GlobeProvider>();
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -80,21 +84,37 @@ internal sealed class RestScreen : GameScreenWithMenuBase
         var chatActionButton = new ResourceTextButton(nameof(UiResource.RestActionChat));
         _actionButtons.Add(chatActionButton);
 
+        var underConstructionTexture = Game.Content.Load<Texture2D>("Sprites/Ui/UnderContructionBackground");
+
         foreach (var actionButton in _actionButtons)
         {
-            actionButton.OnClick += (_, _) =>
+            actionButton.OnClick += (s, _) =>
             {
-                var underConstructionModal = new UnderConstructionModal(
-                    _uiContentStorage,
-                    ResolutionIndependentRenderer);
-
-                underConstructionModal.Closed += (_, _) =>
+                if (improvedRestActionButton == s)
                 {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                        new CampaignScreenTransitionArguments(_campaign));
-                };
+                    foreach (var hero in _globeProvider.Globe.Player.Heroes)
+                    {
+                        hero.HitPoints.Restore(2);
+                    }
 
-                AddModal(underConstructionModal, false);
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                            new CampaignScreenTransitionArguments(_campaign));
+                }
+                else
+                {
+                    var underConstructionModal = new UnderConstructionModal(
+                        underConstructionTexture,
+                        _uiContentStorage,
+                        ResolutionIndependentRenderer);
+
+                    underConstructionModal.Closed += (_, _) =>
+                    {
+                        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                            new CampaignScreenTransitionArguments(_campaign));
+                    };
+
+                    AddModal(underConstructionModal, false);
+                }
             };
         }
     }

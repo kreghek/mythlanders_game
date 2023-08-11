@@ -500,6 +500,9 @@
   <data name="SlidingPuzzles_TurnsCounterTemplate" xml:space="preserve">
     <value>Turns: {0}</value>
   </data>
+  <data name="StageNotImplementedInDemoText" xml:space="preserve">
+    <value>Not available in demo</value>
+  </data>
   <data name="StartNewGameButtonTitle" xml:space="preserve">
     <value>New game</value>
     <comment>TitleScreen</comment>

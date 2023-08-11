@@ -236,7 +236,7 @@ internal sealed class CampaignMap : ControlBase
         return texture;
     }
 
-    private CampaignNodeButton CreateCampaignButton(HeroCampaign currentCampaign,
+    private CampaignNodeButton CreateCampaignNodeButton(HeroCampaign currentCampaign,
         IGraphNodeLayout<ICampaignStageItem> graphNodeLayout)
     {
         var stageItemDisplayName = GetStageItemDisplayName(graphNodeLayout.Node.Payload);
@@ -343,8 +343,8 @@ internal sealed class CampaignMap : ControlBase
             var prevNodeLayout = graphNodeLayouts.Single(x => x.Node == currentCampaign.Path.Last());
 
             var next = currentCampaign.Stages.GetNext(prevNodeLayout.Node);
-            var startNodeLayouts = graphNodeLayouts.Where(x => next.Contains(x.Node));
-            var nextNodeLayout = startNodeLayouts.First();
+            var nextNodeLayouts = graphNodeLayouts.Where(x => next.Contains(x.Node));
+            var nextNodeLayout = nextNodeLayouts.First();
 
             return CreatePresentationScrollDataFromNodeLayouts(prevNodeLayout, nextNodeLayout);
         }
@@ -357,11 +357,11 @@ internal sealed class CampaignMap : ControlBase
         IGraphNodeLayout<ICampaignStageItem> rewardNodeLayout,
         IGraphNodeLayout<ICampaignStageItem> startNodeLayout)
     {
-        var rewardScroll = GetScrollByGraphNodeLayout(rewardNodeLayout);
+        var startScroll = GetScrollByGraphNodeLayout(rewardNodeLayout);
 
-        var startScroll = GetScrollByGraphNodeLayout(startNodeLayout);
+        var targetScroll = GetScrollByGraphNodeLayout(startNodeLayout);
 
-        return new PresentationScrollData(rewardScroll, startScroll);
+        return new PresentationScrollData(startScroll, targetScroll);
     }
 
     private void DrawBackgroundTiles(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -621,17 +621,13 @@ internal sealed class CampaignMap : ControlBase
 
         foreach (var graphNodeLayout in graphNodeLayouts)
         {
-            var button = CreateCampaignButton(currentCampaign, graphNodeLayout);
+            var button = CreateCampaignNodeButton(currentCampaign, graphNodeLayout);
 
             if (button.SourceGraphNodeLayout.Node.Payload is CombatStageItem combatStageItem)
             {
-                var monster = combatStageItem.Metadata.MonsterLeader;
-                var monsterTexture =
-                    _gameObjectContentStorage.GetUnitGraphics(Enum.Parse<UnitName>(monster.ClassSid, true));
+                var monsterTexture = CreateMonsterThumbnailTexture(combatStageItem);
 
-                var grayscaleTexture = CreateAnimationSequenceTexture(monsterTexture, new Rectangle(0, 0, 128, 128));
-
-                button.DecorativeObjects.Add(new CampaignMapDecorativeObject(grayscaleTexture,
+                button.DecorativeObjects.Add(new CampaignMapDecorativeObject(monsterTexture,
                     new LinearAnimationFrameSet(
                         Enumerable.Range(0, 8).ToArray(),
                         fps: 4,
@@ -674,6 +670,16 @@ internal sealed class CampaignMap : ControlBase
             graphNodeLayouts.Max(x => x.Position.X + 32),
             graphNodeLayouts.Max(x => x.Position.Y + 32)
         );
+    }
+
+    private Texture2D CreateMonsterThumbnailTexture(CombatStageItem combatStageItem)
+    {
+        var monster = combatStageItem.Metadata.MonsterLeader;
+        var monsterTexture =
+            _gameObjectContentStorage.GetUnitGraphics(Enum.Parse<UnitName>(monster.ClassSid, true));
+
+        var grayscaleTexture = CreateAnimationSequenceTexture(monsterTexture, new Rectangle(0, 0, 128, 128));
+        return grayscaleTexture;
     }
 
     private static Vector2 NormalizeScroll(Vector2 currentScroll, Rectangle boundingGraphRect,

@@ -1132,6 +1132,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not available in demo.
+        /// </summary>
+        internal static string StageNotImplementedInDemoText {
+            get {
+                return ResourceManager.GetString("StageNotImplementedInDemoText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New game.
         /// </summary>
         internal static string StartNewGameButtonTitle {

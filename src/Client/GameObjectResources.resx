@@ -263,6 +263,7 @@
   </data>
   <data name="Conversation_CrisisAftermath" xml:space="preserve">
     <value />
+    <comment>Crisis Aftermath</comment>
   </data>
   <data name="CriticalHit" xml:space="preserve">
     <value>Critical hit</value>
@@ -282,6 +283,10 @@
   </data>
   <data name="DamageTogether_CrisisAftermath" xml:space="preserve">
     <value /><comment>Crisis Aftermath</comment>
+  </data>
+  <data name="DamageTogether_CrisisAftermath_Hint" xml:space="preserve">
+    <value></value>
+    <comment>Crisis Aftermath</comment>
   </data>
   <data name="DanceWithThePast" xml:space="preserve">
     <value>Dance with the Past</value><comment>Combat Movement Black Trooper</comment>
@@ -321,6 +326,10 @@
   <data name="DestroyTheSickSource_CrisisAftermath" xml:space="preserve">
     <value /><comment>CrisisAftermath</comment>
   </data>
+  <data name="DestroyTheSickSource_CrisisAftermath_Hint" xml:space="preserve">
+    <value></value>
+    <comment>Crisis Aftermath</comment>
+  </data>
   <data name="DieBySword" xml:space="preserve">
       <value>Die by the sword</value>
     <comment>Combat Movement Swordsman</comment>
@@ -328,6 +337,10 @@
   <data name="DieBySword_Description" xml:space="preserve">
     <value></value>
     <comment>Combat Movement Swordsman</comment>
+  </data>
+  <data name="DigitalWolf" xml:space="preserve">
+    <value>Digital wolf</value>
+    <comment>Monster</comment>
   </data>
   <data name="DopeHerb" xml:space="preserve">
       <value>Dope herb</value>
@@ -496,6 +509,7 @@
     <value>Inflict wrath on the entire group of heroes!
 - Everyone takes 1 damage penalty for 1 combat.
 - Berimir takes an additional 1 damage penalty for all combats until the end of the campaign.</value>
+    <comment>Crisis Aftermath</comment>
   </data>
   <data name="ImprovedArmor" xml:space="preserve">
     <value>Improved armor</value>
@@ -610,6 +624,18 @@
   <data name="NinthTrigram_Description" xml:space="preserve">
     <value /><comment>Combat movement Monk</comment>
   </data>
+  <data name="ObeyAll_CrisisAftermath" xml:space="preserve">
+    <value>Obey all</value>
+    <comment>Crisis Aftermath</comment>
+  </data>
+  <data name="Obey_CrisisAftermath" xml:space="preserve">
+    <value>Obey</value>
+    <comment>Crisis Aftermath</comment>
+  </data>
+  <data name="Obey_CrisisAftermath_Hint" xml:space="preserve">
+    <value></value>
+    <comment>Crisis Aftermath</comment>
+  </data>
   <data name="OldGoodBrawl" xml:space="preserve">
     <value>Old good brawl</value><comment>Combat movement Partisan</comment>
   </data>
@@ -653,6 +679,18 @@
     <value></value>
     <comment>Combat Movement</comment>
   </data>
+  <data name="RestAll_CrisisAftermath" xml:space="preserve">
+    <value>Rest all</value>
+    <comment>Crisis Aftermath</comment>
+  </data>
+  <data name="RestAll_CrisisAftermath_Hint" xml:space="preserve">
+    <value></value>
+    <comment>Crisis Aftermath</comment>
+  </data>
+  <data name="Rest_CrisisAftermath" xml:space="preserve">
+    <value>Rest</value>
+    <comment>Crisis Aftermath</comment>
+  </data>
   <data name="RiseYourSwords" xml:space="preserve">
     <value>Rise your swords!</value><comment>Combat Movement Swordsman</comment>
   </data>
@@ -665,6 +703,7 @@
   </data>
   <data name="RunOut_CrisisAftermath" xml:space="preserve">
     <value />
+    <comment>Crisis Aftermath</comment>
   </data>
   <data name="Sabotage" xml:space="preserve">
     <value>Sabotage</value>
@@ -714,8 +753,14 @@
   <data name="StarveAll_CrisisAftermath" xml:space="preserve">
     <value /><comment>Crisis Aftermath</comment>
   </data>
-  <data name="Starve_CrisisAftermath" xml:space="preserve">
+  <data name="StarveAll_CrisisAftermath_Hint" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="StarveSolo_CrisisAftermath" xml:space="preserve">
     <value /><comment>Crisis Aftermath</comment>
+  </data>
+  <data name="StarveSolo_CrisisAftermath_Hint" xml:space="preserve">
+    <value></value>
   </data>
   <data name="StayStrong" xml:space="preserve">
     <value>Stay strong</value><comment>Combat Movement Swordsman</comment>
@@ -768,6 +813,10 @@
   <data name="TakeAllDamageByOneHero_CrisisAftermath" xml:space="preserve">
     <value /><comment>Crisis Aftermath</comment>
   </data>
+  <data name="TakeAllDamageByOneHero_CrisisAftermath_Hint" xml:space="preserve">
+    <value></value>
+    <comment>Crisis Aftermath</comment>
+  </data>
   <data name="TheGoodWeather_voice" xml:space="preserve">
     <value>The good weather today...</value><comment>Voice</comment>
   </data>
@@ -787,6 +836,7 @@
   </data>
   <data name="TryToFight_CrisisAftermath" xml:space="preserve">
     <value />
+    <comment>Crisis Aftermath</comment>
   </data>
   <data name="TryToRunOut_CrisisAftermath" xml:space="preserve">
     <value /><comment>Crisis Aftermath</comment>
