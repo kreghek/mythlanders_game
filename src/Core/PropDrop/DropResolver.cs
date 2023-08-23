@@ -89,8 +89,8 @@ public class DropResolver : IDropResolver
                     rolledRecords.Add(recMod);
 
                     if (recMod.Extra != null)
-                        //TODO Доделать учёт Rolls для экстра.
-                        // Сейчас все экстра гарантированно выпадают по разу.
+                    //TODO Доделать учёт Rolls для экстра.
+                    // Сейчас все экстра гарантированно выпадают по разу.
                     {
                         openDropTables.AddRange(recMod.Extra);
                     }
