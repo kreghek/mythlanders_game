@@ -23,14 +23,14 @@ internal sealed class PoolGroup
 
     public void MoveFromGroup(Hero unit, Group targetGroup)
     {
-        var slot = targetGroup.Slots.Single(x => x.Unit == unit);
-        slot.Unit = null;
+        var slot = targetGroup.Slots.Single(x => x.Hero == unit);
+        slot.Hero = null;
         _units.Add(unit);
     }
 
     public void MoveToGroup(Hero unit, int targetSlotIndex, Group targetGroup)
     {
-        targetGroup.Slots[targetSlotIndex].Unit = unit;
+        targetGroup.Slots[targetSlotIndex].Hero = unit;
         _units.Remove(unit);
     }
 }

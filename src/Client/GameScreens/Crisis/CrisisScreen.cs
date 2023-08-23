@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets;
 using Client.Assets.Crises;
 using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Crisis.Ui;
-using Client.GameScreens.Rest.Ui;
 using Client.ScreenManagement;
 
 using CombatDicesTeam.Dices;
@@ -30,6 +30,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
     private readonly HeroCampaign _campaign;
     private readonly Texture2D _cleanScreenTexture;
     private readonly ICrisis _crisis;
+    private readonly GlobeProvider _globeProvider;
     private readonly SoundEffectInstance _soundEffectInstance;
     private readonly SoundtrackManager _soundtrackManager;
     private readonly IUiContentStorage _uiContentStorage;
@@ -40,6 +41,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
     public CrisisScreen(TestamentGame game, CrisisScreenTransitionArguments args) : base(game)
     {
         _campaign = args.Campaign;
+        _globeProvider = Game.Services.GetRequiredService<GlobeProvider>();
 
         _uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();
         var dice = Game.Services.GetRequiredService<IDice>();
@@ -130,7 +132,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
     protected override void InitializeContent()
     {
-        var context = new CrisisAftermathContext();
+        var context = new CrisisAftermathContext(_globeProvider.Globe.Player);
 
         var aftermaths = _crisis.GetItems().ToArray();
         for (var buttonIndex = 0; buttonIndex < aftermaths.Length; buttonIndex++)
@@ -141,20 +143,11 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
             aftermathButton.OnClick += (s, e) =>
             {
-                var underConstructionModal = new UnderConstructionModal(
-                    _uiContentStorage,
-                    ResolutionIndependentRenderer);
-
                 aftermath.Apply(context);
 
-                underConstructionModal.Closed += (_, _) =>
-                {
-                    _soundEffectInstance.Stop();
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                        new CampaignScreenTransitionArguments(_campaign));
-                };
-
-                AddModal(underConstructionModal, false);
+                _soundEffectInstance.Stop();
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                    new CampaignScreenTransitionArguments(_campaign));
             };
 
             aftermathButton.OnHover += (s, e) =>
