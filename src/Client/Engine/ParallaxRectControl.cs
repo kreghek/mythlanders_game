@@ -37,12 +37,9 @@ public class ParallaxRectControl : RectControlBase
 
         var absoluteSpeeds = CalculateSpeeds(_speeds, _mainLayerIndex);
 
-        var layerDiff = _layerRectangle.Size - _screenRectange.Size;
-
         for (var i = 0; i < absoluteSpeeds.Length; i++)
         {
             var layerLocation = _layerRectangle.Center.ToVector2() * -1;
-            var layerCenter = new Rectangle(layerLocation.ToPoint(), _layerRectangle.Size).Center;
             var rectPosition = layerLocation - cursorDiff * absoluteSpeeds[i];
             var rect = new Rectangle(rectPosition.ToPoint(), _screenRectange.Size);
 
@@ -58,9 +55,9 @@ public class ParallaxRectControl : RectControlBase
 
         calculatedSpeeds[baseLayerIndex] = speeds[baseLayerIndex];
 
-        for (var i = baseLayerIndex + 1; i < speeds.Length; i++)
+        for (var i = baseLayerIndex - 1; i >= 0; i--)
         {
-            calculatedSpeeds[i] = calculatedSpeeds[i -1] + speeds[i];
+            calculatedSpeeds[i] = calculatedSpeeds[i + 1] + speeds[i];
         }
 
         return calculatedSpeeds;

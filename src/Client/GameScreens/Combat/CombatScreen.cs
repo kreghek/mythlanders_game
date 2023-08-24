@@ -93,6 +93,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private bool _finalBossWasDefeat;
 
+    private readonly ParallaxRectControl _backgroundRectControl;
+
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
         _args = args;
@@ -163,6 +165,17 @@ internal class CombatScreen : GameScreenWithMenuBase
         _dropResolver = game.Services.GetRequiredService<IDropResolver>();
 
         _shadeService = new ShadeService();
+
+        _backgroundRectControl = new ParallaxRectControl(ResolutionIndependentRenderer.ViewportAdapter.BoundingRectangle,
+            new Rectangle(0, 0, 1000, 484),
+            new[] {
+                new Vector2(-1, 0),
+                new Vector2(-1, 0),
+                new Vector2(-1, 0),
+                new Vector2(-1, 0),
+                new Vector2(-1, 0),
+                new Vector2(1, 0)
+            }, 4, new ViewPointProvider(ResolutionIndependentRenderer));
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -677,6 +690,8 @@ internal class CombatScreen : GameScreenWithMenuBase
     {
         var color = combatSceneContext.CurrentScope is null ? Color.White : Color.Lerp(Color.White, Color.Black, 0.75f);
 
+        var layerRect = _backgroundRectControl.GetRects();
+
         for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
         {
             spriteBatch.Begin(
@@ -687,7 +702,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
 
-            spriteBatch.Draw(backgrounds[i], Vector2.Zero, color);
+            spriteBatch.Draw(backgrounds[i], layerRect[i], color);
 
             if (i == 0 /*Cloud layer*/)
             {
