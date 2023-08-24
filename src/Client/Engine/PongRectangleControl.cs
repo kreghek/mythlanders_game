@@ -1,8 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+
+using Microsoft.Xna.Framework;
 
 namespace Client.Engine;
 
-internal class PongRectangle
+internal sealed class PongRectangleControl: RectControlBase
 {
     private readonly Rectangle _parentRectange;
     private readonly IPongRectangleRandomSource _randomSource;
@@ -12,7 +14,7 @@ internal class PongRectangle
 
     private Vector2 _bgMoveVector;
 
-    public PongRectangle(Point size, Rectangle parentRectange, IPongRectangleRandomSource randomSource)
+    public PongRectangleControl(Point size, Rectangle parentRectange, IPongRectangleRandomSource randomSource)
     {
         _size = size;
         _parentRectange = parentRectange;
@@ -21,9 +23,9 @@ internal class PongRectangle
         _bgMoveVector = randomSource.GetRandomVector();
     }
 
-    public Rectangle GetRect()
+    public override IReadOnlyList<Rectangle> GetRects()
     {
-        return new(_bgCurrentPosition.ToPoint(), _size);
+        return new[] { new Rectangle(_bgCurrentPosition.ToPoint(), _size) };
     }
 
     public void Update(double timeElapsedSeconds)

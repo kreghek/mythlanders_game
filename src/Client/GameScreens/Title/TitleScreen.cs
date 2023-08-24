@@ -22,7 +22,7 @@ internal sealed class TitleScreen : GameScreenBase
     private const int BUTTON_WIDTH = 150;
     private const int TITLE_PORTRAIT_COUNT = 3;
 
-    private readonly PongRectangle _bgPong;
+    private readonly PongRectangleControl _bgPong;
     private readonly IList<ButtonBase> _buttons;
     private readonly ICamera2DAdapter _camera;
     private readonly ICampaignGenerator _campaignGenerator;
@@ -116,7 +116,7 @@ internal sealed class TitleScreen : GameScreenBase
         AddModal(_settingsModal, isLate: true);
 
         var bgTexture = _uiContentStorage.GetTitleBackgroundTexture();
-        _bgPong = new PongRectangle(new Point(bgTexture.Width, bgTexture.Height),
+        _bgPong = new PongRectangleControl(new Point(bgTexture.Width, bgTexture.Height),
             ResolutionIndependentRenderer.VirtualBounds, new PongRectangleRandomSource(new LinearDice(), 2));
     }
 
@@ -147,7 +147,7 @@ internal sealed class TitleScreen : GameScreenBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: _camera.GetViewTransformationMatrix());
 
-        spriteBatch.Draw(_uiContentStorage.GetTitleBackgroundTexture(), _bgPong.GetRect(), Color.White);
+        spriteBatch.Draw(_uiContentStorage.GetTitleBackgroundTexture(), _bgPong.GetRects()[0], Color.White);
         spriteBatch.Draw(_uiContentStorage.GetModalShadowTexture(),
             new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Center.X - 128, 0, 256, 480),
             sourceRectangle: null, Color.Lerp(Color.White, Color.Transparent, 0.3f));
