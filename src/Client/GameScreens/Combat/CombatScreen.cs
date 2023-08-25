@@ -47,7 +47,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly CombatScreenTransitionArguments _args;
     private readonly CameraOperator _cameraOperator;
     private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
-    private readonly ICamera2DAdapter _combatActionCamera;
+    private readonly ParallaxCamera2DAdapter _combatActionCamera;
 
     private readonly IList<EffectNotification> _combatantEffectNotifications = new List<EffectNotification>();
     private readonly ICombatantPositionProvider _combatantPositionProvider;
@@ -95,7 +95,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private readonly ParallaxRectControl _backgroundRectControl;
 
-    private IReadOnlyList<LayerCamera2DAdapter> _layerCameras;
+    
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -104,23 +104,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _globeProvider = game.Services.GetService<GlobeProvider>();
         _mainCamera = Game.Services.GetService<ICamera2DAdapter>();
-        _combatActionCamera = new Camera2DAdapter(ResolutionIndependentRenderer.ViewportAdapter)
-        {
-            Zoom = 1,
-            Position = _mainCamera.Position
-        };
-
-        var layerCameras = new List<LayerCamera2DAdapter>
-        {
-            new LayerCamera2DAdapter(_combatActionCamera), // horizon
-            new LayerCamera2DAdapter(_combatActionCamera),  // far
-            new LayerCamera2DAdapter(_combatActionCamera),  // closest
-            new LayerCamera2DAdapter(_combatActionCamera),  // main
-            new LayerCamera2DAdapter(_combatActionCamera)  // foreground
-        };
-        _layerCameras = layerCameras;
-
-        _cameraOperator = new CameraOperator(_combatActionCamera, new OverviewCameraOperatorTask(_mainCamera.Position));
 
         _globe = _globeProvider.Globe;
 
@@ -187,6 +170,26 @@ internal class CombatScreen : GameScreenWithMenuBase
                 new Vector2(-0.5f, 0),  // main layer
                 new Vector2(1, 0)  // Foregrund layer
             }, new ViewPointProvider(ResolutionIndependentRenderer));
+
+        _combatActionCamera = new ParallaxCamera2DAdapter(_backgroundRectControl, _mainCamera, 
+            CreateLayerCamera(), // horizon
+            CreateLayerCamera(),  // far
+            CreateLayerCamera(),  // closest
+            CreateLayerCamera(),  // main
+            CreateLayerCamera()  // foreground
+            );
+
+
+        _cameraOperator = new CameraOperator(_combatActionCamera, new OverviewCameraOperatorTask(_mainCamera.Position));
+    }
+
+    private Camera2DAdapter CreateLayerCamera()
+    {
+        return new Camera2DAdapter(ResolutionIndependentRenderer.ViewportAdapter)
+        {
+            Zoom = 1,
+            Position = _mainCamera.Position
+        };
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -252,13 +255,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         _animationBlockManager.Update(gameTime.ElapsedGameTime.TotalSeconds);
 
         _cameraOperator.Update(gameTime);
-
-        var backgroundRects = _backgroundRectControl.GetRects();
-        for (var layerIndex = 0; layerIndex < _layerCameras.Count; layerIndex++)
-        {
-            var layerCamera = _layerCameras[layerIndex];
-            layerCamera.Offset = backgroundRects[layerIndex].Location.ToVector2();
-        }
     }
 
     //private static void AddMonstersFromCombatIntoKnownMonsters(Client.Core.Heroes.Hero monster,
@@ -718,7 +714,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 samplerState: SamplerState.PointClamp,
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
-                transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
+                transformMatrix: _combatActionCamera.LayerCameras[i].GetViewTransformationMatrix());
 
             var layerRectNormalized = new Rectangle(layerRects[i].Location + new Point(1000 / 2, 484 / 2), layerRects[i].Size);
 
