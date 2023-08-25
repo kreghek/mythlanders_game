@@ -118,6 +118,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             new LayerCamera2DAdapter(_combatActionCamera),  // main
             new LayerCamera2DAdapter(_combatActionCamera)  // foreground
         };
+        _layerCameras = layerCameras;
 
         _cameraOperator = new CameraOperator(_combatActionCamera, new OverviewCameraOperatorTask(_mainCamera.Position));
 
@@ -251,6 +252,13 @@ internal class CombatScreen : GameScreenWithMenuBase
         _animationBlockManager.Update(gameTime.ElapsedGameTime.TotalSeconds);
 
         _cameraOperator.Update(gameTime);
+
+        var backgroundRects = _backgroundRectControl.GetRects();
+        for (var layerIndex = 0; layerIndex < _layerCameras.Count; layerIndex++)
+        {
+            var layerCamera = _layerCameras[layerIndex];
+            layerCamera.Offset = backgroundRects[layerIndex].Location.ToVector2();
+        }
     }
 
     //private static void AddMonstersFromCombatIntoKnownMonsters(Client.Core.Heroes.Hero monster,
@@ -995,8 +1003,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             DrawCombatMoveTargets(spriteBatch);
 
-            DrawCombatMovementsPanel(spriteBatch, contentRectangle);
-
             DrawCombatantsInWorldInfo(spriteBatch);
         }
 
@@ -1013,6 +1019,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             DrawCombatantQueue(spriteBatch, contentRectangle);
 
             //DrawCombatSequenceProgress(spriteBatch);
+
+            DrawCombatMovementsPanel(spriteBatch, contentRectangle);
 
             DrawCombatantEffectNotifications(spriteBatch: spriteBatch, contentRectangle: contentRectangle);
         }
