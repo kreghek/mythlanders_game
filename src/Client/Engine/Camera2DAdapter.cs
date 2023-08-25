@@ -5,7 +5,52 @@ using MonoGame.Extended.ViewportAdapters;
 
 namespace Client.Engine;
 
-internal class Camera2DAdapter : ICamera2DAdapter
+internal sealed class LayerCamera2DAdapter : ICamera2DAdapter
+{
+    private readonly ICamera2DAdapter _baseCamera;
+    private Vector2 _position;
+    private Vector2 _offset;
+
+    public LayerCamera2DAdapter(ICamera2DAdapter baseCamera)
+    {
+        _baseCamera = baseCamera;
+    }
+
+    public Vector2 Offset
+    {
+        get
+        {
+            return _offset;
+        }
+        set
+        {
+            _offset = value;
+            _baseCamera.Position = _position + value;
+        }
+    }
+
+    public Vector2 Position
+    {
+        get { return _position; }
+        set
+        {
+            _position = value;
+            _baseCamera.Position = value + Offset;
+        }
+    }
+    
+    public float Zoom { get => _baseCamera.Zoom; set => _baseCamera.Zoom = value; }
+    
+    public Vector2 ConvertScreenToWorldCoordinates(Vector2 screenPosition) => _baseCamera.ConvertScreenToWorldCoordinates(screenPosition);
+
+    public Matrix GetViewTransformationMatrix() => _baseCamera.GetViewTransformationMatrix();
+
+    public void ZoomIn(float deltaZoom, Vector2 zoomCenter) => _baseCamera.ZoomIn(deltaZoom, zoomCenter);
+
+    public void ZoomOut(float deltaZoom, Vector2 zoomCenter) => _baseCamera.ZoomOut(deltaZoom, zoomCenter);
+}
+
+internal sealed class Camera2DAdapter : ICamera2DAdapter
 {
     private readonly OrthographicCamera _innerCamera;
 

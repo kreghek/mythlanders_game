@@ -9,19 +9,16 @@ public class ParallaxRectControl : RectControlBase
     private readonly Rectangle _screenRectange;
     private readonly Rectangle _layerRectangle;
     private readonly Vector2[] _speeds;
-    private readonly int _mainLayerIndex;
     private readonly IViewPointProvider _viewPointProvider;
 
     public ParallaxRectControl(Rectangle parentRectange,
         Rectangle layerRectangle,
         Vector2[] relativeSpeeds,
-        int baseLayerIndex,
         IViewPointProvider viewPointProvider)
     {
         _screenRectange = parentRectange;
         _layerRectangle = layerRectangle;
         _speeds = relativeSpeeds;
-        _mainLayerIndex = baseLayerIndex;
         _viewPointProvider = viewPointProvider;
     }
 
@@ -35,31 +32,15 @@ public class ParallaxRectControl : RectControlBase
 
         var rects = new List<Rectangle>();
 
-        var absoluteSpeeds = CalculateSpeeds(_speeds, _mainLayerIndex);
-
-        for (var i = 0; i < absoluteSpeeds.Length; i++)
+        for (var i = 0; i < _speeds.Length; i++)
         {
             var layerLocation = _layerRectangle.Center.ToVector2() * -1;
-            var rectPosition = layerLocation - cursorDiff * absoluteSpeeds[i];
+            var rectPosition = layerLocation - cursorDiff * _speeds[i];
             var rect = new Rectangle(rectPosition.ToPoint(), _screenRectange.Size);
 
             rects.Add(rect);
         }
 
         return rects;
-    }
-
-    private static Vector2[] CalculateSpeeds(Vector2[] speeds, int baseLayerIndex)
-    {
-        var calculatedSpeeds = new Vector2[speeds.Length];
-
-        calculatedSpeeds[baseLayerIndex] = speeds[baseLayerIndex];
-
-        for (var i = baseLayerIndex - 1; i >= 0; i--)
-        {
-            calculatedSpeeds[i] = calculatedSpeeds[i + 1] + speeds[i];
-        }
-
-        return calculatedSpeeds;
     }
 }

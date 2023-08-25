@@ -25,7 +25,13 @@ namespace Client.Tests.Engine
 
             var provider = Mock.Of<IViewPointProvider>(x => x.GetWorldCoords() == new Vector2(6, 5));
 
-            var rectControl = new ParallaxRectControl(new Rectangle(0, 0, 10, 10), new Rectangle(0, 0, 20, 10), new[] { new Vector2(-1, 0) }, 0, provider);
+            var screenRect = new Rectangle(0, 0, 10, 10);
+            var layerRect = new Rectangle(0, 0, 20, 10); // will placed on -10
+            var relativeSpeeds = new[] 
+            { 
+                new Vector2(-1, 0)
+            };
+            var rectControl = new ParallaxRectControl(screenRect, layerRect, relativeSpeeds, provider);
         
             // ACT
 
@@ -34,24 +40,6 @@ namespace Client.Tests.Engine
             // ASSERT
 
             rects[0].X.Should().Be(-9);
-        }
-
-        [Test]
-        public void GetRects_ViewPointMoves_Layer2MovesFaster()
-        {
-            // ARRANGE
-
-            var provider = Mock.Of<IViewPointProvider>(x => x.GetWorldCoords() == new Vector2(6, 5));
-
-            var rectControl = new ParallaxRectControl(new Rectangle(0, 0, 10, 10), new Rectangle(0, 0, 20, 10), new[] { new Vector2(-1, 0), new Vector2(-1, 0) }, 1, provider);
-
-            // ACT
-
-            var rects = rectControl.GetRects();
-
-            // ASSERT
-
-            rects[0].X.Should().Be(-8);
         }
     }
 }

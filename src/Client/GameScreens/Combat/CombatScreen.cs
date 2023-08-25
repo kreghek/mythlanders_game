@@ -95,6 +95,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private readonly ParallaxRectControl _backgroundRectControl;
 
+    private IReadOnlyList<LayerCamera2DAdapter> _layerCameras;
+
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
         _args = args;
@@ -106,6 +108,15 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             Zoom = 1,
             Position = _mainCamera.Position
+        };
+
+        var layerCameras = new List<LayerCamera2DAdapter>
+        {
+            new LayerCamera2DAdapter(_combatActionCamera), // horizon
+            new LayerCamera2DAdapter(_combatActionCamera),  // far
+            new LayerCamera2DAdapter(_combatActionCamera),  // closest
+            new LayerCamera2DAdapter(_combatActionCamera),  // main
+            new LayerCamera2DAdapter(_combatActionCamera)  // foreground
         };
 
         _cameraOperator = new CameraOperator(_combatActionCamera, new OverviewCameraOperatorTask(_mainCamera.Position));
@@ -169,13 +180,12 @@ internal class CombatScreen : GameScreenWithMenuBase
         _backgroundRectControl = new ParallaxRectControl(ResolutionIndependentRenderer.ViewportAdapter.BoundingRectangle,
             new Rectangle(0, 0, 1000, 484),
             new[] {
-                new Vector2(-1, 0),
-                new Vector2(-1, 0),
-                new Vector2(-1, 0),
-                new Vector2(-1, 0),
-                new Vector2(-1, 0),
-                new Vector2(1, 0)
-            }, 4, new ViewPointProvider(ResolutionIndependentRenderer));
+                new Vector2(-0.01f, 0), // horizon
+                new Vector2(-0.02f, 0), // far layer
+                new Vector2(-0.1f, 0), // closest layer
+                new Vector2(-0.5f, 0),  // main layer
+                new Vector2(1, 0)  // Foregrund layer
+            }, new ViewPointProvider(ResolutionIndependentRenderer));
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -690,7 +700,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     {
         var color = combatSceneContext.CurrentScope is null ? Color.White : Color.Lerp(Color.White, Color.Black, 0.75f);
 
-        var layerRect = _backgroundRectControl.GetRects();
+        var layerRects = _backgroundRectControl.GetRects();
 
         for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
         {
@@ -702,7 +712,9 @@ internal class CombatScreen : GameScreenWithMenuBase
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
 
-            spriteBatch.Draw(backgrounds[i], layerRect[i], color);
+            var layerRectNormalized = new Rectangle(layerRects[i].Location + new Point(1000 / 2, 484 / 2), layerRects[i].Size);
+
+            spriteBatch.Draw(backgrounds[i], layerRectNormalized, color);
 
             if (i == 0 /*Cloud layer*/)
             {
