@@ -343,7 +343,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             : CombatantPositionSide.Monsters;
         var gameObject =
             new CombatantGameObject(e.Combatant, graphicConfig, e.FieldInfo.CombatantCoords, _combatantPositionProvider,
-                _gameObjectContentStorage, _combatActionCamera, _screenShaker, combatantSide);
+                _gameObjectContentStorage, _combatActionCamera.LayerCameras[3], _screenShaker, combatantSide);
         _gameObjects.Add(gameObject);
 
         // var combatant = e.Combatant;
@@ -906,7 +906,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             samplerState: SamplerState.PointClamp,
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
-            transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
+            transformMatrix: _combatActionCamera.LayerCameras[4].GetViewTransformationMatrix());
 
         spriteBatch.Draw(backgrounds[4], Vector2.Zero, Color.White);
 
@@ -941,7 +941,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             samplerState: SamplerState.PointClamp,
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
-            transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
+            transformMatrix: _combatActionCamera.LayerCameras[3].GetViewTransformationMatrix());
 
         DrawBackVisualEffects(spriteBatch);
 
@@ -968,7 +968,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             samplerState: SamplerState.PointClamp,
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
-            transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
+            transformMatrix: _combatActionCamera.LayerCameras[3].GetViewTransformationMatrix());
 
         if (!_combatCore.IsFinished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
