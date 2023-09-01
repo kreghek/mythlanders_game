@@ -164,11 +164,11 @@ internal class CombatScreen : GameScreenWithMenuBase
         _backgroundRectControl = new ParallaxRectControl(ResolutionIndependentRenderer.ViewportAdapter.BoundingRectangle,
             new Rectangle(0, 0, 1000, 484),
             new[] {
-                new Vector2(-0.01f, 0), // horizon
-                new Vector2(-0.02f, 0), // far layer
-                new Vector2(-0.1f, 0), // closest layer
-                new Vector2(-0.5f, 0),  // main layer
-                new Vector2(1, 0)  // Foregrund layer
+                new Vector2(-0.0025f, 0), // horizon
+                new Vector2(-0.005f, 0), // far layer
+                new Vector2(-0.01f, 0), // closest layer
+                new Vector2(-0.05f, 0),  // main layer
+                new Vector2(-0.025f, 0)  // Foreground layer
             }, new ViewPointProvider(ResolutionIndependentRenderer));
 
         _combatActionCamera = new ParallaxCamera2DAdapter(_backgroundRectControl, _mainCamera, 
@@ -204,7 +204,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     {
         ResolutionIndependentRenderer.BeginDraw();
 
-        DrawGameObjects(spriteBatch);
+        DrawMainGameScene(spriteBatch);
 
         DrawHud(spriteBatch, contentRectangle);
     }
@@ -231,6 +231,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _uiContentStorage, ResolutionIndependentRenderer, _globe.Player);
             AddModal(tutorialModal, isLate: false);
         }
+
+        _combatActionCamera.Update();
 
         UpdateBackgroundObjects(gameTime);
 
@@ -343,7 +345,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             : CombatantPositionSide.Monsters;
         var gameObject =
             new CombatantGameObject(e.Combatant, graphicConfig, e.FieldInfo.CombatantCoords, _combatantPositionProvider,
-                _gameObjectContentStorage, _combatActionCamera.LayerCameras[3], _screenShaker, combatantSide);
+                _gameObjectContentStorage, _combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main], _screenShaker, combatantSide);
         _gameObjects.Add(gameObject);
 
         // var combatant = e.Combatant;
@@ -716,9 +718,9 @@ internal class CombatScreen : GameScreenWithMenuBase
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _combatActionCamera.LayerCameras[i].GetViewTransformationMatrix());
 
-            var layerRectNormalized = new Rectangle(layerRects[i].Location + new Point(1000 / 2, 484 / 2), layerRects[i].Size);
+            //var layerRectNormalized = new Rectangle(layerRects[i].Location + new Point(1000 / 2, 484 / 2), layerRects[i].Size);
 
-            spriteBatch.Draw(backgrounds[i], layerRectNormalized, color);
+            spriteBatch.Draw(backgrounds[i], Vector2.Zero, color);
 
             if (i == 0 /*Cloud layer*/)
             {
@@ -898,7 +900,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _targetMarkers.Draw(spriteBatch);
     }
 
-    private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds)
+    private void DrawForegroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds)
     {
         spriteBatch.Begin(
             sortMode: SpriteSortMode.Deferred,
@@ -906,9 +908,9 @@ internal class CombatScreen : GameScreenWithMenuBase
             samplerState: SamplerState.PointClamp,
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
-            transformMatrix: _combatActionCamera.LayerCameras[4].GetViewTransformationMatrix());
+            transformMatrix: _combatActionCamera.LayerCameras[(int)BackgroundLayerType.Closest].GetViewTransformationMatrix());
 
-        spriteBatch.Draw(backgrounds[4], Vector2.Zero, Color.White);
+        spriteBatch.Draw(backgrounds[(int)BackgroundLayerType.Closest], Vector2.Zero, Color.White);
 
         foreach (var obj in _foregroundLayerObjects)
         {
@@ -926,7 +928,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DrawGameObjects(SpriteBatch spriteBatch)
+    private void DrawMainGameScene(SpriteBatch spriteBatch)
     {
         var locationTheme = LocationHelper.GetLocationTheme(_globeNode.Sid);
 
@@ -936,12 +938,19 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         DrawBackgroundLayers(spriteBatch, backgrounds, combatSceneContext);
 
+        DrawMainGameObjects(spriteBatch, combatSceneContext);
+
+        DrawForegroundLayers(spriteBatch, backgrounds);
+    }
+
+    private void DrawMainGameObjects(SpriteBatch spriteBatch, ICombatShadeContext combatSceneContext)
+    {
         spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
             samplerState: SamplerState.PointClamp,
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
-            transformMatrix: _combatActionCamera.LayerCameras[3].GetViewTransformationMatrix());
+            transformMatrix: _combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main].GetViewTransformationMatrix());
 
         DrawBackVisualEffects(spriteBatch);
 
@@ -952,23 +961,55 @@ internal class CombatScreen : GameScreenWithMenuBase
         DrawFrontVisualEffects(spriteBatch);
 
         spriteBatch.End();
-
-        DrawForegroundLayers(spriteBatch, backgrounds);
     }
 
     private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
     {
         if (_gameSettings.IsRecordMode)
         {
+            // Do not draw UI for records. Only the amazing picture.
             return;
         }
 
+        DrawGameObjectHud(spriteBatch, contentRectangle);
+
+        DrawScreenHud(spriteBatch, contentRectangle);
+    }
+
+    private void DrawScreenHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
+    {
         spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
             samplerState: SamplerState.PointClamp,
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
-            transformMatrix: _combatActionCamera.LayerCameras[3].GetViewTransformationMatrix());
+            transformMatrix: _mainCamera.GetViewTransformationMatrix());
+        try
+        {
+            DrawCombatantQueue(spriteBatch, contentRectangle);
+
+            //DrawCombatSequenceProgress(spriteBatch);
+
+            DrawCombatMovementsPanel(spriteBatch, contentRectangle);
+
+            DrawCombatantEffectNotifications(spriteBatch: spriteBatch, contentRectangle: contentRectangle);
+        }
+        catch
+        {
+            // TODO Fix NRE in the end of the combat with more professional way 
+        }
+
+        spriteBatch.End();
+    }
+
+    private void DrawGameObjectHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
+    {
+        spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+            blendState: BlendState.AlphaBlend,
+            samplerState: SamplerState.PointClamp,
+            depthStencilState: DepthStencilState.None,
+            rasterizerState: RasterizerState.CullNone,
+            transformMatrix: _combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main].GetViewTransformationMatrix());
 
         if (!_combatCore.IsFinished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
@@ -1000,29 +1041,6 @@ internal class CombatScreen : GameScreenWithMenuBase
             DrawCombatMoveTargets(spriteBatch);
 
             DrawCombatantsInWorldInfo(spriteBatch);
-        }
-
-        spriteBatch.End();
-
-        spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
-            blendState: BlendState.AlphaBlend,
-            samplerState: SamplerState.PointClamp,
-            depthStencilState: DepthStencilState.None,
-            rasterizerState: RasterizerState.CullNone,
-            transformMatrix: _mainCamera.GetViewTransformationMatrix());
-        try
-        {
-            DrawCombatantQueue(spriteBatch, contentRectangle);
-
-            //DrawCombatSequenceProgress(spriteBatch);
-
-            DrawCombatMovementsPanel(spriteBatch, contentRectangle);
-
-            DrawCombatantEffectNotifications(spriteBatch: spriteBatch, contentRectangle: contentRectangle);
-        }
-        catch
-        {
-            // TODO Fix NRE in the end of the combat with more professional way 
         }
 
         spriteBatch.End();

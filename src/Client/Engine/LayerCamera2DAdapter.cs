@@ -25,13 +25,18 @@ internal sealed class ParallaxCamera2DAdapter : ICamera2DAdapter
         {
             _position = value;
 
-            var rects = _parallaxRectControl.GetRects();
+            Update();
+        }
+    }
 
-            for (var i = 0; i < LayerCameras.Length; i++)
-            {
-                var layerCamera = LayerCameras[i];
-                layerCamera.Position = _position + rects[i].Location.ToVector2();
-            }
+    public void Update()
+    {
+        var rects = _parallaxRectControl.GetRects();
+
+        for (var i = 0; i < LayerCameras.Length; i++)
+        {
+            var layerCamera = LayerCameras[i];
+            layerCamera.Position = _position + rects[i].Location.ToVector2() + (rects[i].Size.ToVector2() / 2);
         }
     }
     
