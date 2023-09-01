@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace Client.Engine;
 
@@ -8,14 +6,13 @@ internal sealed class ParallaxCamera2DAdapter : ICamera2DAdapter
 {
     private readonly ParallaxRectControl _parallaxRectControl;
     private readonly ICamera2DAdapter _mainCamera;
-    private readonly ICamera2DAdapter[] _layerCameras;
     private Vector2 _position;
 
     public ParallaxCamera2DAdapter(ParallaxRectControl parallaxRectControl, ICamera2DAdapter mainCamera, params ICamera2DAdapter[] layerCameras)
     {
         _parallaxRectControl = parallaxRectControl;
         _mainCamera = mainCamera;
-        _layerCameras = layerCameras;
+        LayerCameras = layerCameras;
     }
 
     public Vector2 Position
@@ -42,14 +39,14 @@ internal sealed class ParallaxCamera2DAdapter : ICamera2DAdapter
     
     public float Zoom
     {
-        get => LayerCameras.First().Zoom; 
+        get => _mainCamera.Zoom; 
         set
         {
-            foreach (var layerCamera in LayerCameras) { layerCamera.Zoom = value; }
+            _mainCamera.Zoom = value;
         }
     }
 
-    internal ICamera2DAdapter[] LayerCameras => _layerCameras;
+    internal ICamera2DAdapter[] LayerCameras { get; }
 
     public Vector2 ConvertScreenToWorldCoordinates(Vector2 screenPosition) => _mainCamera.ConvertScreenToWorldCoordinates(screenPosition);
 

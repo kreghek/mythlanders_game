@@ -9,7 +9,7 @@ internal sealed class Camera2DAdapter : ICamera2DAdapter
 {
     private readonly OrthographicCamera _innerCamera;
 
-    public Camera2DAdapter(BoxingViewportAdapter viewportAdapter)
+    public Camera2DAdapter(ViewportAdapter viewportAdapter)
     {
         _innerCamera = new OrthographicCamera(viewportAdapter);
     }
