@@ -8,12 +8,18 @@ namespace Client.Engine;
 internal sealed class ParallaxCamera2DAdapter : ICamera2DAdapter
 {
     private readonly ParallaxRectControl _parallaxRectControl;
+    private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
     private readonly ICamera2DAdapter _mainCamera;
     private Vector2 _position;
 
-    public ParallaxCamera2DAdapter(ParallaxRectControl parallaxRectControl, ICamera2DAdapter mainCamera, params ICamera2DAdapter[] layerCameras)
+    public ParallaxCamera2DAdapter(
+        ParallaxRectControl parallaxRectControl,
+        IResolutionIndependentRenderer resolutionIndependentRenderer,
+        ICamera2DAdapter mainCamera,
+        params ICamera2DAdapter[] layerCameras)
     {
         _parallaxRectControl = parallaxRectControl;
+        _resolutionIndependentRenderer = resolutionIndependentRenderer;
         _mainCamera = mainCamera;
         LayerCameras = layerCameras;
     }
@@ -36,7 +42,8 @@ internal sealed class ParallaxCamera2DAdapter : ICamera2DAdapter
         for (var i = 0; i < LayerCameras.Length; i++)
         {
             var layerCamera = LayerCameras[i];
-            layerCamera.Position = _position + rects[i].Location.ToVector2() + (rects[i].Size.ToVector2() / 2);
+            var layerDiff = (rects[i].Size - _resolutionIndependentRenderer.VirtualBounds.Size).ToVector2() / 2;
+            layerCamera.Position = _position + rects[i].Center.ToVector2() + layerDiff;
         }
     }
     

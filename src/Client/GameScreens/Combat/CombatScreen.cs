@@ -98,8 +98,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private readonly ParallaxRectControl _backgroundRectControl;
 
-    
-
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
         _args = args;
@@ -164,14 +162,16 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _shadeService = new ShadeService();
 
+        var locationTheme = LocationHelper.GetLocationTheme(_globeNode.Sid);
+        var backgroundTextures = _gameObjectContentStorage.GetCombatBackgrounds(locationTheme);
         _backgroundRectControl = new ParallaxRectControl(ResolutionIndependentRenderer.ViewportAdapter.BoundingRectangle,
-            new Rectangle(0, 0, 1000, 484),
+            backgroundTextures.First().Bounds,
             new[] {
-                new Vector2(0.0025f, 0.00025f), // horizon
-                new Vector2(0.005f, 0.0005f), // far layer
-                new Vector2(0.01f, 0.001f), // closest layer
-                new Vector2(0.05f, 0.005f),  // main layer
-                new Vector2(0.075f, 0.0075f)  // Foreground layer
+                new Vector2(-0.0025f, -0.00025f), // horizon
+                new Vector2(-0.005f, -0.0005f), // far layer
+                new Vector2(-0.01f, -0.001f), // closest layer
+                new Vector2(-0.05f, -0.005f),  // main layer
+                new Vector2(-0.075f, -0.0075f)  // Foreground layer
             }, new ViewPointProvider(ResolutionIndependentRenderer));
 
         ICamera2DAdapter[] layerCameras = {
@@ -184,6 +184,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _combatActionCamera = new ParallaxCamera2DAdapter(
             _backgroundRectControl,
+            ResolutionIndependentRenderer,
             layerCameras[(int)BackgroundLayerType.Main], 
             layerCameras);
 
@@ -713,8 +714,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     {
         var color = combatSceneContext.CurrentScope is null ? Color.White : Color.Lerp(Color.White, Color.Black, 0.75f);
 
-        var layerRects = _backgroundRectControl.GetRects();
-
         for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
         {
             spriteBatch.Begin(
@@ -724,8 +723,6 @@ internal class CombatScreen : GameScreenWithMenuBase
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _combatActionCamera.LayerCameras[i].GetViewTransformationMatrix());
-
-            //var layerRectNormalized = new Rectangle(layerRects[i].Location + new Point(1000 / 2, 484 / 2), layerRects[i].Size);
 
             spriteBatch.Draw(backgrounds[i], Vector2.Zero, color);
 

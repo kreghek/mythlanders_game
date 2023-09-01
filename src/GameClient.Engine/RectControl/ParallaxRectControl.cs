@@ -22,20 +22,21 @@ public class ParallaxRectControl : RectControlBase
 
     public override IReadOnlyList<Rectangle> GetRects()
     {
+        return _speeds.Select(speed => CreateRectangle(speed)).ToArray();
+    }
+
+    private Rectangle CreateRectangle(Vector2 speed)
+    {
         var screenCenter = _screenRectangle.Center;
 
         var worldMouse = _viewPointProvider.GetWorldCoords();
 
         var cursorDiff = worldMouse - screenCenter.ToVector2();
-
-        return _speeds.Select(speed => CreateRectangle(cursorDiff, speed)).ToArray();
-    }
-
-    private Rectangle CreateRectangle(Vector2 cursorDiff, Vector2 speed)
-    {
-        var layerLocation = _layerRectangle.Center.ToVector2() * -1;
-        var rectPosition = layerLocation + cursorDiff * speed;
-        var rect = new Rectangle(rectPosition.ToPoint(), _screenRectangle.Size);
+        
+        var layerStartLocation = _layerRectangle.Center.ToVector2() * -1;
+        var layerOffset = cursorDiff * -speed;
+        var layerOffsetPosition = layerStartLocation + layerOffset;
+        var rect = new Rectangle(layerOffsetPosition.ToPoint(), _layerRectangle.Size);
         return rect;
     }
 }
