@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
 
-using Microsoft.Xna.Framework;
-
-namespace Client.Engine;
+namespace GameClient.Engine.RectControl;
 
 public class ParallaxRectControl : RectControlBase
 {
@@ -30,17 +28,14 @@ public class ParallaxRectControl : RectControlBase
 
         var cursorDiff = worldMouse - screenCenter.ToVector2();
 
-        var rects = new List<Rectangle>();
+        return _speeds.Select(speed => CreateRectangle(cursorDiff, speed)).ToArray();
+    }
 
-        for (var i = 0; i < _speeds.Length; i++)
-        {
-            var layerLocation = _layerRectangle.Center.ToVector2() * -1;
-            var rectPosition = layerLocation - cursorDiff * _speeds[i];
-            var rect = new Rectangle(rectPosition.ToPoint(), _screenRectangle.Size);
-
-            rects.Add(rect);
-        }
-
-        return rects;
+    private Rectangle CreateRectangle(Vector2 cursorDiff, Vector2 speed)
+    {
+        var layerLocation = _layerRectangle.Center.ToVector2() * -1;
+        var rectPosition = layerLocation + cursorDiff * speed;
+        var rect = new Rectangle(rectPosition.ToPoint(), _screenRectangle.Size);
+        return rect;
     }
 }

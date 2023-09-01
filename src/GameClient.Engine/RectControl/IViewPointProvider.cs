@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace Client.Engine;
+namespace GameClient.Engine.RectControl;
 
 public interface IViewPointProvider
 {

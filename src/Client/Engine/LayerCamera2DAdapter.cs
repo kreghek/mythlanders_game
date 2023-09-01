@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameClient.Engine;
+using GameClient.Engine.RectControl;
+
+using Microsoft.Xna.Framework;
 
 namespace Client.Engine;
 

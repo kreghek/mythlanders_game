@@ -1,5 +1,7 @@
 ﻿using CombatDicesTeam.Dices;
 
+using GameClient.Engine.RectControl;
+
 using Microsoft.Xna.Framework;
 
 namespace Client.Engine;

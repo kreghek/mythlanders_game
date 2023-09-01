@@ -10,6 +10,8 @@ using Client.ScreenManagement;
 
 using CombatDicesTeam.Dices;
 
+using GameClient.Engine.RectControl;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

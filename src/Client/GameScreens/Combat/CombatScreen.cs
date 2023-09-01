@@ -30,6 +30,9 @@ using Core.Props;
 
 using GameAssets.Combats;
 
+using GameClient.Engine;
+using GameClient.Engine.RectControl;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -164,11 +167,11 @@ internal class CombatScreen : GameScreenWithMenuBase
         _backgroundRectControl = new ParallaxRectControl(ResolutionIndependentRenderer.ViewportAdapter.BoundingRectangle,
             new Rectangle(0, 0, 1000, 484),
             new[] {
-                new Vector2(-0.0025f, -0.00025f), // horizon
-                new Vector2(-0.005f, -0.0005f), // far layer
-                new Vector2(-0.01f, -0.001f), // closest layer
-                new Vector2(-0.05f, -0.005f),  // main layer
-                new Vector2(-0.075f, -0.0075f)  // Foreground layer
+                new Vector2(0.0025f, 0.00025f), // horizon
+                new Vector2(0.005f, 0.0005f), // far layer
+                new Vector2(0.01f, 0.001f), // closest layer
+                new Vector2(0.05f, 0.005f),  // main layer
+                new Vector2(0.075f, 0.0075f)  // Foreground layer
             }, new ViewPointProvider(ResolutionIndependentRenderer));
 
         ICamera2DAdapter[] layerCameras = {

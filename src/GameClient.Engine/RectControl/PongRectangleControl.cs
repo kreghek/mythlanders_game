@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
 
-using Microsoft.Xna.Framework;
+namespace GameClient.Engine.RectControl;
 
-namespace Client.Engine;
-
-internal sealed class PongRectangleControl: RectControlBase
+public sealed class PongRectangleControl: RectControlBase
 {
-    private readonly Rectangle _parentRectange;
+    private readonly Rectangle _parentRectangle;
     private readonly IPongRectangleRandomSource _randomSource;
     private readonly Point _size;
 
@@ -14,10 +12,10 @@ internal sealed class PongRectangleControl: RectControlBase
 
     private Vector2 _bgMoveVector;
 
-    public PongRectangleControl(Point size, Rectangle parentRectange, IPongRectangleRandomSource randomSource)
+    public PongRectangleControl(Point size, Rectangle parentRectangle, IPongRectangleRandomSource randomSource)
     {
         _size = size;
-        _parentRectange = parentRectange;
+        _parentRectangle = parentRectangle;
         _randomSource = randomSource;
 
         _bgMoveVector = randomSource.GetRandomVector();
@@ -32,7 +30,7 @@ internal sealed class PongRectangleControl: RectControlBase
     {
         var nextRect = new Rectangle((_bgCurrentPosition + _bgMoveVector).ToPoint(), _size);
 
-        if (nextRect.Contains(_parentRectange))
+        if (nextRect.Contains(_parentRectangle))
         {
             _bgCurrentPosition += _bgMoveVector * (float)timeElapsedSeconds;
         }

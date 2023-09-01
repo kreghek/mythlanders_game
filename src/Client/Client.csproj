@@ -56,6 +56,7 @@
     <ProjectReference Include="..\Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\GameAssets.Combats\GameAssets.Combats.csproj" />
+    <ProjectReference Include="..\GameClient.Engine\GameClient.Engine.csproj" />
     <ProjectReference Include="..\MonoGame.Primitives2D\MonoGame.Primitives2D.csproj" />
   </ItemGroup>
   <ItemGroup>
