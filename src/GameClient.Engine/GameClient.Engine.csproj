@@ -4,6 +4,10 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <PublishTrimmed>true</PublishTrimmed>
+        <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     </PropertyGroup>
 
     <ItemGroup>

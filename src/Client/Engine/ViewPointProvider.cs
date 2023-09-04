@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Client.Engine;
 
-internal sealed class ViewPointProvider : IViewPointProvider
+internal sealed class ViewPointProvider : IParallaxViewPointProvider
 {
     private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
 

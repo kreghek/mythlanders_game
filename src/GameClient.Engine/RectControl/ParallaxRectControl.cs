@@ -2,17 +2,27 @@
 
 namespace GameClient.Engine.RectControl;
 
+/// <summary>
+/// Rect control to move multiple rects using parallax effect.
+/// </summary>
 public class ParallaxRectControl : RectControlBase
 {
     private readonly Rectangle _screenRectangle;
     private readonly Rectangle _layerRectangle;
     private readonly Vector2[] _speeds;
-    private readonly IViewPointProvider _viewPointProvider;
+    private readonly IParallaxViewPointProvider _viewPointProvider;
 
+    /// <summary>
+    /// Constructor.
+    /// </summary>
+    /// <param name="parentRectangle"> Parent rectangle of inner layers. </param>
+    /// <param name="layerRectangle"> Layer rectangle to calculate start position and size of ALL layers. </param>
+    /// <param name="relativeSpeeds"> Parallax speeds of layers. </param>
+    /// <param name="viewPointProvider"> Provider to get the view point required for parallax effect. </param>
     public ParallaxRectControl(Rectangle parentRectangle,
         Rectangle layerRectangle,
         Vector2[] relativeSpeeds,
-        IViewPointProvider viewPointProvider)
+        IParallaxViewPointProvider viewPointProvider)
     {
         _screenRectangle = parentRectangle;
         _layerRectangle = layerRectangle;
@@ -20,6 +30,7 @@ public class ParallaxRectControl : RectControlBase
         _viewPointProvider = viewPointProvider;
     }
 
+    /// <inheritdoc cref="RectControlBase.GetRects"/>
     public override IReadOnlyList<Rectangle> GetRects()
     {
         return _speeds.Select(speed => CreateRectangle(speed)).ToArray();

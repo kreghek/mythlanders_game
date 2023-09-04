@@ -11,7 +11,7 @@ internal class ParallaxRectControlTests
     {
         // ARRANGE
 
-        var provider = Mock.Of<IViewPointProvider>(x => x.GetWorldCoords() == new Vector2(6, 5));
+        var provider = Mock.Of<IParallaxViewPointProvider>(x => x.GetWorldCoords() == new Vector2(6, 5));
 
         var screenRect = new Rectangle(0, 0, 10, 10);
         var layerRect = new Rectangle(0, 0, 20, 10); // will placed on -10
@@ -43,7 +43,7 @@ internal class ParallaxRectControlTests
         var parentRectangle = new Rectangle(0, 0, 800, 600);
         
         // IViewPointProvider mock returns fixed values
-        var viewPointProviderMock = new Mock<IViewPointProvider>();
+        var viewPointProviderMock = new Mock<IParallaxViewPointProvider>();
         
         viewPointProviderMock.Setup(vpp => vpp.GetWorldCoords()).Returns(parentRectangle.Center.ToVector2() + new Vector2(400f, 300f));
 
@@ -85,7 +85,7 @@ internal class ParallaxRectControlTests
             Rectangle.Empty, // parentRectangle
             Rectangle.Empty, // layerRectangle
             relativeLayerSpeeds,
-            Mock.Of<IViewPointProvider>());
+            Mock.Of<IParallaxViewPointProvider>());
         
         var expectedCount = relativeLayerSpeeds.Length;
             
