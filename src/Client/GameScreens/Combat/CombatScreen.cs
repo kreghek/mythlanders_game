@@ -34,6 +34,7 @@ using GameClient.Engine.RectControl;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -539,6 +540,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             AddModal(
                 new ConfirmIneffectiveAttackModal(Game.Services.GetService<IUiContentStorage>(),
+                Game.Content.Load<SoundEffect>("Audio/Ui/Alert"),
                     ResolutionIndependentRenderer, () =>
                     {
                         AssignCombatMovementIntention(combatMovementInstance);            
