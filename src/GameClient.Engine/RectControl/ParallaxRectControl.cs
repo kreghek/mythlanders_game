@@ -33,7 +33,7 @@ public class ParallaxRectControl : RectControlBase
     /// <inheritdoc cref="RectControlBase.GetRects"/>
     public override IReadOnlyList<Rectangle> GetRects()
     {
-        return _speeds.Select(speed => CreateRectangle(speed)).ToArray();
+        return _speeds.Select(CreateRectangle).ToArray();
     }
 
     private Rectangle CreateRectangle(Vector2 speed)

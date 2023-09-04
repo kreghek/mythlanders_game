@@ -11,5 +11,6 @@ public abstract class RectControlBase
     /// Gets calculated inner rects.
     /// </summary>
     /// <returns> Array of inner rect ordered by a algorithm. </returns>
+    // ReSharper disable once UnusedMemberInSuper.Global
     public abstract IReadOnlyList<Rectangle> GetRects();
 }
