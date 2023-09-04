@@ -30,7 +30,6 @@ using Core.Props;
 
 using GameAssets.Combats;
 
-using GameClient.Engine;
 using GameClient.Engine.RectControl;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -95,8 +94,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
-
-    private readonly ParallaxRectControl _backgroundRectControl;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -174,14 +171,14 @@ internal class CombatScreen : GameScreenWithMenuBase
             new Vector2(-0.075f, -0.0075f)  // Foreground layer
         };
 
-        _backgroundRectControl = new ParallaxRectControl(ResolutionIndependentRenderer.ViewportAdapter.BoundingRectangle,
+        var backgroundRectControl = new ParallaxRectControl(ResolutionIndependentRenderer.ViewportAdapter.BoundingRectangle,
             backgroundTextures.First().Bounds,
             parallaxLayerSpeeds, new ViewPointProvider(ResolutionIndependentRenderer));
 
         ICamera2DAdapter[] layerCameras = parallaxLayerSpeeds.Select(_ => CreateLayerCamera()).ToArray();
 
         _combatActionCamera = new ParallaxCamera2DAdapter(
-            _backgroundRectControl,
+            backgroundRectControl,
             ResolutionIndependentRenderer,
             layerCameras[(int)BackgroundLayerType.Main],
             layerCameras);
@@ -428,7 +425,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             var nextIndex = GetIndicatorNextIndex(unitGameObject);
 
-            if (e.StatType == CombatantStatTypes.HitPoints)
+            if (ReferenceEquals(e.StatType, CombatantStatTypes.HitPoints))
             {
                 var damageIndicator =
                     new HitPointsChangedTextIndicator(-e.Value,
@@ -441,7 +438,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
                 unitGameObject.AnimateWound();
             }
-            else if (e.StatType == CombatantStatTypes.ShieldPoints)
+            else if (ReferenceEquals(e.StatType, CombatantStatTypes.ShieldPoints))
             {
                 var spIndicator =
                     new ShieldPointsChangedTextIndicator(-e.Value,
@@ -1093,67 +1090,77 @@ internal class CombatScreen : GameScreenWithMenuBase
         const int RADIUS_SP = 32;
         const int RADIUS_HP = 32 - (BAR_WIDTH - 1);
 
-        var barCenter = statsPanelOrigin;
-
-        var hp = combatant.Stats.Single(x => x.Type == CombatantStatTypes.HitPoints).Value;
+        var hp = combatant.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.HitPoints)).Value;
         if (hp.Current > 0)
         {
-            var barSize = MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare());
-            var color = Color.Lerp(Color.Red, Color.Transparent, 0.5f);
-            spriteBatch.DrawArc(barCenter, RADIUS_HP, SIDES, MathHelper.ToRadians(START_ANGLE), barSize, color,
-                BAR_WIDTH);
-
-            var textX = Math.Cos(MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare() + START_ANGLE)) *
-                (RADIUS_HP - 2) + barCenter.X;
-            var textY = Math.Sin(MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare() + START_ANGLE)) *
-                (RADIUS_HP - 2) + barCenter.Y;
-
-            for (var offsetX = -1; offsetX <= 1; offsetX++)
-            {
-                for (var offsetY = -1; offsetY <= 1; offsetY++)
-                {
-                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                        hp.Current.ToString(),
-                        new Vector2((float)textX + offsetX, (float)textY + offsetY),
-                        Color.White);
-                }
-            }
-
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                hp.Current.ToString(),
-                new Vector2((float)textX, (float)textY),
-                Color.Red);
+            DrawHitPointsStat(spriteBatch, hp, statsPanelOrigin, ARC_LENGTH, RADIUS_HP, SIDES, START_ANGLE, BAR_WIDTH);
         }
 
-        var sp = combatant.Stats.Single(x => x.Type == CombatantStatTypes.ShieldPoints).Value;
+        var sp = combatant.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.ShieldPoints)).Value;
         if (sp.Current > 0)
         {
-            var barSize = MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare());
-            var color = Color.Lerp(Color.Blue, Color.Transparent, 0.5f);
-            spriteBatch.DrawArc(barCenter, RADIUS_SP, SIDES, MathHelper.ToRadians(START_ANGLE), barSize, color,
-                BAR_WIDTH);
-
-            var textX = Math.Cos(MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare() + START_ANGLE)) *
-                (RADIUS_SP + 2) + barCenter.X;
-            var textY = Math.Sin(MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare() + START_ANGLE)) *
-                (RADIUS_SP + 2) + barCenter.Y;
-
-            for (var offsetX = -1; offsetX <= 1; offsetX++)
-            {
-                for (var offsetY = -1; offsetY <= 1; offsetY++)
-                {
-                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                        sp.Current.ToString(),
-                        new Vector2((float)textX + offsetX, (float)textY + offsetY),
-                        Color.White);
-                }
-            }
-
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                sp.Current.ToString(),
-                new Vector2((float)textX, (float)textY),
-                Color.Lerp(Color.Blue, Color.Transparent, 0.25f));
+            DrawShieldPointsBar(spriteBatch, sp, statsPanelOrigin, ARC_LENGTH, SIDES, RADIUS_SP + 2, START_ANGLE, BAR_WIDTH);
         }
+    }
+
+    private void DrawShieldPointsBar(SpriteBatch spriteBatch, IStatValue sp, Vector2 barCenter,
+        int arcLength,int sides, int radiusSp, int startAngle, int barWidth)
+    {
+        var barSize = MathHelper.ToRadians(arcLength * (float)sp.GetShare());
+        var color = Color.Lerp(Color.Blue, Color.Transparent, 0.5f);
+        spriteBatch.DrawArc(barCenter, radiusSp, sides, MathHelper.ToRadians(startAngle), barSize, color,
+            barWidth);
+
+        var textX = Math.Cos(MathHelper.ToRadians(arcLength * (float)sp.GetShare() + startAngle)) *
+            radiusSp + barCenter.X;
+        var textY = Math.Sin(MathHelper.ToRadians(arcLength * (float)sp.GetShare() + startAngle)) *
+            radiusSp + barCenter.Y;
+
+        for (var offsetX = -1; offsetX <= 1; offsetX++)
+        {
+            for (var offsetY = -1; offsetY <= 1; offsetY++)
+            {
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                    sp.Current.ToString(),
+                    new Vector2((float)textX + offsetX, (float)textY + offsetY),
+                    Color.White);
+            }
+        }
+
+        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+            sp.Current.ToString(),
+            new Vector2((float)textX, (float)textY),
+            Color.Lerp(Color.Blue, Color.Transparent, 0.25f));
+    }
+
+    private void DrawHitPointsStat(SpriteBatch spriteBatch, IStatValue hp, Vector2 barCenter, int arcLength,
+        int radiusHp, int sides, int startAngle, int barWidth)
+    {
+        var barSize = MathHelper.ToRadians(arcLength * (float)hp.GetShare());
+        var color = Color.Lerp(Color.Red, Color.Transparent, 0.5f);
+        spriteBatch.DrawArc(barCenter, radiusHp, sides, MathHelper.ToRadians(startAngle), barSize, color,
+            barWidth);
+
+        var textX = Math.Cos(MathHelper.ToRadians(arcLength * (float)hp.GetShare() + startAngle)) *
+            (radiusHp - 2) + barCenter.X;
+        var textY = Math.Sin(MathHelper.ToRadians(arcLength * (float)hp.GetShare() + startAngle)) *
+            (radiusHp - 2) + barCenter.Y;
+
+        for (var offsetX = -1; offsetX <= 1; offsetX++)
+        {
+            for (var offsetY = -1; offsetY <= 1; offsetY++)
+            {
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                    hp.Current.ToString(),
+                    new Vector2((float)textX + offsetX, (float)textY + offsetY),
+                    Color.White);
+            }
+        }
+
+        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+            hp.Current.ToString(),
+            new Vector2((float)textX, (float)textY),
+            Color.Red);
     }
 
     private void DropSelection(ICombatant combatant)
