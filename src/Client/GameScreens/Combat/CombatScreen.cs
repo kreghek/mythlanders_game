@@ -529,19 +529,34 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void CombatMovementsHandPanel_CombatMovementPicked(object? sender, CombatMovementPickedEventArgs e)
     {
-        _targetMarkers.EriseTargets();
+        var isMovementAttack = e.CombatMovement.SourceMovement.Tags.HasFlag(CombatMovementTags.Attack);
+        var hasTargetsToAttack = _targetMarkers.Targets?.Any(x =>
+            x.Target.IsPlayerControlled != _combatCore.CurrentCombatant.IsPlayerControlled) == true;
+        
+        if (isMovementAttack && !hasTargetsToAttack)
+        {
+            // TODO Display confirmation modal to use movement which has no targets to attack
 
-        var intention = new UseCombatMovementIntention(
-            e.CombatMovement,
-            _animationBlockManager,
-            _combatMovementVisualizer,
-            _gameObjects,
-            _interactionDeliveryManager,
-            _gameObjectContentStorage,
-            _cameraOperator,
-            _shadeService);
+            AddModal(
+                new ConfirmIneffectiveAttackModal(Game.Services.GetService<IUiContentStorage>(),
+                    ResolutionIndependentRenderer), false);
+        }
+        else
+        {
+            _targetMarkers.EriseTargets();
 
-        _manualCombatantBehaviour.Assign(intention);
+            var intention = new UseCombatMovementIntention(
+                e.CombatMovement,
+                _animationBlockManager,
+                _combatMovementVisualizer,
+                _gameObjects,
+                _interactionDeliveryManager,
+                _gameObjectContentStorage,
+                _cameraOperator,
+                _shadeService);
+
+            _manualCombatantBehaviour.Assign(intention);
+        }
     }
 
     private void CombatMovementsHandPanel_WaitPicked(object? sender, EventArgs e)
@@ -1183,17 +1198,12 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private static string FirstLetterUppercase(string str)
     {
-        if (str.Length == 0)
+        return str.Length switch
         {
-            return string.Empty;
-        }
-
-        if (str.Length == 1)
-        {
-            return char.ToUpper(str[0]).ToString();
-        }
-
-        return char.ToUpper(str[0]) + str[1..];
+            0 => string.Empty,
+            1 => char.ToUpper(str[0]).ToString(),
+            _ => char.ToUpper(str[0]) + str[1..]
+        };
     }
 
     private CombatantGameObject GetCombatantGameObject(ICombatant combatant)
@@ -1277,7 +1287,10 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatCore.CombatantEffectHasBeenImposed += CombatCore_CombatantEffectHasBeenImposed;
         _combatCore.CombatantInterrupted += Combat_CombatantInterrupted;
 
-        _combatMovementsHandPanel = new CombatMovementsHandPanel(Game, _uiContentStorage, _combatMovementVisualizer);
+        _combatMovementsHandPanel = new CombatMovementsHandPanel(
+            Game.Content.Load<Texture2D>("Sprites/Ui/SmallVerticalButtonIcons_White"), 
+            _uiContentStorage,
+            _combatMovementVisualizer);
         _combatMovementsHandPanel.CombatMovementPicked += CombatMovementsHandPanel_CombatMovementPicked;
         _combatMovementsHandPanel.CombatMovementHover += CombatMovementsHandPanel_CombatMovementHover;
         _combatMovementsHandPanel.CombatMovementLeave += CombatMovementsHandPanel_CombatMovementLeave;
