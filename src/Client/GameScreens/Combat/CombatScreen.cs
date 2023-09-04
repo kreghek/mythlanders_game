@@ -531,11 +531,11 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void CombatMovementsHandPanel_CombatMovementPicked(object? sender, CombatMovementPickedEventArgs e)
     {
         var combatMovementInstance = e.CombatMovement;
-        
+
         var isMovementAttack = combatMovementInstance.SourceMovement.Tags.HasFlag(CombatMovementTags.Attack);
         var hasTargetsToAttack = _targetMarkers.Targets?.Any(x =>
             x.Target.IsPlayerControlled != _combatCore.CurrentCombatant.IsPlayerControlled) == true;
-        
+
         if (isMovementAttack && !hasTargetsToAttack)
         {
             AddModal(
@@ -543,7 +543,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 Game.Content.Load<SoundEffect>("Audio/Ui/Alert"),
                     ResolutionIndependentRenderer, () =>
                     {
-                        AssignCombatMovementIntention(combatMovementInstance);            
+                        AssignCombatMovementIntention(combatMovementInstance);
                     }), false);
         }
         else
@@ -1129,7 +1129,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     }
 
     private void DrawShieldPointsBar(SpriteBatch spriteBatch, IStatValue sp, Vector2 barCenter,
-        int arcLength,int sides, int radiusSp, int startAngle, int barWidth)
+        int arcLength, int sides, int radiusSp, int startAngle, int barWidth)
     {
         var barSize = MathHelper.ToRadians(arcLength * (float)sp.GetShare());
         var color = Color.Lerp(Color.Blue, Color.Transparent, 0.5f);
@@ -1298,7 +1298,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatCore.CombatantInterrupted += Combat_CombatantInterrupted;
 
         _combatMovementsHandPanel = new CombatMovementsHandPanel(
-            Game.Content.Load<Texture2D>("Sprites/Ui/SmallVerticalButtonIcons_White"), 
+            Game.Content.Load<Texture2D>("Sprites/Ui/SmallVerticalButtonIcons_White"),
             _uiContentStorage,
             _combatMovementVisualizer);
         _combatMovementsHandPanel.CombatMovementPicked += CombatMovementsHandPanel_CombatMovementPicked;

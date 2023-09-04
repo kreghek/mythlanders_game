@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Combat.Ui;
 
-internal sealed class ConfirmIneffectiveAttackModal: ModalDialogBase
+internal sealed class ConfirmIneffectiveAttackModal : ModalDialogBase
 {
     private readonly IUiContentStorage _uiContentStorage;
     private readonly SoundEffect _alertSoundEffect;
@@ -27,7 +27,7 @@ internal sealed class ConfirmIneffectiveAttackModal: ModalDialogBase
         _confirmDelegate = confirmDelegate;
         _rejectButton = new ResourceTextButton(nameof(UiResource.RejectButtonTitle));
         _rejectButton.OnClick += RejectButton_OnClick;
-        
+
         _confirmButton = new ResourceTextButton(nameof(UiResource.ConfirmButtonTitle));
         _confirmButton.OnClick += ConfirmButton_OnClick;
 
@@ -38,7 +38,7 @@ internal sealed class ConfirmIneffectiveAttackModal: ModalDialogBase
     {
         Close();
     }
-    
+
     private void ConfirmButton_OnClick(object? sender, EventArgs e)
     {
         Close();
