@@ -19,7 +19,7 @@ jobs:
         project:
           - Client
           - GameClient.Engine
-        fail-fast: false
+      fail-fast: false
       
     env:
       MGFXC_WINE_PATH: /home/runner/.winemonogame
