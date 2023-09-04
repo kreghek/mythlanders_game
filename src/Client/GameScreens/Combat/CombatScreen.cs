@@ -979,7 +979,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             return;
         }
 
-        DrawGameObjectHud(spriteBatch, contentRectangle);
+        DrawGameObjectHud(spriteBatch);
 
         DrawScreenHud(spriteBatch, contentRectangle);
     }
@@ -999,6 +999,19 @@ internal class CombatScreen : GameScreenWithMenuBase
                 if (!_animationBlockManager.HasBlockers)
                 {
                     DrawCombatantQueue(spriteBatch, contentRectangle);
+                    
+                    if (!_maneuversVisualizer.IsHidden)
+                    {
+                        if (!_maneuversIndicator.IsHidden)
+                        {
+                            // ALT to show stats and statuses
+                            // Hide maneuvers to avoid HUD-mess
+                            if (!Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
+                            {
+                                DrawManeuverIndicator(spriteBatch, contentRectangle);
+                            }
+                        }
+                    }
 
                     //DrawCombatSequenceProgress(spriteBatch);
 
@@ -1016,7 +1029,21 @@ internal class CombatScreen : GameScreenWithMenuBase
         spriteBatch.End();
     }
 
-    private void DrawGameObjectHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
+    private void DrawManeuverIndicator(SpriteBatch spriteBatch, Rectangle contentRectangle)
+    {
+        const int MANEUVER_INDICATOR_WIDTH = 200;
+        const int MANEUVER_INDICATOR_HEIGHT = 25;
+        const int COMBAT_MOVEMENT_PANEL_HEIGHT = 80;
+
+        _maneuversIndicator.Rect = new Rectangle(
+            contentRectangle.Center.X - MANEUVER_INDICATOR_WIDTH / 2,
+            contentRectangle.Bottom - COMBAT_MOVEMENT_PANEL_HEIGHT - MANEUVER_INDICATOR_HEIGHT,
+            MANEUVER_INDICATOR_WIDTH,
+            MANEUVER_INDICATOR_HEIGHT);
+        _maneuversIndicator.Draw(spriteBatch);
+    }
+
+    private void DrawGameObjectHud(SpriteBatch spriteBatch)
     {
         spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
@@ -1036,18 +1063,6 @@ internal class CombatScreen : GameScreenWithMenuBase
                     if (!Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
                     {
                         _maneuversVisualizer.Draw(spriteBatch);
-                    }
-
-                    if (!_maneuversIndicator.IsHidden)
-                    {
-                        // ALT to show stats and statuses
-                        // Hide maneuvers to avoid HUD-mess
-                        if (!Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
-                        {
-                            _maneuversIndicator.Rect = new Rectangle(contentRectangle.Center.X - 100,
-                                contentRectangle.Bottom - 105, 200, 25);
-                            _maneuversIndicator.Draw(spriteBatch);
-                        }
                     }
                 }
             }
@@ -1443,7 +1458,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             if (!_animationBlockManager.HasBlockers)
             {
-                _maneuversVisualizer.Update(ResolutionIndependentRenderer);
+                _maneuversVisualizer.Update(_combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main]);
             }
 
             if (_combatMovementsHandPanel is not null)
