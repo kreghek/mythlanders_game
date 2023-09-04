@@ -10,18 +10,16 @@ on:
 
 jobs:
 
-  strategy:
-    matrix:
-      project:
-        - Client
-        - GameClient.Engine
-
   test:
     
     name: Mutation Tests
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
+      matrix:
+        project:
+          - Client
+          - GameClient.Engine
+        fail-fast: false
       
     env:
       MGFXC_WINE_PATH: /home/runner/.winemonogame
