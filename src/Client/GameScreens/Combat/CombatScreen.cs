@@ -163,24 +163,22 @@ internal class CombatScreen : GameScreenWithMenuBase
         _shadeService = new ShadeService();
 
         var locationTheme = LocationHelper.GetLocationTheme(_globeNode.Sid);
+        
         var backgroundTextures = _gameObjectContentStorage.GetCombatBackgrounds(locationTheme);
+        
+        var parallaxLayerSpeeds = new[] {
+            new Vector2(-0.0025f, -0.00025f), // horizon
+            new Vector2(-0.005f, -0.0005f), // far layer
+            new Vector2(-0.01f, -0.001f), // closest layer
+            new Vector2(-0.05f, -0.005f),  // main layer
+            new Vector2(-0.075f, -0.0075f)  // Foreground layer
+        };
+        
         _backgroundRectControl = new ParallaxRectControl(ResolutionIndependentRenderer.ViewportAdapter.BoundingRectangle,
             backgroundTextures.First().Bounds,
-            new[] {
-                new Vector2(-0.0025f, -0.00025f), // horizon
-                new Vector2(-0.005f, -0.0005f), // far layer
-                new Vector2(-0.01f, -0.001f), // closest layer
-                new Vector2(-0.05f, -0.005f),  // main layer
-                new Vector2(-0.075f, -0.0075f)  // Foreground layer
-            }, new ViewPointProvider(ResolutionIndependentRenderer));
+            parallaxLayerSpeeds, new ViewPointProvider(ResolutionIndependentRenderer));
 
-        ICamera2DAdapter[] layerCameras = {
-            CreateLayerCamera(), // horizon
-            CreateLayerCamera(),  // far
-            CreateLayerCamera(),  // closest
-            CreateLayerCamera(),  // main
-            CreateLayerCamera()  // foreground
-        };
+        ICamera2DAdapter[] layerCameras = parallaxLayerSpeeds.Select(_ => CreateLayerCamera()).ToArray();
 
         _combatActionCamera = new ParallaxCamera2DAdapter(
             _backgroundRectControl,
@@ -191,7 +189,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _cameraOperator = new CameraOperator(_combatActionCamera, new OverviewCameraOperatorTask(_mainCamera.Position));
     }
 
-    private Camera2DAdapter CreateLayerCamera()
+    private ICamera2DAdapter CreateLayerCamera()
     {
         return new Camera2DAdapter(ResolutionIndependentRenderer.ViewportAdapter)
         {
