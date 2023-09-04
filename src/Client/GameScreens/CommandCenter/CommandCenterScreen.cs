@@ -11,6 +11,8 @@ using Client.ScreenManagement;
 
 using CombatDicesTeam.Dices;
 
+using GameClient.Engine.RectControl;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -25,7 +27,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
     private readonly Texture2D _mapBackgroundTexture;
 
-    private readonly PongRectangle _mapPong;
+    private readonly PongRectangleControl _mapPong;
 
     private IReadOnlyList<ICampaignPanel>? _availableCampaignPanels;
 
@@ -56,7 +58,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
         var mapPongRandomSource = new PongRectangleRandomSource(new LinearDice(), 2f);
 
-        _mapPong = new PongRectangle(new Point(_mapBackgroundTexture.Width, _mapBackgroundTexture.Height), mapRect,
+        _mapPong = new PongRectangleControl(new Point(_mapBackgroundTexture.Width, _mapBackgroundTexture.Height), mapRect,
             mapPongRandomSource);
     }
 
@@ -82,7 +84,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
             transformMatrix: Camera.GetViewTransformationMatrix());
 
         spriteBatch.Draw(_mapBackgroundTexture,
-            _mapPong.GetRect(),
+            _mapPong.GetRects()[0],
             Color.White);
 
         const int CAMPAIGN_CONTROL_WIDTH = 200;

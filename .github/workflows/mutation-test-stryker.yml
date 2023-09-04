@@ -1,6 +1,7 @@
 name: Mutation Tests using Stryker.NET
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 0 * * *' # Nightly
   push:
@@ -14,13 +15,17 @@ jobs:
     name: Mutation Tests
     runs-on: ubuntu-latest
     strategy:
+      matrix:
+        project:
+          - Client
+          - GameClient.Engine
       fail-fast: false
       
     env:
       MGFXC_WINE_PATH: /home/runner/.winemonogame
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_CLI_TELEMETRY_OUTPUT: 1
-
+    
     steps:
     - uses: actions/checkout@v3
 
@@ -58,5 +63,5 @@ jobs:
 
     - name: Kill the mutants!
       run: |
-        cd tests/Client.Tests
-        dotnet stryker --project=/home/runner/work/ewar/ewar/src/Client/Client.csproj --reporter "cleartexttree"
+        cd tests/${{ matrix.project }}.Tests
+        dotnet stryker --project=/home/runner/work/ewar/ewar/src/${{ matrix.project }}/${{ matrix.project }}.csproj --reporter "cleartexttree"

@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 
 namespace Client.Engine;
 
-internal interface ICamera2DAdapter
+internal interface ICamera2DAdapter: IScreenProjection
 {
     /// <summary>
     /// Camera position.
@@ -13,12 +13,6 @@ internal interface ICamera2DAdapter
     /// Camera zoom.
     /// </summary>
     float Zoom { get; set; }
-
-    /// <summary>
-    /// Convert screen coordinates to coordinates in the world.
-    /// </summary>
-    /// <param name="screenPosition">Coordinates of screen. Example, mouse coordinates.</param>
-    Vector2 ConvertScreenToWorldCoordinates(Vector2 screenPosition);
 
     /// <summary>
     /// Returns transformation matrix of game objects.
