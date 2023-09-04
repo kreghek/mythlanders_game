@@ -54,7 +54,7 @@ jobs:
         run: dotnet build --verbosity normal
 
       - name: Setup ReSharper Command Line Tools
-        run: dotnet tool install --global JetBrains.ReSharper.GlobalTools --version 2022.3.2
+        run: dotnet tool install --global JetBrains.ReSharper.GlobalTools --version 2023.2.1
 
       - name: Inspect code base
         id: inspection

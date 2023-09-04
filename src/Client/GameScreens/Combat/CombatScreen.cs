@@ -516,7 +516,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void CombatMovementsHandPanel_CombatMovementHover(object? sender, CombatMovementPickedEventArgs e)
     {
         var selectorContext =
-            new TargetSelectorContext(_combatCore.Field.HeroSide, _combatCore.Field.MonsterSide, _dice);
+            new TargetSelectorContext(_combatCore.Field.HeroSide, _combatCore.Field.MonsterSide, _dice, _combatCore.CurrentCombatant);
         var targetMarkerContext = new TargetMarkerContext(_combatCore, _gameObjects.ToArray(), selectorContext);
         _targetMarkers.SetTargets(_combatCore.CurrentCombatant, e.CombatMovement.Effects, targetMarkerContext);
 
