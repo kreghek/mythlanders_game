@@ -6,7 +6,7 @@ namespace Client.GameScreens;
 
 internal static class CharacterHelper
 {
-    private static readonly (Assets.GraphicConfigs.Monsters.CharacterCultureSid CharacterCultureSid, string[] ClassSids)
+    private static readonly (CharacterCultureSid CharacterCultureSid, string[] ClassSids)
         [] _map =
         {
             (CharacterCultureSid.Slavic,

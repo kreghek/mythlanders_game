@@ -7,8 +7,8 @@ namespace GameClient.Engine.RectControl;
 /// </summary>
 public class ParallaxRectControl : RectControlBase
 {
-    private readonly Rectangle _screenRectangle;
     private readonly Rectangle _layerRectangle;
+    private readonly Rectangle _screenRectangle;
     private readonly Vector2[] _speeds;
     private readonly IParallaxViewPointProvider _viewPointProvider;
 
@@ -30,7 +30,7 @@ public class ParallaxRectControl : RectControlBase
         _viewPointProvider = viewPointProvider;
     }
 
-    /// <inheritdoc cref="RectControlBase.GetRects"/>
+    /// <inheritdoc cref="RectControlBase.GetRects" />
     public override IReadOnlyList<Rectangle> GetRects()
     {
         return _speeds.Select(CreateRectangle).ToArray();

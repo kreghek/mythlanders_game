@@ -58,7 +58,8 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
         var mapPongRandomSource = new PongRectangleRandomSource(new LinearDice(), 2f);
 
-        _mapPong = new PongRectangleControl(new Point(_mapBackgroundTexture.Width, _mapBackgroundTexture.Height), mapRect,
+        _mapPong = new PongRectangleControl(new Point(_mapBackgroundTexture.Width, _mapBackgroundTexture.Height),
+            mapRect,
             mapPongRandomSource);
     }
 
