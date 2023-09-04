@@ -46,10 +46,10 @@ internal sealed class ParallaxCamera2DAdapter : ICamera2DAdapter
             layerCamera.Position = _position + rects[i].Center.ToVector2() + layerDiff;
         }
     }
-    
+
     public float Zoom
     {
-        get => _mainCamera.Zoom; 
+        get => _mainCamera.Zoom;
         set
         {
             _mainCamera.Zoom = value;

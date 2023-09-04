@@ -43,7 +43,7 @@ public class ParallaxRectControl : RectControlBase
         var worldMouse = _viewPointProvider.GetWorldCoords();
 
         var cursorDiff = worldMouse - screenCenter.ToVector2();
-        
+
         var layerStartLocation = _layerRectangle.Center.ToVector2() * -1;
         var layerOffset = cursorDiff * -speed;
         var layerOffsetPosition = layerStartLocation + layerOffset;

@@ -5,7 +5,7 @@ namespace GameClient.Engine.RectControl;
 /// <summary>
 /// Rect control to move inner rect into the parent using direction.
 /// </summary>
-public sealed class PongRectangleControl: RectControlBase
+public sealed class PongRectangleControl : RectControlBase
 {
     private readonly Rectangle _parentRectangle;
     private readonly IPongRectangleDirectionProvider _directionProvider;

@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 
 namespace Client.Engine;
 
-internal interface ICamera2DAdapter: IScreenProjection
+internal interface ICamera2DAdapter : IScreenProjection
 {
     /// <summary>
     /// Camera position.

@@ -163,9 +163,9 @@ internal class CombatScreen : GameScreenWithMenuBase
         _shadeService = new ShadeService();
 
         var locationTheme = LocationHelper.GetLocationTheme(_globeNode.Sid);
-        
+
         var backgroundTextures = _gameObjectContentStorage.GetCombatBackgrounds(locationTheme);
-        
+
         var parallaxLayerSpeeds = new[] {
             new Vector2(-0.0025f, -0.00025f), // horizon
             new Vector2(-0.005f, -0.0005f), // far layer
@@ -173,7 +173,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             new Vector2(-0.05f, -0.005f),  // main layer
             new Vector2(-0.075f, -0.0075f)  // Foreground layer
         };
-        
+
         _backgroundRectControl = new ParallaxRectControl(ResolutionIndependentRenderer.ViewportAdapter.BoundingRectangle,
             backgroundTextures.First().Bounds,
             parallaxLayerSpeeds, new ViewPointProvider(ResolutionIndependentRenderer));
@@ -183,7 +183,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatActionCamera = new ParallaxCamera2DAdapter(
             _backgroundRectControl,
             ResolutionIndependentRenderer,
-            layerCameras[(int)BackgroundLayerType.Main], 
+            layerCameras[(int)BackgroundLayerType.Main],
             layerCameras);
 
         _cameraOperator = new CameraOperator(_combatActionCamera, new OverviewCameraOperatorTask(_mainCamera.Position));
@@ -999,7 +999,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 if (!_animationBlockManager.HasBlockers)
                 {
                     DrawCombatantQueue(spriteBatch, contentRectangle);
-                    
+
                     if (!_maneuversVisualizer.IsHidden)
                     {
                         if (!_maneuversIndicator.IsHidden)
