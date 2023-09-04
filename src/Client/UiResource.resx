@@ -395,7 +395,7 @@
     <value>Medium</value>
   </data>
   <data name="MiniGame_Victory" xml:space="preserve">
-    <value>Победа!</value>
+    <value>Victory!</value>
   </data>
   <data name="MonsterDangerTemplate" xml:space="preserve">
     <value>Danger of the monsters: {0}</value>
@@ -545,5 +545,17 @@
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp Reward</value>
+  </data>
+  <data name="ConfirmIneffectiveAttackText" xml:space="preserve">
+    <value>If you perform this attack from the current position, then none of the opponents will be harmed.
+The attack will be ineffective.
+Perhaps you should first choose a better position for the hero or choose another action.
+Do you really need to spend the priceless current move for nothing?</value>
+  </data>
+  <data name="RejectButtonTitle" xml:space="preserve">
+    <value>Reject</value>
+  </data>
+  <data name="ConfirmButtonTitle" xml:space="preserve">
+    <value>Confirm</value>
   </data>
 </root>

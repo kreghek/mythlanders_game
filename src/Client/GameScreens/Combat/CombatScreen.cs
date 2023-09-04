@@ -529,34 +529,42 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void CombatMovementsHandPanel_CombatMovementPicked(object? sender, CombatMovementPickedEventArgs e)
     {
-        var isMovementAttack = e.CombatMovement.SourceMovement.Tags.HasFlag(CombatMovementTags.Attack);
+        var combatMovementInstance = e.CombatMovement;
+        
+        var isMovementAttack = combatMovementInstance.SourceMovement.Tags.HasFlag(CombatMovementTags.Attack);
         var hasTargetsToAttack = _targetMarkers.Targets?.Any(x =>
             x.Target.IsPlayerControlled != _combatCore.CurrentCombatant.IsPlayerControlled) == true;
         
         if (isMovementAttack && !hasTargetsToAttack)
         {
-            // TODO Display confirmation modal to use movement which has no targets to attack
-
             AddModal(
                 new ConfirmIneffectiveAttackModal(Game.Services.GetService<IUiContentStorage>(),
-                    ResolutionIndependentRenderer), false);
+                    ResolutionIndependentRenderer, () =>
+                    {
+                        AssignCombatMovementIntention(combatMovementInstance);            
+                    }), false);
         }
         else
         {
-            _targetMarkers.EriseTargets();
-
-            var intention = new UseCombatMovementIntention(
-                e.CombatMovement,
-                _animationBlockManager,
-                _combatMovementVisualizer,
-                _gameObjects,
-                _interactionDeliveryManager,
-                _gameObjectContentStorage,
-                _cameraOperator,
-                _shadeService);
-
-            _manualCombatantBehaviour.Assign(intention);
+            AssignCombatMovementIntention(combatMovementInstance);
         }
+    }
+
+    private void AssignCombatMovementIntention(CombatMovementInstance combatMovementInstance)
+    {
+        _targetMarkers.EriseTargets();
+
+        var intention = new UseCombatMovementIntention(
+            combatMovementInstance,
+            _animationBlockManager,
+            _combatMovementVisualizer,
+            _gameObjects,
+            _interactionDeliveryManager,
+            _gameObjectContentStorage,
+            _cameraOperator,
+            _shadeService);
+
+        _manualCombatantBehaviour.Assign(intention);
     }
 
     private void CombatMovementsHandPanel_WaitPicked(object? sender, EventArgs e)

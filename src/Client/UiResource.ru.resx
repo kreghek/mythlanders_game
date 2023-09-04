@@ -534,4 +534,19 @@
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp</value>
   </data>
+  <data name="ConfirmIneffectiveAttackText" xml:space="preserve">
+    <value>Если выполнить эту атаку с текущей позиции, то никто из противников не пострадает.
+Атака будет неэффективной.
+Возможно, следует сперва выбрать более удачную позицию для героя или выбрать дрое действие.
+Точно надо потратить бесценный текущий ход в пустую?</value>
+  </data>
+  <data name="MiniGame_Victory" xml:space="preserve">
+    <value>Победа!</value>
+  </data>
+  <data name="RejectButtonTitle" xml:space="preserve">
+    <value>Отклонить</value>
+  </data>
+  <data name="ConfirmButtonTitle" xml:space="preserve">
+    <value>Подтвердить</value>
+  </data>
 </root>
