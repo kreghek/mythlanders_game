@@ -68,6 +68,7 @@ jobs:
             else
               comment="Cleanup complete. There is no changes."
             fi
+            comment+="\n--cyber-goblin-marker-cleanup-resharper"
             echo $comment > cleanup_report.txt
         
       - name: Find Comment of goblin
