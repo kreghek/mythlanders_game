@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using CombatDicesTeam.Combats;
+﻿using CombatDicesTeam.Combats;
 
 namespace GameAssets.Combats;
 
@@ -34,10 +32,5 @@ public sealed class CombatMovementContainer : ICombatMovementContainer
     public void RemoveAt(int index)
     {
         _items.RemoveAt(index);
-    }
-
-    IReadOnlyList<CombatMovementInstance?> ICombatMovementContainer.GetItems()
-    {
-        throw new System.NotImplementedException();
     }
 }
