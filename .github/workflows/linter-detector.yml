@@ -76,7 +76,7 @@ jobs:
         id: fc
         with:
           issue-number: 1
-          body-includes: cyber-goblin-marker-cleanup-resharper
+          body-includes: --cyber-goblin-marker-cleanup-resharper
         
       - uses: mshick/add-pr-comment@v2
         with:

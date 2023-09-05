@@ -61,7 +61,7 @@ jobs:
         run: |
           touch ./inspection_report.txt
           jb inspectcode Testament.sln --build --format=Text --output=./inspection_report.txt
-          echo " cyber-goblin-marker--inspections" >> ./inspection_report.txt
+          echo " --cyber-goblin-marker-inspections" >> ./inspection_report.txt
           REPORT=$(cat "./inspection_report.txt")
           echo $REPORT
         working-directory: ${{env.working-directory}}
@@ -71,7 +71,7 @@ jobs:
         id: fc
         with:
           issue-number: 1
-          body-includes: cyber-goblin-marker
+          body-includes: --cyber-goblin-marker-inspections
         
       - uses: mshick/add-pr-comment@v2
         with:
