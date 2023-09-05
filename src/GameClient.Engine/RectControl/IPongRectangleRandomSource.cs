@@ -3,7 +3,7 @@
 namespace GameClient.Engine.RectControl;
 
 /// <summary>
-/// Provider of random one-length vector to calculate next movement vector.  
+/// Provider of random one-length vector to calculate next movement vector.
 /// </summary>
 public interface IPongRectangleDirectionProvider
 {

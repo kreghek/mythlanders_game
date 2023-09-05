@@ -7,8 +7,8 @@ namespace GameClient.Engine.RectControl;
 /// </summary>
 public sealed class PongRectangleControl : RectControlBase
 {
-    private readonly Rectangle _parentRectangle;
     private readonly IPongRectangleDirectionProvider _directionProvider;
+    private readonly Rectangle _parentRectangle;
     private readonly Point _size;
 
     private Vector2 _bgCurrentPosition;
@@ -21,7 +21,8 @@ public sealed class PongRectangleControl : RectControlBase
     /// <param name="size"> Size of inner rect. </param>
     /// <param name="parentRectangle"> Parent rectangle to move inner rect inside. </param>
     /// <param name="directionProvider"> Provider of direction. </param>
-    public PongRectangleControl(Point size, Rectangle parentRectangle, IPongRectangleDirectionProvider directionProvider)
+    public PongRectangleControl(Point size, Rectangle parentRectangle,
+        IPongRectangleDirectionProvider directionProvider)
     {
         _size = size;
         _parentRectangle = parentRectangle;

@@ -1,5 +1,4 @@
-﻿using GameClient.Engine;
-using GameClient.Engine.RectControl;
+﻿using GameClient.Engine.RectControl;
 
 using Microsoft.Xna.Framework;
 
@@ -7,9 +6,9 @@ namespace Client.Engine;
 
 internal sealed class ParallaxCamera2DAdapter : ICamera2DAdapter
 {
+    private readonly ICamera2DAdapter _mainCamera;
     private readonly ParallaxRectControl _parallaxRectControl;
     private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
-    private readonly ICamera2DAdapter _mainCamera;
     private Vector2 _position;
 
     public ParallaxCamera2DAdapter(
@@ -24,16 +23,7 @@ internal sealed class ParallaxCamera2DAdapter : ICamera2DAdapter
         LayerCameras = layerCameras;
     }
 
-    public Vector2 Position
-    {
-        get { return _position; }
-        set
-        {
-            _position = value;
-
-            Update();
-        }
-    }
+    internal ICamera2DAdapter[] LayerCameras { get; }
 
     public void Update()
     {
@@ -47,22 +37,40 @@ internal sealed class ParallaxCamera2DAdapter : ICamera2DAdapter
         }
     }
 
-    public float Zoom
+    public Vector2 Position
     {
-        get => _mainCamera.Zoom;
+        get => _position;
         set
         {
-            _mainCamera.Zoom = value;
+            _position = value;
+
+            Update();
         }
     }
 
-    internal ICamera2DAdapter[] LayerCameras { get; }
+    public float Zoom
+    {
+        get => _mainCamera.Zoom;
+        set => _mainCamera.Zoom = value;
+    }
 
-    public Vector2 ConvertScreenToWorldCoordinates(Vector2 screenPosition) => _mainCamera.ConvertScreenToWorldCoordinates(screenPosition);
+    public Vector2 ConvertScreenToWorldCoordinates(Vector2 screenPosition)
+    {
+        return _mainCamera.ConvertScreenToWorldCoordinates(screenPosition);
+    }
 
-    public Matrix GetViewTransformationMatrix() => _mainCamera.GetViewTransformationMatrix();
+    public Matrix GetViewTransformationMatrix()
+    {
+        return _mainCamera.GetViewTransformationMatrix();
+    }
 
-    public void ZoomIn(float deltaZoom, Vector2 zoomCenter) => _mainCamera.ZoomIn(deltaZoom, zoomCenter);
+    public void ZoomIn(float deltaZoom, Vector2 zoomCenter)
+    {
+        _mainCamera.ZoomIn(deltaZoom, zoomCenter);
+    }
 
-    public void ZoomOut(float deltaZoom, Vector2 zoomCenter) => _mainCamera.ZoomOut(deltaZoom, zoomCenter);
+    public void ZoomOut(float deltaZoom, Vector2 zoomCenter)
+    {
+        _mainCamera.ZoomOut(deltaZoom, zoomCenter);
+    }
 }
