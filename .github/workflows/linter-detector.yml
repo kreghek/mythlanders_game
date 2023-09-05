@@ -63,15 +63,15 @@ jobs:
         run: |
           if [ -n "$(git status -s)" ]; then
           
-          comment="Cleanup complete. There is follow changes:\n"
-          comment+="\`\`\`\n"
-          comment+=$(git status -s)
-          comment+="\n\`\`\`"
-          
-          comment > cleanup_report.txt
-        else
-          echo "Cleanup complete. There is no changes."
-        fi
+              comment="Cleanup complete. There is follow changes:\n"
+              comment+="\`\`\`\n"
+              comment+=$(git status -s)
+              comment+="\n\`\`\`"
+              
+              comment > cleanup_report.txt
+            else
+              echo "Cleanup complete. There is no changes."
+            fi
         
       - name: Find Comment of goblin
         uses: peter-evans/find-comment@v2
