@@ -69,17 +69,19 @@ jobs:
       - name: Extract number of current PR
         uses: 8BitJonny/gh-get-current-pr@2.2.0
         id: pr
-      - run: echo ${{ steps.pr.outputs.number }}
+
+      - env: pr_number: steps.pr.outputs.number
+        run: echo $pr_number
 
       - name: Find comment of goblin
         uses: peter-evans/find-comment@v2
         id: fc
         with:
-          issue-number: ${{ steps.pr.outputs.number }}
+          issue-number: steps.pr.outputs.number
           body-includes: --cyber-goblin-marker-inspections
         
       - name: Write comment with goblin message
         uses: mshick/add-pr-comment@v2
         with:
-          message-id: ${{ steps.fc.outputs.comment-id }}
+          message-id: steps.fc.outputs.comment-id
           message-path: /home/runner/work/ewar/ewar/inspection_report.txt
