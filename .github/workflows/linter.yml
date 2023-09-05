@@ -20,11 +20,11 @@ jobs:
     env:
       working-directory : ./
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - run: git pull
 
-      - run: dotnet tool install --global dotnet-format --version 5.1.225507
+      - run: dotnet tool install --global dotnet-format --version 5.1.250801
 
       - name: Format codebase ${{ matrix.solution }}
         run: dotnet-format --fix-whitespace --fix-style --verbosity detailed
@@ -48,12 +48,12 @@ jobs:
     needs: [dotnet-format-core-lint]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - run: git pull
 
       - name: Setup .NET 6
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
 
