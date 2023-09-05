@@ -66,10 +66,12 @@ jobs:
           echo $REPORT
         working-directory: ${{env.working-directory}}
 
-      - uses: 8BitJonny/gh-get-current-pr@2.2.0
+      - name: Extract number of current PR
+        uses: 8BitJonny/gh-get-current-pr@2.2.0
         id: pr
+      - run: echo ${{ steps.pr.outputs.number }}
 
-      - name: Find Comment of goblin
+      - name: Find comment of goblin
         uses: peter-evans/find-comment@v2
         id: fc
         with:
