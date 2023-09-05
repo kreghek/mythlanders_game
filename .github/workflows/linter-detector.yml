@@ -1,4 +1,4 @@
-name: Code Linter
+name: Code Lint Detection
 
 on:
   pull_request
