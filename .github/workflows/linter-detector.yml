@@ -67,7 +67,8 @@ jobs:
               
               comment > cleanup_report.txt
             else
-              echo "Cleanup complete. There is no changes."
+              comment="Cleanup complete. There is no changes."
+              comment > cleanup_report.txt
             fi
         
       - name: Find Comment of goblin
