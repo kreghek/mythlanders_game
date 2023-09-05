@@ -41,13 +41,13 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
       
-      - name: Build extentions
+      - name: Build extensions
         run: dotnet build src/GameContent.Extensions/GameContent.Extensions.csproj --configuration Release
 
       - name: Setup ReSharper Command Line Tools
         run: dotnet tool install --global JetBrains.ReSharper.GlobalTools --version 2023.2.1
 
-      # Building of the project is important step to resolve bin dependensies.
+      # Building of the project is important step to resolve bin dependencies.
       # See docs https://www.jetbrains.com/help/resharper/CleanupCode.html#9663f16d
       - name: Build
         run: dotnet build --verbosity normal
@@ -70,15 +70,19 @@ jobs:
             fi
             comment+="\n --cyber-goblin-marker-cleanup-resharper"
             echo $comment > cleanup_report.txt
+
+      - uses: 8BitJonny/gh-get-current-pr@2.2.0
+        id: pr
         
       - name: Find Comment of goblin
         uses: peter-evans/find-comment@v2
         id: fc
         with:
-          issue-number: 1
+          issue-number: ${{ steps.pr.outputs.number }}
           body-includes: --cyber-goblin-marker-cleanup-resharper
         
-      - uses: mshick/add-pr-comment@v2
+      - name: Write comment with goblin message
+        uses: mshick/add-pr-comment@v2
         with:
           message-id: ${{ steps.fc.outputs.comment-id }}
           message-path: /home/runner/work/ewar/ewar/cleanup_report.txt
