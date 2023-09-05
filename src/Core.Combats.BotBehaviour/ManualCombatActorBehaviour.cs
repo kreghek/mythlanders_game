@@ -1,3 +1,5 @@
+using System;
+
 using CombatDicesTeam.Combats;
 
 namespace Core.Combats.BotBehaviour;
@@ -19,5 +21,10 @@ public sealed class ManualCombatActorBehaviour : ICombatActorBehaviour
     public void HandleIntention(ICombatActorBehaviourData combatData, Action<IIntention> intentionDelegate)
     {
         _intentionDelegate = intentionDelegate;
+    }
+
+    public void HandleIntention(ICombatActorBehaviourData combatData, Action<IIntention> intentionDelegate)
+    {
+        throw new NotImplementedException();
     }
 }

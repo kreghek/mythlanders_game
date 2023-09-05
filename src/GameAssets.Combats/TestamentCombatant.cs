@@ -113,8 +113,8 @@ public sealed class TestamentCombatant : ICombatant
         {
             var combatMove = PopNextPoolMovement();
             if (combatMove is null)
-                // Pool is empty.
-                // Stop to prepare first movements.
+            // Pool is empty.
+            // Stop to prepare first movements.
             {
                 break;
             }

@@ -1,4 +1,6 @@
-﻿using CombatDicesTeam.Combats;
+﻿using System;
+
+using CombatDicesTeam.Combats;
 
 namespace Core.Combats.BotBehaviour;
 
@@ -22,5 +24,10 @@ public sealed class BotCombatActorBehaviour : ICombatActorBehaviour
         var skillIntention = _intentionFactory.CreateCombatMovement(firstSkill.CombatMovement);
 
         intentionDelegate(skillIntention);
+    }
+
+    public void HandleIntention(ICombatActorBehaviourData combatData, Action<IIntention> intentionDelegate)
+    {
+        throw new NotImplementedException();
     }
 }
