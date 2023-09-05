@@ -1,7 +1,9 @@
 name: Code Lint Detection
 
 on:
-  pull_request
+  pull_request:
+    paths:
+      - '**.cs'
 
 env:
   MGFXC_WINE_PATH: /home/runner/.winemonogame
@@ -22,7 +24,7 @@ jobs:
       - run: git pull
 
       - name: Setup .NET 6
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
 
