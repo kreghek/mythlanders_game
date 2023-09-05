@@ -70,8 +70,9 @@ jobs:
         uses: 8BitJonny/gh-get-current-pr@2.2.0
         id: pr
 
-      - env: pr_number: steps.pr.outputs.number
-        run: echo $pr_number
+      - env:
+          PR_NUMBER: steps.pr.outputs.number
+        run: echo $PR_NUMBER
 
       - name: Find comment of goblin
         uses: peter-evans/find-comment@v2
