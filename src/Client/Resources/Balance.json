@@ -1,0 +1,141 @@
+{
+  "UnitBasics": {
+    "ARMOR_BASE": 6,
+    "BASE_MANA_POOL_SIZE": 3,
+    "COMBAT_RESTORE_SHARE": 1,
+    "DAMAGE_BASE": 12,
+    "HERO_POWER_MULTIPLICATOR": 1.5,
+    "HITPOINTS_BASE": 16,
+    "HITPOINTS_PER_LEVEL_BASE": 4,
+    "LEVEL_BASE": 2,
+    "LEVEL_MULTIPLICATOR": 100,
+    "MANA_PER_LEVEL": 1,
+    "MINIMAL_LEVEL_WITH_MANA": 2,
+    "OVERPOWER_BASE": 2,
+    "POWER_BASE": 1,
+    "POWER_PER_LEVEL_BASE": 0.25,
+    "SUPPORT_BASE": 2
+  },
+  "UnitRows": [
+    {
+      "DamageDealerRank": 0.5,
+      "Demo": false,
+      "Sid": "Partisan",
+      "SupportRank": 0.1,
+      "TankRank": 0.4,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.2,
+      "Demo": false,
+      "Sid": "Assaulter",
+      "SupportRank": 0,
+      "TankRank": 0.8,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.2,
+      "Demo": false,
+      "Sid": "Zoologist",
+      "SupportRank": 0.6,
+      "TankRank": 0.2,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.4,
+      "Demo": false,
+      "Sid": "Swordsman",
+      "SupportRank": 0.1,
+      "TankRank": 0.5,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.7,
+      "Demo": false,
+      "Sid": "Robber",
+      "SupportRank": 0,
+      "TankRank": 0.3,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0,
+      "Demo": false,
+      "Sid": "Herbalist",
+      "SupportRank": 1,
+      "TankRank": 0,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.6,
+      "Demo": false,
+      "Sid": "Monk",
+      "SupportRank": 0.2,
+      "TankRank": 0.2,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.1,
+      "Demo": false,
+      "Sid": "Guardian",
+      "SupportRank": 0.1,
+      "TankRank": 0.8,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.1,
+      "Demo": false,
+      "Sid": "Sage",
+      "SupportRank": 0.7,
+      "TankRank": 0.2,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.9,
+      "Demo": false,
+      "Sid": "Priest",
+      "SupportRank": 0,
+      "TankRank": 0.1,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.8,
+      "Demo": false,
+      "Sid": "Medjay",
+      "SupportRank": 0.1,
+      "TankRank": 0.1,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.1,
+      "Demo": false,
+      "Sid": "Liberator",
+      "SupportRank": 0.7,
+      "TankRank": 0.2,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.4,
+      "Demo": false,
+      "Sid": "Hoplite",
+      "SupportRank": 0.1,
+      "TankRank": 0.5,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.8,
+      "Demo": false,
+      "Sid": "Amazon",
+      "SupportRank": 0.2,
+      "TankRank": 0,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.5,
+      "Demo": false,
+      "Sid": "Engineer",
+      "SupportRank": 0.15,
+      "TankRank": 0.35,
+      "Type": false
+    }
+  ]
+}

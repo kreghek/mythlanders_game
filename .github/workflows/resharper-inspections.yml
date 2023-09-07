@@ -19,8 +19,6 @@ jobs:
     name: Inspect C# via R# CLT
     # Set the type of machine to run on
     runs-on: ubuntu-latest
-    env:
-      working-directory : ./Rpg.Client/
 
     steps:
       - uses: actions/checkout@v3
@@ -45,37 +43,44 @@ jobs:
           rm dotnet-sdk.zip
 
       - name: Restore dependencies
-        run: dotnet restore Rpg.Client/Rpg.Client.sln
+        run: dotnet restore
 
-      - name: Build extentions
-        run: dotnet build Rpg/GameContent.Extensions/GameContent.Extensions.csproj --configuration Release
+      - name: Build extensions
+        run: dotnet build src/GameContent.Extensions/GameContent.Extensions.csproj --configuration Release
 
-      # Building of the project is important step to resolve bin dependensies.
+      # Building of the project is important step to resolve bin dependencies.
       # See docs https://www.jetbrains.com/help/resharper/CleanupCode.html#9663f16d
       - name: Build
-        run: dotnet build Rpg.Client/Rpg.Client.sln --verbosity normal
+        run: dotnet build --verbosity normal
 
       - name: Setup ReSharper Command Line Tools
-        run: dotnet tool install --global JetBrains.ReSharper.GlobalTools --version 2022.3.2
+        run: dotnet tool install --global JetBrains.ReSharper.GlobalTools --version 2023.2.1
 
       - name: Inspect code base
         id: inspection
         run: |
           touch ./inspection_report.txt
-          jb inspectcode Rpg.Client.sln --build --format=Text --output=./inspection_report.txt
-          echo " cyber-goblin-marker" >> ./inspection_report.txt
+          jb inspectcode Testament.sln --build --format=Text --output=./inspection_report.txt
+          echo " --cyber-goblin-marker-inspections" >> ./inspection_report.txt
           REPORT=$(cat "./inspection_report.txt")
           echo $REPORT
         working-directory: ${{env.working-directory}}
-        
-      - name: Find Comment of goblin
+
+      - uses: jwalton/gh-find-current-pr@v1
+        id: findPr
+        with:
+          # Can be "open", "closed", or "all".  Defaults to "open".
+          state: open
+
+      - name: Find comment of goblin
         uses: peter-evans/find-comment@v2
         id: fc
         with:
-          issue-number: 1
-          body-includes: cyber-goblin-marker
+          issue-number: ${{ steps.findPr.outputs.pr }}
+          body-includes: --cyber-goblin-marker-inspections
         
-      - uses: mshick/add-pr-comment@v2
+      - name: Write comment with goblin message
+        uses: mshick/add-pr-comment@v2
         with:
-          message-id: ${{ steps.fc.outputs.comment-id }}
-          message-path: /home/runner/work/ewar/ewar/Rpg.Client/inspection_report.txt
+          message-id: steps.fc.outputs.comment-id
+          message-path: /home/runner/work/ewar/ewar/inspection_report.txt
