@@ -11,11 +11,11 @@ namespace Client.GameScreens.Combat.Ui;
 
 internal sealed class ConfirmIneffectiveAttackModal : ModalDialogBase
 {
-    private readonly IUiContentStorage _uiContentStorage;
     private readonly SoundEffect _alertSoundEffect;
-    private readonly Action _confirmDelegate;
     private readonly ResourceTextButton _confirmButton;
+    private readonly Action _confirmDelegate;
     private readonly ResourceTextButton _rejectButton;
+    private readonly IUiContentStorage _uiContentStorage;
 
     public ConfirmIneffectiveAttackModal(IUiContentStorage uiContentStorage,
         SoundEffect alertSoundEffect,
@@ -32,17 +32,6 @@ internal sealed class ConfirmIneffectiveAttackModal : ModalDialogBase
         _confirmButton.OnClick += ConfirmButton_OnClick;
 
         _alertSoundEffect.CreateInstance().Play();
-    }
-
-    private void RejectButton_OnClick(object? sender, EventArgs e)
-    {
-        Close();
-    }
-
-    private void ConfirmButton_OnClick(object? sender, EventArgs e)
-    {
-        Close();
-        _confirmDelegate();
     }
 
     protected override void DrawContent(SpriteBatch spriteBatch)
@@ -66,7 +55,6 @@ internal sealed class ConfirmIneffectiveAttackModal : ModalDialogBase
 
         _rejectButton.Draw(spriteBatch);
 
-
         _confirmButton.Rect = new Rectangle(ContentRect.Right - (ControlBase.CONTENT_MARGIN + 100),
             ContentRect.Bottom - (20 + ControlBase.CONTENT_MARGIN), 100, 20);
 
@@ -76,5 +64,16 @@ internal sealed class ConfirmIneffectiveAttackModal : ModalDialogBase
     private Vector2 AlignTextToParentCenter(Vector2 warningTextSize)
     {
         return (ContentRect.Size.ToVector2() - warningTextSize) * 0.5f + ContentRect.Location.ToVector2();
+    }
+
+    private void ConfirmButton_OnClick(object? sender, EventArgs e)
+    {
+        Close();
+        _confirmDelegate();
+    }
+
+    private void RejectButton_OnClick(object? sender, EventArgs e)
+    {
+        Close();
     }
 }

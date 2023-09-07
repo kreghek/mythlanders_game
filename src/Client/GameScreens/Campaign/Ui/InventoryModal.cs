@@ -32,7 +32,7 @@ internal class InventoryModal : ModalDialogBase
         _uiContentStorage = uiContentStorage;
     }
 
-    public EventHandler PropButton_OnClick { get; private set; }
+    public EventHandler PropButton_OnClick { get; }
 
     protected override void DrawContent(SpriteBatch spriteBatch)
     {

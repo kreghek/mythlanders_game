@@ -1,5 +1,4 @@
-﻿using GameClient.Engine;
-using GameClient.Engine.RectControl;
+﻿using GameClient.Engine.RectControl;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -19,7 +18,8 @@ internal sealed class ViewPointProvider : IParallaxViewPointProvider
     {
         var mouseState = Mouse.GetState();
 
-        var worldMouse = _resolutionIndependentRenderer.ConvertScreenToWorldCoordinates(mouseState.Position.ToVector2());
+        var worldMouse =
+            _resolutionIndependentRenderer.ConvertScreenToWorldCoordinates(mouseState.Position.ToVector2());
 
         return worldMouse;
     }

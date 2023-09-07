@@ -35,7 +35,7 @@ internal class ShapeShiftState : IActorVisualizationState
     /// <summary>
     /// This engine is infinite.
     /// </summary>
-    public bool IsComplete { get; private set; }
+    public bool IsComplete { get; }
 
     public void Cancel()
     {

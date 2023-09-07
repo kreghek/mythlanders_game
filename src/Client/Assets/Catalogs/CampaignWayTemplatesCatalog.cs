@@ -47,7 +47,7 @@ internal sealed class CampaignWayTemplatesCatalog
 
             //// Combat
 
-            new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTempateLevels.Easy, _services),
+            new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Easy, _services),
 
             // Rest
 
@@ -67,7 +67,7 @@ internal sealed class CampaignWayTemplatesCatalog
         {
             // Combat
 
-            new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTempateLevels.Medium, _services),
+            new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Medium, _services),
 
             // Rest
 
@@ -114,7 +114,7 @@ internal sealed class CampaignWayTemplatesCatalog
         {
             // Combat
 
-            new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTempateLevels.Hard, _services)
+            new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Hard, _services)
         };
 
         var regular1Way = new GraphWay<ICampaignStageItem>(way1Templates);
