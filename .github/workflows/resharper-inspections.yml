@@ -80,7 +80,7 @@ jobs:
         uses: peter-evans/find-comment@v2
         id: fc
         with:
-          issue-number: steps.findPr.outputs.pr
+          issue-number: ${{ steps.findPr.outputs.pr }}
           body-includes: --cyber-goblin-marker-inspections
         
       - name: Write comment with goblin message
