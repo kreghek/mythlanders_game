@@ -71,14 +71,17 @@ jobs:
             comment+="\n --cyber-goblin-marker-cleanup-resharper"
             echo $comment > cleanup_report.txt
 
-      - uses: 8BitJonny/gh-get-current-pr@2.2.0
-        id: pr
+      - uses: jwalton/gh-find-current-pr@v1
+        id: findPr
+        with:
+          # Can be "open", "closed", or "all".  Defaults to "open".
+          state: open
         
       - name: Find Comment of goblin
         uses: peter-evans/find-comment@v2
         id: fc
         with:
-          issue-number: ${{ steps.pr.outputs.number }}
+          issue-number: ${{ steps.findPr.outputs.pr }}
           body-includes: --cyber-goblin-marker-cleanup-resharper
         
       - name: Write comment with goblin message

@@ -72,10 +72,6 @@ jobs:
           # Can be "open", "closed", or "all".  Defaults to "open".
           state: open
 
-      - env:
-          PR_NUMBER: ${{ steps.findPr.outputs.pr }}
-        run: echo $PR_NUMBER
-
       - name: Find comment of goblin
         uses: peter-evans/find-comment@v2
         id: fc
