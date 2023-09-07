@@ -15,33 +15,6 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Client.GameScreens.Combat.Ui;
 
-internal sealed class WaitIconButton : ButtonBase
-{
-    private readonly Texture2D _icon;
-    private readonly Rectangle? _iconRect;
-
-    public WaitIconButton(Texture2D icon)
-    {
-        _icon = icon;
-    }
-
-    public WaitIconButton(IconData iconData)
-    {
-        _icon = iconData.Spritesheet;
-        _iconRect = iconData.SourceRect;
-    }
-
-    protected override Point CalcTextureOffset()
-    {
-        return ControlTextures.Button2;
-    }
-
-    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
-    {
-        spriteBatch.Draw(_icon, contentRect, _iconRect, color);
-    }
-}
-
 internal class CombatMovementsHandPanel : ControlBase
 {
     private const int ICON_SIZE = 64;
@@ -65,7 +38,7 @@ internal class CombatMovementsHandPanel : ControlBase
     private KeyboardState? _lastKeyboardState;
 
     public CombatMovementsHandPanel(
-        Game game,
+        Texture2D verticalButtonIcons,
         IUiContentStorage uiContentStorage,
         ICombatMovementVisualizationProvider combatMovementVisualizer)
     {
@@ -76,7 +49,7 @@ internal class CombatMovementsHandPanel : ControlBase
         IsEnabled = true;
 
         _waitButton =
-            new WaitIconButton(new IconData(game.Content.Load<Texture2D>("Sprites/Ui/SmallVerticalButtonIcons_White"),
+            new WaitIconButton(new IconData(verticalButtonIcons,
                 new Rectangle(
                     SPECIAL_BUTTONS_ICON_WIDTH * 2,
                     SPECIAL_BUTTONS_ICON_HEIGHT,

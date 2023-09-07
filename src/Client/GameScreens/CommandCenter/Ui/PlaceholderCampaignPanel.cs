@@ -29,7 +29,7 @@ internal sealed class PlaceholderCampaignPanel : ControlBase, ICampaignPanel
         spriteBatch.Draw(_placeholderTexture, contentRect, contentColor);
     }
 
-    public bool Hover { get; private set; }
+    public bool Hover { get; }
 
     public void SetRect(Rectangle value)
     {

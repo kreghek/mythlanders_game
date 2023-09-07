@@ -27,7 +27,7 @@ internal abstract class ButtonBase : ControlBase
         PlayClickSoundIfExists();
     }
 
-    public void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)
+    public void Update(IScreenProjection screenProjection)
     {
         UpdateContent();
 
@@ -37,7 +37,7 @@ internal abstract class ButtonBase : ControlBase
         }
 
         var mouseState = Mouse.GetState();
-        if (CheckMouseOver(resolutionIndependentRenderer))
+        if (CheckMouseOver(screenProjection))
         {
             if (_buttonState == UiButtonState.Hover && mouseState.LeftButton == ButtonState.Pressed)
             {
@@ -89,13 +89,13 @@ internal abstract class ButtonBase : ControlBase
     {
     }
 
-    private bool CheckMouseOver(IResolutionIndependentRenderer resolutionIndependentRenderer)
+    private bool CheckMouseOver(IScreenProjection screenProjection)
     {
         var mouseState = Mouse.GetState();
         var mousePosition = mouseState.Position.ToVector2();
 
         var rirPosition =
-            resolutionIndependentRenderer.ConvertScreenToWorldCoordinates(mousePosition);
+            screenProjection.ConvertScreenToWorldCoordinates(mousePosition);
         var mouseRect = new Rectangle(rirPosition.ToPoint(), new Point(1, 1));
 
         return IsMouseOver(mouseRect);
