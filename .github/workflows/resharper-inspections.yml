@@ -71,7 +71,7 @@ jobs:
         id: pr
 
       - env:
-          PR_NUMBER: ${{ steps.pr.outputs.number }}
+          PR_NUMBER: ${{github.event.issue.number}}
         run: echo $PR_NUMBER
 
       - name: Find comment of goblin
