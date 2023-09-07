@@ -1,8 +1,12 @@
-﻿using CombatDicesTeam.Combats;
+﻿using Client.Engine;
+
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.GenericRanges;
 
 using Core.Combats.TargetSelectors;
+
+using GameAssets.Combats.CombatMovementEffects;
 
 namespace Client.Assets.CombatMovements.Hero.Robber;
 
@@ -19,15 +23,24 @@ internal class WindWheelFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new DamageEffect(
-                        new StrongestMarkedEnemyTargetSelector(),
+                    new DamageEffectWrapper(
+                        new StrongestEnemyTargetSelector(),
                         DamageType.Normal,
-                        GenericRange<int>.CreateMono(4)),
+                        GenericRange<int>.CreateMono(3)),
                     new InterruptEffect(new SelfTargetSelector())
                 })
         )
         {
             Tags = CombatMovementTags.Attack
         };
+    }
+
+    /// <inheritdoc />
+    public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
+        CombatMovementExecution movementExecution,
+        ICombatMovementVisualizationContext visualizationContext)
+    {
+        return CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
+            visualizationContext);
     }
 }

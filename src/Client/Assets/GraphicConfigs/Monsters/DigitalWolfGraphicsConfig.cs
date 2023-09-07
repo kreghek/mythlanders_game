@@ -22,7 +22,7 @@ internal sealed class DigitalWolfGraphicsConfig : SlavicMonsterGraphicConfig
             { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdleFromGrid(rows: new[] { 0, 1, 2 }) },
             {
                 PredefinedAnimationSid.MoveForward,
-                AnimationFrameSetFactory.CreateEmpty()
+                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 5 }, fps: 6)
             },
             {
                 PredefinedAnimationSid.MoveBackward,

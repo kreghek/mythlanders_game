@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 
@@ -23,6 +24,12 @@ internal class LinearAnimationFrameSet : IAnimationFrameSet
         int frameHeight, int textureColumns)
     {
         _frames = frames;
+
+        if (!_frames.Any())
+        {
+            throw new ArgumentException("Frames must be not empty", nameof(frames));
+        }
+
         _fps = fps;
         _frameWidth = frameWidth;
         _frameHeight = frameHeight;

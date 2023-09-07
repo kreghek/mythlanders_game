@@ -3,6 +3,8 @@ using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.Dices;
 using CombatDicesTeam.GenericRanges;
 
+using GameAssets.Combats;
+
 namespace Core.Combats.Effects;
 
 public sealed class HealEffectInstance : EffectInstanceBase<HealEffect>

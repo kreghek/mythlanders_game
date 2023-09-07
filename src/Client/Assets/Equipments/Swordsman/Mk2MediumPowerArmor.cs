@@ -5,6 +5,8 @@ using Client.Core;
 
 using CombatDicesTeam.Combats;
 
+using GameAssets.Combats;
+
 namespace Client.Assets.Equipments.Swordsman;
 
 internal sealed class Mk2MediumPowerArmor : IEquipmentScheme

@@ -154,7 +154,7 @@ internal class FieldManeuversVisualizer
     /// <summary>
     /// Update state of the panel
     /// </summary>
-    public void Update(IResolutionIndependentRenderer rir)
+    public void Update(IScreenProjection screenProjection)
     {
         if (Combatant is null)
         {
@@ -176,7 +176,7 @@ internal class FieldManeuversVisualizer
                     if (IsCoordsAvailable(_context.ManeuverStartCoords, maneuverButton.FieldCoords))
                     {
                         maneuverButton.IsEnabled = true;
-                        maneuverButton.Update(rir);
+                        maneuverButton.Update(screenProjection);
                     }
                     else
                     {

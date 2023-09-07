@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
-using System.Threading;
 
 using Client.Core;
 using Client.Engine;
@@ -221,22 +219,7 @@ internal sealed class SettingsScreen : GameScreenBase
 
     private static void SwitchLanguageButton_OnClick(object? sender, EventArgs e)
     {
-        var currentLanguage = Thread.CurrentThread.CurrentUICulture;
-        if (string.Equals(
-                currentLanguage.TwoLetterISOLanguageName,
-                "en",
-                StringComparison.InvariantCultureIgnoreCase))
-        {
-            var newCulture = CultureInfo.GetCultureInfo("ru-RU");
-            Thread.CurrentThread.CurrentCulture = newCulture;
-            Thread.CurrentThread.CurrentUICulture = newCulture;
-        }
-        else
-        {
-            var newCulture = CultureInfo.GetCultureInfo("en-US");
-            Thread.CurrentThread.CurrentCulture = newCulture;
-            Thread.CurrentThread.CurrentUICulture = newCulture;
-        }
+        LocalizationHelper.SwitchLanguage();
     }
 
     private void SwitchResolutionButton_OnClick(object? sender, EventArgs e)

@@ -30,8 +30,11 @@ using Core.Props;
 
 using GameAssets.Combats;
 
+using GameClient.Engine.RectControl;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -47,7 +50,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly CombatScreenTransitionArguments _args;
     private readonly CameraOperator _cameraOperator;
     private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
-    private readonly ICamera2DAdapter _combatActionCamera;
+    private readonly ParallaxCamera2DAdapter _combatActionCamera;
 
     private readonly IList<EffectNotification> _combatantEffectNotifications = new List<EffectNotification>();
     private readonly ICombatantPositionProvider _combatantPositionProvider;
@@ -100,13 +103,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _globeProvider = game.Services.GetService<GlobeProvider>();
         _mainCamera = Game.Services.GetService<ICamera2DAdapter>();
-        _combatActionCamera = new Camera2DAdapter(ResolutionIndependentRenderer.ViewportAdapter)
-        {
-            Zoom = 1,
-            Position = _mainCamera.Position
-        };
-
-        _cameraOperator = new CameraOperator(_combatActionCamera, new OverviewCameraOperatorTask(_mainCamera.Position));
 
         _globe = _globeProvider.Globe;
 
@@ -163,6 +159,34 @@ internal class CombatScreen : GameScreenWithMenuBase
         _dropResolver = game.Services.GetRequiredService<IDropResolver>();
 
         _shadeService = new ShadeService();
+
+        var locationTheme = LocationHelper.GetLocationTheme(_globeNode.Sid);
+
+        var backgroundTextures = _gameObjectContentStorage.GetCombatBackgrounds(locationTheme);
+
+        var parallaxLayerSpeeds = new[]
+        {
+            new Vector2(-0.0025f, -0.00025f), // horizon
+            new Vector2(-0.005f, -0.0005f), // far layer
+            new Vector2(-0.01f, -0.001f), // closest layer
+            new Vector2(-0.05f, -0.005f), // main layer
+            new Vector2(-0.075f, -0.0075f) // Foreground layer
+        };
+
+        var backgroundRectControl = new ParallaxRectControl(
+            ResolutionIndependentRenderer.ViewportAdapter.BoundingRectangle,
+            backgroundTextures.First().Bounds,
+            parallaxLayerSpeeds, new ViewPointProvider(ResolutionIndependentRenderer));
+
+        var layerCameras = parallaxLayerSpeeds.Select(_ => CreateLayerCamera()).ToArray();
+
+        _combatActionCamera = new ParallaxCamera2DAdapter(
+            backgroundRectControl,
+            ResolutionIndependentRenderer,
+            layerCameras[(int)BackgroundLayerType.Main],
+            layerCameras);
+
+        _cameraOperator = new CameraOperator(_combatActionCamera, new OverviewCameraOperatorTask(_mainCamera.Position));
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -177,7 +201,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     {
         ResolutionIndependentRenderer.BeginDraw();
 
-        DrawGameObjects(spriteBatch);
+        DrawMainGameScene(spriteBatch);
 
         DrawHud(spriteBatch, contentRectangle);
     }
@@ -204,6 +228,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _uiContentStorage, ResolutionIndependentRenderer, _globe.Player);
             AddModal(tutorialModal, isLate: false);
         }
+
+        _combatActionCamera.Update();
 
         UpdateBackgroundObjects(gameTime);
 
@@ -246,6 +272,23 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             player.Inventory.Add(item);
         }
+    }
+
+    private void AssignCombatMovementIntention(CombatMovementInstance combatMovementInstance)
+    {
+        _targetMarkers.EriseTargets();
+
+        var intention = new UseCombatMovementIntention(
+            combatMovementInstance,
+            _animationBlockManager,
+            _combatMovementVisualizer,
+            _gameObjects,
+            _interactionDeliveryManager,
+            _gameObjectContentStorage,
+            _cameraOperator,
+            _shadeService);
+
+        _manualCombatantBehaviour.Assign(intention);
     }
 
     private CombatStepDirection? CalcDirection(ICombatant combatant, FieldCoords targetCoords)
@@ -316,7 +359,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             : CombatantPositionSide.Monsters;
         var gameObject =
             new CombatantGameObject(e.Combatant, graphicConfig, e.FieldInfo.CombatantCoords, _combatantPositionProvider,
-                _gameObjectContentStorage, _combatActionCamera, _screenShaker, combatantSide);
+                _gameObjectContentStorage, _combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main],
+                _screenShaker, combatantSide);
         _gameObjects.Add(gameObject);
 
         // var combatant = e.Combatant;
@@ -393,11 +437,11 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             var nextIndex = GetIndicatorNextIndex(unitGameObject);
 
-            if (e.StatType == CombatantStatTypes.HitPoints)
+            if (ReferenceEquals(e.StatType, CombatantStatTypes.HitPoints))
             {
                 var damageIndicator =
                     new HitPointsChangedTextIndicator(-e.Value,
-                        HitPointsChangeDirection.Negative,
+                        StatChangeDirection.Negative,
                         position,
                         font,
                         nextIndex ?? 0);
@@ -406,11 +450,11 @@ internal class CombatScreen : GameScreenWithMenuBase
 
                 unitGameObject.AnimateWound();
             }
-            else if (e.StatType == CombatantStatTypes.ShieldPoints)
+            else if (ReferenceEquals(e.StatType, CombatantStatTypes.ShieldPoints))
             {
                 var spIndicator =
                     new ShieldPointsChangedTextIndicator(-e.Value,
-                        HitPointsChangeDirection.Negative,
+                        StatChangeDirection.Negative,
                         position,
                         font,
                         nextIndex ?? 0);
@@ -481,7 +525,8 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void CombatMovementsHandPanel_CombatMovementHover(object? sender, CombatMovementPickedEventArgs e)
     {
         var selectorContext =
-            new TargetSelectorContext(_combatCore.Field.HeroSide, _combatCore.Field.MonsterSide, _dice);
+            new TargetSelectorContext(_combatCore.Field.HeroSide, _combatCore.Field.MonsterSide, _dice,
+                _combatCore.CurrentCombatant);
         var targetMarkerContext = new TargetMarkerContext(_combatCore, _gameObjects.ToArray(), selectorContext);
         _targetMarkers.SetTargets(_combatCore.CurrentCombatant, e.CombatMovement.Effects, targetMarkerContext);
 
@@ -497,19 +542,26 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void CombatMovementsHandPanel_CombatMovementPicked(object? sender, CombatMovementPickedEventArgs e)
     {
-        _targetMarkers.EriseTargets();
+        var combatMovementInstance = e.CombatMovement;
 
-        var intention = new UseCombatMovementIntention(
-            e.CombatMovement,
-            _animationBlockManager,
-            _combatMovementVisualizer,
-            _gameObjects,
-            _interactionDeliveryManager,
-            _gameObjectContentStorage,
-            _cameraOperator,
-            _shadeService);
+        var isMovementAttack = combatMovementInstance.SourceMovement.Tags.HasFlag(CombatMovementTags.Attack);
+        var hasTargetsToAttack = _targetMarkers.Targets?.Any(x =>
+            x.Target.IsPlayerControlled != _combatCore.CurrentCombatant.IsPlayerControlled) == true;
 
-        _manualCombatantBehaviour.Assign(intention);
+        if (isMovementAttack && !hasTargetsToAttack)
+        {
+            AddModal(
+                new ConfirmIneffectiveAttackModal(Game.Services.GetService<IUiContentStorage>(),
+                    Game.Content.Load<SoundEffect>("Audio/Ui/Alert"),
+                    ResolutionIndependentRenderer, () =>
+                    {
+                        AssignCombatMovementIntention(combatMovementInstance);
+                    }), false);
+        }
+        else
+        {
+            AssignCombatMovementIntention(combatMovementInstance);
+        }
     }
 
     private void CombatMovementsHandPanel_WaitPicked(object? sender, EventArgs e)
@@ -636,7 +688,16 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private TestamentCombatEngine CreateCombat()
     {
-        return new TestamentCombatEngine(_dice);
+        return new TestamentCombatEngine(new CurrentRoundQueueResolver(), _dice);
+    }
+
+    private ICamera2DAdapter CreateLayerCamera()
+    {
+        return new Camera2DAdapter(ResolutionIndependentRenderer.ViewportAdapter)
+        {
+            Zoom = 1,
+            Position = _mainCamera.Position
+        };
     }
 
     private static IReadOnlyCollection<ResourceReward> CreateUiModels(IReadOnlyCollection<IProp> droppedResources)
@@ -685,7 +746,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 samplerState: SamplerState.PointClamp,
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
-                transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
+                transformMatrix: _combatActionCamera.LayerCameras[i].GetViewTransformationMatrix());
 
             spriteBatch.Draw(backgrounds[i], Vector2.Zero, color);
 
@@ -720,6 +781,30 @@ internal class CombatScreen : GameScreenWithMenuBase
         foreach (var effect in _visualEffectManager.Effects)
         {
             effect.DrawBack(spriteBatch);
+        }
+    }
+
+    private void DrawCombatantEffectNotifications(SpriteBatch spriteBatch, Rectangle contentRectangle)
+    {
+        for (var index = 0; index < _combatantEffectNotifications.Count; index++)
+        {
+            var notification = _combatantEffectNotifications[index];
+
+            var localizedStatusName = GameObjectHelper.GetLocalized(notification.CombatantEffect.Sid);
+            var combatantLocalizedName = GetCombatantLocalizedName(notification);
+            var notificationText = string.Format(UiResource.StatusImposedNotificationTextTemplate,
+                localizedStatusName, combatantLocalizedName);
+
+            var notificationColor = notification.LifetimeCounter > 0.5
+                ? Color.White
+                : Color.Lerp(Color.White, Color.Transparent, 1 - (float)notification.LifetimeCounter / 0.5f);
+
+            //TODO Make notification control, add animations, add sound, add blocker to play notification's animation and sound
+            // Add status meta-data to store icon, is hidden status, impose(default=true) and dispel notification's display, sound, post-processing effect 
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                notificationText,
+                new Vector2(contentRectangle.Center.X, contentRectangle.Top + 50 + index * 15),
+                notificationColor);
         }
     }
 
@@ -843,17 +928,24 @@ internal class CombatScreen : GameScreenWithMenuBase
         _targetMarkers.Draw(spriteBatch);
     }
 
-    private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds)
+    private void DrawForegroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds)
     {
+        if (_animationBlockManager.HasBlockers)
+        {
+            // Do not display foreground layer then combat movement animations are playing.
+            return;
+        }
+
         spriteBatch.Begin(
             sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
             samplerState: SamplerState.PointClamp,
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
-            transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
+            transformMatrix: _combatActionCamera.LayerCameras[(int)BackgroundLayerType.Closest]
+                .GetViewTransformationMatrix());
 
-        spriteBatch.Draw(backgrounds[4], Vector2.Zero, Color.White);
+        spriteBatch.Draw(backgrounds[(int)BackgroundLayerType.Closest], Vector2.Zero, Color.White);
 
         foreach (var obj in _foregroundLayerObjects)
         {
@@ -871,49 +963,15 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private void DrawGameObjects(SpriteBatch spriteBatch)
+    private void DrawGameObjectHud(SpriteBatch spriteBatch)
     {
-        var locationTheme = LocationHelper.GetLocationTheme(_globeNode.Sid);
-
-        var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(locationTheme);
-
-        var combatSceneContext = GetSceneContext();
-
-        DrawBackgroundLayers(spriteBatch, backgrounds, combatSceneContext);
-
         spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
             samplerState: SamplerState.PointClamp,
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
-            transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
-
-        DrawBackVisualEffects(spriteBatch);
-
-        DrawInteractionDeliveryItems(spriteBatch);
-
-        DrawCombatants(spriteBatch, combatSceneContext);
-
-        DrawFrontVisualEffects(spriteBatch);
-
-        spriteBatch.End();
-
-        DrawForegroundLayers(spriteBatch, backgrounds);
-    }
-
-    private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
-    {
-        if (_gameSettings.IsRecordMode)
-        {
-            return;
-        }
-
-        spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
-            blendState: BlendState.AlphaBlend,
-            samplerState: SamplerState.PointClamp,
-            depthStencilState: DepthStencilState.None,
-            rasterizerState: RasterizerState.CullNone,
-            transformMatrix: _combatActionCamera.GetViewTransformationMatrix());
+            transformMatrix: _combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main]
+                .GetViewTransformationMatrix());
 
         if (!_combatCore.IsFinished && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
@@ -927,30 +985,121 @@ internal class CombatScreen : GameScreenWithMenuBase
                     {
                         _maneuversVisualizer.Draw(spriteBatch);
                     }
-
-                    if (!_maneuversIndicator.IsHidden)
-                    {
-                        // ALT to show stats and statuses
-                        // Hide maneuvers to avoid HUD-mess
-                        if (!Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
-                        {
-                            _maneuversIndicator.Rect = new Rectangle(contentRectangle.Center.X - 100,
-                                contentRectangle.Bottom - 105, 200, 25);
-                            _maneuversIndicator.Draw(spriteBatch);
-                        }
-                    }
                 }
             }
 
             DrawCombatMoveTargets(spriteBatch);
 
-            DrawCombatMovementsPanel(spriteBatch, contentRectangle);
-
             DrawCombatantsInWorldInfo(spriteBatch);
         }
 
         spriteBatch.End();
+    }
 
+    private void DrawHitPointsStat(SpriteBatch spriteBatch, IStatValue hp, Vector2 barCenter, int arcLength,
+        int radiusHp, int sides, int startAngle, int barWidth)
+    {
+        var barSize = MathHelper.ToRadians(arcLength * (float)hp.GetShare());
+        var color = Color.Lerp(Color.Red, Color.Transparent, 0.5f);
+        spriteBatch.DrawArc(barCenter, radiusHp, sides, MathHelper.ToRadians(startAngle), barSize, color,
+            barWidth);
+
+        var textX = Math.Cos(MathHelper.ToRadians(arcLength * (float)hp.GetShare() + startAngle)) *
+            (radiusHp - 2) + barCenter.X;
+        var textY = Math.Sin(MathHelper.ToRadians(arcLength * (float)hp.GetShare() + startAngle)) *
+            (radiusHp - 2) + barCenter.Y;
+
+        for (var offsetX = -1; offsetX <= 1; offsetX++)
+        {
+            for (var offsetY = -1; offsetY <= 1; offsetY++)
+            {
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                    hp.Current.ToString(),
+                    new Vector2((float)textX + offsetX, (float)textY + offsetY),
+                    Color.White);
+            }
+        }
+
+        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+            hp.Current.ToString(),
+            new Vector2((float)textX, (float)textY),
+            Color.Red);
+    }
+
+    private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
+    {
+        if (_gameSettings.IsRecordMode)
+        {
+            // Do not draw UI for records. Only the amazing picture.
+            return;
+        }
+
+        DrawGameObjectHud(spriteBatch);
+
+        DrawScreenHud(spriteBatch, contentRectangle);
+    }
+
+
+    private void DrawInteractionDeliveryItems(SpriteBatch spriteBatch)
+    {
+        foreach (var bullet in _interactionDeliveryManager.GetActiveSnapshot())
+        {
+            bullet.Draw(spriteBatch);
+        }
+    }
+
+    private void DrawMainGameObjects(SpriteBatch spriteBatch, ICombatShadeContext combatSceneContext)
+    {
+        spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+            blendState: BlendState.AlphaBlend,
+            samplerState: SamplerState.PointClamp,
+            depthStencilState: DepthStencilState.None,
+            rasterizerState: RasterizerState.CullNone,
+            transformMatrix: _combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main]
+                .GetViewTransformationMatrix());
+
+        DrawBackVisualEffects(spriteBatch);
+
+        DrawInteractionDeliveryItems(spriteBatch);
+
+        DrawCombatants(spriteBatch, combatSceneContext);
+
+        DrawFrontVisualEffects(spriteBatch);
+
+        spriteBatch.End();
+    }
+
+    private void DrawMainGameScene(SpriteBatch spriteBatch)
+    {
+        var locationTheme = LocationHelper.GetLocationTheme(_globeNode.Sid);
+
+        var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(locationTheme);
+
+        var combatSceneContext = GetSceneContext();
+
+        DrawBackgroundLayers(spriteBatch, backgrounds, combatSceneContext);
+
+        DrawMainGameObjects(spriteBatch, combatSceneContext);
+
+        DrawForegroundLayers(spriteBatch, backgrounds);
+    }
+
+    private void DrawManeuverIndicator(SpriteBatch spriteBatch, Rectangle contentRectangle)
+    {
+        const int MANEUVER_INDICATOR_WIDTH = 200;
+        const int MANEUVER_INDICATOR_HEIGHT = 25;
+        const int COMBAT_MOVEMENT_PANEL_HEIGHT = 80;
+
+        _maneuversIndicator.Rect = new Rectangle(
+            contentRectangle.Center.X - MANEUVER_INDICATOR_WIDTH / 2,
+            contentRectangle.Bottom - COMBAT_MOVEMENT_PANEL_HEIGHT - MANEUVER_INDICATOR_HEIGHT,
+            MANEUVER_INDICATOR_WIDTH,
+            MANEUVER_INDICATOR_HEIGHT);
+        _maneuversIndicator.Draw(spriteBatch);
+    }
+
+    private void DrawScreenHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
+    {
         spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
             samplerState: SamplerState.PointClamp,
@@ -959,25 +1108,32 @@ internal class CombatScreen : GameScreenWithMenuBase
             transformMatrix: _mainCamera.GetViewTransformationMatrix());
         try
         {
-            DrawCombatantQueue(spriteBatch, contentRectangle);
-            //DrawCombatSequenceProgress(spriteBatch);
-
-            for (var index = 0; index < _combatantEffectNotifications.Count; index++)
+            if (!_combatCore.IsFinished && _combatCore.CurrentCombatant.IsPlayerControlled)
             {
-                var notification = _combatantEffectNotifications[index];
+                if (!_animationBlockManager.HasBlockers)
+                {
+                    DrawCombatantQueue(spriteBatch, contentRectangle);
 
-                var localizedStatusName = GameObjectHelper.GetLocalized(notification.CombatantEffect.Sid);
-                var combatantLocalizedName = GameObjectHelper.GetLocalized(notification.Combatant.ClassSid);
-                var notificationText = string.Format(UiResource.StatusImposedNotificationTextTemplate,
-                    localizedStatusName, combatantLocalizedName);
+                    if (!_maneuversVisualizer.IsHidden)
+                    {
+                        if (!_maneuversIndicator.IsHidden)
+                        {
+                            // ALT to show stats and statuses
+                            // Hide maneuvers to avoid HUD-mess
+                            if (!Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
+                            {
+                                DrawManeuverIndicator(spriteBatch, contentRectangle);
+                            }
+                        }
+                    }
 
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                    notificationText,
-                    new Vector2(contentRectangle.Center.X, contentRectangle.Top + 50 + index * 15),
-                    notification.LifetimeCounter > 0.5
-                        ? Color.White
-                        : Color.Lerp(Color.White, Color.Transparent, 1 - (float)notification.LifetimeCounter / 0.5f));
+                    //DrawCombatSequenceProgress(spriteBatch);
+
+                    DrawCombatMovementsPanel(spriteBatch, contentRectangle);
+                }
             }
+
+            DrawCombatantEffectNotifications(spriteBatch: spriteBatch, contentRectangle: contentRectangle);
         }
         catch
         {
@@ -987,12 +1143,34 @@ internal class CombatScreen : GameScreenWithMenuBase
         spriteBatch.End();
     }
 
-    private void DrawInteractionDeliveryItems(SpriteBatch spriteBatch)
+    private void DrawShieldPointsBar(SpriteBatch spriteBatch, IStatValue sp, Vector2 barCenter,
+        int arcLength, int sides, int radiusSp, int startAngle, int barWidth)
     {
-        foreach (var bullet in _interactionDeliveryManager.GetActiveSnapshot())
+        var barSize = MathHelper.ToRadians(arcLength * (float)sp.GetShare());
+        var color = Color.Lerp(Color.Blue, Color.Transparent, 0.5f);
+        spriteBatch.DrawArc(barCenter, radiusSp, sides, MathHelper.ToRadians(startAngle), barSize, color,
+            barWidth);
+
+        var textX = Math.Cos(MathHelper.ToRadians(arcLength * (float)sp.GetShare() + startAngle)) *
+            radiusSp + barCenter.X;
+        var textY = Math.Sin(MathHelper.ToRadians(arcLength * (float)sp.GetShare() + startAngle)) *
+            radiusSp + barCenter.Y;
+
+        for (var offsetX = -1; offsetX <= 1; offsetX++)
         {
-            bullet.Draw(spriteBatch);
+            for (var offsetY = -1; offsetY <= 1; offsetY++)
+            {
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                    sp.Current.ToString(),
+                    new Vector2((float)textX + offsetX, (float)textY + offsetY),
+                    Color.White);
+            }
         }
+
+        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+            sp.Current.ToString(),
+            new Vector2((float)textX, (float)textY),
+            Color.Lerp(Color.Blue, Color.Transparent, 0.25f));
     }
 
     private void DrawStats(Vector2 statsPanelOrigin, ICombatant combatant, SpriteBatch spriteBatch)
@@ -1004,66 +1182,17 @@ internal class CombatScreen : GameScreenWithMenuBase
         const int RADIUS_SP = 32;
         const int RADIUS_HP = 32 - (BAR_WIDTH - 1);
 
-        var barCenter = statsPanelOrigin;
-
-        var hp = combatant.Stats.Single(x => x.Type == CombatantStatTypes.HitPoints).Value;
+        var hp = combatant.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.HitPoints)).Value;
         if (hp.Current > 0)
         {
-            var barSize = MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare());
-            var color = Color.Lerp(Color.Red, Color.Transparent, 0.5f);
-            spriteBatch.DrawArc(barCenter, RADIUS_HP, SIDES, MathHelper.ToRadians(START_ANGLE), barSize, color,
-                BAR_WIDTH);
-
-            var textX = Math.Cos(MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare() + START_ANGLE)) *
-                (RADIUS_HP - 2) + barCenter.X;
-            var textY = Math.Sin(MathHelper.ToRadians(ARC_LENGTH * (float)hp.GetShare() + START_ANGLE)) *
-                (RADIUS_HP - 2) + barCenter.Y;
-
-            for (var offsetX = -1; offsetX <= 1; offsetX++)
-            {
-                for (var offsetY = -1; offsetY <= 1; offsetY++)
-                {
-                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                        hp.Current.ToString(),
-                        new Vector2((float)textX + offsetX, (float)textY + offsetY),
-                        Color.White);
-                }
-            }
-
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                hp.Current.ToString(),
-                new Vector2((float)textX, (float)textY),
-                Color.Red);
+            DrawHitPointsStat(spriteBatch, hp, statsPanelOrigin, ARC_LENGTH, RADIUS_HP, SIDES, START_ANGLE, BAR_WIDTH);
         }
 
-        var sp = combatant.Stats.Single(x => x.Type == CombatantStatTypes.ShieldPoints).Value;
+        var sp = combatant.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.ShieldPoints)).Value;
         if (sp.Current > 0)
         {
-            var barSize = MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare());
-            var color = Color.Lerp(Color.Blue, Color.Transparent, 0.5f);
-            spriteBatch.DrawArc(barCenter, RADIUS_SP, SIDES, MathHelper.ToRadians(START_ANGLE), barSize, color,
+            DrawShieldPointsBar(spriteBatch, sp, statsPanelOrigin, ARC_LENGTH, SIDES, RADIUS_SP + 2, START_ANGLE,
                 BAR_WIDTH);
-
-            var textX = Math.Cos(MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare() + START_ANGLE)) *
-                (RADIUS_SP + 2) + barCenter.X;
-            var textY = Math.Sin(MathHelper.ToRadians(ARC_LENGTH * (float)sp.GetShare() + START_ANGLE)) *
-                (RADIUS_SP + 2) + barCenter.Y;
-
-            for (var offsetX = -1; offsetX <= 1; offsetX++)
-            {
-                for (var offsetY = -1; offsetY <= 1; offsetY++)
-                {
-                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                        sp.Current.ToString(),
-                        new Vector2((float)textX + offsetX, (float)textY + offsetY),
-                        Color.White);
-                }
-            }
-
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                sp.Current.ToString(),
-                new Vector2((float)textX, (float)textY),
-                Color.Lerp(Color.Blue, Color.Transparent, 0.25f));
         }
     }
 
@@ -1084,6 +1213,17 @@ internal class CombatScreen : GameScreenWithMenuBase
         return LocationHelper.GetLocationCulture(locationSid);
     }
 
+
+    private static string FirstLetterUppercase(string str)
+    {
+        return str.Length switch
+        {
+            0 => string.Empty,
+            1 => char.ToUpper(str[0]).ToString(),
+            _ => char.ToUpper(str[0]) + str[1..]
+        };
+    }
+
     private CombatantGameObject GetCombatantGameObject(ICombatant combatant)
     {
         return _gameObjects.First(x => x.Combatant == combatant);
@@ -1092,6 +1232,13 @@ internal class CombatScreen : GameScreenWithMenuBase
     private CombatantGameObject? GetCombatantGameObjectOrDefault(ICombatant combatant)
     {
         return _gameObjects.FirstOrDefault(x => x.Combatant == combatant);
+    }
+
+    private static string GetCombatantLocalizedName(EffectNotification notification)
+    {
+        var combatantClassSid = FirstLetterUppercase(notification.Combatant.ClassSid);
+
+        return GameObjectHelper.GetLocalized(combatantClassSid);
     }
 
     private static int? GetIndicatorNextIndex(CombatantGameObject unitGameObject)
@@ -1158,7 +1305,10 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatCore.CombatantEffectHasBeenImposed += CombatCore_CombatantEffectHasBeenImposed;
         _combatCore.CombatantInterrupted += Combat_CombatantInterrupted;
 
-        _combatMovementsHandPanel = new CombatMovementsHandPanel(Game, _uiContentStorage, _combatMovementVisualizer);
+        _combatMovementsHandPanel = new CombatMovementsHandPanel(
+            Game.Content.Load<Texture2D>("Sprites/Ui/SmallVerticalButtonIcons_White"),
+            _uiContentStorage,
+            _combatMovementVisualizer);
         _combatMovementsHandPanel.CombatMovementPicked += CombatMovementsHandPanel_CombatMovementPicked;
         _combatMovementsHandPanel.CombatMovementHover += CombatMovementsHandPanel_CombatMovementHover;
         _combatMovementsHandPanel.CombatMovementLeave += CombatMovementsHandPanel_CombatMovementLeave;
@@ -1346,7 +1496,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             if (!_animationBlockManager.HasBlockers)
             {
-                _maneuversVisualizer.Update(ResolutionIndependentRenderer);
+                _maneuversVisualizer.Update(_combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main]);
             }
 
             if (_combatMovementsHandPanel is not null)

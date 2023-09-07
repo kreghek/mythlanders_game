@@ -2,6 +2,8 @@ using System.Linq;
 
 using CombatDicesTeam.Combats;
 
+using GameAssets.Combats;
+
 namespace Client.GameScreens.Combat.Ui;
 
 internal sealed class ManeuverContext : IManeuverContext

@@ -117,8 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AdjutantButtonTitle" xml:space="preserve">
+    <value>Adjutant</value>
+    <comment>На экран коммандного центра</comment>
+  </data>
   <data name="ArmorLabelTemplate" xml:space="preserve">
     <value>Armor: {0}</value>
+  </data>
+  <data name="ArmoryButtonTitle" xml:space="preserve">
+    <value>Armory</value>
+    <comment>На экран коммандного центра</comment>
   </data>
   <data name="AutocombatButtonTitle" xml:space="preserve">
     <value>Auto-combat</value>
@@ -131,6 +139,10 @@
   </data>
   <data name="BackToMapMenuButtonTitle" xml:space="preserve">
     <value>Back to the map</value>
+  </data>
+  <data name="BarraksButtonTitle" xml:space="preserve">
+    <value>Barraks</value>
+    <comment>На экран коммандного центра</comment>
   </data>
   <data name="BestiaryButtonTitle" xml:space="preserve">
     <value>Bestiary</value>
@@ -173,8 +185,24 @@
     <value>Stage {0}</value>
     <comment>0 - это номер</comment>
   </data>
+  <data name="ChroniclesButtonTitle" xml:space="preserve">
+    <value>Chronicles</value>
+    <comment>На экран коммандного центра</comment>
+  </data>
   <data name="CloseButtonTitle" xml:space="preserve">
     <value>Close</value>
+  </data>
+  <data name="CombatIndicatorNegativeHpTemplate" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="CombatIndicatorNegativeSpTemplate" xml:space="preserve">
+    <value>&lt;{0}&gt;</value>
+  </data>
+  <data name="CombatIndicatorPositiveHpTemplate" xml:space="preserve">
+    <value>+{0}</value>
+  </data>
+  <data name="CombatIndicatorPositiveSpTemplate" xml:space="preserve">
+    <value>+&lt;{0}&gt;</value>
   </data>
   <data name="CombatLengthLabel" xml:space="preserve">
     <value>Combat length:</value>
@@ -336,6 +364,9 @@
     <value>Skip!</value>
     <comment>Когда юнит пропускает ход</comment>
   </data>
+  <data name="IndicatorWarmupText" xml:space="preserve">
+    <value>0123456789</value>
+  </data>
   <data name="InfoButtonTitle" xml:space="preserve">
     <value>Info</value>
   </data>
@@ -364,7 +395,7 @@
     <value>Medium</value>
   </data>
   <data name="MiniGame_Victory" xml:space="preserve">
-    <value>Победа!</value>
+    <value>Victory!</value>
   </data>
   <data name="MonsterDangerTemplate" xml:space="preserve">
     <value>Danger of the monsters: {0}</value>
@@ -469,6 +500,9 @@
   <data name="SlidingPuzzles_TurnsCounterTemplate" xml:space="preserve">
     <value>Turns: {0}</value>
   </data>
+  <data name="StageNotImplementedInDemoText" xml:space="preserve">
+    <value>Not available in demo</value>
+  </data>
   <data name="StartNewGameButtonTitle" xml:space="preserve">
     <value>New game</value>
     <comment>TitleScreen</comment>
@@ -511,5 +545,17 @@
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp Reward</value>
+  </data>
+  <data name="ConfirmIneffectiveAttackText" xml:space="preserve">
+    <value>If you perform this attack from the current position, then none of the opponents will be harmed.
+The attack will be ineffective.
+Perhaps you should first choose a better position for the hero or choose another action.
+Do you really need to spend the priceless current move for nothing?</value>
+  </data>
+  <data name="RejectButtonTitle" xml:space="preserve">
+    <value>Reject</value>
+  </data>
+  <data name="ConfirmButtonTitle" xml:space="preserve">
+    <value>Confirm</value>
   </data>
 </root>

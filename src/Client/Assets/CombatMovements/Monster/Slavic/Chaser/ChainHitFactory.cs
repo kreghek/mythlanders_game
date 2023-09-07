@@ -5,6 +5,8 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats.CombatMovementEffects;
+
 namespace Client.Assets.CombatMovements.Monster.Slavic.Chaser;
 
 internal class ChainHitFactory : SimpleCombatMovementFactoryBase
@@ -15,7 +17,7 @@ internal class ChainHitFactory : SimpleCombatMovementFactoryBase
             new IEffect[]
             {
                 new AdjustPositionEffect(new SelfTargetSelector()),
-                new DamageEffect(
+                new DamageEffectWrapper(
                     new StrongestEnemyTargetSelector(),
                     DamageType.Normal,
                     GenericRange<int>.CreateMono(3)),

@@ -5,6 +5,8 @@ using CombatDicesTeam.Combats.Effects;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats;
+
 namespace Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
 internal class VelesProtectionFactory : CombatMovementFactoryBase

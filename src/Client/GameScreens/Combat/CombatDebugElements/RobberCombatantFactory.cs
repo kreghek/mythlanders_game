@@ -55,7 +55,7 @@ public class RobberCombatantFactory : IHeroCombatantFactory
             new ImpulseGeneratorCombatantStatusFactory(
                 CombatantStatusSids.ImpulseGenerator,
                 CombatantStatusSids.Impulse,
-                new CombatantActiveCombatantEffectLifetimeFactory())
+                new OwnerBoundCombatantStatusLifetimeFactory())
         };
 
         var hero = new TestamentCombatant("robber", heroSequence, stats, combatActorBehaviour, startupEffects)

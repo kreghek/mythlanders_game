@@ -285,7 +285,12 @@
     <value>Наносит урон в 3 ед. ближайшему в линии противнику и перемещается в авангард.</value>
   </data>
   <data name="DamageTogether_CrisisAftermath" xml:space="preserve">
-    <value>Герои защищаются от ловушки вместе</value>
+    <value>Лютый разряд злой энергии поражает всех героев</value>
+  </data>
+  <data name="DamageTogether_CrisisAftermath_Hint" xml:space="preserve">
+    <value>Герои защищаются от ловушки вместе
+- Все получают слабый урон.
+- Кое-кто из героев обрадуется, что команда преодолевает трудности вместе.</value>
   </data>
   <data name="DanceWithThePast" xml:space="preserve">
     <value>Танец с Прошлым</value>
@@ -320,11 +325,19 @@
   <data name="DestroyTheSickSource_CrisisAftermath" xml:space="preserve">
     <value>Найти и уничтожить источник заразы</value>
   </data>
+  <data name="DestroyTheSickSource_CrisisAftermath_Hint" xml:space="preserve">
+    <value>Это будет грязная работенка!
+- Все герои получают слабый урон.
+- Где-то далеко в пространстве и времени слышен потусторонний выдох</value>
+  </data>
   <data name="DieBySword" xml:space="preserve">
     <value>От меча и погибни!</value>
   </data>
   <data name="DieBySword_Description" xml:space="preserve">
     <value>Перемещается вперед и наносит 2ед. урона ближайшему в линии противнику.</value>
+  </data>
+  <data name="DigitalWolf" xml:space="preserve">
+    <value>Цифровой волк</value>
   </data>
   <data name="DopeHerb" xml:space="preserve">
     <value>Дурман-трава</value>
@@ -470,8 +483,8 @@
   </data>
   <data name="Ignore_CrisisAftermath_Hint" xml:space="preserve">
     <value>Навлечь гнев на всю группу героев!
-Все получают штраф к урону 1 ед. на 1 сражение.
-Беримир дополнительно получает штраф к урону 1 ед. на все сражения до конца компании.</value>
+- Все герои получают слабый урон, потому что их моральный дух падает.
+- Могучие потусторонние силы будут смотреть на вас с неодобрением.</value>
   </data>
   <data name="ImprovedArmor" xml:space="preserve">
     <value>Улучшенная броня</value>
@@ -484,6 +497,12 @@
   </data>
   <data name="ImprovedHitPointsDescription" xml:space="preserve">
     <value>Количество хит поинтов увеличено в 2 раза.</value>
+  </data>
+  <data name="Impulse" xml:space="preserve">
+    <value>Импульс</value>
+  </data>
+  <data name="ImpulseGenerator" xml:space="preserve">
+    <value>Генерация импульса</value>
   </data>
   <data name="InfernalSickness_Crisis" xml:space="preserve">
     <value>Облако дичайшего газа вырвалось прямо из хтонических глубин. Никто не способен выжить. Отравляющий и почти разумный пар вьется по землям, собирая богатый урожай душ всех живых тварей.</value>
@@ -567,6 +586,17 @@
   <data name="NinthTrigram_Description" xml:space="preserve">
     <value>Меняется местами с самым сильным союзником по соседству. Триграмма дает 2 ед. обороны монаху и союзнику.</value>
   </data>
+  <data name="ObeyAll_CrisisAftermath" xml:space="preserve">
+    <value>Все герои подчинились культистам</value>
+  </data>
+  <data name="Obey_CrisisAftermath" xml:space="preserve">
+    <value>Кто-то один вступил в беседу с культистами</value>
+  </data>
+  <data name="Obey_CrisisAftermath_Hint" xml:space="preserve">
+    <value>Решительный поступок!
+- Герои восстановит силы, потому что он герой.
+- Культ Солнца будет знать больше про древние культуры.</value>
+  </data>
   <data name="OldGoodBrawl" xml:space="preserve">
     <value>Старый добрый мордобой</value>
   </data>
@@ -578,6 +608,9 @@
   </data>
   <data name="ParaliticChor" xml:space="preserve">
     <value>Паралитический хор</value>
+  </data>
+  <data name="Partisan" xml:space="preserve">
+    <value>Глухой</value>
   </data>
   <data name="Pit" xml:space="preserve">
     <value>Яма</value>
@@ -600,6 +633,17 @@
   </data>
   <data name="RegenerativeProtocol_Description" xml:space="preserve">
     <value>Восстанавливает 3 ед. здоровья и уходит в тыл.</value>
+  </data>
+  <data name="RestAll_CrisisAftermath" xml:space="preserve">
+    <value>Все герои отдыхают</value>
+  </data>
+  <data name="RestAll_CrisisAftermath_Hint" xml:space="preserve">
+    <value>Правильный поступок!
+- Все герои немного восстанавливают здоровье.
+- В этой таверне вам больше доверяют.</value>
+  </data>
+  <data name="Rest_CrisisAftermath" xml:space="preserve">
+    <value>Один герой полностью отдыхает, пока остальные начеку</value>
   </data>
   <data name="RiseYourSwords" xml:space="preserve">
     <value>Поднимите свои мечи!</value>
@@ -656,8 +700,18 @@
   <data name="StarveAll_CrisisAftermath" xml:space="preserve">
     <value>Все герои соглашаются голодать</value>
   </data>
-  <data name="Starve_CrisisAftermath" xml:space="preserve">
+  <data name="StarveAll_CrisisAftermath_Hint" xml:space="preserve">
+    <value>Рука Голода тянется к вам!
+- Все герои получают незначительный урон.
+- Рука Голода становится ближе к группе.</value>
+  </data>
+  <data name="StarveSolo_CrisisAftermath" xml:space="preserve">
     <value>Один герой соглашается голодать</value>
+  </data>
+  <data name="StarveSolo_CrisisAftermath_Hint" xml:space="preserve">
+    <value>Голодный сытому не внемлет:
+- Герой получает серьезный урон.
+- В отряде может возникнуть дизорганизация.</value>
   </data>
   <data name="StayStrong" xml:space="preserve">
     <value>Будь сильным</value>
@@ -699,7 +753,12 @@
     <value>Тактический манёвр</value>
   </data>
   <data name="TakeAllDamageByOneHero_CrisisAftermath" xml:space="preserve">
-    <value>Один из героев закрывает всех от заряда</value>
+    <value>Один из героев закрывает всех от заряда своей широкой спиной.</value>
+  </data>
+  <data name="TakeAllDamageByOneHero_CrisisAftermath_Hint" xml:space="preserve">
+    <value>Не обязательно страдать всем!
+- Один герой получает сильный урон от электрического анти-геройского заряда.
+- Остальные герои чувствуют себя менее героическими.</value>
   </data>
   <data name="TheGoodWeather_voice" xml:space="preserve">
     <value>Какая сегодня прекрасная погода...</value>

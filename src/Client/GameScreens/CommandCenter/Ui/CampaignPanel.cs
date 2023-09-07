@@ -28,13 +28,6 @@ internal sealed class CampaignPanel : ControlBase, ICampaignPanel
         };
     }
 
-    public bool Hover { get; private set; }
-
-    public void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)
-    {
-        _selectButton.Update(resolutionIndependentRenderer);
-    }
-
     protected override Point CalcTextureOffset()
     {
         return ControlTextures.Transparent;
@@ -49,6 +42,13 @@ internal sealed class CampaignPanel : ControlBase, ICampaignPanel
     {
         _selectButton.Rect = contentRect;
         _selectButton.Draw(spriteBatch);
+    }
+
+    public bool Hover { get; private set; }
+
+    public void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)
+    {
+        _selectButton.Update(resolutionIndependentRenderer);
     }
 
     public void SetRect(Rectangle value)

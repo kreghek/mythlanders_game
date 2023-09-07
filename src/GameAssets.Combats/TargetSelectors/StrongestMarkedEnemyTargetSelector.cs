@@ -2,6 +2,8 @@ using CombatDicesTeam.Combats;
 
 using Core.Combats.CombatantStatuses;
 
+using GameAssets.Combats;
+
 namespace Core.Combats.TargetSelectors;
 
 public sealed class StrongestMarkedEnemyTargetSelector : MostEnemyStatValueTargetSelectorBase, ITargetSelector

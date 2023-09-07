@@ -4,6 +4,8 @@ using System.Linq;
 
 using CombatDicesTeam.Combats;
 
+using GameAssets.Combats;
+
 namespace Client.Core.Heroes;
 
 internal sealed class Hero

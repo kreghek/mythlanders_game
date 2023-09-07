@@ -74,7 +74,7 @@ internal sealed class Player
 
     public IEnumerable<Hero> GetAll()
     {
-        var unitsInSlots = Party.Slots.Where(x => x.Unit is not null).Select(x => x.Unit!);
+        var unitsInSlots = Party.Slots.Where(x => x.Hero is not null).Select(x => x.Hero!);
         return unitsInSlots.Concat(Pool.Units);
     }
 
