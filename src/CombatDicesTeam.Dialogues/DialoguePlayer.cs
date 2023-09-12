@@ -24,7 +24,7 @@ internal sealed class DialoguePlayer
 
     public IReadOnlyCollection<DialogueOption> CurrentOptions { get; private set; }
 
-    public IReadOnlyList<DialogueParagraph> CurrentTextFragments { get; private set; }
+    public IReadOnlyList<DialogueSpeech> CurrentTextFragments { get; private set; }
 
     public bool IsEnd => _currentNode == DialogueNode.EndNode;
 
@@ -42,14 +42,14 @@ internal sealed class DialoguePlayer
         }
         else
         {
-            CurrentTextFragments = ArraySegment<DialogueParagraph>.Empty;
+            CurrentTextFragments = ArraySegment<DialogueSpeech>.Empty;
             CurrentOptions = ArraySegment<DialogueOption>.Empty;
         }
 
         option.Aftermath?.Apply(context);
     }
 
-    private IReadOnlyList<DialogueParagraph> GetTextBlockParagraphs(
+    private IReadOnlyList<DialogueSpeech> GetTextBlockParagraphs(
         DialogueParagraphConditionContext dialogueParagraphConditionContext)
     {
         var paragraphs = _currentNode.TextBlock.Paragraphs

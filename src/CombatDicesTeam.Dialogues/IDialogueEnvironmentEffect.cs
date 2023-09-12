@@ -1,6 +1,6 @@
 ﻿namespace Client.Core.Dialogues;
 
-internal interface IDialogueEnvironmentEffect
+public interface IDialogueEnvironmentEffect
 {
     void Execute(IDialogueEnvironmentManager soundEffectManager);
 }

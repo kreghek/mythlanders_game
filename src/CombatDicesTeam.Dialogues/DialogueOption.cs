@@ -1,6 +1,6 @@
 ﻿namespace Client.Core.Dialogues;
 
-internal sealed class DialogueOption
+public sealed class DialogueOption<TAftermathContext>
 {
     public DialogueOption(string textSid, DialogueNode nextNode)
     {
@@ -8,7 +8,7 @@ internal sealed class DialogueOption
         Next = nextNode;
     }
 
-    public IDialogueOptionAftermath? Aftermath { get; init; }
+    public IDialogueOptionAftermath<TAftermathContext>? Aftermath { get; init; }
     public DialogueNode Next { get; }
     public string TextSid { get; }
 }

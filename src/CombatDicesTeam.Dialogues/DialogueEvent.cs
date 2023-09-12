@@ -4,7 +4,7 @@ using Stateless;
 
 namespace Client.Core.Dialogues;
 
-internal sealed class DialogueEvent
+public sealed class DialogueEvent
 {
     private readonly IDictionary<DialogueEventState, string> _dialogueDict;
     private readonly IDictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>> _requirements;

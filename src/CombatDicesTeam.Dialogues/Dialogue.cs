@@ -1,6 +1,6 @@
 namespace Client.Core.Dialogues;
 
-internal sealed class Dialogue
+public sealed class Dialogue
 {
     public Dialogue(DialogueNode root)
     {
