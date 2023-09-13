@@ -1,13 +1,13 @@
 ﻿namespace Client.Core.Dialogues;
 
-public sealed class DialogueParagraphConfig
+public sealed class DialogueParagraphConfig<TParagraphConditionContext, TAftermathContext>
 {
     public DialogueParagraphConfig()
     {
-        Conditions = ArraySegment<IDialogueParagraphCondition>.Empty;
-        EnvironmentEffects = ArraySegment<IDialogueEnvironmentEffect>.Empty;
+        Conditions = ArraySegment<IDialogueParagraphCondition<TParagraphConditionContext>>.Empty;
+        Aftermaths = ArraySegment<IDialogueOptionAftermath<TAftermathContext>>.Empty;
     }
 
-    public IReadOnlyCollection<IDialogueParagraphCondition> Conditions { get; init; }
-    public IReadOnlyCollection<IDialogueEnvironmentEffect> EnvironmentEffects { get; init; }
+    public IReadOnlyCollection<IDialogueParagraphCondition<TParagraphConditionContext>> Conditions { get; init; }
+    public IReadOnlyCollection<IDialogueOptionAftermath<TAftermathContext>> Aftermaths { get; init; }
 }

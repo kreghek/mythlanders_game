@@ -32,7 +32,7 @@ internal static class DialogueCatalogHelper
                     // Regular paragraph
                     var paragraphContext = new DialogueParagraphConfig
                     {
-                        EnvironmentEffects = environmentEffects
+                        Aftermaths = environmentEffects
                     };
 
                     var paragraph = new DialogueParagraph(
@@ -50,7 +50,7 @@ internal static class DialogueCatalogHelper
                     {
                         var paragraphContext = new DialogueParagraphConfig
                         {
-                            EnvironmentEffects = environmentEffects,
+                            Aftermaths = environmentEffects,
                             Conditions = new[] { new HasHeroParagraphCondition(GetSpeaker(reaction.Hero)) }
                         };
 

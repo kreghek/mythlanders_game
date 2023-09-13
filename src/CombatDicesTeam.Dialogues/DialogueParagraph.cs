@@ -2,12 +2,12 @@
 
 namespace Client.Core.Dialogues;
 
-public sealed class DialogueParagraph
+public sealed class DialogueParagraph<TParagraphConditionContext, TAftermathContext>
 {
-    public DialogueParagraph(IReadOnlyList<DialogueSpeech> paragraphs)
+    public DialogueParagraph(IReadOnlyList<DialogueSpeech<TParagraphConditionContext, TAftermathContext>> paragraphs)
     {
         Paragraphs = paragraphs;
     }
 
-    public IReadOnlyList<DialogueSpeech> Paragraphs { get; }
+    public IReadOnlyList<DialogueSpeech<TParagraphConditionContext, TAftermathContext>> Paragraphs { get; }
 }

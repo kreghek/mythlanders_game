@@ -1,20 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Client.Core.Dialogues;
 
-namespace Client.Core.Dialogues;
-
-public sealed class DialogueNode
+public sealed class DialogueNode<TParagraphConditionContext, TAftermathContext>
 {
-    public DialogueNode(DialogueParagraph textBlock, IReadOnlyCollection<DialogueOption> options)
+    public DialogueNode(DialogueParagraph<TParagraphConditionContext, TAftermathContext> textBlock,
+        IReadOnlyCollection<DialogueOption<TParagraphConditionContext, TAftermathContext>> options)
     {
         Options = options;
         TextBlock = textBlock;
     }
 
-    public static DialogueNode EndNode { get; } = new(new DialogueParagraph(Array.Empty<DialogueSpeech>()),
-        Array.Empty<DialogueOption>());
+    static DialogueNode()
+    {
+        var dialogueParagraph =
+            new DialogueParagraph<TParagraphConditionContext, TAftermathContext>(
+                Array.Empty<DialogueSpeech<TParagraphConditionContext, TAftermathContext>>());
 
-    public IReadOnlyCollection<DialogueOption> Options { get; }
+        EndNode = new DialogueNode<TParagraphConditionContext, TAftermathContext>(
+            dialogueParagraph,
+            Array.Empty<DialogueOption<TParagraphConditionContext, TAftermathContext>>());
+    }
 
-    public DialogueParagraph TextBlock { get; }
+    public static DialogueNode<TParagraphConditionContext, TAftermathContext> EndNode { get; }
+
+    public IReadOnlyCollection<DialogueOption<TParagraphConditionContext, TAftermathContext>> Options { get; }
+
+    public DialogueParagraph<TParagraphConditionContext, TAftermathContext> TextBlock { get; }
 }

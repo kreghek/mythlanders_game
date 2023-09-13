@@ -1,6 +1,6 @@
 namespace Client.Core.Dialogues;
 
-public interface IDialogueParagraphCondition
+public interface IDialogueParagraphCondition<TParagraphConditionContext>
 {
-    bool Check(IDialogueParagraphConditionContext context);
+    bool Check(TParagraphConditionContext context);
 }
