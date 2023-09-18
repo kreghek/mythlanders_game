@@ -128,7 +128,7 @@ public class DialogueCatalogHelperTests
 
         // ASSERT
 
-        dialogue.Root.TextBlock.Paragraphs.Single().Speaker.Should().Be(UnitName.Swordsman);
+        dialogue.Root.TextBlock.Paragraphs.Single().Speaker.Should().Be(DialogueSpeakers.Get(UnitName.Swordsman));
     }
 
     /// <summary>
@@ -163,6 +163,6 @@ public class DialogueCatalogHelperTests
 
         // ASSERT
 
-        dialogue.Root.TextBlock.Paragraphs.Single().Speaker.Should().Be(UnitName.Environment);
+        dialogue.Root.TextBlock.Paragraphs.Single().Speaker.Should().Be(DialogueSpeakers.Env);
     }
 }

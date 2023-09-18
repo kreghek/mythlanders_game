@@ -22,6 +22,8 @@ internal class AftermathContext
         _storyPointCatalog = storyPointCatalog;
         _player = player;
         _dialogueEnvironmentManager = dialogueEnvironmentManager;
+
+        CurrentDialogueEvent = currentDialogueEvent;
     }
 
     public DialogueEvent CurrentDialogueEvent { get; }
@@ -51,7 +53,22 @@ internal class AftermathContext
 
     public void ChangeCharacterRelations(UnitName targetCharacter, CharacterKnowledgeLevel knowledgeLevel)
     {
-        throw new System.NotImplementedException();
+        var dialogueSpeaker = DialogueSpeakers.Get(targetCharacter);
+        
+        var relation =
+            _player.StoryState.CharacterRelations.SingleOrDefault(x =>
+                x.Character == dialogueSpeaker);
+
+        if (relation is null)
+        {
+            _player.StoryState.AddCharacterRelations(targetCharacter);
+            
+            relation =
+                _player.StoryState.CharacterRelations.Single(x =>
+                    x.Character == dialogueSpeaker);
+        }
+
+        relation.Level = knowledgeLevel;
     }
 
     public void StartCombat(string sid)

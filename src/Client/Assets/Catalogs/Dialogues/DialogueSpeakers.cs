@@ -21,6 +21,7 @@ public static class DialogueSpeakers
         if (!_speakers.TryGetValue(name, out var speaker))
         {
             speaker = new DialogueSpeaker(name);
+            _speakers.Add(name, speaker);
         }
 
         return speaker;

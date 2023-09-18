@@ -39,7 +39,10 @@ internal sealed class StoryState : IStoryState
 
     public void AddCharacterRelations(UnitName name)
     {
-        throw new NotImplementedException();
+        _relations.Add(new CharacterRelation(DialogueSpeakers.Get(name))
+        {
+            Level = CharacterKnowledgeLevel.Hidden
+        });
     }
 
     public void AddKey(string storySid, string key)

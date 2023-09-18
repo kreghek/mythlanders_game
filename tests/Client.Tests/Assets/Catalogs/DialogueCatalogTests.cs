@@ -43,7 +43,7 @@ public class DialogueCatalogTests
         // ASSERT
 
         factDialogue.Root.TextBlock.Paragraphs.Should().HaveCount(1);
-        factDialogue.Root.TextBlock.Paragraphs.First().Speaker.Should().Be(UnitName.Environment);
+        factDialogue.Root.TextBlock.Paragraphs.First().Speaker.Should().Be(DialogueSpeakers.Env);
         factDialogue.Root.Options.Should().HaveCount(1);
         factDialogue.Root.Options.First().Next.Should().Be(DialogueNode<ParagraphConditionContext, AftermathContext>.EndNode);
     }
@@ -70,8 +70,8 @@ public class DialogueCatalogTests
         // ASSERT
 
         factDialogue.Root.TextBlock.Paragraphs.Should().HaveCount(2);
-        factDialogue.Root.TextBlock.Paragraphs[0].Speaker.Should().Be(UnitName.Environment);
-        factDialogue.Root.TextBlock.Paragraphs[1].Speaker.Should().Be(UnitName.Swordsman);
+        factDialogue.Root.TextBlock.Paragraphs[0].Speaker.Should().Be(DialogueSpeakers.Env);
+        factDialogue.Root.TextBlock.Paragraphs[1].Speaker.Should().Be(DialogueSpeakers.Get(UnitName.Swordsman));
         factDialogue.Root.Options.Should().HaveCount(1);
         factDialogue.Root.Options.First().Next.Should().Be(DialogueNode<ParagraphConditionContext, AftermathContext>.EndNode);
     }
