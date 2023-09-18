@@ -4,7 +4,7 @@ using CombatDicesTeam.Dialogues;
 
 using Stateless;
 
-namespace Client.Core.Dialogues;
+namespace Client.Assets.Catalogs.Dialogues;
 
 /// <summary>
 /// Dialog event.

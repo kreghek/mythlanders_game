@@ -1,22 +1,27 @@
 ﻿using System.Linq;
 
 using Client.Assets.GlobalEffects;
+using Client.Core;
 using Client.Core.Heroes;
 
-namespace Client.Core.Dialogues;
+using CombatDicesTeam.Dialogues;
+
+namespace Client.Assets.Catalogs.Dialogues;
 
 internal class AftermathContext
 {
     private readonly Globe _globe;
     private readonly Player _player;
+    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly IStoryPointCatalog _storyPointCatalog;
     
     public AftermathContext(Globe globe, IStoryPointCatalog storyPointCatalog, Player player,
-        DialogueEvent currentDialogueEvent)
+        DialogueEvent currentDialogueEvent, IDialogueEnvironmentManager dialogueEnvironmentManager)
     {
         _globe = globe;
         _storyPointCatalog = storyPointCatalog;
         _player = player;
+        _dialogueEnvironmentManager = dialogueEnvironmentManager;
     }
 
     public DialogueEvent CurrentDialogueEvent { get; }
@@ -62,5 +67,15 @@ internal class AftermathContext
     public void UnlockLocation(ILocationSid locationSid)
     {
         throw new System.NotImplementedException();
+    }
+
+    public void PlaySoundEffect(string effectSid, string resourceName)
+    {
+        _dialogueEnvironmentManager.PlayEffect(effectSid, resourceName);
+    }
+
+    public void PlaySong(string resourceName)
+    {
+        _dialogueEnvironmentManager.PlaySong(resourceName);
     }
 }

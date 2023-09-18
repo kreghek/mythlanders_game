@@ -1,5 +1,5 @@
+using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
-using Client.Core.Dialogues;
 
 using CombatDicesTeam.Dialogues;
 

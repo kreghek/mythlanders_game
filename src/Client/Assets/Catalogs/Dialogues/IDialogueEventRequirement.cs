@@ -1,4 +1,4 @@
-namespace Client.Core.Dialogues;
+namespace Client.Assets.Catalogs.Dialogues;
 
 public interface IDialogueEventRequirement
 {

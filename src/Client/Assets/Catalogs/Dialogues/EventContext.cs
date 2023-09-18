@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core;
 using Client.Core.Heroes;
 
-namespace Client.Core.Dialogues;
+namespace Client.Assets.Catalogs.Dialogues;
 
 internal sealed class EventContext : IEventContext
 {

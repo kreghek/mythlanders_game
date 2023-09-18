@@ -1,4 +1,4 @@
-﻿namespace Client.Core.Dialogues;
+﻿namespace Client.Assets.Catalogs.Dialogues;
 
 public sealed record DialogueEventState(string Sid)
 {

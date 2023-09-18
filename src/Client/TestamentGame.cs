@@ -6,7 +6,6 @@ using Client.Assets.Catalogs;
 using Client.Assets.CombatMovements;
 using Client.Assets.Crises;
 using Client.Core;
-using Client.Core.Dialogues;
 using Client.Engine;
 using Client.GameComponents;
 using Client.GameScreens;

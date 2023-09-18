@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 
 using Client.Assets;
+using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.Dialogues;
 using Client.Core;
-using Client.Core.Dialogues;
 
 using FluentAssertions;
 

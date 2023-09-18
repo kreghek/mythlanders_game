@@ -1,6 +1,6 @@
 namespace CombatDicesTeam.Dialogues;
 
-internal sealed class DialoguePlayer<TParagraphConditionContext, TAftermathContext>
+public sealed class DialoguePlayer<TParagraphConditionContext, TAftermathContext>
 {
     private readonly IDialogueContextFactory<TParagraphConditionContext, TAftermathContext> _contextFactory;
     private DialogueNode<TParagraphConditionContext, TAftermathContext> _currentNode;

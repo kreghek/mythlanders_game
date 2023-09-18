@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 
-using Client.Core.Dialogues;
-
 using CombatDicesTeam.Dialogues;
 
 using Microsoft.Xna.Framework.Audio;

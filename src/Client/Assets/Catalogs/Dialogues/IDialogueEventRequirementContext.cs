@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 
-namespace Client.Core.Dialogues;
+using Client.Core;
+
+namespace Client.Assets.Catalogs.Dialogues;
 
 public interface IDialogueEventRequirementContext
 {

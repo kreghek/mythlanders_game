@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
 using Client.Core.Campaigns;
-using Client.Core.Dialogues;
 using Client.Engine;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Combat.GameObjects.Background;
@@ -38,7 +38,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
     private readonly HeroCampaign _currentCampaign;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly DialogueOptions _dialogueOptions;
-    private readonly DialoguePlayer _dialoguePlayer;
+    private readonly DialoguePlayer<ParagraphConditionContext, AftermathContext> _dialoguePlayer;
     private readonly IDice _dice;
     private readonly IEventCatalog _eventCatalog;
     private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
@@ -97,10 +97,12 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         _dialogueOptions = new DialogueOptions();
         _textFragments = new List<TextParagraphControl>();
 
+        _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
+        
         var dualogueContextFactory =
-            new DialogueContextFactory(globe, storyPointCatalog, _player, args.DialogueEvent);
+            new DialogueContextFactory(globe, storyPointCatalog, _player, _dialogueEnvironmentManager, args.DialogueEvent);
         _dialoguePlayer =
-            new DialoguePlayer(args.CurrentDialogue, dualogueContextFactory);
+            new DialoguePlayer<ParagraphConditionContext, AftermathContext>(args.CurrentDialogue, dualogueContextFactory);
 
         _eventCatalog = game.Services.GetService<IEventCatalog>();
 
@@ -109,8 +111,6 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         _gameSettings = game.Services.GetService<GameSettings>();
 
         _currentCampaign = args.Campaign;
-
-        _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
 
         var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
 
@@ -228,7 +228,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         var currentFragment = _dialoguePlayer.CurrentTextFragments[_currentFragmentIndex];
         var speaker = currentFragment.Speaker;
 
-        if (speaker == UnitName.Environment)
+        if ( DialogueSpeakers.Get(UnitName.Environment) == speaker)
         {
             // This text describes environment. There is no speaker.
             return;

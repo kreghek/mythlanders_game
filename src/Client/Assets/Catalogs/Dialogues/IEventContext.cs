@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 
+using Client.Core;
 using Client.Core.Heroes;
 
-namespace Client.Core.Dialogues;
+namespace Client.Assets.Catalogs.Dialogues;
 
 internal interface IEventContext
 {

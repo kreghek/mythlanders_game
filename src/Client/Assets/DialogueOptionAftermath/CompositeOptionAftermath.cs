@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Client.Core.Dialogues;
+using Client.Assets.Catalogs.Dialogues;
 
 using CombatDicesTeam.Dialogues;
 

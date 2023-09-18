@@ -4,9 +4,9 @@ using System.Reflection;
 using Client;
 using Client.Assets;
 using Client.Assets.Catalogs;
+using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.Dialogues;
 using Client.Core;
-using Client.Core.Dialogues;
 using Client.GameScreens.TextDialogue;
 using Client.GameScreens.TextDialogue.Ui;
 

@@ -1,12 +1,14 @@
-﻿namespace Client.Core;
+﻿using CombatDicesTeam.Dialogues;
+
+namespace Client.Core;
 
 public sealed class CharacterRelation
 {
-    public CharacterRelation(UnitName name)
+    public CharacterRelation(IDialogueSpeaker character)
     {
-        Name = name;
+        Character = character;
     }
 
     public CharacterKnowledgeLevel Level { get; set; }
-    public UnitName Name { get; }
+    public IDialogueSpeaker Character { get; }
 }
