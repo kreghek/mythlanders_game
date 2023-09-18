@@ -13,6 +13,7 @@ using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects.Background;
 using Client.ScreenManagement;
 
+using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
 
 using Core.PropDrop;

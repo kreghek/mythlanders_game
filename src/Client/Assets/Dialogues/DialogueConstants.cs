@@ -2,6 +2,8 @@
 
 using Client.Core.Dialogues;
 
+using CombatDicesTeam.Dialogues;
+
 namespace Client.Assets.Dialogues;
 
 [SuppressMessage("ReSharper", "InconsistentNaming")]

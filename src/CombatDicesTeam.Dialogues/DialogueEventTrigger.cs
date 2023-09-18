@@ -1,3 +1,3 @@
-﻿namespace Client.Core.Dialogues;
+﻿namespace CombatDicesTeam.Dialogues;
 
 public sealed record DialogueEventTrigger(string Sid);

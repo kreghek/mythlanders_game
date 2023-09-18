@@ -13,6 +13,7 @@ using Client.GameScreens.TextDialogue.Tutorial;
 using Client.GameScreens.TextDialogue.Ui;
 using Client.ScreenManagement;
 
+using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
 
 using Microsoft.Extensions.DependencyInjection;

@@ -1,5 +1,7 @@
 ﻿using Client.Core.Dialogues;
 
+using CombatDicesTeam.Dialogues;
+
 namespace Client.Assets.DialogueOptionAftermath;
 
 internal class DialogueEventTriggerOptionAftermath : IDialogueOptionAftermath

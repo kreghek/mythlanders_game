@@ -6,6 +6,8 @@ using Client.Assets.StoryPointJobs;
 using Client.Core;
 using Client.Core.Dialogues;
 
+using CombatDicesTeam.Dialogues;
+
 using JetBrains.Annotations;
 
 using Stateless;

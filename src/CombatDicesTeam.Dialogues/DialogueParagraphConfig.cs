@@ -1,4 +1,4 @@
-﻿namespace Client.Core.Dialogues;
+﻿namespace CombatDicesTeam.Dialogues;
 
 public sealed class DialogueParagraphConfig<TParagraphConditionContext, TAftermathContext>
 {

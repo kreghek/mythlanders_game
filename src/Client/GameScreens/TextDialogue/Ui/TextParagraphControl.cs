@@ -7,6 +7,7 @@ using Client.Core;
 using Client.Core.Dialogues;
 using Client.Engine;
 
+using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
 
 using Microsoft.Xna.Framework;

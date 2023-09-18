@@ -1,16 +1,24 @@
 ﻿using System.Collections.Generic;
 
+using CombatDicesTeam.Dialogues;
+
 using Stateless;
 
 namespace Client.Core.Dialogues;
 
+/// <summary>
+/// Dialog event.
+///
+/// The Event is composition of the multiple Dialogues each starts according the inner state of the Event.
+/// </summary>
 public sealed class DialogueEvent
 {
     private readonly IDictionary<DialogueEventState, string> _dialogueDict;
     private readonly IDictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>> _requirements;
     private readonly StateMachine<DialogueEventState, DialogueEventTrigger> _stateMachine;
 
-    public DialogueEvent(string sid, StateMachine<DialogueEventState, DialogueEventTrigger> stateMachine,
+    public DialogueEvent(string sid,
+        StateMachine<DialogueEventState, DialogueEventTrigger> stateMachine,
         IDictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>> requirements,
         IDictionary<DialogueEventState, string> dialogueDict)
     {

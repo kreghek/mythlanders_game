@@ -6,6 +6,8 @@ using Client.Assets.DialogueOptionAftermath;
 using Client.Core;
 using Client.Core.Dialogues;
 
+using CombatDicesTeam.Dialogues;
+
 namespace Client.Assets.Catalogs.DialogueStoring;
 
 internal static class DialogueCatalogHelper

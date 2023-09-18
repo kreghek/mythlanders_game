@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Client.Core.Dialogues;
+﻿namespace CombatDicesTeam.Dialogues;
 
 public sealed class DialogueParagraph<TParagraphConditionContext, TAftermathContext>
 {
