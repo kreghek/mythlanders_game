@@ -1,17 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Client.GameScreens.TextDialogue;
-
 namespace Client.Core.Dialogues;
 
 internal sealed class DialoguePlayer<TParagraphConditionContext, TAftermathContext>
 {
-    private readonly IDialogueContextFactory<TParagraphConditionContext> _contextFactory;
+    private readonly IDialogueContextFactory<TParagraphConditionContext, TAftermathContext> _contextFactory;
     private DialogueNode<TParagraphConditionContext, TAftermathContext> _currentNode;
 
-    public DialoguePlayer(Dialogue<TParagraphConditionContext, TAftermathContext> dialogue, IDialogueContextFactory<TParagraphConditionContext> contextFactory)
+    public DialoguePlayer(Dialogue<TParagraphConditionContext, TAftermathContext> dialogue, IDialogueContextFactory<TParagraphConditionContext, TAftermathContext> contextFactory)
     {
         _currentNode = dialogue.Root;
         _contextFactory = contextFactory;

@@ -1,6 +1,6 @@
 namespace Client.Core.Dialogues;
 
-internal interface IDialogueEventRequirement
+public interface IDialogueEventRequirement
 {
     bool IsApplicableFor(IDialogueEventRequirementContext context);
 }
