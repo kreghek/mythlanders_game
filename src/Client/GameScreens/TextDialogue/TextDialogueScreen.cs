@@ -63,6 +63,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
     private KeyboardState _keyboardState;
 
     private double _pressToContinueCounter;
+    private readonly DialogueContextFactory _dialogueContextFactory;
 
     public TextDialogueScreen(TestamentGame game, TextDialogueScreenTransitionArgs args) : base(game)
     {
@@ -99,10 +100,10 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
 
         _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
         
-        var dualogueContextFactory =
+        _dialogueContextFactory =
             new DialogueContextFactory(globe, storyPointCatalog, _player, _dialogueEnvironmentManager, args.DialogueEvent);
         _dialoguePlayer =
-            new DialoguePlayer<ParagraphConditionContext, AftermathContext>(args.CurrentDialogue, dualogueContextFactory);
+            new DialoguePlayer<ParagraphConditionContext, AftermathContext>(args.CurrentDialogue, _dialogueContextFactory);
 
         _eventCatalog = game.Services.GetService<IEventCatalog>();
 
@@ -247,7 +248,9 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         // var col = _frameIndex % 2;
         // var row = _frameIndex / 2;
 
-        spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(speaker),
+        var name = Enum.Parse<UnitName>(speaker.ToString());
+        
+        spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(name),
             new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Height - SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE),
@@ -382,11 +385,12 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         _currentFragmentIndex = 0;
         foreach (var textFragment in _dialoguePlayer.CurrentTextFragments)
         {
+            var name = Enum.Parse<UnitName>(textFragment.Speaker.ToString());
             var textFragmentControl = new TextParagraphControl(
                 textFragment,
-                _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker),
+                _gameObjectContentStorage.GetTextSoundEffect(name),
                 _dice,
-                _dialogueEnvironmentManager,
+                _dialogueContextFactory.CreateAftermathContext(),
                 _player.StoryState);
             _textFragments.Add(textFragmentControl);
         }

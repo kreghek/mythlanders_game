@@ -10,9 +10,12 @@ using Client.Core;
 using Client.GameScreens.TextDialogue;
 using Client.GameScreens.TextDialogue.Ui;
 
+using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
 
 using FluentAssertions;
+
+using Moq;
 
 namespace Content.SideQuests.Tests;
 
@@ -145,12 +148,14 @@ public class SynthAsParentTests
         questAvailability.Should().BeFalse();
     }
 
-    private static void CheckDialogue(Dialogue testDialog, int[] targetOptions, StoryPointCatalog storyPointCatalog,
+    private static void CheckDialogue(Dialogue<ParagraphConditionContext, AftermathContext> testDialog, int[] targetOptions, StoryPointCatalog storyPointCatalog,
         GlobeProvider globeProvider, DialogueEvent textEvent)
     {
         var dialogueContextFactory = new DialogueContextFactory(globeProvider.Globe, storyPointCatalog,
-            globeProvider.Globe.Player, textEvent);
-        var dialoguePlayer = new DialoguePlayer(testDialog, dialogueContextFactory);
+            globeProvider.Globe.Player,
+            Mock.Of<IDialogueEnvironmentManager>(),
+            textEvent);
+        var dialoguePlayer = new DialoguePlayer<ParagraphConditionContext, AftermathContext>(testDialog, dialogueContextFactory);
 
         foreach (var optionIndex in targetOptions)
         {
