@@ -2,6 +2,8 @@ using Client.Core;
 using Client.Core.Campaigns;
 using Client.Core.Dialogues;
 
+using CombatDicesTeam.Dialogues;
+
 namespace Client.GameScreens.Combat;
 
 internal sealed record CombatScreenTransitionArguments(HeroCampaign Campaign,
@@ -9,5 +11,5 @@ internal sealed record CombatScreenTransitionArguments(HeroCampaign Campaign,
     int CurrentCombatIndex,
     bool IsAutoplay,
     GlobeNode Location,
-    Dialogue? VictoryDialogue) :
+    Dialogue<ParagraphConditionContext, AftermathContext>? VictoryDialogue) :
     CampaignScreenTransitionArgumentsBase(Campaign);

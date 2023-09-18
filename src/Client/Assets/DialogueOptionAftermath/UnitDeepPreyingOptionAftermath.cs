@@ -2,9 +2,11 @@
 using Client.Core;
 using Client.Core.Dialogues;
 
+using CombatDicesTeam.Dialogues;
+
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal sealed class UnitDeepPreyingOptionAftermath : IDialogueOptionAftermath
+internal sealed class UnitDeepPreyingOptionAftermath : IDialogueOptionAftermath<AftermathContext>
 {
     private readonly UnitName _name;
 
@@ -18,5 +20,12 @@ internal sealed class UnitDeepPreyingOptionAftermath : IDialogueOptionAftermath
         var globalEvent = new CharacterDeepPreyingGlobeEvent(_name);
 
         dialogContext.AddNewGlobalEvent(globalEvent);
+    }
+
+    public void Apply(AftermathContext aftermathContext)
+    {
+        var globalEvent = new CharacterDeepPreyingGlobeEvent(_name);
+
+        aftermathContext.AddNewGlobalEvent(globalEvent);
     }
 }

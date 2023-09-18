@@ -1,8 +1,10 @@
 ﻿using Client.Core.Dialogues;
 
+using CombatDicesTeam.Dialogues;
+
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal class PredefinedCombatOptionAftermath : IDialogueOptionAftermath
+internal class PredefinedCombatOptionAftermath : IDialogueOptionAftermath<AftermathContext>
 {
     private readonly string _sid;
 
@@ -11,8 +13,8 @@ internal class PredefinedCombatOptionAftermath : IDialogueOptionAftermath
         _sid = sid;
     }
 
-    public void Apply(IEventContext dialogContext)
+    public void Apply(AftermathContext aftermathContext)
     {
-        dialogContext.StartCombat(_sid);
+        aftermathContext.StartCombat(_sid);
     }
 }

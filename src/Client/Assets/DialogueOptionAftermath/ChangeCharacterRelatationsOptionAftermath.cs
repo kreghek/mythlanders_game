@@ -1,9 +1,11 @@
 ﻿using Client.Core;
 using Client.Core.Dialogues;
 
+using CombatDicesTeam.Dialogues;
+
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal class ChangeCharacterRelatationsOptionAftermath : IDialogueOptionAftermath
+internal class ChangeCharacterRelatationsOptionAftermath : IDialogueOptionAftermath<AftermathContext>
 {
     private readonly CharacterKnowledgeLevel _knowledgeLevel;
     private readonly UnitName _targetCharacter;
@@ -14,8 +16,8 @@ internal class ChangeCharacterRelatationsOptionAftermath : IDialogueOptionAfterm
         _knowledgeLevel = knowledgeLevel;
     }
 
-    public void Apply(IEventContext dialogContext)
+    public void Apply(AftermathContext aftermathContext)
     {
-        // TODO Not implemented
+        aftermathContext.ChangeCharacterRelations(_targetCharacter, _knowledgeLevel);
     }
 }

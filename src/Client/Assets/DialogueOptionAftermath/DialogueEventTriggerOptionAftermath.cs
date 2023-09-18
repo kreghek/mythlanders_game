@@ -4,7 +4,7 @@ using CombatDicesTeam.Dialogues;
 
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal class DialogueEventTriggerOptionAftermath : IDialogueOptionAftermath
+internal class DialogueEventTriggerOptionAftermath : IDialogueOptionAftermath<AftermathContext>
 {
     private readonly string _trigger;
 
@@ -13,8 +13,8 @@ internal class DialogueEventTriggerOptionAftermath : IDialogueOptionAftermath
         _trigger = trigger;
     }
 
-    public void Apply(IEventContext dialogContext)
+    public void Apply(AftermathContext aftermathContext)
     {
-        dialogContext.CurrentDialogueEvent.Trigger(new DialogueEventTrigger(_trigger));
+        aftermathContext.CurrentDialogueEvent.Trigger(new DialogueEventTrigger(_trigger));
     }
 }
