@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets;
+using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.Crises;
 using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Crisis.Ui;
+using Client.GameScreens.TextDialogue;
 using Client.ScreenManagement;
 
+using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
 
 using Core.Crises;
@@ -37,6 +40,9 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
     private TextHint? _aftermathHint;
     private ControlBase? _aftermathOnHover;
+    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
+    private readonly DialogueContextFactory _dialogueContextFactory;
+    private readonly DialoguePlayer<ParagraphConditionContext,AftermathContext> _dialoguePlayer;
 
     public CrisisScreen(TestamentGame game, CrisisScreenTransitionArguments args) : base(game)
     {
@@ -49,6 +55,28 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
         var crisesCatalog = game.Services.GetRequiredService<ICrisesCatalog>();
 
         _crisis = dice.RollFromList(crisesCatalog.GetAll().Where(x => x.EventType == args.EventType).ToArray());
+        
+        
+        var globe = _globeProvider.Globe;
+        if (globe is null)
+        {
+            throw new InvalidOperationException();
+        }
+
+        var player = globe.Player ?? throw new InvalidOperationException();
+        var storyPointCatalog = game.Services.GetService<IStoryPointCatalog>();
+        _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
+        
+        _dialogueContextFactory =
+            new DialogueContextFactory(globe, storyPointCatalog, player, _dialogueEnvironmentManager,
+                _crisis.Event);
+
+        var eventCatalog = game.Services.GetRequiredService<IEventCatalog>();
+        var currentDialogueSid = _crisis.Event.GetDialogSid();
+        var crisisDialogue = eventCatalog.GetDialogue(currentDialogueSid);
+        _dialoguePlayer =
+            new DialoguePlayer<ParagraphConditionContext, AftermathContext>(crisisDialogue,
+                _dialogueContextFactory);
 
         _aftermathButtons = new List<CrisisAftermathButton>();
 
