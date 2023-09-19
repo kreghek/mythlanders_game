@@ -11,7 +11,7 @@ internal class ParagraphConditionContext
     {
         CurrentHeroes = player.Heroes.Select(x => x.ClassSid).ToArray();
     }
-    
+
     /// <inheritdoc />
     public IReadOnlyCollection<string> CurrentHeroes { get; }
 }

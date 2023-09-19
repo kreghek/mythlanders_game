@@ -5,7 +5,8 @@ public sealed class DialoguePlayer<TParagraphConditionContext, TAftermathContext
     private readonly IDialogueContextFactory<TParagraphConditionContext, TAftermathContext> _contextFactory;
     private DialogueNode<TParagraphConditionContext, TAftermathContext> _currentNode;
 
-    public DialoguePlayer(Dialogue<TParagraphConditionContext, TAftermathContext> dialogue, IDialogueContextFactory<TParagraphConditionContext, TAftermathContext> contextFactory)
+    public DialoguePlayer(Dialogue<TParagraphConditionContext, TAftermathContext> dialogue,
+        IDialogueContextFactory<TParagraphConditionContext, TAftermathContext> contextFactory)
     {
         _currentNode = dialogue.Root;
         _contextFactory = contextFactory;
@@ -16,9 +17,17 @@ public sealed class DialoguePlayer<TParagraphConditionContext, TAftermathContext
         CurrentOptions = _currentNode.Options.ToArray();
     }
 
-    public IReadOnlyCollection<DialogueOption<TParagraphConditionContext, TAftermathContext>> CurrentOptions { get; private set; }
+    public IReadOnlyCollection<DialogueOption<TParagraphConditionContext, TAftermathContext>> CurrentOptions
+    {
+        get;
+        private set;
+    }
 
-    public IReadOnlyList<DialogueSpeech<TParagraphConditionContext, TAftermathContext>> CurrentTextFragments { get; private set; }
+    public IReadOnlyList<DialogueSpeech<TParagraphConditionContext, TAftermathContext>> CurrentTextFragments
+    {
+        get;
+        private set;
+    }
 
     public bool IsEnd => _currentNode == DialogueNode<TParagraphConditionContext, TAftermathContext>.EndNode;
 

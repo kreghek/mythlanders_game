@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using Client.Assets.GlobalEffects;
 using Client.Core;
@@ -10,11 +11,11 @@ namespace Client.Assets.Catalogs.Dialogues;
 
 internal class AftermathContext
 {
+    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly Globe _globe;
     private readonly Player _player;
-    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly IStoryPointCatalog _storyPointCatalog;
-    
+
     public AftermathContext(Globe globe, IStoryPointCatalog storyPointCatalog, Player player,
         DialogueEvent currentDialogueEvent, IDialogueEnvironmentManager dialogueEnvironmentManager)
     {
@@ -27,12 +28,6 @@ internal class AftermathContext
     }
 
     public DialogueEvent CurrentDialogueEvent { get; }
-
-    public void AddStoryPoint(string storyPointSid)
-    {
-        var storyPoint = _storyPointCatalog.GetAll().Single(x => x.Sid == storyPointSid);
-        _globe.AddActiveStoryPoint(storyPoint);
-    }
 
     public void AddNewCharacter(Hero unit)
     {
@@ -51,10 +46,21 @@ internal class AftermathContext
         }
     }
 
+    public void AddNewGlobalEvent(CharacterDeepPreyingGlobeEvent globalEvent)
+    {
+        _globe.AddGlobalEvent(globalEvent);
+    }
+
+    public void AddStoryPoint(string storyPointSid)
+    {
+        var storyPoint = _storyPointCatalog.GetAll().Single(x => x.Sid == storyPointSid);
+        _globe.AddActiveStoryPoint(storyPoint);
+    }
+
     public void ChangeCharacterRelations(UnitName targetCharacter, CharacterKnowledgeLevel knowledgeLevel)
     {
         var dialogueSpeaker = DialogueSpeakers.Get(targetCharacter);
-        
+
         var relation =
             _player.StoryState.CharacterRelations.SingleOrDefault(x =>
                 x.Character == dialogueSpeaker);
@@ -62,7 +68,7 @@ internal class AftermathContext
         if (relation is null)
         {
             _player.StoryState.AddCharacterRelations(targetCharacter);
-            
+
             relation =
                 _player.StoryState.CharacterRelations.Single(x =>
                     x.Character == dialogueSpeaker);
@@ -71,19 +77,9 @@ internal class AftermathContext
         relation.Level = knowledgeLevel;
     }
 
-    public void StartCombat(string sid)
+    public void PlaySong(string resourceName)
     {
-        throw new System.NotImplementedException();
-    }
-
-    public void AddNewGlobalEvent(CharacterDeepPreyingGlobeEvent globalEvent)
-    {
-        _globe.AddGlobalEvent(globalEvent);
-    }
-
-    public void UnlockLocation(ILocationSid locationSid)
-    {
-        throw new System.NotImplementedException();
+        _dialogueEnvironmentManager.PlaySong(resourceName);
     }
 
     public void PlaySoundEffect(string effectSid, string resourceName)
@@ -91,8 +87,13 @@ internal class AftermathContext
         _dialogueEnvironmentManager.PlayEffect(effectSid, resourceName);
     }
 
-    public void PlaySong(string resourceName)
+    public void StartCombat(string sid)
     {
-        _dialogueEnvironmentManager.PlaySong(resourceName);
+        throw new NotImplementedException();
+    }
+
+    public void UnlockLocation(ILocationSid locationSid)
+    {
+        throw new NotImplementedException();
     }
 }

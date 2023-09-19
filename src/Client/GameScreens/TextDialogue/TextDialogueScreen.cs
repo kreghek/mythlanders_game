@@ -36,6 +36,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
     private readonly Texture2D _backgroundTexture;
     private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
     private readonly HeroCampaign _currentCampaign;
+    private readonly DialogueContextFactory _dialogueContextFactory;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly DialogueOptions _dialogueOptions;
     private readonly DialoguePlayer<ParagraphConditionContext, AftermathContext> _dialoguePlayer;
@@ -63,7 +64,6 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
     private KeyboardState _keyboardState;
 
     private double _pressToContinueCounter;
-    private readonly DialogueContextFactory _dialogueContextFactory;
 
     public TextDialogueScreen(TestamentGame game, TextDialogueScreenTransitionArgs args) : base(game)
     {
@@ -99,11 +99,13 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         _textFragments = new List<TextParagraphControl>();
 
         _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
-        
+
         _dialogueContextFactory =
-            new DialogueContextFactory(globe, storyPointCatalog, _player, _dialogueEnvironmentManager, args.DialogueEvent);
+            new DialogueContextFactory(globe, storyPointCatalog, _player, _dialogueEnvironmentManager,
+                args.DialogueEvent);
         _dialoguePlayer =
-            new DialoguePlayer<ParagraphConditionContext, AftermathContext>(args.CurrentDialogue, _dialogueContextFactory);
+            new DialoguePlayer<ParagraphConditionContext, AftermathContext>(args.CurrentDialogue,
+                _dialogueContextFactory);
 
         _eventCatalog = game.Services.GetService<IEventCatalog>();
 
@@ -229,7 +231,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         var currentFragment = _dialoguePlayer.CurrentTextFragments[_currentFragmentIndex];
         var speaker = currentFragment.Speaker;
 
-        if ( DialogueSpeakers.Get(UnitName.Environment) == speaker)
+        if (DialogueSpeakers.Get(UnitName.Environment) == speaker)
         {
             // This text describes environment. There is no speaker.
             return;
@@ -249,7 +251,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         // var row = _frameIndex / 2;
 
         var name = Enum.Parse<UnitName>(speaker.ToString());
-        
+
         spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(name),
             new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Height - SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE,

@@ -13,7 +13,7 @@ internal static class GameObjectHelper
     {
         return GetLocalizedInner(unitName.ToString());
     }
-    
+
     public static string GetLocalized(IDialogueSpeaker unitName)
     {
         return GetLocalizedInner(unitName.ToString());

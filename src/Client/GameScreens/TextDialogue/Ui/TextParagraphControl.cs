@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 using Client.Assets.Catalogs.Dialogues;
@@ -20,10 +19,10 @@ namespace Client.GameScreens.TextDialogue.Ui;
 internal sealed class TextParagraphControl : ControlBase
 {
     private const int DISPLAY_NAME_HEIGHT = 32;
+    private readonly AftermathContext _aftermathContext;
 
     private readonly SpriteFont _displayNameFont;
     private readonly IReadOnlyCollection<IDialogueOptionAftermath<AftermathContext>> _envCommands;
-    private readonly AftermathContext _aftermathContext;
     private readonly string? _localizedSpeakerName;
     private readonly TextParagraphMessageControl _message;
     private readonly Vector2 _messageSize;
@@ -44,7 +43,7 @@ internal sealed class TextParagraphControl : ControlBase
 
         _localizedSpeakerName = GetSpeakerDisplayName(speakerState);
         _message = new TextParagraphMessageControl(eventTextParagraph, textSoundEffect, dice,
-             DialogueSpeakers.Env != _speaker);
+            DialogueSpeakers.Env != _speaker);
         _envCommands = eventTextParagraph.Aftermaths.Where(x => x is IDecorativeAftermath).ToArray();
 
         _messageSize = _message.CalculateSize();

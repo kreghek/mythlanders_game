@@ -9,6 +9,7 @@ public sealed class CharacterRelation
         Character = character;
     }
 
-    public CharacterKnowledgeLevel Level { get; set; }
     public IDialogueSpeaker Character { get; }
+
+    public CharacterKnowledgeLevel Level { get; set; }
 }

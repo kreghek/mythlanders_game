@@ -8,7 +8,6 @@ namespace Client.Assets.Catalogs.Dialogues;
 
 /// <summary>
 /// Dialog event.
-///
 /// The Event is composition of the multiple Dialogues each starts according the inner state of the Event.
 /// </summary>
 public sealed class DialogueEvent

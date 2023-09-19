@@ -8,11 +8,12 @@ using Client.Core;
 
 using CombatDicesTeam.Dialogues;
 
- namespace Client.Assets.Catalogs.DialogueStoring;
+namespace Client.Assets.Catalogs.DialogueStoring;
 
 internal static class DialogueCatalogHelper
 {
-    public static Dialogue<ParagraphConditionContext, AftermathContext> Create(string dialogueSid, IDictionary<string, DialogueDtoScene> scenesDtoDict,
+    public static Dialogue<ParagraphConditionContext, AftermathContext> Create(string dialogueSid,
+        IDictionary<string, DialogueDtoScene> scenesDtoDict,
         DialogueCatalogCreationServices services)
     {
         var nodeListDicts =
@@ -73,7 +74,7 @@ internal static class DialogueCatalogHelper
 
             var options = new List<DialogueOption<ParagraphConditionContext, AftermathContext>>();
             var dialogNode = new DialogueNode<ParagraphConditionContext, AftermathContext>(
-                new DialogueParagraph<ParagraphConditionContext, AftermathContext>(speeches), 
+                new DialogueParagraph<ParagraphConditionContext, AftermathContext>(speeches),
                 options);
 
             nodeListDicts.Add((sceneSid, dialogNode, options, dtoScene.Options));
@@ -93,17 +94,21 @@ internal static class DialogueCatalogHelper
                     if (dialogueDtoOption.Next is not null)
                     {
                         var next = nodeListDicts.Single(x => x.nodeSid == dialogueDtoOption.Next).node;
-                        dialogueOption = new DialogueOption<ParagraphConditionContext, AftermathContext>($"{dialogueSid}_Scene_{nodeSid}_Option_{optionIndex}", next)
-                        {
-                            Aftermath = aftermaths
-                        };
+                        dialogueOption =
+                            new DialogueOption<ParagraphConditionContext, AftermathContext>(
+                                $"{dialogueSid}_Scene_{nodeSid}_Option_{optionIndex}", next)
+                            {
+                                Aftermath = aftermaths
+                            };
                     }
                     else
                     {
-                        dialogueOption = new DialogueOption<ParagraphConditionContext, AftermathContext>("Common_end_dialogue", DialogueNode<ParagraphConditionContext, AftermathContext>.EndNode)
-                        {
-                            Aftermath = aftermaths
-                        };
+                        dialogueOption =
+                            new DialogueOption<ParagraphConditionContext, AftermathContext>("Common_end_dialogue",
+                                DialogueNode<ParagraphConditionContext, AftermathContext>.EndNode)
+                            {
+                                Aftermath = aftermaths
+                            };
                     }
 
                     optionsList.Add(dialogueOption);
@@ -111,12 +116,14 @@ internal static class DialogueCatalogHelper
             }
             else
             {
-                var dialogueOption = new DialogueOption<ParagraphConditionContext, AftermathContext>("Common_end_dialogue", DialogueNode<ParagraphConditionContext, AftermathContext>.EndNode);
+                var dialogueOption = new DialogueOption<ParagraphConditionContext, AftermathContext>(
+                    "Common_end_dialogue", DialogueNode<ParagraphConditionContext, AftermathContext>.EndNode);
                 optionsList.Add(dialogueOption);
             }
         }
 
-        return new Dialogue<ParagraphConditionContext, AftermathContext>(nodeListDicts.Single(x => x.nodeSid == "root").node);
+        return new Dialogue<ParagraphConditionContext, AftermathContext>(nodeListDicts.Single(x => x.nodeSid == "root")
+            .node);
     }
 
     private static IDialogueOptionAftermath<AftermathContext>? CreateAftermaths(DialogueDtoData[]? aftermathDtos,
@@ -138,7 +145,8 @@ internal static class DialogueCatalogHelper
         return new CompositeOptionAftermath(list);
     }
 
-    private static IReadOnlyCollection<IDialogueOptionAftermath<AftermathContext>> CreateEnvironmentEffects(DialogueDtoData[]? envs,
+    private static IReadOnlyCollection<IDialogueOptionAftermath<AftermathContext>> CreateEnvironmentEffects(
+        DialogueDtoData[]? envs,
         IDialogueEnvironmentEffectCreator environmentEffectCreator)
     {
         if (envs is null)

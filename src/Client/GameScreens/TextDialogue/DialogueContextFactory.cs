@@ -1,20 +1,20 @@
 using Client.Assets.Catalogs.Dialogues;
-using Client.Assets.Dialogues;
 using Client.Core;
 
 using CombatDicesTeam.Dialogues;
 
 namespace Client.GameScreens.TextDialogue;
 
-internal sealed class DialogueContextFactory: IDialogueContextFactory<ParagraphConditionContext, AftermathContext>
+internal sealed class DialogueContextFactory : IDialogueContextFactory<ParagraphConditionContext, AftermathContext>
 {
     private readonly DialogueEvent _currentDialogueEvent;
+    private readonly IDialogueEnvironmentManager _environmentManager;
     private readonly Globe _globe;
     private readonly Player _player;
-    private readonly IDialogueEnvironmentManager _environmentManager;
     private readonly IStoryPointCatalog _storyPointCatalog;
 
-    public DialogueContextFactory(Globe globe, IStoryPointCatalog storyPointCatalog, Player player, IDialogueEnvironmentManager environmentManager,
+    public DialogueContextFactory(Globe globe, IStoryPointCatalog storyPointCatalog, Player player,
+        IDialogueEnvironmentManager environmentManager,
         DialogueEvent currentDialogueEvent)
     {
         _globe = globe;
