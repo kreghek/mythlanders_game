@@ -1,12 +1,12 @@
-﻿using Client.Assets.Catalogs.Dialogues;
+﻿using System.Collections.Generic;
+
+using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
 using Client.Core.Heroes;
 
-using CombatDicesTeam.Dialogues;
-
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal sealed class AddHeroOptionAftermath : IDialogueOptionAftermath<AftermathContext>
+internal sealed class AddHeroOptionAftermath : DialogueOptionAftermathBase
 {
     private readonly UnitScheme _scheme;
 
@@ -15,7 +15,7 @@ internal sealed class AddHeroOptionAftermath : IDialogueOptionAftermath<Aftermat
         _scheme = scheme;
     }
 
-    public void Apply(AftermathContext aftermathContext)
+    public override void Apply(AftermathContext aftermathContext)
     {
         const int DEFAULT_LEVEL = 1;
         var unit = new Hero(_scheme, DEFAULT_LEVEL)
@@ -23,5 +23,13 @@ internal sealed class AddHeroOptionAftermath : IDialogueOptionAftermath<Aftermat
             IsPlayerControlled = true
         };
         aftermathContext.AddNewCharacter(unit);
+    }
+
+    protected override IReadOnlyList<string> GetDescriptionValues(AftermathContext aftermathContext)
+    {
+        return new[]
+        {
+            _scheme.Name.ToString()
+        };
     }
 }

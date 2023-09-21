@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.Catalogs.Dialogues;
@@ -14,6 +15,11 @@ internal sealed class CompositeOptionAftermath : IDialogueOptionAftermath<Afterm
     public CompositeOptionAftermath(IEnumerable<IDialogueOptionAftermath<AftermathContext>> list)
     {
         _list = list.ToArray();
+    }
+
+    public string GetDescription(AftermathContext aftermathContext)
+    {
+        return string.Join(Environment.NewLine, _list.Select(x => x.GetDescription(aftermathContext)));
     }
 
     public void Apply(AftermathContext aftermathContext)

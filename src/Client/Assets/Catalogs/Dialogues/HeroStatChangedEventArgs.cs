@@ -1,4 +1,6 @@
-﻿namespace Core.Crises;
+﻿using System;
+
+namespace Client.Assets.Catalogs.Dialogues;
 
 public sealed class HeroStatChangedEventArgs : EventArgs
 {

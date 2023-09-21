@@ -44,7 +44,7 @@ internal sealed class TextParagraphControl : ControlBase
         _localizedSpeakerName = GetSpeakerDisplayName(speakerState);
         _message = new TextParagraphMessageControl(eventTextParagraph, textSoundEffect, dice,
             DialogueSpeakers.Env != _speaker);
-        _envCommands = eventTextParagraph.Aftermaths.Where(x => x is IDecorativeAftermath).ToArray();
+        _envCommands = eventTextParagraph.Aftermaths.Where(x => x is IDecorativeEnvironmentAftermath).ToArray();
 
         _messageSize = _message.CalculateSize();
         _speakerDisplayNameSize = _localizedSpeakerName is not null

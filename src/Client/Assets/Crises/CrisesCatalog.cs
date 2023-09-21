@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 
+using Client.Assets.DialogueOptionAftermath;
+
 using CombatDicesTeam.Dices;
 
 using Core.Crises;
@@ -18,8 +20,8 @@ public sealed class CrisesCatalog : ICrisesCatalog
         {
             new Crisis("MagicTrap", new ICrisisAftermath[]
             {
-                new DamageSingleRandomCrisisAftermath("TakeAllDamageByOneHero", dice),
-                new DamageAllCrisisAftermath("DamageTogether")
+                new DamageSingleRandomOptionAftermath("TakeAllDamageByOneHero", dice),
+                new DamageAllHeroesOptionAftermath("DamageTogether")
             }),
             //new Crisis("CityHunting", new ICrisisAftermath[]
             //{
@@ -29,19 +31,19 @@ public sealed class CrisesCatalog : ICrisesCatalog
             //}),
             new Crisis("InfernalSickness", new ICrisisAftermath[]
             {
-                new DamageSingleRandomCrisisAftermath("RunOut", dice),
-                new DamageAllCrisisAftermath("DestroyTheSickSource")
+                new DamageSingleRandomOptionAftermath("RunOut", dice),
+                new DamageAllHeroesOptionAftermath("DestroyTheSickSource")
             }),
             new Crisis("Starvation", new ICrisisAftermath[]
             {
-                new DamageSingleRandomCrisisAftermath("StarveSolo", dice),
-                new DamageAllCrisisAftermath("StarveAll")
+                new DamageSingleRandomOptionAftermath("StarveSolo", dice),
+                new DamageAllHeroesOptionAftermath("StarveAll")
                 //new DamageAllCrisisAftermath("BuyFood")
             }),
             new Crisis("Preying", new ICrisisAftermath[]
             {
-                new DamageSingleRandomCrisisAftermath("Prey", dice),
-                new DamageAllCrisisAftermath("Ignore")
+                new DamageSingleRandomOptionAftermath("Prey", dice),
+                new DamageAllHeroesOptionAftermath("Ignore")
             }),
             //new Crisis("DesertStorm", new ICrisisAftermath[]
             //{

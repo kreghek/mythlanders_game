@@ -160,18 +160,16 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
     protected override void InitializeContent()
     {
-        var context = new CrisisAftermathContext(_globeProvider.Globe.Player);
-
-        var aftermaths = _crisis.GetItems().ToArray();
-        for (var buttonIndex = 0; buttonIndex < aftermaths.Length; buttonIndex++)
+        var eventResolveOptions = _dialoguePlayer.CurrentOptions.OrderBy(x => x.TextSid).ToArray();
+        for (var buttonIndex = 0; buttonIndex < eventResolveOptions.Length; buttonIndex++)
         {
-            var aftermath = aftermaths[buttonIndex];
-            var aftermathButton = new CrisisAftermathButton(buttonIndex + 1, aftermath.Sid);
+            var eventResolveOption = eventResolveOptions[buttonIndex];
+            var aftermathButton = new CrisisAftermathButton(buttonIndex + 1, eventResolveOption.TextSid);
             _aftermathButtons.Add(aftermathButton);
 
             aftermathButton.OnClick += (s, e) =>
             {
-                aftermath.Apply(context);
+                eventResolveOption.Aftermath?.Apply(_dialogueContextFactory.CreateAftermathContext());
 
                 _soundEffectInstance.Stop();
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
@@ -180,7 +178,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
             aftermathButton.OnHover += (s, e) =>
             {
-                var hintText = GameObjectResources.ResourceManager.GetString($"{aftermath.Sid.ResourceName}_Hint");
+                var hintText = GameObjectResources.ResourceManager.GetString($"{eventResolveOption.Sid.ResourceName}_Hint");
 
                 if (hintText is not null)
                 {

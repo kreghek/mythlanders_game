@@ -4,6 +4,6 @@ using CombatDicesTeam.Dialogues;
 
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal interface IDecorativeAftermath : IDialogueOptionAftermath<AftermathContext>
+internal interface IDecorativeEnvironmentAftermath : IDialogueOptionAftermath<AftermathContext>
 {
 }

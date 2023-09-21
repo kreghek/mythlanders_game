@@ -4,7 +4,7 @@ using CombatDicesTeam.Dialogues;
 
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal sealed class PlaySongDialogueOptionAftermath : IDecorativeAftermath
+internal sealed class PlaySongDialogueOptionAftermath : IDecorativeEnvironmentAftermath
 {
     private readonly string _resourceName;
 

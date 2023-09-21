@@ -2,7 +2,7 @@
 
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal sealed class PlayEffectDialogueOptionAftermath : IDecorativeAftermath
+internal sealed class PlayEffectDialogueOptionAftermath : IDecorativeEnvironmentAftermath
 {
     private readonly string _effectSid;
     private readonly string _resourceName;

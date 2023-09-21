@@ -47,7 +47,7 @@ internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathC
         else if (typeSid == "SetRelationsToKnown")
         {
             var unitName = data;
-            aftermath = new ChangeCharacterRelatationsOptionAftermath(Enum.Parse<UnitName>(unitName),
+            aftermath = new ChangeCharacterRelationsOptionAftermath(Enum.Parse<UnitName>(unitName),
                 CharacterKnowledgeLevel.FullName);
         }
 

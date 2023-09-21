@@ -1,10 +1,10 @@
-﻿using Client.Assets.Catalogs.Dialogues;
+﻿using System.Collections.Generic;
 
-using CombatDicesTeam.Dialogues;
+using Client.Assets.Catalogs.Dialogues;
 
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal class ActivateStoryPointOptionAftermath : IDialogueOptionAftermath<AftermathContext>
+internal class ActivateStoryPointOptionAftermath : DialogueOptionAftermathBase
 {
     private readonly string _storyPointSid;
 
@@ -13,8 +13,13 @@ internal class ActivateStoryPointOptionAftermath : IDialogueOptionAftermath<Afte
         _storyPointSid = storyPointSid;
     }
 
-    public void Apply(AftermathContext aftermathContext)
+    public override void Apply(AftermathContext aftermathContext)
     {
         aftermathContext.AddStoryPoint(_storyPointSid);
+    }
+
+    protected override IReadOnlyList<string> GetDescriptionValues(AftermathContext aftermathContext)
+    {
+        return new[] { _storyPointSid };
     }
 }
