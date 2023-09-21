@@ -8,6 +8,11 @@ public interface IDialogueOptionAftermath<in TAftermathContext>
     string GetDescription(TAftermathContext aftermathContext);
 
     /// <summary>
+    /// Is the aftermath hidden from the user. This may be system of inner aftermath.
+    /// </summary>
+    bool IsHidden { get; }
+
+    /// <summary>
     /// Apply the aftermath.
     /// </summary>
     /// <param name="aftermathContext">Context to interact with game world.</param>

@@ -1,25 +1,28 @@
-﻿using Client.Assets.Catalogs.Dialogues;
+﻿using System;
+using System.Collections.Generic;
 
-using CombatDicesTeam.Dialogues;
+using Client.Assets.Catalogs.Dialogues;
 
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal sealed class PlaySongDialogueOptionAftermath : IDecorativeEnvironmentAftermath
+internal sealed class PlaySongDialogueOptionAftermath : DialogueOptionAftermathBase, IDecorativeEnvironmentAftermath
 {
     private readonly string _resourceName;
 
     public PlaySongDialogueOptionAftermath(string resourceName)
     {
         _resourceName = resourceName;
+        
+        IsHidden = true;
     }
 
-    public void Execute(IDialogueEnvironmentManager soundEffectManager)
-    {
-        soundEffectManager.PlaySong(_resourceName);
-    }
-
-    public void Apply(AftermathContext aftermathContext)
+    public override void Apply(AftermathContext aftermathContext)
     {
         aftermathContext.PlaySong(_resourceName);
+    }
+    
+    protected override IReadOnlyList<string> GetDescriptionValues(AftermathContext aftermathContext)
+    {
+        return ArraySegment<string>.Empty;
     }
 }
