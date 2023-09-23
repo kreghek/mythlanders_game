@@ -33,5 +33,5 @@ internal abstract class DialogueOptionAftermathBase: IDialogueOptionAftermath<Af
     /// <inheritdoc />
     public abstract void Apply(AftermathContext aftermathContext);
 
-    protected abstract IReadOnlyList<string> GetDescriptionValues(AftermathContext aftermathContext);
+    protected abstract IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext);
 }

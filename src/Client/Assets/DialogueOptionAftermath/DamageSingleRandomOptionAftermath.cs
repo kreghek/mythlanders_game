@@ -28,7 +28,7 @@ internal sealed class DamageSingleRandomOptionAftermath : DialogueOptionAftermat
 
     private void DefineHeroToDamageOrNothing(AftermathContext aftermathContext)
     {
-        var heroes = aftermathContext.GetAvailableHeroes();
+        var heroes = aftermathContext.GetPartyHeroes();
 
         if (!heroes.Any())
         {
@@ -40,14 +40,14 @@ internal sealed class DamageSingleRandomOptionAftermath : DialogueOptionAftermat
         _selectedHeroToDamage = rolledHero;
     }
 
-    protected override IReadOnlyList<string> GetDescriptionValues(AftermathContext aftermathContext)
+    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
     {
         DefineHeroToDamageOrNothing(aftermathContext);
 
-        return new[]
+        return new object[]
         {
             _selectedHeroToDamage!,
-            DAMAGE.ToString()
+            DAMAGE
         };
     }
 }

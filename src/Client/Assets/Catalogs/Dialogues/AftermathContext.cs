@@ -105,7 +105,7 @@ internal class AftermathContext
         HeroHpChanged?.Invoke(this, new HeroStatChangedEventArgs(heroClassSid, -damageAmount));
     }
 
-    public IReadOnlyCollection<string> GetAvailableHeroes()
+    public IReadOnlyCollection<string> GetPartyHeroes()
     {
         return _player.Heroes.Where(x => x.HitPoints.Current > 0).Select(x => x.ClassSid).ToArray();
     }

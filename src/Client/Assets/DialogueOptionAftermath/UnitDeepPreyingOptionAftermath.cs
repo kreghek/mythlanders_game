@@ -1,12 +1,12 @@
-﻿using Client.Assets.Catalogs.Dialogues;
+﻿using System.Collections.Generic;
+
+using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.GlobalEffects;
 using Client.Core;
 
-using CombatDicesTeam.Dialogues;
-
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal sealed class UnitDeepPreyingOptionAftermath : IDialogueOptionAftermath<AftermathContext>
+internal sealed class UnitDeepPreyingOptionAftermath : DialogueOptionAftermathBase
 {
     private readonly UnitName _name;
 
@@ -15,17 +15,18 @@ internal sealed class UnitDeepPreyingOptionAftermath : IDialogueOptionAftermath<
         _name = name;
     }
 
-    public void Apply(IEventContext dialogContext)
-    {
-        var globalEvent = new CharacterDeepPreyingGlobeEvent(_name);
-
-        dialogContext.AddNewGlobalEvent(globalEvent);
-    }
-
-    public void Apply(AftermathContext aftermathContext)
+    public override void Apply(AftermathContext aftermathContext)
     {
         var globalEvent = new CharacterDeepPreyingGlobeEvent(_name);
 
         aftermathContext.AddNewGlobalEvent(globalEvent);
+    }
+
+    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
+    {
+        return new object[]
+        {
+            _name
+        };
     }
 }

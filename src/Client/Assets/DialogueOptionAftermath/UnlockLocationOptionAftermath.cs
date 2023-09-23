@@ -1,11 +1,11 @@
+using System.Collections.Generic;
+
 using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
 
-using CombatDicesTeam.Dialogues;
-
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal sealed class UnlockLocationOptionAftermath : IDialogueOptionAftermath<AftermathContext>
+internal sealed class UnlockLocationOptionAftermath : DialogueOptionAftermathBase
 {
     private readonly ILocationSid _locationSid;
 
@@ -19,8 +19,16 @@ internal sealed class UnlockLocationOptionAftermath : IDialogueOptionAftermath<A
         dialogContext.UnlockLocation(_locationSid);
     }
 
-    public void Apply(AftermathContext aftermathContext)
+    public override void Apply(AftermathContext aftermathContext)
     {
         aftermathContext.UnlockLocation(_locationSid);
+    }
+
+    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
+    {
+        return new object[]
+        {
+            _locationSid
+        };
     }
 }

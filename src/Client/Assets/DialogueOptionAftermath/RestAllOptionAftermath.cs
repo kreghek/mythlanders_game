@@ -1,14 +1,16 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.Catalogs.Dialogues;
+using Client.Assets.DialogueOptionAftermath;
 
-namespace Client.Assets.DialogueOptionAftermath;
+namespace Core.Crises;
 
-internal sealed class DamageAllHeroesOptionAftermath : DialogueOptionAftermathBase
+internal sealed class RestAllOptionAftermath : DialogueOptionAftermathBase
 {
-    const int DAMAGE = 1;
-    
+    private const int HEAL = 1;
+
+
     public override void Apply(AftermathContext aftermathContext)
     {
         var heroes = aftermathContext.GetPartyHeroes();
@@ -18,11 +20,10 @@ internal sealed class DamageAllHeroesOptionAftermath : DialogueOptionAftermathBa
             // This is not normal.
             // if all heroes was defeat then the campaign must be interrupted.
         }
-
         foreach (var hero in heroes)
         {
-            
-            aftermathContext.DamageHero(hero, DAMAGE);
+
+            aftermathContext.RestHero(hero, HEAL);
         }
     }
 
@@ -33,7 +34,7 @@ internal sealed class DamageAllHeroesOptionAftermath : DialogueOptionAftermathBa
         return new object[]
         {
             heroes,
-            DAMAGE
+            HEAL
         };
     }
 }

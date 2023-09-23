@@ -25,11 +25,11 @@ internal sealed class AddHeroOptionAftermath : DialogueOptionAftermathBase
         aftermathContext.AddNewCharacter(unit);
     }
 
-    protected override IReadOnlyList<string> GetDescriptionValues(AftermathContext aftermathContext)
+    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
     {
         return new[]
         {
-            _scheme.Name.ToString()
+            _scheme.Name
         };
     }
 }

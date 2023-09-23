@@ -69,7 +69,7 @@ public sealed class CrisesCatalog : ICrisesCatalog
             new Treasues("CultOfStar", new ICrisisAftermath[]
             {
                 new RestSingleRandomCrisisAftermath("Obey", dice),
-                new RestAllCrisisAftermath("ObeyAll")
+                new RestAllOptionAftermath("ObeyAll")
             }),
             //new Treasues("Drone", new ICrisisAftermath[]
             //{
@@ -78,8 +78,8 @@ public sealed class CrisesCatalog : ICrisesCatalog
             //}),
             new Treasues("Tavern", new ICrisisAftermath[]
             {
-                new RestAllButSingleRandomNotCrisisAftermath("Rest", dice),
-                new RestAllCrisisAftermath("RestAll")
+                new RestoreAllButSingleRandomNotOptionAftermath("Rest", dice),
+                new RestAllOptionAftermath("RestAll")
             })
         };
     }

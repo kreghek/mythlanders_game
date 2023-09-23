@@ -1,10 +1,11 @@
-﻿using Client.Assets.Catalogs.Dialogues;
+﻿using System;
+using System.Collections.Generic;
 
-using CombatDicesTeam.Dialogues;
+using Client.Assets.Catalogs.Dialogues;
 
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal class PredefinedCombatOptionAftermath : IDialogueOptionAftermath<AftermathContext>
+internal class PredefinedCombatOptionAftermath : DialogueOptionAftermathBase
 {
     private readonly string _sid;
 
@@ -13,8 +14,13 @@ internal class PredefinedCombatOptionAftermath : IDialogueOptionAftermath<Afterm
         _sid = sid;
     }
 
-    public void Apply(AftermathContext aftermathContext)
+    public override void Apply(AftermathContext aftermathContext)
     {
         aftermathContext.StartCombat(_sid);
+    }
+
+    protected override IReadOnlyList<string> GetDescriptionValues(AftermathContext aftermathContext)
+    {
+        return Array.Empty<string>();
     }
 }

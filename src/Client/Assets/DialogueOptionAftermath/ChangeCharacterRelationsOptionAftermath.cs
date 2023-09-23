@@ -3,8 +3,6 @@
 using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
 
-using CombatDicesTeam.Dialogues;
-
 namespace Client.Assets.DialogueOptionAftermath;
 
 internal class ChangeCharacterRelationsOptionAftermath : DialogueOptionAftermathBase
@@ -23,12 +21,12 @@ internal class ChangeCharacterRelationsOptionAftermath : DialogueOptionAftermath
         aftermathContext.ChangeCharacterRelations(_targetCharacter, _knowledgeLevel);
     }
 
-    protected override IReadOnlyList<string> GetDescriptionValues(AftermathContext aftermathContext)
+    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
     {
-        return new[]
+        return new object[]
         {
-            _targetCharacter.ToString(),
-            _knowledgeLevel.ToString()
+            _targetCharacter,
+            _knowledgeLevel
         };
     }
 }

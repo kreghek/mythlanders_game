@@ -18,7 +18,7 @@ internal class ActivateStoryPointOptionAftermath : DialogueOptionAftermathBase
         aftermathContext.AddStoryPoint(_storyPointSid);
     }
 
-    protected override IReadOnlyList<string> GetDescriptionValues(AftermathContext aftermathContext)
+    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
     {
         return new[] { _storyPointSid };
     }
