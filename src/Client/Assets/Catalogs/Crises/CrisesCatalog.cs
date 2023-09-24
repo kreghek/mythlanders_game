@@ -6,7 +6,7 @@ using CombatDicesTeam.Dices;
 
 using Core.Crises;
 
-namespace Client.Assets.Crises;
+namespace Client.Assets.Catalogs.Crises;
 
 public sealed class CrisesCatalog : ICrisesCatalog
 {

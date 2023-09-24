@@ -2,12 +2,10 @@ namespace Core.Crises;
 
 public sealed class Crisis : ICrisis
 {
-    private readonly IReadOnlyCollection<ICrisisAftermath> _aftermaths;
-
-    public Crisis(string sid, IReadOnlyCollection<ICrisisAftermath> aftermaths)
+    public Crisis(string sid, string eventSid)
     {
         Sid = new CrisisSid(sid);
-        _aftermaths = aftermaths;
+        EventSid = eventSid;
     }
 
     /// <summary>
@@ -20,12 +18,5 @@ public sealed class Crisis : ICrisis
     /// </summary>
     public EventType EventType => EventType.Crisis;
 
-    /// <summary>
-    /// Small item options.
-    /// </summary>
-    /// <returns></returns>
-    public IReadOnlyCollection<ICrisisAftermath> GetItems()
-    {
-        return _aftermaths;
-    }
+    public string EventSid { get; }
 }

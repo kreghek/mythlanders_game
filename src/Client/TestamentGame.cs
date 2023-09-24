@@ -3,8 +3,8 @@ using System.Diagnostics;
 
 using Client.Assets;
 using Client.Assets.Catalogs;
+using Client.Assets.Catalogs.Crises;
 using Client.Assets.CombatMovements;
-using Client.Assets.Crises;
 using Client.Core;
 using Client.Engine;
 using Client.GameComponents;

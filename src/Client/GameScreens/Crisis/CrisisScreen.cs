@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets;
+using Client.Assets.Catalogs.Crises;
 using Client.Assets.Catalogs.Dialogues;
-using Client.Assets.Crises;
 using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
@@ -69,10 +69,10 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
         
         _dialogueContextFactory =
             new DialogueContextFactory(globe, storyPointCatalog, player, _dialogueEnvironmentManager,
-                _crisis.Event);
+                _crisis.EventSid);
 
         var eventCatalog = game.Services.GetRequiredService<IEventCatalog>();
-        var currentDialogueSid = _crisis.Event.GetDialogSid();
+        var currentDialogueSid = _crisis.EventSid.GetDialogSid();
         var crisisDialogue = eventCatalog.GetDialogue(currentDialogueSid);
         _dialoguePlayer =
             new DialoguePlayer<ParagraphConditionContext, AftermathContext>(crisisDialogue,
@@ -160,16 +160,19 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
     protected override void InitializeContent()
     {
+        var aftermathContext = _dialogueContextFactory.CreateAftermathContext();
+
         var eventResolveOptions = _dialoguePlayer.CurrentOptions.OrderBy(x => x.TextSid).ToArray();
         for (var buttonIndex = 0; buttonIndex < eventResolveOptions.Length; buttonIndex++)
         {
             var eventResolveOption = eventResolveOptions[buttonIndex];
-            var aftermathButton = new CrisisAftermathButton(buttonIndex + 1, eventResolveOption.TextSid);
+            var optionText = StoryResources.ResourceManager.GetString(eventResolveOption.TextSid);
+            var aftermathButton = new CrisisAftermathButton(buttonIndex + 1, optionText);
             _aftermathButtons.Add(aftermathButton);
 
             aftermathButton.OnClick += (s, e) =>
             {
-                eventResolveOption.Aftermath?.Apply(_dialogueContextFactory.CreateAftermathContext());
+                eventResolveOption.Aftermath?.Apply(aftermathContext);
 
                 _soundEffectInstance.Stop();
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
@@ -178,7 +181,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
             aftermathButton.OnHover += (s, e) =>
             {
-                var hintText = GameObjectResources.ResourceManager.GetString($"{eventResolveOption.Sid.ResourceName}_Hint");
+                var hintText = eventResolveOption.Aftermath?.GetDescription(aftermathContext);
 
                 if (hintText is not null)
                 {
