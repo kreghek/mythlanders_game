@@ -2,10 +2,9 @@ namespace Core.Crises;
 
 public sealed class Crisis : ICrisis
 {
-    public Crisis(string sid, string eventSid)
+    public Crisis(string sid)
     {
         Sid = new CrisisSid(sid);
-        EventSid = eventSid;
     }
 
     /// <summary>
@@ -18,5 +17,5 @@ public sealed class Crisis : ICrisis
     /// </summary>
     public EventType EventType => EventType.Crisis;
 
-    public string EventSid { get; }
+    public string EventSid => $"{Sid.Value}Event";
 }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-    <!-- 
+  <!-- 
           Microsoft ResX Schema
   
           Version 1.3
@@ -58,958 +58,921 @@
               : using a System.ComponentModel.TypeConverter
               : and then encoded with base64 encoding.
       -->
-    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root"
-                xmlns="">
-        <xsd:element name="root" msdata:IsDataSet="true">
+  <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root" xmlns="">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
             <xsd:complexType>
-                <xsd:choice maxOccurs="unbounded">
-                    <xsd:element name="data">
-                        <xsd:complexType>
-                            <xsd:sequence>
-                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
-                            </xsd:sequence>
-                            <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1"/>
-                            <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-                            <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-                        </xsd:complexType>
-                    </xsd:element>
-                    <xsd:element name="resheader">
-                        <xsd:complexType>
-                            <xsd:sequence>
-                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                            </xsd:sequence>
-                            <xsd:attribute name="name" type="xsd:string" use="required"/>
-                        </xsd:complexType>
-                    </xsd:element>
-                </xsd:choice>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
             </xsd:complexType>
-        </xsd:element>
-    </xsd:schema>
-    <resheader name="resmimetype">
-        <value>text/microsoft-resx</value>
-    </resheader>
-    <resheader name="version">
-        <value>1.3</value>
-    </resheader>
-    <resheader name="reader">
-        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral,
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral,
             PublicKeyToken=b77a5c561934e089
         </value>
-    </resheader>
-    <resheader name="writer">
-        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral,
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral,
             PublicKeyToken=b77a5c561934e089
         </value>
-    </resheader>
-    <data name="AbstractMonsterAttack" xml:space="preserve">
+  </resheader>
+  <data name="AbstractMonsterAttack" xml:space="preserve">
       <value>Abstract monster attack</value>
         <comment>Skill</comment>
   </data>
-    <data name="AfterlifeWhirlwind" xml:space="preserve">
+  <data name="AfterlifeWhirlwind" xml:space="preserve">
     <value>Afterlife whirlwind</value>
         <comment>Combat movement Chaser</comment>
   </data>
-    <data name="AfterlifeWhirlwind_Description" xml:space="preserve">
-    <value/>
+  <data name="AfterlifeWhirlwind_Description" xml:space="preserve">
+    <value />
         <comment>Combat movement Chaser</comment>
   </data>
-    <data name="Agressor" xml:space="preserve">
+  <data name="Agressor" xml:space="preserve">
     <value>Agressor</value>
   </data>
-    <data name="ArcherEquipment" xml:space="preserve">
+  <data name="ArcherEquipment" xml:space="preserve">
     <value>Broken arrows</value>
         <comment>Resource</comment>
   </data>
-    <data name="ArcherMk3ScoutPowerArmor" xml:space="preserve">
+  <data name="ArcherMk3ScoutPowerArmor" xml:space="preserve">
     <value>Mk3 scout power armor</value>
         <comment>Equipment</comment>
   </data>
-    <data name="ArcherMk3ScoutPowerArmorDescription" xml:space="preserve">
-    <value/>
+  <data name="ArcherMk3ScoutPowerArmorDescription" xml:space="preserve">
+    <value />
         <comment>Equipment</comment>
   </data>
-    <data name="ArcherPulsarBow" xml:space="preserve">
+  <data name="ArcherPulsarBow" xml:space="preserve">
     <value>Pulsar bow</value>
         <comment>Equipment</comment>
   </data>
-    <data name="ArcherPulsarBowDescription" xml:space="preserve">
-    <value/>
+  <data name="ArcherPulsarBowDescription" xml:space="preserve">
+    <value />
         <comment>Skill</comment>
   </data>
-    <data name="ArrowRain" xml:space="preserve">
+  <data name="ArrowRain" xml:space="preserve">
       <value>Arrow rain</value>
         <comment>Skill</comment>
   </data>
-    <data name="ArrowsOfMorana" xml:space="preserve">
+  <data name="ArrowsOfMorana" xml:space="preserve">
     <value>Arrow of Morana</value>
         <comment>Combat Movement Robber</comment>
   </data>
-    <data name="ArrowsOfMorana_Description" xml:space="preserve">
-    <value/>
+  <data name="ArrowsOfMorana_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Robber</comment>
   </data>
-    <data name="ArtOfCombat" xml:space="preserve">
+  <data name="ArtOfCombat" xml:space="preserve">
     <value>Art of Combat</value>
         <comment>Combat movement Monk</comment>
   </data>
-    <data name="ArtOfCombat_Description" xml:space="preserve">
-    <value/>
+  <data name="ArtOfCombat_Description" xml:space="preserve">
+    <value />
         <comment>Combat movement Monk</comment>
   </data>
-    <data name="AsceticRobe" xml:space="preserve">
+  <data name="AsceticRobe" xml:space="preserve">
     <value>Ascetic robe</value>
         <comment>Equipment</comment>
   </data>
-    <data name="Aspid" xml:space="preserve">
+  <data name="Aspid" xml:space="preserve">
     <value>Aspid</value>
         <comment>Monster</comment>
   </data>
-    <data name="Assaulter" xml:space="preserve">
+  <data name="Assaulter" xml:space="preserve">
     <value>Haokin</value>
         <comment>Hero</comment>
   </data>
-    <data name="Automataur" xml:space="preserve">
+  <data name="Automataur" xml:space="preserve">
     <value>Automataur</value>
   </data>
-    <data name="BalticThunder" xml:space="preserve">
+  <data name="BalticThunder" xml:space="preserve">
     <value>Baltic thunder</value>
         <comment>Combat Movement Robber</comment>
   </data>
-    <data name="BalticThunder_Description" xml:space="preserve">
-    <value/>
+  <data name="BalticThunder_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Robber</comment>
   </data>
-    <data name="Battleground" xml:space="preserve">
+  <data name="Battleground" xml:space="preserve">
     <value>Battleground</value>
         <comment>Location</comment>
   </data>
-    <data name="Bear" xml:space="preserve">
+  <data name="Bear" xml:space="preserve">
     <value>Brown bear</value>
         <comment>Monster</comment>
   </data>
-    <data name="BigMonster" xml:space="preserve">
+  <data name="BigMonster" xml:space="preserve">
     <value>Big monster</value>
         <comment>Perk</comment>
   </data>
-    <data name="BigMonsterDescription" xml:space="preserve">
+  <data name="BigMonsterDescription" xml:space="preserve">
     <value>This monster is big so it has +50% HP and armor x 2.</value>
         <comment>Perk</comment>
   </data>
-    <data name="BlankShot" xml:space="preserve">
+  <data name="BlankShot" xml:space="preserve">
     <value>Blank shot</value>
         <comment>Combat movement Partisan</comment>
   </data>
-    <data name="BlankShot_Description" xml:space="preserve">
-    <value/>
+  <data name="BlankShot_Description" xml:space="preserve">
+    <value />
         <comment>Combat movement Partisan</comment>
   </data>
-    <data name="BlindDefense" xml:space="preserve">
+  <data name="BlindDefense" xml:space="preserve">
     <value>Blind defense</value>
   </data>
-    <data name="BoldMarauder" xml:space="preserve">
+  <data name="BoldMarauder" xml:space="preserve">
     <value>Marauder</value>
   </data>
-    <data name="BookOfHerbs" xml:space="preserve">
+  <data name="BookOfHerbs" xml:space="preserve">
     <value>The book of a herbs</value>
         <comment>Equipment</comment>
   </data>
-    <data name="BookOfHerbsDescription" xml:space="preserve">
-    <value/>
+  <data name="BookOfHerbsDescription" xml:space="preserve">
+    <value />
         <comment>Equipment</comment>
   </data>
-    <data name="BossMonster" xml:space="preserve">
+  <data name="BossMonster" xml:space="preserve">
     <value>The BOSS</value>
         <comment>Perk</comment>
   </data>
-    <data name="BossMonsterDescription" xml:space="preserve">
+  <data name="BossMonsterDescription" xml:space="preserve">
     <value>This is the Master of the location. The monster is the most powerfull in this part of the world. It has +250% HP and doubled armor.</value>
         <comment>Perk</comment>
   </data>
-    <data name="BringBeastDown" xml:space="preserve">
+  <data name="BringBeastDown" xml:space="preserve">
     <value>Bring the Beast down</value>
         <comment>Combat Movement Amazon</comment>
   </data>
-    <data name="BringBeastDown_Description" xml:space="preserve">
-    <value/>
+  <data name="BringBeastDown_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Amazon</comment>
   </data>
-    <data name="BuyFood_CrisisAftermath" xml:space="preserve">
-    <value/>
+  <data name="BuyFood_CrisisAftermath" xml:space="preserve">
+    <value />
         <comment>Crisis Aftermath</comment>
   </data>
-    <data name="Castle" xml:space="preserve">
+  <data name="Castle" xml:space="preserve">
     <value>Grim Castle in the Rock</value>
         <comment>Location</comment>
   </data>
-    <data name="ChainHit" xml:space="preserve">
+  <data name="ChainHit" xml:space="preserve">
     <value>Chain hit</value>
         <comment>Combat Movement Chaser</comment>
   </data>
-    <data name="ChainHit_Description" xml:space="preserve">
+  <data name="ChainHit_Description" xml:space="preserve">
     <value></value>
         <comment>Combat Movement Chaser</comment>
   </data>
-    <data name="ChaoticNeuroInterface" xml:space="preserve">
+  <data name="ChaoticNeuroInterface" xml:space="preserve">
     <value>Chaotic neuro-interface</value>
         <comment>Equipment</comment>
   </data>
-    <data name="CharacterDeepPreyingTitleTemplate" xml:space="preserve">
+  <data name="CharacterDeepPreyingTitleTemplate" xml:space="preserve">
     <value>{0} is preying</value>
         <comment>Global Effect</comment>
   </data>
-    <data name="Chasing" xml:space="preserve">
+  <data name="Chasing" xml:space="preserve">
     <value>Chasing</value>
         <comment>Combat Movement Chaser</comment>
   </data>
-    <data name="Chasing_Description" xml:space="preserve">
+  <data name="Chasing_Description" xml:space="preserve">
     <value></value>
         <comment>Combat Movement Chaser</comment>
   </data>
-    <data name="ChineseOldman" xml:space="preserve">
+  <data name="ChineseOldman" xml:space="preserve">
     <value>Ninlao Bingwen</value>
         <comment>NPC</comment>
   </data>
-    <data name="ChineseOldman_Hidden" xml:space="preserve">
+  <data name="ChineseOldman_Hidden" xml:space="preserve">
     <value>Chinese oldman</value>
   </data>
-    <data name="CityHunting_Crisis" xml:space="preserve">
-    <value></value>
-        <comment>Crisis</comment>
-  </data>
-    <data name="CombatSword" xml:space="preserve">
+  <data name="CombatSword" xml:space="preserve">
     <value>Combat sword</value>
         <comment>Equipment</comment>
   </data>
-    <data name="CombatSwordDescription" xml:space="preserve">
-    <value/>
+  <data name="CombatSwordDescription" xml:space="preserve">
+    <value />
         <comment>Equipment</comment>
   </data>
-    <data name="Comissar" xml:space="preserve">
+  <data name="Comissar" xml:space="preserve">
     <value>Sardo</value>
         <comment>Hero</comment>
   </data>
-    <data name="Conversation_CrisisAftermath" xml:space="preserve">
-    <value/>
-        <comment>Crisis Aftermath</comment>
-  </data>
-    <data name="CriticalHit" xml:space="preserve">
+  <data name="CriticalHit" xml:space="preserve">
     <value>Critical hit</value>
         <comment>Perk</comment>
   </data>
-    <data name="CriticalHitDescription" xml:space="preserve">
+  <data name="CriticalHitDescription" xml:space="preserve">
     <value>Ability to deal double damage in 50% cases.</value>
         <comment>Perk</comment>
   </data>
-    <data name="CyberClaws" xml:space="preserve">
+  <data name="CyberClaws" xml:space="preserve">
     <value>Cyber-claws</value>
         <comment>Combat Movement Digital wolf</comment>
   </data>
-    <data name="CyberClaws_Description" xml:space="preserve">
+  <data name="CyberClaws_Description" xml:space="preserve">
     <value></value>
         <comment>Combat Movement Digital wolf</comment>
   </data>
-    <data name="DamageTogether_CrisisAftermath" xml:space="preserve">
-    <value/>
-        <comment>Crisis Aftermath</comment>
-  </data>
-    <data name="DamageTogether_CrisisAftermath_Hint" xml:space="preserve">
-    <value></value>
-        <comment>Crisis Aftermath</comment>
-  </data>
-    <data name="DanceWithThePast" xml:space="preserve">
+  <data name="DanceWithThePast" xml:space="preserve">
     <value>Dance with the Past</value>
         <comment>Combat Movement Black Trooper</comment>
   </data>
-    <data name="DanceWithThePast_Description" xml:space="preserve">
-    <value/>
+  <data name="DanceWithThePast_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Black Trooper</comment>
   </data>
-    <data name="DarkLight" xml:space="preserve">
+  <data name="DarkLight" xml:space="preserve">
       <value>Dark light</value>
         <comment>Skill</comment>
   </data>
-    <data name="DarkRaids" xml:space="preserve">
+  <data name="DarkRaids" xml:space="preserve">
     <value>Dark raids</value>
   </data>
-    <data name="DarkRaids_Description" xml:space="preserve">
+  <data name="DarkRaids_Description" xml:space="preserve">
     <value></value>
   </data>
-    <data name="DeathPath" xml:space="preserve">
+  <data name="DeathPath" xml:space="preserve">
     <value>Death path</value>
         <comment>Location</comment>
   </data>
-    <data name="DeceptivelyLightRobe" xml:space="preserve">
+  <data name="DeceptivelyLightRobe" xml:space="preserve">
     <value>Deceptively light robe</value>
         <comment>Equipment</comment>
   </data>
-    <data name="DefenseStance" xml:space="preserve">
+  <data name="DefenseStance" xml:space="preserve">
       <value>Defense stance</value>
         <comment>Skill</comment>
   </data>
-    <data name="Desert" xml:space="preserve">
+  <data name="Desert" xml:space="preserve">
     <value>Somewhere in the Desert...</value>
         <comment>Location</comment>
   </data>
-    <data name="DestroyedVillage" xml:space="preserve">
+  <data name="DestroyedVillage" xml:space="preserve">
     <value>Destroyed village</value>
         <comment>Location</comment>
   </data>
-    <data name="DestroyTheSickSource_CrisisAftermath" xml:space="preserve">
-    <value/>
+  <data name="DestroyTheSickSource_CrisisAftermath" xml:space="preserve">
+    <value />
         <comment>CrisisAftermath</comment>
   </data>
-    <data name="DestroyTheSickSource_CrisisAftermath_Hint" xml:space="preserve">
+  <data name="DestroyTheSickSource_CrisisAftermath_Hint" xml:space="preserve">
     <value></value>
         <comment>Crisis Aftermath</comment>
   </data>
-    <data name="DieBySword" xml:space="preserve">
+  <data name="DieBySword" xml:space="preserve">
       <value>Die by the sword</value>
         <comment>Combat Movement Swordsman</comment>
   </data>
-    <data name="DieBySword_Description" xml:space="preserve">
+  <data name="DieBySword_Description" xml:space="preserve">
     <value></value>
         <comment>Combat Movement Swordsman</comment>
   </data>
-    <data name="DigitalWolf" xml:space="preserve">
+  <data name="DigitalWolf" xml:space="preserve">
     <value>Digital wolf</value>
         <comment>Monster</comment>
   </data>
-    <data name="DopeHerb" xml:space="preserve">
+  <data name="DopeHerb" xml:space="preserve">
       <value>Dope herb</value>
         <comment>Skill</comment>
   </data>
-    <data name="DoubleKapesh" xml:space="preserve">
+  <data name="DoubleKapesh" xml:space="preserve">
     <value>Double kapesh!</value>
         <comment>Combat Movement Chaser</comment>
   </data>
-    <data name="DoubleKapesh_Description" xml:space="preserve">
+  <data name="DoubleKapesh_Description" xml:space="preserve">
     <value></value>
         <comment>Combat Movement Chaser</comment>
   </data>
-    <data name="EbonySkin" xml:space="preserve">
+  <data name="EbonySkin" xml:space="preserve">
     <value>Ebony skin</value>
   </data>
-    <data name="EbonySkin_Description" xml:space="preserve">
+  <data name="EbonySkin_Description" xml:space="preserve">
     <value></value>
   </data>
-    <data name="EgyptianBookOfDeath" xml:space="preserve">
+  <data name="EgyptianBookOfDeath" xml:space="preserve">
     <value>Egyptian Book of a dead</value>
         <comment>Equipment</comment>
   </data>
-    <data name="EliteGuardsmanSpear" xml:space="preserve">
+  <data name="EliteGuardsmanSpear" xml:space="preserve">
     <value>Elite guardsman's spear</value>
         <comment>Equipment</comment>
   </data>
-    <data name="EmptinessInTheHand" xml:space="preserve">
+  <data name="EmptinessInTheHand" xml:space="preserve">
     <value>Emptiness in the hand</value>
         <comment>Equipment</comment>
   </data>
-    <data name="EnergeticBite" xml:space="preserve">
+  <data name="EnergeticBite" xml:space="preserve">
     <value>Energetic bite</value>
         <comment>Combat Movement Digital Wolf</comment>
   </data>
-    <data name="EnergeticBite_Description" xml:space="preserve">
+  <data name="EnergeticBite_Description" xml:space="preserve">
     <value></value>
         <comment>Combat Movement Digital Wolf</comment>
   </data>
-    <data name="EnergyShot" xml:space="preserve">
+  <data name="EnergyShot" xml:space="preserve">
       <value>Energy shot</value>
         <comment>Skill</comment>
   </data>
-    <data name="Evasion" xml:space="preserve">
+  <data name="Evasion" xml:space="preserve">
     <value>Evasion</value>
         <comment>Perk</comment>
   </data>
-    <data name="EvasionDescription" xml:space="preserve">
+  <data name="EvasionDescription" xml:space="preserve">
     <value>Ability to avoid 50% of any attacks.</value>
         <comment>Perk</comment>
   </data>
-    <data name="EyesOfChaos" xml:space="preserve">
+  <data name="EyesOfChaos" xml:space="preserve">
     <value>Eyes of chaos</value>
   </data>
-    <data name="EyesOfChaos_Description" xml:space="preserve">
+  <data name="EyesOfChaos_Description" xml:space="preserve">
     <value></value>
   </data>
-    <data name="FatalBlow" xml:space="preserve">
+  <data name="FatalBlow" xml:space="preserve">
     <value>Fatal blow</value>
         <comment>Combat Movement Black Trooper</comment>
   </data>
-    <data name="FatalBlow_Description" xml:space="preserve">
-    <value/>
+  <data name="FatalBlow_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Black Trooper</comment>
   </data>
-    <data name="FingerOfAnubis" xml:space="preserve">
+  <data name="FingerOfAnubis" xml:space="preserve">
       <value>The Finger of Anubis</value>
         <comment>Skill</comment>
   </data>
-    <data name="FinishWounded" xml:space="preserve">
+  <data name="FinishWounded" xml:space="preserve">
     <value>Finish a wounded</value>
         <comment>Combat Movement Amazon</comment>
   </data>
-    <data name="FinishWounded_Description" xml:space="preserve">
-    <value/>
+  <data name="FinishWounded_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Amazon</comment>
   </data>
-    <data name="FlockAlphaTactics" xml:space="preserve">
+  <data name="FlockAlphaTactics" xml:space="preserve">
     <value>Flock Alpha Tactics</value>
         <comment>Combat Movement</comment>
   </data>
-    <data name="FlockAlphaTactics_Description" xml:space="preserve">
+  <data name="FlockAlphaTactics_Description" xml:space="preserve">
     <value></value>
   </data>
-    <data name="GreyWolf" xml:space="preserve">
+  <data name="GreyWolf" xml:space="preserve">
     <value>Grey wolf</value>
         <comment>Monster</comment>
   </data>
-    <data name="GrimResolve" xml:space="preserve">
+  <data name="GrimResolve" xml:space="preserve">
     <value>Grim resolve</value>
         <comment>Combat Movement Black Trooper</comment>
   </data>
-    <data name="GrimResolve_Description" xml:space="preserve">
-    <value/>
+  <data name="GrimResolve_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Black Trooper</comment>
   </data>
-    <data name="GuardianPromise" xml:space="preserve">
+  <data name="GuardianPromise" xml:space="preserve">
     <value>Promise of a tomb guardian</value>
         <comment>Combat Movement Chaser</comment>
   </data>
-    <data name="GuardianPromise_Description" xml:space="preserve">
+  <data name="GuardianPromise_Description" xml:space="preserve">
     <value></value>
         <comment>Combat Movement Chaser</comment>
   </data>
-    <data name="GuardianWoman" xml:space="preserve">
+  <data name="GuardianWoman" xml:space="preserve">
     <value>Guardian woman</value>
         <comment>Hero</comment>
   </data>
-    <data name="HandOfThousandForms" xml:space="preserve">
+  <data name="HandOfThousandForms" xml:space="preserve">
     <value>Hand of Thousand Forms and Intentions</value>
         <comment>Combat Movement Monk</comment>
   </data>
-    <data name="HandOfThousandForms_Description" xml:space="preserve">
+  <data name="HandOfThousandForms_Description" xml:space="preserve">
     <value>Move to vanguard and deal 2 damage to the nearest enemy in lane. If the monk was already in the vanguard, then deal 1 bonus damage.</value>
   </data>
-    <data name="HaventBeenPunchedInTheFaceForALongTime_voice" xml:space="preserve">
+  <data name="HaventBeenPunchedInTheFaceForALongTime_voice" xml:space="preserve">
     <value>Haven't been punched in the face for a long time?</value>
         <comment>Voice</comment>
   </data>
-    <data name="HealingSalve" xml:space="preserve">
+  <data name="HealingSalve" xml:space="preserve">
       <value>Healing salve</value>
         <comment>Skill</comment>
   </data>
-    <data name="Herbalist" xml:space="preserve">
+  <data name="Herbalist" xml:space="preserve">
     <value>Rada The Old</value>
         <comment>Hero</comment>
   </data>
-    <data name="HerbalistEquipment" xml:space="preserve">
+  <data name="HerbalistEquipment" xml:space="preserve">
     <value>Wild herbs</value>
         <comment>Resource</comment>
   </data>
-    <data name="HerbBag" xml:space="preserve">
+  <data name="HerbBag" xml:space="preserve">
     <value>Herb bag</value>
         <comment>Equipment</comment>
   </data>
-    <data name="HerbBagDescription" xml:space="preserve">
-    <value/>
+  <data name="HerbBagDescription" xml:space="preserve">
+    <value />
         <comment>Equipment</comment>
   </data>
-    <data name="Hermitage" xml:space="preserve">
+  <data name="Hermitage" xml:space="preserve">
     <value>Hermitage</value>
         <comment>Location</comment>
   </data>
-    <data name="HiddenIntention" xml:space="preserve">
+  <data name="HiddenIntention" xml:space="preserve">
     <value>Hidden intention</value>
         <comment>Combat movement Monk</comment>
   </data>
-    <data name="HiddenIntention_Description" xml:space="preserve">
-    <value/>
+  <data name="HiddenIntention_Description" xml:space="preserve">
+    <value />
         <comment>Combat movement Monk</comment>
   </data>
-    <data name="HitFromShoulder" xml:space="preserve">
+  <data name="HitFromShoulder" xml:space="preserve">
     <value>Hit from the shoulder</value>
         <comment>Combat Movement Swordsman</comment>
   </data>
-    <data name="HitFromShoulder_Description" xml:space="preserve">
-    <value/>
+  <data name="HitFromShoulder_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Swordsman</comment>
   </data>
-    <data name="Hoplite" xml:space="preserve">
+  <data name="Hoplite" xml:space="preserve">
     <value>Leonidas</value>
         <comment>Hero</comment>
   </data>
-    <data name="HornedFrog" xml:space="preserve">
+  <data name="HornedFrog" xml:space="preserve">
     <value>Horned frog</value>
         <comment>Monster</comment>
   </data>
-    <data name="Hq" xml:space="preserve">
+  <data name="Hq" xml:space="preserve">
     <value>HQ</value>
         <comment>Hero</comment>
   </data>
-    <data name="Hunt" xml:space="preserve">
+  <data name="Hunt" xml:space="preserve">
     <value>The Hunt has begun!</value>
         <comment>Combat Movement Amazon</comment>
   </data>
-    <data name="Hunt_Description" xml:space="preserve">
-    <value/>
+  <data name="Hunt_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Amazon</comment>
   </data>
-    <data name="Ignore_CrisisAftermath" xml:space="preserve">
+  <data name="Ignore_CrisisAftermath" xml:space="preserve">
     <value>Ignore</value>
         <comment>Crisis Aftermath</comment>
   </data>
-    <data name="Ignore_CrisisAftermath_Hint" xml:space="preserve">
+  <data name="Ignore_CrisisAftermath_Hint" xml:space="preserve">
     <value>Inflict wrath on the entire group of heroes!
 - Everyone takes 1 damage penalty for 1 combat.
 - Berimir takes an additional 1 damage penalty for all combats until the end of the campaign.</value>
         <comment>Crisis Aftermath</comment>
   </data>
-    <data name="ImprovedArmor" xml:space="preserve">
+  <data name="ImprovedArmor" xml:space="preserve">
     <value>Improved armor</value>
         <comment>Perk</comment>
   </data>
-    <data name="ImprovedArmorDescription" xml:space="preserve">
+  <data name="ImprovedArmorDescription" xml:space="preserve">
     <value>Amount of the armor increased by 2 times.</value>
         <comment>Perk</comment>
   </data>
-    <data name="ImprovedHitPoints" xml:space="preserve">
+  <data name="ImprovedHitPoints" xml:space="preserve">
     <value>Improved hit points</value>
         <comment>Perk</comment>
   </data>
-    <data name="ImprovedHitPointsDescription" xml:space="preserve">
+  <data name="ImprovedHitPointsDescription" xml:space="preserve">
     <value>Amount of the hit points increased by 2 times.</value>
         <comment>Perk</comment>
   </data>
-    <data name="Impulse" xml:space="preserve">
+  <data name="Impulse" xml:space="preserve">
     <value>Impulse</value>
   </data>
-    <data name="ImpulseGenerator" xml:space="preserve">
+  <data name="ImpulseGenerator" xml:space="preserve">
     <value>Impulse generator</value>
   </data>
-    <data name="InfernalSickness_Crisis" xml:space="preserve">
+  <data name="InfernalSickness_Crisis" xml:space="preserve">
     <value></value>
         <comment>Crisis</comment>
   </data>
-    <data name="InspirationalBreakthrough" xml:space="preserve">
+  <data name="InspirationalBreakthrough" xml:space="preserve">
     <value>Inspirational breakthrough</value>
         <comment>Combat Movement Partisan</comment>
   </data>
-    <data name="InspirationalBreakthrough_Description" xml:space="preserve">
-    <value/>
+  <data name="InspirationalBreakthrough_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Partisan</comment>
   </data>
-    <data name="InspiringRush" xml:space="preserve">
+  <data name="InspiringRush" xml:space="preserve">
     <value>Inspiring rush</value>
         <comment>Skill</comment>
   </data>
-    <data name="JuggernautHeavyPowerArmor" xml:space="preserve">
+  <data name="JuggernautHeavyPowerArmor" xml:space="preserve">
     <value>Juggernaut heavy power armor</value>
         <comment>Equipment</comment>
   </data>
-    <data name="JustHitBoarWithKnife" xml:space="preserve">
+  <data name="JustHitBoarWithKnife" xml:space="preserve">
     <value>Just hit a whild boar with the knife</value>
         <comment>Combat movement Amazon</comment>
   </data>
-    <data name="JustHitBoarWithKnife_Description" xml:space="preserve">
-    <value/>
+  <data name="JustHitBoarWithKnife_Description" xml:space="preserve">
+    <value />
         <comment>Combat movement Amazon</comment>
   </data>
-    <data name="LastChanceToPeace" xml:space="preserve">
+  <data name="LastChanceToPeace" xml:space="preserve">
     <value>Last chance to peace</value>
         <comment>Combat Movement Black Trooper</comment>
   </data>
-    <data name="LastChanceToPeace_Description" xml:space="preserve">
-    <value/>
+  <data name="LastChanceToPeace_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Black Trooper</comment>
   </data>
-    <data name="LookOut" xml:space="preserve">
+  <data name="LookOut" xml:space="preserve">
     <value>Look out!</value>
         <comment>Combat movement Swordsman</comment>
   </data>
-    <data name="LookOut_Description" xml:space="preserve">
-    <value/>
+  <data name="LookOut_Description" xml:space="preserve">
+    <value />
         <comment>Combat movement Swordsman</comment>
   </data>
-    <data name="MadnessWithinEyes" xml:space="preserve">
+  <data name="MadnessWithinEyes" xml:space="preserve">
     <value>Madness within eyes</value>
         <comment>Combat Movement Black Trooper</comment>
   </data>
-    <data name="MadnessWithinEyes_Description" xml:space="preserve">
-    <value/>
+  <data name="MadnessWithinEyes_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Black Trooper</comment>
   </data>
-    <data name="MagicTrap_Crisis" xml:space="preserve">
-    <value></value>
-        <comment>Crisis</comment>
-  </data>
-    <data name="Marauder" xml:space="preserve">
+  <data name="Marauder" xml:space="preserve">
     <value>Marauder</value>
   </data>
-    <data name="MassHeal" xml:space="preserve">
+  <data name="MassHeal" xml:space="preserve">
     <value>Mass heal</value>
         <comment>Skill</comment>
   </data>
-    <data name="MasterfulStaffHit" xml:space="preserve">
+  <data name="MasterfulStaffHit" xml:space="preserve">
     <value>Masterful staff hit</value>
         <comment>Combat movement Monk</comment>
   </data>
-    <data name="MasterfulStaffHit_Description" xml:space="preserve">
-    <value/>
+  <data name="MasterfulStaffHit_Description" xml:space="preserve">
+    <value />
         <comment>Combat movement Monk</comment>
   </data>
-    <data name="Medjay" xml:space="preserve">
+  <data name="Medjay" xml:space="preserve">
     <value>Gelik</value>
         <comment>Hero</comment>
   </data>
-    <data name="Mines" xml:space="preserve">
+  <data name="Mines" xml:space="preserve">
     <value>The Mines</value>
         <comment>Location</comment>
   </data>
-    <data name="Mk2MediumPowerArmor" xml:space="preserve">
+  <data name="Mk2MediumPowerArmor" xml:space="preserve">
     <value>Mk2 medium power armor</value>
         <comment>Equipment</comment>
   </data>
-    <data name="Mk2MediumPowerArmorDescription" xml:space="preserve">
-    <value/>
+  <data name="Mk2MediumPowerArmorDescription" xml:space="preserve">
+    <value />
         <comment>Equipment</comment>
   </data>
-    <data name="Monastery" xml:space="preserve">
+  <data name="Monastery" xml:space="preserve">
     <value>Monastery in the flames</value>
         <comment>Location</comment>
   </data>
-    <data name="Monk" xml:space="preserve">
+  <data name="Monk" xml:space="preserve">
     <value>Maosin</value>
         <comment>Hero</comment>
   </data>
-    <data name="NanoMetalLongCloths" xml:space="preserve">
+  <data name="NanoMetalLongCloths" xml:space="preserve">
     <value>Nano-metal long cloths</value>
         <comment>Equipment</comment>
   </data>
-    <data name="NinthTrigram" xml:space="preserve">
+  <data name="NinthTrigram" xml:space="preserve">
     <value>Ninth trigram</value>
         <comment>Combat movement Monk</comment>
   </data>
-    <data name="NinthTrigram_Description" xml:space="preserve">
-    <value/>
+  <data name="NinthTrigram_Description" xml:space="preserve">
+    <value />
         <comment>Combat movement Monk</comment>
   </data>
-    <data name="ObeyAll_CrisisAftermath" xml:space="preserve">
+  <data name="ObeyAll_CrisisAftermath" xml:space="preserve">
     <value>Obey all</value>
         <comment>Crisis Aftermath</comment>
   </data>
-    <data name="Obey_CrisisAftermath" xml:space="preserve">
+  <data name="Obey_CrisisAftermath" xml:space="preserve">
     <value>Obey</value>
         <comment>Crisis Aftermath</comment>
   </data>
-    <data name="Obey_CrisisAftermath_Hint" xml:space="preserve">
+  <data name="Obey_CrisisAftermath_Hint" xml:space="preserve">
     <value></value>
         <comment>Crisis Aftermath</comment>
   </data>
-    <data name="OldGoodBrawl" xml:space="preserve">
+  <data name="OldGoodBrawl" xml:space="preserve">
     <value>Old good brawl</value>
         <comment>Combat movement Partisan</comment>
   </data>
-    <data name="OldGoodBrawl_Description" xml:space="preserve">
-    <value/>
+  <data name="OldGoodBrawl_Description" xml:space="preserve">
+    <value />
         <comment>Combat movement Partisan</comment>
   </data>
-    <data name="Oldman" xml:space="preserve">
+  <data name="Oldman" xml:space="preserve">
     <value>Oldman</value>
         <comment>Hero</comment>
   </data>
-    <data name="ParaliticChor" xml:space="preserve">
+  <data name="ParaliticChor" xml:space="preserve">
       <value>Paralitic Chor</value>
         <comment>Skill</comment>
   </data>
-    <data name="Partisan" xml:space="preserve">
+  <data name="Partisan" xml:space="preserve">
     <value>The Deaf</value>
   </data>
-    <data name="Pit" xml:space="preserve">
+  <data name="Pit" xml:space="preserve">
     <value>The Pit</value>
         <comment>Location</comment>
   </data>
-    <data name="Preying_Crisis" xml:space="preserve">
+  <data name="Preying_Crisis" xml:space="preserve">
     <value>One of the heroes feels the haunting presence of the his faith ancient ones. They demand his attention. They demand his help. Such requests cannot be ignored. Especially in the dark future, where only ancient forces make heroes.</value>
         <comment>Crisis</comment>
   </data>
-    <data name="Prey_CrisisAftermath" xml:space="preserve">
+  <data name="Prey_CrisisAftermath" xml:space="preserve">
     <value>Pay attention</value>
         <comment>Crisis Aftermath</comment>
   </data>
-    <data name="RapidShot" xml:space="preserve">
+  <data name="RapidShot" xml:space="preserve">
     <value>Rapid shot</value>
         <comment>Skill</comment>
   </data>
-    <data name="RedemptionStaff" xml:space="preserve">
+  <data name="RedemptionStaff" xml:space="preserve">
     <value>Staff of Redemption</value>
         <comment>Equipment</comment>
   </data>
-    <data name="RegenerativeProtocol" xml:space="preserve">
+  <data name="RegenerativeProtocol" xml:space="preserve">
     <value>Regenerative protocol</value>
         <comment>Combat Movement</comment>
   </data>
-    <data name="RegenerativeProtocol_Description" xml:space="preserve">
+  <data name="RegenerativeProtocol_Description" xml:space="preserve">
     <value></value>
         <comment>Combat Movement</comment>
   </data>
-    <data name="RestAll_CrisisAftermath" xml:space="preserve">
+  <data name="RestAll_CrisisAftermath" xml:space="preserve">
     <value>Rest all</value>
         <comment>Crisis Aftermath</comment>
   </data>
-    <data name="RestAll_CrisisAftermath_Hint" xml:space="preserve">
+  <data name="RestAll_CrisisAftermath_Hint" xml:space="preserve">
     <value></value>
         <comment>Crisis Aftermath</comment>
   </data>
-    <data name="Rest_CrisisAftermath" xml:space="preserve">
+  <data name="Rest_CrisisAftermath" xml:space="preserve">
     <value>Rest</value>
         <comment>Crisis Aftermath</comment>
   </data>
-    <data name="RiseYourSwords" xml:space="preserve">
+  <data name="RiseYourSwords" xml:space="preserve">
     <value>Rise your swords!</value>
         <comment>Combat Movement Swordsman</comment>
   </data>
-    <data name="RiseYourSwords_Description" xml:space="preserve">
-    <value/>
+  <data name="RiseYourSwords_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Swordsman</comment>
   </data>
-    <data name="Robber" xml:space="preserve">
+  <data name="Robber" xml:space="preserve">
     <value>Hawk</value>
         <comment>Hero</comment>
   </data>
-    <data name="RunOut_CrisisAftermath" xml:space="preserve">
-    <value/>
+  <data name="RunOut_CrisisAftermath" xml:space="preserve">
+    <value />
         <comment>Crisis Aftermath</comment>
   </data>
-    <data name="Sabotage" xml:space="preserve">
+  <data name="Sabotage" xml:space="preserve">
     <value>Sabotage</value>
         <comment>Combat Movement Partisan</comment>
   </data>
-    <data name="Sabotage_Description" xml:space="preserve">
-    <value/>
+  <data name="Sabotage_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Partisan</comment>
   </data>
-    <data name="ScarabeusKingLeg" xml:space="preserve">
+  <data name="ScarabeusKingLeg" xml:space="preserve">
     <value>Scarabeus King's Leg</value>
         <comment>Equipment</comment>
   </data>
-    <data name="SerpentTrap" xml:space="preserve">
+  <data name="SerpentTrap" xml:space="preserve">
     <value>Serpent trap</value>
   </data>
-    <data name="SerpentTrap_Description" xml:space="preserve">
+  <data name="SerpentTrap_Description" xml:space="preserve">
     <value></value>
   </data>
-    <data name="ShipGraveyard" xml:space="preserve">
+  <data name="ShipGraveyard" xml:space="preserve">
     <value>Ship Graveyard</value>
         <comment>Location</comment>
   </data>
-    <data name="SilverWindNecklace" xml:space="preserve">
+  <data name="SilverWindNecklace" xml:space="preserve">
     <value>Silver wind necklace</value>
         <comment>Equipment</comment>
   </data>
-    <data name="SilverWindNecklaceDescription" xml:space="preserve">
-    <value/>
+  <data name="SilverWindNecklaceDescription" xml:space="preserve">
+    <value />
         <comment>Equipment</comment>
   </data>
-    <data name="Spearman" xml:space="preserve">
+  <data name="Spearman" xml:space="preserve">
     <value>Ping</value>
         <comment>Hero</comment>
   </data>
-    <data name="SpiralInversion" xml:space="preserve">
+  <data name="SpiralInversion" xml:space="preserve">
     <value>Spiral Inversion</value>
   </data>
-    <data name="SpiralInversion_Description" xml:space="preserve">
+  <data name="SpiralInversion_Description" xml:space="preserve">
     <value></value>
   </data>
-    <data name="StaffHit" xml:space="preserve">
+  <data name="StaffHit" xml:space="preserve">
       <value>Staff hits</value>
         <comment>Skill</comment>
   </data>
-    <data name="Starvation_Crisis" xml:space="preserve">
+  <data name="Starvation_Crisis" xml:space="preserve">
     <value></value>
         <comment>Crisis</comment>
   </data>
-    <data name="StarveAll_CrisisAftermath" xml:space="preserve">
-    <value/>
+  <data name="StarveAll_CrisisAftermath" xml:space="preserve">
+    <value />
         <comment>Crisis Aftermath</comment>
   </data>
-    <data name="StarveAll_CrisisAftermath_Hint" xml:space="preserve">
+  <data name="StarveAll_CrisisAftermath_Hint" xml:space="preserve">
     <value></value>
   </data>
-    <data name="StarveSolo_CrisisAftermath" xml:space="preserve">
-    <value/>
+  <data name="StarveSolo_CrisisAftermath" xml:space="preserve">
+    <value />
         <comment>Crisis Aftermath</comment>
   </data>
-    <data name="StarveSolo_CrisisAftermath_Hint" xml:space="preserve">
+  <data name="StarveSolo_CrisisAftermath_Hint" xml:space="preserve">
     <value></value>
   </data>
-    <data name="StayStrong" xml:space="preserve">
+  <data name="StayStrong" xml:space="preserve">
     <value>Stay strong</value>
         <comment>Combat Movement Swordsman</comment>
   </data>
-    <data name="StayStrong_Description" xml:space="preserve">
-    <value/>
+  <data name="StayStrong_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Swordsman</comment>
   </data>
-    <data name="Stryga" xml:space="preserve">
+  <data name="Stryga" xml:space="preserve">
     <value>Stryga</value>
         <comment>Monster</comment>
   </data>
-    <data name="SuppressiveFire" xml:space="preserve">
+  <data name="SuppressiveFire" xml:space="preserve">
     <value>Suppressive fire</value>
         <comment>Skill</comment>
   </data>
-    <data name="SurpriseManeuver" xml:space="preserve">
+  <data name="SurpriseManeuver" xml:space="preserve">
     <value>Surprise maneuver</value>
         <comment>Combat Movement Partisan</comment>
   </data>
-    <data name="SurpriseManeuver_Description" xml:space="preserve">
-    <value/>
+  <data name="SurpriseManeuver_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Partisan</comment>
   </data>
-    <data name="SvarogBlastFurnace" xml:space="preserve">
+  <data name="SvarogBlastFurnace" xml:space="preserve">
       <value>Svarog's Blast Furnace</value>
         <comment>Skill</comment>
   </data>
-    <data name="Swamp" xml:space="preserve">
+  <data name="Swamp" xml:space="preserve">
     <value>Evil swamp</value>
         <comment>Location</comment>
   </data>
-    <data name="Swordsman" xml:space="preserve">
+  <data name="Swordsman" xml:space="preserve">
     <value>Berimir</value>
         <comment>Hero</comment>
   </data>
-    <data name="SymbolOfGod" xml:space="preserve">
+  <data name="SymbolOfGod" xml:space="preserve">
     <value>Symbol of the God</value>
         <comment>Equipment</comment>
   </data>
-    <data name="Synth" xml:space="preserve">
+  <data name="Synth" xml:space="preserve">
     <value>Nafrit</value>
         <comment>NPC</comment>
   </data>
-    <data name="Synth_Hidden" xml:space="preserve">
+  <data name="Synth_Hidden" xml:space="preserve">
     <value>The Lower Caste Synth</value>
         <comment>NPC</comment>
   </data>
-    <data name="TacticalManeuver" xml:space="preserve">
+  <data name="TacticalManeuver" xml:space="preserve">
     <value>Tactical maneuver</value>
         <comment>Skill</comment>
   </data>
-    <data name="TakeAllDamageByOneHero_CrisisAftermath" xml:space="preserve">
-    <value/>
-        <comment>Crisis Aftermath</comment>
-  </data>
-    <data name="TakeAllDamageByOneHero_CrisisAftermath_Hint" xml:space="preserve">
-    <value></value>
-        <comment>Crisis Aftermath</comment>
-  </data>
-    <data name="TheGoodWeather_voice" xml:space="preserve">
+  <data name="TheGoodWeather_voice" xml:space="preserve">
     <value>The good weather today...</value>
         <comment>Voice</comment>
   </data>
-    <data name="Thicket" xml:space="preserve">
+  <data name="Thicket" xml:space="preserve">
     <value>Dark Thicket</value>
         <comment>Location</comment>
   </data>
-    <data name="ToxicGasBomb" xml:space="preserve">
+  <data name="ToxicGasBomb" xml:space="preserve">
     <value>Toxic gas bomb</value>
         <comment>Skill</comment>
   </data>
-    <data name="TrackerSavvy" xml:space="preserve">
+  <data name="TrackerSavvy" xml:space="preserve">
     <value>Tracker's savvy</value>
         <comment>Combat Movement Amazon</comment>
   </data>
-    <data name="TrackerSavvy_Description" xml:space="preserve">
-    <value/>
+  <data name="TrackerSavvy_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Amazon</comment>
   </data>
-    <data name="TryToFight_CrisisAftermath" xml:space="preserve">
-    <value/>
-        <comment>Crisis Aftermath</comment>
-  </data>
-    <data name="TryToRunOut_CrisisAftermath" xml:space="preserve">
-    <value/>
-        <comment>Crisis Aftermath</comment>
-  </data>
-    <data name="TwoPlusTwoIsFive_voice" xml:space="preserve">
+  <data name="TwoPlusTwoIsFive_voice" xml:space="preserve">
     <value>Two plus two is five...</value>
         <comment>Voice</comment>
   </data>
-    <data name="UndercutValues" xml:space="preserve">
+  <data name="UndercutValues" xml:space="preserve">
     <value>Undercut values</value>
         <comment>Combat Movement Robber</comment>
   </data>
-    <data name="UndercutValues_Description" xml:space="preserve">
-    <value/>
+  <data name="UndercutValues_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Robber</comment>
   </data>
-    <data name="VampireBite" xml:space="preserve">
+  <data name="VampireBite" xml:space="preserve">
       <value>Vampire bite</value>
         <comment>Skill</comment>
   </data>
-    <data name="VelesProtection" xml:space="preserve">
+  <data name="VelesProtection" xml:space="preserve">
     <value>Veles protection</value>
         <comment>Combat Movement Digital wolf</comment>
   </data>
-    <data name="VelesProtection_Description" xml:space="preserve">
-    <value/>
+  <data name="VelesProtection_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Digital wolf</comment>
   </data>
-    <data name="Volkolak" xml:space="preserve">
+  <data name="Volkolak" xml:space="preserve">
     <value>Volkolak</value>
         <comment>Monster</comment>
   </data>
-    <data name="VolkolakClaws" xml:space="preserve">
+  <data name="VolkolakClaws" xml:space="preserve">
       <value>Volkolak claws</value>
         <comment>Skill</comment>
   </data>
-    <data name="VolkolakWarrior" xml:space="preserve">
+  <data name="VolkolakWarrior" xml:space="preserve">
     <value>Warrior of the Wolf Time</value>
         <comment>Monster</comment>
   </data>
-    <data name="WarriorEquipment" xml:space="preserve">
+  <data name="WarriorEquipment" xml:space="preserve">
     <value>Sword pieces</value>
         <comment>Resource</comment>
   </data>
-    <data name="WideSwordSlash" xml:space="preserve">
+  <data name="WideSwordSlash" xml:space="preserve">
       <value>Wide sword slash</value>
         <comment>Skill</comment>
   </data>
-    <data name="WindWheel" xml:space="preserve">
+  <data name="WindWheel" xml:space="preserve">
     <value>Wind wheel</value>
         <comment>Combat movement Robber</comment>
   </data>
-    <data name="WindWheel_Description" xml:space="preserve">
-    <value/>
+  <data name="WindWheel_Description" xml:space="preserve">
+    <value />
         <comment>Combat movement Robber</comment>
   </data>
-    <data name="WingsOfVeles" xml:space="preserve">
+  <data name="WingsOfVeles" xml:space="preserve">
     <value>Wings Of Veles</value>
         <comment>Combat Movement Robber</comment>
   </data>
-    <data name="WingsOfVeles_Description" xml:space="preserve">
-    <value/>
+  <data name="WingsOfVeles_Description" xml:space="preserve">
+    <value />
         <comment>Combat Movement Robber</comment>
   </data>
-    <data name="Wisp" xml:space="preserve">
+  <data name="Wisp" xml:space="preserve">
     <value>Will-o-Wisp</value>
         <comment>Monster</comment>
   </data>
-    <data name="WomanShort" xml:space="preserve">
+  <data name="WomanShort" xml:space="preserve">
     <value>Woman short</value>
         <comment>Equipment</comment>
   </data>
-    <data name="WomanShortDescription" xml:space="preserve">
-    <value/>
+  <data name="WomanShortDescription" xml:space="preserve">
+    <value />
         <comment>Equipment</comment>
   </data>
-    <data name="WoodenHandSculpture" xml:space="preserve">
+  <data name="WoodenHandSculpture" xml:space="preserve">
     <value>Wooden hand sculpture</value>
         <comment>Equipment</comment>
   </data>
-    <data name="WoodenHandSculptureDescription" xml:space="preserve">
-    <value/>
+  <data name="WoodenHandSculptureDescription" xml:space="preserve">
+    <value />
         <comment>Equipment</comment>
   </data>
-    <data name="ZduhachMight" xml:space="preserve">
+  <data name="ZduhachMight" xml:space="preserve">
       <value>Zduhach Might</value>
         <comment>Skill</comment>
   </data>

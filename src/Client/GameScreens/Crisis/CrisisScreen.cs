@@ -66,13 +66,15 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
         var player = globe.Player ?? throw new InvalidOperationException();
         var storyPointCatalog = game.Services.GetService<IStoryPointCatalog>();
         _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
+
+        var eventCatalog = game.Services.GetRequiredService<IEventCatalog>();
+        var smallEvent = eventCatalog.Events.First(x => x.Sid == _crisis.EventSid);
         
         _dialogueContextFactory =
             new DialogueContextFactory(globe, storyPointCatalog, player, _dialogueEnvironmentManager,
-                _crisis.EventSid);
+                smallEvent);
 
-        var eventCatalog = game.Services.GetRequiredService<IEventCatalog>();
-        var currentDialogueSid = _crisis.EventSid.GetDialogSid();
+        var currentDialogueSid = smallEvent.GetDialogSid();
         var crisisDialogue = eventCatalog.GetDialogue(currentDialogueSid);
         _dialoguePlayer =
             new DialoguePlayer<ParagraphConditionContext, AftermathContext>(crisisDialogue,

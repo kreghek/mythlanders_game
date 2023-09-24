@@ -4,6 +4,14 @@
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     </PropertyGroup>
     <ItemGroup>
+      <None Remove="Content\Dialogues\city_witch_hunting_crisis.yaml" />
+      <None Remove="Content\Dialogues\magic_trap_crisis.yaml" />
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Include="Content\Dialogues\city_witch_hunting_crisis.yaml" />
+      <Compile Include="Content\Dialogues\magic_trap_crisis.yaml" />
+    </ItemGroup>
+    <ItemGroup>
         <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303">
             <PrivateAssets>All</PrivateAssets>
         </PackageReference>
