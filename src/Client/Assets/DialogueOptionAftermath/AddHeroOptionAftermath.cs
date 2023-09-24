@@ -27,7 +27,7 @@ internal sealed class AddHeroOptionAftermath : DialogueOptionAftermathBase
 
     protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
     {
-        return new[]
+        return new object[]
         {
             _scheme.Name
         };

@@ -14,8 +14,6 @@ public sealed class CrisesCatalog : ICrisesCatalog
 
     public CrisesCatalog()
     {
-        var dice = new LinearDice();
-
         _crises = new ICrisis[]
         {
             new Crisis("MagicTrap"),
