@@ -13,7 +13,6 @@ public sealed class ConterAttackCombatantStatus : CombatantStatusBase
 
     public ConterAttackCombatantStatus(ICombatantStatusSid sid, ICombatantStatusLifetime lifetime) : base(sid, lifetime)
     {
-        
     }
 
     public override void Dispel(ICombatant combatant)
@@ -33,10 +32,8 @@ public sealed class ConterAttackCombatantStatus : CombatantStatusBase
     {
         if (e.Combatant != _ownerCombatant)
         {
-            return;
         }
 
         // TODO Handle conter attack intention
     }
-
 }
