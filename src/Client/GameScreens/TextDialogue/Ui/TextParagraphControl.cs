@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
+using Client.Assets.Catalogs.Dialogues;
+using Client.Assets.DialogueOptionAftermath;
 using Client.Core;
-using Client.Core.Dialogues;
 using Client.Engine;
 
+using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
 
 using Microsoft.Xna.Framework;
@@ -18,32 +19,32 @@ namespace Client.GameScreens.TextDialogue.Ui;
 internal sealed class TextParagraphControl : ControlBase
 {
     private const int DISPLAY_NAME_HEIGHT = 32;
+    private readonly AftermathContext _aftermathContext;
 
     private readonly SpriteFont _displayNameFont;
-    private readonly IReadOnlyCollection<IDialogueEnvironmentEffect> _envCommands;
-    private readonly IDialogueEnvironmentManager _envManager;
+    private readonly IReadOnlyCollection<IDialogueOptionAftermath<AftermathContext>> _envCommands;
     private readonly string? _localizedSpeakerName;
     private readonly TextParagraphMessageControl _message;
     private readonly Vector2 _messageSize;
-    private readonly UnitName _speaker;
+    private readonly IDialogueSpeaker _speaker;
     private readonly Vector2 _speakerDisplayNameSize;
 
     private bool _envCommandsExecuted;
 
-    public TextParagraphControl(DialogueParagraph eventTextFragment,
-        SoundEffect textSoundEffect, IDice dice, IDialogueEnvironmentManager envManager, IStoryState storyState)
+    public TextParagraphControl(DialogueSpeech<ParagraphConditionContext, AftermathContext> eventTextParagraph,
+        SoundEffect textSoundEffect, IDice dice, AftermathContext aftermathContext, IStoryState storyState)
     {
         _displayNameFont = UiThemeManager.UiContentStorage.GetMainFont();
-        _envManager = envManager;
-        _speaker = eventTextFragment.Speaker;
+        _aftermathContext = aftermathContext;
+        _speaker = eventTextParagraph.Speaker;
 
-        var speakerState = storyState.CharacterRelations.SingleOrDefault(x => x.Name == _speaker) ??
+        var speakerState = storyState.CharacterRelations.SingleOrDefault(x => x.Character == _speaker) ??
                            new CharacterRelation(_speaker);
 
         _localizedSpeakerName = GetSpeakerDisplayName(speakerState);
-        _message = new TextParagraphMessageControl(eventTextFragment, textSoundEffect, dice,
-            _speaker != UnitName.Environment);
-        _envCommands = eventTextFragment.EnvironmentEffects;
+        _message = new TextParagraphMessageControl(eventTextParagraph, textSoundEffect, dice,
+            DialogueSpeakers.Env != _speaker);
+        _envCommands = eventTextParagraph.Aftermaths.Where(x => x is IDecorativeEnvironmentAftermath).ToArray();
 
         _messageSize = _message.CalculateSize();
         _speakerDisplayNameSize = _localizedSpeakerName is not null
@@ -74,7 +75,7 @@ internal sealed class TextParagraphControl : ControlBase
 
             foreach (var envCommand in _envCommands)
             {
-                envCommand.Execute(_envManager);
+                envCommand.Apply(_aftermathContext);
             }
         }
 
@@ -99,7 +100,7 @@ internal sealed class TextParagraphControl : ControlBase
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
     {
-        if (_speaker != UnitName.Environment)
+        if (DialogueSpeakers.Env != _speaker)
         {
             DrawSpeakerDisplayName(spriteBatch, clientRect.Location.ToVector2());
         }
@@ -117,14 +118,8 @@ internal sealed class TextParagraphControl : ControlBase
 
     private static string? GetSpeakerDisplayName(CharacterRelation characterRelation)
     {
-        if (characterRelation.Name == UnitName.Environment)
+        if (characterRelation.Character == DialogueSpeakers.Env)
         {
-            return null;
-        }
-
-        if (characterRelation.Name == UnitName.Undefined)
-        {
-            Debug.Fail("Speaker is undefined.");
             return null;
         }
 

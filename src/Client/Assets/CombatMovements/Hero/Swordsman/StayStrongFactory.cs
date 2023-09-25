@@ -1,10 +1,14 @@
 ﻿using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
 
+using Core.Combats.CombatantStatuses;
 using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats;
+using GameAssets.Combats.CombatMovementEffects;
+using GameAssets.Combats.TargetSelectors;
 
 using JetBrains.Annotations;
 
@@ -29,7 +33,13 @@ internal class StayStrongFactory : CombatMovementFactoryBase
                         new SelfTargetSelector(),
                         CombatantStatTypes.Defense,
                         3,
-                        new ToNextCombatantTurnEffectLifetimeFactory())
+                        new ToNextCombatantTurnEffectLifetimeFactory()),
+                    new AddCombatantStatusEffect(new SelfTargetSelector(),
+                        new DelegateCombatStatusFactory(() =>
+                            new ConterAttackCombatantStatus(new CombatantEffectSid("ConterAttack"),
+                                new ToNextCombatantTurnEffectLifetime()))),
+                    new DamageEffectWrapper(new AttackerTargetSelector(), DamageType.Normal,
+                        GenericRange<int>.CreateMono(2))
                 },
                 new IEffect[]
                 {

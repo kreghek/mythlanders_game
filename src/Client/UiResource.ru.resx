@@ -246,6 +246,15 @@
   <data name="CompleteGameButtonTitle" xml:space="preserve">
     <value>Завершить игру</value>
   </data>
+  <data name="ConfirmButtonTitle" xml:space="preserve">
+    <value>Подтвердить</value>
+  </data>
+  <data name="ConfirmIneffectiveAttackText" xml:space="preserve">
+    <value>Если выполнить эту атаку с текущей позиции, то никто из противников не пострадает.
+Атака будет неэффективной.
+Возможно, следует сперва выбрать более удачную позицию для героя или выбрать дрое действие.
+Точно надо потратить бесценный текущий ход в пустую?</value>
+  </data>
   <data name="CreditsButtonTitle" xml:space="preserve">
     <value>Разработчики</value>
   </data>
@@ -390,6 +399,9 @@
   <data name="MediumCombatSequenceText" xml:space="preserve">
     <value>Средний</value>
   </data>
+  <data name="MiniGame_Victory" xml:space="preserve">
+    <value>Победа!</value>
+  </data>
   <data name="MonsterDangerTemplate" xml:space="preserve">
     <value>Опасность: {0}</value>
   </data>
@@ -413,6 +425,9 @@
   </data>
   <data name="ProtectionEffectRuleText" xml:space="preserve">
     <value>Уменьшает входящий урон на  {0}% по {2} на {1} ходов</value>
+  </data>
+  <data name="RejectButtonTitle" xml:space="preserve">
+    <value>Отклонить</value>
   </data>
   <data name="RestActionChat" xml:space="preserve">
     <value>Пообщаться</value>
@@ -533,20 +548,5 @@
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp</value>
-  </data>
-  <data name="ConfirmIneffectiveAttackText" xml:space="preserve">
-    <value>Если выполнить эту атаку с текущей позиции, то никто из противников не пострадает.
-Атака будет неэффективной.
-Возможно, следует сперва выбрать более удачную позицию для героя или выбрать дрое действие.
-Точно надо потратить бесценный текущий ход в пустую?</value>
-  </data>
-  <data name="MiniGame_Victory" xml:space="preserve">
-    <value>Победа!</value>
-  </data>
-  <data name="RejectButtonTitle" xml:space="preserve">
-    <value>Отклонить</value>
-  </data>
-  <data name="ConfirmButtonTitle" xml:space="preserve">
-    <value>Подтвердить</value>
   </data>
 </root>

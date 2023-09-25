@@ -1,9 +1,11 @@
+using System.Collections.Generic;
+
+using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
-using Client.Core.Dialogues;
 
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal sealed class UnlockLocationOptionAftermath : IDialogueOptionAftermath
+internal sealed class UnlockLocationOptionAftermath : DialogueOptionAftermathBase
 {
     private readonly ILocationSid _locationSid;
 
@@ -15,5 +17,18 @@ internal sealed class UnlockLocationOptionAftermath : IDialogueOptionAftermath
     public void Apply(IEventContext dialogContext)
     {
         dialogContext.UnlockLocation(_locationSid);
+    }
+
+    public override void Apply(AftermathContext aftermathContext)
+    {
+        aftermathContext.UnlockLocation(_locationSid);
+    }
+
+    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
+    {
+        return new object[]
+        {
+            _locationSid
+        };
     }
 }

@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CompleteCampaignButtonTitle" xml:space="preserve">
+    <value>В командный центр</value>
+  </data>
+  <data name="CurrentQuestButtonTitle" xml:space="preserve">
+    <value>Задачи</value>
+  </data>
   <data name="PlayGameButtonTitle" xml:space="preserve">
     <value>玩个游戏</value>
   </data>
@@ -125,11 +131,5 @@
   </data>
   <data name="StartNewGameButtonTitle" xml:space="preserve">
     <value>新游戏</value>
-  </data>
-  <data name="CompleteCampaignButtonTitle" xml:space="preserve">
-    <value>В командный центр</value>
-  </data>
-  <data name="CurrentQuestButtonTitle" xml:space="preserve">
-    <value>Задачи</value>
   </data>
 </root>

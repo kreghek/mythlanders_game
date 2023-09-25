@@ -1,8 +1,10 @@
-using Client.Core.Dialogues;
+using Client.Assets.Catalogs.Dialogues;
+
+using CombatDicesTeam.Dialogues;
 
 namespace Client.Assets.Catalogs.DialogueStoring;
 
 internal interface IDialogueEnvironmentEffectCreator
 {
-    IDialogueEnvironmentEffect Create(string typeSid, string data);
+    IDialogueOptionAftermath<AftermathContext> Create(string typeSid, string data);
 }

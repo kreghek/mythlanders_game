@@ -4,9 +4,11 @@ using System.Linq;
 using System.Reflection;
 
 using Client.Assets.Catalogs;
+using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.Catalogs.DialogueStoring;
 using Client.Core;
-using Client.Core.Dialogues;
+
+using CombatDicesTeam.Dialogues;
 
 using FluentAssertions;
 
@@ -41,9 +43,10 @@ public class DialogueCatalogTests
         // ASSERT
 
         factDialogue.Root.TextBlock.Paragraphs.Should().HaveCount(1);
-        factDialogue.Root.TextBlock.Paragraphs.First().Speaker.Should().Be(UnitName.Environment);
+        factDialogue.Root.TextBlock.Paragraphs.First().Speaker.Should().Be(DialogueSpeakers.Env);
         factDialogue.Root.Options.Should().HaveCount(1);
-        factDialogue.Root.Options.First().Next.Should().Be(DialogueNode.EndNode);
+        factDialogue.Root.Options.First().Next.Should()
+            .Be(DialogueNode<ParagraphConditionContext, AftermathContext>.EndNode);
     }
 
     [Test]
@@ -68,10 +71,11 @@ public class DialogueCatalogTests
         // ASSERT
 
         factDialogue.Root.TextBlock.Paragraphs.Should().HaveCount(2);
-        factDialogue.Root.TextBlock.Paragraphs[0].Speaker.Should().Be(UnitName.Environment);
-        factDialogue.Root.TextBlock.Paragraphs[1].Speaker.Should().Be(UnitName.Swordsman);
+        factDialogue.Root.TextBlock.Paragraphs[0].Speaker.Should().Be(DialogueSpeakers.Env);
+        factDialogue.Root.TextBlock.Paragraphs[1].Speaker.Should().Be(DialogueSpeakers.Get(UnitName.Swordsman));
         factDialogue.Root.Options.Should().HaveCount(1);
-        factDialogue.Root.Options.First().Next.Should().Be(DialogueNode.EndNode);
+        factDialogue.Root.Options.First().Next.Should()
+            .Be(DialogueNode<ParagraphConditionContext, AftermathContext>.EndNode);
     }
 
     private static string ReadResource(string name)

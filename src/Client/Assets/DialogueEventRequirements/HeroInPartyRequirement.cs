@@ -1,7 +1,7 @@
 using System.Linq;
 
+using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
-using Client.Core.Dialogues;
 
 namespace Client.Assets.DialogueEventRequirements;
 
