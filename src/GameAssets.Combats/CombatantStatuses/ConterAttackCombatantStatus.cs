@@ -1,13 +1,12 @@
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
-using GameAssets.Combats.TargetSelectors;
-
 namespace Core.Combats.CombatantStatuses;
 
 public sealed class ConterAttackCombatantStatus : CombatantStatusBase
 {
-
+    //TODO Use this movement to do damage
+    //TODO Pass this move in constructor via factory
     private readonly CombatMovement _combatMovement;
     private CombatEngineBase? _combat;
     private ICombatant? _ownerCombatant;
@@ -37,12 +36,7 @@ public sealed class ConterAttackCombatantStatus : CombatantStatusBase
             return;
         }
 
-        e.Combatant.Behaviour.HandleIntention()
-        
-        var combat = (CombatEngineBase)sender!;
-
-
-        var execution = combat.CreateCombatMovementExecution(new CombatMovementInstance(_combatMovement));
-
+        // TODO Handle conter attack intention
     }
+
 }
