@@ -1,141 +1,145 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <RollForward>Major</RollForward>
-    <PublishReadyToRun>false</PublishReadyToRun>
-    <TieredCompilation>false</TieredCompilation>
-	<RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
-	<Nullable>enable</Nullable>
-    <NoWarn>O20001</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-    <ApplicationIcon>Icon.ico</ApplicationIcon>
-    <AssemblyName>Testament</AssemblyName>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Content\bin\**" />
-    <Compile Remove="Content\obj\**" />
-    <EmbeddedResource Remove="Content\bin\**" />
-    <EmbeddedResource Remove="Content\obj\**" />
-    <None Remove="Content\bin\**" />
-    <None Remove="Content\obj\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="DialogueResources.resources" />
-    <None Remove="DialogueResources.ru.resources" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="DialogueResources.resources" />
-    <EmbeddedResource Include="DialogueResources.ru.resources" />
-    <EmbeddedResource Include="Icon.ico" />
-    <EmbeddedResource Include="Icon.bmp" />
-	<EmbeddedResource Include="Resources\Balance.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-    <PackageReference Include="MonoGame.Extended" Version="3.8.0" />
-    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
-    <PackageReference Include="Nopipeline.Task" Version="2.2.0" />
-    <PackageReference Include="NReco.Logging.File" Version="1.1.5" />
-	<PackageReference Include="Stateless" Version="5.11.0" />
-	<PackageReference Include="YamlDotNet" Version="13.0.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="CombatDicesTeam.Combats" Version="0.1.5-alpha" />
-    <PackageReference Include="CombatDicesTeam.Graphs" Version="1.0.1" />
-    <PackageReference Include="CombatDicesTeam.Graphs.Generation" Version="1.0.0" />
-    <PackageReference Include="CombatDicesTeam.Graphs.Layout" Version="1.0.0" />
-    <PackageReference Include="CombatDicesTeam.Graphs.Visualization" Version="0.3.0-alpha" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Core.Balance\Core.Balance.csproj" />
-    <ProjectReference Include="..\Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj" />
-    <ProjectReference Include="..\Core\Core.csproj" />
-    <ProjectReference Include="..\GameAssets.Combats\GameAssets.Combats.csproj" />
-    <ProjectReference Include="..\GameClient.Engine\GameClient.Engine.csproj" />
-    <ProjectReference Include="..\MonoGame.Primitives2D\MonoGame.Primitives2D.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="CreditsResource.Designer.cs">
-      <DependentUpon>CreditsResource.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="GameObjectResources.Designer.cs">
-      <DependentUpon>GameObjectResources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="StoryResources.Designer.cs">
-      <DependentUpon>StoryResources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="UiResource.Designer.cs">
-      <DependentUpon>UiResource.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="CreditsResource.resx">
-      <LastGenOutput>CreditsResource.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="GameObjectResources.resx">
-      <SubType>Designer</SubType>
-      <LastGenOutput>GameObjectResources.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="StoryResources.resx">
-      <LastGenOutput>StoryResources.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="UiResource.resx">
-      <SubType>Designer</SubType>
-      <LastGenOutput>UiResource.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="UiResource.ru.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="settings.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="steam_api64.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="version.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
-    <Message Text="Restoring dotnet tools" Importance="High" />
-    <Exec Command="dotnet tool restore" />
-  </Target>
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <RollForward>Major</RollForward>
+        <PublishReadyToRun>false</PublishReadyToRun>
+        <TieredCompilation>false</TieredCompilation>
+        <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+        <Nullable>enable</Nullable>
+        <NoWarn>O20001</NoWarn>
+    </PropertyGroup>
+    <PropertyGroup>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <ApplicationIcon>Icon.ico</ApplicationIcon>
+        <AssemblyName>Testament</AssemblyName>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Remove="Assets\DialogueEventEnviroment\**" />
+        <Compile Remove="Content\bin\**" />
+        <Compile Remove="Content\obj\**" />
+        <EmbeddedResource Remove="Assets\DialogueEventEnviroment\**" />
+        <EmbeddedResource Remove="Content\bin\**" />
+        <EmbeddedResource Remove="Content\obj\**" />
+        <None Remove="Assets\DialogueEventEnviroment\**" />
+        <None Remove="Content\bin\**" />
+        <None Remove="Content\obj\**" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Remove="DialogueResources.resources" />
+        <None Remove="DialogueResources.ru.resources" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="DialogueResources.resources" />
+        <EmbeddedResource Include="DialogueResources.ru.resources" />
+        <EmbeddedResource Include="Icon.ico" />
+        <EmbeddedResource Include="Icon.bmp" />
+        <EmbeddedResource Include="Resources\Balance.json" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+        <PackageReference Include="MonoGame.Extended" Version="3.8.0" />
+        <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
+        <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
+        <PackageReference Include="Nopipeline.Task" Version="2.2.0" />
+        <PackageReference Include="NReco.Logging.File" Version="1.1.5" />
+        <PackageReference Include="Stateless" Version="5.11.0" />
+        <PackageReference Include="YamlDotNet" Version="13.0.1" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="CombatDicesTeam.Combats" Version="0.1.5-alpha" />
+        <PackageReference Include="CombatDicesTeam.Graphs" Version="1.0.1" />
+        <PackageReference Include="CombatDicesTeam.Graphs.Generation" Version="1.0.0" />
+        <PackageReference Include="CombatDicesTeam.Graphs.Layout" Version="1.0.0" />
+        <PackageReference Include="CombatDicesTeam.Graphs.Visualization" Version="0.3.0-alpha" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\CombatDicesTeam.Dialogues\CombatDicesTeam.Dialogues.csproj" />
+        <ProjectReference Include="..\Core.Balance\Core.Balance.csproj" />
+        <ProjectReference Include="..\Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj" />
+        <ProjectReference Include="..\Core\Core.csproj" />
+        <ProjectReference Include="..\GameAssets.Combats\GameAssets.Combats.csproj" />
+        <ProjectReference Include="..\GameClient.Engine\GameClient.Engine.csproj" />
+        <ProjectReference Include="..\MonoGame.Primitives2D\MonoGame.Primitives2D.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Update="CreditsResource.Designer.cs">
+            <DependentUpon>CreditsResource.resx</DependentUpon>
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+        </Compile>
+        <Compile Update="GameObjectResources.Designer.cs">
+            <DependentUpon>GameObjectResources.resx</DependentUpon>
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+        </Compile>
+        <Compile Update="StoryResources.Designer.cs">
+            <DependentUpon>StoryResources.resx</DependentUpon>
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+        </Compile>
+        <Compile Update="UiResource.Designer.cs">
+            <DependentUpon>UiResource.resx</DependentUpon>
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Update="CreditsResource.resx">
+            <LastGenOutput>CreditsResource.Designer.cs</LastGenOutput>
+            <Generator>ResXFileCodeGenerator</Generator>
+        </EmbeddedResource>
+        <EmbeddedResource Update="GameObjectResources.resx">
+            <SubType>Designer</SubType>
+            <LastGenOutput>GameObjectResources.Designer.cs</LastGenOutput>
+            <Generator>ResXFileCodeGenerator</Generator>
+        </EmbeddedResource>
+        <EmbeddedResource Update="StoryResources.resx">
+            <LastGenOutput>StoryResources.Designer.cs</LastGenOutput>
+            <Generator>ResXFileCodeGenerator</Generator>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UiResource.resx">
+            <SubType>Designer</SubType>
+            <LastGenOutput>UiResource.Designer.cs</LastGenOutput>
+            <Generator>ResXFileCodeGenerator</Generator>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UiResource.ru.resx">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="settings.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="steam_api64.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="version.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
+        <Message Text="Restoring dotnet tools" Importance="High" />
+        <Exec Command="dotnet tool restore" />
+    </Target>
 
-	<ItemGroup>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>$(AssemblyName).Tests</_Parameter1>
-		</AssemblyAttribute>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
-		</AssemblyAttribute>
-	</ItemGroup>
-	<ItemGroup>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>Client.Tests</_Parameter1>
-		</AssemblyAttribute>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
-		</AssemblyAttribute>
-	</ItemGroup>
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>$(AssemblyName).Tests</_Parameter1>
+        </AssemblyAttribute>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>Client.Tests</_Parameter1>
+        </AssemblyAttribute>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
     <ItemGroup>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
             <_Parameter1>Content.SideQuests.Tests</_Parameter1>
@@ -143,5 +147,11 @@
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
             <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
         </AssemblyAttribute>
+    </ItemGroup>
+    <ItemGroup>
+      <NPLContentReferences Remove="Assets\DialogueEventEnviroment\**" />
+    </ItemGroup>
+    <ItemGroup>
+      <MGCBContentReferences Remove="Assets\DialogueEventEnviroment\**" />
     </ItemGroup>
 </Project>

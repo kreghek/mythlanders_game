@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameClient.Engine", "src\Ga
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameClient.Engine.Tests", "tests\GameClient.Engine.Tests\GameClient.Engine.Tests.csproj", "{317F9722-C7D7-4E43-A793-E97DCBAC2055}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CombatDicesTeam.Dialogues", "src\CombatDicesTeam.Dialogues\CombatDicesTeam.Dialogues.csproj", "{83199208-257C-459A-A334-11078A650D7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,10 @@ Global
 		{317F9722-C7D7-4E43-A793-E97DCBAC2055}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{317F9722-C7D7-4E43-A793-E97DCBAC2055}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{317F9722-C7D7-4E43-A793-E97DCBAC2055}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83199208-257C-459A-A334-11078A650D7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83199208-257C-459A-A334-11078A650D7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83199208-257C-459A-A334-11078A650D7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83199208-257C-459A-A334-11078A650D7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

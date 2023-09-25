@@ -2,24 +2,28 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.DialogueOptionAftermath;
 using Client.Core;
-using Client.Core.Dialogues;
+
+using CombatDicesTeam.Dialogues;
 
 namespace Client.Assets.Catalogs.DialogueStoring;
 
 internal static class DialogueCatalogHelper
 {
-    public static Dialogue Create(string dialogueSid, IDictionary<string, DialogueDtoScene> scenesDtoDict,
+    public static Dialogue<ParagraphConditionContext, AftermathContext> Create(string dialogueSid,
+        IDictionary<string, DialogueDtoScene> scenesDtoDict,
         DialogueCatalogCreationServices services)
     {
         var nodeListDicts =
-            new List<(string nodeSid, DialogueNode node, List<DialogueOption> optionsList, DialogueDtoOption[]?
+            new List<(string nodeSid, DialogueNode<ParagraphConditionContext, AftermathContext> node,
+                List<DialogueOption<ParagraphConditionContext, AftermathContext>> optionsList, DialogueDtoOption[]?
                 optionsDto)>();
 
         foreach (var (sceneSid, dtoScene) in scenesDtoDict)
         {
-            var paragraphs = new List<DialogueParagraph>();
+            var speeches = new List<DialogueSpeech<ParagraphConditionContext, AftermathContext>>();
 
             for (var paragraphIndex = 0; paragraphIndex < dtoScene.Paragraphs.Length; paragraphIndex++)
             {
@@ -30,17 +34,17 @@ internal static class DialogueCatalogHelper
                 if (dialogueDtoParagraph.Text is not null)
                 {
                     // Regular paragraph
-                    var paragraphContext = new DialogueParagraphConfig
+                    var paragraphContext = new DialogueParagraphConfig<ParagraphConditionContext, AftermathContext>
                     {
-                        EnvironmentEffects = environmentEffects
+                        Aftermaths = environmentEffects
                     };
 
-                    var paragraph = new DialogueParagraph(
+                    var speach = new DialogueSpeech<ParagraphConditionContext, AftermathContext>(
                         GetSpeaker(dialogueDtoParagraph.Speaker),
                         $"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}",
                         paragraphContext);
 
-                    paragraphs.Add(paragraph);
+                    speeches.Add(speach);
                 }
                 else if (dialogueDtoParagraph.Reactions is not null)
                 {
@@ -48,18 +52,18 @@ internal static class DialogueCatalogHelper
 
                     foreach (var reaction in dialogueDtoParagraph.Reactions)
                     {
-                        var paragraphContext = new DialogueParagraphConfig
+                        var paragraphContext = new DialogueParagraphConfig<ParagraphConditionContext, AftermathContext>
                         {
-                            EnvironmentEffects = environmentEffects,
+                            Aftermaths = environmentEffects,
                             Conditions = new[] { new HasHeroParagraphCondition(GetSpeaker(reaction.Hero)) }
                         };
 
-                        var paragraph = new DialogueParagraph(
+                        var speech = new DialogueSpeech<ParagraphConditionContext, AftermathContext>(
                             GetSpeaker(reaction.Hero),
                             $"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}_reaction_{reaction.Hero}",
                             paragraphContext);
 
-                        paragraphs.Add(paragraph);
+                        speeches.Add(speech);
                     }
                 }
                 else
@@ -68,8 +72,10 @@ internal static class DialogueCatalogHelper
                 }
             }
 
-            var options = new List<DialogueOption>();
-            var dialogNode = new DialogueNode(new DialogueParagraphContainer(paragraphs), options);
+            var options = new List<DialogueOption<ParagraphConditionContext, AftermathContext>>();
+            var dialogNode = new DialogueNode<ParagraphConditionContext, AftermathContext>(
+                new DialogueParagraph<ParagraphConditionContext, AftermathContext>(speeches),
+                options);
 
             nodeListDicts.Add((sceneSid, dialogNode, options, dtoScene.Options));
         }
@@ -84,21 +90,25 @@ internal static class DialogueCatalogHelper
                     var dialogueDtoOption = optionsDto[optionIndex];
                     var aftermaths = CreateAftermaths(dialogueDtoOption.Aftermaths, services.OptionAftermathCreator);
 
-                    DialogueOption dialogueOption;
+                    DialogueOption<ParagraphConditionContext, AftermathContext> dialogueOption;
                     if (dialogueDtoOption.Next is not null)
                     {
                         var next = nodeListDicts.Single(x => x.nodeSid == dialogueDtoOption.Next).node;
-                        dialogueOption = new DialogueOption($"{dialogueSid}_Scene_{nodeSid}_Option_{optionIndex}", next)
-                        {
-                            Aftermath = aftermaths
-                        };
+                        dialogueOption =
+                            new DialogueOption<ParagraphConditionContext, AftermathContext>(
+                                $"{dialogueSid}_Scene_{nodeSid}_Option_{optionIndex}", next)
+                            {
+                                Aftermath = aftermaths
+                            };
                     }
                     else
                     {
-                        dialogueOption = new DialogueOption("Common_end_dialogue", DialogueNode.EndNode)
-                        {
-                            Aftermath = aftermaths
-                        };
+                        dialogueOption =
+                            new DialogueOption<ParagraphConditionContext, AftermathContext>("Common_end_dialogue",
+                                DialogueNode<ParagraphConditionContext, AftermathContext>.EndNode)
+                            {
+                                Aftermath = aftermaths
+                            };
                     }
 
                     optionsList.Add(dialogueOption);
@@ -106,15 +116,17 @@ internal static class DialogueCatalogHelper
             }
             else
             {
-                var dialogueOption = new DialogueOption("Common_end_dialogue", DialogueNode.EndNode);
+                var dialogueOption = new DialogueOption<ParagraphConditionContext, AftermathContext>(
+                    "Common_end_dialogue", DialogueNode<ParagraphConditionContext, AftermathContext>.EndNode);
                 optionsList.Add(dialogueOption);
             }
         }
 
-        return new Dialogue(nodeListDicts.Single(x => x.nodeSid == "root").node);
+        return new Dialogue<ParagraphConditionContext, AftermathContext>(nodeListDicts.Single(x => x.nodeSid == "root")
+            .node);
     }
 
-    private static IDialogueOptionAftermath? CreateAftermaths(DialogueDtoData[]? aftermathDtos,
+    private static IDialogueOptionAftermath<AftermathContext>? CreateAftermaths(DialogueDtoData[]? aftermathDtos,
         IDialogueOptionAftermathCreator aftermathCreator)
     {
         if (aftermathDtos is null)
@@ -122,7 +134,7 @@ internal static class DialogueCatalogHelper
             return null;
         }
 
-        var list = new List<IDialogueOptionAftermath>();
+        var list = new List<IDialogueOptionAftermath<AftermathContext>>();
 
         foreach (var aftermathDto in aftermathDtos)
         {
@@ -133,15 +145,16 @@ internal static class DialogueCatalogHelper
         return new CompositeOptionAftermath(list);
     }
 
-    private static IReadOnlyCollection<IDialogueEnvironmentEffect> CreateEnvironmentEffects(DialogueDtoData[]? envs,
+    private static IReadOnlyCollection<IDialogueOptionAftermath<AftermathContext>> CreateEnvironmentEffects(
+        DialogueDtoData[]? envs,
         IDialogueEnvironmentEffectCreator environmentEffectCreator)
     {
         if (envs is null)
         {
-            return Array.Empty<IDialogueEnvironmentEffect>();
+            return Array.Empty<IDialogueOptionAftermath<AftermathContext>>();
         }
 
-        var list = new List<IDialogueEnvironmentEffect>();
+        var list = new List<IDialogueOptionAftermath<AftermathContext>>();
 
         foreach (var envDto in envs)
         {
@@ -152,28 +165,13 @@ internal static class DialogueCatalogHelper
         return list;
     }
 
-    private static UnitName GetSpeaker(string? dtoSpeaker)
+    private static IDialogueSpeaker GetSpeaker(string? dtoSpeaker)
     {
         if (!Enum.TryParse<UnitName>(dtoSpeaker, ignoreCase: true, out var unitName))
         {
             unitName = UnitName.Environment;
         }
 
-        return unitName;
-    }
-}
-
-internal sealed class HasHeroParagraphCondition : IDialogueParagraphCondition
-{
-    private readonly UnitName _hero;
-
-    public HasHeroParagraphCondition(UnitName hero)
-    {
-        _hero = hero;
-    }
-
-    public bool Check(IDialogueParagraphConditionContext context)
-    {
-        return context.CurrentHeroes.Contains(_hero.ToString().ToLower());
+        return new DialogueSpeaker(unitName);
     }
 }

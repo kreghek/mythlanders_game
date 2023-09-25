@@ -2,15 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets;
-using Client.Assets.Crises;
+using Client.Assets.Catalogs.Crises;
+using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Crisis.Ui;
+using Client.GameScreens.TextDialogue;
 using Client.ScreenManagement;
 
+using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
 
 using Core.Crises;
@@ -30,6 +32,9 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
     private readonly HeroCampaign _campaign;
     private readonly Texture2D _cleanScreenTexture;
     private readonly ICrisis _crisis;
+    private readonly DialogueContextFactory _dialogueContextFactory;
+    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
+    private readonly DialoguePlayer<ParagraphConditionContext, AftermathContext> _dialoguePlayer;
     private readonly GlobeProvider _globeProvider;
     private readonly SoundEffectInstance _soundEffectInstance;
     private readonly SoundtrackManager _soundtrackManager;
@@ -49,6 +54,29 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
         var crisesCatalog = game.Services.GetRequiredService<ICrisesCatalog>();
 
         _crisis = dice.RollFromList(crisesCatalog.GetAll().Where(x => x.EventType == args.EventType).ToArray());
+
+        var globe = _globeProvider.Globe;
+        if (globe is null)
+        {
+            throw new InvalidOperationException();
+        }
+
+        var player = globe.Player ?? throw new InvalidOperationException();
+        var storyPointCatalog = game.Services.GetService<IStoryPointCatalog>();
+        _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
+
+        var eventCatalog = game.Services.GetRequiredService<IEventCatalog>();
+        var smallEvent = eventCatalog.Events.First(x => x.Sid == _crisis.EventSid);
+
+        _dialogueContextFactory =
+            new DialogueContextFactory(globe, storyPointCatalog, player, _dialogueEnvironmentManager,
+                smallEvent);
+
+        var currentDialogueSid = smallEvent.GetDialogSid();
+        var crisisDialogue = eventCatalog.GetDialogue(currentDialogueSid);
+        _dialoguePlayer =
+            new DialoguePlayer<ParagraphConditionContext, AftermathContext>(crisisDialogue,
+                _dialogueContextFactory);
 
         _aftermathButtons = new List<CrisisAftermathButton>();
 
@@ -132,18 +160,19 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
     protected override void InitializeContent()
     {
-        var context = new CrisisAftermathContext(_globeProvider.Globe.Player);
+        var aftermathContext = _dialogueContextFactory.CreateAftermathContext();
 
-        var aftermaths = _crisis.GetItems().ToArray();
-        for (var buttonIndex = 0; buttonIndex < aftermaths.Length; buttonIndex++)
+        var eventResolveOptions = _dialoguePlayer.CurrentOptions.OrderBy(x => x.TextSid).ToArray();
+        for (var buttonIndex = 0; buttonIndex < eventResolveOptions.Length; buttonIndex++)
         {
-            var aftermath = aftermaths[buttonIndex];
-            var aftermathButton = new CrisisAftermathButton(buttonIndex + 1, aftermath.Sid);
+            var eventResolveOption = eventResolveOptions[buttonIndex];
+            var optionText = StoryResources.ResourceManager.GetString(eventResolveOption.TextSid);
+            var aftermathButton = new CrisisAftermathButton(buttonIndex + 1, optionText);
             _aftermathButtons.Add(aftermathButton);
 
             aftermathButton.OnClick += (s, e) =>
             {
-                aftermath.Apply(context);
+                eventResolveOption.Aftermath?.Apply(aftermathContext);
 
                 _soundEffectInstance.Stop();
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
@@ -152,7 +181,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
             aftermathButton.OnHover += (s, e) =>
             {
-                var hintText = GameObjectResources.ResourceManager.GetString($"{aftermath.Sid.ResourceName}_Hint");
+                var hintText = eventResolveOption.Aftermath?.GetDescription(aftermathContext);
 
                 if (hintText is not null)
                 {

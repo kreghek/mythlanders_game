@@ -1,7 +1,5 @@
 ﻿using Client.Engine;
 
-using Core.Crises;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -11,23 +9,22 @@ internal class CrisisAftermathButton : ButtonBase
 {
     private const int MARGIN = 5;
     private readonly SpriteFont _font;
-    private readonly string _optionText;
+    private readonly string _textSid;
 
-    public CrisisAftermathButton(int number, CrisisAftermathSid sid)
+    public CrisisAftermathButton(int number, string textSid)
     {
-        var localizedTitle = GameObjectResources.ResourceManager.GetString(sid.ResourceName) ?? sid.ResourceName;
-
-        _optionText = $"{number}. {localizedTitle}";
-
         _font = UiThemeManager.UiContentStorage.GetTitlesFont();
         Number = number;
+        _textSid = textSid;
     }
 
     public int Number { get; }
 
     public Vector2 GetContentSize()
     {
-        var textSize = _font.MeasureString(_optionText) + new Vector2(MARGIN * 2, MARGIN * 2);
+        var optionText = StoryResources.ResourceManager.GetString(_textSid);
+
+        var textSize = _font.MeasureString(optionText) + new Vector2(MARGIN * 2, MARGIN * 2);
         return textSize;
     }
 
@@ -60,6 +57,9 @@ internal class CrisisAftermathButton : ButtonBase
             heightDiff / 2 + contentRect.Top);
 
         var textColor = CalculateTextColor();
-        spriteBatch.DrawString(_font, _optionText, textPosition, textColor);
+
+        var optionText = StoryResources.ResourceManager.GetString(_textSid);
+
+        spriteBatch.DrawString(_font, optionText, textPosition, textColor);
     }
 }

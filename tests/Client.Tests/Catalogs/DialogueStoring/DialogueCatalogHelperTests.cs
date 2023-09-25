@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.Catalogs.DialogueStoring;
 using Client.Core;
-using Client.Core.Dialogues;
+
+using CombatDicesTeam.Dialogues;
 
 using FluentAssertions;
 
@@ -49,7 +51,8 @@ public class DialogueCatalogHelperTests
         // ASSERT
 
         dialogue.Root.TextBlock.Paragraphs.Should().HaveCount(1);
-        dialogue.Root.Options.Single().Next.Should().Be(DialogueNode.EndNode);
+        dialogue.Root.Options.Single().Next.Should()
+            .Be(DialogueNode<ParagraphConditionContext, AftermathContext>.EndNode);
     }
 
     /// <summary>
@@ -84,7 +87,8 @@ public class DialogueCatalogHelperTests
 
         // ASSERT
 
-        dialogue.Root.Options.Single().Next.Should().Be(DialogueNode.EndNode);
+        dialogue.Root.Options.Single().Next.Should()
+            .Be(DialogueNode<ParagraphConditionContext, AftermathContext>.EndNode);
     }
 
     /// <summary>
@@ -126,7 +130,7 @@ public class DialogueCatalogHelperTests
 
         // ASSERT
 
-        dialogue.Root.TextBlock.Paragraphs.Single().Speaker.Should().Be(UnitName.Swordsman);
+        dialogue.Root.TextBlock.Paragraphs.Single().Speaker.Should().Be(DialogueSpeakers.Get(UnitName.Swordsman));
     }
 
     /// <summary>
@@ -161,6 +165,6 @@ public class DialogueCatalogHelperTests
 
         // ASSERT
 
-        dialogue.Root.TextBlock.Paragraphs.Single().Speaker.Should().Be(UnitName.Environment);
+        dialogue.Root.TextBlock.Paragraphs.Single().Speaker.Should().Be(DialogueSpeakers.Env);
     }
 }

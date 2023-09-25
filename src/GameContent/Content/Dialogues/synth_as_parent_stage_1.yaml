@@ -49,7 +49,7 @@ root:
         - type: ActivateStoryPoint
           data: synth_as_parent_stage_1
       next: repair_decision_scene
-      
+
 repair_decision_scene:
   # Согласиться помочь
   paragraphs:

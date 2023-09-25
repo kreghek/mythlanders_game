@@ -3,16 +3,16 @@ using System.Diagnostics;
 
 using Client.Assets;
 using Client.Assets.Catalogs;
+using Client.Assets.Catalogs.Crises;
 using Client.Assets.CombatMovements;
-using Client.Assets.Crises;
 using Client.Core;
-using Client.Core.Dialogues;
 using Client.Engine;
 using Client.GameComponents;
 using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects.Background;
 using Client.ScreenManagement;
 
+using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
 
 using Core.PropDrop;
