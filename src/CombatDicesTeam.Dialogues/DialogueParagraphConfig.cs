@@ -2,9 +2,9 @@
 
 public sealed class DialogueParagraphConfig<TParagraphConditionContext, TAftermathContext>
 {
-    public IReadOnlyCollection<IDialogueOptionAftermath<TAftermathContext>> Aftermaths { get; init; } = 
+    public IReadOnlyCollection<IDialogueOptionAftermath<TAftermathContext>> Aftermaths { get; init; } =
         ArraySegment<IDialogueOptionAftermath<TAftermathContext>>.Empty;
 
-    public IReadOnlyCollection<IDialogueParagraphCondition<TParagraphConditionContext>> Conditions { get; init; } = 
+    public IReadOnlyCollection<IDialogueParagraphCondition<TParagraphConditionContext>> Conditions { get; init; } =
         ArraySegment<IDialogueParagraphCondition<TParagraphConditionContext>>.Empty;
 }

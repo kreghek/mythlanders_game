@@ -1,9 +1,5 @@
 using System.Collections.Generic;
 
-using Client.Assets.DialogueOptionAftermath;
-
-using CombatDicesTeam.Dices;
-
 using Core.Crises;
 
 namespace Client.Assets.Catalogs.Crises;
@@ -17,7 +13,7 @@ public sealed class CrisesCatalog : ICrisesCatalog
         _crises = new ICrisis[]
         {
             new Crisis("MagicTrap"),
-            new Crisis("CityWitchHunting"),
+            new Crisis("CityWitchHunting")
             //new Crisis("InfernalSickness", new ICrisisAftermath[]
             //{
             //    new DamageSingleRandomOptionAftermath("RunOut", dice),

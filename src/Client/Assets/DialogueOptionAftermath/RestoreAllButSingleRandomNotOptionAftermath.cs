@@ -10,14 +10,34 @@ namespace Core.Crises;
 
 internal sealed class RestoreAllButSingleRandomNotOptionAftermath : DialogueOptionAftermathBase
 {
+    private const int HEAL = 2;
     private readonly IDice _dice;
     private string[]? _selectedHeroesToHeal;
-
-    const int HEAL = 2;
 
     public RestoreAllButSingleRandomNotOptionAftermath(IDice dice)
     {
         _dice = dice;
+    }
+
+    public override void Apply(AftermathContext aftermathContext)
+    {
+        DefineHeroesToHeal(aftermathContext);
+
+        foreach (var hero in _selectedHeroesToHeal!)
+        {
+            aftermathContext.RestHero(hero, HEAL);
+        }
+    }
+
+    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
+    {
+        DefineHeroesToHeal(aftermathContext);
+
+        return new[]
+        {
+            (object)_selectedHeroesToHeal!,
+            HEAL
+        };
     }
 
     private void DefineHeroesToHeal(AftermathContext context)
@@ -31,32 +51,10 @@ internal sealed class RestoreAllButSingleRandomNotOptionAftermath : DialogueOpti
         {
             if (hero == rolledHero)
             {
-                selectedHeroes.Add(hero);    
+                selectedHeroes.Add(hero);
             }
         }
 
         _selectedHeroesToHeal = selectedHeroes.ToArray();
-    }
-
-    public override void Apply(AftermathContext aftermathContext)
-    {
-        DefineHeroesToHeal(aftermathContext);
-
-        foreach (var hero in _selectedHeroesToHeal!)
-        {
-            aftermathContext.RestHero(hero, HEAL);
-            
-        }
-    }
-
-    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
-    {
-        DefineHeroesToHeal(aftermathContext);
-
-        return new[]
-        {
-            (object)_selectedHeroesToHeal!,
-            HEAL
-        };
     }
 }

@@ -8,9 +8,14 @@ using CombatDicesTeam.Dialogues;
 
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal abstract class DialogueOptionAftermathBase: IDialogueOptionAftermath<AftermathContext>
+internal abstract class DialogueOptionAftermathBase : IDialogueOptionAftermath<AftermathContext>
 {
-    protected virtual string GetSid() => this.GetType().Name[..^"OptionAftermath".Length];
+    protected abstract IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext);
+
+    protected virtual string GetSid()
+    {
+        return GetType().Name[..^"OptionAftermath".Length];
+    }
 
     /// <inheritdoc />
     public string GetDescription(AftermathContext aftermathContext)
@@ -32,6 +37,4 @@ internal abstract class DialogueOptionAftermathBase: IDialogueOptionAftermath<Af
 
     /// <inheritdoc />
     public abstract void Apply(AftermathContext aftermathContext);
-
-    protected abstract IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext);
 }

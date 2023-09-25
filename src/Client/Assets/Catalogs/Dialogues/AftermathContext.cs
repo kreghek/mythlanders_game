@@ -78,26 +78,6 @@ internal class AftermathContext
         relation.Level = knowledgeLevel;
     }
 
-    public void PlaySong(string resourceName)
-    {
-        _dialogueEnvironmentManager.PlaySong(resourceName);
-    }
-
-    public void PlaySoundEffect(string effectSid, string resourceName)
-    {
-        _dialogueEnvironmentManager.PlayEffect(effectSid, resourceName);
-    }
-
-    public void StartCombat(string sid)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void UnlockLocation(ILocationSid locationSid)
-    {
-        throw new NotImplementedException();
-    }
-    
     public void DamageHero(string heroClassSid, int damageAmount)
     {
         var hero = _player.Heroes.Single(x => x.ClassSid == heroClassSid);
@@ -115,12 +95,32 @@ internal class AftermathContext
         return _player.Heroes.Where(x => x.HitPoints.Current <= 0).Select(x => x.ClassSid).ToArray();
     }
 
+    public void PlaySong(string resourceName)
+    {
+        _dialogueEnvironmentManager.PlaySong(resourceName);
+    }
+
+    public void PlaySoundEffect(string effectSid, string resourceName)
+    {
+        _dialogueEnvironmentManager.PlayEffect(effectSid, resourceName);
+    }
+
     public void RestHero(string heroClassSid, int healAmount)
     {
         var hero = _player.Heroes.Single(x => x.ClassSid == heroClassSid);
         hero.HitPoints.Restore(healAmount);
         HeroHpChanged?.Invoke(this, new HeroStatChangedEventArgs(heroClassSid, healAmount));
     }
-    
+
+    public void StartCombat(string sid)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void UnlockLocation(ILocationSid locationSid)
+    {
+        throw new NotImplementedException();
+    }
+
     public event EventHandler<HeroStatChangedEventArgs>? HeroHpChanged;
 }

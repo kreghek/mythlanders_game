@@ -9,10 +9,9 @@ namespace Client.Assets.DialogueOptionAftermath;
 
 internal sealed class DamageSingleRandomOptionAftermath : DialogueOptionAftermathBase
 {
+    private const int DAMAGE = 3;
     private readonly IDice _dice;
     private string? _selectedHeroToDamage;
-    
-    const int DAMAGE = 3;
 
     public DamageSingleRandomOptionAftermath(IDice dice)
     {
@@ -24,6 +23,17 @@ internal sealed class DamageSingleRandomOptionAftermath : DialogueOptionAftermat
         DefineHeroToDamageOrNothing(aftermathContext);
 
         aftermathContext.DamageHero(_selectedHeroToDamage!, DAMAGE);
+    }
+
+    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
+    {
+        DefineHeroToDamageOrNothing(aftermathContext);
+
+        return new object[]
+        {
+            _selectedHeroToDamage!,
+            DAMAGE
+        };
     }
 
     private void DefineHeroToDamageOrNothing(AftermathContext aftermathContext)
@@ -38,16 +48,5 @@ internal sealed class DamageSingleRandomOptionAftermath : DialogueOptionAftermat
 
         var rolledHero = _dice.RollFromList(heroes.ToArray());
         _selectedHeroToDamage = rolledHero;
-    }
-
-    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
-    {
-        DefineHeroToDamageOrNothing(aftermathContext);
-
-        return new object[]
-        {
-            _selectedHeroToDamage!,
-            DAMAGE
-        };
     }
 }

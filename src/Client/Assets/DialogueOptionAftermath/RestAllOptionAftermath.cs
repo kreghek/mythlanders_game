@@ -20,9 +20,9 @@ internal sealed class RestAllOptionAftermath : DialogueOptionAftermathBase
             // This is not normal.
             // if all heroes was defeat then the campaign must be interrupted.
         }
+
         foreach (var hero in heroes)
         {
-
             aftermathContext.RestHero(hero, HEAL);
         }
     }

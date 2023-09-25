@@ -12,12 +12,12 @@ internal sealed class CompositeOptionAftermath : IDialogueOptionAftermath<Afterm
 {
     private readonly IDialogueOptionAftermath<AftermathContext>[] _list;
 
-    public bool IsHidden => !_list.Any(x => !x.IsHidden);
-
     public CompositeOptionAftermath(IEnumerable<IDialogueOptionAftermath<AftermathContext>> list)
     {
         _list = list.ToArray();
     }
+
+    public bool IsHidden => !_list.Any(x => !x.IsHidden);
 
     public string GetDescription(AftermathContext aftermathContext)
     {

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets;
 using Client.Assets.Catalogs.Crises;
 using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
@@ -33,6 +32,9 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
     private readonly HeroCampaign _campaign;
     private readonly Texture2D _cleanScreenTexture;
     private readonly ICrisis _crisis;
+    private readonly DialogueContextFactory _dialogueContextFactory;
+    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
+    private readonly DialoguePlayer<ParagraphConditionContext, AftermathContext> _dialoguePlayer;
     private readonly GlobeProvider _globeProvider;
     private readonly SoundEffectInstance _soundEffectInstance;
     private readonly SoundtrackManager _soundtrackManager;
@@ -40,9 +42,6 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
     private TextHint? _aftermathHint;
     private ControlBase? _aftermathOnHover;
-    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
-    private readonly DialogueContextFactory _dialogueContextFactory;
-    private readonly DialoguePlayer<ParagraphConditionContext,AftermathContext> _dialoguePlayer;
 
     public CrisisScreen(TestamentGame game, CrisisScreenTransitionArguments args) : base(game)
     {
@@ -55,8 +54,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
         var crisesCatalog = game.Services.GetRequiredService<ICrisesCatalog>();
 
         _crisis = dice.RollFromList(crisesCatalog.GetAll().Where(x => x.EventType == args.EventType).ToArray());
-        
-        
+
         var globe = _globeProvider.Globe;
         if (globe is null)
         {
@@ -69,7 +67,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
         var eventCatalog = game.Services.GetRequiredService<IEventCatalog>();
         var smallEvent = eventCatalog.Events.First(x => x.Sid == _crisis.EventSid);
-        
+
         _dialogueContextFactory =
             new DialogueContextFactory(globe, storyPointCatalog, player, _dialogueEnvironmentManager,
                 smallEvent);

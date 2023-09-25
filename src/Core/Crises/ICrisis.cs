@@ -2,6 +2,8 @@ namespace Core.Crises;
 
 public interface ICrisis
 {
+    public string EventSid { get; }
+
     /// <summary>
     /// Small event type.
     /// </summary>
@@ -11,5 +13,4 @@ public interface ICrisis
     /// Symbolic identifier of event.
     /// </summary>
     public CrisisSid Sid { get; }
-    public string EventSid { get; }
 }

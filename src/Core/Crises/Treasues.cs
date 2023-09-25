@@ -7,12 +7,12 @@ public sealed class Treasues : ICrisis
         Sid = new CrisisSid(sid);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public CrisisSid Sid { get; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public EventType EventType => EventType.Treasues;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public string EventSid => $"{Sid.Value}Event";
 }

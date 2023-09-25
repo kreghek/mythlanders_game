@@ -11,13 +11,13 @@ public static class DialogueSpeakers
     private static readonly IDictionary<UnitName, IDialogueSpeaker> _speakers =
         new Dictionary<UnitName, IDialogueSpeaker>();
 
-    public static IDialogueSpeaker Env { get; }
-
     static DialogueSpeakers()
     {
         Env = new DialogueSpeaker(UnitName.Environment);
         _speakers.Add(UnitName.Environment, Env);
     }
+
+    public static IDialogueSpeaker Env { get; }
 
     public static IDialogueSpeaker Get(UnitName name)
     {

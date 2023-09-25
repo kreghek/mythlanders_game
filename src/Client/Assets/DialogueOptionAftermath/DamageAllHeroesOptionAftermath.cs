@@ -7,8 +7,8 @@ namespace Client.Assets.DialogueOptionAftermath;
 
 internal sealed class DamageAllHeroesOptionAftermath : DialogueOptionAftermathBase
 {
-    const int DAMAGE = 1;
-    
+    private const int DAMAGE = 1;
+
     public override void Apply(AftermathContext aftermathContext)
     {
         var heroes = aftermathContext.GetPartyHeroes();
@@ -21,7 +21,6 @@ internal sealed class DamageAllHeroesOptionAftermath : DialogueOptionAftermathBa
 
         foreach (var hero in heroes)
         {
-            
             aftermathContext.DamageHero(hero, DAMAGE);
         }
     }
