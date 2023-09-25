@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 
-using Client.Core.Dialogues;
+using Client.Assets.Catalogs.Dialogues;
+
+using CombatDicesTeam.Dialogues;
 
 namespace Client.Core;
 
@@ -8,5 +10,5 @@ internal interface IEventCatalog
 {
     IEnumerable<DialogueEvent> Events { get; }
 
-    Dialogue GetDialogue(string sid);
+    Dialogue<ParagraphConditionContext, AftermathContext> GetDialogue(string sid);
 }

@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-using Client.Core.Dialogues;
+using Client.Assets.Catalogs.Dialogues;
+
+using CombatDicesTeam.Dialogues;
 
 namespace Client.Assets.Dialogues;
 
@@ -67,5 +69,11 @@ internal static class DialogueConstants
 
             public static DialogueEventTrigger Stage1_Ignore_Trigger { get; } = new("stage_1_ignore");
         }
+    }
+
+    public static class SmallEvents
+    {
+        public static DialogueEventState Stage1_Canon_In_Progress { get; } =
+                new("stage_1_canon_in_progress") { NoDialogue = true };
     }
 }

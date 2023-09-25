@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.Catalogs.Dialogues;
 using Client.Core.Heroes;
 
 namespace Client.Core;
@@ -19,7 +20,7 @@ internal sealed class StoryState : IStoryState
 
     private static CharacterRelation CreateFullyKnownRelations(Hero hero)
     {
-        return new CharacterRelation(hero.UnitScheme.Name)
+        return new CharacterRelation(new DialogueSpeaker(hero.UnitScheme.Name))
         {
             Level = CharacterKnowledgeLevel.FullName
         };
@@ -38,7 +39,10 @@ internal sealed class StoryState : IStoryState
 
     public void AddCharacterRelations(UnitName name)
     {
-        throw new NotImplementedException();
+        _relations.Add(new CharacterRelation(DialogueSpeakers.Get(name))
+        {
+            Level = CharacterKnowledgeLevel.Hidden
+        });
     }
 
     public void AddKey(string storySid, string key)

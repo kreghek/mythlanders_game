@@ -1,8 +1,11 @@
-﻿using Client.Core.Dialogues;
+﻿using System;
+using System.Collections.Generic;
+
+using Client.Assets.Catalogs.Dialogues;
 
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal class PredefinedCombatOptionAftermath : IDialogueOptionAftermath
+internal class PredefinedCombatOptionAftermath : DialogueOptionAftermathBase
 {
     private readonly string _sid;
 
@@ -11,8 +14,13 @@ internal class PredefinedCombatOptionAftermath : IDialogueOptionAftermath
         _sid = sid;
     }
 
-    public void Apply(IEventContext dialogContext)
+    public override void Apply(AftermathContext aftermathContext)
     {
-        dialogContext.StartCombat(_sid);
+        aftermathContext.StartCombat(_sid);
+    }
+
+    protected override IReadOnlyList<string> GetDescriptionValues(AftermathContext aftermathContext)
+    {
+        return Array.Empty<string>();
     }
 }

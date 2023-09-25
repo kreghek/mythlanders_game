@@ -1,10 +1,12 @@
-﻿using Client.Core;
-using Client.Core.Dialogues;
+﻿using System.Collections.Generic;
+
+using Client.Assets.Catalogs.Dialogues;
+using Client.Core;
 using Client.Core.Heroes;
 
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal sealed class AddHeroOptionAftermath : IDialogueOptionAftermath
+internal sealed class AddHeroOptionAftermath : DialogueOptionAftermathBase
 {
     private readonly UnitScheme _scheme;
 
@@ -13,13 +15,21 @@ internal sealed class AddHeroOptionAftermath : IDialogueOptionAftermath
         _scheme = scheme;
     }
 
-    public void Apply(IEventContext dialogContext)
+    public override void Apply(AftermathContext aftermathContext)
     {
         const int DEFAULT_LEVEL = 1;
         var unit = new Hero(_scheme, DEFAULT_LEVEL)
         {
             IsPlayerControlled = true
         };
-        dialogContext.AddNewCharacter(unit);
+        aftermathContext.AddNewCharacter(unit);
+    }
+
+    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
+    {
+        return new object[]
+        {
+            _scheme.Name
+        };
     }
 }

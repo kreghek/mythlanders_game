@@ -1,6 +1,7 @@
-using Client.Core.Dialogues;
+using Client.Assets.Catalogs.Dialogues;
 using Client.Engine;
 
+using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
 
 using Microsoft.Xna.Framework;
@@ -16,7 +17,7 @@ internal sealed class TextParagraphMessageControl : ControlBase
 
     private readonly Speech _speech;
 
-    public TextParagraphMessageControl(DialogueParagraph eventTextFragment,
+    public TextParagraphMessageControl(DialogueSpeech<ParagraphConditionContext, AftermathContext> eventTextFragment,
         SoundEffect textSoundEffect, IDice dice, bool isCharacterSpeech)
     {
         _font = UiThemeManager.UiContentStorage.GetTitlesFont();

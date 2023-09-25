@@ -2,8 +2,14 @@ namespace Core.Crises;
 
 public interface ICrisis
 {
-    EventType EventType { get; }
-    CrisisSid Sid { get; }
+    /// <summary>
+    /// Small event type.
+    /// </summary>
+    public EventType EventType { get; }
 
-    IReadOnlyCollection<ICrisisAftermath> GetItems();
+    /// <summary>
+    /// Symbolic identifier of event.
+    /// </summary>
+    public CrisisSid Sid { get; }
+    public string EventSid { get; }
 }

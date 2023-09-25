@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.Catalogs.DialogueStoring;
 using Client.Assets.Dialogues;
 using Client.Core;
-using Client.Core.Dialogues;
+
+using CombatDicesTeam.Dialogues;
 
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -32,7 +34,7 @@ internal class DialogueCatalog : IEventCatalog, IEventInitializer
         Events = Array.Empty<DialogueEvent>();
     }
 
-    private Dialogue LoadDialogue(string dialogueSid)
+    private Dialogue<ParagraphConditionContext, AftermathContext> LoadDialogue(string dialogueSid)
     {
         var dialogueYaml = _resourceProvider.GetResource(dialogueSid);
 
@@ -51,7 +53,7 @@ internal class DialogueCatalog : IEventCatalog, IEventInitializer
 
     public IEnumerable<DialogueEvent> Events { get; private set; }
 
-    public Dialogue GetDialogue(string sid)
+    public Dialogue<ParagraphConditionContext, AftermathContext> GetDialogue(string sid)
     {
         if (!_isInitialized)
         {

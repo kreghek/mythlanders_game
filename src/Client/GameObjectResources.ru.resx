@@ -1,65 +1,65 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+      Microsoft ResX Schema 
+      
+      Version 2.0
+      
+      The primary goals of this format is to allow a simple XML format 
+      that is mostly human readable. The generation and parsing of the 
+      various data types are done through the TypeConverter classes 
+      associated with the data types.
+      
+      Example:
+      
+      ... ado.net/XML headers & schema ...
+      <resheader name="resmimetype">text/microsoft-resx</resheader>
+      <resheader name="version">2.0</resheader>
+      <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+      <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+      <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+      <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+      <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+          <value>[base64 mime encoded serialized .NET Framework object]</value>
+      </data>
+      <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+          <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+          <comment>This is a comment</comment>
+      </data>
+                  
+      There are any number of "resheader" rows that contain simple 
+      name/value pairs.
+      
+      Each data row contains a name, and value. The row also contains a 
+      type or mimetype. Type corresponds to a .NET class that support 
+      text/value conversion through the TypeConverter architecture. 
+      Classes that don't support this are serialized and stored with the 
+      mimetype set.
+      
+      The mimetype is used for serialized objects, and tells the 
+      ResXResourceReader how to depersist the object. This is currently not 
+      extensible. For a given mimetype the value must be set accordingly:
+      
+      Note - application/x-microsoft.net.object.binary.base64 is the format 
+      that the ResXResourceWriter will generate, however the reader can 
+      read any of the formats listed below.
+      
+      mimetype: application/x-microsoft.net.object.binary.base64
+      value   : The object must be serialized with 
+              : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+              : and then encoded with base64 encoding.
+      
+      mimetype: application/x-microsoft.net.object.soap.base64
+      value   : The object must be serialized with 
+              : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+              : and then encoded with base64 encoding.
+  
+      mimetype: application/x-microsoft.net.object.bytearray.base64
+      value   : The object must be serialized into a byte array 
+              : using a System.ComponentModel.TypeConverter
+              : and then encoded with base64 encoding.
+      -->
+  <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root" xmlns="">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
@@ -112,10 +112,14 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
   </resheader>
   <data name="AbstractMonsterAttack" xml:space="preserve">
     <value>Абстрактная атака монстра</value>
@@ -252,13 +256,6 @@
   <data name="ChineseOldman_Hidden" xml:space="preserve">
     <value>Китайский старец</value>
   </data>
-  <data name="CityHunting_Crisis" xml:space="preserve">
-    <value>В городе, через который лежал путь героев, объявлена ночь охоты на ведьм. Местные просто одичали. Под горячую руку попадает всякий незнакомец. И вот яростные раззадоренные взгляды устремились на героев.
-
-- А может, это они и есть, те самые ведьмы, - слышится женский визг, как приговор.
-
-Эта ночь не будет долгой, если что-то не предпринять.</value>
-  </data>
   <data name="CombatSword" xml:space="preserve">
     <value>Боевой меч</value>
   </data>
@@ -268,9 +265,6 @@
   </data>
   <data name="Comissar" xml:space="preserve">
     <value>Сардо</value>
-  </data>
-  <data name="Conversation_CrisisAftermath" xml:space="preserve">
-    <value>Попытаться догоовриться с лидерами обезумевшей толпы</value>
   </data>
   <data name="CriticalHit" xml:space="preserve">
     <value>Критический удар</value>
@@ -283,14 +277,6 @@
   </data>
   <data name="CyberClaws_Description" xml:space="preserve">
     <value>Наносит урон в 3 ед. ближайшему в линии противнику и перемещается в авангард.</value>
-  </data>
-  <data name="DamageTogether_CrisisAftermath" xml:space="preserve">
-    <value>Лютый разряд злой энергии поражает всех героев</value>
-  </data>
-  <data name="DamageTogether_CrisisAftermath_Hint" xml:space="preserve">
-    <value>Герои защищаются от ловушки вместе
-- Все получают слабый урон.
-- Кое-кто из героев обрадуется, что команда преодолевает трудности вместе.</value>
   </data>
   <data name="DanceWithThePast" xml:space="preserve">
     <value>Танец с Прошлым</value>
@@ -543,9 +529,6 @@
   <data name="MadnessWithinEyes_Description" xml:space="preserve">
     <value>Повышает свою защиту на 3 ед. При авто-срабатывании повышает защиту на 1 ед.</value>
   </data>
-  <data name="MagicTrap_Crisis" xml:space="preserve">
-    <value>Внезапно герои попадают в мистическую ловушку. Колоссальный столб  молний устремляется вверх, нависает дугой и несется в группу героев. Кажется, молния вытягивает свет из всего вокруг и создает тьму, которую невозможно себе представить. Есть только один шанс, чтобы успеть и не оказаться под ударом. Действовать нужно быстро и точно.</value>
-  </data>
   <data name="Marauder" xml:space="preserve">
     <value>Марадер</value>
   </data>
@@ -617,7 +600,7 @@
   </data>
   <data name="Preying_Crisis" xml:space="preserve">
     <value>Один из героев чувствует навязчивое присутствие древних сверхсил своей культуры. Они требуют его внимания. Они требуют его помощи. Такие просьбы нельзя игнорировать. Тем более, в темном будущем, где только древние силы делают героев героями.</value>
-    <comment>Crisis</comment>
+        <comment>Crisis</comment>
   </data>
   <data name="Prey_CrisisAftermath" xml:space="preserve">
     <value>Уделить внимание</value>
@@ -752,14 +735,6 @@
   <data name="TacticalManeuver" xml:space="preserve">
     <value>Тактический манёвр</value>
   </data>
-  <data name="TakeAllDamageByOneHero_CrisisAftermath" xml:space="preserve">
-    <value>Один из героев закрывает всех от заряда своей широкой спиной.</value>
-  </data>
-  <data name="TakeAllDamageByOneHero_CrisisAftermath_Hint" xml:space="preserve">
-    <value>Не обязательно страдать всем!
-- Один герой получает сильный урон от электрического анти-геройского заряда.
-- Остальные герои чувствуют себя менее героическими.</value>
-  </data>
   <data name="TheGoodWeather_voice" xml:space="preserve">
     <value>Какая сегодня прекрасная погода...</value>
   </data>
@@ -774,12 +749,6 @@
   </data>
   <data name="TrackerSavvy_Description" xml:space="preserve">
     <value>Увеличивает урон любых атакующих движений на 1ед. И снижает стоимость всех атакующих навыков на 1ед энергии.</value>
-  </data>
-  <data name="TryToFight_CrisisAftermath" xml:space="preserve">
-    <value>Попытаться отбиться от толпы</value>
-  </data>
-  <data name="TryToRunOut_CrisisAftermath" xml:space="preserve">
-    <value>Попытаться убежать</value>
   </data>
   <data name="TwoPlusTwoIsFive_voice" xml:space="preserve">
     <value>Два плюс два будет пять...</value>
