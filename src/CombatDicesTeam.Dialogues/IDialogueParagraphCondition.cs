@@ -1,6 +1,6 @@
 namespace CombatDicesTeam.Dialogues;
 
-public interface IDialogueParagraphCondition<TParagraphConditionContext>
+public interface IDialogueParagraphCondition<in TParagraphConditionContext>
 {
     bool Check(TParagraphConditionContext context);
 }

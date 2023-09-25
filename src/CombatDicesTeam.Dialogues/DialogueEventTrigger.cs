@@ -1,3 +1,5 @@
-﻿namespace CombatDicesTeam.Dialogues;
+﻿using JetBrains.Annotations;
 
-public sealed record DialogueEventTrigger(string Sid);
+namespace CombatDicesTeam.Dialogues;
+
+public sealed record DialogueEventTrigger([UsedImplicitly] string DebugSid);

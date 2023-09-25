@@ -11,7 +11,6 @@ public sealed class DialoguePlayer<TParagraphConditionContext, TAftermathContext
         _currentNode = dialogue.Root;
         _contextFactory = contextFactory;
 
-        var context = _contextFactory.CreateParagraphConditionContext();
         var conditionContext = _contextFactory.CreateParagraphConditionContext();
         CurrentTextFragments = GetTextBlockParagraphs(conditionContext);
         CurrentOptions = _currentNode.Options.ToArray();
