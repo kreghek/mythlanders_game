@@ -37,7 +37,7 @@ internal sealed class AmbushDroneFactory : MonsterFactoryBase
         };
     }
 
-    public UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
+    public override UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
     {
         return new GenericMonsterGraphicsConfig(ClassName, Culture);
     }
