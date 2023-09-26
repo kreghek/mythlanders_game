@@ -90,8 +90,6 @@ if (!DllCheck.Test())
         "[Steamworks.NET] DllCheck Test returned false, One or more of the Steamworks binaries seems to be the wrong version.");
 }
 
-var path = Directory.GetCurrentDirectory();
-
 var isSteamInitialized = SteamAPI.Init();
 if (!isSteamInitialized)
 {
@@ -124,11 +122,6 @@ void SteamAPIDebugTextHook(int nSeverity, StringBuilder pchDebugText)
 // You must launch with "-debug_steamapi" in the launch args to receive warnings.
 var m_SteamAPIWarningMessageHook = new SteamAPIWarningMessageHook_t(SteamAPIDebugTextHook);
 SteamClient.SetWarningMessageHook(m_SteamAPIWarningMessageHook);
-
-//----------
-var name = SteamFriends.GetPersonaName();
-logger.LogInformation(name);
-//------------
 
 #if DEBUG
 using var game = new TestamentGame(logger, gameMode);
