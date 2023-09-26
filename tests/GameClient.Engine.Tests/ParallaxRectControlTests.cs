@@ -113,7 +113,7 @@ internal class ParallaxRectControlTests
     }
 
     [Test]
-    public void GetRects_HeightsEquals_ReturnsEqualsTop()
+    public void GetRects_SizesEqual_RectsDoNotMoves()
     {
         // Arrange
 
@@ -136,6 +136,6 @@ internal class ParallaxRectControlTests
 
         // Assert
 
-        rects[0].Top.Should().Be(parentRectangle.Top);
+        rects[0].Location.Should().Be(Point.Zero);
     }
 }
