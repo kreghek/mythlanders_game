@@ -15,15 +15,8 @@ public class AmbushDroneCombatantFactory : IMonsterCombatantFactory
     {
         var moveTemplate = new[,]
         {
-            { new GrimResolveFactory().CreateMovement(), new FatalBlowFactory().CreateMovement() },
-
-            { new DanceWithThePastFactory().CreateMovement(), new LastChanceToPeaceFactory().CreateMovement() },
-
-            { new FatalBlowFactory().CreateMovement(), new MadnessWithinEyesFactory().CreateMovement() },
-
-            { new MadnessWithinEyesFactory().CreateMovement(), new DanceWithThePastFactory().CreateMovement() },
-
-            { new LastChanceToPeaceFactory().CreateMovement(), new GrimResolveFactory().CreateMovement() }
+            { new IronStreamFactory().CreateMovement(), new OminousThornFactory().CreateMovement() },
+            { new OminousThornFactory().CreateMovement(), new IronStreamFactory().CreateMovement() },
         };
 
         var monsterSequence = new CombatMovementSequence();
@@ -45,9 +38,9 @@ public class AmbushDroneCombatantFactory : IMonsterCombatantFactory
         var monsterSequence = CreateCombatMoveVariation(variationIndex);
 
         var stats = new CombatantStatsConfig();
-        stats.SetValue(CombatantStatTypes.HitPoints, 6);
-        stats.SetValue(CombatantStatTypes.ShieldPoints, 4);
-        stats.SetValue(CombatantStatTypes.Resolve, 5);
+        stats.SetValue(CombatantStatTypes.HitPoints, 2);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 2);
+        stats.SetValue(CombatantStatTypes.Resolve, 4);
 
         var monster = new TestamentCombatant("ambushdrone", monsterSequence, stats, combatActorBehaviour,
             ArraySegment<ICombatantStatusFactory>.Empty)
