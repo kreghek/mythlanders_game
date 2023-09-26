@@ -40,6 +40,7 @@ public enum UnitName
     Marauder,
     BoldMarauder,
     Agressor,
+    AmbushDrone,
 
     Aspid,
     Liho, // лихо

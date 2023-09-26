@@ -455,6 +455,7 @@ internal class GameObjectContentStorage
             { UnitName.Marauder, LoadMonsterTexture(contentManager, "Marauder") },
             { UnitName.BoldMarauder, LoadMonsterTexture(contentManager, "BoldMarauder") },
             { UnitName.Agressor, LoadMonsterTexture(contentManager, "Agressor") },
+            { UnitName.AmbushDrone, LoadMonsterTexture(contentManager, "AmbushDrone") },
             { UnitName.DigitalWolf, LoadMonsterTexture(contentManager, "DigitalWolf") },
             { UnitName.Aspid, LoadMonsterTexture(contentManager, "Aspid") },
             { UnitName.Wisp, LoadMonsterTexture(contentManager, "Wisp") },
