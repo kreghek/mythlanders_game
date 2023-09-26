@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 
@@ -81,15 +80,17 @@ var gameMode = ReadGameMode();
 
 if (!Packsize.Test())
 {
-    logger.LogError("[Steamworks.NET] Packsize Test returned false, the wrong version of Steamworks.NET is being run in this platform.");
+    logger.LogError(
+        "[Steamworks.NET] Packsize Test returned false, the wrong version of Steamworks.NET is being run in this platform.");
 }
 
 if (!DllCheck.Test())
 {
-    logger.LogError("[Steamworks.NET] DllCheck Test returned false, One or more of the Steamworks binaries seems to be the wrong version.");
+    logger.LogError(
+        "[Steamworks.NET] DllCheck Test returned false, One or more of the Steamworks binaries seems to be the wrong version.");
 }
 
-string path = Directory.GetCurrentDirectory();
+var path = Directory.GetCurrentDirectory();
 
 var isSteamInitialized = SteamAPI.Init();
 if (!isSteamInitialized)
@@ -107,25 +108,25 @@ if (!isSteamInitialized)
     logger.LogError("[Steamworks.NET] SteamAPI_Init() failed.");
 }
 
-AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
+AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
 
 void CurrentDomain_ProcessExit(object? sender, EventArgs e)
 {
     SteamAPI.Shutdown();
 }
 
-
 void SteamAPIDebugTextHook(int nSeverity, StringBuilder pchDebugText)
 {
     logger.LogWarning(pchDebugText.ToString());
 }
+
 // Set up our callback to receive warning messages from Steam.
 // You must launch with "-debug_steamapi" in the launch args to receive warnings.
 var m_SteamAPIWarningMessageHook = new SteamAPIWarningMessageHook_t(SteamAPIDebugTextHook);
 SteamClient.SetWarningMessageHook(m_SteamAPIWarningMessageHook);
 
 //----------
-string name = SteamFriends.GetPersonaName();
+var name = SteamFriends.GetPersonaName();
 logger.LogInformation(name);
 //------------
 
@@ -143,4 +144,3 @@ game.Run();
                 logger.LogError(exception, "Game was crushed!");
             }
 #endif
-
