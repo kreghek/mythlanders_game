@@ -17,6 +17,9 @@ public class AmbushDroneCombatantFactory : IMonsterCombatantFactory
         {
             { new IronStreamFactory().CreateMovement(), new OminousThornFactory().CreateMovement() },
             { new OminousThornFactory().CreateMovement(), new IronStreamFactory().CreateMovement() },
+            { new IronStreamFactory().CreateMovement(), new OminousThornFactory().CreateMovement() },
+            { new OminousThornFactory().CreateMovement(), new IronStreamFactory().CreateMovement() },
+            { new IronStreamFactory().CreateMovement(), new OminousThornFactory().CreateMovement() }
         };
 
         var monsterSequence = new CombatMovementSequence();
