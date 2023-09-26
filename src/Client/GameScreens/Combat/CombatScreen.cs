@@ -134,7 +134,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _gameSettings = game.Services.GetService<GameSettings>();
 
-        _combatantPositionProvider = new CombatantPositionProvider(ResolutionIndependentRenderer.VirtualBounds.Width);
+        _combatantPositionProvider = new CombatantPositionProvider(TestamentConstants.CombatFieldSize.X);
 
         _screenShaker = new ScreenShaker();
 
@@ -164,21 +164,27 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         var backgroundTextures = _gameObjectContentStorage.GetCombatBackgrounds(locationTheme);
 
-        var parallaxLayerSpeeds = new[]
+        var parallaxLayersCoffs = new[]
         {
-            new Vector2(-0.0025f, -0.00025f), // horizon
-            new Vector2(-0.005f, -0.0005f), // far layer
-            new Vector2(-0.01f, -0.001f), // closest layer
-            new Vector2(-0.05f, -0.005f), // main layer
-            new Vector2(-0.075f, -0.0075f) // Foreground layer
+            new Vector2(0.05f, 0.05f), // horizon
+            new Vector2(0.2f, 0.2f), // far layer
+            new Vector2(0.5f, 0.5f), // closest layer
+            new Vector2(0.9f, 0.9f), // main layer
+            new Vector2(1, 1) // Foreground layer
         };
+
+        var parallaxLayers = backgroundTextures.Select((x, index) => new Rectangle(
+            0,
+            0,
+            (int)(x.Width * parallaxLayersCoffs[index].X),
+            (int)(x.Height * parallaxLayersCoffs[index].Y))).ToArray();
 
         var backgroundRectControl = new ParallaxRectControl(
             ResolutionIndependentRenderer.ViewportAdapter.BoundingRectangle,
-            backgroundTextures.First().Bounds,
-            parallaxLayerSpeeds, new ViewPointProvider(ResolutionIndependentRenderer));
+            parallaxLayers,
+            new ViewPointProvider(ResolutionIndependentRenderer));
 
-        var layerCameras = parallaxLayerSpeeds.Select(_ => CreateLayerCamera()).ToArray();
+        var layerCameras = parallaxLayers.Select(_ => CreateLayerCamera()).ToArray();
 
         _combatActionCamera = new ParallaxCamera2DAdapter(
             backgroundRectControl,

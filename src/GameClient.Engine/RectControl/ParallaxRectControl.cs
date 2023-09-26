@@ -7,47 +7,44 @@ namespace GameClient.Engine.RectControl;
 /// </summary>
 public class ParallaxRectControl : RectControlBase
 {
-    private readonly Rectangle _layerRectangle;
+    private readonly Rectangle[] _layerRectangles;
     private readonly Rectangle _screenRectangle;
-    private readonly Vector2[] _speeds;
     private readonly IParallaxViewPointProvider _viewPointProvider;
 
     /// <summary>
     /// Constructor.
     /// </summary>
     /// <param name="parentRectangle"> Parent rectangle of inner layers. </param>
-    /// <param name="layerRectangle"> Layer rectangle to calculate start position and size of ALL layers. </param>
-    /// <param name="relativeSpeeds"> Parallax speeds of layers. </param>
+    /// <param name="layerRectangles"> Parallax layers. </param>
     /// <param name="viewPointProvider"> Provider to get the view point required for parallax effect. </param>
     public ParallaxRectControl(Rectangle parentRectangle,
-        Rectangle layerRectangle,
-        Vector2[] relativeSpeeds,
+        Rectangle[] layerRectangles,
         IParallaxViewPointProvider viewPointProvider)
     {
         _screenRectangle = parentRectangle;
-        _layerRectangle = layerRectangle;
-        _speeds = relativeSpeeds;
+        _layerRectangles = layerRectangles;
         _viewPointProvider = viewPointProvider;
     }
 
     /// <inheritdoc cref="RectControlBase.GetRects" />
     public override IReadOnlyList<Rectangle> GetRects()
     {
-        return _speeds.Select(CreateRectangle).ToArray();
+        return _layerRectangles.Select(CreateRectangle).ToArray();
     }
 
-    private Rectangle CreateRectangle(Vector2 speed)
+    private Rectangle CreateRectangle(Rectangle layerRectangle)
     {
-        var screenCenter = _screenRectangle.Center;
-
         var worldMouse = _viewPointProvider.GetWorldCoords();
 
-        var cursorDiff = worldMouse - screenCenter.ToVector2();
+        var t = new Vector2(worldMouse.X / _screenRectangle.Width, worldMouse.Y / _screenRectangle.Height);
 
-        var layerStartLocation = _layerRectangle.Center.ToVector2() * -1;
-        var layerOffset = cursorDiff * -speed;
-        var layerOffsetPosition = layerStartLocation + layerOffset;
-        var rect = new Rectangle(layerOffsetPosition.ToPoint(), _layerRectangle.Size);
-        return rect;
+        var xOffset = (int)MathHelper.Lerp(0, layerRectangle.Width - layerRectangle.Center.X, t.X);
+        var yOffset = (int)MathHelper.Lerp(0, layerRectangle.Height - layerRectangle.Center.Y, t.Y);
+
+        var rectPosition = new Vector2(-(xOffset), -(yOffset));
+
+        return new Rectangle(
+            rectPosition.ToPoint(),
+            layerRectangle.Size);
     }
 }

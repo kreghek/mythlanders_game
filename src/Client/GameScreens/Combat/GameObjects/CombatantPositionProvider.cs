@@ -27,19 +27,15 @@ internal sealed class CombatantPositionProvider : ICombatantPositionProvider
     {
         var predefinedPosition = _predefinedPositions[formationCoords.ColumentIndex, formationCoords.LineIndex];
 
-        Vector2 calculatedPosition;
-
         if (side == CombatantPositionSide.Heroes)
         {
-            calculatedPosition = predefinedPosition;
+            return predefinedPosition;
         }
         else
         {
             // Move from right edge.
             var xMirror = _combatFieldWidth - predefinedPosition.X;
-            calculatedPosition = new Vector2(xMirror, predefinedPosition.Y);
+            return new Vector2(xMirror, predefinedPosition.Y);
         }
-
-        return calculatedPosition;
     }
 }
