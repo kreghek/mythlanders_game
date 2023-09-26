@@ -26,6 +26,11 @@
         <None Remove="Content\obj\**" />
     </ItemGroup>
     <ItemGroup>
+        <Reference Include="Steamworks.NET">
+            <HintPath>..\..\libs\Windows-x64\Steamworks.NET.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
         <None Remove="DialogueResources.resources" />
         <None Remove="DialogueResources.ru.resources" />
     </ItemGroup>
@@ -148,9 +153,18 @@
             <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
-    <ItemGroup>
-      <Reference Include="Steamworks.NET">
-        <HintPath>Steamworks.NET.dll</HintPath>
-      </Reference>
-    </ItemGroup>
+    
+
+    <Target Name="CopySteamApiOnBuild" AfterTargets="AfterBuild">
+        <Copy SourceFiles="..\..\libs\Windows-x64\steam_api64.dll" DestinationFolder="$(OutDir)" />
+    </Target>
+    <Target Name="CopySteamApiOnPublish" AfterTargets="Publish">
+        <Copy SourceFiles="..\..\libs\Windows-x64\steam_api64.dll" DestinationFolder="$(PublishDir)" />
+    </Target>
+    <Target Name="CopySteamAppIdOnBuild" AfterTargets="AfterBuild">
+        <Copy SourceFiles="..\..\integration\Steam\steam_appid.txt" DestinationFolder="$(OutDir)" />
+    </Target>
+    <Target Name="CopySteamAppIdOnPublish" AfterTargets="Publish">
+        <Copy SourceFiles="..\..\integration\Steam\steam_appid.txt" DestinationFolder="$(PublishDir)" />
+    </Target>
 </Project>
