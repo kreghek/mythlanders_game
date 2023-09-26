@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using Client.Core.Dialogues;
+using CombatDicesTeam.Dialogues;
 
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;

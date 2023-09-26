@@ -1,8 +1,10 @@
-﻿using Client.Core.Dialogues;
+﻿using System.Collections.Generic;
+
+using Client.Assets.Catalogs.Dialogues;
 
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal class ActivateStoryPointOptionAftermath : IDialogueOptionAftermath
+internal class ActivateStoryPointOptionAftermath : DialogueOptionAftermathBase
 {
     private readonly string _storyPointSid;
 
@@ -11,8 +13,13 @@ internal class ActivateStoryPointOptionAftermath : IDialogueOptionAftermath
         _storyPointSid = storyPointSid;
     }
 
-    public void Apply(IEventContext dialogContext)
+    public override void Apply(AftermathContext aftermathContext)
     {
-        dialogContext.AddStoryPoint(_storyPointSid);
+        aftermathContext.AddStoryPoint(_storyPointSid);
+    }
+
+    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
+    {
+        return new[] { _storyPointSid };
     }
 }

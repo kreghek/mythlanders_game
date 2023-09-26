@@ -1,9 +1,11 @@
 using System;
 
+using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.Catalogs.DialogueStoring;
 using Client.Assets.DialogueOptionAftermath;
 using Client.Core;
-using Client.Core.Dialogues;
+
+using CombatDicesTeam.Dialogues;
 
 namespace Client.Assets.Catalogs;
 
@@ -16,9 +18,9 @@ internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathC
         _unitSchemeCatalog = unitSchemeCatalog;
     }
 
-    public IDialogueOptionAftermath Create(string typeSid, string data)
+    public IDialogueOptionAftermath<AftermathContext> Create(string typeSid, string data)
     {
-        IDialogueOptionAftermath? aftermath = null;
+        IDialogueOptionAftermath<AftermathContext>? aftermath = null;
 
         if (typeSid == "MeetHero")
         {
@@ -45,7 +47,7 @@ internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathC
         else if (typeSid == "SetRelationsToKnown")
         {
             var unitName = data;
-            aftermath = new ChangeCharacterRelatationsOptionAftermath(Enum.Parse<UnitName>(unitName),
+            aftermath = new ChangeCharacterRelationsOptionAftermath(Enum.Parse<UnitName>(unitName),
                 CharacterKnowledgeLevel.FullName);
         }
 

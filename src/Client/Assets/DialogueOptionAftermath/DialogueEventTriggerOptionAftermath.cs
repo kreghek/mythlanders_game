@@ -1,18 +1,30 @@
-﻿using Client.Core.Dialogues;
+﻿using System;
+using System.Collections.Generic;
+
+using Client.Assets.Catalogs.Dialogues;
+
+using CombatDicesTeam.Dialogues;
 
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal class DialogueEventTriggerOptionAftermath : IDialogueOptionAftermath
+internal class DialogueEventTriggerOptionAftermath : DialogueOptionAftermathBase
 {
     private readonly string _trigger;
 
     public DialogueEventTriggerOptionAftermath(string trigger)
     {
         _trigger = trigger;
+
+        IsHidden = true;
     }
 
-    public void Apply(IEventContext dialogContext)
+    public override void Apply(AftermathContext aftermathContext)
     {
-        dialogContext.CurrentDialogueEvent.Trigger(new DialogueEventTrigger(_trigger));
+        aftermathContext.CurrentDialogueEvent.Trigger(new DialogueEventTrigger(_trigger));
+    }
+
+    protected override IReadOnlyList<string> GetDescriptionValues(AftermathContext aftermathContext)
+    {
+        return ArraySegment<string>.Empty;
     }
 }

@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
 using Client.Core.Campaigns;
-using Client.Core.Dialogues;
 using Client.Engine;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Combat.GameObjects.Background;
@@ -13,6 +13,7 @@ using Client.GameScreens.TextDialogue.Tutorial;
 using Client.GameScreens.TextDialogue.Ui;
 using Client.ScreenManagement;
 
+using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -35,9 +36,10 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
     private readonly Texture2D _backgroundTexture;
     private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
     private readonly HeroCampaign _currentCampaign;
+    private readonly DialogueContextFactory _dialogueContextFactory;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly DialogueOptions _dialogueOptions;
-    private readonly DialoguePlayer _dialoguePlayer;
+    private readonly DialoguePlayer<ParagraphConditionContext, AftermathContext> _dialoguePlayer;
     private readonly IDice _dice;
     private readonly IEventCatalog _eventCatalog;
     private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
@@ -96,10 +98,14 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         _dialogueOptions = new DialogueOptions();
         _textFragments = new List<TextParagraphControl>();
 
-        var dualogueContextFactory =
-            new DialogueContextFactory(globe, storyPointCatalog, _player, args.DialogueEvent);
+        _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
+
+        _dialogueContextFactory =
+            new DialogueContextFactory(globe, storyPointCatalog, _player, _dialogueEnvironmentManager,
+                args.DialogueEvent);
         _dialoguePlayer =
-            new DialoguePlayer(args.CurrentDialogue, dualogueContextFactory);
+            new DialoguePlayer<ParagraphConditionContext, AftermathContext>(args.CurrentDialogue,
+                _dialogueContextFactory);
 
         _eventCatalog = game.Services.GetService<IEventCatalog>();
 
@@ -108,8 +114,6 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         _gameSettings = game.Services.GetService<GameSettings>();
 
         _currentCampaign = args.Campaign;
-
-        _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
 
         var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
 
@@ -227,7 +231,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         var currentFragment = _dialoguePlayer.CurrentTextFragments[_currentFragmentIndex];
         var speaker = currentFragment.Speaker;
 
-        if (speaker == UnitName.Environment)
+        if (DialogueSpeakers.Get(UnitName.Environment) == speaker)
         {
             // This text describes environment. There is no speaker.
             return;
@@ -246,7 +250,9 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         // var col = _frameIndex % 2;
         // var row = _frameIndex / 2;
 
-        spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(speaker),
+        var name = Enum.Parse<UnitName>(speaker.ToString());
+
+        spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(name),
             new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Height - SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE),
@@ -381,11 +387,12 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         _currentFragmentIndex = 0;
         foreach (var textFragment in _dialoguePlayer.CurrentTextFragments)
         {
+            var name = Enum.Parse<UnitName>(textFragment.Speaker.ToString());
             var textFragmentControl = new TextParagraphControl(
                 textFragment,
-                _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker),
+                _gameObjectContentStorage.GetTextSoundEffect(name),
                 _dice,
-                _dialogueEnvironmentManager,
+                _dialogueContextFactory.CreateAftermathContext(),
                 _player.StoryState);
             _textFragments.Add(textFragmentControl);
         }

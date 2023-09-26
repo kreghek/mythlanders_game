@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.StageItems;
 using Client.Core;
 using Client.Core.Campaigns;
-using Client.Core.Dialogues;
 
 using CombatDicesTeam.Dices;
 using CombatDicesTeam.Graphs;

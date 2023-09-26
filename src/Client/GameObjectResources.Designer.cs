@@ -457,15 +457,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string CityHunting_Crisis {
-            get {
-                return ResourceManager.GetString("CityHunting_Crisis", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Combat sword.
         /// </summary>
         internal static string CombatSword {
@@ -489,15 +480,6 @@ namespace Client {
         internal static string Comissar {
             get {
                 return ResourceManager.GetString("Comissar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string Conversation_CrisisAftermath {
-            get {
-                return ResourceManager.GetString("Conversation_CrisisAftermath", resourceCulture);
             }
         }
         
@@ -534,24 +516,6 @@ namespace Client {
         internal static string CyberClaws_Description {
             get {
                 return ResourceManager.GetString("CyberClaws_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DamageTogether_CrisisAftermath {
-            get {
-                return ResourceManager.GetString("DamageTogether_CrisisAftermath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DamageTogether_CrisisAftermath_Hint {
-            get {
-                return ResourceManager.GetString("DamageTogether_CrisisAftermath_Hint", resourceCulture);
             }
         }
         
@@ -1296,15 +1260,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string MagicTrap_Crisis {
-            get {
-                return ResourceManager.GetString("MagicTrap_Crisis", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Marauder.
         /// </summary>
         internal static string Marauder {
@@ -1890,24 +1845,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string TakeAllDamageByOneHero_CrisisAftermath {
-            get {
-                return ResourceManager.GetString("TakeAllDamageByOneHero_CrisisAftermath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string TakeAllDamageByOneHero_CrisisAftermath_Hint {
-            get {
-                return ResourceManager.GetString("TakeAllDamageByOneHero_CrisisAftermath_Hint", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The good weather today....
         /// </summary>
         internal static string TheGoodWeather_voice {
@@ -1949,24 +1886,6 @@ namespace Client {
         internal static string TrackerSavvy_Description {
             get {
                 return ResourceManager.GetString("TrackerSavvy_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string TryToFight_CrisisAftermath {
-            get {
-                return ResourceManager.GetString("TryToFight_CrisisAftermath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string TryToRunOut_CrisisAftermath {
-            get {
-                return ResourceManager.GetString("TryToRunOut_CrisisAftermath", resourceCulture);
             }
         }
         

@@ -44,7 +44,7 @@ internal sealed class UseCombatMovementIntention : IIntention
         return _combatantGameObjects.First(x => x.Combatant == combatant);
     }
 
-    private CombatMovementScene GetMovementVisualizationState(CombatantGameObject actorGameObject,
+    private CombatMovementScene GetMovementVisualizationScene(CombatantGameObject actorGameObject,
         CombatMovementExecution movementExecution, CombatMovementInstance combatMovement)
     {
         var context = new CombatMovementVisualizationContext(
@@ -113,8 +113,8 @@ internal sealed class UseCombatMovementIntention : IIntention
         var movementExecution = combatEngine.CreateCombatMovementExecution(_combatMovement);
 
         var actorGameObject = GetCombatantGameObject(combatEngine.CurrentCombatant);
-        var movementState = GetMovementVisualizationState(actorGameObject, movementExecution, _combatMovement);
+        var movementScene = GetMovementVisualizationScene(actorGameObject, movementExecution, _combatMovement);
 
-        PlaybackCombatMovementExecution(movementExecution, movementState, combatEngine);
+        PlaybackCombatMovementExecution(movementExecution, movementScene, combatEngine);
     }
 }

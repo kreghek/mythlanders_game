@@ -249,6 +249,15 @@
   <data name="CompleteGameButtonTitle" xml:space="preserve">
     <value>Complete the game</value>
   </data>
+  <data name="ConfirmButtonTitle" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="ConfirmIneffectiveAttackText" xml:space="preserve">
+    <value>If you perform this attack from the current position, then none of the opponents will be harmed.
+The attack will be ineffective.
+Perhaps you should first choose a better position for the hero or choose another action.
+Do you really need to spend the priceless current move for nothing?</value>
+  </data>
   <data name="CreditsButtonTitle" xml:space="preserve">
     <value>Credits</value>
   </data>
@@ -423,6 +432,9 @@
     <comment>decreaseDamageEffect.Multiplier * 100 decreaseDamageEffect.Duration,
       decreaseDamageEffect.Target</comment>
   </data>
+  <data name="RejectButtonTitle" xml:space="preserve">
+    <value>Reject</value>
+  </data>
   <data name="RestActionChat" xml:space="preserve">
     <value>Chat</value>
   </data>
@@ -545,17 +557,5 @@
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp Reward</value>
-  </data>
-  <data name="ConfirmIneffectiveAttackText" xml:space="preserve">
-    <value>If you perform this attack from the current position, then none of the opponents will be harmed.
-The attack will be ineffective.
-Perhaps you should first choose a better position for the hero or choose another action.
-Do you really need to spend the priceless current move for nothing?</value>
-  </data>
-  <data name="RejectButtonTitle" xml:space="preserve">
-    <value>Reject</value>
-  </data>
-  <data name="ConfirmButtonTitle" xml:space="preserve">
-    <value>Confirm</value>
   </data>
 </root>

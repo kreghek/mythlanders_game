@@ -2,20 +2,17 @@
 
 public sealed class Treasues : ICrisis
 {
-    private readonly IReadOnlyCollection<ICrisisAftermath> _aftermaths;
-
-    public Treasues(string sid, IReadOnlyCollection<ICrisisAftermath> aftermaths)
+    public Treasues(string sid)
     {
         Sid = new CrisisSid(sid);
-        _aftermaths = aftermaths;
     }
 
+    /// <inheritdoc />
     public CrisisSid Sid { get; }
 
+    /// <inheritdoc />
     public EventType EventType => EventType.Treasues;
 
-    public IReadOnlyCollection<ICrisisAftermath> GetItems()
-    {
-        return _aftermaths;
-    }
+    /// <inheritdoc />
+    public string EventSid => $"{Sid.Value}Event";
 }

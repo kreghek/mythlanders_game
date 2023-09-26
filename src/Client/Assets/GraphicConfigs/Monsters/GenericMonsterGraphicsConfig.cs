@@ -17,7 +17,7 @@ internal sealed class GenericMonsterGraphicsConfig : MonsterGraphicsConfig
     {
         return new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
         {
-            { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdle() },
+            { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdle(frameCount: 1, frameWidth: 128) },
             {
                 PredefinedAnimationSid.MoveForward,
                 AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, fps: 1)

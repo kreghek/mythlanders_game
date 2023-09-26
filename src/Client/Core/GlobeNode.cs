@@ -1,6 +1,6 @@
 ﻿using Client.Assets;
+using Client.Assets.Catalogs.Dialogues;
 using Client.Core.Campaigns;
-using Client.Core.Dialogues;
 
 namespace Client.Core;
 

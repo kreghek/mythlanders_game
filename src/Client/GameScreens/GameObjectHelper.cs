@@ -1,6 +1,7 @@
 ﻿using Client.Core;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Dialogues;
 
 using Core.Crises;
 
@@ -9,6 +10,11 @@ namespace Client.GameScreens;
 internal static class GameObjectHelper
 {
     public static string GetLocalized(UnitName unitName)
+    {
+        return GetLocalizedInner(unitName.ToString());
+    }
+
+    public static string GetLocalized(IDialogueSpeaker unitName)
     {
         return GetLocalizedInner(unitName.ToString());
     }
@@ -22,10 +28,10 @@ internal static class GameObjectHelper
     {
         if (relation.Level == CharacterKnowledgeLevel.FullName)
         {
-            return GetLocalized(relation.Name);
+            return GetLocalized(relation.Character);
         }
 
-        return GetLocalizedInner($"{relation.Name}_{relation.Level}");
+        return GetLocalizedInner($"{relation.Character}_{relation.Level}");
     }
 
     public static string GetLocalized(EquipmentSid equipmentSid)
