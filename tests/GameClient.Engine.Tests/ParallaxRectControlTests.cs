@@ -10,18 +10,13 @@ internal class ParallaxRectControlTests
     public void GetRects_ReturnsCorrectNumberOfRectangles()
     {
         // Arrange
-        var relativeLayerSpeeds = new[]
-        {
-            Vector2.Zero,
-            Vector2.Zero
-        };
 
         var parallaxRectControl = new ParallaxRectControl(
             Rectangle.Empty, // parentRectangle
-            new[] { Rectangle.Empty, Rectangle.Empty }, // layerRectangle
+            new[] { Point.Zero, Point.Zero }, // layerRectangle
             Mock.Of<IParallaxViewPointProvider>());
 
-        var expectedCount = relativeLayerSpeeds.Length;
+        var expectedCount = 2;
 
         // Act
 
@@ -50,7 +45,7 @@ internal class ParallaxRectControlTests
 
         var parallaxRectControl = new ParallaxRectControl(
             parentRectangle, // parentRectangle
-            new[] { new Rectangle(0, 0, 1600, 1200) }, // layerRectangle
+            new[] { new Point(1600, 1200) }, // layerRectangle
             viewPointProviderMock.Object // viewPointProvider
         );
 
@@ -76,14 +71,9 @@ internal class ParallaxRectControlTests
         viewPointProviderMock.Setup(vpp => vpp.GetWorldCoords())
             .Returns(new Vector2(0, 0));
 
-        var layerRelativeSpeeds = new[]
-        {
-            new Vector2(1.0f, 0f)
-        };
-
         var parallaxRectControl = new ParallaxRectControl(
             parentRectangle, // parentRectangle
-            new[] { new Rectangle(0, 0, 1600, 1200) }, // layerRectangle
+            new[] { new Point(1600, 1200) }, // layerRectangle
             viewPointProviderMock.Object // viewPointProvider
         );
 
@@ -108,14 +98,9 @@ internal class ParallaxRectControlTests
         viewPointProviderMock.Setup(vpp => vpp.GetWorldCoords())
             .Returns(new Vector2(800f, 600f));
 
-        var layerRelativeSpeeds = new[]
-        {
-            new Vector2(1.0f, 0f)
-        };
-
         var parallaxRectControl = new ParallaxRectControl(
             parentRectangle, // parentRectangle
-            new[] { new Rectangle(0, 0, 1600, 1200) }, // layerRectangle
+            new[] { new Point(1600, 1200) }, // layerRectangle
             viewPointProviderMock.Object // viewPointProvider
         );
 
@@ -125,5 +110,32 @@ internal class ParallaxRectControlTests
         // Assert
 
         rects[0].Right.Should().Be(parentRectangle.Right);
+    }
+
+    [Test]
+    public void GetRects_HeightsEquals_ReturnsEqualsTop()
+    {
+        // Arrange
+
+        var parentRectangle = new Rectangle(0, 0, 800, 600);
+
+        // IViewPointProvider mock returns fixed values
+        var viewPointProviderMock = new Mock<IParallaxViewPointProvider>();
+
+        viewPointProviderMock.Setup(vpp => vpp.GetWorldCoords())
+            .Returns(new Vector2(800f, 600f));
+
+        var parallaxRectControl = new ParallaxRectControl(
+            parentRectangle, // parentRectangle
+            new[] { new Point(800, 600) }, // layerRectangle
+            viewPointProviderMock.Object // viewPointProvider
+        );
+
+        // Act
+        var rects = parallaxRectControl.GetRects();
+
+        // Assert
+
+        rects[0].Top.Should().Be(parentRectangle.Top);
     }
 }

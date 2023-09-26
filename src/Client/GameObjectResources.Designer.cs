@@ -1179,6 +1179,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Iron Stream.
+        /// </summary>
+        internal static string IronStream {
+            get {
+                return ResourceManager.GetString("IronStream", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string IronStream_Description {
+            get {
+                return ResourceManager.GetString("IronStream_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Juggernaut heavy power armor.
         /// </summary>
         internal static string JuggernautHeavyPowerArmor {
@@ -1427,6 +1445,24 @@ namespace Client {
         internal static string Oldman {
             get {
                 return ResourceManager.GetString("Oldman", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ominous Thorn.
+        /// </summary>
+        internal static string OminousThorn {
+            get {
+                return ResourceManager.GetString("OminousThorn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string OminousThorn_Description {
+            get {
+                return ResourceManager.GetString("OminousThorn_Description", resourceCulture);
             }
         }
         

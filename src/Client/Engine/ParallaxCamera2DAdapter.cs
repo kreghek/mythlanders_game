@@ -33,7 +33,10 @@ internal sealed class ParallaxCamera2DAdapter : ICamera2DAdapter
         {
             var layerCamera = LayerCameras[i];
             var layerDiff = (rects[i].Size - _resolutionIndependentRenderer.VirtualBounds.Size).ToVector2() / 2;
-            layerCamera.Position = _position + rects[i].Center.ToVector2() + layerDiff;
+            var startLayerScreenCenter = -(rects[i].Size.ToVector2() * 0.25f);
+            var currentLayerScreenCenter = -rects[i].Center.ToVector2();
+            var layerCenterDiff = currentLayerScreenCenter - startLayerScreenCenter;
+            layerCamera.Position = _position + layerCenterDiff*0.25f + layerDiff;
         }
     }
 

@@ -173,11 +173,9 @@ internal class CombatScreen : GameScreenWithMenuBase
             new Vector2(1, 1) // Foreground layer
         };
 
-        var parallaxLayers = backgroundTextures.Select((x, index) => new Rectangle(
-            0,
-            0,
-            (int)(x.Width * parallaxLayersCoffs[index].X),
-            (int)(x.Height * parallaxLayersCoffs[index].Y))).ToArray();
+        var parallaxLayers = backgroundTextures.Select((x, index) => new Point(
+            (int)(x.Width/* * parallaxLayersCoffs[index].X*/),
+            (int)(x.Height/* * parallaxLayersCoffs[index].Y*/))).ToArray();
 
         var backgroundRectControl = new ParallaxRectControl(
             ResolutionIndependentRenderer.ViewportAdapter.BoundingRectangle,

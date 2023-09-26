@@ -502,6 +502,12 @@
   <data name="InspiringRush" xml:space="preserve">
     <value>Вдохновляющий рывок</value>
   </data>
+  <data name="IronStream" xml:space="preserve">
+    <value>Железный Поток</value>
+  </data>
+  <data name="IronStream_Description" xml:space="preserve">
+    <value>Атакует всех противников в линии</value>
+  </data>
   <data name="JuggernautHeavyPowerArmor" xml:space="preserve">
     <value>Тяжелая силовая броня Джаггернаут</value>
   </data>
@@ -588,6 +594,12 @@
   </data>
   <data name="Oldman" xml:space="preserve">
     <value>Старик</value>
+  </data>
+  <data name="OminousThorn" xml:space="preserve">
+    <value>Зловещий Шип</value>
+  </data>
+  <data name="OminousThorn_Description" xml:space="preserve">
+    <value>Сильно атакует ближайшего противника в линии</value>
   </data>
   <data name="ParaliticChor" xml:space="preserve">
     <value>Паралитический хор</value>
