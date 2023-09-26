@@ -42,7 +42,7 @@ internal sealed class BlackConclaveCombatTemplateFactory : ICombatTemplateFactor
                     new("agressor", 1, new FieldCoords(1, 1))
                 }),
 
-             new MonsterCombatantTempate(
+            new MonsterCombatantTempate(
                 new MonsterCombatantTempateLevel(1),
                 new[] { LocationSids.Thicket, LocationSids.Desert, LocationSids.Monastery, LocationSids.ShipGraveyard },
                 new MonsterCombatantPrefab[]
@@ -61,7 +61,7 @@ internal sealed class BlackConclaveCombatTemplateFactory : ICombatTemplateFactor
                     new("agressor", 0, new FieldCoords(1, 1))
                 }),
 
-             new MonsterCombatantTempate(
+            new MonsterCombatantTempate(
                 new MonsterCombatantTempateLevel(2),
                 new[] { LocationSids.Thicket, LocationSids.Desert, LocationSids.Monastery, LocationSids.ShipGraveyard },
                 new MonsterCombatantPrefab[]
