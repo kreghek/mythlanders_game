@@ -176,7 +176,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         var backgroundRectControl = new ParallaxRectControl(
             ResolutionIndependentRenderer.ViewportAdapter.BoundingRectangle,
             backgroundTextures.First().Bounds,
-            parallaxLayerSpeeds, new ViewPointProvider(ResolutionIndependentRenderer));
+            parallaxLayerSpeeds, new ParallaxViewPointProvider(ResolutionIndependentRenderer));
 
         var layerCameras = parallaxLayerSpeeds.Select(_ => CreateLayerCamera()).ToArray();
 
