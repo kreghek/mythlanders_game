@@ -1,7 +1,6 @@
 ﻿using GameClient.Engine.RectControl;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 
 namespace Client.Engine;
 
