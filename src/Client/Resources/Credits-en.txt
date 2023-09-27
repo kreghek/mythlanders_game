@@ -1,16 +1,16 @@
-Credits
-
-Game Design:
-Я
-
-Programmers:
-Я
-
-Music:
-Иван
-
-Artist:
-Егор
-
 Special thanks to:
-Толя, Гриша
+
+[Egor Kornev] - for a huge amount of art
+[Anatoly Yuzhikov] - for help at the very beginning of development and continuous support of the project
+[Gregory Kulakov] - for help at the very beginning of development
+[Ivan Rakhmanenko] - for finding a cool musical style
+[Nikolay Kondratyev] - for the title soundtrack
+[Andrey Vedernikov] - for music for fights
+
+Gratitude for participation in the project
+
+[KrisWay22] on instagram
+[nelocodreh] on telegram
+[ZLODEiDOBRODEi] on telegram
+[SerCraft] on telegram
+[despair73] on VK
