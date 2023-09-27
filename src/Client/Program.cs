@@ -7,7 +7,6 @@ using Client;
 using Microsoft.Extensions.Logging;
 
 using NReco.Logging.File;
-
 #if STEAMWORKS
 using Steamworks;
 #endif
@@ -81,7 +80,6 @@ var logger = CreateLogging();
 var gameMode = ReadGameMode();
 
 #if STEAMWORKS
-
 if (!Packsize.Test())
 {
     logger.LogError(

@@ -46,26 +46,31 @@ internal sealed class CreditsScreen : GameScreenBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: _camera.GetViewTransformationMatrix());
 
-        var logoPosition = new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X - _smallLogoTexture!.Width / 2, _contentScrollProgress);
+        var logoPosition =
+            new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X - _smallLogoTexture!.Width / 2,
+                _contentScrollProgress);
         spriteBatch.Draw(_smallLogoTexture!, logoPosition, Color.White);
 
         if (VersionHelper.TryReadVersion(out var version))
         {
             spriteBatch.DrawString(_font, $"Version: {version}",
-                new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X, _contentScrollProgress + _smallLogoTexture!.Height + 10),
-                Color.White);  
+                new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X,
+                    _contentScrollProgress + _smallLogoTexture!.Height + 10),
+                Color.White);
         }
 
         var authorText = $"Author\n{CreditsResource.Author}";
         var authorSize = _font.MeasureString(authorText);
         spriteBatch.DrawString(_font, authorText,
-            new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X - authorSize.X / 2, _contentScrollProgress + _smallLogoTexture!.Height + 100),
+            new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X - authorSize.X / 2,
+                _contentScrollProgress + _smallLogoTexture!.Height + 100),
             Color.Wheat);
 
         var creditsSize = _font.MeasureString(_creditsText);
         spriteBatch.DrawString(_font,
             _creditsText,
-            new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X - creditsSize.X / 2, _contentScrollProgress + _smallLogoTexture!.Height + 150),
+            new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X - creditsSize.X / 2,
+                _contentScrollProgress + _smallLogoTexture!.Height + 150),
             Color.Wheat);
 
         _backButton.Rect = new Rectangle(5, 5, 100, 20);
