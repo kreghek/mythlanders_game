@@ -14,6 +14,9 @@
         <ApplicationIcon>Icon.ico</ApplicationIcon>
         <AssemblyName>Testament</AssemblyName>
     </PropertyGroup>
+    <PropertyGroup>
+        <!--<DefineConstants>STEAMWORKS</DefineConstants>-->
+    </PropertyGroup>
     <ItemGroup>
         <Compile Remove="Assets\DialogueEventEnviroment\**" />
         <Compile Remove="Content\bin\**" />
@@ -161,10 +164,10 @@
     <Target Name="CopySteamApiOnPublish" AfterTargets="Publish">
         <Copy SourceFiles="..\..\libs\Windows-x64\steam_api64.dll" DestinationFolder="$(PublishDir)" />
     </Target>
-    <Target Name="CopySteamAppIdOnBuild" AfterTargets="AfterBuild">
+    <Target Name="CopySteamAppIdOnBuild" AfterTargets="AfterBuild" Condition=" '$(Configuration)' == 'Debug' ">
         <Copy SourceFiles="..\..\integration\Steam\steam_appid.txt" DestinationFolder="$(OutDir)" />
     </Target>
-    <Target Name="CopySteamAppIdOnPublish" AfterTargets="Publish">
+    <Target Name="CopySteamAppIdOnPublish" AfterTargets="Publish" Condition=" '$(Configuration)' == 'Debug' ">
         <Copy SourceFiles="..\..\integration\Steam\steam_appid.txt" DestinationFolder="$(PublishDir)" />
     </Target>
 </Project>

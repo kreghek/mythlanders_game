@@ -8,7 +8,9 @@ using Microsoft.Extensions.Logging;
 
 using NReco.Logging.File;
 
+#if STEAMWORKS
 using Steamworks;
+#endif
 
 static ILogger<TestamentGame> CreateLogging()
 {
@@ -78,6 +80,8 @@ var logger = CreateLogging();
 
 var gameMode = ReadGameMode();
 
+#if STEAMWORKS
+
 if (!Packsize.Test())
 {
     logger.LogError(
@@ -122,6 +126,8 @@ void SteamAPIDebugTextHook(int nSeverity, StringBuilder pchDebugText)
 // You must launch with "-debug_steamapi" in the launch args to receive warnings.
 var m_SteamAPIWarningMessageHook = new SteamAPIWarningMessageHook_t(SteamAPIDebugTextHook);
 SteamClient.SetWarningMessageHook(m_SteamAPIWarningMessageHook);
+
+#endif
 
 #if DEBUG
 using var game = new TestamentGame(logger, gameMode);
