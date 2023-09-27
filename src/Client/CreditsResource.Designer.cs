@@ -61,22 +61,29 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Credits
+        ///   Looks up a localized string similar to [Pavel Kurkutov] kreghek on telegram.
+        /// </summary>
+        internal static string Author {
+            get {
+                return ResourceManager.GetString("Author", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Special thanks to:
         ///
-        ///Game Design:
-        ///Я
+        ///[Egor Kornev] - for a huge amount of art
+        ///[Anatoly Yuzhikov] - for help at the very beginning of development and continuous support of the project
+        ///[Gregory Kulakov] - for help at the very beginning of development
+        ///[Ivan Rakhmanenko] - for finding a cool musical style
+        ///[Nikolay Kondratyev] - for the title soundtrack
+        ///[Andrey Vedernikov] - for music for fights
         ///
-        ///Programmers:
-        ///Я
+        ///Gratitude for participation in the project
         ///
-        ///Music:
-        ///Иван
-        ///
-        ///Artist:
-        ///Егор
-        ///
-        ///Special thanks to:
-        ///Толя, Гриша.
+        ///[KrisWay22] on instagram
+        ///[nelocodreh] on telegram
+        ///[ZLODEiDOBRODEi] on telegra [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Credits {
             get {

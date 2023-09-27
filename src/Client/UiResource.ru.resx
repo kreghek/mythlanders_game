@@ -285,6 +285,9 @@
   <data name="DefeatsJobTitleSid" xml:space="preserve">
     <value>Победа над противниками</value>
   </data>
+  <data name="DemoMarkerText" xml:space="preserve">
+    <value>Demo</value>
+  </data>
   <data name="DialogueContinueText" xml:space="preserve">
     <value>Нажмите [ПРОБЕЛ] чтобы продолжить</value>
   </data>
@@ -548,5 +551,8 @@
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp</value>
+  </data>
+  <data name="_AllChars" xml:space="preserve">
+    <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
   </data>
 </root>

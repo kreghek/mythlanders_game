@@ -61,6 +61,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to  !&quot;#$%&amp;\&apos;()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~.
+        /// </summary>
+        internal static string _AllChars {
+            get {
+                return ResourceManager.GetString("_AllChars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adjutant.
         /// </summary>
         internal static string AdjutantButtonTitle {
@@ -528,6 +537,15 @@ namespace Client {
         internal static string DefeatsJobTitleSid {
             get {
                 return ResourceManager.GetString("DefeatsJobTitleSid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Demo.
+        /// </summary>
+        internal static string DemoMarkerText {
+            get {
+                return ResourceManager.GetString("DemoMarkerText", resourceCulture);
             }
         }
         

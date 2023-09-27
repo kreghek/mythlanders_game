@@ -1,7 +1,7 @@
 Special thanks to:
 
 [Egor Kornev] - for a huge amount of art
-[Anatoly Yuzhikov] - for help at the very beginning of development and continuous support of the project
+[Anatoly Yuzhikov] - for continuous support of the game
 [Gregory Kulakov] - for help at the very beginning of development
 [Ivan Rakhmanenko] - for finding a cool musical style
 [Nikolay Kondratyev] - for the title soundtrack

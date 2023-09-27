@@ -14,7 +14,9 @@ internal sealed class CreditsScreen : GameScreenBase
     private readonly SpriteFont _font;
     private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
     private readonly IUiContentStorage _uiContentStorage;
-    private float _textPosition;
+    private float _contentScrollProgress;
+
+    private Texture2D? _smallLogoTexture;
 
     public CreditsScreen(TestamentGame game) : base(game)
     {
@@ -22,7 +24,7 @@ internal sealed class CreditsScreen : GameScreenBase
         _resolutionIndependentRenderer = game.Services.GetService<IResolutionIndependentRenderer>();
         _camera = Game.Services.GetService<ICamera2DAdapter>();
 
-        _textPosition = _resolutionIndependentRenderer.VirtualBounds.Height + 100;
+        _contentScrollProgress = _resolutionIndependentRenderer.VirtualBounds.Height + 100;
 
         _creditsText = CreditsResource.ResourceManager.GetString("Credits") ?? string.Empty;
 
@@ -44,9 +46,26 @@ internal sealed class CreditsScreen : GameScreenBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: _camera.GetViewTransformationMatrix());
 
+        var logoPosition = new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X - _smallLogoTexture!.Width / 2, _contentScrollProgress);
+        spriteBatch.Draw(_smallLogoTexture!, logoPosition, Color.White);
+
+        if (VersionHelper.TryReadVersion(out var version))
+        {
+            spriteBatch.DrawString(_font, $"Version: {version}",
+                new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X, _contentScrollProgress + _smallLogoTexture!.Height + 10),
+                Color.White);  
+        }
+
+        var authorText = $"Author\n{CreditsResource.Author}";
+        var authorSize = _font.MeasureString(authorText);
+        spriteBatch.DrawString(_font, authorText,
+            new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X - authorSize.X / 2, _contentScrollProgress + _smallLogoTexture!.Height + 100),
+            Color.Wheat);
+
+        var creditsSize = _font.MeasureString(_creditsText);
         spriteBatch.DrawString(_font,
             _creditsText,
-            new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X, _textPosition),
+            new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X - creditsSize.X / 2, _contentScrollProgress + _smallLogoTexture!.Height + 150),
             Color.Wheat);
 
         _backButton.Rect = new Rectangle(5, 5, 100, 20);
@@ -57,20 +76,22 @@ internal sealed class CreditsScreen : GameScreenBase
 
     protected override void InitializeContent()
     {
+        _smallLogoTexture = Game.Content.Load<Texture2D>("Sprites/Ui/SmallLogo");
     }
 
     protected override void UpdateContent(GameTime gameTime)
     {
         var size = _font.MeasureString(_creditsText);
 
-        const int TEXT_SPEED = 100;
+        const int TEXT_SPEED = 75;
         const int DELAY_SECONDS = 2;
 
-        _textPosition -= (float)gameTime.ElapsedGameTime.TotalSeconds * TEXT_SPEED;
+        _contentScrollProgress -= (float)gameTime.ElapsedGameTime.TotalSeconds * TEXT_SPEED;
 
         _backButton.Update(_resolutionIndependentRenderer);
 
-        if (_textPosition <= -(size.Y + DELAY_SECONDS * TEXT_SPEED))
+        const int COMPENSATION = 250; //TODO Calculate size of content include logo, version and author
+        if (_contentScrollProgress <= -(size.Y + DELAY_SECONDS * TEXT_SPEED + COMPENSATION))
         {
             ScreenManager.ExecuteTransition(this, ScreenTransition.Title, null);
         }
