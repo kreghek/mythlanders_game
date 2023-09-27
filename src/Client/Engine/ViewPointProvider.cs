@@ -22,5 +22,7 @@ internal sealed class ViewPointProvider : IParallaxViewPointProvider
             _resolutionIndependentRenderer.ConvertScreenToWorldCoordinates(mouseState.Position.ToVector2());
 
         return worldMouse;
+
+        //return _resolutionIndependentRenderer.VirtualBounds.Center.ToVector2();
     }
 }

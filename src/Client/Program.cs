@@ -8,7 +8,9 @@ using Microsoft.Extensions.Logging;
 
 using NReco.Logging.File;
 
+#if STEAMWORKS
 using Steamworks;
+#endif
 
 static ILogger<TestamentGame> CreateLogging()
 {
@@ -78,6 +80,8 @@ var logger = CreateLogging();
 
 var gameMode = ReadGameMode();
 
+#if STEAMWORKS
+
 if (!Packsize.Test())
 {
     logger.LogError(
@@ -89,8 +93,6 @@ if (!DllCheck.Test())
     logger.LogError(
         "[Steamworks.NET] DllCheck Test returned false, One or more of the Steamworks binaries seems to be the wrong version.");
 }
-
-var path = Directory.GetCurrentDirectory();
 
 var isSteamInitialized = SteamAPI.Init();
 if (!isSteamInitialized)
@@ -125,10 +127,7 @@ void SteamAPIDebugTextHook(int nSeverity, StringBuilder pchDebugText)
 var m_SteamAPIWarningMessageHook = new SteamAPIWarningMessageHook_t(SteamAPIDebugTextHook);
 SteamClient.SetWarningMessageHook(m_SteamAPIWarningMessageHook);
 
-//----------
-var name = SteamFriends.GetPersonaName();
-logger.LogInformation(name);
-//------------
+#endif
 
 #if DEBUG
 using var game = new TestamentGame(logger, gameMode);

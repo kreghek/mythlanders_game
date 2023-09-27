@@ -168,7 +168,7 @@ internal sealed class TitleScreen : GameScreenBase
 
         if (_gameSettings.Mode.HasFlag(GameMode.Demo) && !_gameSettings.Mode.HasFlag(GameMode.Recording))
         {
-            spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), "Demo",
+            spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), UiResource.DemoMarkerText,
                 new Vector2(
                     ResolutionIndependentRenderer.VirtualBounds.Right - 100,
                     ResolutionIndependentRenderer.VirtualBounds.Top + 10),

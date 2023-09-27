@@ -134,7 +134,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _gameSettings = game.Services.GetService<GameSettings>();
 
-        _combatantPositionProvider = new CombatantPositionProvider(ResolutionIndependentRenderer.VirtualBounds.Width);
+        _combatantPositionProvider = new CombatantPositionProvider(TestamentConstants.CombatFieldSize.X);
 
         _screenShaker = new ScreenShaker();
 

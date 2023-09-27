@@ -121,6 +121,9 @@
     <value>Adjutant</value>
     <comment>На экран коммандного центра</comment>
   </data>
+  <data name="_AllChars" xml:space="preserve">
+    <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
+  </data>
   <data name="ArmorLabelTemplate" xml:space="preserve">
     <value>Armor: {0}</value>
   </data>
@@ -293,6 +296,9 @@ Do you really need to spend the priceless current move for nothing?</value>
   <data name="DefeatsJobTitleSid" xml:space="preserve">
     <value>Defeats</value>
     <comment>Jobs</comment>
+  </data>
+  <data name="DemoMarkerText" xml:space="preserve">
+    <value>Demo</value>
   </data>
   <data name="DialogueContinueText" xml:space="preserve">
     <value>Press [SPACE] to continue</value>
