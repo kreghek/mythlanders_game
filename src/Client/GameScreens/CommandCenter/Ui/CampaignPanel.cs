@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 

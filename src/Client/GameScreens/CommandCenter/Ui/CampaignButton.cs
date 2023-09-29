@@ -9,12 +9,12 @@ namespace Client.GameScreens.CommandCenter.Ui;
 internal sealed class CampaignButton : ButtonBase
 {
     private readonly Texture2D _campaignTexture;
-    private readonly ILocationSid _location;
+    public ILocationSid Location { get; }
 
     public CampaignButton(Texture2D campaignTexture, ILocationSid location)
     {
         _campaignTexture = campaignTexture;
-        _location = location;
+        Location = location;
     }
 
     public bool Hover { get; set; }
@@ -37,7 +37,7 @@ internal sealed class CampaignButton : ButtonBase
 
         spriteBatch.DrawString(
             UiThemeManager.UiContentStorage.GetTitlesFont(),
-            GameObjectHelper.GetLocalized(_location),
+            GameObjectHelper.GetLocalized(Location),
             new Vector2(contentRect.Left + CONTENT_MARGIN, contentRect.Bottom - CONTENT_MARGIN - 20),
             Color.Wheat);
     }

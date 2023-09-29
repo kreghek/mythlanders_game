@@ -16,6 +16,8 @@ using GameClient.Engine.RectControl;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonoGame;
+
 namespace Client.GameScreens.CommandCenter;
 
 internal class CommandCenterScreen : GameScreenWithMenuBase
@@ -84,25 +86,17 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
-        spriteBatch.Draw(_mapBackgroundTexture,
-            _mapPong.GetRects()[0],
-            Color.White);
+        DrawBackgroundMap(spriteBatch);
 
-        const int CAMPAIGN_CONTROL_WIDTH = 200;
-        var fullCampaignWidth = (CAMPAIGN_CONTROL_WIDTH + ControlBase.CONTENT_MARGIN) * 3;
-        var campaignOffsetX = (contentRect.Width - fullCampaignWidth) / 2;
+        DrawCampaigns(spriteBatch, contentRect);
 
-        for (var campaignIndex = 0; campaignIndex < _availableCampaignPanels.Count; campaignIndex++)
-        {
-            var panel = _availableCampaignPanels[campaignIndex];
-            panel.SetRect(new Rectangle(
-                campaignOffsetX + contentRect.Left + ControlBase.CONTENT_MARGIN + 200 * campaignIndex,
-                contentRect.Top + ControlBase.CONTENT_MARGIN,
-                200,
-                panel.Hover ? 200 : 100));
-            panel.Draw(spriteBatch);
-        }
+        DrawBase(spriteBatch, contentRect);
 
+        spriteBatch.End();
+    }
+
+    private void DrawBase(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
         for (var i = 0; i < 4; i++)
         {
             spriteBatch.Draw(_commandCenterSegmentTexture[i],
@@ -122,8 +116,62 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
             _commandButtons[i].Draw(spriteBatch);
         }
+    }
 
-        spriteBatch.End();
+    private void DrawCampaigns(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        const int CAMPAIGN_CONTROL_WIDTH = 200;
+        const int FULL_CAMPAIGN_WIDTH = (CAMPAIGN_CONTROL_WIDTH + ControlBase.CONTENT_MARGIN) * 3;
+        var campaignOffsetX = (contentRect.Width - FULL_CAMPAIGN_WIDTH) / 2;
+
+        for (var campaignIndex = 0; campaignIndex < _availableCampaignPanels.Count; campaignIndex++)
+        {
+            var panel = _availableCampaignPanels[campaignIndex];
+            panel.SetRect(new Rectangle(
+                campaignOffsetX + contentRect.Left + ControlBase.CONTENT_MARGIN + 200 * campaignIndex,
+                contentRect.Top + ControlBase.CONTENT_MARGIN,
+                200,
+                panel.Hover ? 200 : 100));
+            panel.Draw(spriteBatch);
+        }
+    }
+
+    private void DrawBackgroundMap(SpriteBatch spriteBatch)
+    {
+        spriteBatch.Draw(_mapBackgroundTexture,
+            _mapPong.GetRects()[0],
+            Color.White);
+
+        DrawLocationConnector(spriteBatch);
+    }
+
+    private void DrawLocationConnector(SpriteBatch spriteBatch)
+    {
+        var locationOnHover = GetLocationOnHover();
+        if (locationOnHover is null)
+        {
+            return;
+        }
+
+        var locationCoords = GetLocationCoordsOnMap(locationOnHover);
+        var locationButton = GetLocationButton(locationOnHover);
+        spriteBatch.DrawLine(locationCoords.X, locationCoords.Y, locationButton.Rect.Center.X,
+            locationButton.Rect.Center.Y, TestamentColors.MainSciFi, 2);
+    }
+
+    private ControlBase GetLocationButton(ILocationSid locationOnHover)
+    {
+        throw new NotImplementedException();
+    }
+
+    private Point GetLocationCoordsOnMap(ILocationSid locationOnHover)
+    {
+        throw new NotImplementedException();
+    }
+
+    private ILocationSid? GetLocationOnHover()
+    {
+        throw new NotImplementedException();
     }
 
     protected override void InitializeContent()
