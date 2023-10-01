@@ -9,7 +9,6 @@ namespace Client.GameScreens.CommandCenter.Ui;
 internal sealed class CampaignButton : ButtonBase
 {
     private readonly Texture2D _campaignTexture;
-    public ILocationSid Location { get; }
 
     public CampaignButton(Texture2D campaignTexture, ILocationSid location)
     {
@@ -18,6 +17,7 @@ internal sealed class CampaignButton : ButtonBase
     }
 
     public bool Hover { get; set; }
+    public ILocationSid Location { get; }
 
     protected override Point CalcTextureOffset()
     {

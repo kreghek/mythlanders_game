@@ -34,6 +34,10 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
     private IReadOnlyList<ICampaignPanel>? _availableCampaignPanels;
 
+    private readonly IDictionary<ILocationSid, Vector2> _locationCoords;
+
+    private double _locationOnMapCounter;
+
     public CommandCenterScreen(TestamentGame game, CommandCenterScreenTransitionArguments args) : base(game)
     {
         _campaigns = args.AvailableCampaigns;
@@ -68,16 +72,6 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         _locationCoords = InitLocationCoords();
     }
 
-    private Dictionary<ILocationSid, Vector2> InitLocationCoords()
-    {
-        var rnd = new Random(2);
-        return new Dictionary<ILocationSid, Vector2>() {
-            { LocationSids.Thicket, new Vector2(rnd.Next(_mapBackgroundTexture.Width), rnd.Next(_mapBackgroundTexture.Height)) }
-        };
-    }
-
-    private double _locationOnMapCounter;
-
     protected override IList<ButtonBase> CreateMenu()
     {
         return ArraySegment<ButtonBase>.Empty;
@@ -106,92 +100,6 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         DrawBase(spriteBatch, contentRect);
 
         spriteBatch.End();
-    }
-
-    private void DrawBase(SpriteBatch spriteBatch, Rectangle contentRect)
-    {
-        for (var i = 0; i < 4; i++)
-        {
-            spriteBatch.Draw(_commandCenterSegmentTexture[i],
-                new Rectangle(
-                    (contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
-                    (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN +
-                    (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
-                    200,
-                    200),
-                Color.White);
-
-            _commandButtons[i].Rect = new Rectangle(
-                (contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
-                (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN +
-                (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
-                100, 20);
-
-            _commandButtons[i].Draw(spriteBatch);
-        }
-    }
-
-    private void DrawCampaigns(SpriteBatch spriteBatch, Rectangle contentRect)
-    {
-        const int CAMPAIGN_CONTROL_WIDTH = 200;
-        const int FULL_CAMPAIGN_WIDTH = (CAMPAIGN_CONTROL_WIDTH + ControlBase.CONTENT_MARGIN) * 3;
-        var campaignOffsetX = (contentRect.Width - FULL_CAMPAIGN_WIDTH) / 2;
-
-        for (var campaignIndex = 0; campaignIndex < _availableCampaignPanels.Count; campaignIndex++)
-        {
-            var panel = _availableCampaignPanels[campaignIndex];
-            panel.SetRect(new Rectangle(
-                campaignOffsetX + contentRect.Left + ControlBase.CONTENT_MARGIN + 200 * campaignIndex,
-                contentRect.Top + ControlBase.CONTENT_MARGIN,
-                200,
-                panel.Hover ? 200 : 100));
-            panel.Draw(spriteBatch);
-        }
-    }
-
-    private void DrawBackgroundMap(SpriteBatch spriteBatch)
-    {
-        spriteBatch.Draw(_mapBackgroundTexture,
-            _mapPong.GetRects()[0],
-            Color.White);
-
-        DrawLocationConnector(spriteBatch);
-    }
-
-    private void DrawLocationConnector(SpriteBatch spriteBatch)
-    {
-        var locationOnHover = GetLocationOnHover();
-        if (locationOnHover is null)
-        {
-            return;
-        }
-
-        var locationCoords = GetLocationCoordsOnMap(locationOnHover);
-        var locationButton = GetLocationButton(locationOnHover);
-        var x1 = locationCoords.X + _mapPong.GetRects()[0].X;
-        var y1 = locationCoords.Y + _mapPong.GetRects()[0].Y;
-        spriteBatch.DrawLine(x1, y1, locationButton.Rect.Center.X,
-            locationButton.Rect.Center.Y, TestamentColors.MainSciFi, 2);
-
-        var t = Math.Sin(_locationOnMapCounter);
-        spriteBatch.DrawCircle(x1, y1, (float)(16 + t * 4), 4, TestamentColors.MainSciFi);
-    }
-
-    private ControlBase GetLocationButton(ILocationSid locationOnHover)
-    {
-        return (ControlBase)_availableCampaignPanels!.Single(x=>x.Location == locationOnHover);
-    }
-
-    private IDictionary<ILocationSid, Vector2> _locationCoords;
-
-    private Point GetLocationCoordsOnMap(ILocationSid locationOnHover)
-    {
-        return _locationCoords[locationOnHover].ToPoint();
-    }
-
-    private ILocationSid? GetLocationOnHover()
-    {
-        return _availableCampaignPanels?.SingleOrDefault(x => x.Location is not null)?.Location;
     }
 
     protected override void InitializeContent()
@@ -261,5 +169,101 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         _mapPong.Update(gameTime.ElapsedGameTime.TotalSeconds);
 
         _locationOnMapCounter += gameTime.ElapsedGameTime.TotalSeconds * 10;
+    }
+
+    private void DrawBackgroundMap(SpriteBatch spriteBatch)
+    {
+        spriteBatch.Draw(_mapBackgroundTexture,
+            _mapPong.GetRects()[0],
+            Color.White);
+
+        DrawLocationConnector(spriteBatch);
+    }
+
+    private void DrawBase(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        for (var i = 0; i < 4; i++)
+        {
+            spriteBatch.Draw(_commandCenterSegmentTexture[i],
+                new Rectangle(
+                    (contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
+                    (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN +
+                    (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
+                    200,
+                    200),
+                Color.White);
+
+            _commandButtons[i].Rect = new Rectangle(
+                (contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
+                (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN +
+                (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
+                100, 20);
+
+            _commandButtons[i].Draw(spriteBatch);
+        }
+    }
+
+    private void DrawCampaigns(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        const int CAMPAIGN_CONTROL_WIDTH = 200;
+        const int FULL_CAMPAIGN_WIDTH = (CAMPAIGN_CONTROL_WIDTH + ControlBase.CONTENT_MARGIN) * 3;
+        var campaignOffsetX = (contentRect.Width - FULL_CAMPAIGN_WIDTH) / 2;
+
+        for (var campaignIndex = 0; campaignIndex < _availableCampaignPanels.Count; campaignIndex++)
+        {
+            var panel = _availableCampaignPanels[campaignIndex];
+            panel.SetRect(new Rectangle(
+                campaignOffsetX + contentRect.Left + ControlBase.CONTENT_MARGIN + 200 * campaignIndex,
+                contentRect.Top + ControlBase.CONTENT_MARGIN,
+                200,
+                panel.Hover ? 200 : 100));
+            panel.Draw(spriteBatch);
+        }
+    }
+
+    private void DrawLocationConnector(SpriteBatch spriteBatch)
+    {
+        var locationOnHover = GetLocationOnHover();
+        if (locationOnHover is null)
+        {
+            return;
+        }
+
+        var locationCoords = GetLocationCoordsOnMap(locationOnHover);
+        var locationButton = GetLocationButton(locationOnHover);
+        var x1 = locationCoords.X + _mapPong.GetRects()[0].X;
+        var y1 = locationCoords.Y + _mapPong.GetRects()[0].Y;
+        spriteBatch.DrawLine(x1, y1, locationButton.Rect.Center.X,
+            locationButton.Rect.Center.Y, TestamentColors.MainSciFi, 2);
+
+        var t = Math.Sin(_locationOnMapCounter);
+        spriteBatch.DrawCircle(x1, y1, (float)(16 + t * 4), 4, TestamentColors.MainSciFi);
+    }
+
+    private ControlBase GetLocationButton(ILocationSid locationOnHover)
+    {
+        return (ControlBase)_availableCampaignPanels!.Single(x => x.Location == locationOnHover);
+    }
+
+    private Point GetLocationCoordsOnMap(ILocationSid locationOnHover)
+    {
+        return _locationCoords[locationOnHover].ToPoint();
+    }
+
+    private ILocationSid? GetLocationOnHover()
+    {
+        return _availableCampaignPanels?.SingleOrDefault(x => x.Location is not null)?.Location;
+    }
+
+    private Dictionary<ILocationSid, Vector2> InitLocationCoords()
+    {
+        var rnd = new Random(2);
+        return new Dictionary<ILocationSid, Vector2>
+        {
+            {
+                LocationSids.Thicket,
+                new Vector2(rnd.Next(_mapBackgroundTexture.Width), rnd.Next(_mapBackgroundTexture.Height))
+            }
+        };
     }
 }
