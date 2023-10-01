@@ -1,4 +1,5 @@
-﻿using Client.Engine;
+﻿using Client.Core;
+using Client.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -30,6 +31,7 @@ internal sealed class PlaceholderCampaignPanel : ControlBase, ICampaignPanel
     }
 
     public bool Hover { get; }
+    public ILocationSid? Location { get; }
 
     public void SetRect(Rectangle value)
     {
