@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Client.Assets;
 using Client.Core;
@@ -63,7 +64,19 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         _mapPong = new PongRectangleControl(new Point(_mapBackgroundTexture.Width, _mapBackgroundTexture.Height),
             mapRect,
             mapPongRandomSource);
+
+        _locationCoords = InitLocationCoords();
     }
+
+    private Dictionary<ILocationSid, Vector2> InitLocationCoords()
+    {
+        var rnd = new Random(2);
+        return new Dictionary<ILocationSid, Vector2>() {
+            { LocationSids.Thicket, new Vector2(rnd.Next(_mapBackgroundTexture.Width), rnd.Next(_mapBackgroundTexture.Height)) }
+        };
+    }
+
+    private double _locationOnMapCounter;
 
     protected override IList<ButtonBase> CreateMenu()
     {
@@ -155,23 +168,30 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
         var locationCoords = GetLocationCoordsOnMap(locationOnHover);
         var locationButton = GetLocationButton(locationOnHover);
-        spriteBatch.DrawLine(locationCoords.X, locationCoords.Y, locationButton.Rect.Center.X,
+        var x1 = locationCoords.X + _mapPong.GetRects()[0].X;
+        var y1 = locationCoords.Y + _mapPong.GetRects()[0].Y;
+        spriteBatch.DrawLine(x1, y1, locationButton.Rect.Center.X,
             locationButton.Rect.Center.Y, TestamentColors.MainSciFi, 2);
+
+        var t = Math.Sin(_locationOnMapCounter);
+        spriteBatch.DrawCircle(x1, y1, (float)(16 + t * 4), 4, TestamentColors.MainSciFi);
     }
 
     private ControlBase GetLocationButton(ILocationSid locationOnHover)
     {
-        throw new NotImplementedException();
+        return _availableCampaignPanels?.Single(x=>x.Location == locationOnHover) as ControlBase;
     }
+
+    private IDictionary<ILocationSid, Vector2> _locationCoords;
 
     private Point GetLocationCoordsOnMap(ILocationSid locationOnHover)
     {
-        throw new NotImplementedException();
+        return _locationCoords[locationOnHover].ToPoint();
     }
 
     private ILocationSid? GetLocationOnHover()
     {
-        throw new NotImplementedException();
+        return _availableCampaignPanels?.SingleOrDefault(x => x.Location is not null)?.Location;
     }
 
     protected override void InitializeContent()
@@ -239,5 +259,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         }
 
         _mapPong.Update(gameTime.ElapsedGameTime.TotalSeconds);
+
+        _locationOnMapCounter += gameTime.ElapsedGameTime.TotalSeconds * 10;
     }
 }

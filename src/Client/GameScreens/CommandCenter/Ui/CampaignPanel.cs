@@ -47,6 +47,8 @@ internal sealed class CampaignPanel : ControlBase, ICampaignPanel
 
     public bool Hover { get; private set; }
 
+    public ILocationSid? Location => _selectButton.Hover ? _selectButton.Location : null;
+
     public void Update(IResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         _selectButton.Update(resolutionIndependentRenderer);
