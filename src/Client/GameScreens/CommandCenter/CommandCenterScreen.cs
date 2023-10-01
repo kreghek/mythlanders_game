@@ -179,7 +179,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
     private ControlBase GetLocationButton(ILocationSid locationOnHover)
     {
-        return _availableCampaignPanels?.Single(x=>x.Location == locationOnHover) as ControlBase;
+        return (ControlBase)_availableCampaignPanels!.Single(x=>x.Location == locationOnHover);
     }
 
     private IDictionary<ILocationSid, Vector2> _locationCoords;
