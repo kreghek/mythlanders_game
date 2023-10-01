@@ -12,6 +12,8 @@ using Client.ScreenManagement;
 
 using CombatDicesTeam.Dices;
 
+using Core;
+
 using GameClient.Engine.RectControl;
 
 using Microsoft.Xna.Framework;
@@ -258,12 +260,8 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
     private Dictionary<ILocationSid, Vector2> InitLocationCoords()
     {
         var rnd = new Random(2);
-        return new Dictionary<ILocationSid, Vector2>
-        {
-            {
-                LocationSids.Thicket,
-                new Vector2(rnd.Next(_mapBackgroundTexture.Width), rnd.Next(_mapBackgroundTexture.Height))
-            }
-        };
+        var values = SidHelper.GetValues<ILocationSid>(typeof(LocationSids));
+
+        return values.ToDictionary(x => x, x => new Vector2(rnd.Next(_mapBackgroundTexture.Width), rnd.Next(_mapBackgroundTexture.Height)));
     }
 }
