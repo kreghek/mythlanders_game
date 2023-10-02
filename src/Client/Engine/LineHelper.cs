@@ -8,7 +8,7 @@ public static class LineHelper
 {
     public sealed class BrokenLineOptions
     {
-        public int MinimalMargin { get; set; }
+        public int MinimalMargin { get; init; }
     }
 
     public static IReadOnlyList<Point> GetBrokenLine(int x1, int y1, int x2, int y2, BrokenLineOptions opts)
@@ -22,11 +22,19 @@ public static class LineHelper
         
         list.Add(marginPoint);
 
-        var yDiff = y2 - y1;
-        var anglePoint = new Point(x2 - yDiff, y2);
-        
-        list.Add(anglePoint);
-        
+        if (x1 < x2)
+        {
+            var yDiff = y2 - marginPoint.Y;
+            var anglePoint = new Point(x2 - yDiff, y2);
+            list.Add(anglePoint);
+        }
+        else
+        {
+            var yDiff = y2 - marginPoint.Y;
+            var anglePoint = new Point(x2 + yDiff, y2);
+            list.Add(anglePoint);
+        }
+
         list.Add(new Point(x2, y2));
 
         return list;
