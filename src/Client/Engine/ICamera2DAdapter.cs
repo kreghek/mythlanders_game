@@ -19,12 +19,12 @@ internal interface ICamera2DAdapter : IScreenProjection
     /// </summary>
     Matrix GetViewTransformationMatrix();
 
+    void LookAt(Vector2 position);
+
     /// <summary>
     /// Zoom in camera.
     /// </summary>
     void ZoomIn(float deltaZoom, Vector2 zoomCenter);
-
-    void LookAt(Vector2 position);
 
     /// <summary>
     /// Zoom out camera.

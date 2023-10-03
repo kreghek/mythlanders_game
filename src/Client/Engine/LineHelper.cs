@@ -6,11 +6,6 @@ namespace Client.Engine;
 
 public static class LineHelper
 {
-    public sealed class BrokenLineOptions
-    {
-        public int MinimalMargin { get; init; }
-    }
-
     public static IReadOnlyList<Point> GetBrokenLine(int x1, int y1, int x2, int y2, BrokenLineOptions opts)
     {
         var list = new List<Point>
@@ -19,7 +14,7 @@ public static class LineHelper
         };
 
         var marginPoint = new Point(x1, y1 + opts.MinimalMargin);
-        
+
         list.Add(marginPoint);
 
         if (x1 < x2)
@@ -38,5 +33,10 @@ public static class LineHelper
         list.Add(new Point(x2, y2));
 
         return list;
+    }
+
+    public sealed class BrokenLineOptions
+    {
+        public int MinimalMargin { get; init; }
     }
 }

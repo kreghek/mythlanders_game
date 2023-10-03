@@ -20,7 +20,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MonoGame;
-using MonoGame.Extended;
 
 namespace Client.GameScreens.CommandCenter;
 
@@ -31,13 +30,13 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
     private readonly ButtonBase[] _commandButtons = new ButtonBase[4];
     private readonly Texture2D[] _commandCenterSegmentTexture;
 
+    private readonly IDictionary<ILocationSid, Vector2> _locationCoords;
+
     private readonly Texture2D _mapBackgroundTexture;
 
     private readonly PongRectangleControl _mapPong;
 
     private IReadOnlyList<ICampaignPanel>? _availableCampaignPanels;
-
-    private readonly IDictionary<ILocationSid, Vector2> _locationCoords;
 
     private double _locationOnMapCounter;
 
@@ -243,12 +242,13 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         {
             var connectorStartPoint = connectorPoints[index];
             var connectorEndPoint = connectorPoints[index + 1];
-            
+
             var lineT = Math.Sin(_locationOnMapCounter + index * 13);
-            
+
             spriteBatch.DrawLine(connectorStartPoint.X, connectorStartPoint.Y, connectorEndPoint.X,
                 connectorEndPoint.Y, TestamentColors.MainSciFi, (float)(2 + lineT * 1));
-            spriteBatch.DrawCircle(connectorStartPoint.X, connectorStartPoint.Y, (float)(8 + lineT * 2), 4, TestamentColors.MainSciFi);
+            spriteBatch.DrawCircle(connectorStartPoint.X, connectorStartPoint.Y, (float)(8 + lineT * 2), 4,
+                TestamentColors.MainSciFi);
         }
 
         var t = Math.Sin(_locationOnMapCounter);
@@ -257,7 +257,8 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
     private static IReadOnlyList<Point> GetConnectorPoints(int x1, int y1, int x2, int y2)
     {
-        return LineHelper.GetBrokenLine(x1, y1, x2, y2, new LineHelper.BrokenLineOptions() { MinimalMargin = 24 });
+        return LineHelper.GetBrokenLine(x1, y1, x2, y2, new LineHelper.BrokenLineOptions
+            { MinimalMargin = 24 });
     }
 
     private ControlBase GetLocationButton(ILocationSid locationOnHover)
@@ -280,6 +281,8 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         var rnd = new Random(2);
         var values = SidHelper.GetValues<ILocationSid>(typeof(LocationSids));
 
-        return values.ToDictionary(x => x, x => new Vector2(rnd.Next(_mapBackgroundTexture.Width / 4, _mapBackgroundTexture.Width * 3 / 4), rnd.Next(_mapBackgroundTexture.Height / 4, _mapBackgroundTexture.Height * 3 / 4)));
+        return values.ToDictionary(x => x,
+            x => new Vector2(rnd.Next(_mapBackgroundTexture.Width / 4, _mapBackgroundTexture.Width * 3 / 4),
+                rnd.Next(_mapBackgroundTexture.Height / 4, _mapBackgroundTexture.Height * 3 / 4)));
     }
 }

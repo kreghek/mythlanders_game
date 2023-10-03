@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 
 namespace Core;
+
 public static class SidHelper
 {
     public static IEnumerable<TValue> GetValues<TValue>(Type t)
