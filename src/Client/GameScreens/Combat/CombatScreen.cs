@@ -186,7 +186,9 @@ internal class CombatScreen : GameScreenWithMenuBase
             layerCameras[(int)BackgroundLayerType.Main],
             layerCameras);
 
-        _cameraOperator = new CameraOperator(_combatActionCamera, new OverviewCameraOperatorTask(_mainCamera.Position));
+        _cameraOperator = new CameraOperator(_combatActionCamera,
+            new OverviewCameraOperatorTask(ResolutionIndependentRenderer.ViewportAdapter.BoundingRectangle.Center
+                .ToVector2()));
     }
 
     protected override IList<ButtonBase> CreateMenu()

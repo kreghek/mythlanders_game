@@ -42,9 +42,15 @@ internal sealed class Camera2DAdapter : ICamera2DAdapter
     /// </summary>
     public void ZoomIn(float deltaZoom, Vector2 zoomCenter)
     {
-        var pastZoom = Zoom;
+        //var pastZoom = Zoom;
+        _innerCamera.LookAt(zoomCenter);
         _innerCamera.ZoomIn(deltaZoom);
-        Position += (zoomCenter - ViewCenter - Position) * ((Zoom - pastZoom) / Zoom);
+        //Position += (zoomCenter - ViewCenter - Position) * ((Zoom - pastZoom) / Zoom);
+    }
+
+    public void LookAt(Vector2 position)
+    {
+        _innerCamera.LookAt(position);
     }
 
     /// <summary>
@@ -52,9 +58,10 @@ internal sealed class Camera2DAdapter : ICamera2DAdapter
     /// </summary>
     public void ZoomOut(float deltaZoom, Vector2 zoomCenter)
     {
-        var pastZoom = Zoom;
+        //var pastZoom = Zoom;
+        _innerCamera.LookAt(zoomCenter);
         _innerCamera.ZoomOut(deltaZoom);
-        Position += (zoomCenter - ViewCenter - Position) * ((Zoom - pastZoom) / Zoom);
+        //Position += (zoomCenter - ViewCenter - Position) * ((Zoom - pastZoom) / Zoom);
     }
 
     /// <summary>
