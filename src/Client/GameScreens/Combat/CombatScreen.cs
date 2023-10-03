@@ -9,6 +9,7 @@ using Client.Assets.Catalogs;
 using Client.Assets.CombatMovements;
 using Client.Assets.StoryPointJobs;
 using Client.Core;
+using Client.Core.AnimationFrameSets;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Campaign;
@@ -451,6 +452,12 @@ internal class CombatScreen : GameScreenWithMenuBase
                 unitGameObject.AddChild(damageIndicator);
 
                 unitGameObject.AnimateWound();
+
+                var bloodEffect = new BloodCombatVisualEffect(unitGameObject.InteractionPoint,
+                    Game.Content.Load<Texture2D>("Sprites/GameObjects/SfxObjects/Blood"),
+                    unitGameObject.Combatant.IsPlayerControlled,
+                    new LinearAnimationFrameSet(Enumerable.Range(0, 16).ToArray(), 32, 64, 64, 4));
+                _visualEffectManager.AddEffect(bloodEffect);
             }
             else if (ReferenceEquals(e.StatType, CombatantStatTypes.ShieldPoints))
             {
@@ -465,7 +472,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
                 unitGameObject.AnimateShield();
             }
-            // TODO Display visual effect of stat damage (resolve, maneuvers, etc).
         }
     }
 
@@ -961,7 +967,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     {
         foreach (var effect in _visualEffectManager.Effects)
         {
-            effect.DrawBack(spriteBatch);
+            effect.DrawFront(spriteBatch);
         }
     }
 
