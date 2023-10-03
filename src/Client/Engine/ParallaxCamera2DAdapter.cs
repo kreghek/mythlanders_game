@@ -69,6 +69,11 @@ internal sealed class ParallaxCamera2DAdapter : ICamera2DAdapter
         _mainCamera.ZoomIn(deltaZoom, zoomCenter);
     }
 
+    public void LookAt(Vector2 position)
+    {
+        _mainCamera.LookAt(position);
+    }
+
     public void ZoomOut(float deltaZoom, Vector2 zoomCenter)
     {
         _mainCamera.ZoomOut(deltaZoom, zoomCenter);

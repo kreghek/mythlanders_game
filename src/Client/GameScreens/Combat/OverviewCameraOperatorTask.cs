@@ -33,11 +33,11 @@ internal sealed class OverviewCameraOperatorTask : ICameraOperatorTask
         {
             if (camera.Zoom < BASE_ZOOM)
             {
-                camera.ZoomIn((float)gameTime.ElapsedGameTime.TotalSeconds * ZOOM_SPEED, _overviewOrigin);
+                camera.ZoomIn((float)gameTime.ElapsedGameTime.TotalSeconds * ZOOM_SPEED, _overviewPosition);
             }
             else if (camera.Zoom > BASE_ZOOM)
             {
-                camera.ZoomOut((float)gameTime.ElapsedGameTime.TotalSeconds * ZOOM_SPEED, _overviewOrigin);
+                camera.ZoomOut((float)gameTime.ElapsedGameTime.TotalSeconds * ZOOM_SPEED, _overviewPosition);
             }
             else
             {
@@ -46,13 +46,14 @@ internal sealed class OverviewCameraOperatorTask : ICameraOperatorTask
         }
         else
         {
-            camera.Zoom = BASE_ZOOM;
-            var distance = (camera.Position - _overviewPosition).Length();
-            if (distance > 0.1f)
-            {
-                camera.Position = Vector2.Lerp(camera.Position, _overviewPosition,
-                    (float)gameTime.ElapsedGameTime.TotalSeconds);
-            }
+            camera.LookAt(_overviewPosition);
+            // camera.Zoom = BASE_ZOOM;
+            // var distance = (camera.Position - _overviewPosition).Length();
+            // if (distance > 0.1f)
+            // {
+            //     camera.Position = Vector2.Lerp(camera.Position, _overviewPosition,
+            //         (float)gameTime.ElapsedGameTime.TotalSeconds);
+            // }
         }
     }
 }

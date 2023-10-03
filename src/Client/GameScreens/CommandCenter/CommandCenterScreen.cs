@@ -12,12 +12,15 @@ using Client.ScreenManagement;
 
 using CombatDicesTeam.Dices;
 
+using Core;
+
 using GameClient.Engine.RectControl;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MonoGame;
+using MonoGame.Extended;
 
 namespace Client.GameScreens.CommandCenter;
 
@@ -233,11 +236,28 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         var locationButton = GetLocationButton(locationOnHover);
         var x1 = locationCoords.X + _mapPong.GetRects()[0].X;
         var y1 = locationCoords.Y + _mapPong.GetRects()[0].Y;
-        spriteBatch.DrawLine(x1, y1, locationButton.Rect.Center.X,
-            locationButton.Rect.Center.Y, TestamentColors.MainSciFi, 2);
+
+        var connectorPoints = GetConnectorPoints(x1, y1, locationButton.Rect.Center.X, locationButton.Rect.Center.Y);
+
+        for (var index = 0; index < connectorPoints.Count - 1; index++)
+        {
+            var connectorStartPoint = connectorPoints[index];
+            var connectorEndPoint = connectorPoints[index + 1];
+            
+            var lineT = Math.Sin(_locationOnMapCounter + index * 13);
+            
+            spriteBatch.DrawLine(connectorStartPoint.X, connectorStartPoint.Y, connectorEndPoint.X,
+                connectorEndPoint.Y, TestamentColors.MainSciFi, (float)(2 + lineT * 1));
+            spriteBatch.DrawCircle(connectorStartPoint.X, connectorStartPoint.Y, (float)(8 + lineT * 2), 4, TestamentColors.MainSciFi);
+        }
 
         var t = Math.Sin(_locationOnMapCounter);
         spriteBatch.DrawCircle(x1, y1, (float)(16 + t * 4), 4, TestamentColors.MainSciFi);
+    }
+
+    private static IReadOnlyList<Point> GetConnectorPoints(int x1, int y1, int x2, int y2)
+    {
+        return LineHelper.GetBrokenLine(x1, y1, x2, y2, new LineHelper.BrokenLineOptions() { MinimalMargin = 24 });
     }
 
     private ControlBase GetLocationButton(ILocationSid locationOnHover)
@@ -258,12 +278,8 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
     private Dictionary<ILocationSid, Vector2> InitLocationCoords()
     {
         var rnd = new Random(2);
-        return new Dictionary<ILocationSid, Vector2>
-        {
-            {
-                LocationSids.Thicket,
-                new Vector2(rnd.Next(_mapBackgroundTexture.Width), rnd.Next(_mapBackgroundTexture.Height))
-            }
-        };
+        var values = SidHelper.GetValues<ILocationSid>(typeof(LocationSids));
+
+        return values.ToDictionary(x => x, x => new Vector2(rnd.Next(_mapBackgroundTexture.Width / 4, _mapBackgroundTexture.Width * 3 / 4), rnd.Next(_mapBackgroundTexture.Height / 4, _mapBackgroundTexture.Height * 3 / 4)));
     }
 }
