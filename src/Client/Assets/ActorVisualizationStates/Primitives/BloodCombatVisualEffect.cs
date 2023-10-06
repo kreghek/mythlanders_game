@@ -7,10 +7,10 @@ namespace Client.Assets.ActorVisualizationStates.Primitives;
 
 internal sealed class BloodCombatVisualEffect : ICombatVisualEffect
 {
-    private readonly Vector2 _position;
+    private readonly IAnimationFrameSet _animation;
     private readonly Texture2D _bloodTexture;
     private readonly bool _flipX;
-    private readonly IAnimationFrameSet _animation;
+    private readonly Vector2 _position;
 
     public BloodCombatVisualEffect(Vector2 position, Texture2D bloodTexture, bool flipX, IAnimationFrameSet animation)
     {
@@ -30,7 +30,8 @@ internal sealed class BloodCombatVisualEffect : ICombatVisualEffect
 
     public void DrawFront(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(_bloodTexture, _position, _animation.GetFrameRect(), Color.White, 0, Vector2.Zero, 1, _flipX ? SpriteEffects.FlipHorizontally: SpriteEffects.None, 0);
+        spriteBatch.Draw(_bloodTexture, _position, _animation.GetFrameRect(), Color.White, 0, Vector2.Zero, 1,
+            _flipX ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
     }
 
     public void Update(GameTime gameTime)
