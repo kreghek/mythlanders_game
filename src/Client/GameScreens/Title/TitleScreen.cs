@@ -2,18 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets;
+using Client.Assets.StageItems;
 using Client.Core;
+using Client.Core.Campaigns;
 using Client.Engine;
+using Client.GameScreens.Combat;
 using Client.GameScreens.CommandCenter;
 using Client.GameScreens.Common;
 using Client.ScreenManagement;
 
 using CombatDicesTeam.Dices;
+using CombatDicesTeam.Graphs;
 
 using GameClient.Engine.RectControl;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using MonoGame.Extended.Screens;
 
 namespace Client.GameScreens.Title;
 
@@ -74,11 +81,15 @@ internal sealed class TitleScreen : GameScreenBase
         }
         else
         {
-            var startButton = new TitleResourceTextButton(nameof(UiResource.PlayGameButtonTitle));
+            var startButton = new TitleResourceTextButton(nameof(UiResource.PlayCampaignButtonTitle));
             startButton.OnClick += StartButton_OnClick;
 
             _buttons.Add(startButton);
         }
+
+        var freeCombatButton = new TitleResourceTextButton(nameof(UiResource.PlayFreeCombatButtonTitle));
+        freeCombatButton.OnClick += FreeCombatButton_OnClick;
+        _buttons.Add(freeCombatButton);
 
         var settingsButton = new TitleResourceTextButton(nameof(UiResource.SettingsButtonTitle));
         settingsButton.OnClick += SettingsButton_OnClick;
@@ -120,6 +131,24 @@ internal sealed class TitleScreen : GameScreenBase
         var bgTexture = _uiContentStorage.GetTitleBackgroundTexture();
         _bgPong = new PongRectangleControl(new Point(bgTexture.Width, bgTexture.Height),
             ResolutionIndependentRenderer.VirtualBounds, new PongRectangleRandomSource(new LinearDice(), 2));
+    }
+
+    private void FreeCombatButton_OnClick(object? sender, EventArgs e)
+    {
+        var combatSequence = new CombatSequence();
+        var globeNode = new GlobeNode();
+        var oneCombatNode = new GraphNode<ICampaignStageItem>(new CombatStageItem(globeNode, combatSequence));
+        var oneCombatGraph = new DirectedGraph<ICampaignStageItem>();
+        oneCombatGraph.AddNode(oneCombatNode);
+        var campaign = new HeroCampaign(LocationSids.Thicket, oneCombatGraph, 1);
+
+        ScreenManager.ExecuteTransition(
+            this,
+            ScreenTransition.CommandCenter,
+            new CombatScreenTransitionArguments(campaign, combatSequence, 1, false,globeNode, null)
+            {
+                
+            });
     }
 
     public void StartClearNewGame(GlobeProvider globeProvider, IScreen currentScreen,
