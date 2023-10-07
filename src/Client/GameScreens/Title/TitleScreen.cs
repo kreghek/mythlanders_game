@@ -15,6 +15,8 @@ using Client.ScreenManagement;
 using CombatDicesTeam.Dices;
 using CombatDicesTeam.Graphs;
 
+using Core.PropDrop;
+
 using GameClient.Engine.RectControl;
 
 using Microsoft.Xna.Framework;
@@ -81,7 +83,7 @@ internal sealed class TitleScreen : GameScreenBase
         }
         else
         {
-            var startButton = new TitleResourceTextButton(nameof(UiResource.PlayCampaignButtonTitle));
+            var startButton = new TitleResourceTextButton(nameof(UiResource.PlayStoryButtonTitle));
             startButton.OnClick += StartButton_OnClick;
 
             _buttons.Add(startButton);
@@ -135,8 +137,12 @@ internal sealed class TitleScreen : GameScreenBase
 
     private void FreeCombatButton_OnClick(object? sender, EventArgs e)
     {
+        _globeProvider.GenerateNew();
+
+        var combat = new CombatSource(new MonsterCombatantPrefab[] { new MonsterCombatantPrefab("digitalwolf", 0, new CombatDicesTeam.Combats.FieldCoords(0, 0)) }, new CombatReward(Array.Empty<IDropTableScheme>()));
         var combatSequence = new CombatSequence();
-        var globeNode = new GlobeNode();
+        combatSequence.Combats = new[] { combat };
+        var globeNode = new GlobeNode() { Sid = LocationSids.Thicket };
         var oneCombatNode = new GraphNode<ICampaignStageItem>(new CombatStageItem(globeNode, combatSequence));
         var oneCombatGraph = new DirectedGraph<ICampaignStageItem>();
         oneCombatGraph.AddNode(oneCombatNode);
@@ -144,7 +150,7 @@ internal sealed class TitleScreen : GameScreenBase
 
         ScreenManager.ExecuteTransition(
             this,
-            ScreenTransition.CommandCenter,
+            ScreenTransition.Combat,
             new CombatScreenTransitionArguments(campaign, combatSequence, 1, false,globeNode, null)
             {
                 
@@ -246,7 +252,7 @@ internal sealed class TitleScreen : GameScreenBase
             return null;
         }
 
-        var loadGameButton = new ResourceTextButton(nameof(UiResource.PlayGameButtonTitle));
+        var loadGameButton = new ResourceTextButton(nameof(UiResource.PlayStoryButtonTitle));
 
         loadGameButton.OnClick += (_, _) =>
         {
