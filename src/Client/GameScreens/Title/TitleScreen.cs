@@ -304,12 +304,12 @@ internal sealed class TitleScreen : GameScreenBase
     {
         var freeHeroes = new[]
         {
-            "swordsman",
-            "amazon",
-            "partisan",
-            "robber",
-            "monk",
-            "guardian"
+            ("swordsman",new StatValue(5)),
+            ("amazon", new StatValue(3)),
+            ("partisan",new StatValue(3)),
+            ("robber", new StatValue(3)),
+            ("monk",new StatValue(3)),
+            ("guardian", new StatValue(5))
         };
 
         var freeMonsters = new[]
@@ -335,10 +335,14 @@ internal sealed class TitleScreen : GameScreenBase
             LocationSids.ShipGraveyard
         };
 
+        var heroPositions = Enumerable.Range(0, 6).Select(x => new FieldCoords(x / 3, x % 3)).ToArray();
         var monsterPositions = Enumerable.Range(0, 6).Select(x => new FieldCoords(x / 3, x % 3)).ToArray();
 
         var dice = new LinearDice();
-        _globeProvider.GenerateFree(dice.RollFromList(freeHeroes, dice.Roll(2, 4)).ToArray());
+        var rolledHeroes = dice.RollFromList(freeHeroes, dice.Roll(2, 4)).ToArray();
+        var rolledHeroPositions = _dice.RollFromList(monsterPositions, rolledHeroes.Length).ToArray();
+        var heroStates = rolledHeroPositions.Select((t, i) => new HeroState(rolledHeroes[i].Item1, rolledHeroes[i].Item2, t)).ToArray();
+        _globeProvider.GenerateFree(heroStates);
 
         var rolledMonsters = _dice.RollFromList(freeMonsters, dice.Roll(2, 4)).ToArray();
         var rolledCoords = _dice.RollFromList(monsterPositions, rolledMonsters.Length).ToArray();
@@ -353,7 +357,6 @@ internal sealed class TitleScreen : GameScreenBase
 
         var rolledLocation = dice.RollFromList(freeLocations);
 
-        var globeNode = new GlobeNode { Sid = rolledLocation };
         var oneCombatNode = new GraphNode<ICampaignStageItem>(new CombatStageItem(rolledLocation, combatSequence));
         var oneCombatGraph = new DirectedGraph<ICampaignStageItem>();
         oneCombatGraph.AddNode(oneCombatNode);

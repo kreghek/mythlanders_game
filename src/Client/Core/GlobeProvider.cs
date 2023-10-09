@@ -67,11 +67,9 @@ internal sealed class GlobeProvider
         return !IsDirectoryEmpty(_storagePath);
     }
 
-    public void GenerateFree(string[] heroes)
+    public void GenerateFree(HeroState[] heroes)
     {
-        var globe = new Globe(new Player());
-
-        AssignFreeHeroes(globe, heroes);
+        var globe = new Globe(new Player(heroes));
 
         Globe = globe;
     }
