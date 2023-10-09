@@ -18,7 +18,7 @@ internal class SwordsmanFactory : HeroFactoryBase
         };
     }
 
-    protected override UnitGraphicsConfigBase GetGraphicsConfig()
+    protected override CombatantGraphicsConfigBase GetGraphicsConfig()
     {
         return new SwordsmanGraphicsConfig(HeroName);
     }

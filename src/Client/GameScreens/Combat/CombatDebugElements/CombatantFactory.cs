@@ -2,6 +2,11 @@
 using System.Linq;
 
 using Client.Core;
+using Client.GameScreens.Combat.CombatDebugElements.Heroes;
+using Client.GameScreens.Combat.CombatDebugElements.Monsters.Black;
+using Client.GameScreens.Combat.CombatDebugElements.Monsters.Egyptian;
+using Client.GameScreens.Combat.CombatDebugElements.Monsters.Greek;
+using Client.GameScreens.Combat.CombatDebugElements.Monsters.Slavic;
 
 using CombatDicesTeam.Combats;
 
@@ -11,20 +16,23 @@ namespace Client.GameScreens.Combat.CombatDebugElements;
 
 internal class CombatantFactory
 {
-    private static readonly IDictionary<string, IHeroCombatantFactory> _factories =
+    private static readonly IDictionary<string, IHeroCombatantFactory> _heroFactories =
         new Dictionary<string, IHeroCombatantFactory>
         {
             { "swordsman", new SwordsmanCombatantFactory() },
             { "amazon", new AmazonCombatantFactory() },
             { "partisan", new PartisanCombatantFactory() },
             { "robber", new RobberCombatantFactory() },
-            { "monk", new MonkCombatantFactory() }
+            { "monk", new MonkCombatantFactory() },
+            { "guardian", new MonkCombatantFactory() }
         };
 
-    private static readonly IDictionary<string, IMonsterCombatantFactory> _monsterfactories =
+    private static readonly IDictionary<string, IMonsterCombatantFactory> _monsterFactories =
         new Dictionary<string, IMonsterCombatantFactory>
         {
             { "digitalwolf", new DigitalWolfCombatantFactory() },
+            { "corruptedbear", new CorruptedBearCombatantFactory() },
+            { "wisp", new WispCombatantFactory() },
             { "chaser", new ChaserCombatantFactory() },
             { "aspid", new AspidCombatantFactory() },
             { "volkolakwarrior", new VolkolakCombatantFactory() },
@@ -39,7 +47,7 @@ internal class CombatantFactory
         var formationSlots = player.Heroes.Where(x => x.HitPoints.Current > 0).Select(hero =>
             new FormationSlot(hero.FormationPosition.ColumentIndex, hero.FormationPosition.LineIndex)
             {
-                Combatant = _factories[hero.ClassSid].Create(hero.ClassSid, combatActorBehaviour, hero.HitPoints)
+                Combatant = _heroFactories[hero.ClassSid].Create(hero.ClassSid, combatActorBehaviour, hero.HitPoints)
             }).ToArray();
 
         return formationSlots;
@@ -69,7 +77,7 @@ internal class CombatantFactory
         ICombatActorBehaviour combatActorBehaviour,
         MonsterCombatantPrefab monsterCombatantPrefab)
     {
-        return _monsterfactories[monsterCombatantPrefab.ClassSid].Create(monsterCombatantPrefab.ClassSid,
+        return _monsterFactories[monsterCombatantPrefab.ClassSid].Create(monsterCombatantPrefab.ClassSid,
             combatActorBehaviour, monsterCombatantPrefab.Variation);
     }
 }

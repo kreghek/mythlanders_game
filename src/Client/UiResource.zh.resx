@@ -123,7 +123,7 @@
   <data name="CurrentQuestButtonTitle" xml:space="preserve">
     <value>Задачи</value>
   </data>
-  <data name="PlayGameButtonTitle" xml:space="preserve">
+  <data name="PlayStoryButtonTitle" xml:space="preserve">
     <value>玩个游戏</value>
   </data>
   <data name="SettingsButtonTitle" xml:space="preserve">

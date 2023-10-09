@@ -5,7 +5,7 @@ using Client.Core;
 
 namespace Client.Assets.GraphicConfigs.Monsters;
 
-internal abstract class MonsterGraphicsConfig : UnitGraphicsConfigBase
+internal abstract class MonsterGraphicsConfig : CombatantGraphicsConfigBase
 {
     private readonly UnitName _unit;
 

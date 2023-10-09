@@ -1,4 +1,4 @@
-using Client.Assets.GraphicConfigs.Monsters;
+using Client.Assets.GraphicConfigs.Monsters.Slavic;
 using Client.Core;
 using Client.GameScreens;
 
@@ -42,7 +42,7 @@ internal sealed class VolkolakWarriorFactory : IMonsterFactory
         };
     }
 
-    public UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
+    public CombatantGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
     {
         return new VolkolakWarriorGraphicsConfig(ClassName);
     }

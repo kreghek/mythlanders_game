@@ -423,7 +423,7 @@
   <data name="PeriodicHealEffectRuleText" xml:space="preserve">
     <value>Лечение {0} - {1} {2} в течении {3} ходов</value>
   </data>
-  <data name="PlayGameButtonTitle" xml:space="preserve">
+  <data name="PlayStoryButtonTitle" xml:space="preserve">
     <value>Играть</value>
   </data>
   <data name="ProtectionEffectRuleText" xml:space="preserve">

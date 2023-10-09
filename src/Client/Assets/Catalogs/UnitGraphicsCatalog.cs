@@ -9,10 +9,10 @@ using Client.GameScreens;
 
 namespace Client.Assets.Catalogs;
 
-internal sealed class UnitGraphicsCatalog : IUnitGraphicsCatalog
+internal sealed class UnitGraphicsCatalog : ICombatantGraphicsCatalog
 {
-    private readonly IDictionary<string, UnitGraphicsConfigBase> _graphicsDict =
-        new Dictionary<string, UnitGraphicsConfigBase>();
+    private readonly IDictionary<string, CombatantGraphicsConfigBase> _graphicsDict =
+        new Dictionary<string, CombatantGraphicsConfigBase>();
 
     public UnitGraphicsCatalog(GameObjectContentStorage gameObjectContentStorage)
     {
@@ -49,7 +49,7 @@ internal sealed class UnitGraphicsCatalog : IUnitGraphicsCatalog
         return factories.OfType<IMonsterFactory>().ToArray();
     }
 
-    public UnitGraphicsConfigBase GetGraphics(string classSid)
+    public CombatantGraphicsConfigBase GetGraphics(string classSid)
     {
         return _graphicsDict[classSid.ToUpper()];
     }

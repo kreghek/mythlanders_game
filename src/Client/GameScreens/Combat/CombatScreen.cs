@@ -354,7 +354,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         //     AddMonstersFromCombatIntoKnownMonsters(combatUnit.Unit, _globe.Player.KnownMonsters);
         // }
 
-        var unitCatalog = Game.Services.GetRequiredService<IUnitGraphicsCatalog>();
+        var unitCatalog = Game.Services.GetRequiredService<ICombatantGraphicsCatalog>();
         var graphicConfig = unitCatalog.GetGraphics(e.Combatant.ClassSid);
 
         var combatantSide = e.FieldInfo.FieldSide == _combatCore.Field.HeroSide
@@ -1339,7 +1339,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _combatantQueuePanel = new CombatantQueuePanel(_combatCore,
             _uiContentStorage,
-            new CombatantThumbnailProvider(Game.Content, Game.Services.GetRequiredService<IUnitGraphicsCatalog>()));
+            new CombatantThumbnailProvider(Game.Content, Game.Services.GetRequiredService<ICombatantGraphicsCatalog>()));
     }
 
     private void ManeuverVisualizer_ManeuverSelected(object? sender, ManeuverSelectedEventArgs e)

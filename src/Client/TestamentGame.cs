@@ -303,7 +303,7 @@ public sealed class TestamentGame : Game
         Services.AddService<IDialogueEnvironmentManager>(dialogEnvManager);
 
         var unitGraphicsCatalog = new UnitGraphicsCatalog(gameObjectsContentStorage);
-        Services.AddService<IUnitGraphicsCatalog>(unitGraphicsCatalog);
+        Services.AddService<ICombatantGraphicsCatalog>(unitGraphicsCatalog);
 
         var movementVisualizer = new TestamentCombatMovementVisualizationProvider();
         Services.AddService<ICombatMovementVisualizationProvider>(movementVisualizer);
