@@ -12,6 +12,7 @@ using Client.GameScreens.CommandCenter;
 using Client.GameScreens.Common;
 using Client.ScreenManagement;
 
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dices;
 using CombatDicesTeam.Graphs;
 
@@ -70,9 +71,6 @@ internal sealed class TitleScreen : GameScreenBase
 
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();
         _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
-
-        var buttonTexture = _uiContentStorage.GetControlBackgroundTexture();
-        var buttonFont = _uiContentStorage.GetMainFont();
 
         _buttons = new List<ButtonBase>();
 
@@ -137,11 +135,41 @@ internal sealed class TitleScreen : GameScreenBase
 
     private void FreeCombatButton_OnClick(object? sender, EventArgs e)
     {
-        _globeProvider.GenerateNew();
+        var freeHeroes = new[]
+        {
+            "swordsman",
+            "amazon",
+            "partisan", 
+            "robber",
+            "monk" 
+        };
+        
+        var freeMonsters = new[]
+        {
+            "digitalwolf",
+            "chaser",
+            "aspid",
+            "volkolakwarrior",
+            "agressor",
+            "ambushdrone",
+            "automataur"
+        };
 
-        var combat = new CombatSource(new MonsterCombatantPrefab[] { new MonsterCombatantPrefab("digitalwolf", 0, new CombatDicesTeam.Combats.FieldCoords(0, 0)) }, new CombatReward(Array.Empty<IDropTableScheme>()));
-        var combatSequence = new CombatSequence();
-        combatSequence.Combats = new[] { combat };
+        var monsterPositions = Enumerable.Range(0, 6).Select(x => new FieldCoords(x / 3, x % 3)).ToArray();
+
+        var dice = new LinearDice();
+        _globeProvider.GenerateFree(dice.RollFromList(freeHeroes, dice.Roll(2,4)).ToArray());
+
+        var rolledMonsters = _dice.RollFromList(freeMonsters, dice.Roll(2, 4)).ToArray();
+        var rolledCoords = _dice.RollFromList(monsterPositions, rolledMonsters.Length).ToArray();
+
+        var prefabs = rolledCoords.Select((t, i) => new MonsterCombatantPrefab(rolledMonsters[i], 0, t)).ToList();
+
+        var combat = new CombatSource(prefabs, new CombatReward(Array.Empty<IDropTableScheme>()));
+        var combatSequence = new CombatSequence
+        {
+            Combats = new[] { combat }
+        };
         var globeNode = new GlobeNode() { Sid = LocationSids.Thicket };
         var oneCombatNode = new GraphNode<ICampaignStageItem>(new CombatStageItem(globeNode, combatSequence));
         var oneCombatGraph = new DirectedGraph<ICampaignStageItem>();
@@ -151,10 +179,7 @@ internal sealed class TitleScreen : GameScreenBase
         ScreenManager.ExecuteTransition(
             this,
             ScreenTransition.Combat,
-            new CombatScreenTransitionArguments(campaign, combatSequence, 1, false,globeNode, null)
-            {
-                
-            });
+            new CombatScreenTransitionArguments(campaign, combatSequence, 1, false,globeNode, null));
     }
 
     public void StartClearNewGame(GlobeProvider globeProvider, IScreen currentScreen,
