@@ -67,21 +67,21 @@ internal sealed class GlobeProvider
         return !IsDirectoryEmpty(_storagePath);
     }
 
+    public void GenerateFree(string[] heroes)
+    {
+        var globe = new Globe(new Player());
+
+        AssignFreeHeroes(globe, heroes);
+
+        Globe = globe;
+    }
+
     public void GenerateNew()
     {
         var globe = new Globe(new Player());
 
         InitStartStoryPoint(globe, _storyPointInitializer);
         AssignStartHeroes(globe);
-
-        Globe = globe;
-    }
-    
-    public void GenerateFree(string[] heroes)
-    {
-        var globe = new Globe(new Player());
-
-        AssignFreeHeroes(globe, heroes);
 
         Globe = globe;
     }
@@ -173,6 +173,21 @@ internal sealed class GlobeProvider
         File.WriteAllText(storageFile, saveDataString);
     }
 
+    private void AssignFreeHeroes(Globe globe, string[] heroes)
+    {
+        var startHeroes = CreateFreeHeroes(heroes.Select(x => Enum.Parse<UnitName>(x, true)).ToArray());
+        for (var slotIndex = 0; slotIndex < startHeroes.Length; slotIndex++)
+        {
+            globe.Player.MoveToParty(startHeroes[slotIndex], slotIndex);
+        }
+
+        var startPoolHeroes = CreateStartPoolHeroes();
+        foreach (var hero in startPoolHeroes)
+        {
+            globe.Player.Pool.AddNewUnit(hero);
+        }
+    }
+
     private void AssignStartHeroes(Globe globe)
     {
         var startHeroes = CreateStartHeroes();
@@ -187,20 +202,12 @@ internal sealed class GlobeProvider
             globe.Player.Pool.AddNewUnit(hero);
         }
     }
-    
-    private void AssignFreeHeroes(Globe globe, string[] heroes)
-    {
-        var startHeroes = CreateFreeHeroes(heroes.Select(x => Enum.Parse<UnitName>(x, true)).ToArray());
-        for (var slotIndex = 0; slotIndex < startHeroes.Length; slotIndex++)
-        {
-            globe.Player.MoveToParty(startHeroes[slotIndex], slotIndex);
-        }
 
-        var startPoolHeroes = CreateStartPoolHeroes();
-        foreach (var hero in startPoolHeroes)
-        {
-            globe.Player.Pool.AddNewUnit(hero);
-        }
+    private Hero[] CreateFreeHeroes(UnitName[] heroes)
+    {
+        var startHeroes = heroes.Select(CreateStartHero).ToArray();
+
+        return startHeroes;
     }
 
     private static string CreateSaveData(string saveName, ProgressDto progress)
@@ -236,13 +243,6 @@ internal sealed class GlobeProvider
         };
 
         var startHeroes = startHeroNames.Select(CreateStartHero).ToArray();
-
-        return startHeroes;
-    }
-    
-    private Hero[] CreateFreeHeroes(UnitName[] heroes)
-    {
-        var startHeroes = heroes.Select(CreateStartHero).ToArray();
 
         return startHeroes;
     }

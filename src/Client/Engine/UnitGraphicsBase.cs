@@ -39,7 +39,8 @@ internal abstract class UnitGraphicsBase
 
     private Sprite[] _sprites;
 
-    public UnitGraphicsBase(UnitName spriteSheetId, CombatantGraphicsConfigBase graphicsConfig, bool isNormalOrientation,
+    public UnitGraphicsBase(UnitName spriteSheetId, CombatantGraphicsConfigBase graphicsConfig,
+        bool isNormalOrientation,
         Vector2 position, GameObjectContentStorage gameObjectContentStorage)
     {
         _graphicsConfig = graphicsConfig;

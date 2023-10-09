@@ -23,8 +23,6 @@ using GameClient.Engine.RectControl;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using MonoGame.Extended.Screens;
-
 namespace Client.GameScreens.Title;
 
 internal sealed class TitleScreen : GameScreenBase
@@ -131,71 +129,6 @@ internal sealed class TitleScreen : GameScreenBase
         var bgTexture = _uiContentStorage.GetTitleBackgroundTexture();
         _bgPong = new PongRectangleControl(new Point(bgTexture.Width, bgTexture.Height),
             ResolutionIndependentRenderer.VirtualBounds, new PongRectangleRandomSource(new LinearDice(), 2));
-    }
-
-    private void FreeCombatButton_OnClick(object? sender, EventArgs e)
-    {
-        var freeHeroes = new[]
-        {
-            "swordsman",
-            "amazon",
-            "partisan", 
-            "robber",
-            "monk",
-            "guardian"
-        };
-        
-        var freeMonsters = new[]
-        {
-            "digitalwolf",
-            "corruptedbear",
-            "wisp",
-            "chaser",
-            "aspid",
-            "volkolakwarrior",
-            "agressor",
-            "ambushdrone",
-            "automataur"
-        };
-
-        var freeLocations = new[]
-        {
-            LocationSids.Thicket,
-            LocationSids.Desert,
-            LocationSids.Monastery,
-            LocationSids.Battleground,
-            LocationSids.Swamp,
-            LocationSids.ShipGraveyard
-        };
-
-        var monsterPositions = Enumerable.Range(0, 6).Select(x => new FieldCoords(x / 3, x % 3)).ToArray();
-
-        var dice = new LinearDice();
-        _globeProvider.GenerateFree(dice.RollFromList(freeHeroes, dice.Roll(2,4)).ToArray());
-
-        var rolledMonsters = _dice.RollFromList(freeMonsters, dice.Roll(2, 4)).ToArray();
-        var rolledCoords = _dice.RollFromList(monsterPositions, rolledMonsters.Length).ToArray();
-
-        var prefabs = rolledCoords.Select((t, i) => new MonsterCombatantPrefab(rolledMonsters[i], 0, t)).ToList();
-
-        var combat = new CombatSource(prefabs, new CombatReward(Array.Empty<IDropTableScheme>()));
-        var combatSequence = new CombatSequence
-        {
-            Combats = new[] { combat }
-        };
-
-        var rolledLocation = dice.RollFromList(freeLocations);
-        
-        var globeNode = new GlobeNode { Sid = rolledLocation };
-        var oneCombatNode = new GraphNode<ICampaignStageItem>(new CombatStageItem(globeNode, combatSequence));
-        var oneCombatGraph = new DirectedGraph<ICampaignStageItem>();
-        oneCombatGraph.AddNode(oneCombatNode);
-        var campaign = new HeroCampaign(rolledLocation, oneCombatGraph, 1);
-
-        ScreenManager.ExecuteTransition(
-            this,
-            ScreenTransition.Combat,
-            new CombatScreenTransitionArguments(campaign, combatSequence, 1, false,globeNode, null));
     }
 
     public void StartClearNewGame(GlobeProvider globeProvider, IScreen currentScreen,
@@ -365,6 +298,71 @@ internal sealed class TitleScreen : GameScreenBase
 
             index++;
         }
+    }
+
+    private void FreeCombatButton_OnClick(object? sender, EventArgs e)
+    {
+        var freeHeroes = new[]
+        {
+            "swordsman",
+            "amazon",
+            "partisan",
+            "robber",
+            "monk",
+            "guardian"
+        };
+
+        var freeMonsters = new[]
+        {
+            "digitalwolf",
+            "corruptedbear",
+            "wisp",
+            "chaser",
+            "aspid",
+            "volkolakwarrior",
+            "agressor",
+            "ambushdrone",
+            "automataur"
+        };
+
+        var freeLocations = new[]
+        {
+            LocationSids.Thicket,
+            LocationSids.Desert,
+            LocationSids.Monastery,
+            LocationSids.Battleground,
+            LocationSids.Swamp,
+            LocationSids.ShipGraveyard
+        };
+
+        var monsterPositions = Enumerable.Range(0, 6).Select(x => new FieldCoords(x / 3, x % 3)).ToArray();
+
+        var dice = new LinearDice();
+        _globeProvider.GenerateFree(dice.RollFromList(freeHeroes, dice.Roll(2, 4)).ToArray());
+
+        var rolledMonsters = _dice.RollFromList(freeMonsters, dice.Roll(2, 4)).ToArray();
+        var rolledCoords = _dice.RollFromList(monsterPositions, rolledMonsters.Length).ToArray();
+
+        var prefabs = rolledCoords.Select((t, i) => new MonsterCombatantPrefab(rolledMonsters[i], 0, t)).ToList();
+
+        var combat = new CombatSource(prefabs, new CombatReward(Array.Empty<IDropTableScheme>()));
+        var combatSequence = new CombatSequence
+        {
+            Combats = new[] { combat }
+        };
+
+        var rolledLocation = dice.RollFromList(freeLocations);
+
+        var globeNode = new GlobeNode { Sid = rolledLocation };
+        var oneCombatNode = new GraphNode<ICampaignStageItem>(new CombatStageItem(globeNode, combatSequence));
+        var oneCombatGraph = new DirectedGraph<ICampaignStageItem>();
+        oneCombatGraph.AddNode(oneCombatNode);
+        var campaign = new HeroCampaign(rolledLocation, oneCombatGraph, 1);
+
+        ScreenManager.ExecuteTransition(
+            this,
+            ScreenTransition.Combat,
+            new CombatScreenTransitionArguments(campaign, combatSequence, 1, false, globeNode, null));
     }
 
     private UnitName[] GetAvailableHeroes()

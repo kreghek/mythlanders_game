@@ -1339,7 +1339,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _combatantQueuePanel = new CombatantQueuePanel(_combatCore,
             _uiContentStorage,
-            new CombatantThumbnailProvider(Game.Content, Game.Services.GetRequiredService<ICombatantGraphicsCatalog>()));
+            new CombatantThumbnailProvider(Game.Content,
+                Game.Services.GetRequiredService<ICombatantGraphicsCatalog>()));
     }
 
     private void ManeuverVisualizer_ManeuverSelected(object? sender, ManeuverSelectedEventArgs e)
