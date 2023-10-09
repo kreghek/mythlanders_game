@@ -109,12 +109,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
             Combats = new[] { combat }
         };
 
-        var location = new GlobeNode
-        {
-            Sid = _locationSid,
-            AssignedCombats = combatSequence
-        };
-        var stageItem = new CombatStageItem(location, combatSequence);
+        var stageItem = new CombatStageItem(_locationSid, combatSequence);
 
         return stageItem;
     }

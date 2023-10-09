@@ -354,7 +354,7 @@ internal sealed class TitleScreen : GameScreenBase
         var rolledLocation = dice.RollFromList(freeLocations);
 
         var globeNode = new GlobeNode { Sid = rolledLocation };
-        var oneCombatNode = new GraphNode<ICampaignStageItem>(new CombatStageItem(globeNode, combatSequence));
+        var oneCombatNode = new GraphNode<ICampaignStageItem>(new CombatStageItem(rolledLocation, combatSequence));
         var oneCombatGraph = new DirectedGraph<ICampaignStageItem>();
         oneCombatGraph.AddNode(oneCombatNode);
         var campaign = new HeroCampaign(rolledLocation, oneCombatGraph, 1);
@@ -362,7 +362,7 @@ internal sealed class TitleScreen : GameScreenBase
         ScreenManager.ExecuteTransition(
             this,
             ScreenTransition.Combat,
-            new CombatScreenTransitionArguments(campaign, combatSequence, 1, false, globeNode, null));
+            new CombatScreenTransitionArguments(campaign, combatSequence, 1, false, rolledLocation, null));
     }
 
     private UnitName[] GetAvailableHeroes()

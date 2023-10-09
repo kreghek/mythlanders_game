@@ -9,7 +9,7 @@ namespace Client.GameScreens.Combat;
 internal sealed record CombatScreenTransitionArguments(HeroCampaign Campaign,
     CombatSequence CombatSequence,
     int CurrentCombatIndex,
-    bool IsAutoplay,
-    GlobeNode Location,
+    bool IsFreeCombat,
+    ILocationSid Location,
     Dialogue<ParagraphConditionContext, AftermathContext>? VictoryDialogue) :
     CampaignScreenTransitionArgumentsBase(Campaign);
