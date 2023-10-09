@@ -24,7 +24,7 @@ internal class CombatantFactory
             { "partisan", new PartisanCombatantFactory() },
             { "robber", new RobberCombatantFactory() },
             { "monk", new MonkCombatantFactory() },
-            { "guardian", new MonkCombatantFactory() }
+            { "guardian", new GuardianCombatantFactory() }
         };
 
     private static readonly IDictionary<string, IMonsterCombatantFactory> _monsterFactories =
