@@ -2,6 +2,11 @@
 using System.Linq;
 
 using Client.Core;
+using Client.GameScreens.Combat.CombatDebugElements.Heroes;
+using Client.GameScreens.Combat.CombatDebugElements.Monsters.Black;
+using Client.GameScreens.Combat.CombatDebugElements.Monsters.Egyptian;
+using Client.GameScreens.Combat.CombatDebugElements.Monsters.Greek;
+using Client.GameScreens.Combat.CombatDebugElements.Monsters.Slavic;
 
 using CombatDicesTeam.Combats;
 
@@ -18,13 +23,16 @@ internal class CombatantFactory
             { "amazon", new AmazonCombatantFactory() },
             { "partisan", new PartisanCombatantFactory() },
             { "robber", new RobberCombatantFactory() },
-            { "monk", new MonkCombatantFactory() }
+            { "monk", new MonkCombatantFactory() },
+            { "guardian", new MonkCombatantFactory() }
         };
 
     private static readonly IDictionary<string, IMonsterCombatantFactory> _monsterFactories =
         new Dictionary<string, IMonsterCombatantFactory>
         {
             { "digitalwolf", new DigitalWolfCombatantFactory() },
+            { "corruptedbear", new CorruptedBearCombatantFactory() },
+            { "wisp", new WispCombatantFactory() },
             { "chaser", new ChaserCombatantFactory() },
             { "aspid", new AspidCombatantFactory() },
             { "volkolakwarrior", new VolkolakCombatantFactory() },

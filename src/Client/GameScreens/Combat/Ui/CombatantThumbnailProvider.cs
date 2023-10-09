@@ -8,9 +8,9 @@ namespace Client.GameScreens.Combat.Ui;
 internal sealed class CombatantThumbnailProvider : ICombatantThumbnailProvider
 {
     private readonly ContentManager _contentManager;
-    private readonly IUnitGraphicsCatalog _unitGraphicsCatalog;
+    private readonly ICombatantGraphicsCatalog _unitGraphicsCatalog;
 
-    public CombatantThumbnailProvider(ContentManager contentManager, IUnitGraphicsCatalog unitGraphicsCatalog)
+    public CombatantThumbnailProvider(ContentManager contentManager, ICombatantGraphicsCatalog unitGraphicsCatalog)
     {
         _contentManager = contentManager;
         _unitGraphicsCatalog = unitGraphicsCatalog;

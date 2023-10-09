@@ -141,12 +141,15 @@ internal sealed class TitleScreen : GameScreenBase
             "amazon",
             "partisan", 
             "robber",
-            "monk" 
+            "monk",
+            "guardian"
         };
         
         var freeMonsters = new[]
         {
             "digitalwolf",
+            "corruptedbear",
+            "wisp",
             "chaser",
             "aspid",
             "volkolakwarrior",

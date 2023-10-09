@@ -5,7 +5,7 @@ using Client.Core;
 
 namespace Client.Assets.GraphicConfigs.Heroes;
 
-internal abstract class HeroGraphicConfig : UnitGraphicsConfigBase
+internal abstract class HeroGraphicConfig : CombatantGraphicsConfigBase
 {
     private readonly UnitName _name;
 

@@ -21,7 +21,7 @@ internal class MonkFactory : HeroFactoryBase
         };
     }
 
-    protected override UnitGraphicsConfigBase GetGraphicsConfig()
+    protected override CombatantGraphicsConfigBase GetGraphicsConfig()
     {
         return new MaosinGraphicsConfig(HeroName);
     }

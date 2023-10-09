@@ -20,7 +20,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 {
     private readonly IList<IActorVisualizationState> _actorStateEngineList;
     private readonly ICamera2DAdapter _camera;
-    private readonly UnitGraphicsConfigBase _combatantGraphicsConfig;
+    private readonly CombatantGraphicsConfigBase _combatantGraphicsConfig;
     private readonly CombatantPositionSide _combatantSide;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly ScreenShaker _screenShaker;
@@ -28,7 +28,7 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
     private CombatUnitState _visualIdleState;
 
-    public CombatantGameObject(ICombatant combatant, UnitGraphicsConfigBase combatantGraphicsConfig,
+    public CombatantGameObject(ICombatant combatant, CombatantGraphicsConfigBase combatantGraphicsConfig,
         FieldCoords formationCoords, ICombatantPositionProvider unitPositionProvider,
         GameObjectContentStorage gameObjectContentStorage,
         ICamera2DAdapter camera, ScreenShaker screenShaker,

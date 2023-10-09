@@ -18,7 +18,7 @@ internal class SpearmanFactory : HeroFactoryBase
         };
     }
 
-    protected override UnitGraphicsConfigBase GetGraphicsConfig()
+    protected override CombatantGraphicsConfigBase GetGraphicsConfig()
     {
         return new GuardsmanGraphicsConfig(HeroName);
     }

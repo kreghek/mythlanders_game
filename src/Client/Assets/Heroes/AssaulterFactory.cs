@@ -21,7 +21,7 @@ internal class AssaulterFactory : HeroFactoryBase
         };
     }
 
-    protected override UnitGraphicsConfigBase GetGraphicsConfig()
+    protected override CombatantGraphicsConfigBase GetGraphicsConfig()
     {
         return new SingleSpriteGraphicsConfig(Path.Combine(CommonConstants.PathToCharacterSprites, "Heroes",
             HeroName.ToString(), "Thumbnail"));

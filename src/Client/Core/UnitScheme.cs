@@ -53,7 +53,7 @@ internal sealed class UnitScheme
 
     public float TankRank { get; init; }
 
-    public UnitGraphicsConfigBase? UnitGraphicsConfig { get; init; }
+    public CombatantGraphicsConfigBase? UnitGraphicsConfig { get; init; }
 
     internal CommonUnitBasics UnitBasics { get; }
 

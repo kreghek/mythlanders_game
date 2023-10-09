@@ -7,5 +7,5 @@ internal interface IMonsterFactory
 {
     public UnitName ClassName { get; }
     public UnitScheme Create(IBalanceTable balanceTable);
-    UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage);
+    CombatantGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage);
 }

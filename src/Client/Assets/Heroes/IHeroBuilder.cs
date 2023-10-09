@@ -8,5 +8,5 @@ internal interface IHeroFactory
     UnitName HeroName { get; }
     bool IsReleaseReady { get; }
     UnitScheme Create(IBalanceTable balanceTable);
-    UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage);
+    CombatantGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage);
 }
