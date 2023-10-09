@@ -13,19 +13,18 @@ internal class PenetrationStrikeFactory : CombatMovementFactoryBase
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
-        new CombatMovementCost(2),
-        CombatMovementEffectConfig.Create(
-            new IEffect[]
-            {
-                new DamageEffectWrapper(
-                    new ClosestInLineTargetSelector(),
-                    DamageType.ShieldsOnly,
-                    GenericRange<int>.CreateMono(3))
-            })
-    )
+            new CombatMovementCost(2),
+            CombatMovementEffectConfig.Create(
+                new IEffect[]
+                {
+                    new DamageEffectWrapper(
+                        new ClosestInLineTargetSelector(),
+                        DamageType.ShieldsOnly,
+                        GenericRange<int>.CreateMono(3))
+                })
+        )
         {
             Tags = CombatMovementTags.Attack
         };
     }
 }
-

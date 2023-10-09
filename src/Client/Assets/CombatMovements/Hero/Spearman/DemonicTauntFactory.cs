@@ -3,7 +3,6 @@ using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.Effects;
 
 using Core.Combats.Effects;
-
 using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats;
@@ -36,4 +35,3 @@ internal sealed class DemonicTauntFactory : CombatMovementFactoryBase
         };
     }
 }
-

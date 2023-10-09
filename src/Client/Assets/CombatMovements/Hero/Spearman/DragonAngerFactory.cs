@@ -28,4 +28,3 @@ internal sealed class DragonAngerFactory : CombatMovementFactoryBase
         };
     }
 }
-

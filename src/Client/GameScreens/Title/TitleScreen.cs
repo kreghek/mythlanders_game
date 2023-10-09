@@ -304,11 +304,11 @@ internal sealed class TitleScreen : GameScreenBase
     {
         var freeHeroes = new[]
         {
-            ("swordsman",new StatValue(5)),
+            ("swordsman", new StatValue(5)),
             ("amazon", new StatValue(3)),
-            ("partisan",new StatValue(3)),
+            ("partisan", new StatValue(3)),
             ("robber", new StatValue(3)),
-            ("monk",new StatValue(3)),
+            ("monk", new StatValue(3)),
             ("guardian", new StatValue(5))
         };
 
@@ -341,7 +341,8 @@ internal sealed class TitleScreen : GameScreenBase
         var dice = new LinearDice();
         var rolledHeroes = dice.RollFromList(freeHeroes, dice.Roll(2, 4)).ToArray();
         var rolledHeroPositions = _dice.RollFromList(monsterPositions, rolledHeroes.Length).ToArray();
-        var heroStates = rolledHeroPositions.Select((t, i) => new HeroState(rolledHeroes[i].Item1, rolledHeroes[i].Item2, t)).ToArray();
+        var heroStates = rolledHeroPositions
+            .Select((t, i) => new HeroState(rolledHeroes[i].Item1, rolledHeroes[i].Item2, t)).ToArray();
         _globeProvider.GenerateFree(heroStates);
 
         var rolledMonsters = _dice.RollFromList(freeMonsters, dice.Roll(2, 4)).ToArray();
