@@ -1,3 +1,5 @@
+using Client.Engine;
+
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.GenericRanges;
@@ -25,14 +27,14 @@ internal class SabotageFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new DamageEffectWrapper(
-                        new WeakestEnemyTargetSelector(),
-                        DamageType.Normal,
-                        GenericRange<int>.CreateMono(3)),
                     new PushToPositionEffect(
                         new SelfTargetSelector(),
                         ChangePositionEffectDirection.ToRearguard
-                    )
+                    ),
+                    new DamageEffectWrapper(
+                        new WeakestEnemyTargetSelector(),
+                        DamageType.Normal,
+                        GenericRange<int>.CreateMono(3))
                 })
         )
         {

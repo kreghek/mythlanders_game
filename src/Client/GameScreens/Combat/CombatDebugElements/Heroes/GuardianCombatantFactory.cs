@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Monk;
+using Client.Assets.CombatMovements.Hero.Spearman;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantStatuses;
@@ -22,15 +23,15 @@ public class GuardianCombatantFactory : IHeroCombatantFactory
     {
         var movementPool = new List<CombatMovement>
         {
-            CreateMovement<HandOfThousandFormsFactory>(),
+            CreateMovement<StonePathFactory>(),
 
-            CreateMovement<NinthTrigramFactory>(),
+            CreateMovement<PatientPredatorFactory>(),
 
-            CreateMovement<ArtOfCombatFactory>(),
+            CreateMovement<DemonicTauntFactory>(),
 
-            CreateMovement<MasterfulStaffHitFactory>(),
+            CreateMovement<PenetrationStrikeFactory>(),
 
-            CreateMovement<HiddenIntentionFactory>()
+            CreateMovement<DragonAngerFactory>()
         };
 
         var heroSequence = new CombatMovementSequence();
@@ -45,8 +46,8 @@ public class GuardianCombatantFactory : IHeroCombatantFactory
 
         var stats = new CombatantStatsConfig();
         stats.SetValue(CombatantStatTypes.HitPoints, hitpointsStat);
-        stats.SetValue(CombatantStatTypes.ShieldPoints, 3);
-        stats.SetValue(CombatantStatTypes.Resolve, 7);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 5);
+        stats.SetValue(CombatantStatTypes.Resolve, 4);
 
         var hero = new TestamentCombatant("guardian", heroSequence, stats, combatActorBehaviour,
             ArraySegment<ICombatantStatusFactory>.Empty)

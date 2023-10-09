@@ -69,7 +69,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly IList<CombatantGameObject> _gameObjects;
     private readonly GameSettings _gameSettings;
     private readonly Globe _globe;
-    private readonly GlobeNode _globeNode;
     private readonly GlobeProvider _globeProvider;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
     private readonly IJobProgressResolver _jobProgressResolver;
@@ -107,8 +106,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _globe = _globeProvider.Globe;
 
-        _globeNode = args.Location;
-
         _currentCampaign = args.Campaign;
 
         _gameObjects = new List<CombatantGameObject>();
@@ -126,7 +123,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _eventCatalog = game.Services.GetService<IEventCatalog>();
 
-        var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(_globeNode.Sid);
+        var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(_args.Location);
 
         _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
         _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
@@ -146,7 +143,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatCore = CreateCombat();
         _combatDataBehaviourProvider = new CombatActorBehaviourDataProvider(_combatCore);
 
-        soundtrackManager.PlayCombatTrack(ExtractCultureFromLocation(args.Location.Sid));
+        soundtrackManager.PlayCombatTrack(ExtractCultureFromLocation(args.Location));
 
         _maneuversVisualizer =
             new FieldManeuversVisualizer(_combatantPositionProvider, new ManeuverContext(_combatCore),
@@ -161,7 +158,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _shadeService = new ShadeService();
 
-        var locationTheme = LocationHelper.GetLocationTheme(_globeNode.Sid);
+        var locationTheme = LocationHelper.GetLocationTheme(args.Location);
 
         var backgroundTextures = _gameObjectContentStorage.GetCombatBackgrounds(locationTheme);
 
@@ -601,8 +598,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                 var combatScreenArgs = new CombatScreenTransitionArguments(_currentCampaign,
                     _args.CombatSequence,
                     nextCombatIndex,
-                    _args.IsAutoplay,
-                    _globeNode,
+                    _args.IsFreeCombat,
+                    _args.Location,
                     _args.VictoryDialogue);
 
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Combat, combatScreenArgs);
@@ -1079,7 +1076,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void DrawMainGameScene(SpriteBatch spriteBatch)
     {
-        var locationTheme = LocationHelper.GetLocationTheme(_globeNode.Sid);
+        var locationTheme = LocationHelper.GetLocationTheme(_args.Location);
 
         var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(locationTheme);
 
