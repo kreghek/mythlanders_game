@@ -27,10 +27,6 @@ internal class FieldManeuversVisualizer
 
     private bool _isManeuversAvailable;
 
-    private FieldCoords? _selectedCoords;
-
-    private ManeuverButton? _selectedManeuverButton;
-
     public FieldManeuversVisualizer(ICombatantPositionProvider combatantPositionProvider, IManeuverContext context,
         SpriteFont spriteFont)
     {
@@ -55,6 +51,10 @@ internal class FieldManeuversVisualizer
                 _maneuverButtons[columnIndex, lineIndex] = maneuverButton;
             }
         }
+
+        _hoverController = new HoverController<ManeuverButton>();
+        _hoverController.Hover += (s, e) => { Hover?.Invoke(this, EventArgs.Empty); };
+        _hoverController.Leave += (s, e) => { Leave?.Invoke(this, EventArgs.Empty); };
     }
 
     /// <summary>
@@ -66,8 +66,7 @@ internal class FieldManeuversVisualizer
         set
         {
             _combatant = value;
-            _selectedCoords = null;
-            _selectedManeuverButton = null;
+            _hoverController.ForcedDrop();
         }
     }
 
@@ -123,10 +122,10 @@ internal class FieldManeuversVisualizer
             }
         }
 
-        if (_selectedManeuverButton is not null && _context.ManeuverStartCoords is not null)
+        if (_hoverController.CurrentValue is not null && _context.ManeuverStartCoords is not null)
         {
             var arrowStart = GetPosition(_context.ManeuverStartCoords);
-            var arrowTarget = GetPosition(_selectedManeuverButton.FieldCoords);
+            var arrowTarget = GetPosition(_hoverController.CurrentValue.FieldCoords);
 
             var color = Color.Lerp(Color.Cyan, Color.Transparent, (float)Math.Sin(_animationCounter * 1.25) * 0.5f);
             spriteBatch.DrawLine(arrowStart, arrowTarget, color, Math.Max((float)Math.Sin(_animationCounter) * 3, 1));
@@ -134,16 +133,16 @@ internal class FieldManeuversVisualizer
             spriteBatch.DrawCircle(arrowTarget, (float)Math.Sin(_animationCounter) * 5, 6, color);
         }
 
-        if (_selectedCoords is not null)
+        if (_hoverController.CurrentValue?.FieldCoords is not null)
         {
-            var position = _combatantPositionProvider.GetPosition(_selectedCoords,
+            var position = _combatantPositionProvider.GetPosition(_hoverController.CurrentValue.FieldCoords,
                 CombatantPositionSide.Heroes);
             spriteBatch.DrawLine(position, position + Vector2.UnitX * 600,
                 Color.Lerp(Color.Cyan, Color.Transparent, 0.75f), 10);
             spriteBatch.DrawLine(position - Vector2.UnitY * 60, position + Vector2.UnitY * 60,
                 Color.Lerp(Color.Cyan, Color.Transparent, 0.75f), 10);
             spriteBatch.DrawString(_spriteFont,
-                _selectedCoords.ColumentIndex == 0
+                _hoverController.CurrentValue.FieldCoords.ColumentIndex == 0
                     ? UiResource.FieldManeuversVisualizer_Draw_Avanguard
                     : UiResource.FieldManeuversVisualizer_Draw_Rearguard,
                 position - new Vector2(20, 20), Color.Lerp(Color.Cyan, Color.Transparent, 0.15f),
@@ -215,30 +214,19 @@ internal class FieldManeuversVisualizer
     {
         var maneuverButton = sender as ManeuverButton;
 
-        if (maneuverButton is not null)
-        {
-            if (_selectedManeuverButton is null && maneuverButton != _selectedManeuverButton)
-            {
-                _selectedManeuverButton = maneuverButton;
-                _selectedCoords = maneuverButton.FieldCoords;
-                Hover?.Invoke(this, EventArgs.Empty);
-            }
-        }
+        _hoverController.HandleHover(maneuverButton);
     }
 
     private void ManeuverButton_OnLeave(object? sender, EventArgs e)
     {
         var maneuverButton = sender as ManeuverButton;
 
-        if (maneuverButton == _selectedManeuverButton)
-        {
-            _selectedManeuverButton = null;
-            _selectedCoords = null;
-            Leave?.Invoke(this, EventArgs.Empty);
-        }
+        _hoverController.HandleLeave(maneuverButton);
     }
 
     public event EventHandler<ManeuverSelectedEventArgs>? ManeuverSelected;
     public event EventHandler? Hover;
     public event EventHandler? Leave;
+
+    private readonly HoverController<ManeuverButton> _hoverController;
 }
