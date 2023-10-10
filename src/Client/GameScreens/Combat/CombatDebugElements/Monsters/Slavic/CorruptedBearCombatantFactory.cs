@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Client.Assets.CombatMovements.Monster.Slavic.Aspid;
 using Client.Assets.CombatMovements.Monster.Slavic.CorruptedBear;
 
 using CombatDicesTeam.Combats;
@@ -17,10 +16,10 @@ public class CorruptedBearCombatantFactory : IMonsterCombatantFactory
         var moveTemplate = new[,]
         {
             { new DevastatingPawFactory().CreateMovement() },
-            { new DevastatingPawFactory().CreateMovement() },
-            { new DevastatingPawFactory().CreateMovement() },
-            { new DevastatingPawFactory().CreateMovement() },
-            { new DevastatingPawFactory().CreateMovement() }
+            { new CoverOfDewFactory().CreateMovement() },
+            { new HumanSlayerFactory().CreateMovement() },
+            { new LordOfNonHumanRealmFactory().CreateMovement() },
+            { new RevengeOfWildEyeFactory().CreateMovement() }
         };
 
         var monsterSequence = new CombatMovementSequence();
