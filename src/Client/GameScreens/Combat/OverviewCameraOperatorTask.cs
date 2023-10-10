@@ -13,14 +13,12 @@ internal sealed class OverviewCameraOperatorTask : ICameraOperatorTask
     private const double ZOOM_THRESHOLD = 0.05;
 
     private const int ZOOM_SPEED = 10;
-    private readonly Vector2 _overviewOrigin;
-    private readonly Vector2 _overviewPosition;
+    private readonly Func<Vector2> _overviewPositionFunc;
 
 
-    public OverviewCameraOperatorTask(Vector2 overviewPosition)
+    public OverviewCameraOperatorTask(Func<Vector2> overviewPositionFunc)
     {
-        _overviewPosition = overviewPosition;
-        _overviewOrigin = _overviewPosition + new Vector2(848 / 2f, 480 / 2f);
+        _overviewPositionFunc = overviewPositionFunc;
     }
 
     /// <inheritdoc />
@@ -33,11 +31,11 @@ internal sealed class OverviewCameraOperatorTask : ICameraOperatorTask
         {
             if (camera.Zoom < BASE_ZOOM)
             {
-                camera.ZoomIn((float)gameTime.ElapsedGameTime.TotalSeconds * ZOOM_SPEED, _overviewPosition);
+                camera.ZoomIn((float)gameTime.ElapsedGameTime.TotalSeconds * ZOOM_SPEED, _overviewPositionFunc());
             }
             else if (camera.Zoom > BASE_ZOOM)
             {
-                camera.ZoomOut((float)gameTime.ElapsedGameTime.TotalSeconds * ZOOM_SPEED, _overviewPosition);
+                camera.ZoomOut((float)gameTime.ElapsedGameTime.TotalSeconds * ZOOM_SPEED, _overviewPositionFunc());
             }
             else
             {
@@ -46,14 +44,7 @@ internal sealed class OverviewCameraOperatorTask : ICameraOperatorTask
         }
         else
         {
-            camera.LookAt(_overviewPosition);
-            // camera.Zoom = BASE_ZOOM;
-            // var distance = (camera.Position - _overviewPosition).Length();
-            // if (distance > 0.1f)
-            // {
-            //     camera.Position = Vector2.Lerp(camera.Position, _overviewPosition,
-            //         (float)gameTime.ElapsedGameTime.TotalSeconds);
-            // }
+            camera.LookAt(_overviewPositionFunc());
         }
     }
 }

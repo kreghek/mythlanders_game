@@ -1,4 +1,6 @@
-﻿using GameClient.Engine.RectControl;
+﻿using System.Linq;
+
+using GameClient.Engine.RectControl;
 
 using Microsoft.Xna.Framework;
 
@@ -71,7 +73,18 @@ internal sealed class ParallaxCamera2DAdapter : ICamera2DAdapter
 
     public void LookAt(Vector2 position)
     {
-        _mainCamera.LookAt(position);
+        //var cameraIndex = LayerCameras.Select((x, i) => new { x, i }).SingleOrDefault(x => x.x == _mainCamera)?.i;
+
+        //if (cameraIndex is not null)
+        //{
+        //    var rects = _parallaxRectControl.GetRects();
+        //    var layerDiff = (rects[cameraIndex.Value].Size - _resolutionIndependentRenderer.VirtualBounds.Size).ToVector2() / 2;
+        //    _mainCamera.LookAt(position + layerDiff);
+        //}
+        //else
+        {
+            _mainCamera.LookAt(position);
+        }
     }
 
     public void ZoomOut(float deltaZoom, Vector2 zoomCenter)
