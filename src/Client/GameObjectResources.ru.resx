@@ -827,4 +827,19 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
   </data>
+  <data name="DevastatingPaw" xml:space="preserve">
+    <value>Опустошающая Лапа</value>
+  </data>
+  <data name="CoverOfDew" xml:space="preserve">
+    <value>Покров Росы</value>
+  </data>
+  <data name="HumanSlayer" xml:space="preserve">
+    <value>Человекоубийца</value>
+  </data>
+  <data name="LordOfNonHumanRealm" xml:space="preserve">
+    <value>Владыка нечеловеческого царства</value>
+  </data>
+  <data name="RevengeOfWildEye" xml:space="preserve">
+    <value>Возмездие дикого ока</value>
+  </data>
 </root>

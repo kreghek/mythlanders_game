@@ -992,4 +992,19 @@
       <value>Zduhach Might</value>
         <comment>Skill</comment>
   </data>
+  <data name="DevastatingPaw" xml:space="preserve">
+      <value>Devastating Paw</value>
+  </data>
+  <data name="CoverOfDew" xml:space="preserve">
+      <value>Cover of Dew</value>
+  </data>
+  <data name="HumanSlayer" xml:space="preserve">
+      <value>Human Slayer</value>
+  </data>
+  <data name="LordOfNonHumanRealm" xml:space="preserve">
+      <value>Lord Of Non Human Realm</value>
+  </data>
+  <data name="RevengeOfWildEye" xml:space="preserve">
+      <value>Revenge Of Wild Eye</value>
+  </data>
 </root>
