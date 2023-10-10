@@ -2,7 +2,7 @@
 
 namespace Client.Assets.CombatMovements;
 
-public abstract class SimpleCombatMovementFactoryBase : CombatMovementFactoryBase
+internal abstract class SimpleCombatMovementFactoryBase : CombatMovementFactoryBase
 {
     public override CombatMovement CreateMovement()
     {
