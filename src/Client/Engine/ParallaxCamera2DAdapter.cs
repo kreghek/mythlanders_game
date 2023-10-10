@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-using GameClient.Engine.RectControl;
+﻿using GameClient.Engine.RectControl;
 
 using Microsoft.Xna.Framework;
 

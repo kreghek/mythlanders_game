@@ -19,6 +19,8 @@ internal class FieldManeuversVisualizer
     private readonly ICombatantPositionProvider _combatantPositionProvider;
     private readonly IManeuverContext _context;
     private readonly CombatFieldSide _heroFieldSide;
+
+    private readonly HoverController<ManeuverButton> _hoverController;
     private readonly Matrix<ManeuverButton> _maneuverButtons;
     private readonly SpriteFont _spriteFont;
 
@@ -227,6 +229,4 @@ internal class FieldManeuversVisualizer
     public event EventHandler<ManeuverSelectedEventArgs>? ManeuverSelected;
     public event EventHandler? Hover;
     public event EventHandler? Leave;
-
-    private readonly HoverController<ManeuverButton> _hoverController;
 }

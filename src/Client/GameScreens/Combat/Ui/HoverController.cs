@@ -7,11 +7,15 @@ public sealed class HoverController<T>
 {
     public T? CurrentValue { get; private set; }
 
+    public void ForcedDrop()
+    {
+        CurrentValue = default;
+    }
+
     public void HandleHover(T? hoverValue)
     {
         if (!EqualityComparer<T>.Default.Equals(hoverValue, default))
         {
-
             if (CurrentValue is null && !EqualityComparer<T>.Default.Equals(hoverValue, CurrentValue))
             {
                 CurrentValue = hoverValue;
@@ -27,11 +31,6 @@ public sealed class HoverController<T>
             CurrentValue = default;
             Leave?.Invoke(this, hoverValue);
         }
-    }
-
-    public void ForcedDrop()
-    {
-        CurrentValue = default;
     }
 
     public event EventHandler<T?>? Hover;

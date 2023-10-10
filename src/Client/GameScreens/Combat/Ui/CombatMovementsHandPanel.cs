@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 
 using Client.Assets.CombatMovements;
 using Client.Engine;
@@ -28,6 +27,8 @@ internal class CombatMovementsHandPanel : ControlBase
 
     private readonly CombatMovementButton?[] _buttons;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
+
+    private readonly HoverController<CombatMovementButton> _hoverController;
     private readonly IUiContentStorage _uiContentStorage;
     private readonly WaitIconButton _waitButton;
 
@@ -36,8 +37,6 @@ internal class CombatMovementsHandPanel : ControlBase
     private ICombatant? _combatant;
     private KeyboardState _currentKeyboardState;
     private KeyboardState? _lastKeyboardState;
-
-    private readonly HoverController<CombatMovementButton> _hoverController;
 
     public CombatMovementsHandPanel(
         Texture2D verticalButtonIcons,
@@ -68,7 +67,8 @@ internal class CombatMovementsHandPanel : ControlBase
                 CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(e.Entity));
             }
         };
-        _hoverController.Leave += (s, e) => { 
+        _hoverController.Leave += (s, e) =>
+        {
             _activeCombatMovementHint = null;
             if (e is not null)
             {
