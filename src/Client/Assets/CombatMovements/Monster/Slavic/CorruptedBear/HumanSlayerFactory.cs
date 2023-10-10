@@ -9,7 +9,7 @@ using GameAssets.Combats.CombatMovementEffects;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.CorruptedBear;
 
-internal sealed class HumanSlayerFactory: SimpleCombatMovementFactoryBase
+internal sealed class HumanSlayerFactory : SimpleCombatMovementFactoryBase
 {
     protected override CombatMovementEffectConfig GetEffects()
     {

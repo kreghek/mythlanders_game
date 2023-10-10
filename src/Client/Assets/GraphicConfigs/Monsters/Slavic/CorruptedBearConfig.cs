@@ -4,7 +4,7 @@ using Client.Core;
 
 namespace Client.Assets.GraphicConfigs.Monsters.Slavic;
 
-internal sealed class CorruptedBearConfig: SlavicMonsterGraphicConfig
+internal sealed class CorruptedBearConfig : SlavicMonsterGraphicConfig
 {
     public CorruptedBearConfig(UnitName unit) : base(unit)
     {

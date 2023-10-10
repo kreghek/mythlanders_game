@@ -8,7 +8,7 @@ using GameAssets.Combats;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.CorruptedBear;
 
-internal sealed class CoverOfDewFactory: SimpleCombatMovementFactoryBase
+internal sealed class CoverOfDewFactory : SimpleCombatMovementFactoryBase
 {
     protected override CombatMovementEffectConfig GetEffects()
     {

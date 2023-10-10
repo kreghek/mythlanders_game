@@ -9,7 +9,7 @@ using GameAssets.Combats.CombatMovementEffects;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.CorruptedBear;
 
-internal sealed class RevengeOfWildEyeFactory: SimpleCombatMovementFactoryBase
+internal sealed class RevengeOfWildEyeFactory : SimpleCombatMovementFactoryBase
 {
     protected override CombatMovementEffectConfig GetEffects()
     {
