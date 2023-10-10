@@ -15,22 +15,29 @@ internal sealed class AmbushDroneGraphicsConfig : BlackMonsterGraphicConfig
     {
         return new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
         {
-            { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdle(fps: 8, frameCount: 4, textureColumns: 4, frameWidth: 128) },
+            {
+                PredefinedAnimationSid.Idle,
+                AnimationFrameSetFactory.CreateIdle(fps: 8, frameCount: 4, textureColumns: 4, frameWidth: 128)
+            },
             {
                 PredefinedAnimationSid.MoveForward,
-                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 2 }, fps: 8, textureColumns: 4, frameWidth: 128)
+                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 2 }, fps: 8, textureColumns: 4,
+                    frameWidth: 128)
             },
             {
                 PredefinedAnimationSid.MoveBackward,
-                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 2 }, fps: 8, textureColumns: 4, frameWidth: 128)
+                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 2 }, fps: 8, textureColumns: 4,
+                    frameWidth: 128)
             },
             {
                 PredefinedAnimationSid.Wound,
-                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 3 }, fps: 8, textureColumns: 4, frameWidth: 128)
+                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 3 }, fps: 8, textureColumns: 4,
+                    frameWidth: 128)
             },
             {
                 PredefinedAnimationSid.Death,
-                AnimationFrameSetFactory.CreateSequentialFromGrid(Enumerable.Range(1, 4).ToArray(), fps: 32, textureColumns: 4, frameWidth: 128)
+                AnimationFrameSetFactory.CreateSequentialFromGrid(Enumerable.Range(1, 4).ToArray(), fps: 32,
+                    textureColumns: 4, frameWidth: 128)
             }
         };
     }
