@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
@@ -239,6 +240,36 @@ internal class FieldManeuversVisualizer
     }
 
     public event EventHandler<ManeuverSelectedEventArgs>? ManeuverSelected;
+    public event EventHandler? Hover;
+    public event EventHandler? Leave;
+}
+
+public sealed class HoverController<T>
+{
+    public T? CurrentValue { get; private set; }
+
+    public void HandleHover(T hoverValue)
+    {
+        if (!EqualityComparer<T>.Default.Equals(hoverValue, default))
+        {
+
+            if (CurrentValue is null && !EqualityComparer<T>.Default.Equals(hoverValue, CurrentValue))
+            {
+                CurrentValue = hoverValue;
+                Hover?.Invoke(this, EventArgs.Empty);
+            }
+        }
+    }
+
+    public void HandleLeave(T hoverValue)
+    {
+        if (EqualityComparer<T>.Default.Equals(hoverValue, CurrentValue))
+        {
+            CurrentValue = default;
+            Leave?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
     public event EventHandler? Hover;
     public event EventHandler? Leave;
 }
