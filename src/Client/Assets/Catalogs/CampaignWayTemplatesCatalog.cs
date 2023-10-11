@@ -40,7 +40,7 @@ internal sealed class CampaignWayTemplatesCatalog
             //},
 
             // To debug crisis
-            new CrisisEventCampaignStageTemplateFactory(),
+            //new CrisisEventCampaignStageTemplateFactory(),
             
 
             //// Combat
