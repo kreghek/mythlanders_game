@@ -19,8 +19,8 @@ public sealed class HurtPostEffect : IPostEffect
     
     public void Apply(PostEffectCatalog postEffectCatalog)
     {
-        postEffectCatalog.ShakeEffect.Parameters["DistanceX"].SetValue(_shakeVector.X);
-        postEffectCatalog.ShakeEffect.Parameters["DistanceY"].SetValue(_shakeVector.Y);
+        postEffectCatalog.HurtEffect.Parameters["DistanceX"].SetValue(_shakeVector.X);
+        postEffectCatalog.HurtEffect.Parameters["DistanceY"].SetValue(_shakeVector.Y);
         
         foreach (var technique in postEffectCatalog.HurtEffect.Techniques)
         {

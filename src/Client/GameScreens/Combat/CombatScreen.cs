@@ -221,7 +221,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _postEffectCatalog.Load(Game.Content);
         
         _bloodParticleTexture = new Texture2D(Game.GraphicsDevice, 1, 1);
-        _bloodParticleTexture.SetData(new[] { Color.White });
+        _bloodParticleTexture.SetData(new[] { Color.Red });
 
         InitializeCombat();
 

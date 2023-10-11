@@ -39,14 +39,15 @@ internal sealed class BloodCombatVisualEffect : ICombatVisualEffect
             Emitters = new List<ParticleEmitter>
             {
                 new(textureRegion, 500, TimeSpan.FromSeconds(0.5),
-                    Profile.Spray(direction == HitDirection.Left ? Vector2.UnitX : -Vector2.UnitX, 1))
+                    Profile.Spray(direction == HitDirection.Right ? Vector2.UnitX : -Vector2.UnitX, 1))
                 {
                     Parameters = new ParticleReleaseParameters
                     {
-                        Speed = new Range<float>(0f, 50f),
-                        Quantity = 3,
+                        Speed = new Range<float>(50f, 150f),
+                        Quantity = 30,
                         Rotation = new Range<float>(-1f, 1f),
-                        Scale = new Range<float>(3.0f, 4.0f)
+                        Scale = new Range<float>(1.0f, 4.0f),
+                        Color = new Range<HslColor>(HslColor.FromRgb(Color.White), HslColor.FromRgb(new Color(Color.White, 0.5f)))
                     },
                     Modifiers =
                     {
@@ -57,12 +58,12 @@ internal sealed class BloodCombatVisualEffect : ICombatVisualEffect
                                 new OpacityInterpolator
                                 {
                                     StartValue = 1,
-                                    EndValue = 0.25f
+                                    EndValue = 0.5f
                                 }
                             }
                         },
                         new RotationModifier {RotationRate = -2.1f},
-                        new LinearGravityModifier {Direction = -Vector2.UnitY, Strength = 130f},
+                        new LinearGravityModifier {Direction = Vector2.UnitY, Strength = 250f},
                     }
                 }
             }
