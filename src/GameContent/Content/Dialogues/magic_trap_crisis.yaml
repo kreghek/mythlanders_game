@@ -26,3 +26,11 @@ root:
         '- Кое-кто из героев обрадуется, что команда преодолевает трудности вместе.'
       aftermaths:
         - type: DamageAllHeroes
+
+damage_single:
+  paragraphs:
+    - text: <скоро будет>
+
+damage_all:
+  paragraphs:
+    - text: <скоро будет>

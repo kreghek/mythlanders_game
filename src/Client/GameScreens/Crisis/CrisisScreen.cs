@@ -174,6 +174,11 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
         {
             var eventResolveOption = eventResolveOptions[buttonIndex];
             var optionText = StoryResources.ResourceManager.GetString(eventResolveOption.TextSid);
+            if (optionText is null)
+            {
+                optionText = eventResolveOption.TextSid;
+            }
+
             var aftermathButton = new CrisisAftermathButton(buttonIndex + 1, optionText);
             _aftermathButtons.Add(aftermathButton);
 
