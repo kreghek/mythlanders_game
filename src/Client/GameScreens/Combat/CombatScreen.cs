@@ -51,9 +51,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly UpdatableAnimationManager _animationBlockManager;
     private readonly CombatScreenTransitionArguments _args;
     private readonly CameraOperator _cameraOperator;
-    private readonly RenderTarget2D _renderTarget;
-    private readonly PostEffectCatalog _postEffectCatalog;
-    private readonly PostEffectManager _postEffectManager;
     private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
     private readonly ParallaxCamera2DAdapter _combatActionCamera;
 
@@ -81,6 +78,9 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly FieldManeuverIndicatorPanel _maneuversIndicator;
     private readonly FieldManeuversVisualizer _maneuversVisualizer;
     private readonly ManualCombatActorBehaviour _manualCombatantBehaviour;
+    private readonly PostEffectCatalog _postEffectCatalog;
+    private readonly PostEffectManager _postEffectManager;
+    private readonly RenderTarget2D _renderTarget;
     private readonly ShadeService _shadeService;
 
     private readonly TargetMarkersVisualizer _targetMarkers;
@@ -190,7 +190,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 backgroundRectControl.GetRects()[(int)BackgroundLayerType.Main].Center.ToVector2() +
                 new Vector2(1000 / 2, 480 / 2)));
 
-       _renderTarget = new RenderTarget2D(Game.GraphicsDevice,
+        _renderTarget = new RenderTarget2D(Game.GraphicsDevice,
             Game.GraphicsDevice.PresentationParameters.BackBufferWidth,
             Game.GraphicsDevice.PresentationParameters.BackBufferHeight);
 
@@ -265,6 +265,19 @@ internal class CombatScreen : GameScreenWithMenuBase
         _cameraOperator.Update(gameTime);
 
         _postEffectManager.Update(gameTime);
+    }
+
+    private void AddHitShaking()
+    {
+        var shakePostEffect = new ShakePostEffect(new ShakePower(0.02f));
+        _postEffectManager.AddEffect(shakePostEffect);
+
+        var blocker = new DelayBlocker(new Duration(0.25f));
+        _animationBlockManager.RegisterBlocker(blocker);
+        blocker.Released += (_, _) =>
+        {
+            _postEffectManager.RemoveEffect(shakePostEffect);
+        };
     }
 
     //private static void AddMonstersFromCombatIntoKnownMonsters(Client.Core.Heroes.Hero monster,
@@ -485,19 +498,6 @@ internal class CombatScreen : GameScreenWithMenuBase
                 AddHitShaking();
             }
         }
-    }
-
-    private void AddHitShaking()
-    {
-        var shakePostEffect = new ShakePostEffect(new ShakePower(0.02f));
-        _postEffectManager.AddEffect(shakePostEffect);
-
-        var blocker = new DelayBlocker(new Duration(0.25f));
-        _animationBlockManager.RegisterBlocker(blocker);
-        blocker.Released += (_, _) =>
-        {
-            _postEffectManager.RemoveEffect(shakePostEffect);
-        };
     }
 
     private void CombatCore_CombatantHasChangePosition(object? sender, CombatantHasChangedPositionEventArgs e)

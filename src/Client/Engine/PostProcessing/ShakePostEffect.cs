@@ -1,7 +1,5 @@
 ﻿using System;
 
-using Client.Engine.PostProcessing;
-
 using Microsoft.Xna.Framework;
 
 namespace Client.Engine.PostProcessing;
