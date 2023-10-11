@@ -39,11 +39,9 @@ internal sealed class CampaignWayTemplatesCatalog
             //    })
             //},
 
-            //// To debug crisis
-            //new ICampaignStageTemplateFactory[]
-            //{
-            //    new CrisisEventCampaignStageTemplateFactory()
-            //},
+            // To debug crisis
+            //new CrisisEventCampaignStageTemplateFactory(),
+            
 
             //// Combat
 

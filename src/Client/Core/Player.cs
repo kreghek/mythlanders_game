@@ -39,6 +39,23 @@ internal sealed class Player
         };
     }
 
+    public Player(IReadOnlyCollection<HeroState> heroes)
+    {
+        Party = new Group();
+        Pool = new PoolGroup();
+        KnownMonsters = new List<UnitScheme>();
+
+        Inventory = new Inventory();
+
+        _abilities = new HashSet<PlayerAbility>();
+
+        Name = CreateRandomName();
+
+        StoryState = new StoryState(Party);
+
+        Heroes = heroes;
+    }
+
     public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
 
     public IReadOnlyCollection<HeroState> Heroes { get; }

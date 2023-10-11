@@ -1,4 +1,5 @@
 ﻿using Client.Assets.GraphicConfigs.Monsters;
+using Client.Assets.GraphicConfigs.Monsters.Black;
 using Client.Core;
 using Client.GameScreens;
 
@@ -37,8 +38,8 @@ internal sealed class AmbushDroneFactory : MonsterFactoryBase
         };
     }
 
-    public override UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
+    public override CombatantGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
     {
-        return new GenericMonsterGraphicsConfig(ClassName, Culture);
+        return new AmbushDroneGraphicsConfig(ClassName);
     }
 }

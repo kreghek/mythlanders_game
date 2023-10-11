@@ -30,7 +30,7 @@ internal sealed class HuapiguiFactory : MonsterFactoryBase
         };
     }
 
-    public override UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
+    public override CombatantGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
     {
         return new GenericMonsterGraphicsConfig(ClassName, Culture);
     }

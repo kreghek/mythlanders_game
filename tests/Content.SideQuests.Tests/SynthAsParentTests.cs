@@ -46,16 +46,18 @@ public class SynthAsParentTests
     {
         // Services
 
+        var dice = new LinearDice();
+
         var balanceTable = new BalanceTable();
         var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable, false);
 
         var eventCatalog = new DialogueCatalog(new LocalDialogueResourceProvider(),
-            new DialogueOptionAftermathCreator(unitSchemeCatalog));
+            new DialogueOptionAftermathCreator(unitSchemeCatalog, dice));
         eventCatalog.Init();
 
         var storyPointCatalog = new StoryPointCatalog(eventCatalog);
 
-        var globeProvider = new GlobeProvider(new LinearDice(), unitSchemeCatalog, eventCatalog,
+        var globeProvider = new GlobeProvider(dice, unitSchemeCatalog, eventCatalog,
             storyPointCatalog);
 
         globeProvider.GenerateNew();

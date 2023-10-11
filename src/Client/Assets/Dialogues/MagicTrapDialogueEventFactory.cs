@@ -27,7 +27,7 @@ internal sealed class MagicTrapDialogueEventFactory : IDialogueEventFactory
             [DialogueConstants.InitialStage] = "magic_trap_crisis"
         };
 
-        return new DialogueEvent("magic_trap_crisis", questStateMachine, requirements,
+        return new DialogueEvent("MagicTrapEvent", questStateMachine, requirements,
             dialogues);
     }
 

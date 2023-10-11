@@ -9,9 +9,9 @@ using Client.Assets.Catalogs;
 using Client.Assets.CombatMovements;
 using Client.Assets.StoryPointJobs;
 using Client.Core;
-using Client.Core.AnimationFrameSets;
 using Client.Core.Campaigns;
 using Client.Engine;
+using Client.Engine.PostProcessing;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Combat.CombatDebugElements;
 using Client.GameScreens.Combat.GameObjects;
@@ -69,7 +69,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly IList<CombatantGameObject> _gameObjects;
     private readonly GameSettings _gameSettings;
     private readonly Globe _globe;
-    private readonly GlobeNode _globeNode;
     private readonly GlobeProvider _globeProvider;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
     private readonly IJobProgressResolver _jobProgressResolver;
@@ -78,12 +77,15 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly FieldManeuverIndicatorPanel _maneuversIndicator;
     private readonly FieldManeuversVisualizer _maneuversVisualizer;
     private readonly ManualCombatActorBehaviour _manualCombatantBehaviour;
-    private readonly ScreenShaker _screenShaker;
+    private readonly PostEffectCatalog _postEffectCatalog;
+    private readonly PostEffectManager _postEffectManager;
+    private readonly RenderTarget2D _renderTarget;
     private readonly ShadeService _shadeService;
 
     private readonly TargetMarkersVisualizer _targetMarkers;
     private readonly IUiContentStorage _uiContentStorage;
     private readonly VisualEffectManager _visualEffectManager;
+    private Texture2D _bloodParticleTexture = null!;
 
     private bool _bossWasDefeat;
 
@@ -107,8 +109,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _globe = _globeProvider.Globe;
 
-        _globeNode = args.Location;
-
         _currentCampaign = args.Campaign;
 
         _gameObjects = new List<CombatantGameObject>();
@@ -126,7 +126,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _eventCatalog = game.Services.GetService<IEventCatalog>();
 
-        var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(_globeNode.Sid);
+        var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(_args.Location);
 
         _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
         _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
@@ -137,8 +137,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _combatantPositionProvider = new CombatantPositionProvider(TestamentConstants.CombatFieldSize.X);
 
-        _screenShaker = new ScreenShaker();
-
         _jobProgressResolver = new JobProgressResolver();
 
         _manualCombatantBehaviour = new ManualCombatActorBehaviour();
@@ -146,7 +144,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatCore = CreateCombat();
         _combatDataBehaviourProvider = new CombatActorBehaviourDataProvider(_combatCore);
 
-        soundtrackManager.PlayCombatTrack(ExtractCultureFromLocation(args.Location.Sid));
+        soundtrackManager.PlayCombatTrack(ExtractCultureFromLocation(args.Location));
 
         _maneuversVisualizer =
             new FieldManeuversVisualizer(_combatantPositionProvider, new ManeuverContext(_combatCore),
@@ -161,7 +159,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _shadeService = new ShadeService();
 
-        var locationTheme = LocationHelper.GetLocationTheme(_globeNode.Sid);
+        var locationTheme = LocationHelper.GetLocationTheme(args.Location);
 
         var backgroundTextures = _gameObjectContentStorage.GetCombatBackgrounds(locationTheme);
 
@@ -188,8 +186,16 @@ internal class CombatScreen : GameScreenWithMenuBase
             layerCameras);
 
         _cameraOperator = new CameraOperator(_combatActionCamera,
-            new OverviewCameraOperatorTask(ResolutionIndependentRenderer.ViewportAdapter.BoundingRectangle.Center
-                .ToVector2()));
+            new OverviewCameraOperatorTask(() =>
+                backgroundRectControl.GetRects()[(int)BackgroundLayerType.Main].Center.ToVector2() +
+                new Vector2(1000 / 2, 480 / 2)));
+
+        _renderTarget = new RenderTarget2D(Game.GraphicsDevice,
+            Game.GraphicsDevice.PresentationParameters.BackBufferWidth,
+            Game.GraphicsDevice.PresentationParameters.BackBufferHeight);
+
+        _postEffectCatalog = new PostEffectCatalog();
+        _postEffectManager = new PostEffectManager(_postEffectCatalog);
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -211,6 +217,11 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     protected override void InitializeContent()
     {
+        _postEffectCatalog.Load(Game.Content);
+
+        _bloodParticleTexture = new Texture2D(Game.GraphicsDevice, 1, 1);
+        _bloodParticleTexture.SetData(new[] { Color.Red });
+
         InitializeCombat();
 
         _maneuversVisualizer.ManeuverSelected += ManeuverVisualizer_ManeuverSelected;
@@ -247,8 +258,6 @@ internal class CombatScreen : GameScreenWithMenuBase
             UpdateCombatHud(gameTime);
         }
 
-        _screenShaker.Update(gameTime);
-
         if (_combatFinishedVictory is not null)
         {
             UpdateCombatFinished(gameTime);
@@ -257,6 +266,30 @@ internal class CombatScreen : GameScreenWithMenuBase
         _animationBlockManager.Update(gameTime.ElapsedGameTime.TotalSeconds);
 
         _cameraOperator.Update(gameTime);
+
+        _postEffectManager.Update(gameTime);
+    }
+
+    private void AddHitShaking(bool hurt = false)
+    {
+        IPostEffect postEffect;
+        if (!hurt)
+        {
+            postEffect = new ShakePostEffect(new ShakePower(0.02f));
+            _postEffectManager.AddEffect(postEffect);
+        }
+        else
+        {
+            postEffect = new HurtPostEffect(new ShakePower(0.02f));
+            _postEffectManager.AddEffect(postEffect);
+        }
+
+        var postEffectBlocker = new DelayBlocker(new Duration(0.25f));
+        _animationBlockManager.RegisterBlocker(postEffectBlocker);
+        postEffectBlocker.Released += (_, _) =>
+        {
+            _postEffectManager.RemoveEffect(postEffect);
+        };
     }
 
     //private static void AddMonstersFromCombatIntoKnownMonsters(Client.Core.Heroes.Hero monster,
@@ -354,7 +387,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         //     AddMonstersFromCombatIntoKnownMonsters(combatUnit.Unit, _globe.Player.KnownMonsters);
         // }
 
-        var unitCatalog = Game.Services.GetRequiredService<IUnitGraphicsCatalog>();
+        var unitCatalog = Game.Services.GetRequiredService<ICombatantGraphicsCatalog>();
         var graphicConfig = unitCatalog.GetGraphics(e.Combatant.ClassSid);
 
         var combatantSide = e.FieldInfo.FieldSide == _combatCore.Field.HeroSide
@@ -363,7 +396,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         var gameObject =
             new CombatantGameObject(e.Combatant, graphicConfig, e.FieldInfo.CombatantCoords, _combatantPositionProvider,
                 _gameObjectContentStorage, _combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main],
-                _screenShaker, combatantSide);
+                combatantSide);
         _gameObjects.Add(gameObject);
 
         // var combatant = e.Combatant;
@@ -454,10 +487,11 @@ internal class CombatScreen : GameScreenWithMenuBase
                 unitGameObject.AnimateWound();
 
                 var bloodEffect = new BloodCombatVisualEffect(unitGameObject.InteractionPoint,
-                    Game.Content.Load<Texture2D>("Sprites/GameObjects/SfxObjects/Blood"),
-                    unitGameObject.Combatant.IsPlayerControlled,
-                    new LinearAnimationFrameSet(Enumerable.Range(0, 16).ToArray(), 32, 64, 64, 4));
+                    unitGameObject.Combatant.IsPlayerControlled ? HitDirection.Left : HitDirection.Right,
+                    _bloodParticleTexture);
                 _visualEffectManager.AddEffect(bloodEffect);
+
+                AddHitShaking(true);
             }
             else if (ReferenceEquals(e.StatType, CombatantStatTypes.ShieldPoints))
             {
@@ -471,6 +505,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                 unitGameObject.AddChild(spIndicator);
 
                 unitGameObject.AnimateShield();
+
+                AddHitShaking();
             }
         }
     }
@@ -601,8 +637,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                 var combatScreenArgs = new CombatScreenTransitionArguments(_currentCampaign,
                     _args.CombatSequence,
                     nextCombatIndex,
-                    _args.IsAutoplay,
-                    _globeNode,
+                    _args.IsFreeCombat,
+                    _args.Location,
                     _args.VictoryDialogue);
 
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Combat, combatScreenArgs);
@@ -1079,17 +1115,28 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void DrawMainGameScene(SpriteBatch spriteBatch)
     {
-        var locationTheme = LocationHelper.GetLocationTheme(_globeNode.Sid);
+        var locationTheme = LocationHelper.GetLocationTheme(_args.Location);
 
         var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(locationTheme);
 
         var combatSceneContext = GetSceneContext();
+
+        Game.GraphicsDevice.SetRenderTarget(_renderTarget);
 
         DrawBackgroundLayers(spriteBatch, backgrounds, combatSceneContext);
 
         DrawMainGameObjects(spriteBatch, combatSceneContext);
 
         DrawForegroundLayers(spriteBatch, backgrounds);
+
+        Game.GraphicsDevice.SetRenderTarget(null);
+
+        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+
+        _postEffectManager.Apply();
+
+        spriteBatch.Draw(_renderTarget, Vector2.Zero, Color.White);
+        spriteBatch.End();
     }
 
     private void DrawManeuverIndicator(SpriteBatch spriteBatch, Rectangle contentRectangle)
@@ -1339,7 +1386,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _combatantQueuePanel = new CombatantQueuePanel(_combatCore,
             _uiContentStorage,
-            new CombatantThumbnailProvider(Game.Content, Game.Services.GetRequiredService<IUnitGraphicsCatalog>()));
+            new CombatantThumbnailProvider(Game.Content,
+                Game.Services.GetRequiredService<ICombatantGraphicsCatalog>()));
     }
 
     private void ManeuverVisualizer_ManeuverSelected(object? sender, ManeuverSelectedEventArgs e)

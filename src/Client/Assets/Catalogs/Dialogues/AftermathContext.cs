@@ -8,6 +8,8 @@ using Client.Core.Heroes;
 
 using CombatDicesTeam.Dialogues;
 
+using Core.Props;
+
 namespace Client.Assets.Catalogs.Dialogues;
 
 internal class AftermathContext
@@ -123,4 +125,14 @@ internal class AftermathContext
     }
 
     public event EventHandler<HeroStatChangedEventArgs>? HeroHpChanged;
+
+    public void AddResources(IProp resource)
+    {
+        _player.Inventory.Add(resource);
+    }
+
+    public void RemoveResource(IProp resource)
+    {
+        _player.Inventory.Remove(resource);
+    }
 }

@@ -18,7 +18,7 @@ internal class HopliteFactory : HeroFactoryBase
         };
     }
 
-    protected override UnitGraphicsConfigBase GetGraphicsConfig()
+    protected override CombatantGraphicsConfigBase GetGraphicsConfig()
     {
         return new HopliteGraphicsConfig(HeroName);
     }

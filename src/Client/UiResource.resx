@@ -121,9 +121,6 @@
     <value>Adjutant</value>
     <comment>На экран коммандного центра</comment>
   </data>
-  <data name="_AllChars" xml:space="preserve">
-    <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
-  </data>
   <data name="ArmorLabelTemplate" xml:space="preserve">
     <value>Armor: {0}</value>
   </data>
@@ -430,8 +427,11 @@ Do you really need to spend the priceless current move for nothing?</value>
   <data name="PeriodicHealEffectRuleText" xml:space="preserve">
     <value>Heal over time: {0} - {1} during {3} to {2}</value>
   </data>
-  <data name="PlayGameButtonTitle" xml:space="preserve">
-    <value>Play</value>
+  <data name="PlayStoryButtonTitle" xml:space="preserve">
+    <value>Play Story</value>
+  </data>
+  <data name="PlayFreeCombatButtonTitle" xml:space="preserve">
+    <value>Free Combat</value>
   </data>
   <data name="ProtectionEffectRuleText" xml:space="preserve">
     <value>Reduce incoming damage on {0}% of {2} on {1} turns</value>
@@ -563,5 +563,8 @@ Do you really need to spend the priceless current move for nothing?</value>
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp Reward</value>
+  </data>
+  <data name="_AllChars" xml:space="preserve">
+    <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
   </data>
 </root>

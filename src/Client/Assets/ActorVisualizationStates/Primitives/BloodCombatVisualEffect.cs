@@ -1,24 +1,76 @@
-﻿using Client.Core;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using Client.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonoGame.Extended;
+using MonoGame.Extended.Particles;
+using MonoGame.Extended.Particles.Modifiers;
+using MonoGame.Extended.Particles.Modifiers.Interpolators;
+using MonoGame.Extended.Particles.Profiles;
+using MonoGame.Extended.TextureAtlases;
+
 namespace Client.Assets.ActorVisualizationStates.Primitives;
+
+internal enum HitDirection
+{
+    Left,
+    Right
+}
 
 internal sealed class BloodCombatVisualEffect : ICombatVisualEffect
 {
-    private readonly IAnimationFrameSet _animation;
-    private readonly Texture2D _bloodTexture;
-    private readonly bool _flipX;
-    private readonly Vector2 _position;
+    private readonly Duration _duration;
 
-    public BloodCombatVisualEffect(Vector2 position, Texture2D bloodTexture, bool flipX, IAnimationFrameSet animation)
+    private readonly ParticleEffect _particleEffect;
+
+    private double _lifetimeCounter;
+
+    public BloodCombatVisualEffect(Vector2 position, HitDirection direction, Texture2D bloodParticleTexture)
     {
-        _position = position;
-        _bloodTexture = bloodTexture;
-        _flipX = flipX;
-        _animation = animation;
-        _animation.End += (_, _) => { IsDestroyed = true; };
+        _duration = new Duration(0.05f);
+
+        var textureRegion = new TextureRegion2D(bloodParticleTexture);
+        _particleEffect = new ParticleEffect
+        {
+            Position = position,
+            Emitters = new List<ParticleEmitter>
+            {
+                new(textureRegion, 500, TimeSpan.FromSeconds(0.5),
+                    Profile.Spray(direction == HitDirection.Right ? Vector2.UnitX : -Vector2.UnitX, 1))
+                {
+                    Parameters = new ParticleReleaseParameters
+                    {
+                        Speed = new Range<float>(50f, 150f),
+                        Quantity = 30,
+                        Rotation = new Range<float>(-1f, 1f),
+                        Scale = new Range<float>(1.0f, 4.0f),
+                        Color = new Range<HslColor>(HslColor.FromRgb(Color.White),
+                            HslColor.FromRgb(new Color(Color.White, 0.5f)))
+                    },
+                    Modifiers =
+                    {
+                        new AgeModifier
+                        {
+                            Interpolators =
+                            {
+                                new OpacityInterpolator
+                                {
+                                    StartValue = 1,
+                                    EndValue = 0.5f
+                                }
+                            }
+                        },
+                        new RotationModifier { RotationRate = -2.1f },
+                        new LinearGravityModifier { Direction = Vector2.UnitY, Strength = 250f }
+                    }
+                }
+            }
+        };
     }
 
     public bool IsDestroyed { get; private set; }
@@ -30,8 +82,7 @@ internal sealed class BloodCombatVisualEffect : ICombatVisualEffect
 
     public void DrawFront(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(_bloodTexture, _position, _animation.GetFrameRect(), Color.White, 0, Vector2.Zero, 1,
-            _flipX ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+        spriteBatch.Draw(_particleEffect);
     }
 
     public void Update(GameTime gameTime)
@@ -41,6 +92,21 @@ internal sealed class BloodCombatVisualEffect : ICombatVisualEffect
             return;
         }
 
-        _animation.Update(gameTime);
+        if (_lifetimeCounter >= _duration.Seconds)
+        {
+            _particleEffect.Emitters.First().AutoTrigger = false;
+
+            if (_particleEffect.ActiveParticles == 0)
+            {
+                IsDestroyed = true;
+                _particleEffect.Dispose();
+            }
+        }
+        else
+        {
+            _lifetimeCounter += gameTime.GetElapsedSeconds();
+        }
+
+        _particleEffect.Update(gameTime.GetElapsedSeconds());
     }
 }

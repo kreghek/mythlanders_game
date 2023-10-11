@@ -8,7 +8,7 @@ internal abstract class HeroFactoryBase : IHeroFactory
 {
     protected abstract IEquipmentScheme[] GetEquipment();
 
-    protected virtual UnitGraphicsConfigBase GetGraphicsConfig()
+    protected virtual CombatantGraphicsConfigBase GetGraphicsConfig()
     {
         return new GenericHeroGraphicsConfig(HeroName);
     }
@@ -37,7 +37,7 @@ internal abstract class HeroFactoryBase : IHeroFactory
         };
     }
 
-    public UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
+    public CombatantGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
     {
         return GetGraphicsConfig();
     }

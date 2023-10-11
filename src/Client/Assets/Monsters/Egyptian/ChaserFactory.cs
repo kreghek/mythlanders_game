@@ -1,4 +1,5 @@
 using Client.Assets.GraphicConfigs.Monsters;
+using Client.Assets.GraphicConfigs.Monsters.Egyptian;
 using Client.Core;
 using Client.GameScreens;
 
@@ -30,7 +31,7 @@ internal sealed class ChaserFactory : MonsterFactoryBase
         };
     }
 
-    public override UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
+    public override CombatantGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
     {
         return new ChaserGraphicConfig();
     }

@@ -20,18 +20,17 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 {
     private readonly IList<IActorVisualizationState> _actorStateEngineList;
     private readonly ICamera2DAdapter _camera;
-    private readonly UnitGraphicsConfigBase _combatantGraphicsConfig;
+    private readonly CombatantGraphicsConfigBase _combatantGraphicsConfig;
     private readonly CombatantPositionSide _combatantSide;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
-    private readonly ScreenShaker _screenShaker;
     private readonly ICombatantPositionProvider _unitPositionProvider;
 
     private CombatUnitState _visualIdleState;
 
-    public CombatantGameObject(ICombatant combatant, UnitGraphicsConfigBase combatantGraphicsConfig,
+    public CombatantGameObject(ICombatant combatant, CombatantGraphicsConfigBase combatantGraphicsConfig,
         FieldCoords formationCoords, ICombatantPositionProvider unitPositionProvider,
         GameObjectContentStorage gameObjectContentStorage,
-        ICamera2DAdapter camera, ScreenShaker screenShaker,
+        ICamera2DAdapter camera,
         CombatantPositionSide combatantSide)
     {
         _actorStateEngineList = new List<IActorVisualizationState>();
@@ -51,7 +50,6 @@ internal sealed class CombatantGameObject : EwarRenderableBase
         Position = position;
         _gameObjectContentStorage = gameObjectContentStorage;
         _camera = camera;
-        _screenShaker = screenShaker;
         _combatantSide = combatantSide;
 
         // TODO Call ShiftShape from external combat core

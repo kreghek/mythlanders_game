@@ -27,6 +27,8 @@ internal class CombatMovementsHandPanel : ControlBase
 
     private readonly CombatMovementButton?[] _buttons;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
+
+    private readonly HoverController<CombatMovementButton> _hoverController;
     private readonly IUiContentStorage _uiContentStorage;
     private readonly WaitIconButton _waitButton;
 
@@ -34,7 +36,6 @@ internal class CombatMovementsHandPanel : ControlBase
     private BurningCombatMovement? _burningCombatMovement;
     private ICombatant? _combatant;
     private KeyboardState _currentKeyboardState;
-    private EntityButtonBase<CombatMovementInstance>? _hoverButton;
     private KeyboardState? _lastKeyboardState;
 
     public CombatMovementsHandPanel(
@@ -56,6 +57,24 @@ internal class CombatMovementsHandPanel : ControlBase
                     SPECIAL_BUTTONS_ICON_WIDTH,
                     SPECIAL_BUTTONS_ICON_HEIGHT)));
         _waitButton.OnClick += WaitButton_OnClick;
+
+        _hoverController = new HoverController<CombatMovementButton>();
+        _hoverController.Hover += (s, e) =>
+        {
+            if (e is not null)
+            {
+                _activeCombatMovementHint = new CombatMovementHint(e.Entity);
+                CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(e.Entity));
+            }
+        };
+        _hoverController.Leave += (s, e) =>
+        {
+            _activeCombatMovementHint = null;
+            if (e is not null)
+            {
+                CombatMovementLeave?.Invoke(this, new CombatMovementPickedEventArgs(e.Entity));
+            }
+        };
     }
 
     public ICombatant? Combatant
@@ -64,6 +83,7 @@ internal class CombatMovementsHandPanel : ControlBase
         set
         {
             _combatant = value;
+            _hoverController.ForcedDrop();
 
             RecreateButtons();
         }
@@ -151,9 +171,9 @@ internal class CombatMovementsHandPanel : ControlBase
 
         _waitButton.Draw(spriteBatch);
 
-        if (_hoverButton is not null && _activeCombatMovementHint is not null)
+        if (_hoverController.CurrentValue is not null && _activeCombatMovementHint is not null)
         {
-            DrawHoverInfo(_hoverButton, _activeCombatMovementHint, spriteBatch);
+            DrawHoverInfo(_hoverController.CurrentValue, _activeCombatMovementHint, spriteBatch);
         }
     }
 
@@ -186,32 +206,15 @@ internal class CombatMovementsHandPanel : ControlBase
                     resolutionIndependentRenderer.ConvertScreenToWorldCoordinates(mouse.Position.ToVector2()).ToPoint(),
                     new Point(1, 1));
 
-            var oldHoverButton = _hoverButton;
-            _hoverButton = null;
             foreach (var button in _buttons)
             {
                 if (button is not null)
                 {
                     button.Update(resolutionIndependentRenderer);
 
-                    DetectMouseHoverOnButton(mouseRect, button);
-
                     button.IsEnabled = Combatant is not null && IsResolveEnought(button.Entity,
                         Combatant.Stats.Single(x => x.Type == CombatantStatTypes.Resolve));
                 }
-            }
-
-            if (_hoverButton is not null && _hoverButton != oldHoverButton && _combatant is not null)
-            {
-                _activeCombatMovementHint = new CombatMovementHint(_hoverButton.Entity);
-            }
-            else if (_hoverButton is not null && _hoverButton == oldHoverButton && _combatant is not null)
-            {
-                // Do nothing because hint of this button is created yet.
-            }
-            else
-            {
-                _activeCombatMovementHint = null;
             }
         }
 
@@ -242,26 +245,12 @@ internal class CombatMovementsHandPanel : ControlBase
 
     private void CombatMovementButton_OnHover(object? sender, EventArgs e)
     {
-        if (sender is not null)
-        {
-            CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(((CombatMovementButton)sender).Entity));
-        }
+        _hoverController.HandleHover(sender as CombatMovementButton);
     }
 
     private void CombatMovementButton_OnLeave(object? sender, EventArgs e)
     {
-        if (sender is not null)
-        {
-            CombatMovementLeave?.Invoke(this, new CombatMovementPickedEventArgs(((CombatMovementButton)sender).Entity));
-        }
-    }
-
-    private void DetectMouseHoverOnButton(Rectangle mouseRect, EntityButtonBase<CombatMovementInstance> button)
-    {
-        if (mouseRect.Intersects(button.Rect))
-        {
-            _hoverButton = button;
-        }
+        _hoverController.HandleLeave(sender as CombatMovementButton);
     }
 
     private void DrawHotkey(SpriteBatch spriteBatch, string hotKey, ControlBase button, bool isSelected)

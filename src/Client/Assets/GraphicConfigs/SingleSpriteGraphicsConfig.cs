@@ -4,7 +4,7 @@ using Client.Core;
 
 namespace Client.Assets.GraphicConfigs;
 
-internal sealed class SingleSpriteGraphicsConfig : UnitGraphicsConfigBase
+internal sealed class SingleSpriteGraphicsConfig : CombatantGraphicsConfigBase
 {
     public SingleSpriteGraphicsConfig(string thumbnailPath)
     {

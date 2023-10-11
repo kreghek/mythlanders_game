@@ -1,4 +1,5 @@
 using Client.Assets.GraphicConfigs.Monsters;
+using Client.Assets.GraphicConfigs.Monsters.Slavic;
 using Client.Core;
 using Client.GameScreens;
 
@@ -34,8 +35,8 @@ internal sealed class CorruptedBearFactory : MonsterFactoryBase
         };
     }
 
-    public override UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
+    public override CombatantGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
     {
-        return new GenericMonsterGraphicsConfig(ClassName, Culture);
+        return new CorruptedBearConfig(ClassName);
     }
 }

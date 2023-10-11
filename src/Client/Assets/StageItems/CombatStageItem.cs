@@ -9,9 +9,9 @@ namespace Client.Assets.StageItems;
 
 internal sealed class CombatStageItem : ICampaignStageItem
 {
-    private readonly GlobeNode _location;
+    private readonly ILocationSid _location;
 
-    public CombatStageItem(GlobeNode location, CombatSequence combatSequence)
+    public CombatStageItem(ILocationSid location, CombatSequence combatSequence)
     {
         _location = location;
         CombatSequence = combatSequence;
@@ -27,13 +27,4 @@ internal sealed class CombatStageItem : ICampaignStageItem
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat,
             new CombatScreenTransitionArguments(currentCampaign, CombatSequence, 0, false, _location, null));
     }
-}
-
-internal sealed record CombatMetadata(MonsterCombatantPrefab MonsterLeader,
-    CombatEstimateDifficulty EstimateDifficulty);
-
-internal enum CombatEstimateDifficulty
-{
-    Easy,
-    Hard
 }

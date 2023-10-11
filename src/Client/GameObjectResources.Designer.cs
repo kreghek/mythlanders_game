@@ -484,6 +484,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cover of Dew.
+        /// </summary>
+        internal static string CoverOfDew {
+            get {
+                return ResourceManager.GetString("CoverOfDew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Critical hit.
         /// </summary>
         internal static string CriticalHit {
@@ -624,6 +633,15 @@ namespace Client {
         internal static string DestroyTheSickSource_CrisisAftermath_Hint {
             get {
                 return ResourceManager.GetString("DestroyTheSickSource_CrisisAftermath_Hint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Devastating Paw.
+        /// </summary>
+        internal static string DevastatingPaw {
+            get {
+                return ResourceManager.GetString("DevastatingPaw", resourceCulture);
             }
         }
         
@@ -1051,6 +1069,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Human Slayer.
+        /// </summary>
+        internal static string HumanSlayer {
+            get {
+                return ResourceManager.GetString("HumanSlayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Hunt has begun!.
         /// </summary>
         internal static string Hunt {
@@ -1256,6 +1283,15 @@ namespace Client {
         internal static string LookOut_Description {
             get {
                 return ResourceManager.GetString("LookOut_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lord Of Non Human Realm.
+        /// </summary>
+        internal static string LordOfNonHumanRealm {
+            get {
+                return ResourceManager.GetString("LordOfNonHumanRealm", resourceCulture);
             }
         }
         
@@ -1571,6 +1607,15 @@ namespace Client {
         internal static string RestAll_CrisisAftermath_Hint {
             get {
                 return ResourceManager.GetString("RestAll_CrisisAftermath_Hint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Revenge Of Wild Eye.
+        /// </summary>
+        internal static string RevengeOfWildEye {
+            get {
+                return ResourceManager.GetString("RevengeOfWildEye", resourceCulture);
             }
         }
         

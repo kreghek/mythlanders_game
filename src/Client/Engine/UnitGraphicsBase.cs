@@ -25,7 +25,7 @@ internal abstract class UnitGraphicsBase
     private const int FRAME_WIDTH = 256;
     private const int FRAME_HEIGHT = 128;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
-    private readonly UnitGraphicsConfigBase _graphicsConfig;
+    private readonly CombatantGraphicsConfigBase _graphicsConfig;
 
     private readonly IDictionary<PredefinedAnimationSid, IAnimationFrameSet> _predefinedAnimationFrameSets;
     private readonly Sprite[] _selectedMarkers;
@@ -39,7 +39,8 @@ internal abstract class UnitGraphicsBase
 
     private Sprite[] _sprites;
 
-    public UnitGraphicsBase(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig, bool isNormalOrientation,
+    public UnitGraphicsBase(UnitName spriteSheetId, CombatantGraphicsConfigBase graphicsConfig,
+        bool isNormalOrientation,
         Vector2 position, GameObjectContentStorage gameObjectContentStorage)
     {
         _graphicsConfig = graphicsConfig;

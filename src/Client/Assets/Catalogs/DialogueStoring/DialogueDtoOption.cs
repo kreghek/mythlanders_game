@@ -14,4 +14,8 @@ internal class DialogueDtoOption
     // ReSharper disable once UnusedMember.Global
     // This member is not used but required to deserialization.
     public string Text { get; [UsedImplicitly] init; } = null!;
+
+    // ReSharper disable once UnusedMember.Global
+    // This member is not used but required to deserialization.
+    public string Description { get; [UsedImplicitly] init; } = null!;
 }

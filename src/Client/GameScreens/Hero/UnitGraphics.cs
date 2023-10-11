@@ -7,7 +7,7 @@ namespace Client.GameScreens.Hero;
 
 internal sealed class UnitGraphics : UnitGraphicsBase
 {
-    public UnitGraphics(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig, bool isNormalOrientation,
+    public UnitGraphics(UnitName spriteSheetId, CombatantGraphicsConfigBase graphicsConfig, bool isNormalOrientation,
         Vector2 position, GameObjectContentStorage gameObjectContentStorage) :
         base(spriteSheetId, graphicsConfig, isNormalOrientation, position, gameObjectContentStorage)
     {

@@ -15,7 +15,7 @@ internal abstract class MonsterFactoryBase : IMonsterFactory
 
     public abstract UnitScheme Create(IBalanceTable balanceTable);
 
-    public virtual UnitGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
+    public virtual CombatantGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
     {
         return new SingleSpriteGraphicsConfig(Path.Combine(CommonConstants.PathToCharacterSprites, "Monsters",
             Culture.ToString(), ClassName.ToString(), "Thumbnail"));

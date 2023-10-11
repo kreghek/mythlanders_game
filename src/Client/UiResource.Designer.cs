@@ -928,11 +928,20 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Play.
+        ///   Looks up a localized string similar to Free Combat.
         /// </summary>
-        internal static string PlayGameButtonTitle {
+        internal static string PlayFreeCombatButtonTitle {
             get {
-                return ResourceManager.GetString("PlayGameButtonTitle", resourceCulture);
+                return ResourceManager.GetString("PlayFreeCombatButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Play Story.
+        /// </summary>
+        internal static string PlayStoryButtonTitle {
+            get {
+                return ResourceManager.GetString("PlayStoryButtonTitle", resourceCulture);
             }
         }
         
