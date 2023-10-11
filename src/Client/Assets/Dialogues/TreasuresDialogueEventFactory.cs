@@ -27,7 +27,7 @@ internal sealed class TreasuresDialogueEventFactory : IDialogueEventFactory
             [DialogueConstants.InitialStage] = "treasures_crisis"
         };
 
-        return new DialogueEvent("treasures_crisis", questStateMachine, requirements,
+        return new DialogueEvent("TreasuresEvent", questStateMachine, requirements,
             dialogues);
     }
 

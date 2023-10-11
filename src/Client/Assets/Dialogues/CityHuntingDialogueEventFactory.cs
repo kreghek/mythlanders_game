@@ -27,7 +27,7 @@ internal sealed class CityHuntingDialogueEventFactory : IDialogueEventFactory
             [DialogueConstants.InitialStage] = "city_witch_hunting_crisis"
         };
 
-        return new DialogueEvent("city_witch_hunting_crisis", questStateMachine, requirements,
+        return new DialogueEvent("CityHuntingEvent", questStateMachine, requirements,
             dialogues);
     }
 
