@@ -9,7 +9,6 @@ using Client.Assets.Catalogs;
 using Client.Assets.CombatMovements;
 using Client.Assets.StoryPointJobs;
 using Client.Core;
-using Client.Core.AnimationFrameSets;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.Engine.PostProcessing;
@@ -86,6 +85,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly TargetMarkersVisualizer _targetMarkers;
     private readonly IUiContentStorage _uiContentStorage;
     private readonly VisualEffectManager _visualEffectManager;
+    private Texture2D _bloodParticleTexture = null!;
 
     private bool _bossWasDefeat;
 
@@ -98,7 +98,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
-    private Texture2D _bloodParticleTexture = null!;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -219,7 +218,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     protected override void InitializeContent()
     {
         _postEffectCatalog.Load(Game.Content);
-        
+
         _bloodParticleTexture = new Texture2D(Game.GraphicsDevice, 1, 1);
         _bloodParticleTexture.SetData(new[] { Color.Red });
 

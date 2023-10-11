@@ -9,19 +9,19 @@ public sealed class HurtPostEffect : IPostEffect
     private readonly ShakePower _power;
     private readonly Random _random;
     private Vector2 _shakeVector;
-    
+
     public HurtPostEffect(ShakePower power)
     {
         _power = power;
 
         _random = new Random();
     }
-    
+
     public void Apply(PostEffectCatalog postEffectCatalog)
     {
         postEffectCatalog.HurtEffect.Parameters["DistanceX"].SetValue(_shakeVector.X);
         postEffectCatalog.HurtEffect.Parameters["DistanceY"].SetValue(_shakeVector.Y);
-        
+
         foreach (var technique in postEffectCatalog.HurtEffect.Techniques)
         {
             foreach (var pass in technique.Passes)

@@ -7,12 +7,12 @@ namespace Client.Engine.PostProcessing;
 
 public sealed class PostEffectCatalog
 {
-    private Effect? _shakeEffect;
     private Effect? _hurtEffect;
-
-    public Effect ShakeEffect => _shakeEffect ?? throw new InvalidOperationException();
+    private Effect? _shakeEffect;
 
     public Effect HurtEffect => _hurtEffect ?? throw new InvalidOperationException();
+
+    public Effect ShakeEffect => _shakeEffect ?? throw new InvalidOperationException();
 
     public void Load(ContentManager contentManager)
     {
