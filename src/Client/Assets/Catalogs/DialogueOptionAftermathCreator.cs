@@ -12,8 +12,8 @@ namespace Client.Assets.Catalogs;
 
 internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathCreator
 {
-    private readonly IUnitSchemeCatalog _unitSchemeCatalog;
     private readonly IDice _dice;
+    private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
     public DialogueOptionAftermathCreator(IUnitSchemeCatalog unitSchemeCatalog, IDice dice)
     {

@@ -9,8 +9,8 @@ namespace Client.Assets.DialogueEventRequirements;
 [UsedImplicitly]
 internal sealed class HasEnoughResourcesRequirement : IDialogueEventRequirement
 {
-    private readonly string _resourceSid;
     private readonly int _minimalAmount;
+    private readonly string _resourceSid;
 
     public HasEnoughResourcesRequirement(string resourceSid, int minimalAmount)
     {

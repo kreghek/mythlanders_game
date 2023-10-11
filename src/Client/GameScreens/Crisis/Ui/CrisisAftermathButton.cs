@@ -12,9 +12,9 @@ namespace Client.GameScreens.Crisis.Ui;
 internal class CrisisAftermathButton : ButtonBase
 {
     private const int MARGIN = 5;
+    private readonly ResourceManager _dialogueResourceManager;
     private readonly SpriteFont _font;
     private readonly string _textSid;
-    private readonly ResourceManager _dialogueResourceManager;
 
     public CrisisAftermathButton(int number, string textSid)
     {
@@ -34,13 +34,6 @@ internal class CrisisAftermathButton : ButtonBase
 
         var textSize = _font.MeasureString(optionText) + new Vector2(MARGIN * 2, MARGIN * 2);
         return textSize;
-    }
-
-    private string GetOptionText()
-    {
-        var text = _dialogueResourceManager.GetString(_textSid) ?? _textSid;
-        var multilineText = StringHelper.LineBreaking(text, 40);
-        return multilineText;
     }
 
     protected override Point CalcTextureOffset()
@@ -76,5 +69,12 @@ internal class CrisisAftermathButton : ButtonBase
         var optionText = GetOptionText();
 
         spriteBatch.DrawString(_font, optionText, textPosition, textColor);
+    }
+
+    private string GetOptionText()
+    {
+        var text = _dialogueResourceManager.GetString(_textSid) ?? _textSid;
+        var multilineText = StringHelper.LineBreaking(text, 40);
+        return multilineText;
     }
 }

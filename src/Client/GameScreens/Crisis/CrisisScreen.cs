@@ -37,6 +37,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
     private readonly DialogueContextFactory _dialogueContextFactory;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly DialoguePlayer<ParagraphConditionContext, AftermathContext> _dialoguePlayer;
+    private readonly ResourceManager _dialogueResourceManager;
     private readonly GlobeProvider _globeProvider;
     private readonly SoundEffectInstance _soundEffectInstance;
     private readonly SoundtrackManager _soundtrackManager;
@@ -44,7 +45,6 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
     private TextHint? _aftermathHint;
     private ControlBase? _aftermathOnHover;
-    private readonly ResourceManager _dialogueResourceManager;
 
     public CrisisScreen(TestamentGame game, CrisisScreenTransitionArguments args) : base(game)
     {
@@ -74,7 +74,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
         }
 
         _crisis = dice.RollFromList(availableCrises);
-        
+
         var eventCatalog = game.Services.GetRequiredService<IEventCatalog>();
         var smallEvent = eventCatalog.Events.First(x => x.Sid == _crisis.EventSid);
 
@@ -103,7 +103,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
         var assembly = Assembly.GetExecutingAssembly();
 
-        _dialogueResourceManager = new System.Resources.ResourceManager("Client.DialogueResources", assembly);
+        _dialogueResourceManager = new ResourceManager("Client.DialogueResources", assembly);
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -135,7 +135,9 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
         const int HEADER_HEIGHT = 100;
 
-        var localizedCrisisDescription = string.Join(Environment.NewLine, _dialoguePlayer.CurrentTextFragments.Select(x => _dialogueResourceManager.GetString(x.TextSid) ?? x.TextSid));
+        var localizedCrisisDescription = string.Join(Environment.NewLine,
+            _dialoguePlayer.CurrentTextFragments.Select(x =>
+                _dialogueResourceManager.GetString(x.TextSid) ?? x.TextSid));
         var localizedNormalizedCrisisDescription = StringHelper.LineBreaking(localizedCrisisDescription, 40);
         var descriptionText = _uiContentStorage.GetTitlesFont();
         var descriptionTextSize = descriptionText.MeasureString(localizedNormalizedCrisisDescription);
