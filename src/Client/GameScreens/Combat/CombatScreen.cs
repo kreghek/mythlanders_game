@@ -273,27 +273,23 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void AddHitShaking(bool hurt = false)
     {
-        //if (hurt)
-        //{
-        //    var hurtPostEffect = new HurtPostEffect();
-        //    _postEffectManager.AddEffect(hurtPostEffect);
-
-        //    var hurtBlocker = new DelayBlocker(new Duration(0.25f));
-        //    _animationBlockManager.RegisterBlocker(hurtBlocker);
-        //    hurtBlocker.Released += (_, _) =>
-        //    {
-        //        _postEffectManager.RemoveEffect(hurtPostEffect);
-        //    };
-        //}
-
-        var shakePostEffect = new ShakePostEffect(new ShakePower(0.02f));
-        _postEffectManager.AddEffect(shakePostEffect);
-
-        var shakeBlocker = new DelayBlocker(new Duration(0.25f));
-        _animationBlockManager.RegisterBlocker(shakeBlocker);
-        shakeBlocker.Released += (_, _) =>
+        IPostEffect postEffect;
+        if (!hurt)
         {
-            _postEffectManager.RemoveEffect(shakePostEffect);
+            postEffect = new ShakePostEffect(new ShakePower(0.02f));
+            _postEffectManager.AddEffect(postEffect);
+        }
+        else
+        {
+            postEffect = new HurtPostEffect(new ShakePower(0.02f));
+            _postEffectManager.AddEffect(postEffect);
+        }
+
+        var postEffectBlocker = new DelayBlocker(new Duration(0.25f));
+        _animationBlockManager.RegisterBlocker(postEffectBlocker);
+        postEffectBlocker.Released += (_, _) =>
+        {
+            _postEffectManager.RemoveEffect(postEffect);
         };
     }
 
@@ -491,7 +487,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
                 unitGameObject.AnimateWound();
 
-                var bloodEffect = new BloodCombatVisualEffect(unitGameObject.InteractionPoint, HitDirection.Left,
+                var bloodEffect = new BloodCombatVisualEffect(unitGameObject.InteractionPoint,
+                    unitGameObject.Combatant.IsPlayerControlled ? HitDirection.Left : HitDirection.Right,
                     _bloodParticleTexture);
                 _visualEffectManager.AddEffect(bloodEffect);
 

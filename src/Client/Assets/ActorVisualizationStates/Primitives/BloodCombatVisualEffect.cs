@@ -26,29 +26,20 @@ internal enum HitDirection
 internal sealed class BloodCombatVisualEffect : ICombatVisualEffect
 {
     private readonly Duration _duration;
-    
-    private readonly Texture2D _bloodParticleTexture;
-    private readonly Vector2 _position;
-    private readonly HitDirection _direction;
 
     private readonly ParticleEffect _particleEffect;
 
     public BloodCombatVisualEffect(Vector2 position, HitDirection direction, Texture2D bloodParticleTexture)
     {
         _duration = new Duration(0.05f);
-        
-        _position = position;
-        _direction = direction;
-        _bloodParticleTexture = bloodParticleTexture;
-        
 
         TextureRegion2D textureRegion = new TextureRegion2D(bloodParticleTexture);
         _particleEffect = new ParticleEffect { 
             Position = position,
             Emitters = new List<ParticleEmitter>
             {
-                new ParticleEmitter(textureRegion, 500, TimeSpan.FromSeconds(0.5),
-                    Profile.Spray(_direction == HitDirection.Left ? Vector2.UnitX : -Vector2.UnitX, 1))
+                new(textureRegion, 500, TimeSpan.FromSeconds(0.5),
+                    Profile.Spray(direction == HitDirection.Left ? Vector2.UnitX : -Vector2.UnitX, 1))
                 {
                     Parameters = new ParticleReleaseParameters
                     {
