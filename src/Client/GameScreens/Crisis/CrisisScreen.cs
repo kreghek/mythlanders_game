@@ -49,11 +49,6 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
         _globeProvider = Game.Services.GetRequiredService<GlobeProvider>();
 
         _uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();
-        var dice = Game.Services.GetRequiredService<IDice>();
-
-        var crisesCatalog = game.Services.GetRequiredService<ICrisesCatalog>();
-
-        _crisis = dice.RollFromList(crisesCatalog.GetAll().Where(x => x.EventType == args.EventType).ToArray());
 
         var globe = _globeProvider.Globe;
         if (globe is null)
@@ -65,6 +60,13 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
         var storyPointCatalog = game.Services.GetService<IStoryPointCatalog>();
         _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
 
+        var dice = Game.Services.GetRequiredService<IDice>();
+
+        var crisesCatalog = game.Services.GetRequiredService<ICrisesCatalog>();
+
+        var availableCrises = crisesCatalog.GetAll().Where(x => x.EventType == args.EventType).ToArray();
+        _crisis = dice.RollFromList(availableCrises);
+        
         var eventCatalog = game.Services.GetRequiredService<IEventCatalog>();
         var smallEvent = eventCatalog.Events.First(x => x.Sid == _crisis.EventSid);
 

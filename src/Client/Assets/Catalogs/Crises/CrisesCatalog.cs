@@ -6,7 +6,7 @@ namespace Client.Assets.Catalogs.Crises;
 
 public sealed class CrisesCatalog : ICrisesCatalog
 {
-    public readonly ICrisis[] _crises;
+    private readonly ICrisis[] _crises;
 
     public CrisesCatalog()
     {
