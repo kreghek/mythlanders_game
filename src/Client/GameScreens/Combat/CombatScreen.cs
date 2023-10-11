@@ -12,6 +12,7 @@ using Client.Core;
 using Client.Core.AnimationFrameSets;
 using Client.Core.Campaigns;
 using Client.Engine;
+using Client.Engine.PostProcessing;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Combat.CombatDebugElements;
 using Client.GameScreens.Combat.GameObjects;
@@ -50,6 +51,9 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly UpdatableAnimationManager _animationBlockManager;
     private readonly CombatScreenTransitionArguments _args;
     private readonly CameraOperator _cameraOperator;
+    private readonly RenderTarget2D _renderTarget;
+    private readonly PostEffectCatalog _postEffectCatalog;
+    private readonly PostEffectManager _postEffectManager;
     private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
     private readonly ParallaxCamera2DAdapter _combatActionCamera;
 
@@ -77,7 +81,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly FieldManeuverIndicatorPanel _maneuversIndicator;
     private readonly FieldManeuversVisualizer _maneuversVisualizer;
     private readonly ManualCombatActorBehaviour _manualCombatantBehaviour;
-    private readonly ScreenShaker _screenShaker;
     private readonly ShadeService _shadeService;
 
     private readonly TargetMarkersVisualizer _targetMarkers;
@@ -134,8 +137,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _combatantPositionProvider = new CombatantPositionProvider(TestamentConstants.CombatFieldSize.X);
 
-        _screenShaker = new ScreenShaker();
-
         _jobProgressResolver = new JobProgressResolver();
 
         _manualCombatantBehaviour = new ManualCombatActorBehaviour();
@@ -188,6 +189,13 @@ internal class CombatScreen : GameScreenWithMenuBase
             new OverviewCameraOperatorTask(() =>
                 backgroundRectControl.GetRects()[(int)BackgroundLayerType.Main].Center.ToVector2() +
                 new Vector2(1000 / 2, 480 / 2)));
+
+       _renderTarget = new RenderTarget2D(Game.GraphicsDevice,
+            Game.GraphicsDevice.PresentationParameters.BackBufferWidth,
+            Game.GraphicsDevice.PresentationParameters.BackBufferHeight);
+
+        _postEffectCatalog = new PostEffectCatalog();
+        _postEffectManager = new PostEffectManager(_postEffectCatalog);
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -209,6 +217,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     protected override void InitializeContent()
     {
+        _postEffectCatalog.Load(Game.Content);
+
         InitializeCombat();
 
         _maneuversVisualizer.ManeuverSelected += ManeuverVisualizer_ManeuverSelected;
@@ -245,8 +255,6 @@ internal class CombatScreen : GameScreenWithMenuBase
             UpdateCombatHud(gameTime);
         }
 
-        _screenShaker.Update(gameTime);
-
         if (_combatFinishedVictory is not null)
         {
             UpdateCombatFinished(gameTime);
@@ -255,6 +263,8 @@ internal class CombatScreen : GameScreenWithMenuBase
         _animationBlockManager.Update(gameTime.ElapsedGameTime.TotalSeconds);
 
         _cameraOperator.Update(gameTime);
+
+        _postEffectManager.Update(gameTime);
     }
 
     //private static void AddMonstersFromCombatIntoKnownMonsters(Client.Core.Heroes.Hero monster,
@@ -361,7 +371,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         var gameObject =
             new CombatantGameObject(e.Combatant, graphicConfig, e.FieldInfo.CombatantCoords, _combatantPositionProvider,
                 _gameObjectContentStorage, _combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main],
-                _screenShaker, combatantSide);
+                combatantSide);
         _gameObjects.Add(gameObject);
 
         // var combatant = e.Combatant;
@@ -456,6 +466,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                     unitGameObject.Combatant.IsPlayerControlled,
                     new LinearAnimationFrameSet(Enumerable.Range(0, 16).ToArray(), 32, 64, 64, 4));
                 _visualEffectManager.AddEffect(bloodEffect);
+
+                AddHitShaking();
             }
             else if (ReferenceEquals(e.StatType, CombatantStatTypes.ShieldPoints))
             {
@@ -469,8 +481,23 @@ internal class CombatScreen : GameScreenWithMenuBase
                 unitGameObject.AddChild(spIndicator);
 
                 unitGameObject.AnimateShield();
+
+                AddHitShaking();
             }
         }
+    }
+
+    private void AddHitShaking()
+    {
+        var shakePostEffect = new ShakePostEffect(new ShakePower(0.02f));
+        _postEffectManager.AddEffect(shakePostEffect);
+
+        var blocker = new DelayBlocker(new Duration(0.25f));
+        _animationBlockManager.RegisterBlocker(blocker);
+        blocker.Released += (_, _) =>
+        {
+            _postEffectManager.RemoveEffect(shakePostEffect);
+        };
     }
 
     private void CombatCore_CombatantHasChangePosition(object? sender, CombatantHasChangedPositionEventArgs e)
@@ -1083,11 +1110,22 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         var combatSceneContext = GetSceneContext();
 
+        Game.GraphicsDevice.SetRenderTarget(_renderTarget);
+
         DrawBackgroundLayers(spriteBatch, backgrounds, combatSceneContext);
 
         DrawMainGameObjects(spriteBatch, combatSceneContext);
 
         DrawForegroundLayers(spriteBatch, backgrounds);
+
+        Game.GraphicsDevice.SetRenderTarget(null);
+
+        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+
+        _postEffectManager.Apply();
+
+        spriteBatch.Draw(_renderTarget, Vector2.Zero, Color.White);
+        spriteBatch.End();
     }
 
     private void DrawManeuverIndicator(SpriteBatch spriteBatch, Rectangle contentRectangle)
