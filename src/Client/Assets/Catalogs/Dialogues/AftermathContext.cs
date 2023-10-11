@@ -130,4 +130,9 @@ internal class AftermathContext
     {
         _player.Inventory.Add(resource);
     }
+
+    public void RemoveResource(IProp resource)
+    {
+        _player.Inventory.Remove(resource);
+    }
 }
