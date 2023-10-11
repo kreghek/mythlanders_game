@@ -98,6 +98,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
+    private Texture2D _bloodParticleTexture = null!;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -218,6 +219,9 @@ internal class CombatScreen : GameScreenWithMenuBase
     protected override void InitializeContent()
     {
         _postEffectCatalog.Load(Game.Content);
+        
+        _bloodParticleTexture = new Texture2D(Game.GraphicsDevice, 1, 1);
+        _bloodParticleTexture.SetData(new[] { Color.White });
 
         InitializeCombat();
 
@@ -487,10 +491,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
                 unitGameObject.AnimateWound();
 
-                var bloodEffect = new BloodCombatVisualEffect(unitGameObject.InteractionPoint,
-                    Game.Content.Load<Texture2D>("Sprites/GameObjects/SfxObjects/Blood"),
-                    unitGameObject.Combatant.IsPlayerControlled,
-                    new LinearAnimationFrameSet(Enumerable.Range(0, 16).ToArray(), 32, 64, 64, 4));
+                var bloodEffect = new BloodCombatVisualEffect(unitGameObject.InteractionPoint, HitDirection.Left,
+                    _bloodParticleTexture);
                 _visualEffectManager.AddEffect(bloodEffect);
 
                 AddHitShaking(true);
