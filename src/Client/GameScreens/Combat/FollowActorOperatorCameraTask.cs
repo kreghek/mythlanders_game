@@ -8,11 +8,11 @@ namespace Client.GameScreens.Combat;
 
 internal sealed class FollowActorOperatorCameraTask : ICameraOperatorTask
 {
-    private const float FOLLOWING_ZOOM = 2f;
+    private const float FOLLOWING_ZOOM = 1.3f;
 
     private const double ZOOM_THRESHOLD = 0.05;
 
-    private const int ZOOM_SPEED = 10;
+    private const int ZOOM_SPEED = 3;
     private readonly IActorAnimator _combatActor;
     private readonly Func<bool> _completeDelegate;
     private Vector2 _lastActorPosition;
