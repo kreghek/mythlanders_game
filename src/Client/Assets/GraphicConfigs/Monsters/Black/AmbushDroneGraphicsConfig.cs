@@ -21,17 +21,17 @@ internal sealed class AmbushDroneGraphicsConfig : BlackMonsterGraphicConfig
             },
             {
                 PredefinedAnimationSid.MoveForward,
-                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 2 }, fps: 8, textureColumns: 4,
+                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 0 }, fps: 8, textureColumns: 4,
                     frameWidth: 128)
             },
             {
                 PredefinedAnimationSid.MoveBackward,
-                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 2 }, fps: 8, textureColumns: 4,
+                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 0 }, fps: 8, textureColumns: 4,
                     frameWidth: 128)
             },
             {
                 PredefinedAnimationSid.Wound,
-                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 3 }, fps: 8, textureColumns: 4,
+                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 0 }, fps: 8, textureColumns: 4,
                     frameWidth: 128)
             },
             {

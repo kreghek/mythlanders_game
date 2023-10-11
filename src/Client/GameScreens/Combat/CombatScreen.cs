@@ -267,14 +267,27 @@ internal class CombatScreen : GameScreenWithMenuBase
         _postEffectManager.Update(gameTime);
     }
 
-    private void AddHitShaking()
+    private void AddHitShaking(bool hurt = false)
     {
+        //if (hurt)
+        //{
+        //    var hurtPostEffect = new HurtPostEffect();
+        //    _postEffectManager.AddEffect(hurtPostEffect);
+
+        //    var hurtBlocker = new DelayBlocker(new Duration(0.25f));
+        //    _animationBlockManager.RegisterBlocker(hurtBlocker);
+        //    hurtBlocker.Released += (_, _) =>
+        //    {
+        //        _postEffectManager.RemoveEffect(hurtPostEffect);
+        //    };
+        //}
+
         var shakePostEffect = new ShakePostEffect(new ShakePower(0.02f));
         _postEffectManager.AddEffect(shakePostEffect);
 
-        var blocker = new DelayBlocker(new Duration(0.25f));
-        _animationBlockManager.RegisterBlocker(blocker);
-        blocker.Released += (_, _) =>
+        var shakeBlocker = new DelayBlocker(new Duration(0.25f));
+        _animationBlockManager.RegisterBlocker(shakeBlocker);
+        shakeBlocker.Released += (_, _) =>
         {
             _postEffectManager.RemoveEffect(shakePostEffect);
         };
@@ -480,7 +493,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                     new LinearAnimationFrameSet(Enumerable.Range(0, 16).ToArray(), 32, 64, 64, 4));
                 _visualEffectManager.AddEffect(bloodEffect);
 
-                AddHitShaking();
+                AddHitShaking(true);
             }
             else if (ReferenceEquals(e.StatType, CombatantStatTypes.ShieldPoints))
             {
