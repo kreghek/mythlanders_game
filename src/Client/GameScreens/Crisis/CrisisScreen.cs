@@ -193,7 +193,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
             aftermathButton.OnHover += (s, e) =>
             {
-                var hintText = eventResolveOption.Aftermath?.GetDescription(aftermathContext);
+                var hintText = StoryResources.ResourceManager.GetString(eventResolveOption.TextSid + "_Description");
 
                 if (hintText is not null)
                 {
