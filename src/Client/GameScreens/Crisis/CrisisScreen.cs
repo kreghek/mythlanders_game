@@ -65,6 +65,11 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
         var crisesCatalog = game.Services.GetRequiredService<ICrisesCatalog>();
 
         var availableCrises = crisesCatalog.GetAll().Where(x => x.EventType == args.EventType).ToArray();
+        if (!availableCrises.Any())
+        {
+            throw new InvalidOperationException($"There are no available micro-events of type {args.EventType}.");
+        }
+
         _crisis = dice.RollFromList(availableCrises);
         
         var eventCatalog = game.Services.GetRequiredService<IEventCatalog>();

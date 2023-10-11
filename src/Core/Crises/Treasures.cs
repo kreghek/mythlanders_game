@@ -1,8 +1,8 @@
 ﻿namespace Core.Crises;
 
-public sealed class Treasues : ICrisis
+public sealed class Treasures : ICrisis
 {
-    public Treasues(string sid)
+    public Treasures(string sid)
     {
         Sid = new CrisisSid(sid);
     }
