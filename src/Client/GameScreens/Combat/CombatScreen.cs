@@ -81,7 +81,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly FieldManeuverIndicatorPanel _maneuversIndicator;
     private readonly FieldManeuversVisualizer _maneuversVisualizer;
     private readonly ManualCombatActorBehaviour _manualCombatantBehaviour;
-    private readonly ScreenShaker _screenShaker;
     private readonly ShadeService _shadeService;
 
     private readonly TargetMarkersVisualizer _targetMarkers;
@@ -137,8 +136,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         _gameSettings = game.Services.GetService<GameSettings>();
 
         _combatantPositionProvider = new CombatantPositionProvider(TestamentConstants.CombatFieldSize.X);
-
-        _screenShaker = new ScreenShaker();
 
         _jobProgressResolver = new JobProgressResolver();
 
@@ -258,8 +255,6 @@ internal class CombatScreen : GameScreenWithMenuBase
             UpdateCombatHud(gameTime);
         }
 
-        _screenShaker.Update(gameTime);
-
         if (_combatFinishedVictory is not null)
         {
             UpdateCombatFinished(gameTime);
@@ -376,7 +371,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         var gameObject =
             new CombatantGameObject(e.Combatant, graphicConfig, e.FieldInfo.CombatantCoords, _combatantPositionProvider,
                 _gameObjectContentStorage, _combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main],
-                _screenShaker, combatantSide);
+                combatantSide);
         _gameObjects.Add(gameObject);
 
         // var combatant = e.Combatant;
@@ -486,6 +481,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                 unitGameObject.AddChild(spIndicator);
 
                 unitGameObject.AnimateShield();
+
+                AddHitShaking();
             }
         }
     }
