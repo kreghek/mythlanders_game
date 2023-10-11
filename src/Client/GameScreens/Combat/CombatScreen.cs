@@ -98,6 +98,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
+    private Texture2D _bloodParticleTexture = null!;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -218,6 +219,9 @@ internal class CombatScreen : GameScreenWithMenuBase
     protected override void InitializeContent()
     {
         _postEffectCatalog.Load(Game.Content);
+        
+        _bloodParticleTexture = new Texture2D(Game.GraphicsDevice, 1, 1);
+        _bloodParticleTexture.SetData(new[] { Color.Red });
 
         InitializeCombat();
 
@@ -267,16 +271,25 @@ internal class CombatScreen : GameScreenWithMenuBase
         _postEffectManager.Update(gameTime);
     }
 
-    private void AddHitShaking()
+    private void AddHitShaking(bool hurt = false)
     {
-        var shakePostEffect = new ShakePostEffect(new ShakePower(0.02f));
-        _postEffectManager.AddEffect(shakePostEffect);
-
-        var blocker = new DelayBlocker(new Duration(0.25f));
-        _animationBlockManager.RegisterBlocker(blocker);
-        blocker.Released += (_, _) =>
+        IPostEffect postEffect;
+        if (!hurt)
         {
-            _postEffectManager.RemoveEffect(shakePostEffect);
+            postEffect = new ShakePostEffect(new ShakePower(0.02f));
+            _postEffectManager.AddEffect(postEffect);
+        }
+        else
+        {
+            postEffect = new HurtPostEffect(new ShakePower(0.02f));
+            _postEffectManager.AddEffect(postEffect);
+        }
+
+        var postEffectBlocker = new DelayBlocker(new Duration(0.25f));
+        _animationBlockManager.RegisterBlocker(postEffectBlocker);
+        postEffectBlocker.Released += (_, _) =>
+        {
+            _postEffectManager.RemoveEffect(postEffect);
         };
     }
 
@@ -475,12 +488,11 @@ internal class CombatScreen : GameScreenWithMenuBase
                 unitGameObject.AnimateWound();
 
                 var bloodEffect = new BloodCombatVisualEffect(unitGameObject.InteractionPoint,
-                    Game.Content.Load<Texture2D>("Sprites/GameObjects/SfxObjects/Blood"),
-                    unitGameObject.Combatant.IsPlayerControlled,
-                    new LinearAnimationFrameSet(Enumerable.Range(0, 16).ToArray(), 32, 64, 64, 4));
+                    unitGameObject.Combatant.IsPlayerControlled ? HitDirection.Left : HitDirection.Right,
+                    _bloodParticleTexture);
                 _visualEffectManager.AddEffect(bloodEffect);
 
-                AddHitShaking();
+                AddHitShaking(true);
             }
             else if (ReferenceEquals(e.StatType, CombatantStatTypes.ShieldPoints))
             {
