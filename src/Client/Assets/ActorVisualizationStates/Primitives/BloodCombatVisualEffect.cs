@@ -34,8 +34,8 @@ internal sealed class BloodCombatVisualEffect : ICombatVisualEffect
         _animation = animation;
         _animation.End += (_, _) => {
             IsDestroyed = true;
-            _particleEffect?.Dispose();
-            _particleEffect = null;
+            //_particleEffect?.Dispose();
+            //_particleEffect = null;
         };
 
         //TextureRegion2D textureRegion = new TextureRegion2D(bloodTexture);
