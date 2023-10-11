@@ -13,7 +13,7 @@ using Stateless;
 namespace Client.Assets.Dialogues;
 
 [UsedImplicitly]
-internal sealed class MagicTrapDialogueEventFactory : IDialogueEventFactory
+internal sealed class TreasuresDialogueEventFactory : IDialogueEventFactory
 {
     public DialogueEvent CreateEvent(IDialogueEventFactoryServices services)
     {
@@ -24,10 +24,10 @@ internal sealed class MagicTrapDialogueEventFactory : IDialogueEventFactory
 
         var dialogues = new Dictionary<DialogueEventState, string>
         {
-            [DialogueConstants.InitialStage] = "magic_trap_crisis"
+            [DialogueConstants.InitialStage] = "treasures_crisis"
         };
 
-        return new DialogueEvent("MagicTrapEvent", questStateMachine, requirements,
+        return new DialogueEvent("TreasuresEvent", questStateMachine, requirements,
             dialogues);
     }
 

@@ -13,7 +13,7 @@ using Stateless;
 namespace Client.Assets.Dialogues;
 
 [UsedImplicitly]
-internal sealed class CityHuntingDialogueEventFactory : IDialogueEventFactory
+internal sealed class CityWitchHuntingDialogueEventFactory : IDialogueEventFactory
 {
     public DialogueEvent CreateEvent(IDialogueEventFactoryServices services)
     {
@@ -27,7 +27,7 @@ internal sealed class CityHuntingDialogueEventFactory : IDialogueEventFactory
             [DialogueConstants.InitialStage] = "city_witch_hunting_crisis"
         };
 
-        return new DialogueEvent("city_witch_hunting_crisis", questStateMachine, requirements,
+        return new DialogueEvent("CityWitchHuntingEvent", questStateMachine, requirements,
             dialogues);
     }
 

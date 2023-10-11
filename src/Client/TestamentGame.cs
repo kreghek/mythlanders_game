@@ -243,7 +243,7 @@ public sealed class TestamentGame : Game
             var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable, isDemo: false);
             Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
 
-            var dialogueAftermathCreator = new DialogueOptionAftermathCreator(unitSchemeCatalog);
+            var dialogueAftermathCreator = new DialogueOptionAftermathCreator(unitSchemeCatalog, Services.GetRequiredService<IDice>());
 
             var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider, dialogueAftermathCreator);
             Services.AddService<IEventInitializer>(dialogueCatalog);
@@ -258,7 +258,7 @@ public sealed class TestamentGame : Game
             var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable, isDemo: true);
             Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
 
-            var dialogueAftermathCreator = new DialogueOptionAftermathCreator(unitSchemeCatalog);
+            var dialogueAftermathCreator = new DialogueOptionAftermathCreator(unitSchemeCatalog, Services.GetRequiredService<IDice>());
 
             var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider, dialogueAftermathCreator);
             Services.AddService<IEventInitializer>(dialogueCatalog);

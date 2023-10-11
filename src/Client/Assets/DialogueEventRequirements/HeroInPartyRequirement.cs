@@ -3,8 +3,11 @@ using System.Linq;
 using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
 
+using JetBrains.Annotations;
+
 namespace Client.Assets.DialogueEventRequirements;
 
+[UsedImplicitly]
 internal sealed class HeroInPartyRequirement : IDialogueEventRequirement
 {
     private readonly UnitName[] _heroSids;

@@ -1,4 +1,8 @@
-﻿using Client.Engine;
+﻿using System.Reflection;
+using System.Resources;
+
+using Client.Core;
+using Client.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,22 +14,33 @@ internal class CrisisAftermathButton : ButtonBase
     private const int MARGIN = 5;
     private readonly SpriteFont _font;
     private readonly string _textSid;
+    private readonly ResourceManager _dialogueResourceManager;
 
     public CrisisAftermathButton(int number, string textSid)
     {
         _font = UiThemeManager.UiContentStorage.GetTitlesFont();
         Number = number;
         _textSid = textSid;
+
+        var assembly = Assembly.GetExecutingAssembly();
+        _dialogueResourceManager = new ResourceManager("Client.DialogueResources", assembly);
     }
 
     public int Number { get; }
 
     public Vector2 GetContentSize()
     {
-        var optionText = StoryResources.ResourceManager.GetString(_textSid);
+        var optionText = GetOptionText();
 
         var textSize = _font.MeasureString(optionText) + new Vector2(MARGIN * 2, MARGIN * 2);
         return textSize;
+    }
+
+    private string GetOptionText()
+    {
+        var text = _dialogueResourceManager.GetString(_textSid) ?? _textSid;
+        var multilineText = StringHelper.LineBreaking(text, 40);
+        return multilineText;
     }
 
     protected override Point CalcTextureOffset()
@@ -58,7 +73,7 @@ internal class CrisisAftermathButton : ButtonBase
 
         var textColor = CalculateTextColor();
 
-        var optionText = StoryResources.ResourceManager.GetString(_textSid);
+        var optionText = GetOptionText();
 
         spriteBatch.DrawString(_font, optionText, textPosition, textColor);
     }
