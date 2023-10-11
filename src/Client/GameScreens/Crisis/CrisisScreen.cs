@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Resources;
 
 using Client.Assets.Catalogs.Crises;
 using Client.Assets.Catalogs.Dialogues;
@@ -42,6 +44,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
     private TextHint? _aftermathHint;
     private ControlBase? _aftermathOnHover;
+    private readonly ResourceManager _dialogueResourceManager;
 
     public CrisisScreen(TestamentGame game, CrisisScreenTransitionArguments args) : base(game)
     {
@@ -97,6 +100,10 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
         _soundEffectInstance = game.Content.Load<SoundEffect>($"Audio/Stories/{effectName}").CreateInstance();
 
         _soundtrackManager = game.Services.GetRequiredService<SoundtrackManager>();
+
+        var assembly = Assembly.GetExecutingAssembly();
+
+        _dialogueResourceManager = new System.Resources.ResourceManager("Client.DialogueResources", assembly);
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -128,7 +135,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
         const int HEADER_HEIGHT = 100;
 
-        var localizedCrisisDescription = GameObjectHelper.GetLocalized(_crisis.Sid);
+        var localizedCrisisDescription = string.Join(Environment.NewLine, _dialoguePlayer.CurrentTextFragments.Select(x => _dialogueResourceManager.GetString(x.TextSid) ?? x.TextSid));
         var localizedNormalizedCrisisDescription = StringHelper.LineBreaking(localizedCrisisDescription, 40);
         var descriptionText = _uiContentStorage.GetTitlesFont();
         var descriptionTextSize = descriptionText.MeasureString(localizedNormalizedCrisisDescription);
@@ -173,13 +180,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
         for (var buttonIndex = 0; buttonIndex < eventResolveOptions.Length; buttonIndex++)
         {
             var eventResolveOption = eventResolveOptions[buttonIndex];
-            var optionText = StoryResources.ResourceManager.GetString(eventResolveOption.TextSid);
-            if (optionText is null)
-            {
-                optionText = eventResolveOption.TextSid;
-            }
-
-            var aftermathButton = new CrisisAftermathButton(buttonIndex + 1, optionText);
+            var aftermathButton = new CrisisAftermathButton(buttonIndex + 1, eventResolveOption.TextSid);
             _aftermathButtons.Add(aftermathButton);
 
             aftermathButton.OnClick += (s, e) =>
@@ -193,7 +194,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
             aftermathButton.OnHover += (s, e) =>
             {
-                var hintText = StoryResources.ResourceManager.GetString(eventResolveOption.TextSid + "_Description");
+                var hintText = _dialogueResourceManager.GetString(eventResolveOption.TextSid + "_Description");
 
                 if (hintText is not null)
                 {
