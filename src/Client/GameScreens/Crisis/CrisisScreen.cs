@@ -53,12 +53,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
         _uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();
 
-        var globe = _globeProvider.Globe;
-        if (globe is null)
-        {
-            throw new InvalidOperationException();
-        }
-
+        var globe = _globeProvider.Globe ?? throw new InvalidOperationException();
         var player = globe.Player ?? throw new InvalidOperationException();
         var storyPointCatalog = game.Services.GetService<IStoryPointCatalog>();
         _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
@@ -234,7 +229,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
         //the array holds the color for each pixel in the texture
         var data = new Color[width * height];
-        for (var pixel = 0; pixel < data.Count(); pixel++)
+        for (var pixel = 0; pixel < data.Length; pixel++)
         {
             //the function applies the color according to the specified pixel
             data[pixel] = paint(pixel);
