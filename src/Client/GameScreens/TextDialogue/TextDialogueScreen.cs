@@ -70,12 +70,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         _random = new Random();
 
         _globeProvider = game.Services.GetService<GlobeProvider>();
-        var globe = _globeProvider.Globe;
-        if (globe is null)
-        {
-            throw new InvalidOperationException();
-        }
-
+        var globe = _globeProvider.Globe ?? throw new InvalidOperationException();
         _player = globe.Player ?? throw new InvalidOperationException();
 
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();

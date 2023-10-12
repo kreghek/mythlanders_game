@@ -184,9 +184,12 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
             {
                 eventResolveOption.Aftermath?.Apply(aftermathContext);
 
-                _soundEffectInstance.Stop();
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                    new CampaignScreenTransitionArguments(_campaign));
+                _dialoguePlayer.SelectOption(eventResolveOption);
+
+                if (_dialoguePlayer.IsEnd)
+                {
+                    HandleEnd();
+                }
             };
 
             aftermathButton.OnHover += (s, e) =>
@@ -210,6 +213,13 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
         _soundtrackManager.PlaySilence();
         _soundEffectInstance.Play();
+    }
+
+    private void HandleEnd()
+    {
+        _soundEffectInstance.Stop();
+        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+            new CampaignScreenTransitionArguments(_campaign));
     }
 
     protected override void UpdateContent(GameTime gameTime)
