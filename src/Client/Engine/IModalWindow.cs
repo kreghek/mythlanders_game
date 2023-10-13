@@ -10,5 +10,5 @@ internal interface IModalWindow
     void Close();
     void Draw(SpriteBatch spriteBatch);
     void Show();
-    void Update(GameTime gameTime, IResolutionIndependentRenderer resolutionIndependenceRenderer);
+    void Update(GameTime gameTime, IScreenProjection screenProjection);
 }

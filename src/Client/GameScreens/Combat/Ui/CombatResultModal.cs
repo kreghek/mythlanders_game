@@ -78,9 +78,9 @@ internal sealed class CombatResultModal : ModalDialogBase
     }
 
     protected override void UpdateContent(GameTime gameTime,
-        IResolutionIndependentRenderer resolutionIndependenceRenderer)
+        IScreenProjection screenProjection)
     {
-        base.UpdateContent(gameTime, resolutionIndependenceRenderer);
+        base.UpdateContent(gameTime, screenProjection);
 
         _iterationCounter += gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -90,8 +90,7 @@ internal sealed class CombatResultModal : ModalDialogBase
             _iterationCounter = 0;
         }
 
-        Debug.Assert(resolutionIndependenceRenderer is not null, "RIR used everywhere.");
-        _closeButton.Update(resolutionIndependenceRenderer);
+        _closeButton.Update(screenProjection);
     }
 
     private void CloseButton_OnClick(object? sender, EventArgs e)

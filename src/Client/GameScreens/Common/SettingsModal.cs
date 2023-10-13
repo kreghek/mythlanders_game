@@ -85,13 +85,13 @@ internal sealed class SettingsModal : ModalDialogBase
     }
 
     protected override void UpdateContent(GameTime gameTime,
-        IResolutionIndependentRenderer resolutionIndependenceRenderer)
+        IScreenProjection screenProjection)
     {
-        base.UpdateContent(gameTime, resolutionIndependenceRenderer);
+        base.UpdateContent(gameTime, screenProjection);
 
         foreach (var button in _buttons)
         {
-            button.Update(_resolutionIndependentRenderer);
+            button.Update(screenProjection);
         }
     }
 
