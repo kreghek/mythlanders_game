@@ -34,14 +34,6 @@ internal sealed class ConfirmIneffectiveAttackModal : ModalDialogBase
         _alertSoundEffect.CreateInstance().Play();
     }
 
-    protected override void UpdateContent(GameTime gameTime, IScreenProjection screenProjection)
-    {
-        base.UpdateContent(gameTime, screenProjection);
-
-        _confirmButton.Update(screenProjection);
-        _rejectButton.Update(screenProjection);
-    }
-
     protected override void DrawContent(SpriteBatch spriteBatch)
     {
         var warningFont = _uiContentStorage.GetTitlesFont();
@@ -67,6 +59,14 @@ internal sealed class ConfirmIneffectiveAttackModal : ModalDialogBase
             ContentRect.Bottom - (20 + ControlBase.CONTENT_MARGIN), 100, 20);
 
         _confirmButton.Draw(spriteBatch);
+    }
+
+    protected override void UpdateContent(GameTime gameTime, IScreenProjection screenProjection)
+    {
+        base.UpdateContent(gameTime, screenProjection);
+
+        _confirmButton.Update(screenProjection);
+        _rejectButton.Update(screenProjection);
     }
 
     private Vector2 AlignTextToParentCenter(Vector2 warningTextSize)
