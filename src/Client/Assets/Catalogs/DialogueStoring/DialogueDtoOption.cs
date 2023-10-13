@@ -9,13 +9,13 @@ namespace Client.Assets.Catalogs.DialogueStoring;
 internal class DialogueDtoOption
 {
     public DialogueDtoData[]? Aftermaths { get; [UsedImplicitly] init; }
+
+    // ReSharper disable once UnusedMember.Global
+    // This member is not used but required to deserialization.
+    public string Description { get; [UsedImplicitly] init; } = null!;
     public string? Next { get; [UsedImplicitly] init; }
 
     // ReSharper disable once UnusedMember.Global
     // This member is not used but required to deserialization.
     public string Text { get; [UsedImplicitly] init; } = null!;
-
-    // ReSharper disable once UnusedMember.Global
-    // This member is not used but required to deserialization.
-    public string Description { get; [UsedImplicitly] init; } = null!;
 }

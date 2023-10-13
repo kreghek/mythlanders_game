@@ -10,15 +10,20 @@ using JetBrains.Annotations;
 namespace Client.Assets.DialogueOptionAftermath;
 
 [UsedImplicitly]
-internal class AddResourceOptionAftermath: DialogueOptionAftermathBase
+internal class AddResourceOptionAftermath : DialogueOptionAftermathBase
 {
-    private readonly string _resourceSid;
     private readonly int _count;
+    private readonly string _resourceSid;
 
     public AddResourceOptionAftermath(string resourceSid, int count)
     {
         _resourceSid = resourceSid;
         _count = count;
+    }
+
+    public override void Apply(AftermathContext aftermathContext)
+    {
+        aftermathContext.AddResources(new Resource(new PropScheme(_resourceSid), _count));
     }
 
     protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
@@ -28,10 +33,5 @@ internal class AddResourceOptionAftermath: DialogueOptionAftermathBase
             GameObjectHelper.GetLocalizedProp(_resourceSid),
             _count
         };
-    }
-
-    public override void Apply(AftermathContext aftermathContext)
-    {
-        aftermathContext.AddResources(new Resource(new PropScheme(_resourceSid), _count));
     }
 }

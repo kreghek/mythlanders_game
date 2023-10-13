@@ -66,7 +66,7 @@ internal abstract class ModalDialogBase : IModalWindow
     }
 
     protected virtual void UpdateContent(GameTime gameTime,
-        IResolutionIndependentRenderer resolutionIndependenceRenderer)
+        IScreenProjection screenProjection)
     {
         // Empty implementation to avoid empty implementation in every concrete class.
         // Some of the modals in just informational. So they are not handle any logic.
@@ -112,7 +112,7 @@ internal abstract class ModalDialogBase : IModalWindow
         };
     }
 
-    private Rectangle GetSymbolRect(ModalTopSymbol symbol)
+    private static Rectangle GetSymbolRect(ModalTopSymbol symbol)
     {
         var index = GetOneBasedSymbolIndex(symbol);
 
@@ -150,7 +150,7 @@ internal abstract class ModalDialogBase : IModalWindow
         IsVisible = true;
     }
 
-    public void Update(GameTime gameTime, IResolutionIndependentRenderer resolutionIndependenceRenderer)
+    public void Update(GameTime gameTime, IScreenProjection screenProjection)
     {
         // Poll for current keyboard state
         var state = Keyboard.GetState();
@@ -161,8 +161,8 @@ internal abstract class ModalDialogBase : IModalWindow
             Close();
         }
 
-        UpdateContent(gameTime, resolutionIndependenceRenderer);
+        UpdateContent(gameTime, screenProjection);
 
-        _closeButton.Update(resolutionIndependenceRenderer);
+        _closeButton.Update(screenProjection);
     }
 }

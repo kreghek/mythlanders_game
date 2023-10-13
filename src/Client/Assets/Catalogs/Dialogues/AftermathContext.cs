@@ -54,6 +54,11 @@ internal class AftermathContext
         _globe.AddGlobalEvent(globalEvent);
     }
 
+    public void AddResources(IProp resource)
+    {
+        _player.Inventory.Add(resource);
+    }
+
     public void AddStoryPoint(string storyPointSid)
     {
         var storyPoint = _storyPointCatalog.GetAll().Single(x => x.Sid == storyPointSid);
@@ -107,6 +112,11 @@ internal class AftermathContext
         _dialogueEnvironmentManager.PlayEffect(effectSid, resourceName);
     }
 
+    public void RemoveResource(IProp resource)
+    {
+        _player.Inventory.Remove(resource);
+    }
+
     public void RestHero(string heroClassSid, int healAmount)
     {
         var hero = _player.Heroes.Single(x => x.ClassSid == heroClassSid);
@@ -125,14 +135,4 @@ internal class AftermathContext
     }
 
     public event EventHandler<HeroStatChangedEventArgs>? HeroHpChanged;
-
-    public void AddResources(IProp resource)
-    {
-        _player.Inventory.Add(resource);
-    }
-
-    public void RemoveResource(IProp resource)
-    {
-        _player.Inventory.Remove(resource);
-    }
 }
