@@ -87,18 +87,18 @@ internal sealed class ContinueGameModal : ModalDialogBase
     }
 
     protected override void UpdateContent(GameTime gameTime,
-        IResolutionIndependentRenderer resolutionIndependenceRenderer)
+        IScreenProjection screenProjection)
     {
-        base.UpdateContent(gameTime, resolutionIndependenceRenderer);
+        base.UpdateContent(gameTime, screenProjection);
 
         foreach (var button in _continueGameButtons)
         {
-            button.Update(_resolutionIndependentRenderer);
+            button.Update(screenProjection);
         }
 
         foreach (var button in _pageButtons)
         {
-            button.Update(_resolutionIndependentRenderer);
+            button.Update(screenProjection);
         }
     }
 

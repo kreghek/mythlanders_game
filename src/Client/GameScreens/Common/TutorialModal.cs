@@ -36,10 +36,10 @@ internal class TutorialModal : ModalDialogBase
     }
 
     protected override void UpdateContent(GameTime gameTime,
-        IResolutionIndependentRenderer resolutionIndependenceRenderer)
+        IScreenProjection screenProjection)
     {
-        base.UpdateContent(gameTime, resolutionIndependenceRenderer);
+        base.UpdateContent(gameTime, screenProjection);
 
-        _skipTutorialButton.Update(resolutionIndependenceRenderer);
+        _skipTutorialButton.Update(screenProjection);
     }
 }
