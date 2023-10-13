@@ -34,6 +34,14 @@ internal sealed class ConfirmIneffectiveAttackModal : ModalDialogBase
         _alertSoundEffect.CreateInstance().Play();
     }
 
+    protected override void UpdateContent(GameTime gameTime, IResolutionIndependentRenderer resolutionIndependenceRenderer)
+    {
+        base.UpdateContent(gameTime, resolutionIndependenceRenderer);
+
+        _confirmButton.Update(resolutionIndependenceRenderer);
+        _rejectButton.Update(resolutionIndependenceRenderer);
+    }
+
     protected override void DrawContent(SpriteBatch spriteBatch)
     {
         var warningFont = _uiContentStorage.GetTitlesFont();
