@@ -23,7 +23,6 @@ internal sealed class CombatantGameObject : EwarRenderableBase
     private readonly CombatantGraphicsConfigBase _combatantGraphicsConfig;
     private readonly CombatantPositionSide _combatantSide;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
-    private readonly ICombatantPositionProvider _unitPositionProvider;
 
     private CombatUnitState _visualIdleState;
 
@@ -46,7 +45,6 @@ internal sealed class CombatantGameObject : EwarRenderableBase
         Animator = new ActorAnimator(Graphics);
 
         Combatant = combatant;
-        _unitPositionProvider = unitPositionProvider;
         Position = position;
         _gameObjectContentStorage = gameObjectContentStorage;
         _camera = camera;
