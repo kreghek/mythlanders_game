@@ -56,7 +56,6 @@ internal sealed class FollowActorOperatorCameraTask : ICameraOperatorTask
         else
         {
             camera.Zoom = FOLLOWING_ZOOM;
-            var actorPositionDiff = _lastActorPosition - actorFollowPoint;
             camera.LookAt(actorFollowPoint);
         }
 

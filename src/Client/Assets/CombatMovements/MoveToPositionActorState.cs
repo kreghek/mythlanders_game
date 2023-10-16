@@ -2,6 +2,8 @@
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
+using GameClient.Engine.MoveFunctions;
+
 using Microsoft.Xna.Framework;
 
 namespace Client.Assets.CombatMovements;

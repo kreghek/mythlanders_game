@@ -13,6 +13,8 @@ using Client.GameScreens.Combat.GameObjects.CommonStates;
 
 using CombatDicesTeam.Combats;
 
+using GameClient.Engine.MoveFunctions;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
