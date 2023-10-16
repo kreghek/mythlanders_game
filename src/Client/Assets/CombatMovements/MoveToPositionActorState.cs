@@ -14,8 +14,9 @@ internal sealed class MoveToPositionActorState : IActorVisualizationState
 {
     private readonly IAnimationFrameSet _animation;
     private readonly IActorAnimator _animator;
+    private readonly Func<IMoveFunction> _moveFunctionFactory;
     private readonly Duration _duration;
-    private readonly IMoveFunction _moveFunction;
+    private IMoveFunction? _moveFunction;
 
     private double _counter;
 
@@ -25,6 +26,16 @@ internal sealed class MoveToPositionActorState : IActorVisualizationState
         _animation = animation;
         _animator = animator;
         _moveFunction = moveFunction;
+        _moveFunctionFactory = () => moveFunction;
+        _duration = duration ?? new Duration(0.25);
+    }
+
+    public MoveToPositionActorState(IActorAnimator animator, Func<IMoveFunction> moveFunctionFactory, IAnimationFrameSet animation,
+        Duration? duration = null)
+    {
+        _animation = animation;
+        _animator = animator;
+        _moveFunctionFactory = moveFunctionFactory;
         _duration = duration ?? new Duration(0.25);
     }
 
@@ -54,6 +65,8 @@ internal sealed class MoveToPositionActorState : IActorVisualizationState
         {
             _animator.PlayAnimation(_animation);
         }
+
+        _moveFunction ??= _moveFunctionFactory();
 
         if (_counter <= _duration.Seconds)
         {

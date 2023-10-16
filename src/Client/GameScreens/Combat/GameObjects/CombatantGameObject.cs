@@ -126,8 +126,8 @@ internal sealed class CombatantGameObject : EwarRenderableBase
     {
         var animationSid = CalcMoveAnimation(Animator.GraphicRoot.Position, targetPosition);
         AddStateEngine(new MoveToPositionActorState(Animator,
-            new SlowDownMoveFunction(Animator.GraphicRoot.Position, targetPosition),
-            Graphics.GetAnimationInfo(animationSid), new Duration(0.5)));
+            new LinearMoveFunction(Animator.GraphicRoot.Position, targetPosition),
+            Graphics.GetAnimationInfo(animationSid), new Duration(5.5)));
 
         Graphics.ChangePosition(targetPosition);
         Position = targetPosition;

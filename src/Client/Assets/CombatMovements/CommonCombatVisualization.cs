@@ -110,9 +110,9 @@ internal static class CommonCombatVisualization
             chargeActorState,
             new DirectInteractionState(actorAnimator, skillAnimationInfo, config.HitAnimation.Animation),
             new PlayAnimationActorState(actorAnimator, config.HitCompleteAnimation.Animation),
-            new MoveToPositionActorState(actorAnimator,
-                new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, startPosition),
-                config.BackAnimation.Animation)
+            new MoveToPositionActorState(actorAnimator, 
+              () => new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, startPosition),
+              config.BackAnimation.Animation)
         };
 
         var innerState = new SequentialState(subStates);
