@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.GameScreens.Combat.Ui;
+namespace Client.Assets.CombatVisualEffects;
 
 internal sealed class SkipTextIndicator : TextIndicatorBase
 {

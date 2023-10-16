@@ -12,14 +12,6 @@ using MonoGame.Extended;
 
 namespace Client.Engine;
 
-internal enum OutlineMode
-{
-    None,
-    AvailableEnemyTarget,
-    SelectedEnemyTarget,
-    SelectedAlyTarget
-}
-
 internal abstract class UnitGraphicsBase
 {
     private const int FRAME_WIDTH = 256;

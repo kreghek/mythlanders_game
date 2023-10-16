@@ -42,7 +42,7 @@ internal abstract class ProjectileBase : IInteractionDelivery
         get
         {
             var t = _lifetimeCounter / _lifetimeDuration;
-            return _functions.MoveFunction.CalcPosition(t);
+            return _functions.MoveFunction.CalcPosition(Math.Min(t, 1));
         }
     }
 

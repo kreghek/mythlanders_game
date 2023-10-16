@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.Assets.ActorVisualizationStates.Primitives;
+namespace Client.Assets.CombatVisualEffects;
 
 /// <summary>
 /// Visual effect in combat.

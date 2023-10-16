@@ -7,6 +7,7 @@ using Client.Assets;
 using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.Catalogs;
 using Client.Assets.CombatMovements;
+using Client.Assets.CombatVisualEffects;
 using Client.Assets.StoryPointJobs;
 using Client.Core;
 using Client.Core.Campaigns;
@@ -322,7 +323,9 @@ internal class CombatScreen : GameScreenWithMenuBase
             _interactionDeliveryManager,
             _gameObjectContentStorage,
             _cameraOperator,
-            _shadeService);
+            _shadeService,
+            _combatantPositionProvider,
+            _combatCore.Field);
 
         _manualCombatantBehaviour.Assign(intention);
     }
@@ -371,12 +374,12 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void Combat_CombatantInterrupted(object? sender, CombatantInterruptedEventArgs e)
     {
         var unitGameObject = GetCombatantGameObject(e.Combatant);
-        var textPosition = unitGameObject.Position;
+        var textPosition = unitGameObject.Graphics.Root.Position;
         var font = _uiContentStorage.GetCombatIndicatorFont();
 
         var passIndicator = new SkipTextIndicator(textPosition, font);
 
-        unitGameObject.AddChild(passIndicator);
+        _visualEffectManager.AddEffect(passIndicator);
     }
 
     private void CombatCode_CombatantHasBeenAdded(object? sender, CombatantHasBeenAddedEventArgs e)
@@ -463,12 +466,12 @@ internal class CombatScreen : GameScreenWithMenuBase
         if (!_gameSettings.IsRecordMode)
         {
             var font = _uiContentStorage.GetCombatIndicatorFont();
-            var position = unitGameObject.Position;
+            var position = unitGameObject.Graphics.Root.Position;
 
             if (e.Value <= 0)
             {
                 var blockIndicator = new BlockAnyDamageTextIndicator(position, font);
-                unitGameObject.AddChild(blockIndicator);
+                _visualEffectManager.AddEffect(blockIndicator);
             }
 
             var nextIndex = GetIndicatorNextIndex(unitGameObject);
@@ -482,7 +485,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                         font,
                         nextIndex ?? 0);
 
-                unitGameObject.AddChild(damageIndicator);
+                _visualEffectManager.AddEffect(damageIndicator);
 
                 unitGameObject.AnimateWound();
 
@@ -502,7 +505,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                         font,
                         nextIndex ?? 0);
 
-                unitGameObject.AddChild(spIndicator);
+                _visualEffectManager.AddEffect(spIndicator);
 
                 unitGameObject.AnimateShield();
 
@@ -513,13 +516,16 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void CombatCore_CombatantHasChangePosition(object? sender, CombatantHasChangedPositionEventArgs e)
     {
-        var newWorldPosition = _combatantPositionProvider.GetPosition(e.NewFieldCoords,
-            e.FieldSide == _combatCore.Field.HeroSide
-                ? CombatantPositionSide.Heroes
-                : CombatantPositionSide.Monsters);
+        if (e.Combatant != _combatCore.CurrentCombatant)
+        {
+            var newWorldPosition = _combatantPositionProvider.GetPosition(e.NewFieldCoords,
+                e.FieldSide == _combatCore.Field.HeroSide
+                    ? CombatantPositionSide.Heroes
+                    : CombatantPositionSide.Monsters);
 
-        var combatantGameObject = GetCombatantGameObject(e.Combatant);
-        combatantGameObject.MoveToFieldCoords(newWorldPosition);
+            var combatantGameObject = GetCombatantGameObject(e.Combatant);
+            combatantGameObject.MoveToFieldCoords(newWorldPosition);
+        }
     }
 
     private void CombatCore_CombatantStartsTurn(object? sender, CombatantTurnStartedEventArgs e)
@@ -886,7 +892,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                  combatSceneContext.CurrentScope.FocusedActors.Contains(gameObject.Animator)) ||
                 combatSceneContext.CurrentScope is null)
             {
-                gameObject.Draw(spriteBatch);
+                gameObject.Graphics.Root.Draw(spriteBatch);
             }
         }
     }
@@ -1296,9 +1302,10 @@ internal class CombatScreen : GameScreenWithMenuBase
         return GameObjectHelper.GetLocalized(combatantClassSid);
     }
 
-    private static int? GetIndicatorNextIndex(CombatantGameObject unitGameObject)
+    private int? GetIndicatorNextIndex(CombatantGameObject unitGameObject)
     {
-        var currentIndex = unitGameObject.GetCurrentIndicatorIndex();
+        var indicators = _visualEffectManager.Effects.OfType<TextIndicatorBase>();
+        var currentIndex = indicators.Count();
         var nextIndex = currentIndex + 1;
         return nextIndex;
     }
@@ -1377,7 +1384,9 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _interactionDeliveryManager,
                 _gameObjectContentStorage,
                 _cameraOperator,
-                _shadeService
+                _shadeService,
+                _combatantPositionProvider,
+                _combatCore.Field
             );
         _combatCore.Initialize(
             CombatantFactory.CreateHeroes(_manualCombatantBehaviour, _globeProvider.Globe.Player),
@@ -1404,6 +1413,11 @@ internal class CombatScreen : GameScreenWithMenuBase
             var maneuverIntention = new ManeuverIntention(maneuverDirection.Value);
 
             _manualCombatantBehaviour.Assign(maneuverIntention);
+
+            var newWorldPosition = _combatantPositionProvider.GetPosition(e.Coords, CombatantPositionSide.Heroes);
+
+            var combatantGameObject = GetCombatantGameObject(_combatCore.CurrentCombatant);
+            combatantGameObject.MoveToFieldCoords(newWorldPosition);
         }
     }
 
