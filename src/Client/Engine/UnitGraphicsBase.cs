@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MonoGame.Extended;
+using MonoGame.Extended.SceneGraphs;
 
 namespace Client.Engine;
 
@@ -61,7 +62,7 @@ internal abstract class UnitGraphicsBase
 
     public OutlineMode OutlineMode { get; set; }
 
-    public SpriteContainer Root { get; private set; }
+    public SceneGraph Root { get; private set; }
 
     public bool ShowActiveMarker { get; set; }
 
@@ -112,19 +113,23 @@ internal abstract class UnitGraphicsBase
 
     protected void InitializeSprites(UnitName spriteSheetId, bool isPlayerSide)
     {
-        if (Root is not null)
-        {
-            foreach (var selectedMarker in _selectedMarkers)
-            {
-                Root.RemoveChild(selectedMarker);
-            }
-        }
+        //if (Root is not null)
+        //{
+        //    foreach (var selectedMarker in _selectedMarkers)
+        //    {
+        //        Root.RemoveChild(selectedMarker);
+        //    }
+        //}
 
-        Root = new SpriteContainer
+        Root = new SceneGraph();
+
+        var rootNode = new SceneNode
         {
             Position = _position,
             FlipX = !isPlayerSide
         };
+
+        Root.RootNode.Children.Add(rootNode);
 
         var shadow = new Sprite(_gameObjectContentStorage.GetUnitShadow())
         {
