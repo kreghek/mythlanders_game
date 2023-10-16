@@ -323,7 +323,9 @@ internal class CombatScreen : GameScreenWithMenuBase
             _interactionDeliveryManager,
             _gameObjectContentStorage,
             _cameraOperator,
-            _shadeService);
+            _shadeService,
+            _combatantPositionProvider,
+            _combatCore.Field);
 
         _manualCombatantBehaviour.Assign(intention);
     }
@@ -514,13 +516,16 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void CombatCore_CombatantHasChangePosition(object? sender, CombatantHasChangedPositionEventArgs e)
     {
-        var newWorldPosition = _combatantPositionProvider.GetPosition(e.NewFieldCoords,
-            e.FieldSide == _combatCore.Field.HeroSide
-                ? CombatantPositionSide.Heroes
-                : CombatantPositionSide.Monsters);
+        if (e.Combatant != _combatCore.CurrentCombatant)
+        {
+            var newWorldPosition = _combatantPositionProvider.GetPosition(e.NewFieldCoords,
+                e.FieldSide == _combatCore.Field.HeroSide
+                    ? CombatantPositionSide.Heroes
+                    : CombatantPositionSide.Monsters);
 
-        var combatantGameObject = GetCombatantGameObject(e.Combatant);
-        combatantGameObject.MoveToFieldCoords(newWorldPosition);
+            var combatantGameObject = GetCombatantGameObject(e.Combatant);
+            combatantGameObject.MoveToFieldCoords(newWorldPosition);
+        }
     }
 
     private void CombatCore_CombatantStartsTurn(object? sender, CombatantTurnStartedEventArgs e)
@@ -1379,7 +1384,9 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _interactionDeliveryManager,
                 _gameObjectContentStorage,
                 _cameraOperator,
-                _shadeService
+                _shadeService,
+                _combatantPositionProvider,
+                _combatCore.Field
             );
         _combatCore.Initialize(
             CombatantFactory.CreateHeroes(_manualCombatantBehaviour, _globeProvider.Globe.Player),
@@ -1406,6 +1413,11 @@ internal class CombatScreen : GameScreenWithMenuBase
             var maneuverIntention = new ManeuverIntention(maneuverDirection.Value);
 
             _manualCombatantBehaviour.Assign(maneuverIntention);
+
+            var newWorldPosition = _combatantPositionProvider.GetPosition(e.Coords, CombatantPositionSide.Heroes);
+
+            var combatantGameObject = GetCombatantGameObject(_combatCore.CurrentCombatant);
+            combatantGameObject.MoveToFieldCoords(newWorldPosition);
         }
     }
 

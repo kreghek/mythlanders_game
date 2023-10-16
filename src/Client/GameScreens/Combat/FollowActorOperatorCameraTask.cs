@@ -27,7 +27,17 @@ internal sealed class FollowActorOperatorCameraTask : ICameraOperatorTask
     private Vector2 GetActorFollowPoint()
     {
         const int SPRITE_SIZE_Y = 128;
-        return _combatActor.GraphicRoot.Position - new Vector2(0, SPRITE_SIZE_Y * 0.5f);
+        var actorViewPoint = _combatActor.GraphicRoot.Position - new Vector2(0, SPRITE_SIZE_Y * 0.5f);
+        if (actorViewPoint.X < 128)
+        {
+            return new Vector2(128, actorViewPoint.Y);
+        }
+        else if (actorViewPoint.X > 1000-128)
+        {
+            return new Vector2(1000 - 128, actorViewPoint.Y);
+        }
+
+        return actorViewPoint;
     }
 
     /// <inheritdoc />

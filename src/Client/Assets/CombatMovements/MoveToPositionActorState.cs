@@ -21,13 +21,9 @@ internal sealed class MoveToPositionActorState : IActorVisualizationState
     private double _counter;
 
     public MoveToPositionActorState(IActorAnimator animator, IMoveFunction moveFunction, IAnimationFrameSet animation,
-        Duration? duration = null)
+        Duration? duration = null): this(animator, () => moveFunction, animation, duration)
     {
-        _animation = animation;
-        _animator = animator;
         _moveFunction = moveFunction;
-        _moveFunctionFactory = () => moveFunction;
-        _duration = duration ?? new Duration(0.25);
     }
 
     public MoveToPositionActorState(IActorAnimator animator, Func<IMoveFunction> moveFunctionFactory, IAnimationFrameSet animation,

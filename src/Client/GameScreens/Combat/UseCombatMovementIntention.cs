@@ -22,12 +22,15 @@ internal sealed class UseCombatMovementIntention : IIntention
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
     private readonly IShadeService _shadeService;
+    private readonly ICombatantPositionProvider _combatantPositionProvider;
+    private readonly CombatField _combatField;
 
     public UseCombatMovementIntention(CombatMovementInstance combatMovement, IAnimationManager animationManager,
         ICombatMovementVisualizationProvider combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects,
         InteractionDeliveryManager interactionDeliveryManager, GameObjectContentStorage gameObjectContentStorage,
         CameraOperator cameraOperator,
-        IShadeService shadeService)
+        IShadeService shadeService,
+        ICombatantPositionProvider combatantPositionProvider, CombatField combatField)
     {
         _combatMovement = combatMovement;
         _animationManager = animationManager;
@@ -37,6 +40,8 @@ internal sealed class UseCombatMovementIntention : IIntention
         _gameObjectContentStorage = gameObjectContentStorage;
         _cameraOperator = cameraOperator;
         _shadeService = shadeService;
+        _combatantPositionProvider = combatantPositionProvider;
+        _combatField = combatField;
     }
 
     private CombatantGameObject GetCombatantGameObject(ICombatant combatant)
@@ -52,7 +57,7 @@ internal sealed class UseCombatMovementIntention : IIntention
             _combatantGameObjects.ToArray(),
             _interactionDeliveryManager,
             _gameObjectContentStorage,
-            new BattlefieldInteractionContext(),
+            new BattlefieldInteractionContext(_combatantPositionProvider, _combatField),
             new LinearDice());
 
         return _combatMovementVisualizer.GetMovementVisualizationState(combatMovement.SourceMovement.Sid,
