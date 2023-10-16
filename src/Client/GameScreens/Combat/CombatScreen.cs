@@ -1297,11 +1297,12 @@ internal class CombatScreen : GameScreenWithMenuBase
         return GameObjectHelper.GetLocalized(combatantClassSid);
     }
 
-    private static int? GetIndicatorNextIndex(CombatantGameObject unitGameObject)
+    private int? GetIndicatorNextIndex(CombatantGameObject unitGameObject)
     {
-        //var currentIndex = unitGameObject.GetCurrentIndicatorIndex();
-        //var nextIndex = currentIndex + 1;
-        return 0;
+        var indicators = _visualEffectManager.Effects.OfType<TextIndicatorBase>();
+        var currentIndex = indicators.Count();
+        var nextIndex = currentIndex + 1;
+        return nextIndex;
     }
 
     private ICombatShadeContext GetSceneContext()
