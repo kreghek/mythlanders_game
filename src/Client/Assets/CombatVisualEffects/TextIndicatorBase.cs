@@ -20,6 +20,10 @@ internal abstract class TextIndicatorBase : ICombatVisualEffect
         _lifetimeCounter = LIFETIME_SECONDS;
     }
 
+    protected abstract Color GetColor();
+
+    protected abstract string GetText();
+
     public bool IsDestroyed { get; private set; }
 
     public void DrawBack(SpriteBatch spriteBatch)
@@ -57,8 +61,4 @@ internal abstract class TextIndicatorBase : ICombatVisualEffect
 
         _position = Vector2.Lerp(_position, _targetPosition, t);
     }
-
-    protected abstract Color GetColor();
-
-    protected abstract string GetText();
 }

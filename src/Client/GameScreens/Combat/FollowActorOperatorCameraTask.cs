@@ -32,7 +32,8 @@ internal sealed class FollowActorOperatorCameraTask : ICameraOperatorTask
         {
             return new Vector2(512, actorViewPoint.Y);
         }
-        else if (actorViewPoint.X > 1000- 512)
+
+        if (actorViewPoint.X > 1000 - 512)
         {
             return new Vector2(1000 - 512, actorViewPoint.Y);
         }

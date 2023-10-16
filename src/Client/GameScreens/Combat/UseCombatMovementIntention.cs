@@ -17,13 +17,13 @@ internal sealed class UseCombatMovementIntention : IIntention
     private readonly IAnimationManager _animationManager;
     private readonly CameraOperator _cameraOperator;
     private readonly IList<CombatantGameObject> _combatantGameObjects;
+    private readonly ICombatantPositionProvider _combatantPositionProvider;
+    private readonly CombatField _combatField;
     private readonly CombatMovementInstance _combatMovement;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
     private readonly IShadeService _shadeService;
-    private readonly ICombatantPositionProvider _combatantPositionProvider;
-    private readonly CombatField _combatField;
 
     public UseCombatMovementIntention(CombatMovementInstance combatMovement, IAnimationManager animationManager,
         ICombatMovementVisualizationProvider combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects,

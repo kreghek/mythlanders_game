@@ -6,14 +6,12 @@ using Client.Assets.CombatMovements;
 using Client.Core;
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
-using Client.GameScreens.Combat.Ui;
 
 using CombatDicesTeam.Combats;
 
 using GameClient.Engine.MoveFunctions;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Combat.GameObjects;
 

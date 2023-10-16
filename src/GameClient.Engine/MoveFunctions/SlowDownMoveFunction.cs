@@ -21,7 +21,7 @@ public sealed class SlowDownMoveFunction : IMoveFunction
         _finishPosition = finishPosition;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public Vector2 CalcPosition(MoveFunctionValue t)
     {
         return Vector2.Lerp(_startPosition, _finishPosition, (float)Math.Sin(t.Value * Math.PI * 0.5));

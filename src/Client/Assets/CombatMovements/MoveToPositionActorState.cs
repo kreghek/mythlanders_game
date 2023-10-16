@@ -14,19 +14,20 @@ internal sealed class MoveToPositionActorState : IActorVisualizationState
 {
     private readonly IAnimationFrameSet _animation;
     private readonly IActorAnimator _animator;
-    private readonly Func<IMoveFunction> _moveFunctionFactory;
     private readonly Duration _duration;
-    private IMoveFunction? _moveFunction;
+    private readonly Func<IMoveFunction> _moveFunctionFactory;
 
     private double _counter;
+    private IMoveFunction? _moveFunction;
 
     public MoveToPositionActorState(IActorAnimator animator, IMoveFunction moveFunction, IAnimationFrameSet animation,
-        Duration? duration = null): this(animator, () => moveFunction, animation, duration)
+        Duration? duration = null) : this(animator, () => moveFunction, animation, duration)
     {
         _moveFunction = moveFunction;
     }
 
-    public MoveToPositionActorState(IActorAnimator animator, Func<IMoveFunction> moveFunctionFactory, IAnimationFrameSet animation,
+    public MoveToPositionActorState(IActorAnimator animator, Func<IMoveFunction> moveFunctionFactory,
+        IAnimationFrameSet animation,
         Duration? duration = null)
     {
         _animation = animation;

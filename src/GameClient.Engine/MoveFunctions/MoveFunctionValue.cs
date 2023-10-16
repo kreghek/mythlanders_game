@@ -5,8 +5,6 @@
 /// </summary>
 public record MoveFunctionValue
 {
-    private readonly double _value;
-
     /// <summary>
     /// Constructor.
     /// </summary>
@@ -15,24 +13,24 @@ public record MoveFunctionValue
     public MoveFunctionValue(double value)
     {
         if (value < 0 || value > 1)
-        { 
+        {
             throw new ArgumentOutOfRangeException(nameof(value));
         }
 
-        _value = value;
+        Value = value;
     }
-
-    /// <summary>
-    /// Value.
-    /// </summary>
-    public double Value => _value;
 
     /// <summary>
     /// Maximim function value.
     /// </summary>
     public static MoveFunctionValue Max => new MoveFunctionValue(1);
 
+    /// <summary>
+    /// Value.
+    /// </summary>
+    public double Value { get; }
+
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public static implicit operator MoveFunctionValue(double value) {  return new MoveFunctionValue(value); }
+    public static implicit operator MoveFunctionValue(double value) { return new MoveFunctionValue(value); }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

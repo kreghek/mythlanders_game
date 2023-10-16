@@ -2,10 +2,10 @@
 
 namespace GameClient.Engine.MoveFunctions.Tests;
 
-[TestFixture()]
+[TestFixture]
 public class SlowDownMoveFunctionTests
 {
-    [Test()]
+    [Test]
     public void CalcPositionTest()
     {
         // ASSERT
@@ -27,7 +27,7 @@ public class SlowDownMoveFunctionTests
         factPosition.Should().Be(expectedValue);
     }
 
-    [Test()]
+    [Test]
     public void CalcPositionTest2()
     {
         // ASSERT
