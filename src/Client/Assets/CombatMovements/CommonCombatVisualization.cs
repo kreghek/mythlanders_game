@@ -6,12 +6,13 @@ using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.CombatMovements.Hero.Robber;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
-using Client.Engine.MoveFunctions;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
 
 using CombatDicesTeam.Combats;
+
+using GameClient.Engine.MoveFunctions;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -87,7 +88,10 @@ internal static class CommonCombatVisualization
         {
             var targetGameObject = visualizationContext.GetCombatActor(targetCombatant);
 
-            targetPosition = targetGameObject.MeleeHitOffset;
+            var offset2 = GetCombatMovementVisualizationOffset();
+            var offset = visualizationContext.ActorGameObject.Combatant.IsPlayerControlled ? offset2 : -offset2;
+
+            targetPosition = targetGameObject.MeleeHitOffset - offset;
         }
         else
         {
@@ -110,13 +114,18 @@ internal static class CommonCombatVisualization
             new DirectInteractionState(actorAnimator, skillAnimationInfo, config.HitAnimation.Animation),
             new PlayAnimationActorState(actorAnimator, config.HitCompleteAnimation.Animation),
             new MoveToPositionActorState(actorAnimator,
-                new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, startPosition),
-                config.BackAnimation.Animation)
+              () => new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, visualizationContext.BattlefieldInteractionContext.GetCombatantPosition(visualizationContext.ActorGameObject.Combatant)),
+              config.BackAnimation.Animation)
         };
 
         var innerState = new SequentialState(subStates);
         return new CombatMovementScene(innerState,
             new[] { new FollowActorOperatorCameraTask(actorAnimator, () => innerState.IsComplete) });
+    }
+
+    private static Vector2 GetCombatMovementVisualizationOffset()
+    {
+        return Vector2.UnitX * (128 - 16);
     }
 
     private static IActorVisualizationState CreateSoundedState(Func<IActorVisualizationState> baseStateFactory,

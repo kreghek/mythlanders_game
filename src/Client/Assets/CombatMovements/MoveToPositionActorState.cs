@@ -1,6 +1,10 @@
-﻿using Client.Core;
+﻿using System;
+
+using Client.Core;
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
+
+using GameClient.Engine.MoveFunctions;
 
 using Microsoft.Xna.Framework;
 
@@ -10,17 +14,24 @@ internal sealed class MoveToPositionActorState : IActorVisualizationState
 {
     private readonly IAnimationFrameSet _animation;
     private readonly IActorAnimator _animator;
+    private readonly Func<IMoveFunction> _moveFunctionFactory;
     private readonly Duration _duration;
-    private readonly IMoveFunction _moveFunction;
+    private IMoveFunction? _moveFunction;
 
     private double _counter;
 
     public MoveToPositionActorState(IActorAnimator animator, IMoveFunction moveFunction, IAnimationFrameSet animation,
+        Duration? duration = null): this(animator, () => moveFunction, animation, duration)
+    {
+        _moveFunction = moveFunction;
+    }
+
+    public MoveToPositionActorState(IActorAnimator animator, Func<IMoveFunction> moveFunctionFactory, IAnimationFrameSet animation,
         Duration? duration = null)
     {
         _animation = animation;
         _animator = animator;
-        _moveFunction = moveFunction;
+        _moveFunctionFactory = moveFunctionFactory;
         _duration = duration ?? new Duration(0.25);
     }
 
@@ -51,20 +62,22 @@ internal sealed class MoveToPositionActorState : IActorVisualizationState
             _animator.PlayAnimation(_animation);
         }
 
+        _moveFunction ??= _moveFunctionFactory();
+
         if (_counter <= _duration.Seconds)
         {
             _counter += gameTime.ElapsedGameTime.TotalSeconds;
 
             var t = _counter / _duration.Seconds;
 
-            var currentPosition = _moveFunction.CalcPosition(t);
+            var currentPosition = _moveFunction.CalcPosition(Math.Min(t, MoveFunctionValue.Max.Value));
 
             _animator.GraphicRoot.Position = currentPosition;
         }
         else
         {
             IsComplete = true;
-            _animator.GraphicRoot.Position = _moveFunction.CalcPosition(1);
+            _animator.GraphicRoot.Position = _moveFunction.CalcPosition(MoveFunctionValue.Max);
         }
     }
 }

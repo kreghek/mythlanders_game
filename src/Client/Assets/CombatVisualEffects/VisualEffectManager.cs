@@ -3,7 +3,7 @@ using System.Linq;
 
 using Microsoft.Xna.Framework;
 
-namespace Client.Assets.ActorVisualizationStates.Primitives;
+namespace Client.Assets.CombatVisualEffects;
 
 /// <summary>
 /// Visual effects in the combat.

@@ -7,16 +7,16 @@ using Microsoft.Xna.Framework;
 
 namespace Client.GameScreens.Combat.GameObjects.CommonStates;
 
-internal class UnitIdleState : IActorVisualizationState
+internal class IdleActorVisualizationState : IActorVisualizationState
 {
-    public UnitIdleState(UnitGraphicsBase unitGraphics, CombatUnitState state)
+    public IdleActorVisualizationState(UnitGraphicsBase unitGraphics, CombatUnitState state)
     {
-        var animationSid = GetAnimationSidByCombatUnitState(state);
+        var animationSid = GetAnimationSidByCombatantState(state);
 
         unitGraphics.PlayAnimation(animationSid);
     }
 
-    private static PredefinedAnimationSid GetAnimationSidByCombatUnitState(CombatUnitState state)
+    private static PredefinedAnimationSid GetAnimationSidByCombatantState(CombatUnitState state)
     {
         return state switch
         {

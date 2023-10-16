@@ -14,7 +14,7 @@ using MonoGame.Extended.Particles.Modifiers.Interpolators;
 using MonoGame.Extended.Particles.Profiles;
 using MonoGame.Extended.TextureAtlases;
 
-namespace Client.Assets.ActorVisualizationStates.Primitives;
+namespace Client.Assets.CombatVisualEffects;
 
 internal enum HitDirection
 {
