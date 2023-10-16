@@ -28,13 +28,13 @@ internal sealed class FollowActorOperatorCameraTask : ICameraOperatorTask
     {
         const int SPRITE_SIZE_Y = 128;
         var actorViewPoint = _combatActor.GraphicRoot.Position - new Vector2(0, SPRITE_SIZE_Y * 0.5f);
-        if (actorViewPoint.X < 128)
+        if (actorViewPoint.X < 512)
         {
-            return new Vector2(128, actorViewPoint.Y);
+            return new Vector2(512, actorViewPoint.Y);
         }
-        else if (actorViewPoint.X > 1000-128)
+        else if (actorViewPoint.X > 1000- 512)
         {
-            return new Vector2(1000 - 128, actorViewPoint.Y);
+            return new Vector2(1000 - 512, actorViewPoint.Y);
         }
 
         return actorViewPoint;

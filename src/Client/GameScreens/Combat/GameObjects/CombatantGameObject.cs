@@ -109,27 +109,12 @@ internal sealed class CombatantGameObject
         return corpse;
     }
 
-    //public int? GetCurrentIndicatorIndex()
-    //{
-    //    var currentIndicatorCount = Graphics.Root.Children.OfType<TextIndicatorBase>().Count();
-
-    //    if (currentIndicatorCount == 0)
-    //    {
-    //        return null;
-    //    }
-
-    //    return currentIndicatorCount - 1;
-    //}
-
     public void MoveToFieldCoords(Vector2 targetPosition)
     {
         var animationSid = CalcMoveAnimation(Animator.GraphicRoot.Position, targetPosition);
         AddStateEngine(new MoveToPositionActorState(Animator,
             new SlowDownMoveFunction(Animator.GraphicRoot.Position, targetPosition),
             Graphics.GetAnimationInfo(animationSid), new Duration(0.5)));
-
-        //Graphics.ChangePosition(targetPosition);
-        //Position = targetPosition;
     }
 
     public void Update(GameTime gameTime)
@@ -138,49 +123,6 @@ internal sealed class CombatantGameObject
 
         Graphics.Update(gameTime);
     }
-
-    //protected override void DoDraw(SpriteBatch spriteBatch, float zindex)
-    //{
-    //    base.DoDraw(spriteBatch, zindex);
-
-    //    Graphics.ShowActiveMarker = IsActive;
-
-    //    if (Graphics.IsDamaged)
-    //    {
-    //        var allWhite = _gameObjectContentStorage.GetAllWhiteEffect();
-    //        spriteBatch.End();
-
-    //        spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
-    //            blendState: BlendState.AlphaBlend,
-    //            samplerState: SamplerState.PointClamp,
-    //            depthStencilState: DepthStencilState.None,
-    //            rasterizerState: RasterizerState.CullNone,
-    //            transformMatrix: _camera.GetViewTransformationMatrix(),
-    //            effect: allWhite);
-    //    }
-    //    else
-    //    {
-    //        spriteBatch.End();
-
-    //        spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
-    //            blendState: BlendState.AlphaBlend,
-    //            samplerState: SamplerState.PointClamp,
-    //            depthStencilState: DepthStencilState.None,
-    //            rasterizerState: RasterizerState.CullNone,
-    //            transformMatrix: _camera.GetViewTransformationMatrix());
-    //    }
-
-    //    Graphics.Draw(spriteBatch);
-
-    //    spriteBatch.End();
-
-    //    spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
-    //        blendState: BlendState.AlphaBlend,
-    //        samplerState: SamplerState.PointClamp,
-    //        depthStencilState: DepthStencilState.None,
-    //        rasterizerState: RasterizerState.CullNone,
-    //        transformMatrix: _camera.GetViewTransformationMatrix());
-    //}
 
     internal void AnimateShield()
     {
@@ -231,38 +173,8 @@ internal sealed class CombatantGameObject
             {
                 AddStateEngine(new IdleActorVisualizationState(Graphics, CombatUnitState.Idle /*Combatant.State*/));
             }
-
-            //ResetActorRootSpritePosition();
         }
     }
-
-    private void MoveIndicatorsToCorpse(Renderable corpse)
-    {
-        //var indicators = Children.OfType<TextIndicatorBase>().ToArray();
-        //foreach (var indicator in indicators)
-        //{
-        //    RemoveChild(indicator);
-        //    corpse.AddChild(indicator);
-        //}
-    }
-
-    //private void ResetActorRootSpritePosition()
-    //{
-    //    Graphics.Root.Position = Position;
-    //}
-
-    // private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)
-    // {
-    //     var shapeShiftBlocker = _animationManager.CreateAndUseBlocker();
-    //     var deathSound = _gameObjectContentStorage.GetDeathSound(e.SourceScheme.Name);
-    //     AddStateEngine(new ShapeShiftState(Graphics, deathSound.CreateInstance(), shapeShiftBlocker));
-    //
-    //     shapeShiftBlocker.Released += (_, _) =>
-    //     {
-    //         Graphics.SwitchSourceUnit(Combatant.Unit);
-    //         AddStateEngine(new UnitIdleState(Graphics, Combatant.State));
-    //     };
-    // }
 
     // public void ShiftShape(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig)
     // {
