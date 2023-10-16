@@ -17,7 +17,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Combat.GameObjects;
 
-internal sealed class CombatantGameObject : EwarRenderableBase
+internal sealed class CombatantGameObject
 {
     private readonly IList<IActorVisualizationState> _actorStateEngineList;
     private readonly ICamera2DAdapter _camera;
@@ -48,7 +48,6 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
         Combatant = combatant;
         _unitPositionProvider = unitPositionProvider;
-        Position = position;
         _gameObjectContentStorage = gameObjectContentStorage;
         _camera = camera;
         _combatantSide = combatantSide;
@@ -64,18 +63,18 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
     public UnitGraphics Graphics { get; }
 
-    public Vector2 InteractionPoint => Position - _combatantGraphicsConfig.InteractionPoint;
+    public Vector2 InteractionPoint => Graphics.Root.Position - _combatantGraphicsConfig.InteractionPoint;
 
     public bool IsActive { get; set; }
-    public Vector2 LaunchPoint => Position - _combatantGraphicsConfig.LaunchPoint;
+    public Vector2 LaunchPoint => Graphics.Root.Position - _combatantGraphicsConfig.LaunchPoint;
 
-    public Vector2 MeleeHitOffset => Position +
+    public Vector2 MeleeHitOffset => Graphics.Root.Position +
                                      new Vector2(
                                          _combatantSide == CombatantPositionSide.Heroes
                                              ? _combatantGraphicsConfig.MeleeHitXOffset
                                              : -_combatantGraphicsConfig.MeleeHitXOffset, 0);
 
-    public Vector2 StatsPanelOrigin => Position - _combatantGraphicsConfig.StatsPanelOrigin;
+    public Vector2 StatsPanelOrigin => Graphics.Root.Position - _combatantGraphicsConfig.StatsPanelOrigin;
 
     public void AddStateEngine(IActorVisualizationState actorStateEngine)
     {
@@ -110,80 +109,78 @@ internal sealed class CombatantGameObject : EwarRenderableBase
         return corpse;
     }
 
-    public int? GetCurrentIndicatorIndex()
-    {
-        var currentIndicatorCount = Children.OfType<TextIndicatorBase>().Count();
+    //public int? GetCurrentIndicatorIndex()
+    //{
+    //    var currentIndicatorCount = Graphics.Root.Children.OfType<TextIndicatorBase>().Count();
 
-        if (currentIndicatorCount == 0)
-        {
-            return null;
-        }
+    //    if (currentIndicatorCount == 0)
+    //    {
+    //        return null;
+    //    }
 
-        return currentIndicatorCount - 1;
-    }
+    //    return currentIndicatorCount - 1;
+    //}
 
     public void MoveToFieldCoords(Vector2 targetPosition)
     {
         var animationSid = CalcMoveAnimation(Animator.GraphicRoot.Position, targetPosition);
         AddStateEngine(new MoveToPositionActorState(Animator,
-            new LinearMoveFunction(Animator.GraphicRoot.Position, targetPosition),
-            Graphics.GetAnimationInfo(animationSid), new Duration(5.5)));
+            new SlowDownMoveFunction(Animator.GraphicRoot.Position, targetPosition),
+            Graphics.GetAnimationInfo(animationSid), new Duration(0.5)));
 
         //Graphics.ChangePosition(targetPosition);
         //Position = targetPosition;
     }
 
-    public override void Update(GameTime gameTime)
+    public void Update(GameTime gameTime)
     {
-        base.Update(gameTime);
-
         HandleEngineStates(gameTime);
 
         Graphics.Update(gameTime);
     }
 
-    protected override void DoDraw(SpriteBatch spriteBatch, float zindex)
-    {
-        base.DoDraw(spriteBatch, zindex);
+    //protected override void DoDraw(SpriteBatch spriteBatch, float zindex)
+    //{
+    //    base.DoDraw(spriteBatch, zindex);
 
-        Graphics.ShowActiveMarker = IsActive;
+    //    Graphics.ShowActiveMarker = IsActive;
 
-        if (Graphics.IsDamaged)
-        {
-            var allWhite = _gameObjectContentStorage.GetAllWhiteEffect();
-            spriteBatch.End();
+    //    if (Graphics.IsDamaged)
+    //    {
+    //        var allWhite = _gameObjectContentStorage.GetAllWhiteEffect();
+    //        spriteBatch.End();
 
-            spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
-                blendState: BlendState.AlphaBlend,
-                samplerState: SamplerState.PointClamp,
-                depthStencilState: DepthStencilState.None,
-                rasterizerState: RasterizerState.CullNone,
-                transformMatrix: _camera.GetViewTransformationMatrix(),
-                effect: allWhite);
-        }
-        else
-        {
-            spriteBatch.End();
+    //        spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+    //            blendState: BlendState.AlphaBlend,
+    //            samplerState: SamplerState.PointClamp,
+    //            depthStencilState: DepthStencilState.None,
+    //            rasterizerState: RasterizerState.CullNone,
+    //            transformMatrix: _camera.GetViewTransformationMatrix(),
+    //            effect: allWhite);
+    //    }
+    //    else
+    //    {
+    //        spriteBatch.End();
 
-            spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
-                blendState: BlendState.AlphaBlend,
-                samplerState: SamplerState.PointClamp,
-                depthStencilState: DepthStencilState.None,
-                rasterizerState: RasterizerState.CullNone,
-                transformMatrix: _camera.GetViewTransformationMatrix());
-        }
+    //        spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+    //            blendState: BlendState.AlphaBlend,
+    //            samplerState: SamplerState.PointClamp,
+    //            depthStencilState: DepthStencilState.None,
+    //            rasterizerState: RasterizerState.CullNone,
+    //            transformMatrix: _camera.GetViewTransformationMatrix());
+    //    }
 
-        Graphics.Draw(spriteBatch);
+    //    Graphics.Draw(spriteBatch);
 
-        spriteBatch.End();
+    //    spriteBatch.End();
 
-        spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
-            blendState: BlendState.AlphaBlend,
-            samplerState: SamplerState.PointClamp,
-            depthStencilState: DepthStencilState.None,
-            rasterizerState: RasterizerState.CullNone,
-            transformMatrix: _camera.GetViewTransformationMatrix());
-    }
+    //    spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+    //        blendState: BlendState.AlphaBlend,
+    //        samplerState: SamplerState.PointClamp,
+    //        depthStencilState: DepthStencilState.None,
+    //        rasterizerState: RasterizerState.CullNone,
+    //        transformMatrix: _camera.GetViewTransformationMatrix());
+    //}
 
     internal void AnimateShield()
     {
@@ -241,18 +238,18 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
     private void MoveIndicatorsToCorpse(Renderable corpse)
     {
-        var indicators = Children.OfType<TextIndicatorBase>().ToArray();
-        foreach (var indicator in indicators)
-        {
-            RemoveChild(indicator);
-            corpse.AddChild(indicator);
-        }
+        //var indicators = Children.OfType<TextIndicatorBase>().ToArray();
+        //foreach (var indicator in indicators)
+        //{
+        //    RemoveChild(indicator);
+        //    corpse.AddChild(indicator);
+        //}
     }
 
-    private void ResetActorRootSpritePosition()
-    {
-        Graphics.Root.Position = Position;
-    }
+    //private void ResetActorRootSpritePosition()
+    //{
+    //    Graphics.Root.Position = Position;
+    //}
 
     // private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)
     // {

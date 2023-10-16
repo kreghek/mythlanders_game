@@ -1,11 +1,9 @@
-﻿using Client.Engine;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.GameScreens.Combat.Ui;
+namespace Client.Assets.CombatVisualEffects;
 
-internal abstract class TextIndicatorBase : EwarRenderableBase
+internal abstract class TextIndicatorBase : ICombatVisualEffect
 {
     private const float LIFETIME_SECONDS = 2;
 
@@ -22,26 +20,13 @@ internal abstract class TextIndicatorBase : EwarRenderableBase
         _lifetimeCounter = LIFETIME_SECONDS;
     }
 
-    public override void Update(GameTime gameTime)
+    public bool IsDestroyed { get; private set; }
+
+    public void DrawBack(SpriteBatch spriteBatch)
     {
-        if (_lifetimeCounter <= 0)
-        {
-            Parent?.RemoveChild(this);
-
-            return;
-        }
-
-        var elapsedSec = (float)gameTime.ElapsedGameTime.TotalSeconds;
-        _lifetimeCounter -= elapsedSec;
-
-        var t = 1 - _lifetimeCounter / LIFETIME_SECONDS;
-
-        _position = Vector2.Lerp(_position, _targetPosition, t);
-
-        base.Update(gameTime);
     }
 
-    protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
+    public void DrawFront(SpriteBatch spriteBatch)
     {
         var text = GetText();
 
@@ -54,6 +39,23 @@ internal abstract class TextIndicatorBase : EwarRenderableBase
         }
 
         spriteBatch.DrawString(_font, text, _position, GetColor());
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        if (_lifetimeCounter <= 0)
+        {
+            IsDestroyed = true;
+
+            return;
+        }
+
+        var elapsedSec = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        _lifetimeCounter -= elapsedSec;
+
+        var t = 1 - _lifetimeCounter / LIFETIME_SECONDS;
+
+        _position = Vector2.Lerp(_position, _targetPosition, t);
     }
 
     protected abstract Color GetColor();

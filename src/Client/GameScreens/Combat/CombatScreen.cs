@@ -7,6 +7,7 @@ using Client.Assets;
 using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.Catalogs;
 using Client.Assets.CombatMovements;
+using Client.Assets.CombatVisualEffects;
 using Client.Assets.StoryPointJobs;
 using Client.Core;
 using Client.Core.Campaigns;
@@ -371,12 +372,12 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void Combat_CombatantInterrupted(object? sender, CombatantInterruptedEventArgs e)
     {
         var unitGameObject = GetCombatantGameObject(e.Combatant);
-        var textPosition = unitGameObject.Position;
+        var textPosition = unitGameObject.Graphics.Root.Position;
         var font = _uiContentStorage.GetCombatIndicatorFont();
 
         var passIndicator = new SkipTextIndicator(textPosition, font);
 
-        unitGameObject.AddChild(passIndicator);
+        _visualEffectManager.AddEffect(passIndicator);
     }
 
     private void CombatCode_CombatantHasBeenAdded(object? sender, CombatantHasBeenAddedEventArgs e)
@@ -463,12 +464,12 @@ internal class CombatScreen : GameScreenWithMenuBase
         if (!_gameSettings.IsRecordMode)
         {
             var font = _uiContentStorage.GetCombatIndicatorFont();
-            var position = unitGameObject.Position;
+            var position = unitGameObject.Graphics.Root.Position;
 
             if (e.Value <= 0)
             {
                 var blockIndicator = new BlockAnyDamageTextIndicator(position, font);
-                unitGameObject.AddChild(blockIndicator);
+                _visualEffectManager.AddEffect(blockIndicator);
             }
 
             var nextIndex = GetIndicatorNextIndex(unitGameObject);
@@ -482,7 +483,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                         font,
                         nextIndex ?? 0);
 
-                unitGameObject.AddChild(damageIndicator);
+                _visualEffectManager.AddEffect(damageIndicator);
 
                 unitGameObject.AnimateWound();
 
@@ -502,7 +503,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                         font,
                         nextIndex ?? 0);
 
-                unitGameObject.AddChild(spIndicator);
+                _visualEffectManager.AddEffect(spIndicator);
 
                 unitGameObject.AnimateShield();
 
@@ -886,7 +887,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                  combatSceneContext.CurrentScope.FocusedActors.Contains(gameObject.Animator)) ||
                 combatSceneContext.CurrentScope is null)
             {
-                gameObject.Draw(spriteBatch);
+                gameObject.Graphics.Root.Draw(spriteBatch);
             }
         }
     }
@@ -1298,9 +1299,9 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private static int? GetIndicatorNextIndex(CombatantGameObject unitGameObject)
     {
-        var currentIndex = unitGameObject.GetCurrentIndicatorIndex();
-        var nextIndex = currentIndex + 1;
-        return nextIndex;
+        //var currentIndex = unitGameObject.GetCurrentIndicatorIndex();
+        //var nextIndex = currentIndex + 1;
+        return 0;
     }
 
     private ICombatShadeContext GetSceneContext()

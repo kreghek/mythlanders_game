@@ -1,3 +1,5 @@
+using Client.Assets.CombatVisualEffects;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

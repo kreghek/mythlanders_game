@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Client.Assets.CombatVisualEffects;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Combat.Ui;
