@@ -74,14 +74,14 @@ internal sealed class MoveToPositionActorState : IActorVisualizationState
 
             var t = _counter / _duration.Seconds;
 
-            var currentPosition = _moveFunction.CalcPosition(Math.Min(t, 1));
+            var currentPosition = _moveFunction.CalcPosition(Math.Min(t, MoveFunctionValue.Max.Value));
 
             _animator.GraphicRoot.Position = currentPosition;
         }
         else
         {
             IsComplete = true;
-            _animator.GraphicRoot.Position = _moveFunction.CalcPosition(1);
+            _animator.GraphicRoot.Position = _moveFunction.CalcPosition(MoveFunctionValue.Max);
         }
     }
 }

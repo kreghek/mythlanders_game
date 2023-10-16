@@ -129,8 +129,8 @@ internal sealed class CombatantGameObject : EwarRenderableBase
             new LinearMoveFunction(Animator.GraphicRoot.Position, targetPosition),
             Graphics.GetAnimationInfo(animationSid), new Duration(5.5)));
 
-        Graphics.ChangePosition(targetPosition);
-        Position = targetPosition;
+        //Graphics.ChangePosition(targetPosition);
+        //Position = targetPosition;
     }
 
     public override void Update(GameTime gameTime)
@@ -232,10 +232,10 @@ internal sealed class CombatantGameObject : EwarRenderableBase
 
             if (!_actorStateEngineList.Any())
             {
-                AddStateEngine(new UnitIdleState(Graphics, CombatUnitState.Idle /*Combatant.State*/));
+                AddStateEngine(new IdleActorVisualizationState(Graphics, CombatUnitState.Idle /*Combatant.State*/));
             }
 
-            ResetActorRootSpritePosition();
+            //ResetActorRootSpritePosition();
         }
     }
 
