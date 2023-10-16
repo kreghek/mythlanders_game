@@ -104,8 +104,6 @@ internal sealed class CombatantGameObject
 
         var corpse = new CorpseGameObject(Graphics, _camera, _gameObjectContentStorage);
 
-        MoveIndicatorsToCorpse(corpse);
-
         return corpse;
     }
 
