@@ -1,4 +1,6 @@
-﻿using Client.Core;
+﻿using System;
+
+using Client.Core;
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
@@ -59,7 +61,7 @@ internal sealed class MoveToPositionActorState : IActorVisualizationState
 
             var t = _counter / _duration.Seconds;
 
-            var currentPosition = _moveFunction.CalcPosition(t);
+            var currentPosition = _moveFunction.CalcPosition(Math.Min(t, 1));
 
             _animator.GraphicRoot.Position = currentPosition;
         }

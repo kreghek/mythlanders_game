@@ -6,7 +6,6 @@ using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.CombatMovements.Hero.Robber;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
-using Client.Engine.MoveFunctions;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
