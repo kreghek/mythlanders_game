@@ -66,7 +66,7 @@ internal abstract class UnitGraphicsBase
         var selectedMarkers = new[]
         {
             (leftMarkerNode, leftSprite),
-            (rightMarkerNode, leftSprite)
+            (rightMarkerNode, rightSprite)
         };
         return selectedMarkers;
     }
@@ -127,25 +127,25 @@ internal abstract class UnitGraphicsBase
 
         var sprites = new List<MonoSprite>();
 
-        var outlineSprites = AddOutlines(Root.RootNode, spriteSheetId);
+        var outlineSprites = AddOutlines(Root.RootNode, spriteSheetId, isPlayerSide);
         sprites.AddRange(outlineSprites);
 
-        var mainSprite = AddMainSprite(Root.RootNode, spriteSheetId);
+        var mainSprite = AddMainSprite(Root.RootNode, spriteSheetId, isPlayerSide);
         sprites.Add(mainSprite);
 
         _animatedSprites = sprites.ToArray();
     }
 
-    private MonoSprite AddMainSprite(SceneNode rootNode, UnitName spriteSheetId)
+    private MonoSprite AddMainSprite(SceneNode rootNode, UnitName spriteSheetId, bool isPlayerSide)
     {
-        _mainGraphics = CreateMainSprite(spriteSheetId, Vector2.Zero, Color.White);
+        _mainGraphics = CreateMainSprite(spriteSheetId, Vector2.Zero, isPlayerSide, Color.White);
 
         rootNode.Children.Add(_mainGraphics.Item1);
 
         return _mainGraphics.Item2;
     }
 
-    private MonoSprite[] AddOutlines(SceneNode rootNode, UnitName spriteSheetId)
+    private MonoSprite[] AddOutlines(SceneNode rootNode, UnitName spriteSheetId, bool isPlayerSide)
     {
         var sprites = new List<MonoSprite>();
 
@@ -155,6 +155,7 @@ internal abstract class UnitGraphicsBase
             spriteSheetId,
             new Vector2((float)Math.Cos(Math.PI * 2 / OUTLINE_COUNT * x),
                 (float)Math.Sin(Math.PI * 2 / OUTLINE_COUNT * x)) * OUTLINE_LENGTH,
+            isPlayerSide,
             Color.Red)
         ).ToArray();
 
@@ -192,18 +193,20 @@ internal abstract class UnitGraphicsBase
         rootNode.Children.Add(shadowNode);
     }
 
-    private (SceneNode, MonoSprite) CreateMainSprite(UnitName spriteSheetId, Vector2 startPositionOffset, Color baseColor)
+    private (SceneNode, MonoSprite) CreateMainSprite(UnitName spriteSheetId, Vector2 startPositionOffset, bool isPlayerSide, Color baseColor)
     {
         var sceneNode = new SceneNode
         { 
             Position = startPositionOffset
         };
         var texture = _gameObjectContentStorage.GetUnitGraphics(spriteSheetId);
+        var teamSpriteEffect = isPlayerSide ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+        var origin = isPlayerSide ? _graphicsConfig.Origin : new Vector2(FRAME_WIDTH - _graphicsConfig.Origin.X, _graphicsConfig.Origin.Y);
         var sprite = new MonoSprite(new MonoGame.Extended.TextureAtlases.TextureRegion2D(texture, new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT)))
         {
             Color = baseColor,
-            Origin = _graphicsConfig.Origin,
-
+            Origin = origin,
+            Effect = teamSpriteEffect
         };
         sceneNode.Entities.Add(new SpriteEntity(sprite));
 
@@ -213,16 +216,20 @@ internal abstract class UnitGraphicsBase
     private void HandleSelectionMarker(GameTime gameTime)
     {
         var isMarkerDisplayed = _currentAnimationFrameSet.IsIdle && ShowActiveMarker;
+
         foreach (var selectedMarker in _selectedMarkers)
         {
             selectedMarker.Item2.IsVisible = isMarkerDisplayed;
         }
 
-        _selectedMarkerCounter += gameTime.GetElapsedSeconds();
-        var t = MathHelper.Clamp((float)Math.Sin(_selectedMarkerCounter * 10), -1f, 0.5f);
+        if (isMarkerDisplayed)
+        {
+            _selectedMarkerCounter += gameTime.GetElapsedSeconds();
+            var t = MathHelper.Clamp((float)Math.Sin(_selectedMarkerCounter * 10), -1f, 0.5f);
 
-        _selectedMarkers[0].Item1.Position = new Vector2(t * 12 - 64, 0);
-        _selectedMarkers[1].Item1.Position = new Vector2(128 - t * 12 - 64, 0);
+            _selectedMarkers[0].Item1.Position = new Vector2(t * 12 - 64, 0);
+            _selectedMarkers[1].Item1.Position = new Vector2(128 - t * 12 - 64, 0);
+        }
     }
 
     private void UpdateAnimation(GameTime gameTime)

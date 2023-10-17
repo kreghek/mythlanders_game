@@ -96,7 +96,7 @@ internal sealed class CombatantGameObject
 
         deathSoundEffect.Play();
 
-        var corpse = new CorpseGameObject(Graphics, _camera, _gameObjectContentStorage);
+        var corpse = new CorpseGameObject(Graphics);
 
         return corpse;
     }

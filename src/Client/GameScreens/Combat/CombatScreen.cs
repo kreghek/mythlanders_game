@@ -879,15 +879,23 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void DrawCombatants(SpriteBatch spriteBatch, ICombatShadeContext combatSceneContext)
     {
-        if (combatSceneContext.CurrentScope is null)
+        var corpseList = _corpseObjects.OrderBy(x => x.GetZIndex()).ToArray();
+        foreach (var gameObject in corpseList)
         {
-            // Do not draw corpse while movement scene
-            var corpseList = _corpseObjects.OrderBy(x => x.GetZIndex()).ToArray();
-            foreach (var gameObject in corpseList)
+            if (gameObject.IsComplete)
+            {
+                if (combatSceneContext.CurrentScope is null)
+                {
+                    // Do not draw corpse while movement scene
+                    gameObject.Draw(spriteBatch);
+                }
+            }
+            else
             {
                 gameObject.Draw(spriteBatch);
             }
         }
+
 
         var list = _gameObjects.OrderBy(x => x.GetZIndex()).ToArray();
         foreach (var gameObject in list)
@@ -899,9 +907,6 @@ internal class CombatScreen : GameScreenWithMenuBase
                 gameObject.Graphics.Root.Draw(spriteBatch);
             }
         }
-
-        var shadowTexture = _gameObjectContentStorage.GetUnitShadow();
-        spriteBatch.Draw(shadowTexture, new Vector2(500, 480 / 2), null, new Color(Color.Red, 0.2f), 0, new Vector2(0.5f, 0.5f), 1, SpriteEffects.None, 1);
     }
 
     private void DrawCombatantsInWorldInfo(SpriteBatch spriteBatch)
