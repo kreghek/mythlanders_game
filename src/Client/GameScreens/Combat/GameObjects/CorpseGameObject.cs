@@ -96,6 +96,6 @@ internal sealed class CorpseGameObject : EwarRenderableBase
 
     internal float GetZIndex()
     {
-        return _graphics.Root.Position.Y;
+        return _graphics.Root.RootNode.Position.Y;
     }
 }

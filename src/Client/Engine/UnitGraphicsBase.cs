@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MonoGame.Extended;
+using MonoGame.Extended.SceneGraphs;
+
+using MonoSprite = MonoGame.Extended.Sprites.Sprite;
 
 namespace Client.Engine;
 
@@ -20,16 +23,16 @@ internal abstract class UnitGraphicsBase
     private readonly CombatantGraphicsConfigBase _graphicsConfig;
 
     private readonly IDictionary<PredefinedAnimationSid, IAnimationFrameSet> _predefinedAnimationFrameSets;
-    private readonly Sprite[] _selectedMarkers;
-
+    private readonly (SceneNode, MonoSprite)[] _selectedMarkers;
+    private readonly Texture2D _mainTexture;
     private IAnimationFrameSet _currentAnimationFrameSet = null!;
-    private Sprite _graphics;
-    private Sprite[] _outlines;
+    private (SceneNode, MonoSprite) _mainGraphics;
+    private (SceneNode, MonoSprite)[] _outlines;
     private readonly Vector2 _position;
 
     private double _selectedMarkerCounter;
 
-    private Sprite[] _sprites;
+    private MonoSprite[] _animatedSprites;
 
     public UnitGraphicsBase(UnitName spriteSheetId, CombatantGraphicsConfigBase graphicsConfig,
         bool isNormalOrientation,
@@ -38,20 +41,8 @@ internal abstract class UnitGraphicsBase
         _graphicsConfig = graphicsConfig;
         _position = startPposition;
         _gameObjectContentStorage = gameObjectContentStorage;
-
-        _selectedMarkers = new[]
-        {
-            new Sprite(gameObjectContentStorage.GetCombatantMarkers())
-            {
-                Origin = new Vector2(0.5f, 0.75f),
-                SourceRectangle = new Rectangle(0, 0, 32, 32)
-            },
-            new Sprite(gameObjectContentStorage.GetCombatantMarkers())
-            {
-                Origin = new Vector2(0.5f, 0.75f),
-                SourceRectangle = new Rectangle(128 - 32, 0, 32, 32)
-            }
-        };
+        _selectedMarkers = CreateSelectionMarkers(gameObjectContentStorage);
+        _mainTexture = _gameObjectContentStorage.GetUnitGraphics(spriteSheetId);
 
         _predefinedAnimationFrameSets = graphicsConfig.GetPredefinedAnimations();
         InitializeSprites(spriteSheetId, isNormalOrientation);
@@ -59,9 +50,32 @@ internal abstract class UnitGraphicsBase
         PlayAnimation(PredefinedAnimationSid.Idle);
     }
 
+    private static (SceneNode, MonoSprite)[] CreateSelectionMarkers(GameObjectContentStorage gameObjectContentStorage)
+    {
+        var leftMarkerNode = new SceneNode();
+        var leftSprite = new MonoSprite(new MonoGame.Extended.TextureAtlases.TextureRegion2D(gameObjectContentStorage.GetCombatantMarkers(), new Rectangle(0, 0, 32, 32)))
+        {
+            OriginNormalized = new Vector2(0.5f, 0.75f)
+        };
+        leftMarkerNode.Entities.Add(new SpriteEntity(leftSprite));
+        var rightMarkerNode = new SceneNode();
+        var rightSprite = new MonoSprite(new MonoGame.Extended.TextureAtlases.TextureRegion2D(gameObjectContentStorage.GetCombatantMarkers(), new Rectangle(128 - 32, 0, 32, 32)))
+        {
+            OriginNormalized = new Vector2(0.5f, 0.75f)
+        };
+        rightMarkerNode.Entities.Add(new SpriteEntity(rightSprite));
+
+        var selectedMarkers = new[]
+        {
+            (leftMarkerNode, leftSprite),
+            (rightMarkerNode, leftSprite)
+        };
+        return selectedMarkers;
+    }
+
     public OutlineMode OutlineMode { get; set; }
 
-    public SpriteContainer Root { get; private set; }
+    public SceneGraph Root { get; private set; }
 
     public bool ShowActiveMarker { get; set; }
 
@@ -101,32 +115,22 @@ internal abstract class UnitGraphicsBase
 
         foreach (var outline in _outlines)
         {
-            outline.Visible = OutlineMode != OutlineMode.None;
+            outline.Item2.IsVisible = OutlineMode != OutlineMode.None;
         }
     }
 
     private void InitializeSprites(UnitName spriteSheetId, bool isPlayerSide)
     {
-        Root = new SpriteContainer
+        Root = new SceneGraph();
+
+        var rootNode = new SceneNode
         {
-            Position = _position,
-            FlipX = !isPlayerSide
+            Position = _position
         };
 
-        var shadow = new Sprite(_gameObjectContentStorage.GetUnitShadow())
-        {
-            Origin = new Vector2(0.5f, 0.5f),
-            Color = Color.Lerp(Color.Black, Color.Transparent, 0.5f),
-            Position = _graphicsConfig.ShadowOrigin
-        };
-        Root.AddChild(shadow);
-
-        foreach (var selectedMarker in _selectedMarkers)
-        {
-            Root.AddChild(selectedMarker);
-        }
-
-        _graphics = CreateSprite(spriteSheetId, Vector2.Zero, Color.White);
+        Root.RootNode.Children.Add(rootNode);
+        AddShadowGraphics(Root.RootNode, isPlayerSide);
+        AddSelectionMarkers(Root.RootNode);
 
         const int OUTLINE_COUNT = 4;
         const int OUTLINE_LENGTH = 2;
@@ -137,30 +141,65 @@ internal abstract class UnitGraphicsBase
             Color.Red)
         ).ToArray();
 
-        var sprites = new List<Sprite>();
+        var sprites = new List<MonoSprite>();
 
         foreach (var outline in _outlines)
         {
-            outline.Visible = false;
-            sprites.Add(outline);
-            Root.AddChild(outline);
+            outline.Item2.IsVisible = false;
+            sprites.Add(outline.Item2);
+            Root.RootNode.Children.Add(outline.Item1);
         }
 
-        Root.AddChild(_graphics);
-        sprites.Add(_graphics);
+        _mainGraphics = CreateSprite(spriteSheetId, Vector2.Zero, Color.White);
 
-        _sprites = sprites.ToArray();
+        Root.RootNode.Children.Add(_mainGraphics.Item1);
+        sprites.Add(_mainGraphics.Item2);
+
+        _animatedSprites = sprites.ToArray();
     }
 
-    private Sprite CreateSprite(UnitName spriteSheetId, Vector2 offset, Color baseColor)
+    private void AddSelectionMarkers(SceneNode rootNode)
     {
-        return new Sprite(_gameObjectContentStorage.GetUnitGraphics(spriteSheetId))
+        foreach (var selectedMarker in _selectedMarkers)
         {
-            Origin = new Vector2(0.5f, 0.875f),
-            SourceRectangle = new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT),
-            Position = new Vector2(FRAME_WIDTH * 0.25f, 0) + offset,
-            Color = baseColor
+            rootNode.Children.Add(selectedMarker.Item1);
+        }
+    }
+
+    private void AddShadowGraphics(SceneNode rootNode, bool isPlayerSide)
+    {
+        var shadowNode = new SceneNode
+        {
+            Position = _graphicsConfig.ShadowOrigin
         };
+
+        var teamSpriteEffect = isPlayerSide ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+        var shadowSprite = new MonoSprite(_gameObjectContentStorage.GetUnitShadow())
+        {
+            Origin = new Vector2(0.5f, 0.5f),
+            Color = Color.Lerp(Color.Black, Color.Transparent, 0.5f),
+            Effect = teamSpriteEffect
+        };
+        shadowNode.Entities.Add(new SpriteEntity(shadowSprite));
+
+        rootNode.Children.Add(shadowNode);
+    }
+
+    private (SceneNode, MonoSprite) CreateSprite(UnitName spriteSheetId, Vector2 offset, Color baseColor)
+    {
+        var sceneNode = new SceneNode
+        {
+            Position = new Vector2(FRAME_WIDTH * 0.25f, 0) + offset
+        };
+        var texture = _gameObjectContentStorage.GetUnitGraphics(spriteSheetId);
+        var sprite = new MonoSprite(new MonoGame.Extended.TextureAtlases.TextureRegion2D(texture, new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT)))
+        {
+            Color = baseColor,
+            Origin = _graphicsConfig.Origin //new Vector2(0.5f, 0.875f),
+        };
+        sceneNode.Entities.Add(new SpriteEntity(sprite));
+
+        return (sceneNode, sprite);
     }
 
     private void HandleSelectionMarker(GameTime gameTime)
@@ -168,23 +207,23 @@ internal abstract class UnitGraphicsBase
         var isMarkerDisplayed = _currentAnimationFrameSet.IsIdle && ShowActiveMarker;
         foreach (var selectedMarker in _selectedMarkers)
         {
-            selectedMarker.Visible = isMarkerDisplayed;
+            selectedMarker.Item2.IsVisible = isMarkerDisplayed;
         }
 
         _selectedMarkerCounter += gameTime.GetElapsedSeconds();
         var t = MathHelper.Clamp((float)Math.Sin(_selectedMarkerCounter * 10), -1f, 0.5f);
 
-        _selectedMarkers[0].Position = new Vector2(t * 12 - 64, 0);
-        _selectedMarkers[1].Position = new Vector2(128 - t * 12 - 64, 0);
+        _selectedMarkers[0].Item1.Position = new Vector2(t * 12 - 64, 0);
+        _selectedMarkers[1].Item1.Position = new Vector2(128 - t * 12 - 64, 0);
     }
 
     private void UpdateAnimation(GameTime gameTime)
     {
         _currentAnimationFrameSet.Update(gameTime);
 
-        foreach (var sprite in _sprites)
+        foreach (var sprite in _animatedSprites)
         {
-            sprite.SourceRectangle = _currentAnimationFrameSet.GetFrameRect();
+            sprite.TextureRegion = new MonoGame.Extended.TextureAtlases.TextureRegion2D(_mainTexture, _currentAnimationFrameSet.GetFrameRect());
         }
     }
 }

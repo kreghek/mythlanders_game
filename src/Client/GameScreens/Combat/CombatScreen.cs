@@ -374,7 +374,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void Combat_CombatantInterrupted(object? sender, CombatantInterruptedEventArgs e)
     {
         var unitGameObject = GetCombatantGameObject(e.Combatant);
-        var textPosition = unitGameObject.Graphics.Root.Position;
+        var textPosition = unitGameObject.Graphics.Root.RootNode.Position;
         var font = _uiContentStorage.GetCombatIndicatorFont();
 
         var passIndicator = new SkipTextIndicator(textPosition, font);
@@ -466,7 +466,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         if (!_gameSettings.IsRecordMode)
         {
             var font = _uiContentStorage.GetCombatIndicatorFont();
-            var position = unitGameObject.Graphics.Root.Position;
+            var position = unitGameObject.Graphics.Root.RootNode.Position;
 
             if (e.Value <= 0)
             {

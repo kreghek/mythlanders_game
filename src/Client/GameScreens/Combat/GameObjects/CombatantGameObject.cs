@@ -57,18 +57,18 @@ internal sealed class CombatantGameObject
 
     public UnitGraphics Graphics { get; }
 
-    public Vector2 InteractionPoint => Graphics.Root.Position - _combatantGraphicsConfig.InteractionPoint;
+    public Vector2 InteractionPoint => Graphics.Root.RootNode.Position - _combatantGraphicsConfig.InteractionPoint;
 
     public bool IsActive { get; set; }
-    public Vector2 LaunchPoint => Graphics.Root.Position - _combatantGraphicsConfig.LaunchPoint;
+    public Vector2 LaunchPoint => Graphics.Root.RootNode.Position - _combatantGraphicsConfig.LaunchPoint;
 
-    public Vector2 MeleeHitOffset => Graphics.Root.Position +
+    public Vector2 MeleeHitOffset => Graphics.Root.RootNode.Position +
                                      new Vector2(
                                          _combatantSide == CombatantPositionSide.Heroes
                                              ? _combatantGraphicsConfig.MeleeHitXOffset
                                              : -_combatantGraphicsConfig.MeleeHitXOffset, 0);
 
-    public Vector2 StatsPanelOrigin => Graphics.Root.Position - _combatantGraphicsConfig.StatsPanelOrigin;
+    public Vector2 StatsPanelOrigin => Graphics.Root.RootNode.Position - _combatantGraphicsConfig.StatsPanelOrigin;
 
     public void AddStateEngine(IActorVisualizationState actorStateEngine)
     {
@@ -123,7 +123,7 @@ internal sealed class CombatantGameObject
 
     internal float GetZIndex()
     {
-        return Graphics.Root.Position.Y;
+        return Graphics.Root.RootNode.Position.Y;
     }
 
     private static PredefinedAnimationSid CalcMoveAnimation(Vector2 currentPosition, Vector2 targetPosition)
