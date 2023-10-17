@@ -13,7 +13,6 @@ internal sealed class VolkolakWarriorGraphicsConfig : SlavicMonsterGraphicConfig
     public VolkolakWarriorGraphicsConfig(UnitName unit) : base(unit)
     {
         StatsPanelOrigin = new Vector2(-16, 64 + 8);
-        ShadowOffset = new Vector2(-16, -16);
     }
 
     public override string ThumbnailPath => Path.Combine(CommonConstants.PathToCharacterSprites, "Monsters",

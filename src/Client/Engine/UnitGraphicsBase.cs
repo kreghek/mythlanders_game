@@ -178,10 +178,7 @@ internal abstract class UnitGraphicsBase
 
     private void AddShadowGraphics(SceneNode rootNode, bool isPlayerSide)
     {
-        var shadowNode = new SceneNode
-        {
-            //Position = _graphicsConfig.ShadowOffset
-        };
+        var shadowNode = new SceneNode();
 
         var teamSpriteEffect = isPlayerSide ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
         var shadowSprite = new MonoSprite(_gameObjectContentStorage.GetUnitShadow())
@@ -205,7 +202,7 @@ internal abstract class UnitGraphicsBase
         var sprite = new MonoSprite(new MonoGame.Extended.TextureAtlases.TextureRegion2D(texture, new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT)))
         {
             Color = baseColor,
-            OriginNormalized = _graphicsConfig.Origin,
+            Origin = _graphicsConfig.Origin,
 
         };
         sceneNode.Entities.Add(new SpriteEntity(sprite));
