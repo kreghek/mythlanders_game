@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameClient.Engine.MoveFunctions;
 
-namespace GameClient.Engine.MoveFunctions.Tests;
+using Microsoft.Xna.Framework;
+
+namespace GameClient.Engine.Tests.MoveFunctions;
 
 [TestFixture]
 public class SlowDownMoveFunctionTests
