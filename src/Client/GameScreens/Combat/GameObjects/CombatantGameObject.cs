@@ -33,11 +33,11 @@ internal sealed class CombatantGameObject
 
         _combatantGraphicsConfig = combatantGraphicsConfig;
 
-        var position = unitPositionProvider.GetPosition(formationCoords, combatantSide);
+        var startPosition = unitPositionProvider.GetPosition(formationCoords, combatantSide);
         var spriteSheetId = Enum.Parse<UnitName>(combatant.ClassSid, ignoreCase: true);
         Graphics = new UnitGraphics(spriteSheetId, _combatantGraphicsConfig,
             combatantSide == CombatantPositionSide.Heroes,
-            position, gameObjectContentStorage);
+            startPosition, gameObjectContentStorage);
 
         Animator = new ActorAnimator(Graphics);
 

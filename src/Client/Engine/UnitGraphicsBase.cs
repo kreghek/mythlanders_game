@@ -28,7 +28,6 @@ internal abstract class UnitGraphicsBase
     private IAnimationFrameSet _currentAnimationFrameSet = null!;
     private (SceneNode, MonoSprite) _mainGraphics;
     private (SceneNode, MonoSprite)[] _outlines;
-    private readonly Vector2 _position;
 
     private double _selectedMarkerCounter;
 
@@ -39,13 +38,12 @@ internal abstract class UnitGraphicsBase
         Vector2 startPposition, GameObjectContentStorage gameObjectContentStorage)
     {
         _graphicsConfig = graphicsConfig;
-        _position = startPposition;
         _gameObjectContentStorage = gameObjectContentStorage;
         _selectedMarkers = CreateSelectionMarkers(gameObjectContentStorage);
         _mainTexture = _gameObjectContentStorage.GetUnitGraphics(spriteSheetId);
 
         _predefinedAnimationFrameSets = graphicsConfig.GetPredefinedAnimations();
-        InitializeSprites(spriteSheetId, isNormalOrientation);
+        InitializeSprites(spriteSheetId, startPposition, isNormalOrientation);
 
         PlayAnimation(PredefinedAnimationSid.Idle);
     }
@@ -119,43 +117,55 @@ internal abstract class UnitGraphicsBase
         }
     }
 
-    private void InitializeSprites(UnitName spriteSheetId, bool isPlayerSide)
+    private void InitializeSprites(UnitName spriteSheetId, Vector2 startPosition, bool isPlayerSide)
     {
         Root = new SceneGraph();
+        Root.RootNode.Position = startPosition;
 
-        var rootNode = new SceneNode
-        {
-            Position = _position
-        };
-
-        Root.RootNode.Children.Add(rootNode);
         AddShadowGraphics(Root.RootNode, isPlayerSide);
         AddSelectionMarkers(Root.RootNode);
 
+        var sprites = new List<MonoSprite>();
+
+        var outlineSprites = AddOutlines(Root.RootNode, spriteSheetId);
+        sprites.AddRange(outlineSprites);
+
+        var mainSprite = AddMainSprite(Root.RootNode, spriteSheetId);
+        sprites.Add(mainSprite);
+
+        _animatedSprites = sprites.ToArray();
+    }
+
+    private MonoSprite AddMainSprite(SceneNode rootNode, UnitName spriteSheetId)
+    {
+        _mainGraphics = CreateMainSprite(spriteSheetId, Vector2.Zero, Color.White);
+
+        rootNode.Children.Add(_mainGraphics.Item1);
+
+        return _mainGraphics.Item2;
+    }
+
+    private MonoSprite[] AddOutlines(SceneNode rootNode, UnitName spriteSheetId)
+    {
+        var sprites = new List<MonoSprite>();
+
         const int OUTLINE_COUNT = 4;
         const int OUTLINE_LENGTH = 2;
-        _outlines = Enumerable.Range(0, OUTLINE_COUNT).Select(x => CreateSprite(
+        _outlines = Enumerable.Range(0, OUTLINE_COUNT).Select(x => CreateMainSprite(
             spriteSheetId,
             new Vector2((float)Math.Cos(Math.PI * 2 / OUTLINE_COUNT * x),
                 (float)Math.Sin(Math.PI * 2 / OUTLINE_COUNT * x)) * OUTLINE_LENGTH,
             Color.Red)
         ).ToArray();
 
-        var sprites = new List<MonoSprite>();
-
         foreach (var outline in _outlines)
         {
             outline.Item2.IsVisible = false;
             sprites.Add(outline.Item2);
-            Root.RootNode.Children.Add(outline.Item1);
+            rootNode.Children.Add(outline.Item1);
         }
 
-        _mainGraphics = CreateSprite(spriteSheetId, Vector2.Zero, Color.White);
-
-        Root.RootNode.Children.Add(_mainGraphics.Item1);
-        sprites.Add(_mainGraphics.Item2);
-
-        _animatedSprites = sprites.ToArray();
+        return sprites.ToArray();
     }
 
     private void AddSelectionMarkers(SceneNode rootNode)
@@ -170,13 +180,13 @@ internal abstract class UnitGraphicsBase
     {
         var shadowNode = new SceneNode
         {
-            Position = _graphicsConfig.ShadowOrigin
+            //Position = _graphicsConfig.ShadowOffset
         };
 
         var teamSpriteEffect = isPlayerSide ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
         var shadowSprite = new MonoSprite(_gameObjectContentStorage.GetUnitShadow())
         {
-            Origin = new Vector2(0.5f, 0.5f),
+            OriginNormalized = new Vector2(0.5f, 0.5f),
             Color = Color.Lerp(Color.Black, Color.Transparent, 0.5f),
             Effect = teamSpriteEffect
         };
@@ -185,17 +195,18 @@ internal abstract class UnitGraphicsBase
         rootNode.Children.Add(shadowNode);
     }
 
-    private (SceneNode, MonoSprite) CreateSprite(UnitName spriteSheetId, Vector2 offset, Color baseColor)
+    private (SceneNode, MonoSprite) CreateMainSprite(UnitName spriteSheetId, Vector2 startPositionOffset, Color baseColor)
     {
         var sceneNode = new SceneNode
-        {
-            Position = new Vector2(FRAME_WIDTH * 0.25f, 0) + offset
+        { 
+            Position = startPositionOffset
         };
         var texture = _gameObjectContentStorage.GetUnitGraphics(spriteSheetId);
         var sprite = new MonoSprite(new MonoGame.Extended.TextureAtlases.TextureRegion2D(texture, new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT)))
         {
             Color = baseColor,
-            Origin = _graphicsConfig.Origin //new Vector2(0.5f, 0.875f),
+            OriginNormalized = _graphicsConfig.Origin,
+
         };
         sceneNode.Entities.Add(new SpriteEntity(sprite));
 

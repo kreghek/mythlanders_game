@@ -11,7 +11,7 @@ internal sealed class AmbushDroneGraphicsConfig : BlackMonsterGraphicConfig
 {
     public AmbushDroneGraphicsConfig(UnitName unit) : base(unit)
     {
-        ShadowOrigin = new Vector2(64, 0);
+        ShadowOffset = new Vector2(64, 0);
     }
 
     public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()

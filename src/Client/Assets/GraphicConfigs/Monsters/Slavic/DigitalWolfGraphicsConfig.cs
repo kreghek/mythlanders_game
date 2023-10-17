@@ -12,7 +12,7 @@ internal sealed class DigitalWolfGraphicsConfig : SlavicMonsterGraphicConfig
     {
         InteractionPoint = new Vector2(64, 16);
         StatsPanelOrigin = new Vector2(32, 64 - 10);
-        ShadowOrigin = new Vector2(16, 0);
+        ShadowOffset = new Vector2(16, 0);
     }
 
     public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()

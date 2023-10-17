@@ -11,7 +11,7 @@ internal sealed class ChaserGraphicConfig : EgyptianMonsterGraphicConfig
 {
     public ChaserGraphicConfig() : base(UnitName.Chaser)
     {
-        ShadowOrigin = new Vector2(70, 12);
+        ShadowOffset = new Vector2(70, 12);
     }
 
     public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()

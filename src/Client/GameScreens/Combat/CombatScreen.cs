@@ -899,6 +899,9 @@ internal class CombatScreen : GameScreenWithMenuBase
                 gameObject.Graphics.Root.Draw(spriteBatch);
             }
         }
+
+        var shadowTexture = _gameObjectContentStorage.GetUnitShadow();
+        spriteBatch.Draw(shadowTexture, new Vector2(500, 480 / 2), null, new Color(Color.Red, 0.2f), 0, new Vector2(0.5f, 0.5f), 1, SpriteEffects.None, 1);
     }
 
     private void DrawCombatantsInWorldInfo(SpriteBatch spriteBatch)
