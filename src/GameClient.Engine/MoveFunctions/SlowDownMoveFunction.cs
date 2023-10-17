@@ -22,7 +22,7 @@ public sealed class SlowDownMoveFunction : IMoveFunction
     }
 
     /// <inheritdoc />
-    public Vector2 CalcPosition(MoveFunctionValue t)
+    public Vector2 CalcPosition(MoveFunctionArgument t)
     {
         return Vector2.Lerp(_startPosition, _finishPosition, (float)Math.Sin(t.Value * Math.PI * 0.5));
     }

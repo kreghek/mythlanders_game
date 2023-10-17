@@ -15,7 +15,7 @@ public class SlowDownMoveFunctionTests
         var start = Vector2.Zero;
         var target = Vector2.UnitX;
 
-        var t = new MoveFunctionValue(0);
+        var t = new MoveFunctionArgument(0);
         var expectedValue = Vector2.Zero;
 
         var func = new SlowDownMoveFunction(start, target);
@@ -37,7 +37,7 @@ public class SlowDownMoveFunctionTests
         var start = Vector2.Zero;
         var target = Vector2.UnitX;
 
-        var t = new MoveFunctionValue(1);
+        var t = new MoveFunctionArgument(1);
         var expectedValue = target;
 
         var func = new SlowDownMoveFunction(start, target);

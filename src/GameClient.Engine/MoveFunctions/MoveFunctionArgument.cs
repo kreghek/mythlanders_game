@@ -3,27 +3,27 @@
 /// <summary>
 /// Move function value.
 /// </summary>
-public record MoveFunctionValue
+public record MoveFunctionArgument
 {
     /// <summary>
     /// Constructor.
     /// </summary>
-    /// <param name="value">base value</param>
+    /// <param name="argumentValue">base value</param>
     /// <exception cref="ArgumentOutOfRangeException">Raise the value less 0 or greater that 1.</exception>
-    public MoveFunctionValue(double value)
+    public MoveFunctionArgument(double argumentValue)
     {
-        if (value < 0 || value > 1)
+        if (argumentValue is < 0 or > 1)
         {
-            throw new ArgumentOutOfRangeException(nameof(value));
+            throw new ArgumentOutOfRangeException(nameof(argumentValue));
         }
 
-        Value = value;
+        Value = argumentValue;
     }
 
     /// <summary>
-    /// Maximim function value.
+    /// Maximum function value.
     /// </summary>
-    public static MoveFunctionValue Max => new MoveFunctionValue(1);
+    public static MoveFunctionArgument Max => new(1);
 
     /// <summary>
     /// Value.
@@ -31,6 +31,6 @@ public record MoveFunctionValue
     public double Value { get; }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public static implicit operator MoveFunctionValue(double value) { return new MoveFunctionValue(value); }
+    public static implicit operator MoveFunctionArgument(double value) { return new MoveFunctionArgument(value); }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }
