@@ -879,10 +879,14 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void DrawCombatants(SpriteBatch spriteBatch, ICombatShadeContext combatSceneContext)
     {
-        var corpseList = _corpseObjects.OrderBy(x => x.GetZIndex()).ToArray();
-        foreach (var gameObject in corpseList)
+        if (combatSceneContext.CurrentScope is null)
         {
-            gameObject.Draw(spriteBatch);
+            // Do not draw corpse while movement scene
+            var corpseList = _corpseObjects.OrderBy(x => x.GetZIndex()).ToArray();
+            foreach (var gameObject in corpseList)
+            {
+                gameObject.Draw(spriteBatch);
+            }
         }
 
         var list = _gameObjects.OrderBy(x => x.GetZIndex()).ToArray();
