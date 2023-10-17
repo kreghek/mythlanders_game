@@ -8,7 +8,6 @@ internal abstract class CombatantGraphicsConfigBase
 {
     public Vector2 InteractionPoint { get; protected set; } = Vector2.UnitY * 32;
     public Vector2 LaunchPoint { get; protected set; } = new Vector2(64, 64);
-
     public int MeleeHitXOffset { get; protected set; } = 64;
 
     public Vector2 Origin { get; protected set; } = Vector2.Zero;

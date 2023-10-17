@@ -25,7 +25,7 @@ internal abstract class UnitGraphicsBase
     private IAnimationFrameSet _currentAnimationFrameSet = null!;
     private Sprite _graphics;
     private Sprite[] _outlines;
-    protected Vector2 _position;
+    private readonly Vector2 _position;
 
     private double _selectedMarkerCounter;
 
@@ -93,11 +93,6 @@ internal abstract class UnitGraphicsBase
         PlayAnimation(animation);
     }
 
-    public void SwitchSourceUnit(UnitName spriteSheetId, bool isNormalOriented)
-    {
-        InitializeSprites(spriteSheetId, isNormalOriented);
-    }
-
     public void Update(GameTime gameTime)
     {
         HandleSelectionMarker(gameTime);
@@ -110,14 +105,11 @@ internal abstract class UnitGraphicsBase
         }
     }
 
-    protected void InitializeSprites(UnitName spriteSheetId, bool isPlayerSide)
+    private void InitializeSprites(UnitName spriteSheetId, bool isPlayerSide)
     {
-        if (Root is not null)
+        foreach (var selectedMarker in _selectedMarkers)
         {
-            foreach (var selectedMarker in _selectedMarkers)
-            {
-                Root.RemoveChild(selectedMarker);
-            }
+            Root.RemoveChild(selectedMarker);
         }
 
         Root = new SpriteContainer
@@ -141,12 +133,12 @@ internal abstract class UnitGraphicsBase
 
         _graphics = CreateSprite(spriteSheetId, Vector2.Zero, Color.White);
 
-        var outlineCount = 4;
-        var outlineLength = 2;
-        _outlines = Enumerable.Range(0, outlineCount).Select(x => CreateSprite(
+        const int OUTLINE_COUNT = 4;
+        const int OUTLINE_LENGTH = 2;
+        _outlines = Enumerable.Range(0, OUTLINE_COUNT).Select(x => CreateSprite(
             spriteSheetId,
-            new Vector2((float)Math.Cos(Math.PI * 2 / outlineCount * x),
-                (float)Math.Sin(Math.PI * 2 / outlineCount * x)) * outlineLength,
+            new Vector2((float)Math.Cos(Math.PI * 2 / OUTLINE_COUNT * x),
+                (float)Math.Sin(Math.PI * 2 / OUTLINE_COUNT * x)) * OUTLINE_LENGTH,
             Color.Red)
         ).ToArray();
 
