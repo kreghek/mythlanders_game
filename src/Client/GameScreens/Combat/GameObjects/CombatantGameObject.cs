@@ -22,9 +22,6 @@ internal sealed class CombatantGameObject
     private readonly CombatantGraphicsConfigBase _combatantGraphicsConfig;
     private readonly CombatantPositionSide _combatantSide;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
-    private readonly ICombatantPositionProvider _unitPositionProvider;
-
-    private CombatUnitState _visualIdleState;
 
     public CombatantGameObject(ICombatant combatant, CombatantGraphicsConfigBase combatantGraphicsConfig,
         FieldCoords formationCoords, ICombatantPositionProvider unitPositionProvider,
@@ -45,7 +42,6 @@ internal sealed class CombatantGameObject
         Animator = new ActorAnimator(Graphics);
 
         Combatant = combatant;
-        _unitPositionProvider = unitPositionProvider;
         _gameObjectContentStorage = gameObjectContentStorage;
         _camera = camera;
         _combatantSide = combatantSide;
@@ -123,11 +119,6 @@ internal sealed class CombatantGameObject
     internal void AnimateShield()
     {
         // TODO Display shield effect.
-    }
-
-    internal void ChangeState(CombatUnitState visualIdleState)
-    {
-        _visualIdleState = visualIdleState;
     }
 
     internal float GetZIndex()

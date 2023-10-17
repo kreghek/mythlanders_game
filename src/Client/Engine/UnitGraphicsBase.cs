@@ -33,10 +33,10 @@ internal abstract class UnitGraphicsBase
 
     public UnitGraphicsBase(UnitName spriteSheetId, CombatantGraphicsConfigBase graphicsConfig,
         bool isNormalOrientation,
-        Vector2 position, GameObjectContentStorage gameObjectContentStorage)
+        Vector2 startPposition, GameObjectContentStorage gameObjectContentStorage)
     {
         _graphicsConfig = graphicsConfig;
-        _position = position;
+        _position = startPposition;
         _gameObjectContentStorage = gameObjectContentStorage;
 
         _selectedMarkers = new[]
@@ -107,11 +107,6 @@ internal abstract class UnitGraphicsBase
 
     private void InitializeSprites(UnitName spriteSheetId, bool isPlayerSide)
     {
-        foreach (var selectedMarker in _selectedMarkers)
-        {
-            Root.RemoveChild(selectedMarker);
-        }
-
         Root = new SpriteContainer
         {
             Position = _position,

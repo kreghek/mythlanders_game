@@ -531,7 +531,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void CombatCore_CombatantStartsTurn(object? sender, CombatantTurnStartedEventArgs e)
     {
         var currentCombatantGameObject = GetCombatantGameObject(_combatCore.CurrentCombatant);
-        currentCombatantGameObject.IsActive = true;
+        currentCombatantGameObject.Graphics.ShowActiveMarker = true;
 
         if (_combatMovementsHandPanel is not null && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
@@ -1260,7 +1260,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void DropSelection(ICombatant combatant)
     {
         var oldCombatUnitGameObject = GetCombatantGameObject(combatant);
-        oldCombatUnitGameObject.IsActive = false;
+        oldCombatUnitGameObject.Graphics.ShowActiveMarker = false;
     }
 
     private void EscapeButton_OnClick(object? sender, EventArgs e)

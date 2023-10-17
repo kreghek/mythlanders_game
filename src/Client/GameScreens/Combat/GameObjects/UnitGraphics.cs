@@ -8,8 +8,8 @@ namespace Client.GameScreens.Combat.GameObjects;
 internal sealed class UnitGraphics : UnitGraphicsBase
 {
     public UnitGraphics(UnitName spriteSheetId, CombatantGraphicsConfigBase graphicsConfig, bool isNormalOrientation,
-        Vector2 position, GameObjectContentStorage gameObjectContentStorage) :
-        base(spriteSheetId, graphicsConfig, isNormalOrientation, position, gameObjectContentStorage)
+        Vector2 startPosition, GameObjectContentStorage gameObjectContentStorage) :
+        base(spriteSheetId, graphicsConfig, isNormalOrientation, startPosition, gameObjectContentStorage)
     {
     }
 
