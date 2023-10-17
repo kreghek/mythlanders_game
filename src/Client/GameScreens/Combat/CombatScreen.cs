@@ -1029,8 +1029,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             {
                 if (!_maneuversVisualizer.IsHidden)
                 {
-                    // ALT to show stats and statuses
-                    // Hide maneuvers to avoid HUD-mess
+                    // Pressing [ALT] is to show stats and statuses of all combatants.
+                    // Hide maneuvers to avoid HUD-mess.
                     if (!Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
                     {
                         _maneuversVisualizer.Draw(spriteBatch);
@@ -1566,7 +1566,15 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             if (!_animationBlockManager.HasBlockers)
             {
-                _maneuversVisualizer.Update(_combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main]);
+                if (!_maneuversVisualizer.IsHidden)
+                {
+                    // Pressing [ALT] is to show stats and statuses of all combatants.
+                    // Hide maneuvers to avoid HUD-mess.
+                    if (!Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
+                    {
+                        _maneuversVisualizer.Update(_combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main]);
+                    }
+                }
             }
 
             if (_combatMovementsHandPanel is not null)
