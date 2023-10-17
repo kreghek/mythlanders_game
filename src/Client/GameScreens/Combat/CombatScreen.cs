@@ -494,7 +494,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                     _bloodParticleTexture);
                 _visualEffectManager.AddEffect(bloodEffect);
 
-                AddHitShaking(true);
+                AddHitShaking(true && unitGameObject.Combatant.IsPlayerControlled);
             }
             else if (ReferenceEquals(e.StatType, CombatantStatTypes.ShieldPoints))
             {
