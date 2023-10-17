@@ -22,7 +22,7 @@ public sealed class LinearMoveFunction : IMoveFunction
     }
 
     /// <inheritdoc />
-    public Vector2 CalcPosition(MoveFunctionValue t)
+    public Vector2 CalcPosition(MoveFunctionArgument t)
     {
         return Vector2.Lerp(_startPosition, _finishPosition, (float)t.Value);
     }

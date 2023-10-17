@@ -162,6 +162,11 @@ internal class FieldManeuversVisualizer
             return;
         }
 
+        if (IsHidden)
+        {
+            return;
+        }
+
         _animationCounter += 0.1f;
 
         _isManeuversAvailable = _context.ManeuversAvailable > 0;
@@ -171,6 +176,11 @@ internal class FieldManeuversVisualizer
             for (var lineIndex = 0; lineIndex < _heroFieldSide.LineCount; lineIndex++)
             {
                 var maneuverButton = _maneuverButtons[columnIndex, lineIndex];
+
+                if (!_isManeuversAvailable)
+                {
+                    continue;
+                }
 
                 if (_context.ManeuverStartCoords is not null)
                 {

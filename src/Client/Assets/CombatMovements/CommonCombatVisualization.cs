@@ -78,7 +78,6 @@ internal static class CommonCombatVisualization
             }
         };
 
-        var startPosition = actorAnimator.GraphicRoot.Position;
         var targetCombatant =
             GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
 
