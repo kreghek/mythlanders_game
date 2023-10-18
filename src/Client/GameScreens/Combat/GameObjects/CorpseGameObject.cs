@@ -4,8 +4,6 @@ using Client.Engine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using MonoGame.Extended;
-
 namespace Client.GameScreens.Combat.GameObjects;
 
 internal sealed class CorpseGameObject : EwarRenderableBase
@@ -20,6 +18,8 @@ internal sealed class CorpseGameObject : EwarRenderableBase
     {
         _graphics = graphics;
     }
+
+    public bool IsComplete => _counter > 2;
 
     public override void Update(GameTime gameTime)
     {
@@ -59,6 +59,4 @@ internal sealed class CorpseGameObject : EwarRenderableBase
     {
         return _graphics.Root.RootNode.Position.Y;
     }
-
-    public bool IsComplete => _counter > 2;
 }

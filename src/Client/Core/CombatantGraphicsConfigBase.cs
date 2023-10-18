@@ -14,6 +14,7 @@ internal abstract class CombatantGraphicsConfigBase
     /// Sprite origin in pixels.
     /// </summary>
     public Vector2 Origin { get; protected set; } = new Vector2(60, 110);
+
     public Vector2 StatsPanelOrigin { get; protected set; } = new Vector2(0, 64 + 4);
 
     public abstract string ThumbnailPath { get; }

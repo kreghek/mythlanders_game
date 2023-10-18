@@ -3,8 +3,6 @@
 using Client.Core;
 using Client.Core.AnimationFrameSets;
 
-using Microsoft.Xna.Framework;
-
 namespace Client.Assets.GraphicConfigs.Monsters.Egyptian;
 
 internal sealed class ChaserGraphicConfig : EgyptianMonsterGraphicConfig

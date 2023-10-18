@@ -11,7 +11,7 @@ internal sealed class DigitalWolfGraphicsConfig : SlavicMonsterGraphicConfig
     public DigitalWolfGraphicsConfig(UnitName unit) : base(unit)
     {
         InteractionPoint = new Vector2(64, 16);
-        
+
         Origin = new Vector2(100, 106);
     }
 
