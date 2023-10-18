@@ -18,36 +18,29 @@ namespace Client.GameScreens.Combat.GameObjects;
 internal sealed class CombatantGameObject
 {
     private readonly IList<IActorVisualizationState> _actorStateEngineList;
-    private readonly ICamera2DAdapter _camera;
     private readonly CombatantGraphicsConfigBase _combatantGraphicsConfig;
     private readonly CombatantPositionSide _combatantSide;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
-    private readonly ICombatantPositionProvider _unitPositionProvider;
-
-    private CombatUnitState _visualIdleState;
 
     public CombatantGameObject(ICombatant combatant, CombatantGraphicsConfigBase combatantGraphicsConfig,
         FieldCoords formationCoords, ICombatantPositionProvider unitPositionProvider,
         GameObjectContentStorage gameObjectContentStorage,
-        ICamera2DAdapter camera,
         CombatantPositionSide combatantSide)
     {
         _actorStateEngineList = new List<IActorVisualizationState>();
 
         _combatantGraphicsConfig = combatantGraphicsConfig;
 
-        var position = unitPositionProvider.GetPosition(formationCoords, combatantSide);
+        var startPosition = unitPositionProvider.GetPosition(formationCoords, combatantSide);
         var spriteSheetId = Enum.Parse<UnitName>(combatant.ClassSid, ignoreCase: true);
         Graphics = new UnitGraphics(spriteSheetId, _combatantGraphicsConfig,
             combatantSide == CombatantPositionSide.Heroes,
-            position, gameObjectContentStorage);
+            startPosition, gameObjectContentStorage);
 
         Animator = new ActorAnimator(Graphics);
 
         Combatant = combatant;
-        _unitPositionProvider = unitPositionProvider;
         _gameObjectContentStorage = gameObjectContentStorage;
-        _camera = camera;
         _combatantSide = combatantSide;
 
         // TODO Call ShiftShape from external combat core
@@ -61,18 +54,17 @@ internal sealed class CombatantGameObject
 
     public UnitGraphics Graphics { get; }
 
-    public Vector2 InteractionPoint => Graphics.Root.Position - _combatantGraphicsConfig.InteractionPoint;
+    public Vector2 InteractionPoint => Graphics.Root.RootNode.Position - _combatantGraphicsConfig.InteractionPoint;
 
-    public bool IsActive { get; set; }
-    public Vector2 LaunchPoint => Graphics.Root.Position - _combatantGraphicsConfig.LaunchPoint;
+    public Vector2 LaunchPoint => Graphics.Root.RootNode.Position - _combatantGraphicsConfig.LaunchPoint;
 
-    public Vector2 MeleeHitOffset => Graphics.Root.Position +
+    public Vector2 MeleeHitOffset => Graphics.Root.RootNode.Position +
                                      new Vector2(
                                          _combatantSide == CombatantPositionSide.Heroes
                                              ? _combatantGraphicsConfig.MeleeHitXOffset
                                              : -_combatantGraphicsConfig.MeleeHitXOffset, 0);
 
-    public Vector2 StatsPanelOrigin => Graphics.Root.Position - _combatantGraphicsConfig.StatsPanelOrigin;
+    public Vector2 StatsPanelOrigin => Graphics.Root.RootNode.Position - _combatantGraphicsConfig.StatsPanelOrigin;
 
     public void AddStateEngine(IActorVisualizationState actorStateEngine)
     {
@@ -100,7 +92,7 @@ internal sealed class CombatantGameObject
 
         deathSoundEffect.Play();
 
-        var corpse = new CorpseGameObject(Graphics, _camera, _gameObjectContentStorage);
+        var corpse = new CorpseGameObject(Graphics);
 
         return corpse;
     }
@@ -125,14 +117,9 @@ internal sealed class CombatantGameObject
         // TODO Display shield effect.
     }
 
-    internal void ChangeState(CombatUnitState visualIdleState)
-    {
-        _visualIdleState = visualIdleState;
-    }
-
     internal float GetZIndex()
     {
-        return Graphics.Root.Position.Y;
+        return Graphics.Root.RootNode.Position.Y;
     }
 
     private static PredefinedAnimationSid CalcMoveAnimation(Vector2 currentPosition, Vector2 targetPosition)
@@ -184,6 +171,4 @@ internal sealed class CombatantGameObject
     //         AddStateEngine(new UnitIdleState(Graphics, Combatant.State));
     //     };
     // }
-
-    public event EventHandler? SkillAnimationCompleted;
 }

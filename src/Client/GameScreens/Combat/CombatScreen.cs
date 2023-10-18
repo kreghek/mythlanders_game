@@ -374,7 +374,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void Combat_CombatantInterrupted(object? sender, CombatantInterruptedEventArgs e)
     {
         var unitGameObject = GetCombatantGameObject(e.Combatant);
-        var textPosition = unitGameObject.Graphics.Root.Position;
+        var textPosition = unitGameObject.Graphics.Root.RootNode.Position;
         var font = _uiContentStorage.GetCombatIndicatorFont();
 
         var passIndicator = new SkipTextIndicator(textPosition, font);
@@ -398,7 +398,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             : CombatantPositionSide.Monsters;
         var gameObject =
             new CombatantGameObject(e.Combatant, graphicConfig, e.FieldInfo.CombatantCoords, _combatantPositionProvider,
-                _gameObjectContentStorage, _combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main],
+                _gameObjectContentStorage,
                 combatantSide);
         _gameObjects.Add(gameObject);
 
@@ -466,7 +466,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         if (!_gameSettings.IsRecordMode)
         {
             var font = _uiContentStorage.GetCombatIndicatorFont();
-            var position = unitGameObject.Graphics.Root.Position;
+            var position = unitGameObject.Graphics.Root.RootNode.Position;
 
             if (e.Value <= 0)
             {
@@ -494,7 +494,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                     _bloodParticleTexture);
                 _visualEffectManager.AddEffect(bloodEffect);
 
-                AddHitShaking(true);
+                AddHitShaking(true && unitGameObject.Combatant.IsPlayerControlled);
             }
             else if (ReferenceEquals(e.StatType, CombatantStatTypes.ShieldPoints))
             {
@@ -531,7 +531,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void CombatCore_CombatantStartsTurn(object? sender, CombatantTurnStartedEventArgs e)
     {
         var currentCombatantGameObject = GetCombatantGameObject(_combatCore.CurrentCombatant);
-        currentCombatantGameObject.IsActive = true;
+        currentCombatantGameObject.Graphics.ShowActiveMarker = true;
 
         if (_combatMovementsHandPanel is not null && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
@@ -882,8 +882,20 @@ internal class CombatScreen : GameScreenWithMenuBase
         var corpseList = _corpseObjects.OrderBy(x => x.GetZIndex()).ToArray();
         foreach (var gameObject in corpseList)
         {
-            gameObject.Draw(spriteBatch);
+            if (gameObject.IsComplete)
+            {
+                if (combatSceneContext.CurrentScope is null)
+                {
+                    // Do not draw corpse while movement scene
+                    gameObject.Draw(spriteBatch);
+                }
+            }
+            else
+            {
+                gameObject.Draw(spriteBatch);
+            }
         }
+
 
         var list = _gameObjects.OrderBy(x => x.GetZIndex()).ToArray();
         foreach (var gameObject in list)
@@ -1260,7 +1272,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void DropSelection(ICombatant combatant)
     {
         var oldCombatUnitGameObject = GetCombatantGameObject(combatant);
-        oldCombatUnitGameObject.IsActive = false;
+        oldCombatUnitGameObject.Graphics.ShowActiveMarker = false;
     }
 
     private void EscapeButton_OnClick(object? sender, EventArgs e)

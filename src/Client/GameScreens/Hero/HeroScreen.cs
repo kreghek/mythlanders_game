@@ -65,7 +65,7 @@ internal sealed class HeroScreen : GameScreenWithMenuBase
             transformMatrix: Camera.GetViewTransformationMatrix());
 
         var unitGraphicsRect = GetCellRect(contentRect, col: 0, row: 0);
-        _unitGraphics.Root.Position = unitGraphicsRect.Center.ToVector2();
+        _unitGraphics.Root.RootNode.Position = unitGraphicsRect.Center.ToVector2();
         _unitGraphics.Draw(spriteBatch);
 
         // _generalInfoPanel.Rect = GetCellRect(contentRect, col: 1, row: 0);
