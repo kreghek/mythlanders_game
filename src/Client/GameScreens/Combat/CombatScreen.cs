@@ -41,6 +41,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using MonoGame;
+using MonoGame.Extended.TextureAtlases;
 
 namespace Client.GameScreens.Combat;
 
@@ -99,6 +100,10 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
+    private TextureRegion2D _shieldParticleTexture = null!;
+    private SoundEffect _bloodSound;
+    private SoundEffect _shieldSound = null!;
+    private SoundEffect _shieldBreakingSound = null!;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -222,6 +227,13 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _bloodParticleTexture = new Texture2D(Game.GraphicsDevice, 1, 1);
         _bloodParticleTexture.SetData(new[] { Color.Red });
+
+        var particleTexture = Game.Content.Load<Texture2D>("Sprites/GameObjects/SfxObjects/Particles");
+        _shieldParticleTexture = new TextureRegion2D(particleTexture, new Rectangle(0, 32 * 3, 32, 32));
+
+        _bloodSound = Game.Content.Load<SoundEffect>("Audio/Sfx/Blood");
+        _shieldSound = Game.Content.Load<SoundEffect>("Audio/Sfx/Shield");
+        _shieldBreakingSound = Game.Content.Load<SoundEffect>("Audio/Sfx/ShieldBreaking");
 
         InitializeCombat();
 
@@ -476,6 +488,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             var nextIndex = GetIndicatorNextIndex(unitGameObject);
 
+            var hitDirection = unitGameObject.Combatant.IsPlayerControlled ? HitDirection.Left : HitDirection.Right;
+            
             if (ReferenceEquals(e.StatType, CombatantStatTypes.HitPoints))
             {
                 var damageIndicator =
@@ -490,9 +504,11 @@ internal class CombatScreen : GameScreenWithMenuBase
                 unitGameObject.AnimateWound();
 
                 var bloodEffect = new BloodCombatVisualEffect(unitGameObject.InteractionPoint,
-                    unitGameObject.Combatant.IsPlayerControlled ? HitDirection.Left : HitDirection.Right,
+                    hitDirection,
                     _bloodParticleTexture);
                 _visualEffectManager.AddEffect(bloodEffect);
+
+                _bloodSound.CreateInstance().Play();
 
                 AddHitShaking(true && unitGameObject.Combatant.IsPlayerControlled);
             }
@@ -507,7 +523,26 @@ internal class CombatScreen : GameScreenWithMenuBase
 
                 _visualEffectManager.AddEffect(spIndicator);
 
-                unitGameObject.AnimateShield();
+                if (e.Combatant.Stats.Single(x => x.Type == CombatantStatTypes.ShieldPoints).Value.Current > 0)
+                {
+                    var shieldEffect = new ShieldCombatVisualEffect(unitGameObject.InteractionPoint,
+                        hitDirection,
+                        _shieldParticleTexture,
+                        unitGameObject.CombatantSize);
+                    _visualEffectManager.AddEffect(shieldEffect);
+
+                    _shieldSound.CreateInstance().Play();
+                }
+                else
+                {
+                    var shieldEffect = new ShieldBreakCombatVisualEffect(unitGameObject.InteractionPoint,
+                      hitDirection,
+                      _shieldParticleTexture,
+                      unitGameObject.CombatantSize);
+                    _visualEffectManager.AddEffect(shieldEffect);
+
+                    _shieldBreakingSound.CreateInstance().Play();
+                }
 
                 AddHitShaking();
             }

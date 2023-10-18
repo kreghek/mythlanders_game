@@ -56,6 +56,7 @@ internal sealed class CombatantGameObject
 
     public Vector2 InteractionPoint => Graphics.Root.RootNode.Position - _combatantGraphicsConfig.InteractionPoint;
 
+    public int CombatantSize { get; } = 32;
     public Vector2 LaunchPoint => Graphics.Root.RootNode.Position - _combatantGraphicsConfig.LaunchPoint;
 
     public Vector2 MeleeHitOffset => Graphics.Root.RootNode.Position +
@@ -110,11 +111,6 @@ internal sealed class CombatantGameObject
         HandleEngineStates(gameTime);
 
         Graphics.Update(gameTime);
-    }
-
-    internal void AnimateShield()
-    {
-        // TODO Display shield effect.
     }
 
     internal float GetZIndex()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Engine;
+using Client.GameScreens;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,7 +17,7 @@ using MonoGame.Extended.TextureAtlases;
 
 namespace Client.Assets.CombatVisualEffects;
 
-internal sealed class BloodCombatVisualEffect : ICombatVisualEffect
+internal sealed class ShieldBreakCombatVisualEffect : ICombatVisualEffect
 {
     private readonly Duration _duration;
 
@@ -24,27 +25,26 @@ internal sealed class BloodCombatVisualEffect : ICombatVisualEffect
 
     private double _lifetimeCounter;
 
-    public BloodCombatVisualEffect(Vector2 position, HitDirection direction, Texture2D bloodParticleTexture)
+    public ShieldBreakCombatVisualEffect(Vector2 position, HitDirection direction, TextureRegion2D shieldParticleTexture, int combatantRadius)
     {
         _duration = new Duration(0.05f);
 
-        var textureRegion = new TextureRegion2D(bloodParticleTexture);
         _particleEffect = new ParticleEffect
         {
             Position = position,
             Emitters = new List<ParticleEmitter>
             {
-                new(textureRegion, 500, TimeSpan.FromSeconds(0.75),
-                    Profile.Spray(direction == HitDirection.Right ? Vector2.UnitX : -Vector2.UnitX, 1))
+                new(shieldParticleTexture, 500, TimeSpan.FromSeconds(0.5),
+                    Profile.Spray(direction == HitDirection.Right ? Vector2.UnitX : -Vector2.UnitX, 3))
                 {
                     Parameters = new ParticleReleaseParameters
                     {
-                        Speed = new Range<float>(100f, 250f),
-                        Quantity = 30,
+                        Speed = new Range<float>(350f, 550f),
+                        Quantity = 15,
                         Rotation = new Range<float>(-1f, 1f),
-                        Scale = new Range<float>(1.0f, 4.0f),
-                        Color = new Range<HslColor>(HslColor.FromRgb(Color.White),
-                            HslColor.FromRgb(new Color(Color.White, 0.5f)))
+                        Scale = new Range<float>(0.25f, 0.5f),
+                        Color = new Range<HslColor>(HslColor.FromRgb(TestamentColors.MainSciFi),
+                            HslColor.FromRgb(new Color(TestamentColors.MainSciFi, 0.5f)))
                     },
                     Modifiers =
                     {
@@ -54,13 +54,11 @@ internal sealed class BloodCombatVisualEffect : ICombatVisualEffect
                             {
                                 new OpacityInterpolator
                                 {
-                                    StartValue = 1,
-                                    EndValue = 0.5f
+                                    StartValue = 0.75f,
+                                    EndValue = 0f
                                 }
                             }
-                        },
-                        new RotationModifier { RotationRate = -2.1f },
-                        new LinearGravityModifier { Direction = Vector2.UnitY, Strength = 250f }
+                        }
                     }
                 }
             }
