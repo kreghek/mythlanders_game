@@ -18,7 +18,6 @@ namespace Client.GameScreens.Combat.GameObjects;
 internal sealed class CombatantGameObject
 {
     private readonly IList<IActorVisualizationState> _actorStateEngineList;
-    private readonly ICamera2DAdapter _camera;
     private readonly CombatantGraphicsConfigBase _combatantGraphicsConfig;
     private readonly CombatantPositionSide _combatantSide;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -26,7 +25,6 @@ internal sealed class CombatantGameObject
     public CombatantGameObject(ICombatant combatant, CombatantGraphicsConfigBase combatantGraphicsConfig,
         FieldCoords formationCoords, ICombatantPositionProvider unitPositionProvider,
         GameObjectContentStorage gameObjectContentStorage,
-        ICamera2DAdapter camera,
         CombatantPositionSide combatantSide)
     {
         _actorStateEngineList = new List<IActorVisualizationState>();
@@ -43,7 +41,6 @@ internal sealed class CombatantGameObject
 
         Combatant = combatant;
         _gameObjectContentStorage = gameObjectContentStorage;
-        _camera = camera;
         _combatantSide = combatantSide;
 
         // TODO Call ShiftShape from external combat core
@@ -59,7 +56,6 @@ internal sealed class CombatantGameObject
 
     public Vector2 InteractionPoint => Graphics.Root.RootNode.Position - _combatantGraphicsConfig.InteractionPoint;
 
-    public bool IsActive { get; set; }
     public Vector2 LaunchPoint => Graphics.Root.RootNode.Position - _combatantGraphicsConfig.LaunchPoint;
 
     public Vector2 MeleeHitOffset => Graphics.Root.RootNode.Position +
@@ -175,6 +171,4 @@ internal sealed class CombatantGameObject
     //         AddStateEngine(new UnitIdleState(Graphics, Combatant.State));
     //     };
     // }
-
-    public event EventHandler? SkillAnimationCompleted;
 }

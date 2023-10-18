@@ -398,7 +398,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             : CombatantPositionSide.Monsters;
         var gameObject =
             new CombatantGameObject(e.Combatant, graphicConfig, e.FieldInfo.CombatantCoords, _combatantPositionProvider,
-                _gameObjectContentStorage, _combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main],
+                _gameObjectContentStorage,
                 combatantSide);
         _gameObjects.Add(gameObject);
 
