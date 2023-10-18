@@ -225,7 +225,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _bloodParticleTexture = new Texture2D(Game.GraphicsDevice, 1, 1);
         _bloodParticleTexture.SetData(new[] { Color.Red });
 
-        var particleTexture = Game.Content.Load<Texture2D>("Sprites/GameObjects/SfxObjects");
+        var particleTexture = Game.Content.Load<Texture2D>("Sprites/GameObjects/SfxObjects/Particles");
         _shieldParticleTexture = new TextureRegion2D(particleTexture, new Rectangle(0, 32 * 3, 32, 32));
 
         InitializeCombat();

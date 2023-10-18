@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Engine;
+using Client.GameScreens;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -39,12 +40,12 @@ internal sealed class ShieldCombatVisualEffect : ICombatVisualEffect
                 {
                     Parameters = new ParticleReleaseParameters
                     {
-                        Speed = new Range<float>(50f, 150f),
+                        Speed = new Range<float>(150f, 250f),
                         Quantity = 30,
                         Rotation = new Range<float>(-1f, 1f),
-                        Scale = new Range<float>(1.0f, 4.0f),
-                        Color = new Range<HslColor>(HslColor.FromRgb(Color.White),
-                            HslColor.FromRgb(new Color(Color.White, 0.5f)))
+                        Scale = new Range<float>(0.25f, 0.5f),
+                        Color = new Range<HslColor>(HslColor.FromRgb(TestamentColors.MainSciFi),
+                            HslColor.FromRgb(new Color(TestamentColors.MainSciFi, 0.5f)))
                     },
                     Modifiers =
                     {
