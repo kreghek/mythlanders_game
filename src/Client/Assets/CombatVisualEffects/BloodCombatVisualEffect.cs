@@ -34,12 +34,12 @@ internal sealed class BloodCombatVisualEffect : ICombatVisualEffect
             Position = position,
             Emitters = new List<ParticleEmitter>
             {
-                new(textureRegion, 500, TimeSpan.FromSeconds(0.5),
+                new(textureRegion, 500, TimeSpan.FromSeconds(0.75),
                     Profile.Spray(direction == HitDirection.Right ? Vector2.UnitX : -Vector2.UnitX, 1))
                 {
                     Parameters = new ParticleReleaseParameters
                     {
-                        Speed = new Range<float>(50f, 150f),
+                        Speed = new Range<float>(100f, 250f),
                         Quantity = 30,
                         Rotation = new Range<float>(-1f, 1f),
                         Scale = new Range<float>(1.0f, 4.0f),

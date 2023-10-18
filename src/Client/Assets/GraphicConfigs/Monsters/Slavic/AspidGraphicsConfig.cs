@@ -13,6 +13,7 @@ internal sealed class AspidGraphicsConfig : SlavicMonsterGraphicConfig
         StatsPanelOrigin = new Vector2(0, 64 + 20);
         InteractionPoint = Vector2.UnitY * 48;
         MeleeHitXOffset = 128;
+        Origin = new Vector2(75, 106);
     }
 
     public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()

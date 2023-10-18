@@ -284,6 +284,9 @@
     <value>Sardo</value>
         <comment>Hero</comment>
   </data>
+  <data name="CoverOfDew" xml:space="preserve">
+      <value>Cover of Dew</value>
+  </data>
   <data name="CriticalHit" xml:space="preserve">
     <value>Critical hit</value>
         <comment>Perk</comment>
@@ -346,6 +349,9 @@
     <value></value>
         <comment>Crisis Aftermath</comment>
   </data>
+  <data name="DevastatingPaw" xml:space="preserve">
+      <value>Devastating Paw</value>
+  </data>
   <data name="DieBySword" xml:space="preserve">
       <value>Die by the sword</value>
         <comment>Combat Movement Swordsman</comment>
@@ -355,8 +361,8 @@
         <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="DigitalWolf" xml:space="preserve">
-      <value>Digital Hort</value>
-      <comment>Monster</comment>
+    <value>Digital wolf</value>
+        <comment>Monster</comment>
   </data>
   <data name="DopeHerb" xml:space="preserve">
       <value>Dope herb</value>
@@ -528,6 +534,9 @@
     <value>HQ</value>
         <comment>Hero</comment>
   </data>
+  <data name="HumanSlayer" xml:space="preserve">
+      <value>Human Slayer</value>
+  </data>
   <data name="Hunt" xml:space="preserve">
     <value>The Hunt has begun!</value>
         <comment>Combat Movement Amazon</comment>
@@ -619,6 +628,9 @@
   <data name="LookOut_Description" xml:space="preserve">
     <value />
         <comment>Combat movement Swordsman</comment>
+  </data>
+  <data name="LordOfNonHumanRealm" xml:space="preserve">
+      <value>Lord Of Non Human Realm</value>
   </data>
   <data name="MadnessWithinEyes" xml:space="preserve">
     <value>Madness within eyes</value>
@@ -757,6 +769,9 @@
   <data name="Rest_CrisisAftermath" xml:space="preserve">
     <value>Rest</value>
         <comment>Crisis Aftermath</comment>
+  </data>
+  <data name="RevengeOfWildEye" xml:space="preserve">
+      <value>Revenge Of Wild Eye</value>
   </data>
   <data name="RiseYourSwords" xml:space="preserve">
     <value>Rise your swords!</value>
@@ -991,20 +1006,5 @@
   <data name="ZduhachMight" xml:space="preserve">
       <value>Zduhach Might</value>
         <comment>Skill</comment>
-  </data>
-  <data name="DevastatingPaw" xml:space="preserve">
-      <value>Devastating Paw</value>
-  </data>
-  <data name="CoverOfDew" xml:space="preserve">
-      <value>Cover of Dew</value>
-  </data>
-  <data name="HumanSlayer" xml:space="preserve">
-      <value>Human Slayer</value>
-  </data>
-  <data name="LordOfNonHumanRealm" xml:space="preserve">
-      <value>Lord Of Non Human Realm</value>
-  </data>
-  <data name="RevengeOfWildEye" xml:space="preserve">
-      <value>Revenge Of Wild Eye</value>
   </data>
 </root>

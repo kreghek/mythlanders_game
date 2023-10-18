@@ -266,6 +266,9 @@
   <data name="Comissar" xml:space="preserve">
     <value>Сардо</value>
   </data>
+  <data name="CoverOfDew" xml:space="preserve">
+    <value>Покров Росы</value>
+  </data>
   <data name="CriticalHit" xml:space="preserve">
     <value>Критический удар</value>
   </data>
@@ -316,6 +319,9 @@
 - Все герои получают слабый урон.
 - Где-то далеко в пространстве и времени слышен потусторонний выдох</value>
   </data>
+  <data name="DevastatingPaw" xml:space="preserve">
+    <value>Опустошающая Лапа</value>
+  </data>
   <data name="DieBySword" xml:space="preserve">
     <value>От меча и погибни!</value>
   </data>
@@ -323,7 +329,7 @@
     <value>Перемещается вперед и наносит 2ед. урона ближайшему в линии противнику.</value>
   </data>
   <data name="DigitalWolf" xml:space="preserve">
-    <value>Цифровой Хорт</value>
+    <value>Цифровой волк</value>
   </data>
   <data name="DopeHerb" xml:space="preserve">
     <value>Дурман-трава</value>
@@ -458,6 +464,9 @@
   <data name="Hq" xml:space="preserve">
     <value>Штаб</value>
   </data>
+  <data name="HumanSlayer" xml:space="preserve">
+    <value>Человекоубийца</value>
+  </data>
   <data name="Hunt" xml:space="preserve">
     <value>Да начнется охота!</value>
   </data>
@@ -528,6 +537,9 @@
   </data>
   <data name="LookOut_Description" xml:space="preserve">
     <value>Увеличивает защиту ближайшего союзника в столбце на 3 до конца хода союзника. Сам мечник перемещается в авангард. При автосрабатывании, увеличивает свою защиту на 1ед.</value>
+  </data>
+  <data name="LordOfNonHumanRealm" xml:space="preserve">
+    <value>Владыка нечеловеческого царства</value>
   </data>
   <data name="MadnessWithinEyes" xml:space="preserve">
     <value>Безумие в глазах</value>
@@ -639,6 +651,9 @@
   </data>
   <data name="Rest_CrisisAftermath" xml:space="preserve">
     <value>Один герой полностью отдыхает, пока остальные начеку</value>
+  </data>
+  <data name="RevengeOfWildEye" xml:space="preserve">
+    <value>Возмездие дикого ока</value>
   </data>
   <data name="RiseYourSwords" xml:space="preserve">
     <value>Поднимите свои мечи!</value>
@@ -826,20 +841,5 @@
   </data>
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
-  </data>
-  <data name="DevastatingPaw" xml:space="preserve">
-    <value>Опустошающая Лапа</value>
-  </data>
-  <data name="CoverOfDew" xml:space="preserve">
-    <value>Покров Росы</value>
-  </data>
-  <data name="HumanSlayer" xml:space="preserve">
-    <value>Человекоубийца</value>
-  </data>
-  <data name="LordOfNonHumanRealm" xml:space="preserve">
-    <value>Владыка нечеловеческого царства</value>
-  </data>
-  <data name="RevengeOfWildEye" xml:space="preserve">
-    <value>Возмездие дикого ока</value>
   </data>
 </root>
