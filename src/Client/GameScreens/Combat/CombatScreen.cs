@@ -41,6 +41,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using MonoGame;
+using MonoGame.Extended.TextureAtlases;
 
 namespace Client.GameScreens.Combat;
 
@@ -87,6 +88,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly IUiContentStorage _uiContentStorage;
     private readonly VisualEffectManager _visualEffectManager;
     private Texture2D _bloodParticleTexture = null!;
+    private SoundEffect _bloodSound;
 
     private bool _bossWasDefeat;
 
@@ -99,6 +101,9 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
+    private SoundEffect _shieldBreakingSound = null!;
+    private TextureRegion2D _shieldParticleTexture = null!;
+    private SoundEffect _shieldSound = null!;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -222,6 +227,13 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _bloodParticleTexture = new Texture2D(Game.GraphicsDevice, 1, 1);
         _bloodParticleTexture.SetData(new[] { Color.Red });
+
+        var particleTexture = Game.Content.Load<Texture2D>("Sprites/GameObjects/SfxObjects/Particles");
+        _shieldParticleTexture = new TextureRegion2D(particleTexture, new Rectangle(0, 32 * 3, 32, 32));
+
+        _bloodSound = Game.Content.Load<SoundEffect>("Audio/Sfx/Blood");
+        _shieldSound = Game.Content.Load<SoundEffect>("Audio/Sfx/Shield");
+        _shieldBreakingSound = Game.Content.Load<SoundEffect>("Audio/Sfx/ShieldBreaking");
 
         InitializeCombat();
 
@@ -374,7 +386,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void Combat_CombatantInterrupted(object? sender, CombatantInterruptedEventArgs e)
     {
         var unitGameObject = GetCombatantGameObject(e.Combatant);
-        var textPosition = unitGameObject.Graphics.Root.Position;
+        var textPosition = unitGameObject.Graphics.Root.RootNode.Position;
         var font = _uiContentStorage.GetCombatIndicatorFont();
 
         var passIndicator = new SkipTextIndicator(textPosition, font);
@@ -398,7 +410,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             : CombatantPositionSide.Monsters;
         var gameObject =
             new CombatantGameObject(e.Combatant, graphicConfig, e.FieldInfo.CombatantCoords, _combatantPositionProvider,
-                _gameObjectContentStorage, _combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main],
+                _gameObjectContentStorage,
                 combatantSide);
         _gameObjects.Add(gameObject);
 
@@ -466,7 +478,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         if (!_gameSettings.IsRecordMode)
         {
             var font = _uiContentStorage.GetCombatIndicatorFont();
-            var position = unitGameObject.Graphics.Root.Position;
+            var position = unitGameObject.Graphics.Root.RootNode.Position;
 
             if (e.Value <= 0)
             {
@@ -475,6 +487,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             }
 
             var nextIndex = GetIndicatorNextIndex(unitGameObject);
+
+            var hitDirection = unitGameObject.Combatant.IsPlayerControlled ? HitDirection.Left : HitDirection.Right;
 
             if (ReferenceEquals(e.StatType, CombatantStatTypes.HitPoints))
             {
@@ -490,11 +504,13 @@ internal class CombatScreen : GameScreenWithMenuBase
                 unitGameObject.AnimateWound();
 
                 var bloodEffect = new BloodCombatVisualEffect(unitGameObject.InteractionPoint,
-                    unitGameObject.Combatant.IsPlayerControlled ? HitDirection.Left : HitDirection.Right,
+                    hitDirection,
                     _bloodParticleTexture);
                 _visualEffectManager.AddEffect(bloodEffect);
 
-                AddHitShaking(true);
+                _bloodSound.CreateInstance().Play();
+
+                AddHitShaking(true && unitGameObject.Combatant.IsPlayerControlled);
             }
             else if (ReferenceEquals(e.StatType, CombatantStatTypes.ShieldPoints))
             {
@@ -507,7 +523,26 @@ internal class CombatScreen : GameScreenWithMenuBase
 
                 _visualEffectManager.AddEffect(spIndicator);
 
-                unitGameObject.AnimateShield();
+                if (e.Combatant.Stats.Single(x => x.Type == CombatantStatTypes.ShieldPoints).Value.Current > 0)
+                {
+                    var shieldEffect = new ShieldCombatVisualEffect(unitGameObject.InteractionPoint,
+                        hitDirection,
+                        _shieldParticleTexture,
+                        unitGameObject.CombatantSize);
+                    _visualEffectManager.AddEffect(shieldEffect);
+
+                    _shieldSound.CreateInstance().Play();
+                }
+                else
+                {
+                    var shieldEffect = new ShieldBreakCombatVisualEffect(unitGameObject.InteractionPoint,
+                        hitDirection,
+                        _shieldParticleTexture,
+                        unitGameObject.CombatantSize);
+                    _visualEffectManager.AddEffect(shieldEffect);
+
+                    _shieldBreakingSound.CreateInstance().Play();
+                }
 
                 AddHitShaking();
             }
@@ -531,7 +566,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void CombatCore_CombatantStartsTurn(object? sender, CombatantTurnStartedEventArgs e)
     {
         var currentCombatantGameObject = GetCombatantGameObject(_combatCore.CurrentCombatant);
-        currentCombatantGameObject.IsActive = true;
+        currentCombatantGameObject.Graphics.ShowActiveMarker = true;
 
         if (_combatMovementsHandPanel is not null && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
@@ -882,7 +917,18 @@ internal class CombatScreen : GameScreenWithMenuBase
         var corpseList = _corpseObjects.OrderBy(x => x.GetZIndex()).ToArray();
         foreach (var gameObject in corpseList)
         {
-            gameObject.Draw(spriteBatch);
+            if (gameObject.IsComplete)
+            {
+                if (combatSceneContext.CurrentScope is null)
+                {
+                    // Do not draw corpse while movement scene
+                    gameObject.Draw(spriteBatch);
+                }
+            }
+            else
+            {
+                gameObject.Draw(spriteBatch);
+            }
         }
 
         var list = _gameObjects.OrderBy(x => x.GetZIndex()).ToArray();
@@ -1029,8 +1075,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             {
                 if (!_maneuversVisualizer.IsHidden)
                 {
-                    // ALT to show stats and statuses
-                    // Hide maneuvers to avoid HUD-mess
+                    // Pressing [ALT] is to show stats and statuses of all combatants.
+                    // Hide maneuvers to avoid HUD-mess.
                     if (!Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
                     {
                         _maneuversVisualizer.Draw(spriteBatch);
@@ -1260,7 +1306,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void DropSelection(ICombatant combatant)
     {
         var oldCombatUnitGameObject = GetCombatantGameObject(combatant);
-        oldCombatUnitGameObject.IsActive = false;
+        oldCombatUnitGameObject.Graphics.ShowActiveMarker = false;
     }
 
     private void EscapeButton_OnClick(object? sender, EventArgs e)
@@ -1566,7 +1612,15 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             if (!_animationBlockManager.HasBlockers)
             {
-                _maneuversVisualizer.Update(_combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main]);
+                if (!_maneuversVisualizer.IsHidden)
+                {
+                    // Pressing [ALT] is to show stats and statuses of all combatants.
+                    // Hide maneuvers to avoid HUD-mess.
+                    if (!Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
+                    {
+                        _maneuversVisualizer.Update(_combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main]);
+                    }
+                }
             }
 
             if (_combatMovementsHandPanel is not null)

@@ -12,5 +12,5 @@ public interface IMoveFunction
     /// </summary>
     /// <param name="t">Function value 0..1</param>
     /// <returns>Return vect2 position.</returns>
-    Vector2 CalcPosition(MoveFunctionValue t);
+    Vector2 CalcPosition(MoveFunctionArgument t);
 }

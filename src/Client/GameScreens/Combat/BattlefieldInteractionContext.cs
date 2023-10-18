@@ -20,6 +20,20 @@ internal sealed class BattlefieldInteractionContext : IBattlefieldInteractionCon
         _combatField = combatField;
     }
 
+    private static (CombatFieldSide, CombatantPositionSide) GetTargetSide(ICombatant target, CombatField field)
+    {
+        try
+        {
+            var _ = field.HeroSide.GetCombatantCoords(target);
+            return (field.HeroSide, CombatantPositionSide.Heroes);
+        }
+        catch (ArgumentException)
+        {
+            var _ = field.MonsterSide.GetCombatantCoords(target);
+            return (field.MonsterSide, CombatantPositionSide.Monsters);
+        }
+    }
+
     public Rectangle GetArea(Team side)
     {
         if (side == Team.Cpu)
@@ -37,19 +51,5 @@ internal sealed class BattlefieldInteractionContext : IBattlefieldInteractionCon
         var position = _combatantPositionProvider.GetPosition(coords, side.Item2);
 
         return position;
-    }
-
-    private static (CombatFieldSide, CombatantPositionSide) GetTargetSide(ICombatant target, CombatField field)
-    {
-        try
-        {
-            var _ = field.HeroSide.GetCombatantCoords(target);
-            return (field.HeroSide, CombatantPositionSide.Heroes);
-        }
-        catch (ArgumentException)
-        {
-            var _ = field.MonsterSide.GetCombatantCoords(target);
-            return (field.MonsterSide, CombatantPositionSide.Monsters);
-        }
     }
 }

@@ -14,19 +14,20 @@ internal sealed class MoveToPositionActorState : IActorVisualizationState
 {
     private readonly IAnimationFrameSet _animation;
     private readonly IActorAnimator _animator;
-    private readonly Func<IMoveFunction> _moveFunctionFactory;
     private readonly Duration _duration;
-    private IMoveFunction? _moveFunction;
+    private readonly Func<IMoveFunction> _moveFunctionFactory;
 
     private double _counter;
+    private IMoveFunction? _moveFunction;
 
     public MoveToPositionActorState(IActorAnimator animator, IMoveFunction moveFunction, IAnimationFrameSet animation,
-        Duration? duration = null): this(animator, () => moveFunction, animation, duration)
+        Duration? duration = null) : this(animator, () => moveFunction, animation, duration)
     {
         _moveFunction = moveFunction;
     }
 
-    public MoveToPositionActorState(IActorAnimator animator, Func<IMoveFunction> moveFunctionFactory, IAnimationFrameSet animation,
+    public MoveToPositionActorState(IActorAnimator animator, Func<IMoveFunction> moveFunctionFactory,
+        IAnimationFrameSet animation,
         Duration? duration = null)
     {
         _animation = animation;
@@ -70,14 +71,14 @@ internal sealed class MoveToPositionActorState : IActorVisualizationState
 
             var t = _counter / _duration.Seconds;
 
-            var currentPosition = _moveFunction.CalcPosition(Math.Min(t, MoveFunctionValue.Max.Value));
+            var currentPosition = _moveFunction.CalcPosition(Math.Min(t, MoveFunctionArgument.Max.Value));
 
             _animator.GraphicRoot.Position = currentPosition;
         }
         else
         {
             IsComplete = true;
-            _animator.GraphicRoot.Position = _moveFunction.CalcPosition(MoveFunctionValue.Max);
+            _animator.GraphicRoot.Position = _moveFunction.CalcPosition(MoveFunctionArgument.Max);
         }
     }
 }

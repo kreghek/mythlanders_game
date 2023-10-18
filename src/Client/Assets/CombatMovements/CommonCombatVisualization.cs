@@ -78,7 +78,6 @@ internal static class CommonCombatVisualization
             }
         };
 
-        var startPosition = actorAnimator.GraphicRoot.Position;
         var targetCombatant =
             GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
 
@@ -114,18 +113,15 @@ internal static class CommonCombatVisualization
             new DirectInteractionState(actorAnimator, skillAnimationInfo, config.HitAnimation.Animation),
             new PlayAnimationActorState(actorAnimator, config.HitCompleteAnimation.Animation),
             new MoveToPositionActorState(actorAnimator,
-              () => new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, visualizationContext.BattlefieldInteractionContext.GetCombatantPosition(visualizationContext.ActorGameObject.Combatant)),
-              config.BackAnimation.Animation)
+                () => new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position,
+                    visualizationContext.BattlefieldInteractionContext.GetCombatantPosition(visualizationContext
+                        .ActorGameObject.Combatant)),
+                config.BackAnimation.Animation)
         };
 
         var innerState = new SequentialState(subStates);
         return new CombatMovementScene(innerState,
             new[] { new FollowActorOperatorCameraTask(actorAnimator, () => innerState.IsComplete) });
-    }
-
-    private static Vector2 GetCombatMovementVisualizationOffset()
-    {
-        return Vector2.UnitX * (128 - 16);
     }
 
     private static IActorVisualizationState CreateSoundedState(Func<IActorVisualizationState> baseStateFactory,
@@ -138,6 +134,11 @@ internal static class CommonCombatVisualization
         }
 
         return baseActorState;
+    }
+
+    private static Vector2 GetCombatMovementVisualizationOffset()
+    {
+        return Vector2.UnitX * (32 + 32);
     }
 
     private static ICombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
