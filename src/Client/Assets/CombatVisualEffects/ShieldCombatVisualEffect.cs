@@ -35,7 +35,7 @@ internal sealed class ShieldCombatVisualEffect : ICombatVisualEffect
             Emitters = new List<ParticleEmitter>
             {
                 new(shieldParticleTexture, 500, TimeSpan.FromSeconds(0.5),
-                    Profile.Spray(direction == HitDirection.Left ? Vector2.UnitX : -Vector2.UnitX, 1))
+                    Profile.Spray(direction == HitDirection.Left ? Vector2.UnitX : -Vector2.UnitX, 3))
                 {
                     Parameters = new ParticleReleaseParameters
                     {
