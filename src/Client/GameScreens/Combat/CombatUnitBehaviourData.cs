@@ -7,29 +7,38 @@ using GameAssets.Combats;
 
 namespace Client.GameScreens.Combat;
 
-public sealed class CombatUnitBehaviourData : ICombatActorBehaviourData
+public sealed class CombatUnitBehaviourData : ICombatantBehaviourData
 {
     public CombatUnitBehaviourData(CombatEngineBase combat)
     {
         CurrentActor =
-            new CombatUnitBehaviourDataActor(
+            new CombatantBehaviourData(
                 GetHand(combat.CurrentCombatant).Where(x => x is not null)
-                    .Select(skill => new CombatActorBehaviourDataSkill(skill!)).ToArray());
+                    .Select(skill => new CombatantMoveBehaviourData(skill!)).ToArray());
 
-        Actors = combat.Field.HeroSide.GetAllCombatants().Concat(combat.Field.MonsterSide.GetAllCombatants())
-            .Where(actor => actor != combat.CurrentCombatant).Select(actor =>
-                new CombatUnitBehaviourDataActor(
-                    GetHand(actor).Where(x => x is not null).Select(skill => new CombatActorBehaviourDataSkill(skill!))
-                        .ToArray()))
+        var allOtherCombatants = combat.Field.HeroSide.GetAllCombatants().Concat(combat.Field.MonsterSide.GetAllCombatants())
+            .Where(actor => actor != combat.CurrentCombatant)
+            .ToArray();
+
+        Actors = allOtherCombatants
+            .Select(actor => CreateCombatantData(actor))
             .ToArray();
     }
 
-    private IReadOnlyList<CombatMovementInstance?> GetHand(ICombatant combatant)
+    private static CombatantBehaviourData CreateCombatantData(ICombatant actor)
     {
-        return combatant.CombatMovementContainers.Single(x => x.Type == CombatMovementContainerTypes.Hand).GetItems()
-            .ToArray();
+        var currentHandMoves = GetHand(actor);
+        var currentHandMovesDataItems = currentHandMoves.Select(skill => new CombatantMoveBehaviourData(skill)).ToList();
+        return new CombatantBehaviourData(currentHandMovesDataItems);
     }
 
-    public CombatUnitBehaviourDataActor CurrentActor { get; }
-    public IReadOnlyCollection<CombatUnitBehaviourDataActor> Actors { get; }
+    private static IReadOnlyList<CombatMovementInstance> GetHand(ICombatant combatant)
+    {
+        var handContainer = combatant.CombatMovementContainers.Single(x => x.Type == CombatMovementContainerTypes.Hand);
+        return handContainer.GetItems().Where(x => x is not null).Select(x => x!).ToArray();
+    }
+
+
+    public IReadOnlyCollection<CombatantBehaviourData> Actors { get; }
+    public CombatantBehaviourData CurrentActor { get; }
 }

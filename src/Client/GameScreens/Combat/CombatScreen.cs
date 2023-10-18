@@ -480,7 +480,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             var font = _uiContentStorage.GetCombatIndicatorFont();
             var position = unitGameObject.Graphics.Root.RootNode.Position;
 
-            if (e.Value <= 0)
+            if (e.Damage.Amount <= 0 && e.Damage.SourceAmount > 0)
             {
                 var blockIndicator = new BlockAnyDamageTextIndicator(position, font);
                 _visualEffectManager.AddEffect(blockIndicator);
@@ -493,7 +493,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             if (ReferenceEquals(e.StatType, CombatantStatTypes.HitPoints))
             {
                 var damageIndicator =
-                    new HitPointsChangedTextIndicator(-e.Value,
+                    new HitPointsChangedTextIndicator(-e.Damage.Amount,
                         StatChangeDirection.Negative,
                         position,
                         font,
@@ -515,7 +515,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             else if (ReferenceEquals(e.StatType, CombatantStatTypes.ShieldPoints))
             {
                 var spIndicator =
-                    new ShieldPointsChangedTextIndicator(-e.Value,
+                    new ShieldPointsChangedTextIndicator(-e.Damage.Amount,
                         StatChangeDirection.Negative,
                         position,
                         font,

@@ -14,8 +14,8 @@ internal interface IEquipmentScheme
 
     string GetDescription();
 
-    IReadOnlyCollection<(ICombatantStatType, IUnitStatModifier)> GetStatModifiers(int equipmentLevel)
+    IReadOnlyCollection<(ICombatantStatType, IStatModifier)> GetStatModifiers(int equipmentLevel)
     {
-        return Array.Empty<(ICombatantStatType, IUnitStatModifier)>();
+        return Array.Empty<(ICombatantStatType, IStatModifier)>();
     }
 }

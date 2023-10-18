@@ -34,7 +34,7 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
                     new AdjustPositionEffect(new SelfTargetSelector()),
                     new DamageEffectWrapper(
                         new MostShieldChargedEnemyTargetSelector(),
-                        DamageType.ShieldsOnly,
+                        DamageType.ProtectionOnly,
                         GenericRange<int>.CreateMono(3)),
                     new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
                 })
