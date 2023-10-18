@@ -3,8 +3,6 @@ using System.Linq;
 
 using Client.Core;
 
-using Microsoft.Xna.Framework;
-
 namespace Client.Assets.GraphicConfigs.Monsters.Black;
 
 internal sealed class AmbushDroneGraphicsConfig : BlackMonsterGraphicConfig

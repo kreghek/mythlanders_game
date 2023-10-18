@@ -896,7 +896,6 @@ internal class CombatScreen : GameScreenWithMenuBase
             }
         }
 
-
         var list = _gameObjects.OrderBy(x => x.GetZIndex()).ToArray();
         foreach (var gameObject in list)
         {
