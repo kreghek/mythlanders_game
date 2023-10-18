@@ -63,6 +63,8 @@ internal sealed class CombatantGameObject
 
     public Vector2 InteractionPoint => Graphics.Root.Position - _combatantGraphicsConfig.InteractionPoint;
 
+    public int CombatantSize { get; } = 128;
+
     public bool IsActive { get; set; }
     public Vector2 LaunchPoint => Graphics.Root.Position - _combatantGraphicsConfig.LaunchPoint;
 
@@ -118,11 +120,6 @@ internal sealed class CombatantGameObject
         HandleEngineStates(gameTime);
 
         Graphics.Update(gameTime);
-    }
-
-    internal void AnimateShield()
-    {
-        // TODO Display shield effect.
     }
 
     internal void ChangeState(CombatUnitState visualIdleState)

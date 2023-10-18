@@ -41,6 +41,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using MonoGame;
+using MonoGame.Extended.TextureAtlases;
 
 namespace Client.GameScreens.Combat;
 
@@ -99,6 +100,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
+    private TextureRegion2D _shieldParticleTexture = null!;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -222,6 +224,9 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _bloodParticleTexture = new Texture2D(Game.GraphicsDevice, 1, 1);
         _bloodParticleTexture.SetData(new[] { Color.Red });
+
+        var particleTexture = Game.Content.Load<Texture2D>("Sprites/GameObjects/SfxObjects");
+        _shieldParticleTexture = new TextureRegion2D(particleTexture, new Rectangle(0, 32 * 3, 32, 32));
 
         InitializeCombat();
 
@@ -476,6 +481,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             var nextIndex = GetIndicatorNextIndex(unitGameObject);
 
+            var hitDirection = unitGameObject.Combatant.IsPlayerControlled ? HitDirection.Left : HitDirection.Right;
+            
             if (ReferenceEquals(e.StatType, CombatantStatTypes.HitPoints))
             {
                 var damageIndicator =
@@ -490,7 +497,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 unitGameObject.AnimateWound();
 
                 var bloodEffect = new BloodCombatVisualEffect(unitGameObject.InteractionPoint,
-                    unitGameObject.Combatant.IsPlayerControlled ? HitDirection.Left : HitDirection.Right,
+                    hitDirection,
                     _bloodParticleTexture);
                 _visualEffectManager.AddEffect(bloodEffect);
 
@@ -506,8 +513,12 @@ internal class CombatScreen : GameScreenWithMenuBase
                         nextIndex ?? 0);
 
                 _visualEffectManager.AddEffect(spIndicator);
-
-                unitGameObject.AnimateShield();
+                
+                var shieldEffect = new ShieldCombatVisualEffect(unitGameObject.InteractionPoint,
+                    hitDirection,
+                    _shieldParticleTexture,
+                    unitGameObject.CombatantSize);
+                _visualEffectManager.AddEffect(shieldEffect);
 
                 AddHitShaking();
             }

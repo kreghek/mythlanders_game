@@ -10,13 +10,14 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Particles;
 using MonoGame.Extended.Particles.Modifiers;
+using MonoGame.Extended.Particles.Modifiers.Containers;
 using MonoGame.Extended.Particles.Modifiers.Interpolators;
 using MonoGame.Extended.Particles.Profiles;
 using MonoGame.Extended.TextureAtlases;
 
 namespace Client.Assets.CombatVisualEffects;
 
-internal sealed class BloodCombatVisualEffect : ICombatVisualEffect
+internal sealed class ShieldCombatVisualEffect : ICombatVisualEffect
 {
     private readonly Duration _duration;
 
@@ -24,18 +25,17 @@ internal sealed class BloodCombatVisualEffect : ICombatVisualEffect
 
     private double _lifetimeCounter;
 
-    public BloodCombatVisualEffect(Vector2 position, HitDirection direction, Texture2D bloodParticleTexture)
+    public ShieldCombatVisualEffect(Vector2 position, HitDirection direction, TextureRegion2D shieldParticleTexture, int combatantRadius)
     {
         _duration = new Duration(0.05f);
 
-        var textureRegion = new TextureRegion2D(bloodParticleTexture);
         _particleEffect = new ParticleEffect
         {
             Position = position,
             Emitters = new List<ParticleEmitter>
             {
-                new(textureRegion, 500, TimeSpan.FromSeconds(0.5),
-                    Profile.Spray(direction == HitDirection.Right ? Vector2.UnitX : -Vector2.UnitX, 1))
+                new(shieldParticleTexture, 500, TimeSpan.FromSeconds(0.5),
+                    Profile.Spray(direction == HitDirection.Left ? Vector2.UnitX : -Vector2.UnitX, 1))
                 {
                     Parameters = new ParticleReleaseParameters
                     {
@@ -54,13 +54,18 @@ internal sealed class BloodCombatVisualEffect : ICombatVisualEffect
                             {
                                 new OpacityInterpolator
                                 {
-                                    StartValue = 1,
-                                    EndValue = 0.5f
+                                    StartValue = 0.75f,
+                                    EndValue = 0f
                                 }
                             }
                         },
-                        new RotationModifier { RotationRate = -2.1f },
-                        new LinearGravityModifier { Direction = Vector2.UnitY, Strength = 250f }
+                        new LinearGravityModifier { Direction = Vector2.UnitY, Strength = 250f },
+                        new CircleContainerModifier
+                        {
+                            Radius = combatantRadius * 1.1f,
+                            Inside = true,
+                            RestitutionCoefficient = 0.2f
+                        }
                     }
                 }
             }
