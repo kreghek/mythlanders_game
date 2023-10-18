@@ -138,7 +138,7 @@ internal static class CommonCombatVisualization
 
     private static Vector2 GetCombatMovementVisualizationOffset()
     {
-        return Vector2.UnitX * (128 - 24);
+        return Vector2.UnitX * (32+32);
     }
 
     private static ICombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
