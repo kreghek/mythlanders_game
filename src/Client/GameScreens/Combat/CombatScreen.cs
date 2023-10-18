@@ -88,6 +88,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly IUiContentStorage _uiContentStorage;
     private readonly VisualEffectManager _visualEffectManager;
     private Texture2D _bloodParticleTexture = null!;
+    private SoundEffect _bloodSound;
 
     private bool _bossWasDefeat;
 
@@ -100,10 +101,9 @@ internal class CombatScreen : GameScreenWithMenuBase
     private bool _combatResultModalShown;
 
     private bool _finalBossWasDefeat;
-    private TextureRegion2D _shieldParticleTexture = null!;
-    private SoundEffect _bloodSound;
-    private SoundEffect _shieldSound = null!;
     private SoundEffect _shieldBreakingSound = null!;
+    private TextureRegion2D _shieldParticleTexture = null!;
+    private SoundEffect _shieldSound = null!;
 
     public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -489,7 +489,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             var nextIndex = GetIndicatorNextIndex(unitGameObject);
 
             var hitDirection = unitGameObject.Combatant.IsPlayerControlled ? HitDirection.Left : HitDirection.Right;
-            
+
             if (ReferenceEquals(e.StatType, CombatantStatTypes.HitPoints))
             {
                 var damageIndicator =
@@ -536,9 +536,9 @@ internal class CombatScreen : GameScreenWithMenuBase
                 else
                 {
                     var shieldEffect = new ShieldBreakCombatVisualEffect(unitGameObject.InteractionPoint,
-                      hitDirection,
-                      _shieldParticleTexture,
-                      unitGameObject.CombatantSize);
+                        hitDirection,
+                        _shieldParticleTexture,
+                        unitGameObject.CombatantSize);
                     _visualEffectManager.AddEffect(shieldEffect);
 
                     _shieldBreakingSound.CreateInstance().Play();

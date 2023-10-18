@@ -25,7 +25,8 @@ internal sealed class ShieldBreakCombatVisualEffect : ICombatVisualEffect
 
     private double _lifetimeCounter;
 
-    public ShieldBreakCombatVisualEffect(Vector2 position, HitDirection direction, TextureRegion2D shieldParticleTexture, int combatantRadius)
+    public ShieldBreakCombatVisualEffect(Vector2 position, HitDirection direction,
+        TextureRegion2D shieldParticleTexture, int combatantRadius)
     {
         _duration = new Duration(0.05f);
 

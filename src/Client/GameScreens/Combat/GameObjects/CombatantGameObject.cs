@@ -52,11 +52,11 @@ internal sealed class CombatantGameObject
 
     public ICombatant Combatant { get; }
 
+    public int CombatantSize { get; } = 32;
+
     public UnitGraphics Graphics { get; }
 
     public Vector2 InteractionPoint => Graphics.Root.RootNode.Position - _combatantGraphicsConfig.InteractionPoint;
-
-    public int CombatantSize { get; } = 32;
     public Vector2 LaunchPoint => Graphics.Root.RootNode.Position - _combatantGraphicsConfig.LaunchPoint;
 
     public Vector2 MeleeHitOffset => Graphics.Root.RootNode.Position +
