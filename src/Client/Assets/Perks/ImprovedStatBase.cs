@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Client.Core;
 
@@ -12,6 +13,6 @@ internal abstract class ImprovedStatBase : IPerk
 
     public virtual IReadOnlyCollection<(ICombatantStatType, IStatModifier)> GetStatModifiers()
     {
-        return System.Array.Empty<(ICombatantStatType, IStatModifier)>();
+        return Array.Empty<(ICombatantStatType, IStatModifier)>();
     }
 }

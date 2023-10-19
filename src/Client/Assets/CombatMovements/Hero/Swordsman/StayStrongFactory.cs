@@ -1,8 +1,5 @@
-﻿using Client.Assets.ActorVisualizationStates.Primitives;
-using Client.Engine;
-using Client.GameScreens.Combat.GameObjects.CommonStates;
-using Client.GameScreens.Combat.GameObjects;
-using Client.GameScreens.Combat;
+﻿using Client.Engine;
+using Client.GameScreens;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
@@ -18,11 +15,7 @@ using GameAssets.Combats.CombatantStatuses;
 using GameAssets.Combats.CombatMovementEffects;
 using GameAssets.Combats.TargetSelectors;
 
-using GameClient.Engine.MoveFunctions;
-
 using JetBrains.Annotations;
-using Client.Core.AnimationFrameSets;
-using Client.GameScreens;
 
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
@@ -48,7 +41,7 @@ internal class StayStrongFactory : CombatMovementFactoryBase
                                     new ToNextCombatantTurnEffectLifetime(),
                                     CombatantStatTypes.Defense,
                                     3)))
-                            ),
+                    ),
                     new DamageEffectWrapper(new AttackerTargetSelector(), DamageType.Normal,
                         GenericRange<int>.CreateMono(2))
                 },
@@ -62,7 +55,7 @@ internal class StayStrongFactory : CombatMovementFactoryBase
                                     new ToEndOfCurrentRoundEffectLifetime(),
                                     CombatantStatTypes.Defense,
                                     1)))
-                            )
+                    )
                 })
         )
         {
@@ -70,7 +63,8 @@ internal class StayStrongFactory : CombatMovementFactoryBase
         };
     }
 
-    public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator, CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+    public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
         var swordsmanAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Swordsman");
 

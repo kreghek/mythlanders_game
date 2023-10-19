@@ -488,7 +488,9 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             combatantGameObject.AnimateWound();
 
-            var hitDirection = combatantGameObject.Combatant.IsPlayerControlled ? HitDirection.Left : HitDirection.Right;
+            var hitDirection = combatantGameObject.Combatant.IsPlayerControlled
+                ? HitDirection.Left
+                : HitDirection.Right;
 
             if (ReferenceEquals(e.StatType, CombatantStatTypes.HitPoints))
             {

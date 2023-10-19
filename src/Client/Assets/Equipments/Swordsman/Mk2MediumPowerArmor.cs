@@ -11,6 +11,7 @@ namespace Client.Assets.Equipments.Swordsman;
 
 internal sealed class Mk2MediumPowerArmor : IEquipmentScheme, IStatModifierSource
 {
+    public int Value { get; }
     public EquipmentSid Sid => EquipmentSid.Mk2MediumPowerArmor;
 
     public string GetDescription()
@@ -24,8 +25,6 @@ internal sealed class Mk2MediumPowerArmor : IEquipmentScheme, IStatModifierSourc
     {
         IconOneBasedIndex = 2
     };
-
-    public int Value { get; }
 
     public IReadOnlyCollection<(ICombatantStatType, IStatModifier)> GetStatModifiers(int equipmentLevel)
     {

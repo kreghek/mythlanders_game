@@ -16,7 +16,8 @@ public sealed class CombatUnitBehaviourData : ICombatantBehaviourData
                 GetHand(combat.CurrentCombatant).Where(x => x is not null)
                     .Select(skill => new CombatantMoveBehaviourData(skill!)).ToArray());
 
-        var allOtherCombatants = combat.Field.HeroSide.GetAllCombatants().Concat(combat.Field.MonsterSide.GetAllCombatants())
+        var allOtherCombatants = combat.Field.HeroSide.GetAllCombatants()
+            .Concat(combat.Field.MonsterSide.GetAllCombatants())
             .Where(actor => actor != combat.CurrentCombatant)
             .ToArray();
 
@@ -28,7 +29,8 @@ public sealed class CombatUnitBehaviourData : ICombatantBehaviourData
     private static CombatantBehaviourData CreateCombatantData(ICombatant actor)
     {
         var currentHandMoves = GetHand(actor);
-        var currentHandMovesDataItems = currentHandMoves.Select(skill => new CombatantMoveBehaviourData(skill)).ToList();
+        var currentHandMovesDataItems =
+            currentHandMoves.Select(skill => new CombatantMoveBehaviourData(skill)).ToList();
         return new CombatantBehaviourData(currentHandMovesDataItems);
     }
 

@@ -2,6 +2,7 @@
 using CombatDicesTeam.Combats.CombatantStatuses;
 
 namespace GameAssets.Combats.CombatantStatuses;
+
 public sealed class AutoRestoreChangeStatCombatantStatus : ICombatantStatus
 {
     private readonly ChangeStatCombatantStatus _baseStatus;

@@ -30,7 +30,8 @@ internal class RiseYourSwordsFactory : CombatMovementFactoryBase
         );
     }
 
-    public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator, CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+    public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
         var swordsmanAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Swordsman");
 
