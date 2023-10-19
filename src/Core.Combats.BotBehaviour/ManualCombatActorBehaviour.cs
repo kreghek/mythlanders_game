@@ -16,7 +16,8 @@ public sealed class ManualCombatActorBehaviour : ICombatActorBehaviour
         _intentionDelegate(intention);
     }
 
-    public void HandleIntention(ICombatActorBehaviourData combatData, Action<IIntention> intentionDelegate)
+    /// <inheritdoc />
+    public void HandleIntention(ICombatantBehaviourData combatData, Action<IIntention> intentionDelegate)
     {
         _intentionDelegate = intentionDelegate;
     }

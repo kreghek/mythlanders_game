@@ -471,74 +471,74 @@ internal class CombatScreen : GameScreenWithMenuBase
             return;
         }
 
-        var unitGameObject = GetCombatantGameObject(e.Combatant);
+        var font = _uiContentStorage.GetCombatIndicatorFont();
 
-        unitGameObject.AnimateWound();
+        var combatantGameObject = GetCombatantGameObject(e.Combatant);
 
-        if (!_gameSettings.IsRecordMode)
+        var position = combatantGameObject.Graphics.Root.RootNode.Position;
+
+        var nextIndicatorStackIndex = GetIndicatorNextIndex(combatantGameObject) ?? 0;
+
+        if (e.Damage.Amount <= 0 && e.Damage.SourceAmount > 0)
         {
-            var font = _uiContentStorage.GetCombatIndicatorFont();
-            var position = unitGameObject.Graphics.Root.RootNode.Position;
+            var blockIndicator = new BlockAnyDamageTextIndicator(position, font, nextIndicatorStackIndex);
+            _visualEffectManager.AddEffect(blockIndicator);
+        }
+        else
+        {
+            combatantGameObject.AnimateWound();
 
-            if (e.Value <= 0)
-            {
-                var blockIndicator = new BlockAnyDamageTextIndicator(position, font);
-                _visualEffectManager.AddEffect(blockIndicator);
-            }
-
-            var nextIndex = GetIndicatorNextIndex(unitGameObject);
-
-            var hitDirection = unitGameObject.Combatant.IsPlayerControlled ? HitDirection.Left : HitDirection.Right;
+            var hitDirection = combatantGameObject.Combatant.IsPlayerControlled ? HitDirection.Left : HitDirection.Right;
 
             if (ReferenceEquals(e.StatType, CombatantStatTypes.HitPoints))
             {
                 var damageIndicator =
-                    new HitPointsChangedTextIndicator(-e.Value,
+                    new HitPointsChangedTextIndicator(-e.Damage.Amount,
                         StatChangeDirection.Negative,
                         position,
                         font,
-                        nextIndex ?? 0);
+                        nextIndicatorStackIndex);
 
                 _visualEffectManager.AddEffect(damageIndicator);
 
-                unitGameObject.AnimateWound();
+                combatantGameObject.AnimateWound();
 
-                var bloodEffect = new BloodCombatVisualEffect(unitGameObject.InteractionPoint,
+                var bloodEffect = new BloodCombatVisualEffect(combatantGameObject.InteractionPoint,
                     hitDirection,
                     _bloodParticleTexture);
                 _visualEffectManager.AddEffect(bloodEffect);
 
                 _bloodSound.CreateInstance().Play();
 
-                AddHitShaking(true && unitGameObject.Combatant.IsPlayerControlled);
+                AddHitShaking(true && combatantGameObject.Combatant.IsPlayerControlled);
             }
             else if (ReferenceEquals(e.StatType, CombatantStatTypes.ShieldPoints))
             {
                 var spIndicator =
-                    new ShieldPointsChangedTextIndicator(-e.Value,
+                    new ShieldPointsChangedTextIndicator(-e.Damage.Amount,
                         StatChangeDirection.Negative,
                         position,
                         font,
-                        nextIndex ?? 0);
+                        nextIndicatorStackIndex);
 
                 _visualEffectManager.AddEffect(spIndicator);
 
                 if (e.Combatant.Stats.Single(x => x.Type == CombatantStatTypes.ShieldPoints).Value.Current > 0)
                 {
-                    var shieldEffect = new ShieldCombatVisualEffect(unitGameObject.InteractionPoint,
+                    var shieldEffect = new ShieldCombatVisualEffect(combatantGameObject.InteractionPoint,
                         hitDirection,
                         _shieldParticleTexture,
-                        unitGameObject.CombatantSize);
+                        combatantGameObject.CombatantSize);
                     _visualEffectManager.AddEffect(shieldEffect);
 
                     _shieldSound.CreateInstance().Play();
                 }
                 else
                 {
-                    var shieldEffect = new ShieldBreakCombatVisualEffect(unitGameObject.InteractionPoint,
+                    var shieldEffect = new ShieldBreakCombatVisualEffect(combatantGameObject.InteractionPoint,
                         hitDirection,
                         _shieldParticleTexture,
-                        unitGameObject.CombatantSize);
+                        combatantGameObject.CombatantSize);
                     _visualEffectManager.AddEffect(shieldEffect);
 
                     _shieldBreakingSound.CreateInstance().Play();

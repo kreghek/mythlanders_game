@@ -7,7 +7,7 @@ using GameAssets.Combats;
 
 namespace Client.Assets.Perks;
 
-internal sealed class ImprovedHitPoints : ImprovedStatBase
+internal sealed class ImprovedHitPoints : ImprovedStatBase, IStatModifierSource
 {
     private const float HITPOINTS_BONUS = 1.5f;
 
@@ -16,11 +16,11 @@ internal sealed class ImprovedHitPoints : ImprovedStatBase
         maxHitpoints = (float)Math.Round(maxHitpoints * HITPOINTS_BONUS);
     }
 
-    public override IReadOnlyCollection<(ICombatantStatType, IUnitStatModifier)> GetStatModifiers()
+    public override IReadOnlyCollection<(ICombatantStatType, IStatModifier)> GetStatModifiers()
     {
-        return new (ICombatantStatType, IUnitStatModifier)[]
+        return new (ICombatantStatType, IStatModifier)[]
         {
-            new(CombatantStatTypes.HitPoints, new StatModifier(1))
+            new(CombatantStatTypes.HitPoints, new StatModifier(1, this))
         };
     }
 }

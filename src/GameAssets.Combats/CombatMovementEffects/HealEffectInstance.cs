@@ -16,7 +16,7 @@ public sealed class HealEffectInstance : EffectInstanceBase<HealEffect>
 
     public GenericRange<IStatValue> Heal { get; }
 
-    public override void AddModifier(IUnitStatModifier modifier)
+    public override void AddModifier(IStatModifier modifier)
     {
         Heal.Min.AddModifier(modifier);
         Heal.Max.AddModifier(modifier);
@@ -29,7 +29,7 @@ public sealed class HealEffectInstance : EffectInstanceBase<HealEffect>
         context.RestoreCombatantStat(target, CombatantStatTypes.HitPoints, rolledHeal);
     }
 
-    public override void RemoveModifier(IUnitStatModifier modifier)
+    public override void RemoveModifier(IStatModifier modifier)
     {
         Heal.Min.RemoveModifier(modifier);
         Heal.Max.RemoveModifier(modifier);

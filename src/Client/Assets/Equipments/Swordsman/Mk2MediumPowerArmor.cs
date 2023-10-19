@@ -9,7 +9,7 @@ using GameAssets.Combats;
 
 namespace Client.Assets.Equipments.Swordsman;
 
-internal sealed class Mk2MediumPowerArmor : IEquipmentScheme
+internal sealed class Mk2MediumPowerArmor : IEquipmentScheme, IStatModifierSource
 {
     public EquipmentSid Sid => EquipmentSid.Mk2MediumPowerArmor;
 
@@ -25,11 +25,13 @@ internal sealed class Mk2MediumPowerArmor : IEquipmentScheme
         IconOneBasedIndex = 2
     };
 
-    public IReadOnlyCollection<(ICombatantStatType, IUnitStatModifier)> GetStatModifiers(int equipmentLevel)
+    public int Value { get; }
+
+    public IReadOnlyCollection<(ICombatantStatType, IStatModifier)> GetStatModifiers(int equipmentLevel)
     {
-        return new (ICombatantStatType, IUnitStatModifier)[]
+        return new (ICombatantStatType, IStatModifier)[]
         {
-            new(CombatantStatTypes.HitPoints, new StatModifier((int)(equipmentLevel * 0.2f)))
+            new(CombatantStatTypes.HitPoints, new StatModifier((int)(equipmentLevel * 0.2f), this))
         };
     }
 }

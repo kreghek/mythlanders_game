@@ -4,6 +4,7 @@ using System.Linq;
 
 using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.CombatMovements.Hero.Robber;
+using Client.Core;
 using Client.Core.AnimationFrameSets;
 using Client.Engine;
 using Client.GameScreens.Combat;
@@ -52,6 +53,37 @@ internal static class CommonCombatVisualization
                     .ToArray(),
                 new EnergyArrowInteractionDeliveryFactory(visualizationContext.GameObjectContentStorage),
                 visualizationContext.InteractionDeliveryManager)
+        };
+
+        var innerState = new SequentialState(subStates);
+        return new CombatMovementScene(innerState,
+            new[] { new FollowActorOperatorCameraTask(actorAnimator, () => innerState.IsComplete) });
+    }
+
+    public static CombatMovementScene CreateSelfBuffVisualization(IActorAnimator actorAnimator,
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext, IAnimationFrameSet animation, SoundEffect defenseSoundEffect)
+    {
+        var skillAnimationInfo = new SkillAnimationInfo
+        {
+            Items = new[]
+            {
+                new SkillAnimationStage
+                {
+                    Duration = 0.75f,
+                    HitSound = defenseSoundEffect.CreateInstance(),
+                    Interaction = () =>
+                        Interaction(movementExecution.EffectImposeItems),
+                    InteractTime = 0
+                }
+            }
+        };
+
+        var targetCombatant =
+            GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
+
+        var subStates = new[]
+        {
+            new DirectInteractionState(actorAnimator, skillAnimationInfo, animation),
         };
 
         var innerState = new SequentialState(subStates);

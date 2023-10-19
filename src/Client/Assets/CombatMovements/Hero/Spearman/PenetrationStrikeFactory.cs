@@ -19,7 +19,7 @@ internal class PenetrationStrikeFactory : CombatMovementFactoryBase
                 {
                     new DamageEffectWrapper(
                         new ClosestInLineTargetSelector(),
-                        DamageType.ShieldsOnly,
+                        DamageType.ProtectionOnly,
                         GenericRange<int>.CreateMono(3))
                 })
         )
