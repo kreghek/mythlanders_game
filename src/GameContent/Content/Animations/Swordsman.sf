@@ -39,6 +39,11 @@
       "frames": [22,23],
       "isLooping": false,
       "frameDuration": 0.3
+    },
+    "rise-swords": {
+      "frames": [56,57,58,59,60,61,62,63],
+      "isLooping": false,
+      "frameDuration": 0.1
     }
   }
 }
