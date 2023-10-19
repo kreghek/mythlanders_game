@@ -74,11 +74,11 @@ internal class StayStrongFactory : CombatMovementFactoryBase
     {
         var swordsmanAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Swordsman");
 
-        var defenceAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "defense");
-        var defenceSoundEffect =
+        var defenseAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "defense");
+        var defenseSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Defence);
 
         return CommonCombatVisualization.CreateSelfBuffVisualization(actorAnimator, movementExecution,
-            visualizationContext, defenceAnimation, defenceSoundEffect);
+            visualizationContext, defenseAnimation, defenseSoundEffect);
     }
 }
