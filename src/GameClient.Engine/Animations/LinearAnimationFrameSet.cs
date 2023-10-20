@@ -2,6 +2,9 @@
 
 namespace GameClient.Engine.Animations;
 
+/// <summary>
+/// Animation frame to frame.
+/// </summary>
 public sealed class LinearAnimationFrameSet : IAnimationFrameSet
 {
     private readonly float _fps;
@@ -20,11 +23,11 @@ public sealed class LinearAnimationFrameSet : IAnimationFrameSet
     /// Constructor.
     /// </summary>
     /// <param name="frames">Numbers of frames in sprite sheet.</param>
-    /// <param name="fps"></param>
-    /// <param name="frameWidth"></param>
-    /// <param name="frameHeight"></param>
-    /// <param name="textureColumns"></param>
-    /// <exception cref="ArgumentException"></exception>
+    /// <param name="fps">FPS of animation. 1 / frames in second.</param>
+    /// <param name="frameWidth"> Frame width in sprite sheet. </param>
+    /// <param name="frameHeight"> Frame height in sprite sheet.</param>
+    /// <param name="textureColumns"> Count of frame columns. </param>
+    /// <exception cref="ArgumentException">Throws then frame list is empty.</exception>
     public LinearAnimationFrameSet(IReadOnlyList<int> frames, float fps, int frameWidth,
         int frameHeight, int textureColumns)
     {
@@ -89,7 +92,7 @@ public sealed class LinearAnimationFrameSet : IAnimationFrameSet
                 if (IsLooping)
                 {
                     _frameListIndex = 0;
-                    KeyFrame?.Invoke(this, new AnimationFrameEventArgs(0));
+                    KeyFrame?.Invoke(this, new AnimationFrameEventArgs(new AnimationFrameInfo(0)));
                 }
                 else
                 {
@@ -100,7 +103,7 @@ public sealed class LinearAnimationFrameSet : IAnimationFrameSet
             }
             else
             {
-                KeyFrame?.Invoke(this, new AnimationFrameEventArgs(_frameListIndex));
+                KeyFrame?.Invoke(this, new AnimationFrameEventArgs(new AnimationFrameInfo(_frameListIndex)));
             }
         }
     }

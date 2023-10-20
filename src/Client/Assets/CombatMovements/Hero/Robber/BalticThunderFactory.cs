@@ -54,7 +54,7 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
                 CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8), audioSettings,
             new[]
             {
-                new AnimationSoundEffect(0,
+                new AnimationSoundEffect(new AnimationFrameInfo(0),
                     visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.EnergoShot))
             });
 

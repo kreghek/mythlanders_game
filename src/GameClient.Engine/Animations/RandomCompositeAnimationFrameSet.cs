@@ -100,5 +100,5 @@ public sealed class RandomCompositeAnimationFrameSet : IAnimationFrameSet
     public event EventHandler? End;
     
     /// <inheritdoc />
-    public event EventHandler<KeyFrameEventArgs>? KeyFrame;
+    public event EventHandler<AnimationFrameEventArgs>? KeyFrame;
 }

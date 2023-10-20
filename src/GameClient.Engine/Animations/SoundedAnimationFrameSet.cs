@@ -24,7 +24,7 @@ public sealed class SoundedAnimationFrameSet : IAnimationFrameSet
 
         _baseFrameSet.KeyFrame += (_, args) =>
         {
-            var soundToPlay = sounds.Where(x => x.PlayFrameIndex == args.FrameIndex);
+            var soundToPlay = sounds.Where(x => x.FrameInfo.Equals(args.KeyFrame));
             foreach (var animationSoundEffect in soundToPlay)
             {
                 audioPlayer.PlayEffect(animationSoundEffect.SoundEffect);
@@ -59,5 +59,5 @@ public sealed class SoundedAnimationFrameSet : IAnimationFrameSet
     public event EventHandler? End;
     
     /// <inheritdoc />
-    public event EventHandler<KeyFrameEventArgs>? KeyFrame;
+    public event EventHandler<AnimationFrameEventArgs>? KeyFrame;
 }
