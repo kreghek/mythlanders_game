@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using CombatDicesTeam.Dices;
+﻿using CombatDicesTeam.Dices;
 
 using Microsoft.Xna.Framework;
 
-namespace Client.Core.AnimationFrameSets;
+namespace GameClient.Engine.Animations;
 
-internal class RandomCompositeAnimationFrameSet : IAnimationFrameSet
+public sealed class RandomCompositeAnimationFrameSet : IAnimationFrameSet
 {
     private readonly IReadOnlyList<IAnimationFrameSet> _animations;
     private readonly IDice _dice;

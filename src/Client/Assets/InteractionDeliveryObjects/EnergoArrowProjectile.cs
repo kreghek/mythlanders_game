@@ -1,6 +1,7 @@
 ﻿using Client.Core;
 using Client.Engine;
 
+using GameClient.Engine.Animations;
 using GameClient.Engine.MoveFunctions;
 
 using Microsoft.Xna.Framework;

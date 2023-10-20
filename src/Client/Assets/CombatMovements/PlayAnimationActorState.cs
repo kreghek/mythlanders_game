@@ -1,9 +1,10 @@
 using System;
 
 using Client.Core;
-using Client.Core.AnimationFrameSets;
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
+
+using GameClient.Engine.Animations;
 
 using Microsoft.Xna.Framework;
 

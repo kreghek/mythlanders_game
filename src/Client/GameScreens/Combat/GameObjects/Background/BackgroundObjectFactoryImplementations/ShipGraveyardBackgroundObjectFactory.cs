@@ -8,6 +8,8 @@ using Client.Engine;
 
 using CombatDicesTeam.Dices;
 
+using GameClient.Engine.Animations;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

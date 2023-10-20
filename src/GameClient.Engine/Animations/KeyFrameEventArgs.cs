@@ -1,8 +1,6 @@
-using System;
+namespace GameClient.Engine.Animations;
 
-namespace Client.Core;
-
-internal sealed class KeyFrameEventArgs : EventArgs
+public sealed class KeyFrameEventArgs : EventArgs
 {
     public KeyFrameEventArgs(int frameIndex)
     {

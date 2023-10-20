@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using GameClient.Engine.Animations;
+
 using Microsoft.Xna.Framework;
 
 namespace Client.Core;

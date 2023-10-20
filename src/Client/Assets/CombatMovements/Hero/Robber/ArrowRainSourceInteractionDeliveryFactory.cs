@@ -1,13 +1,13 @@
 ﻿using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.InteractionDeliveryObjects;
 using Client.Core;
-using Client.Core.AnimationFrameSets;
 using Client.Engine;
 using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects;
 
 using CombatDicesTeam.Combats;
 
+using GameClient.Engine.Animations;
 using GameClient.Engine.MoveFunctions;
 
 using Microsoft.Xna.Framework;

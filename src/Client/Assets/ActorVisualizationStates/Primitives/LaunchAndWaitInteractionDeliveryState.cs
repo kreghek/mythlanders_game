@@ -6,6 +6,8 @@ using Client.Core;
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
+using GameClient.Engine.Animations;
+
 using Microsoft.Xna.Framework;
 
 namespace Client.Assets.ActorVisualizationStates.Primitives;

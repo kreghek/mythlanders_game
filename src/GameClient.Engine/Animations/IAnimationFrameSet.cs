@@ -1,11 +1,8 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
 
-using Microsoft.Xna.Framework;
+namespace GameClient.Engine.Animations;
 
-namespace Client.Core;
-
-// CS0552.cs
-internal interface IAnimationFrameSet
+public interface IAnimationFrameSet
 {
     bool IsIdle { get; }
     Rectangle GetFrameRect();

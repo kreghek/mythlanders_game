@@ -4,6 +4,8 @@ using System.IO;
 using Client.Assets.CombatMovements;
 using Client.Core;
 
+using GameClient.Engine.Animations;
+
 using Microsoft.Xna.Framework;
 
 namespace Client.Assets.GraphicConfigs.Monsters.Slavic;

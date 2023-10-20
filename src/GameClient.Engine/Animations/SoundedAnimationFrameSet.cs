@@ -1,12 +1,9 @@
-﻿using System;
-using System.Linq;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
-namespace Client.Core.AnimationFrameSets;
+namespace GameClient.Engine.Animations;
 
-internal class SoundedAnimationFrameSet : IAnimationFrameSet
+public sealed class SoundedAnimationFrameSet : IAnimationFrameSet
 {
     private readonly IAnimationFrameSet _baseFrameSet;
 

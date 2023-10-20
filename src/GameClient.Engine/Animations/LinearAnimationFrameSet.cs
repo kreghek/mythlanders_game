@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.Xna.Framework;
 
-using Microsoft.Xna.Framework;
+namespace GameClient.Engine.Animations;
 
-namespace Client.Core.AnimationFrameSets;
-
-internal class LinearAnimationFrameSet : IAnimationFrameSet
+public sealed class LinearAnimationFrameSet : IAnimationFrameSet
 {
     private readonly float _fps;
     private readonly int _frameHeight;

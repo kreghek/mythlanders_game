@@ -1,6 +1,5 @@
 using System.Linq;
 
-using Client.Core.AnimationFrameSets;
 using Client.Engine;
 using Client.GameScreens;
 
@@ -11,6 +10,8 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats.CombatMovementEffects;
+
+using GameClient.Engine.Animations;
 
 using JetBrains.Annotations;
 

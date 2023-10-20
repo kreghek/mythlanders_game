@@ -1,4 +1,4 @@
-﻿namespace Client.Core;
+﻿namespace GameClient.Engine.Animations;
 
 internal interface IAnimationKeyFrame
 {

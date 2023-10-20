@@ -1,10 +1,8 @@
-using System;
-
 using Client.Engine;
 
 using Microsoft.Xna.Framework;
 
-namespace Client.Core.AnimationFrameSets;
+namespace GameClient.Engine.Animations;
 
 internal sealed class SingleFrameSet : IAnimationFrameSet
 {

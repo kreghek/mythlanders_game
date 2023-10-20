@@ -5,7 +5,6 @@ using System.Linq;
 using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.CombatMovements.Hero.Robber;
 using Client.Core;
-using Client.Core.AnimationFrameSets;
 using Client.Engine;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
@@ -13,6 +12,7 @@ using Client.GameScreens.Combat.GameObjects.CommonStates;
 
 using CombatDicesTeam.Combats;
 
+using GameClient.Engine.Animations;
 using GameClient.Engine.MoveFunctions;
 
 using Microsoft.Xna.Framework;
@@ -63,20 +63,14 @@ internal static class CommonCombatVisualization
             ? visualizationContext.GetCombatActor(targetCombatant).InteractionPoint
             : startPosition;
 
-        var launchAnimation = new LinearAnimationFrameSet(Enumerable.Range(8, 2).ToArray(), 8,
-            CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8);
-
-        var waitProjectileAnimation = new LinearAnimationFrameSet(Enumerable.Range(8 + 2, 2).ToArray(), 8,
-            CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8);
-
         var subStates = new IActorVisualizationState[]
         {
             // Prepare to launch
             new PlayAnimationActorState(actorAnimator,
-                config.LaunchAnimation.Animation),
+                config.LaunchAnimation),
             new LaunchAndWaitInteractionDeliveryState(
                 actorAnimator,
-                config.LookOnProjectileAnimation.Animation,
+                config.LookOnProjectileAnimation,
                 movementExecution.EffectImposeItems.Select(x =>
                         new InteractionDeliveryInfo(x, visualizationContext.ActorGameObject.LaunchPoint,
                             targetPosition))

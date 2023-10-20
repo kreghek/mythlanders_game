@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
 
-using Microsoft.Xna.Framework;
+namespace GameClient.Engine.Animations;
 
-namespace Client.Core.AnimationFrameSets;
-
-internal class CompositeAnimationFrameSet : IAnimationFrameSet
+public sealed class CompositeAnimationFrameSet : IAnimationFrameSet
 {
     private readonly IReadOnlyList<IAnimationFrameSet> _animationSequence;
     private int _index;
@@ -74,4 +71,5 @@ internal class CompositeAnimationFrameSet : IAnimationFrameSet
     }
 
     public event EventHandler? End;
+    public event EventHandler<KeyFrameEventArgs>? KeyFrame;
 }

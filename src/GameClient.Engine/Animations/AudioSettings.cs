@@ -1,4 +1,4 @@
-namespace Client.Core.AnimationFrameSets;
+namespace GameClient.Engine.Animations;
 
 public sealed class AudioSettings
 {

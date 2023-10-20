@@ -5,13 +5,14 @@ using System.Linq;
 using Client.Assets.CombatMovements;
 using Client.Assets.StageItems;
 using Client.Core;
-using Client.Core.AnimationFrameSets;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.ScreenManagement;
 
 using CombatDicesTeam.Graphs;
 using CombatDicesTeam.Graphs.Visualization;
+
+using GameClient.Engine.Animations;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

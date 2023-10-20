@@ -1,7 +1,6 @@
 using System.Linq;
 
 using Client.Assets.CombatMovements.Hero.Robber;
-using Client.Core.AnimationFrameSets;
 using Client.Engine;
 using Client.GameScreens;
 
@@ -13,6 +12,8 @@ using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats.CombatMovementEffects;
+
+using GameClient.Engine.Animations;
 
 using JetBrains.Annotations;
 
