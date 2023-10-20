@@ -32,13 +32,4 @@ internal class WingsOfVelesFactory : CombatMovementFactoryBase
                 })
         );
     }
-
-    /// <inheritdoc />
-    public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
-        CombatMovementExecution movementExecution,
-        ICombatMovementVisualizationContext visualizationContext)
-    {
-        return CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
-            visualizationContext);
-    }
 }

@@ -1,6 +1,8 @@
 ﻿namespace GameClient.Engine.Animations;
 
-internal interface IAnimationKeyFrame
+/// <summary>
+/// Info of frame info.
+/// </summary>
+public interface IAnimationFrameInfo: IEquatable<IAnimationFrameInfo>
 {
-    int Index { get; }
 }

@@ -71,5 +71,5 @@ public sealed class CompositeAnimationFrameSet : IAnimationFrameSet
     }
 
     public event EventHandler? End;
-    public event EventHandler<KeyFrameEventArgs>? KeyFrame;
+    public event EventHandler<AnimationFrameEventArgs>? KeyFrame;
 }

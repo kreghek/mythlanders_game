@@ -31,15 +31,4 @@ internal class UndercutValuesFactory : CombatMovementFactoryBase
             Tags = CombatMovementTags.Attack
         };
     }
-
-    /// <inheritdoc />
-    public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
-        CombatMovementExecution movementExecution,
-        ICombatMovementVisualizationContext visualizationContext)
-    {
-        var 
-        
-        return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
-            visualizationContext);
-    }
 }

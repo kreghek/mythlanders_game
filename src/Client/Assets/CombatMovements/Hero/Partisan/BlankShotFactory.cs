@@ -47,7 +47,7 @@ internal class BlankShotFactory : CombatMovementFactoryBase
             Tags = CombatMovementTags.Attack
         };
     }
-    
+
     /// <inheritdoc />
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution,
@@ -60,7 +60,8 @@ internal class BlankShotFactory : CombatMovementFactoryBase
                 CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8), audioSettings,
             new[]
             {
-                (0, visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Gunshot))
+                new AnimationSoundEffect(0,
+                    visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Gunshot))
             });
 
         var waitProjectileAnimation = new LinearAnimationFrameSet(Enumerable.Range(8 + 2, 2).ToArray(), 8,
