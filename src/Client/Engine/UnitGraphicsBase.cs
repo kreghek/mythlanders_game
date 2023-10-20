@@ -5,6 +5,8 @@ using System.Linq;
 using Client.Core;
 using Client.GameScreens;
 
+using GameClient.Engine.Animations;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

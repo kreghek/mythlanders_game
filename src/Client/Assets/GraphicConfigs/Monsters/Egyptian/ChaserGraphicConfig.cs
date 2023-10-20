@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 
 using Client.Core;
-using Client.Core.AnimationFrameSets;
+
+using GameClient.Engine.Animations;
 
 namespace Client.Assets.GraphicConfigs.Monsters.Egyptian;
 

@@ -1,5 +1,3 @@
-using Client.Engine;
-
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Combats.Effects;
@@ -31,14 +29,5 @@ internal class WingsOfVelesFactory : CombatMovementFactoryBase
                     new AddCombatantStatusEffect(new SelfTargetSelector(), combatantEffectFactory)
                 })
         );
-    }
-
-    /// <inheritdoc />
-    public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
-        CombatMovementExecution movementExecution,
-        ICombatMovementVisualizationContext visualizationContext)
-    {
-        return CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
-            visualizationContext);
     }
 }

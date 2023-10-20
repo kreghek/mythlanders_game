@@ -16,6 +16,7 @@ using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats.CombatMovementEffects;
 
+using GameClient.Engine;
 using GameClient.Engine.MoveFunctions;
 
 using Microsoft.Xna.Framework;

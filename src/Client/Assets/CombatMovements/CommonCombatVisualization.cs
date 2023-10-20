@@ -4,8 +4,6 @@ using System.Linq;
 
 using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.CombatMovements.Hero.Robber;
-using Client.Core;
-using Client.Core.AnimationFrameSets;
 using Client.Engine;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
@@ -13,6 +11,8 @@ using Client.GameScreens.Combat.GameObjects.CommonStates;
 
 using CombatDicesTeam.Combats;
 
+using GameClient.Engine;
+using GameClient.Engine.Animations;
 using GameClient.Engine.MoveFunctions;
 
 using Microsoft.Xna.Framework;
@@ -41,10 +41,7 @@ internal static class CommonCombatVisualization
             }
         };
 
-        var targetCombatant =
-            GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
-
-        var subStates = new[]
+        var subStates = new IActorVisualizationState[]
         {
             new DirectInteractionState(actorAnimator, skillAnimationInfo, animation)
         };
@@ -55,41 +52,46 @@ internal static class CommonCombatVisualization
     }
 
     public static CombatMovementScene CreateSingleDistanceVisualization(IActorAnimator actorAnimator,
-        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext,
+        SingleDistanceVisualizationConfig config)
     {
         var startPosition = actorAnimator.GraphicRoot.Position;
         var targetCombatant =
             GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
 
+        
         var targetPosition = targetCombatant is not null
             ? visualizationContext.GetCombatActor(targetCombatant).InteractionPoint
             : startPosition;
 
-        var launchAnimation = new LinearAnimationFrameSet(Enumerable.Range(8, 2).ToArray(), 8,
-            CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8);
-
-        var waitProjectileAnimation = new LinearAnimationFrameSet(Enumerable.Range(8 + 2, 2).ToArray(), 8,
-            CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8);
+        var targetAnimator = targetCombatant is not null
+            ? visualizationContext.GetCombatActor(targetCombatant).Animator
+            : actorAnimator;
 
         var subStates = new IActorVisualizationState[]
         {
             // Prepare to launch
             new PlayAnimationActorState(actorAnimator,
-                launchAnimation),
+                config.PrepareAnimation),
             new LaunchAndWaitInteractionDeliveryState(
                 actorAnimator,
-                waitProjectileAnimation,
+                config.LaunchProjectileAnimation,
+                config.WaitAnimation,
                 movementExecution.EffectImposeItems.Select(x =>
                         new InteractionDeliveryInfo(x, visualizationContext.ActorGameObject.LaunchPoint,
                             targetPosition))
                     .ToArray(),
-                new EnergyArrowInteractionDeliveryFactory(visualizationContext.GameObjectContentStorage),
-                visualizationContext.InteractionDeliveryManager)
+                config.DeliveryFactory,
+                visualizationContext.InteractionDeliveryManager),
+            new DelayActorState(new Duration(1))
         };
 
         var innerState = new SequentialState(subStates);
         return new CombatMovementScene(innerState,
-            new[] { new FollowActorOperatorCameraTask(actorAnimator, () => innerState.IsComplete) });
+            new[] { 
+                new FollowActorOperatorCameraTask(actorAnimator, () => subStates[0].IsComplete),
+                new FollowActorOperatorCameraTask(targetAnimator, () => innerState.IsComplete)
+            });
     }
 
     public static CombatMovementScene CreateSingleMeleeVisualization(IActorAnimator actorAnimator,
@@ -189,7 +191,7 @@ internal static class CommonCombatVisualization
         return targetCombatUnit;
     }
 
-    private static void Interaction(IReadOnlyCollection<CombatEffectImposeItem> effectImposeItems)
+    private static void Interaction(IEnumerable<CombatEffectImposeItem> effectImposeItems)
     {
         foreach (var effectImposeItem in effectImposeItems)
         {

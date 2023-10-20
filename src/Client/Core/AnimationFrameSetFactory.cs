@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Client.Core.AnimationFrameSets;
+using GameClient.Engine.Animations;
 
 namespace Client.Core;
 

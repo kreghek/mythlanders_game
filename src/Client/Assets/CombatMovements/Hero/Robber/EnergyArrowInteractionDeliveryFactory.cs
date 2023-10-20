@@ -25,28 +25,3 @@ internal sealed class EnergyArrowInteractionDeliveryFactory : IDeliveryFactory
         return new EnergyArrowProjectile(startPoint, targetPoint, _gameObjectContentStorage.GetBulletGraphics());
     }
 }
-
-internal sealed class RainingArrowInteractionDeliveryFactory : IDeliveryFactory
-{
-    private readonly GameObjectContentStorage _gameObjectContentStorage;
-
-    public RainingArrowInteractionDeliveryFactory(GameObjectContentStorage gameObjectContentStorage)
-    {
-        _gameObjectContentStorage = gameObjectContentStorage;
-    }
-
-    /// <inheritdoc />
-    public IInteractionDelivery Create(CombatEffectImposeItem interactionImpose, Vector2 startPoint,
-        Vector2 targetPoint)
-    {
-        var arrow = new EnergyArrowProjectile(startPoint, targetPoint, _gameObjectContentStorage.GetBulletGraphics());
-        var blast = new EnergyArrowBlast(
-            targetPoint,
-            _gameObjectContentStorage.GetBulletGraphics(),
-            _gameObjectContentStorage.GetParticlesTexture());
-
-        var sequentialProjectile = new SequentialProjectile(new IInteractionDelivery[] { arrow, blast });
-
-        return sequentialProjectile;
-    }
-}

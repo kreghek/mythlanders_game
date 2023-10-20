@@ -2,6 +2,8 @@
 
 using Client.Core;
 
+using GameClient.Engine.Animations;
+
 namespace Client.Assets.GraphicConfigs;
 
 internal sealed class SingleSpriteGraphicsConfig : CombatantGraphicsConfigBase

@@ -32,6 +32,7 @@ using Core.Props;
 
 using GameAssets.Combats;
 
+using GameClient.Engine;
 using GameClient.Engine.RectControl;
 
 using Microsoft.Extensions.DependencyInjection;
