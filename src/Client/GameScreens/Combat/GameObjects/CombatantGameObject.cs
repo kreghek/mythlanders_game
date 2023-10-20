@@ -9,6 +9,8 @@ using Client.GameScreens.Combat.GameObjects.CommonStates;
 
 using CombatDicesTeam.Combats;
 
+using GameAssets.Combats.CombatantStatuses;
+
 using GameClient.Engine;
 using GameClient.Engine.MoveFunctions;
 
@@ -68,6 +70,11 @@ internal sealed class CombatantGameObject
 
     public Vector2 StatsPanelOrigin => Graphics.Root.RootNode.Position - _combatantGraphicsConfig.StatsPanelOrigin;
 
+    private CombatantVisualIdleState VisualIdleState =>
+        Combatant.Statuses.Any(x => x is DefensiveStanceCombatantStatusWrapper)
+            ? CombatantVisualIdleState.DefenseStance
+            : CombatantVisualIdleState.Idle;
+
     public void AddStateEngine(IActorVisualizationState actorStateEngine)
     {
         foreach (var state in _actorStateEngineList.ToArray())
@@ -81,9 +88,16 @@ internal sealed class CombatantGameObject
         _actorStateEngineList.Add(actorStateEngine);
     }
 
-    public void AnimateWound()
+    public void AnimateDamageImpact()
     {
-        AddStateEngine(new WoundState(Graphics));
+        if (VisualIdleState == CombatantVisualIdleState.DefenseStance)
+        {
+            AddStateEngine(new DefenseState(Graphics));
+        }
+        else
+        {
+            AddStateEngine(new WoundState(Graphics));
+        }
     }
 
     public CorpseGameObject CreateCorpse()
@@ -145,14 +159,16 @@ internal sealed class CombatantGameObject
         var activeStateEngine = _actorStateEngineList.First();
         activeStateEngine.Update(gameTime);
 
-        if (activeStateEngine.IsComplete)
+        if (!activeStateEngine.IsComplete)
         {
-            _actorStateEngineList.Remove(activeStateEngine);
+            return;
+        }
 
-            if (!_actorStateEngineList.Any())
-            {
-                AddStateEngine(new IdleActorVisualizationState(Graphics, CombatUnitState.Idle /*Combatant.State*/));
-            }
+        _actorStateEngineList.Remove(activeStateEngine);
+
+        if (!_actorStateEngineList.Any())
+        {
+            AddStateEngine(new IdleActorVisualizationState(Graphics, VisualIdleState));
         }
     }
 

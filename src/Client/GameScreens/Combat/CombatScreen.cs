@@ -480,6 +480,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         var nextIndicatorStackIndex = GetIndicatorNextIndex(combatantGameObject) ?? 0;
 
+        combatantGameObject.AnimateDamageImpact();
+
         if (e.Damage.Amount <= 0 && e.Damage.SourceAmount > 0)
         {
             var blockIndicator = new BlockAnyDamageTextIndicator(position, font, nextIndicatorStackIndex);
@@ -487,8 +489,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
         else
         {
-            combatantGameObject.AnimateWound();
-
             var hitDirection = combatantGameObject.Combatant.IsPlayerControlled
                 ? HitDirection.Left
                 : HitDirection.Right;
@@ -503,8 +503,6 @@ internal class CombatScreen : GameScreenWithMenuBase
                         nextIndicatorStackIndex);
 
                 _visualEffectManager.AddEffect(damageIndicator);
-
-                combatantGameObject.AnimateWound();
 
                 var bloodEffect = new BloodCombatVisualEffect(combatantGameObject.InteractionPoint,
                     hitDirection,

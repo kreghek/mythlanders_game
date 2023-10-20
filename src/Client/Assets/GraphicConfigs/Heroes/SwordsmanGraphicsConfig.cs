@@ -37,6 +37,10 @@ internal sealed class SwordsmanGraphicsConfig : HeroGraphicConfig
                 AnimationFrameSetFactory.CreateSequential(startFrameIndex: 40, frameCount: 8, fps: 8, isLoop: false)
             },
             {
+                PredefinedAnimationSid.Defense,
+                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 8, fps: 16, isLoop: false)
+            },
+            {
                 PredefinedAnimationSid.Death,
                 AnimationFrameSetFactory.CreateSequential(startFrameIndex: 48, frameCount: 8, fps: 8, isLoop: false)
             }
