@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Client.Core;
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
@@ -24,17 +23,19 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
     private readonly IReadOnlyCollection<InteractionDeliveryInfo> _imposeItems;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
     private readonly IAnimationFrameSet _launchAnimation;
-
+    private readonly IAnimationFrameSet _waitAnimation;
     private double _counter;
 
     public LaunchAndWaitInteractionDeliveryState(IActorAnimator animator,
         IAnimationFrameSet launchAnimation,
+        IAnimationFrameSet waitAnimation,
         IReadOnlyCollection<InteractionDeliveryInfo> imposeItems,
         IDeliveryFactory deliveryFactory,
         InteractionDeliveryManager interactionDeliveryManager)
     {
         _animator = animator;
         _launchAnimation = launchAnimation;
+        _waitAnimation = waitAnimation;
         _imposeItems = imposeItems;
         _deliveryFactory = deliveryFactory;
         _interactionDeliveryManager = interactionDeliveryManager;
@@ -55,6 +56,8 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
     private void LaunchAnimation_End(object? sender, EventArgs e)
     {
         LaunchInteractionDelivery();
+
+        _animator.PlayAnimation(_waitAnimation);
     }
 
     private void LaunchInteractionDelivery()

@@ -4,7 +4,6 @@ using System.Linq;
 
 using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.CombatMovements.Hero.Robber;
-using Client.Core;
 using Client.Engine;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
@@ -67,10 +66,11 @@ internal static class CommonCombatVisualization
         {
             // Prepare to launch
             new PlayAnimationActorState(actorAnimator,
-                config.LaunchAnimation),
+                config.PrepareAnimation),
             new LaunchAndWaitInteractionDeliveryState(
                 actorAnimator,
-                config.LookOnProjectileAnimation,
+                config.LaunchProjectileAnimation,
+                config.WaitAnimation,
                 movementExecution.EffectImposeItems.Select(x =>
                         new InteractionDeliveryInfo(x, visualizationContext.ActorGameObject.LaunchPoint,
                             targetPosition))

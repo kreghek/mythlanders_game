@@ -1,5 +1,4 @@
-﻿using Client.Core;
-using Client.Engine;
+﻿using Client.Engine;
 
 using GameClient.Engine.Animations;
 

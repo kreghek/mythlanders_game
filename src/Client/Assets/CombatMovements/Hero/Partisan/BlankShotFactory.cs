@@ -1,5 +1,3 @@
-using System.Linq;
-
 using Client.Assets.CombatMovements.Hero.Robber;
 using Client.Engine;
 using Client.GameScreens;
@@ -53,23 +51,25 @@ internal class BlankShotFactory : CombatMovementFactoryBase
         CombatMovementExecution movementExecution,
         ICombatMovementVisualizationContext visualizationContext)
     {
-        var launchAnimation = new SoundedAnimationFrameSet(new LinearAnimationFrameSet(Enumerable.Range(8, 2).ToArray(),
-                8,
-                CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8),
+        var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Partisan");
+
+        var prepareAnimation = AnimationHelper.ConvertToAnimation(animationSet, "uzi-prepare");
+
+        var shotSoundEffect =
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Gunshot);
+        var shotAnimation = AnimationHelper.ConvertToAnimation(animationSet, "uzi-shot");
+        var soundedShotAnimation = new SoundedAnimationFrameSet(shotAnimation,
             new[]
             {
-                new GameClient.Engine.Animations.AnimationSoundEffect(new AnimationFrameInfo(0),
-                    new AnimationSoundEffect(
-                    visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Gunshot), new AudioSettings()
-                    ))
+                new GameClient.Engine.Animations.AnimationSoundEffect(new AnimationFrameInfo(1),
+                    new AnimationSoundEffect(shotSoundEffect, new AudioSettings()))
             });
 
-        var waitProjectileAnimation = new LinearAnimationFrameSet(Enumerable.Range(8 + 2, 2).ToArray(), 8,
-            CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8);
+        var waitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "uzi-wait");
 
         return CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
             visualizationContext,
-            new SingleDistanceVisualizationConfig(launchAnimation, waitProjectileAnimation,
+            new SingleDistanceVisualizationConfig(prepareAnimation, soundedShotAnimation, waitAnimation,
                 new EnergyArrowInteractionDeliveryFactory(visualizationContext.GameObjectContentStorage)));
     }
 }
