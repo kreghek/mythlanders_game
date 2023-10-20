@@ -53,7 +53,7 @@ internal class BlankShotFactory : CombatMovementFactoryBase
         CombatMovementExecution movementExecution,
         ICombatMovementVisualizationContext visualizationContext)
     {
-        var audioSettings = new AudioSettings();
+        var audioSettings = new AudioPlayer();
 
         var launchAnimation = new SoundedAnimationFrameSet(new LinearAnimationFrameSet(Enumerable.Range(8, 2).ToArray(),
                 8,

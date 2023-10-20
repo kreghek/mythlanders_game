@@ -4,6 +4,9 @@ using Microsoft.Xna.Framework;
 
 namespace GameClient.Engine.Animations;
 
+/// <summary>
+/// Play random animations from the list.
+/// </summary>
 public sealed class RandomCompositeAnimationFrameSet : IAnimationFrameSet
 {
     private readonly IReadOnlyList<IAnimationFrameSet> _animations;
@@ -15,6 +18,11 @@ public sealed class RandomCompositeAnimationFrameSet : IAnimationFrameSet
 
     private IList<IAnimationFrameSet> _openList;
 
+    /// <summary>
+    /// Constructor.
+    /// </summary>
+    /// <param name="animations">List of available animations.</param>
+    /// <param name="dice"> Random source to select animations from list. </param>
     public RandomCompositeAnimationFrameSet(IReadOnlyList<IAnimationFrameSet> animations, IDice dice)
     {
         _animations = animations;
@@ -27,6 +35,9 @@ public sealed class RandomCompositeAnimationFrameSet : IAnimationFrameSet
         _currentAnimation.End += CurrentAnimation_End;
     }
 
+    /// <summary>
+    /// Indicate to loop the animation selection cycle.
+    /// </summary>
     public bool IsLooping { get; init; }
 
     private void CurrentAnimation_End(object? sender, EventArgs e)
@@ -37,13 +48,16 @@ public sealed class RandomCompositeAnimationFrameSet : IAnimationFrameSet
         _currentAnimation.End += CurrentAnimation_End;
     }
 
-    public bool IsIdle { get; init; }
+    /// <inheritdoc />
+    public bool IsIdle => false;
 
+    /// <inheritdoc />
     public Rectangle GetFrameRect()
     {
         return _currentAnimation.GetFrameRect();
     }
 
+    /// <inheritdoc />
     public void Reset()
     {
         _currentAnimation.End -= CurrentAnimation_End;
@@ -51,6 +65,7 @@ public sealed class RandomCompositeAnimationFrameSet : IAnimationFrameSet
         _isEnded = false;
     }
 
+    /// <inheritdoc />
     public void Update(GameTime gameTime)
     {
         if (_isEnded)
@@ -60,19 +75,30 @@ public sealed class RandomCompositeAnimationFrameSet : IAnimationFrameSet
 
         _currentAnimation.Update(gameTime);
 
-        if (!_openList.Any())
+        if (_openList.Any())
         {
-            if (IsLooping)
+            if (!IsLooping)
             {
-                Reset();
-            }
-            else
-            {
-                _isEnded = true;
                 End?.Invoke(this, EventArgs.Empty);
             }
+            
+            return;
+        }
+
+        if (IsLooping)
+        {
+            Reset();
+        }
+        else
+        {
+            _isEnded = true;
+            End?.Invoke(this, EventArgs.Empty);
         }
     }
 
+    /// <inheritdoc />
     public event EventHandler? End;
+    
+    /// <inheritdoc />
+    public event EventHandler<KeyFrameEventArgs>? KeyFrame;
 }
