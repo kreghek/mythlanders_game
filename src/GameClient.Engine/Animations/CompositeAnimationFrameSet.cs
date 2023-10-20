@@ -23,11 +23,6 @@ public sealed class CompositeAnimationFrameSet : IAnimationFrameSet
         current.KeyFrame += CurrentAnimation_KeyFrame;
     }
 
-    private void CurrentAnimation_KeyFrame(object? sender, AnimationFrameEventArgs e)
-    {
-        KeyFrame?.Invoke(this, e);
-    }
-
     /// <summary>
     /// Make animation to play in infinite cycle.
     /// </summary>
@@ -56,6 +51,11 @@ public sealed class CompositeAnimationFrameSet : IAnimationFrameSet
                 End?.Invoke(this, EventArgs.Empty);
             }
         }
+    }
+
+    private void CurrentAnimation_KeyFrame(object? sender, AnimationFrameEventArgs e)
+    {
+        KeyFrame?.Invoke(this, e);
     }
 
     private IAnimationFrameSet GetCurrentAnimationFrameSet()
@@ -92,7 +92,7 @@ public sealed class CompositeAnimationFrameSet : IAnimationFrameSet
 
     /// <inheritdoc />
     public event EventHandler? End;
-    
+
     /// <inheritdoc />
     public event EventHandler<AnimationFrameEventArgs>? KeyFrame;
 }

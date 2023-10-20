@@ -1,8 +1,10 @@
 ﻿using Client.Core;
+
 using GameClient.Engine.Animations;
 using GameClient.Engine.MoveFunctions;
-using Microsoft.Xna.Framework.Graphics;
+
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.Assets.InteractionDeliveryObjects;
 

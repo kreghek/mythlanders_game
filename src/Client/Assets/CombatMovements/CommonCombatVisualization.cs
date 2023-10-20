@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.ActorVisualizationStates.Primitives;
-using Client.Assets.CombatMovements.Hero.Robber;
 using Client.Engine;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
@@ -59,7 +58,6 @@ internal static class CommonCombatVisualization
         var targetCombatant =
             GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
 
-        
         var targetPosition = targetCombatant is not null
             ? visualizationContext.GetCombatActor(targetCombatant).InteractionPoint
             : startPosition;
@@ -88,7 +86,8 @@ internal static class CommonCombatVisualization
 
         var innerState = new SequentialState(subStates);
         return new CombatMovementScene(innerState,
-            new[] { 
+            new[]
+            {
                 new FollowActorOperatorCameraTask(actorAnimator, () => subStates[0].IsComplete),
                 new FollowActorOperatorCameraTask(targetAnimator, () => innerState.IsComplete)
             });

@@ -1,5 +1,3 @@
-using Microsoft.Xna.Framework.Audio;
-
 namespace GameClient.Engine.Animations;
 
 /// <summary>

@@ -111,7 +111,7 @@ public sealed class LinearAnimationFrameSet : IAnimationFrameSet
 
     /// <inheritdoc />
     public event EventHandler? End;
-    
+
     /// <inheritdoc />
     public event EventHandler<AnimationFrameEventArgs>? KeyFrame;
 }

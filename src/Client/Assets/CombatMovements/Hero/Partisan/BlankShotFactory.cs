@@ -1,6 +1,5 @@
 using System;
 
-using Client.Assets.CombatMovements.Hero.Robber;
 using Client.Assets.InteractionDeliveryObjects;
 using Client.Engine;
 using Client.GameScreens;
@@ -80,8 +79,10 @@ internal class BlankShotFactory : CombatMovementFactoryBase
                 projectileFactory));
     }
 
-    private static Func<Vector2, Vector2, IInteractionDelivery> GetCreateProjectileFunc(ICombatMovementVisualizationContext visualizationContext)
+    private static Func<Vector2, Vector2, IInteractionDelivery> GetCreateProjectileFunc(
+        ICombatMovementVisualizationContext visualizationContext)
     {
-        return (start, target) => new GunBulletProjectile(start, target, visualizationContext.GameObjectContentStorage.GetBulletGraphics());
+        return (start, target) =>
+            new GunBulletProjectile(start, target, visualizationContext.GameObjectContentStorage.GetBulletGraphics());
     }
 }

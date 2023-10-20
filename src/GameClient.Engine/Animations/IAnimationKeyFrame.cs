@@ -3,7 +3,7 @@
 /// <summary>
 /// Info of frame info.
 /// </summary>
-public interface IAnimationFrameInfo: IEquatable<IAnimationFrameInfo>
+public interface IAnimationFrameInfo : IEquatable<IAnimationFrameInfo>
 {
 }
 
@@ -11,9 +11,15 @@ public interface IAnimationFrameInfo: IEquatable<IAnimationFrameInfo>
 /// The simplest AnimationFrameInfo implementation.
 /// </summary>
 /// <param name="FrameIndex"> Frame index. </param>
-public sealed record AnimationFrameInfo(int FrameIndex): IAnimationFrameInfo
+public sealed record AnimationFrameInfo(int FrameIndex) : IAnimationFrameInfo
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return FrameIndex;
+    }
+
+    /// <inheritdoc />
     public bool Equals(IAnimationFrameInfo? other)
     {
         if (ReferenceEquals(null, other))
@@ -27,11 +33,5 @@ public sealed record AnimationFrameInfo(int FrameIndex): IAnimationFrameInfo
         }
 
         return FrameIndex == (other as AnimationFrameInfo)?.FrameIndex;
-    }
-
-    /// <inheritdoc/>
-    public override int GetHashCode()
-    {
-        return FrameIndex;
     }
 }

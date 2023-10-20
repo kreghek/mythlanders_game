@@ -35,7 +35,7 @@ public sealed class SoundedAnimationFrameSet : IAnimationFrameSet
 
     /// <inheritdoc />
     public bool IsIdle => _baseFrameSet.IsIdle;
-    
+
     /// <inheritdoc />
     public Rectangle GetFrameRect()
     {
@@ -47,7 +47,7 @@ public sealed class SoundedAnimationFrameSet : IAnimationFrameSet
     {
         _baseFrameSet.Reset();
     }
-    
+
     /// <inheritdoc />
     public void Update(GameTime gameTime)
     {
@@ -56,7 +56,7 @@ public sealed class SoundedAnimationFrameSet : IAnimationFrameSet
 
     /// <inheritdoc />
     public event EventHandler? End;
-    
+
     /// <inheritdoc />
     public event EventHandler<AnimationFrameEventArgs>? KeyFrame;
 }

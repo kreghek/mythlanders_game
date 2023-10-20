@@ -23,7 +23,7 @@ public class LinearAnimationFrameSetTests
         {
             var _ = new LinearAnimationFrameSet(frames, FPS, FRAME_WIDTH, FRAME_HEIGHT, TEXTURE_COLUMNS);
         };
-        
+
         // Assert
 
         act.Should().Throw<ArgumentException>();

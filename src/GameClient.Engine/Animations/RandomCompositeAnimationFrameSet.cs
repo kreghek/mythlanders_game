@@ -33,13 +33,8 @@ public sealed class RandomCompositeAnimationFrameSet : IAnimationFrameSet
         _currentAnimation = dice.RollFromList(_openList.ToArray());
         _openList.Remove(_currentAnimation);
         _currentAnimation.End += CurrentAnimation_End;
-        
-        _currentAnimation.KeyFrame += CurrentAnimation_KeyFrame;
-    }
 
-    private void CurrentAnimation_KeyFrame(object? sender, AnimationFrameEventArgs e)
-    {
-        KeyFrame?.Invoke(this, new AnimationFrameEventArgs(e.KeyFrame));
+        _currentAnimation.KeyFrame += CurrentAnimation_KeyFrame;
     }
 
     /// <summary>
@@ -55,6 +50,11 @@ public sealed class RandomCompositeAnimationFrameSet : IAnimationFrameSet
         _openList.Remove(_currentAnimation);
         _currentAnimation.End += CurrentAnimation_End;
         _currentAnimation.KeyFrame += CurrentAnimation_KeyFrame;
+    }
+
+    private void CurrentAnimation_KeyFrame(object? sender, AnimationFrameEventArgs e)
+    {
+        KeyFrame?.Invoke(this, new AnimationFrameEventArgs(e.KeyFrame));
     }
 
     /// <inheritdoc />
@@ -90,7 +90,7 @@ public sealed class RandomCompositeAnimationFrameSet : IAnimationFrameSet
             {
                 End?.Invoke(this, EventArgs.Empty);
             }
-            
+
             return;
         }
 
@@ -107,7 +107,7 @@ public sealed class RandomCompositeAnimationFrameSet : IAnimationFrameSet
 
     /// <inheritdoc />
     public event EventHandler? End;
-    
+
     /// <inheritdoc />
     public event EventHandler<AnimationFrameEventArgs>? KeyFrame;
 }
