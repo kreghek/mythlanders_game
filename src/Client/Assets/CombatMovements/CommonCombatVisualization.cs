@@ -11,6 +11,7 @@ using Client.GameScreens.Combat.GameObjects.CommonStates;
 
 using CombatDicesTeam.Combats;
 
+using GameClient.Engine;
 using GameClient.Engine.Animations;
 using GameClient.Engine.MoveFunctions;
 
@@ -58,9 +59,14 @@ internal static class CommonCombatVisualization
         var targetCombatant =
             GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
 
+        
         var targetPosition = targetCombatant is not null
             ? visualizationContext.GetCombatActor(targetCombatant).InteractionPoint
             : startPosition;
+
+        var targetAnimator = targetCombatant is not null
+            ? visualizationContext.GetCombatActor(targetCombatant).Animator
+            : actorAnimator;
 
         var subStates = new IActorVisualizationState[]
         {
@@ -76,12 +82,16 @@ internal static class CommonCombatVisualization
                             targetPosition))
                     .ToArray(),
                 config.DeliveryFactory,
-                visualizationContext.InteractionDeliveryManager)
+                visualizationContext.InteractionDeliveryManager),
+            new DelayActorState(new Duration(1))
         };
 
         var innerState = new SequentialState(subStates);
         return new CombatMovementScene(innerState,
-            new[] { new FollowActorOperatorCameraTask(actorAnimator, () => innerState.IsComplete) });
+            new[] { 
+                new FollowActorOperatorCameraTask(actorAnimator, () => subStates[0].IsComplete),
+                new FollowActorOperatorCameraTask(targetAnimator, () => innerState.IsComplete)
+            });
     }
 
     public static CombatMovementScene CreateSingleMeleeVisualization(IActorAnimator actorAnimator,
