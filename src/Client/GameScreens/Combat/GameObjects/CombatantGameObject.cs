@@ -69,6 +69,11 @@ internal sealed class CombatantGameObject
 
     public Vector2 StatsPanelOrigin => Graphics.Root.RootNode.Position - _combatantGraphicsConfig.StatsPanelOrigin;
 
+    private CombatantVisualIdleState VisualIdleState =>
+        Combatant.Statuses.Any(x => x is DefensiveStanceCombatantStatusWrapper)
+            ? CombatantVisualIdleState.DefenseStance
+            : CombatantVisualIdleState.Idle;
+
     public void AddStateEngine(IActorVisualizationState actorStateEngine)
     {
         foreach (var state in _actorStateEngineList.ToArray())
@@ -165,11 +170,6 @@ internal sealed class CombatantGameObject
             AddStateEngine(new IdleActorVisualizationState(Graphics, VisualIdleState));
         }
     }
-
-    private CombatantVisualIdleState VisualIdleState =>
-        Combatant.Statuses.Any(x => x is DefensiveStanceCombatantStatusWrapper) ?
-            CombatantVisualIdleState.DefenseStance :
-            CombatantVisualIdleState.Idle;
 
     // public void ShiftShape(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig)
     // {

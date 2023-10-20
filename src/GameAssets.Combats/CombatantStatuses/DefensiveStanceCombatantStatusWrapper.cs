@@ -2,7 +2,7 @@
 
 namespace GameAssets.Combats.CombatantStatuses;
 
-public sealed class DefensiveStanceCombatantStatusWrapper: ICombatantStatus
+public sealed class DefensiveStanceCombatantStatusWrapper : ICombatantStatus
 {
     private readonly ICombatantStatus _baseStatus;
 
@@ -10,7 +10,7 @@ public sealed class DefensiveStanceCombatantStatusWrapper: ICombatantStatus
     {
         _baseStatus = baseStatus;
     }
-    
+
     public void Dispel(ICombatant combatant)
     {
         _baseStatus.Dispel(combatant);
