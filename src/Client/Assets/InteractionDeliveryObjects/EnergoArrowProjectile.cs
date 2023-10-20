@@ -11,7 +11,7 @@ namespace Client.Assets.InteractionDeliveryObjects;
 
 internal sealed class EnergyArrowProjectile : ProjectileBase
 {
-    private const double LIFETIME_DURATION_SECONDS = 0.3;
+    private const double LIFETIME_DURATION_SECONDS = 0.5;
     private const int FPS = 8 * 3;
 
     private readonly ParticleSystem _tailParticleSystem;
@@ -22,7 +22,7 @@ internal sealed class EnergyArrowProjectile : ProjectileBase
         double lifetimeDuration = LIFETIME_DURATION_SECONDS) :
         base(
             new ProjectileFunctions(
-                new SlowDownMoveFunction(startPosition, endPosition),
+                new SpeedUpMoveFunction(startPosition, endPosition),
                 new RotateForward(startPosition, endPosition)),
             bulletTexture,
             CreateFrameSet(),

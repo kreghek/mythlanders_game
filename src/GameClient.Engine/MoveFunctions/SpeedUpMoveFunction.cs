@@ -3,9 +3,9 @@
 namespace GameClient.Engine.MoveFunctions;
 
 /// <summary>
-/// Function to slow down value in the end.
+/// Function to speed up value in the end.
 /// </summary>
-public sealed class SlowDownMoveFunction : IMoveFunction
+public sealed class SpeedUpMoveFunction : IMoveFunction
 {
     private readonly Vector2 _finishPosition;
     private readonly Vector2 _startPosition;
@@ -15,7 +15,7 @@ public sealed class SlowDownMoveFunction : IMoveFunction
     /// </summary>
     /// <param name="startPosition">Start movement position.</param>
     /// <param name="finishPosition">Target movement position.</param>
-    public SlowDownMoveFunction(Vector2 startPosition, Vector2 finishPosition)
+    public SpeedUpMoveFunction(Vector2 startPosition, Vector2 finishPosition)
     {
         _startPosition = startPosition;
         _finishPosition = finishPosition;
@@ -24,6 +24,6 @@ public sealed class SlowDownMoveFunction : IMoveFunction
     /// <inheritdoc />
     public Vector2 CalcPosition(MoveFunctionArgument t)
     {
-        return Vector2.Lerp(_startPosition, _finishPosition, (float)Math.Sin(t.Value * Math.PI * 0.5));
+        return Vector2.Lerp(_startPosition, _finishPosition, (float)(1 - Math.Cos(t.Value * Math.PI * 0.5)));
     }
 }
