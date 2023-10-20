@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core;
+using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
 using Microsoft.Xna.Framework;
@@ -9,28 +11,35 @@ using Microsoft.Xna.Framework;
 namespace Client.Assets.ActorVisualizationStates.Primitives;
 
 /// <summary>
-/// The state creates a projectile and waits interaction.
+/// The state starts to play a animation and creates a projectile.
 /// </summary>
-internal sealed class LaunchInteractionDeliveryState : IActorVisualizationState
+internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizationState
 {
     private readonly IList<IInteractionDelivery> _activeInteractionDeliveryList;
 
+    private readonly IActorAnimator _animator;
     private readonly IDeliveryFactory _deliveryFactory;
     private readonly IReadOnlyCollection<InteractionDeliveryInfo> _imposeItems;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
+    private readonly IAnimationFrameSet _launchAnimation;
 
-    private bool _interactionDeliveryLaunched;
+    private double _counter;
 
-    public LaunchInteractionDeliveryState(
+    public LaunchAndWaitInteractionDeliveryState(IActorAnimator animator,
+        IAnimationFrameSet launchAnimation,
         IReadOnlyCollection<InteractionDeliveryInfo> imposeItems,
         IDeliveryFactory deliveryFactory,
         InteractionDeliveryManager interactionDeliveryManager)
     {
+        _animator = animator;
+        _launchAnimation = launchAnimation;
         _imposeItems = imposeItems;
         _deliveryFactory = deliveryFactory;
         _interactionDeliveryManager = interactionDeliveryManager;
 
         _activeInteractionDeliveryList = new List<IInteractionDelivery>();
+
+        _launchAnimation.End += LaunchAnimation_End;
     }
 
     private static void ImposeEffect(InteractionDeliveryInfo imposeItem)
@@ -39,6 +48,11 @@ internal sealed class LaunchInteractionDeliveryState : IActorVisualizationState
         {
             imposeItem.ImposeItem.ImposeDelegate(target);
         }
+    }
+
+    private void LaunchAnimation_End(object? sender, EventArgs e)
+    {
+        LaunchInteractionDelivery();
     }
 
     private void LaunchInteractionDelivery()
@@ -68,7 +82,7 @@ internal sealed class LaunchInteractionDeliveryState : IActorVisualizationState
     public bool CanBeReplaced => false;
 
     /// <inheritdoc />
-    public bool IsComplete => _activeInteractionDeliveryList.Any() && _imposeItems.Any() || !_imposeItems.Any();
+    public bool IsComplete { get; private set; }
 
     /// <inheritdoc />
     public void Cancel()
@@ -79,10 +93,16 @@ internal sealed class LaunchInteractionDeliveryState : IActorVisualizationState
     /// <inheritdoc />
     public void Update(GameTime gameTime)
     {
-        if (!_interactionDeliveryLaunched)
+        if (_counter == 0)
         {
-            LaunchInteractionDelivery();
-            _interactionDeliveryLaunched = true;
+            _animator.PlayAnimation(_launchAnimation);
+        }
+
+        _counter += gameTime.ElapsedGameTime.TotalSeconds;
+
+        if (_activeInteractionDeliveryList.Any())
+        {
+            IsComplete = true;
         }
     }
 }

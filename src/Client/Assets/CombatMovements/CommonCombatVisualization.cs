@@ -41,10 +41,7 @@ internal static class CommonCombatVisualization
             }
         };
 
-        var targetCombatant =
-            GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
-
-        var subStates = new[]
+        var subStates = new IActorVisualizationState[]
         {
             new DirectInteractionState(actorAnimator, skillAnimationInfo, animation)
         };
@@ -55,7 +52,8 @@ internal static class CommonCombatVisualization
     }
 
     public static CombatMovementScene CreateSingleDistanceVisualization(IActorAnimator actorAnimator,
-        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext,
+        SingleDistanceVisualizationConfig config)
     {
         var startPosition = actorAnimator.GraphicRoot.Position;
         var targetCombatant =
@@ -75,10 +73,10 @@ internal static class CommonCombatVisualization
         {
             // Prepare to launch
             new PlayAnimationActorState(actorAnimator,
-                launchAnimation),
+                config.LaunchAnimation.Animation),
             new LaunchAndWaitInteractionDeliveryState(
                 actorAnimator,
-                waitProjectileAnimation,
+                config.LookOnProjectileAnimation.Animation,
                 movementExecution.EffectImposeItems.Select(x =>
                         new InteractionDeliveryInfo(x, visualizationContext.ActorGameObject.LaunchPoint,
                             targetPosition))
@@ -189,7 +187,7 @@ internal static class CommonCombatVisualization
         return targetCombatUnit;
     }
 
-    private static void Interaction(IReadOnlyCollection<CombatEffectImposeItem> effectImposeItems)
+    private static void Interaction(IEnumerable<CombatEffectImposeItem> effectImposeItems)
     {
         foreach (var effectImposeItem in effectImposeItems)
         {

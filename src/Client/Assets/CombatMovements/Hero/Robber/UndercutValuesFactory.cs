@@ -37,7 +37,9 @@ internal class UndercutValuesFactory : CombatMovementFactoryBase
         CombatMovementExecution movementExecution,
         ICombatMovementVisualizationContext visualizationContext)
     {
-        return CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
+        var 
+        
+        return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext);
     }
 }

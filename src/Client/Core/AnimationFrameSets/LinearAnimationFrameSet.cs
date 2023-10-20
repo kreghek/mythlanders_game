@@ -77,6 +77,7 @@ internal class LinearAnimationFrameSet : IAnimationFrameSet
                 if (IsLooping)
                 {
                     _frameListIndex = 0;
+                    KeyFrame?.Invoke(this, new KeyFrameEventArgs(0));
                 }
                 else
                 {
@@ -85,8 +86,13 @@ internal class LinearAnimationFrameSet : IAnimationFrameSet
                     End?.Invoke(this, EventArgs.Empty);
                 }
             }
+            else
+            {
+                KeyFrame?.Invoke(this, new KeyFrameEventArgs(_frameListIndex));
+            }
         }
     }
 
     public event EventHandler? End;
+    public event EventHandler<KeyFrameEventArgs>? KeyFrame;
 }

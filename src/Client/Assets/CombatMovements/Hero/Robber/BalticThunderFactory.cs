@@ -1,4 +1,8 @@
+using System.Linq;
+
+using Client.Core.AnimationFrameSets;
 using Client.Engine;
+using Client.GameScreens;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.Effects;
@@ -42,7 +46,22 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
         CombatMovementExecution movementExecution,
         ICombatMovementVisualizationContext visualizationContext)
     {
+        var audioSettings = new AudioSettings();
+
+        var launchAnimation = new SoundedAnimationFrameSet(new LinearAnimationFrameSet(Enumerable.Range(8, 2).ToArray(),
+                8,
+                CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8), audioSettings,
+            new[]
+            {
+                (0, visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.EnergoShot))
+            });
+
+        var waitProjectileAnimation = new LinearAnimationFrameSet(Enumerable.Range(8 + 2, 2).ToArray(), 8,
+            CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8);
+
         return CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
-            visualizationContext);
+            visualizationContext,
+            new SingleDistanceVisualizationConfig(launchAnimation, waitProjectileAnimation,
+                new EnergyArrowInteractionDeliveryFactory(visualizationContext.GameObjectContentStorage)));
     }
 }
