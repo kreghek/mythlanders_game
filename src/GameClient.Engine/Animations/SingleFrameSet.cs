@@ -1,5 +1,3 @@
-using Client.Engine;
-
 using Microsoft.Xna.Framework;
 
 namespace GameClient.Engine.Animations;
@@ -49,6 +47,11 @@ public sealed class SingleFrameSet : IAnimationFrameSet
         if (_isEnded)
         {
             return;
+        }
+
+        if (_counter > 0)
+        {
+            KeyFrame?.Invoke(this, new AnimationFrameEventArgs(new AnimationFrameInfo(0)));
         }
 
         if (_counter < _duration.Seconds)

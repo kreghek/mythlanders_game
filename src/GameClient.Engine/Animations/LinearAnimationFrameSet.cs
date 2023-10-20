@@ -82,9 +82,10 @@ public sealed class LinearAnimationFrameSet : IAnimationFrameSet
         }
 
         _frameCounter += gameTime.ElapsedGameTime.TotalSeconds;
-        if (_frameCounter > 1 / _fps)
+        var frameDuration = 1 / _fps;
+        while (_frameCounter >= frameDuration)
         {
-            _frameCounter = 0;
+            _frameCounter -= frameDuration;
             _frameListIndex++;
 
             if (_frameListIndex > _frames.Count - 1)

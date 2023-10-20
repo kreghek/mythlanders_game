@@ -4,6 +4,7 @@ using Client.Core;
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
+using GameClient.Engine;
 using GameClient.Engine.Animations;
 using GameClient.Engine.MoveFunctions;
 

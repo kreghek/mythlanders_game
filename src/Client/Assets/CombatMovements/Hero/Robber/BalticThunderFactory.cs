@@ -47,15 +47,13 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
         CombatMovementExecution movementExecution,
         ICombatMovementVisualizationContext visualizationContext)
     {
-        var audioSettings = new AudioPlayer();
-
         var launchAnimation = new SoundedAnimationFrameSet(new LinearAnimationFrameSet(Enumerable.Range(8, 2).ToArray(),
                 8,
-                CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8), audioSettings,
+                CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8),
             new[]
             {
-                new AnimationSoundEffect(new AnimationFrameInfo(0),
-                    visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.EnergoShot))
+                new GameClient.Engine.Animations.AnimationSoundEffect(new AnimationFrameInfo(0),
+                    new AnimationSoundEffect(visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.EnergoShot), new AudioSettings()))
             });
 
         var waitProjectileAnimation = new LinearAnimationFrameSet(Enumerable.Range(8 + 2, 2).ToArray(), 8,

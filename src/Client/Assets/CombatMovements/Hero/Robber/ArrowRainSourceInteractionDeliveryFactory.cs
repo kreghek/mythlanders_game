@@ -7,6 +7,7 @@ using Client.GameScreens.Combat.GameObjects;
 
 using CombatDicesTeam.Combats;
 
+using GameClient.Engine;
 using GameClient.Engine.Animations;
 using GameClient.Engine.MoveFunctions;
 

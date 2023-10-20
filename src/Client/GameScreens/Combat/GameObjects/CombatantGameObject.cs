@@ -9,6 +9,7 @@ using Client.GameScreens.Combat.GameObjects.CommonStates;
 
 using CombatDicesTeam.Combats;
 
+using GameClient.Engine;
 using GameClient.Engine.MoveFunctions;
 
 using Microsoft.Xna.Framework;

@@ -12,6 +12,7 @@ using Client.ScreenManagement;
 using CombatDicesTeam.Graphs;
 using CombatDicesTeam.Graphs.Visualization;
 
+using GameClient.Engine;
 using GameClient.Engine.Animations;
 
 using Microsoft.Xna.Framework;

@@ -13,10 +13,9 @@ public sealed class SoundedAnimationFrameSet : IAnimationFrameSet
     /// Constructor.
     /// </summary>
     /// <param name="baseAnimation">Underlying animation</param>
-    /// <param name="audioPlayer"></param>
-    /// <param name="sounds"></param>
-    public SoundedAnimationFrameSet(IAnimationFrameSet baseAnimation, IAudioPlayer audioPlayer,
-        IReadOnlyCollection<AnimationSoundEffect> sounds)
+    /// <param name="keySfx"> Sound effects bounded with frames. </param>
+    public SoundedAnimationFrameSet(IAnimationFrameSet baseAnimation,
+        IReadOnlyCollection<AnimationSoundEffect> keySfx)
     {
         _baseFrameSet = baseAnimation;
 
@@ -24,10 +23,10 @@ public sealed class SoundedAnimationFrameSet : IAnimationFrameSet
 
         _baseFrameSet.KeyFrame += (_, args) =>
         {
-            var soundToPlay = sounds.Where(x => x.FrameInfo.Equals(args.KeyFrame));
+            var soundToPlay = keySfx.Where(x => x.FrameInfo.Equals(args.KeyFrame));
             foreach (var animationSoundEffect in soundToPlay)
             {
-                audioPlayer.PlayEffect(animationSoundEffect.SoundEffect);
+                animationSoundEffect.SoundEffect.Play();
             }
 
             KeyFrame?.Invoke(this, args);
