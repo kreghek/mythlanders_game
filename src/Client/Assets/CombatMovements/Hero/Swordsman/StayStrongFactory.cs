@@ -35,12 +35,15 @@ internal class StayStrongFactory : CombatMovementFactoryBase
                 {
                     new AddCombatantStatusEffect(new SelfTargetSelector(),
                         new DelegateCombatStatusFactory(() =>
-                            new AutoRestoreChangeStatCombatantStatus(
-                                new ChangeStatCombatantStatus(
-                                    new CombatantEffectSid(Sid),
-                                    new ToNextCombatantTurnEffectLifetime(),
-                                    CombatantStatTypes.Defense,
-                                    3)))
+                            new DefensiveStanceCombatantStatusWrapper(
+                                new AutoRestoreChangeStatCombatantStatus(
+                                    new ChangeStatCombatantStatus(
+                                        new CombatantEffectSid(Sid),
+                                        new ToNextCombatantTurnEffectLifetime(),
+                                        CombatantStatTypes.Defense,
+                                        3))
+                            )
+                        )
                     ),
                     new DamageEffectWrapper(new AttackerTargetSelector(), DamageType.Normal,
                         GenericRange<int>.CreateMono(2))
@@ -49,12 +52,15 @@ internal class StayStrongFactory : CombatMovementFactoryBase
                 {
                     new AddCombatantStatusEffect(new SelfTargetSelector(),
                         new DelegateCombatStatusFactory(() =>
-                            new AutoRestoreChangeStatCombatantStatus(
-                                new ChangeStatCombatantStatus(
-                                    new CombatantEffectSid(Sid),
-                                    new ToEndOfCurrentRoundEffectLifetime(),
-                                    CombatantStatTypes.Defense,
-                                    1)))
+                            new DefensiveStanceCombatantStatusWrapper(
+                                new AutoRestoreChangeStatCombatantStatus(
+                                    new ChangeStatCombatantStatus(
+                                        new CombatantEffectSid(Sid),
+                                        new ToEndOfCurrentRoundEffectLifetime(),
+                                        CombatantStatTypes.Defense,
+                                        1))
+                            )
+                        )
                     )
                 })
         )

@@ -9,6 +9,8 @@ using Client.GameScreens.Combat.GameObjects.CommonStates;
 
 using CombatDicesTeam.Combats;
 
+using GameAssets.Combats.CombatantStatuses;
+
 using GameClient.Engine.MoveFunctions;
 
 using Microsoft.Xna.Framework;
@@ -144,16 +146,23 @@ internal sealed class CombatantGameObject
         var activeStateEngine = _actorStateEngineList.First();
         activeStateEngine.Update(gameTime);
 
-        if (activeStateEngine.IsComplete)
+        if (!activeStateEngine.IsComplete)
         {
-            _actorStateEngineList.Remove(activeStateEngine);
+            return;
+        }
 
-            if (!_actorStateEngineList.Any())
-            {
-                AddStateEngine(new IdleActorVisualizationState(Graphics, CombatUnitState.Idle /*Combatant.State*/));
-            }
+        _actorStateEngineList.Remove(activeStateEngine);
+
+        if (!_actorStateEngineList.Any())
+        {
+            AddStateEngine(new IdleActorVisualizationState(Graphics, VisualIdleState));
         }
     }
+
+    private CombatantVisualIdleState VisualIdleState =>
+        Combatant.Statuses.Any(x => x is DefensiveStanceCombatantStatusWrapper) ?
+            CombatantVisualIdleState.DefenseStance :
+            CombatantVisualIdleState.Idle;
 
     // public void ShiftShape(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig)
     // {
