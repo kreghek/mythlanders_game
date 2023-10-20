@@ -84,7 +84,14 @@ internal sealed class CombatantGameObject
 
     public void AnimateWound()
     {
-        AddStateEngine(new WoundState(Graphics));
+        if (VisualIdleState == CombatantVisualIdleState.DefenseStance)
+        {
+            AddStateEngine(new DefenseState(Graphics));
+        }
+        else
+        {
+            AddStateEngine(new WoundState(Graphics));
+        }
     }
 
     public CorpseGameObject CreateCorpse()
