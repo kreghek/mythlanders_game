@@ -82,7 +82,7 @@ internal sealed class CombatantGameObject
         _actorStateEngineList.Add(actorStateEngine);
     }
 
-    public void AnimateWound()
+    public void AnimateDamageImpact()
     {
         if (VisualIdleState == CombatantVisualIdleState.DefenseStance)
         {
