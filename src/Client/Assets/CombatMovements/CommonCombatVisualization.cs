@@ -75,7 +75,7 @@ internal static class CommonCombatVisualization
                         new InteractionDeliveryInfo(x, visualizationContext.ActorGameObject.LaunchPoint,
                             targetPosition))
                     .ToArray(),
-                new EnergyArrowInteractionDeliveryFactory(visualizationContext.GameObjectContentStorage),
+                config.DeliveryFactory,
                 visualizationContext.InteractionDeliveryManager)
         };
 

@@ -8,6 +8,8 @@ using GameClient.Engine.Animations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+//using MonoSprite = MonoGame.Extended.SceneGraphs.
+
 namespace Client.Assets.InteractionDeliveryObjects;
 
 internal abstract class ProjectileBase : IInteractionDelivery
