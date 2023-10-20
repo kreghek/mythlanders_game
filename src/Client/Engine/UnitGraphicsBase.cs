@@ -79,8 +79,9 @@ internal abstract class UnitGraphicsBase
 
     public void PlayAnimation(PredefinedAnimationSid sid)
     {
-        var animation = _predefinedAnimationFrameSets[sid];
-        PlayAnimation(animation);
+        PlayAnimation(_predefinedAnimationFrameSets.TryGetValue(sid, out var animation)
+            ? animation
+            : _predefinedAnimationFrameSets[sid]);
     }
 
     public void Update(GameTime gameTime)
