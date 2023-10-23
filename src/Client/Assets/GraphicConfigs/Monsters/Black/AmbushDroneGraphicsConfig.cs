@@ -3,6 +3,8 @@ using System.Linq;
 
 using Client.Core;
 
+using GameClient.Engine.Animations;
+
 namespace Client.Assets.GraphicConfigs.Monsters.Black;
 
 internal sealed class AmbushDroneGraphicsConfig : BlackMonsterGraphicConfig

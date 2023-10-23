@@ -4,6 +4,8 @@ using System.Diagnostics;
 using Client.Core;
 using Client.Engine;
 
+using GameClient.Engine.Animations;
+
 using Microsoft.Xna.Framework;
 
 namespace Client.GameScreens.Combat.GameObjects.CommonStates.Primitives;

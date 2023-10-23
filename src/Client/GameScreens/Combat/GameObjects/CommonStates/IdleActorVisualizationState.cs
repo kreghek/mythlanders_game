@@ -9,19 +9,19 @@ namespace Client.GameScreens.Combat.GameObjects.CommonStates;
 
 internal class IdleActorVisualizationState : IActorVisualizationState
 {
-    public IdleActorVisualizationState(UnitGraphicsBase unitGraphics, CombatUnitState state)
+    public IdleActorVisualizationState(UnitGraphicsBase unitGraphics, CombatantVisualIdleState state)
     {
         var animationSid = GetAnimationSidByCombatantState(state);
 
         unitGraphics.PlayAnimation(animationSid);
     }
 
-    private static PredefinedAnimationSid GetAnimationSidByCombatantState(CombatUnitState state)
+    private static PredefinedAnimationSid GetAnimationSidByCombatantState(CombatantVisualIdleState state)
     {
         return state switch
         {
-            CombatUnitState.Defense => PredefinedAnimationSid.DefenseStance,
-            CombatUnitState.Idle => PredefinedAnimationSid.Idle,
+            CombatantVisualIdleState.DefenseStance => PredefinedAnimationSid.DefenseStance,
+            CombatantVisualIdleState.Idle => PredefinedAnimationSid.Idle,
             _ => throw new InvalidOperationException()
         };
     }
@@ -44,6 +44,4 @@ internal class IdleActorVisualizationState : IActorVisualizationState
     {
         // Looped idle animation was started in constructor.
     }
-
-    public event EventHandler? Completed;
 }

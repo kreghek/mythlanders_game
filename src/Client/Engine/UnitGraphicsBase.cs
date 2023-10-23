@@ -5,6 +5,8 @@ using System.Linq;
 using Client.Core;
 using Client.GameScreens;
 
+using GameClient.Engine.Animations;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -79,8 +81,9 @@ internal abstract class UnitGraphicsBase
 
     public void PlayAnimation(PredefinedAnimationSid sid)
     {
-        var animation = _predefinedAnimationFrameSets[sid];
-        PlayAnimation(animation);
+        PlayAnimation(_predefinedAnimationFrameSets.TryGetValue(sid, out var animation)
+            ? animation
+            : _predefinedAnimationFrameSets[sid]);
     }
 
     public void Update(GameTime gameTime)

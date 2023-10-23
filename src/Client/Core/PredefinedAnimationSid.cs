@@ -7,5 +7,6 @@ internal enum PredefinedAnimationSid
     MoveForward,
     MoveBackward,
     Wound,
+    Defense,
     Death
 }

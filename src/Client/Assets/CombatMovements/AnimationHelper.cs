@@ -1,6 +1,6 @@
-﻿using Client.Core;
-using Client.Core.AnimationFrameSets;
-using Client.Engine;
+﻿using Client.Engine;
+
+using GameClient.Engine.Animations;
 
 namespace Client.Assets.CombatMovements;
 
