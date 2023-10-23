@@ -179,9 +179,10 @@ internal class CombatScreen : GameScreenWithMenuBase
             new Vector2(-0.075f, -0.0075f) // Foreground layer
         };
 
+        var parallaxLayerRectangle = backgroundTextures.First().Bounds;
         var backgroundRectControl = new ParallaxRectControl(
             ResolutionIndependentRenderer.ViewportAdapter.BoundingRectangle,
-            backgroundTextures.First().Bounds,
+            parallaxLayerRectangle,
             parallaxLayerSpeeds, new ParallaxViewPointProvider(ResolutionIndependentRenderer));
 
         var layerCameras = parallaxLayerSpeeds.Select(_ => CreateLayerCamera()).ToArray();
@@ -195,7 +196,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _cameraOperator = new CameraOperator(_combatActionCamera,
             new OverviewCameraOperatorTask(() =>
                 backgroundRectControl.GetRects()[(int)BackgroundLayerType.Main].Center.ToVector2() +
-                new Vector2(1000 / 2, 480 / 2)));
+                parallaxLayerRectangle.Center.ToVector2()));
 
         _renderTarget = new RenderTarget2D(Game.GraphicsDevice,
             Game.GraphicsDevice.PresentationParameters.BackBufferWidth,
@@ -511,7 +512,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
                 _bloodSound.CreateInstance().Play();
 
-                AddHitShaking(true && combatantGameObject.Combatant.IsPlayerControlled);
+                AddHitShaking(combatantGameObject.Combatant.IsPlayerControlled);
             }
             else if (ReferenceEquals(e.StatType, CombatantStatTypes.ShieldPoints))
             {
@@ -524,7 +525,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
                 _visualEffectManager.AddEffect(spIndicator);
 
-                if (e.Combatant.Stats.Single(x => x.Type == CombatantStatTypes.ShieldPoints).Value.Current > 0)
+                if (e.Combatant.Stats.Single(x => Equals(x.Type, CombatantStatTypes.ShieldPoints)).Value.Current > 0)
                 {
                     var shieldEffect = new ShieldCombatVisualEffect(combatantGameObject.InteractionPoint,
                         hitDirection,
