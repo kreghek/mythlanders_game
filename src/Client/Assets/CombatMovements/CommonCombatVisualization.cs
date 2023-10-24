@@ -88,10 +88,10 @@ internal static class CommonCombatVisualization
 
         var innerState = new SequentialState(subStates);
         return new CombatMovementScene(innerState,
-            new[]
+            new ICameraOperatorTask[]
             {
                 new FollowActorOperatorCameraTask(actorAnimator, () => subStates[0].IsComplete),
-                new FollowActorOperatorCameraTask(targetAnimator, () => innerState.IsComplete)
+                new OverviewActorsOperatorCameraTask(actorAnimator, targetAnimator, 1f, () => innerState.IsComplete)
             });
     }
 
