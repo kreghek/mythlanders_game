@@ -5,10 +5,10 @@
     "regionHeight": 128
   },
   "cycles": {
-    "rifle": {
-      "frames": [8,9,10,11,12,13,14,15],
+    "prepare-rifle": {
+      "frames": [8,9,10],
       "isLooping": false,
-      "frameDuration": 0.2
+      "frameDuration": 0.1
     },
     "prepare-to-charge": {
       "frames": [16],
@@ -33,6 +33,36 @@
     "back": {
       "frames": [32],
       "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "power-hit": {
+      "frames": [32,33,34,35,36,37,38,39],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "rifle-shot": {
+      "frames": [11,12],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "rifle-wait": {
+      "frames": [13],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
+    "uzi-prepare": {
+      "frames": [24],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "uzi-shot": {
+      "frames": [25,26],
+      "isLooping": false,
+      "frameDuration": 0.1
+    },
+    "uzi-wait": {
+      "frames": [31],
+      "isLooping": true,
       "frameDuration": 0.2
     }
   }

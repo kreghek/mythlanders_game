@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.Xna.Framework;
 
-using Microsoft.Xna.Framework;
+namespace GameClient.Engine.Animations;
 
-namespace Client.Core.AnimationFrameSets;
-
-internal class LinearAnimationFrameSet : IAnimationFrameSet
+/// <summary>
+/// Animation frame to frame.
+/// </summary>
+public sealed class LinearAnimationFrameSet : IAnimationFrameSet
 {
     private readonly float _fps;
     private readonly int _frameHeight;
@@ -20,6 +19,15 @@ internal class LinearAnimationFrameSet : IAnimationFrameSet
     private int _frameListIndex;
     private bool _isEnded;
 
+    /// <summary>
+    /// Constructor.
+    /// </summary>
+    /// <param name="frames">Numbers of frames in sprite sheet.</param>
+    /// <param name="fps">FPS of animation. 1 / frames in second.</param>
+    /// <param name="frameWidth"> Frame width in sprite sheet. </param>
+    /// <param name="frameHeight"> Frame height in sprite sheet.</param>
+    /// <param name="textureColumns"> Count of frame columns. </param>
+    /// <exception cref="ArgumentException">Throws then frame list is empty.</exception>
     public LinearAnimationFrameSet(IReadOnlyList<int> frames, float fps, int frameWidth,
         int frameHeight, int textureColumns)
     {
@@ -36,6 +44,9 @@ internal class LinearAnimationFrameSet : IAnimationFrameSet
         _textureColumns = textureColumns;
     }
 
+    /// <summary>
+    /// Make animation to play in infinite cycle.
+    /// </summary>
     public bool IsLooping { get; init; }
 
     private static Rectangle CalcRect(int frameIndex, int cols, int frameWidth, int frameHeight)
@@ -45,13 +56,16 @@ internal class LinearAnimationFrameSet : IAnimationFrameSet
         return new Rectangle(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
     }
 
+    /// <inheritdoc />
     public bool IsIdle { get; init; }
 
+    /// <inheritdoc />
     public Rectangle GetFrameRect()
     {
         return CalcRect(_frames[_frameListIndex], _textureColumns, _frameWidth, _frameHeight);
     }
 
+    /// <inheritdoc />
     public void Reset()
     {
         _frameCounter = 0;
@@ -59,6 +73,7 @@ internal class LinearAnimationFrameSet : IAnimationFrameSet
         _isEnded = false;
     }
 
+    /// <inheritdoc />
     public void Update(GameTime gameTime)
     {
         if (_isEnded)
@@ -67,9 +82,10 @@ internal class LinearAnimationFrameSet : IAnimationFrameSet
         }
 
         _frameCounter += gameTime.ElapsedGameTime.TotalSeconds;
-        if (_frameCounter > 1 / _fps)
+        var frameDuration = 1 / _fps;
+        while (_frameCounter >= frameDuration)
         {
-            _frameCounter = 0;
+            _frameCounter -= frameDuration;
             _frameListIndex++;
 
             if (_frameListIndex > _frames.Count - 1)
@@ -77,6 +93,7 @@ internal class LinearAnimationFrameSet : IAnimationFrameSet
                 if (IsLooping)
                 {
                     _frameListIndex = 0;
+                    KeyFrame?.Invoke(this, new AnimationFrameEventArgs(new AnimationFrameInfo(0)));
                 }
                 else
                 {
@@ -85,8 +102,16 @@ internal class LinearAnimationFrameSet : IAnimationFrameSet
                     End?.Invoke(this, EventArgs.Empty);
                 }
             }
+            else
+            {
+                KeyFrame?.Invoke(this, new AnimationFrameEventArgs(new AnimationFrameInfo(_frameListIndex)));
+            }
         }
     }
 
+    /// <inheritdoc />
     public event EventHandler? End;
+
+    /// <inheritdoc />
+    public event EventHandler<AnimationFrameEventArgs>? KeyFrame;
 }

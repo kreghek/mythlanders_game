@@ -1,5 +1,7 @@
 ﻿using System;
 
+using GameClient.Engine;
+
 namespace Client.Engine;
 
 /// <summary>

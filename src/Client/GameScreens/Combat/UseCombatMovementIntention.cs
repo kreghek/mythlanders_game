@@ -10,6 +10,8 @@ using Client.GameScreens.Combat.GameObjects.CommonStates;
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dices;
 
+using GameClient.Engine;
+
 namespace Client.GameScreens.Combat;
 
 internal sealed class UseCombatMovementIntention : IIntention

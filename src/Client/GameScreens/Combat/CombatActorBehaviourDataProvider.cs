@@ -11,7 +11,7 @@ public sealed class CombatActorBehaviourDataProvider : ICombatActorBehaviourData
         _combat = combat;
     }
 
-    public ICombatActorBehaviourData GetDataSnapshot()
+    public ICombatantBehaviourData GetDataSnapshot()
     {
         return new CombatUnitBehaviourData(_combat);
     }

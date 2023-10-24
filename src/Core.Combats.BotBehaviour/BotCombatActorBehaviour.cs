@@ -15,12 +15,12 @@ public sealed class BotCombatActorBehaviour : ICombatActorBehaviour
     }
 
     /// <inheritdoc />
-    public void HandleIntention(ICombatActorBehaviourData combatData, Action<IIntention> intentionDelegate)
+    public void HandleIntention(ICombatantBehaviourData combatData, Action<IIntention> intentionDelegate)
     {
-        var firstSkill = combatData.CurrentActor.Skills.First();
+        var firstCombatMove = combatData.CurrentActor.CombatMoves.First();
 
-        var skillIntention = _intentionFactory.CreateCombatMovement(firstSkill.CombatMovement);
+        var combatMoveIntention = _intentionFactory.CreateCombatMovement(firstCombatMove.CombatMovement);
 
-        intentionDelegate(skillIntention);
+        intentionDelegate(combatMoveIntention);
     }
 }

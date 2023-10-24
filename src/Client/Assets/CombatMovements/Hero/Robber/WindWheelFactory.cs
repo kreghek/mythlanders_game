@@ -1,6 +1,4 @@
-﻿using Client.Engine;
-
-using CombatDicesTeam.Combats;
+﻿using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.GenericRanges;
 
@@ -33,14 +31,5 @@ internal class WindWheelFactory : CombatMovementFactoryBase
         {
             Tags = CombatMovementTags.Attack
         };
-    }
-
-    /// <inheritdoc />
-    public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
-        CombatMovementExecution movementExecution,
-        ICombatMovementVisualizationContext visualizationContext)
-    {
-        return CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
-            visualizationContext);
     }
 }

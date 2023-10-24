@@ -2,6 +2,8 @@ using System.Collections.Generic;
 
 using Client.Core;
 
+using GameClient.Engine.Animations;
+
 namespace Client.Assets.GraphicConfigs.Heroes;
 
 internal sealed class GuardsmanGraphicsConfig : HeroGraphicConfig

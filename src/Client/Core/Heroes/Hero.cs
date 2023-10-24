@@ -93,7 +93,7 @@ internal sealed class Hero
         }
     }
 
-    private void ApplyStatModifiers(IReadOnlyCollection<(ICombatantStatType, IUnitStatModifier)> statModifiers)
+    private void ApplyStatModifiers(IReadOnlyCollection<(ICombatantStatType, IStatModifier)> statModifiers)
     {
         foreach (var statModifier in statModifiers)
         {

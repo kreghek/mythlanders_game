@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Client.Core;
 
@@ -10,8 +11,8 @@ internal abstract class ImprovedStatBase : IPerk
 {
     public abstract void ApplyToStats(ref float maxHitpoints, ref float armorBonus);
 
-    public virtual IReadOnlyCollection<(ICombatantStatType, IUnitStatModifier)> GetStatModifiers()
+    public virtual IReadOnlyCollection<(ICombatantStatType, IStatModifier)> GetStatModifiers()
     {
-        return new (ICombatantStatType, IUnitStatModifier)[] { };
+        return Array.Empty<(ICombatantStatType, IStatModifier)>();
     }
 }
