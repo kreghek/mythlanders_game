@@ -95,7 +95,7 @@ static string ReadShieldSound()
     foreach (var setting in settings)
     {
         var values = setting.Split('=');
-        
+
         if (values[0] == "ShieldSound")
         {
             return values[1];
