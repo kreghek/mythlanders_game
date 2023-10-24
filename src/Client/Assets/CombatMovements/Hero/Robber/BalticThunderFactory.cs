@@ -53,7 +53,7 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
                 CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8),
             new[]
             {
-                new GameClient.Engine.Animations.AnimationSoundEffect(new AnimationFrameInfo(0),
+                new AnimationFrame<IAnimationSoundEffect>(new AnimationFrameInfo(0),
                     new AnimationSoundEffect(
                         visualizationContext.GameObjectContentStorage
                             .GetSkillUsageSound(GameObjectSoundType.EnergoShot), new AudioSettings()))
@@ -68,6 +68,6 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
         return CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
             visualizationContext,
             new SingleDistanceVisualizationConfig(prepareAnimation, launchProjectileAnimation, waitProjectileAnimation,
-                new EnergyArrowInteractionDeliveryFactory(visualizationContext.GameObjectContentStorage)));
+                new EnergyArrowInteractionDeliveryFactory(visualizationContext.GameObjectContentStorage), new AnimationFrameInfo(0)));
     }
 }

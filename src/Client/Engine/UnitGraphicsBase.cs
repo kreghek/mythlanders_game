@@ -35,6 +35,7 @@ internal abstract class UnitGraphicsBase
     private (SceneNode, MonoSprite)[] _outlines;
 
     private double _selectedMarkerCounter;
+    private SceneNode _shadowNode;
 
     public UnitGraphicsBase(UnitName spriteSheetId, CombatantGraphicsConfigBase graphicsConfig,
         bool isNormalOrientation,
@@ -84,6 +85,11 @@ internal abstract class UnitGraphicsBase
         PlayAnimation(_predefinedAnimationFrameSets.TryGetValue(sid, out var animation)
             ? animation
             : _predefinedAnimationFrameSets[sid]);
+    }
+
+    public void RemoveShadowOfCorpse()
+    {
+        Root.RootNode.Children.Remove(_shadowNode);
     }
 
     public void Update(GameTime gameTime)
@@ -153,6 +159,8 @@ internal abstract class UnitGraphicsBase
         shadowNode.Entities.Add(new SpriteEntity(shadowSprite));
 
         rootNode.Children.Add(shadowNode);
+
+        _shadowNode = shadowNode;
     }
 
     private (SceneNode, MonoSprite) CreateMainSprite(UnitName spriteSheetId, Vector2 startPositionOffset,

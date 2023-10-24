@@ -5,6 +5,7 @@ using System.Linq;
 using Client.GameScreens;
 
 using GameClient.Engine;
+using GameClient.Engine.CombatVisualEffects;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,7 +28,7 @@ internal sealed class ShieldBreakCombatVisualEffect : ICombatVisualEffect
     private double _lifetimeCounter;
 
     public ShieldBreakCombatVisualEffect(Vector2 position, HitDirection direction,
-        TextureRegion2D shieldParticleTexture, int combatantRadius)
+        TextureRegion2D shieldParticleTexture)
     {
         _duration = new Duration(0.05f);
 

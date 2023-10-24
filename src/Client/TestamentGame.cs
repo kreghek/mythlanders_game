@@ -27,7 +27,7 @@ using MonoGame.Extended.ViewportAdapters;
 
 namespace Client;
 
-public sealed class TestamentGame : Game
+internal sealed class TestamentGame : Game
 {
     private readonly GameSettings _gameSettings;
     private readonly GraphicsDeviceManager _graphics;
@@ -36,17 +36,14 @@ public sealed class TestamentGame : Game
 
     private SpriteBatch? _spriteBatch;
 
-    public TestamentGame(ILogger<TestamentGame> logger, GameMode gameMode)
+    public TestamentGame(ILogger<TestamentGame> logger, GameSettings gameSettings)
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
         _logger = logger;
 
-        _gameSettings = new GameSettings
-        {
-            Mode = gameMode
-        };
+        _gameSettings = gameSettings;
     }
 
     protected override void Draw(GameTime gameTime)

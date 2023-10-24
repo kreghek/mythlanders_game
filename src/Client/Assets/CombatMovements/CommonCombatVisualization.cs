@@ -54,7 +54,8 @@ internal static class CommonCombatVisualization
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext,
         SingleDistanceVisualizationConfig config)
     {
-        var startPosition = actorAnimator.GraphicRoot.Position;
+        var actorGameObject = visualizationContext.ActorGameObject;
+        var startPosition = actorGameObject.LaunchPoint;
         var targetCombatant =
             GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
 
@@ -80,16 +81,17 @@ internal static class CommonCombatVisualization
                             targetPosition))
                     .ToArray(),
                 config.DeliveryFactory,
-                visualizationContext.InteractionDeliveryManager),
+                visualizationContext.InteractionDeliveryManager,
+                config.LaunchFrame),
             new DelayActorState(new Duration(1))
         };
 
         var innerState = new SequentialState(subStates);
         return new CombatMovementScene(innerState,
-            new[]
+            new ICameraOperatorTask[]
             {
                 new FollowActorOperatorCameraTask(actorAnimator, () => subStates[0].IsComplete),
-                new FollowActorOperatorCameraTask(targetAnimator, () => innerState.IsComplete)
+                new OverviewActorsOperatorCameraTask(actorAnimator, targetAnimator, 1f, () => innerState.IsComplete)
             });
     }
 

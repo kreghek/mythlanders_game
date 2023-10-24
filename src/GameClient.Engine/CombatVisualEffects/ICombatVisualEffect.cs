@@ -1,12 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.Assets.CombatVisualEffects;
+namespace GameClient.Engine.CombatVisualEffects;
 
 /// <summary>
 /// Visual effect in combat.
 /// </summary>
-internal interface ICombatVisualEffect
+public interface ICombatVisualEffect
 {
     /// <summary>
     /// Effect is destroyed. It should be removed from render and updating.

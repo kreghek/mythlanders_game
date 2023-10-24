@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Client.Assets.ActorVisualizationStates.Primitives;
+using Client.Assets.CombatVisualEffects;
 using Client.Core;
 using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects;
@@ -9,11 +10,14 @@ using Client.GameScreens.Combat.GameObjects;
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dices;
 
+using GameClient.Engine.CombatVisualEffects;
+
 namespace Client.Assets.CombatMovements;
 
 internal sealed class CombatMovementVisualizationContext : ICombatMovementVisualizationContext
 {
     private readonly IReadOnlyCollection<CombatantGameObject> _gameObjects;
+    private readonly ICombatVisualEffectManager _visualEffectManager;
 
     public CombatMovementVisualizationContext(
         CombatantGameObject actorGameObject,
@@ -21,6 +25,7 @@ internal sealed class CombatMovementVisualizationContext : ICombatMovementVisual
         InteractionDeliveryManager interactionDeliveryManager,
         GameObjectContentStorage gameObjectContentStorage,
         IBattlefieldInteractionContext battlefieldInteractionContext,
+        ICombatVisualEffectManager visualEffectManager,
         IDice dice)
     {
         ActorGameObject = actorGameObject;
@@ -28,7 +33,9 @@ internal sealed class CombatMovementVisualizationContext : ICombatMovementVisual
         InteractionDeliveryManager = interactionDeliveryManager;
         GameObjectContentStorage = gameObjectContentStorage;
         BattlefieldInteractionContext = battlefieldInteractionContext;
+        _visualEffectManager = visualEffectManager;
         Dice = dice;
+        CombatVisualEffectManager = _visualEffectManager;
     }
 
     public CombatantGameObject GetCombatActor(ICombatant combatant)
@@ -45,4 +52,5 @@ internal sealed class CombatMovementVisualizationContext : ICombatMovementVisual
     public IBattlefieldInteractionContext BattlefieldInteractionContext { get; }
 
     public IDice Dice { get; }
+    public ICombatVisualEffectManager CombatVisualEffectManager { get; }
 }

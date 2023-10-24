@@ -224,6 +224,7 @@ internal class GameObjectContentStorage
             { GameObjectSoundType.FrogHornsUp, LoadSkillEffect("FrogHornsUp") },
             { GameObjectSoundType.Gunshot, LoadSkillEffect("Gunshot") },
             { GameObjectSoundType.AssaultRifleBurst, LoadSkillEffect("AssaultRifleBurst") },
+            { GameObjectSoundType.CyberRifleShot, LoadSkillEffect("CyberRifleShot") },
             { GameObjectSoundType.AmazonWarCry, LoadSkillEffect("AmazonWarCry") }
         };
 
@@ -260,7 +261,8 @@ internal class GameObjectContentStorage
                 UnitName.VolkolakWarrior,
                 contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/WolfWarriorShapeShift")
             },
-            { UnitName.Volkolak, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") }
+            { UnitName.Volkolak, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") },
+            { UnitName.AmbushDrone, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/AmbushDrone") }
         };
 
         _shadowTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SimpleObjectShadow");

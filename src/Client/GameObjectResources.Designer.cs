@@ -763,6 +763,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Energetic Superiority.
+        /// </summary>
+        internal static string EnergeticSuperiority {
+            get {
+                return ResourceManager.GetString("EnergeticSuperiority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EnergeticSuperiority_Description {
+            get {
+                return ResourceManager.GetString("EnergeticSuperiority_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Energy shot.
         /// </summary>
         internal static string EnergyShot {

@@ -66,7 +66,7 @@ internal class BlankShotFactory : CombatMovementFactoryBase
         var soundedShotAnimation = new SoundedAnimationFrameSet(shotAnimation,
             new[]
             {
-                new GameClient.Engine.Animations.AnimationSoundEffect(new AnimationFrameInfo(1),
+                new AnimationFrame<IAnimationSoundEffect>(new AnimationFrameInfo(1),
                     new AnimationSoundEffect(shotSoundEffect, new AudioSettings()))
             });
 
@@ -76,7 +76,7 @@ internal class BlankShotFactory : CombatMovementFactoryBase
         return CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
             visualizationContext,
             new SingleDistanceVisualizationConfig(prepareAnimation, soundedShotAnimation, waitAnimation,
-                projectileFactory));
+                projectileFactory, new AnimationFrameInfo(1)));
     }
 
     private static Func<Vector2, Vector2, IInteractionDelivery> GetCreateProjectileFunc(

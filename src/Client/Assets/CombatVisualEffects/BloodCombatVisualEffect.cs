@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using GameClient.Engine;
+using GameClient.Engine.CombatVisualEffects;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,17 +25,16 @@ internal sealed class BloodCombatVisualEffect : ICombatVisualEffect
 
     private double _lifetimeCounter;
 
-    public BloodCombatVisualEffect(Vector2 position, HitDirection direction, Texture2D bloodParticleTexture)
+    public BloodCombatVisualEffect(Vector2 position, HitDirection direction, TextureRegion2D bloodParticleTexture)
     {
         _duration = new Duration(0.05f);
 
-        var textureRegion = new TextureRegion2D(bloodParticleTexture);
         _particleEffect = new ParticleEffect
         {
             Position = position,
             Emitters = new List<ParticleEmitter>
             {
-                new(textureRegion, 500, TimeSpan.FromSeconds(0.75),
+                new(bloodParticleTexture, 500, TimeSpan.FromSeconds(0.75),
                     Profile.Spray(direction == HitDirection.Right ? Vector2.UnitX : -Vector2.UnitX, 1))
                 {
                     Parameters = new ParticleReleaseParameters
