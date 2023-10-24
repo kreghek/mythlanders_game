@@ -22,4 +22,10 @@ internal abstract class CombatantGraphicsConfigBase
     public abstract string ThumbnailPath { get; }
 
     public abstract IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations();
+
+    /// <summary>
+    /// Used for flying or exploitable combatants.
+    /// Do not shadow on combatant corpse.
+    /// </summary>
+    public bool RemoveShadowOnDeath { get; protected set; } = false;
 }
