@@ -61,7 +61,7 @@ internal class SabotageFactory : CombatMovementFactoryBase
         var prepareAnimation = AnimationHelper.ConvertToAnimation(animationSet, "prepare-rifle");
 
         var shotSoundEffect =
-            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Gunshot);
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SciFiRifleShot);
         var shotAnimation = AnimationHelper.ConvertToAnimation(animationSet, "rifle-shot");
         var soundedShotAnimation = new SoundedAnimationFrameSet(shotAnimation,
             new[]

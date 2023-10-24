@@ -109,6 +109,10 @@ internal sealed class CombatantGameObject
         deathSoundEffect.Play();
 
         var corpse = new CorpseGameObject(Graphics);
+        if (_combatantGraphicsConfig.RemoveShadowOnDeath)
+        {
+            Graphics.RemoveShadowOfCorpse();
+        }
 
         return corpse;
     }

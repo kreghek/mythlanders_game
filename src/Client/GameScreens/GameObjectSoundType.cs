@@ -24,5 +24,6 @@ internal enum GameObjectSoundType
     Gunshot,
     AssaultRifleBurst,
     AmazonWarCry,
-    ArmedMove
+    ArmedMove,
+    SciFiRifleShot
 }
