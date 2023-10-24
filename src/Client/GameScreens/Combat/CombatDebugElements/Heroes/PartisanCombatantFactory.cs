@@ -24,13 +24,15 @@ public class PartisanCombatantFactory : IHeroCombatantFactory
         {
             CreateMovement<InspirationalBreakthroughFactory>(),
 
-            CreateMovement<SabotageFactory>(),
+            CreateMovement<EnergeticSuperiotyFactory>(),
 
             CreateMovement<SurpriseManeuverFactory>(),
 
             CreateMovement<BlankShotFactory>(),
 
-            CreateMovement<OldGoodBrawlFactory>()
+            CreateMovement<OldGoodBrawlFactory>(),
+
+            CreateMovement<SabotageFactory>()
         };
 
         var heroSequence = new CombatMovementSequence();

@@ -361,6 +361,12 @@
   <data name="EnergeticBite_Description" xml:space="preserve">
     <value>Наносит 3 ед. урона щитам самому заряженному противнику и уходит в тыл.</value>
   </data>
+  <data name="EnergeticSuperiority" xml:space="preserve">
+    <value>Энергетическое Превосходство</value>
+  </data>
+  <data name="EnergeticSuperiority_Description" xml:space="preserve">
+    <value>Наносит 3 ед. урона по щитам самого заряженного противника в тылу.</value>
+  </data>
   <data name="EnergyShot" xml:space="preserve">
     <value>Энерго-выстрел</value>
   </data>

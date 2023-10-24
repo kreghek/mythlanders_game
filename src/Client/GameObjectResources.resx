@@ -402,6 +402,12 @@
     <value></value>
         <comment>Combat Movement Digital Wolf</comment>
   </data>
+  <data name="EnergeticSuperiority" xml:space="preserve">
+    <value>Energetic Superiority</value>
+  </data>
+  <data name="EnergeticSuperiority_Description" xml:space="preserve">
+    <value></value>
+  </data>
   <data name="EnergyShot" xml:space="preserve">
       <value>Energy shot</value>
         <comment>Skill</comment>
