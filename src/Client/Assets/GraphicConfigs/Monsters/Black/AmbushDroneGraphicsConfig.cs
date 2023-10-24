@@ -11,6 +11,7 @@ internal sealed class AmbushDroneGraphicsConfig : BlackMonsterGraphicConfig
 {
     public AmbushDroneGraphicsConfig(UnitName unit) : base(unit)
     {
+        RemoveShadowOnDeath = true;
     }
 
     public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
