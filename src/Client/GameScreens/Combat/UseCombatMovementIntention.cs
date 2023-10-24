@@ -22,9 +22,9 @@ internal sealed class UseCombatMovementIntention : IIntention
     private readonly IList<CombatantGameObject> _combatantGameObjects;
     private readonly ICombatantPositionProvider _combatantPositionProvider;
     private readonly CombatField _combatField;
-    private readonly ICombatVisualEffectManager _combatVisualEffectManager;
     private readonly CombatMovementInstance _combatMovement;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
+    private readonly ICombatVisualEffectManager _combatVisualEffectManager;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
     private readonly IShadeService _shadeService;
@@ -34,7 +34,8 @@ internal sealed class UseCombatMovementIntention : IIntention
         InteractionDeliveryManager interactionDeliveryManager, GameObjectContentStorage gameObjectContentStorage,
         CameraOperator cameraOperator,
         IShadeService shadeService,
-        ICombatantPositionProvider combatantPositionProvider, CombatField combatField, ICombatVisualEffectManager combatVisualEffectManager)
+        ICombatantPositionProvider combatantPositionProvider, CombatField combatField,
+        ICombatVisualEffectManager combatVisualEffectManager)
     {
         _combatMovement = combatMovement;
         _animationManager = animationManager;

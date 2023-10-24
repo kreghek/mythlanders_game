@@ -7,7 +7,6 @@ namespace GameClient.Engine.CombatVisualEffects;
 /// </summary>
 public interface ICombatVisualEffectManager
 {
-
     /// <summary>
     /// Current visual effects.
     /// </summary>

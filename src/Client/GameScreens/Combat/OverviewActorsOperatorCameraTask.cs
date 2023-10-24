@@ -12,11 +12,12 @@ internal sealed class OverviewActorsOperatorCameraTask : ICameraOperatorTask
 
     private const float ZOOM_SPEED = 1.5f;
     private readonly IActorAnimator _combatActor;
+    private readonly Func<bool> _completeDelegate;
     private readonly IActorAnimator _targetActor;
     private readonly float _targetZoom;
-    private readonly Func<bool> _completeDelegate;
 
-    public OverviewActorsOperatorCameraTask(IActorAnimator combatActor, IActorAnimator targetActor, float targetZoom, Func<bool> completeDelegate)
+    public OverviewActorsOperatorCameraTask(IActorAnimator combatActor, IActorAnimator targetActor, float targetZoom,
+        Func<bool> completeDelegate)
     {
         _combatActor = combatActor;
         _targetActor = targetActor;

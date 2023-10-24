@@ -19,10 +19,10 @@ public sealed class ParallelCombatVisualEffect : ICombatVisualEffect
         _baseEffects = baseEffects;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public bool IsDestroyed => _baseEffects.All(x => x.IsDestroyed);
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void DrawBack(SpriteBatch spriteBatch)
     {
         foreach (var item in _baseEffects)
@@ -31,7 +31,7 @@ public sealed class ParallelCombatVisualEffect : ICombatVisualEffect
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void DrawFront(SpriteBatch spriteBatch)
     {
         foreach (var item in _baseEffects)
@@ -40,7 +40,7 @@ public sealed class ParallelCombatVisualEffect : ICombatVisualEffect
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Update(GameTime gameTime)
     {
         foreach (var item in _baseEffects)

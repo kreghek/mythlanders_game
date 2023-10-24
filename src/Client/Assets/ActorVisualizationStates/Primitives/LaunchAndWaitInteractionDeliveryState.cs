@@ -22,8 +22,8 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
     private readonly IDeliveryFactory _deliveryFactory;
     private readonly IReadOnlyCollection<InteractionDeliveryInfo> _imposeItems;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
-    private readonly IAnimationFrameInfo _launchFrame;
     private readonly IAnimationFrameSet _launchAnimation;
+    private readonly IAnimationFrameInfo _launchFrame;
     private readonly IAnimationFrameSet _waitAnimation;
     private double _counter;
 
@@ -44,7 +44,8 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
         _launchFrame = launchFrame;
         _activeInteractionDeliveryList = new List<IInteractionDelivery>();
 
-        _launchAnimation.KeyFrame += (s, e) => {
+        _launchAnimation.KeyFrame += (s, e) =>
+        {
             if (e.KeyFrame.Equals(launchFrame))
             {
                 LaunchInteractionDelivery();
