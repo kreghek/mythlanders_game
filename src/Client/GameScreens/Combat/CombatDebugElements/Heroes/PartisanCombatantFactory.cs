@@ -24,7 +24,7 @@ public class PartisanCombatantFactory : IHeroCombatantFactory
         {
             CreateMovement<InspirationalBreakthroughFactory>(),
 
-            CreateMovement<EnergeticSuperiotyFactory>(),
+            CreateMovement<EnergeticSuperiorityFactory>(),
 
             CreateMovement<SurpriseManeuverFactory>(),
 

@@ -28,7 +28,7 @@ using MonoGame.Extended.TextureAtlases;
 namespace Client.Assets.CombatMovements.Hero.Partisan;
 
 [UsedImplicitly]
-internal class EnergeticSuperiotyFactory : CombatMovementFactoryBase
+internal class EnergeticSuperiorityFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(5, 6);
