@@ -234,7 +234,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _shieldParticleTexture = new TextureRegion2D(particleTexture, new Rectangle(0, 32 * 3, 32, 32));
 
         _bloodSound = Game.Content.Load<SoundEffect>("Audio/Sfx/Blood");
-        _shieldSound = Game.Content.Load<SoundEffect>("Audio/Sfx/Shield");
+        _shieldSound = Game.Content.Load<SoundEffect>("Audio/Sfx/" + _gameSettings.ShieldSound);
         _shieldBreakingSound = Game.Content.Load<SoundEffect>("Audio/Sfx/ShieldBreaking");
 
         InitializeCombat();

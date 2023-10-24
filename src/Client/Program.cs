@@ -75,9 +75,41 @@ static GameMode ReadGameMode()
     return GameMode.Full;
 }
 
+static string ReadShieldSound()
+{
+    var binPath = AppContext.BaseDirectory;
+
+    if (string.IsNullOrWhiteSpace(binPath))
+    {
+        return "Shield";
+    }
+
+    var settingsFile = Path.Combine(binPath, "settings.txt");
+
+    if (!File.Exists(settingsFile))
+    {
+        return "Shield";
+    }
+
+    var settings = File.ReadAllLines(settingsFile);
+    foreach (var setting in settings)
+    {
+        var values = setting.Split('=');
+        
+        if (values[0] == "ShieldSound")
+        {
+            return values[1];
+        }
+    }
+
+    return "Shield";
+}
+
 var logger = CreateLogging();
 
 var gameMode = ReadGameMode();
+
+var shieldSound = ReadShieldSound();
 
 #if STEAMWORKS
 if (!Packsize.Test())
@@ -127,8 +159,14 @@ SteamClient.SetWarningMessageHook(m_SteamAPIWarningMessageHook);
 
 #endif
 
+var gameSettings = new GameSettings
+{
+    Mode = gameMode,
+    ShieldSound = shieldSound
+};
+
 #if DEBUG
-using var game = new TestamentGame(logger, gameMode);
+using var game = new TestamentGame(logger, gameSettings);
 game.Run();
 #else
             try
