@@ -81,7 +81,8 @@ internal static class CommonCombatVisualization
                             targetPosition))
                     .ToArray(),
                 config.DeliveryFactory,
-                visualizationContext.InteractionDeliveryManager),
+                visualizationContext.InteractionDeliveryManager,
+                config.LaunchFrame),
             new DelayActorState(new Duration(1))
         };
 

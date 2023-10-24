@@ -76,7 +76,7 @@ internal class BlankShotFactory : CombatMovementFactoryBase
         return CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
             visualizationContext,
             new SingleDistanceVisualizationConfig(prepareAnimation, soundedShotAnimation, waitAnimation,
-                projectileFactory));
+                projectileFactory, new AnimationFrameInfo(1)));
     }
 
     private static Func<Vector2, Vector2, IInteractionDelivery> GetCreateProjectileFunc(

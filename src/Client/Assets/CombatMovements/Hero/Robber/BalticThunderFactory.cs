@@ -68,6 +68,6 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
         return CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
             visualizationContext,
             new SingleDistanceVisualizationConfig(prepareAnimation, launchProjectileAnimation, waitProjectileAnimation,
-                new EnergyArrowInteractionDeliveryFactory(visualizationContext.GameObjectContentStorage)));
+                new EnergyArrowInteractionDeliveryFactory(visualizationContext.GameObjectContentStorage), new AnimationFrameInfo(0)));
     }
 }

@@ -66,7 +66,7 @@ internal class SabotageFactory : CombatMovementFactoryBase
         var prepareAnimation = AnimationHelper.ConvertToAnimation(animationSet, "prepare-rifle");
 
         var shotSoundEffect =
-            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SciFiRifleShot);
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.CyberRifleShot);
         var shotAnimation = AnimationHelper.ConvertToAnimation(animationSet, "rifle-shot");
         var soundedShotAnimation = new SoundedAnimationFrameSet(shotAnimation,
             new[]
@@ -92,8 +92,8 @@ internal class SabotageFactory : CombatMovementFactoryBase
         var projectileFactory = new InteractionDeliveryFactory(GetCreateProjectileFunc(visualizationContext));
         return CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
             visualizationContext,
-            new SingleDistanceVisualizationConfig(prepareAnimation, soundedShotAnimation, waitAnimation,
-                projectileFactory));
+            new SingleDistanceVisualizationConfig(prepareAnimation, additionalVisualEffectShotAnimation, waitAnimation,
+                projectileFactory, new AnimationFrameInfo(1)));
     }
 
     private static ICombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,

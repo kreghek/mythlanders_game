@@ -8,4 +8,5 @@ internal sealed record SingleDistanceVisualizationConfig(
     IAnimationFrameSet PrepareAnimation,
     IAnimationFrameSet LaunchProjectileAnimation,
     IAnimationFrameSet WaitAnimation,
-    IDeliveryFactory DeliveryFactory);
+    IDeliveryFactory DeliveryFactory,
+    IAnimationFrameInfo LaunchFrame);
