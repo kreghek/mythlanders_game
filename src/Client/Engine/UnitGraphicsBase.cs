@@ -87,6 +87,11 @@ internal abstract class UnitGraphicsBase
             : _predefinedAnimationFrameSets[sid]);
     }
 
+    public void RemoveShadowOfCorpse()
+    {
+        Root.RootNode.Children.Remove(_shadowNode);
+    }
+
     public void Update(GameTime gameTime)
     {
         HandleSelectionMarker(gameTime);
@@ -156,11 +161,6 @@ internal abstract class UnitGraphicsBase
         rootNode.Children.Add(shadowNode);
 
         _shadowNode = shadowNode;
-    }
-
-    public void RemoveShadowOfCorpse()
-    {
-        Root.RootNode.Children.Remove(_shadowNode);
     }
 
     private (SceneNode, MonoSprite) CreateMainSprite(UnitName spriteSheetId, Vector2 startPositionOffset,

@@ -17,15 +17,15 @@ internal abstract class CombatantGraphicsConfigBase
     /// </summary>
     public Vector2 Origin { get; protected set; } = new Vector2(60, 110);
 
-    public Vector2 StatsPanelOrigin { get; protected set; } = new Vector2(0, 64 + 4);
-
-    public abstract string ThumbnailPath { get; }
-
-    public abstract IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations();
-
     /// <summary>
     /// Used for flying or exploitable combatants.
     /// Do not shadow on combatant corpse.
     /// </summary>
     public bool RemoveShadowOnDeath { get; protected set; } = false;
+
+    public Vector2 StatsPanelOrigin { get; protected set; } = new Vector2(0, 64 + 4);
+
+    public abstract string ThumbnailPath { get; }
+
+    public abstract IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations();
 }
