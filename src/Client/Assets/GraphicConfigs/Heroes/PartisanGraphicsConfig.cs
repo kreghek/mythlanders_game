@@ -10,7 +10,7 @@ internal sealed class PartisanGraphicsConfig : HeroGraphicConfig
 {
     public PartisanGraphicsConfig() : base(UnitName.Partisan)
     {
-        LaunchPoint = new Microsoft.Xna.Framework.Vector2(-128, 32);
+        LaunchPoint = new Microsoft.Xna.Framework.Vector2(-58, 48);
     }
 
     public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()

@@ -66,7 +66,7 @@ internal class BlankShotFactory : CombatMovementFactoryBase
         var soundedShotAnimation = new SoundedAnimationFrameSet(shotAnimation,
             new[]
             {
-                new GameClient.Engine.Animations.AnimationSoundEffect(new AnimationFrameInfo(1),
+                new AnimationFrame<IAnimationSoundEffect>(new AnimationFrameInfo(1),
                     new AnimationSoundEffect(shotSoundEffect, new AudioSettings()))
             });
 

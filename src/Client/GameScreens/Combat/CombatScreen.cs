@@ -339,7 +339,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             _cameraOperator,
             _shadeService,
             _combatantPositionProvider,
-            _combatCore.Field);
+            _combatCore.Field,
+            _visualEffectManager);
 
         _manualCombatantBehaviour.Assign(intention);
     }
@@ -507,7 +508,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
                 var bloodEffect = new BloodCombatVisualEffect(combatantGameObject.InteractionPoint,
                     hitDirection,
-                    _bloodParticleTexture);
+                    new TextureRegion2D(_bloodParticleTexture));
                 _visualEffectManager.AddEffect(bloodEffect);
 
                 _bloodSound.CreateInstance().Play();
@@ -539,8 +540,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 {
                     var shieldEffect = new ShieldBreakCombatVisualEffect(combatantGameObject.InteractionPoint,
                         hitDirection,
-                        _shieldParticleTexture,
-                        combatantGameObject.CombatantSize);
+                        _shieldParticleTexture);
                     _visualEffectManager.AddEffect(shieldEffect);
 
                     _shieldBreakingSound.CreateInstance().Play();
@@ -1434,7 +1434,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _cameraOperator,
                 _shadeService,
                 _combatantPositionProvider,
-                _combatCore.Field
+                _combatCore.Field,
+                _visualEffectManager
             );
         _combatCore.Initialize(
             CombatantFactory.CreateHeroes(_manualCombatantBehaviour, _globeProvider.Globe.Player),

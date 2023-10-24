@@ -9,6 +9,8 @@ using CombatDicesTeam.Combats;
 
 using Core.Combats.BotBehaviour;
 
+using GameClient.Engine.CombatVisualEffects;
+
 namespace Client.GameScreens.Combat;
 
 internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
@@ -18,6 +20,7 @@ internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
     private readonly IList<CombatantGameObject> _combatantGameObjects;
     private readonly ICombatantPositionProvider _combatantPositionProvider;
     private readonly CombatField _combatField;
+    private readonly ICombatVisualEffectManager _combatVisualEffectManager;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
@@ -30,7 +33,7 @@ internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
         GameObjectContentStorage gameObjectContentStorage,
         CameraOperator cameraOperator,
         IShadeService shadeService,
-        ICombatantPositionProvider combatantPositionProvider, CombatField combatField)
+        ICombatantPositionProvider combatantPositionProvider, CombatField combatField, ICombatVisualEffectManager combatVisualEffectManager)
     {
         _animationManager = animationManager;
         _combatMovementVisualizer = combatMovementVisualizer;
@@ -41,6 +44,7 @@ internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
         _shadeService = shadeService;
         _combatantPositionProvider = combatantPositionProvider;
         _combatField = combatField;
+        _combatVisualEffectManager = combatVisualEffectManager;
     }
 
     public IIntention CreateCombatMovement(CombatMovementInstance combatMovement)
@@ -49,6 +53,7 @@ internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
             _combatantGameObjects, _interactionDeliveryManager, _gameObjectContentStorage, _cameraOperator,
             _shadeService,
             _combatantPositionProvider,
-            _combatField);
+            _combatField,
+            _combatVisualEffectManager);
     }
 }

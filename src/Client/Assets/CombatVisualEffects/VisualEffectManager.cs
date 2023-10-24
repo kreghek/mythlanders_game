@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using GameClient.Engine.CombatVisualEffects;
+
 using Microsoft.Xna.Framework;
 
 namespace Client.Assets.CombatVisualEffects;
@@ -8,7 +10,7 @@ namespace Client.Assets.CombatVisualEffects;
 /// <summary>
 /// Visual effects in the combat.
 /// </summary>
-internal sealed class VisualEffectManager
+internal sealed class VisualEffectManager : ICombatVisualEffectManager
 {
     private readonly IList<ICombatVisualEffect> _list = new List<ICombatVisualEffect>();
 
