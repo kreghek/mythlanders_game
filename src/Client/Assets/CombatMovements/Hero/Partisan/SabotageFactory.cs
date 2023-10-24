@@ -77,14 +77,18 @@ internal class SabotageFactory : CombatMovementFactoryBase
 
         var targetCombatant =
             GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
-       var targetPosition = visualizationContext.GetCombatActor(targetCombatant!).InteractionPoint;
+        var targetPosition = visualizationContext.GetCombatActor(targetCombatant!).InteractionPoint;
+
+        var shotEffect = new ParallelCombatVisualEffect(
+            new PowderGasesCombatVisualEffect(visualizationContext.ActorGameObject.LaunchPoint, targetPosition,
+                new TextureRegion2D(visualizationContext.GameObjectContentStorage.GetParticlesTexture(), new Rectangle(0, 32 * 1, 32, 32))),
+            new GunFlashCombatVisualEffect(visualizationContext.ActorGameObject.LaunchPoint, 48,
+                new TextureRegion2D(visualizationContext.GameObjectContentStorage.GetParticlesTexture(), new Rectangle(0, 32 * 1, 32, 32))));
 
         var additionalVisualEffectShotAnimation = new CombatVisualEffectAnimationFrameSet(soundedShotAnimation, visualizationContext.CombatVisualEffectManager,
             new[]
             {
-                new AnimationFrame<ICombatVisualEffect>(new AnimationFrameInfo(1),
-                    new PowderGasesCombatVisualEffect(visualizationContext.ActorGameObject.LaunchPoint, targetPosition,
-                    new TextureRegion2D(visualizationContext.GameObjectContentStorage.GetParticlesTexture(), new Rectangle(0,32 * 1,32,32))))
+                new AnimationFrame<ICombatVisualEffect>(new AnimationFrameInfo(1), shotEffect)
             });
 
         var waitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "rifle-wait");
