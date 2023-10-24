@@ -75,7 +75,7 @@ static GameMode ReadGameMode()
     return GameMode.Full;
 }
 
-string ReadShieldSound()
+static string ReadShieldSound()
 {
     var binPath = AppContext.BaseDirectory;
 
