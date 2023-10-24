@@ -6,6 +6,8 @@ using Client.GameScreens.Combat.GameObjects;
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dices;
 
+using GameClient.Engine.CombatVisualEffects;
+
 namespace Client.Assets.CombatMovements;
 
 /// <summary>
@@ -21,4 +23,5 @@ internal interface ICombatMovementVisualizationContext
 
     InteractionDeliveryManager InteractionDeliveryManager { get; }
     CombatantGameObject GetCombatActor(ICombatant combatant);
+    ICombatVisualEffectManager CombatVisualEffectManager { get; }
 }

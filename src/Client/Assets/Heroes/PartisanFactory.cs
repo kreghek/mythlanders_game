@@ -1,8 +1,5 @@
-using System.IO;
-
-using Client.Assets.CombatMovements;
 using Client.Assets.Equipments.Sergeant;
-using Client.Assets.GraphicConfigs;
+using Client.Assets.GraphicConfigs.Heroes;
 using Client.Core;
 
 namespace Client.Assets.Heroes;
@@ -23,8 +20,7 @@ internal class PartisanFactory : HeroFactoryBase
 
     protected override CombatantGraphicsConfigBase GetGraphicsConfig()
     {
-        return new SingleSpriteGraphicsConfig(Path.Combine(CommonConstants.PathToCharacterSprites, "Heroes",
-            HeroName.ToString(), "Thumbnail"));
+        return new PartisanGraphicsConfig();
     }
 
     protected override IUnitLevelScheme[] GetLevels()

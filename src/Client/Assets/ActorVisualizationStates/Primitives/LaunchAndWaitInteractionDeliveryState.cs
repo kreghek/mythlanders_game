@@ -22,6 +22,7 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
     private readonly IDeliveryFactory _deliveryFactory;
     private readonly IReadOnlyCollection<InteractionDeliveryInfo> _imposeItems;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
+    private readonly IAnimationFrameInfo _launchFrame;
     private readonly IAnimationFrameSet _launchAnimation;
     private readonly IAnimationFrameSet _waitAnimation;
     private double _counter;
@@ -31,7 +32,8 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
         IAnimationFrameSet waitAnimation,
         IReadOnlyCollection<InteractionDeliveryInfo> imposeItems,
         IDeliveryFactory deliveryFactory,
-        InteractionDeliveryManager interactionDeliveryManager)
+        InteractionDeliveryManager interactionDeliveryManager,
+        IAnimationFrameInfo launchFrame)
     {
         _animator = animator;
         _launchAnimation = launchAnimation;
@@ -39,9 +41,15 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
         _imposeItems = imposeItems;
         _deliveryFactory = deliveryFactory;
         _interactionDeliveryManager = interactionDeliveryManager;
-
+        _launchFrame = launchFrame;
         _activeInteractionDeliveryList = new List<IInteractionDelivery>();
 
+        _launchAnimation.KeyFrame += (s, e) => {
+            if (e.KeyFrame.Equals(launchFrame))
+            {
+                LaunchInteractionDelivery();
+            }
+        };
         _launchAnimation.End += LaunchAnimation_End;
     }
 
@@ -55,8 +63,6 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
 
     private void LaunchAnimation_End(object? sender, EventArgs e)
     {
-        LaunchInteractionDelivery();
-
         _animator.PlayAnimation(_waitAnimation);
     }
 

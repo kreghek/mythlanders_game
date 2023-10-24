@@ -1,11 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameClient.Engine.CombatVisualEffects;
+
+using Microsoft.Xna.Framework;
 
 namespace GameClient.Engine.Animations;
 
 /// <summary>
-/// Animation with sound effects.
+/// Animation with combat visual effects.
 /// </summary>
-public sealed class SoundedAnimationFrameSet : IAnimationFrameSet
+public sealed class CombatVisualEffectAnimationFrameSet : IAnimationFrameSet
 {
     private readonly IAnimationFrameSet _baseFrameSet;
 
@@ -13,9 +15,11 @@ public sealed class SoundedAnimationFrameSet : IAnimationFrameSet
     /// Constructor.
     /// </summary>
     /// <param name="baseAnimation">Underlying animation</param>
-    /// <param name="keySfx"> Sound effects bounded with frames. </param>
-    public SoundedAnimationFrameSet(IAnimationFrameSet baseAnimation,
-        IReadOnlyCollection<AnimationFrame<IAnimationSoundEffect>> keySfx)
+    /// <param name="combatVisualEffectManager"> Visual effect manager to play effect. </param>
+    /// <param name="keySfx"> Combat visual effects bounded with frames. </param>
+    public CombatVisualEffectAnimationFrameSet(IAnimationFrameSet baseAnimation,
+        ICombatVisualEffectManager combatVisualEffectManager,
+        IReadOnlyCollection<AnimationFrame<ICombatVisualEffect>> keySfx)
     {
         _baseFrameSet = baseAnimation;
 
@@ -26,7 +30,7 @@ public sealed class SoundedAnimationFrameSet : IAnimationFrameSet
             var soundToPlay = keySfx.Where(x => x.FrameInfo.Equals(args.KeyFrame));
             foreach (var animationSoundEffect in soundToPlay)
             {
-                animationSoundEffect.Payload.Play();
+                combatVisualEffectManager.AddEffect(animationSoundEffect.Payload);
             }
 
             KeyFrame?.Invoke(this, args);

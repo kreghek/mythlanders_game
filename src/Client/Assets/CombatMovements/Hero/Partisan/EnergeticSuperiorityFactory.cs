@@ -28,10 +28,10 @@ using MonoGame.Extended.TextureAtlases;
 namespace Client.Assets.CombatMovements.Hero.Partisan;
 
 [UsedImplicitly]
-internal class SabotageFactory : CombatMovementFactoryBase
+internal class EnergeticSuperiorityFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
-    public override CombatMovementIcon CombatMovementIcon => new(1, 2);
+    public override CombatMovementIcon CombatMovementIcon => new(5, 6);
 
     /// <inheritdoc />
     public override CombatMovement CreateMovement()
@@ -46,8 +46,8 @@ internal class SabotageFactory : CombatMovementFactoryBase
                         ChangePositionEffectDirection.ToRearguard
                     ),
                     new DamageEffectWrapper(
-                        new WeakestEnemyTargetSelector(),
-                        DamageType.Normal,
+                        new ShieldedEnemyInRearguardTargetSelector(),
+                        DamageType.ProtectionOnly,
                         GenericRange<int>.CreateMono(3))
                 })
         )

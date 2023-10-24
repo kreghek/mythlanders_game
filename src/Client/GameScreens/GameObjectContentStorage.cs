@@ -224,7 +224,7 @@ internal class GameObjectContentStorage
             { GameObjectSoundType.FrogHornsUp, LoadSkillEffect("FrogHornsUp") },
             { GameObjectSoundType.Gunshot, LoadSkillEffect("Gunshot") },
             { GameObjectSoundType.AssaultRifleBurst, LoadSkillEffect("AssaultRifleBurst") },
-            { GameObjectSoundType.SciFiRifleShot, LoadSkillEffect("RifleShot") },
+            { GameObjectSoundType.CyberRifleShot, LoadSkillEffect("CyberRifleShot") },
             { GameObjectSoundType.AmazonWarCry, LoadSkillEffect("AmazonWarCry") }
         };
 

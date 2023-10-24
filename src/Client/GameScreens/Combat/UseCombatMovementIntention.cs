@@ -11,6 +11,7 @@ using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dices;
 
 using GameClient.Engine;
+using GameClient.Engine.CombatVisualEffects;
 
 namespace Client.GameScreens.Combat;
 
@@ -21,6 +22,7 @@ internal sealed class UseCombatMovementIntention : IIntention
     private readonly IList<CombatantGameObject> _combatantGameObjects;
     private readonly ICombatantPositionProvider _combatantPositionProvider;
     private readonly CombatField _combatField;
+    private readonly ICombatVisualEffectManager _combatVisualEffectManager;
     private readonly CombatMovementInstance _combatMovement;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -32,7 +34,7 @@ internal sealed class UseCombatMovementIntention : IIntention
         InteractionDeliveryManager interactionDeliveryManager, GameObjectContentStorage gameObjectContentStorage,
         CameraOperator cameraOperator,
         IShadeService shadeService,
-        ICombatantPositionProvider combatantPositionProvider, CombatField combatField)
+        ICombatantPositionProvider combatantPositionProvider, CombatField combatField, ICombatVisualEffectManager combatVisualEffectManager)
     {
         _combatMovement = combatMovement;
         _animationManager = animationManager;
@@ -44,6 +46,7 @@ internal sealed class UseCombatMovementIntention : IIntention
         _shadeService = shadeService;
         _combatantPositionProvider = combatantPositionProvider;
         _combatField = combatField;
+        _combatVisualEffectManager = combatVisualEffectManager;
     }
 
     private CombatantGameObject GetCombatantGameObject(ICombatant combatant)
@@ -60,6 +63,7 @@ internal sealed class UseCombatMovementIntention : IIntention
             _interactionDeliveryManager,
             _gameObjectContentStorage,
             new BattlefieldInteractionContext(_combatantPositionProvider, _combatField),
+            _combatVisualEffectManager,
             new LinearDice());
 
         return _combatMovementVisualizer.GetMovementVisualizationState(combatMovement.SourceMovement.Sid,
