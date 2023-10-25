@@ -41,11 +41,13 @@ public sealed class HoverController<TPayload>
     /// <param name="hoverValue"> Value of element that was left. </param>
     public void HandleLeave(TPayload? hoverValue)
     {
-        if (EqualityComparer<TPayload>.Default.Equals(hoverValue, CurrentValue))
+        if (!EqualityComparer<TPayload>.Default.Equals(hoverValue, CurrentValue))
         {
-            CurrentValue = default;
-            Leave?.Invoke(this, hoverValue);
+            return;
         }
+
+        CurrentValue = default;
+        Leave?.Invoke(this, hoverValue);
     }
 
     /// <summary>
