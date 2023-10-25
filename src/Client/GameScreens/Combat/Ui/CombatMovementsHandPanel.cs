@@ -9,6 +9,8 @@ using CombatDicesTeam.Combats;
 
 using GameAssets.Combats;
 
+using GameClient.Engine.Ui;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -59,15 +61,17 @@ internal class CombatMovementsHandPanel : ControlBase
         _waitButton.OnClick += WaitButton_OnClick;
 
         _hoverController = new HoverController<CombatMovementButton>();
-        _hoverController.Hover += (s, e) =>
+        _hoverController.Hover += (_, e) =>
         {
-            if (e is not null)
+            if (e is null)
             {
-                _activeCombatMovementHint = new CombatMovementHint(e.Entity);
-                CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(e.Entity));
+                return;
             }
+
+            _activeCombatMovementHint = new CombatMovementHint(e.Entity);
+            CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(e.Entity));
         };
-        _hoverController.Leave += (s, e) =>
+        _hoverController.Leave += (_, e) =>
         {
             _activeCombatMovementHint = null;
             if (e is not null)

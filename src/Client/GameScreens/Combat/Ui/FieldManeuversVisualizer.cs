@@ -5,6 +5,8 @@ using Client.GameScreens.Combat.GameObjects;
 
 using CombatDicesTeam.Combats;
 
+using GameClient.Engine.Ui;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
