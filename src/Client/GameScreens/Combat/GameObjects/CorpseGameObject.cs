@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Combat.GameObjects;
 
-internal sealed class CorpseGameObject : EwarRenderableBase
+internal sealed class CorpseGameObject
 {
     private readonly UnitGraphics _graphics;
     private double _counter;
@@ -21,10 +21,8 @@ internal sealed class CorpseGameObject : EwarRenderableBase
 
     public bool IsComplete => _counter > 2;
 
-    public override void Update(GameTime gameTime)
+    public void Update(GameTime gameTime)
     {
-        base.Update(gameTime);
-
         _graphics.Update(gameTime);
 
         _counter += gameTime.ElapsedGameTime.TotalSeconds;
@@ -48,10 +46,8 @@ internal sealed class CorpseGameObject : EwarRenderableBase
         }
     }
 
-    protected override void DoDraw(SpriteBatch spriteBatch, float zindex)
+    public void Draw(SpriteBatch spriteBatch)
     {
-        base.DoDraw(spriteBatch, zindex);
-
         _graphics.Draw(spriteBatch);
     }
 
