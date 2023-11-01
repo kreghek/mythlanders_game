@@ -7,14 +7,16 @@ using Client.Assets.Monsters;
 using Client.Core;
 using Client.GameScreens;
 
+using Microsoft.Xna.Framework.Content;
+
 namespace Client.Assets.Catalogs;
 
-internal sealed class UnitGraphicsCatalog : ICombatantGraphicsCatalog
+internal sealed class CombatantGraphicsCatalog : ICombatantGraphicsCatalog
 {
     private readonly IDictionary<string, CombatantGraphicsConfigBase> _graphicsDict =
         new Dictionary<string, CombatantGraphicsConfigBase>();
 
-    public UnitGraphicsCatalog(GameObjectContentStorage gameObjectContentStorage)
+    public CombatantGraphicsCatalog(GameObjectContentStorage gameObjectContentStorage)
     {
         var heroes = LoadHeroFactories();
         foreach (var factory in heroes)
@@ -28,6 +30,14 @@ internal sealed class UnitGraphicsCatalog : ICombatantGraphicsCatalog
         {
             var graphics = factory.CreateGraphicsConfig(gameObjectContentStorage);
             _graphicsDict.Add(factory.ClassName.ToString().ToUpper(), graphics);
+        }
+    }
+
+    public void LoadContent(ContentManager contentManager)
+    {
+        foreach (var item in _graphicsDict)
+        {
+            item.Value.LoadContent(contentManager);
         }
     }
 

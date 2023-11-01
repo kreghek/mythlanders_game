@@ -1,6 +1,8 @@
 using Client.Core;
 using Client.Engine;
 
+using GameClient.Engine.Animations;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -9,14 +11,16 @@ namespace Client.GameScreens.Combat.GameObjects;
 internal sealed class CorpseGameObject
 {
     private readonly UnitGraphics _graphics;
+    private readonly IAnimationFrameSet _deathAnimation;
     private double _counter;
 
     private bool _startToDeath;
     private bool _startToWound;
 
-    public CorpseGameObject(UnitGraphics graphics)
+    public CorpseGameObject(UnitGraphics graphics, IAnimationFrameSet deathAnimation)
     {
         _graphics = graphics;
+        _deathAnimation = deathAnimation;
     }
 
     public bool IsComplete => _counter > 2;
