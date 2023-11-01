@@ -103,12 +103,6 @@ internal sealed class CombatantGameObject
 
     public CorpseGameObject CreateCorpse(GameObjectContentStorage gameObjectContentStorage, ICombatVisualEffectManager combatVisualEffectManager, AudioSettings audioSettings)
     {
-        var spriteSheetId = Enum.Parse<UnitName>(Combatant.ClassSid, ignoreCase: true);
-        var deathSoundEffect = _gameObjectContentStorage.GetDeathSound(spriteSheetId)
-            .CreateInstance();
-
-        deathSoundEffect.Play();
-
         var deathAnimation = _combatantGraphicsConfig.GetDeathAnimation(gameObjectContentStorage, combatVisualEffectManager, audioSettings, Animator.GraphicRoot.Position);
 
         var corpse = new CorpseGameObject(Graphics, deathAnimation);
