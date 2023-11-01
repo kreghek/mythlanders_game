@@ -54,7 +54,7 @@ public sealed class HoverController<TPayload>
     /// Hover event.
     /// </summary>
     public event EventHandler<TPayload?>? Hover;
-    
+
     /// <summary>
     /// Leave event.
     /// </summary>

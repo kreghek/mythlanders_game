@@ -21,7 +21,7 @@ public class HoverControlTests
 
         monitor.Should().Raise(nameof(hoverController.Hover)).WithArgs<int>(e => e == TEST_HOVER_VALUE);
     }
-    
+
     [Test]
     public void HandleHover_WithNonNullValue_ChangesCurrentValue()
     {
@@ -35,7 +35,7 @@ public class HoverControlTests
         // Assert
         hoverController.CurrentValue.Should().Be(TEST_HOVER_VALUE);
     }
-    
+
     [Test]
     public void HandleLeave_HoverThenOldLeave_DoesNotRaiseLeaveEvent()
     {
@@ -43,7 +43,7 @@ public class HoverControlTests
         var hoverController = new HoverController<int>();
         const int START_HOVER_VALUE = 5;
         const int TEST_HOVER_VALUE = 6;
-        
+
         using var monitor = hoverController.Monitor();
 
         // Act
@@ -54,7 +54,7 @@ public class HoverControlTests
         // Assert
         monitor.Should().NotRaise(nameof(hoverController.Leave));
     }
-    
+
     [Test]
     public void HandleLeave_HoverThenOldLeave_RaisesOnlyHoverEventWithLastValue()
     {
@@ -62,7 +62,7 @@ public class HoverControlTests
         var hoverController = new HoverController<int>();
         const int START_HOVER_VALUE = 5;
         const int TEST_HOVER_VALUE = 6;
-        
+
         using var monitor = hoverController.Monitor();
 
         // Act
@@ -88,7 +88,7 @@ public class HoverControlTests
         // Assert
         hoverController.CurrentValue.Should().BeNull();
     }
-    
+
     [Test]
     public void HandleLeave_WithMatchingValue_RaisesLeaveEvent()
     {
@@ -97,7 +97,7 @@ public class HoverControlTests
         const string HOVER_VALUE = "hover";
         hoverController.HandleHover(HOVER_VALUE);
 
-        using var monitor = hoverController.Monitor(); 
+        using var monitor = hoverController.Monitor();
 
         // Act
         hoverController.HandleLeave(HOVER_VALUE);
