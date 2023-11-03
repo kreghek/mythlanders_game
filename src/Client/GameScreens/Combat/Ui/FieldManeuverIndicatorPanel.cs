@@ -1,4 +1,6 @@
-﻿using Client.Engine;
+﻿using System;
+
+using Client.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,6 +11,7 @@ internal sealed class FieldManeuverIndicatorPanel : ControlBase
 {
     private readonly IManeuverContext _context;
     private readonly SpriteFont _font;
+    private double _counter;
 
     public FieldManeuverIndicatorPanel(SpriteFont font, IManeuverContext context)
     {
@@ -16,7 +19,7 @@ internal sealed class FieldManeuverIndicatorPanel : ControlBase
         _context = context;
     }
 
-    public bool IsHidden => _context.ManeuversAvailable.GetValueOrDefault() <= 0;
+    public bool IsHidden => _context.ManeuversAvailableCount.GetValueOrDefault() <= 0;
 
     protected override Point CalcTextureOffset()
     {
@@ -25,22 +28,41 @@ internal sealed class FieldManeuverIndicatorPanel : ControlBase
 
     protected override Color CalculateColor()
     {
-        return Color.Lerp(Color.White, Color.Transparent, 0.5f);
+        return Color.Lerp(Color.White, Color.Transparent, 0.5f + GetCurrentT() * 0.25f);
     }
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
-        if (_context.ManeuversAvailable.GetValueOrDefault() > 0)
+        if (_context.ManeuversAvailableCount.GetValueOrDefault() <= 0)
         {
-            var text = UiResource.AvailableManeuversIndicatorTemplate;
-            if (_context.ManeuversAvailable > 1)
-            {
-                text = " x" + _context.ManeuversAvailable;
-            }
-
-            var textSize = _font.MeasureString(text);
-            spriteBatch.DrawString(_font, text,
-                new Vector2(contentRect.Location.X + (contentRect.Width - textSize.X) / 2, contentRect.Y), Color.Cyan);
+            return;
         }
+
+        var text = UiResource.AvailableManeuversIndicatorTemplate;
+        if (_context.ManeuversAvailableCount > 1)
+        {
+            text = " x" + _context.ManeuversAvailableCount;
+        }
+
+        DrawTextInCenterBottom(spriteBatch, contentRect, text);
+    }
+
+    private void DrawTextInCenterBottom(SpriteBatch spriteBatch, Rectangle targetRect, string text)
+    {
+        var textSize = _font.MeasureString(text);
+        var targetRectWidth = targetRect.Width - textSize.X;
+        spriteBatch.DrawString(_font, text,
+            new Vector2(targetRect.Location.X + targetRectWidth / 2, targetRect.Y),
+            Color.Lerp(TestamentColors.MainSciFi, Color.Transparent, 0.5f + (1 - GetCurrentT()) * 0.25f));
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        _counter += gameTime.ElapsedGameTime.TotalSeconds;
+    }
+
+    private float GetCurrentT()
+    {
+        return (float)Math.Sin(_counter * 0.5f);
     }
 }

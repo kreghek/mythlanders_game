@@ -145,13 +145,37 @@ internal class FieldManeuversVisualizer
                 Color.Lerp(Color.Cyan, Color.Transparent, 0.75f), 10);
             spriteBatch.DrawLine(position - Vector2.UnitY * 60, position + Vector2.UnitY * 60,
                 Color.Lerp(Color.Cyan, Color.Transparent, 0.75f), 10);
-            spriteBatch.DrawString(_spriteFont,
-                _hoverController.CurrentValue.FieldCoords.ColumentIndex == 0
-                    ? UiResource.FieldManeuversVisualizer_Draw_Avanguard
-                    : UiResource.FieldManeuversVisualizer_Draw_Rearguard,
-                position - new Vector2(20, 20), Color.Lerp(Color.Cyan, Color.Transparent, 0.15f),
-                MathHelper.ToRadians(-90), Vector2.Zero, 1f, SpriteEffects.None, 0);
+            
+            var positionLabelText = _hoverController.CurrentValue.FieldCoords.ColumentIndex == 0
+                ? UiResource.FieldManeuversVisualizer_Draw_Avanguard
+                : UiResource.FieldManeuversVisualizer_Draw_Rearguard;
+
+            DrawTextWithOutline(positionLabelText,
+                position - new Vector2(20, 20), spriteBatch, _spriteFont);
         }
+    }
+
+    private static void DrawTextWithOutline(string positionLabelText, Vector2 position, SpriteBatch spriteBatch,
+        SpriteFont spriteFont)
+    {
+        var rotation = MathHelper.ToRadians(-90);
+        
+        for (var x = -1; x <= 1; x++)
+        {
+            for (int y = -1; y <= 1; y++)
+            {
+                spriteBatch.DrawString(spriteFont,
+                    positionLabelText,
+                    position + new Vector2(x, y),
+                    Color.Lerp(TestamentColors.MaxDark, Color.Transparent, 0.15f),
+                    rotation, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            }
+        }
+
+        spriteBatch.DrawString(spriteFont,
+            positionLabelText,
+            position, Color.Lerp(Color.Cyan, Color.Transparent, 0.15f),
+            rotation, Vector2.Zero, 1f, SpriteEffects.None, 0);
     }
 
     /// <summary>
@@ -171,7 +195,7 @@ internal class FieldManeuversVisualizer
 
         _animationCounter += 0.1f;
 
-        _isManeuversAvailable = _context.ManeuversAvailable > 0;
+        _isManeuversAvailable = _context.ManeuversAvailableCount > 0;
 
         for (var columnIndex = 0; columnIndex < _heroFieldSide.ColumnCount; columnIndex++)
         {

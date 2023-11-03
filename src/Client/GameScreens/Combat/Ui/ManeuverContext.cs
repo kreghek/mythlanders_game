@@ -17,7 +17,7 @@ internal sealed class ManeuverContext : IManeuverContext
 
     public CombatFieldSide FieldSide => _combatCore.Field.HeroSide;
 
-    public int? ManeuversAvailable =>
+    public int? ManeuversAvailableCount =>
         _combatCore.CurrentCombatant?.Stats.Single(x => x.Type == CombatantStatTypes.Maneuver).Value.Current;
 
     public FieldCoords? ManeuverStartCoords

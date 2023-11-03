@@ -1632,6 +1632,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _combatMovementsHandPanel.Update(gameTime, ResolutionIndependentRenderer);
             }
         }
+        
+        _maneuversIndicator?.Update(gameTime);
 
         _combatantQueuePanel?.Update(ResolutionIndependentRenderer);
 
