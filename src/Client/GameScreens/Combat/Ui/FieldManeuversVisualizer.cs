@@ -175,10 +175,10 @@ internal class FieldManeuversVisualizer
         var maneuverLineDirection = maneuverLine.NormalizedCopy();
         for (var arrowIndex = 0; arrowIndex < arrowCount; arrowIndex++)
         {
-            var arrowPosition = arrowStart + maneuverLineDirection * arrowIndex * Math.Clamp((float)Math.Sin(_animationCounter), 0, 1);
-            var arrowNextPosition = arrowStart + maneuverLineDirection * (arrowIndex + 1) * Math.Clamp((float)Math.Sin(_animationCounter), 0, 1);
-            var arrowBack1 = maneuverLineDirection.PerpendicularClockwise() + arrowPosition;
-            var arrowBack2 = maneuverLineDirection.PerpendicularClockwise() * -1 + arrowPosition;
+            var arrowPosition = arrowStart + maneuverLineDirection * arrowIndex * ARROW_WIDTH * 2 * Math.Clamp((float)Math.Sin(_animationCounter), 0, 1);
+            var arrowNextPosition = arrowStart + maneuverLineDirection * (arrowIndex + 1) * ARROW_WIDTH * 2 * Math.Clamp((float)Math.Sin(_animationCounter), 0, 1);
+            var arrowBack1 = maneuverLineDirection.PerpendicularClockwise() * ARROW_WIDTH + arrowPosition;
+            var arrowBack2 = maneuverLineDirection.PerpendicularClockwise() * -1 * ARROW_WIDTH + arrowPosition;
             spriteBatch.DrawLine(arrowBack1, arrowNextPosition, color, 2);
             spriteBatch.DrawLine(arrowBack2, arrowNextPosition, color, 2);
         }
@@ -222,7 +222,7 @@ internal class FieldManeuversVisualizer
             return;
         }
 
-        _animationCounter += gameTime.ElapsedGameTime.TotalSeconds;
+        _animationCounter += gameTime.ElapsedGameTime.TotalSeconds * 3;
 
         _isManeuversAvailable = _context.ManeuversAvailableCount > 0;
 

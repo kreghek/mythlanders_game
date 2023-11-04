@@ -28,7 +28,7 @@ internal sealed class FieldManeuverIndicatorPanel : ControlBase
 
     protected override Color CalculateColor()
     {
-        return Color.Lerp(Color.White, Color.Transparent, 0.5f + GetCurrentT() * 0.25f);
+        return Color.Lerp(Color.White, Color.Transparent, 0.5f + GetCurrentT() * 0.125f);
     }
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
@@ -53,16 +53,16 @@ internal sealed class FieldManeuverIndicatorPanel : ControlBase
         var targetRectWidth = targetRect.Width - textSize.X;
         spriteBatch.DrawString(_font, text,
             new Vector2(targetRect.Location.X + targetRectWidth / 2, targetRect.Y),
-            Color.Lerp(TestamentColors.MainSciFi, Color.Transparent, 0.5f + (1 - GetCurrentT()) * 0.25f));
+            Color.Lerp(TestamentColors.MainSciFi, Color.Transparent, 0.5f + GetCurrentT() * 0.25f));
     }
 
     public void Update(GameTime gameTime)
     {
-        _counter += gameTime.ElapsedGameTime.TotalSeconds;
+        _counter += gameTime.ElapsedGameTime.TotalSeconds * 10;
     }
 
     private float GetCurrentT()
     {
-        return (float)Math.Sin(_counter * 0.5f);
+        return (float)Math.Sin(_counter);
     }
 }
