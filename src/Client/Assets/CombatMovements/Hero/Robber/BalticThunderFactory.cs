@@ -61,7 +61,7 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
         var prepareAnimation = AnimationHelper.ConvertToAnimation(animationSet, "prepare-bow");
 
         var shotSoundEffect =
-            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.CyberRifleShot);
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.ImpulseBowShot);
         var shotAnimation = AnimationHelper.ConvertToAnimation(animationSet, "bow-shot");
         var soundedShotAnimation = new SoundedAnimationFrameSet(shotAnimation,
             new[]
@@ -75,10 +75,7 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
         var targetPosition = visualizationContext.GetCombatActor(targetCombatant!).InteractionPoint;
 
         var shotEffect = new ParallelCombatVisualEffect(
-            new PowderGasesCombatVisualEffect(visualizationContext.ActorGameObject.LaunchPoint, targetPosition,
-                new TextureRegion2D(visualizationContext.GameObjectContentStorage.GetParticlesTexture(),
-                    new Rectangle(0, 32 * 1, 32, 32))),
-            new GunFlashCombatVisualEffect(visualizationContext.ActorGameObject.LaunchPoint, 48,
+            new PlasmaSparksCombatVisualEffect(visualizationContext.ActorGameObject.LaunchPoint, targetPosition,
                 new TextureRegion2D(visualizationContext.GameObjectContentStorage.GetParticlesTexture(),
                     new Rectangle(0, 32 * 1, 32, 32))));
 
@@ -86,7 +83,7 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
             visualizationContext.CombatVisualEffectManager,
             new[]
             {
-                new AnimationFrame<ICombatVisualEffect>(new AnimationFrameInfo(1), shotEffect)
+                new AnimationFrame<ICombatVisualEffect>(new AnimationFrameInfo(3), shotEffect)
             });
 
         var waitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "bow-wait");

@@ -4,7 +4,7 @@ internal enum GameObjectSoundType
 {
     SwordPrepare,
     SwordSlash,
-    EnergoShot,
+    ImpulseBowShot,
     Heal,
     MagicDust,
     EgyptianDarkMagic,
