@@ -1,24 +1,26 @@
-﻿using Client.Assets.CombatVisualEffects;
-using Client.Engine;
-using Client.GameScreens.Combat.GameObjects;
-using Client.GameScreens;
+﻿using System;
 using System.Linq;
-using System;
+
+using Client.Assets.CombatVisualEffects;
+using Client.Assets.InteractionDeliveryObjects;
+using Client.Engine;
+using Client.GameScreens;
+using Client.GameScreens.Combat.GameObjects;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.GenericRanges;
+
 using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats.CombatMovementEffects;
 
 using GameClient.Engine.Animations;
-
 using GameClient.Engine.CombatVisualEffects;
 
-using MonoGame.Extended.TextureAtlases;
 using Microsoft.Xna.Framework;
-using Client.Assets.InteractionDeliveryObjects;
+
+using MonoGame.Extended.TextureAtlases;
 
 namespace Client.Assets.CombatMovements.Hero.Robber;
 

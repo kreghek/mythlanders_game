@@ -34,7 +34,7 @@ internal class UndercutValuesFactory : CombatMovementFactoryBase
     }
 
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
-       CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
         var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Robber");
 
