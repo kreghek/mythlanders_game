@@ -74,7 +74,7 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
 
         var launchRainSourceAnimation = AnimationHelper.ConvertToAnimation(animationSet, "launch-arrow-rain");
         var launchRainSourceSoundEffect =
-            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.EnergoShot);
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.ImpulseBowShot);
 
         var launchRainSourceAnimationState = CreateSoundedState(
             () => new PlayAnimationActorState(actorAnimator, launchRainSourceAnimation),
