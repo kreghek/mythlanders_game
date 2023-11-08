@@ -207,7 +207,7 @@ internal class GameObjectContentStorage
             { GameObjectSoundType.SwordSlash, LoadSkillEffect("SwordHitEffect") },
             { GameObjectSoundType.ArmedMove, LoadSkillEffect("ArmedMove") },
             { GameObjectSoundType.Defence, LoadSkillEffect("ShieldEffect3") },
-            { GameObjectSoundType.EnergoShot, LoadSkillEffect("BowStrikeEffect") },
+            { GameObjectSoundType.ImpulseBowShot, LoadSkillEffect("BowStrikeEffect") },
             { GameObjectSoundType.Heal, LoadSkillEffect("HealEffect") },
             { GameObjectSoundType.StaffHit, LoadSkillEffect("StaffHitEffect") },
             { GameObjectSoundType.MagicDust, LoadSkillEffect("DustEffect") },
