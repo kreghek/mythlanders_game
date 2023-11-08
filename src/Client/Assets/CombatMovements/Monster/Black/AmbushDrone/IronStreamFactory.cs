@@ -56,7 +56,7 @@ internal class IronStreamFactory : SimpleCombatMovementFactoryBase
         var soundedShotAnimation = new SoundedAnimationFrameSet(shotAnimation,
             new[]
             {
-                new AnimationFrame<IAnimationSoundEffect>(new AnimationFrameInfo(0),
+                new AnimationFrame<IAnimationSoundEffect>(new AnimationFrameInfo(1),
                     new AnimationSoundEffect(shotSoundEffect, new AudioSettings()))
             });
 
@@ -76,12 +76,13 @@ internal class IronStreamFactory : SimpleCombatMovementFactoryBase
             visualizationContext.CombatVisualEffectManager,
             new[]
             {
-                new AnimationFrame<ICombatVisualEffect>(new AnimationFrameInfo(0), shotEffect)
+                new AnimationFrame<ICombatVisualEffect>(new AnimationFrameInfo(1), shotEffect)
             });
 
         var waitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "rifle-wait");
 
         var projectileFactory = new InteractionDeliveryFactory(GetCreateProjectileFunc(visualizationContext));
+
         return CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
             visualizationContext,
             new SingleDistanceVisualizationConfig(prepareAnimation, additionalVisualEffectShotAnimation, waitAnimation,
