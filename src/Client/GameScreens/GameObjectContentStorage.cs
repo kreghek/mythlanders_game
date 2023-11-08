@@ -332,7 +332,9 @@ internal class GameObjectContentStorage
             { "Robber", GetAnimationInner("Robber") },
 
             { "DigitalWolf", GetAnimationInner("DigitalWolf") },
-            { "Aspid", GetAnimationInner("Aspid") }
+            { "Aspid", GetAnimationInner("Aspid") },
+
+            { "AmbushDrone", GetAnimationInner("AmbushDrone") }
         };
     }
 
