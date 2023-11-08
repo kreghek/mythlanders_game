@@ -21,6 +21,11 @@ internal sealed class FieldManeuverIndicatorPanel : ControlBase
 
     public bool IsHidden => _context.ManeuversAvailableCount.GetValueOrDefault() <= 0;
 
+    public void Update(GameTime gameTime)
+    {
+        _counter += gameTime.ElapsedGameTime.TotalSeconds * 10;
+    }
+
     protected override Point CalcTextureOffset()
     {
         return ControlTextures.PanelBlack;
@@ -54,11 +59,6 @@ internal sealed class FieldManeuverIndicatorPanel : ControlBase
         spriteBatch.DrawString(_font, text,
             new Vector2(targetRect.Location.X + targetRectWidth / 2, targetRect.Y),
             Color.Lerp(TestamentColors.MainSciFi, Color.Transparent, 0.5f + GetCurrentT() * 0.25f));
-    }
-
-    public void Update(GameTime gameTime)
-    {
-        _counter += gameTime.ElapsedGameTime.TotalSeconds * 10;
     }
 
     private float GetCurrentT()

@@ -130,83 +130,6 @@ internal class FieldManeuversVisualizer
         DrawNextPositionLabel(spriteBatch);
     }
 
-    private void DrawNextPositionLabel(SpriteBatch spriteBatch)
-    {
-        if (_hoverController.CurrentValue?.FieldCoords is not null)
-        {
-            var position = _combatantPositionProvider.GetPosition(_hoverController.CurrentValue.FieldCoords,
-                CombatantPositionSide.Heroes);
-            spriteBatch.DrawLine(position, position + Vector2.UnitX * 600,
-                Color.Lerp(Color.Cyan, Color.Transparent, 0.75f), 10);
-            spriteBatch.DrawLine(position - Vector2.UnitY * 60, position + Vector2.UnitY * 60,
-                Color.Lerp(Color.Cyan, Color.Transparent, 0.75f), 10);
-
-            var positionLabelText = _hoverController.CurrentValue.FieldCoords.ColumentIndex == 0
-                ? UiResource.FieldManeuversVisualizer_Draw_Avanguard
-                : UiResource.FieldManeuversVisualizer_Draw_Rearguard;
-
-            DrawTextWithOutline(positionLabelText,
-                position - new Vector2(20, 20), spriteBatch, _spriteFont);
-        }
-    }
-
-    private void DrawLineConnector(SpriteBatch spriteBatch)
-    {
-        if (_hoverController.CurrentValue is null || _context.ManeuverStartCoords is null)
-        {
-            return;
-        }
-
-        var arrowStart = GetPosition(_context.ManeuverStartCoords);
-        var arrowTarget = GetPosition(_hoverController.CurrentValue.FieldCoords);
-
-        var color = Color.Lerp(Color.Cyan, Color.Transparent, (float)Math.Sin(_animationCounter * 1.25) * 0.5f);
-        spriteBatch.DrawLine(arrowStart, arrowTarget, color, Math.Max((float)Math.Sin(_animationCounter) * 3, 1));
-        spriteBatch.DrawCircle(arrowStart, (float)Math.Sin(_animationCounter) * 5, 6, color);
-        spriteBatch.DrawCircle(arrowTarget, (float)Math.Sin(_animationCounter) * 5, 6, color);
-
-        var maneuverLine = arrowTarget - arrowStart;
-        var maneuverLineDistance = maneuverLine.Length();
-
-        const int ARROW_WIDTH = 10;
-        // *2 to make gaps
-        var arrowCount = (int)Math.Ceiling(maneuverLineDistance / (ARROW_WIDTH * 2));
-
-        var maneuverLineDirection = maneuverLine.NormalizedCopy();
-        for (var arrowIndex = 0; arrowIndex < arrowCount; arrowIndex++)
-        {
-            var arrowPosition = arrowStart + maneuverLineDirection * arrowIndex * ARROW_WIDTH * 2 * Math.Clamp((float)Math.Sin(_animationCounter), 0, 1);
-            var arrowNextPosition = arrowStart + maneuverLineDirection * (arrowIndex + 1) * ARROW_WIDTH * 2 * Math.Clamp((float)Math.Sin(_animationCounter), 0, 1);
-            var arrowBack1 = maneuverLineDirection.PerpendicularClockwise() * ARROW_WIDTH + arrowPosition;
-            var arrowBack2 = maneuverLineDirection.PerpendicularClockwise() * -1 * ARROW_WIDTH + arrowPosition;
-            spriteBatch.DrawLine(arrowBack1, arrowNextPosition, color, 2);
-            spriteBatch.DrawLine(arrowBack2, arrowNextPosition, color, 2);
-        }
-    }
-
-    private static void DrawTextWithOutline(string positionLabelText, Vector2 position, SpriteBatch spriteBatch,
-        SpriteFont spriteFont)
-    {
-        var rotation = MathHelper.ToRadians(-90);
-        
-        for (var x = -1; x <= 1; x++)
-        {
-            for (int y = -1; y <= 1; y++)
-            {
-                spriteBatch.DrawString(spriteFont,
-                    positionLabelText,
-                    position + new Vector2(x, y),
-                    Color.Lerp(TestamentColors.MaxDark, Color.Transparent, 0.15f),
-                    rotation, Vector2.Zero, 1f, SpriteEffects.None, 0);
-            }
-        }
-
-        spriteBatch.DrawString(spriteFont,
-            positionLabelText,
-            position, Color.Lerp(Color.Cyan, Color.Transparent, 0.15f),
-            rotation, Vector2.Zero, 1f, SpriteEffects.None, 0);
-    }
-
     /// <summary>
     /// Update state of the panel
     /// </summary>
@@ -251,6 +174,85 @@ internal class FieldManeuversVisualizer
                 }
             }
         }
+    }
+
+    private void DrawLineConnector(SpriteBatch spriteBatch)
+    {
+        if (_hoverController.CurrentValue is null || _context.ManeuverStartCoords is null)
+        {
+            return;
+        }
+
+        var arrowStart = GetPosition(_context.ManeuverStartCoords);
+        var arrowTarget = GetPosition(_hoverController.CurrentValue.FieldCoords);
+
+        var color = Color.Lerp(Color.Cyan, Color.Transparent, (float)Math.Sin(_animationCounter * 1.25) * 0.5f);
+        spriteBatch.DrawLine(arrowStart, arrowTarget, color, Math.Max((float)Math.Sin(_animationCounter) * 3, 1));
+        spriteBatch.DrawCircle(arrowStart, (float)Math.Sin(_animationCounter) * 5, 6, color);
+        spriteBatch.DrawCircle(arrowTarget, (float)Math.Sin(_animationCounter) * 5, 6, color);
+
+        var maneuverLine = arrowTarget - arrowStart;
+        var maneuverLineDistance = maneuverLine.Length();
+
+        const int ARROW_WIDTH = 10;
+        // *2 to make gaps
+        var arrowCount = (int)Math.Ceiling(maneuverLineDistance / (ARROW_WIDTH * 2));
+
+        var maneuverLineDirection = maneuverLine.NormalizedCopy();
+        for (var arrowIndex = 0; arrowIndex < arrowCount; arrowIndex++)
+        {
+            var arrowPosition = arrowStart + maneuverLineDirection * arrowIndex * ARROW_WIDTH * 2 *
+                Math.Clamp((float)Math.Sin(_animationCounter), 0, 1);
+            var arrowNextPosition = arrowStart + maneuverLineDirection * (arrowIndex + 1) * ARROW_WIDTH * 2 *
+                Math.Clamp((float)Math.Sin(_animationCounter), 0, 1);
+            var arrowBack1 = maneuverLineDirection.PerpendicularClockwise() * ARROW_WIDTH + arrowPosition;
+            var arrowBack2 = maneuverLineDirection.PerpendicularClockwise() * -1 * ARROW_WIDTH + arrowPosition;
+            spriteBatch.DrawLine(arrowBack1, arrowNextPosition, color, 2);
+            spriteBatch.DrawLine(arrowBack2, arrowNextPosition, color, 2);
+        }
+    }
+
+    private void DrawNextPositionLabel(SpriteBatch spriteBatch)
+    {
+        if (_hoverController.CurrentValue?.FieldCoords is not null)
+        {
+            var position = _combatantPositionProvider.GetPosition(_hoverController.CurrentValue.FieldCoords,
+                CombatantPositionSide.Heroes);
+            spriteBatch.DrawLine(position, position + Vector2.UnitX * 600,
+                Color.Lerp(Color.Cyan, Color.Transparent, 0.75f), 10);
+            spriteBatch.DrawLine(position - Vector2.UnitY * 60, position + Vector2.UnitY * 60,
+                Color.Lerp(Color.Cyan, Color.Transparent, 0.75f), 10);
+
+            var positionLabelText = _hoverController.CurrentValue.FieldCoords.ColumentIndex == 0
+                ? UiResource.FieldManeuversVisualizer_Draw_Avanguard
+                : UiResource.FieldManeuversVisualizer_Draw_Rearguard;
+
+            DrawTextWithOutline(positionLabelText,
+                position - new Vector2(20, 20), spriteBatch, _spriteFont);
+        }
+    }
+
+    private static void DrawTextWithOutline(string positionLabelText, Vector2 position, SpriteBatch spriteBatch,
+        SpriteFont spriteFont)
+    {
+        var rotation = MathHelper.ToRadians(-90);
+
+        for (var x = -1; x <= 1; x++)
+        {
+            for (var y = -1; y <= 1; y++)
+            {
+                spriteBatch.DrawString(spriteFont,
+                    positionLabelText,
+                    position + new Vector2(x, y),
+                    Color.Lerp(TestamentColors.MaxDark, Color.Transparent, 0.15f),
+                    rotation, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            }
+        }
+
+        spriteBatch.DrawString(spriteFont,
+            positionLabelText,
+            position, Color.Lerp(Color.Cyan, Color.Transparent, 0.15f),
+            rotation, Vector2.Zero, 1f, SpriteEffects.None, 0);
     }
 
     private Vector2 GetPosition(FieldCoords coords)
