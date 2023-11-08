@@ -26,9 +26,10 @@ internal sealed class AmbushDroneGraphicsConfig : BlackMonsterGraphicConfig
     public AmbushDroneGraphicsConfig(UnitName unit) : base(unit)
     {
         RemoveShadowOnDeath = true;
+        Origin = new Vector2(100, 110);
     }
 
-    public void LoadContent(ContentManager contentManager)
+    public override void LoadContent(ContentManager contentManager)
     {
         _destructionSound = contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/AmbushDrone");
 
