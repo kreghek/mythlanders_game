@@ -26,7 +26,7 @@ internal sealed class AmbushDroneGraphicsConfig : BlackMonsterGraphicConfig
     public AmbushDroneGraphicsConfig(UnitName unit) : base(unit)
     {
         RemoveShadowOnDeath = true;
-        Origin = new Vector2(100, 110);
+        Origin = new Vector2(138, 110);
     }
 
     public override void LoadContent(ContentManager contentManager)
@@ -62,7 +62,8 @@ internal sealed class AmbushDroneGraphicsConfig : BlackMonsterGraphicConfig
             },
             {
                 PredefinedAnimationSid.Death,
-                AnimationFrameSetFactory.CreateIdle(fps: 8, frameCount: 4, textureColumns: 4, frameWidth: 128)
+                AnimationFrameSetFactory.CreateSequentialFromGrid(Enumerable.Range(1, 4).ToArray(), fps: 32,
+                    textureColumns: 4, frameWidth: 128)
             }
         };
     }
