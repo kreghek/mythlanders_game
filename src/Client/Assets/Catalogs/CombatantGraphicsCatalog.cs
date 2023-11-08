@@ -33,14 +33,6 @@ internal sealed class CombatantGraphicsCatalog : ICombatantGraphicsCatalog
         }
     }
 
-    public void LoadContent(ContentManager contentManager)
-    {
-        foreach (var item in _graphicsDict)
-        {
-            item.Value.LoadContent(contentManager);
-        }
-    }
-
     private static IReadOnlyCollection<IHeroFactory> LoadHeroFactories()
     {
         var assembly = typeof(IHeroFactory).Assembly;
@@ -57,6 +49,14 @@ internal sealed class CombatantGraphicsCatalog : ICombatantGraphicsCatalog
             .Where(x => typeof(IMonsterFactory).IsAssignableFrom(x) && x != typeof(IMonsterFactory) && !x.IsAbstract);
         var factories = factoryTypes.Select(Activator.CreateInstance);
         return factories.OfType<IMonsterFactory>().ToArray();
+    }
+
+    public void LoadContent(ContentManager contentManager)
+    {
+        foreach (var item in _graphicsDict)
+        {
+            item.Value.LoadContent(contentManager);
+        }
     }
 
     public CombatantGraphicsConfigBase GetGraphics(string classSid)

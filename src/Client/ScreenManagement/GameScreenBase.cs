@@ -29,10 +29,11 @@ internal abstract class GameScreenBase : IScreen
         _modals = new List<IModalWindow>();
     }
 
-    protected TestamentGame Game { get; }
-    protected IScreenManager ScreenManager { get; }
     protected ICamera2DAdapter Camera { get; }
+
+    protected TestamentGame Game { get; }
     protected IResolutionIndependentRenderer ResolutionIndependentRenderer { get; }
+    protected IScreenManager ScreenManager { get; }
 
     protected void AddModal(IModalWindow modal, bool isLate)
     {
@@ -43,33 +44,11 @@ internal abstract class GameScreenBase : IScreen
         }
     }
 
-    public void Draw(SpriteBatch spriteBatch)
-    {
-        if (_isInitialized)
-        {
-            DrawContent(spriteBatch);
-        }
-
-        DrawModals(spriteBatch);
-    }
-
     protected abstract void DrawContent(SpriteBatch spriteBatch);
 
     protected abstract void InitializeContent();
 
     protected abstract void UpdateContent(GameTime gameTime);
-
-    private void UpdateModals(GameTime gameTime)
-    {
-        foreach (var modal in _modals)
-        {
-            if (modal.IsVisible)
-            {
-                modal.Update(gameTime, ResolutionIndependentRenderer);
-                break;
-            }
-        }
-    }
 
     private void DrawModals(SpriteBatch spriteBatch)
     {
@@ -91,6 +70,28 @@ internal abstract class GameScreenBase : IScreen
         }
 
         spriteBatch.End();
+    }
+
+    private void UpdateModals(GameTime gameTime)
+    {
+        foreach (var modal in _modals)
+        {
+            if (modal.IsVisible)
+            {
+                modal.Update(gameTime, ResolutionIndependentRenderer);
+                break;
+            }
+        }
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        if (_isInitialized)
+        {
+            DrawContent(spriteBatch);
+        }
+
+        DrawModals(spriteBatch);
     }
 
     public IScreen? TargetScreen { get; set; }

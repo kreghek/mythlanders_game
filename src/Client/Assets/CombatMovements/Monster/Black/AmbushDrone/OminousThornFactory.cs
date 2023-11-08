@@ -13,23 +13,6 @@ namespace Client.Assets.CombatMovements.Monster.Black.Agressor;
 
 internal class OminousThornFactory : SimpleCombatMovementFactoryBase
 {
-    protected override CombatMovementEffectConfig GetEffects()
-    {
-        return CombatMovementEffectConfig.Create(
-            new IEffect[]
-            {
-                new DamageEffectWrapper(
-                    new ClosestInLineTargetSelector(),
-                    DamageType.Normal,
-                    GenericRange<int>.CreateMono(3))
-            });
-    }
-
-    protected override CombatMovementTags GetTags()
-    {
-        return CombatMovementTags.Attack;
-    }
-
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
@@ -60,5 +43,22 @@ internal class OminousThornFactory : SimpleCombatMovementFactoryBase
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);
+    }
+
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(
+            new IEffect[]
+            {
+                new DamageEffectWrapper(
+                    new ClosestInLineTargetSelector(),
+                    DamageType.Normal,
+                    GenericRange<int>.CreateMono(3))
+            });
+    }
+
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
     }
 }

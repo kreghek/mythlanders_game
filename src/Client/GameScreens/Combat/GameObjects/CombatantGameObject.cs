@@ -101,9 +101,11 @@ internal sealed class CombatantGameObject
         }
     }
 
-    public CorpseGameObject CreateCorpse(GameObjectContentStorage gameObjectContentStorage, ICombatVisualEffectManager combatVisualEffectManager, AudioSettings audioSettings)
+    public CorpseGameObject CreateCorpse(GameObjectContentStorage gameObjectContentStorage,
+        ICombatVisualEffectManager combatVisualEffectManager, AudioSettings audioSettings)
     {
-        var deathAnimation = _combatantGraphicsConfig.GetDeathAnimation(gameObjectContentStorage, combatVisualEffectManager, audioSettings, Animator.GraphicRoot.Position);
+        var deathAnimation = _combatantGraphicsConfig.GetDeathAnimation(gameObjectContentStorage,
+            combatVisualEffectManager, audioSettings, Animator.GraphicRoot.Position);
 
         var corpse = new CorpseGameObject(Graphics, deathAnimation);
         if (_combatantGraphicsConfig.RemoveShadowOnDeath)

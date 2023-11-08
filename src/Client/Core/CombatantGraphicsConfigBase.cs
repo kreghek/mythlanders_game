@@ -32,8 +32,6 @@ internal abstract class CombatantGraphicsConfigBase
 
     public abstract string ThumbnailPath { get; }
 
-    public abstract IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations();
-
     public virtual IAnimationFrameSet GetDeathAnimation(GameObjectContentStorage gameObjectContentStorage,
         ICombatVisualEffectManager combatVisualEffectManager,
         AudioSettings audioSettings,
@@ -41,6 +39,8 @@ internal abstract class CombatantGraphicsConfigBase
     {
         return GetPredefinedAnimations()[PredefinedAnimationSid.Death];
     }
+
+    public abstract IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations();
 
     public virtual void LoadContent(ContentManager contentManager) { }
 }

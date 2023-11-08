@@ -1,5 +1,4 @@
 using Client.Core;
-using Client.Engine;
 
 using GameClient.Engine.Animations;
 
@@ -10,8 +9,8 @@ namespace Client.GameScreens.Combat.GameObjects;
 
 internal sealed class CorpseGameObject
 {
-    private readonly UnitGraphics _graphics;
     private readonly IAnimationFrameSet _deathAnimation;
+    private readonly UnitGraphics _graphics;
     private double _counter;
 
     private bool _startToDeath;
@@ -24,6 +23,11 @@ internal sealed class CorpseGameObject
     }
 
     public bool IsComplete => _counter > 2;
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        _graphics.Draw(spriteBatch);
+    }
 
     public void Update(GameTime gameTime)
     {
@@ -48,11 +52,6 @@ internal sealed class CorpseGameObject
             _graphics.PlayAnimation(PredefinedAnimationSid.Wound);
             _startToWound = true;
         }
-    }
-
-    public void Draw(SpriteBatch spriteBatch)
-    {
-        _graphics.Draw(spriteBatch);
     }
 
     internal float GetZIndex()

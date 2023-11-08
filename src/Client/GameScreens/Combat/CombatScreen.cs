@@ -440,7 +440,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             return;
         }
 
-        var corpse = combatantGameObject.CreateCorpse(_gameObjectContentStorage, _visualEffectManager, new AudioSettings());
+        var corpse =
+            combatantGameObject.CreateCorpse(_gameObjectContentStorage, _visualEffectManager, new AudioSettings());
         _corpseObjects.Add(corpse);
 
         _gameObjects.Remove(combatantGameObject);
