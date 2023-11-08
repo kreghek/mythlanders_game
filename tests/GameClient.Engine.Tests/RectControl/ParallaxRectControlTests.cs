@@ -2,7 +2,7 @@
 
 using Microsoft.Xna.Framework;
 
-namespace GameClient.Engine.Tests;
+namespace GameClient.Engine.Tests.RectControl;
 
 internal class ParallaxRectControlTests
 {

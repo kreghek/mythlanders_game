@@ -18,10 +18,10 @@ internal interface ICombatMovementVisualizationContext
     CombatantGameObject ActorGameObject { get; }
 
     IBattlefieldInteractionContext BattlefieldInteractionContext { get; }
+    ICombatVisualEffectManager CombatVisualEffectManager { get; }
     IDice Dice { get; }
     GameObjectContentStorage GameObjectContentStorage { get; }
 
     InteractionDeliveryManager InteractionDeliveryManager { get; }
     CombatantGameObject GetCombatActor(ICombatant combatant);
-    ICombatVisualEffectManager CombatVisualEffectManager { get; }
 }

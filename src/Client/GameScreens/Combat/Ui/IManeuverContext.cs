@@ -5,6 +5,6 @@ namespace Client.GameScreens.Combat.Ui;
 internal interface IManeuverContext
 {
     CombatFieldSide FieldSide { get; }
-    int? ManeuversAvailable { get; }
+    int? ManeuversAvailableCount { get; }
     FieldCoords? ManeuverStartCoords { get; }
 }

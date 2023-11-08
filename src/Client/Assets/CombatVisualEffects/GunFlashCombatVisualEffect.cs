@@ -5,18 +5,17 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MonoGame.Extended;
-using MonoGame.Extended.Particles;
 using MonoGame.Extended.TextureAtlases;
 
 namespace Client.Assets.CombatVisualEffects;
 
 internal sealed class GunFlashCombatVisualEffect : ICombatVisualEffect
 {
-    private double _lifetimeCounter;
     private readonly Duration _duration = new Duration(0.15);
+    private readonly TextureRegion2D _flashTexture;
     private readonly Vector2 _position;
     private readonly int _size;
-    private readonly TextureRegion2D _flashTexture;
+    private double _lifetimeCounter;
 
     public GunFlashCombatVisualEffect(Vector2 position, int size, TextureRegion2D whiteflashTexture)
     {
@@ -32,11 +31,13 @@ internal sealed class GunFlashCombatVisualEffect : ICombatVisualEffect
         var flashPosition = _position - new Vector2(_size / 2, _size / 2);
         if (_lifetimeCounter >= _duration.Seconds / 2)
         {
-            spriteBatch.Draw(_flashTexture, new Rectangle(flashPosition.ToPoint(), new Point(_size, _size)), Color.White);
+            spriteBatch.Draw(_flashTexture, new Rectangle(flashPosition.ToPoint(), new Point(_size, _size)),
+                Color.White);
         }
         else
         {
-            spriteBatch.Draw(_flashTexture, new Rectangle(flashPosition.ToPoint(), new Point(_size, _size)), Color.Black);
+            spriteBatch.Draw(_flashTexture, new Rectangle(flashPosition.ToPoint(), new Point(_size, _size)),
+                Color.Black);
         }
     }
 

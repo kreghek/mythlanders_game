@@ -1,7 +1,11 @@
+using System;
 using System.Linq;
 
+using Client.Assets.CombatVisualEffects;
+using Client.Assets.InteractionDeliveryObjects;
 using Client.Engine;
 using Client.GameScreens;
+using Client.GameScreens.Combat.GameObjects;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.Effects;
@@ -12,8 +16,13 @@ using Core.Combats.TargetSelectors;
 using GameAssets.Combats.CombatMovementEffects;
 
 using GameClient.Engine.Animations;
+using GameClient.Engine.CombatVisualEffects;
 
 using JetBrains.Annotations;
+
+using Microsoft.Xna.Framework;
+
+using MonoGame.Extended.TextureAtlases;
 
 namespace Client.Assets.CombatMovements.Hero.Robber;
 
@@ -47,27 +56,64 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
         CombatMovementExecution movementExecution,
         ICombatMovementVisualizationContext visualizationContext)
     {
-        var prepareAnimation = new SoundedAnimationFrameSet(new LinearAnimationFrameSet(
-                Enumerable.Range(8, 2).ToArray(),
-                8,
-                CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8),
+        var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Robber");
+
+        var prepareAnimation = AnimationHelper.ConvertToAnimation(animationSet, "prepare-bow");
+
+        var shotSoundEffect =
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.ImpulseBowShot);
+        var shotAnimation = AnimationHelper.ConvertToAnimation(animationSet, "bow-shot");
+        var soundedShotAnimation = new SoundedAnimationFrameSet(shotAnimation,
             new[]
             {
-                new AnimationFrame<IAnimationSoundEffect>(new AnimationFrameInfo(0),
-                    new AnimationSoundEffect(
-                        visualizationContext.GameObjectContentStorage
-                            .GetSkillUsageSound(GameObjectSoundType.EnergoShot), new AudioSettings()))
+                new AnimationFrame<IAnimationSoundEffect>(new AnimationFrameInfo(1),
+                    new AnimationSoundEffect(shotSoundEffect, new AudioSettings()))
             });
 
-        var launchProjectileAnimation = new LinearAnimationFrameSet(Enumerable.Range(8 + 2, 2).ToArray(), 8,
-            CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8);
+        var targetCombatant =
+            GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
+        var targetPosition = visualizationContext.GetCombatActor(targetCombatant!).InteractionPoint;
 
-        var waitProjectileAnimation = new LinearAnimationFrameSet(Enumerable.Range(8 + 2, 2).ToArray(), 8,
-            CommonConstants.FrameSize.X, CommonConstants.FrameSize.Y, 8);
+        var shotEffect = new ParallelCombatVisualEffect(
+            new PlasmaSparksCombatVisualEffect(visualizationContext.ActorGameObject.LaunchPoint, targetPosition,
+                new TextureRegion2D(visualizationContext.GameObjectContentStorage.GetParticlesTexture(),
+                    new Rectangle(0, 32 * 1, 32, 32))));
 
+        var additionalVisualEffectShotAnimation = new CombatVisualEffectAnimationFrameSet(soundedShotAnimation,
+            visualizationContext.CombatVisualEffectManager,
+            new[]
+            {
+                new AnimationFrame<ICombatVisualEffect>(new AnimationFrameInfo(3), shotEffect)
+            });
+
+        var waitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "bow-wait");
+
+        var projectileFactory = new InteractionDeliveryFactory(GetCreateProjectileFunc(visualizationContext));
         return CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
             visualizationContext,
-            new SingleDistanceVisualizationConfig(prepareAnimation, launchProjectileAnimation, waitProjectileAnimation,
-                new EnergyArrowInteractionDeliveryFactory(visualizationContext.GameObjectContentStorage), new AnimationFrameInfo(0)));
+            new SingleDistanceVisualizationConfig(prepareAnimation, additionalVisualEffectShotAnimation, waitAnimation,
+                projectileFactory, new AnimationFrameInfo(1)));
+    }
+
+    private static Func<Vector2, Vector2, IInteractionDelivery> GetCreateProjectileFunc(
+        ICombatMovementVisualizationContext visualizationContext)
+    {
+        return (start, target) =>
+            new EnergyArrowProjectile(start, target, visualizationContext.GameObjectContentStorage.GetBulletGraphics());
+    }
+
+    private static ICombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
+        ICombatant actorCombatant)
+    {
+        var firstImposeItem =
+            movementExecution.EffectImposeItems.FirstOrDefault(x =>
+                x.MaterializedTargets.All(t => t != actorCombatant));
+        if (firstImposeItem is null)
+        {
+            return null;
+        }
+
+        var targetCombatUnit = firstImposeItem.MaterializedTargets.FirstOrDefault(t => t != actorCombatant);
+        return targetCombatUnit;
     }
 }

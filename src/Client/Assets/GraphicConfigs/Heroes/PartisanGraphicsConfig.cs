@@ -4,13 +4,15 @@ using Client.Core;
 
 using GameClient.Engine.Animations;
 
+using Microsoft.Xna.Framework;
+
 namespace Client.Assets.GraphicConfigs.Heroes;
 
 internal sealed class PartisanGraphicsConfig : HeroGraphicConfig
 {
     public PartisanGraphicsConfig() : base(UnitName.Partisan)
     {
-        LaunchPoint = new Microsoft.Xna.Framework.Vector2(-58, 48);
+        LaunchPoint = new Vector2(-58, 48);
     }
 
     public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()

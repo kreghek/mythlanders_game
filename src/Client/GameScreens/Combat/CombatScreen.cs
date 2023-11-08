@@ -1621,7 +1621,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                     // Hide maneuvers to avoid HUD-mess.
                     if (!Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
                     {
-                        _maneuversVisualizer.Update(_combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main]);
+                        _maneuversVisualizer.Update(gameTime,
+                            _combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main]);
                     }
                 }
             }
@@ -1632,6 +1633,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _combatMovementsHandPanel.Update(gameTime, ResolutionIndependentRenderer);
             }
         }
+
+        _maneuversIndicator?.Update(gameTime);
 
         _combatantQueuePanel?.Update(ResolutionIndependentRenderer);
 

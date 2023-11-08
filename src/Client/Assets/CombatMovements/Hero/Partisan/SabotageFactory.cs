@@ -81,11 +81,14 @@ internal class SabotageFactory : CombatMovementFactoryBase
 
         var shotEffect = new ParallelCombatVisualEffect(
             new PowderGasesCombatVisualEffect(visualizationContext.ActorGameObject.LaunchPoint, targetPosition,
-                new TextureRegion2D(visualizationContext.GameObjectContentStorage.GetParticlesTexture(), new Rectangle(0, 32 * 1, 32, 32))),
+                new TextureRegion2D(visualizationContext.GameObjectContentStorage.GetParticlesTexture(),
+                    new Rectangle(0, 32 * 1, 32, 32))),
             new GunFlashCombatVisualEffect(visualizationContext.ActorGameObject.LaunchPoint, 48,
-                new TextureRegion2D(visualizationContext.GameObjectContentStorage.GetParticlesTexture(), new Rectangle(0, 32 * 1, 32, 32))));
+                new TextureRegion2D(visualizationContext.GameObjectContentStorage.GetParticlesTexture(),
+                    new Rectangle(0, 32 * 1, 32, 32))));
 
-        var additionalVisualEffectShotAnimation = new CombatVisualEffectAnimationFrameSet(soundedShotAnimation, visualizationContext.CombatVisualEffectManager,
+        var additionalVisualEffectShotAnimation = new CombatVisualEffectAnimationFrameSet(soundedShotAnimation,
+            visualizationContext.CombatVisualEffectManager,
             new[]
             {
                 new AnimationFrame<ICombatVisualEffect>(new AnimationFrameInfo(1), shotEffect)
@@ -98,6 +101,13 @@ internal class SabotageFactory : CombatMovementFactoryBase
             visualizationContext,
             new SingleDistanceVisualizationConfig(prepareAnimation, additionalVisualEffectShotAnimation, waitAnimation,
                 projectileFactory, new AnimationFrameInfo(1)));
+    }
+
+    private static Func<Vector2, Vector2, IInteractionDelivery> GetCreateProjectileFunc(
+        ICombatMovementVisualizationContext visualizationContext)
+    {
+        return (start, target) =>
+            new GunBulletProjectile(start, target, visualizationContext.GameObjectContentStorage.GetBulletGraphics());
     }
 
     private static ICombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
@@ -113,12 +123,5 @@ internal class SabotageFactory : CombatMovementFactoryBase
 
         var targetCombatUnit = firstImposeItem.MaterializedTargets.FirstOrDefault(t => t != actorCombatant);
         return targetCombatUnit;
-    }
-
-    private static Func<Vector2, Vector2, IInteractionDelivery> GetCreateProjectileFunc(
-        ICombatMovementVisualizationContext visualizationContext)
-    {
-        return (start, target) =>
-            new GunBulletProjectile(start, target, visualizationContext.GameObjectContentStorage.GetBulletGraphics());
     }
 }

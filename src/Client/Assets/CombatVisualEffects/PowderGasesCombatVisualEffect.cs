@@ -25,7 +25,8 @@ internal sealed class PowderGasesCombatVisualEffect : ICombatVisualEffect
 
     private double _lifetimeCounter;
 
-    public PowderGasesCombatVisualEffect(Vector2 position, Vector2 targetPosition, TextureRegion2D sparksParticleTexture)
+    public PowderGasesCombatVisualEffect(Vector2 position, Vector2 targetPosition,
+        TextureRegion2D sparksParticleTexture)
     {
         _duration = new Duration(0.05f);
 
@@ -43,7 +44,7 @@ internal sealed class PowderGasesCombatVisualEffect : ICombatVisualEffect
                     {
                         Speed = new Range<float>(400f, 1450f),
                         Quantity = 15,
-                        Scale = new Range<float>(1f/48f, 1f/32f),
+                        Scale = new Range<float>(1f / 48f, 1f / 32f),
                         Color = new Range<HslColor>(HslColor.FromRgb(Color.Yellow),
                             HslColor.FromRgb(new Color(Color.Yellow, 0.5f)))
                     },

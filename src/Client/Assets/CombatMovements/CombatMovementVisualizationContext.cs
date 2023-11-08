@@ -2,7 +2,6 @@
 using System.Linq;
 
 using Client.Assets.ActorVisualizationStates.Primitives;
-using Client.Assets.CombatVisualEffects;
 using Client.Core;
 using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects;
