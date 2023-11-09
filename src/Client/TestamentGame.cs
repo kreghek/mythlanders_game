@@ -143,6 +143,9 @@ internal sealed class TestamentGame : Game
 
         bgofSelector.Initialize(gameObjectContentStorage, backgroundObjectCatalog, dice);
 
+        var graphics = Services.GetRequiredService<ICombatantGraphicsCatalog>();
+        graphics.LoadContent(Content);
+
 #if DEBUG
         if (_gameSettings.Mode == GameMode.Full)
         {
@@ -301,7 +304,7 @@ internal sealed class TestamentGame : Game
         var dialogEnvManager = new DialogueEnvironmentManager(soundtrackManager);
         Services.AddService<IDialogueEnvironmentManager>(dialogEnvManager);
 
-        var unitGraphicsCatalog = new UnitGraphicsCatalog(gameObjectsContentStorage);
+        var unitGraphicsCatalog = new CombatantGraphicsCatalog(gameObjectsContentStorage);
         Services.AddService<ICombatantGraphicsCatalog>(unitGraphicsCatalog);
 
         var movementVisualizer = new TestamentCombatMovementVisualizationProvider();

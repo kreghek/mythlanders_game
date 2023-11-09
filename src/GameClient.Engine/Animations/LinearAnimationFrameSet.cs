@@ -99,6 +99,7 @@ public sealed class LinearAnimationFrameSet : IAnimationFrameSet
                 {
                     _frameListIndex = _frames.Count - 1;
                     _isEnded = true;
+                    KeyFrame?.Invoke(this, new AnimationFrameEventArgs(new AnimationFrameInfo(_frames.Count - 1)));
                     End?.Invoke(this, EventArgs.Empty);
                 }
             }

@@ -1,30 +1,36 @@
 using Client.Core;
-using Client.Engine;
+
+using GameClient.Engine.Animations;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Combat.GameObjects;
 
-internal sealed class CorpseGameObject : EwarRenderableBase
+internal sealed class CorpseGameObject
 {
+    private readonly IAnimationFrameSet _deathAnimation;
     private readonly UnitGraphics _graphics;
     private double _counter;
 
     private bool _startToDeath;
     private bool _startToWound;
 
-    public CorpseGameObject(UnitGraphics graphics)
+    public CorpseGameObject(UnitGraphics graphics, IAnimationFrameSet deathAnimation)
     {
         _graphics = graphics;
+        _deathAnimation = deathAnimation;
     }
 
     public bool IsComplete => _counter > 2;
 
-    public override void Update(GameTime gameTime)
+    public void Draw(SpriteBatch spriteBatch)
     {
-        base.Update(gameTime);
+        _graphics.Draw(spriteBatch);
+    }
 
+    public void Update(GameTime gameTime)
+    {
         _graphics.Update(gameTime);
 
         _counter += gameTime.ElapsedGameTime.TotalSeconds;
@@ -46,13 +52,6 @@ internal sealed class CorpseGameObject : EwarRenderableBase
             _graphics.PlayAnimation(PredefinedAnimationSid.Wound);
             _startToWound = true;
         }
-    }
-
-    protected override void DoDraw(SpriteBatch spriteBatch, float zindex)
-    {
-        base.DoDraw(spriteBatch, zindex);
-
-        _graphics.Draw(spriteBatch);
     }
 
     internal float GetZIndex()

@@ -1,8 +1,13 @@
 ﻿using System.Collections.Generic;
 
+using Client.Assets.CombatMovements;
+using Client.GameScreens;
+
 using GameClient.Engine.Animations;
+using GameClient.Engine.CombatVisualEffects;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace Client.Core;
 
@@ -27,5 +32,15 @@ internal abstract class CombatantGraphicsConfigBase
 
     public abstract string ThumbnailPath { get; }
 
+    public virtual IAnimationFrameSet GetDeathAnimation(GameObjectContentStorage gameObjectContentStorage,
+        ICombatVisualEffectManager combatVisualEffectManager,
+        AudioSettings audioSettings,
+        Vector2 position)
+    {
+        return GetPredefinedAnimations()[PredefinedAnimationSid.Death];
+    }
+
     public abstract IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations();
+
+    public virtual void LoadContent(ContentManager contentManager) { }
 }

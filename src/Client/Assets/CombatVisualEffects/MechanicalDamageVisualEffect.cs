@@ -17,7 +17,7 @@ using MonoGame.Extended.TextureAtlases;
 
 namespace Client.Assets.CombatVisualEffects;
 
-internal sealed class PowderGasesCombatVisualEffect : ICombatVisualEffect
+internal sealed class MechanicalDamageVisualEffect : ICombatVisualEffect
 {
     private readonly Duration _duration;
 
@@ -25,28 +25,26 @@ internal sealed class PowderGasesCombatVisualEffect : ICombatVisualEffect
 
     private double _lifetimeCounter;
 
-    public PowderGasesCombatVisualEffect(Vector2 position, Vector2 targetPosition,
-        TextureRegion2D sparksParticleTexture)
+    public MechanicalDamageVisualEffect(Vector2 position, HitDirection direction, TextureRegion2D bloodParticleTexture)
     {
         _duration = new Duration(0.05f);
-
-        var direction = (targetPosition - position).NormalizedCopy();
 
         _particleEffect = new ParticleEffect
         {
             Position = position,
             Emitters = new List<ParticleEmitter>
             {
-                new(sparksParticleTexture, 500, TimeSpan.FromSeconds(0.25),
-                    Profile.Spray(direction, 0.1f))
+                new(bloodParticleTexture, 500, TimeSpan.FromSeconds(0.75),
+                    Profile.Spray(direction == HitDirection.Right ? Vector2.UnitX : -Vector2.UnitX, 1))
                 {
                     Parameters = new ParticleReleaseParameters
                     {
-                        Speed = new Range<float>(400f, 1450f),
-                        Quantity = 15,
-                        Scale = new Range<float>(1f / 48f, 1f / 32f),
-                        Color = new Range<HslColor>(HslColor.FromRgb(Color.Yellow),
-                            HslColor.FromRgb(new Color(Color.Yellow, 0.5f)))
+                        Speed = new Range<float>(100f, 250f),
+                        Quantity = 30,
+                        Rotation = new Range<float>(-1f, 1f),
+                        Scale = new Range<float>(1.0f, 4.0f),
+                        Color = new Range<HslColor>(HslColor.FromRgb(Color.White),
+                            HslColor.FromRgb(new Color(Color.White, 0.5f)))
                     },
                     Modifiers =
                     {
@@ -61,6 +59,7 @@ internal sealed class PowderGasesCombatVisualEffect : ICombatVisualEffect
                                 }
                             }
                         },
+                        new RotationModifier { RotationRate = -2.1f },
                         new LinearGravityModifier { Direction = Vector2.UnitY, Strength = 250f }
                     }
                 }

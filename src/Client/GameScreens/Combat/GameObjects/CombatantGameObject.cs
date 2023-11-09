@@ -12,6 +12,7 @@ using CombatDicesTeam.Combats;
 using GameAssets.Combats.CombatantStatuses;
 
 using GameClient.Engine;
+using GameClient.Engine.CombatVisualEffects;
 using GameClient.Engine.MoveFunctions;
 
 using Microsoft.Xna.Framework;
@@ -100,15 +101,13 @@ internal sealed class CombatantGameObject
         }
     }
 
-    public CorpseGameObject CreateCorpse()
+    public CorpseGameObject CreateCorpse(GameObjectContentStorage gameObjectContentStorage,
+        ICombatVisualEffectManager combatVisualEffectManager, AudioSettings audioSettings)
     {
-        var spriteSheetId = Enum.Parse<UnitName>(Combatant.ClassSid, ignoreCase: true);
-        var deathSoundEffect = _gameObjectContentStorage.GetDeathSound(spriteSheetId)
-            .CreateInstance();
+        var deathAnimation = _combatantGraphicsConfig.GetDeathAnimation(gameObjectContentStorage,
+            combatVisualEffectManager, audioSettings, Animator.GraphicRoot.Position);
 
-        deathSoundEffect.Play();
-
-        var corpse = new CorpseGameObject(Graphics);
+        var corpse = new CorpseGameObject(Graphics, deathAnimation);
         if (_combatantGraphicsConfig.RemoveShadowOnDeath)
         {
             Graphics.RemoveShadowOfCorpse();
