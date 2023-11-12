@@ -45,9 +45,7 @@ internal class IronStreamFactory : SimpleCombatMovementFactoryBase
                     new AnimationSoundEffect(shotSoundEffect, new AudioSettings()))
             });
 
-        var targetCombatant =
-            GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
-        var targetPosition = visualizationContext.GetCombatActor(targetCombatant!).InteractionPoint;
+        var targetPosition = AnimationHelper.GetTargetPositionByCombatMovementCombatant(movementExecution, visualizationContext);
 
         var shotEffect = new ParallelCombatVisualEffect(
             new PowderGasesCombatVisualEffect(visualizationContext.ActorGameObject.LaunchPoint, targetPosition,
@@ -96,20 +94,5 @@ internal class IronStreamFactory : SimpleCombatMovementFactoryBase
     {
         return (start, target) =>
             new GunBulletProjectile(start, target, visualizationContext.GameObjectContentStorage.GetBulletGraphics());
-    }
-
-    private static ICombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
-        ICombatant actorCombatant)
-    {
-        var firstImposeItem =
-            movementExecution.EffectImposeItems.FirstOrDefault(x =>
-                x.MaterializedTargets.All(t => t != actorCombatant));
-        if (firstImposeItem is null)
-        {
-            return null;
-        }
-
-        var targetCombatUnit = firstImposeItem.MaterializedTargets.FirstOrDefault(t => t != actorCombatant);
-        return targetCombatUnit;
     }
 }
