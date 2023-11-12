@@ -77,7 +77,17 @@ internal class EnergeticSuperiorityFactory : CombatMovementFactoryBase
 
         var targetCombatant =
             GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
-        var targetPosition = visualizationContext.GetCombatActor(targetCombatant!).InteractionPoint;
+
+        Vector2 targetPosition;
+        if (targetCombatant is not null)
+        {
+
+            targetPosition = visualizationContext.GetCombatActor(targetCombatant).InteractionPoint;
+        }
+        else
+        {
+            targetPosition = visualizationContext.BattlefieldInteractionContext.GetArea(Core.Team.Cpu).Center.ToVector2();
+        }
 
         var shotEffect = new ParallelCombatVisualEffect(
             new PowderGasesCombatVisualEffect(visualizationContext.ActorGameObject.LaunchPoint, targetPosition,
