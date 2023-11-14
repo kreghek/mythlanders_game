@@ -268,7 +268,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         UpdateCombatants(gameTime);
 
-        if (!_combatCore.IsFinished && _combatFinishedVictory is null)
+        if (!_combatCore.StateStrategy.CalculateCurrentState(new CombatStateStrategyContext(_combatCore.CurrentCombatants, _combatCore.CurrentRoundNumber)).IsFinalState
+            && _combatFinishedVictory is null)
         {
             UpdateCombatHud(gameTime);
         }
@@ -591,12 +592,6 @@ internal class CombatScreen : GameScreenWithMenuBase
             {
                 intention.Make(_combatCore);
             });
-    }
-
-    private double? _newTurnCounter;
-    private void StartDisplayNewTurnStarted()
-    {
-        _newTurnCounter = 0;
     }
 
     private void CombatCore_CombatantUsedMove(object? sender, CombatantHandChangedEventArgs e)
@@ -1080,7 +1075,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             transformMatrix: _combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main]
                 .GetViewTransformationMatrix());
 
-        if (!_combatCore.IsFinished && _combatCore.CurrentCombatant.IsPlayerControlled)
+        if (!_combatCore.StateStrategy.CalculateCurrentState(new CombatStateStrategyContext(_combatCore.CurrentCombatants, _combatCore.CurrentRoundNumber)).IsFinalState
+            && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
             if (!_animationBlockManager.HasBlockers)
             {
@@ -1226,7 +1222,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             transformMatrix: _mainCamera.GetViewTransformationMatrix());
         try
         {
-            if (!_combatCore.IsFinished && _combatCore.CurrentCombatant.IsPlayerControlled)
+            if (!_combatCore.StateStrategy.CalculateCurrentState(new CombatStateStrategyContext(_combatCore.CurrentCombatants, _combatCore.CurrentRoundNumber)).IsFinalState
+                && _combatCore.CurrentCombatant.IsPlayerControlled)
             {
                 if (!_animationBlockManager.HasBlockers)
                 {
@@ -1262,12 +1259,12 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             var startX = contentRectangle.Right;
             var endX = contentRectangle.Left;
-            
-            var t = (float)(Math.Sin((1 - (_combatRoundCounter.Value / ROUND_LABEL_LIFETIME_SEC))) * Math.PI * 2);
-            var x = MathHelper.Lerp(startX, endX,
-                t);
+
+            var a = 1 - (_combatRoundCounter.Value / ROUND_LABEL_LIFETIME_SEC);
+            var t = (float)Math.Sin(a * Math.PI);
+            var x = MathHelper.Lerp(startX, endX, t*0.5f);
             var roundPosition = new Vector2(x, contentRectangle.Top + 20);
-            
+
             spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(),
                 $"-== Round {_combatCore.CurrentRoundNumber}==-",
                 roundPosition, TestamentColors.MainSciFi);
@@ -1275,7 +1272,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         spriteBatch.End();
     }
-    
+
     const double ROUND_LABEL_LIFETIME_SEC = 10;
 
     private void DrawShieldPointsBar(SpriteBatch spriteBatch, IStatValue sp, Vector2 barCenter,
@@ -1645,7 +1642,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void UpdateCombatHud(GameTime gameTime)
     {
-        if (!_combatCore.IsFinished && _combatCore.CurrentCombatant.IsPlayerControlled)
+        if (!_combatCore.StateStrategy.CalculateCurrentState(new CombatStateStrategyContext(_combatCore.CurrentCombatants, _combatCore.CurrentRoundNumber)).IsFinalState
+            && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
             if (!_animationBlockManager.HasBlockers)
             {
