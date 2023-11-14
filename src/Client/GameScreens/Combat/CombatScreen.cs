@@ -283,6 +283,23 @@ internal class CombatScreen : GameScreenWithMenuBase
         _cameraOperator.Update(gameTime);
 
         _postEffectManager.Update(gameTime);
+
+        UpdateCombatRoundLabel(gameTime);
+    }
+
+    private void UpdateCombatRoundLabel(GameTime gameTime)
+    {
+        if (_combatRoundCounter is null)
+        {
+            return;
+        }
+
+        _combatRoundCounter -= gameTime.ElapsedGameTime.TotalSeconds;
+
+        if (_combatRoundCounter <= 0)
+        {
+            _combatRoundCounter = null;
+        }
     }
 
     private void AddHitShaking(bool hurt = false)
@@ -1241,8 +1258,25 @@ internal class CombatScreen : GameScreenWithMenuBase
             // TODO Fix NRE in the end of the combat with more professional way 
         }
 
+        if (_combatRoundCounter is not null)
+        {
+            var startX = contentRectangle.Right;
+            var endX = contentRectangle.Left;
+            
+            var t = (float)(Math.Sin((1 - (_combatRoundCounter.Value / ROUND_LABEL_LIFETIME_SEC))) * Math.PI * 2);
+            var x = MathHelper.Lerp(startX, endX,
+                t);
+            var roundPosition = new Vector2(x, contentRectangle.Top + 20);
+            
+            spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(),
+                $"-== Round {_combatCore.CurrentRoundNumber}==-",
+                roundPosition, TestamentColors.MainSciFi);
+        }
+
         spriteBatch.End();
     }
+    
+    const double ROUND_LABEL_LIFETIME_SEC = 10;
 
     private void DrawShieldPointsBar(SpriteBatch spriteBatch, IStatValue sp, Vector2 barCenter,
         int arcLength, int sides, int radiusSp, int startAngle, int barWidth)
@@ -1406,6 +1440,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatCore.CombatantUsedMove += CombatCore_CombatantUsedMove;
         _combatCore.CombatantEffectHasBeenImposed += CombatCore_CombatantEffectHasBeenImposed;
         _combatCore.CombatantInterrupted += Combat_CombatantInterrupted;
+        _combatCore.CombatRoundStarted += CombatCore_CombatRoundStarted;
 
         _combatMovementsHandPanel = new CombatMovementsHandPanel(
             Game.Content.Load<Texture2D>("Sprites/Ui/SmallVerticalButtonIcons_White"),
@@ -1438,6 +1473,13 @@ internal class CombatScreen : GameScreenWithMenuBase
             _uiContentStorage,
             new CombatantThumbnailProvider(Game.Content,
                 Game.Services.GetRequiredService<ICombatantGraphicsCatalog>()));
+    }
+
+    private double? _combatRoundCounter;
+
+    private void CombatCore_CombatRoundStarted(object? sender, EventArgs e)
+    {
+        _combatRoundCounter = ROUND_LABEL_LIFETIME_SEC;
     }
 
     private void ManeuverVisualizer_ManeuverSelected(object? sender, ManeuverSelectedEventArgs e)
