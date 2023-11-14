@@ -50,6 +50,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 {
     private const int BACKGROUND_LAYERS_COUNT = 4;
 
+    private const double ROUND_LABEL_LIFETIME_SEC = 10;
+
     private readonly UpdatableAnimationManager _animationBlockManager;
     private readonly CombatScreenTransitionArguments _args;
     private readonly CameraOperator _cameraOperator;
@@ -100,6 +102,8 @@ internal class CombatScreen : GameScreenWithMenuBase
     private CombatMovementsHandPanel? _combatMovementsHandPanel;
 
     private bool _combatResultModalShown;
+
+    private double? _combatRoundCounter;
 
     private bool _finalBossWasDefeat;
     private SoundEffect _shieldBreakingSound = null!;
@@ -268,7 +272,9 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         UpdateCombatants(gameTime);
 
-        if (!_combatCore.StateStrategy.CalculateCurrentState(new CombatStateStrategyContext(_combatCore.CurrentCombatants, _combatCore.CurrentRoundNumber)).IsFinalState
+        if (!_combatCore.StateStrategy
+                .CalculateCurrentState(new CombatStateStrategyContext(_combatCore.CurrentCombatants,
+                    _combatCore.CurrentRoundNumber)).IsFinalState
             && _combatFinishedVictory is null)
         {
             UpdateCombatHud(gameTime);
@@ -286,21 +292,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         _postEffectManager.Update(gameTime);
 
         UpdateCombatRoundLabel(gameTime);
-    }
-
-    private void UpdateCombatRoundLabel(GameTime gameTime)
-    {
-        if (_combatRoundCounter is null)
-        {
-            return;
-        }
-
-        _combatRoundCounter -= gameTime.ElapsedGameTime.TotalSeconds;
-
-        if (_combatRoundCounter <= 0)
-        {
-            _combatRoundCounter = null;
-        }
     }
 
     private void AddHitShaking(bool hurt = false)
@@ -611,6 +602,11 @@ internal class CombatScreen : GameScreenWithMenuBase
         CountCombatFinished();
 
         // See UpdateCombatFinished next
+    }
+
+    private void CombatCore_CombatRoundStarted(object? sender, EventArgs e)
+    {
+        _combatRoundCounter = ROUND_LABEL_LIFETIME_SEC;
     }
 
     private void CombatMovementsHandPanel_CombatMovementHover(object? sender, CombatMovementPickedEventArgs e)
@@ -1075,7 +1071,9 @@ internal class CombatScreen : GameScreenWithMenuBase
             transformMatrix: _combatActionCamera.LayerCameras[(int)BackgroundLayerType.Main]
                 .GetViewTransformationMatrix());
 
-        if (!_combatCore.StateStrategy.CalculateCurrentState(new CombatStateStrategyContext(_combatCore.CurrentCombatants, _combatCore.CurrentRoundNumber)).IsFinalState
+        if (!_combatCore.StateStrategy
+                .CalculateCurrentState(new CombatStateStrategyContext(_combatCore.CurrentCombatants,
+                    _combatCore.CurrentRoundNumber)).IsFinalState
             && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
             if (!_animationBlockManager.HasBlockers)
@@ -1222,7 +1220,9 @@ internal class CombatScreen : GameScreenWithMenuBase
             transformMatrix: _mainCamera.GetViewTransformationMatrix());
         try
         {
-            if (!_combatCore.StateStrategy.CalculateCurrentState(new CombatStateStrategyContext(_combatCore.CurrentCombatants, _combatCore.CurrentRoundNumber)).IsFinalState
+            if (!_combatCore.StateStrategy
+                    .CalculateCurrentState(new CombatStateStrategyContext(_combatCore.CurrentCombatants,
+                        _combatCore.CurrentRoundNumber)).IsFinalState
                 && _combatCore.CurrentCombatant.IsPlayerControlled)
             {
                 if (!_animationBlockManager.HasBlockers)
@@ -1262,7 +1262,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             var a = 1 - (_combatRoundCounter.Value / ROUND_LABEL_LIFETIME_SEC);
             var t = (float)Math.Sin(a * Math.PI);
-            var x = MathHelper.Lerp(startX, endX, t*0.5f);
+            var x = MathHelper.Lerp(startX, endX, t * 0.5f);
             var roundPosition = new Vector2(x, contentRectangle.Top + 20);
 
             spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(),
@@ -1272,8 +1272,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         spriteBatch.End();
     }
-
-    const double ROUND_LABEL_LIFETIME_SEC = 10;
 
     private void DrawShieldPointsBar(SpriteBatch spriteBatch, IStatValue sp, Vector2 barCenter,
         int arcLength, int sides, int radiusSp, int startAngle, int barWidth)
@@ -1472,13 +1470,6 @@ internal class CombatScreen : GameScreenWithMenuBase
                 Game.Services.GetRequiredService<ICombatantGraphicsCatalog>()));
     }
 
-    private double? _combatRoundCounter;
-
-    private void CombatCore_CombatRoundStarted(object? sender, EventArgs e)
-    {
-        _combatRoundCounter = ROUND_LABEL_LIFETIME_SEC;
-    }
-
     private void ManeuverVisualizer_ManeuverSelected(object? sender, ManeuverSelectedEventArgs e)
     {
         if (sender is null)
@@ -1642,7 +1633,9 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void UpdateCombatHud(GameTime gameTime)
     {
-        if (!_combatCore.StateStrategy.CalculateCurrentState(new CombatStateStrategyContext(_combatCore.CurrentCombatants, _combatCore.CurrentRoundNumber)).IsFinalState
+        if (!_combatCore.StateStrategy
+                .CalculateCurrentState(new CombatStateStrategyContext(_combatCore.CurrentCombatants,
+                    _combatCore.CurrentRoundNumber)).IsFinalState
             && _combatCore.CurrentCombatant.IsPlayerControlled)
         {
             if (!_animationBlockManager.HasBlockers)
@@ -1673,6 +1666,21 @@ internal class CombatScreen : GameScreenWithMenuBase
         _targetMarkers.Update(gameTime);
 
         UpdateCombatantEffectNotifications(gameTime);
+    }
+
+    private void UpdateCombatRoundLabel(GameTime gameTime)
+    {
+        if (_combatRoundCounter is null)
+        {
+            return;
+        }
+
+        _combatRoundCounter -= gameTime.ElapsedGameTime.TotalSeconds;
+
+        if (_combatRoundCounter <= 0)
+        {
+            _combatRoundCounter = null;
+        }
     }
 
     private void UpdateInteractionDeliveriesAndUnregisterDestroyed(GameTime gameTime)

@@ -5,7 +5,8 @@ namespace GameAssets.Combats;
 
 public sealed class TestamentCombatEngine : CombatEngineBase
 {
-    public TestamentCombatEngine(IRoundQueueResolver roundQueueResolver, IDice dice) : base(dice, roundQueueResolver, new LimitedRoundsCombatStateStrategy(new EliminatingCombatStateStrategy(), 10))
+    public TestamentCombatEngine(IRoundQueueResolver roundQueueResolver, IDice dice) : base(dice, roundQueueResolver,
+        new LimitedRoundsCombatStateStrategy(new EliminatingCombatStateStrategy(), 10))
     {
     }
 
