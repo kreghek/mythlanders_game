@@ -399,12 +399,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void CombatCode_CombatantHasBeenAdded(object? sender, CombatantHasBeenAddedEventArgs e)
     {
-        // Move it to separate handler with core logic. There is only game objects.
-        // if (combatUnit.Unit.UnitScheme.IsMonster)
-        // {
-        //     AddMonstersFromCombatIntoKnownMonsters(combatUnit.Unit, _globe.Player.KnownMonsters);
-        // }
-
         var unitCatalog = Game.Services.GetRequiredService<ICombatantGraphicsCatalog>();
         var graphicConfig = unitCatalog.GetGraphics(e.Combatant.ClassSid);
 
@@ -416,15 +410,6 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _gameObjectContentStorage,
                 combatantSide);
         _gameObjects.Add(gameObject);
-
-        // var combatant = e.Combatant;
-        //
-        // combatUnit.HasTakenHitPointsDamage += CombatUnit_HasTakenHitPointsDamage;
-        // combatUnit.HasTakenShieldPointsDamage += CombatUnit_HasTakenShieldPointsDamage;
-        // combatUnit.HasBeenHitPointsRestored += CombatUnit_HasBeenHitPointsRestored;
-        // combatUnit.HasBeenShieldPointsRestored += CombatUnit_HasBeenShieldPointsRestored;
-        // combatUnit.HasAvoidedDamage += CombatUnit_HasAvoidedDamage;
-        // combatUnit.Blocked += CombatUnit_Blocked;
     }
 
     private void CombatCode_CombatantHasBeenDefeated(object? sender, CombatantDefeatedEventArgs e)
@@ -589,6 +574,12 @@ internal class CombatScreen : GameScreenWithMenuBase
             {
                 intention.Make(_combatCore);
             });
+    }
+
+    private double? _newTurnCounter;
+    private void StartDisplayNewTurnStarted()
+    {
+        _newTurnCounter = 0;
     }
 
     private void CombatCore_CombatantUsedMove(object? sender, CombatantHandChangedEventArgs e)

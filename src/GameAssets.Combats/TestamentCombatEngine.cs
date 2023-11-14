@@ -3,6 +3,21 @@ using CombatDicesTeam.Dices;
 
 namespace GameAssets.Combats;
 
+public sealed class TurnLimitedCombatStateStrategy : ICombatStateStrategy
+{
+    private readonly ICombatStateStrategy _baseStrategy;
+
+    public TurnLimitedCombatStateStrategy(ICombatStateStrategy baseStrategy)
+    {
+        _baseStrategy = baseStrategy;
+    }
+
+    public ICombatState CalculateCurrentState(ICombatStateStrategyContext context)
+    {
+        
+    }
+}
+
 public sealed class TestamentCombatEngine : CombatEngineBase
 {
     public TestamentCombatEngine(IRoundQueueResolver roundQueueResolver, IDice dice) : base(dice, roundQueueResolver)
