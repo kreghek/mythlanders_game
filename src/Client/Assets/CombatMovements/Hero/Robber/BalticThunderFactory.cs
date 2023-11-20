@@ -70,9 +70,7 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
                     new AnimationSoundEffect(shotSoundEffect, new AudioSettings()))
             });
 
-        var targetCombatant =
-            GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
-        var targetPosition = visualizationContext.GetCombatActor(targetCombatant!).InteractionPoint;
+        var targetPosition = AnimationHelper.GetTargetPositionByCombatMovementCombatant(movementExecution, visualizationContext);
 
         var shotEffect = new ParallelCombatVisualEffect(
             new PlasmaSparksCombatVisualEffect(visualizationContext.ActorGameObject.LaunchPoint, targetPosition,
@@ -100,20 +98,5 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
     {
         return (start, target) =>
             new EnergyArrowProjectile(start, target, visualizationContext.GameObjectContentStorage.GetBulletGraphics());
-    }
-
-    private static ICombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
-        ICombatant actorCombatant)
-    {
-        var firstImposeItem =
-            movementExecution.EffectImposeItems.FirstOrDefault(x =>
-                x.MaterializedTargets.All(t => t != actorCombatant));
-        if (firstImposeItem is null)
-        {
-            return null;
-        }
-
-        var targetCombatUnit = firstImposeItem.MaterializedTargets.FirstOrDefault(t => t != actorCombatant);
-        return targetCombatUnit;
     }
 }

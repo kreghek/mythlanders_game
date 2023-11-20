@@ -61,7 +61,7 @@ internal static class CommonCombatVisualization
 
         var targetPosition = targetCombatant is not null
             ? visualizationContext.GetCombatActor(targetCombatant).InteractionPoint
-            : startPosition;
+            : visualizationContext.BattlefieldInteractionContext.GetArea(visualizationContext.ActorGameObject.Combatant.IsPlayerControlled ? Core.Team.Cpu : Core.Team.Player).Center.ToVector2();
 
         var targetAnimator = targetCombatant is not null
             ? visualizationContext.GetCombatActor(targetCombatant).Animator
