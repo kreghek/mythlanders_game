@@ -597,7 +597,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     {
         _combatMovementsHandPanel = null;
 
-        _combatFinishedVictory = e.Result == CombatFinishResult.HeroesAreWinners;
+        _combatFinishedVictory = e.Result == CommonCombatStates.Victory;
 
         CountCombatFinished();
 
