@@ -1,6 +1,12 @@
-﻿using Client.Engine;
+﻿using System.Linq;
+
+using Client.Engine;
+
+using CombatDicesTeam.Combats;
 
 using GameClient.Engine.Animations;
+
+using Microsoft.Xna.Framework;
 
 namespace Client.Assets.CombatMovements;
 
@@ -27,5 +33,38 @@ internal static class AnimationHelper
         {
             IsLooping = spredsheetAnimationDataCycles.IsLooping
         };
+    }
+
+    public static ICombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
+        ICombatant actorCombatant)
+    {
+        var firstImposeItem =
+            movementExecution.EffectImposeItems.FirstOrDefault(x =>
+                x.MaterializedTargets.All(t => t != actorCombatant));
+        if (firstImposeItem is null)
+        {
+            return null;
+        }
+
+        var targetCombatUnit = firstImposeItem.MaterializedTargets.FirstOrDefault(t => t != actorCombatant);
+        return targetCombatUnit;
+    }
+
+    public static Vector2 GetTargetPositionByCombatMovementCombatant(CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+    {
+        var targetCombatant =
+            GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
+
+        Vector2 targetPosition;
+        if (targetCombatant is not null)
+        {
+            targetPosition = visualizationContext.GetCombatActor(targetCombatant).InteractionPoint;
+        }
+        else
+        {
+            targetPosition = visualizationContext.BattlefieldInteractionContext.GetArea(Core.Team.Cpu).Center.ToVector2();
+        }
+
+        return targetPosition;
     }
 }

@@ -10,4 +10,8 @@
         <PackageReference Include="CombatDicesTeam.Combats" Version="0.3.2-alpha" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="CombatMovements\" />
+    </ItemGroup>
+
 </Project>

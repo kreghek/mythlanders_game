@@ -1,5 +1,6 @@
 using System;
 
+using Client.Assets.CombatVisualEffects;
 using Client.Assets.InteractionDeliveryObjects;
 using Client.Engine;
 using Client.GameScreens;
@@ -15,10 +16,13 @@ using Core.Combats.TargetSelectors;
 using GameAssets.Combats.CombatMovementEffects;
 
 using GameClient.Engine.Animations;
+using GameClient.Engine.CombatVisualEffects;
 
 using JetBrains.Annotations;
 
 using Microsoft.Xna.Framework;
+
+using MonoGame.Extended.TextureAtlases;
 
 namespace Client.Assets.CombatMovements.Hero.Partisan;
 
@@ -70,12 +74,29 @@ internal class BlankShotFactory : CombatMovementFactoryBase
                     new AnimationSoundEffect(shotSoundEffect, new AudioSettings()))
             });
 
+        var targetPosition = AnimationHelper.GetTargetPositionByCombatMovementCombatant(movementExecution, visualizationContext);
+
+        var shotEffect = new ParallelCombatVisualEffect(
+            new PowderGasesCombatVisualEffect(visualizationContext.ActorGameObject.LaunchPoint, targetPosition,
+                new TextureRegion2D(visualizationContext.GameObjectContentStorage.GetParticlesTexture(),
+                    new Rectangle(0, 32 * 1, 32, 32))),
+            new GunFlashCombatVisualEffect(visualizationContext.ActorGameObject.LaunchPoint, 48,
+                new TextureRegion2D(visualizationContext.GameObjectContentStorage.GetParticlesTexture(),
+                    new Rectangle(0, 32 * 1, 32, 32))));
+
+        var additionalVisualEffectShotAnimation = new CombatVisualEffectAnimationFrameSet(soundedShotAnimation,
+            visualizationContext.CombatVisualEffectManager,
+            new[]
+            {
+                new AnimationFrame<ICombatVisualEffect>(new AnimationFrameInfo(1), shotEffect)
+            });
+
         var waitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "uzi-wait");
 
         var projectileFactory = new InteractionDeliveryFactory(GetCreateProjectileFunc(visualizationContext));
         return CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
             visualizationContext,
-            new SingleDistanceVisualizationConfig(prepareAnimation, soundedShotAnimation, waitAnimation,
+            new SingleDistanceVisualizationConfig(prepareAnimation, additionalVisualEffectShotAnimation, waitAnimation,
                 projectileFactory, new AnimationFrameInfo(1)));
     }
 
