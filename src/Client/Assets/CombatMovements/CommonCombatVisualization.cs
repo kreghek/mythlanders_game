@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.ActorVisualizationStates.Primitives;
+using Client.Core;
 using Client.Engine;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
@@ -61,7 +62,9 @@ internal static class CommonCombatVisualization
 
         var targetPosition = targetCombatant is not null
             ? visualizationContext.GetCombatActor(targetCombatant).InteractionPoint
-            : visualizationContext.BattlefieldInteractionContext.GetArea(visualizationContext.ActorGameObject.Combatant.IsPlayerControlled ? Core.Team.Cpu : Core.Team.Player).Center.ToVector2();
+            : visualizationContext.BattlefieldInteractionContext
+                .GetArea(visualizationContext.ActorGameObject.Combatant.IsPlayerControlled ? Team.Cpu : Team.Player)
+                .Center.ToVector2();
 
         var targetAnimator = targetCombatant is not null
             ? visualizationContext.GetCombatActor(targetCombatant).Animator

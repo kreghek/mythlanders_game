@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 
+using Client.Core;
 using Client.Engine;
 
 using CombatDicesTeam.Combats;
@@ -50,7 +51,8 @@ internal static class AnimationHelper
         return targetCombatUnit;
     }
 
-    public static Vector2 GetTargetPositionByCombatMovementCombatant(CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+    public static Vector2 GetTargetPositionByCombatMovementCombatant(CombatMovementExecution movementExecution,
+        ICombatMovementVisualizationContext visualizationContext)
     {
         var targetCombatant =
             GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
@@ -62,7 +64,7 @@ internal static class AnimationHelper
         }
         else
         {
-            targetPosition = visualizationContext.BattlefieldInteractionContext.GetArea(Core.Team.Cpu).Center.ToVector2();
+            targetPosition = visualizationContext.BattlefieldInteractionContext.GetArea(Team.Cpu).Center.ToVector2();
         }
 
         return targetPosition;

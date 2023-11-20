@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 using Client.Assets.CombatVisualEffects;
 using Client.Assets.InteractionDeliveryObjects;
@@ -45,7 +44,8 @@ internal class IronStreamFactory : SimpleCombatMovementFactoryBase
                     new AnimationSoundEffect(shotSoundEffect, new AudioSettings()))
             });
 
-        var targetPosition = AnimationHelper.GetTargetPositionByCombatMovementCombatant(movementExecution, visualizationContext);
+        var targetPosition =
+            AnimationHelper.GetTargetPositionByCombatMovementCombatant(movementExecution, visualizationContext);
 
         var shotEffect = new ParallelCombatVisualEffect(
             new PowderGasesCombatVisualEffect(visualizationContext.ActorGameObject.LaunchPoint, targetPosition,

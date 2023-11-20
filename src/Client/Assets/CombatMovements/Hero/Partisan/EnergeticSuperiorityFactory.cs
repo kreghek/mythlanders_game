@@ -75,7 +75,8 @@ internal class EnergeticSuperiorityFactory : CombatMovementFactoryBase
                     new AnimationSoundEffect(shotSoundEffect, new AudioSettings()))
             });
 
-        var targetPosition = AnimationHelper.GetTargetPositionByCombatMovementCombatant(movementExecution, visualizationContext);
+        var targetPosition =
+            AnimationHelper.GetTargetPositionByCombatMovementCombatant(movementExecution, visualizationContext);
 
         var shotEffect = new ParallelCombatVisualEffect(
             new PowderGasesCombatVisualEffect(visualizationContext.ActorGameObject.LaunchPoint, targetPosition,
