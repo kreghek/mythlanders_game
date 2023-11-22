@@ -567,4 +567,8 @@ Do you really need to spend the priceless current move for nothing?</value>
   <data name="_AllChars" xml:space="preserve">
     <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
   </data>
+  <data name="TacticalPotentialExhaustedIndicator" xml:space="preserve">
+    <value>Tactical potential exhausted
+This hero can no longer act in the current battle</value>
+  </data>
 </root>
