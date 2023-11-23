@@ -142,6 +142,13 @@ internal class CombatMovementsHandPanel : ControlBase
             return;
         }
 
+        if (!_buttons.Any(x=> x is not null))
+        {
+            DrawTacticalPotentialExhaustedIndicator(spriteBatch: spriteBatch, contentRect: contentRect);
+
+            return;
+        }
+
         var buttonsRect = GetButtonsRect();
         for (var buttonIndex = 0; buttonIndex < _buttons.Length; buttonIndex++)
         {
@@ -159,11 +166,13 @@ internal class CombatMovementsHandPanel : ControlBase
             }
             else if (_burningCombatMovement is not null)
             {
-                if (_burningCombatMovement.HandSlotIndex == buttonIndex)
+                if (_burningCombatMovement.HandSlotIndex != buttonIndex)
                 {
-                    _burningCombatMovement.Rect = GetButtonRectangle(buttonsRect, buttonIndex, true);
-                    _burningCombatMovement.Draw(spriteBatch);
+                    continue;
                 }
+
+                _burningCombatMovement.Rect = GetButtonRectangle(buttonsRect, buttonIndex, true);
+                _burningCombatMovement.Draw(spriteBatch);
             }
         }
 
@@ -178,6 +187,46 @@ internal class CombatMovementsHandPanel : ControlBase
         if (_hoverController.CurrentValue is not null && _activeCombatMovementHint is not null)
         {
             DrawHoverInfo(_hoverController.CurrentValue, _activeCombatMovementHint, spriteBatch);
+        }
+    }
+
+    private double _counterTacticalPotentialExhaustedIndicator;
+
+    private void DrawTacticalPotentialExhaustedIndicator(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        // Tactical potential exhausted
+        // This hero can no longer act in the current battle
+        
+        var indicatorFont = _uiContentStorage.GetCombatIndicatorFont();
+
+        var text = UiResource.TacticalPotentialExhaustedIndicator;
+
+        var textLines = text.Split(new[]
+            {
+                '\n'
+            },
+            StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+
+        var colorT = (float)Math.Clamp(Math.Sin(_counterTacticalPotentialExhaustedIndicator), 0, 1);
+        
+        for (var lineIndex = 0; lineIndex < textLines.Length; lineIndex++)
+        {
+            var textLine = textLines[lineIndex];
+            var lineSize = indicatorFont.MeasureString(textLine);
+
+            for (int i = -1; i <= 1; i++)
+            {
+                for (int j = -1; j <= 1; j++)
+                {
+                    spriteBatch.DrawString(indicatorFont, textLine,
+                        new Vector2(contentRect.Center.X - lineSize.X / 2 + i, contentRect.Y + lineIndex * 20 + j),
+                        Color.Lerp(TestamentColors.MaxDark, Color.Transparent, colorT));
+                }
+            }
+            
+            spriteBatch.DrawString(indicatorFont, textLine,
+                new Vector2(contentRect.Center.X - lineSize.X / 2, contentRect.Y + lineIndex * 20),
+                Color.Lerp(TestamentColors.MainSciFi, Color.Transparent, colorT));
         }
     }
 
@@ -231,6 +280,8 @@ internal class CombatMovementsHandPanel : ControlBase
                 _burningCombatMovement = null;
             }
         }
+
+        _counterTacticalPotentialExhaustedIndicator += gameTime.ElapsedGameTime.TotalSeconds * 10;
 
         _waitButton.Update(resolutionIndependentRenderer);
     }

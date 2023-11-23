@@ -7,7 +7,7 @@ public sealed class TestamentCombatant : ICombatant
 {
     private readonly IDictionary<ICombatMovementContainerType, ICombatMovementContainer> _combatMoveContainers;
     private readonly IReadOnlyCollection<ICombatantStatusFactory> _startupStatuses;
-    private readonly IList<ICombatantStatus> _statuses = new List<ICombatantStatus>();
+    private readonly IList<ICombatantStatus> _statuses;
 
     public TestamentCombatant(string classSid,
         CombatMovementSequence sequence,
@@ -18,6 +18,8 @@ public sealed class TestamentCombatant : ICombatant
         _startupStatuses = startupStatuses;
         ClassSid = classSid;
         Behaviour = behaviour;
+
+        _statuses = new List<ICombatantStatus>();
 
         _combatMoveContainers = new Dictionary<ICombatMovementContainerType, ICombatMovementContainer>
         {
