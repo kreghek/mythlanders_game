@@ -144,7 +144,7 @@ internal class CombatMovementsHandPanel : ControlBase
 
         if (!_buttons.Any())
         {
-            DrawTacticalPotentialExhausedIndicator(spriteBatch: spriteBatch, contentRect: contentRect);
+            DrawTacticalPotentialExhaustedIndicator(spriteBatch: spriteBatch, contentRect: contentRect);
 
             return;
         }
@@ -190,11 +190,13 @@ internal class CombatMovementsHandPanel : ControlBase
         }
     }
 
-    private void DrawTacticalPotentialExhausedIndicator(SpriteBatch spriteBatch, Rectangle contentRect)
+    private double _counterTacticalPotentialExhaustedIndicator;
+
+    private void DrawTacticalPotentialExhaustedIndicator(SpriteBatch spriteBatch, Rectangle contentRect)
     {
         // Tactical potential exhausted
         // This hero can no longer act in the current battle
-
+        
         var indicatorFont = _uiContentStorage.GetCombatIndicatorFont();
 
         var text = UiResource.TacticalPotentialExhaustedIndicator;
@@ -205,6 +207,8 @@ internal class CombatMovementsHandPanel : ControlBase
             },
             StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 
+        var colorT = (float)Math.Clamp(Math.Sin(_counterTacticalPotentialExhaustedIndicator), 0, 1);
+        
         for (var lineIndex = 0; lineIndex < textLines.Length; lineIndex++)
         {
             var textLine = textLines[lineIndex];
@@ -216,9 +220,13 @@ internal class CombatMovementsHandPanel : ControlBase
                 {
                     spriteBatch.DrawString(indicatorFont, textLine,
                         new Vector2(contentRect.Center.X - lineSize.X / 2 + i, contentRect.Y + lineIndex * 20 + j),
-                        TestamentColors.MainSciFi);
+                        Color.Lerp(TestamentColors.MaxDark, Color.Transparent, colorT));
                 }
             }
+            
+            spriteBatch.DrawString(indicatorFont, textLine,
+                new Vector2(contentRect.Center.X - lineSize.X / 2, contentRect.Y + lineIndex * 20),
+                Color.Lerp(TestamentColors.MainSciFi, Color.Transparent, colorT));
         }
     }
 
