@@ -1270,6 +1270,16 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tactical potential exhausted.
+        ///This hero can no longer act in the current battle..
+        /// </summary>
+        internal static string TacticalPotentialExhaustedIndicator {
+            get {
+                return ResourceManager.GetString("TacticalPotentialExhaustedIndicator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To The Combat!.
         /// </summary>
         internal static string ToTheCombatButtonTitle {
