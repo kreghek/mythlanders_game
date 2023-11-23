@@ -142,7 +142,7 @@ internal class CombatMovementsHandPanel : ControlBase
             return;
         }
 
-        if (!_buttons.Any())
+        if (!_buttons.Any(x=> x is not null))
         {
             DrawTacticalPotentialExhaustedIndicator(spriteBatch: spriteBatch, contentRect: contentRect);
 
@@ -280,6 +280,8 @@ internal class CombatMovementsHandPanel : ControlBase
                 _burningCombatMovement = null;
             }
         }
+
+        _counterTacticalPotentialExhaustedIndicator += gameTime.ElapsedGameTime.TotalSeconds * 10;
 
         _waitButton.Update(resolutionIndependentRenderer);
     }
