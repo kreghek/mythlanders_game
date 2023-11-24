@@ -21,7 +21,7 @@ using Microsoft.Xna.Framework;
 
 using MonoGame.Extended.TextureAtlases;
 
-namespace Client.Assets.CombatMovements.Monster.Black.Agressor;
+namespace Client.Assets.CombatMovements.Monster.Black.AmbushDrone;
 
 internal class IronStreamFactory : SimpleCombatMovementFactoryBase
 {

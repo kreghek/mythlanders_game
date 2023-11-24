@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Client.Assets.CombatMovements.Monster.Black.Agressor;
+using Client.Assets.CombatMovements.Monster.Black.AmbushDrone;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantStatuses;
