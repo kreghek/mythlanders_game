@@ -5,7 +5,7 @@ namespace GameClient.Engine.Animations;
 /// <summary>
 /// Animation from multiple animations to play in list sequential way.
 /// </summary>
-public sealed class CompositeAnimationFrameSet : IAnimationFrameSet
+public sealed class SequentialAnimationFrameSet : IAnimationFrameSet
 {
     private readonly IReadOnlyList<IAnimationFrameSet> _animationSequence;
     private int _index;
@@ -14,7 +14,7 @@ public sealed class CompositeAnimationFrameSet : IAnimationFrameSet
     /// Constructor.
     /// </summary>
     /// <param name="animationSequence">Animation sequence to play.</param>
-    public CompositeAnimationFrameSet(params IAnimationFrameSet[] animationSequence)
+    public SequentialAnimationFrameSet(params IAnimationFrameSet[] animationSequence)
     {
         _animationSequence = animationSequence;
 
