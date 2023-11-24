@@ -23,9 +23,7 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
     private readonly IReadOnlyCollection<InteractionDeliveryInfo> _imposeItems;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
     private readonly IAnimationFrameSet _launchAnimation;
-    private readonly IAnimationFrameInfo _launchFrame;
     private readonly IAnimationFrameSet _waitAnimation;
-    private double _counter;
 
     public LaunchAndWaitInteractionDeliveryState(IActorAnimator animator,
         IAnimationFrameSet launchAnimation,
@@ -41,10 +39,9 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
         _imposeItems = imposeItems;
         _deliveryFactory = deliveryFactory;
         _interactionDeliveryManager = interactionDeliveryManager;
-        _launchFrame = launchFrame;
         _activeInteractionDeliveryList = new List<IInteractionDelivery>();
 
-        _launchAnimation.KeyFrame += (s, e) =>
+        _launchAnimation.KeyFrame += (_, e) =>
         {
             if (e.KeyFrame.Equals(launchFrame))
             {
@@ -105,16 +102,17 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
     /// <inheritdoc />
     public void Update(GameTime gameTime)
     {
-        if (_counter == 0)
+        if (!_animationPlayed)
         {
             _animator.PlayAnimation(_launchAnimation);
+            _animationPlayed = true;
         }
-
-        _counter += gameTime.ElapsedGameTime.TotalSeconds;
 
         if (_activeInteractionDeliveryList.Any())
         {
             IsComplete = true;
         }
     }
+
+    private bool _animationPlayed;
 }

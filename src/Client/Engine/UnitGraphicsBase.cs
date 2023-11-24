@@ -39,7 +39,7 @@ internal abstract class UnitGraphicsBase
 
     public UnitGraphicsBase(UnitName spriteSheetId, CombatantGraphicsConfigBase graphicsConfig,
         bool isNormalOrientation,
-        Vector2 startPposition, GameObjectContentStorage gameObjectContentStorage)
+        Vector2 startPosition, GameObjectContentStorage gameObjectContentStorage)
     {
         _graphicsConfig = graphicsConfig;
         _gameObjectContentStorage = gameObjectContentStorage;
@@ -47,7 +47,7 @@ internal abstract class UnitGraphicsBase
         _mainTexture = _gameObjectContentStorage.GetUnitGraphics(spriteSheetId);
 
         _predefinedAnimationFrameSets = graphicsConfig.GetPredefinedAnimations();
-        InitializeSprites(spriteSheetId, startPposition, isNormalOrientation);
+        InitializeSprites(spriteSheetId, startPosition, isNormalOrientation);
 
         PlayAnimation(PredefinedAnimationSid.Idle);
     }

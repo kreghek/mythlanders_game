@@ -30,8 +30,4 @@ internal sealed class ActorAnimator : IActorAnimator
     {
         _unitGraphics.PlayAnimation(animation);
     }
-
-    public void Update(GameTime gameTime)
-    {
-    }
 }

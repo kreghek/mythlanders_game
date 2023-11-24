@@ -13,6 +13,4 @@ internal interface IActorAnimator
     IAnimationFrameSet GetIdleState();
 
     void PlayAnimation(IAnimationFrameSet animation);
-
-    void Update(GameTime gameTime);
 }
