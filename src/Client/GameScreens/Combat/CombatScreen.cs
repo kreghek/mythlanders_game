@@ -725,7 +725,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             RestoreGroupAfterCombat();
 
             var campaignGenerator = Game.Services.GetService<ICampaignGenerator>();
-            var campaigns = campaignGenerator.CreateSet();
+            var campaigns = campaignGenerator.CreateSet(_globeProvider.Globe);
 
             ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
                 new CommandCenterScreenTransitionArguments
@@ -743,7 +743,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             _globeProvider.Globe.Update(_dice, _eventCatalog);
 
             var campaignGenerator = Game.Services.GetService<ICampaignGenerator>();
-            var campaigns = campaignGenerator.CreateSet();
+            var campaigns = campaignGenerator.CreateSet(_globeProvider.Globe);
 
             ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
                 new CommandCenterScreenTransitionArguments

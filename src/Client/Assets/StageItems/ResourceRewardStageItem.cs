@@ -67,6 +67,7 @@ internal sealed class ResourceRewardStageItem : IRewardCampaignStageItem
         var drop = _dropResolver.Resolve(campaignResources);
 
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignReward,
-            new CampaignRewardScreenTransitionArguments(currentCampaign, drop));
+            new CampaignRewardScreenTransitionArguments(currentCampaign,
+                drop.Select(x => new ResourceCampaignReward(x)).ToArray()));
     }
 }

@@ -2,8 +2,10 @@
 using System.Linq;
 
 using Client.Assets.StageItems;
+using Client.Core;
 using Client.Core.Campaigns;
 
+using CombatDicesTeam.Dices;
 using CombatDicesTeam.Graphs;
 using CombatDicesTeam.Graphs.Generation.TemplateBased;
 
@@ -30,19 +32,10 @@ internal sealed class UnlockLocationRewardCampaignStageTemplateFactory : ICampai
 
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        var allGameLocations = new[]
-        {
-            LocationSids.Thicket,
-            LocationSids.Monastery,
-            LocationSids.ShipGraveyard,
-            LocationSids.Desert,
+        var locationToScout = _services.Dice.RollFromList(GameLocations.GetGameLocations()
+            .Except(_services.GlobeProvider.Globe.CurrentAvailableLocations).ToArray());
 
-            LocationSids.Swamp,
-
-            LocationSids.Battleground
-        };
-        
-        return new UnlockLocationRewardStageItem(_services.GlobeProvider, _services.Dice);
+        return new UnlockLocationRewardStageItem(_services.GlobeProvider, _services.JobProgressResolver, locationToScout);
     }
 
     /// <inheritdoc />
