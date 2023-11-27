@@ -1,7 +1,5 @@
 ﻿using GameClient.Engine.Animations;
 
-using Microsoft.Xna.Framework;
-
 using MonoGame.Extended.SceneGraphs;
 
 namespace Client.Engine;

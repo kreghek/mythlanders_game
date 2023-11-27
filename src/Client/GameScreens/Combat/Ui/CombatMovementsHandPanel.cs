@@ -360,7 +360,8 @@ internal class CombatMovementsHandPanel : ControlBase
         return _lastKeyboardState.Value.IsKeyDown(key) && _currentKeyboardState.IsKeyUp(key);
     }
 
-    private static bool IsResolveStatEnough(CombatMovementInstance combatMovement, IUnitStat currentCombatantResolveStat)
+    private static bool IsResolveStatEnough(CombatMovementInstance combatMovement,
+        IUnitStat currentCombatantResolveStat)
     {
         return combatMovement.Cost.Amount.Current <= currentCombatantResolveStat.Value.Current;
     }

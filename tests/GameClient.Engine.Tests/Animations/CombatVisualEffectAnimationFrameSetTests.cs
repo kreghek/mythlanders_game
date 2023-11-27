@@ -22,9 +22,9 @@ public class CombatVisualEffectAnimationFrameSetTests
         };
 
         // ACT
-        
-        baseAnimationMock.Raise(x=>x.KeyFrame += null!, new AnimationFrameEventArgs(Mock.Of<IAnimationFrameInfo>()));
-        
+
+        baseAnimationMock.Raise(x => x.KeyFrame += null!, new AnimationFrameEventArgs(Mock.Of<IAnimationFrameInfo>()));
+
         // ASSERT
 
         raiseCount.Should().Be(1);

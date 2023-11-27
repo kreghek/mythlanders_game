@@ -108,13 +108,13 @@ public class LinearAnimationFrameSetTests
         {
             raiseCount++;
         };
-        
+
         using var monitor = animation.Monitor();
 
         // ACT
-        
+
         animation.Update(new GameTime(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1)));
-        
+
         // ASSERT
 
         monitor.Should().Raise(nameof(IAnimationFrameSet.KeyFrame))
@@ -132,7 +132,8 @@ public class LinearAnimationFrameSetTests
         // in one second.
         const int FPS = 3;
 
-        var animation = new LinearAnimationFrameSet(new[] { 0, 1 }, FPS, default, default, default) { IsLooping = false };
+        var animation = new LinearAnimationFrameSet(new[] { 0, 1 }, FPS, default, default, default)
+            { IsLooping = false };
 
         var lastFrameRaiseCount = 0;
         animation.KeyFrame += (sender, args) =>
@@ -166,7 +167,8 @@ public class LinearAnimationFrameSetTests
         // in one second.
         const int FPS = 3;
 
-        var animation = new LinearAnimationFrameSet(new[] { 0, 1 }, FPS, default, default, default) { IsLooping = false };
+        var animation = new LinearAnimationFrameSet(new[] { 0, 1 }, FPS, default, default, default)
+            { IsLooping = false };
 
         var lastFrameRaiseCount = 0;
         animation.KeyFrame += (sender, args) =>

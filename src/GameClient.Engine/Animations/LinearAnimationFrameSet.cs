@@ -19,6 +19,9 @@ public sealed class LinearAnimationFrameSet : IAnimationFrameSet
     private int _frameListIndex;
     private bool _isEnded;
 
+
+    private bool _isFirstKeyFrameEventRaised;
+
     /// <summary>
     /// Constructor.
     /// </summary>
@@ -73,9 +76,6 @@ public sealed class LinearAnimationFrameSet : IAnimationFrameSet
         _isEnded = false;
     }
 
-
-    private bool _isFirstKeyFrameEventRaised;
-
     /// <inheritdoc />
     public void Update(GameTime gameTime)
     {
@@ -113,6 +113,7 @@ public sealed class LinearAnimationFrameSet : IAnimationFrameSet
                     {
                         KeyFrame?.Invoke(this, new AnimationFrameEventArgs(new AnimationFrameInfo(_frames.Count - 1)));
                     }
+
                     End?.Invoke(this, EventArgs.Empty);
                 }
             }

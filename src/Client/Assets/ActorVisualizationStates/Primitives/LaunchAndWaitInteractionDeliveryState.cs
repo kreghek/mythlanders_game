@@ -25,6 +25,8 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
     private readonly IAnimationFrameSet _launchAnimation;
     private readonly IAnimationFrameSet _waitAnimation;
 
+    private bool _animationPlayed;
+
     public LaunchAndWaitInteractionDeliveryState(IActorAnimator animator,
         IAnimationFrameSet launchAnimation,
         IAnimationFrameSet waitAnimation,
@@ -113,6 +115,4 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
             IsComplete = true;
         }
     }
-
-    private bool _animationPlayed;
 }

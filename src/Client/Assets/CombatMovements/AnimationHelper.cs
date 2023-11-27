@@ -36,17 +36,6 @@ internal static class AnimationHelper
         };
     }
 
-    private static ICombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
-        ICombatant actorCombatant)
-    {
-        var firstImposeItem =
-            movementExecution.EffectImposeItems.FirstOrDefault(x =>
-                x.MaterializedTargets.All(t => t != actorCombatant));
-
-        var targetCombatUnit = firstImposeItem?.MaterializedTargets.FirstOrDefault(t => t != actorCombatant);
-        return targetCombatUnit;
-    }
-
     public static Vector2 GetTargetPositionByCombatMovementCombatant(CombatMovementExecution movementExecution,
         ICombatMovementVisualizationContext visualizationContext)
     {
@@ -64,5 +53,16 @@ internal static class AnimationHelper
         }
 
         return targetPosition;
+    }
+
+    private static ICombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
+        ICombatant actorCombatant)
+    {
+        var firstImposeItem =
+            movementExecution.EffectImposeItems.FirstOrDefault(x =>
+                x.MaterializedTargets.All(t => t != actorCombatant));
+
+        var targetCombatUnit = firstImposeItem?.MaterializedTargets.FirstOrDefault(t => t != actorCombatant);
+        return targetCombatUnit;
     }
 }
