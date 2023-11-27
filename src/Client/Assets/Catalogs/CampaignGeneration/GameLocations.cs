@@ -4,9 +4,15 @@ using Client.Core;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
+/// <summary>
+/// Current game location available in the game version.
+/// </summary>
 public static class GameLocations
 {
-    public static IReadOnlyCollection<ILocationSid> GetGameLocations()
+    /// <summary>
+    /// All game locations.
+    /// </summary>
+    public static IEnumerable<ILocationSid> GetGameLocations()
     {
         var allGameLocations = new[]
         {

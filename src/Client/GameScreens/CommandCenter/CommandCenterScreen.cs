@@ -113,7 +113,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
             { LocationSids.Desert, LoadCampaignThumbnailImage("Desert") },
             { LocationSids.Monastery, LoadCampaignThumbnailImage("Monastery") },
             { LocationSids.ShipGraveyard, LoadCampaignThumbnailImage("ShipGraveyard") },
-            { LocationSids.Thicket, LoadCampaignThumbnailImage("DarkThinket") },
+            { LocationSids.Thicket, LoadCampaignThumbnailImage("DarkThicket") },
             { LocationSids.Swamp, LoadCampaignThumbnailImage("GrimSwamp") },
             { LocationSids.Battleground, LoadCampaignThumbnailImage("Battleground") }
         };

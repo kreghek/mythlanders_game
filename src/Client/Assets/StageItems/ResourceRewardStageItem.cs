@@ -70,4 +70,13 @@ internal sealed class ResourceRewardStageItem : IRewardCampaignStageItem
             new CampaignRewardScreenTransitionArguments(currentCampaign,
                 drop.Select(x => new ResourceCampaignReward(x)).ToArray()));
     }
+
+    public IReadOnlyCollection<ICampaignReward> GetEstimateRewards(HeroCampaign heroCampaign)
+    {
+        var campaignResources = CreateCampaignResources(heroCampaign);
+        
+        var drop = _dropResolver.Resolve(campaignResources);
+
+        return drop.Select(x => new ResourceCampaignReward(x)).ToArray();
+    }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 
+using Client.Assets.StageItems;
 using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
@@ -15,7 +17,9 @@ internal sealed class CampaignPanel : ControlBase, ICampaignPanel
 
     public CampaignPanel(HeroCampaign campaign, Texture2D campaignTexture)
     {
-        _selectButton = new CampaignButton(campaignTexture, campaign.Location);
+        var reward = campaign.Stages.GetAllNodes().Select(x=>x.Payload).OfType<IRewardCampaignStageItem>().First();
+        
+        _selectButton = new CampaignButton(campaignTexture, campaign.Location, reward.GetEstimateRewards(campaign));
         _selectButton.OnClick += (_, _) => { Selected?.Invoke(this, EventArgs.Empty); };
         _selectButton.OnHover += (_, _) =>
         {

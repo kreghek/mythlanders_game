@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 using Client.Assets.StoryPointJobs;
 using Client.Core;
@@ -38,7 +39,11 @@ internal sealed class UnlockLocationRewardStageItem : IRewardCampaignStageItem
         _globeProvider.Globe.CurrentAvailableLocations.Add(_scoutedLocation);
 
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignReward,
-            new CampaignRewardScreenTransitionArguments(currentCampaign,
-                new[] { new LocationCampaignReward(_scoutedLocation) }));
+            new CampaignRewardScreenTransitionArguments(currentCampaign, GetEstimateRewards(currentCampaign)));
+    }
+
+    public IReadOnlyCollection<ICampaignReward> GetEstimateRewards(HeroCampaign heroCampaign)
+    {
+        return new[] { new LocationCampaignReward(_scoutedLocation) };
     }
 }
