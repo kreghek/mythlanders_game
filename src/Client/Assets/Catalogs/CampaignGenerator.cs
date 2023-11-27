@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.Catalogs.CampaignGeneration;
 using Client.Core;
 using Client.Core.Campaigns;
 
@@ -55,19 +56,21 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         return campaign;
     }
 
-    private static ILocationSid[] GetAvailableLocations()
+    private HeroCampaign CreateRescueCampaign(ILocationSid locationSid, Globe globe)
     {
-        return new[]
-        {
-            LocationSids.Thicket
-            //LocationSids.Monastery,
-            //LocationSids.ShipGraveyard,
-            //LocationSids.Desert,
+        var shortTemplateGraph = _wayTemplatesCatalog.CreateRescueShortTemplate(locationSid);
 
-            //LocationSids.Swamp,
+        var graphGenerator =
+            new TemplateBasedGraphGenerator<ICampaignStageItem>(
+                new TemplateConfig<ICampaignStageItem>(shortTemplateGraph));
 
-            //LocationSids.Battleground
-        };
+        var campaignGraph = graphGenerator.Create();
+
+        var seed = _dice.RollD100();
+
+        var campaign = new HeroCampaign(locationSid, campaignGraph, seed);
+
+        return campaign;
     }
 
     /// <summary>
@@ -75,7 +78,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     /// </summary>
     public IReadOnlyList<HeroCampaign> CreateSet(Globe currentGlobe)
     {
-        var availableLocationSids = GetAvailableLocations();
+        var availableLocationSids = GameLocations.GetGameLocations().ToArray();
 
         var rollCount = Math.Min(availableLocationSids.Length, 3);
 
@@ -86,7 +89,8 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         var availableCampaignDelegates = new Func<ILocationSid, Globe, HeroCampaign>[]
         {
             CreateGrindCampaign,
-            CreateScoutCampaign
+            CreateScoutCampaign,
+            CreateRescueCampaign
         };
         
         foreach (var locationSid in selectedLocations)

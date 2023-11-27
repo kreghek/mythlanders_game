@@ -17,10 +17,11 @@ internal sealed class CampaignWayTemplatesCatalog
     private readonly CampaignStageTemplateServices _services;
 
     public CampaignWayTemplatesCatalog(GlobeProvider globeProvider,
-        IEventCatalog eventCatalog, IDice dice, IJobProgressResolver jobProgressResolver, IDropResolver dropResolver)
+        IEventCatalog eventCatalog, IDice dice, IJobProgressResolver jobProgressResolver, IDropResolver dropResolver,
+        IUnitSchemeCatalog unitSchemeCatalog)
     {
         _services = new CampaignStageTemplateServices(eventCatalog, globeProvider, jobProgressResolver, dropResolver,
-            dice);
+            dice, unitSchemeCatalog);
     }
 
     public IGraph<GraphWay<ICampaignStageItem>> CreateGrindShortTemplate(ILocationSid locationSid)
@@ -31,6 +32,11 @@ internal sealed class CampaignWayTemplatesCatalog
     public IGraph<GraphWay<ICampaignStageItem>> CreateScoutShortTemplate(ILocationSid locationSid)
     {
         return CreateShortTemplate(locationSid, new UnlockLocationRewardCampaignStageTemplateFactory(_services));
+    }
+    
+    public IGraph<GraphWay<ICampaignStageItem>> CreateRescueShortTemplate(ILocationSid locationSid)
+    {
+        return CreateShortTemplate(locationSid, new UnlockHeroRewardCampaignStageTemplateFactory(_services));
     }
 
     /// <summary>
