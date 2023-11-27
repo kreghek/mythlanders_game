@@ -55,8 +55,6 @@ internal static class CommonCombatVisualization
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext,
         SingleDistanceVisualizationConfig config)
     {
-        var actorGameObject = visualizationContext.ActorGameObject;
-        var startPosition = actorGameObject.LaunchPoint;
         var targetCombatant =
             GetFirstTargetOrDefault(movementExecution, visualizationContext.ActorGameObject.Combatant);
 
