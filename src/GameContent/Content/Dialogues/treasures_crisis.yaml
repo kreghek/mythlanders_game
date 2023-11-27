@@ -15,7 +15,8 @@ root:
         '- ???'
       next: take_all
       aftermaths:
-        - type: TakeResources
+        - type: AddResources
+          data: gold 1
         - type: DamageAllHeroes
     - text: 'Исследовать'
       next: examine
