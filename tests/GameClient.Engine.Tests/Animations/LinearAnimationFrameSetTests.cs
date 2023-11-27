@@ -95,4 +95,101 @@ public class LinearAnimationFrameSetTests
         var expectedRect = new Rectangle(EXPECTED_FRAME_INDEX * FRAME_WIDTH, 0, FRAME_WIDTH, FRAME_HEIGHT);
         factFrameRect.Should().Be(expectedRect);
     }
+
+    [Test]
+    public void Update_SingleFrame_RaiseKeyFrameEventOnce()
+    {
+        // ARRANGE
+
+        var animation = new LinearAnimationFrameSet(new[] { 0 }, 1, default, default, default);
+
+        var raiseCount = 0;
+        animation.KeyFrame += (sender, args) =>
+        {
+            raiseCount++;
+        };
+
+        using var monitor = animation.Monitor();
+
+        // ACT
+
+        animation.Update(new GameTime(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1)));
+
+        // ASSERT
+
+        monitor.Should().Raise(nameof(IAnimationFrameSet.KeyFrame))
+            .WithArgs<AnimationFrameEventArgs>(x => x.KeyFrame.Equals(new AnimationFrameInfo(0)));
+
+        raiseCount.Should().Be(1);
+    }
+
+    [Test]
+    public void Update_TwoNotLoopingFramesAndUpdateTimeIsLongerFps_RaiseKeyFrameEventOnce()
+    {
+        // ARRANGE
+
+        // It meansthe frame sequence will run last key frame more that once
+        // in one second.
+        const int FPS = 3;
+
+        var animation = new LinearAnimationFrameSet(new[] { 0, 1 }, FPS, default, default, default)
+            { IsLooping = false };
+
+        var lastFrameRaiseCount = 0;
+        animation.KeyFrame += (sender, args) =>
+        {
+            if (args.KeyFrame.Equals(new AnimationFrameInfo(1)))
+            {
+                lastFrameRaiseCount++;
+            }
+        };
+
+        using var monitor = animation.Monitor();
+
+        // ACT
+
+        animation.Update(new GameTime(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1)));
+
+        // ASSERT
+
+        monitor.Should().Raise(nameof(IAnimationFrameSet.KeyFrame))
+            .WithArgs<AnimationFrameEventArgs>(x => x.KeyFrame.Equals(new AnimationFrameInfo(1)));
+
+        lastFrameRaiseCount.Should().Be(1);
+    }
+
+    [Test]
+    public void Update_TwoNotLoopingFramesAndUpdateTimeIsLongerFps_RaiseKeyFrameEventOnceOnFirstFrame()
+    {
+        // ARRANGE
+
+        // It meansthe frame sequence will run last key frame more that once
+        // in one second.
+        const int FPS = 3;
+
+        var animation = new LinearAnimationFrameSet(new[] { 0, 1 }, FPS, default, default, default)
+            { IsLooping = false };
+
+        var lastFrameRaiseCount = 0;
+        animation.KeyFrame += (sender, args) =>
+        {
+            if (args.KeyFrame.Equals(new AnimationFrameInfo(0)))
+            {
+                lastFrameRaiseCount++;
+            }
+        };
+
+        using var monitor = animation.Monitor();
+
+        // ACT
+
+        animation.Update(new GameTime(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1)));
+
+        // ASSERT
+
+        monitor.Should().Raise(nameof(IAnimationFrameSet.KeyFrame))
+            .WithArgs<AnimationFrameEventArgs>(x => x.KeyFrame.Equals(new AnimationFrameInfo(0)));
+
+        lastFrameRaiseCount.Should().Be(1);
+    }
 }

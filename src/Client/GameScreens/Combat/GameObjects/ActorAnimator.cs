@@ -3,8 +3,6 @@ using Client.Engine;
 
 using GameClient.Engine.Animations;
 
-using Microsoft.Xna.Framework;
-
 using MonoGame.Extended.SceneGraphs;
 
 namespace Client.GameScreens.Combat.GameObjects;
@@ -29,9 +27,5 @@ internal sealed class ActorAnimator : IActorAnimator
     public void PlayAnimation(IAnimationFrameSet animation)
     {
         _unitGraphics.PlayAnimation(animation);
-    }
-
-    public void Update(GameTime gameTime)
-    {
     }
 }

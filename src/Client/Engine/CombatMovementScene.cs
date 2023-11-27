@@ -6,7 +6,7 @@ using Client.GameScreens.Combat.GameObjects;
 namespace Client.Engine;
 
 /// <summary>
-/// Desription to visualize combat movement scene.
+/// Description to visualize combat movement scene.
 /// </summary>
 /// <param name="ActorState">Actor movements root state.</param>
 /// <param name="CameraOperatorTaskSequence"> Sequence of the camera operator tasks in order to perform. </param>

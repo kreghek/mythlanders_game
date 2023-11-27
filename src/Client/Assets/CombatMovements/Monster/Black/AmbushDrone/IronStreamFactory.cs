@@ -21,7 +21,7 @@ using Microsoft.Xna.Framework;
 
 using MonoGame.Extended.TextureAtlases;
 
-namespace Client.Assets.CombatMovements.Monster.Black.Agressor;
+namespace Client.Assets.CombatMovements.Monster.Black.AmbushDrone;
 
 internal class IronStreamFactory : SimpleCombatMovementFactoryBase
 {
@@ -47,7 +47,7 @@ internal class IronStreamFactory : SimpleCombatMovementFactoryBase
         var targetPosition =
             AnimationHelper.GetTargetPositionByCombatMovementCombatant(movementExecution, visualizationContext);
 
-        var shotEffect = new ParallelCombatVisualEffect(
+        var shotVisualEffect = new ParallelCombatVisualEffect(
             new PowderGasesCombatVisualEffect(visualizationContext.ActorGameObject.LaunchPoint, targetPosition,
                 new TextureRegion2D(visualizationContext.GameObjectContentStorage.GetParticlesTexture(),
                     new Rectangle(0, 32 * 1, 32, 32))),
@@ -59,7 +59,7 @@ internal class IronStreamFactory : SimpleCombatMovementFactoryBase
             visualizationContext.CombatVisualEffectManager,
             new[]
             {
-                new AnimationFrame<ICombatVisualEffect>(new AnimationFrameInfo(1), shotEffect)
+                new AnimationFrame<ICombatVisualEffect>(new AnimationFrameInfo(1), shotVisualEffect)
             });
 
         var waitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "rifle-wait");

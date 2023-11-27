@@ -19,6 +19,9 @@ public sealed class LinearAnimationFrameSet : IAnimationFrameSet
     private int _frameListIndex;
     private bool _isEnded;
 
+
+    private bool _isFirstKeyFrameEventRaised;
+
     /// <summary>
     /// Constructor.
     /// </summary>
@@ -81,6 +84,13 @@ public sealed class LinearAnimationFrameSet : IAnimationFrameSet
             return;
         }
 
+        if (!_isFirstKeyFrameEventRaised)
+        {
+            _isFirstKeyFrameEventRaised = true;
+
+            KeyFrame?.Invoke(this, new AnimationFrameEventArgs(new AnimationFrameInfo(0)));
+        }
+
         _frameCounter += gameTime.ElapsedGameTime.TotalSeconds;
         var frameDuration = 1 / _fps;
         while (_frameCounter >= frameDuration)
@@ -99,13 +109,31 @@ public sealed class LinearAnimationFrameSet : IAnimationFrameSet
                 {
                     _frameListIndex = _frames.Count - 1;
                     _isEnded = true;
-                    KeyFrame?.Invoke(this, new AnimationFrameEventArgs(new AnimationFrameInfo(_frames.Count - 1)));
+                    if (_frameListIndex != 0)
+                    {
+                        KeyFrame?.Invoke(this, new AnimationFrameEventArgs(new AnimationFrameInfo(_frames.Count - 1)));
+                    }
+
                     End?.Invoke(this, EventArgs.Empty);
                 }
             }
             else
             {
-                KeyFrame?.Invoke(this, new AnimationFrameEventArgs(new AnimationFrameInfo(_frameListIndex)));
+                if (_frameListIndex != 0)
+                {
+                    KeyFrame?.Invoke(this, new AnimationFrameEventArgs(new AnimationFrameInfo(_frameListIndex)));
+                }
+
+                if (_frameListIndex >= _frames.Count - 1)
+                {
+                    if (!IsLooping)
+                    {
+                        _isEnded = true;
+                        End?.Invoke(this, EventArgs.Empty);
+
+                        return;
+                    }
+                }
             }
         }
     }
