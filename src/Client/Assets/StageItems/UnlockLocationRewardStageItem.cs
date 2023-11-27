@@ -8,21 +8,27 @@ using Client.Core.Campaigns;
 using Client.GameScreens.CampaignReward;
 using Client.ScreenManagement;
 
+using CombatDicesTeam.Dices;
 using CombatDicesTeam.GenericRanges;
 
 using Core.PropDrop;
 
 namespace Client.Assets.StageItems;
 
-internal class RewardStageItem : ICampaignStageItem
+internal sealed class UnlockLocationRewardStageItem : IRewardCampaignStageItem
 {
-    private readonly IDropResolver _dropResolver;
     private readonly GlobeProvider _globeProvider;
+    private readonly ILocationSid _scoutedLocation;
+    
+    private readonly IDropResolver _dropResolver;
     private readonly IJobProgressResolver _jobProgressResolver;
 
-    public RewardStageItem(GlobeProvider globeProvider,
-        IJobProgressResolver jobProgressResolver, IDropResolver dropResolver)
+    public UnlockLocationRewardStageItem(GlobeProvider globeProvider,
+        IJobProgressResolver jobProgressResolver, IDropResolver dropResolver,
+        ILocationSid scoutedLocation)
     {
+        _globeProvider = globeProvider;
+        _scoutedLocation = scoutedLocation;
         _globeProvider = globeProvider;
         _jobProgressResolver = jobProgressResolver;
         _dropResolver = dropResolver;
@@ -63,8 +69,7 @@ internal class RewardStageItem : ICampaignStageItem
             _jobProgressResolver.ApplyProgress(completeCampaignProgress, job);
         }
 
-        var campaignResources = CreateCampaignResources(currentCampaign);
-        var drop = _dropResolver.Resolve(campaignResources);
+        _globeProvider.Globe.CurrentAvailableLocations.Add(_scoutedLocation);
 
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignReward,
             new CampaignRewardScreenTransitionArguments(currentCampaign, drop));

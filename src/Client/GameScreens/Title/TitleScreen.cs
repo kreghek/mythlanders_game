@@ -136,7 +136,7 @@ internal sealed class TitleScreen : GameScreenBase
     {
         globeProvider.GenerateNew();
 
-        var campaigns = _campaignGenerator.CreateSet();
+        var campaigns = _campaignGenerator.CreateSet(globeProvider.Globe);
 
         screenManager.ExecuteTransition(
             currentScreen,

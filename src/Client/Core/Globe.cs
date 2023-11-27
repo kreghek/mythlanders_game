@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Client.Assets;
 using Client.Assets.StoryPointJobs;
 
 using CombatDicesTeam.Dices;
@@ -11,10 +12,9 @@ internal sealed class Globe
 {
     private readonly IList<IStoryPoint> _activeStoryPointsList;
 
-    //private readonly IBiomeGenerator _biomeGenerator;
     private readonly List<IGlobeEvent> _globeEvents;
 
-    public Globe( /*IBiomeGenerator biomeGenerator,*/ Player player)
+    public Globe( Player player)
     {
         _globeEvents = new List<IGlobeEvent>();
         _activeStoryPointsList = new List<IStoryPoint>();
@@ -30,6 +30,11 @@ internal sealed class Globe
         //var biomes = biomeGenerator.GenerateStartState();
 
         GlobeLevel = new GlobeLevel();
+
+        CurrentAvailableLocations = new List<ILocationSid>
+        {
+            LocationSids.Thicket
+        };
     }
 
     public IEnumerable<IStoryPoint> ActiveStoryPoints => _activeStoryPointsList;
@@ -40,6 +45,8 @@ internal sealed class Globe
     public GlobeLevel GlobeLevel { get; }
 
     public bool IsNodeInitialized { get; set; }
+
+    public IList<ILocationSid> CurrentAvailableLocations { get; }
 
     public Player Player { get; }
 

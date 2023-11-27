@@ -9,11 +9,11 @@ using CombatDicesTeam.Graphs.Generation.TemplateBased;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
-internal sealed class RewardCampaignStageTemplateFactory : ICampaignStageTemplateFactory
+internal sealed class ResourceRewardCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
     private readonly CampaignStageTemplateServices _services;
 
-    public RewardCampaignStageTemplateFactory(CampaignStageTemplateServices services)
+    public ResourceRewardCampaignStageTemplateFactory(CampaignStageTemplateServices services)
     {
         _services = services;
     }
@@ -30,7 +30,7 @@ internal sealed class RewardCampaignStageTemplateFactory : ICampaignStageTemplat
 
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        return new RewardStageItem(_services.GlobeProvider, _services.JobProgressResolver, _services.DropResolver);
+        return new ResourceRewardStageItem(_services.GlobeProvider, _services.JobProgressResolver, _services.DropResolver);
     }
 
     /// <inheritdoc />
