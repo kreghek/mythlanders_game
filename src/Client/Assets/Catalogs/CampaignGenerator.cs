@@ -75,7 +75,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     /// </summary>
     public IReadOnlyList<HeroCampaign> CreateSet(Globe currentGlobe)
     {
-        var availableLocationSids = GetAvailableLocations();
+        var availableLocationSids = currentGlobe.CurrentAvailableLocations.ToArray();
 
         var rollCount = Math.Min(availableLocationSids.Length, 3);
 
