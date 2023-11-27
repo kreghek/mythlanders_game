@@ -42,5 +42,5 @@ public interface IAnimationFrameSet
     /// <remarks>
     /// Do not support correctly by all of implementations.
     /// </remarks>
-    event EventHandler<AnimationFrameEventArgs> KeyFrame;
+    event EventHandler<AnimationFrameEventArgs>? KeyFrame;
 }

@@ -215,20 +215,14 @@ internal class CombatMovementsHandPanel : ControlBase
         {
             KeyboardInputUpdate();
 
-            var mouse = Mouse.GetState();
-            var mouseRect =
-                new Rectangle(
-                    resolutionIndependentRenderer.ConvertScreenToWorldCoordinates(mouse.Position.ToVector2()).ToPoint(),
-                    new Point(1, 1));
-
             foreach (var button in _buttons)
             {
                 if (button is not null)
                 {
                     button.Update(resolutionIndependentRenderer);
 
-                    button.IsEnabled = Combatant is not null && IsResolveEnought(button.Entity,
-                        Combatant.Stats.Single(x => x.Type == CombatantStatTypes.Resolve));
+                    button.IsEnabled = Combatant is not null && IsResolveStatEnough(button.Entity,
+                        Combatant.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.Resolve)));
                 }
             }
         }
@@ -366,7 +360,7 @@ internal class CombatMovementsHandPanel : ControlBase
         return _lastKeyboardState.Value.IsKeyDown(key) && _currentKeyboardState.IsKeyUp(key);
     }
 
-    private static bool IsResolveEnought(CombatMovementInstance combatMovement, IUnitStat currentCombatantResolveStat)
+    private static bool IsResolveStatEnough(CombatMovementInstance combatMovement, IUnitStat currentCombatantResolveStat)
     {
         return combatMovement.Cost.Amount.Current <= currentCombatantResolveStat.Value.Current;
     }
@@ -412,12 +406,7 @@ internal class CombatMovementsHandPanel : ControlBase
 
         var button = _buttons[index];
 
-        if (button is null)
-        {
-            return;
-        }
-
-        button.Click();
+        button?.Click();
     }
 
     private void RecreateButtons()
