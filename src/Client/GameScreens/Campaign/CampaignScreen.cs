@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets.StageItems;
 using Client.Core;
 using Client.Engine;
 using Client.GameScreens.Campaign.Ui;
@@ -89,8 +88,6 @@ internal class CampaignScreen : GameScreenWithMenuBase
             STORY_POINT_PANEL_HEIGHT);
 
         DrawCurrentStoryPoints(spriteBatch, storyPointRect);
-        
-        
 
         DrawCampaignRewards(spriteBatch, contentRect);
 
