@@ -299,7 +299,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         IPostEffect postEffect;
         if (!hurt)
         {
-            postEffect = new ShakePostEffect(new ShakePower(0.02f));
+            postEffect = new ConstantShakePostEffect(new ShakePower(0.02f));
             _postEffectManager.AddEffect(postEffect);
         }
         else
