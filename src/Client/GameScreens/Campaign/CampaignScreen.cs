@@ -74,7 +74,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
             if (_isCampaignPresentation)
             {
-                spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), "Нажми [SPACE] чтобы пропустить",
+                spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), UiResource.SkipMapPresentationHintText,
                     new Vector2(contentRect.Center.X, contentRect.Bottom - 50), Color.Wheat);
             }
         }
@@ -86,10 +86,16 @@ internal class CampaignScreen : GameScreenWithMenuBase
             contentRect.Top + ControlBase.CONTENT_MARGIN,
             STORY_POINT_PANEL_WIDTH,
             STORY_POINT_PANEL_HEIGHT);
-
+        
         DrawCurrentStoryPoints(spriteBatch, storyPointRect);
+        
+        var campaignRewardsRect = new Rectangle(
+            contentRect.Left + STORY_POINT_PANEL_WIDTH - ControlBase.CONTENT_MARGIN,
+            contentRect.Top + ControlBase.CONTENT_MARGIN,
+            STORY_POINT_PANEL_WIDTH,
+            STORY_POINT_PANEL_HEIGHT);
 
-        DrawCampaignRewards(spriteBatch, contentRect);
+        DrawCampaignRewards(spriteBatch, campaignRewardsRect);
 
         spriteBatch.End();
     }
