@@ -571,4 +571,7 @@ This hero can no longer act in the current battle.</value>
   <data name="_AllChars" xml:space="preserve">
     <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
   </data>
+  <data name="SkipMapPresentationHintText" xml:space="preserve">
+    <value>Press [SPACE] to skip</value>
+  </data>
 </root>

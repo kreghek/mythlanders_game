@@ -14,13 +14,13 @@ using Core.PropDrop;
 
 namespace Client.Assets.StageItems;
 
-internal class RewardStageItem : ICampaignStageItem
+internal sealed class ResourceRewardStageItem : IRewardCampaignStageItem
 {
     private readonly IDropResolver _dropResolver;
     private readonly GlobeProvider _globeProvider;
     private readonly IJobProgressResolver _jobProgressResolver;
 
-    public RewardStageItem(GlobeProvider globeProvider,
+    public ResourceRewardStageItem(GlobeProvider globeProvider,
         IJobProgressResolver jobProgressResolver, IDropResolver dropResolver)
     {
         _globeProvider = globeProvider;
@@ -67,6 +67,16 @@ internal class RewardStageItem : ICampaignStageItem
         var drop = _dropResolver.Resolve(campaignResources);
 
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignReward,
-            new CampaignRewardScreenTransitionArguments(currentCampaign, drop));
+            new CampaignRewardScreenTransitionArguments(currentCampaign,
+                drop.Select(x => new ResourceCampaignReward(x)).ToArray()));
+    }
+
+    public IReadOnlyCollection<ICampaignReward> GetEstimateRewards(HeroCampaign heroCampaign)
+    {
+        var campaignResources = CreateCampaignResources(heroCampaign);
+        
+        var drop = _dropResolver.Resolve(campaignResources);
+
+        return drop.Select(x => new ResourceCampaignReward(x)).ToArray();
     }
 }

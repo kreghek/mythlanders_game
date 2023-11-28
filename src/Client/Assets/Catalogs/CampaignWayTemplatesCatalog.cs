@@ -1,4 +1,6 @@
 using Client.Assets.Catalogs.CampaignGeneration;
+using Client.Assets.DialogueOptionAftermath;
+using Client.Assets.StageItems;
 using Client.Core;
 using Client.Core.Campaigns;
 
@@ -21,10 +23,20 @@ internal sealed class CampaignWayTemplatesCatalog
             dice);
     }
 
+    public IGraph<GraphWay<ICampaignStageItem>> CreateGrindShortTemplate(ILocationSid locationSid)
+    {
+        return CreateShortTemplate(locationSid, new ResourceRewardCampaignStageTemplateFactory(_services));
+    }
+    
+    public IGraph<GraphWay<ICampaignStageItem>> CreateScoutShortTemplate(ILocationSid locationSid)
+    {
+        return CreateShortTemplate(locationSid, new UnlockLocationRewardCampaignStageTemplateFactory(_services));
+    }
+
     /// <summary>
     /// Creates graph
     /// </summary>
-    public IGraph<GraphWay<ICampaignStageItem>> CreateGrindShortTemplate(ILocationSid locationSid)
+    public IGraph<GraphWay<ICampaignStageItem>> CreateShortTemplate(ILocationSid locationSid, ICampaignStageTemplateFactory stageTemplateFactory)
     {
         var wayGraph = new DirectedGraph<GraphWay<ICampaignStageItem>>();
 
@@ -128,7 +140,7 @@ internal sealed class CampaignWayTemplatesCatalog
 
         var rewardNode = new GraphNode<GraphWay<ICampaignStageItem>>(new GraphWay<ICampaignStageItem>(new[]
         {
-            new RewardCampaignStageTemplateFactory(_services)
+            stageTemplateFactory
         }));
 
         wayGraph.AddNode(way11Node);

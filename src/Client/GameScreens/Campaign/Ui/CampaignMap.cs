@@ -337,7 +337,7 @@ internal sealed class CampaignMap : ControlBase
             // First make start position is reward node to show all graph
             // target position - one of start node.
 
-            var rewardNodeLayout = graphNodeLayouts.Single(x => x.Node.Payload is RewardStageItem);
+            var rewardNodeLayout = graphNodeLayouts.Single(x => x.Node.Payload is IRewardCampaignStageItem);
 
             var roots = GetRoots(_heroCampaign.Stages);
 
@@ -551,11 +551,11 @@ internal sealed class CampaignMap : ControlBase
             var classSid = combat.CombatSequence.Combats.First().Monsters.First().ClassSid;
             var monsterClass = Enum.Parse<UnitName>(classSid, true);
 
-            var monsteInfo = GameObjectHelper.GetLocalized(monsterClass);
-            return UiResource.CampaignStageDisplayNameCombat + "\n" + monsteInfo;
+            var monsterInfo = GameObjectHelper.GetLocalized(monsterClass);
+            return UiResource.CampaignStageDisplayNameCombat + "\n" + monsterInfo;
         }
 
-        if (campaignStageItem is RewardStageItem)
+        if (campaignStageItem is IRewardCampaignStageItem)
         {
             return UiResource.CampaignStageDisplayNameFinish;
         }
@@ -582,7 +582,7 @@ internal sealed class CampaignMap : ControlBase
             return new Rectangle(new Point(0, 0), size);
         }
 
-        if (campaignStageItem is RewardStageItem)
+        if (campaignStageItem is IRewardCampaignStageItem)
         {
             return new Rectangle(new Point(1 * LAYOUT_NODE_SIZE, 2 * LAYOUT_NODE_SIZE), size);
         }

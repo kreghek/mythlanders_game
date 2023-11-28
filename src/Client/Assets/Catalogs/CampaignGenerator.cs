@@ -21,9 +21,26 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         _dice = dice;
     }
 
-    private HeroCampaign CreateCampaign(ILocationSid locationSid)
+    private HeroCampaign CreateGrindCampaign(ILocationSid locationSid, Globe globe)
     {
         var shortTemplateGraph = _wayTemplatesCatalog.CreateGrindShortTemplate(locationSid);
+
+        var graphGenerator =
+            new TemplateBasedGraphGenerator<ICampaignStageItem>(
+                new TemplateConfig<ICampaignStageItem>(shortTemplateGraph));
+
+        var campaignGraph = graphGenerator.Create();
+
+        var seed = _dice.RollD100();
+
+        var campaign = new HeroCampaign(locationSid, campaignGraph, seed);
+
+        return campaign;
+    }
+    
+    private HeroCampaign CreateScoutCampaign(ILocationSid locationSid, Globe globe)
+    {
+        var shortTemplateGraph = _wayTemplatesCatalog.CreateScoutShortTemplate(locationSid);
 
         var graphGenerator =
             new TemplateBasedGraphGenerator<ICampaignStageItem>(
@@ -56,18 +73,27 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     /// <summary>
     /// Create set of different campaigns
     /// </summary>
-    public IReadOnlyList<HeroCampaign> CreateSet()
+    public IReadOnlyList<HeroCampaign> CreateSet(Globe currentGlobe)
     {
-        var availableLocationSids = GetAvailableLocations();
+        var availableLocationSids = currentGlobe.CurrentAvailableLocations.ToArray();
 
         var rollCount = Math.Min(availableLocationSids.Length, 3);
 
         var selectedLocations = _dice.RollFromList(availableLocationSids, rollCount).ToList();
 
         var list = new List<HeroCampaign>();
+
+        var availableCampaignDelegates = new Func<ILocationSid, Globe, HeroCampaign>[]
+        {
+            CreateGrindCampaign,
+            CreateScoutCampaign
+        };
+        
         foreach (var locationSid in selectedLocations)
         {
-            var campaign = CreateCampaign(locationSid);
+            var rolledLocationDelegate = _dice.RollFromList(availableCampaignDelegates);
+            
+            var campaign = rolledLocationDelegate(locationSid, currentGlobe);
 
             list.Add(campaign);
         }

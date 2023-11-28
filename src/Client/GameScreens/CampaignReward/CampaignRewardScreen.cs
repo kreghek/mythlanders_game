@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Core;
-using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.CommandCenter;
 using Client.ScreenManagement;
@@ -16,26 +15,38 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.CampaignReward;
 
-internal sealed record CampaignRewardScreenTransitionArguments
-    (HeroCampaign Campaign, IReadOnlyCollection<IProp> CampaignRewards) : CampaignScreenTransitionArgumentsBase(
-        Campaign);
+internal sealed class ResourceCampaignReward : ICampaignReward
+{
+    private readonly IProp _resource;
+
+    public ResourceCampaignReward(IProp resource)
+    {
+        _resource = resource;
+    }
+    public string GetRewardDescription()
+    {
+        return _resource.Scheme.Sid;
+    }
+}
 
 internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
 {
     private readonly ICampaignGenerator _campaignGenerator;
     private readonly ResourceTextButton _moveNextButton;
-    private readonly IReadOnlyCollection<IProp> _reward;
+    private readonly IReadOnlyCollection<ICampaignReward> _rewards;
     private readonly IUiContentStorage _uiContent;
+    private readonly GlobeProvider _globeProvider;
 
     public CampaignRewardScreen(TestamentGame game, CampaignRewardScreenTransitionArguments args) : base(game)
     {
         _campaignGenerator = game.Services.GetRequiredService<ICampaignGenerator>();
         _uiContent = game.Services.GetRequiredService<IUiContentStorage>();
+        _globeProvider = game.Services.GetRequiredService<GlobeProvider>();
 
         _moveNextButton = new ResourceTextButton(nameof(UiResource.CompleteCampaignButtonTitle));
         _moveNextButton.OnClick += MoveNextButton_OnClick;
 
-        _reward = args.CampaignRewards;
+        _rewards = args.CampaignRewards;
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -57,11 +68,11 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
         _moveNextButton.Rect = new Rectangle(contentRect.Location, new Point(100, 20));
         _moveNextButton.Draw(spriteBatch);
 
-        var array = _reward.ToArray();
+        var array = _rewards.ToArray();
         for (var i = 0; i < array.Length; i++)
         {
             var prop = array[i];
-            spriteBatch.DrawString(_uiContent.GetTitlesFont(), prop.Scheme.Sid,
+            spriteBatch.DrawString(_uiContent.GetTitlesFont(), prop.GetRewardDescription(),
                 (contentRect.Location + new Point(0, i * 32)).ToVector2(), Color.White);
         }
 
@@ -81,7 +92,7 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
 
     private void MoveNext()
     {
-        var campaigns = _campaignGenerator.CreateSet();
+        var campaigns = _campaignGenerator.CreateSet(_globeProvider.Globe);
         ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
             new CommandCenterScreenTransitionArguments
             {
