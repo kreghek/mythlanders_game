@@ -12,9 +12,9 @@ namespace Client.Assets.StageItems;
 internal sealed class UnlockLocationRewardStageItem : IRewardCampaignStageItem
 {
     private readonly GlobeProvider _globeProvider;
-    private readonly ILocationSid _scoutedLocation;
-    
+
     private readonly IJobProgressResolver _jobProgressResolver;
+    private readonly ILocationSid _scoutedLocation;
 
     public UnlockLocationRewardStageItem(GlobeProvider globeProvider,
         IJobProgressResolver jobProgressResolver,

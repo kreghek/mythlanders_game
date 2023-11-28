@@ -52,7 +52,8 @@ internal sealed class CampaignButton : ButtonBase
             spriteBatch.DrawString(
                 UiThemeManager.UiContentStorage.GetMainFont(),
                 estimatedReward.GetRewardDescription(),
-                new Vector2(contentRect.Left + CONTENT_MARGIN, contentRect.Bottom - CONTENT_MARGIN - 20 + 20 + CONTENT_MARGIN),
+                new Vector2(contentRect.Left + CONTENT_MARGIN,
+                    contentRect.Bottom - CONTENT_MARGIN - 20 + 20 + CONTENT_MARGIN),
                 Color.Wheat);
         }
     }

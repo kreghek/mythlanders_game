@@ -17,8 +17,8 @@ internal sealed class CampaignPanel : ControlBase, ICampaignPanel
 
     public CampaignPanel(HeroCampaign campaign, Texture2D campaignTexture)
     {
-        var reward = campaign.Stages.GetAllNodes().Select(x=>x.Payload).OfType<IRewardCampaignStageItem>().First();
-        
+        var reward = campaign.Stages.GetAllNodes().Select(x => x.Payload).OfType<IRewardCampaignStageItem>().First();
+
         _selectButton = new CampaignButton(campaignTexture, campaign.Location, reward.GetEstimateRewards(campaign));
         _selectButton.OnClick += (_, _) => { Selected?.Invoke(this, EventArgs.Empty); };
         _selectButton.OnHover += (_, _) =>

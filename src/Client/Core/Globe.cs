@@ -14,7 +14,7 @@ internal sealed class Globe
 
     private readonly List<IGlobeEvent> _globeEvents;
 
-    public Globe( Player player)
+    public Globe(Player player)
     {
         _globeEvents = new List<IGlobeEvent>();
         _activeStoryPointsList = new List<IStoryPoint>();
@@ -39,14 +39,14 @@ internal sealed class Globe
 
     public IEnumerable<IStoryPoint> ActiveStoryPoints => _activeStoryPointsList;
 
+    public IList<ILocationSid> CurrentAvailableLocations { get; }
+
 
     public IReadOnlyCollection<IGlobeEvent> GlobeEvents => _globeEvents;
 
     public GlobeLevel GlobeLevel { get; }
 
     public bool IsNodeInitialized { get; set; }
-
-    public IList<ILocationSid> CurrentAvailableLocations { get; }
 
     public Player Player { get; }
 

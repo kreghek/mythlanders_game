@@ -2,7 +2,6 @@
 using System.Linq;
 
 using Client.Assets.StageItems;
-using Client.Core;
 using Client.Core.Campaigns;
 
 using CombatDicesTeam.Dices;
@@ -35,7 +34,8 @@ internal sealed class UnlockLocationRewardCampaignStageTemplateFactory : ICampai
         var locationToScout = _services.Dice.RollFromList(GameLocations.GetGameLocations()
             .Except(_services.GlobeProvider.Globe.CurrentAvailableLocations).ToArray());
 
-        return new UnlockLocationRewardStageItem(_services.GlobeProvider, _services.JobProgressResolver, locationToScout);
+        return new UnlockLocationRewardStageItem(_services.GlobeProvider, _services.JobProgressResolver,
+            locationToScout);
     }
 
     /// <inheritdoc />

@@ -37,7 +37,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         return campaign;
     }
-    
+
     private HeroCampaign CreateScoutCampaign(ILocationSid locationSid, Globe globe)
     {
         var shortTemplateGraph = _wayTemplatesCatalog.CreateScoutShortTemplate(locationSid);
@@ -83,16 +83,16 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var list = new List<HeroCampaign>();
 
-        var availableCampaignDelegates = new Func<ILocationSid, Globe, HeroCampaign>[]
+        var availableCampaignDelegates = new[]
         {
             CreateGrindCampaign,
             CreateScoutCampaign
         };
-        
+
         foreach (var locationSid in selectedLocations)
         {
             var rolledLocationDelegate = _dice.RollFromList(availableCampaignDelegates);
-            
+
             var campaign = rolledLocationDelegate(locationSid, currentGlobe);
 
             list.Add(campaign);
