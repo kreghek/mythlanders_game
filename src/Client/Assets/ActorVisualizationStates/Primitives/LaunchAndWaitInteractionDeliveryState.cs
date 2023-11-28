@@ -25,6 +25,8 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
     private readonly IAnimationFrameSet _launchAnimation;
     private readonly IAnimationFrameSet _waitAnimation;
 
+    private bool _launched;
+
     public LaunchAndWaitInteractionDeliveryState(IActorAnimator animator,
         IAnimationFrameSet launchAnimation,
         IAnimationFrameSet waitAnimation,
@@ -45,6 +47,7 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
         {
             if (e.KeyFrame.Equals(launchFrame))
             {
+                _launched = true;
                 LaunchInteractionDelivery();
             }
         };
@@ -108,7 +111,7 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
             _animationPlayed = true;
         }
 
-        if (_activeInteractionDeliveryList.Any())
+        if (!_activeInteractionDeliveryList.Any() && _launched)
         {
             IsComplete = true;
         }

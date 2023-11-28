@@ -10,6 +10,7 @@ internal sealed class RobberGraphicsConfig : HeroGraphicConfig
 {
     public RobberGraphicsConfig(UnitName name) : base(name)
     {
+        LaunchPoint = new Microsoft.Xna.Framework.Vector2(-128, 64);
     }
 
     public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
