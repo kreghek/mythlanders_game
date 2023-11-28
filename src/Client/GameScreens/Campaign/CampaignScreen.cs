@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.StageItems;
 using Client.Core;
 using Client.Engine;
 using Client.GameScreens.Campaign.Ui;
@@ -88,8 +89,24 @@ internal class CampaignScreen : GameScreenWithMenuBase
             STORY_POINT_PANEL_HEIGHT);
 
         DrawCurrentStoryPoints(spriteBatch, storyPointRect);
+        
+        
+
+        DrawCampaignRewards(spriteBatch, contentRect);
 
         spriteBatch.End();
+    }
+
+    private void DrawCampaignRewards(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        var rewards = _screenTransitionArguments.Campaign.GetCampaignRewards().ToArray();
+
+        for (var rewardIndex = 0; rewardIndex < rewards.Length; rewardIndex++)
+        {
+            var reward = rewards[rewardIndex];
+            spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(), reward.GetRewardDescription(),
+                new Vector2(contentRect.Left, contentRect.Top + rewardIndex * 20), TestamentColors.MainSciFi);
+        }
     }
 
     protected override void InitializeContent()
