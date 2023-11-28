@@ -23,12 +23,13 @@ internal sealed class RainingArrowInteractionDeliveryFactory : IDeliveryFactory
         Vector2 targetPoint)
     {
         var arrow = new EnergyArrowProjectile(startPoint, targetPoint, _gameObjectContentStorage.GetBulletGraphics());
-        var blast = new EnergyArrowBlast(
-            targetPoint,
-            _gameObjectContentStorage.GetBulletGraphics(),
-            _gameObjectContentStorage.GetParticlesTexture());
+        // TODO Make it via combat visual effect
+        //var blast = new EnergyArrowBlast(
+        //    targetPoint,
+        //    _gameObjectContentStorage.GetBulletGraphics(),
+        //    _gameObjectContentStorage.GetParticlesTexture());
 
-        var sequentialProjectile = new SequentialProjectile(new IInteractionDelivery[] { arrow, blast });
+        var sequentialProjectile = new SequentialProjectile(new IInteractionDelivery[] { arrow/*, blast*/ });
 
         return sequentialProjectile;
     }
