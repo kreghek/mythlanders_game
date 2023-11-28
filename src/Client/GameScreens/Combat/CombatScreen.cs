@@ -349,7 +349,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             _shadeService,
             _combatantPositionProvider,
             _combatCore.Field,
-            _visualEffectManager);
+            _visualEffectManager,
+            _postEffectManager);
 
         _manualCombatantBehaviour.Assign(intention);
     }
@@ -1457,7 +1458,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _shadeService,
                 _combatantPositionProvider,
                 _combatCore.Field,
-                _visualEffectManager
+                _visualEffectManager,
+                _postEffectManager
             );
         _combatCore.Initialize(
             CombatantFactory.CreateHeroes(_manualCombatantBehaviour, _globeProvider.Globe.Player),

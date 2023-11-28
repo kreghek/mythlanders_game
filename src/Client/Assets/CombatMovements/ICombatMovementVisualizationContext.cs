@@ -1,5 +1,6 @@
 ﻿using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Core;
+using Client.Engine.PostProcessing;
 using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects;
 
@@ -19,6 +20,9 @@ internal interface ICombatMovementVisualizationContext
 
     IBattlefieldInteractionContext BattlefieldInteractionContext { get; }
     ICombatVisualEffectManager CombatVisualEffectManager { get; }
+
+    PostEffectManager PostEffectManager { get; }
+
     IDice Dice { get; }
     GameObjectContentStorage GameObjectContentStorage { get; }
 

@@ -5,6 +5,7 @@ using System.Linq;
 using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Core;
 using Client.Engine;
+using Client.Engine.PostProcessing;
 using Client.GameScreens;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
@@ -18,6 +19,10 @@ using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
+
+using GameClient.Engine;
+using GameClient.Engine.Animations;
+using GameClient.Engine.CombatVisualEffects;
 
 using JetBrains.Annotations;
 
@@ -65,9 +70,15 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
         var prepareToShotAnimation = AnimationHelper.ConvertToAnimation(animationSet, "prepare-arrow-rain");
         var prepareToShotSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SwordPrepare);
+        var prepareToShotPostEffectAnimation = new PostEffectAnimationFrameSet(prepareToShotAnimation,
+            visualizationContext.PostEffectManager, new[]
+            {
+                new AnimationFrame<IPostEffect>(new AnimationFrameInfo(0),
+                    new TimeLimitedShakePostEffect(new Duration(1), new FadeInShakeFunction(ShakePowers.Normal)))
+            });
 
         var prepareToShotState = CreateSoundedState(
-            () => new PlayAnimationActorState(actorAnimator, prepareToShotAnimation),
+            () => new PlayAnimationActorState(actorAnimator, prepareToShotPostEffectAnimation),
             prepareToShotSoundEffect.CreateInstance());
 
         // phase 2 - launch rain source
