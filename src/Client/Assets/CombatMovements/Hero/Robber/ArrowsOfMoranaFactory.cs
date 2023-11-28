@@ -70,15 +70,15 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
         var prepareToShotAnimation = AnimationHelper.ConvertToAnimation(animationSet, "prepare-arrow-rain");
         var prepareToShotSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SwordPrepare);
-        var prepareToShotPostEffectAnimation = new PostEffectAnimationFrameSet(prepareToShotAnimation,
-            visualizationContext.PostEffectManager, new[]
-            {
-                new AnimationFrame<IPostEffect>(new AnimationFrameInfo(0),
-                    new TimeLimitedShakePostEffect(new Duration(3), new FadeOutShakeFunction(ShakePowers.Normal)))
-            });
+        //var prepareToShotPostEffectAnimation = new PostEffectAnimationFrameSet(prepareToShotAnimation,
+        //    visualizationContext.PostEffectManager, new[]
+        //    {
+        //        new AnimationFrame<IPostEffect>(new AnimationFrameInfo(0),
+        //            new TimeLimitedShakePostEffect(new Duration(3), new FadeOutShakeFunction(ShakePowers.Normal)))
+        //    });
 
         var prepareToShotState = CreateSoundedState(
-            () => new PlayAnimationActorState(actorAnimator, prepareToShotPostEffectAnimation),
+            () => new PlayAnimationActorState(actorAnimator, prepareToShotAnimation),
             prepareToShotSoundEffect.CreateInstance());
 
         // phase 2 - launch rain source
