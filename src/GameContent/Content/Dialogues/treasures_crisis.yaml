@@ -11,8 +11,8 @@ root:
     - text: 'Быстро взять все себе.'
       description: |
         'Называется - нашел!
-        '- Герои получают немного...'
-        '- ???'
+        '- Герои получают немного золота'
+        '- Никто не знает, что будет, если присвоить это себе'
       next: take_all
       aftermaths:
         - type: AddResources
@@ -25,7 +25,8 @@ root:
         '- Герои внимательно изучают находку, за что получают опыт.'
         '- ???'
       aftermaths:
-        - type: TakeExpo
+        - type: AddResources
+          data: combat-xp 2
 
 take_all:
   paragraphs:
