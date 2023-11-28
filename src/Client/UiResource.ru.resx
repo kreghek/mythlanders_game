@@ -498,6 +498,9 @@
   <data name="SkipButtonTitle" xml:space="preserve">
     <value>Пропустить</value>
   </data>
+  <data name="SkipMapPresentationHintText" xml:space="preserve">
+    <value>Нажми [SPACE] чтобы пропустить</value>
+  </data>
   <data name="SkipTutorialButtonTitle" xml:space="preserve">
     <value>Пропустить обучение</value>
   </data>
