@@ -70,6 +70,7 @@ internal sealed class Player
 
     public PoolGroup Pool { get; }
     public IStoryState StoryState { get; }
+    public IReadOnlyCollection<IJob>? ChallengeJobs { get; set; }
 
     public void AddPlayerAbility(PlayerAbility ability)
     {

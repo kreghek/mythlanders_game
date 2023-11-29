@@ -55,21 +55,6 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         return campaign;
     }
 
-    private static ILocationSid[] GetAvailableLocations()
-    {
-        return new[]
-        {
-            LocationSids.Thicket
-            //LocationSids.Monastery,
-            //LocationSids.ShipGraveyard,
-            //LocationSids.Desert,
-
-            //LocationSids.Swamp,
-
-            //LocationSids.Battleground
-        };
-    }
-
     /// <summary>
     /// Create set of different campaigns
     /// </summary>
@@ -83,7 +68,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var list = new List<HeroCampaign>();
 
-        var availableCampaignDelegates = new[]
+        var availableCampaignDelegates = new Func<ILocationSid, Globe, HeroCampaign>[]
         {
             CreateGrindCampaign,
             CreateScoutCampaign

@@ -561,4 +561,7 @@
   <data name="SkipMapPresentationHintText" xml:space="preserve">
     <value>Нажми [SPACE] чтобы пропустить</value>
   </data>
+  <data name="AcceptChallengeButtonTitle" xml:space="preserve">
+    <value>Принять испытание</value>
+  </data>
 </root>
