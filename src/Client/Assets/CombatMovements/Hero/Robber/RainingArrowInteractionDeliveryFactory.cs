@@ -42,7 +42,7 @@ internal sealed class RainingArrowInteractionDeliveryFactory : IDeliveryFactory
             _combatVisualEffectManager.AddEffect(blast);
         };
 
-        var sequentialProjectile = new SequentialProjectile(new IInteractionDelivery[] { arrow/*, blast*/ });
+        var sequentialProjectile = new SequentialProjectile(new IInteractionDelivery[] { arrow /*, blast*/ });
 
         return sequentialProjectile;
     }

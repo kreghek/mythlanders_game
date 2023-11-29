@@ -21,11 +21,11 @@ internal interface ICombatMovementVisualizationContext
     IBattlefieldInteractionContext BattlefieldInteractionContext { get; }
     ICombatVisualEffectManager CombatVisualEffectManager { get; }
 
-    PostEffectManager PostEffectManager { get; }
-
     IDice Dice { get; }
     GameObjectContentStorage GameObjectContentStorage { get; }
 
     InteractionDeliveryManager InteractionDeliveryManager { get; }
+
+    PostEffectManager PostEffectManager { get; }
     CombatantGameObject GetCombatActor(ICombatant combatant);
 }

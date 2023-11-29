@@ -23,9 +23,9 @@ internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
     private readonly CombatField _combatField;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
     private readonly ICombatVisualEffectManager _combatVisualEffectManager;
-    private readonly PostEffectManager _postEffectManager;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
+    private readonly PostEffectManager _postEffectManager;
     private readonly IShadeService _shadeService;
 
     public BotCombatActorIntentionFactory(IAnimationManager animationManager,
