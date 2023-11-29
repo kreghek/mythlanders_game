@@ -27,7 +27,7 @@ internal sealed class ArrowRainSourceInteractionDeliveryFactory : IDeliveryFacto
 
     private static IAnimationFrameSet CreateFrameSet()
     {
-        var rising = AnimationFrameSetFactory.CreateSequential(
+        var openingAnimation = AnimationFrameSetFactory.CreateSequential(
             startFrameIndex: 4,
             frameCount: 5,
             fps: FPS,
@@ -36,7 +36,7 @@ internal sealed class ArrowRainSourceInteractionDeliveryFactory : IDeliveryFacto
             textureColumns: SfxSpriteConsts.Size64x32.COL_COUNT,
             isLoop: false);
 
-        var body = AnimationFrameSetFactory.CreateSequential(
+        var cycleAnimation = AnimationFrameSetFactory.CreateSequential(
             startFrameIndex: 9,
             frameCount: 5,
             fps: FPS,
@@ -45,9 +45,9 @@ internal sealed class ArrowRainSourceInteractionDeliveryFactory : IDeliveryFacto
             textureColumns: SfxSpriteConsts.Size64x32.COL_COUNT,
             isLoop: true);
 
-        var full = new SequentialAnimationFrameSet(rising, body);
+        var fullAnimation = new SequentialAnimationFrameSet(openingAnimation, cycleAnimation);
 
-        return full;
+        return fullAnimation;
     }
 
     /// <inheritdoc />
