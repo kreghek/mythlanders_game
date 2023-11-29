@@ -88,7 +88,7 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
         var waitRainSourceAnimation = AnimationHelper.ConvertToAnimation(animationSet, "wait-arrow-rain");
 
         var createArrowRainAndWaitState = new LaunchAndWaitInteractionDeliveryState(actorAnimator,
-            soundedRainSounceAnimation, waitRainSourceAnimation,
+            soundedRainSourceAnimation, waitRainSourceAnimation,
             CreateEmptyRainSourceInteraction(actorAnimator),
             new ArrowRainSourceInteractionDeliveryFactory(visualizationContext.GameObjectContentStorage),
             visualizationContext.InteractionDeliveryManager,
