@@ -52,6 +52,7 @@ internal sealed class EnergyBlastVisualEffect : ICombatVisualEffect
     }
 
     public bool IsDestroyed { get; private set; }
+
     public void DrawBack(SpriteBatch spriteBatch)
     {
         // Draw nothing
