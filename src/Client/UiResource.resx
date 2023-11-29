@@ -509,6 +509,9 @@ Do you really need to spend the priceless current move for nothing?</value>
   <data name="SkipButtonTitle" xml:space="preserve">
     <value>Skip</value>
   </data>
+  <data name="SkipMapPresentationHintText" xml:space="preserve">
+    <value>Press [SPACE] to skip</value>
+  </data>
   <data name="SkipTutorialButtonTitle" xml:space="preserve">
     <value>Do not show anymore</value>
   </data>

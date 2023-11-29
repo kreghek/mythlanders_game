@@ -4,6 +4,7 @@ using System.Linq;
 using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.CombatMovements;
 using Client.Engine;
+using Client.Engine.PostProcessing;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
 
@@ -28,6 +29,7 @@ internal sealed class UseCombatMovementIntention : IIntention
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
     private readonly IShadeService _shadeService;
+    private readonly PostEffectManager _postEffectManager;
 
     public UseCombatMovementIntention(CombatMovementInstance combatMovement, IAnimationManager animationManager,
         ICombatMovementVisualizationProvider combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects,
@@ -35,7 +37,8 @@ internal sealed class UseCombatMovementIntention : IIntention
         CameraOperator cameraOperator,
         IShadeService shadeService,
         ICombatantPositionProvider combatantPositionProvider, CombatField combatField,
-        ICombatVisualEffectManager combatVisualEffectManager)
+        ICombatVisualEffectManager combatVisualEffectManager,
+        PostEffectManager postEffectManager)
     {
         _combatMovement = combatMovement;
         _animationManager = animationManager;
@@ -48,6 +51,7 @@ internal sealed class UseCombatMovementIntention : IIntention
         _combatantPositionProvider = combatantPositionProvider;
         _combatField = combatField;
         _combatVisualEffectManager = combatVisualEffectManager;
+        _postEffectManager = postEffectManager;
     }
 
     private CombatantGameObject GetCombatantGameObject(ICombatant combatant)
@@ -65,7 +69,9 @@ internal sealed class UseCombatMovementIntention : IIntention
             _gameObjectContentStorage,
             new BattlefieldInteractionContext(_combatantPositionProvider, _combatField),
             _combatVisualEffectManager,
-            new LinearDice());
+            new LinearDice(),
+            _postEffectManager
+            );
 
         return _combatMovementVisualizer.GetMovementVisualizationState(combatMovement.SourceMovement.Sid,
             actorGameObject.Animator, movementExecution, context);
