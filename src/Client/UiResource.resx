@@ -509,6 +509,9 @@ Do you really need to spend the priceless current move for nothing?</value>
   <data name="SkipButtonTitle" xml:space="preserve">
     <value>Skip</value>
   </data>
+  <data name="SkipMapPresentationHintText" xml:space="preserve">
+    <value>Press [SPACE] to skip</value>
+  </data>
   <data name="SkipTutorialButtonTitle" xml:space="preserve">
     <value>Do not show anymore</value>
   </data>
@@ -570,5 +573,8 @@ This hero can no longer act in the current battle.</value>
   </data>
   <data name="_AllChars" xml:space="preserve">
     <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
+  </data>
+  <data name="SkipMapPresentationHintText" xml:space="preserve">
+    <value>Press [SPACE] to skip</value>
   </data>
 </root>

@@ -1162,6 +1162,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Press [SPACE] to skip.
+        /// </summary>
+        internal static string SkipMapPresentationHintText {
+            get {
+                return ResourceManager.GetString("SkipMapPresentationHintText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do not show anymore.
         /// </summary>
         internal static string SkipTutorialButtonTitle {

@@ -1,6 +1,4 @@
 using Client.Assets.Catalogs.CampaignGeneration;
-using Client.Assets.DialogueOptionAftermath;
-using Client.Assets.StageItems;
 using Client.Core;
 using Client.Core.Campaigns;
 
@@ -28,7 +26,7 @@ internal sealed class CampaignWayTemplatesCatalog
     {
         return CreateShortTemplate(locationSid, new ResourceRewardCampaignStageTemplateFactory(_services));
     }
-    
+
     public IGraph<GraphWay<ICampaignStageItem>> CreateScoutShortTemplate(ILocationSid locationSid)
     {
         return CreateShortTemplate(locationSid, new UnlockLocationRewardCampaignStageTemplateFactory(_services));
@@ -42,7 +40,8 @@ internal sealed class CampaignWayTemplatesCatalog
     /// <summary>
     /// Creates graph
     /// </summary>
-    public IGraph<GraphWay<ICampaignStageItem>> CreateShortTemplate(ILocationSid locationSid, ICampaignStageTemplateFactory stageTemplateFactory)
+    public IGraph<GraphWay<ICampaignStageItem>> CreateShortTemplate(ILocationSid locationSid,
+        ICampaignStageTemplateFactory stageTemplateFactory)
     {
         var wayGraph = new DirectedGraph<GraphWay<ICampaignStageItem>>();
 

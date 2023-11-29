@@ -23,6 +23,7 @@ internal sealed class ResourceCampaignReward : ICampaignReward
     {
         _resource = resource;
     }
+
     public string GetRewardDescription()
     {
         return _resource.Scheme.Sid;
@@ -32,10 +33,10 @@ internal sealed class ResourceCampaignReward : ICampaignReward
 internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
 {
     private readonly ICampaignGenerator _campaignGenerator;
+    private readonly GlobeProvider _globeProvider;
     private readonly ResourceTextButton _moveNextButton;
     private readonly IReadOnlyCollection<ICampaignReward> _rewards;
     private readonly IUiContentStorage _uiContent;
-    private readonly GlobeProvider _globeProvider;
 
     public CampaignRewardScreen(TestamentGame game, CampaignRewardScreenTransitionArguments args) : base(game)
     {

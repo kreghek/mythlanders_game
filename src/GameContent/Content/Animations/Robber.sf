@@ -6,12 +6,12 @@
   },
   "cycles": {
     "prepare-arrow-rain": {
-      "frames": [0,1,2,3,4,5,6,7],
+      "frames": [31,30,29,28,27],
       "isLooping": false,
-      "frameDuration": 0.2
+      "frameDuration": 0.1
     },
     "launch-arrow-rain": {
-      "frames": [24,25,26],
+      "frames": [26,25,24],
       "isLooping": false,
       "frameDuration": 0.15
     },
@@ -26,7 +26,7 @@
       "frameDuration": 0.15
     },
     "wait-arrow-rain": {
-      "frames": [0],
+      "frames": [0,1,2,3,4,5,6,7],
       "isLooping": false,
       "frameDuration": 0.2
     },

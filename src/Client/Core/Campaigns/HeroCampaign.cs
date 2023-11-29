@@ -1,4 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+
+using Client.Assets.StageItems;
+using Client.GameScreens.CampaignReward;
 
 using CombatDicesTeam.Graphs;
 
@@ -23,4 +27,10 @@ internal sealed class HeroCampaign
     public int Seed { get; }
 
     public IGraph<ICampaignStageItem> Stages { get; }
+
+    public IReadOnlyCollection<ICampaignReward> GetCampaignRewards()
+    {
+        return Stages.GetAllNodes().Select(x => x.Payload)
+            .OfType<IRewardCampaignStageItem>().First().GetEstimateRewards(this);
+    }
 }

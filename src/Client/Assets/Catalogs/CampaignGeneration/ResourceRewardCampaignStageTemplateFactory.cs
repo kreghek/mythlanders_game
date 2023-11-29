@@ -30,7 +30,8 @@ internal sealed class ResourceRewardCampaignStageTemplateFactory : ICampaignStag
 
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        return new ResourceRewardStageItem(_services.GlobeProvider, _services.JobProgressResolver, _services.DropResolver);
+        return new ResourceRewardStageItem(_services.GlobeProvider, _services.JobProgressResolver,
+            _services.DropResolver);
     }
 
     /// <inheritdoc />

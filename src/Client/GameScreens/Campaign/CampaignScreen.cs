@@ -74,7 +74,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
             if (_isCampaignPresentation)
             {
-                spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), "Нажми [SPACE] чтобы пропустить",
+                spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), UiResource.SkipMapPresentationHintText,
                     new Vector2(contentRect.Center.X, contentRect.Bottom - 50), Color.Wheat);
             }
         }
@@ -88,6 +88,14 @@ internal class CampaignScreen : GameScreenWithMenuBase
             STORY_POINT_PANEL_HEIGHT);
 
         DrawCurrentStoryPoints(spriteBatch, storyPointRect);
+
+        var campaignRewardsRect = new Rectangle(
+            contentRect.Left + STORY_POINT_PANEL_WIDTH - ControlBase.CONTENT_MARGIN,
+            contentRect.Top + ControlBase.CONTENT_MARGIN,
+            STORY_POINT_PANEL_WIDTH,
+            STORY_POINT_PANEL_HEIGHT);
+
+        DrawCampaignRewards(spriteBatch, campaignRewardsRect);
 
         spriteBatch.End();
     }
@@ -109,6 +117,18 @@ internal class CampaignScreen : GameScreenWithMenuBase
         }
 
         _showStoryPointsButton.Update(ResolutionIndependentRenderer);
+    }
+
+    private void DrawCampaignRewards(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        var rewards = _screenTransitionArguments.Campaign.GetCampaignRewards().ToArray();
+
+        for (var rewardIndex = 0; rewardIndex < rewards.Length; rewardIndex++)
+        {
+            var reward = rewards[rewardIndex];
+            spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(), reward.GetRewardDescription(),
+                new Vector2(contentRect.Left, contentRect.Top + rewardIndex * 20), TestamentColors.MainSciFi);
+        }
     }
 
     private void DrawCurrentStoryPoints(SpriteBatch spriteBatch, Rectangle contentRect)

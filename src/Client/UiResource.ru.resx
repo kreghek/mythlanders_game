@@ -498,6 +498,9 @@
   <data name="SkipButtonTitle" xml:space="preserve">
     <value>Пропустить</value>
   </data>
+  <data name="SkipMapPresentationHintText" xml:space="preserve">
+    <value>Нажми [SPACE] чтобы пропустить</value>
+  </data>
   <data name="SkipTutorialButtonTitle" xml:space="preserve">
     <value>Пропустить обучение</value>
   </data>
@@ -554,5 +557,8 @@
   </data>
   <data name="_AllChars" xml:space="preserve">
     <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
+  </data>
+  <data name="SkipMapPresentationHintText" xml:space="preserve">
+    <value>Нажми [SPACE] чтобы пропустить</value>
   </data>
 </root>
