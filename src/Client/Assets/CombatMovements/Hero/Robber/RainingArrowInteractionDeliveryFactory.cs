@@ -29,7 +29,7 @@ internal sealed class RainingArrowInteractionDeliveryFactory : IDeliveryFactory
         //    _gameObjectContentStorage.GetBulletGraphics(),
         //    _gameObjectContentStorage.GetParticlesTexture());
 
-        var sequentialProjectile = new SequentialProjectile(new IInteractionDelivery[] { arrow/*, blast*/ });
+        var sequentialProjectile = new SequentialProjectile(new IInteractionDelivery[] { arrow /*, blast*/ });
 
         return sequentialProjectile;
     }

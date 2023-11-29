@@ -5,7 +5,7 @@ namespace Client.Engine.PostProcessing;
 public sealed class ShakePower
 {
     /// <summary>
-    /// Create shake effect power between 0 to 1. Its recommended to use in-box powers from <see cref="ShakePowers"/>
+    /// Create shake effect power between 0 to 1. Its recommended to use in-box powers from <see cref="ShakePowers" />
     /// </summary>
     /// <param name="value">Numeric value of power.</param>
     /// <exception cref="ArgumentException"></exception>
