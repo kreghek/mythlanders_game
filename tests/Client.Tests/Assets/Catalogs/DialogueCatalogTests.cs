@@ -3,14 +3,19 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
+using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.Catalogs.DialogueStoring;
 using Client.Core;
 
 using CombatDicesTeam.Dialogues;
+using CombatDicesTeam.Dices;
 
 using FluentAssertions;
+
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Xna.Framework.Content;
 
 using Moq;
 
@@ -76,6 +81,31 @@ public class DialogueCatalogTests
         factDialogue.Root.Options.Should().HaveCount(1);
         factDialogue.Root.Options.First().Next.Should()
             .Be(DialogueNode<ParagraphConditionContext, AftermathContext>.EndNode);
+    }
+
+    [Test(TestOf = typeof(DialogueCatalog))]
+    [Category("Integration")]
+    public void GetDialogue_Treasure()
+    {
+        var serviceProvider = new ServiceCollection().BuildServiceProvider();
+        var content = new ContentManager(serviceProvider, "Content");
+        var provider = new DialogueResourceProvider(content);
+
+        var aftermathCreator = new DialogueOptionAftermathCreator(new UnitSchemeCatalog(new BalanceTable(), false), new LinearDice());
+
+        var catalog = new DialogueCatalog(provider, aftermathCreator);
+
+        // ACT
+
+        var act = () => 
+        {
+            catalog.Init();
+            var _ = catalog.GetDialogue("treasures_crisis");
+        };
+
+        // ASSERT
+
+        act.Should().NotThrow();
     }
 
     private static string ReadResource(string name)
