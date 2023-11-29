@@ -1,16 +1,16 @@
-﻿using System;
+using System;
 
 using Microsoft.Xna.Framework;
 
 namespace Client.Engine.PostProcessing;
 
-public sealed class ShakePostEffect : IPostEffect
+public sealed class ConstantShakePostEffect : IPostEffect
 {
     private readonly ShakePower _power;
     private readonly Random _random;
     private Vector2 _shakeVector;
 
-    public ShakePostEffect(ShakePower power)
+    public ConstantShakePostEffect(ShakePower power)
     {
         _power = power;
 

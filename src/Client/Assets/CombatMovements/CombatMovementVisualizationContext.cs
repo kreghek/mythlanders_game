@@ -3,6 +3,7 @@ using System.Linq;
 
 using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Core;
+using Client.Engine.PostProcessing;
 using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects;
 
@@ -16,7 +17,6 @@ namespace Client.Assets.CombatMovements;
 internal sealed class CombatMovementVisualizationContext : ICombatMovementVisualizationContext
 {
     private readonly IReadOnlyCollection<CombatantGameObject> _gameObjects;
-    private readonly ICombatVisualEffectManager _visualEffectManager;
 
     public CombatMovementVisualizationContext(
         CombatantGameObject actorGameObject,
@@ -25,16 +25,16 @@ internal sealed class CombatMovementVisualizationContext : ICombatMovementVisual
         GameObjectContentStorage gameObjectContentStorage,
         IBattlefieldInteractionContext battlefieldInteractionContext,
         ICombatVisualEffectManager visualEffectManager,
-        IDice dice)
+        IDice dice, PostEffectManager postEffectManager)
     {
         ActorGameObject = actorGameObject;
         _gameObjects = gameObjects;
         InteractionDeliveryManager = interactionDeliveryManager;
         GameObjectContentStorage = gameObjectContentStorage;
         BattlefieldInteractionContext = battlefieldInteractionContext;
-        _visualEffectManager = visualEffectManager;
         Dice = dice;
-        CombatVisualEffectManager = _visualEffectManager;
+        PostEffectManager = postEffectManager;
+        CombatVisualEffectManager = visualEffectManager;
     }
 
     public CombatantGameObject GetCombatActor(ICombatant combatant)
@@ -50,6 +50,7 @@ internal sealed class CombatMovementVisualizationContext : ICombatMovementVisual
 
     public IBattlefieldInteractionContext BattlefieldInteractionContext { get; }
 
+    public PostEffectManager PostEffectManager { get; }
     public IDice Dice { get; }
     public ICombatVisualEffectManager CombatVisualEffectManager { get; }
 }

@@ -3,6 +3,7 @@
 using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.CombatMovements;
 using Client.Engine;
+using Client.Engine.PostProcessing;
 using Client.GameScreens.Combat.GameObjects;
 
 using CombatDicesTeam.Combats;
@@ -22,6 +23,7 @@ internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
     private readonly CombatField _combatField;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
     private readonly ICombatVisualEffectManager _combatVisualEffectManager;
+    private readonly PostEffectManager _postEffectManager;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
     private readonly IShadeService _shadeService;
@@ -34,7 +36,8 @@ internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
         CameraOperator cameraOperator,
         IShadeService shadeService,
         ICombatantPositionProvider combatantPositionProvider, CombatField combatField,
-        ICombatVisualEffectManager combatVisualEffectManager)
+        ICombatVisualEffectManager combatVisualEffectManager,
+        PostEffectManager postEffectManager)
     {
         _animationManager = animationManager;
         _combatMovementVisualizer = combatMovementVisualizer;
@@ -46,6 +49,7 @@ internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
         _combatantPositionProvider = combatantPositionProvider;
         _combatField = combatField;
         _combatVisualEffectManager = combatVisualEffectManager;
+        _postEffectManager = postEffectManager;
     }
 
     public IIntention CreateCombatMovement(CombatMovementInstance combatMovement)
@@ -55,6 +59,7 @@ internal sealed class BotCombatActorIntentionFactory : IIntentionFactory
             _shadeService,
             _combatantPositionProvider,
             _combatField,
-            _combatVisualEffectManager);
+            _combatVisualEffectManager,
+            _postEffectManager);
     }
 }
