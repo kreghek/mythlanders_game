@@ -91,13 +91,14 @@ public class DialogueCatalogTests
         var content = new ContentManager(serviceProvider, "Content");
         var provider = new DialogueResourceProvider(content);
 
-        var aftermathCreator = new DialogueOptionAftermathCreator(new UnitSchemeCatalog(new BalanceTable(), false), new LinearDice());
+        var aftermathCreator =
+            new DialogueOptionAftermathCreator(new UnitSchemeCatalog(new BalanceTable(), false), new LinearDice());
 
         var catalog = new DialogueCatalog(provider, aftermathCreator);
 
         // ACT
 
-        var act = () => 
+        var act = () =>
         {
             catalog.Init();
             var _ = catalog.GetDialogue("treasures_crisis");
