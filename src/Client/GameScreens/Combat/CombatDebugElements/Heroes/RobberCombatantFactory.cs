@@ -24,15 +24,13 @@ public class RobberCombatantFactory : IHeroCombatantFactory
     {
         var movementPool = new List<CombatMovement>
         {
-            CreateMovement<ArrowsOfMoranaFactory>(),
-
             CreateMovement<BalticThunderFactory>(),
 
             CreateMovement<UndercutValuesFactory>(),
 
             CreateMovement<WingsOfVelesFactory>(),
 
-            
+            CreateMovement<ArrowsOfMoranaFactory>(),
 
             CreateMovement<WindWheelFactory>()
         };
