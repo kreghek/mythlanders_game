@@ -11,9 +11,9 @@ public sealed class TimeLimitedShakePostEffect : IPostEffect
     private readonly Duration _duration;
     private readonly IShakeFunction _func;
     private readonly Random _random;
-    private Vector2 _shakeVector;
 
     private double _durationCounter;
+    private Vector2 _shakeVector;
 
     public TimeLimitedShakePostEffect(Duration duration, IShakeFunction func)
     {

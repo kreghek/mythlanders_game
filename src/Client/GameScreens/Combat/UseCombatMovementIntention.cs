@@ -28,8 +28,8 @@ internal sealed class UseCombatMovementIntention : IIntention
     private readonly ICombatVisualEffectManager _combatVisualEffectManager;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
-    private readonly IShadeService _shadeService;
     private readonly PostEffectManager _postEffectManager;
+    private readonly IShadeService _shadeService;
 
     public UseCombatMovementIntention(CombatMovementInstance combatMovement, IAnimationManager animationManager,
         ICombatMovementVisualizationProvider combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects,
@@ -71,7 +71,7 @@ internal sealed class UseCombatMovementIntention : IIntention
             _combatVisualEffectManager,
             new LinearDice(),
             _postEffectManager
-            );
+        );
 
         return _combatMovementVisualizer.GetMovementVisualizationState(combatMovement.SourceMovement.Sid,
             actorGameObject.Animator, movementExecution, context);

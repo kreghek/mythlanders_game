@@ -2,16 +2,16 @@
 
 using Client.Core;
 using Client.Engine;
-using Client.GameScreens.Combat.GameObjects;
 
 using GameClient.Engine.Animations;
+using GameClient.Engine.CombatVisualEffects;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.Assets.InteractionDeliveryObjects;
+namespace Client.Assets.CombatVisualEffects;
 
-internal sealed class EnergyArrowBlast : IInteractionDelivery
+internal sealed class EnergyBlastVisualEffect : ICombatVisualEffect
 {
     private const float FPS = 8 * 2f;
     private readonly IAnimationFrameSet _frameSet;
@@ -19,7 +19,7 @@ internal sealed class EnergyArrowBlast : IInteractionDelivery
     private readonly Sprite _graphics;
     private readonly ParticleSystem _tailParticleSystem;
 
-    public EnergyArrowBlast(Vector2 position, Texture2D blastTexture, Texture2D particlesTexture)
+    public EnergyBlastVisualEffect(Vector2 position, Texture2D blastTexture, Texture2D particlesTexture)
     {
         _frameSet = AnimationFrameSetFactory.CreateSequential(7, frameCount: 7, fps: FPS, frameWidth: 64,
             frameHeight: 32, textureColumns: SfxSpriteConsts.Size64x32.COL_COUNT, isLoop: false);
@@ -44,7 +44,6 @@ internal sealed class EnergyArrowBlast : IInteractionDelivery
     private void FrameSet_End(object? sender, EventArgs e)
     {
         IsDestroyed = true;
-        InteractionPerformed?.Invoke(this, EventArgs.Empty);
     }
 
     private void UpdateAdditionalEffects(GameTime gameTime)
@@ -52,11 +51,14 @@ internal sealed class EnergyArrowBlast : IInteractionDelivery
         _tailParticleSystem.Update(gameTime);
     }
 
-    public event EventHandler? InteractionPerformed;
-
     public bool IsDestroyed { get; private set; }
 
-    public void Draw(SpriteBatch spriteBatch)
+    public void DrawBack(SpriteBatch spriteBatch)
+    {
+        // Draw nothing
+    }
+
+    public void DrawFront(SpriteBatch spriteBatch)
     {
         if (IsDestroyed)
         {
