@@ -30,7 +30,7 @@ internal sealed class RainingArrowInteractionDeliveryFactory : IDeliveryFactory
         Vector2 targetPoint)
     {
         var arrow = new EnergyArrowProjectile(startPoint, targetPoint, _gameObjectContentStorage.GetBulletGraphics(),
-            0.5f + GetRandomOffset(startPoint, 0.25));
+            0.25f + GetRandomOffset(startPoint, 1));
         
         arrow.InteractionPerformed += (_, _) =>
         {
@@ -42,15 +42,14 @@ internal sealed class RainingArrowInteractionDeliveryFactory : IDeliveryFactory
             _combatVisualEffectManager.AddEffect(blast);
         };
 
-        var sequentialProjectile = new SequentialProjectile(new IInteractionDelivery[] { arrow /*, blast*/ });
-
-        return sequentialProjectile;
+        return arrow;
     }
 
     private static double GetRandomOffset(Vector2 position, double baseValue)
     {
-        var v = Math.Pow(position.X, position.Y);
-        var intPart = (int)v;
-        return baseValue * (v - intPart);  
+        var v = (position.X * 13 + position.Y * 7) * 0.1;
+        var intPart = Math.Floor(v);
+        var rndOffset = v - intPart;
+        return baseValue * rndOffset;  
     }
 }
