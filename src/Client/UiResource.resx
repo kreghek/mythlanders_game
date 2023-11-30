@@ -427,9 +427,6 @@ Do you really need to spend the priceless current move for nothing?</value>
   <data name="PeriodicHealEffectRuleText" xml:space="preserve">
     <value>Heal over time: {0} - {1} during {3} to {2}</value>
   </data>
-  <data name="PlayFreeCombatButtonTitle" xml:space="preserve">
-    <value>Free Combat</value>
-  </data>
   <data name="PlayStoryButtonTitle" xml:space="preserve">
     <value>Play Story</value>
   </data>
