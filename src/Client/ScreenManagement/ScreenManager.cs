@@ -3,6 +3,7 @@
 using Client.GameScreens.Bestiary;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.CampaignReward;
+using Client.GameScreens.Challenge;
 using Client.GameScreens.Combat;
 using Client.GameScreens.CommandCenter;
 using Client.GameScreens.Credits;
@@ -129,6 +130,8 @@ internal class ScreenManager : IScreenManager
                 (TrainingScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.SlidingPuzzles => new SlidingPuzzlesScreen(_game,
                 (SlidingPuzzlesScreenTransitionArguments)screenTransitionArguments),
+            ScreenTransition.Challenge => new ChallengeScreen(_game,
+                (ChallengeScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.CampaignReward => new CampaignRewardScreen(_game,
                 (CampaignRewardScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.Bestiary => new BestiaryScreen(_game),

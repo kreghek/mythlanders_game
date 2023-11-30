@@ -34,26 +34,14 @@ internal sealed class CampaignWayTemplatesCatalog
     /// <summary>
     /// Creates graph
     /// </summary>
-    public IGraph<GraphWay<ICampaignStageItem>> CreateShortTemplate(ILocationSid locationSid,
+    private IGraph<GraphWay<ICampaignStageItem>> CreateShortTemplate(ILocationSid locationSid,
         ICampaignStageTemplateFactory stageTemplateFactory)
     {
         var wayGraph = new DirectedGraph<GraphWay<ICampaignStageItem>>();
 
         var way1Templates = new ICampaignStageTemplateFactory[]
         {
-            //// To debug text events
-            //new ICampaignStageTemplateFactory[]
-            //{
-            //    new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]{
-            //        new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
-            //        new ChallengeCampaignStageTemplateFactory(),
-            //    })
-            //},
-
-            // To debug crisis
-            //new CrisisEventCampaignStageTemplateFactory(),
-
-            //// Combat
+            // Combat
 
             new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Easy, _services),
 
@@ -63,7 +51,8 @@ internal sealed class CampaignWayTemplatesCatalog
             {
                 new RestCampaignStageTemplateFactory(),
                 new ShopCampaignStageTemplateFactory(),
-                new FindingEventCampaignStageTemplateFactory()
+                new FindingEventCampaignStageTemplateFactory(),
+                new ChallengeCampaignStageTemplateFactory(_services)
             }, _services),
 
             // Crisis
@@ -85,7 +74,8 @@ internal sealed class CampaignWayTemplatesCatalog
                 new ShopCampaignStageTemplateFactory(),
                 //new SacredEventCampaignStageTemplateFactory(),
                 //new ShopCampaignStageTemplateFactory(),
-                new FindingEventCampaignStageTemplateFactory()
+                new FindingEventCampaignStageTemplateFactory(),
+                new ChallengeCampaignStageTemplateFactory(_services)
             }, _services),
 
             // For demo only
