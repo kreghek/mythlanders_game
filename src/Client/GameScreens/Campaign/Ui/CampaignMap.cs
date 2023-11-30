@@ -565,6 +565,16 @@ internal sealed class CampaignMap : ControlBase
             return UiResource.CampaignStageDisplayNameTextEvent;
         }
 
+        if (campaignStageItem is ChallengeStageItem)
+        {
+            return UiResource.CampaignStageDisplayNameChallenge;
+        }
+
+        if (campaignStageItem is CrisisStageItem)
+        {
+            return UiResource.CampaignStageDisplayNameCrisis;
+        }
+
         if (campaignStageItem is RestStageItem)
         {
             return UiResource.CampaignStageDisplayNameRest;
