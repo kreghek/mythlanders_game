@@ -38,6 +38,9 @@ internal sealed class ChallengeScreen: GameScreenWithMenuBase
         _acceptButton.OnClick += (_, _) =>
         {
             _player.Challenge = new CampaignChallenge(_challengeJobs, _player);
+
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+               new CampaignScreenTransitionArguments(_campaign));
         };
 
         _skipButton = new ResourceTextButton(nameof(UiResource.SkipButtonTitle));
