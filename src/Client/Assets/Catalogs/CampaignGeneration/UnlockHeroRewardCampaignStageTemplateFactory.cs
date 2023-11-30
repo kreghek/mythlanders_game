@@ -16,6 +16,24 @@ internal sealed class UnlockHeroRewardCampaignStageTemplateFactory : ICampaignSt
 {
     private readonly CampaignStageTemplateServices _services;
 
+    private UnitName[] _heroInDev = new[]
+       {
+
+            UnitName.Herbalist,
+
+            UnitName.Sage,
+
+            UnitName.Hoplite,
+            UnitName.Engineer,
+
+            UnitName.Priest,
+            UnitName.Liberator,
+            UnitName.Medjay,
+
+            UnitName.Zoologist,
+            UnitName.Assaulter
+        };
+
     public UnlockHeroRewardCampaignStageTemplateFactory(CampaignStageTemplateServices services)
     {
         _services = services;
@@ -28,16 +46,30 @@ internal sealed class UnlockHeroRewardCampaignStageTemplateFactory : ICampaignSt
 
     public bool CanCreate(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
+        var heroesToJoin = CalculateLockedHeroes();
+        if (!heroesToJoin.Any())
+        {
+            return false;
+        }
+
         return true;
     }
 
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        var heroToJoin = _services.Dice.RollFromList(_services.UnitSchemeCatalog.Heroes.Select(x => x.Value.Name)
-            .Except(_services.GlobeProvider.Globe.Player.Heroes.Select(x => Enum.Parse<UnitName>(x.ClassSid, true)))
-            .ToArray());
+        var heroesToJoin = CalculateLockedHeroes();
 
-        return new UnlockHeroRewardStageItem(_services.GlobeProvider, _services.JobProgressResolver, heroToJoin, _services.UnitSchemeCatalog);
+        var rolledHero = _services.Dice.RollFromList(heroesToJoin.ToArray());
+
+        return new UnlockHeroRewardStageItem(_services.GlobeProvider, _services.JobProgressResolver, rolledHero, _services.UnitSchemeCatalog);
+    }
+
+    private IReadOnlyCollection<UnitName> CalculateLockedHeroes()
+    {
+        return _services.UnitSchemeCatalog.Heroes.Select(x => x.Value.Name)
+                    .Except(_services.GlobeProvider.Globe.Player.Heroes.Select(x => Enum.Parse<UnitName>(x.ClassSid, true)))
+                    .Except(_heroInDev)
+                    .ToArray();
     }
 
     /// <inheritdoc />
