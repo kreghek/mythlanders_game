@@ -36,7 +36,7 @@ internal sealed class ChallengeScreen: GameScreenWithMenuBase
         _acceptButton = new ResourceTextButton(nameof(UiResource.AcceptChallengeButtonTitle));
         _acceptButton.OnClick += (_, _) =>
         {
-            _player.ChallengeJobs = _challengeJobs;
+            _player.Challenge = new Core.CampaignChallenge(_challengeJobs);
         };
 
         _skipButton = new ResourceTextButton(nameof(UiResource.SkipButtonTitle));
@@ -54,13 +54,13 @@ internal sealed class ChallengeScreen: GameScreenWithMenuBase
 
     protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        if (_player.ChallengeJobs is not null)
+        if (_player.Challenge?.CurrentJobs != null)
         {
             var currentJobsRect = new Rectangle(contentRect.Left + 200, contentRect.Top + 200,
                 (contentRect.Width - 200 * 2), (contentRect.Height - 200 * 2) / 2);
-            DrawCurrentChallengeJobs(spriteBatch, _player.ChallengeJobs, currentJobsRect);
+            DrawCurrentChallengeJobs(spriteBatch, _player.Challenge.CurrentJobs, currentJobsRect);
         }
-        
+
         var challengeJobsRect = new Rectangle(contentRect.Left + 200, contentRect.Center.Y + 50,
             (contentRect.Width - 200 * 2), (contentRect.Height - 200 * 2) / 2 - 50);
         
