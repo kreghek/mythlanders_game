@@ -19,6 +19,9 @@ using Core.Combats.TargetSelectors;
 using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
+using GameClient.Engine;
+using GameClient.Engine.Animations;
+
 using JetBrains.Annotations;
 
 using Microsoft.Xna.Framework;
@@ -75,26 +78,20 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
         var launchRainSourceAnimation = AnimationHelper.ConvertToAnimation(animationSet, "launch-arrow-rain");
         var launchRainSourceSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.ImpulseBowShot);
+        var soundedRainSourceAnimation = new SoundedAnimationFrameSet(launchRainSourceAnimation,
+            new[] {
+                new AnimationFrame<IAnimationSoundEffect>(new AnimationFrameInfo(1), new AnimationSoundEffect(launchRainSourceSoundEffect, new AudioSettings()))
+        });
 
-        var launchRainSourceAnimationState = CreateSoundedState(
-            () => new PlayAnimationActorState(actorAnimator, launchRainSourceAnimation),
-            launchRainSourceSoundEffect.CreateInstance());
+        var waitRainSourceAnimation = AnimationHelper.ConvertToAnimation(animationSet, "wait-arrow-rain");
 
-        var createArrowRainState = new LaunchInteractionDeliveryState(CreateEmptyInteraction(actorAnimator),
+        var createArrowRainAndWaitState = new LaunchAndWaitInteractionDeliveryState(actorAnimator, soundedRainSourceAnimation, waitRainSourceAnimation,
+            CreateEmptyRainSourceInteraction(actorAnimator),
             new ArrowRainSourceInteractionDeliveryFactory(visualizationContext.GameObjectContentStorage),
-            visualizationContext.InteractionDeliveryManager);
-
-        var waitArrowSourceRisingAnimation = AnimationHelper.ConvertToAnimation(animationSet, "wait-rain-core");
-        var arrowRainSourceRisingState = new ParallelActionState(createArrowRainState,
-            new PlayAnimationActorState(actorAnimator, waitArrowSourceRisingAnimation));
-
-        var launchRainSourceState = new SequentialState(launchRainSourceAnimationState, arrowRainSourceRisingState);
+            visualizationContext.InteractionDeliveryManager,
+            new AnimationFrameInfo(2));
 
         // phase 3 - raining arrows
-
-        var waitArrowRainAnimation = AnimationHelper.ConvertToAnimation(animationSet, "wait-arrow-rain");
-        var waitArrowRainState = new ParallelActionState(createArrowRainState,
-            new PlayAnimationActorState(actorAnimator, waitArrowRainAnimation));
 
         var arrowRainOffset = new Vector2(400, 200);
         var items = from item in movementExecution.EffectImposeItems
@@ -108,42 +105,54 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
         for (var i = 0; i < TOTAL_ARROW_COUNT; i++)
         {
             var targetRandomPosition = visualizationContext.Dice.RollPoint(targetArea);
-            var emptyInfo = new InteractionDeliveryInfo(
+            var arrowInteractionInfo = new InteractionDeliveryInfo(
                 new CombatEffectImposeItem(combatant => { }, Array.Empty<TestamentCombatant>()),
                 targetRandomPosition - arrowRainOffset,
                 targetRandomPosition);
 
-            allArrowItems.Add(emptyInfo);
+            allArrowItems.Add(arrowInteractionInfo);
         }
 
-        var rainingArrowsProjectilesState = new LaunchInteractionDeliveryState(allArrowItems,
-            new RainingArrowInteractionDeliveryFactory(visualizationContext.GameObjectContentStorage),
-            visualizationContext.InteractionDeliveryManager);
-
-        var rainigArrowsState = new ParallelActionState(waitArrowRainState, rainingArrowsProjectilesState);
+        var launchArrowsAnimation = AnimationHelper.ConvertToAnimation(animationSet, "wait-arrow-rain");
+        var waitArrowsAnimation = AnimationHelper.ConvertToAnimation(animationSet, "wait-arrow-rain");
+        var createRainingArrowsAndWaitState = new LaunchAndWaitInteractionDeliveryState(
+            actorAnimator,
+            launchArrowsAnimation,
+            waitArrowsAnimation,
+            allArrowItems,
+            new RainingArrowInteractionDeliveryFactory(
+                visualizationContext.GameObjectContentStorage,
+                visualizationContext.CombatVisualEffectManager),
+            visualizationContext.InteractionDeliveryManager,
+            new AnimationFrameInfo(0));
 
         // total
 
         var subStates = new[]
         {
             prepareToShotState,
-            launchRainSourceState,
-            rainigArrowsState
+            createArrowRainAndWaitState,
+            createRainingArrowsAndWaitState,
+            new DelayActorState(new Duration(1.5f))
         };
 
         var innerState = new SequentialState(subStates);
+
+        var firstTargetCombatantGameObject = visualizationContext
+                                .GetCombatActor(movementExecution.EffectImposeItems.First().MaterializedTargets.First());
         return new CombatMovementScene(innerState,
-            new[]
+            new ICameraOperatorTask[]
             {
-                new FollowActorOperatorCameraTask(actorAnimator, () => launchRainSourceState.IsComplete),
-                new FollowActorOperatorCameraTask(
-                    visualizationContext
-                        .GetCombatActor(movementExecution.EffectImposeItems.First().MaterializedTargets.First())
-                        .Animator, () => innerState.IsComplete)
+                new FollowActorOperatorCameraTask(actorAnimator, () => prepareToShotState.IsComplete),
+                new OverviewActorsOperatorCameraTask(
+                    actorAnimator,
+                    firstTargetCombatantGameObject.Animator,
+                    1f,
+                    () => innerState.IsComplete)
             });
     }
 
-    private static InteractionDeliveryInfo[] CreateEmptyInteraction(IActorAnimator actorAnimator)
+    private static InteractionDeliveryInfo[] CreateEmptyRainSourceInteraction(IActorAnimator actorAnimator)
     {
         return new[]
         {

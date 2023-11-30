@@ -25,6 +25,8 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
     private readonly IAnimationFrameSet _launchAnimation;
     private readonly IAnimationFrameSet _waitAnimation;
 
+    private bool _interactionDeliveryLaunched;
+
     public LaunchAndWaitInteractionDeliveryState(IActorAnimator animator,
         IAnimationFrameSet launchAnimation,
         IAnimationFrameSet waitAnimation,
@@ -43,10 +45,13 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
 
         _launchAnimation.KeyFrame += (_, e) =>
         {
-            if (e.KeyFrame.Equals(launchFrame))
+            if (!e.KeyFrame.Equals(launchFrame))
             {
-                LaunchInteractionDelivery();
+                return;
             }
+
+            LaunchInteractionDelivery();
+            _interactionDeliveryLaunched = true;
         };
         _launchAnimation.End += LaunchAnimation_End;
     }
@@ -68,7 +73,8 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
     {
         foreach (var imposeItem in _imposeItems)
         {
-            var interactionDelivery = _deliveryFactory.Create(imposeItem.ImposeItem, imposeItem.StartPosition,
+            var interactionDelivery = _deliveryFactory.Create(imposeItem.ImposeItem,
+                imposeItem.StartPosition,
                 imposeItem.TargetPosition);
 
             _interactionDeliveryManager.Register(interactionDelivery);
@@ -108,7 +114,7 @@ internal sealed class LaunchAndWaitInteractionDeliveryState : IActorVisualizatio
             _animationPlayed = true;
         }
 
-        if (_activeInteractionDeliveryList.Any())
+        if (!_activeInteractionDeliveryList.Any() && _interactionDeliveryLaunched)
         {
             IsComplete = true;
         }
