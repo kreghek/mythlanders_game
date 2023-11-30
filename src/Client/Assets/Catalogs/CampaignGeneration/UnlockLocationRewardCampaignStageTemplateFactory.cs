@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Client.Assets.StageItems;
+using Client.Core;
 using Client.Core.Campaigns;
 
 using CombatDicesTeam.Dices;
@@ -26,16 +27,28 @@ internal sealed class UnlockLocationRewardCampaignStageTemplateFactory : ICampai
 
     public bool CanCreate(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
+        var lockedLocations = CalculateAvailableLocations();
+        if (!lockedLocations.Any())
+        {
+            return false;
+        }
+
         return true;
     }
 
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        var locationToScout = _services.Dice.RollFromList(GameLocations.GetGameLocations()
-            .Except(_services.GlobeProvider.Globe.CurrentAvailableLocations).ToArray());
+        var availableLocations = CalculateAvailableLocations();
+        var locationToScout = _services.Dice.RollFromList(availableLocations);
 
         return new UnlockLocationRewardStageItem(_services.GlobeProvider, _services.JobProgressResolver,
             locationToScout);
+    }
+
+    private ILocationSid[] CalculateAvailableLocations()
+    {
+        return GameLocations.GetGameLocations()
+            .Except(_services.GlobeProvider.Globe.CurrentAvailableLocations).ToArray();
     }
 
     /// <inheritdoc />
