@@ -387,6 +387,15 @@
   <data name="InventoryButtonTitle" xml:space="preserve">
     <value>Инвентарь</value>
   </data>
+  <data name="JobTypeCombats" xml:space="preserve">
+    <value>Провести боев</value>
+  </data>
+  <data name="JobTypeCompleteCampans" xml:space="preserve">
+    <value>Завершить кампаний</value>
+  </data>
+  <data name="JobTypeDefeat" xml:space="preserve">
+    <value>Уничтожить врагов</value>
+  </data>
   <data name="LevelUpButtonTitle" xml:space="preserve">
     <value>Повысить</value>
   </data>

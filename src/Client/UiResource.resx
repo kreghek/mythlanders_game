@@ -394,6 +394,15 @@ Do you really need to spend the priceless current move for nothing?</value>
   <data name="InventoryButtonTitle" xml:space="preserve">
     <value>Inventory</value>
   </data>
+  <data name="JobTypeCombats" xml:space="preserve">
+    <value>Start combats</value>
+  </data>
+  <data name="JobTypeCompleteCampans" xml:space="preserve">
+    <value>Complete campaigns</value>
+  </data>
+  <data name="JobTypeDefeat" xml:space="preserve">
+    <value>Defeat enemies</value>
+  </data>
   <data name="LevelUpButtonTitle" xml:space="preserve">
     <value>Level Up</value>
   </data>

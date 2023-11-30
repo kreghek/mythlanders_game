@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.StoryPointJobs;
 using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
@@ -54,6 +55,15 @@ internal sealed class ChallengeScreen: GameScreenWithMenuBase
 
     protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
     {
+        ResolutionIndependentRenderer.BeginDraw();
+        spriteBatch.Begin(
+            sortMode: SpriteSortMode.Deferred,
+            blendState: BlendState.AlphaBlend,
+            samplerState: SamplerState.PointClamp,
+            depthStencilState: DepthStencilState.None,
+            rasterizerState: RasterizerState.CullNone,
+            transformMatrix: Camera.GetViewTransformationMatrix());
+
         if (_player.Challenge?.CurrentJobs != null)
         {
             var currentJobsRect = new Rectangle(contentRect.Left + 200, contentRect.Top + 200,
@@ -61,16 +71,21 @@ internal sealed class ChallengeScreen: GameScreenWithMenuBase
             DrawCurrentChallengeJobs(spriteBatch, _player.Challenge.CurrentJobs, currentJobsRect);
         }
 
-        var challengeJobsRect = new Rectangle(contentRect.Left + 200, contentRect.Center.Y + 50,
-            (contentRect.Width - 200 * 2), (contentRect.Height - 200 * 2) / 2 - 50);
+        var challengeJobsRect = new Rectangle(
+            contentRect.Left + 200,
+            contentRect.Center.Y + 50,
+            (contentRect.Width - 200 * 2), 
+            (contentRect.Height - 200 * 2) / 2 + 50);
         
         DrawCurrentChallengeJobs(spriteBatch, _challengeJobs, challengeJobsRect);
 
-        _acceptButton.Rect = new Rectangle(challengeJobsRect.Center.X - 120, challengeJobsRect.Center.Y + 20, 100, 20);
+        _acceptButton.Rect = new Rectangle(challengeJobsRect.Center.X - 120, challengeJobsRect.Bottom + 20, 100, 20);
         _acceptButton.Draw(spriteBatch);
         
-        _skipButton.Rect = new Rectangle(challengeJobsRect.Center.X + 120, challengeJobsRect.Center.Y + 20, 100, 20);
+        _skipButton.Rect = new Rectangle(challengeJobsRect.Center.X + 120, challengeJobsRect.Bottom + 20, 100, 20);
         _skipButton.Draw(spriteBatch);
+
+        spriteBatch.End();
     }
 
     protected override void UpdateContent(GameTime gameTime)
@@ -87,9 +102,28 @@ internal sealed class ChallengeScreen: GameScreenWithMenuBase
         for (var jobIndex = 0; jobIndex < jobsArray.Length; jobIndex++)
         {
             var job = jobsArray[jobIndex];
-            var jobText = $"{job.Scheme.Type}: {job.Progress}/{job.Scheme.GoalValue}";
+            var text = GetJobTypeDescription(job.Scheme.Type);
+            var jobText = $"{text}: {job.Progress}/{job.Scheme.GoalValue.Value}";
             spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetTitlesFont(), jobText,
                 new Vector2(contentRect.Left, contentRect.Top + jobIndex * 20), TestamentColors.MainSciFi);
         }
+    }
+
+    private static string GetJobTypeDescription(IJobType type)
+    {
+        if (type == JobTypeCatalog.Defeats)
+        {
+            return UiResource.JobTypeDefeat;
+        }
+        else if (type == JobTypeCatalog.Combats)
+        {
+            return UiResource.JobTypeCombats;
+        }
+        else if (type == JobTypeCatalog.CompleteCampaigns)
+        {
+            return UiResource.JobTypeCompleteCampans;
+        }
+
+        return "Unknown";
     }
 }

@@ -597,7 +597,7 @@ internal sealed class CampaignMap : ControlBase
             return new Rectangle(new Point(1 * LAYOUT_NODE_SIZE, 2 * LAYOUT_NODE_SIZE), size);
         }
 
-        if (campaignStageItem is DialogueEventStageItem)
+        if (campaignStageItem is DialogueEventStageItem || campaignStageItem is CrisisStageItem || campaignStageItem is ChallengeStageItem)
         {
             return new Rectangle(new Point(1 * LAYOUT_NODE_SIZE, 1 * LAYOUT_NODE_SIZE), size);
         }
