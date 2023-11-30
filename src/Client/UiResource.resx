@@ -577,4 +577,7 @@ This hero can no longer act in the current battle.</value>
   <data name="SkipMapPresentationHintText" xml:space="preserve">
     <value>Press [SPACE] to skip</value>
   </data>
+  <data name="CampaignRewardsLabelText" xml:space="preserve">
+    <value>Reward</value>
+  </data>
 </root>

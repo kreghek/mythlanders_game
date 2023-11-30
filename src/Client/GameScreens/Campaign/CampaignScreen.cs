@@ -126,7 +126,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
         for (var rewardIndex = 0; rewardIndex < rewards.Length; rewardIndex++)
         {
             var reward = rewards[rewardIndex];
-            spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(), reward.GetRewardDescription(),
+            spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(), reward.GetRewardName(),
                 new Vector2(contentRect.Left, contentRect.Top + rewardIndex * 20), TestamentColors.MainSciFi);
         }
     }

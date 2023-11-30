@@ -561,4 +561,7 @@
   <data name="SkipMapPresentationHintText" xml:space="preserve">
     <value>Нажми [SPACE] чтобы пропустить</value>
   </data>
+  <data name="CampaignRewardsLabelText" xml:space="preserve">
+    <value>Награда</value>
+  </data>
 </root>
