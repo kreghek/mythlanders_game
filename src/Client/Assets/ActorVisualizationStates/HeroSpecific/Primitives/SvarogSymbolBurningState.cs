@@ -1,6 +1,5 @@
 ﻿using Client.Assets.InteractionDeliveryObjects;
 using Client.Engine.PostProcessing;
-using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 
 using GameClient.Engine;
@@ -49,7 +48,8 @@ internal sealed class SvarogSymbolBurningState : IActorVisualizationState
         {
             //_graphics.PlayAnimation(PredefinedAnimationSid.Ult);
             _isStarted = true;
-            var effect = new TimeLimitedShakePostEffect(new Duration(SHAKEING_DURATION_SECONDS), new FadeOutShakeFunction(ShakePowers.Normal));
+            var effect = new TimeLimitedShakePostEffect(new Duration(SHAKEING_DURATION_SECONDS),
+                new FadeOutShakeFunction(ShakePowers.Normal));
             _postEffectManager.AddEffect(effect);
             _risingPowerSoundEffect.Play();
         }

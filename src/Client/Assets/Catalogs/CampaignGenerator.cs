@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.Catalogs.CampaignGeneration;
 using Client.Core;
 using Client.Core.Campaigns;
 
@@ -55,6 +56,23 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         return campaign;
     }
 
+    private HeroCampaign CreateRescueCampaign(ILocationSid locationSid, Globe globe)
+    {
+        var shortTemplateGraph = _wayTemplatesCatalog.CreateRescueShortTemplate(locationSid);
+
+        var graphGenerator =
+            new TemplateBasedGraphGenerator<ICampaignStageItem>(
+                new TemplateConfig<ICampaignStageItem>(shortTemplateGraph));
+
+        var campaignGraph = graphGenerator.Create();
+
+        var seed = _dice.RollD100();
+
+        var campaign = new HeroCampaign(locationSid, campaignGraph, seed);
+
+        return campaign;
+    }
+
     /// <summary>
     /// Create set of different campaigns
     /// </summary>
@@ -71,7 +89,8 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         var availableCampaignDelegates = new Func<ILocationSid, Globe, HeroCampaign>[]
         {
             CreateGrindCampaign,
-            CreateScoutCampaign
+            CreateScoutCampaign,
+            CreateRescueCampaign
         };
 
         foreach (var locationSid in selectedLocations)
