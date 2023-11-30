@@ -27,14 +27,14 @@ internal sealed class CampaignWayTemplatesCatalog
         return CreateShortTemplate(locationSid, new ResourceRewardCampaignStageTemplateFactory(_services));
     }
 
-    public IGraph<GraphWay<ICampaignStageItem>> CreateScoutShortTemplate(ILocationSid locationSid)
-    {
-        return CreateShortTemplate(locationSid, new UnlockLocationRewardCampaignStageTemplateFactory(_services));
-    }
-    
     public IGraph<GraphWay<ICampaignStageItem>> CreateRescueShortTemplate(ILocationSid locationSid)
     {
         return CreateShortTemplate(locationSid, new UnlockHeroRewardCampaignStageTemplateFactory(_services));
+    }
+
+    public IGraph<GraphWay<ICampaignStageItem>> CreateScoutShortTemplate(ILocationSid locationSid)
+    {
+        return CreateShortTemplate(locationSid, new UnlockLocationRewardCampaignStageTemplateFactory(_services));
     }
 
     /// <summary>

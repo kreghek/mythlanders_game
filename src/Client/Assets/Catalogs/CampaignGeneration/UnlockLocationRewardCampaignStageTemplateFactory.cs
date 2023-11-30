@@ -20,6 +20,12 @@ internal sealed class UnlockLocationRewardCampaignStageTemplateFactory : ICampai
         _services = services;
     }
 
+    private ILocationSid[] CalculateAvailableLocations()
+    {
+        return GameLocations.GetGameLocations()
+            .Except(_services.GlobeProvider.Globe.CurrentAvailableLocations).ToArray();
+    }
+
     private static ICampaignStageItem[] MapContextToCurrentStageItems(IGraphTemplateContext<ICampaignStageItem> context)
     {
         return context.CurrentWay.Select(x => x.Payload).ToArray();
@@ -43,12 +49,6 @@ internal sealed class UnlockLocationRewardCampaignStageTemplateFactory : ICampai
 
         return new UnlockLocationRewardStageItem(_services.GlobeProvider, _services.JobProgressResolver,
             locationToScout);
-    }
-
-    private ILocationSid[] CalculateAvailableLocations()
-    {
-        return GameLocations.GetGameLocations()
-            .Except(_services.GlobeProvider.Globe.CurrentAvailableLocations).ToArray();
     }
 
     /// <inheritdoc />

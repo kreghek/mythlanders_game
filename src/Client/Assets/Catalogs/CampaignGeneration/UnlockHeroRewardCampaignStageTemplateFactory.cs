@@ -16,27 +16,34 @@ internal sealed class UnlockHeroRewardCampaignStageTemplateFactory : ICampaignSt
 {
     private readonly CampaignStageTemplateServices _services;
 
-    private UnitName[] _heroInDev = new[]
-       {
+    private readonly UnitName[] _heroInDev =
+    {
+        UnitName.Herbalist,
 
-            UnitName.Herbalist,
+        UnitName.Sage,
 
-            UnitName.Sage,
+        UnitName.Hoplite,
+        UnitName.Engineer,
 
-            UnitName.Hoplite,
-            UnitName.Engineer,
+        UnitName.Priest,
+        UnitName.Liberator,
+        UnitName.Medjay,
 
-            UnitName.Priest,
-            UnitName.Liberator,
-            UnitName.Medjay,
-
-            UnitName.Zoologist,
-            UnitName.Assaulter
-        };
+        UnitName.Zoologist,
+        UnitName.Assaulter
+    };
 
     public UnlockHeroRewardCampaignStageTemplateFactory(CampaignStageTemplateServices services)
     {
         _services = services;
+    }
+
+    private IReadOnlyCollection<UnitName> CalculateLockedHeroes()
+    {
+        return _services.UnitSchemeCatalog.Heroes.Select(x => x.Value.Name)
+            .Except(_services.GlobeProvider.Globe.Player.Heroes.Select(x => Enum.Parse<UnitName>(x.ClassSid, true)))
+            .Except(_heroInDev)
+            .ToArray();
     }
 
     private static ICampaignStageItem[] MapContextToCurrentStageItems(IGraphTemplateContext<ICampaignStageItem> context)
@@ -61,15 +68,8 @@ internal sealed class UnlockHeroRewardCampaignStageTemplateFactory : ICampaignSt
 
         var rolledHero = _services.Dice.RollFromList(heroesToJoin.ToArray());
 
-        return new UnlockHeroRewardStageItem(_services.GlobeProvider, _services.JobProgressResolver, rolledHero, _services.UnitSchemeCatalog);
-    }
-
-    private IReadOnlyCollection<UnitName> CalculateLockedHeroes()
-    {
-        return _services.UnitSchemeCatalog.Heroes.Select(x => x.Value.Name)
-                    .Except(_services.GlobeProvider.Globe.Player.Heroes.Select(x => Enum.Parse<UnitName>(x.ClassSid, true)))
-                    .Except(_heroInDev)
-                    .ToArray();
+        return new UnlockHeroRewardStageItem(_services.GlobeProvider, _services.JobProgressResolver, rolledHero,
+            _services.UnitSchemeCatalog);
     }
 
     /// <inheritdoc />

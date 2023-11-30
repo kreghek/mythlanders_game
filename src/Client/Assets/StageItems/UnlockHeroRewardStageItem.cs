@@ -14,10 +14,10 @@ namespace Client.Assets.StageItems;
 
 internal sealed class UnlockHeroRewardStageItem : IRewardCampaignStageItem
 {
-    private readonly UnitName _jointedHeroName;
-    private readonly IUnitSchemeCatalog _unitSchemeCatalog;
     private readonly GlobeProvider _globeProvider;
     private readonly IJobProgressResolver _jobProgressResolver;
+    private readonly UnitName _jointedHeroName;
+    private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
     public UnlockHeroRewardStageItem(GlobeProvider globeProvider,
         IJobProgressResolver jobProgressResolver,
@@ -43,7 +43,7 @@ internal sealed class UnlockHeroRewardStageItem : IRewardCampaignStageItem
         var freeSlots = Enumerable.Range(0, 6)
             .Except(_globeProvider.Globe.Player.Heroes.Select(x =>
                 x.FormationPosition.ColumentIndex * 2 + x.FormationPosition.LineIndex)).ToArray();
-        
+
         if (freeSlots.Any())
         {
             var firstFreeSlot = freeSlots.First();
@@ -53,7 +53,7 @@ internal sealed class UnlockHeroRewardStageItem : IRewardCampaignStageItem
         else
         {
             var hero = new Hero(_unitSchemeCatalog.Heroes[_jointedHeroName], 1);
-            _globeProvider.Globe.Player.Pool.AddNewUnit(hero);   
+            _globeProvider.Globe.Player.Pool.AddNewUnit(hero);
         }
 
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignReward,

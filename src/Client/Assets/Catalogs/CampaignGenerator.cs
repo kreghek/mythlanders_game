@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets.Catalogs.CampaignGeneration;
 using Client.Core;
 using Client.Core.Campaigns;
 
@@ -39,9 +38,9 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         return campaign;
     }
 
-    private HeroCampaign CreateScoutCampaign(ILocationSid locationSid, Globe globe)
+    private HeroCampaign CreateRescueCampaign(ILocationSid locationSid, Globe globe)
     {
-        var shortTemplateGraph = _wayTemplatesCatalog.CreateScoutShortTemplate(locationSid);
+        var shortTemplateGraph = _wayTemplatesCatalog.CreateRescueShortTemplate(locationSid);
 
         var graphGenerator =
             new TemplateBasedGraphGenerator<ICampaignStageItem>(
@@ -56,9 +55,9 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         return campaign;
     }
 
-    private HeroCampaign CreateRescueCampaign(ILocationSid locationSid, Globe globe)
+    private HeroCampaign CreateScoutCampaign(ILocationSid locationSid, Globe globe)
     {
-        var shortTemplateGraph = _wayTemplatesCatalog.CreateRescueShortTemplate(locationSid);
+        var shortTemplateGraph = _wayTemplatesCatalog.CreateScoutShortTemplate(locationSid);
 
         var graphGenerator =
             new TemplateBasedGraphGenerator<ICampaignStageItem>(
