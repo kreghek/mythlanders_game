@@ -1,12 +1,17 @@
 using System;
 using System.Collections.Generic;
 
+using Core.Props;
+
 namespace Client.Core;
 
 internal sealed class CampaignChallenge : IChallenge
 {
-    public CampaignChallenge(IReadOnlyCollection<IJob>? currentJobs)
+    private readonly Player _player;
+
+    public CampaignChallenge(IReadOnlyCollection<IJob>? currentJobs, Player player)
     {
+        _player = player;
         CurrentJobs = currentJobs;
     }
 
@@ -18,6 +23,8 @@ internal sealed class CampaignChallenge : IChallenge
     {
         IsComplete = true;
         Completed?.Invoke(this, EventArgs.Empty);
+        
+        _player.Inventory.Add(new Resource(new PropScheme("gold"), 1));
     }
 
     public event EventHandler? Completed;
