@@ -72,6 +72,7 @@ internal sealed class Player
 
     public PoolGroup Pool { get; }
     public IStoryState StoryState { get; }
+    public IChallenge? Challenge { get; set; }
 
     public void AddHero(HeroState heroState)
     {

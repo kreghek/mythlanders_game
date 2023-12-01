@@ -70,6 +70,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Accept challenge.
+        /// </summary>
+        internal static string AcceptChallengeButtonTitle {
+            get {
+                return ResourceManager.GetString("AcceptChallengeButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adjutant.
         /// </summary>
         internal static string AdjutantButtonTitle {
@@ -196,11 +205,29 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Challenge.
+        /// </summary>
+        internal static string CampaignStageDisplayNameChallenge {
+            get {
+                return ResourceManager.GetString("CampaignStageDisplayNameChallenge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Combat.
         /// </summary>
         internal static string CampaignStageDisplayNameCombat {
             get {
                 return ResourceManager.GetString("CampaignStageDisplayNameCombat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Crisis.
+        /// </summary>
+        internal static string CampaignStageDisplayNameCrisis {
+            get {
+                return ResourceManager.GetString("CampaignStageDisplayNameCrisis", resourceCulture);
             }
         }
         
@@ -802,6 +829,33 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start combats.
+        /// </summary>
+        internal static string JobTypeCombats {
+            get {
+                return ResourceManager.GetString("JobTypeCombats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Complete campaigns.
+        /// </summary>
+        internal static string JobTypeCompleteCampans {
+            get {
+                return ResourceManager.GetString("JobTypeCompleteCampans", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Defeat enemies.
+        /// </summary>
+        internal static string JobTypeDefeat {
+            get {
+                return ResourceManager.GetString("JobTypeDefeat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Level Up.
         /// </summary>
         internal static string LevelUpButtonTitle {
@@ -1167,6 +1221,15 @@ namespace Client {
         internal static string SkipMapPresentationHintText {
             get {
                 return ResourceManager.GetString("SkipMapPresentationHintText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press [SPACE] to skip.
+        /// </summary>
+        internal static string SkipMapPresentationHintText_Duplicate_1_ {
+            get {
+                return ResourceManager.GetString("SkipMapPresentationHintText_Duplicate[1]", resourceCulture);
             }
         }
         
