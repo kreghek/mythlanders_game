@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.StageItems;
@@ -11,19 +12,38 @@ using CombatDicesTeam.Graphs.Generation.TemplateBased;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
-internal sealed class UnlockLocationRewardCampaignStageTemplateFactory : ICampaignStageTemplateFactory
+internal sealed class UnlockHeroRewardCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
     private readonly CampaignStageTemplateServices _services;
 
-    public UnlockLocationRewardCampaignStageTemplateFactory(CampaignStageTemplateServices services)
+    private readonly UnitName[] _heroInDev =
+    {
+        UnitName.Herbalist,
+
+        UnitName.Sage,
+
+        UnitName.Hoplite,
+        UnitName.Engineer,
+
+        UnitName.Priest,
+        UnitName.Liberator,
+        UnitName.Medjay,
+
+        UnitName.Zoologist,
+        UnitName.Assaulter
+    };
+
+    public UnlockHeroRewardCampaignStageTemplateFactory(CampaignStageTemplateServices services)
     {
         _services = services;
     }
 
-    private ILocationSid[] CalculateAvailableLocations()
+    private IReadOnlyCollection<UnitName> CalculateLockedHeroes()
     {
-        return GameLocations.GetGameLocations()
-            .Except(_services.GlobeProvider.Globe.CurrentAvailableLocations).ToArray();
+        return _services.UnitSchemeCatalog.Heroes.Select(x => x.Value.Name)
+            .Except(_services.GlobeProvider.Globe.Player.Heroes.Select(x => Enum.Parse<UnitName>(x.ClassSid, true)))
+            .Except(_heroInDev)
+            .ToArray();
     }
 
     private static ICampaignStageItem[] MapContextToCurrentStageItems(IGraphTemplateContext<ICampaignStageItem> context)
@@ -33,8 +53,8 @@ internal sealed class UnlockLocationRewardCampaignStageTemplateFactory : ICampai
 
     public bool CanCreate(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        var lockedLocations = CalculateAvailableLocations();
-        if (!lockedLocations.Any())
+        var heroesToJoin = CalculateLockedHeroes();
+        if (!heroesToJoin.Any())
         {
             return false;
         }
@@ -44,11 +64,12 @@ internal sealed class UnlockLocationRewardCampaignStageTemplateFactory : ICampai
 
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        var availableLocations = CalculateAvailableLocations();
-        var locationToScout = _services.Dice.RollFromList(availableLocations);
+        var heroesToJoin = CalculateLockedHeroes();
 
-        return new UnlockLocationRewardStageItem(_services.GlobeProvider, _services.JobProgressResolver,
-            locationToScout);
+        var rolledHero = _services.Dice.RollFromList(heroesToJoin.ToArray());
+
+        return new UnlockHeroRewardStageItem(_services.GlobeProvider, _services.JobProgressResolver, rolledHero,
+            _services.UnitSchemeCatalog);
     }
 
     /// <inheritdoc />

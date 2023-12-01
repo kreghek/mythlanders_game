@@ -133,7 +133,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
     private void DrawCurrentStoryPoints(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        if (!_globe.Globe.ActiveStoryPoints.Any())
+        if (!_globe.Globe.ActiveStoryPoints.Any() && _globe.Globe.Player.Challenge is null)
         {
             return;
         }
@@ -158,6 +158,32 @@ internal class CampaignScreen : GameScreenWithMenuBase
                         spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(),
                             currentJobs[jobNumber].ToString(),
                             new Vector2(contentRect.Left, contentRect.Top + 20 + jobTextOffsetY),
+                            Color.Wheat);
+                    }
+                }
+            }
+
+            if (_globe.Globe.Player.Challenge is not null)
+            {
+                var challengeStartY = contentRect.Top + storyPoints.Length * 20 + 20;
+
+                spriteBatch.DrawString(
+                    UiThemeManager.UiContentStorage.GetMainFont(),
+                    UiResource.CampaignStageDisplayNameChallenge,
+                    new Vector2(contentRect.Left, challengeStartY),
+                    Color.Wheat);
+
+                var challengeJobs = _globe.Globe.Player.Challenge.CurrentJobs;
+                if (challengeJobs is not null)
+                {
+                    var currentJobs = challengeJobs.ToArray();
+                    for (var jobNumber = 0; jobNumber < currentJobs.Length; jobNumber++)
+                    {
+                        var job = currentJobs[jobNumber];
+                        var jobTextOffsetY = challengeStartY + 20 * jobNumber;
+                        spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(),
+                            currentJobs[jobNumber].ToString(),
+                            new Vector2(contentRect.Left, contentRect.Top + 20 + jobTextOffsetY + 20),
                             Color.Wheat);
                     }
                 }

@@ -599,6 +599,8 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatMovementsHandPanel = null;
 
         _combatFinishedVictory = e.Result == CommonCombatStates.Victory;
+        
+        _globe.ResetCombatScopeJobsProgress();
 
         CountCombatFinished();
 
@@ -767,8 +769,10 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void CountDefeat()
     {
         var progress = new DefeatJobProgress();
-        var activeStoryPointsMaterialized = _globe.ActiveStoryPoints.ToArray();
-        foreach (var storyPoint in activeStoryPointsMaterialized)
+
+        var jobExecutables = _globe.GetCurrentJobExecutables();
+        
+        foreach (var storyPoint in jobExecutables)
         {
             _jobProgressResolver.ApplyProgress(progress, storyPoint);
         }

@@ -50,6 +50,19 @@ internal sealed class Globe
 
     public Player Player { get; }
 
+    public IEnumerable<IJobExecutable> GetCurrentJobExecutables()
+    {
+        foreach (var storyPoint in ActiveStoryPoints)
+        {
+            yield return storyPoint;
+        }
+
+        if (Player.Challenge is not null)
+        {
+            yield return Player.Challenge;
+        }
+    }
+
     public void AddActiveStoryPoint(IStoryPoint storyPoint)
     {
         storyPoint.Completed += StoryPoint_Completed;
@@ -88,18 +101,18 @@ internal sealed class Globe
         Updated?.Invoke(this, EventArgs.Empty);
     }
 
-    private void ResetCombatScopeJobsProgress()
+    public void ResetCombatScopeJobsProgress()
     {
-        foreach (var storyPoint in ActiveStoryPoints)
+        foreach (var executable in GetCurrentJobExecutables())
         {
-            if (storyPoint.CurrentJobs is null)
+            if (executable.CurrentJobs is null)
             {
                 continue;
             }
 
-            foreach (var job in storyPoint.CurrentJobs)
+            foreach (var job in executable.CurrentJobs)
             {
-                if (job.Scheme.Scope == JobScopeCatalog.Combat)
+                if (ReferenceEquals(job.Scheme.Scope, JobScopeCatalog.Combat))
                 {
                     job.Progress = 0;
                 }

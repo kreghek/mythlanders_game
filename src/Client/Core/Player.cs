@@ -12,6 +12,8 @@ internal sealed class Player
 {
     private readonly HashSet<PlayerAbility> _abilities;
 
+    private readonly IList<HeroState> _heroes;
+
     public Player(string name) : this()
     {
         Name = name;
@@ -31,11 +33,11 @@ internal sealed class Player
 
         StoryState = new StoryState(Party);
 
-        Heroes = new[]
+        _heroes = new List<HeroState>
         {
-            new HeroState("swordsman", new StatValue(5), new FieldCoords(0, 1)),
-            new HeroState("partisan", new StatValue(3), new FieldCoords(1, 0)),
-            new HeroState("robber", new StatValue(3), new FieldCoords(1, 2))
+            new("swordsman", new StatValue(5), new FieldCoords(0, 1)),
+            new("partisan", new StatValue(3), new FieldCoords(1, 0)),
+            new("robber", new StatValue(3), new FieldCoords(1, 2))
         };
     }
 
@@ -53,12 +55,12 @@ internal sealed class Player
 
         StoryState = new StoryState(Party);
 
-        Heroes = heroes;
+        _heroes = new List<HeroState>(heroes);
     }
 
     public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
 
-    public IReadOnlyCollection<HeroState> Heroes { get; }
+    public IReadOnlyCollection<HeroState> Heroes => _heroes.ToArray();
 
     public Inventory Inventory { get; }
 
@@ -70,6 +72,12 @@ internal sealed class Player
 
     public PoolGroup Pool { get; }
     public IStoryState StoryState { get; }
+    public IChallenge? Challenge { get; set; }
+
+    public void AddHero(HeroState heroState)
+    {
+        _heroes.Add(heroState);
+    }
 
     public void AddPlayerAbility(PlayerAbility ability)
     {

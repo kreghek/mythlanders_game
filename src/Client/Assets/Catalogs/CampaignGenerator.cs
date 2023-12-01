@@ -38,6 +38,23 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         return campaign;
     }
 
+    private HeroCampaign CreateRescueCampaign(ILocationSid locationSid, Globe globe)
+    {
+        var shortTemplateGraph = _wayTemplatesCatalog.CreateRescueShortTemplate(locationSid);
+
+        var graphGenerator =
+            new TemplateBasedGraphGenerator<ICampaignStageItem>(
+                new TemplateConfig<ICampaignStageItem>(shortTemplateGraph));
+
+        var campaignGraph = graphGenerator.Create();
+
+        var seed = _dice.RollD100();
+
+        var campaign = new HeroCampaign(locationSid, campaignGraph, seed);
+
+        return campaign;
+    }
+
     private HeroCampaign CreateScoutCampaign(ILocationSid locationSid, Globe globe)
     {
         var shortTemplateGraph = _wayTemplatesCatalog.CreateScoutShortTemplate(locationSid);
@@ -71,7 +88,8 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         var availableCampaignDelegates = new List<Func<ILocationSid, Globe, HeroCampaign>>
         {
             CreateGrindCampaign,
-            CreateScoutCampaign
+            CreateScoutCampaign,
+            CreateRescueCampaign
         };
 
         foreach (var locationSid in selectedLocations)
