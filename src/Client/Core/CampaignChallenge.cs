@@ -24,7 +24,7 @@ internal sealed class CampaignChallenge : IChallenge
         IsComplete = true;
         Completed?.Invoke(this, EventArgs.Empty);
         
-        _player.Inventory.Add(new Resource(new PropScheme("gold"), 1));
+        _player.Inventory.Add(new Resource(new PropScheme("challenge"), 1));
     }
 
     public event EventHandler? Completed;

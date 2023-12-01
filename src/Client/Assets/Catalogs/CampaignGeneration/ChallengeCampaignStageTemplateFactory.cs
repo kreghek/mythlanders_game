@@ -16,10 +16,18 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 internal sealed class ChallengeCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
     private readonly CampaignStageTemplateServices _services;
+    private readonly IList<(IJobType type, int min, int max)> _availableChallenges;
 
     public ChallengeCampaignStageTemplateFactory(CampaignStageTemplateServices services)
     {
         _services = services;
+
+        _availableChallenges = new List<(IJobType type, int min, int max)>
+        {
+            (JobTypeCatalog.Defeats, 3, 5),
+            (JobTypeCatalog.Combats, 2, 2),
+            (JobTypeCatalog.CompleteCampaigns, 1, 1)
+        };
     }
 
     private static ICampaignStageItem[] MapContextToCurrentStageItems(IGraphTemplateContext<ICampaignStageItem> context)
@@ -44,11 +52,19 @@ internal sealed class ChallengeCampaignStageTemplateFactory : ICampaignStageTemp
 
         var jobList = new List<IJob>();
 
+        var openList = new List<(IJobType type, int min, int max)>(_availableChallenges);
+
         for (int i = 0; i < count; i++)
         {
-            var jobScheme = new JobScheme(JobScopeCatalog.Campaign, JobTypeCatalog.Defeats, new JobGoalValue(4));
+            var rolledJob = _services.Dice.RollFromList(openList);
+
+            var rolledGoalValue = _services.Dice.Roll(rolledJob.min, rolledJob.max);
+            
+            var jobScheme = new JobScheme(JobScopeCatalog.Campaign, rolledJob.type, new JobGoalValue(rolledGoalValue));
             var job = new Job(jobScheme, string.Empty, String.Empty, String.Empty);
             jobList.Add(job);
+
+            openList.Remove(rolledJob);
         }
 
         return jobList;
