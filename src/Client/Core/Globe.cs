@@ -50,19 +50,6 @@ internal sealed class Globe
 
     public Player Player { get; }
 
-    public IEnumerable<IJobExecutable> GetCurrentJobExecutables()
-    {
-        foreach (var storyPoint in ActiveStoryPoints)
-        {
-            yield return storyPoint;
-        }
-
-        if (Player.Challenge is not null)
-        {
-            yield return Player.Challenge;
-        }
-    }
-
     public void AddActiveStoryPoint(IStoryPoint storyPoint)
     {
         storyPoint.Completed += StoryPoint_Completed;
@@ -89,16 +76,17 @@ internal sealed class Globe
         globalEvent.Initialize(this);
     }
 
-    public void Update(IDice dice, IEventCatalog eventCatalog)
+    public IEnumerable<IJobExecutable> GetCurrentJobExecutables()
     {
-        UpdateGlobeEvents();
-        UpdateNodes(dice, eventCatalog);
-        UpdateStoryPoints();
-    }
+        foreach (var storyPoint in ActiveStoryPoints)
+        {
+            yield return storyPoint;
+        }
 
-    public void UpdateNodes(IDice dice, IEventCatalog eventCatalog)
-    {
-        Updated?.Invoke(this, EventArgs.Empty);
+        if (Player.Challenge is not null)
+        {
+            yield return Player.Challenge;
+        }
     }
 
     public void ResetCombatScopeJobsProgress()
@@ -118,6 +106,18 @@ internal sealed class Globe
                 }
             }
         }
+    }
+
+    public void Update(IDice dice, IEventCatalog eventCatalog)
+    {
+        UpdateGlobeEvents();
+        UpdateNodes(dice, eventCatalog);
+        UpdateStoryPoints();
+    }
+
+    public void UpdateNodes(IDice dice, IEventCatalog eventCatalog)
+    {
+        Updated?.Invoke(this, EventArgs.Empty);
     }
 
     private void StoryPoint_Completed(object? sender, EventArgs e)

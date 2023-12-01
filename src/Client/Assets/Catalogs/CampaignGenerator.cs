@@ -85,7 +85,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var list = new List<HeroCampaign>();
 
-        var availableCampaignDelegates = new Func<ILocationSid, Globe, HeroCampaign>[]
+        var availableCampaignDelegates = new[]
         {
             CreateGrindCampaign,
             CreateScoutCampaign,

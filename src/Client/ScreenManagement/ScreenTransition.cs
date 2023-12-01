@@ -9,7 +9,7 @@ internal enum ScreenTransition
     EndGame,
     Credits,
     Hero,
-    
+
     Combat,
     Event,
     Training,
