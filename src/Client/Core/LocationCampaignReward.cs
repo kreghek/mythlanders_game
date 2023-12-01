@@ -1,6 +1,6 @@
-using Client.Core;
+using Client.GameScreens.CampaignReward;
 
-namespace Client.GameScreens.CampaignReward;
+namespace Client.Core;
 
 internal sealed class LocationCampaignReward : ICampaignReward
 {

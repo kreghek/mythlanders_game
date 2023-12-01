@@ -1,6 +1,6 @@
-using Client.Core;
+using Client.GameScreens.CampaignReward;
 
-namespace Client.GameScreens.CampaignReward;
+namespace Client.Core;
 
 internal sealed class HeroCampaignReward : ICampaignReward
 {
@@ -11,8 +11,8 @@ internal sealed class HeroCampaignReward : ICampaignReward
         _hero = hero;
     }
 
-    public string GetRewardDescription()
+    public string GetRewardName()
     {
-        return _hero.ToString() ?? "[hero]";
+        return _hero.ToString();
     }
 }
