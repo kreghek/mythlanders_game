@@ -15,13 +15,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Challenge;
 
-internal sealed class ChallengeScreen: GameScreenWithMenuBase
+internal sealed class ChallengeScreen : GameScreenWithMenuBase
 {
-    private ResourceTextButton _acceptButton;
-    private readonly Player _player;
-    private readonly IReadOnlyCollection<IJob> _challengeJobs;
-    private ResourceTextButton _skipButton;
     private readonly HeroCampaign _campaign;
+    private readonly IReadOnlyCollection<IJob> _challengeJobs;
+    private readonly Player _player;
+    private ResourceTextButton _acceptButton;
+    private ResourceTextButton _skipButton;
 
     public ChallengeScreen(TestamentGame game, ChallengeScreenTransitionArguments args) : base(game)
     {
@@ -30,25 +30,6 @@ internal sealed class ChallengeScreen: GameScreenWithMenuBase
         _player = globeProvider.Globe.Player;
         _campaign = args.Campaign;
         _challengeJobs = args.Jobs;
-    }
-
-    protected override void InitializeContent()
-    {
-        _acceptButton = new ResourceTextButton(nameof(UiResource.AcceptChallengeButtonTitle));
-        _acceptButton.OnClick += (_, _) =>
-        {
-            _player.Challenge = new CampaignChallenge(_challengeJobs, _player);
-
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-               new CampaignScreenTransitionArguments(_campaign));
-        };
-
-        _skipButton = new ResourceTextButton(nameof(UiResource.SkipButtonTitle));
-        _skipButton.OnClick += (_, _) =>
-        {
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                new CampaignScreenTransitionArguments(_campaign));
-        };
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -77,29 +58,49 @@ internal sealed class ChallengeScreen: GameScreenWithMenuBase
         var challengeJobsRect = new Rectangle(
             contentRect.Left + 200,
             contentRect.Center.Y + 50,
-            (contentRect.Width - 200 * 2), 
+            (contentRect.Width - 200 * 2),
             (contentRect.Height - 200 * 2) / 2 + 50);
-        
+
         DrawCurrentChallengeJobs(spriteBatch, _challengeJobs, challengeJobsRect);
 
         _acceptButton.Rect = new Rectangle(challengeJobsRect.Center.X - 120, challengeJobsRect.Bottom + 20, 100, 20);
         _acceptButton.Draw(spriteBatch);
-        
+
         _skipButton.Rect = new Rectangle(challengeJobsRect.Center.X + 120, challengeJobsRect.Bottom + 20, 100, 20);
         _skipButton.Draw(spriteBatch);
 
         spriteBatch.End();
     }
 
+    protected override void InitializeContent()
+    {
+        _acceptButton = new ResourceTextButton(nameof(UiResource.AcceptChallengeButtonTitle));
+        _acceptButton.OnClick += (_, _) =>
+        {
+            _player.Challenge = new CampaignChallenge(_challengeJobs, _player);
+
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                new CampaignScreenTransitionArguments(_campaign));
+        };
+
+        _skipButton = new ResourceTextButton(nameof(UiResource.SkipButtonTitle));
+        _skipButton.OnClick += (_, _) =>
+        {
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                new CampaignScreenTransitionArguments(_campaign));
+        };
+    }
+
     protected override void UpdateContent(GameTime gameTime)
     {
         base.UpdateContent(gameTime);
-        
+
         _acceptButton.Update(ResolutionIndependentRenderer);
         _skipButton.Update(ResolutionIndependentRenderer);
     }
 
-    private static void DrawCurrentChallengeJobs(SpriteBatch spriteBatch, IReadOnlyCollection<IJob> jobs, Rectangle contentRect)
+    private static void DrawCurrentChallengeJobs(SpriteBatch spriteBatch, IReadOnlyCollection<IJob> jobs,
+        Rectangle contentRect)
     {
         var jobsArray = jobs.ToArray();
         for (var jobIndex = 0; jobIndex < jobsArray.Length; jobIndex++)
@@ -118,11 +119,13 @@ internal sealed class ChallengeScreen: GameScreenWithMenuBase
         {
             return UiResource.JobTypeDefeat;
         }
-        else if (type == JobTypeCatalog.Combats)
+
+        if (type == JobTypeCatalog.Combats)
         {
             return UiResource.JobTypeCombats;
         }
-        else if (type == JobTypeCatalog.CompleteCampaigns)
+
+        if (type == JobTypeCatalog.CompleteCampaigns)
         {
             return UiResource.JobTypeCompleteCampans;
         }

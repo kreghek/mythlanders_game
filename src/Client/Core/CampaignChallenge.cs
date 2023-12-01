@@ -16,14 +16,14 @@ internal sealed class CampaignChallenge : IChallenge
     }
 
     public bool IsComplete { get; private set; }
-    
+
     public IReadOnlyCollection<IJob>? CurrentJobs { get; }
 
     public void HandleCompletion()
     {
         IsComplete = true;
         Completed?.Invoke(this, EventArgs.Empty);
-        
+
         _player.Inventory.Add(new Resource(new PropScheme("challenge"), 1));
     }
 

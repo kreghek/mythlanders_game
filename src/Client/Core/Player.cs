@@ -59,6 +59,7 @@ internal sealed class Player
     }
 
     public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
+    public IChallenge? Challenge { get; set; }
 
     public IReadOnlyCollection<HeroState> Heroes => _heroes.ToArray();
 
@@ -72,7 +73,6 @@ internal sealed class Player
 
     public PoolGroup Pool { get; }
     public IStoryState StoryState { get; }
-    public IChallenge? Challenge { get; set; }
 
     public void AddHero(HeroState heroState)
     {

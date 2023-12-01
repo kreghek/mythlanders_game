@@ -14,8 +14,6 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 
 internal sealed class UnlockHeroRewardCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
-    private readonly CampaignStageTemplateServices _services;
-
     private readonly UnitName[] _heroInDev =
     {
         UnitName.Herbalist,
@@ -32,6 +30,8 @@ internal sealed class UnlockHeroRewardCampaignStageTemplateFactory : ICampaignSt
         UnitName.Zoologist,
         UnitName.Assaulter
     };
+
+    private readonly CampaignStageTemplateServices _services;
 
     public UnlockHeroRewardCampaignStageTemplateFactory(CampaignStageTemplateServices services)
     {
