@@ -4,12 +4,12 @@ namespace Client.Core;
 
 internal sealed class LocationCampaignReward : ICampaignReward
 {
-    public ILocationSid Location { get; }
-
     public LocationCampaignReward(ILocationSid location)
     {
         Location = location;
     }
+
+    public ILocationSid Location { get; }
 
     public string GetRewardName()
     {

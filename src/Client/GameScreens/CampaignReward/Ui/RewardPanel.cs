@@ -8,13 +8,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.CampaignReward.Ui;
 
-internal sealed class RewardPanel: ControlBase
+internal sealed class RewardPanel : ControlBase
 {
-    private readonly IReadOnlyCollection<ICampaignReward> _rewards;
-    private readonly Texture2D _panelHeaderTexture;
     private readonly SpriteFont _labelFont;
-    private readonly SpriteFont _rewardNameFont;
+    private readonly Texture2D _panelHeaderTexture;
     private readonly IReadOnlyCollection<ICampaignRewardImageDrawer> _rewardImageDrawers;
+    private readonly SpriteFont _rewardNameFont;
+    private readonly IReadOnlyCollection<ICampaignReward> _rewards;
 
     public RewardPanel(
         IReadOnlyCollection<ICampaignReward> rewards,
@@ -29,10 +29,16 @@ internal sealed class RewardPanel: ControlBase
         _rewardNameFont = rewardNameFont;
         _rewardImageDrawers = rewardImageDrawers;
     }
-    
-    protected override Point CalcTextureOffset() => ControlTextures.Panel;
 
-    protected override Color CalculateColor() => Color.White;
+    protected override Point CalcTextureOffset()
+    {
+        return ControlTextures.Panel;
+    }
+
+    protected override Color CalculateColor()
+    {
+        return Color.White;
+    }
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
@@ -56,18 +62,11 @@ internal sealed class RewardPanel: ControlBase
                 var imageSize = campaignRewardImageDrawer.ImageSize;
                 campaignRewardImageDrawer.Draw(reward, spriteBatch, rewardPosition - new Vector2(imageSize.X, 0));
             }
-            
+
             spriteBatch.DrawString(_rewardNameFont,
                 reward.GetRewardName(),
                 rewardPosition, Color.White);
         }
-    }
-
-    private void DrawRewardLabel(SpriteBatch spriteBatch, Rectangle contentRect)
-    {
-        var labelSize = _labelFont.MeasureString(UiResource.CampaignRewardsLabelText);
-        spriteBatch.DrawString(_labelFont, UiResource.CampaignRewardsLabelText,
-            new Vector2(contentRect.Center.X - labelSize.X / 2, contentRect.Top + 50), Color.Wheat);
     }
 
     private void DrawPanelHeader(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -77,5 +76,12 @@ internal sealed class RewardPanel: ControlBase
                 contentRect.Center.X - _panelHeaderTexture.Width / 2,
                 contentRect.Top - _panelHeaderTexture.Height / 2),
             Color.White);
+    }
+
+    private void DrawRewardLabel(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        var labelSize = _labelFont.MeasureString(UiResource.CampaignRewardsLabelText);
+        spriteBatch.DrawString(_labelFont, UiResource.CampaignRewardsLabelText,
+            new Vector2(contentRect.Center.X - labelSize.X / 2, contentRect.Top + 50), Color.Wheat);
     }
 }

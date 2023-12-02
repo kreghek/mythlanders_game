@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.CampaignReward.Ui;
 
-internal sealed class PropCampaignRewardImageDrawer: CampaignRewardImageDrawerBase<ResourceCampaignReward>
+internal sealed class PropCampaignRewardImageDrawer : CampaignRewardImageDrawerBase<ResourceCampaignReward>
 {
     private readonly Texture2D _propTexture;
 
@@ -12,10 +12,10 @@ internal sealed class PropCampaignRewardImageDrawer: CampaignRewardImageDrawerBa
         _propTexture = propTexture;
     }
 
+    public override Point ImageSize => new Point(32);
+
     protected override void Draw(ResourceCampaignReward reward, SpriteBatch spriteBatch, Vector2 position)
     {
-        spriteBatch.Draw(_propTexture, position, new Rectangle(0,0,32,32), Color.White);
+        spriteBatch.Draw(_propTexture, position, new Rectangle(0, 0, 32, 32), Color.White);
     }
-
-    public override Point ImageSize => new Point(32);
 }
