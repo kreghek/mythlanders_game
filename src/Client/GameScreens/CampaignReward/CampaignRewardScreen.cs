@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.Catalogs;
 using Client.Core;
 using Client.Engine;
 using Client.GameScreens.CampaignReward.Ui;
@@ -51,10 +52,10 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
-        _rewardPanel.Rect = new Rectangle(contentRect.Center.X - 300, contentRect.Top + 200, 600, 400);
+        _rewardPanel.Rect = new Rectangle(contentRect.Center.X - 300, contentRect.Top + 20, 600, 400);
         _rewardPanel.Draw(spriteBatch);
         
-        _moveNextButton.Rect = new Rectangle(_rewardPanel.Rect.Location + new Point(0, 50), new Point(100, 20));
+        _moveNextButton.Rect = new Rectangle(new Point(_rewardPanel.Rect.Location.X, _rewardPanel.Rect.Bottom), new Point(100, 20));
         _moveNextButton.Draw(spriteBatch);
 
         spriteBatch.End();
@@ -67,7 +68,8 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
             _uiContent.GetTitlesFont(), new ICampaignRewardImageDrawer[]
             {
                 new PropCampaignRewardImageDrawer(Game.Content.Load<Texture2D>("Sprites/GameObjects/EquipmentIcons")),
-                new LocationCampaignRewardImageDrawer(Game.Content)
+                new LocationCampaignRewardImageDrawer(Game.Content),
+                new HeroCampaignRewardImageDrawer(Game.Content, Game.Services.GetRequiredService<ICombatantGraphicsCatalog>())
             });
     }
 

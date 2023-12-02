@@ -1,49 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets;
-using Client.Core;
 using Client.Engine;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.CampaignReward.Ui;
-
-internal sealed class LocationCampaignRewardImageDrawer: CampaignRewardImageDrawerBase<LocationCampaignReward>
-{
-    private readonly ContentManager _content;
-    private readonly IDictionary<ILocationSid, Texture2D> _locationTextures;
-
-    public LocationCampaignRewardImageDrawer(ContentManager content)
-    {
-        _content = content;
-        
-        _locationTextures = new Dictionary<ILocationSid, Texture2D>
-        {
-            { LocationSids.Desert, LoadCampaignThumbnailImage("Desert") },
-            { LocationSids.Monastery, LoadCampaignThumbnailImage("Monastery") },
-            { LocationSids.ShipGraveyard, LoadCampaignThumbnailImage("ShipGraveyard") },
-            { LocationSids.Thicket, LoadCampaignThumbnailImage("DarkThicket") },
-            { LocationSids.Swamp, LoadCampaignThumbnailImage("GrimSwamp") },
-            { LocationSids.Battleground, LoadCampaignThumbnailImage("Battleground") }
-        };
-    }
-    
-    Texture2D LoadCampaignThumbnailImage(string textureName)
-    {
-        return _content.Load<Texture2D>($"Sprites/GameObjects/Campaigns/{textureName}");
-    }
-
-    protected override void Draw(LocationCampaignReward reward, SpriteBatch spriteBatch, Vector2 position)
-    {
-        var texture = _locationTextures[reward.Location];
-        spriteBatch.Draw(texture, position, new Rectangle(50,0,200,100), Color.White);
-    }
-
-    public override Point ImageSize => new Point(200, 100);
-}
 
 internal sealed class RewardPanel: ControlBase
 {
@@ -81,7 +44,7 @@ internal sealed class RewardPanel: ControlBase
         for (var i = 0; i < rewards.Length; i++)
         {
             var reward = rewards[i];
-            var rewardPosition = (contentRect.Location + new Point(contentRect.Center.X, i * 32)).ToVector2();
+            var rewardPosition = (new Point(contentRect.Center.X, contentRect.Top + 50 + 50 + i * 32)).ToVector2();
 
             foreach (var campaignRewardImageDrawer in _rewardImageDrawers)
             {

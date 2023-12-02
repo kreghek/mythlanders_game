@@ -1,3 +1,4 @@
+using Client.GameScreens;
 using Client.GameScreens.CampaignReward;
 
 namespace Client.Core;
@@ -11,8 +12,10 @@ internal sealed class HeroCampaignReward : ICampaignReward
         _hero = hero;
     }
 
+    public UnitName Hero => _hero;
+
     public string GetRewardName()
     {
-        return _hero.ToString();
+        return GameObjectHelper.GetLocalized(Hero);
     }
 }

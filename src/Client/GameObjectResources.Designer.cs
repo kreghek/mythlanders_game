@@ -1746,6 +1746,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Snow.
+        /// </summary>
+        internal static string snow_prop {
+            get {
+                return ResourceManager.GetString("snow_prop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ping.
         /// </summary>
         internal static string Spearman {

@@ -13,6 +13,6 @@ internal sealed class ResourceCampaignReward : ICampaignReward
 
     public string GetRewardName()
     {
-        return GameObjectHelper.GetLocalizedProp(_resource.Scheme.Sid);;
+        return GameObjectHelper.GetLocalizedProp(_resource.Scheme.Sid);
     }
 }
