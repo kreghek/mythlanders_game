@@ -4,14 +4,12 @@ namespace Client.Core.CampaignRewards;
 
 internal sealed class HeroCampaignReward : ICampaignReward
 {
-    private readonly UnitName _hero;
-
     public HeroCampaignReward(UnitName hero)
     {
-        _hero = hero;
+        Hero = hero;
     }
 
-    public UnitName Hero => _hero;
+    public UnitName Hero { get; }
 
     public string GetRewardName()
     {

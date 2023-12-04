@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using Client.Assets.Catalogs;
 using Client.Core;
@@ -55,8 +54,9 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
 
         _rewardPanel.Rect = new Rectangle(contentRect.Center.X - 300, contentRect.Top + 20, 600, 400);
         _rewardPanel.Draw(spriteBatch);
-        
-        _moveNextButton.Rect = new Rectangle(new Point(_rewardPanel.Rect.Location.X, _rewardPanel.Rect.Bottom), new Point(100, 20));
+
+        _moveNextButton.Rect = new Rectangle(new Point(_rewardPanel.Rect.Location.X, _rewardPanel.Rect.Bottom),
+            new Point(100, 20));
         _moveNextButton.Draw(spriteBatch);
 
         spriteBatch.End();
@@ -70,7 +70,8 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
             {
                 new PropCampaignRewardImageDrawer(Game.Content.Load<Texture2D>("Sprites/GameObjects/EquipmentIcons")),
                 new LocationCampaignRewardImageDrawer(Game.Content),
-                new HeroCampaignRewardImageDrawer(Game.Content, Game.Services.GetRequiredService<ICombatantGraphicsCatalog>())
+                new HeroCampaignRewardImageDrawer(Game.Content,
+                    Game.Services.GetRequiredService<ICombatantGraphicsCatalog>())
             });
     }
 

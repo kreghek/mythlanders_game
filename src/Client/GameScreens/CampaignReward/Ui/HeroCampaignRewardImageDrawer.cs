@@ -9,17 +9,17 @@ namespace Client.GameScreens.CampaignReward.Ui;
 
 internal sealed class HeroCampaignRewardImageDrawer : CampaignRewardImageDrawerBase<HeroCampaignReward>
 {
-    private ContentManager _content;
     private readonly ICombatantGraphicsCatalog _unitGraphicsCatalog;
+    private readonly ContentManager _content;
     private Texture2D? _thumbnailIcon;
-
-    public override Point ImageSize => new(32, 32);
 
     public HeroCampaignRewardImageDrawer(ContentManager content, ICombatantGraphicsCatalog unitGraphicsCatalog)
     {
         _content = content;
         _unitGraphicsCatalog = unitGraphicsCatalog;
     }
+
+    public override Point ImageSize => new(32, 32);
 
     protected override void Draw(HeroCampaignReward reward, SpriteBatch spriteBatch, Vector2 position)
     {
