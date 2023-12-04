@@ -22,6 +22,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private readonly ButtonBase _showStoryPointsButton;
     private readonly IUiContentStorage _uiContentStorage;
     private CampaignMap? _campaignMap;
+    private CampaignEffectsPanel _campaignEffectsPanel = null!;
 
     private bool _isCampaignPresentation = true;
 
@@ -89,13 +90,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
         DrawCurrentStoryPoints(spriteBatch, storyPointRect);
 
-        var campaignRewardsRect = new Rectangle(
-            contentRect.Left + STORY_POINT_PANEL_WIDTH - ControlBase.CONTENT_MARGIN,
-            contentRect.Top + ControlBase.CONTENT_MARGIN,
-            STORY_POINT_PANEL_WIDTH,
-            STORY_POINT_PANEL_HEIGHT);
-
-        DrawCampaignRewards(spriteBatch, campaignRewardsRect);
+        DrawCampaignEffects(spriteBatch, contentRect);
 
         spriteBatch.End();
     }
@@ -119,16 +114,15 @@ internal class CampaignScreen : GameScreenWithMenuBase
         _showStoryPointsButton.Update(ResolutionIndependentRenderer);
     }
 
-    private void DrawCampaignRewards(SpriteBatch spriteBatch, Rectangle contentRect)
+    private void DrawCampaignEffects(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        var rewards = _screenTransitionArguments.Campaign.GetCampaignRewards().ToArray();
+        _campaignEffectsPanel.Rect = new Rectangle(
+            contentRect.Left + ControlBase.CONTENT_MARGIN,
+            contentRect.Top + ControlBase.CONTENT_MARGIN,
+            200,
+            ControlBase.CONTENT_MARGIN * 5 + 20 * 4);
 
-        for (var rewardIndex = 0; rewardIndex < rewards.Length; rewardIndex++)
-        {
-            var reward = rewards[rewardIndex];
-            spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(), reward.GetRewardName(),
-                new Vector2(contentRect.Left, contentRect.Top + rewardIndex * 20), TestamentColors.MainSciFi);
-        }
+        _campaignEffectsPanel.Draw(spriteBatch);
     }
 
     private void DrawCurrentStoryPoints(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -223,6 +217,9 @@ internal class CampaignScreen : GameScreenWithMenuBase
             Game.Content.Load<Texture2D>("Sprites/Ui/Icons16x16"),
             ResolutionIndependentRenderer,
             Game.Services.GetRequiredService<GameObjectContentStorage>());
+
+        var rewards = _screenTransitionArguments.Campaign.GetCampaignRewards().ToArray();
+        _campaignEffectsPanel = new CampaignEffectsPanel(rewards, currentCampaign.FailurePenalties);
     }
 
     private void InventoryButton_OnClick(object? sender, EventArgs e)
