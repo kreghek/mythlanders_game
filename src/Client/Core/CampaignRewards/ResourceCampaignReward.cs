@@ -1,6 +1,8 @@
+using Client.GameScreens;
+
 using Core.Props;
 
-namespace Client.GameScreens.CampaignReward;
+namespace Client.Core.CampaignRewards;
 
 internal sealed class ResourceCampaignReward : ICampaignReward
 {

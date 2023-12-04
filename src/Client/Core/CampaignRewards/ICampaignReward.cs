@@ -1,4 +1,4 @@
-namespace Client.GameScreens.CampaignReward;
+namespace Client.Core.CampaignRewards;
 
 internal interface ICampaignReward
 {

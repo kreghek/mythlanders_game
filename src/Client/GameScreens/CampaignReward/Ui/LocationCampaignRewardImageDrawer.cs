@@ -2,6 +2,7 @@
 
 using Client.Assets;
 using Client.Core;
+using Client.Core.CampaignRewards;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;

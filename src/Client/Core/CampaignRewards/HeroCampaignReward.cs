@@ -1,7 +1,6 @@
 using Client.GameScreens;
-using Client.GameScreens.CampaignReward;
 
-namespace Client.Core;
+namespace Client.Core.CampaignRewards;
 
 internal sealed class HeroCampaignReward : ICampaignReward
 {

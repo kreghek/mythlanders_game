@@ -150,6 +150,12 @@
   <data name="BiomeLevelText" xml:space="preserve">
     <value>Ур.</value>
   </data>
+  <data name="CampaignPenaltiesLabelText" xml:space="preserve">
+    <value>Штрафы</value>
+  </data>
+  <data name="CampaignRewardsLabelText" xml:space="preserve">
+    <value>Награда</value>
+  </data>
   <data name="CampaignSelectButtonTitle" xml:space="preserve">
     <value>СТАРТ</value>
   </data>
@@ -578,8 +584,5 @@
   </data>
   <data name="_AllChars" xml:space="preserve">
     <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
-  </data>
-  <data name="CampaignRewardsLabelText" xml:space="preserve">
-    <value>Награда</value>
   </data>
 </root>

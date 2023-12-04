@@ -279,7 +279,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
     private Dictionary<ILocationSid, Vector2> InitLocationCoords()
     {
         var rnd = new Random(2);
-        var values = SidHelper.GetValues<ILocationSid>(typeof(LocationSids));
+        var values = SidCatalogHelper.GetValues<ILocationSid>(typeof(LocationSids));
 
         return values.ToDictionary(x => x,
             x => new Vector2(rnd.Next(_mapBackgroundTexture.Width / 4, _mapBackgroundTexture.Width * 3 / 4),
