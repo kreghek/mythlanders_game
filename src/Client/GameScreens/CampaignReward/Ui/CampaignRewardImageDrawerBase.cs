@@ -1,3 +1,5 @@
+using Client.Core.CampaignRewards;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

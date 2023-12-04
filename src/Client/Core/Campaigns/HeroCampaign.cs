@@ -2,7 +2,7 @@
 using System.Linq;
 
 using Client.Assets.StageItems;
-using Client.GameScreens.CampaignReward;
+using Client.Core.CampaignRewards;
 
 using CombatDicesTeam.Graphs;
 

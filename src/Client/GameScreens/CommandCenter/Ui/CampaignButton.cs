@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
 using Client.Core;
+using Client.Core.CampaignRewards;
 using Client.Engine;
-using Client.GameScreens.CampaignReward;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

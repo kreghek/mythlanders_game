@@ -4,6 +4,7 @@ using System.Linq;
 
 using Client.Assets.Catalogs;
 using Client.Core;
+using Client.Core.CampaignRewards;
 using Client.Engine;
 using Client.GameScreens.CampaignReward.Ui;
 using Client.GameScreens.CommandCenter;
