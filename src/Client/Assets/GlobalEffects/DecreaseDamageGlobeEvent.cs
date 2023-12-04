@@ -8,7 +8,7 @@ internal sealed class DecreaseDamageGlobeEvent : IGlobeEvent
 {
     public int CombatsLeft { get; }
     public bool IsActive { get; }
-    public string Title { get; }
+    public string Title => "Decrease damage on 2 campaigns";
 
     public IReadOnlyList<GlobeRule> GetRules()
     {

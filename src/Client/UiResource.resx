@@ -154,6 +154,12 @@
   <data name="BiomeLevelText" xml:space="preserve">
     <value>Lvl</value>
   </data>
+  <data name="CampaignPenaltiesLabelText" xml:space="preserve">
+    <value>Penalties</value>
+  </data>
+  <data name="CampaignRewardsLabelText" xml:space="preserve">
+    <value>Reward</value>
+  </data>
   <data name="CampaignSelectButtonTitle" xml:space="preserve">
     <value>START</value>
   </data>
@@ -594,8 +600,5 @@ This hero can no longer act in the current battle.</value>
   </data>
   <data name="_AllChars" xml:space="preserve">
     <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
-  </data>
-  <data name="CampaignRewardsLabelText" xml:space="preserve">
-    <value>Reward</value>
   </data>
 </root>
