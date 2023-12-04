@@ -16,7 +16,7 @@ namespace Client.GameScreens.Campaign;
 
 internal class CampaignScreen : GameScreenWithMenuBase
 {
-    private readonly GlobeProvider _globe;
+    private readonly GlobeProvider _globeProvider;
     private readonly ButtonBase _inventoryButton;
     private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
     private readonly ButtonBase _showStoryPointsButton;
@@ -33,7 +33,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
     {
         _screenTransitionArguments = screenTransitionArguments;
 
-        _globe = game.Services.GetRequiredService<GlobeProvider>();
+        _globeProvider = game.Services.GetRequiredService<GlobeProvider>();
         _uiContentStorage = game.Services.GetRequiredService<IUiContentStorage>();
 
         _showStoryPointsButton = new ResourceTextButton(nameof(UiResource.CurrentQuestButtonTitle));
@@ -45,7 +45,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
     protected override IList<ButtonBase> CreateMenu()
     {
-        if (_globe.Globe.Player.Inventory.CalcActualItems().Any())
+        if (_globeProvider.Globe.Player.Inventory.CalcActualItems().Any())
         {
             return new[]
             {
@@ -102,7 +102,13 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
     protected override void InitializeContent()
     {
+        SaveGameProgress();
         InitializeCampaignItemButtons();
+    }
+
+    private void SaveGameProgress()
+    {
+        _globeProvider.StoreCurrentGlobe();
     }
 
     protected override void UpdateContent(GameTime gameTime)
@@ -133,7 +139,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
     private void DrawCurrentStoryPoints(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        if (!_globe.Globe.ActiveStoryPoints.Any() && _globe.Globe.Player.Challenge is null)
+        if (!_globeProvider.Globe.ActiveStoryPoints.Any() && _globeProvider.Globe.Player.Challenge is null)
         {
             return;
         }
@@ -143,7 +149,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
         if (_showStoryPoints)
         {
-            var storyPoints = _globe.Globe.ActiveStoryPoints.OrderBy(x => x.Sid).ToArray();
+            var storyPoints = _globeProvider.Globe.ActiveStoryPoints.OrderBy(x => x.Sid).ToArray();
             for (var storyPointIndex = 0; storyPointIndex < storyPoints.Length; storyPointIndex++)
             {
                 var storyPoint = storyPoints[storyPointIndex];
@@ -163,7 +169,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
                 }
             }
 
-            if (_globe.Globe.Player.Challenge is not null)
+            if (_globeProvider.Globe.Player.Challenge is not null)
             {
                 var challengeStartY = contentRect.Top + storyPoints.Length * 20 + 20;
 
@@ -173,7 +179,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
                     new Vector2(contentRect.Left, challengeStartY),
                     Color.Wheat);
 
-                var challengeJobs = _globe.Globe.Player.Challenge.CurrentJobs;
+                var challengeJobs = _globeProvider.Globe.Player.Challenge.CurrentJobs;
                 if (challengeJobs is not null)
                 {
                     var currentJobs = challengeJobs.ToArray();
@@ -228,7 +234,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private void InventoryButton_OnClick(object? sender, EventArgs e)
     {
         AddModal(
-            new InventoryModal(_globe.Globe.Player.Inventory, Game.Services.GetRequiredService<IUiContentStorage>(),
+            new InventoryModal(_globeProvider.Globe.Player.Inventory, Game.Services.GetRequiredService<IUiContentStorage>(),
                 ResolutionIndependentRenderer), false);
     }
 
