@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Client.Core;
 
@@ -12,16 +13,16 @@ internal sealed class DecreaseDamageGlobeEvent : IGlobeEvent
 
     public IReadOnlyList<GlobeRule> GetRules()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     public void Initialize(Globe globe)
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     public void Update()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 }

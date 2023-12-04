@@ -10,7 +10,8 @@ namespace Client.Core.Campaigns;
 
 internal sealed class HeroCampaign
 {
-    public HeroCampaign(ILocationSid location, IGraph<ICampaignStageItem> stages, IReadOnlyCollection<ICampaignReward> failurePenalties, int seed)
+    public HeroCampaign(ILocationSid location, IGraph<ICampaignStageItem> stages,
+        IReadOnlyCollection<ICampaignReward> failurePenalties, int seed)
     {
         Location = location;
         Stages = stages;
@@ -21,6 +22,8 @@ internal sealed class HeroCampaign
     }
 
     public IGraphNode<ICampaignStageItem>? CurrentStage { get; set; }
+
+    public IReadOnlyCollection<ICampaignReward> FailurePenalties { get; }
 
     public ILocationSid Location { get; }
 
@@ -34,6 +37,4 @@ internal sealed class HeroCampaign
         return Stages.GetAllNodes().Select(x => x.Payload)
             .OfType<IRewardCampaignStageItem>().First().GetEstimateRewards(this);
     }
-
-    public IReadOnlyCollection<ICampaignReward> FailurePenalties { get; }
 }

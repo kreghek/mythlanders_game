@@ -9,8 +9,8 @@ namespace Client.GameScreens.CampaignReward.Ui;
 
 internal sealed class HeroCampaignRewardImageDrawer : CampaignRewardImageDrawerBase<HeroCampaignReward>
 {
-    private readonly ICombatantGraphicsCatalog _unitGraphicsCatalog;
     private readonly ContentManager _content;
+    private readonly ICombatantGraphicsCatalog _unitGraphicsCatalog;
     private Texture2D? _thumbnailIcon;
 
     public HeroCampaignRewardImageDrawer(ContentManager content, ICombatantGraphicsCatalog unitGraphicsCatalog)

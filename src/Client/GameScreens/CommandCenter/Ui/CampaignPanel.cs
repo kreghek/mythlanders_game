@@ -13,9 +13,8 @@ namespace Client.GameScreens.CommandCenter.Ui;
 
 internal sealed class CampaignPanel : ControlBase, ICampaignPanel
 {
-    private readonly CampaignButton _selectButton;
-
     private readonly CampaignEffectsPanel _campaignEffectsPanel;
+    private readonly CampaignButton _selectButton;
 
     public CampaignPanel(HeroCampaign campaign, Texture2D campaignTexture)
     {

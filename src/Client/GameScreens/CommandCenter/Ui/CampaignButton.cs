@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-
-using Client.Core;
-using Client.Core.CampaignRewards;
+﻿using Client.Core;
 using Client.Engine;
 
 using Microsoft.Xna.Framework;

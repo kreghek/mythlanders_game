@@ -21,8 +21,8 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
     private readonly ButtonBase _showStoryPointsButton;
     private readonly IUiContentStorage _uiContentStorage;
-    private CampaignMap? _campaignMap;
     private CampaignEffectsPanel _campaignEffectsPanel = null!;
+    private CampaignMap? _campaignMap;
 
     private bool _isCampaignPresentation = true;
 

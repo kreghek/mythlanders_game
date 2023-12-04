@@ -1,14 +1,13 @@
 ﻿namespace Client.Core.CampaignRewards;
+
 internal class AddGlobalEffectCampaignReward : ICampaignReward
 {
-    private readonly IGlobeEvent _targetGlobeEvent;
-
-    public AddGlobalEffectCampaignReward(IGlobeEvent targetGlobeEvent) 
+    public AddGlobalEffectCampaignReward(IGlobeEvent targetGlobeEvent)
     {
-        _targetGlobeEvent = targetGlobeEvent;
+        TargetGlobeEvent = targetGlobeEvent;
     }
 
-    internal IGlobeEvent TargetGlobeEvent => _targetGlobeEvent;
+    internal IGlobeEvent TargetGlobeEvent { get; }
 
     public string GetRewardName()
     {
