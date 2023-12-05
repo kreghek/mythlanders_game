@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.GlobalEffects;
 using Client.Core;
+using Client.Core.CampaignRewards;
 using Client.Core.Campaigns;
 
 using CombatDicesTeam.Dices;
@@ -21,6 +23,14 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         _dice = dice;
     }
 
+    private static IReadOnlyCollection<ICampaignReward> CreateFailurePenalties()
+    {
+        return new[]
+        {
+            new AddGlobalEffectCampaignReward(new DecreaseDamageGlobeEvent())
+        };
+    }
+
     private HeroCampaign CreateGrindCampaign(ILocationSid locationSid, Globe globe)
     {
         var shortTemplateGraph = _wayTemplatesCatalog.CreateGrindShortTemplate(locationSid);
@@ -33,7 +43,9 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var seed = _dice.RollD100();
 
-        var campaign = new HeroCampaign(locationSid, campaignGraph, seed);
+        var penalties = CreateFailurePenalties();
+
+        var campaign = new HeroCampaign(locationSid, campaignGraph, penalties, seed);
 
         return campaign;
     }
@@ -50,7 +62,9 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var seed = _dice.RollD100();
 
-        var campaign = new HeroCampaign(locationSid, campaignGraph, seed);
+        var penalties = CreateFailurePenalties();
+
+        var campaign = new HeroCampaign(locationSid, campaignGraph, penalties, seed);
 
         return campaign;
     }
@@ -67,7 +81,9 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var seed = _dice.RollD100();
 
-        var campaign = new HeroCampaign(locationSid, campaignGraph, seed);
+        var penalties = CreateFailurePenalties();
+
+        var campaign = new HeroCampaign(locationSid, campaignGraph, penalties, seed);
 
         return campaign;
     }

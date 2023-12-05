@@ -2,7 +2,7 @@
 
 namespace Core;
 
-public static class SidHelper
+public static class SidCatalogHelper
 {
     public static IEnumerable<TValue> GetValues<TValue>(Type t)
     {

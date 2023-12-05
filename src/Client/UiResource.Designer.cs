@@ -169,6 +169,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Penalties.
+        /// </summary>
+        internal static string CampaignPenaltiesLabelText {
+            get {
+                return ResourceManager.GetString("CampaignPenaltiesLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reward.
+        /// </summary>
+        internal static string CampaignRewardsLabelText {
+            get {
+                return ResourceManager.GetString("CampaignRewardsLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to START.
         /// </summary>
         internal static string CampaignSelectButtonTitle {

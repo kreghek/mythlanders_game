@@ -1,34 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
+using Client.Assets.Catalogs;
 using Client.Core;
+using Client.Core.CampaignRewards;
 using Client.Engine;
+using Client.GameScreens.CampaignReward.Ui;
 using Client.GameScreens.CommandCenter;
 using Client.ScreenManagement;
-
-using Core.Props;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.CampaignReward;
-
-internal sealed class ResourceCampaignReward : ICampaignReward
-{
-    private readonly IProp _resource;
-
-    public ResourceCampaignReward(IProp resource)
-    {
-        _resource = resource;
-    }
-
-    public string GetRewardDescription()
-    {
-        return _resource.Scheme.Sid;
-    }
-}
 
 internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
 {
@@ -37,6 +22,7 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
     private readonly ResourceTextButton _moveNextButton;
     private readonly IReadOnlyCollection<ICampaignReward> _rewards;
     private readonly IUiContentStorage _uiContent;
+    private RewardPanel _rewardPanel = null!;
 
     public CampaignRewardScreen(TestamentGame game, CampaignRewardScreenTransitionArguments args) : base(game)
     {
@@ -66,22 +52,27 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
-        _moveNextButton.Rect = new Rectangle(contentRect.Location, new Point(100, 20));
-        _moveNextButton.Draw(spriteBatch);
+        _rewardPanel.Rect = new Rectangle(contentRect.Center.X - 300, contentRect.Top + 20, 600, 400);
+        _rewardPanel.Draw(spriteBatch);
 
-        var array = _rewards.ToArray();
-        for (var i = 0; i < array.Length; i++)
-        {
-            var prop = array[i];
-            spriteBatch.DrawString(_uiContent.GetTitlesFont(), prop.GetRewardDescription(),
-                (contentRect.Location + new Point(0, i * 32)).ToVector2(), Color.White);
-        }
+        _moveNextButton.Rect = new Rectangle(new Point(_rewardPanel.Rect.Location.X, _rewardPanel.Rect.Bottom),
+            new Point(100, 20));
+        _moveNextButton.Draw(spriteBatch);
 
         spriteBatch.End();
     }
 
     protected override void InitializeContent()
     {
+        var panelHeaderTexture = Game.Content.Load<Texture2D>("Sprites/Ui/CombatSkillsPanel");
+        _rewardPanel = new RewardPanel(_rewards, panelHeaderTexture, _uiContent.GetTitlesFont(),
+            _uiContent.GetTitlesFont(), new ICampaignRewardImageDrawer[]
+            {
+                new PropCampaignRewardImageDrawer(Game.Content.Load<Texture2D>("Sprites/GameObjects/EquipmentIcons")),
+                new LocationCampaignRewardImageDrawer(Game.Content),
+                new HeroCampaignRewardImageDrawer(Game.Content,
+                    Game.Services.GetRequiredService<ICombatantGraphicsCatalog>())
+            });
     }
 
     protected override void UpdateContent(GameTime gameTime)

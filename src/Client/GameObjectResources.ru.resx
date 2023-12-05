@@ -698,6 +698,9 @@
     <value>Языческое ожерелье, полное мистики.
 Увеличивает HP на 10% за уровень.</value>
   </data>
+  <data name="snow_prop" xml:space="preserve">
+    <value>Снег</value>
+  </data>
   <data name="Spearman" xml:space="preserve">
     <value>Пинг</value>
   </data>

@@ -154,6 +154,12 @@
   <data name="BiomeLevelText" xml:space="preserve">
     <value>Lvl</value>
   </data>
+  <data name="CampaignPenaltiesLabelText" xml:space="preserve">
+    <value>Penalties</value>
+  </data>
+  <data name="CampaignRewardsLabelText" xml:space="preserve">
+    <value>Reward</value>
+  </data>
   <data name="CampaignSelectButtonTitle" xml:space="preserve">
     <value>START</value>
   </data>

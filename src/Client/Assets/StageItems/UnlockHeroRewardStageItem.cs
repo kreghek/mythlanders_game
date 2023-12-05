@@ -3,6 +3,7 @@ using System.Linq;
 
 using Client.Assets.StoryPointJobs;
 using Client.Core;
+using Client.Core.CampaignRewards;
 using Client.Core.Campaigns;
 using Client.Core.Heroes;
 using Client.GameScreens.CampaignReward;
