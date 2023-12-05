@@ -16,8 +16,15 @@ namespace Client.GameScreens.Barracks;
 
 internal class BarracksScreen: GameScreenWithMenuBase
 {
+    private const int GRID_CELL_MARGIN = 5;
+    
     private readonly GlobeProvider _globeProvider;
     private HeroState? _selectedHero;
+    
+    // private EquipmentsInfoPanel _equipmentPanel = null!;
+    private GeneralInfoPanel _generalInfoPanel = null!;
+    // private PerkInfoPanel _perkInfoPanel = null!;
+    // private SkillsInfoPanel _skillsInfoPanel = null!;
 
     private IReadOnlyCollection<HeroListItem> _heroList = null!;
 
@@ -32,6 +39,16 @@ internal class BarracksScreen: GameScreenWithMenuBase
         var uiContentStorage =Game.Services.GetRequiredService<IUiContentStorage>();
         _heroList = _globeProvider.Globe.Player.Heroes.Select(x =>
             new HeroListItem(x, catalog, Game.Content, uiContentStorage.GetMainFont())).ToArray();
+
+        foreach (var heroListItem in _heroList)
+        {
+            heroListItem.OnClick += HeroListItem_OnClick; 
+        }
+    }
+
+    private void HeroListItem_OnClick(object? sender, EventArgs e)
+    {
+        
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -49,13 +66,47 @@ internal class BarracksScreen: GameScreenWithMenuBase
 
     protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
     {
+        ResolutionIndependentRenderer.BeginDraw();
+        spriteBatch.Begin(
+            sortMode: SpriteSortMode.Deferred,
+            blendState: BlendState.AlphaBlend,
+            samplerState: SamplerState.PointClamp,
+            depthStencilState: DepthStencilState.None,
+            rasterizerState: RasterizerState.CullNone,
+            transformMatrix: Camera.GetViewTransformationMatrix());
+        
         var heroes = _globeProvider.Globe.Player.Heroes;
 
         var heroListRect = new Rectangle(contentRect.Left, contentRect.Top, contentRect.Width, 50);
-        DrawHeroList(heroes, spriteBatch, heroListRect);
+        DrawHeroList(spriteBatch, heroListRect);
+
+        if (_selectedHero is not null)
+        {
+            DrawHeroDetails(_selectedHero, spriteBatch, contentRect);
+        }
+
+        spriteBatch.End();
     }
 
-    private void DrawHeroList(IReadOnlyCollection<HeroState> heroes, SpriteBatch spriteBatch, Rectangle heroListRect)
+    private void DrawHeroDetails(HeroState? selectedHero, SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        _generalInfoPanel.Rect = GetCellRect(contentRect, col: 1, row: 0);
+        _generalInfoPanel.Draw(spriteBatch);
+        
+        // _skillsInfoPanel.Rect = GetCellRect(contentRect, col: 2, row: 0);
+        // _skillsInfoPanel.Draw(spriteBatch);
+        //
+        // _equipmentPanel.Rect = GetCellRect(contentRect, col: 0, row: 1);
+        // _equipmentPanel.Draw(spriteBatch);
+        //
+        // _perkInfoPanel.Rect = GetCellRect(contentRect, col: 2, row: 1);
+        // _perkInfoPanel.Draw(spriteBatch);
+
+        var actionButtonRect = GetCellRect(contentRect, col: 1, row: 1);
+        DrawActionButtons(spriteBatch: spriteBatch, actionButtonRect: actionButtonRect);
+    }
+
+    private void DrawHeroList(SpriteBatch spriteBatch, Rectangle heroListRect)
     {
         for (var index = 0; index < _heroList.ToArray().Length; index++)
         {
@@ -73,5 +124,14 @@ internal class BarracksScreen: GameScreenWithMenuBase
         {
             heroListItem.Update(ResolutionIndependentRenderer);
         }
+    }
+    
+    private static Rectangle GetCellRect(Rectangle contentRect, int col, int row)
+    {
+        var gridColumnWidth = contentRect.Width / 3;
+        var gridRowHeight = contentRect.Height / 2;
+        var position = new Point(contentRect.Left + gridColumnWidth * col, contentRect.Top + gridRowHeight * row);
+        var size = new Point(gridColumnWidth - GRID_CELL_MARGIN, gridRowHeight - GRID_CELL_MARGIN);
+        return new Rectangle(position, size);
     }
 }
