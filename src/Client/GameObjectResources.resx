@@ -825,6 +825,9 @@
     <value />
         <comment>Equipment</comment>
   </data>
+  <data name="snow_prop" xml:space="preserve">
+    <value>Snow</value>
+  </data>
   <data name="Spearman" xml:space="preserve">
     <value>Ping</value>
         <comment>Hero</comment>

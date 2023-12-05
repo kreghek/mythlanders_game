@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-
-using Client.Core;
+﻿using Client.Core;
 using Client.Engine;
-using Client.GameScreens.CampaignReward;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,13 +9,10 @@ namespace Client.GameScreens.CommandCenter.Ui;
 internal sealed class CampaignButton : ButtonBase
 {
     private readonly Texture2D _campaignTexture;
-    private readonly IReadOnlyCollection<ICampaignReward> _estimatedRewards;
 
-    public CampaignButton(Texture2D campaignTexture, ILocationSid location,
-        IReadOnlyCollection<ICampaignReward> estimatedRewards)
+    public CampaignButton(Texture2D campaignTexture, ILocationSid location)
     {
         _campaignTexture = campaignTexture;
-        _estimatedRewards = estimatedRewards;
         Location = location;
     }
 
@@ -46,15 +40,5 @@ internal sealed class CampaignButton : ButtonBase
             GameObjectHelper.GetLocalized(Location),
             new Vector2(contentRect.Left + CONTENT_MARGIN, contentRect.Bottom - CONTENT_MARGIN - 20),
             Color.Wheat);
-
-        foreach (var estimatedReward in _estimatedRewards)
-        {
-            spriteBatch.DrawString(
-                UiThemeManager.UiContentStorage.GetMainFont(),
-                estimatedReward.GetRewardDescription(),
-                new Vector2(contentRect.Left + CONTENT_MARGIN,
-                    contentRect.Bottom - CONTENT_MARGIN - 20 + 20 + CONTENT_MARGIN),
-                Color.Wheat);
-        }
     }
 }

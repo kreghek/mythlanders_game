@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using Client.Core.CampaignRewards;
 using Client.Core.Campaigns;
 
 namespace Client.GameScreens.CampaignReward;

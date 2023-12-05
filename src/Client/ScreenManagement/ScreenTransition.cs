@@ -5,18 +5,20 @@ internal enum ScreenTransition
     Title,
     Campaign,
     CommandCenter,
-    Event,
-    Combat,
     Bestiary,
     EndGame,
     Credits,
     Hero,
+
+    Combat,
+    Event,
     Training,
     Armory,
     Tactical,
     SlidingPuzzles,
     Rest,
     Crisis,
+    Challenge,
     CampaignReward,
 
     /// <summary>

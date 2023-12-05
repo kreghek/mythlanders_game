@@ -285,7 +285,8 @@ internal sealed class TestamentGame : Game
             Services.GetRequiredService<IEventCatalog>(),
             Services.GetRequiredService<IDice>(),
             Services.GetRequiredService<IJobProgressResolver>(),
-            Services.GetRequiredService<IDropResolver>());
+            Services.GetRequiredService<IDropResolver>(),
+            Services.GetRequiredService<IUnitSchemeCatalog>());
 
         var campaignGenerator = new CampaignGenerator(
             campaignWayTemplateCatalog,

@@ -2,7 +2,7 @@
 using System.Linq;
 
 using Client.Assets.StageItems;
-using Client.GameScreens.CampaignReward;
+using Client.Core.CampaignRewards;
 
 using CombatDicesTeam.Graphs;
 
@@ -10,16 +10,20 @@ namespace Client.Core.Campaigns;
 
 internal sealed class HeroCampaign
 {
-    public HeroCampaign(ILocationSid location, IGraph<ICampaignStageItem> stages, int seed)
+    public HeroCampaign(ILocationSid location, IGraph<ICampaignStageItem> stages,
+        IReadOnlyCollection<ICampaignReward> failurePenalties, int seed)
     {
         Location = location;
         Stages = stages;
+        FailurePenalties = failurePenalties;
         Seed = seed;
 
         Path = new List<IGraphNode<ICampaignStageItem>>();
     }
 
     public IGraphNode<ICampaignStageItem>? CurrentStage { get; set; }
+
+    public IReadOnlyCollection<ICampaignReward> FailurePenalties { get; }
 
     public ILocationSid Location { get; }
 

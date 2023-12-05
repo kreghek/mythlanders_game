@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AcceptChallengeButtonTitle" xml:space="preserve">
+    <value>Accept challenge</value>
+  </data>
   <data name="AdjutantButtonTitle" xml:space="preserve">
     <value>Adjutant</value>
     <comment>На экран коммандного центра</comment>
@@ -151,6 +154,12 @@
   <data name="BiomeLevelText" xml:space="preserve">
     <value>Lvl</value>
   </data>
+  <data name="CampaignPenaltiesLabelText" xml:space="preserve">
+    <value>Penalties</value>
+  </data>
+  <data name="CampaignRewardsLabelText" xml:space="preserve">
+    <value>Reward</value>
+  </data>
   <data name="CampaignSelectButtonTitle" xml:space="preserve">
     <value>START</value>
   </data>
@@ -166,8 +175,14 @@
     <value>Complete any campaigns</value>
     <comment>Jobs</comment>
   </data>
+  <data name="CampaignStageDisplayNameChallenge" xml:space="preserve">
+    <value>Challenge</value>
+  </data>
   <data name="CampaignStageDisplayNameCombat" xml:space="preserve">
     <value>Combat</value>
+  </data>
+  <data name="CampaignStageDisplayNameCrisis" xml:space="preserve">
+    <value>Crisis</value>
   </data>
   <data name="CampaignStageDisplayNameFinish" xml:space="preserve">
     <value>Finish campaign</value>
@@ -385,6 +400,15 @@ Do you really need to spend the priceless current move for nothing?</value>
   <data name="InventoryButtonTitle" xml:space="preserve">
     <value>Inventory</value>
   </data>
+  <data name="JobTypeCombats" xml:space="preserve">
+    <value>Start combats</value>
+  </data>
+  <data name="JobTypeCompleteCampans" xml:space="preserve">
+    <value>Complete campaigns</value>
+  </data>
+  <data name="JobTypeDefeat" xml:space="preserve">
+    <value>Defeat enemies</value>
+  </data>
   <data name="LevelUpButtonTitle" xml:space="preserve">
     <value>Level Up</value>
   </data>
@@ -512,6 +536,9 @@ Do you really need to spend the priceless current move for nothing?</value>
   <data name="SkipMapPresentationHintText" xml:space="preserve">
     <value>Press [SPACE] to skip</value>
   </data>
+  <data name="SkipMapPresentationHintText_Duplicate[1]" xml:space="preserve">
+    <value>Press [SPACE] to skip</value>
+  </data>
   <data name="SkipTutorialButtonTitle" xml:space="preserve">
     <value>Do not show anymore</value>
   </data>
@@ -573,8 +600,5 @@ This hero can no longer act in the current battle.</value>
   </data>
   <data name="_AllChars" xml:space="preserve">
     <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
-  </data>
-  <data name="SkipMapPresentationHintText" xml:space="preserve">
-    <value>Press [SPACE] to skip</value>
   </data>
 </root>

@@ -13,13 +13,12 @@ namespace Client.GameScreens.CommandCenter.Ui;
 
 internal sealed class CampaignPanel : ControlBase, ICampaignPanel
 {
+    private readonly CampaignEffectsPanel _campaignEffectsPanel;
     private readonly CampaignButton _selectButton;
 
     public CampaignPanel(HeroCampaign campaign, Texture2D campaignTexture)
     {
-        var reward = campaign.Stages.GetAllNodes().Select(x => x.Payload).OfType<IRewardCampaignStageItem>().First();
-
-        _selectButton = new CampaignButton(campaignTexture, campaign.Location, reward.GetEstimateRewards(campaign));
+        _selectButton = new CampaignButton(campaignTexture, campaign.Location);
         _selectButton.OnClick += (_, _) => { Selected?.Invoke(this, EventArgs.Empty); };
         _selectButton.OnHover += (_, _) =>
         {
@@ -31,6 +30,12 @@ internal sealed class CampaignPanel : ControlBase, ICampaignPanel
             Hover = false;
             _selectButton.Hover = false;
         };
+
+        var reward = campaign.Stages.GetAllNodes().Select(x => x.Payload).OfType<IRewardCampaignStageItem>().First();
+        var estimatedRewards = reward.GetEstimateRewards(campaign);
+        var estimatedPenalties = campaign.FailurePenalties;
+
+        _campaignEffectsPanel = new CampaignEffectsPanel(estimatedRewards, estimatedPenalties);
     }
 
     protected override Point CalcTextureOffset()
@@ -47,6 +52,12 @@ internal sealed class CampaignPanel : ControlBase, ICampaignPanel
     {
         _selectButton.Rect = contentRect;
         _selectButton.Draw(spriteBatch);
+
+        if (!Hover)
+        {
+            _campaignEffectsPanel.Rect = new Rectangle(contentRect.Left, contentRect.Bottom, contentRect.Width, 20 * 5);
+            _campaignEffectsPanel.Draw(spriteBatch);
+        }
     }
 
     public bool Hover { get; private set; }
