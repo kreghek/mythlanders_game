@@ -31,7 +31,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         };
     }
 
-    private HeroCampaign CreateGrindCampaign(ILocationSid locationSid, Globe globe)
+    private HeroCampaignSource CreateGrindCampaign(ILocationSid locationSid, Globe globe)
     {
         var shortTemplateGraph = _wayTemplatesCatalog.CreateGrindShortTemplate(locationSid);
 
@@ -45,12 +45,12 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var penalties = CreateFailurePenalties();
 
-        var campaign = new HeroCampaign(locationSid, campaignGraph, penalties, seed);
+        var campaign = new HeroCampaignSource(locationSid, campaignGraph, penalties, seed);
 
         return campaign;
     }
 
-    private HeroCampaign CreateRescueCampaign(ILocationSid locationSid, Globe globe)
+    private HeroCampaignSource CreateRescueCampaign(ILocationSid locationSid, Globe globe)
     {
         var shortTemplateGraph = _wayTemplatesCatalog.CreateRescueShortTemplate(locationSid);
 
@@ -64,12 +64,12 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var penalties = CreateFailurePenalties();
 
-        var campaign = new HeroCampaign(locationSid, campaignGraph, penalties, seed);
+        var campaign = new HeroCampaignSource(locationSid, campaignGraph, penalties, seed);
 
         return campaign;
     }
 
-    private HeroCampaign CreateScoutCampaign(ILocationSid locationSid, Globe globe)
+    private HeroCampaignSource CreateScoutCampaign(ILocationSid locationSid, Globe globe)
     {
         var shortTemplateGraph = _wayTemplatesCatalog.CreateScoutShortTemplate(locationSid);
 
@@ -83,7 +83,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var penalties = CreateFailurePenalties();
 
-        var campaign = new HeroCampaign(locationSid, campaignGraph, penalties, seed);
+        var campaign = new HeroCampaignSource(locationSid, campaignGraph, penalties, seed);
 
         return campaign;
     }
@@ -91,7 +91,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     /// <summary>
     /// Create set of different campaigns
     /// </summary>
-    public IReadOnlyList<HeroCampaign> CreateSet(Globe currentGlobe)
+    public IReadOnlyList<HeroCampaignSource> CreateSet(Globe currentGlobe)
     {
         var availableLocationSids = currentGlobe.CurrentAvailableLocations.ToArray();
 
@@ -99,9 +99,9 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var selectedLocations = _dice.RollFromList(availableLocationSids, rollCount).ToList();
 
-        var list = new List<HeroCampaign>();
+        var list = new List<HeroCampaignSource>();
 
-        var availableCampaignDelegates = new List<Func<ILocationSid, Globe, HeroCampaign>>
+        var availableCampaignDelegates = new List<Func<ILocationSid, Globe, HeroCampaignSource>>
         {
             CreateGrindCampaign,
             CreateScoutCampaign,

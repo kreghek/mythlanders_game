@@ -1,40 +1,48 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
-using Client.Assets.StageItems;
 using Client.Core.CampaignRewards;
 
 using CombatDicesTeam.Graphs;
 
 namespace Client.Core.Campaigns;
 
+/// <summary>
+/// Mutable state of a campaign exploring.
+/// </summary>
 internal sealed class HeroCampaign
 {
-    public HeroCampaign(ILocationSid location, IGraph<ICampaignStageItem> stages,
-        IReadOnlyCollection<ICampaignReward> failurePenalties, int seed)
+    public IReadOnlyCollection<HeroState> Heroes { get; }
+
+    public HeroCampaign(IReadOnlyCollection<HeroState> heroes, HeroCampaignSource source)
     {
-        Location = location;
-        Stages = stages;
-        FailurePenalties = failurePenalties;
-        Seed = seed;
+        Heroes = heroes;
+        Source = source;
+
+        ActualRewards = source.Rewards;
+        ActualFailurePenalties = Source.FailurePenalties;
 
         Path = new List<IGraphNode<ICampaignStageItem>>();
     }
 
+    public HeroCampaignSource Source { get; }
+
     public IGraphNode<ICampaignStageItem>? CurrentStage { get; set; }
 
-    public IReadOnlyCollection<ICampaignReward> FailurePenalties { get; }
-
-    public ILocationSid Location { get; }
 
     public IList<IGraphNode<ICampaignStageItem>> Path { get; }
-    public int Seed { get; }
 
-    public IGraph<ICampaignStageItem> Stages { get; }
+    /// <summary>
+    /// Effect which will apply if heroes fail campaign.
+    /// Can be modified during campaign.
+    /// </summary>
+    public IReadOnlyCollection<ICampaignReward> ActualFailurePenalties { get; }
 
-    public IReadOnlyCollection<ICampaignReward> GetCampaignRewards()
-    {
-        return Stages.GetAllNodes().Select(x => x.Payload)
-            .OfType<IRewardCampaignStageItem>().First().GetEstimateRewards(this);
-    }
+    /// <summary>
+    /// Effect which will apply if heroes win campaign.
+    /// Can be modified during campaign.
+    /// </summary>
+    //TODO Add modifiers of effects
+    public IReadOnlyCollection<ICampaignReward> ActualRewards { get; }
+
+    public int Seed => Source.Seed;
 }

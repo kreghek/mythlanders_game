@@ -7,5 +7,5 @@ namespace Client.Assets.StageItems;
 
 internal interface IRewardCampaignStageItem : ICampaignStageItem
 {
-    IReadOnlyCollection<ICampaignReward> GetEstimateRewards(HeroCampaign heroCampaign);
+    IReadOnlyCollection<ICampaignReward> GetEstimateRewards(HeroCampaignSource heroCampaign);
 }

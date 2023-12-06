@@ -125,7 +125,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
             if (campaignIndex < _campaigns.Count)
             {
                 var campaign = _campaigns[campaignIndex];
-                var campaignTexture = campaignTexturesDict[campaign.Location];
+                var campaignTexture = campaignTexturesDict[campaign.Source.Location];
 
                 var panel = new CampaignPanel(campaign, campaignTexture);
                 panels.Add(panel);
