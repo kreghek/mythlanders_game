@@ -14,9 +14,9 @@ internal sealed class CampaignPanel : ControlBase, ICampaignPanel
     private readonly CampaignEffectsPanel _campaignEffectsPanel;
     private readonly CampaignButton _selectButton;
 
-    public CampaignPanel(HeroCampaign campaign, Texture2D campaignTexture)
+    public CampaignPanel(HeroCampaignSource campaign, Texture2D campaignTexture)
     {
-        _selectButton = new CampaignButton(campaignTexture, campaign.Source.Location);
+        _selectButton = new CampaignButton(campaignTexture, campaign.Location);
         _selectButton.OnClick += (_, _) => { Selected?.Invoke(this, EventArgs.Empty); };
         _selectButton.OnHover += (_, _) =>
         {
@@ -29,8 +29,8 @@ internal sealed class CampaignPanel : ControlBase, ICampaignPanel
             _selectButton.Hover = false;
         };
 
-        var estimatedRewards = campaign.ActualRewards;
-        var estimatedPenalties = campaign.ActualFailurePenalties;
+        var estimatedRewards = campaign.Rewards;
+        var estimatedPenalties = campaign.FailurePenalties;
 
         _campaignEffectsPanel = new CampaignEffectsPanel(estimatedRewards, estimatedPenalties);
     }
