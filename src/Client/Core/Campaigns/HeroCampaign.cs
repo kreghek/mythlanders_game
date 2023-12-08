@@ -13,9 +13,8 @@ namespace Client.Core.Campaigns;
 /// </summary>
 internal sealed class HeroCampaign
 {
-    public IReadOnlyCollection<HeroState> Heroes { get; }
-
-    public HeroCampaign(IReadOnlyCollection<HeroState> heroes, HeroCampaignLocation location, IReadOnlyCollection<ICampaignReward> failurePenalties, int visualizationSeed)
+    public HeroCampaign(IReadOnlyCollection<HeroState> heroes, HeroCampaignLocation location,
+        IReadOnlyCollection<ICampaignReward> failurePenalties, int visualizationSeed)
     {
         Heroes = heroes;
         Location = location;
@@ -27,13 +26,6 @@ internal sealed class HeroCampaign
         VisualizationSeed = visualizationSeed;
         Path = new List<IGraphNode<ICampaignStageItem>>();
     }
-
-    public HeroCampaignLocation Location { get; }
-
-    public IGraphNode<ICampaignStageItem>? CurrentStage { get; set; }
-
-
-    public IList<IGraphNode<ICampaignStageItem>> Path { get; }
 
     /// <summary>
     /// Effect which will apply if heroes fail campaign.
@@ -47,6 +39,14 @@ internal sealed class HeroCampaign
     /// </summary>
     //TODO Add modifiers of effects
     public IReadOnlyCollection<ICampaignReward> ActualRewards { get; }
+
+    public IGraphNode<ICampaignStageItem>? CurrentStage { get; set; }
+    public IReadOnlyCollection<HeroState> Heroes { get; }
+
+    public HeroCampaignLocation Location { get; }
+
+
+    public IList<IGraphNode<ICampaignStageItem>> Path { get; }
 
     public int VisualizationSeed { get; }
 }

@@ -38,7 +38,7 @@ internal sealed class CampaignLaunchHeroes : ControlBase
             var heroNameLocalized = GameObjectHelper.GetLocalized(Enum.Parse<UnitName>(hero.ClassSid, true));
             spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(),
                 heroNameLocalized,
-                contentRect.Location.ToVector2() + new Vector2(0, i * 20), 
+                contentRect.Location.ToVector2() + new Vector2(0, i * 20),
                 Color.Wheat);
         }
     }

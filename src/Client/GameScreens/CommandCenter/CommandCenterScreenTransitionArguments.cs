@@ -7,10 +7,10 @@ namespace Client.GameScreens.CommandCenter;
 
 internal sealed class CommandCenterScreenTransitionArguments : IScreenTransitionArguments
 {
-    public IReadOnlyList<HeroCampaignLaunch> AvailableCampaigns { get; }
-
     public CommandCenterScreenTransitionArguments(IReadOnlyList<HeroCampaignLaunch> availableCampaigns)
     {
         AvailableCampaigns = availableCampaigns;
     }
+
+    public IReadOnlyList<HeroCampaignLaunch> AvailableCampaigns { get; }
 }

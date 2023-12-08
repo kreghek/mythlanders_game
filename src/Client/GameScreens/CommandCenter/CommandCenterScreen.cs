@@ -26,11 +26,11 @@ namespace Client.GameScreens.CommandCenter;
 
 internal class CommandCenterScreen : GameScreenWithMenuBase
 {
-    private readonly IDice _dice;
     private readonly IReadOnlyList<HeroCampaignLaunch> _campaignLaunches;
 
     private readonly ButtonBase[] _commandButtons = new ButtonBase[4];
     private readonly Texture2D[] _commandCenterSegmentTexture;
+    private readonly IDice _dice;
 
     private readonly IDictionary<ILocationSid, Vector2> _locationCoords;
 
@@ -135,7 +135,8 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
                 panels.Add(panel);
                 panel.Selected += (_, _) =>
                 {
-                    var campaign = new HeroCampaign(campaignLaunch.Heroes, campaignLaunch.Location, campaignLaunch.Penalties, _dice.Roll(100));
+                    var campaign = new HeroCampaign(campaignLaunch.Heroes, campaignLaunch.Location,
+                        campaignLaunch.Penalties, _dice.Roll(100));
 
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
                         new CampaignScreenTransitionArguments(campaign));

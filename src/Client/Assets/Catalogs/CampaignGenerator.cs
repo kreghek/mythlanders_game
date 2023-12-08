@@ -76,6 +76,13 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         return campaign;
     }
 
+    private static IReadOnlyCollection<HeroState> RollHeroes(IReadOnlyCollection<HeroState> heroes, IDice dice)
+    {
+        var openList = new List<HeroState>(heroes);
+
+        return dice.RollFromList(openList, 3).ToArray();
+    }
+
     /// <summary>
     /// Create set of different campaigns
     /// </summary>
@@ -112,12 +119,5 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         }
 
         return list;
-    }
-
-    private static IReadOnlyCollection<HeroState> RollHeroes(IReadOnlyCollection<HeroState> heroes, IDice dice)
-    {
-        var openList = new List<HeroState>(heroes);
-
-        return dice.RollFromList(openList, 3).ToArray();
     }
 }

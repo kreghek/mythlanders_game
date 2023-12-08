@@ -11,8 +11,8 @@ namespace Client.GameScreens.CommandCenter.Ui;
 
 internal sealed class CampaignPanel : ControlBase, ICampaignPanel
 {
-    private readonly CampaignLaunchHeroes _campaignHeroes;
     private readonly CampaignEffectsPanel _campaignEffectsPanel;
+    private readonly CampaignLaunchHeroes _campaignHeroes;
     private readonly CampaignButton _selectButton;
 
     public CampaignPanel(HeroCampaignLaunch campaignLaunch, Texture2D campaignTexture)
@@ -57,7 +57,8 @@ internal sealed class CampaignPanel : ControlBase, ICampaignPanel
             _campaignHeroes.Rect = new Rectangle(contentRect.Left, contentRect.Bottom, contentRect.Width, 20 * 3);
             _campaignHeroes.Draw(spriteBatch);
 
-            _campaignEffectsPanel.Rect = new Rectangle(contentRect.Left, _campaignHeroes.Rect.Bottom, contentRect.Width, 20 * 5);
+            _campaignEffectsPanel.Rect =
+                new Rectangle(contentRect.Left, _campaignHeroes.Rect.Bottom, contentRect.Width, 20 * 5);
             _campaignEffectsPanel.Draw(spriteBatch);
         }
     }
