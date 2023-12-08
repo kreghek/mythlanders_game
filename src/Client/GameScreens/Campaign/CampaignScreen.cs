@@ -224,8 +224,8 @@ internal class CampaignScreen : GameScreenWithMenuBase
             ResolutionIndependentRenderer,
             Game.Services.GetRequiredService<GameObjectContentStorage>());
 
-        var rewards = _screenTransitionArguments.Campaign.GetCampaignRewards().ToArray();
-        _campaignEffectsPanel = new CampaignEffectsPanel(rewards, currentCampaign.FailurePenalties);
+        var rewards = _screenTransitionArguments.Campaign.ActualRewards.ToArray();
+        _campaignEffectsPanel = new CampaignEffectsPanel(rewards, currentCampaign.ActualFailurePenalties);
     }
 
     private void InventoryButton_OnClick(object? sender, EventArgs e)

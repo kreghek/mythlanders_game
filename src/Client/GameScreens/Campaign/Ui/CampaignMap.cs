@@ -73,7 +73,7 @@ internal sealed class CampaignMap : ControlBase
         _iconsTexture = iconsTexture;
         _resolutionIndependentRenderer = resolutionIndependentRenderer;
         _gameObjectContentStorage = gameObjectContentStorage;
-        InitChildControls(heroCampaign.Stages, heroCampaign);
+        InitChildControls(heroCampaign.Location.Stages, heroCampaign);
     }
 
     public PresentationScrollData? Presentation { get; private set; }
@@ -145,7 +145,7 @@ internal sealed class CampaignMap : ControlBase
         VisualizerConfig visualizatorConfig,
         IReadOnlyCollection<IGraphNodeLayout<ICampaignStageItem>> graphNodeLayouts)
     {
-        var random = new Random(currentCampaign.Seed);
+        var random = new Random(currentCampaign.VisualizationSeed);
 
         const int REPEAT_ALL_TRANSFORMATIONS_COUNT = 5;
         const int RETRY_TRANSFORMATIONS_COUNT = 10;
@@ -272,7 +272,7 @@ internal sealed class CampaignMap : ControlBase
             {
                 // Means campaign just started. Available only root nodes.
 
-                var roots = GetRoots(_heroCampaign.Stages);
+                var roots = GetRoots(_heroCampaign.Location.Stages);
 
                 if (roots.Contains(button.SourceGraphNodeLayout.Node))
                 {
@@ -281,7 +281,7 @@ internal sealed class CampaignMap : ControlBase
             }
             else
             {
-                if (_heroCampaign.Stages.GetNext(_heroCampaign.CurrentStage).Contains(graphNodeLayout.Node))
+                if (_heroCampaign.Location.Stages.GetNext(_heroCampaign.CurrentStage).Contains(graphNodeLayout.Node))
                 {
                     SelectCampaignStage(graphNodeLayout.Node, transitionData);
                 }
@@ -339,7 +339,7 @@ internal sealed class CampaignMap : ControlBase
 
             var rewardNodeLayout = graphNodeLayouts.Single(x => x.Node.Payload is IRewardCampaignStageItem);
 
-            var roots = GetRoots(_heroCampaign.Stages);
+            var roots = GetRoots(_heroCampaign.Location.Stages);
 
             var startNodeLayouts = graphNodeLayouts.Where(x => roots.Contains(x.Node));
             var startNodeLayout = startNodeLayouts.First();
@@ -354,7 +354,7 @@ internal sealed class CampaignMap : ControlBase
 
             var prevNodeLayout = graphNodeLayouts.Single(x => x.Node == currentCampaign.Path.Last());
 
-            var next = currentCampaign.Stages.GetNext(prevNodeLayout.Node);
+            var next = currentCampaign.Location.Stages.GetNext(prevNodeLayout.Node);
             var nextNodeLayouts = graphNodeLayouts.Where(x => next.Contains(x.Node));
             var nextNodeLayout = nextNodeLayouts.First();
 
@@ -420,7 +420,7 @@ internal sealed class CampaignMap : ControlBase
     {
         foreach (var button in _buttonList)
         {
-            var nextNodes = _heroCampaign.Stages.GetNext(button.SourceGraphNodeLayout.Node);
+            var nextNodes = _heroCampaign.Location.Stages.GetNext(button.SourceGraphNodeLayout.Node);
 
             var nextButtons = _buttonList.Where(x => nextNodes.Contains(x.SourceGraphNodeLayout.Node)).ToArray();
 
@@ -442,7 +442,7 @@ internal sealed class CampaignMap : ControlBase
     {
         if (_heroCampaign.CurrentStage is null)
         {
-            var roots = GetRoots(_heroCampaign.Stages);
+            var roots = GetRoots(_heroCampaign.Location.Stages);
             var rootButtons = _buttonList.Where(x => roots.Contains(x.SourceGraphNodeLayout.Node)).ToArray();
 
             for (var i = 0; i < rootButtons.Length; i++)
@@ -458,7 +458,7 @@ internal sealed class CampaignMap : ControlBase
 
             spriteBatch.DrawCircle(currentButton.Rect.Center.ToVector2(), 24, 16, Color.Wheat, 3);
 
-            var next = _heroCampaign.Stages.GetNext(_heroCampaign.CurrentStage);
+            var next = _heroCampaign.Location.Stages.GetNext(_heroCampaign.CurrentStage);
             var nextButtons = _buttonList.Where(x => next.Contains(x.SourceGraphNodeLayout.Node)).ToArray();
 
             for (var i = 0; i < nextButtons.Length; i++)
@@ -489,7 +489,7 @@ internal sealed class CampaignMap : ControlBase
 
         if (_heroCampaign.CurrentStage is not null)
         {
-            var availableNodes = _heroCampaign.Stages.GetAvailableNodes(_heroCampaign.CurrentStage);
+            var availableNodes = _heroCampaign.Location.Stages.GetAvailableNodes(_heroCampaign.CurrentStage);
 
             if (!availableNodes.Contains(graphNodeLayout.Node))
             {
