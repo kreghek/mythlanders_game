@@ -731,10 +731,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             var campaigns = campaignGenerator.CreateSet(_globeProvider.Globe);
 
             ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
-                new CommandCenterScreenTransitionArguments
-                {
-                    AvailableCampaigns = campaigns
-                });
+                new CommandCenterScreenTransitionArguments(campaigns));
         }
         else
         {
@@ -749,10 +746,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             var campaigns = campaignGenerator.CreateSet(_globeProvider.Globe);
 
             ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
-                new CommandCenterScreenTransitionArguments
-                {
-                    AvailableCampaigns = campaigns
-                });
+                new CommandCenterScreenTransitionArguments(campaigns));
         }
     }
 

@@ -29,7 +29,7 @@ internal sealed class ResourceRewardStageItem : IRewardCampaignStageItem
         _dropResolver = dropResolver;
     }
 
-    private static IReadOnlyCollection<IDropTableScheme> CreateCampaignResources(HeroCampaign currentCampaign)
+    private static IReadOnlyCollection<IDropTableScheme> CreateCampaignResources(HeroCampaignLocation currentCampaign)
     {
         static IReadOnlyCollection<IDropTableScheme> GetLocationResourceDrop(string sid)
         {
@@ -42,7 +42,7 @@ internal sealed class ResourceRewardStageItem : IRewardCampaignStageItem
             };
         }
 
-        switch (currentCampaign.Location.ToString())
+        switch (currentCampaign.Sid.ToString())
         {
             case nameof(LocationSids.Thicket):
                 return GetLocationResourceDrop("snow");
@@ -64,7 +64,7 @@ internal sealed class ResourceRewardStageItem : IRewardCampaignStageItem
             _jobProgressResolver.ApplyProgress(completeCampaignProgress, job);
         }
 
-        var campaignResources = CreateCampaignResources(currentCampaign);
+        var campaignResources = CreateCampaignResources(currentCampaign.Location);
         var drop = _dropResolver.Resolve(campaignResources);
 
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignReward,
@@ -72,7 +72,8 @@ internal sealed class ResourceRewardStageItem : IRewardCampaignStageItem
                 drop.Select(x => new ResourceCampaignReward(x)).ToArray()));
     }
 
-    public IReadOnlyCollection<ICampaignReward> GetEstimateRewards(HeroCampaign heroCampaign)
+
+    public IReadOnlyCollection<ICampaignReward> GetEstimateRewards(HeroCampaignLocation heroCampaign)
     {
         var campaignResources = CreateCampaignResources(heroCampaign);
 

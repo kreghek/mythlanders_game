@@ -84,12 +84,9 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
 
     private void MoveNext()
     {
-        var campaigns = _campaignGenerator.CreateSet(_globeProvider.Globe);
+        var otherCampaignLaunches = _campaignGenerator.CreateSet(_globeProvider.Globe);
         ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
-            new CommandCenterScreenTransitionArguments
-            {
-                AvailableCampaigns = campaigns
-            });
+            new CommandCenterScreenTransitionArguments(otherCampaignLaunches));
     }
 
     private void MoveNextButton_OnClick(object? sender, EventArgs e)
