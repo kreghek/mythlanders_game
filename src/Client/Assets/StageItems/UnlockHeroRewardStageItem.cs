@@ -58,10 +58,10 @@ internal sealed class UnlockHeroRewardStageItem : IRewardCampaignStageItem
         }
 
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignReward,
-            new CampaignRewardScreenTransitionArguments(currentCampaign, GetEstimateRewards(currentCampaign)));
+            new CampaignRewardScreenTransitionArguments(currentCampaign, GetEstimateRewards(currentCampaign.Location)));
     }
 
-    public IReadOnlyCollection<ICampaignReward> GetEstimateRewards(HeroCampaign heroCampaign)
+    public IReadOnlyCollection<ICampaignReward> GetEstimateRewards(HeroCampaignLocation heroCampaign)
     {
         return new[] { new HeroCampaignReward(_jointedHeroName) };
     }

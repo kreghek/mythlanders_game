@@ -11,6 +11,7 @@ namespace Client.GameScreens.CommandCenter.Ui;
 
 internal sealed class CampaignPanel : ControlBase, ICampaignPanel
 {
+    private readonly CampaignLaunchHeroes _campaignHeroes;
     private readonly CampaignEffectsPanel _campaignEffectsPanel;
     private readonly CampaignButton _selectButton;
 
@@ -32,6 +33,7 @@ internal sealed class CampaignPanel : ControlBase, ICampaignPanel
         var estimatedRewards = campaignLaunch.Rewards;
         var estimatedPenalties = campaignLaunch.Penalties;
 
+        _campaignHeroes = new CampaignLaunchHeroes(campaignLaunch.Heroes);
         _campaignEffectsPanel = new CampaignEffectsPanel(estimatedRewards, estimatedPenalties);
     }
 
@@ -52,7 +54,10 @@ internal sealed class CampaignPanel : ControlBase, ICampaignPanel
 
         if (!Hover)
         {
-            _campaignEffectsPanel.Rect = new Rectangle(contentRect.Left, contentRect.Bottom, contentRect.Width, 20 * 5);
+            _campaignHeroes.Rect = new Rectangle(contentRect.Left, contentRect.Bottom, contentRect.Width, 20 * 3);
+            _campaignHeroes.Draw(spriteBatch);
+
+            _campaignEffectsPanel.Rect = new Rectangle(contentRect.Left, _campaignHeroes.Rect.Bottom, contentRect.Width, 20 * 5);
             _campaignEffectsPanel.Draw(spriteBatch);
         }
     }

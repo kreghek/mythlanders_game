@@ -38,7 +38,7 @@ internal abstract class CombatScreenBase : GameScreenWithMenuBase
 
         var bgofSelector = Game.Services.GetService<BackgroundObjectFactorySelector>();
 
-        var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(campaign.Location);
+        var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(campaign.Location.Sid);
 
         _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
         _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
@@ -176,7 +176,7 @@ internal abstract class CombatScreenBase : GameScreenWithMenuBase
 
     private void DrawGameObjects(SpriteBatch spriteBatch)
     {
-        var theme = LocationHelper.GetLocationTheme(_campaign.Location);
+        var theme = LocationHelper.GetLocationTheme(_campaign.Location.Sid);
 
         var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(theme);
 
