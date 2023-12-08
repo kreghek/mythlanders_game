@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
+using Client.Assets.StageItems;
 using Client.Core.CampaignRewards;
 
 using CombatDicesTeam.Graphs;
@@ -13,18 +15,20 @@ internal sealed class HeroCampaign
 {
     public IReadOnlyCollection<HeroState> Heroes { get; }
 
-    public HeroCampaign(IReadOnlyCollection<HeroState> heroes, HeroCampaignSource source)
+    public HeroCampaign(IReadOnlyCollection<HeroState> heroes, HeroCampaignLocation location, IReadOnlyCollection<ICampaignReward> failurePenalties, int visualizationSeed)
     {
         Heroes = heroes;
-        Source = source;
+        Location = location;
 
-        ActualRewards = source.Rewards;
-        ActualFailurePenalties = Source.FailurePenalties;
+        ActualRewards = location.Stages.GetAllNodes().Select(x => x.Payload)
+            .OfType<IRewardCampaignStageItem>().First().GetEstimateRewards(location);
+        ActualFailurePenalties = failurePenalties;
 
+        VisualizationSeed = visualizationSeed;
         Path = new List<IGraphNode<ICampaignStageItem>>();
     }
 
-    public HeroCampaignSource Source { get; }
+    public HeroCampaignLocation Location { get; }
 
     public IGraphNode<ICampaignStageItem>? CurrentStage { get; set; }
 
@@ -44,5 +48,5 @@ internal sealed class HeroCampaign
     //TODO Add modifiers of effects
     public IReadOnlyCollection<ICampaignReward> ActualRewards { get; }
 
-    public int Seed => Source.Seed;
+    public int VisualizationSeed { get; }
 }

@@ -16,6 +16,7 @@ using Core;
 
 using GameClient.Engine.RectControl;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -25,7 +26,8 @@ namespace Client.GameScreens.CommandCenter;
 
 internal class CommandCenterScreen : GameScreenWithMenuBase
 {
-    private readonly IReadOnlyList<HeroCampaign> _campaigns;
+    private readonly IDice _dice;
+    private readonly IReadOnlyList<HeroCampaignLaunch> _campaignLaunches;
 
     private readonly ButtonBase[] _commandButtons = new ButtonBase[4];
     private readonly Texture2D[] _commandCenterSegmentTexture;
@@ -42,7 +44,9 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
     public CommandCenterScreen(TestamentGame game, CommandCenterScreenTransitionArguments args) : base(game)
     {
-        _campaigns = args.AvailableCampaigns;
+        _dice = game.Services.GetRequiredService<IDice>();
+
+        _campaignLaunches = args.AvailableCampaigns;
 
         _mapBackgroundTexture = Game.Content.Load<Texture2D>("Sprites/GameObjects/Map/Map");
         _commandCenterSegmentTexture = new[]
@@ -122,15 +126,17 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
         for (var campaignIndex = 0; campaignIndex < 3; campaignIndex++)
         {
-            if (campaignIndex < _campaigns.Count)
+            if (campaignIndex < _campaignLaunches.Count)
             {
-                var campaign = _campaigns[campaignIndex];
-                var campaignTexture = campaignTexturesDict[campaign.Source.Location];
+                var campaignLaunch = _campaignLaunches[campaignIndex];
+                var campaignTexture = campaignTexturesDict[campaignLaunch.Location.Sid];
 
-                var panel = new CampaignPanel(campaign, campaignTexture);
+                var panel = new CampaignPanel(campaignLaunch, campaignTexture);
                 panels.Add(panel);
                 panel.Selected += (_, _) =>
                 {
+                    var campaign = new HeroCampaign(campaignLaunch.Heroes, campaignLaunch.Location, campaignLaunch.Penalties, _dice.Roll(100));
+
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
                         new CampaignScreenTransitionArguments(campaign));
                 };
