@@ -31,7 +31,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         };
     }
 
-    private HeroCampaign CreateGrindCampaign(ILocationSid locationSid, Globe globe)
+    private HeroCampaignLocation CreateGrindCampaign(ILocationSid locationSid, Globe globe)
     {
         var shortTemplateGraph = _wayTemplatesCatalog.CreateGrindShortTemplate(locationSid);
 
@@ -41,16 +41,12 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var campaignGraph = graphGenerator.Create();
 
-        var seed = _dice.RollD100();
-
-        var penalties = CreateFailurePenalties();
-
-        var campaign = new HeroCampaign(locationSid, campaignGraph, penalties, seed);
+        var campaign = new HeroCampaignLocation(locationSid, campaignGraph);
 
         return campaign;
     }
 
-    private HeroCampaign CreateRescueCampaign(ILocationSid locationSid, Globe globe)
+    private HeroCampaignLocation CreateRescueCampaign(ILocationSid locationSid, Globe globe)
     {
         var shortTemplateGraph = _wayTemplatesCatalog.CreateRescueShortTemplate(locationSid);
 
@@ -60,16 +56,12 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var campaignGraph = graphGenerator.Create();
 
-        var seed = _dice.RollD100();
-
-        var penalties = CreateFailurePenalties();
-
-        var campaign = new HeroCampaign(locationSid, campaignGraph, penalties, seed);
+        var campaign = new HeroCampaignLocation(locationSid, campaignGraph);
 
         return campaign;
     }
 
-    private HeroCampaign CreateScoutCampaign(ILocationSid locationSid, Globe globe)
+    private HeroCampaignLocation CreateScoutCampaign(ILocationSid locationSid, Globe globe)
     {
         var shortTemplateGraph = _wayTemplatesCatalog.CreateScoutShortTemplate(locationSid);
 
@@ -79,11 +71,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var campaignGraph = graphGenerator.Create();
 
-        var seed = _dice.RollD100();
-
-        var penalties = CreateFailurePenalties();
-
-        var campaign = new HeroCampaign(locationSid, campaignGraph, penalties, seed);
+        var campaign = new HeroCampaignLocation(locationSid, campaignGraph);
 
         return campaign;
     }
@@ -91,7 +79,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     /// <summary>
     /// Create set of different campaigns
     /// </summary>
-    public IReadOnlyList<HeroCampaign> CreateSet(Globe currentGlobe)
+    public IReadOnlyList<HeroCampaignLaunch> CreateSet(Globe currentGlobe)
     {
         var availableLocationSids = currentGlobe.CurrentAvailableLocations.ToArray();
 
@@ -99,9 +87,9 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var selectedLocations = _dice.RollFromList(availableLocationSids, rollCount).ToList();
 
-        var list = new List<HeroCampaign>();
+        var list = new List<HeroCampaignLaunch>();
 
-        var availableCampaignDelegates = new List<Func<ILocationSid, Globe, HeroCampaign>>
+        var availableCampaignDelegates = new List<Func<ILocationSid, Globe, HeroCampaignLocation>>
         {
             CreateGrindCampaign,
             CreateScoutCampaign,
@@ -112,11 +100,24 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         {
             var rolledLocationDelegate = _dice.RollFromList(availableCampaignDelegates);
 
-            var campaign = rolledLocationDelegate(locationSid, currentGlobe);
+            var campaignSource = rolledLocationDelegate(locationSid, currentGlobe);
 
-            list.Add(campaign);
+            var heroes = RollHeroes(currentGlobe.Player.Heroes, _dice);
+
+            var penalties = CreateFailurePenalties();
+
+            var campaignLaunch = new HeroCampaignLaunch(campaignSource, heroes, penalties);
+
+            list.Add(campaignLaunch);
         }
 
         return list;
+    }
+
+    private static IReadOnlyCollection<HeroState> RollHeroes(IReadOnlyCollection<HeroState> heroes, IDice dice)
+    {
+        var openList = new List<HeroState>(heroes);
+
+        return dice.RollFromList(openList, 3).ToArray();
     }
 }

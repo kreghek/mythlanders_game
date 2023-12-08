@@ -8,33 +8,45 @@ using CombatDicesTeam.Graphs;
 
 namespace Client.Core.Campaigns;
 
+/// <summary>
+/// Mutable state of a campaign exploring.
+/// </summary>
 internal sealed class HeroCampaign
 {
-    public HeroCampaign(ILocationSid location, IGraph<ICampaignStageItem> stages,
-        IReadOnlyCollection<ICampaignReward> failurePenalties, int seed)
-    {
-        Location = location;
-        Stages = stages;
-        FailurePenalties = failurePenalties;
-        Seed = seed;
+    public IReadOnlyCollection<HeroState> Heroes { get; }
 
+    public HeroCampaign(IReadOnlyCollection<HeroState> heroes, HeroCampaignLocation location, IReadOnlyCollection<ICampaignReward> failurePenalties, int visualizationSeed)
+    {
+        Heroes = heroes;
+        Location = location;
+
+        ActualRewards = location.Stages.GetAllNodes().Select(x => x.Payload)
+            .OfType<IRewardCampaignStageItem>().First().GetEstimateRewards(location);
+        ActualFailurePenalties = failurePenalties;
+
+        VisualizationSeed = visualizationSeed;
         Path = new List<IGraphNode<ICampaignStageItem>>();
     }
 
+    public HeroCampaignLocation Location { get; }
+
     public IGraphNode<ICampaignStageItem>? CurrentStage { get; set; }
 
-    public IReadOnlyCollection<ICampaignReward> FailurePenalties { get; }
-
-    public ILocationSid Location { get; }
 
     public IList<IGraphNode<ICampaignStageItem>> Path { get; }
-    public int Seed { get; }
 
-    public IGraph<ICampaignStageItem> Stages { get; }
+    /// <summary>
+    /// Effect which will apply if heroes fail campaign.
+    /// Can be modified during campaign.
+    /// </summary>
+    public IReadOnlyCollection<ICampaignReward> ActualFailurePenalties { get; }
 
-    public IReadOnlyCollection<ICampaignReward> GetCampaignRewards()
-    {
-        return Stages.GetAllNodes().Select(x => x.Payload)
-            .OfType<IRewardCampaignStageItem>().First().GetEstimateRewards(this);
-    }
+    /// <summary>
+    /// Effect which will apply if heroes win campaign.
+    /// Can be modified during campaign.
+    /// </summary>
+    //TODO Add modifiers of effects
+    public IReadOnlyCollection<ICampaignReward> ActualRewards { get; }
+
+    public int VisualizationSeed { get; }
 }
