@@ -549,7 +549,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void CombatCore_CombatantHasChangePosition(object? sender, CombatantHasChangedPositionEventArgs e)
     {
-        if (e.Combatant != _combatCore.CurrentCombatant)
+        //if (e.Combatant != _combatCore.CurrentCombatant)
         {
             var newWorldPosition = _combatantPositionProvider.GetPosition(e.NewFieldCoords,
                 e.FieldSide == _combatCore.Field.HeroSide
@@ -1485,10 +1485,10 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             _manualCombatantBehaviour.Assign(maneuverIntention);
 
-            var newWorldPosition = _combatantPositionProvider.GetPosition(e.Coords, CombatantPositionSide.Heroes);
+            //var newWorldPosition = _combatantPositionProvider.GetPosition(e.Coords, CombatantPositionSide.Heroes);
 
-            var combatantGameObject = GetCombatantGameObject(_combatCore.CurrentCombatant);
-            combatantGameObject.MoveToFieldCoords(newWorldPosition);
+            //var combatantGameObject = GetCombatantGameObject(_combatCore.CurrentCombatant);
+            //combatantGameObject.MoveToFieldCoords(newWorldPosition);
         }
     }
 

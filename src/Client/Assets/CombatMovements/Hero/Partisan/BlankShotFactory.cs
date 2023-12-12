@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 using Client.Assets.CombatVisualEffects;
 using Client.Assets.InteractionDeliveryObjects;
@@ -40,14 +41,14 @@ internal class BlankShotFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new DamageEffectWrapper(
-                        new ClosestInLineTargetSelector(),
-                        DamageType.Normal,
-                        GenericRange<int>.CreateMono(2)),
                     new PushToPositionEffect(
                         new SelfTargetSelector(),
                         ChangePositionEffectDirection.ToVanguard
-                    )
+                    ),
+                    new DamageEffectWrapper(
+                        new ClosestInLineTargetSelector(),
+                        DamageType.Normal,
+                        GenericRange<int>.CreateMono(2))
                 })
         )
         {

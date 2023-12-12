@@ -25,7 +25,7 @@ public sealed class PushToPositionEffectInstance : EffectInstanceBase<PushToPosi
             {
                 ColumentIndex = 1
             },
-            _ => throw new ArgumentOutOfRangeException()
+            _ => throw new InvalidOperationException($"Unknown direction {BaseEffect.Direction}")
         };
 
         context.NotifySwapFieldPosition(target, currentCoords, targetSide, targetCoords, targetSide);
@@ -33,15 +33,16 @@ public sealed class PushToPositionEffectInstance : EffectInstanceBase<PushToPosi
 
     private static CombatFieldSide GetTargetSide(ICombatant target, CombatField field)
     {
-        try
+        if (IsCombatantInSide(target, field.HeroSide))
         {
-            var _ = field.HeroSide.GetCombatantCoords(target);
             return field.HeroSide;
         }
-        catch (ArgumentException)
-        {
-            var _ = field.MonsterSide.GetCombatantCoords(target);
-            return field.MonsterSide;
-        }
+        
+        return field.MonsterSide;
+    }
+
+    private static bool IsCombatantInSide(ICombatant target, CombatFieldSide side)
+    {
+        return side.GetAllCombatants().Any(x => x == target);
     }
 }
