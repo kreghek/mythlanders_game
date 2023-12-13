@@ -2,7 +2,7 @@
 
 namespace Client.Core.Heroes;
 
-public class UnitStat : IUnitStat
+public class UnitStat : ICombatantStat
 {
     public UnitStat(ICombatantStatType type)
     {
