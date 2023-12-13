@@ -72,7 +72,7 @@ public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
         var impulseCombatantEffect = new ModifyEffectsCombatantStatus(_generatedSid,
             lifetime, DAMAGE_BONUS);
 
-        targetCombat.ImposeCombatantEffect(targetCombatant, impulseCombatantEffect);
+        targetCombat.ImposeCombatantStatus(targetCombatant, impulseCombatantEffect);
     }
 
     private void ImpulseSurge(ICombatant targetCombatant, CombatEngineBase targetCombat)
@@ -80,12 +80,12 @@ public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
         var impulseEffects = CollectImpulseEffects(targetCombatant);
         foreach (var combatantEffect in impulseEffects)
         {
-            targetCombat.DispelCombatantEffect(targetCombatant, combatantEffect);
+            targetCombat.DispelCombatantStatus(targetCombatant, combatantEffect);
         }
 
         targetCombat.HandleCombatantDamagedToStat(targetCombatant, CombatantStatTypes.HitPoints, SURGE_DAMAGE);
 
-        targetCombat.ImposeCombatantEffect(targetCombatant,
+        targetCombat.ImposeCombatantStatus(targetCombatant,
             new StunCombatantStatus(CombatantStatusSids.Stun, new ToNextCombatantTurnEffectLifetime()));
     }
 }
