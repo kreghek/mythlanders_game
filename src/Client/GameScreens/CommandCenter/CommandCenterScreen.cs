@@ -16,6 +16,7 @@ using Core;
 
 using GameClient.Engine.RectControl;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -148,9 +149,20 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         _commandButtons[2] = new ResourceTextButton(nameof(UiResource.AdjutantButtonTitle));
         _commandButtons[3] = new ResourceTextButton(nameof(UiResource.ChroniclesButtonTitle));
 
+        RestoreHeroStates();
+
         Texture2D LoadCampaignThumbnailImage(string textureName)
         {
             return Game.Content.Load<Texture2D>($"Sprites/GameObjects/Campaigns/{textureName}");
+        }
+    }
+
+    private void RestoreHeroStates()
+    {
+        var player = Game.Services.GetRequiredService<GlobeProvider>().Globe.Player;
+        foreach (var heroState in player.Heroes)
+        {
+            heroState.HitPoints.Restore(heroState.HitPoints.ActualMax);
         }
     }
 
