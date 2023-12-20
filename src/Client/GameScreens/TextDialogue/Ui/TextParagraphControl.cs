@@ -19,10 +19,10 @@ namespace Client.GameScreens.TextDialogue.Ui;
 internal sealed class TextParagraphControl : ControlBase
 {
     private const int DISPLAY_NAME_HEIGHT = 32;
-    private readonly AftermathContext _aftermathContext;
+    private readonly CampaignAftermathContext _aftermathContext;
 
     private readonly SpriteFont _displayNameFont;
-    private readonly IReadOnlyCollection<IDialogueOptionAftermath<AftermathContext>> _envCommands;
+    private readonly IReadOnlyCollection<IDialogueOptionAftermath<CampaignAftermathContext>> _envCommands;
     private readonly string? _localizedSpeakerName;
     private readonly TextParagraphMessageControl _message;
     private readonly Vector2 _messageSize;
@@ -31,8 +31,8 @@ internal sealed class TextParagraphControl : ControlBase
 
     private bool _envCommandsExecuted;
 
-    public TextParagraphControl(DialogueSpeech<ParagraphConditionContext, AftermathContext> eventTextParagraph,
-        SoundEffect textSoundEffect, IDice dice, AftermathContext aftermathContext, IStoryState storyState)
+    public TextParagraphControl(DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext> eventTextParagraph,
+        SoundEffect textSoundEffect, IDice dice, CampaignAftermathContext aftermathContext, IStoryState storyState)
     {
         _displayNameFont = UiThemeManager.UiContentStorage.GetMainFont();
         _aftermathContext = aftermathContext;

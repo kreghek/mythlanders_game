@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Client.Core;
+using Client.Core.Campaigns;
 using Client.GameScreens.Combat.CombatDebugElements.Heroes;
 using Client.GameScreens.Combat.CombatDebugElements.Monsters.Black;
 using Client.GameScreens.Combat.CombatDebugElements.Monsters.Egyptian;
@@ -42,10 +43,10 @@ internal class CombatantFactory
         };
 
     public static IReadOnlyCollection<FormationSlot> CreateHeroes(ICombatActorBehaviour combatActorBehaviour,
-        Player player)
+        HeroCampaign campaign)
     {
-        var formationSlots = player.Heroes.Where(x => x.HitPoints.Current > 0).Select(hero =>
-            new FormationSlot(hero.FormationPosition.ColumentIndex, hero.FormationPosition.LineIndex)
+        var formationSlots = campaign.Heroes.Where(x => x.State.HitPoints.Current > 0).Select(hero =>
+            new FormationSlot(hero.FormationSlot.ColumnIndex, hero.FormationSlot.LineIndex)
             {
                 Combatant = _heroFactories[hero.ClassSid].Create(hero.ClassSid, combatActorBehaviour, hero.HitPoints)
             }).ToArray();

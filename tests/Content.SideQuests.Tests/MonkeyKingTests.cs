@@ -139,7 +139,7 @@ public class MonkeyKingTests
         }
     }
 
-    private static void CheckDialogue(Dialogue<ParagraphConditionContext, AftermathContext> testDialog,
+    private static void CheckDialogue(Dialogue<ParagraphConditionContext, CampaignAftermathContext> testDialog,
         int[] targetOptions, StoryPointCatalog storyPointCatalog,
         GlobeProvider globeProvider, DialogueEvent textEvent)
     {
@@ -150,7 +150,7 @@ public class MonkeyKingTests
             Mock.Of<IDialogueEnvironmentManager>(),
             textEvent);
         var dialoguePlayer =
-            new DialoguePlayer<ParagraphConditionContext, AftermathContext>(testDialog, dialogueContextFactory);
+            new DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext>(testDialog, dialogueContextFactory);
 
         var targetOptionsIncludeFinish = targetOptions.Concat(new[] { 1 }).ToArray();
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.StageItems;
@@ -16,7 +17,7 @@ internal sealed class HeroCampaign
     public HeroCampaign(IReadOnlyCollection<HeroState> heroes, HeroCampaignLocation location,
         IReadOnlyCollection<ICampaignReward> failurePenalties, int visualizationSeed)
     {
-        Heroes = heroes;
+        Heroes = CreateCampaignHeroes(heroes);
         Location = location;
 
         ActualRewards = location.Stages.GetAllNodes().Select(x => x.Payload)
@@ -25,6 +26,11 @@ internal sealed class HeroCampaign
 
         VisualizationSeed = visualizationSeed;
         Path = new List<IGraphNode<ICampaignStageItem>>();
+    }
+
+    private IReadOnlyCollection<HeroCampaignState> CreateCampaignHeroes(IReadOnlyCollection<HeroState> heroes)
+    {
+        throw new NotImplementedException();
     }
 
     /// <summary>
@@ -41,7 +47,7 @@ internal sealed class HeroCampaign
     public IReadOnlyCollection<ICampaignReward> ActualRewards { get; }
 
     public IGraphNode<ICampaignStageItem>? CurrentStage { get; set; }
-    public IReadOnlyCollection<HeroState> Heroes { get; }
+    public IReadOnlyCollection<HeroCampaignState> Heroes { get; }
 
     public HeroCampaignLocation Location { get; }
 

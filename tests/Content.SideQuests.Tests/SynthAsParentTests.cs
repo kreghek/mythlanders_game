@@ -150,7 +150,7 @@ public class SynthAsParentTests
         questAvailability.Should().BeFalse();
     }
 
-    private static void CheckDialogue(Dialogue<ParagraphConditionContext, AftermathContext> testDialog,
+    private static void CheckDialogue(Dialogue<ParagraphConditionContext, CampaignAftermathContext> testDialog,
         int[] targetOptions, StoryPointCatalog storyPointCatalog,
         GlobeProvider globeProvider, DialogueEvent textEvent)
     {
@@ -159,7 +159,7 @@ public class SynthAsParentTests
             Mock.Of<IDialogueEnvironmentManager>(),
             textEvent);
         var dialoguePlayer =
-            new DialoguePlayer<ParagraphConditionContext, AftermathContext>(testDialog, dialogueContextFactory);
+            new DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext>(testDialog, dialogueContextFactory);
 
         foreach (var optionIndex in targetOptions)
         {

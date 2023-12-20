@@ -36,7 +36,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
     private readonly ICrisis _crisis;
     private readonly DialogueContextFactory _dialogueContextFactory;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
-    private readonly DialoguePlayer<ParagraphConditionContext, AftermathContext> _dialoguePlayer;
+    private readonly DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext> _dialoguePlayer;
     private readonly ResourceManager _dialogueResourceManager;
     private readonly GlobeProvider _globeProvider;
     private readonly SoundEffectInstance _soundEffectInstance;
@@ -85,7 +85,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
         var currentDialogueSid = smallEvent.GetDialogSid();
         var crisisDialogue = eventCatalog.GetDialogue(currentDialogueSid);
         _dialoguePlayer =
-            new DialoguePlayer<ParagraphConditionContext, AftermathContext>(crisisDialogue,
+            new DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext>(crisisDialogue,
                 _dialogueContextFactory);
 
         _aftermathButtons = new List<CrisisAftermathButton>();

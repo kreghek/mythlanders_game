@@ -39,7 +39,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
     private readonly DialogueContextFactory _dialogueContextFactory;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly DialogueOptions _dialogueOptions;
-    private readonly DialoguePlayer<ParagraphConditionContext, AftermathContext> _dialoguePlayer;
+    private readonly DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext> _dialoguePlayer;
     private readonly IDice _dice;
     private readonly IEventCatalog _eventCatalog;
     private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
@@ -104,7 +104,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
             new DialogueContextFactory(globe, storyPointCatalog, _player, _dialogueEnvironmentManager,
                 args.DialogueEvent);
         _dialoguePlayer =
-            new DialoguePlayer<ParagraphConditionContext, AftermathContext>(args.CurrentDialogue,
+            new DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext>(args.CurrentDialogue,
                 _dialogueContextFactory);
 
         _eventCatalog = game.Services.GetService<IEventCatalog>();

@@ -5,6 +5,8 @@ using System.Linq;
 using Client.Core;
 using Client.Core.Heroes;
 
+using CombatDicesTeam.Combats;
+
 namespace Client.Assets.Catalogs.Dialogues;
 
 internal sealed class EventContext : IEventContext
@@ -22,26 +24,14 @@ internal sealed class EventContext : IEventContext
 
         CurrentDialogueEvent = currentDialogueEvent;
 
-        CurrentHeroes = player.Heroes.Select(x => x.ClassSid).ToArray();
+        CurrentHeroes = player.Heroes.Units.Select(x => x.ClassSid).ToArray();
     }
 
     public DialogueEvent CurrentDialogueEvent { get; }
 
     public void AddNewCharacter(Hero unit)
     {
-        var freeSlots = _globe.Player.Party.GetFreeSlots()
-            //.Where(
-            //    x => BoolHelper.HasNotRestriction(_player.HasAbility(PlayerAbility.AvailableTanks), x.IsTankLine))
-            .ToArray();
-        if (freeSlots.Any())
-        {
-            var selectedFreeSlot = freeSlots.First();
-            _globe.Player.MoveToParty(unit, selectedFreeSlot.Index);
-        }
-        else
-        {
-            _globe.Player.Pool.AddNewUnit(unit);
-        }
+        _globe.Player.Heroes.AddNewUnit(new HeroState(unit.UnitScheme.Name.ToString(), new StatValue(3)));
     }
 
     public void AddNewGlobalEvent(IGlobeEvent globalEvent)

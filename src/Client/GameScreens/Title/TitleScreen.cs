@@ -340,7 +340,7 @@ internal sealed class TitleScreen : GameScreenBase
         var rolledHeroes = dice.RollFromList(freeHeroes, dice.Roll(2, 4)).ToArray();
         var rolledHeroPositions = _dice.RollFromList(monsterPositions, rolledHeroes.Length).ToArray();
         var heroStates = rolledHeroPositions
-            .Select((t, i) => new HeroState(rolledHeroes[i].Item1, rolledHeroes[i].Item2, t)).ToArray();
+            .Select((t, i) => new HeroState(rolledHeroes[i].Item1, rolledHeroes[i].Item2)).ToArray();
         _globeProvider.GenerateFree(heroStates);
 
         var rolledMonsters = _dice.RollFromList(freeMonsters, dice.Roll(2, 4)).ToArray();
@@ -396,7 +396,7 @@ internal sealed class TitleScreen : GameScreenBase
         var saveData = globeProvider.GetStoredData(lastSave.FileName);
 
         var activeUnits = saveData.Progress.Player.Group.Units.Select(x => x.SchemeSid);
-        var poolUnits = saveData.Progress.Player.Pool.Units.Select(x => x.SchemeSid);
+        var poolUnits = saveData.Progress.Player.Heroes.Units.Select(x => x.HeroSid);
 
         var allUnits = activeUnits.Union(poolUnits);
         var unitNames = allUnits.Select(x => GetLastHeroName(x)).ToArray();

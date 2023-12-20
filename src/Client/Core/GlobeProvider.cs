@@ -9,6 +9,7 @@ using System.Text.Json.Serialization;
 using Client.Core.Heroes;
 using Client.Core.ProgressStorage;
 
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dices;
 
 using GameAssets.Combats;
@@ -76,7 +77,14 @@ internal sealed class GlobeProvider
 
     public void GenerateNew()
     {
-        var globe = new Globe(new Player());
+        var storyHeroes = new[]
+        {
+            new HeroState("swordsman", new StatValue(5)),
+            new HeroState("partisan", new StatValue(3)),
+            new HeroState("robber", new StatValue(3))
+        };
+        
+        var globe = new Globe(new Player(storyHeroes));
 
         InitStartStoryPoint(globe, _storyPointInitializer);
         AssignStartHeroes(globe);
@@ -146,8 +154,7 @@ internal sealed class GlobeProvider
     {
         var player = new PlayerDto
         {
-            Group = GetPlayerGroupToSave(Globe.Player.Party.GetUnits()),
-            Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units),
+            Heroes = GetPlayerGroupToSave(Globe.Player.Heroes.Units),
             Resources = GetPlayerResourcesToSave(Globe.Player.Inventory),
             KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters),
             Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray()
@@ -173,39 +180,32 @@ internal sealed class GlobeProvider
 
     private void AssignFreeHeroes(Globe globe, string[] heroes)
     {
-        var startHeroes = CreateFreeHeroes(heroes.Select(x => Enum.Parse<UnitName>(x, true)).ToArray());
-        for (var slotIndex = 0; slotIndex < startHeroes.Length; slotIndex++)
+        var startHeroes = new List<HeroState>
         {
-            globe.Player.MoveToParty(startHeroes[slotIndex], slotIndex);
-        }
+            new("swordsman", new StatValue(5)),
+            new("partisan", new StatValue(3)),
+            new("robber", new StatValue(3))
+        };
 
-        var startPoolHeroes = CreateStartPoolHeroes();
-        foreach (var hero in startPoolHeroes)
+        foreach (var hero in startHeroes)
         {
-            globe.Player.Pool.AddNewUnit(hero);
+            globe.Player.Heroes.AddNewUnit(hero);
         }
     }
 
     private void AssignStartHeroes(Globe globe)
     {
-        var startHeroes = CreateStartHeroes();
-        for (var slotIndex = 0; slotIndex < startHeroes.Length; slotIndex++)
+        var startHeroes = new List<HeroState>
         {
-            globe.Player.MoveToParty(startHeroes[slotIndex], slotIndex);
-        }
+            new("swordsman", new StatValue(5)),
+            new("partisan", new StatValue(3)),
+            new("robber", new StatValue(3))
+        };
 
-        var startPoolHeroes = CreateStartPoolHeroes();
-        foreach (var hero in startPoolHeroes)
+        foreach (var hero in startHeroes)
         {
-            globe.Player.Pool.AddNewUnit(hero);
+            globe.Player.Heroes.AddNewUnit(hero);
         }
-    }
-
-    private Hero[] CreateFreeHeroes(UnitName[] heroes)
-    {
-        var startHeroes = heroes.Select(CreateStartHero).ToArray();
-
-        return startHeroes;
     }
 
     private static string CreateSaveData(string saveName, ProgressDto progress)
@@ -221,37 +221,6 @@ internal sealed class GlobeProvider
             JsonSerializer.Serialize(saveDto, options: new JsonSerializerOptions { WriteIndented = true });
 
         return serializedSaveData;
-    }
-
-    private Hero CreateStartHero(UnitName heroName)
-    {
-        return new Hero(_unitSchemeCatalog.Heroes[heroName], level: 1)
-        {
-            IsPlayerControlled = true
-        };
-    }
-
-    private Hero[] CreateStartHeroes()
-    {
-        var startHeroNames = new[]
-        {
-            UnitName.Swordsman,
-            UnitName.Partisan,
-            UnitName.Assaulter
-        };
-
-        var startHeroes = startHeroNames.Select(CreateStartHero).ToArray();
-
-        return startHeroes;
-    }
-
-    private Hero[] CreateStartPoolHeroes()
-    {
-        var startHeroNames = Array.Empty<UnitName>();
-
-        var startHeroes = startHeroNames.Select(CreateStartHero).ToArray();
-
-        return startHeroes;
     }
 
     private static EquipmentDto[] GetCharacterEquipmentToSave(Hero unit)
@@ -277,20 +246,18 @@ internal sealed class GlobeProvider
         return knownMonsters.Select(x => x.Name.ToString()).ToArray();
     }
 
-    private static GroupDto GetPlayerGroupToSave(IEnumerable<Hero> units)
+    private static GroupDto GetPlayerGroupToSave(IEnumerable<HeroState> units)
     {
-        var unitDtos = units.Select(
+        var combatantSaveItems = units.Select(
             unit => new PlayerUnitDto
             {
-                SchemeSid = unit.UnitScheme.Name.ToString(),
-                Hp = unit.Stats.Single(x => x.Type == CombatantStatTypes.HitPoints).Value.Current,
-                Level = unit.Level,
-                Equipments = GetCharacterEquipmentToSave(unit)
+                HeroSid = unit.ClassSid,
+                Hp = unit.HitPoints.Current
             });
 
         var groupDto = new GroupDto
         {
-            Units = unitDtos
+            Units = combatantSaveItems
         };
 
         return groupDto;
@@ -373,42 +340,27 @@ internal sealed class GlobeProvider
 
     private void LoadPlayerCharacters(PlayerDto lastSavePlayer)
     {
-        var loadedParty = LoadPlayerGroup(lastSavePlayer.Group);
-        foreach (var slot in Globe.Player.Party.Slots)
+        if (lastSavePlayer.Heroes is null)
         {
-            slot.Hero = null;
+            throw new InvalidOperationException();
         }
 
-        for (var slotIndex = 0; slotIndex < loadedParty.Count; slotIndex++)
-        {
-            var unit = loadedParty[slotIndex];
-            Globe.Player.Party.Slots[slotIndex].Hero = unit;
-        }
+        var loadedHeroes = LoadPlayerGroup(lastSavePlayer.Heroes);
 
-        var loadedPool = LoadPlayerGroup(lastSavePlayer.Pool);
-
-        foreach (var unit in loadedPool)
+        foreach (var unit in loadedHeroes)
         {
-            Globe.Player.Pool.AddNewUnit(unit);
+            Globe.Player.Heroes.AddNewUnit(unit);
         }
     }
 
-    private List<Hero> LoadPlayerGroup(GroupDto groupDto)
+    private static List<HeroState> LoadPlayerGroup(GroupDto groupDto)
     {
-        var units = new List<Hero>();
+        var units = new List<HeroState>();
         foreach (var unitDto in groupDto.Units)
         {
-            var unitName = (UnitName)Enum.Parse(typeof(UnitName), unitDto.SchemeSid);
-            var unitScheme = _unitSchemeCatalog.Heroes[unitName];
+            var unitName = (UnitName)Enum.Parse(typeof(UnitName), unitDto.HeroSid);
 
-            var unit = new Hero(unitScheme, unitDto.Level)
-            {
-                IsPlayerControlled = true
-            };
-
-            LoadCharacterEquipments(unit, unitDto.Equipments);
-
-            units.Add(unit);
+            units.Add(new HeroState(unitDto.HeroSid, new StatValue(unitDto.Hp)));
         }
 
         return units;

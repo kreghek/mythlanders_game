@@ -21,12 +21,12 @@ internal class RemoveResourceOptionAftermath : DialogueOptionAftermathBase
         _count = count;
     }
 
-    public override void Apply(AftermathContext aftermathContext)
+    public override void Apply(CampaignAftermathContext aftermathContext)
     {
         aftermathContext.RemoveResource(new Resource(new PropScheme(_resourceSid), _count));
     }
 
-    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
+    protected override IReadOnlyList<object> GetDescriptionValues(CampaignAftermathContext aftermathContext)
     {
         return new object[]
         {
