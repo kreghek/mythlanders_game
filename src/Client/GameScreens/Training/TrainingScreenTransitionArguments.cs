@@ -8,13 +8,13 @@ namespace Client.GameScreens.Training;
 
 internal sealed class TrainingScreenTransitionArguments : IScreenTransitionArguments
 {
-    public TrainingScreenTransitionArguments(IReadOnlyList<HeroState> availableUnits, HeroCampaign campaign)
+    public TrainingScreenTransitionArguments(IReadOnlyList<HeroState> availableHeroes, HeroCampaign campaign)
     {
-        AvailableUnits = availableUnits;
+        AvailableHeroes = availableHeroes;
         Campaign = campaign;
     }
 
-    public IReadOnlyList<HeroState> AvailableUnits { get; init; }
+    public IReadOnlyList<HeroState> AvailableHeroes { get; }
 
     internal HeroCampaign Campaign { get; }
 }

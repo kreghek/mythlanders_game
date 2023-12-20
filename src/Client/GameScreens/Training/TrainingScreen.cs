@@ -14,15 +14,13 @@ namespace Client.GameScreens.Training;
 
 internal sealed class TrainingScreen : GameScreenWithMenuBase
 {
-    private readonly IReadOnlyList<Core.Heroes.Hero> _availableUnits;
+    private readonly IReadOnlyList<HeroState> _availableHeroes;
     private readonly HeroCampaign _campaign;
-    private IReadOnlyList<(ButtonBase, Core.Heroes.Hero)> _trainingButtons;
+    private IReadOnlyList<(ButtonBase, HeroState)> _trainingButtons = null!;
 
     public TrainingScreen(TestamentGame game, TrainingScreenTransitionArguments args) : base(game)
     {
-        var globeProvider = game.Services.GetService<GlobeProvider>();
-
-        _availableUnits = args.AvailableUnits;
+        _availableHeroes = args.AvailableHeroes;
 
         _campaign = args.Campaign;
     }
@@ -32,7 +30,7 @@ internal sealed class TrainingScreen : GameScreenWithMenuBase
         var closeButton = new TextButton("Close");
         closeButton.OnClick += CloseButton_OnClick;
 
-        return new[]
+        return new ButtonBase[]
         {
             closeButton
         };
@@ -67,12 +65,12 @@ internal sealed class TrainingScreen : GameScreenWithMenuBase
 
     protected override void InitializeContent()
     {
-        var buttonList = new List<(ButtonBase, Core.Heroes.Hero)>();
+        var buttonList = new List<(ButtonBase, HeroState)>();
 
-        foreach (var character in _availableUnits)
+        foreach (var hero in _availableHeroes)
         {
-            var trainingButton = new TextButton(character.UnitScheme.Name.ToString());
-            buttonList.Add((trainingButton, character));
+            var trainingButton = new TextButton(hero.ClassSid);
+            buttonList.Add((trainingButton, hero));
 
             // var xpAmount = _player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount;
             // if (xpAmount < character.LevelUpXpAmount)

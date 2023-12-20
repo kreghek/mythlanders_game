@@ -248,7 +248,7 @@ internal sealed class TitleScreen : GameScreenBase
 
     private void CreditsButton_OnClick(object? sender, EventArgs e)
     {
-        ScreenManager.ExecuteTransition(this, ScreenTransition.Credits, null);
+        ScreenManager.ExecuteTransition(this, ScreenTransition.Credits, null!);
     }
 
     private void DrawHeroes(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -395,12 +395,25 @@ internal sealed class TitleScreen : GameScreenBase
 
         var saveData = globeProvider.GetStoredData(lastSave.FileName);
 
-        var activeUnits = saveData.Progress.Player.Group.Units.Select(x => x.SchemeSid);
-        var poolUnits = saveData.Progress.Player.Heroes.Units.Select(x => x.HeroSid);
+        var activeUnits = saveData.Progress.Player?.Heroes?.Units.Select(x => x.HeroSid);
+        
+        if (activeUnits is null)
+        {
+            // Get save but player data is not available.
 
-        var allUnits = activeUnits.Union(poolUnits);
-        var unitNames = allUnits.Select(x => GetLastHeroName(x)).ToArray();
+            return GetDefaultShowcaseHeroes();
+        }
+
+        var unitNames = activeUnits.Select(GetLastHeroName).ToArray();
         return unitNames;
+    }
+
+    private static UnitName[] GetDefaultShowcaseHeroes()
+    {
+        return new[]
+        {
+            UnitName.Swordsman, UnitName.Robber, UnitName.Herbalist
+        };
     }
 
     private static UnitName GetLastHeroName(string storedSid)

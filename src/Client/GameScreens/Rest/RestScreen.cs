@@ -19,7 +19,6 @@ internal sealed class RestScreen : GameScreenWithMenuBase
     private readonly IList<ButtonBase> _actionButtons;
 
     private readonly HeroCampaign _campaign;
-    private readonly GlobeProvider _globeProvider;
     private readonly IUiContentStorage _uiContentStorage;
 
     public RestScreen(TestamentGame game, RestScreenTransitionArguments args) : base(game)
@@ -30,7 +29,7 @@ internal sealed class RestScreen : GameScreenWithMenuBase
 
         _uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();
 
-        _globeProvider = Game.Services.GetRequiredService<GlobeProvider>();
+        Game.Services.GetRequiredService<GlobeProvider>();
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -92,9 +91,11 @@ internal sealed class RestScreen : GameScreenWithMenuBase
             {
                 if (improvedRestActionButton == s)
                 {
-                    foreach (var hero in _globeProvider.Globe.Player.Heroes)
+                    foreach (var hero in _campaign.Heroes)
                     {
-                        hero.HitPoints.Restore(2);
+                        //TODO Restore HP of campaign hero, not player
+                        //TODO Campaign hero HPs make as player hero HP wrapper 
+                        hero.State.HitPoints.Restore(2);
                     }
 
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
