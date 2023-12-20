@@ -10,8 +10,11 @@ using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats.CombatMovementEffects;
 
+using JetBrains.Annotations;
+
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
+[UsedImplicitly]
 internal class DieBySwordFactory : CombatMovementFactoryBase
 {
     public override CombatMovementIcon CombatMovementIcon => new(0, 0);

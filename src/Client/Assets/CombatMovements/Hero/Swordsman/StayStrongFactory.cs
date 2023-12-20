@@ -5,15 +5,12 @@ using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Combats.Effects;
-using CombatDicesTeam.GenericRanges;
 
 using Core.Combats.CombatantStatuses;
 using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats;
 using GameAssets.Combats.CombatantStatuses;
-using GameAssets.Combats.CombatMovementEffects;
-using GameAssets.Combats.TargetSelectors;
 
 using JetBrains.Annotations;
 
@@ -44,9 +41,7 @@ internal class StayStrongFactory : CombatMovementFactoryBase
                                         3))
                             )
                         )
-                    ),
-                    new DamageEffectWrapper(new AttackerTargetSelector(), DamageType.Normal,
-                        GenericRange<int>.CreateMono(2))
+                    )
                 },
                 new IEffect[]
                 {
