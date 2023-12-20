@@ -29,11 +29,11 @@ internal sealed class CombatantPositionProvider : ICombatantPositionProvider
 
         if (side == CombatantPositionSide.Heroes)
         {
-            return predefinedPosition;
+            return predefinedPosition + new Vector2(100, 0);
         }
 
         // Move from right edge.
-        var xMirror = _combatFieldWidth - predefinedPosition.X;
+        var xMirror = _combatFieldWidth - (predefinedPosition.X + 100);
         return new Vector2(xMirror, predefinedPosition.Y);
     }
 }
