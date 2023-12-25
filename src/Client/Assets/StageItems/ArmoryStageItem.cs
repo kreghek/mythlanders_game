@@ -22,11 +22,11 @@ internal sealed class ArmoryStageItem : ICampaignStageItem
 
     public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
     {
-        var equipments = _globeProvider.Globe.Player.GetAll().SelectMany(x => x.Equipments).ToArray();
-
-        var availableEquipments = _dice.RollFromList(equipments, 3).ToArray();
-
-        screenManager.ExecuteTransition(currentScreen, ScreenTransition.Armory,
-            new ArmoryScreenTransitionArguments(currentCampaign, availableEquipments));
+        // var equipments = _globeProvider.Globe.Player.Heroes.Units.SelectMany(x => x.Equipments).ToArray();
+        //
+        // var availableEquipments = _dice.RollFromList(equipments, 3).ToArray();
+        //
+        // screenManager.ExecuteTransition(currentScreen, ScreenTransition.Armory,
+        //     new ArmoryScreenTransitionArguments(currentCampaign, availableEquipments));
     }
 }

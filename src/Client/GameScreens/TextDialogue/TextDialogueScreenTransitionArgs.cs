@@ -8,6 +8,6 @@ namespace Client.GameScreens.TextDialogue;
 
 internal sealed record TextDialogueScreenTransitionArgs(
     HeroCampaign Campaign,
-    Dialogue<ParagraphConditionContext, AftermathContext> CurrentDialogue,
+    Dialogue<ParagraphConditionContext, CampaignAftermathContext> CurrentDialogue,
     DialogueEvent DialogueEvent,
     ILocationSid Location) : CampaignScreenTransitionArgumentsBase(Campaign);

@@ -15,14 +15,14 @@ internal sealed class UnitDeepPreyingOptionAftermath : DialogueOptionAftermathBa
         _name = name;
     }
 
-    public override void Apply(AftermathContext aftermathContext)
+    public override void Apply(CampaignAftermathContext aftermathContext)
     {
         var globalEvent = new CharacterDeepPreyingGlobeEvent(_name);
 
         aftermathContext.AddNewGlobalEvent(globalEvent);
     }
 
-    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
+    protected override IReadOnlyList<object> GetDescriptionValues(CampaignAftermathContext aftermathContext)
     {
         return new object[]
         {

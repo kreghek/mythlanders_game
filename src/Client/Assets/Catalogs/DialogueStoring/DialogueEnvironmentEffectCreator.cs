@@ -9,7 +9,7 @@ namespace Client.Assets.Catalogs.DialogueStoring;
 
 internal sealed class DialogueEnvironmentEffectCreator : IDialogueEnvironmentEffectCreator
 {
-    public IDialogueOptionAftermath<AftermathContext> Create(string typeSid, string data)
+    public IDialogueOptionAftermath<CampaignAftermathContext> Create(string typeSid, string data)
     {
         if (typeSid == "PlayEffect")
         {

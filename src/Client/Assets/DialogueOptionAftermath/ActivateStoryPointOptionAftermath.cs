@@ -13,12 +13,12 @@ internal class ActivateStoryPointOptionAftermath : DialogueOptionAftermathBase
         _storyPointSid = storyPointSid;
     }
 
-    public override void Apply(AftermathContext aftermathContext)
+    public override void Apply(CampaignAftermathContext aftermathContext)
     {
         aftermathContext.AddStoryPoint(_storyPointSid);
     }
 
-    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
+    protected override IReadOnlyList<object> GetDescriptionValues(CampaignAftermathContext aftermathContext)
     {
         return new[] { _storyPointSid };
     }

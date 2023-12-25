@@ -8,9 +8,9 @@ using CombatDicesTeam.Dialogues;
 
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal abstract class DialogueOptionAftermathBase : IDialogueOptionAftermath<AftermathContext>
+internal abstract class DialogueOptionAftermathBase : IDialogueOptionAftermath<CampaignAftermathContext>
 {
-    protected abstract IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext);
+    protected abstract IReadOnlyList<object> GetDescriptionValues(CampaignAftermathContext aftermathContext);
 
     protected virtual string GetSid()
     {
@@ -18,7 +18,7 @@ internal abstract class DialogueOptionAftermathBase : IDialogueOptionAftermath<A
     }
 
     /// <inheritdoc />
-    public string GetDescription(AftermathContext aftermathContext)
+    public string GetDescription(CampaignAftermathContext aftermathContext)
     {
         if (IsHidden)
         {
@@ -36,5 +36,5 @@ internal abstract class DialogueOptionAftermathBase : IDialogueOptionAftermath<A
     public bool IsHidden { get; set; }
 
     /// <inheritdoc />
-    public abstract void Apply(AftermathContext aftermathContext);
+    public abstract void Apply(CampaignAftermathContext aftermathContext);
 }

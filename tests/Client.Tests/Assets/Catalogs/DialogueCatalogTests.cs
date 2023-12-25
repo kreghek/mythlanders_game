@@ -51,7 +51,7 @@ public class DialogueCatalogTests
         factDialogue.Root.TextBlock.Paragraphs.First().Speaker.Should().Be(DialogueSpeakers.Env);
         factDialogue.Root.Options.Should().HaveCount(1);
         factDialogue.Root.Options.First().Next.Should()
-            .Be(DialogueNode<ParagraphConditionContext, AftermathContext>.EndNode);
+            .Be(DialogueNode<ParagraphConditionContext, CampaignAftermathContext>.EndNode);
     }
 
     [Test]
@@ -80,7 +80,7 @@ public class DialogueCatalogTests
         factDialogue.Root.TextBlock.Paragraphs[1].Speaker.Should().Be(DialogueSpeakers.Get(UnitName.Swordsman));
         factDialogue.Root.Options.Should().HaveCount(1);
         factDialogue.Root.Options.First().Next.Should()
-            .Be(DialogueNode<ParagraphConditionContext, AftermathContext>.EndNode);
+            .Be(DialogueNode<ParagraphConditionContext, CampaignAftermathContext>.EndNode);
     }
 
     [Test(TestOf = typeof(DialogueCatalog))]

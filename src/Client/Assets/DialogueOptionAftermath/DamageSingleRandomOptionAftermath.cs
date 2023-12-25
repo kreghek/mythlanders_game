@@ -18,14 +18,14 @@ internal sealed class DamageSingleRandomOptionAftermath : DialogueOptionAftermat
         _dice = dice;
     }
 
-    public override void Apply(AftermathContext aftermathContext)
+    public override void Apply(CampaignAftermathContext aftermathContext)
     {
         DefineHeroToDamageOrNothing(aftermathContext);
 
         aftermathContext.DamageHero(_selectedHeroToDamage!, DAMAGE);
     }
 
-    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
+    protected override IReadOnlyList<object> GetDescriptionValues(CampaignAftermathContext aftermathContext)
     {
         DefineHeroToDamageOrNothing(aftermathContext);
 
@@ -36,7 +36,7 @@ internal sealed class DamageSingleRandomOptionAftermath : DialogueOptionAftermat
         };
     }
 
-    private void DefineHeroToDamageOrNothing(AftermathContext aftermathContext)
+    private void DefineHeroToDamageOrNothing(CampaignAftermathContext aftermathContext)
     {
         var heroes = aftermathContext.GetPartyHeroes();
 

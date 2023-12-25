@@ -33,12 +33,9 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
     private readonly Texture2D _backgroundTexture;
     private readonly HeroCampaign _campaign;
     private readonly Texture2D _cleanScreenTexture;
-    private readonly ICrisis _crisis;
     private readonly DialogueContextFactory _dialogueContextFactory;
-    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
-    private readonly DialoguePlayer<ParagraphConditionContext, AftermathContext> _dialoguePlayer;
+    private readonly DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext> _dialoguePlayer;
     private readonly ResourceManager _dialogueResourceManager;
-    private readonly GlobeProvider _globeProvider;
     private readonly SoundEffectInstance _soundEffectInstance;
     private readonly SoundtrackManager _soundtrackManager;
     private readonly IUiContentStorage _uiContentStorage;
@@ -49,11 +46,11 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
     public CrisisScreen(TestamentGame game, CrisisScreenTransitionArguments args) : base(game)
     {
         _campaign = args.Campaign;
-        _globeProvider = Game.Services.GetRequiredService<GlobeProvider>();
+        var globeProvider = Game.Services.GetRequiredService<GlobeProvider>();
 
         _uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();
 
-        var globe = _globeProvider.Globe;
+        var globe = globeProvider.Globe;
         if (globe is null)
         {
             throw new InvalidOperationException();
@@ -61,7 +58,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
         var player = globe.Player ?? throw new InvalidOperationException();
         var storyPointCatalog = game.Services.GetService<IStoryPointCatalog>();
-        _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
+        var dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
 
         var dice = Game.Services.GetRequiredService<IDice>();
 
@@ -73,30 +70,30 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
             throw new InvalidOperationException($"There are no available micro-events of type {args.EventType}.");
         }
 
-        _crisis = dice.RollFromList(availableCrises);
+        var crisis = dice.RollFromList(availableCrises);
 
         var eventCatalog = game.Services.GetRequiredService<IEventCatalog>();
-        var smallEvent = eventCatalog.Events.First(x => x.Sid == _crisis.EventSid);
+        var smallEvent = eventCatalog.Events.First(x => x.Sid == crisis.EventSid);
 
         _dialogueContextFactory =
-            new DialogueContextFactory(globe, storyPointCatalog, player, _dialogueEnvironmentManager,
-                smallEvent);
+            new DialogueContextFactory(globe, storyPointCatalog, player, dialogueEnvironmentManager,
+                smallEvent, _campaign);
 
         var currentDialogueSid = smallEvent.GetDialogSid();
         var crisisDialogue = eventCatalog.GetDialogue(currentDialogueSid);
         _dialoguePlayer =
-            new DialoguePlayer<ParagraphConditionContext, AftermathContext>(crisisDialogue,
+            new DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext>(crisisDialogue,
                 _dialogueContextFactory);
 
         _aftermathButtons = new List<CrisisAftermathButton>();
 
-        var spriteName = GetBackgroundSpriteName(_crisis.Sid);
+        var spriteName = GetBackgroundSpriteName(crisis.Sid);
 
         _backgroundTexture = game.Content.Load<Texture2D>($"Sprites/GameObjects/Crises/{spriteName}");
 
         _cleanScreenTexture = CreateTexture(game.GraphicsDevice, 1, 1, _ => new Color(36, 40, 41));
 
-        var effectName = GetBackgroundEffectName(_crisis.Sid);
+        var effectName = GetBackgroundEffectName(crisis.Sid);
         _soundEffectInstance = game.Content.Load<SoundEffect>($"Audio/Stories/{effectName}").CreateInstance();
 
         _soundtrackManager = game.Services.GetRequiredService<SoundtrackManager>();
@@ -185,7 +182,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
             var aftermathButton = new CrisisAftermathButton(buttonIndex + 1, eventResolveOption.TextSid);
             _aftermathButtons.Add(aftermathButton);
 
-            aftermathButton.OnClick += (s, e) =>
+            aftermathButton.OnClick += (_, _) =>
             {
                 eventResolveOption.Aftermath?.Apply(aftermathContext);
 
@@ -194,7 +191,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
                     new CampaignScreenTransitionArguments(_campaign));
             };
 
-            aftermathButton.OnHover += (s, e) =>
+            aftermathButton.OnHover += (s, _) =>
             {
                 var hintText = _dialogueResourceManager.GetString(eventResolveOption.TextSid + "_Description");
 
@@ -206,7 +203,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
                 }
             };
 
-            aftermathButton.OnLeave += (s, e) =>
+            aftermathButton.OnLeave += (_, _) =>
             {
                 _aftermathHint = null;
                 _aftermathOnHover = null;
@@ -275,7 +272,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
             "Cultists" => "Cultists",
             "Drone" => "Drone",
             "Tavern" => "Tavern",
-            "Treasues" => "Treasures",
+            "Treasures" => "Treasures",
 
             _ => "ElectricTrap"
         };
