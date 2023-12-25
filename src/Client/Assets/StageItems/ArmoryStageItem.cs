@@ -1,8 +1,5 @@
-using System.Linq;
-
 using Client.Core;
 using Client.Core.Campaigns;
-using Client.GameScreens.Armory;
 using Client.ScreenManagement;
 
 using CombatDicesTeam.Dices;

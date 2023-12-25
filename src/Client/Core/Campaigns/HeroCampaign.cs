@@ -22,19 +22,12 @@ internal sealed class HeroCampaign
         Location = location;
 
         ActualRewards = location.Stages.GetAllNodes().Select(x => x.Payload)
-            .OfType<IRewardCampaignStageItem>().FirstOrDefault()?.GetEstimateRewards(location) ?? ArraySegment<ICampaignReward>.Empty;
+                            .OfType<IRewardCampaignStageItem>().FirstOrDefault()?.GetEstimateRewards(location) ??
+                        ArraySegment<ICampaignReward>.Empty;
         ActualFailurePenalties = failurePenalties;
 
         VisualizationSeed = visualizationSeed;
         Path = new List<IGraphNode<ICampaignStageItem>>();
-    }
-
-    private IReadOnlyCollection<HeroCampaignState> CreateCampaignHeroes(
-        IEnumerable<(HeroState, FieldCoords)> heroes)
-    {
-        return heroes.Select(hero =>
-                new HeroCampaignState(hero.Item1, new FormationSlot(hero.Item2.ColumentIndex, hero.Item2.LineIndex)))
-            .ToList();
     }
 
     /// <summary>
@@ -59,4 +52,12 @@ internal sealed class HeroCampaign
     public IList<IGraphNode<ICampaignStageItem>> Path { get; }
 
     public int VisualizationSeed { get; }
+
+    private IReadOnlyCollection<HeroCampaignState> CreateCampaignHeroes(
+        IEnumerable<(HeroState, FieldCoords)> heroes)
+    {
+        return heroes.Select(hero =>
+                new HeroCampaignState(hero.Item1, new FormationSlot(hero.Item2.ColumentIndex, hero.Item2.LineIndex)))
+            .ToList();
+    }
 }

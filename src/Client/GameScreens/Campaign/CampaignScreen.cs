@@ -101,11 +101,6 @@ internal class CampaignScreen : GameScreenWithMenuBase
         InitializeCampaignItemButtons();
     }
 
-    private void SaveGameProgress()
-    {
-        _globeProvider.StoreCurrentGlobe();
-    }
-
     protected override void UpdateContent(GameTime gameTime)
     {
         base.UpdateContent(gameTime);
@@ -231,8 +226,14 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private void InventoryButton_OnClick(object? sender, EventArgs e)
     {
         AddModal(
-            new InventoryModal(_globeProvider.Globe.Player.Inventory, Game.Services.GetRequiredService<IUiContentStorage>(),
+            new InventoryModal(_globeProvider.Globe.Player.Inventory,
+                Game.Services.GetRequiredService<IUiContentStorage>(),
                 ResolutionIndependentRenderer), false);
+    }
+
+    private void SaveGameProgress()
+    {
+        _globeProvider.StoreCurrentGlobe();
     }
 
     private void ShowStoryPointsButton_OnClick(object? sender, EventArgs e)

@@ -6,10 +6,11 @@ using CombatDicesTeam.Dialogues;
 
 namespace Client.GameScreens.TextDialogue;
 
-internal sealed class DialogueContextFactory : IDialogueContextFactory<ParagraphConditionContext, CampaignAftermathContext>
+internal sealed class
+    DialogueContextFactory : IDialogueContextFactory<ParagraphConditionContext, CampaignAftermathContext>
 {
-    private readonly DialogueEvent _currentDialogueEvent;
     private readonly HeroCampaign _campaign;
+    private readonly DialogueEvent _currentDialogueEvent;
     private readonly IDialogueEnvironmentManager _environmentManager;
     private readonly Globe _globe;
     private readonly Player _player;

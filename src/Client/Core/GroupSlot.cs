@@ -1,6 +1,4 @@
-﻿using Client.Core.Heroes;
-
-namespace Client.Core;
+﻿namespace Client.Core;
 
 internal sealed class GroupSlot<T>
 {

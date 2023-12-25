@@ -315,6 +315,21 @@ internal sealed class GlobeProvider
         }
     }
 
+    private void LoadHeroes(PlayerDto lastSavePlayer)
+    {
+        if (lastSavePlayer.Heroes is null)
+        {
+            throw new InvalidOperationException();
+        }
+
+        var loadedHeroes = LoadPlayerGroup(lastSavePlayer.Heroes);
+
+        foreach (var unit in loadedHeroes)
+        {
+            Globe.Player.Heroes.AddNewUnit(unit);
+        }
+    }
+
     private void LoadPlayerAbilities(PlayerDto playerDto)
     {
         if (playerDto.Abilities is null)
@@ -328,21 +343,6 @@ internal sealed class GlobeProvider
             {
                 Globe.Player.AddPlayerAbility(playerAbilityEnum);
             }
-        }
-    }
-
-    private void LoadHeroes(PlayerDto lastSavePlayer)
-    {
-        if (lastSavePlayer.Heroes is null)
-        {
-            throw new InvalidOperationException();
-        }
-
-        var loadedHeroes = LoadPlayerGroup(lastSavePlayer.Heroes);
-
-        foreach (var unit in loadedHeroes)
-        {
-            Globe.Player.Heroes.AddNewUnit(unit);
         }
     }
 
@@ -396,11 +396,11 @@ internal sealed class GlobeProvider
                 continue;
             }
 
-            Resource? resource = inventory.CalcActualItems().OfType<Resource>().SingleOrDefault(x => x.Scheme.Sid == resourceDto.Type);
+            var resource = inventory.CalcActualItems().OfType<Resource>()
+                .SingleOrDefault(x => x.Scheme.Sid == resourceDto.Type);
             if (resource is null)
             {
                 resource = new Resource(new PropScheme(resourceDto.Type), resourceDto.Amount);
-                
             }
 
             inventory.Add(resource);

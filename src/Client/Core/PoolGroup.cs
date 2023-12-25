@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Client.Core;
 
-internal sealed class PoolGroup<T> where T: class
+internal sealed class PoolGroup<T> where T : class
 {
     private readonly IList<T> _units;
 

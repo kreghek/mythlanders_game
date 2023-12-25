@@ -17,8 +17,8 @@ namespace Client.Assets.Catalogs.Dialogues;
 internal class CampaignAftermathContext
 {
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
-    private readonly HeroCampaign _heroCampaign;
     private readonly Globe _globe;
+    private readonly HeroCampaign _heroCampaign;
     private readonly Player _player;
     private readonly IStoryPointCatalog _storyPointCatalog;
 
@@ -37,14 +37,14 @@ internal class CampaignAftermathContext
 
     public DialogueEvent CurrentDialogueEvent { get; }
 
-    public void AddNewHero(Hero unit)
-    {
-        _globe.Player.Heroes.AddNewUnit(new HeroState(unit.UnitScheme.Name.ToString(), new StatValue(3)));
-    }
-
     public void AddNewGlobalEvent(CharacterDeepPreyingGlobeEvent globalEvent)
     {
         _globe.AddGlobalEvent(globalEvent);
+    }
+
+    public void AddNewHero(Hero unit)
+    {
+        _globe.Player.Heroes.AddNewUnit(new HeroState(unit.UnitScheme.Name.ToString(), new StatValue(3)));
     }
 
     public void AddResources(IProp resource)

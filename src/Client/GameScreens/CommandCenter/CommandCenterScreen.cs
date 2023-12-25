@@ -143,8 +143,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
                         new FieldCoords(0, 2),
                         new FieldCoords(1, 0),
                         new FieldCoords(1, 1),
-                        new FieldCoords(1, 2),
-
+                        new FieldCoords(1, 2)
                     };
 
                     var initHeroes = new List<(HeroState, FieldCoords)>();
@@ -154,7 +153,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
                         initHeroes.Add((launchHero, rolledCoords));
                         heroStartCoordsOpenList.Remove(rolledCoords);
                     }
-                    
+
                     var campaign = new HeroCampaign(initHeroes, campaignLaunch.Location,
                         campaignLaunch.Penalties, _dice.Roll(100));
 

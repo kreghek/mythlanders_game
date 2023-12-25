@@ -30,13 +30,13 @@ internal sealed class Player
     public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
     public IChallenge? Challenge { get; set; }
 
+    public PoolGroup<HeroState> Heroes { get; }
+
     public Inventory Inventory { get; }
 
     public IList<UnitScheme> KnownMonsters { get; }
 
     public string Name { get; }
-
-    public PoolGroup<HeroState> Heroes { get; }
     public IStoryState StoryState { get; }
 
     public void AddHero(HeroState heroState)

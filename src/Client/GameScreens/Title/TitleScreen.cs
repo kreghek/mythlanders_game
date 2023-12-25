@@ -334,7 +334,7 @@ internal sealed class TitleScreen : GameScreenBase
         var rolledHeroPositions = _dice.RollFromList(heroPositions, rolledHeroes.Length).ToArray();
         var heroStates = rolledHeroPositions
             .Select((t, i) => (new HeroState(rolledHeroes[i].Item1, rolledHeroes[i].Item2), t)).ToArray();
-        _globeProvider.GenerateFree(heroStates.Select(x=>x.Item1).ToArray());
+        _globeProvider.GenerateFree(heroStates.Select(x => x.Item1).ToArray());
 
         var rolledMonsters = _dice.RollFromList(freeMonsters, dice.Roll(2, 4)).ToArray();
         var rolledCoords = _dice.RollFromList(monsterPositions, rolledMonsters.Length).ToArray();
@@ -377,6 +377,14 @@ internal sealed class TitleScreen : GameScreenBase
         return lastHeroes;
     }
 
+    private static UnitName[] GetDefaultShowcaseHeroes()
+    {
+        return new[]
+        {
+            UnitName.Swordsman, UnitName.Robber, UnitName.Herbalist
+        };
+    }
+
     private static UnitName[] GetLastHeroes(GlobeProvider globeProvider)
     {
         var lastSave = globeProvider.GetSaves().OrderByDescending(x => x.UpdateTime).FirstOrDefault();
@@ -389,7 +397,7 @@ internal sealed class TitleScreen : GameScreenBase
         var saveData = globeProvider.GetStoredData(lastSave.FileName);
 
         var activeUnits = saveData.Progress.Player?.Heroes?.Units.Select(x => x.HeroSid);
-        
+
         if (activeUnits is null)
         {
             // Get save but player data is not available.
@@ -399,14 +407,6 @@ internal sealed class TitleScreen : GameScreenBase
 
         var unitNames = activeUnits.Select(GetLastHeroName).ToArray();
         return unitNames;
-    }
-
-    private static UnitName[] GetDefaultShowcaseHeroes()
-    {
-        return new[]
-        {
-            UnitName.Swordsman, UnitName.Robber, UnitName.Herbalist
-        };
     }
 
     private static UnitName GetLastHeroName(string storedSid)

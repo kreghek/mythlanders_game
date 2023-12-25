@@ -183,6 +183,12 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         AddModal(tutorialModal, isLate: false);
     }
 
+    private static UnitName ConvertSpeakerToUnitName(IDialogueSpeaker speaker)
+    {
+        var speakerName = speaker.ToString();
+        return Enum.Parse<UnitName>(speakerName!);
+    }
+
     private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds)
     {
         for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
@@ -241,12 +247,6 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
             Color.White);
 
         spriteBatch.End();
-    }
-
-    private static UnitName ConvertSpeakerToUnitName(IDialogueSpeaker speaker)
-    {
-        var speakerName = speaker.ToString();
-        return Enum.Parse<UnitName>(speakerName!);
     }
 
     private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds)

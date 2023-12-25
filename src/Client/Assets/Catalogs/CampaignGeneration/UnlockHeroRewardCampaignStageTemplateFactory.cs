@@ -41,7 +41,8 @@ internal sealed class UnlockHeroRewardCampaignStageTemplateFactory : ICampaignSt
     private IReadOnlyCollection<UnitName> CalculateLockedHeroes()
     {
         return _services.UnitSchemeCatalog.Heroes.Select(x => x.Value.Name)
-            .Except(_services.GlobeProvider.Globe.Player.Heroes.Units.Select(x => Enum.Parse<UnitName>(x.ClassSid, true)))
+            .Except(_services.GlobeProvider.Globe.Player.Heroes.Units.Select(
+                x => Enum.Parse<UnitName>(x.ClassSid, true)))
             .Except(_heroInDev)
             .ToArray();
     }

@@ -27,7 +27,7 @@ internal sealed class StoryState : IStoryState
 
     private static IReadOnlyCollection<CharacterRelation> GetPlayerUnitsAsFullKnown(PoolGroup<HeroState> heroParty)
     {
-        var heroes = heroParty.Units.Select(x=>Enum.Parse<UnitName>(x.ClassSid, true));
+        var heroes = heroParty.Units.Select(x => Enum.Parse<UnitName>(x.ClassSid, true));
         return heroes.Select(CreateFullyKnownRelations).ToArray();
     }
 

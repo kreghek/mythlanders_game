@@ -17,7 +17,8 @@ internal sealed class TextParagraphMessageControl : ControlBase
 
     private readonly Speech _speech;
 
-    public TextParagraphMessageControl(DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext> eventTextFragment,
+    public TextParagraphMessageControl(
+        DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext> eventTextFragment,
         SoundEffect textSoundEffect, IDice dice, bool isCharacterSpeech)
     {
         _font = UiThemeManager.UiContentStorage.GetTitlesFont();
