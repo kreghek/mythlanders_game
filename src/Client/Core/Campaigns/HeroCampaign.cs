@@ -15,10 +15,10 @@ namespace Client.Core.Campaigns;
 /// </summary>
 internal sealed class HeroCampaign
 {
-    public HeroCampaign(IReadOnlyCollection<HeroState> heroes, HeroCampaignLocation location,
+    public HeroCampaign(IReadOnlyCollection<(HeroState, FieldCoords)> initHeroes, HeroCampaignLocation location,
         IReadOnlyCollection<ICampaignReward> failurePenalties, int visualizationSeed)
     {
-        Heroes = CreateCampaignHeroes(heroes);
+        Heroes = CreateCampaignHeroes(initHeroes);
         Location = location;
 
         ActualRewards = location.Stages.GetAllNodes().Select(x => x.Payload)
@@ -29,28 +29,12 @@ internal sealed class HeroCampaign
         Path = new List<IGraphNode<ICampaignStageItem>>();
     }
 
-    private IReadOnlyCollection<HeroCampaignState> CreateCampaignHeroes(IReadOnlyCollection<HeroState> heroes)
+    private IReadOnlyCollection<HeroCampaignState> CreateCampaignHeroes(
+        IEnumerable<(HeroState, FieldCoords)> heroes)
     {
-        var list = new List<HeroCampaignState>();
-
-        var openList = new List<FieldCoords>
-        {
-            new FieldCoords(0,0),
-            new FieldCoords(0,1),
-            new FieldCoords(0,2),
-            new FieldCoords(1,0),
-            new FieldCoords(1,1),
-            new FieldCoords(1,2),
-            
-        };
-
-        foreach (var hero in heroes)
-        {
-            var rolledPosition = dice
-            list.Add(new HeroCampaignState(hero, new FormationSlot()));
-        }
-        
-        return list;
+        return heroes.Select(hero =>
+                new HeroCampaignState(hero.Item1, new FormationSlot(hero.Item2.ColumentIndex, hero.Item2.LineIndex)))
+            .ToList();
     }
 
     /// <summary>

@@ -12,6 +12,7 @@ using Client.Core.Campaigns;
 using Client.GameScreens.TextDialogue;
 using Client.GameScreens.TextDialogue.Ui;
 
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
 using CombatDicesTeam.Graphs;
@@ -161,7 +162,7 @@ public class SynthAsParentTests
             globeProvider.Globe.Player,
             Mock.Of<IDialogueEnvironmentManager>(),
             textEvent,
-            new HeroCampaign(ArraySegment<HeroState>.Empty,
+            new HeroCampaign(ArraySegment<(HeroState, FieldCoords)>.Empty,
                 new HeroCampaignLocation(Mock.Of<ILocationSid>(), new DirectedGraph<ICampaignStageItem>()),
                 ArraySegment<ICampaignReward>.Empty, default));
         var dialoguePlayer =
@@ -178,10 +179,10 @@ public class SynthAsParentTests
                 isLocalized.Should().BeTrue();
             }
 
-            foreach (var dualogueOption in dialoguePlayer.CurrentOptions)
+            foreach (var dialogueOption in dialoguePlayer.CurrentOptions)
             {
                 var (text, isLocalized) =
-                    SpeechVisualizationHelper.PrepareLocalizedText(dualogueOption.TextSid);
+                    SpeechVisualizationHelper.PrepareLocalizedText(dialogueOption.TextSid);
 
                 text.Should().NotBeNullOrWhiteSpace();
                 isLocalized.Should().BeTrue();

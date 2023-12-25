@@ -12,6 +12,7 @@ using Client.Core.Campaigns;
 using Client.GameScreens.TextDialogue;
 using Client.GameScreens.TextDialogue.Ui;
 
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
 using CombatDicesTeam.Graphs;
@@ -152,7 +153,7 @@ public class MonkeyKingTests
             globeProvider.Globe.Player,
             Mock.Of<IDialogueEnvironmentManager>(),
             textEvent,
-            new HeroCampaign(ArraySegment<HeroState>.Empty,
+            new HeroCampaign(ArraySegment<(HeroState, FieldCoords)>.Empty,
                 new HeroCampaignLocation(Mock.Of<ILocationSid>(), new DirectedGraph<ICampaignStageItem>()),
                 ArraySegment<ICampaignReward>.Empty, default));
         var dialoguePlayer =
