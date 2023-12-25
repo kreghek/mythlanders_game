@@ -5,12 +5,12 @@ on:
     branches:
       - 'demo/**'
       - 'dev/**'
-      - 'master'
+      - 'main'
   pull_request:
     branches:
       - 'demo/**'
       - 'dev/**'
-      - 'master'
+      - 'main'
 
 jobs:
   build:
@@ -19,12 +19,14 @@ jobs:
 
     env:
       MGFXC_WINE_PATH: /home/runner/.winemonogame
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_CLI_TELEMETRY_OUTPUT: 1
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Setup .NET 6
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
 
@@ -43,10 +45,13 @@ jobs:
         rm dotnet-sdk.zip
 
     - name: Restore dependencies
-      run: dotnet restore Rpg.Client/Rpg.Client.sln
+      run: dotnet restore
+
+    - name: Build extentions
+      run: dotnet build src/GameContent.Extensions/GameContent.Extensions.csproj --configuration Release
 
     - name: Build
-      run: dotnet build Rpg.Client/Rpg.Client.sln --verbosity normal
+      run: dotnet build --verbosity normal
 
     - name: Test
-      run: dotnet test Rpg.Client/Rpg.Client.sln --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal

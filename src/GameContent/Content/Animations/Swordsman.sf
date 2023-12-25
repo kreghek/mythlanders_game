@@ -1,0 +1,49 @@
+{
+  "textureAtlas": {
+    "texture": "..\\Sprites\\GameObjects\\Characters\\Heroes\\Swordsman\\Full.png",
+    "regionWidth": 256,
+    "regionHeight": 128
+  },
+  "cycles": {
+    "prepare-sword": {
+      "frames": [29,30,31],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "charge": {
+      "frames": [31],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
+    "hit": {
+      "frames": [24,25,26,27,28,29,30,31],
+      "isLooping": false,
+      "frameDuration": 0.05
+    },
+    "hit-complete": {
+      "frames": [0,1,2,3,4,5,6,7],
+      "isLooping": false,
+      "frameDuration": 0.1
+    },
+    "back": {
+      "frames": [32,33,34,35,36,37,38,39],
+      "isLooping": true,
+      "frameDuration": 0.05
+    },
+    "defense": {
+      "frames": [16,17,18,19,20,21,22,23],
+      "isLooping": false,
+      "frameDuration": 0.1
+    },
+    "defensive-stance": {
+      "frames": [22,23],
+      "isLooping": false,
+      "frameDuration": 0.3
+    },
+    "rise-swords": {
+      "frames": [56,57,58,59,60,61,62,63],
+      "isLooping": false,
+      "frameDuration": 0.1
+    }
+  }
+}

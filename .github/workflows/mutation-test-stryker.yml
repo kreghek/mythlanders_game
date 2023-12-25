@@ -1,0 +1,67 @@
+name: Mutation Tests using Stryker.NET
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *' # Nightly
+  push:
+    branches:
+      - 'dev/**'
+
+jobs:
+
+  test:
+    
+    name: Mutation Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project:
+          - Client
+          - GameClient.Engine
+      fail-fast: false
+      
+    env:
+      MGFXC_WINE_PATH: /home/runner/.winemonogame
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_CLI_TELEMETRY_OUTPUT: 1
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET 6
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Setup Wine
+      run: |
+        sudo apt update
+        sudo apt install wine64 p7zip-full
+        wget -qO- https://raw.githubusercontent.com/MonoGame/MonoGame/master/Tools/MonoGame.Effect.Compiler/mgfxc_wine_setup.sh | sh
+        cd ~/.winemonogame/drive_c/windows/system32
+
+        DOTNET_URL="https://download.visualstudio.microsoft.com/download/pr/44d08222-aaa9-4d35-b24b-d0db03432ab7/52a4eb5922afd19e8e0d03e0dbbb41a0/dotnet-sdk-6.0.302-win-x64.zip"
+        curl "$DOTNET_URL" --output "dotnet-sdk.zip"
+
+        7z x "dotnet-sdk.zip" -y
+
+        rm dotnet-sdk.zip
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build extentions
+      run: dotnet build src/GameContent.Extensions/GameContent.Extensions.csproj --configuration Release
+
+    - name: Build
+      run: dotnet build --verbosity normal
+
+    - name: Setup Stryker
+      run: |
+        dotnet tool install -g dotnet-stryker --version 3.4.0
+
+    - name: Kill the mutants!
+      run: |
+        cd tests/${{ matrix.project }}.Tests
+        dotnet stryker --project=/home/runner/work/ewar/ewar/src/${{ matrix.project }}/${{ matrix.project }}.csproj --reporter "cleartexttree"

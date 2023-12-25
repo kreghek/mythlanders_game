@@ -1,0 +1,69 @@
+{
+  "textureAtlas": {
+    "texture": "..\\Sprites\\GameObjects\\Characters\\Heroes\\Partisan\\Full.png",
+    "regionWidth": 256,
+    "regionHeight": 128
+  },
+  "cycles": {
+    "prepare-rifle": {
+      "frames": [8,9,10],
+      "isLooping": false,
+      "frameDuration": 0.1
+    },
+    "prepare-to-charge": {
+      "frames": [16],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "breakthrough": {
+      "frames": [19],
+      "isLooping": false,
+      "frameDuration": 0.1
+    },
+    "hit": {
+      "frames": [20],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "hit-complete": {
+      "frames": [17],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "back": {
+      "frames": [32],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "power-hit": {
+      "frames": [32,33,34,35,36,37,38,39],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "rifle-shot": {
+      "frames": [11,12],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "rifle-wait": {
+      "frames": [13],
+      "isLooping": true,
+      "frameDuration": 0.2
+    },
+    "uzi-prepare": {
+      "frames": [24],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "uzi-shot": {
+      "frames": [25,26],
+      "isLooping": false,
+      "frameDuration": 0.1
+    },
+    "uzi-wait": {
+      "frames": [31],
+      "isLooping": true,
+      "frameDuration": 0.2
+    }
+  }
+}

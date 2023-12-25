@@ -13,6 +13,7 @@ jobs:
 
     env:
       MGFXC_WINE_PATH: /home/runner/.winemonogame
+      GAME_VERSION: 0.3
 
     strategy:
       matrix:
@@ -22,17 +23,12 @@ jobs:
           - mac
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Setup .NET 6
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
-
-    - name: Setup .NETCore 2.1
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 2.1.x
+        dotnet-version: 6.0.*
 
     - name: Setup Wine
       run: |
@@ -50,19 +46,31 @@ jobs:
 
 
     - name: Restore dependencies
-      run: dotnet restore Rpg.Client/Rpg.Client.sln
+      run: dotnet restore
+
+    - name: Build extentions
+      run: dotnet build src/GameContent.Extensions/GameContent.Extensions.csproj --configuration Release
 
     - name: Build
-      run: dotnet build Rpg.Client/Rpg.Client.sln --verbosity normal
+      run: dotnet build --verbosity normal
 
     - name: Test
-      run: dotnet test Rpg.Client/Rpg.Client.sln --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal
 
     - name: Install GameBungle Tools
       run: dotnet tool install --global GameBundle
 
     - name: Publish
-      run: gamebundle --source Rpg/Client/Client.csproj --output "bin" --${{matrix.runtime}}
+      run: gamebundle --source src/Client/Client.csproj --output "bin" --${{matrix.runtime}}
+
+    - name: run number with offset
+      id: game-version
+      env:
+        run_number: ${{ github.run_number }}
+        base_number: 71
+      run: echo "full=$GAME_VERSION.$(($run_number+$base_number))" >> $GITHUB_OUTPUT
+
+    - run: echo ${{ steps.game-version.outputs.full }}
 
     - name: Get current time
       uses: srfrnk/current-time@master
@@ -71,21 +79,17 @@ jobs:
         format: YYYY-MM-DD
     
     - name: Write version to file
-      uses: DamianReeves/write-file-action@v1.0
-      env:
-        F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
+      uses: DamianReeves/write-file-action@v1.2
       with:
         path: bin/${{matrix.runtime}}/version.txt
         contents: |
-          ver 0.2-dev#${{ github.run_number }}
-          ${{ env.F_TIME }}
+          ver ${{ steps.game-version.outputs.full }}
+          ${{ steps.current-time.outputs.formattedTime }}
           ${{ github.sha }}
         write-mode: overwrite
 
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
-      env:
-        F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
       with:
-        name: ewar-${{ matrix.runtime }}-v0.1-dev${{ github.run_number }}-${{ env.F_TIME }}
+        name: ewar-${{ matrix.runtime }}-v${{ steps.game-version.outputs.full }}-${{ steps.current-time.outputs.formattedTime }}
         path: bin

@@ -1,0 +1,588 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AcceptChallengeButtonTitle" xml:space="preserve">
+    <value>Принять испытание</value>
+  </data>
+  <data name="AdjutantButtonTitle" xml:space="preserve">
+    <value>Адъютант</value>
+  </data>
+  <data name="ArmorLabelTemplate" xml:space="preserve">
+    <value>Броня: {0}</value>
+  </data>
+  <data name="ArmoryButtonTitle" xml:space="preserve">
+    <value>Оружейня</value>
+  </data>
+  <data name="AutocombatButtonTitle" xml:space="preserve">
+    <value>Автобой</value>
+  </data>
+  <data name="AvailableManeuversIndicatorTemplate" xml:space="preserve">
+    <value>Доступны маневры</value>
+  </data>
+  <data name="BackButtonTitle" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="BackToMapMenuButtonTitle" xml:space="preserve">
+    <value>На карту</value>
+  </data>
+  <data name="BarraksButtonTitle" xml:space="preserve">
+    <value>Бараки</value>
+  </data>
+  <data name="BestiaryButtonTitle" xml:space="preserve">
+    <value>Бестиарий</value>
+  </data>
+  <data name="BiomeLevelText" xml:space="preserve">
+    <value>Ур.</value>
+  </data>
+  <data name="CampaignPenaltiesLabelText" xml:space="preserve">
+    <value>Штрафы</value>
+  </data>
+  <data name="CampaignRewardsLabelText" xml:space="preserve">
+    <value>Награда</value>
+  </data>
+  <data name="CampaignSelectButtonTitle" xml:space="preserve">
+    <value>СТАРТ</value>
+  </data>
+  <data name="CampaignsJobCompletePatternSid" xml:space="preserve">
+    <value>{0} - завершено</value>
+  </data>
+  <data name="CampaignsJobProgressPatternSid" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+  </data>
+  <data name="CampaignsJobTitleSid" xml:space="preserve">
+    <value>Пройти любые кампании</value>
+  </data>
+  <data name="CampaignStageDisplayNameChallenge" xml:space="preserve">
+    <value>Испытание</value>
+  </data>
+  <data name="CampaignStageDisplayNameCombat" xml:space="preserve">
+    <value>Бой</value>
+  </data>
+  <data name="CampaignStageDisplayNameCrisis" xml:space="preserve">
+    <value>Кризис</value>
+  </data>
+  <data name="CampaignStageDisplayNameFinish" xml:space="preserve">
+    <value>Завршить кампанию</value>
+  </data>
+  <data name="CampaignStageDisplayNameRest" xml:space="preserve">
+    <value>Отдых</value>
+  </data>
+  <data name="CampaignStageDisplayNameTextEvent" xml:space="preserve">
+    <value>Какое-то событие</value>
+  </data>
+  <data name="CampaignStageDisplayNameUnknown" xml:space="preserve">
+    <value>???</value>
+  </data>
+  <data name="CampaignStageTitle" xml:space="preserve">
+    <value>Этап {0}</value>
+  </data>
+  <data name="ChroniclesButtonTitle" xml:space="preserve">
+    <value>Хроники</value>
+  </data>
+  <data name="CloseButtonTitle" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="CombatIndicatorNegativeHpTemplate" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="CombatIndicatorNegativeSpTemplate" xml:space="preserve">
+    <value>&lt;{0}&gt;</value>
+  </data>
+  <data name="CombatIndicatorPositiveHpTemplate" xml:space="preserve">
+    <value>+{0}</value>
+  </data>
+  <data name="CombatIndicatorPositiveSpTemplate" xml:space="preserve">
+    <value>+&lt;{0}&gt;</value>
+  </data>
+  <data name="CombatLengthLabel" xml:space="preserve">
+    <value>Длительность сражения:</value>
+  </data>
+  <data name="CombatLevelTemplate" xml:space="preserve">
+    <value>Боевой опыт: {0}</value>
+  </data>
+  <data name="CombatLevelUpTemplate" xml:space="preserve">
+    <value>{0} ед. опыта для повышения уровня</value>
+  </data>
+  <data name="CombatProgressTemplate" xml:space="preserve">
+    <value>Прогресс сражения: {0}/{1}</value>
+  </data>
+  <data name="CombatResultDefeatText" xml:space="preserve">
+    <value>Поражение!</value>
+  </data>
+  <data name="CombatResultItemsFoundLabel" xml:space="preserve">
+    <value>Найдены предметы:</value>
+  </data>
+  <data name="CombatResultMonsterDangerDecreasedTemplate" xml:space="preserve">
+    <value>Опасность монстров уменьшена до {0} (на -50%)</value>
+  </data>
+  <data name="CombatResultMonsterDangerIncreasedTemplate" xml:space="preserve">
+    <value>Опасность монстров выросла до {0}</value>
+  </data>
+  <data name="CombatResultNextText" xml:space="preserve">
+    <value>Следующий бой...</value>
+  </data>
+  <data name="CombatResultVictoryText" xml:space="preserve">
+    <value>Победа!</value>
+  </data>
+  <data name="CombatTutorialText" xml:space="preserve">
+    <value>Вы попали в бой с монстрами!
+1. Все персонажи ходят по очереди. Сначала ходят все персонажи игрока.
+Затем - все монстры.
+2. Каждый персонаж может использовать один из доступных боевых навыков.
+Набор навыков персонажей игрока может быть расширен до 3-х.
+У обычных монстров всегда только одна атака. У боссов - до 3-х.
+3. Боевые навыки могут отнимать ХП противников или восстанавливать ХП союзников,
+влиять на разные характеристики персонажей, влиять на порядок ходов.
+Как только персонаж теряет все ХП, он выходит из боя.
+4. Для использования некоторых навыков требуется мана. Мана пополняется
+на 1 ед в конце боя и за каждого побеждённого противника.
+5. В конце боя в случае победы персонажи игроки получат опыт и улучшат
+свою экипировку. Так же победа увеличит уровень биома на 1.
+Всем монстры становятся сильнее. На 10 уровне появится босс.
+6. Если персонажи игрока проигрывают, то уровень биома снижается на 50%.
+Все монстры становятся слабее. Но и до босса придётся идти дольше.</value>
+  </data>
+  <data name="CompleteGameButtonTitle" xml:space="preserve">
+    <value>Завершить игру</value>
+  </data>
+  <data name="ConfirmButtonTitle" xml:space="preserve">
+    <value>Подтвердить</value>
+  </data>
+  <data name="ConfirmIneffectiveAttackText" xml:space="preserve">
+    <value>Если выполнить эту атаку с текущей позиции, то никто из противников не пострадает.
+Атака будет неэффективной.
+Возможно, следует сперва выбрать более удачную позицию для героя или выбрать дрое действие.
+Точно надо потратить бесценный текущий ход в пустую?</value>
+  </data>
+  <data name="CreditsButtonTitle" xml:space="preserve">
+    <value>Разработчики</value>
+  </data>
+  <data name="DamageEffectRuleText" xml:space="preserve">
+    <value>Наносит {0} - {1} урона {2}</value>
+  </data>
+  <data name="DamageLabelTemplate" xml:space="preserve">
+    <value>Урон: {0}</value>
+  </data>
+  <data name="DecreaseHitPointsPercentEffectRuleText" xml:space="preserve">
+    <value>Уменьшает хитпоинты на {0}% по {2} на {1} ходов</value>
+  </data>
+  <data name="DecreaseShieldsPercentEffectRuleText" xml:space="preserve">
+    <value>Уменьшает щиты на {0}% по {2} на {1} ходов</value>
+  </data>
+  <data name="DecreseDamageEffectRuleText" xml:space="preserve">
+    <value>Уменьшает урон на {0} по {2} на {1} ходов</value>
+  </data>
+  <data name="DecreseDamagePercentEffectRuleText" xml:space="preserve">
+    <value>Уменьшает урон на {0}% по {2} на {1} ходов</value>
+  </data>
+  <data name="DefeatsJobCompletePatternSid" xml:space="preserve">
+    <value>{0} - завершено</value>
+  </data>
+  <data name="DefeatsJobProgressPatternSid" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+  </data>
+  <data name="DefeatsJobTitleSid" xml:space="preserve">
+    <value>Победа над противниками</value>
+  </data>
+  <data name="DemoMarkerText" xml:space="preserve">
+    <value>Demo</value>
+  </data>
+  <data name="DialogueContinueText" xml:space="preserve">
+    <value>Нажмите [ПРОБЕЛ] чтобы продолжить</value>
+  </data>
+  <data name="EffectConditionIsRightAllyWithShieldText" xml:space="preserve">
+    <value>если правый союзник с щитом</value>
+  </data>
+  <data name="EndOfGameMessage" xml:space="preserve">
+    <value>Это конец демо. Поздравляем!{0}Спасибо за внимание!</value>
+  </data>
+  <data name="EquipmentResourceRequipmentTemplate" xml:space="preserve">
+    <value>{0} x {1} для улучшения</value>
+  </data>
+  <data name="EquipmentTitleTemplate" xml:space="preserve">
+    <value>{0} ({1} ур.)</value>
+  </data>
+  <data name="EquipmentUpgradeMarkerText" xml:space="preserve">
+    <value>Доступно улучшение!</value>
+  </data>
+  <data name="EventTutorialText" xml:space="preserve">
+    <value>В игре произошло событие.
+
+1. Некоторые события продвигают партию по сюжету.
+2. Другие - могут повлиять на партию и конкретных персонажей.</value>
+  </data>
+  <data name="ExitGameButtonTitle" xml:space="preserve">
+    <value>Выйти из игры</value>
+  </data>
+  <data name="FieldManeuversVisualizer_Draw_Avanguard" xml:space="preserve">
+    <value>АВАНГАРД</value>
+  </data>
+  <data name="FieldManeuversVisualizer_Draw_Rearguard" xml:space="preserve">
+    <value>ТЫЛ</value>
+  </data>
+  <data name="FormationButtonTitle" xml:space="preserve">
+    <value>Построение</value>
+  </data>
+  <data name="GlobalEffectDurationTemplate" xml:space="preserve">
+    <value>{0} боёв осталось</value>
+  </data>
+  <data name="HealEffectRuleText" xml:space="preserve">
+    <value>Лечит {0} - {1} хп {2}</value>
+  </data>
+  <data name="HealOverTimeEffectRuleText" xml:space="preserve">
+    <value>Лечит {0} - {1} хп в течении {2} ходов {3}</value>
+  </data>
+  <data name="HeroEquipmentInfoTitle" xml:space="preserve">
+    <value>Экипировка</value>
+  </data>
+  <data name="HeroGeneralInfoTitle" xml:space="preserve">
+    <value>Общее</value>
+  </data>
+  <data name="HeroPerkInfoTitle" xml:space="preserve">
+    <value>Перки</value>
+  </data>
+  <data name="HeroSkillsInfoTitle" xml:space="preserve">
+    <value>Навыки</value>
+  </data>
+  <data name="HitPointsLabelTemplate" xml:space="preserve">
+    <value>Хитопонты: {0}</value>
+  </data>
+  <data name="IncreaseDamageEffectRuleText" xml:space="preserve">
+    <value>Увеличивает урон на {0} по {2} на {1} ходов</value>
+  </data>
+  <data name="IncreaseDamagePercentEffectRuleText" xml:space="preserve">
+    <value>Увеличивает урон на {0}% по {2} на {1} ходов</value>
+  </data>
+  <data name="IncreaseHitPointsPercentEffectRuleText" xml:space="preserve">
+    <value>Увеличивает хитопоинты на {0}% по {2} на {1} ходов</value>
+  </data>
+  <data name="IncreaseShieldsPercentEffectRuleText" xml:space="preserve">
+    <value>Увеличивает щиты на {0}% по {2} на {1} ходов</value>
+  </data>
+  <data name="IndicatorBlockAnyDamage" xml:space="preserve">
+    <value>Блок!</value>
+  </data>
+  <data name="IndicatorEvasion" xml:space="preserve">
+    <value>Уклонение!</value>
+  </data>
+  <data name="IndicatorSkipTurn" xml:space="preserve">
+    <value>Пропуск!</value>
+  </data>
+  <data name="IndicatorWarmupText" xml:space="preserve">
+    <value>0123456789</value>
+  </data>
+  <data name="InfoButtonTitle" xml:space="preserve">
+    <value>Инфо</value>
+  </data>
+  <data name="InventoryButtonTitle" xml:space="preserve">
+    <value>Инвентарь</value>
+  </data>
+  <data name="JobTypeCombats" xml:space="preserve">
+    <value>Провести боев</value>
+  </data>
+  <data name="JobTypeCompleteCampans" xml:space="preserve">
+    <value>Завершить кампаний</value>
+  </data>
+  <data name="JobTypeDefeat" xml:space="preserve">
+    <value>Уничтожить врагов</value>
+  </data>
+  <data name="LevelUpButtonTitle" xml:space="preserve">
+    <value>Повысить</value>
+  </data>
+  <data name="LifeDrawEffectRuleText" xml:space="preserve">
+    <value>Похищает {0} - {1} хп у {2}</value>
+  </data>
+  <data name="LongCombatSequenceText" xml:space="preserve">
+    <value>Долгий</value>
+  </data>
+  <data name="ManaCostLabelTemplate" xml:space="preserve">
+    <value>Цена: {0}</value>
+  </data>
+  <data name="ManaLabelTemplate" xml:space="preserve">
+    <value>Пси-энергия: {0}/{1}</value>
+  </data>
+  <data name="MapTutorialText" xml:space="preserve">
+    <value>Это карта локаций.
+1. Каждая последующая локация становится доступной после победы в предыдущей.
+2. В нескольких локациях буйствуют монстры. Эти локации отмечены ярким символом мечей.
+3. В некоторых локациях могут происходить различные события, которые могут повлиять на текущий бой, отдельных персонажей или всю группу героев.</value>
+  </data>
+  <data name="MediumCombatSequenceText" xml:space="preserve">
+    <value>Средний</value>
+  </data>
+  <data name="MiniGame_Victory" xml:space="preserve">
+    <value>Победа!</value>
+  </data>
+  <data name="MonsterDangerTemplate" xml:space="preserve">
+    <value>Опасность: {0}</value>
+  </data>
+  <data name="MonsterLevelShortText" xml:space="preserve">
+    <value>ур.</value>
+  </data>
+  <data name="MoveToThePoolButtonTitle" xml:space="preserve">
+    <value>Убрать в пулл</value>
+  </data>
+  <data name="PartyButtonTitle" xml:space="preserve">
+    <value>Группа</value>
+  </data>
+  <data name="PeriodicDamageEffectRuleText" xml:space="preserve">
+    <value>Урон {0} - {1}  {2} в течении {3} ходов</value>
+  </data>
+  <data name="PeriodicHealEffectRuleText" xml:space="preserve">
+    <value>Лечение {0} - {1} {2} в течении {3} ходов</value>
+  </data>
+  <data name="PlayStoryButtonTitle" xml:space="preserve">
+    <value>Играть</value>
+  </data>
+  <data name="ProtectionEffectRuleText" xml:space="preserve">
+    <value>Уменьшает входящий урон на  {0}% по {2} на {1} ходов</value>
+  </data>
+  <data name="RejectButtonTitle" xml:space="preserve">
+    <value>Отклонить</value>
+  </data>
+  <data name="RestActionChat" xml:space="preserve">
+    <value>Пообщаться</value>
+  </data>
+  <data name="RestActionImprovedRest" xml:space="preserve">
+    <value>Хорошо отдохнуть</value>
+  </data>
+  <data name="RestActionScouting" xml:space="preserve">
+    <value>Разведадть местность</value>
+  </data>
+  <data name="RestartButtonTitle" xml:space="preserve">
+    <value>Рестарт</value>
+  </data>
+  <data name="RestScreen_Title" xml:space="preserve">
+    <value>Отдых</value>
+  </data>
+  <data name="SettingsButtonTitle" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="ShieldPointsLabelTemplate" xml:space="preserve">
+    <value>Щиты: {0}</value>
+  </data>
+  <data name="ShortCombatSequenceText" xml:space="preserve">
+    <value>Краткий</value>
+  </data>
+  <data name="SkillDirectionAllEnemiesText" xml:space="preserve">
+    <value>всем противникам</value>
+  </data>
+  <data name="SkillDirectionAllFriendlyText" xml:space="preserve">
+    <value>всех союзников</value>
+  </data>
+  <data name="SkillDirectionAllLineEnemiesText" xml:space="preserve">
+    <value>противникам на линии</value>
+  </data>
+  <data name="SkillDirectionAllText" xml:space="preserve">
+    <value>всем</value>
+  </data>
+  <data name="SkillDirectionLeftAllyText" xml:space="preserve">
+    <value>союзнику слева</value>
+  </data>
+  <data name="SkillDirectionOtherFriendlyText" xml:space="preserve">
+    <value>всем остальным союзникам</value>
+  </data>
+  <data name="SkillDirectionOtherText" xml:space="preserve">
+    <value>всем остальным</value>
+  </data>
+  <data name="SkillDirectionRandomEnemyText" xml:space="preserve">
+    <value>случайному противнику</value>
+  </data>
+  <data name="SkillDirectionRandomFriendlyText" xml:space="preserve">
+    <value>случайному союзнику</value>
+  </data>
+  <data name="SkillDirectionRandomLineEnemyText" xml:space="preserve">
+    <value>случайному противнику на линии</value>
+  </data>
+  <data name="SkillDirectionSelfText" xml:space="preserve">
+    <value>себе</value>
+  </data>
+  <data name="SkillDirectionTargetText" xml:space="preserve">
+    <value>цели</value>
+  </data>
+  <data name="SkillManaCostTemplate" xml:space="preserve">
+    <value>Требуется {0} пси-энергии</value>
+  </data>
+  <data name="SkipButtonTitle" xml:space="preserve">
+    <value>Пропустить</value>
+  </data>
+  <data name="SkipMapPresentationHintText" xml:space="preserve">
+    <value>Нажми [SPACE] чтобы пропустить</value>
+  </data>
+  <data name="SkipMapPresentationHintText_Duplicate[1]" xml:space="preserve">
+    <value>Нажми [SPACE] чтобы пропустить</value>
+  </data>
+  <data name="SkipTutorialButtonTitle" xml:space="preserve">
+    <value>Пропустить обучение</value>
+  </data>
+  <data name="SlidingPuzzles_TimeCounterTemplate" xml:space="preserve">
+    <value>Время: {0}</value>
+  </data>
+  <data name="SlidingPuzzles_TurnsCounterTemplate" xml:space="preserve">
+    <value>Ходов: {0}</value>
+  </data>
+  <data name="StageNotImplementedInDemoText" xml:space="preserve">
+    <value>Этап не доступен для демо</value>
+  </data>
+  <data name="StartNewGameButtonTitle" xml:space="preserve">
+    <value>Новая игра</value>
+  </data>
+  <data name="StatusImposedNotificationTextTemplate" xml:space="preserve">
+    <value>{0} наложен на {1}</value>
+  </data>
+  <data name="StunEffectRuleText" xml:space="preserve">
+    <value>Оглушение {1} на {0} ходов</value>
+  </data>
+  <data name="SurrenderButtonTitle" xml:space="preserve">
+    <value>Сдаться</value>
+  </data>
+  <data name="SwitchFullScreenButtonTitle" xml:space="preserve">
+    <value>Полный экран</value>
+  </data>
+  <data name="SwitchLanguageButtonTitle" xml:space="preserve">
+    <value>Язык</value>
+  </data>
+  <data name="SwitchMusicButtonTitle" xml:space="preserve">
+    <value>Музыка</value>
+  </data>
+  <data name="SwitchResolutionButtonTitle" xml:space="preserve">
+    <value>Переключить разрешение</value>
+  </data>
+  <data name="ToTheCombatButtonTitle" xml:space="preserve">
+    <value>В Бой!</value>
+  </data>
+  <data name="UnderConstructionModalContent" xml:space="preserve">
+    <value>Не для демо</value>
+  </data>
+  <data name="VoiceCombatStat_AspirationLableTemplate" xml:space="preserve">
+    <value>Стремление: {0}</value>
+  </data>
+  <data name="VoiceCombatStat_ConvictionLableTemplate" xml:space="preserve">
+    <value>Уверенность: {0}</value>
+  </data>
+  <data name="VoiceCombatStat_StaminaLableTemplate" xml:space="preserve">
+    <value>Выдержка: {0}</value>
+  </data>
+  <data name="XpRewardText" xml:space="preserve">
+    <value>Xp</value>
+  </data>
+  <data name="_AllChars" xml:space="preserve">
+    <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
+  </data>
+</root>
