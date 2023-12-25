@@ -14,8 +14,6 @@ using CombatDicesTeam.Dices;
 
 using Core.Props;
 
-using GameAssets.Combats;
-
 namespace Client.Core;
 
 internal sealed class GlobeProvider
@@ -353,8 +351,6 @@ internal sealed class GlobeProvider
         var units = new List<HeroState>();
         foreach (var unitDto in groupDto.Units)
         {
-            var unitName = (UnitName)Enum.Parse(typeof(UnitName), unitDto.HeroSid);
-
             units.Add(new HeroState(unitDto.HeroSid, new StatValue(unitDto.Hp)));
         }
 
@@ -393,24 +389,22 @@ internal sealed class GlobeProvider
             return;
         }
 
-        // foreach (var resourceDto in resources)
-        // {
-        //     if (resourceDto is null)
-        //     {
-        //         continue;
-        //     }
-        //
-        //     var resource = inventory.SingleOrDefault(x => x.Type.ToString() == resourceDto.Type);
-        //     if (resource is null)
-        //     {
-        //         Debug.Fail("Every resouce in inventory must be same as in the save. Make migration of the save.");
-        //         continue;
-        //     }
-        //
-        //     resource.Amount = resourceDto.Amount;
-        // }
+        foreach (var resourceDto in resources)
+        {
+            if (resourceDto is null)
+            {
+                continue;
+            }
 
-        throw new Exception();
+            Resource? resource = inventory.CalcActualItems().OfType<Resource>().SingleOrDefault(x => x.Scheme.Sid == resourceDto.Type);
+            if (resource is null)
+            {
+                resource = new Resource(new PropScheme(resourceDto.Type), resourceDto.Amount);
+                
+            }
+
+            inventory.Add(resource);
+        }
     }
 
     public sealed class SaveShortInfo
