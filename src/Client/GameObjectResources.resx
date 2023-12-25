@@ -145,8 +145,8 @@
         <comment>Combat Movement Robber</comment>
   </data>
   <data name="ArrowsOfMorana_Description" xml:space="preserve">
-    <value />
-        <comment>Combat Movement Robber</comment>
+      <value>Deals 2 damage to all enemies.</value>
+      <comment>Combat Movement Robber</comment>
   </data>
   <data name="ArtOfCombat" xml:space="preserve">
     <value>Art of Combat</value>
@@ -176,8 +176,8 @@
         <comment>Combat Movement Robber</comment>
   </data>
   <data name="BalticThunder_Description" xml:space="preserve">
-    <value />
-        <comment>Combat Movement Robber</comment>
+      <value>Deals 3 damage to the closest enemy in the line.</value>
+      <comment>Combat Movement Robber</comment>
   </data>
   <data name="Battleground" xml:space="preserve">
     <value>Battleground</value>
@@ -200,8 +200,8 @@
         <comment>Combat movement Partisan</comment>
   </data>
   <data name="BlankShot_Description" xml:space="preserve">
-    <value />
-        <comment>Combat movement Partisan</comment>
+      <value>Moves to the vanguard and deals 2 damage to the nearest enemy in the line. If the partisan was already in the vanguard, then it deals 1 bonus damage.</value>
+      <comment>Combat movement Partisan</comment>
   </data>
   <data name="BlindDefense" xml:space="preserve">
     <value>Blind defense</value>
@@ -296,20 +296,20 @@
         <comment>Perk</comment>
   </data>
   <data name="CyberClaws" xml:space="preserve">
-    <value>Cyber-claws</value>
-        <comment>Combat Movement Digital wolf</comment>
+      <value>Cyber-claws</value>
+      <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="CyberClaws_Description" xml:space="preserve">
-    <value></value>
-        <comment>Combat Movement Digital wolf</comment>
+      <value />
+      <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="DanceWithThePast" xml:space="preserve">
-    <value>Dance with the Past</value>
-        <comment>Combat Movement Black Trooper</comment>
+      <value>Dance with the Past</value>
+      <comment>Combat Movement Agressor</comment>
   </data>
   <data name="DanceWithThePast_Description" xml:space="preserve">
-    <value />
-        <comment>Combat Movement Black Trooper</comment>
+      <value />
+      <comment>Combat Movement Agressor</comment>
   </data>
   <data name="DarkLight" xml:space="preserve">
       <value>Dark light</value>
@@ -357,8 +357,8 @@
         <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="DieBySword_Description" xml:space="preserve">
-    <value></value>
-        <comment>Combat Movement Swordsman</comment>
+      <value>Moves forward and deals 2 damage to the closest enemy in the line.</value>
+      <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="DigitalWolf" xml:space="preserve">
     <value>Digital wolf</value>
@@ -395,12 +395,12 @@
         <comment>Equipment</comment>
   </data>
   <data name="EnergeticBite" xml:space="preserve">
-    <value>Energetic bite</value>
-        <comment>Combat Movement Digital Wolf</comment>
+      <value>Energetic bite</value>
+      <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="EnergeticBite_Description" xml:space="preserve">
-    <value></value>
-        <comment>Combat Movement Digital Wolf</comment>
+      <value />
+      <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="EnergeticSuperiority" xml:space="preserve">
     <value>Energetic Superiority</value>
@@ -427,12 +427,12 @@
     <value></value>
   </data>
   <data name="FatalBlow" xml:space="preserve">
-    <value>Fatal blow</value>
-        <comment>Combat Movement Black Trooper</comment>
+      <value>Fatal blow</value>
+      <comment>Combat Movement Agressor</comment>
   </data>
   <data name="FatalBlow_Description" xml:space="preserve">
-    <value />
-        <comment>Combat Movement Black Trooper</comment>
+      <value />
+      <comment>Combat Movement Agressor</comment>
   </data>
   <data name="FingerOfAnubis" xml:space="preserve">
       <value>The Finger of Anubis</value>
@@ -447,8 +447,8 @@
         <comment>Combat Movement Amazon</comment>
   </data>
   <data name="FlockAlphaTactics" xml:space="preserve">
-    <value>Flock Alpha Tactics</value>
-        <comment>Combat Movement</comment>
+      <value>Flock Alpha Tactics</value>
+      <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="FlockAlphaTactics_Description" xml:space="preserve">
     <value></value>
@@ -458,12 +458,12 @@
         <comment>Monster</comment>
   </data>
   <data name="GrimResolve" xml:space="preserve">
-    <value>Grim resolve</value>
-        <comment>Combat Movement Black Trooper</comment>
+      <value>Grim resolve</value>
+      <comment>Combat Movement Agressor</comment>
   </data>
   <data name="GrimResolve_Description" xml:space="preserve">
-    <value />
-        <comment>Combat Movement Black Trooper</comment>
+      <value />
+      <comment>Combat Movement Agressor</comment>
   </data>
   <data name="GuardianPromise" xml:space="preserve">
     <value>Promise of a tomb guardian</value>
@@ -525,8 +525,8 @@
         <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="HitFromShoulder_Description" xml:space="preserve">
-    <value />
-        <comment>Combat Movement Swordsman</comment>
+      <value>Deals a powerful blow for 3 damage and moves to the vanguard.</value>
+      <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="Hoplite" xml:space="preserve">
     <value>Leonidas</value>
@@ -620,31 +620,31 @@
         <comment>Combat movement Amazon</comment>
   </data>
   <data name="LastChanceToPeace" xml:space="preserve">
-    <value>Last chance to peace</value>
-        <comment>Combat Movement Black Trooper</comment>
+      <value>Last chance to peace</value>
+      <comment>Combat Movement Agressor</comment>
   </data>
   <data name="LastChanceToPeace_Description" xml:space="preserve">
-    <value />
-        <comment>Combat Movement Black Trooper</comment>
+      <value />
+      <comment>Combat Movement Agressor</comment>
   </data>
   <data name="LookOut" xml:space="preserve">
     <value>Look out!</value>
         <comment>Combat movement Swordsman</comment>
   </data>
   <data name="LookOut_Description" xml:space="preserve">
-    <value />
-        <comment>Combat movement Swordsman</comment>
+      <value>Increases the Defense of the nearest ally in a column by 3 until the end of the ally's turn. The swordsman himself moves to the vanguard. When automatically triggered, increases your defense by 1.</value>
+      <comment>Combat movement Swordsman</comment>
   </data>
   <data name="LordOfNonHumanRealm" xml:space="preserve">
       <value>Lord Of Non Human Realm</value>
   </data>
   <data name="MadnessWithinEyes" xml:space="preserve">
-    <value>Madness within eyes</value>
-        <comment>Combat Movement Black Trooper</comment>
+      <value>Madness within eyes</value>
+      <comment>Combat Movement Agressor</comment>
   </data>
   <data name="MadnessWithinEyes_Description" xml:space="preserve">
-    <value />
-        <comment>Combat Movement Black Trooper</comment>
+      <value />
+      <comment>Combat Movement Agressor</comment>
   </data>
   <data name="Marauder" xml:space="preserve">
     <value>Marauder</value>
@@ -714,8 +714,8 @@
         <comment>Combat movement Partisan</comment>
   </data>
   <data name="OldGoodBrawl_Description" xml:space="preserve">
-    <value />
-        <comment>Combat movement Partisan</comment>
+      <value>Moves to the vanguard and deals 2 damage. Does not waste energy if the same move was previously used.</value>
+      <comment>Combat movement Partisan</comment>
   </data>
   <data name="Oldman" xml:space="preserve">
     <value>Oldman</value>
@@ -757,12 +757,12 @@
         <comment>Equipment</comment>
   </data>
   <data name="RegenerativeProtocol" xml:space="preserve">
-    <value>Regenerative protocol</value>
-        <comment>Combat Movement</comment>
+      <value>Regenerative protocol</value>
+      <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="RegenerativeProtocol_Description" xml:space="preserve">
-    <value></value>
-        <comment>Combat Movement</comment>
+      <value />
+      <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="RestAll_CrisisAftermath" xml:space="preserve">
     <value>Rest all</value>
@@ -784,8 +784,8 @@
         <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="RiseYourSwords_Description" xml:space="preserve">
-    <value />
-        <comment>Combat Movement Swordsman</comment>
+      <value>Increases the damage of melee attack moves by 1 for all allies for 2 turns.</value>
+      <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="Robber" xml:space="preserve">
     <value>Hawk</value>
@@ -800,8 +800,8 @@
         <comment>Combat Movement Partisan</comment>
   </data>
   <data name="Sabotage_Description" xml:space="preserve">
-    <value />
-        <comment>Combat Movement Partisan</comment>
+      <value>Deals 3 damage to the weakest enemy. The partisan himself moves to the rearguard.</value>
+      <comment>Combat Movement Partisan</comment>
   </data>
   <data name="ScarabeusKingLeg" xml:space="preserve">
     <value>Scarabeus King's Leg</value>
@@ -861,12 +861,12 @@
     <value></value>
   </data>
   <data name="StayStrong" xml:space="preserve">
-    <value>Stay strong</value>
-        <comment>Combat Movement Swordsman</comment>
+      <value>Stay strong!</value>
+      <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="StayStrong_Description" xml:space="preserve">
-    <value />
-        <comment>Combat Movement Swordsman</comment>
+      <value>Increases your defense by 3 until the end of the round. When auto-triggered, it increases its defense by 1 until the next turn.</value>
+      <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="Stryga" xml:space="preserve">
     <value>Stryga</value>
@@ -881,8 +881,8 @@
         <comment>Combat Movement Partisan</comment>
   </data>
   <data name="SurpriseManeuver_Description" xml:space="preserve">
-    <value />
-        <comment>Combat Movement Partisan</comment>
+      <value>Swaps with the strongest ally in the neighborhood. The maneuver gives 2 defenses to the partisan and the ally.</value>
+      <comment>Combat Movement Partisan</comment>
   </data>
   <data name="SvarogBlastFurnace" xml:space="preserve">
       <value>Svarog's Blast Furnace</value>
@@ -941,20 +941,20 @@
         <comment>Combat Movement Robber</comment>
   </data>
   <data name="UndercutValues_Description" xml:space="preserve">
-    <value />
-        <comment>Combat Movement Robber</comment>
+      <value>Deals 1 damage to the closest enemy in the line. If it was the strongest enemy, it applies bleeding for 2 rounds, dealing damage to 1 health each round.</value>
+      <comment>Combat Movement Robber</comment>
   </data>
   <data name="VampireBite" xml:space="preserve">
       <value>Vampire bite</value>
         <comment>Skill</comment>
   </data>
   <data name="VelesProtection" xml:space="preserve">
-    <value>Veles protection</value>
-        <comment>Combat Movement Digital wolf</comment>
+      <value>Veles protection</value>
+      <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="VelesProtection_Description" xml:space="preserve">
-    <value />
-        <comment>Combat Movement Digital wolf</comment>
+      <value />
+      <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="Volkolak" xml:space="preserve">
     <value>Volkolak</value>
@@ -981,16 +981,16 @@
         <comment>Combat movement Robber</comment>
   </data>
   <data name="WindWheel_Description" xml:space="preserve">
-    <value />
-        <comment>Combat movement Robber</comment>
+      <value>Deals 4 damage to the strongest enemy. And misses the next move.</value>
+      <comment>Combat movement Robber</comment>
   </data>
   <data name="WingsOfVeles" xml:space="preserve">
     <value>Wings Of Veles</value>
         <comment>Combat Movement Robber</comment>
   </data>
   <data name="WingsOfVeles_Description" xml:space="preserve">
-    <value />
-        <comment>Combat Movement Robber</comment>
+      <value>Increases the damage of any attacking moves by 1. And reduces the cost of all attacking skills by 1 energy.</value>
+      <comment>Combat Movement Robber</comment>
   </data>
   <data name="Wisp" xml:space="preserve">
     <value>Will-o-Wisp</value>
