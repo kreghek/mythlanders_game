@@ -5,6 +5,7 @@ using System.Linq;
 using Client.Assets.StageItems;
 using Client.Core.CampaignRewards;
 
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Graphs;
 
 namespace Client.Core.Campaigns;
@@ -30,7 +31,26 @@ internal sealed class HeroCampaign
 
     private IReadOnlyCollection<HeroCampaignState> CreateCampaignHeroes(IReadOnlyCollection<HeroState> heroes)
     {
-        throw new NotImplementedException();
+        var list = new List<HeroCampaignState>();
+
+        var openList = new List<FieldCoords>
+        {
+            new FieldCoords(0,0),
+            new FieldCoords(0,1),
+            new FieldCoords(0,2),
+            new FieldCoords(1,0),
+            new FieldCoords(1,1),
+            new FieldCoords(1,2),
+            
+        };
+
+        foreach (var hero in heroes)
+        {
+            var rolledPosition = dice
+            list.Add(new HeroCampaignState(hero, new FormationSlot()));
+        }
+        
+        return list;
     }
 
     /// <summary>
