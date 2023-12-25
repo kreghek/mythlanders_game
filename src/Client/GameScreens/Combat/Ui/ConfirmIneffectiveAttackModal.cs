@@ -61,6 +61,14 @@ internal sealed class ConfirmIneffectiveAttackModal : ModalDialogBase
         _confirmButton.Draw(spriteBatch);
     }
 
+    protected override void UpdateContent(GameTime gameTime, IScreenProjection screenProjection)
+    {
+        base.UpdateContent(gameTime, screenProjection);
+
+        _confirmButton.Update(screenProjection);
+        _rejectButton.Update(screenProjection);
+    }
+
     private Vector2 AlignTextToParentCenter(Vector2 warningTextSize)
     {
         return (ContentRect.Size.ToVector2() - warningTextSize) * 0.5f + ContentRect.Location.ToVector2();

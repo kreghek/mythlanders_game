@@ -1,0 +1,49 @@
+{
+  "textureAtlas": {
+    "texture": "..\\Sprites\\GameObjects\\Characters\\Monsters\\Black\\AmbushDrone\\Full.png",
+    "regionWidth": 128,
+    "regionHeight": 128
+  },
+  "cycles": {
+    "prepare-rifle": {
+      "frames": [0,1],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "rifle-shot": {
+      "frames": [0,1],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "rifle-wait": {
+      "frames": [0,1],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "prepare-to-charge": {
+      "frames": [0,1],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "breakthrough": {
+      "frames": [0,1],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "hit": {
+      "frames": [0,1,2],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "hit-complete": {
+      "frames": [0,1],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "back": {
+      "frames": [0,1],
+      "isLooping": false,
+      "frameDuration": 0.2
+    }
+  }
+}

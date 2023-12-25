@@ -207,7 +207,7 @@ internal class GameObjectContentStorage
             { GameObjectSoundType.SwordSlash, LoadSkillEffect("SwordHitEffect") },
             { GameObjectSoundType.ArmedMove, LoadSkillEffect("ArmedMove") },
             { GameObjectSoundType.Defence, LoadSkillEffect("ShieldEffect3") },
-            { GameObjectSoundType.EnergoShot, LoadSkillEffect("BowStrikeEffect") },
+            { GameObjectSoundType.ImpulseBowShot, LoadSkillEffect("BowStrikeEffect") },
             { GameObjectSoundType.Heal, LoadSkillEffect("HealEffect") },
             { GameObjectSoundType.StaffHit, LoadSkillEffect("StaffHitEffect") },
             { GameObjectSoundType.MagicDust, LoadSkillEffect("DustEffect") },
@@ -224,6 +224,7 @@ internal class GameObjectContentStorage
             { GameObjectSoundType.FrogHornsUp, LoadSkillEffect("FrogHornsUp") },
             { GameObjectSoundType.Gunshot, LoadSkillEffect("Gunshot") },
             { GameObjectSoundType.AssaultRifleBurst, LoadSkillEffect("AssaultRifleBurst") },
+            { GameObjectSoundType.CyberRifleShot, LoadSkillEffect("CyberRifleShot") },
             { GameObjectSoundType.AmazonWarCry, LoadSkillEffect("AmazonWarCry") }
         };
 
@@ -260,7 +261,8 @@ internal class GameObjectContentStorage
                 UnitName.VolkolakWarrior,
                 contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/WolfWarriorShapeShift")
             },
-            { UnitName.Volkolak, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") }
+            { UnitName.Volkolak, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") },
+            { UnitName.AmbushDrone, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/AmbushDrone") }
         };
 
         _shadowTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SimpleObjectShadow");
@@ -330,7 +332,9 @@ internal class GameObjectContentStorage
             { "Robber", GetAnimationInner("Robber") },
 
             { "DigitalWolf", GetAnimationInner("DigitalWolf") },
-            { "Aspid", GetAnimationInner("Aspid") }
+            { "Aspid", GetAnimationInner("Aspid") },
+
+            { "AmbushDrone", GetAnimationInner("AmbushDrone") }
         };
     }
 

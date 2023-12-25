@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Client.Core;
-using Client.Core.AnimationFrameSets;
 using Client.Engine;
 
 using CombatDicesTeam.Combats;
+
+using GameClient.Engine.Animations;
 
 namespace Client.Assets.CombatMovements;
 

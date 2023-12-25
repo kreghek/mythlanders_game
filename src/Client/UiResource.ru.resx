@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AcceptChallengeButtonTitle" xml:space="preserve">
+    <value>Принять испытание</value>
+  </data>
   <data name="AdjutantButtonTitle" xml:space="preserve">
     <value>Адъютант</value>
   </data>
@@ -147,6 +150,12 @@
   <data name="BiomeLevelText" xml:space="preserve">
     <value>Ур.</value>
   </data>
+  <data name="CampaignPenaltiesLabelText" xml:space="preserve">
+    <value>Штрафы</value>
+  </data>
+  <data name="CampaignRewardsLabelText" xml:space="preserve">
+    <value>Награда</value>
+  </data>
   <data name="CampaignSelectButtonTitle" xml:space="preserve">
     <value>СТАРТ</value>
   </data>
@@ -159,8 +168,14 @@
   <data name="CampaignsJobTitleSid" xml:space="preserve">
     <value>Пройти любые кампании</value>
   </data>
+  <data name="CampaignStageDisplayNameChallenge" xml:space="preserve">
+    <value>Испытание</value>
+  </data>
   <data name="CampaignStageDisplayNameCombat" xml:space="preserve">
     <value>Бой</value>
+  </data>
+  <data name="CampaignStageDisplayNameCrisis" xml:space="preserve">
+    <value>Кризис</value>
   </data>
   <data name="CampaignStageDisplayNameFinish" xml:space="preserve">
     <value>Завршить кампанию</value>
@@ -378,6 +393,15 @@
   <data name="InventoryButtonTitle" xml:space="preserve">
     <value>Инвентарь</value>
   </data>
+  <data name="JobTypeCombats" xml:space="preserve">
+    <value>Провести боев</value>
+  </data>
+  <data name="JobTypeCompleteCampans" xml:space="preserve">
+    <value>Завершить кампаний</value>
+  </data>
+  <data name="JobTypeDefeat" xml:space="preserve">
+    <value>Уничтожить врагов</value>
+  </data>
   <data name="LevelUpButtonTitle" xml:space="preserve">
     <value>Повысить</value>
   </data>
@@ -497,6 +521,12 @@
   </data>
   <data name="SkipButtonTitle" xml:space="preserve">
     <value>Пропустить</value>
+  </data>
+  <data name="SkipMapPresentationHintText" xml:space="preserve">
+    <value>Нажми [SPACE] чтобы пропустить</value>
+  </data>
+  <data name="SkipMapPresentationHintText_Duplicate[1]" xml:space="preserve">
+    <value>Нажми [SPACE] чтобы пропустить</value>
   </data>
   <data name="SkipTutorialButtonTitle" xml:space="preserve">
     <value>Пропустить обучение</value>

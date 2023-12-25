@@ -1,33 +1,36 @@
 using Client.Core;
-using Client.Engine;
+
+using GameClient.Engine.Animations;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Combat.GameObjects;
 
-internal sealed class CorpseGameObject : EwarRenderableBase
+internal sealed class CorpseGameObject
 {
-    private readonly ICamera2DAdapter _camera;
-    private readonly GameObjectContentStorage _gameObjectContentStorage;
+    private readonly IAnimationFrameSet _deathAnimation;
     private readonly UnitGraphics _graphics;
     private double _counter;
 
     private bool _startToDeath;
     private bool _startToWound;
 
-    public CorpseGameObject(UnitGraphics graphics, ICamera2DAdapter camera,
-        GameObjectContentStorage gameObjectContentStorage)
+    public CorpseGameObject(UnitGraphics graphics, IAnimationFrameSet deathAnimation)
     {
         _graphics = graphics;
-        _camera = camera;
-        _gameObjectContentStorage = gameObjectContentStorage;
+        _deathAnimation = deathAnimation;
     }
 
-    public override void Update(GameTime gameTime)
-    {
-        base.Update(gameTime);
+    public bool IsComplete => _counter > 2;
 
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        _graphics.Draw(spriteBatch);
+    }
+
+    public void Update(GameTime gameTime)
+    {
         _graphics.Update(gameTime);
 
         _counter += gameTime.ElapsedGameTime.TotalSeconds;
@@ -51,51 +54,8 @@ internal sealed class CorpseGameObject : EwarRenderableBase
         }
     }
 
-    protected override void DoDraw(SpriteBatch spriteBatch, float zindex)
-    {
-        base.DoDraw(spriteBatch, zindex);
-
-        _graphics.ShowActiveMarker = false;
-
-        if (_graphics.IsDamaged)
-        {
-            var allWhite = _gameObjectContentStorage.GetAllWhiteEffect();
-            spriteBatch.End();
-
-            spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
-                blendState: BlendState.AlphaBlend,
-                samplerState: SamplerState.PointClamp,
-                depthStencilState: DepthStencilState.None,
-                rasterizerState: RasterizerState.CullNone,
-                transformMatrix: _camera.GetViewTransformationMatrix(),
-                effect: allWhite);
-        }
-        else
-        {
-            spriteBatch.End();
-
-            spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
-                blendState: BlendState.AlphaBlend,
-                samplerState: SamplerState.PointClamp,
-                depthStencilState: DepthStencilState.None,
-                rasterizerState: RasterizerState.CullNone,
-                transformMatrix: _camera.GetViewTransformationMatrix());
-        }
-
-        _graphics.Draw(spriteBatch);
-
-        spriteBatch.End();
-
-        spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
-            blendState: BlendState.AlphaBlend,
-            samplerState: SamplerState.PointClamp,
-            depthStencilState: DepthStencilState.None,
-            rasterizerState: RasterizerState.CullNone,
-            transformMatrix: _camera.GetViewTransformationMatrix());
-    }
-
     internal float GetZIndex()
     {
-        return _graphics.Root.Position.Y;
+        return _graphics.Root.RootNode.Position.Y;
     }
 }

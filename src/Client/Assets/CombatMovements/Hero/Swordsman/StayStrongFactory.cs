@@ -1,14 +1,16 @@
-﻿using CombatDicesTeam.Combats;
+﻿using Client.Engine;
+using Client.GameScreens;
+
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Combats.Effects;
-using CombatDicesTeam.GenericRanges;
 
 using Core.Combats.CombatantStatuses;
 using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats;
-using GameAssets.Combats.CombatMovementEffects;
-using GameAssets.Combats.TargetSelectors;
+using GameAssets.Combats.CombatantStatuses;
 
 using JetBrains.Annotations;
 
@@ -28,31 +30,50 @@ internal class StayStrongFactory : CombatMovementFactoryBase
             new CombatMovementEffectConfig(
                 new IEffect[]
                 {
-                    new ChangeStatEffect(
-                        new CombatantEffectSid(Sid),
-                        new SelfTargetSelector(),
-                        CombatantStatTypes.Defense,
-                        3,
-                        new ToNextCombatantTurnEffectLifetimeFactory()),
                     new AddCombatantStatusEffect(new SelfTargetSelector(),
                         new DelegateCombatStatusFactory(() =>
-                            new ConterAttackCombatantStatus(new CombatantEffectSid("ConterAttack"),
-                                new ToNextCombatantTurnEffectLifetime()))),
-                    new DamageEffectWrapper(new AttackerTargetSelector(), DamageType.Normal,
-                        GenericRange<int>.CreateMono(2))
+                            new DefensiveStanceCombatantStatusWrapper(
+                                new AutoRestoreChangeStatCombatantStatus(
+                                    new ChangeStatCombatantStatus(
+                                        new CombatantEffectSid(Sid),
+                                        new ToNextCombatantTurnEffectLifetime(),
+                                        CombatantStatTypes.Defense,
+                                        3))
+                            )
+                        )
+                    )
                 },
                 new IEffect[]
                 {
-                    new ChangeStatEffect(
-                        new CombatantEffectSid(Sid),
-                        new SelfTargetSelector(),
-                        CombatantStatTypes.Defense,
-                        1,
-                        new ToEndOfCurrentRoundEffectLifetimeFactory())
+                    new AddCombatantStatusEffect(new SelfTargetSelector(),
+                        new DelegateCombatStatusFactory(() =>
+                            new DefensiveStanceCombatantStatusWrapper(
+                                new AutoRestoreChangeStatCombatantStatus(
+                                    new ChangeStatCombatantStatus(
+                                        new CombatantEffectSid(Sid),
+                                        new ToEndOfCurrentRoundEffectLifetime(),
+                                        CombatantStatTypes.Defense,
+                                        1))
+                            )
+                        )
+                    )
                 })
         )
         {
             Tags = CombatMovementTags.AutoDefense
         };
+    }
+
+    public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+    {
+        var swordsmanAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Swordsman");
+
+        var defenseAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "defense");
+        var defenseSoundEffect =
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Defence);
+
+        return CommonCombatVisualization.CreateSelfBuffVisualization(actorAnimator, movementExecution,
+            visualizationContext, defenseAnimation, defenseSoundEffect);
     }
 }

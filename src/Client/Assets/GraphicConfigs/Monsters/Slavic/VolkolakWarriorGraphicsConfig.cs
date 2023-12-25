@@ -4,6 +4,8 @@ using System.IO;
 using Client.Assets.CombatMovements;
 using Client.Core;
 
+using GameClient.Engine.Animations;
+
 using Microsoft.Xna.Framework;
 
 namespace Client.Assets.GraphicConfigs.Monsters.Slavic;
@@ -13,7 +15,6 @@ internal sealed class VolkolakWarriorGraphicsConfig : SlavicMonsterGraphicConfig
     public VolkolakWarriorGraphicsConfig(UnitName unit) : base(unit)
     {
         StatsPanelOrigin = new Vector2(-16, 64 + 8);
-        ShadowOrigin = new Vector2(-16, -16);
     }
 
     public override string ThumbnailPath => Path.Combine(CommonConstants.PathToCharacterSprites, "Monsters",

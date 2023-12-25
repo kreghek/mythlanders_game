@@ -6,12 +6,12 @@
   },
   "cycles": {
     "prepare-arrow-rain": {
-      "frames": [0,1,2,3,4,5,6,7],
+      "frames": [31,30,29,28,27],
       "isLooping": false,
-      "frameDuration": 0.2
+      "frameDuration": 0.1
     },
     "launch-arrow-rain": {
-      "frames": [24,25,26],
+      "frames": [26,25,24],
       "isLooping": false,
       "frameDuration": 0.15
     },
@@ -26,7 +26,52 @@
       "frameDuration": 0.15
     },
     "wait-arrow-rain": {
-      "frames": [0],
+      "frames": [0,1,2,3,4,5,6,7],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "prepare-bow": {
+      "frames": [8],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "bow-shot": {
+      "frames": [9,10,11,12,13,14,15],
+      "isLooping": false,
+      "frameDuration": 0.0800000057
+    },
+    "bow-wait": {
+      "frames": [0,1,2,3,4,5,6,7],
+      "isLooping": false,
+      "frameDuration": 0.1
+    },
+    "prepare-to-charge": {
+      "frames": [0,1,2,3,4,5,6,7],
+      "isLooping": false,
+      "frameDuration": 0.09
+    },
+    "breakthrough": {
+      "frames": [0,1,2,3,4,5,6,7],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "hit": {
+      "frames": [0,1,2,3,4,5,6,7],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "hit-complete": {
+      "frames": [0,1,2,3,4,5,6,7],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "back": {
+      "frames": [0,1,2,3,4,5,6,7],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "buff": {
+      "frames": [16,17,18,19,20,21,22,23],
       "isLooping": false,
       "frameDuration": 0.2
     }

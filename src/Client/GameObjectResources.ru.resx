@@ -181,7 +181,7 @@
     <value>Балтийский шторм</value>
   </data>
   <data name="BalticThunder_Description" xml:space="preserve">
-    <value>Наносит урон 4ед. ближайшему в линии противнику.</value>
+    <value>Наносит урон 3ед. ближайшему в линии противнику.</value>
   </data>
   <data name="Battleground" xml:space="preserve">
     <value>Поле брани</value>
@@ -266,6 +266,9 @@
   <data name="Comissar" xml:space="preserve">
     <value>Сардо</value>
   </data>
+  <data name="CoverOfDew" xml:space="preserve">
+    <value>Покров Росы</value>
+  </data>
   <data name="CriticalHit" xml:space="preserve">
     <value>Критический удар</value>
   </data>
@@ -316,6 +319,9 @@
 - Все герои получают слабый урон.
 - Где-то далеко в пространстве и времени слышен потусторонний выдох</value>
   </data>
+  <data name="DevastatingPaw" xml:space="preserve">
+    <value>Опустошающая Лапа</value>
+  </data>
   <data name="DieBySword" xml:space="preserve">
     <value>От меча и погибни!</value>
   </data>
@@ -354,6 +360,12 @@
   </data>
   <data name="EnergeticBite_Description" xml:space="preserve">
     <value>Наносит 3 ед. урона щитам самому заряженному противнику и уходит в тыл.</value>
+  </data>
+  <data name="EnergeticSuperiority" xml:space="preserve">
+    <value>Энергетическое Превосходство</value>
+  </data>
+  <data name="EnergeticSuperiority_Description" xml:space="preserve">
+    <value>Наносит 3 ед. урона по щитам самого заряженного противника в тылу.</value>
   </data>
   <data name="EnergyShot" xml:space="preserve">
     <value>Энерго-выстрел</value>
@@ -458,6 +470,9 @@
   <data name="Hq" xml:space="preserve">
     <value>Штаб</value>
   </data>
+  <data name="HumanSlayer" xml:space="preserve">
+    <value>Человекоубийца</value>
+  </data>
   <data name="Hunt" xml:space="preserve">
     <value>Да начнется охота!</value>
   </data>
@@ -528,6 +543,9 @@
   </data>
   <data name="LookOut_Description" xml:space="preserve">
     <value>Увеличивает защиту ближайшего союзника в столбце на 3 до конца хода союзника. Сам мечник перемещается в авангард. При автосрабатывании, увеличивает свою защиту на 1ед.</value>
+  </data>
+  <data name="LordOfNonHumanRealm" xml:space="preserve">
+    <value>Владыка нечеловеческого царства</value>
   </data>
   <data name="MadnessWithinEyes" xml:space="preserve">
     <value>Безумие в глазах</value>
@@ -640,8 +658,11 @@
   <data name="Rest_CrisisAftermath" xml:space="preserve">
     <value>Один герой полностью отдыхает, пока остальные начеку</value>
   </data>
+  <data name="RevengeOfWildEye" xml:space="preserve">
+    <value>Возмездие дикого ока</value>
+  </data>
   <data name="RiseYourSwords" xml:space="preserve">
-    <value>Поднимите свои мечи!</value>
+    <value>Мечи вверх!</value>
   </data>
   <data name="RiseYourSwords_Description" xml:space="preserve">
     <value>Увеличивает урон атакующих движений ближнего боя на 1 ед. у всех союзников на 2 хода.</value>
@@ -677,6 +698,9 @@
     <value>Языческое ожерелье, полное мистики.
 Увеличивает HP на 10% за уровень.</value>
   </data>
+  <data name="snow_prop" xml:space="preserve">
+    <value>Снег</value>
+  </data>
   <data name="Spearman" xml:space="preserve">
     <value>Пинг</value>
   </data>
@@ -709,7 +733,7 @@
 - В отряде может возникнуть дизорганизация.</value>
   </data>
   <data name="StayStrong" xml:space="preserve">
-    <value>Будь сильным</value>
+    <value>Стоять на смерть!</value>
   </data>
   <data name="StayStrong_Description" xml:space="preserve">
     <value>Увеличивает свою защиту на 3ед. до конца раунда. При авто-срабатывании, увеличивает свою защиту на 1ед. до конца раунда.</value>
@@ -799,7 +823,7 @@
     <value>Ветренное колесо</value>
   </data>
   <data name="WindWheel_Description" xml:space="preserve">
-    <value>Наносит урон 4 ед. самому сильному противнику с меткой. И пропускает следующий ход.</value>
+    <value>Наносит урон 4 ед. самому сильному противнику. И пропускает следующий ход.</value>
   </data>
   <data name="WingsOfVeles" xml:space="preserve">
     <value>Крылья Велеса</value>
@@ -826,20 +850,5 @@
   </data>
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
-  </data>
-  <data name="DevastatingPaw" xml:space="preserve">
-    <value>Опустошающая Лапа</value>
-  </data>
-  <data name="CoverOfDew" xml:space="preserve">
-    <value>Покров Росы</value>
-  </data>
-  <data name="HumanSlayer" xml:space="preserve">
-    <value>Человекоубийца</value>
-  </data>
-  <data name="LordOfNonHumanRealm" xml:space="preserve">
-    <value>Владыка нечеловеческого царства</value>
-  </data>
-  <data name="RevengeOfWildEye" xml:space="preserve">
-    <value>Возмездие дикого ока</value>
   </data>
 </root>

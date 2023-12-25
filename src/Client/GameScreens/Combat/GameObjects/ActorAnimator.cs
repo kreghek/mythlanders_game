@@ -1,7 +1,9 @@
 using Client.Core;
 using Client.Engine;
 
-using Microsoft.Xna.Framework;
+using GameClient.Engine.Animations;
+
+using MonoGame.Extended.SceneGraphs;
 
 namespace Client.GameScreens.Combat.GameObjects;
 
@@ -11,11 +13,11 @@ internal sealed class ActorAnimator : IActorAnimator
 
     public ActorAnimator(UnitGraphics unitGraphics)
     {
-        GraphicRoot = unitGraphics.Root;
+        GraphicRoot = unitGraphics.Root.RootNode;
         _unitGraphics = unitGraphics;
     }
 
-    public SpriteContainer GraphicRoot { get; }
+    public SceneNode GraphicRoot { get; }
 
     public IAnimationFrameSet GetIdleState()
     {
@@ -25,9 +27,5 @@ internal sealed class ActorAnimator : IActorAnimator
     public void PlayAnimation(IAnimationFrameSet animation)
     {
         _unitGraphics.PlayAnimation(animation);
-    }
-
-    public void Update(GameTime gameTime)
-    {
     }
 }

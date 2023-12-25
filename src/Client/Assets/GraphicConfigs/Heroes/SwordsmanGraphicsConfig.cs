@@ -2,6 +2,8 @@
 
 using Client.Core;
 
+using GameClient.Engine.Animations;
+
 namespace Client.Assets.GraphicConfigs.Heroes;
 
 internal sealed class SwordsmanGraphicsConfig : HeroGraphicConfig
@@ -33,6 +35,10 @@ internal sealed class SwordsmanGraphicsConfig : HeroGraphicConfig
             {
                 PredefinedAnimationSid.Wound,
                 AnimationFrameSetFactory.CreateSequential(startFrameIndex: 40, frameCount: 8, fps: 8, isLoop: false)
+            },
+            {
+                PredefinedAnimationSid.Defense,
+                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 8, fps: 16, isLoop: false)
             },
             {
                 PredefinedAnimationSid.Death,

@@ -2,12 +2,17 @@
 
 using Client.Core;
 
+using GameClient.Engine.Animations;
+
+using Microsoft.Xna.Framework;
+
 namespace Client.Assets.GraphicConfigs.Heroes;
 
 internal sealed class RobberGraphicsConfig : HeroGraphicConfig
 {
     public RobberGraphicsConfig(UnitName name) : base(name)
     {
+        LaunchPoint = new Vector2(-128, 64);
     }
 
     public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Client.Assets;
 using Client.Assets.StoryPointJobs;
 
 using CombatDicesTeam.Dices;
@@ -11,10 +12,9 @@ internal sealed class Globe
 {
     private readonly IList<IStoryPoint> _activeStoryPointsList;
 
-    //private readonly IBiomeGenerator _biomeGenerator;
     private readonly List<IGlobeEvent> _globeEvents;
 
-    public Globe( /*IBiomeGenerator biomeGenerator,*/ Player player)
+    public Globe(Player player)
     {
         _globeEvents = new List<IGlobeEvent>();
         _activeStoryPointsList = new List<IStoryPoint>();
@@ -30,9 +30,16 @@ internal sealed class Globe
         //var biomes = biomeGenerator.GenerateStartState();
 
         GlobeLevel = new GlobeLevel();
+
+        CurrentAvailableLocations = new List<ILocationSid>
+        {
+            LocationSids.Thicket
+        };
     }
 
     public IEnumerable<IStoryPoint> ActiveStoryPoints => _activeStoryPointsList;
+
+    public IList<ILocationSid> CurrentAvailableLocations { get; }
 
 
     public IReadOnlyCollection<IGlobeEvent> GlobeEvents => _globeEvents;
@@ -69,6 +76,38 @@ internal sealed class Globe
         globalEvent.Initialize(this);
     }
 
+    public IEnumerable<IJobExecutable> GetCurrentJobExecutables()
+    {
+        foreach (var storyPoint in ActiveStoryPoints)
+        {
+            yield return storyPoint;
+        }
+
+        if (Player.Challenge is not null)
+        {
+            yield return Player.Challenge;
+        }
+    }
+
+    public void ResetCombatScopeJobsProgress()
+    {
+        foreach (var executable in GetCurrentJobExecutables())
+        {
+            if (executable.CurrentJobs is null)
+            {
+                continue;
+            }
+
+            foreach (var job in executable.CurrentJobs)
+            {
+                if (ReferenceEquals(job.Scheme.Scope, JobScopeCatalog.Combat))
+                {
+                    job.Progress = 0;
+                }
+            }
+        }
+    }
+
     public void Update(IDice dice, IEventCatalog eventCatalog)
     {
         UpdateGlobeEvents();
@@ -79,25 +118,6 @@ internal sealed class Globe
     public void UpdateNodes(IDice dice, IEventCatalog eventCatalog)
     {
         Updated?.Invoke(this, EventArgs.Empty);
-    }
-
-    private void ResetCombatScopeJobsProgress()
-    {
-        foreach (var storyPoint in ActiveStoryPoints)
-        {
-            if (storyPoint.CurrentJobs is null)
-            {
-                continue;
-            }
-
-            foreach (var job in storyPoint.CurrentJobs)
-            {
-                if (job.Scheme.Scope == JobScopeCatalog.Combat)
-                {
-                    job.Progress = 0;
-                }
-            }
-        }
     }
 
     private void StoryPoint_Completed(object? sender, EventArgs e)

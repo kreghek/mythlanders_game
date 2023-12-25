@@ -1,1 +1,2 @@
 Mode=Demo
+ShieldSound=Shield-7

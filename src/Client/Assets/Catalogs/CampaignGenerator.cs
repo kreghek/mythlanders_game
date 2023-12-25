@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.GlobalEffects;
 using Client.Core;
+using Client.Core.CampaignRewards;
 using Client.Core.Campaigns;
 
 using CombatDicesTeam.Dices;
@@ -21,7 +23,15 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         _dice = dice;
     }
 
-    private HeroCampaign CreateCampaign(ILocationSid locationSid)
+    private static IReadOnlyCollection<ICampaignReward> CreateFailurePenalties()
+    {
+        return new[]
+        {
+            new AddGlobalEffectCampaignReward(new DecreaseDamageGlobeEvent())
+        };
+    }
+
+    private HeroCampaignLocation CreateGrindCampaign(ILocationSid locationSid, Globe globe)
     {
         var shortTemplateGraph = _wayTemplatesCatalog.CreateGrindShortTemplate(locationSid);
 
@@ -31,45 +41,81 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var campaignGraph = graphGenerator.Create();
 
-        var seed = _dice.RollD100();
-
-        var campaign = new HeroCampaign(locationSid, campaignGraph, seed);
+        var campaign = new HeroCampaignLocation(locationSid, campaignGraph);
 
         return campaign;
     }
 
-    private static ILocationSid[] GetAvailableLocations()
+    private HeroCampaignLocation CreateRescueCampaign(ILocationSid locationSid, Globe globe)
     {
-        return new[]
-        {
-            LocationSids.Thicket
-            //LocationSids.Monastery,
-            //LocationSids.ShipGraveyard,
-            //LocationSids.Desert,
+        var shortTemplateGraph = _wayTemplatesCatalog.CreateRescueShortTemplate(locationSid);
 
-            //LocationSids.Swamp,
+        var graphGenerator =
+            new TemplateBasedGraphGenerator<ICampaignStageItem>(
+                new TemplateConfig<ICampaignStageItem>(shortTemplateGraph));
 
-            //LocationSids.Battleground
-        };
+        var campaignGraph = graphGenerator.Create();
+
+        var campaign = new HeroCampaignLocation(locationSid, campaignGraph);
+
+        return campaign;
+    }
+
+    private HeroCampaignLocation CreateScoutCampaign(ILocationSid locationSid, Globe globe)
+    {
+        var shortTemplateGraph = _wayTemplatesCatalog.CreateScoutShortTemplate(locationSid);
+
+        var graphGenerator =
+            new TemplateBasedGraphGenerator<ICampaignStageItem>(
+                new TemplateConfig<ICampaignStageItem>(shortTemplateGraph));
+
+        var campaignGraph = graphGenerator.Create();
+
+        var campaign = new HeroCampaignLocation(locationSid, campaignGraph);
+
+        return campaign;
+    }
+
+    private static IReadOnlyCollection<HeroState> RollHeroes(IReadOnlyCollection<HeroState> heroes, IDice dice)
+    {
+        var openList = new List<HeroState>(heroes);
+
+        return dice.RollFromList(openList, 3).ToArray();
     }
 
     /// <summary>
     /// Create set of different campaigns
     /// </summary>
-    public IReadOnlyList<HeroCampaign> CreateSet()
+    public IReadOnlyList<HeroCampaignLaunch> CreateSet(Globe currentGlobe)
     {
-        var availableLocationSids = GetAvailableLocations();
+        var availableLocationSids = currentGlobe.CurrentAvailableLocations.ToArray();
 
         var rollCount = Math.Min(availableLocationSids.Length, 3);
 
         var selectedLocations = _dice.RollFromList(availableLocationSids, rollCount).ToList();
 
-        var list = new List<HeroCampaign>();
+        var list = new List<HeroCampaignLaunch>();
+
+        var availableCampaignDelegates = new List<Func<ILocationSid, Globe, HeroCampaignLocation>>
+        {
+            CreateGrindCampaign,
+            CreateScoutCampaign,
+            CreateRescueCampaign
+        };
+
         foreach (var locationSid in selectedLocations)
         {
-            var campaign = CreateCampaign(locationSid);
+            var rolledLocationDelegate = _dice.RollFromList(availableCampaignDelegates);
 
-            list.Add(campaign);
+            var campaignSource = rolledLocationDelegate(locationSid, currentGlobe);
+
+            var heroes = RollHeroes(currentGlobe.Player.Heroes, _dice);
+
+            var penalties = CreateFailurePenalties();
+
+            var campaignLaunch = new HeroCampaignLaunch(campaignSource, heroes, penalties);
+
+            list.Add(campaignLaunch);
         }
 
         return list;

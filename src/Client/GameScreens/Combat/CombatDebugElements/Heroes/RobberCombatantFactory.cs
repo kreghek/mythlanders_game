@@ -24,15 +24,15 @@ public class RobberCombatantFactory : IHeroCombatantFactory
     {
         var movementPool = new List<CombatMovement>
         {
-            CreateMovement<BalticThunderFactory>(),
-
             CreateMovement<ArrowsOfMoranaFactory>(),
 
-            CreateMovement<WingsOfVelesFactory>(), // tracker
+            CreateMovement<BalticThunderFactory>(),
 
-            CreateMovement<UndercutValuesFactory>(), // just
+            CreateMovement<UndercutValuesFactory>(),
 
-            CreateMovement<WindWheelFactory>() // bring
+            CreateMovement<WingsOfVelesFactory>(),
+
+            CreateMovement<WindWheelFactory>()
         };
 
         var heroSequence = new CombatMovementSequence();

@@ -6,5 +6,5 @@ namespace Client.Core;
 
 internal interface ICampaignGenerator
 {
-    IReadOnlyList<HeroCampaign> CreateSet();
+    IReadOnlyList<HeroCampaignLaunch> CreateSet(Globe currentGlobe);
 }

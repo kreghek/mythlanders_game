@@ -1,4 +1,7 @@
-﻿using CombatDicesTeam.Combats;
+﻿using Client.Engine;
+using Client.GameScreens;
+
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.Effects;
 
@@ -44,5 +47,18 @@ internal class LookOutFactory : CombatMovementFactoryBase
         {
             Tags = CombatMovementTags.AutoDefense
         };
+    }
+
+    public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
+    {
+        var swordsmanAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Swordsman");
+
+        var defenseAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "defense");
+        var defenseSoundEffect =
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Defence);
+
+        return CommonCombatVisualization.CreateSelfBuffVisualization(actorAnimator, movementExecution,
+            visualizationContext, defenseAnimation, defenseSoundEffect);
     }
 }

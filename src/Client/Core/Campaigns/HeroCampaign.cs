@@ -1,26 +1,52 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+
+using Client.Assets.StageItems;
+using Client.Core.CampaignRewards;
 
 using CombatDicesTeam.Graphs;
 
 namespace Client.Core.Campaigns;
 
+/// <summary>
+/// Mutable state of a campaign exploring.
+/// </summary>
 internal sealed class HeroCampaign
 {
-    public HeroCampaign(ILocationSid location, IGraph<ICampaignStageItem> stages, int seed)
+    public HeroCampaign(IReadOnlyCollection<HeroState> heroes, HeroCampaignLocation location,
+        IReadOnlyCollection<ICampaignReward> failurePenalties, int visualizationSeed)
     {
+        Heroes = heroes;
         Location = location;
-        Stages = stages;
-        Seed = seed;
 
+        ActualRewards = location.Stages.GetAllNodes().Select(x => x.Payload)
+            .OfType<IRewardCampaignStageItem>().First().GetEstimateRewards(location);
+        ActualFailurePenalties = failurePenalties;
+
+        VisualizationSeed = visualizationSeed;
         Path = new List<IGraphNode<ICampaignStageItem>>();
     }
 
-    public IGraphNode<ICampaignStageItem>? CurrentStage { get; set; }
+    /// <summary>
+    /// Effect which will apply if heroes fail campaign.
+    /// Can be modified during campaign.
+    /// </summary>
+    public IReadOnlyCollection<ICampaignReward> ActualFailurePenalties { get; }
 
-    public ILocationSid Location { get; }
+    /// <summary>
+    /// Effect which will apply if heroes win campaign.
+    /// Can be modified during campaign.
+    /// </summary>
+    //TODO Add modifiers of effects
+    public IReadOnlyCollection<ICampaignReward> ActualRewards { get; }
+
+    public IGraphNode<ICampaignStageItem>? CurrentStage { get; set; }
+    public IReadOnlyCollection<HeroState> Heroes { get; }
+
+    public HeroCampaignLocation Location { get; }
+
 
     public IList<IGraphNode<ICampaignStageItem>> Path { get; }
-    public int Seed { get; }
 
-    public IGraph<ICampaignStageItem> Stages { get; }
+    public int VisualizationSeed { get; }
 }

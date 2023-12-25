@@ -13,7 +13,7 @@ jobs:
 
     env:
       MGFXC_WINE_PATH: /home/runner/.winemonogame
-      GAME_VERSION: 0.2
+      GAME_VERSION: 0.3
 
     strategy:
       matrix:

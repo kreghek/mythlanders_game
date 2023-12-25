@@ -1,4 +1,5 @@
 using Client.Engine;
+using Client.GameScreens;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantStatuses;
@@ -33,12 +34,16 @@ internal class WingsOfVelesFactory : CombatMovementFactoryBase
         );
     }
 
-    /// <inheritdoc />
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
-        CombatMovementExecution movementExecution,
-        ICombatMovementVisualizationContext visualizationContext)
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
-        return CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
-            visualizationContext);
+        var swordsmanAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Robber");
+
+        var defenseAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "buff");
+        var defenseSoundEffect =
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Defence);
+
+        return CommonCombatVisualization.CreateSelfBuffVisualization(actorAnimator, movementExecution,
+            visualizationContext, defenseAnimation, defenseSoundEffect);
     }
 }

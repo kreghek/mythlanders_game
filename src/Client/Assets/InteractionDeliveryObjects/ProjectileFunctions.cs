@@ -1,4 +1,4 @@
-using Client.Engine;
+using GameClient.Engine.MoveFunctions;
 
 namespace Client.Assets.InteractionDeliveryObjects;
 

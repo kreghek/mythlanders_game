@@ -4,5 +4,5 @@ namespace Client.GameScreens;
 
 internal class TestamentConstants
 {
-    public static Point CombatFieldSize { get; } = new Point(1000, 484);
+    public static Point CombatFieldSize { get; } = new Point(1200, 490);
 }

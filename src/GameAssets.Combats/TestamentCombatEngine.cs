@@ -5,7 +5,8 @@ namespace GameAssets.Combats;
 
 public sealed class TestamentCombatEngine : CombatEngineBase
 {
-    public TestamentCombatEngine(IRoundQueueResolver roundQueueResolver, IDice dice) : base(dice, roundQueueResolver)
+    public TestamentCombatEngine(IRoundQueueResolver roundQueueResolver, IDice dice) : base(dice, roundQueueResolver,
+        new LimitedRoundsCombatStateStrategy(new EliminatingCombatStateStrategy(), 10))
     {
     }
 
@@ -14,7 +15,7 @@ public sealed class TestamentCombatEngine : CombatEngineBase
         SpendCombatMovementResources(movement);
 
         var effectContext =
-            new EffectCombatContext(CurrentCombatant, Field, _dice, HandleCombatantDamagedToStat,
+            new EffectCombatContext(CurrentCombatant, Field, Dice, HandleCombatantDamagedToStat,
                 HandleSwapFieldPositions, this);
 
         var effectImposeItems = new List<CombatEffectImposeItem>();
@@ -175,7 +176,7 @@ public sealed class TestamentCombatEngine : CombatEngineBase
 
     private void RestoreHandsOfAllCombatants()
     {
-        foreach (var combatant in _allCombatantList)
+        foreach (var combatant in AllCombatantList)
         {
             RestoreCombatantHand(combatant);
         }
@@ -193,7 +194,7 @@ public sealed class TestamentCombatEngine : CombatEngineBase
 
     private void RestoreStatOfAllCombatants(ICombatantStatType statType)
     {
-        var combatants = _allCombatantList.Where(x => !x.IsDead);
+        var combatants = AllCombatantList.Where(x => !x.IsDead);
         foreach (var combatant in combatants)
         {
             var stat = combatant.Stats.SingleOrDefault(x => Equals(x.Type, statType));

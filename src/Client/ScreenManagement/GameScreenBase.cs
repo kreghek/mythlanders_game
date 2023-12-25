@@ -11,13 +11,13 @@ namespace Client.ScreenManagement;
 /// <summary>
 /// This is the base class for all game scenes.
 /// </summary>
-internal abstract class GameScreenBase : EwarRenderableBase, IScreen
+internal abstract class GameScreenBase : IScreen
 {
     private readonly IList<IModalWindow> _modals;
 
     private bool _isInitialized;
 
-    public GameScreenBase(TestamentGame game)
+    protected GameScreenBase(TestamentGame game)
     {
         Game = game;
 
@@ -29,10 +29,11 @@ internal abstract class GameScreenBase : EwarRenderableBase, IScreen
         _modals = new List<IModalWindow>();
     }
 
-    public TestamentGame Game { get; }
-    public IScreenManager ScreenManager { get; }
     protected ICamera2DAdapter Camera { get; }
+
+    protected TestamentGame Game { get; }
     protected IResolutionIndependentRenderer ResolutionIndependentRenderer { get; }
+    protected IScreenManager ScreenManager { get; }
 
     protected void AddModal(IModalWindow modal, bool isLate)
     {
@@ -43,35 +44,11 @@ internal abstract class GameScreenBase : EwarRenderableBase, IScreen
         }
     }
 
-    protected override void DoDraw(SpriteBatch spriteBatch, float zindex)
-    {
-        base.DoDraw(spriteBatch, zindex);
-
-        if (_isInitialized)
-        {
-            DrawContent(spriteBatch);
-        }
-
-        DrawModals(spriteBatch);
-    }
-
     protected abstract void DrawContent(SpriteBatch spriteBatch);
 
     protected abstract void InitializeContent();
 
     protected abstract void UpdateContent(GameTime gameTime);
-
-    protected void UpdateModals(GameTime gameTime)
-    {
-        foreach (var modal in _modals)
-        {
-            if (modal.IsVisible)
-            {
-                modal.Update(gameTime, ResolutionIndependentRenderer);
-                break;
-            }
-        }
-    }
 
     private void DrawModals(SpriteBatch spriteBatch)
     {
@@ -95,12 +72,32 @@ internal abstract class GameScreenBase : EwarRenderableBase, IScreen
         spriteBatch.End();
     }
 
+    private void UpdateModals(GameTime gameTime)
+    {
+        foreach (var modal in _modals)
+        {
+            if (modal.IsVisible)
+            {
+                modal.Update(gameTime, ResolutionIndependentRenderer);
+                break;
+            }
+        }
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        if (_isInitialized)
+        {
+            DrawContent(spriteBatch);
+        }
+
+        DrawModals(spriteBatch);
+    }
+
     public IScreen? TargetScreen { get; set; }
 
-    public override void Update(GameTime gameTime)
+    public void Update(GameTime gameTime)
     {
-        base.Update(gameTime);
-
         if (!_modals.Any(x => x.IsVisible))
         {
             if (_isInitialized)

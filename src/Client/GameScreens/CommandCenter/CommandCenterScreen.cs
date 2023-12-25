@@ -16,6 +16,7 @@ using Core;
 
 using GameClient.Engine.RectControl;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -25,10 +26,11 @@ namespace Client.GameScreens.CommandCenter;
 
 internal class CommandCenterScreen : GameScreenWithMenuBase
 {
-    private readonly IReadOnlyList<HeroCampaign> _campaigns;
+    private readonly IReadOnlyList<HeroCampaignLaunch> _campaignLaunches;
 
     private readonly ButtonBase[] _commandButtons = new ButtonBase[4];
     private readonly Texture2D[] _commandCenterSegmentTexture;
+    private readonly IDice _dice;
 
     private readonly IDictionary<ILocationSid, Vector2> _locationCoords;
 
@@ -42,7 +44,9 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
     public CommandCenterScreen(TestamentGame game, CommandCenterScreenTransitionArguments args) : base(game)
     {
-        _campaigns = args.AvailableCampaigns;
+        _dice = game.Services.GetRequiredService<IDice>();
+
+        _campaignLaunches = args.AvailableCampaigns;
 
         _mapBackgroundTexture = Game.Content.Load<Texture2D>("Sprites/GameObjects/Map/Map");
         _commandCenterSegmentTexture = new[]
@@ -113,7 +117,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
             { LocationSids.Desert, LoadCampaignThumbnailImage("Desert") },
             { LocationSids.Monastery, LoadCampaignThumbnailImage("Monastery") },
             { LocationSids.ShipGraveyard, LoadCampaignThumbnailImage("ShipGraveyard") },
-            { LocationSids.Thicket, LoadCampaignThumbnailImage("DarkThinket") },
+            { LocationSids.Thicket, LoadCampaignThumbnailImage("DarkThicket") },
             { LocationSids.Swamp, LoadCampaignThumbnailImage("GrimSwamp") },
             { LocationSids.Battleground, LoadCampaignThumbnailImage("Battleground") }
         };
@@ -122,15 +126,18 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
         for (var campaignIndex = 0; campaignIndex < 3; campaignIndex++)
         {
-            if (campaignIndex < _campaigns.Count)
+            if (campaignIndex < _campaignLaunches.Count)
             {
-                var campaign = _campaigns[campaignIndex];
-                var campaignTexture = campaignTexturesDict[campaign.Location];
+                var campaignLaunch = _campaignLaunches[campaignIndex];
+                var campaignTexture = campaignTexturesDict[campaignLaunch.Location.Sid];
 
-                var panel = new CampaignPanel(campaign, campaignTexture);
+                var panel = new CampaignPanel(campaignLaunch, campaignTexture);
                 panels.Add(panel);
                 panel.Selected += (_, _) =>
                 {
+                    var campaign = new HeroCampaign(campaignLaunch.Heroes, campaignLaunch.Location,
+                        campaignLaunch.Penalties, _dice.Roll(100));
+
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
                         new CampaignScreenTransitionArguments(campaign));
                 };
@@ -279,7 +286,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
     private Dictionary<ILocationSid, Vector2> InitLocationCoords()
     {
         var rnd = new Random(2);
-        var values = SidHelper.GetValues<ILocationSid>(typeof(LocationSids));
+        var values = SidCatalogHelper.GetValues<ILocationSid>(typeof(LocationSids));
 
         return values.ToDictionary(x => x,
             x => new Vector2(rnd.Next(_mapBackgroundTexture.Width / 4, _mapBackgroundTexture.Width * 3 / 4),

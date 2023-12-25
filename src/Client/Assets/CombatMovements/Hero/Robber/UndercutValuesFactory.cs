@@ -1,4 +1,5 @@
 ﻿using Client.Engine;
+using Client.GameScreens;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.Effects;
@@ -32,12 +33,35 @@ internal class UndercutValuesFactory : CombatMovementFactoryBase
         };
     }
 
-    /// <inheritdoc />
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
-        CombatMovementExecution movementExecution,
-        ICombatMovementVisualizationContext visualizationContext)
+        CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
-        return CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
-            visualizationContext);
+        var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Robber");
+
+        var prepareAnimation = AnimationHelper.ConvertToAnimation(animationSet, "prepare-to-charge");
+        var keepSwordSoundEffect =
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SwordPrepare);
+
+        var chargeAnimation = AnimationHelper.ConvertToAnimation(animationSet, "breakthrough");
+        var chargeSoundEffect =
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.ArmedMove);
+
+        var hitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "hit");
+        var swordHitSoundEffect =
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SwordSlash);
+
+        var hitCompleteAnimation = AnimationHelper.ConvertToAnimation(animationSet, "hit-complete");
+
+        var backAnimation = AnimationHelper.ConvertToAnimation(animationSet, "back");
+
+        var config = new SingleMeleeVisualizationConfig(
+            new SoundedAnimation(prepareAnimation, keepSwordSoundEffect.CreateInstance()),
+            new SoundedAnimation(chargeAnimation, chargeSoundEffect.CreateInstance()),
+            new SoundedAnimation(hitAnimation, swordHitSoundEffect.CreateInstance()),
+            new SoundedAnimation(hitCompleteAnimation, null),
+            new SoundedAnimation(backAnimation, null));
+
+        return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
+            visualizationContext, config);
     }
 }

@@ -3,7 +3,6 @@ using System.Linq;
 
 using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Engine;
-using Client.Engine.MoveFunctions;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
@@ -16,6 +15,9 @@ using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats.CombatMovementEffects;
+
+using GameClient.Engine;
+using GameClient.Engine.MoveFunctions;
 
 using Microsoft.Xna.Framework;
 
@@ -33,7 +35,7 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
                     new AdjustPositionEffect(new SelfTargetSelector()),
                     new DamageEffectWrapper(
                         new MostShieldChargedEnemyTargetSelector(),
-                        DamageType.ShieldsOnly,
+                        DamageType.ProtectionOnly,
                         GenericRange<int>.CreateMono(3)),
                     new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
                 })

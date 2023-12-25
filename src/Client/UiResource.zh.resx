@@ -132,4 +132,8 @@
   <data name="StartNewGameButtonTitle" xml:space="preserve">
     <value>新游戏</value>
   </data>
+  <data name="TacticalPotentialExhaustedIndicator" xml:space="preserve">
+    <value>Тактический потенциал исчерпан
+Этот герой больше не может действовать в текущем бою</value>
+  </data>
 </root>

@@ -15,19 +15,30 @@ internal sealed class FollowActorOperatorCameraTask : ICameraOperatorTask
     private const int ZOOM_SPEED = 3;
     private readonly IActorAnimator _combatActor;
     private readonly Func<bool> _completeDelegate;
-    private Vector2 _lastActorPosition;
 
     public FollowActorOperatorCameraTask(IActorAnimator combatActor, Func<bool> completeDelegate)
     {
         _combatActor = combatActor;
         _completeDelegate = completeDelegate;
-        _lastActorPosition = GetActorFollowPoint();
     }
 
     private Vector2 GetActorFollowPoint()
     {
         const int SPRITE_SIZE_Y = 128;
-        return _combatActor.GraphicRoot.Position - new Vector2(0, SPRITE_SIZE_Y * 0.5f);
+        const int FIELD_WIDTH = 1000;
+        const int MARGIN = 128 + 128 + 64;
+        var actorViewPoint = _combatActor.GraphicRoot.Position - new Vector2(0, SPRITE_SIZE_Y * 0.5f);
+        if (actorViewPoint.X < MARGIN)
+        {
+            return new Vector2(MARGIN, actorViewPoint.Y);
+        }
+
+        if (actorViewPoint.X > FIELD_WIDTH - MARGIN)
+        {
+            return new Vector2(FIELD_WIDTH - MARGIN, actorViewPoint.Y);
+        }
+
+        return actorViewPoint;
     }
 
     /// <inheritdoc />
@@ -56,10 +67,7 @@ internal sealed class FollowActorOperatorCameraTask : ICameraOperatorTask
         else
         {
             camera.Zoom = FOLLOWING_ZOOM;
-            var actorPositionDiff = _lastActorPosition - actorFollowPoint;
             camera.LookAt(actorFollowPoint);
         }
-
-        _lastActorPosition = actorFollowPoint;
     }
 }

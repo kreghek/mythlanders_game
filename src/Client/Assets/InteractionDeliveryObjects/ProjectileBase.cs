@@ -1,11 +1,14 @@
 ﻿using System;
 
-using Client.Core;
 using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
+using GameClient.Engine.Animations;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+//using MonoSprite = MonoGame.Extended.SceneGraphs.
 
 namespace Client.Assets.InteractionDeliveryObjects;
 
@@ -42,7 +45,7 @@ internal abstract class ProjectileBase : IInteractionDelivery
         get
         {
             var t = _lifetimeCounter / _lifetimeDuration;
-            return _functions.MoveFunction.CalcPosition(t);
+            return _functions.MoveFunction.CalcPosition(Math.Min(t, 1));
         }
     }
 

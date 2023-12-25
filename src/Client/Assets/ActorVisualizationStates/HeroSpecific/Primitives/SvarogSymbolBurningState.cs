@@ -1,6 +1,8 @@
 ﻿using Client.Assets.InteractionDeliveryObjects;
-using Client.GameScreens.Combat;
+using Client.Engine.PostProcessing;
 using Client.GameScreens.Combat.GameObjects;
+
+using GameClient.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -12,16 +14,16 @@ internal sealed class SvarogSymbolBurningState : IActorVisualizationState
     private const double STATE_DURATION_SECONDS = 3f;
     private const double SHAKEING_DURATION_SECONDS = STATE_DURATION_SECONDS;
     private readonly UnitGraphics _graphics;
+    private readonly PostEffectManager _postEffectManager;
 
     private readonly SoundEffectInstance _risingPowerSoundEffect;
-    private readonly ScreenShaker _screenShaker;
     private bool _isStarted;
 
     public SvarogSymbolBurningState(UnitGraphics graphics, SvarogSymbolObject svarogSymbol,
-        ScreenShaker screenShaker, SoundEffectInstance risingPowerSoundEffect)
+        PostEffectManager postEffectManager, SoundEffectInstance risingPowerSoundEffect)
     {
         _graphics = graphics;
-        _screenShaker = screenShaker;
+        _postEffectManager = postEffectManager;
         _risingPowerSoundEffect = risingPowerSoundEffect;
 
         svarogSymbol.RisingPowerCompleted += (_, _) =>
@@ -46,7 +48,9 @@ internal sealed class SvarogSymbolBurningState : IActorVisualizationState
         {
             //_graphics.PlayAnimation(PredefinedAnimationSid.Ult);
             _isStarted = true;
-            _screenShaker.Start(SHAKEING_DURATION_SECONDS, ShakeDirection.FadeOut);
+            var effect = new TimeLimitedShakePostEffect(new Duration(SHAKEING_DURATION_SECONDS),
+                new FadeOutShakeFunction(ShakePowers.Normal));
+            _postEffectManager.AddEffect(effect);
             _risingPowerSoundEffect.Play();
         }
     }

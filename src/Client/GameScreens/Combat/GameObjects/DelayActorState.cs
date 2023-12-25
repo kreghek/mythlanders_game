@@ -1,4 +1,4 @@
-﻿using Client.Engine;
+﻿using GameClient.Engine;
 
 using Microsoft.Xna.Framework;
 

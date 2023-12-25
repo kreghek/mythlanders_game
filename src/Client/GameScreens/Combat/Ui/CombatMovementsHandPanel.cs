@@ -9,6 +9,8 @@ using CombatDicesTeam.Combats;
 
 using GameAssets.Combats;
 
+using GameClient.Engine.Ui;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -35,6 +37,8 @@ internal class CombatMovementsHandPanel : ControlBase
     private CombatMovementHint? _activeCombatMovementHint;
     private BurningCombatMovement? _burningCombatMovement;
     private ICombatant? _combatant;
+
+    private double _counterTacticalPotentialExhaustedIndicator;
     private KeyboardState _currentKeyboardState;
     private KeyboardState? _lastKeyboardState;
 
@@ -59,15 +63,17 @@ internal class CombatMovementsHandPanel : ControlBase
         _waitButton.OnClick += WaitButton_OnClick;
 
         _hoverController = new HoverController<CombatMovementButton>();
-        _hoverController.Hover += (s, e) =>
+        _hoverController.Hover += (_, e) =>
         {
-            if (e is not null)
+            if (e is null)
             {
-                _activeCombatMovementHint = new CombatMovementHint(e.Entity);
-                CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(e.Entity));
+                return;
             }
+
+            _activeCombatMovementHint = new CombatMovementHint(e.Entity);
+            CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(e.Entity));
         };
-        _hoverController.Leave += (s, e) =>
+        _hoverController.Leave += (_, e) =>
         {
             _activeCombatMovementHint = null;
             if (e is not null)
@@ -138,6 +144,13 @@ internal class CombatMovementsHandPanel : ControlBase
             return;
         }
 
+        if (!_buttons.Any(x => x is not null))
+        {
+            DrawTacticalPotentialExhaustedIndicator(spriteBatch: spriteBatch, contentRect: contentRect);
+
+            return;
+        }
+
         var buttonsRect = GetButtonsRect();
         for (var buttonIndex = 0; buttonIndex < _buttons.Length; buttonIndex++)
         {
@@ -155,11 +168,13 @@ internal class CombatMovementsHandPanel : ControlBase
             }
             else if (_burningCombatMovement is not null)
             {
-                if (_burningCombatMovement.HandSlotIndex == buttonIndex)
+                if (_burningCombatMovement.HandSlotIndex != buttonIndex)
                 {
-                    _burningCombatMovement.Rect = GetButtonRectangle(buttonsRect, buttonIndex, true);
-                    _burningCombatMovement.Draw(spriteBatch);
+                    continue;
                 }
+
+                _burningCombatMovement.Rect = GetButtonRectangle(buttonsRect, buttonIndex, true);
+                _burningCombatMovement.Draw(spriteBatch);
             }
         }
 
@@ -200,20 +215,14 @@ internal class CombatMovementsHandPanel : ControlBase
         {
             KeyboardInputUpdate();
 
-            var mouse = Mouse.GetState();
-            var mouseRect =
-                new Rectangle(
-                    resolutionIndependentRenderer.ConvertScreenToWorldCoordinates(mouse.Position.ToVector2()).ToPoint(),
-                    new Point(1, 1));
-
             foreach (var button in _buttons)
             {
                 if (button is not null)
                 {
                     button.Update(resolutionIndependentRenderer);
 
-                    button.IsEnabled = Combatant is not null && IsResolveEnought(button.Entity,
-                        Combatant.Stats.Single(x => x.Type == CombatantStatTypes.Resolve));
+                    button.IsEnabled = Combatant is not null && IsResolveStatEnough(button.Entity,
+                        Combatant.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.Resolve)));
                 }
             }
         }
@@ -227,6 +236,8 @@ internal class CombatMovementsHandPanel : ControlBase
                 _burningCombatMovement = null;
             }
         }
+
+        _counterTacticalPotentialExhaustedIndicator += gameTime.ElapsedGameTime.TotalSeconds * 10;
 
         _waitButton.Update(resolutionIndependentRenderer);
     }
@@ -282,6 +293,44 @@ internal class CombatMovementsHandPanel : ControlBase
         hintControl.Draw(spriteBatch);
     }
 
+    private void DrawTacticalPotentialExhaustedIndicator(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        // Tactical potential exhausted
+        // This hero can no longer act in the current battle
+
+        var indicatorFont = _uiContentStorage.GetCombatIndicatorFont();
+
+        var text = UiResource.TacticalPotentialExhaustedIndicator;
+
+        var textLines = text.Split(new[]
+            {
+                '\n'
+            },
+            StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+
+        var colorT = (float)Math.Clamp(Math.Sin(_counterTacticalPotentialExhaustedIndicator), 0, 1);
+
+        for (var lineIndex = 0; lineIndex < textLines.Length; lineIndex++)
+        {
+            var textLine = textLines[lineIndex];
+            var lineSize = indicatorFont.MeasureString(textLine);
+
+            for (var i = -1; i <= 1; i++)
+            {
+                for (var j = -1; j <= 1; j++)
+                {
+                    spriteBatch.DrawString(indicatorFont, textLine,
+                        new Vector2(contentRect.Center.X - lineSize.X / 2 + i, contentRect.Y + lineIndex * 20 + j),
+                        Color.Lerp(TestamentColors.MaxDark, Color.Transparent, colorT));
+                }
+            }
+
+            spriteBatch.DrawString(indicatorFont, textLine,
+                new Vector2(contentRect.Center.X - lineSize.X / 2, contentRect.Y + lineIndex * 20),
+                Color.Lerp(TestamentColors.MainSciFi, Color.Transparent, colorT));
+        }
+    }
+
     private static Rectangle GetButtonRectangle(Rectangle buttonsRect, int buttonIndex, bool isSelected)
     {
         var buttonOffsetX = (SKILL_BUTTON_SIZE + BUTTON_MARGIN) * buttonIndex;
@@ -311,7 +360,8 @@ internal class CombatMovementsHandPanel : ControlBase
         return _lastKeyboardState.Value.IsKeyDown(key) && _currentKeyboardState.IsKeyUp(key);
     }
 
-    private static bool IsResolveEnought(CombatMovementInstance combatMovement, IUnitStat currentCombatantResolveStat)
+    private static bool IsResolveStatEnough(CombatMovementInstance combatMovement,
+        IUnitStat currentCombatantResolveStat)
     {
         return combatMovement.Cost.Amount.Current <= currentCombatantResolveStat.Value.Current;
     }
@@ -357,12 +407,7 @@ internal class CombatMovementsHandPanel : ControlBase
 
         var button = _buttons[index];
 
-        if (button is null)
-        {
-            return;
-        }
-
-        button.Click();
+        button?.Click();
     }
 
     private void RecreateButtons()

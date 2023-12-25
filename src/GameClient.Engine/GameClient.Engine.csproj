@@ -11,7 +11,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303"/>
+        <PackageReference Include="CombatDicesTeam.Dices" Version="1.0.0" />
+        <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
     </ItemGroup>
 
 </Project>

@@ -5,13 +5,15 @@ using System.Linq;
 using Client.Assets.CombatMovements;
 using Client.Assets.StageItems;
 using Client.Core;
-using Client.Core.AnimationFrameSets;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.ScreenManagement;
 
 using CombatDicesTeam.Graphs;
 using CombatDicesTeam.Graphs.Visualization;
+
+using GameClient.Engine;
+using GameClient.Engine.Animations;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -71,7 +73,7 @@ internal sealed class CampaignMap : ControlBase
         _iconsTexture = iconsTexture;
         _resolutionIndependentRenderer = resolutionIndependentRenderer;
         _gameObjectContentStorage = gameObjectContentStorage;
-        InitChildControls(heroCampaign.Stages, heroCampaign);
+        InitChildControls(heroCampaign.Location.Stages, heroCampaign);
     }
 
     public PresentationScrollData? Presentation { get; private set; }
@@ -143,7 +145,7 @@ internal sealed class CampaignMap : ControlBase
         VisualizerConfig visualizatorConfig,
         IReadOnlyCollection<IGraphNodeLayout<ICampaignStageItem>> graphNodeLayouts)
     {
-        var random = new Random(currentCampaign.Seed);
+        var random = new Random(currentCampaign.VisualizationSeed);
 
         const int REPEAT_ALL_TRANSFORMATIONS_COUNT = 5;
         const int RETRY_TRANSFORMATIONS_COUNT = 10;
@@ -270,7 +272,7 @@ internal sealed class CampaignMap : ControlBase
             {
                 // Means campaign just started. Available only root nodes.
 
-                var roots = GetRoots(_heroCampaign.Stages);
+                var roots = GetRoots(_heroCampaign.Location.Stages);
 
                 if (roots.Contains(button.SourceGraphNodeLayout.Node))
                 {
@@ -279,7 +281,7 @@ internal sealed class CampaignMap : ControlBase
             }
             else
             {
-                if (_heroCampaign.Stages.GetNext(_heroCampaign.CurrentStage).Contains(graphNodeLayout.Node))
+                if (_heroCampaign.Location.Stages.GetNext(_heroCampaign.CurrentStage).Contains(graphNodeLayout.Node))
                 {
                     SelectCampaignStage(graphNodeLayout.Node, transitionData);
                 }
@@ -335,9 +337,9 @@ internal sealed class CampaignMap : ControlBase
             // First make start position is reward node to show all graph
             // target position - one of start node.
 
-            var rewardNodeLayout = graphNodeLayouts.Single(x => x.Node.Payload is RewardStageItem);
+            var rewardNodeLayout = graphNodeLayouts.Single(x => x.Node.Payload is IRewardCampaignStageItem);
 
-            var roots = GetRoots(_heroCampaign.Stages);
+            var roots = GetRoots(_heroCampaign.Location.Stages);
 
             var startNodeLayouts = graphNodeLayouts.Where(x => roots.Contains(x.Node));
             var startNodeLayout = startNodeLayouts.First();
@@ -352,7 +354,7 @@ internal sealed class CampaignMap : ControlBase
 
             var prevNodeLayout = graphNodeLayouts.Single(x => x.Node == currentCampaign.Path.Last());
 
-            var next = currentCampaign.Stages.GetNext(prevNodeLayout.Node);
+            var next = currentCampaign.Location.Stages.GetNext(prevNodeLayout.Node);
             var nextNodeLayouts = graphNodeLayouts.Where(x => next.Contains(x.Node));
             var nextNodeLayout = nextNodeLayouts.First();
 
@@ -418,7 +420,7 @@ internal sealed class CampaignMap : ControlBase
     {
         foreach (var button in _buttonList)
         {
-            var nextNodes = _heroCampaign.Stages.GetNext(button.SourceGraphNodeLayout.Node);
+            var nextNodes = _heroCampaign.Location.Stages.GetNext(button.SourceGraphNodeLayout.Node);
 
             var nextButtons = _buttonList.Where(x => nextNodes.Contains(x.SourceGraphNodeLayout.Node)).ToArray();
 
@@ -440,7 +442,7 @@ internal sealed class CampaignMap : ControlBase
     {
         if (_heroCampaign.CurrentStage is null)
         {
-            var roots = GetRoots(_heroCampaign.Stages);
+            var roots = GetRoots(_heroCampaign.Location.Stages);
             var rootButtons = _buttonList.Where(x => roots.Contains(x.SourceGraphNodeLayout.Node)).ToArray();
 
             for (var i = 0; i < rootButtons.Length; i++)
@@ -456,7 +458,7 @@ internal sealed class CampaignMap : ControlBase
 
             spriteBatch.DrawCircle(currentButton.Rect.Center.ToVector2(), 24, 16, Color.Wheat, 3);
 
-            var next = _heroCampaign.Stages.GetNext(_heroCampaign.CurrentStage);
+            var next = _heroCampaign.Location.Stages.GetNext(_heroCampaign.CurrentStage);
             var nextButtons = _buttonList.Where(x => next.Contains(x.SourceGraphNodeLayout.Node)).ToArray();
 
             for (var i = 0; i < nextButtons.Length; i++)
@@ -487,7 +489,7 @@ internal sealed class CampaignMap : ControlBase
 
         if (_heroCampaign.CurrentStage is not null)
         {
-            var availableNodes = _heroCampaign.Stages.GetAvailableNodes(_heroCampaign.CurrentStage);
+            var availableNodes = _heroCampaign.Location.Stages.GetAvailableNodes(_heroCampaign.CurrentStage);
 
             if (!availableNodes.Contains(graphNodeLayout.Node))
             {
@@ -549,11 +551,11 @@ internal sealed class CampaignMap : ControlBase
             var classSid = combat.CombatSequence.Combats.First().Monsters.First().ClassSid;
             var monsterClass = Enum.Parse<UnitName>(classSid, true);
 
-            var monsteInfo = GameObjectHelper.GetLocalized(monsterClass);
-            return UiResource.CampaignStageDisplayNameCombat + "\n" + monsteInfo;
+            var monsterInfo = GameObjectHelper.GetLocalized(monsterClass);
+            return UiResource.CampaignStageDisplayNameCombat + "\n" + monsterInfo;
         }
 
-        if (campaignStageItem is RewardStageItem)
+        if (campaignStageItem is IRewardCampaignStageItem)
         {
             return UiResource.CampaignStageDisplayNameFinish;
         }
@@ -561,6 +563,16 @@ internal sealed class CampaignMap : ControlBase
         if (campaignStageItem is DialogueEventStageItem)
         {
             return UiResource.CampaignStageDisplayNameTextEvent;
+        }
+
+        if (campaignStageItem is ChallengeStageItem)
+        {
+            return UiResource.CampaignStageDisplayNameChallenge;
+        }
+
+        if (campaignStageItem is CrisisStageItem)
+        {
+            return UiResource.CampaignStageDisplayNameCrisis;
         }
 
         if (campaignStageItem is RestStageItem)
@@ -580,12 +592,13 @@ internal sealed class CampaignMap : ControlBase
             return new Rectangle(new Point(0, 0), size);
         }
 
-        if (campaignStageItem is RewardStageItem)
+        if (campaignStageItem is IRewardCampaignStageItem)
         {
             return new Rectangle(new Point(1 * LAYOUT_NODE_SIZE, 2 * LAYOUT_NODE_SIZE), size);
         }
 
-        if (campaignStageItem is DialogueEventStageItem)
+        if (campaignStageItem is DialogueEventStageItem || campaignStageItem is CrisisStageItem ||
+            campaignStageItem is ChallengeStageItem)
         {
             return new Rectangle(new Point(1 * LAYOUT_NODE_SIZE, 1 * LAYOUT_NODE_SIZE), size);
         }

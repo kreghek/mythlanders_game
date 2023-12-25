@@ -5,6 +5,7 @@ using System.Linq;
 using Client.Assets;
 using Client.Assets.StageItems;
 using Client.Core;
+using Client.Core.CampaignRewards;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Combat;
@@ -136,15 +137,12 @@ internal sealed class TitleScreen : GameScreenBase
     {
         globeProvider.GenerateNew();
 
-        var campaigns = _campaignGenerator.CreateSet();
+        var availableLaunches = _campaignGenerator.CreateSet(globeProvider.Globe);
 
         screenManager.ExecuteTransition(
             currentScreen,
             ScreenTransition.CommandCenter,
-            new CommandCenterScreenTransitionArguments
-            {
-                AvailableCampaigns = campaigns
-            });
+            new CommandCenterScreenTransitionArguments(availableLaunches));
     }
 
     protected override void DrawContent(SpriteBatch spriteBatch)
@@ -361,7 +359,8 @@ internal sealed class TitleScreen : GameScreenBase
         var oneCombatNode = new GraphNode<ICampaignStageItem>(new CombatStageItem(rolledLocation, combatSequence));
         var oneCombatGraph = new DirectedGraph<ICampaignStageItem>();
         oneCombatGraph.AddNode(oneCombatNode);
-        var campaign = new HeroCampaign(rolledLocation, oneCombatGraph, 1);
+        var campaignSource = new HeroCampaignLocation(rolledLocation, oneCombatGraph);
+        var campaign = new HeroCampaign(heroStates, campaignSource, ArraySegment<ICampaignReward>.Empty, 1);
 
         ScreenManager.ExecuteTransition(
             this,

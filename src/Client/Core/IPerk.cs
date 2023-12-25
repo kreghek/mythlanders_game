@@ -12,9 +12,9 @@ internal interface IPerk
     {
     }
 
-    IReadOnlyCollection<(ICombatantStatType, IUnitStatModifier)> GetStatModifiers()
+    IReadOnlyCollection<(ICombatantStatType, IStatModifier)> GetStatModifiers()
     {
-        return Array.Empty<(ICombatantStatType, IUnitStatModifier)>();
+        return Array.Empty<(ICombatantStatType, IStatModifier)>();
     }
 
     bool HandleEvasion(IDice dice)

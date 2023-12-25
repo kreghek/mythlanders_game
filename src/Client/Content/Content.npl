@@ -103,6 +103,18 @@
 				"Quality": "Low"
 			}
 		},
+		"sfxSounds":
+		{
+			"path": "Audio/Sfx/*.mp3",
+			"recursive": "True",
+			"action": "build",
+			"importer": "Mp3Importer",
+			"processor": "SoundEffectProcessor",
+			"processorParam":
+			{
+				"Quality": "Low"
+			}
+		},
 		"textSounds":
 		{
 			"path": "Audio/GameObjects/Text/*.wav",

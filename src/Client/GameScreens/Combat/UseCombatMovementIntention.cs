@@ -4,11 +4,15 @@ using System.Linq;
 using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.CombatMovements;
 using Client.Engine;
+using Client.Engine.PostProcessing;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.CommonStates;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dices;
+
+using GameClient.Engine;
+using GameClient.Engine.CombatVisualEffects;
 
 namespace Client.GameScreens.Combat;
 
@@ -17,17 +21,24 @@ internal sealed class UseCombatMovementIntention : IIntention
     private readonly IAnimationManager _animationManager;
     private readonly CameraOperator _cameraOperator;
     private readonly IList<CombatantGameObject> _combatantGameObjects;
+    private readonly ICombatantPositionProvider _combatantPositionProvider;
+    private readonly CombatField _combatField;
     private readonly CombatMovementInstance _combatMovement;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
+    private readonly ICombatVisualEffectManager _combatVisualEffectManager;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly InteractionDeliveryManager _interactionDeliveryManager;
+    private readonly PostEffectManager _postEffectManager;
     private readonly IShadeService _shadeService;
 
     public UseCombatMovementIntention(CombatMovementInstance combatMovement, IAnimationManager animationManager,
         ICombatMovementVisualizationProvider combatMovementVisualizer, IList<CombatantGameObject> combatantGameObjects,
         InteractionDeliveryManager interactionDeliveryManager, GameObjectContentStorage gameObjectContentStorage,
         CameraOperator cameraOperator,
-        IShadeService shadeService)
+        IShadeService shadeService,
+        ICombatantPositionProvider combatantPositionProvider, CombatField combatField,
+        ICombatVisualEffectManager combatVisualEffectManager,
+        PostEffectManager postEffectManager)
     {
         _combatMovement = combatMovement;
         _animationManager = animationManager;
@@ -37,6 +48,10 @@ internal sealed class UseCombatMovementIntention : IIntention
         _gameObjectContentStorage = gameObjectContentStorage;
         _cameraOperator = cameraOperator;
         _shadeService = shadeService;
+        _combatantPositionProvider = combatantPositionProvider;
+        _combatField = combatField;
+        _combatVisualEffectManager = combatVisualEffectManager;
+        _postEffectManager = postEffectManager;
     }
 
     private CombatantGameObject GetCombatantGameObject(ICombatant combatant)
@@ -52,8 +67,11 @@ internal sealed class UseCombatMovementIntention : IIntention
             _combatantGameObjects.ToArray(),
             _interactionDeliveryManager,
             _gameObjectContentStorage,
-            new BattlefieldInteractionContext(),
-            new LinearDice());
+            new BattlefieldInteractionContext(_combatantPositionProvider, _combatField),
+            _combatVisualEffectManager,
+            new LinearDice(),
+            _postEffectManager
+        );
 
         return _combatMovementVisualizer.GetMovementVisualizationState(combatMovement.SourceMovement.Sid,
             actorGameObject.Animator, movementExecution, context);
