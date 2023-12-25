@@ -219,11 +219,6 @@ internal sealed class TitleScreen : GameScreenBase
             return null;
         }
 
-        if (Game.Services.GetService<GameSettings>().Mode == GameMode.Demo)
-        {
-            return null;
-        }
-
         var loadGameButton = new ResourceTextButton(nameof(UiResource.PlayStoryButtonTitle));
 
         loadGameButton.OnClick += (_, _) =>
@@ -338,7 +333,7 @@ internal sealed class TitleScreen : GameScreenBase
 
         var dice = new LinearDice();
         var rolledHeroes = dice.RollFromList(freeHeroes, dice.Roll(2, 4)).ToArray();
-        var rolledHeroPositions = _dice.RollFromList(monsterPositions, rolledHeroes.Length).ToArray();
+        var rolledHeroPositions = _dice.RollFromList(heroPositions, rolledHeroes.Length).ToArray();
         var heroStates = rolledHeroPositions
             .Select((t, i) => (new HeroState(rolledHeroes[i].Item1, rolledHeroes[i].Item2), t)).ToArray();
         _globeProvider.GenerateFree(heroStates.Select(x=>x.Item1).ToArray());

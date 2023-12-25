@@ -140,7 +140,7 @@ internal sealed class GlobeProvider
 
         if (progressDto.Player is not null)
         {
-            LoadPlayerCharacters(progressDto.Player);
+            LoadHeroes(progressDto.Player);
             LoadPlayerAbilities(progressDto.Player);
 
             LoadPlayerResources(progressDto.Player.Resources, Globe.Player.Inventory);
@@ -338,7 +338,7 @@ internal sealed class GlobeProvider
         }
     }
 
-    private void LoadPlayerCharacters(PlayerDto lastSavePlayer)
+    private void LoadHeroes(PlayerDto lastSavePlayer)
     {
         if (lastSavePlayer.Heroes is null)
         {

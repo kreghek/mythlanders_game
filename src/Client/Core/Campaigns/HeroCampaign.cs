@@ -22,7 +22,7 @@ internal sealed class HeroCampaign
         Location = location;
 
         ActualRewards = location.Stages.GetAllNodes().Select(x => x.Payload)
-            .OfType<IRewardCampaignStageItem>().First().GetEstimateRewards(location);
+            .OfType<IRewardCampaignStageItem>().FirstOrDefault()?.GetEstimateRewards(location) ?? ArraySegment<ICampaignReward>.Empty;
         ActualFailurePenalties = failurePenalties;
 
         VisualizationSeed = visualizationSeed;
