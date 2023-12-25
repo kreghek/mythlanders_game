@@ -12,6 +12,8 @@ using Client.Core.ProgressStorage;
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dices;
 
+using Core.Props;
+
 using GameAssets.Combats;
 
 namespace Client.Core;
@@ -70,21 +72,16 @@ internal sealed class GlobeProvider
 
     public void GenerateFree(HeroState[] heroes)
     {
-        var globe = new Globe(new Player(heroes));
+        var globe = new Globe(new Player());
+
+        AssignFreeHeroes(globe);
 
         Globe = globe;
     }
 
     public void GenerateNew()
     {
-        var storyHeroes = new[]
-        {
-            new HeroState("swordsman", new StatValue(5)),
-            new HeroState("partisan", new StatValue(3)),
-            new HeroState("robber", new StatValue(3))
-        };
-        
-        var globe = new Globe(new Player(storyHeroes));
+        var globe = new Globe(new Player());
 
         InitStartStoryPoint(globe, _storyPointInitializer);
         AssignStartHeroes(globe);
@@ -178,7 +175,7 @@ internal sealed class GlobeProvider
         File.WriteAllText(storageFile, saveDataString);
     }
 
-    private void AssignFreeHeroes(Globe globe, string[] heroes)
+    private void AssignFreeHeroes(Globe globe)
     {
         var startHeroes = new List<HeroState>
         {
@@ -265,13 +262,11 @@ internal sealed class GlobeProvider
 
     private static ResourceDto[] GetPlayerResourcesToSave(Inventory inventory)
     {
-        // return inventory.Select(x => new ResourceDto
-        // {
-        //     Amount = x.Amount,
-        //     Type = x.Type.ToString()
-        // }).ToArray();
-
-        throw new Exception();
+        return inventory.CalcActualItems().Select(x => new ResourceDto
+        {
+            Amount = ((Resource)x).Count,
+            Type = x.Scheme.Sid
+        }).ToArray();
     }
 
     private string GetSaveName(string playerName)

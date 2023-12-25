@@ -8,12 +8,12 @@ internal sealed class Player
 {
     private readonly HashSet<PlayerAbility> _abilities;
 
-    public Player(string name) : this(ArraySegment<HeroState>.Empty)
+    public Player(string name) : this()
     {
         Name = name;
     }
 
-    public Player(IReadOnlyCollection<HeroState> heroes)
+    public Player()
     {
         Heroes = new PoolGroup<HeroState>();
         KnownMonsters = new List<UnitScheme>();
@@ -25,11 +25,6 @@ internal sealed class Player
         Name = CreateRandomName();
 
         StoryState = new StoryState(Heroes);
-
-        foreach (var startHero in heroes)
-        {
-            Heroes.AddNewUnit(startHero);
-        }
     }
 
     public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;

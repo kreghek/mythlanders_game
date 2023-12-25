@@ -38,7 +38,6 @@ internal sealed class TitleScreen : GameScreenBase
     private readonly ICamera2DAdapter _camera;
     private readonly ICampaignGenerator _campaignGenerator;
     private readonly IDice _dice;
-    private readonly IEventCatalog _eventCatalog;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly GameSettings _gameSettings;
 
@@ -59,7 +58,6 @@ internal sealed class TitleScreen : GameScreenBase
 
         _camera = Game.Services.GetService<ICamera2DAdapter>();
         _resolutionIndependentRenderer = Game.Services.GetService<IResolutionIndependentRenderer>();
-        _eventCatalog = game.Services.GetService<IEventCatalog>();
         _campaignGenerator = game.Services.GetService<ICampaignGenerator>();
 
         _dice = Game.Services.GetService<IDice>();
@@ -132,12 +130,12 @@ internal sealed class TitleScreen : GameScreenBase
             ResolutionIndependentRenderer.VirtualBounds, new PongRectangleRandomSource(new LinearDice(), 2));
     }
 
-    public void StartClearNewGame(GlobeProvider globeProvider, IScreen currentScreen,
-        IScreenManager screenManager)
+    public static void StartClearNewGame(GlobeProvider globeProvider, IScreen currentScreen,
+        IScreenManager screenManager, ICampaignGenerator campaignGenerator)
     {
         globeProvider.GenerateNew();
 
-        var availableLaunches = _campaignGenerator.CreateSet(globeProvider.Globe);
+        var availableLaunches = campaignGenerator.CreateSet(globeProvider.Globe);
 
         screenManager.ExecuteTransition(
             currentScreen,
@@ -219,12 +217,12 @@ internal sealed class TitleScreen : GameScreenBase
             return null;
         }
 
-        var loadGameButton = new ResourceTextButton(nameof(UiResource.PlayStoryButtonTitle));
+        var loadGameButton = new TitleResourceTextButton(nameof(UiResource.PlayStoryButtonTitle));
 
         loadGameButton.OnClick += (_, _) =>
         {
             var continueDialog = new ContinueGameModal(_uiContentStorage, _resolutionIndependentRenderer,
-                _globeProvider, _dice, _eventCatalog, ScreenManager, this);
+                _globeProvider, ScreenManager, this, _campaignGenerator);
             AddModal(continueDialog, isLate: true);
             continueDialog.Show();
         };
@@ -437,6 +435,6 @@ internal sealed class TitleScreen : GameScreenBase
 
     private void StartButton_OnClick(object? sender, EventArgs e)
     {
-        StartClearNewGame(_globeProvider, this, ScreenManager);
+        StartClearNewGame(_globeProvider, this, ScreenManager, _campaignGenerator);
     }
 }
