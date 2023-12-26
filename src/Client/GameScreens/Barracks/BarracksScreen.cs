@@ -22,7 +22,7 @@ internal class BarracksScreen: GameScreenWithMenuBase
     private HeroState? _selectedHero;
     
     // private EquipmentsInfoPanel _equipmentPanel = null!;
-    private GeneralInfoPanel _generalInfoPanel = null!;
+    private StatsInfoPanel _generalInfoPanel = null!;
     // private PerkInfoPanel _perkInfoPanel = null!;
     // private SkillsInfoPanel _skillsInfoPanel = null!;
 
@@ -75,8 +75,6 @@ internal class BarracksScreen: GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
         
-        var heroes = _globeProvider.Globe.Player.Heroes;
-
         var heroListRect = new Rectangle(contentRect.Left, contentRect.Top, contentRect.Width, 50);
         DrawHeroList(spriteBatch, heroListRect);
 

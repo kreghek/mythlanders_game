@@ -8,8 +8,6 @@ using Client.Core.Campaigns;
 using Client.GameScreens.CampaignReward;
 using Client.ScreenManagement;
 
-using CombatDicesTeam.Combats;
-
 namespace Client.Assets.StageItems;
 
 internal sealed class UnlockHeroRewardStageItem : IRewardCampaignStageItem
@@ -37,8 +35,7 @@ internal sealed class UnlockHeroRewardStageItem : IRewardCampaignStageItem
             _jobProgressResolver.ApplyProgress(completeCampaignProgress, job);
         }
 
-        _globeProvider.Globe.Player.AddHero(new HeroState(_jointedHeroName.ToString().ToLowerInvariant(),
-            new StatValue(3)));
+        _globeProvider.Globe.Player.AddHero(HeroState.Create(_jointedHeroName.ToString().ToLowerInvariant()));
 
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignReward,
             new CampaignRewardScreenTransitionArguments(currentCampaign, GetEstimateRewards(currentCampaign.Location)));

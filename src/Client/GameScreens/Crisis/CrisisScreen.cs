@@ -77,7 +77,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
         _dialogueContextFactory =
             new DialogueContextFactory(globe, storyPointCatalog, player, dialogueEnvironmentManager,
-                smallEvent, _campaign);
+                smallEvent, _campaign, new EventContext(globe, storyPointCatalog, player, smallEvent));
 
         var currentDialogueSid = smallEvent.GetDialogSid();
         var crisisDialogue = eventCatalog.GetDialogue(currentDialogueSid);

@@ -164,7 +164,7 @@ public class SynthAsParentTests
             textEvent,
             new HeroCampaign(ArraySegment<(HeroState, FieldCoords)>.Empty,
                 new HeroCampaignLocation(Mock.Of<ILocationSid>(), new DirectedGraph<ICampaignStageItem>()),
-                ArraySegment<ICampaignReward>.Empty, default));
+                ArraySegment<ICampaignReward>.Empty, default), Mock.Of<IEventContext>());
         var dialoguePlayer =
             new DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext>(testDialog, dialogueContextFactory);
 

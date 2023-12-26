@@ -10,12 +10,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Barracks.Ui;
 
-internal class GeneralInfoPanel : PanelBase
+internal class StatsInfoPanel : PanelBase
 {
     private readonly HeroState _hero;
     private readonly SpriteFont _mainFont;
 
-    public GeneralInfoPanel(HeroState hero)
+    public StatsInfoPanel(HeroState hero)
     {
         _hero = hero;
         _mainFont = UiThemeManager.UiContentStorage.GetMainFont();
