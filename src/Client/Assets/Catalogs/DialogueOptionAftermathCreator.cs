@@ -21,9 +21,9 @@ internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathC
         _dice = dice;
     }
 
-    public IDialogueOptionAftermath<AftermathContext> Create(string typeSid, string data)
+    public IDialogueOptionAftermath<CampaignAftermathContext> Create(string typeSid, string data)
     {
-        IDialogueOptionAftermath<AftermathContext>? aftermath = null;
+        IDialogueOptionAftermath<CampaignAftermathContext>? aftermath = null;
 
         if (typeSid == "MeetHero")
         {

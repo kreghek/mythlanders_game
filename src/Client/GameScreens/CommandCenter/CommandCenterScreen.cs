@@ -10,6 +10,7 @@ using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter.Ui;
 using Client.ScreenManagement;
 
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dices;
 
 using Core;
@@ -135,7 +136,25 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
                 panels.Add(panel);
                 panel.Selected += (_, _) =>
                 {
-                    var campaign = new HeroCampaign(campaignLaunch.Heroes, campaignLaunch.Location,
+                    var heroStartCoordsOpenList = new List<FieldCoords>
+                    {
+                        new FieldCoords(0, 0),
+                        new FieldCoords(0, 1),
+                        new FieldCoords(0, 2),
+                        new FieldCoords(1, 0),
+                        new FieldCoords(1, 1),
+                        new FieldCoords(1, 2)
+                    };
+
+                    var initHeroes = new List<(HeroState, FieldCoords)>();
+                    foreach (var launchHero in campaignLaunch.Heroes)
+                    {
+                        var rolledCoords = _dice.RollFromList(heroStartCoordsOpenList);
+                        initHeroes.Add((launchHero, rolledCoords));
+                        heroStartCoordsOpenList.Remove(rolledCoords);
+                    }
+
+                    var campaign = new HeroCampaign(initHeroes, campaignLaunch.Location,
                         campaignLaunch.Penalties, _dice.Roll(100));
 
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,

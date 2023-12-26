@@ -39,10 +39,10 @@ internal sealed class CharacterDeepPreyingGlobeEvent : IGlobeEvent
 
     public void Initialize(Globe globe)
     {
-        var targetPlayerCharacter = globe.Player.GetAll().SingleOrDefault(x => x.UnitScheme.Name == _name);
+        var targetPlayerCharacter = globe.Player.Heroes.Units.SingleOrDefault(x => x.ClassSid == _name.ToString());
 
         Debug.Assert(targetPlayerCharacter is not null,
-            "Global events shoudn't be before the target character join the party.");
+            "Global events shouldn't be before the target character join the party.");
 
         //targetPlayerCharacter.AddGlobalEffect(this);
     }

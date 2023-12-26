@@ -26,12 +26,6 @@ namespace Client.GameScreens.TextDialogue;
 internal class TextDialogueScreen : GameScreenWithMenuBase
 {
     private const int BACKGROUND_LAYERS_COUNT = 3;
-    private const float BACKGROUND_LAYERS_SPEED = 0.1f;
-
-    /// <summary>
-    /// Event screen has no background parallax.
-    /// </summary>
-    private const float BG_CENTER_OFFSET_PERCENTAGE = 0;
 
     private readonly Texture2D _backgroundTexture;
     private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
@@ -39,7 +33,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
     private readonly DialogueContextFactory _dialogueContextFactory;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly DialogueOptions _dialogueOptions;
-    private readonly DialoguePlayer<ParagraphConditionContext, AftermathContext> _dialoguePlayer;
+    private readonly DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext> _dialoguePlayer;
     private readonly IDice _dice;
     private readonly IEventCatalog _eventCatalog;
     private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
@@ -102,9 +96,9 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
 
         _dialogueContextFactory =
             new DialogueContextFactory(globe, storyPointCatalog, _player, _dialogueEnvironmentManager,
-                args.DialogueEvent);
+                args.DialogueEvent, args.Campaign);
         _dialoguePlayer =
-            new DialoguePlayer<ParagraphConditionContext, AftermathContext>(args.CurrentDialogue,
+            new DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext>(args.CurrentDialogue,
                 _dialogueContextFactory);
 
         _eventCatalog = game.Services.GetService<IEventCatalog>();
@@ -189,19 +183,16 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         AddModal(tutorialModal, isLate: false);
     }
 
-    private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
-        int backgroundMaxOffset)
+    private static UnitName ConvertSpeakerToUnitName(IDialogueSpeaker speaker)
+    {
+        var speakerName = speaker.ToString();
+        return Enum.Parse<UnitName>(speakerName!);
+    }
+
+    private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds)
     {
         for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
         {
-            var xFloat = backgroundStartOffset + BG_CENTER_OFFSET_PERCENTAGE * (BACKGROUND_LAYERS_COUNT - i - 1) *
-                BACKGROUND_LAYERS_SPEED * backgroundMaxOffset;
-            var roundedX = (int)Math.Round(xFloat);
-            var position = new Vector2(roundedX, 0);
-
-            //TODO Restore parallax
-            var position3d = new Vector3(position, 0);
-
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
@@ -245,35 +236,21 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
-        var col = 0;
-        var row = 0;
-        // var col = _frameIndex % 2;
-        // var row = _frameIndex / 2;
-
-        var name = Enum.Parse<UnitName>(speaker.ToString());
+        var name = ConvertSpeakerToUnitName(speaker);
 
         spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(name),
             new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Height - SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE),
-            new Rectangle(col * SPEAKER_FRAME_SIZE, row * SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE,
+            new Rectangle(SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE),
             Color.White);
 
         spriteBatch.End();
     }
 
-    private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
-        int backgroundMaxOffset)
+    private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds)
     {
-        var xFloat = backgroundStartOffset +
-                     -1 * BG_CENTER_OFFSET_PERCENTAGE * BACKGROUND_LAYERS_SPEED * 2 * backgroundMaxOffset;
-        var roundedX = (int)Math.Round(xFloat);
-
-        var position = new Vector2(roundedX, 0);
-
-        var position3d = new Vector3(position, 0);
-
         spriteBatch.Begin(
             sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
@@ -298,12 +275,9 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
 
         var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 
-        const int BG_START_OFFSET = -100;
-        const int BG_MAX_OFFSET = 200;
+        DrawBackgroundLayers(spriteBatch, backgrounds);
 
-        DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
-
-        DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
+        DrawForegroundLayers(spriteBatch, backgrounds);
 
         spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
@@ -387,7 +361,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         _currentFragmentIndex = 0;
         foreach (var textFragment in _dialoguePlayer.CurrentTextFragments)
         {
-            var name = Enum.Parse<UnitName>(textFragment.Speaker.ToString());
+            var name = ConvertSpeakerToUnitName(textFragment.Speaker);
             var textFragmentControl = new TextParagraphControl(
                 textFragment,
                 _gameObjectContentStorage.GetTextSoundEffect(name),
@@ -459,7 +433,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
             if (_currentFragmentIndex < maxFragmentIndex)
             {
                 _currentTextFragmentIsReady = true;
-                //TODO Make auto-move to next dialog. Make it disable in settings by default.
+                //TODO Make auto-move to next dialog. Make it disabled in settings by default.
                 if (IsKeyPressed(Keys.Space))
                 {
                     _currentFragmentIndex++;

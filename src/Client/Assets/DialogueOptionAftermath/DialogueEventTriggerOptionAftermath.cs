@@ -18,12 +18,12 @@ internal class DialogueEventTriggerOptionAftermath : DialogueOptionAftermathBase
         IsHidden = true;
     }
 
-    public override void Apply(AftermathContext aftermathContext)
+    public override void Apply(CampaignAftermathContext aftermathContext)
     {
         aftermathContext.CurrentDialogueEvent.Trigger(new DialogueEventTrigger(_trigger));
     }
 
-    protected override IReadOnlyList<string> GetDescriptionValues(AftermathContext aftermathContext)
+    protected override IReadOnlyList<string> GetDescriptionValues(CampaignAftermathContext aftermathContext)
     {
         return ArraySegment<string>.Empty;
     }

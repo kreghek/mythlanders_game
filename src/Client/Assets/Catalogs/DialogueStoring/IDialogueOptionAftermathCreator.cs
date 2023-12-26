@@ -6,5 +6,5 @@ namespace Client.Assets.Catalogs.DialogueStoring;
 
 internal interface IDialogueOptionAftermathCreator
 {
-    IDialogueOptionAftermath<AftermathContext> Create(string aftermathTypeSid, string data);
+    IDialogueOptionAftermath<CampaignAftermathContext> Create(string aftermathTypeSid, string data);
 }
