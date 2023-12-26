@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Client.GameScreens.Barracks;
 using Client.GameScreens.Bestiary;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.CampaignReward;
@@ -118,6 +119,7 @@ internal class ScreenManager : IScreenManager
             ScreenTransition.CommandCenter => new CommandCenterScreen(_game,
                 (CommandCenterScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.Hero => new HeroScreen(_game),
+            ScreenTransition.Barracks => new BarracksScreen(_game),
             ScreenTransition.Event => new TextDialogueScreen(_game,
                 (TextDialogueScreenTransitionArgs)screenTransitionArguments),
             ScreenTransition.Combat => new CombatScreen(_game,

@@ -37,7 +37,7 @@ internal class BarracksScreen: GameScreenWithMenuBase
     {
         var catalog = Game.Services.GetRequiredService<ICombatantGraphicsCatalog>();
         var uiContentStorage =Game.Services.GetRequiredService<IUiContentStorage>();
-        _heroList = _globeProvider.Globe.Player.Heroes.Select(x =>
+        _heroList = _globeProvider.Globe.Player.Heroes.Units.Select(x =>
             new HeroListItem(x, catalog, Game.Content, uiContentStorage.GetMainFont())).ToArray();
 
         foreach (var heroListItem in _heroList)
@@ -101,9 +101,6 @@ internal class BarracksScreen: GameScreenWithMenuBase
         //
         // _perkInfoPanel.Rect = GetCellRect(contentRect, col: 2, row: 1);
         // _perkInfoPanel.Draw(spriteBatch);
-
-        var actionButtonRect = GetCellRect(contentRect, col: 1, row: 1);
-        DrawActionButtons(spriteBatch: spriteBatch, actionButtonRect: actionButtonRect);
     }
 
     private void DrawHeroList(SpriteBatch spriteBatch, Rectangle heroListRect)
