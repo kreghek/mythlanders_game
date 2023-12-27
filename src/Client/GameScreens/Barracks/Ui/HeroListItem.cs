@@ -12,12 +12,14 @@ namespace Client.GameScreens.Barracks.Ui;
 
 internal sealed class HeroListItem: ButtonBase
 {
+    public HeroState Hero { get; }
     private readonly SpriteFont _heroNameFont;
     private readonly Texture2D _thumbnailIcon;
     private readonly UnitName _unitName;
 
     public HeroListItem(HeroState hero, ICombatantGraphicsCatalog combatantGraphicsCatalog, ContentManager content, SpriteFont heroNameFont)
     {
+        Hero = hero;
         _heroNameFont = heroNameFont;
         var classSid = hero.ClassSid;
         _unitName = Enum.Parse<UnitName>(classSid, false);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.Catalogs;
+using Client.Assets.CombatMovements;
 using Client.Core;
 using Client.Engine;
 using Client.GameScreens.Barracks.Ui;
@@ -22,15 +23,21 @@ internal class BarracksScreen: GameScreenWithMenuBase
     private HeroState? _selectedHero;
     
     // private EquipmentsInfoPanel _equipmentPanel = null!;
-    private StatsInfoPanel _generalInfoPanel = null!;
+    private StatsInfoPanel _statsInfoPanel = null!;
     // private PerkInfoPanel _perkInfoPanel = null!;
-    // private SkillsInfoPanel _skillsInfoPanel = null!;
+    private SkillsInfoPanel _skillsInfoPanel = null!;
 
     private IReadOnlyCollection<HeroListItem> _heroList = null!;
+    private readonly IUiContentStorage _uiContentStorage;
+    private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
 
     public BarracksScreen(TestamentGame game) : base(game)
     {
         _globeProvider = game.Services.GetRequiredService<GlobeProvider>();
+
+        _uiContentStorage = game.Services.GetRequiredService<IUiContentStorage>();
+
+        _combatMovementVisualizer = game.Services.GetRequiredService<ICombatMovementVisualizationProvider>();
     }
 
     protected override void InitializeContent()
@@ -48,7 +55,15 @@ internal class BarracksScreen: GameScreenWithMenuBase
 
     private void HeroListItem_OnClick(object? sender, EventArgs e)
     {
-        
+        var item = (HeroListItem?)sender;
+
+        if (item is not null)
+        {
+            _selectedHero = item.Hero;
+            _statsInfoPanel = new StatsInfoPanel(_selectedHero);
+            _skillsInfoPanel = new SkillsInfoPanel(_selectedHero, _uiContentStorage.GetMainFont(),
+                _combatMovementVisualizer, _uiContentStorage);
+        }
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -58,7 +73,7 @@ internal class BarracksScreen: GameScreenWithMenuBase
         backButton.OnClick += (_, _) =>
         {
             //TODO Pass available campaigns back
-            ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter, null);
+            ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter, null!);
         };
 
         return new ButtonBase[] { backButton };
@@ -88,12 +103,12 @@ internal class BarracksScreen: GameScreenWithMenuBase
 
     private void DrawHeroDetails(HeroState? selectedHero, SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        _generalInfoPanel.Rect = GetCellRect(contentRect, col: 1, row: 0);
-        _generalInfoPanel.Draw(spriteBatch);
+        _statsInfoPanel.Rect = GetCellRect(contentRect, col: 1, row: 0);
+        _statsInfoPanel.Draw(spriteBatch);
         
-        // _skillsInfoPanel.Rect = GetCellRect(contentRect, col: 2, row: 0);
-        // _skillsInfoPanel.Draw(spriteBatch);
-        //
+        _skillsInfoPanel.Rect = GetCellRect(contentRect, col: 2, row: 0);
+        _skillsInfoPanel.Draw(spriteBatch);
+
         // _equipmentPanel.Rect = GetCellRect(contentRect, col: 0, row: 1);
         // _equipmentPanel.Draw(spriteBatch);
         //
