@@ -1205,7 +1205,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Deals 1 damage to the closest enemy in the line and inspires all allies in the rear, increasing their damage by 1 for 1 round..
         /// </summary>
         internal static string InspirationalBreakthrough_Description {
             get {
@@ -1259,7 +1259,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Deals 1 damage to the closest enemy in the line. If it was the strongest enemy, it applies bleeding for 2 rounds, dealing damage to 1 health each round..
         /// </summary>
         internal static string JustHitBoarWithKnife_Description {
             get {
