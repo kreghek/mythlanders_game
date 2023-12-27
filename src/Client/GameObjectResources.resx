@@ -592,8 +592,8 @@
         <comment>Combat Movement Partisan</comment>
   </data>
   <data name="InspirationalBreakthrough_Description" xml:space="preserve">
-    <value />
-        <comment>Combat Movement Partisan</comment>
+      <value>Deals 1 damage to the closest enemy in the line and inspires all allies in the rear, increasing their damage by 1 for 1 round.</value>
+      <comment>Combat Movement Partisan</comment>
   </data>
   <data name="InspiringRush" xml:space="preserve">
     <value>Inspiring rush</value>
@@ -616,8 +616,8 @@
         <comment>Combat movement Amazon</comment>
   </data>
   <data name="JustHitBoarWithKnife_Description" xml:space="preserve">
-    <value />
-        <comment>Combat movement Amazon</comment>
+      <value>Deals 1 damage to the closest enemy in the line. If it was the strongest enemy, it applies bleeding for 2 rounds, dealing damage to 1 health each round.</value>
+      <comment>Combat movement Amazon</comment>
   </data>
   <data name="LastChanceToPeace" xml:space="preserve">
       <value>Last chance to peace</value>
