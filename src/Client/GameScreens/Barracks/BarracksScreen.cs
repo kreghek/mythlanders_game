@@ -22,9 +22,9 @@ internal class BarracksScreen: GameScreenWithMenuBase
     private readonly GlobeProvider _globeProvider;
     private HeroState? _selectedHero;
     
-    // private EquipmentsInfoPanel _equipmentPanel = null!;
+    private EquipmentsInfoPanel _equipmentPanel = null!;
     private StatsInfoPanel _statsInfoPanel = null!;
-    // private PerkInfoPanel _perkInfoPanel = null!;
+    private PerkInfoPanel _perkInfoPanel = null!;
     private SkillsInfoPanel _skillsInfoPanel = null!;
 
     private IReadOnlyCollection<HeroListItem> _heroList = null!;
@@ -57,13 +57,18 @@ internal class BarracksScreen: GameScreenWithMenuBase
     {
         var item = (HeroListItem?)sender;
 
-        if (item is not null)
+        if (item is null)
         {
-            _selectedHero = item.Hero;
-            _statsInfoPanel = new StatsInfoPanel(_selectedHero);
-            _skillsInfoPanel = new SkillsInfoPanel(_selectedHero, _uiContentStorage.GetMainFont(),
-                _combatMovementVisualizer, _uiContentStorage);
+            return;
         }
+
+        _selectedHero = item.Hero;
+        _statsInfoPanel = new StatsInfoPanel(_selectedHero);
+        _skillsInfoPanel = new SkillsInfoPanel(_selectedHero, _uiContentStorage.GetMainFont(),
+            _combatMovementVisualizer, _uiContentStorage);
+        _perkInfoPanel = new PerkInfoPanel(_selectedHero);
+        _equipmentPanel = new EquipmentsInfoPanel(_selectedHero, _uiContentStorage.GetEquipmentTextures(),
+            ResolutionIndependentRenderer);
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -95,13 +100,13 @@ internal class BarracksScreen: GameScreenWithMenuBase
 
         if (_selectedHero is not null)
         {
-            DrawHeroDetails(_selectedHero, spriteBatch, contentRect);
+            DrawHeroDetails(spriteBatch, contentRect);
         }
 
         spriteBatch.End();
     }
 
-    private void DrawHeroDetails(HeroState? selectedHero, SpriteBatch spriteBatch, Rectangle contentRect)
+    private void DrawHeroDetails(SpriteBatch spriteBatch, Rectangle contentRect)
     {
         _statsInfoPanel.Rect = GetCellRect(contentRect, col: 1, row: 0);
         _statsInfoPanel.Draw(spriteBatch);
@@ -109,11 +114,11 @@ internal class BarracksScreen: GameScreenWithMenuBase
         _skillsInfoPanel.Rect = GetCellRect(contentRect, col: 2, row: 0);
         _skillsInfoPanel.Draw(spriteBatch);
 
-        // _equipmentPanel.Rect = GetCellRect(contentRect, col: 0, row: 1);
-        // _equipmentPanel.Draw(spriteBatch);
-        //
-        // _perkInfoPanel.Rect = GetCellRect(contentRect, col: 2, row: 1);
-        // _perkInfoPanel.Draw(spriteBatch);
+        _equipmentPanel.Rect = GetCellRect(contentRect, col: 0, row: 1);
+        _equipmentPanel.Draw(spriteBatch);
+        
+        _perkInfoPanel.Rect = GetCellRect(contentRect, col: 2, row: 1);
+        _perkInfoPanel.Draw(spriteBatch);
     }
 
     private void DrawHeroList(SpriteBatch spriteBatch, Rectangle heroListRect)
