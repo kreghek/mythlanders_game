@@ -22,7 +22,7 @@ internal sealed class HeroListItem: ButtonBase
         Hero = hero;
         _heroNameFont = heroNameFont;
         var classSid = hero.ClassSid;
-        _unitName = Enum.Parse<UnitName>(classSid, false);
+        _unitName = Enum.Parse<UnitName>(classSid, true);
         var thumbnailPath = combatantGraphicsCatalog.GetGraphics(classSid).ThumbnailPath;
         _thumbnailIcon = content.Load<Texture2D>(thumbnailPath);
     }

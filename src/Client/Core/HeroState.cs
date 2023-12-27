@@ -13,6 +13,9 @@ internal sealed class HeroState
         this.ClassSid = classSid;
         this.HitPoints = hitPoints;
         this.AvailableMovements = availableMovements.ToArray();
+        
+        this.Equipments = ArraySegment<Equipment>.Empty;
+        this.Perks = ArraySegment<IPerk>.Empty;
     }
 
     public string ClassSid { get; }
