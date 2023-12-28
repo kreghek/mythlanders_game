@@ -7,11 +7,15 @@ using Client.Assets.Catalogs;
 using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.Dialogues;
 using Client.Core;
+using Client.Core.CampaignRewards;
+using Client.Core.Campaigns;
 using Client.GameScreens.TextDialogue;
 using Client.GameScreens.TextDialogue.Ui;
 
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
+using CombatDicesTeam.Graphs;
 
 using FluentAssertions;
 
@@ -139,7 +143,7 @@ public class MonkeyKingTests
         }
     }
 
-    private static void CheckDialogue(Dialogue<ParagraphConditionContext, AftermathContext> testDialog,
+    private static void CheckDialogue(Dialogue<ParagraphConditionContext, CampaignAftermathContext> testDialog,
         int[] targetOptions, StoryPointCatalog storyPointCatalog,
         GlobeProvider globeProvider, DialogueEvent textEvent)
     {
@@ -148,9 +152,12 @@ public class MonkeyKingTests
             storyPointCatalog,
             globeProvider.Globe.Player,
             Mock.Of<IDialogueEnvironmentManager>(),
-            textEvent);
+            textEvent,
+            new HeroCampaign(ArraySegment<(HeroState, FieldCoords)>.Empty,
+                new HeroCampaignLocation(Mock.Of<ILocationSid>(), new DirectedGraph<ICampaignStageItem>()),
+                ArraySegment<ICampaignReward>.Empty, default), Mock.Of<IEventContext>());
         var dialoguePlayer =
-            new DialoguePlayer<ParagraphConditionContext, AftermathContext>(testDialog, dialogueContextFactory);
+            new DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext>(testDialog, dialogueContextFactory);
 
         var targetOptionsIncludeFinish = targetOptions.Concat(new[] { 1 }).ToArray();
 

@@ -15,17 +15,17 @@ internal sealed class AddHeroOptionAftermath : DialogueOptionAftermathBase
         _scheme = scheme;
     }
 
-    public override void Apply(AftermathContext aftermathContext)
+    public override void Apply(CampaignAftermathContext aftermathContext)
     {
         const int DEFAULT_LEVEL = 1;
         var unit = new Hero(_scheme, DEFAULT_LEVEL)
         {
             IsPlayerControlled = true
         };
-        aftermathContext.AddNewCharacter(unit);
+        aftermathContext.AddNewHero(unit);
     }
 
-    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
+    protected override IReadOnlyList<object> GetDescriptionValues(CampaignAftermathContext aftermathContext)
     {
         return new object[]
         {

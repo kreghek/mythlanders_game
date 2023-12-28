@@ -1,32 +1,40 @@
 using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
+using Client.Core.Campaigns;
 
 using CombatDicesTeam.Dialogues;
 
 namespace Client.GameScreens.TextDialogue;
 
-internal sealed class DialogueContextFactory : IDialogueContextFactory<ParagraphConditionContext, AftermathContext>
+internal sealed class
+    DialogueContextFactory : IDialogueContextFactory<ParagraphConditionContext, CampaignAftermathContext>
 {
+    private readonly HeroCampaign _campaign;
     private readonly DialogueEvent _currentDialogueEvent;
     private readonly IDialogueEnvironmentManager _environmentManager;
+    private readonly IEventContext _eventContext;
     private readonly Globe _globe;
     private readonly Player _player;
     private readonly IStoryPointCatalog _storyPointCatalog;
 
     public DialogueContextFactory(Globe globe, IStoryPointCatalog storyPointCatalog, Player player,
         IDialogueEnvironmentManager environmentManager,
-        DialogueEvent currentDialogueEvent)
+        DialogueEvent currentDialogueEvent,
+        HeroCampaign campaign, IEventContext eventContext)
     {
         _globe = globe;
         _storyPointCatalog = storyPointCatalog;
         _player = player;
         _environmentManager = environmentManager;
         _currentDialogueEvent = currentDialogueEvent;
+        _campaign = campaign;
+        _eventContext = eventContext;
     }
 
-    public AftermathContext CreateAftermathContext()
+    public CampaignAftermathContext CreateAftermathContext()
     {
-        return new AftermathContext(_globe, _storyPointCatalog, _player, _currentDialogueEvent, _environmentManager);
+        return new CampaignAftermathContext(_globe, _storyPointCatalog, _player, _currentDialogueEvent,
+            _environmentManager, _campaign, _eventContext);
     }
 
     public ParagraphConditionContext CreateParagraphConditionContext()

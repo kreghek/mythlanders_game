@@ -4,6 +4,7 @@ using System.Linq;
 
 using Client.Assets.GlobalEffects;
 using Client.Core;
+using Client.Core.Campaigns;
 using Client.Core.Heroes;
 
 using CombatDicesTeam.Dialogues;
@@ -12,46 +13,39 @@ using Core.Props;
 
 namespace Client.Assets.Catalogs.Dialogues;
 
-internal class AftermathContext
+internal class CampaignAftermathContext
 {
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
+    private readonly IEventContext _eventContext;
     private readonly Globe _globe;
+    private readonly HeroCampaign _heroCampaign;
     private readonly Player _player;
     private readonly IStoryPointCatalog _storyPointCatalog;
 
-    public AftermathContext(Globe globe, IStoryPointCatalog storyPointCatalog, Player player,
-        DialogueEvent currentDialogueEvent, IDialogueEnvironmentManager dialogueEnvironmentManager)
+    public CampaignAftermathContext(Globe globe, IStoryPointCatalog storyPointCatalog, Player player,
+        DialogueEvent currentDialogueEvent, IDialogueEnvironmentManager dialogueEnvironmentManager,
+        HeroCampaign heroCampaign, IEventContext eventContext)
     {
         _globe = globe;
         _storyPointCatalog = storyPointCatalog;
         _player = player;
         _dialogueEnvironmentManager = dialogueEnvironmentManager;
+        _heroCampaign = heroCampaign;
+        _eventContext = eventContext;
 
         CurrentDialogueEvent = currentDialogueEvent;
     }
 
     public DialogueEvent CurrentDialogueEvent { get; }
 
-    public void AddNewCharacter(Hero unit)
-    {
-        var freeSlots = _globe.Player.Party.GetFreeSlots()
-            //.Where(
-            //    x => BoolHelper.HasNotRestriction(_player.HasAbility(PlayerAbility.AvailableTanks), x.IsTankLine))
-            .ToArray();
-        if (freeSlots.Any())
-        {
-            var selectedFreeSlot = freeSlots.First();
-            _globe.Player.MoveToParty(unit, selectedFreeSlot.Index);
-        }
-        else
-        {
-            _globe.Player.Pool.AddNewUnit(unit);
-        }
-    }
-
     public void AddNewGlobalEvent(CharacterDeepPreyingGlobeEvent globalEvent)
     {
         _globe.AddGlobalEvent(globalEvent);
+    }
+
+    public void AddNewHero(Hero unit)
+    {
+        _eventContext.AddNewCharacter(unit);
     }
 
     public void AddResources(IProp resource)
@@ -87,19 +81,19 @@ internal class AftermathContext
 
     public void DamageHero(string heroClassSid, int damageAmount)
     {
-        var hero = _player.Heroes.Single(x => x.ClassSid == heroClassSid);
-        hero.HitPoints.Consume(damageAmount);
+        var hero = _heroCampaign.Heroes.Single(x => x.State.ClassSid == heroClassSid);
+        hero.State.HitPoints.Consume(damageAmount);
         HeroHpChanged?.Invoke(this, new HeroStatChangedEventArgs(heroClassSid, -damageAmount));
     }
 
     public IReadOnlyCollection<string> GetPartyHeroes()
     {
-        return _player.Heroes.Where(x => x.HitPoints.Current > 0).Select(x => x.ClassSid).ToArray();
+        return _heroCampaign.Heroes.Where(x => x.State.HitPoints.Current > 0).Select(x => x.State.ClassSid).ToArray();
     }
 
     public IReadOnlyCollection<string> GetWoundedHeroes()
     {
-        return _player.Heroes.Where(x => x.HitPoints.Current <= 0).Select(x => x.ClassSid).ToArray();
+        return _heroCampaign.Heroes.Where(x => x.State.HitPoints.Current <= 0).Select(x => x.State.ClassSid).ToArray();
     }
 
     public void PlaySong(string resourceName)
@@ -119,8 +113,8 @@ internal class AftermathContext
 
     public void RestHero(string heroClassSid, int healAmount)
     {
-        var hero = _player.Heroes.Single(x => x.ClassSid == heroClassSid);
-        hero.HitPoints.Restore(healAmount);
+        var hero = _heroCampaign.Heroes.Single(x => x.State.ClassSid == heroClassSid);
+        hero.State.HitPoints.Restore(healAmount);
         HeroHpChanged?.Invoke(this, new HeroStatChangedEventArgs(heroClassSid, healAmount));
     }
 

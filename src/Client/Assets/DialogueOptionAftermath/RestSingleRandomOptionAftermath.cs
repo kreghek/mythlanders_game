@@ -19,14 +19,14 @@ internal sealed class RestSingleRandomOptionAftermath : DialogueOptionAftermathB
         _dice = dice;
     }
 
-    public override void Apply(AftermathContext aftermathContext)
+    public override void Apply(CampaignAftermathContext aftermathContext)
     {
         DefineHeroToHealOrNothing(aftermathContext);
 
         aftermathContext.DamageHero(_selectedHeroToHeal!, HEAL);
     }
 
-    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
+    protected override IReadOnlyList<object> GetDescriptionValues(CampaignAftermathContext aftermathContext)
     {
         DefineHeroToHealOrNothing(aftermathContext);
 
@@ -37,7 +37,7 @@ internal sealed class RestSingleRandomOptionAftermath : DialogueOptionAftermathB
         };
     }
 
-    private void DefineHeroToHealOrNothing(AftermathContext aftermathContext)
+    private void DefineHeroToHealOrNothing(CampaignAftermathContext aftermathContext)
     {
         var heroes = aftermathContext.GetPartyHeroes();
 

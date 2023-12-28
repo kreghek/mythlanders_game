@@ -11,7 +11,7 @@ internal sealed class RestAllOptionAftermath : DialogueOptionAftermathBase
     private const int HEAL = 1;
 
 
-    public override void Apply(AftermathContext aftermathContext)
+    public override void Apply(CampaignAftermathContext aftermathContext)
     {
         var heroes = aftermathContext.GetPartyHeroes();
 
@@ -27,7 +27,7 @@ internal sealed class RestAllOptionAftermath : DialogueOptionAftermathBase
         }
     }
 
-    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
+    protected override IReadOnlyList<object> GetDescriptionValues(CampaignAftermathContext aftermathContext)
     {
         var heroes = aftermathContext.GetPartyHeroes();
 
