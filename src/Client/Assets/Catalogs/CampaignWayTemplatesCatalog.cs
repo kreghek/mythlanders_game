@@ -48,6 +48,8 @@ internal sealed class CampaignWayTemplatesCatalog
 
         var way1Templates = new ICampaignStageTemplateFactory[]
         {
+            new CrisisEventCampaignStageTemplateFactory(_services),
+            
             // Combat
 
             new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Easy, _services),
