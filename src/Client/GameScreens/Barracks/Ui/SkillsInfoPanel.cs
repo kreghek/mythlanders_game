@@ -21,7 +21,8 @@ internal sealed class SkillsInfoPanel : PanelBase
 
     private readonly IList<EntityIconButton<CombatMovement>> _skillList;
 
-    public SkillsInfoPanel(HeroState hero, SpriteFont mainFont, ICombatMovementVisualizationProvider combatMovementVisualizer, IUiContentStorage uiContentStorage)
+    public SkillsInfoPanel(HeroState hero, SpriteFont mainFont,
+        ICombatMovementVisualizationProvider combatMovementVisualizer, IUiContentStorage uiContentStorage)
     {
         _skillList = new List<EntityIconButton<CombatMovement>>();
         var heroAvailableMovements = hero.AvailableMovements.ToArray();

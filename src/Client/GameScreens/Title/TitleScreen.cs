@@ -333,7 +333,9 @@ internal sealed class TitleScreen : GameScreenBase
         var rolledHeroes = dice.RollFromList(freeHeroes, dice.Roll(2, 4)).ToArray();
         var rolledHeroPositions = _dice.RollFromList(heroPositions, rolledHeroes.Length).ToArray();
         var heroStates = rolledHeroPositions
-            .Select((t, i) => (new HeroState(rolledHeroes[i].Item1, rolledHeroes[i].Item2, ArraySegment<CombatMovement>.Empty), t)).ToArray();
+            .Select((t, i) => (
+                new HeroState(rolledHeroes[i].Item1, rolledHeroes[i].Item2, ArraySegment<CombatMovement>.Empty), t))
+            .ToArray();
         _globeProvider.GenerateFree(heroStates.Select(x => x.Item1).ToArray());
 
         var rolledMonsters = _dice.RollFromList(freeMonsters, dice.Roll(2, 4)).ToArray();

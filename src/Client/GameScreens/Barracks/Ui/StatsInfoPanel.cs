@@ -35,7 +35,7 @@ internal class StatsInfoPanel : PanelBase
         var sb = new List<string>
         {
             name,
-            string.Format(UiResource.HitPointsLabelTemplate, _hero.HitPoints.Current),
+            string.Format(UiResource.HitPointsLabelTemplate, _hero.HitPoints.Current)
             // string.Format(UiResource.ShieldPointsLabelTemplate,
             //     _hero.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value.ActualMax),
             // string.Format(UiResource.ManaLabelTemplate, 0,

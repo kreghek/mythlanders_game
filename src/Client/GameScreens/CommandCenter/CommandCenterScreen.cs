@@ -174,7 +174,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         {
             ScreenManager.ExecuteTransition(this, ScreenTransition.Barracks, null!);
         };
-        
+
         _commandButtons[1] = new ResourceTextButton(nameof(UiResource.ArmoryButtonTitle));
         _commandButtons[2] = new ResourceTextButton(nameof(UiResource.AdjutantButtonTitle));
         _commandButtons[3] = new ResourceTextButton(nameof(UiResource.ChroniclesButtonTitle));

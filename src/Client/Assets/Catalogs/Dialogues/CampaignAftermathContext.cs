@@ -16,9 +16,9 @@ namespace Client.Assets.Catalogs.Dialogues;
 internal class CampaignAftermathContext
 {
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
+    private readonly IEventContext _eventContext;
     private readonly Globe _globe;
     private readonly HeroCampaign _heroCampaign;
-    private readonly IEventContext _eventContext;
     private readonly Player _player;
     private readonly IStoryPointCatalog _storyPointCatalog;
 

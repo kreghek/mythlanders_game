@@ -5,8 +5,6 @@ using System.Linq;
 using Client.Core;
 using Client.Core.Heroes;
 
-using CombatDicesTeam.Combats;
-
 namespace Client.Assets.Catalogs.Dialogues;
 
 internal sealed class EventContext : IEventContext

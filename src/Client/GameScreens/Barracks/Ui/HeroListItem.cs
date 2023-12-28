@@ -10,14 +10,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Barracks.Ui;
 
-internal sealed class HeroListItem: ButtonBase
+internal sealed class HeroListItem : ButtonBase
 {
-    public HeroState Hero { get; }
     private readonly SpriteFont _heroNameFont;
     private readonly Texture2D _thumbnailIcon;
     private readonly UnitName _unitName;
 
-    public HeroListItem(HeroState hero, ICombatantGraphicsCatalog combatantGraphicsCatalog, ContentManager content, SpriteFont heroNameFont)
+    public HeroListItem(HeroState hero, ICombatantGraphicsCatalog combatantGraphicsCatalog, ContentManager content,
+        SpriteFont heroNameFont)
     {
         Hero = hero;
         _heroNameFont = heroNameFont;
@@ -26,8 +26,13 @@ internal sealed class HeroListItem: ButtonBase
         var thumbnailPath = combatantGraphicsCatalog.GetGraphics(classSid).ThumbnailPath;
         _thumbnailIcon = content.Load<Texture2D>(thumbnailPath);
     }
-    
-    protected override Point CalcTextureOffset() => ControlTextures.Button2;
+
+    public HeroState Hero { get; }
+
+    protected override Point CalcTextureOffset()
+    {
+        return ControlTextures.Button2;
+    }
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {

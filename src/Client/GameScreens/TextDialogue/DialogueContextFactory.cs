@@ -10,9 +10,9 @@ internal sealed class
     DialogueContextFactory : IDialogueContextFactory<ParagraphConditionContext, CampaignAftermathContext>
 {
     private readonly HeroCampaign _campaign;
-    private readonly IEventContext _eventContext;
     private readonly DialogueEvent _currentDialogueEvent;
     private readonly IDialogueEnvironmentManager _environmentManager;
+    private readonly IEventContext _eventContext;
     private readonly Globe _globe;
     private readonly Player _player;
     private readonly IStoryPointCatalog _storyPointCatalog;
