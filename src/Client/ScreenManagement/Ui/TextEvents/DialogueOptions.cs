@@ -6,7 +6,7 @@ using Client.Engine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.GameScreens.TextDialogue.Ui;
+namespace Client.ScreenManagement.Ui.TextEvents;
 
 internal class DialogueOptions : ControlBase
 {

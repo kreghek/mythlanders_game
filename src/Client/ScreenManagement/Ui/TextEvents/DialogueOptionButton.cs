@@ -1,9 +1,10 @@
 using Client.Engine;
+using Client.GameScreens.TextDialogue.Ui;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.GameScreens.TextDialogue.Ui;
+namespace Client.ScreenManagement.Ui.TextEvents;
 
 internal class DialogueOptionButton : ButtonBase
 {
@@ -37,7 +38,7 @@ internal class DialogueOptionButton : ButtonBase
         return ControlTextures.OptionNormal;
     }
 
-    protected Color CalculateTextColor()
+    private Color CalculateTextColor()
     {
         if (_buttonState == UiButtonState.Hover || _buttonState == UiButtonState.Pressed)
         {

@@ -158,6 +158,9 @@
             <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Engine\BaseScreens" />
+    </ItemGroup>
 
     <Target Name="CopySteamApiOnBuild" AfterTargets="AfterBuild">
         <Copy SourceFiles="..\..\libs\Windows-x64\steam_api64.dll" DestinationFolder="$(OutDir)" />

@@ -13,6 +13,7 @@ using Client.GameScreens.Campaign;
 using Client.GameScreens.Crisis.Ui;
 using Client.GameScreens.TextDialogue;
 using Client.ScreenManagement;
+using Client.ScreenManagement.Ui.TextEvents;
 
 using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
@@ -50,7 +51,7 @@ internal sealed class CrisisScreen : GameScreenWithMenuBase
 
         _uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();
 
-        var globe = _globeProvider.Globe ?? throw new InvalidOperationException();
+        var globe = globeProvider.Globe ?? throw new InvalidOperationException();
         var player = globe.Player ?? throw new InvalidOperationException();
         var storyPointCatalog = game.Services.GetService<IStoryPointCatalog>();
         var dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();

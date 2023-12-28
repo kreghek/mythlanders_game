@@ -4,7 +4,7 @@ using Client.Core.Campaigns;
 
 using CombatDicesTeam.Dialogues;
 
-namespace Client.GameScreens.TextDialogue;
+namespace Client.ScreenManagement.Ui.TextEvents;
 
 internal sealed class
     DialogueContextFactory : IDialogueContextFactory<ParagraphConditionContext, CampaignAftermathContext>

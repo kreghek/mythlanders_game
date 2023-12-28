@@ -6,6 +6,8 @@ using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.DialogueOptionAftermath;
 using Client.Core;
 using Client.Engine;
+using Client.GameScreens;
+using Client.GameScreens.TextDialogue.Ui;
 
 using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
@@ -14,7 +16,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.GameScreens.TextDialogue.Ui;
+namespace Client.ScreenManagement.Ui.TextEvents;
 
 internal sealed class TextParagraphControl : ControlBase
 {
