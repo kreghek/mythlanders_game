@@ -11,4 +11,4 @@ namespace Client.GameScreens.Crisis;
 internal sealed record CrisisScreenTransitionArguments
     (HeroCampaign Campaign, EventType EventType,
         Dialogue<ParagraphConditionContext, CampaignAftermathContext> CurrentDialogue,
-        DialogueEvent DialogueEvent) : TextEventScreenArgsBase(Campaign, CurrentDialogue, DialogueEvent);
+        DialogueEvent DialogueEvent, ICrisis Crisis) : TextEventScreenArgsBase(Campaign, CurrentDialogue, DialogueEvent);

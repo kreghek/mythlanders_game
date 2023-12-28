@@ -44,6 +44,6 @@ internal abstract class SmallTextEventStageItem : ICampaignStageItem
         var crisisDialogue = _eventCatalog.GetDialogue(currentDialogueSid);
         
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.Crisis,
-            new CrisisScreenTransitionArguments(currentCampaign, EventType.Crisis, crisisDialogue, smallEvent));
+            new CrisisScreenTransitionArguments(currentCampaign, EventType.Crisis, crisisDialogue, smallEvent, crisis));
     }
 }

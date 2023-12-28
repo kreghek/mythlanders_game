@@ -207,7 +207,7 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
     private static UnitName ConvertSpeakerToUnitName(IDialogueSpeaker speaker)
     {
         var speakerName = speaker.ToString();
-        return Enum.Parse<UnitName>(speakerName!);
+        return Enum.Parse<UnitName>(speakerName!, true);
     }
 
     protected override IList<ButtonBase> CreateMenu()
