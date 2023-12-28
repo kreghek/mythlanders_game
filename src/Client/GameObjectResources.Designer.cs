@@ -618,24 +618,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DestroyTheSickSource_CrisisAftermath {
-            get {
-                return ResourceManager.GetString("DestroyTheSickSource_CrisisAftermath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DestroyTheSickSource_CrisisAftermath_Hint {
-            get {
-                return ResourceManager.GetString("DestroyTheSickSource_CrisisAftermath_Hint", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Devastating Paw.
         /// </summary>
         internal static string DevastatingPaw {
@@ -1660,15 +1642,6 @@ namespace Client {
         internal static string Robber {
             get {
                 return ResourceManager.GetString("Robber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string RunOut_CrisisAftermath {
-            get {
-                return ResourceManager.GetString("RunOut_CrisisAftermath", resourceCulture);
             }
         }
         

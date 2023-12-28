@@ -4,6 +4,16 @@ using Core.Crises;
 
 namespace Client.Assets.Catalogs.Crises;
 
+public static class CrisesCatalogSids
+{
+    public static string MagicTrap => nameof(MagicTrap);
+    public static string CityWitchHunting => nameof(CityWitchHunting);
+    public static string JinkCity => nameof(JinkCity);
+    public static string CristalTreasures => nameof(CristalTreasures);
+    public static string InfernalSickness => nameof(InfernalSickness);
+    public static string Starvation => nameof(Starvation);
+}
+
 public sealed class CrisesCatalog : ICrisesCatalog
 {
     private readonly ICrisis[] _crises;
@@ -12,15 +22,12 @@ public sealed class CrisesCatalog : ICrisesCatalog
     {
         _crises = new ICrisis[]
         {
-            new Crisis("MagicTrap"),
-            new Crisis("CityWitchHunting"),
-            new Crisis("JinkCity"),
-            new Treasures("Treasures")
-            //new Crisis("InfernalSickness", new ICrisisAftermath[]
-            //{
-            //    new DamageSingleRandomOptionAftermath("RunOut", dice),
-            //    new DamageAllHeroesOptionAftermath("DestroyTheSickSource")
-            //}),
+            new Crisis(CrisesCatalogSids.MagicTrap),
+            new Crisis(CrisesCatalogSids.CityWitchHunting),
+            new Crisis(CrisesCatalogSids.JinkCity),
+            new Crisis(CrisesCatalogSids.InfernalSickness),
+            new Crisis(CrisesCatalogSids.Starvation),
+            new Treasures(CrisesCatalogSids.CristalTreasures),
             //new Crisis("Starvation", new ICrisisAftermath[]
             //{
             //    new DamageSingleRandomOptionAftermath("StarveSolo", dice),
