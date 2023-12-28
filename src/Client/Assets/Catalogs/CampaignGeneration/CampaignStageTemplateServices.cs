@@ -1,4 +1,5 @@
-﻿using Client.Core;
+﻿using Client.Assets.Catalogs.Crises;
+using Client.Core;
 
 using CombatDicesTeam.Dices;
 
@@ -15,4 +16,5 @@ internal sealed record CampaignStageTemplateServices(
     IJobProgressResolver JobProgressResolver,
     IDropResolver DropResolver,
     IDice Dice,
-    IUnitSchemeCatalog UnitSchemeCatalog);
+    IUnitSchemeCatalog UnitSchemeCatalog,
+    ICrisesCatalog CrisesCatalog);

@@ -236,8 +236,54 @@ internal sealed class TestamentGame : Game
         Services.AddService<IDropResolver>(dropResolver);
 
         var dialogueResourceProvider = new DialogueResourceProvider(Content);
-
+        
+        
         var balanceTable = new BalanceTable();
+        
+        RegisterCatalogs(balanceTable: balanceTable, dialogueResourceProvider: dialogueResourceProvider);
+        
+        var eventInitializer = Services.GetRequiredService<IEventInitializer>();
+        eventInitializer.Init();
+
+        Services.AddService(
+            new GlobeProvider(Services.GetRequiredService<IUnitSchemeCatalog>(),
+                Services.GetRequiredService<IStoryPointInitializer>()));
+        
+        var campaignWayTemplateCatalog = new CampaignWayTemplatesCatalog(Services.GetRequiredService<GlobeProvider>(),
+            Services.GetRequiredService<IEventCatalog>(),
+            Services.GetRequiredService<IDice>(),
+            Services.GetRequiredService<IJobProgressResolver>(),
+            Services.GetRequiredService<IDropResolver>(),
+            Services.GetRequiredService<IUnitSchemeCatalog>(),
+            Services.GetRequiredService<ICrisesCatalog>());
+        Services.AddService(campaignWayTemplateCatalog);
+
+        var campaignGenerator = new CampaignGenerator(
+            Services.GetRequiredService<CampaignWayTemplatesCatalog>(),
+            Services.GetRequiredService<IDice>());
+
+        Services.AddService<ICampaignGenerator>(campaignGenerator);
+
+        Services.AddService(_graphics);
+
+        var soundtrackManager = new SoundtrackManager(_gameSettings);
+        Services.AddService(soundtrackManager);
+
+        var bgoFactorySelector = new BackgroundObjectFactorySelector();
+        Services.AddService(bgoFactorySelector);
+
+        var dialogEnvManager = new DialogueEnvironmentManager(soundtrackManager);
+        Services.AddService<IDialogueEnvironmentManager>(dialogEnvManager);
+
+        var unitGraphicsCatalog = new CombatantGraphicsCatalog(gameObjectsContentStorage);
+        Services.AddService<ICombatantGraphicsCatalog>(unitGraphicsCatalog);
+
+        var movementVisualizer = new TestamentCombatMovementVisualizationProvider();
+        Services.AddService<ICombatMovementVisualizationProvider>(movementVisualizer);
+    }
+
+    private void RegisterCatalogs(BalanceTable balanceTable, DialogueResourceProvider dialogueResourceProvider)
+    {
         if (_gameSettings.Mode == GameMode.Full)
         {
             var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable, isDemo: false);
@@ -270,43 +316,6 @@ internal sealed class TestamentGame : Game
             Services.AddService<IStoryPointInitializer>(storyPointCatalog);
             Services.AddService<IStoryPointCatalog>(storyPointCatalog);
         }
-
-        var eventInitializer = Services.GetRequiredService<IEventInitializer>();
-        eventInitializer.Init();
-
-        Services.AddService(
-            new GlobeProvider(Services.GetRequiredService<IUnitSchemeCatalog>(),
-                Services.GetRequiredService<IStoryPointInitializer>()));
-
-        var campaignWayTemplateCatalog = new CampaignWayTemplatesCatalog(Services.GetRequiredService<GlobeProvider>(),
-            Services.GetRequiredService<IEventCatalog>(),
-            Services.GetRequiredService<IDice>(),
-            Services.GetRequiredService<IJobProgressResolver>(),
-            Services.GetRequiredService<IDropResolver>(),
-            Services.GetRequiredService<IUnitSchemeCatalog>());
-
-        var campaignGenerator = new CampaignGenerator(
-            campaignWayTemplateCatalog,
-            Services.GetRequiredService<IDice>());
-
-        Services.AddService<ICampaignGenerator>(campaignGenerator);
-
-        Services.AddService(_graphics);
-
-        var soundtrackManager = new SoundtrackManager(_gameSettings);
-        Services.AddService(soundtrackManager);
-
-        var bgoFactorySelector = new BackgroundObjectFactorySelector();
-        Services.AddService(bgoFactorySelector);
-
-        var dialogEnvManager = new DialogueEnvironmentManager(soundtrackManager);
-        Services.AddService<IDialogueEnvironmentManager>(dialogEnvManager);
-
-        var unitGraphicsCatalog = new CombatantGraphicsCatalog(gameObjectsContentStorage);
-        Services.AddService<ICombatantGraphicsCatalog>(unitGraphicsCatalog);
-
-        var movementVisualizer = new TestamentCombatMovementVisualizationProvider();
-        Services.AddService<ICombatMovementVisualizationProvider>(movementVisualizer);
 
         var crisesCatalog = new CrisesCatalog();
         Services.AddService<ICrisesCatalog>(crisesCatalog);

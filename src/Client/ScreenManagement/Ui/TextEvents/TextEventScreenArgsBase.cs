@@ -10,5 +10,4 @@ namespace Client.ScreenManagement.Ui.TextEvents;
 internal abstract record TextEventScreenArgsBase(
     HeroCampaign Campaign,
     Dialogue<ParagraphConditionContext, CampaignAftermathContext> CurrentDialogue,
-    DialogueEvent DialogueEvent,
-    ILocationSid Location) : CampaignScreenTransitionArgumentsBase(Campaign);
+    DialogueEvent DialogueEvent) : CampaignScreenTransitionArgumentsBase(Campaign);

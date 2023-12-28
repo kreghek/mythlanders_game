@@ -11,4 +11,4 @@ internal sealed record TextDialogueScreenTransitionArgs(
     HeroCampaign Campaign,
     Dialogue<ParagraphConditionContext, CampaignAftermathContext> CurrentDialogue,
     DialogueEvent DialogueEvent,
-    ILocationSid Location) : TextEventScreenArgsBase(Campaign, CurrentDialogue, DialogueEvent, Location);
+    ILocationSid Location) : TextEventScreenArgsBase(Campaign, CurrentDialogue, DialogueEvent);
