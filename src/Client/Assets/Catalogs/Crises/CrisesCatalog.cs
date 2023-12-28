@@ -14,6 +14,7 @@ public sealed class CrisesCatalog : ICrisesCatalog
         {
             new Crisis("MagicTrap"),
             new Crisis("CityWitchHunting"),
+            new Crisis("JinkCity"),
             new Treasures("Treasures")
             //new Crisis("InfernalSickness", new ICrisisAftermath[]
             //{
@@ -32,11 +33,6 @@ public sealed class CrisesCatalog : ICrisesCatalog
             //    new DamageAllHeroesOptionAftermath("Ignore")
             //}),
             ////new Crisis("DesertStorm", new ICrisisAftermath[]
-            ////{
-            ////    new DamageSingleRandomCrisisAftermath("RunAway"),
-            ////    new DamageAllCrisisAftermath("Hide")
-            ////}),
-            ////new Crisis("Bandits", new ICrisisAftermath[]
             ////{
             ////    new DamageSingleRandomCrisisAftermath("RunAway"),
             ////    new DamageAllCrisisAftermath("Hide")
