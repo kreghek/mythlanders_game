@@ -14,8 +14,8 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 
 internal sealed class CrisisEventCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
-    private readonly IDice _dice;
     private readonly ICrisesCatalog _crisesCatalog;
+    private readonly IDice _dice;
     private readonly IEventCatalog _eventCatalog;
 
     public CrisisEventCampaignStageTemplateFactory(CampaignStageTemplateServices services)
@@ -24,7 +24,7 @@ internal sealed class CrisisEventCampaignStageTemplateFactory : ICampaignStageTe
         _crisesCatalog = services.CrisesCatalog;
         _eventCatalog = services.EventCatalog;
     }
-    
+
     private static ICampaignStageItem[] MapContextToCurrentStageItems(IGraphTemplateContext<ICampaignStageItem> context)
     {
         return context.CurrentWay.Select(x => x.Payload).ToArray();

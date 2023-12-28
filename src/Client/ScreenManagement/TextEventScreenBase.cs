@@ -22,42 +22,39 @@ namespace Client.ScreenManagement;
 
 internal abstract class TextEventScreenBase : GameScreenWithMenuBase
 {
-    private bool _isInitialized;
-    protected int _currentFragmentIndex;
-    private double _pressToContinueCounter;
-    private bool _currentTextFragmentIsReady;
-    
-    protected readonly IList<TextParagraphControl> _textParagraphControls;
+    private readonly HeroCampaign _currentCampaign;
+    private readonly DialogueContextFactory _dialogueContextFactory;
+    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly DialogueOptions _dialogueOptions;
     protected readonly DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext> _dialoguePlayer;
-    private readonly DialogueContextFactory _dialogueContextFactory;
-    private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly IDice _dice;
-    private readonly IStoryState _storyState;
-    private readonly GlobeProvider _globeProvider;
-    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly IEventCatalog _eventCatalog;
-    private readonly HeroCampaign _currentCampaign;
-    private KeyboardState _keyboardState;
-    private readonly IUiContentStorage _uiContentStorage;
+    private readonly GameObjectContentStorage _gameObjectContentStorage;
+    private readonly GlobeProvider _globeProvider;
+    private readonly IStoryState _storyState;
 
-    protected DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext> CurrentFragment =>
-        _dialoguePlayer.CurrentTextFragments[_currentFragmentIndex];
+    protected readonly IList<TextParagraphControl> _textParagraphControls;
+    private readonly IUiContentStorage _uiContentStorage;
+    protected int _currentFragmentIndex;
+    private bool _currentTextFragmentIsReady;
+    private bool _isInitialized;
+    private KeyboardState _keyboardState;
+    private double _pressToContinueCounter;
 
     protected TextEventScreenBase(TestamentGame game, TextEventScreenArgsBase args) : base(game)
     {
         _textParagraphControls = new List<TextParagraphControl>();
         _dialogueOptions = new DialogueOptions();
-        
+
         _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
         _dice = Game.Services.GetService<IDice>();
-        
+
         var globeProvider = game.Services.GetService<GlobeProvider>();
         var globe = globeProvider.Globe ?? throw new InvalidOperationException();
         var player = globe.Player ?? throw new InvalidOperationException();
         var storyPointCatalog = game.Services.GetRequiredService<IStoryPointCatalog>();
         var dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
-        
+
         _dialogueContextFactory =
             new DialogueContextFactory(globe, storyPointCatalog, player, dialogueEnvironmentManager,
                 args.DialogueEvent, args.Campaign,
@@ -73,7 +70,36 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
         _eventCatalog = game.Services.GetRequiredService<IEventCatalog>();
         _uiContentStorage = game.Services.GetRequiredService<IUiContentStorage>();
     }
-    
+
+    protected DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext> CurrentFragment =>
+        _dialoguePlayer.CurrentTextFragments[_currentFragmentIndex];
+
+    protected override IList<ButtonBase> CreateMenu()
+    {
+        return ArraySegment<ButtonBase>.Empty;
+    }
+
+    protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        if (!_isInitialized)
+        {
+            return;
+        }
+
+        DrawSpecificBackgroundScreenContent(spriteBatch, contentRect);
+
+        if (!_dialoguePlayer.IsEnd)
+        {
+            DrawSpecificForegroundScreenContent(spriteBatch, contentRect);
+
+            DrawTextBlock(spriteBatch, contentRect);
+        }
+    }
+
+    protected abstract void DrawSpecificBackgroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect);
+
+    protected abstract void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect);
+
     protected override void UpdateContent(GameTime gameTime)
     {
         base.UpdateContent(gameTime);
@@ -95,7 +121,124 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
     }
 
     protected abstract void UpdateSpecificScreenContent(GameTime gameTime);
-    
+
+
+    private static UnitName ConvertSpeakerToUnitName(IDialogueSpeaker speaker)
+    {
+        var speakerName = speaker.ToString();
+        return Enum.Parse<UnitName>(speakerName!, true);
+    }
+
+    private void DrawTextBlock(SpriteBatch spriteBatch, Rectangle contentRectangle)
+    {
+        spriteBatch.Begin(
+            sortMode: SpriteSortMode.Deferred,
+            blendState: BlendState.AlphaBlend,
+            samplerState: SamplerState.PointClamp,
+            depthStencilState: DepthStencilState.None,
+            rasterizerState: RasterizerState.CullNone,
+            transformMatrix: Camera.GetViewTransformationMatrix());
+
+        const int PORTRAIT_SIZE = 256;
+
+        if (_textParagraphControls.Any())
+        {
+            var textFragmentControl = _textParagraphControls[_currentFragmentIndex];
+
+            var textFragmentSize = textFragmentControl.CalculateSize().ToPoint();
+
+            const int SPEECH_MARGIN = 50;
+            var sumOptionHeight = _dialogueOptions.GetHeight();
+            var fragmentHeight = textFragmentSize.Y + SPEECH_MARGIN + sumOptionHeight;
+            var fragmentPosition = new Point(PORTRAIT_SIZE, contentRectangle.Bottom - fragmentHeight);
+            textFragmentControl.Rect = new Rectangle(fragmentPosition, textFragmentSize);
+            textFragmentControl.Draw(spriteBatch);
+
+            if (_currentTextFragmentIsReady)
+            {
+                // TODO Move to separated control
+                var isVisible = (float)Math.Sin(_pressToContinueCounter) > 0;
+
+                if (isVisible)
+                {
+                    spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), UiResource.DialogueContinueText,
+                        new Vector2(PORTRAIT_SIZE, contentRectangle.Bottom - 25), Color.White);
+                }
+            }
+        }
+
+        if (_currentFragmentIndex == _textParagraphControls.Count - 1 &&
+            _textParagraphControls[_currentFragmentIndex].IsComplete)
+        {
+            const int OPTION_BUTTON_MARGIN = 5;
+            var lastTopButtonPosition =
+                _textParagraphControls[_currentFragmentIndex].Rect.Bottom + OPTION_BUTTON_MARGIN;
+
+            _dialogueOptions.Rect = new Rectangle(PORTRAIT_SIZE, lastTopButtonPosition,
+                contentRectangle.Width - PORTRAIT_SIZE + 100,
+                contentRectangle.Height - lastTopButtonPosition + 100);
+            _dialogueOptions.Draw(spriteBatch);
+        }
+
+        spriteBatch.End();
+    }
+
+    private void HandleDialogueEnd()
+    {
+        _globeProvider.Globe.Update(_dice, _eventCatalog);
+        _dialogueEnvironmentManager.Clean();
+        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+            new CampaignScreenTransitionArguments(_currentCampaign));
+
+        _globeProvider.StoreCurrentGlobe();
+    }
+
+
+    private void InitDialogueControls()
+    {
+        _textParagraphControls.Clear();
+        _currentFragmentIndex = 0;
+        foreach (var textFragment in _dialoguePlayer.CurrentTextFragments)
+        {
+            var speaker = ConvertSpeakerToUnitName(textFragment.Speaker);
+            var textFragmentControl = new TextParagraphControl(
+                textFragment,
+                _gameObjectContentStorage.GetTextSoundEffect(speaker),
+                _dice,
+                _dialogueContextFactory.CreateAftermathContext(),
+                _storyState);
+            _textParagraphControls.Add(textFragmentControl);
+        }
+
+        var optionNumber = 1;
+        _dialogueOptions.Options.Clear();
+        foreach (var option in _dialoguePlayer.CurrentOptions)
+        {
+            var optionButton = new DialogueOptionButton(optionNumber, option.TextSid);
+            optionButton.OnClick += (_, _) =>
+            {
+                _dialoguePlayer.SelectOption(option);
+
+                if (_dialoguePlayer.IsEnd)
+                {
+                    HandleDialogueEnd();
+                }
+                else
+                {
+                    _isInitialized = false;
+                }
+            };
+
+            _dialogueOptions.Options.Add(optionButton);
+            optionNumber++;
+        }
+    }
+
+    private bool IsKeyPressed(Keys checkKey)
+    {
+        return Keyboard.GetState().IsKeyUp(checkKey) && _keyboardState.IsKeyDown(checkKey);
+    }
+
     private void UpdateTextHud(GameTime gameTime)
     {
         _pressToContinueCounter += gameTime.ElapsedGameTime.TotalSeconds * 10f;
@@ -146,145 +289,5 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
                 _dialogueOptions.SelectOption(4);
             }
         }
-    }
-    
-    private bool IsKeyPressed(Keys checkKey)
-    {
-        return Keyboard.GetState().IsKeyUp(checkKey) && _keyboardState.IsKeyDown(checkKey);
-    }
-    
-    
-    private void InitDialogueControls()
-    {
-        _textParagraphControls.Clear();
-        _currentFragmentIndex = 0;
-        foreach (var textFragment in _dialoguePlayer.CurrentTextFragments)
-        {
-            var speaker = ConvertSpeakerToUnitName(textFragment.Speaker);
-            var textFragmentControl = new TextParagraphControl(
-                textFragment,
-                _gameObjectContentStorage.GetTextSoundEffect(speaker),
-                _dice,
-                _dialogueContextFactory.CreateAftermathContext(),
-                _storyState);
-            _textParagraphControls.Add(textFragmentControl);
-        }
-
-        var optionNumber = 1;
-        _dialogueOptions.Options.Clear();
-        foreach (var option in _dialoguePlayer.CurrentOptions)
-        {
-            var optionButton = new DialogueOptionButton(optionNumber, option.TextSid);
-            optionButton.OnClick += (_, _) =>
-            {
-                _dialoguePlayer.SelectOption(option);
-
-                if (_dialoguePlayer.IsEnd)
-                {
-                    HandleDialogueEnd();
-                }
-                else
-                {
-                    _isInitialized = false;
-                }
-            };
-
-            _dialogueOptions.Options.Add(optionButton);
-            optionNumber++;
-        }
-    }
-    private void HandleDialogueEnd()
-    {
-        _globeProvider.Globe.Update(_dice, _eventCatalog);
-        _dialogueEnvironmentManager.Clean();
-        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-            new CampaignScreenTransitionArguments(_currentCampaign));
-
-        _globeProvider.StoreCurrentGlobe();
-    }
-    
-    
-    private static UnitName ConvertSpeakerToUnitName(IDialogueSpeaker speaker)
-    {
-        var speakerName = speaker.ToString();
-        return Enum.Parse<UnitName>(speakerName!, true);
-    }
-
-    protected override IList<ButtonBase> CreateMenu()
-    {
-        return ArraySegment<ButtonBase>.Empty;
-    }
-
-    protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
-    {
-        if (!_isInitialized)
-        {
-            return;
-        }
-
-        DrawSpecificBackgroundScreenContent(spriteBatch, contentRect);
-
-        if (!_dialoguePlayer.IsEnd)
-        {
-            DrawSpecificForegroundScreenContent(spriteBatch, contentRect);
-            
-            DrawTextBlock(spriteBatch, contentRect);
-        }
-    }
-
-    protected abstract void DrawSpecificBackgroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect);
-    
-    protected abstract void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect);
-    
-    private void DrawTextBlock(SpriteBatch spriteBatch, Rectangle contentRectangle)
-    {
-        spriteBatch.Begin(
-            sortMode: SpriteSortMode.Deferred,
-            blendState: BlendState.AlphaBlend,
-            samplerState: SamplerState.PointClamp,
-            depthStencilState: DepthStencilState.None,
-            rasterizerState: RasterizerState.CullNone,
-            transformMatrix: Camera.GetViewTransformationMatrix());
-
-        const int PORTRAIT_SIZE = 256;
-
-        if (_textParagraphControls.Any())
-        {
-            var textFragmentControl = _textParagraphControls[_currentFragmentIndex];
-
-            var textFragmentSize = textFragmentControl.CalculateSize().ToPoint();
-
-            const int SPEECH_MARGIN = 50;
-            var sumOptionHeight = _dialogueOptions.GetHeight();
-            var fragmentHeight = textFragmentSize.Y + SPEECH_MARGIN + sumOptionHeight;
-            var fragmentPosition = new Point(PORTRAIT_SIZE, contentRectangle.Bottom - fragmentHeight);
-            textFragmentControl.Rect = new Rectangle(fragmentPosition, textFragmentSize);
-            textFragmentControl.Draw(spriteBatch);
-
-            if (_currentTextFragmentIsReady)
-            {
-                // TODO Move to separated control
-                var isVisible = (float)Math.Sin(_pressToContinueCounter) > 0;
-
-                if (isVisible)
-                {
-                    spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), UiResource.DialogueContinueText,
-                        new Vector2(PORTRAIT_SIZE, contentRectangle.Bottom - 25), Color.White);
-                }
-            }
-        }
-
-        if (_currentFragmentIndex == _textParagraphControls.Count - 1 && _textParagraphControls[_currentFragmentIndex].IsComplete)
-        {
-            const int OPTION_BUTTON_MARGIN = 5;
-            var lastTopButtonPosition = _textParagraphControls[_currentFragmentIndex].Rect.Bottom + OPTION_BUTTON_MARGIN;
-
-            _dialogueOptions.Rect = new Rectangle(PORTRAIT_SIZE, lastTopButtonPosition,
-                contentRectangle.Width - PORTRAIT_SIZE + 100,
-                contentRectangle.Height - lastTopButtonPosition + 100);
-            _dialogueOptions.Draw(spriteBatch);
-        }
-
-        spriteBatch.End();
     }
 }

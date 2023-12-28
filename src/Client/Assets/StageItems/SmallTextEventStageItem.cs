@@ -15,11 +15,9 @@ namespace Client.Assets.StageItems;
 
 internal abstract class SmallTextEventStageItem : ICampaignStageItem
 {
-    private readonly IDice _dice;
     private readonly ICrisesCatalog _crisesCatalog;
+    private readonly IDice _dice;
     private readonly IEventCatalog _eventCatalog;
-
-    protected abstract EventType EventType { get; }
 
     protected SmallTextEventStageItem(IDice dice, ICrisesCatalog crisesCatalog, IEventCatalog eventCatalog)
     {
@@ -28,6 +26,8 @@ internal abstract class SmallTextEventStageItem : ICampaignStageItem
         _eventCatalog = eventCatalog;
     }
 
+    protected abstract EventType EventType { get; }
+
     public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
     {
         var availableCrises = _crisesCatalog.GetAll().Where(x => x.EventType == EventType).ToArray();
@@ -35,14 +35,14 @@ internal abstract class SmallTextEventStageItem : ICampaignStageItem
         {
             throw new InvalidOperationException($"There are no available micro-events of type {EventType}.");
         }
-        
+
         var crisis = _dice.RollFromList(availableCrises);
 
         var smallEvent = _eventCatalog.Events.First(x => x.Sid == crisis.EventSid);
 
         var currentDialogueSid = smallEvent.GetDialogSid();
         var crisisDialogue = _eventCatalog.GetDialogue(currentDialogueSid);
-        
+
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.Crisis,
             new CrisisScreenTransitionArguments(currentCampaign, EventType.Crisis, crisisDialogue, smallEvent, crisis));
     }

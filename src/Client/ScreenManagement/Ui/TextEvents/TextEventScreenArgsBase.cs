@@ -1,5 +1,4 @@
 ﻿using Client.Assets.Catalogs.Dialogues;
-using Client.Core;
 using Client.Core.Campaigns;
 using Client.GameScreens;
 

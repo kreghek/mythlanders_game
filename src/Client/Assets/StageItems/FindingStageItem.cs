@@ -9,7 +9,8 @@ namespace Client.Assets.StageItems;
 
 internal sealed class FindingStageItem : SmallTextEventStageItem
 {
-    public FindingStageItem(IDice dice, ICrisesCatalog crisesCatalog, IEventCatalog eventCatalog) : base(dice, crisesCatalog, eventCatalog)
+    public FindingStageItem(IDice dice, ICrisesCatalog crisesCatalog, IEventCatalog eventCatalog) : base(dice,
+        crisesCatalog, eventCatalog)
     {
     }
 

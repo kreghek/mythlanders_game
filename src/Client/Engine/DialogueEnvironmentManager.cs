@@ -2,8 +2,6 @@
 
 using CombatDicesTeam.Dialogues;
 
-using Core.Crises;
-
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Media;
@@ -34,7 +32,7 @@ internal sealed class DialogueEnvironmentManager : IDialogueEnvironmentManager
         _musicDict.Add("EgyptianThriller", content.Load<Song>("Audio/Stories/Music/EgyptianThrillerMusic"));
         _musicDict.Add("ChineseHappy", content.Load<Song>("Audio/Stories/Music/ChineseHappyMusic"));
         _musicDict.Add("ChineseMeditation", content.Load<Song>("Audio/Stories/Music/ChineseMeditationMusic"));
-        
+
         _musicDict.Add("ElectricDeathRay", content.Load<Song>("Audio/Stories/Music/ElectricDeathRay"));
         _musicDict.Add("CityHunting", content.Load<Song>("Audio/Stories/Music/CityHunting"));
         _musicDict.Add("InfernalSickness", content.Load<Song>("Audio/Stories/Music/InfernalSickness"));

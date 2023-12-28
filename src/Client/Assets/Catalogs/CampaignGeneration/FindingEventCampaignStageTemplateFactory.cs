@@ -14,10 +14,10 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 
 internal sealed class FindingEventCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
-    private readonly IDice _dice;
     private readonly ICrisesCatalog _crisesCatalog;
+    private readonly IDice _dice;
     private readonly IEventCatalog _eventCatalog;
-    
+
     public FindingEventCampaignStageTemplateFactory(CampaignStageTemplateServices services)
     {
         _dice = services.Dice;

@@ -43,7 +43,7 @@ internal sealed class CrisisScreen : TextEventScreenBase
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
-        
+
         spriteBatch.Draw(_cleanScreenTexture, contentRect, Color.White);
 
         spriteBatch.Draw(_backgroundTexture, new Vector2(-256, 0), Color.White);
@@ -51,13 +51,12 @@ internal sealed class CrisisScreen : TextEventScreenBase
         spriteBatch.Draw(_cleanScreenTexture,
             new Rectangle(contentRect.Center.X, contentRect.Top, contentRect.Width / 2, contentRect.Height),
             Color.Lerp(Color.White, Color.Transparent, 0.25f));
-        
+
         spriteBatch.End();
     }
 
     protected override void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        
     }
 
     protected override void InitializeContent()
@@ -67,7 +66,6 @@ internal sealed class CrisisScreen : TextEventScreenBase
 
     protected override void UpdateSpecificScreenContent(GameTime gameTime)
     {
-        
     }
 
     private static Texture2D CreateTexture(GraphicsDevice device, int width, int height, Func<int, Color> paint)

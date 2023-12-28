@@ -86,14 +86,14 @@ internal class TextDialogueScreen : TextEventScreenBase
     protected override void UpdateContent(GameTime gameTime)
     {
         base.UpdateContent(gameTime);
-        
+
         CheckTutorial();
     }
 
     protected override void UpdateSpecificScreenContent(GameTime gameTime)
     {
         UpdateBackgroundObjects(gameTime);
-        
+
         UpdateSpeaker(gameTime);
     }
 
