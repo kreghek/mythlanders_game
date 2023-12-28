@@ -38,6 +38,9 @@ internal sealed class DialogueEnvironmentManager : IDialogueEnvironmentManager
         _musicDict.Add("InfernalSickness", content.Load<Song>("Audio/Stories/Music/InfernalSickness"));
         _musicDict.Add("Starvation", content.Load<Song>("Audio/Stories/Music/Starvation"));
         _musicDict.Add("SkyThunder", content.Load<Song>("Audio/Stories/Music/SkyThunder"));
+        _musicDict.Add("Battle", content.Load<Song>("Audio/Stories/Music/Battle"));
+        _musicDict.Add("JunkCity", content.Load<Song>("Audio/Stories/Music/JunkCity"));
+        _musicDict.Add("SciFiMagic", content.Load<Song>("Audio/Stories/Music/SciFiMagic"));
     }
 
     public void PlayEffect(string effectSid, string resourceName)

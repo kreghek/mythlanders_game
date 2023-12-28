@@ -341,14 +341,6 @@
     <value>Destroyed village</value>
         <comment>Location</comment>
   </data>
-  <data name="DestroyTheSickSource_CrisisAftermath" xml:space="preserve">
-    <value />
-        <comment>CrisisAftermath</comment>
-  </data>
-  <data name="DestroyTheSickSource_CrisisAftermath_Hint" xml:space="preserve">
-    <value></value>
-        <comment>Crisis Aftermath</comment>
-  </data>
   <data name="DevastatingPaw" xml:space="preserve">
       <value>Devastating Paw</value>
   </data>
@@ -790,10 +782,6 @@
   <data name="Robber" xml:space="preserve">
     <value>Hawk</value>
         <comment>Hero</comment>
-  </data>
-  <data name="RunOut_CrisisAftermath" xml:space="preserve">
-    <value />
-        <comment>Crisis Aftermath</comment>
   </data>
   <data name="Sabotage" xml:space="preserve">
     <value>Sabotage</value>

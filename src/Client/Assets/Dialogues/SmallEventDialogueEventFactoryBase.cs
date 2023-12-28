@@ -6,14 +6,11 @@ using Client.Core;
 
 using CombatDicesTeam.Dialogues;
 
-using JetBrains.Annotations;
-
 using Stateless;
 
 namespace Client.Assets.Dialogues;
 
-[UsedImplicitly]
-internal sealed class TreasuresDialogueEventFactory : IDialogueEventFactory
+internal abstract class SmallEventDialogueEventFactoryBase : IDialogueEventFactory
 {
     public DialogueEvent CreateEvent(IDialogueEventFactoryServices services)
     {
@@ -24,10 +21,10 @@ internal sealed class TreasuresDialogueEventFactory : IDialogueEventFactory
 
         var dialogues = new Dictionary<DialogueEventState, string>
         {
-            [DialogueConstants.InitialStage] = "treasures_crisis"
+            [DialogueConstants.InitialStage] = $"{DialogueFileSid}_crisis"
         };
 
-        return new DialogueEvent("TreasuresEvent", questStateMachine, requirements,
+        return new DialogueEvent($"{EventSid}Event", questStateMachine, requirements,
             dialogues);
     }
 
@@ -35,4 +32,7 @@ internal sealed class TreasuresDialogueEventFactory : IDialogueEventFactory
     {
         return Array.Empty<IStoryPoint>();
     }
+
+    protected abstract string DialogueFileSid { get; }
+    protected abstract string EventSid { get; }
 }
