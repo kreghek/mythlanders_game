@@ -177,9 +177,9 @@ internal sealed class GlobeProvider
     {
         var startHeroes = new List<HeroState>
         {
-            new("swordsman", new StatValue(5)),
-            new("partisan", new StatValue(3)),
-            new("robber", new StatValue(3))
+            new("swordsman", new StatValue(5), ArraySegment<CombatMovement>.Empty),
+            new("partisan", new StatValue(3), ArraySegment<CombatMovement>.Empty),
+            new("robber", new StatValue(3), ArraySegment<CombatMovement>.Empty)
         };
 
         foreach (var hero in startHeroes)
@@ -192,9 +192,9 @@ internal sealed class GlobeProvider
     {
         var startHeroes = new List<HeroState>
         {
-            new("swordsman", new StatValue(5)),
-            new("partisan", new StatValue(3)),
-            new("robber", new StatValue(3))
+            new("swordsman", new StatValue(5), ArraySegment<CombatMovement>.Empty),
+            new("partisan", new StatValue(3), ArraySegment<CombatMovement>.Empty),
+            new("robber", new StatValue(3), ArraySegment<CombatMovement>.Empty)
         };
 
         foreach (var hero in startHeroes)
@@ -351,7 +351,7 @@ internal sealed class GlobeProvider
         var units = new List<HeroState>();
         foreach (var unitDto in groupDto.Units)
         {
-            units.Add(new HeroState(unitDto.HeroSid, new StatValue(unitDto.Hp)));
+            units.Add(new HeroState(unitDto.HeroSid, new StatValue(unitDto.Hp), ArraySegment<CombatMovement>.Empty));
         }
 
         return units;

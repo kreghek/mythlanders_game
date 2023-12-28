@@ -96,7 +96,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
 
         _dialogueContextFactory =
             new DialogueContextFactory(globe, storyPointCatalog, _player, _dialogueEnvironmentManager,
-                args.DialogueEvent, args.Campaign);
+                args.DialogueEvent, args.Campaign, new EventContext(globe, storyPointCatalog, _player, args.DialogueEvent));
         _dialoguePlayer =
             new DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext>(args.CurrentDialogue,
                 _dialogueContextFactory);

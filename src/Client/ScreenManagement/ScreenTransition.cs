@@ -8,7 +8,7 @@ internal enum ScreenTransition
     Bestiary,
     EndGame,
     Credits,
-    Hero,
+    Barracks,
 
     Combat,
     Event,
@@ -25,5 +25,6 @@ internal enum ScreenTransition
     /// Temporal screen to fake transition to stage items which not implemented yet.
     /// </summary>
     NotImplemented,
-    VoiceCombat
+    VoiceCombat,
+    
 }

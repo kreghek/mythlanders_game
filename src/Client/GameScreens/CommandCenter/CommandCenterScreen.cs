@@ -170,6 +170,11 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         _availableCampaignPanels = panels;
 
         _commandButtons[0] = new ResourceTextButton(nameof(UiResource.BarraksButtonTitle));
+        _commandButtons[0].OnClick += (_, _) =>
+        {
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Barracks, null!);
+        };
+        
         _commandButtons[1] = new ResourceTextButton(nameof(UiResource.ArmoryButtonTitle));
         _commandButtons[2] = new ResourceTextButton(nameof(UiResource.AdjutantButtonTitle));
         _commandButtons[3] = new ResourceTextButton(nameof(UiResource.ChroniclesButtonTitle));
@@ -197,6 +202,11 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         _mapPong.Update(gameTime.ElapsedGameTime.TotalSeconds);
 
         _locationOnMapCounter += gameTime.ElapsedGameTime.TotalSeconds * 10;
+
+        foreach (var commandButton in _commandButtons)
+        {
+            commandButton.Update(ResolutionIndependentRenderer);
+        }
     }
 
     private void DrawBackgroundMap(SpriteBatch spriteBatch)

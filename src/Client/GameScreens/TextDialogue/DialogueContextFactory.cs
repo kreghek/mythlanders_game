@@ -10,6 +10,7 @@ internal sealed class
     DialogueContextFactory : IDialogueContextFactory<ParagraphConditionContext, CampaignAftermathContext>
 {
     private readonly HeroCampaign _campaign;
+    private readonly IEventContext _eventContext;
     private readonly DialogueEvent _currentDialogueEvent;
     private readonly IDialogueEnvironmentManager _environmentManager;
     private readonly Globe _globe;
@@ -19,7 +20,7 @@ internal sealed class
     public DialogueContextFactory(Globe globe, IStoryPointCatalog storyPointCatalog, Player player,
         IDialogueEnvironmentManager environmentManager,
         DialogueEvent currentDialogueEvent,
-        HeroCampaign campaign)
+        HeroCampaign campaign, IEventContext eventContext)
     {
         _globe = globe;
         _storyPointCatalog = storyPointCatalog;
@@ -27,12 +28,13 @@ internal sealed class
         _environmentManager = environmentManager;
         _currentDialogueEvent = currentDialogueEvent;
         _campaign = campaign;
+        _eventContext = eventContext;
     }
 
     public CampaignAftermathContext CreateAftermathContext()
     {
         return new CampaignAftermathContext(_globe, _storyPointCatalog, _player, _currentDialogueEvent,
-            _environmentManager, _campaign);
+            _environmentManager, _campaign, _eventContext);
     }
 
     public ParagraphConditionContext CreateParagraphConditionContext()

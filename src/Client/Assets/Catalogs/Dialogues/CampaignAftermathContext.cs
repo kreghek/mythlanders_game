@@ -7,7 +7,6 @@ using Client.Core;
 using Client.Core.Campaigns;
 using Client.Core.Heroes;
 
-using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dialogues;
 
 using Core.Props;
@@ -19,18 +18,20 @@ internal class CampaignAftermathContext
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly Globe _globe;
     private readonly HeroCampaign _heroCampaign;
+    private readonly IEventContext _eventContext;
     private readonly Player _player;
     private readonly IStoryPointCatalog _storyPointCatalog;
 
     public CampaignAftermathContext(Globe globe, IStoryPointCatalog storyPointCatalog, Player player,
         DialogueEvent currentDialogueEvent, IDialogueEnvironmentManager dialogueEnvironmentManager,
-        HeroCampaign heroCampaign)
+        HeroCampaign heroCampaign, IEventContext eventContext)
     {
         _globe = globe;
         _storyPointCatalog = storyPointCatalog;
         _player = player;
         _dialogueEnvironmentManager = dialogueEnvironmentManager;
         _heroCampaign = heroCampaign;
+        _eventContext = eventContext;
 
         CurrentDialogueEvent = currentDialogueEvent;
     }
@@ -44,7 +45,7 @@ internal class CampaignAftermathContext
 
     public void AddNewHero(Hero unit)
     {
-        _globe.Player.Heroes.AddNewUnit(new HeroState(unit.UnitScheme.Name.ToString(), new StatValue(3)));
+        _eventContext.AddNewCharacter(unit);
     }
 
     public void AddResources(IProp resource)

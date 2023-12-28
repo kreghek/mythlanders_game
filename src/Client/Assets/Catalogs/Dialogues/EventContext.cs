@@ -31,7 +31,7 @@ internal sealed class EventContext : IEventContext
 
     public void AddNewCharacter(Hero unit)
     {
-        _globe.Player.Heroes.AddNewUnit(new HeroState(unit.UnitScheme.Name.ToString(), new StatValue(3)));
+        _globe.Player.Heroes.AddNewUnit(HeroState.Create(unit.UnitScheme.Name.ToString()));
     }
 
     public void AddNewGlobalEvent(IGlobeEvent globalEvent)

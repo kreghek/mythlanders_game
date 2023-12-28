@@ -1,9 +1,7 @@
-﻿using Client.Engine;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.GameScreens.Hero.Ui;
+namespace Client.Engine;
 
 internal abstract class PanelBase : ControlBase
 {
