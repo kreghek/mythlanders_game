@@ -109,7 +109,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
             var campaignSource = rolledLocationDelegate(locationSid, currentGlobe);
 
-            var heroes = RollHeroes(currentGlobe.Player.Heroes, _dice);
+            var heroes = RollHeroes(currentGlobe.Player.Heroes.Units.ToArray(), _dice);
 
             var penalties = CreateFailurePenalties();
 

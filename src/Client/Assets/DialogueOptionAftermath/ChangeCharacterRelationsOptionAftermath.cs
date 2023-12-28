@@ -16,12 +16,12 @@ internal class ChangeCharacterRelationsOptionAftermath : DialogueOptionAftermath
         _knowledgeLevel = knowledgeLevel;
     }
 
-    public override void Apply(AftermathContext aftermathContext)
+    public override void Apply(CampaignAftermathContext aftermathContext)
     {
         aftermathContext.ChangeCharacterRelations(_targetCharacter, _knowledgeLevel);
     }
 
-    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
+    protected override IReadOnlyList<object> GetDescriptionValues(CampaignAftermathContext aftermathContext)
     {
         return new object[]
         {

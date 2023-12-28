@@ -311,14 +311,6 @@
   <data name="DestroyedVillage" xml:space="preserve">
     <value>Раззоренный скит</value>
   </data>
-  <data name="DestroyTheSickSource_CrisisAftermath" xml:space="preserve">
-    <value>Найти и уничтожить источник заразы</value>
-  </data>
-  <data name="DestroyTheSickSource_CrisisAftermath_Hint" xml:space="preserve">
-    <value>Это будет грязная работенка!
-- Все герои получают слабый урон.
-- Где-то далеко в пространстве и времени слышен потусторонний выдох</value>
-  </data>
   <data name="DevastatingPaw" xml:space="preserve">
     <value>Опустошающая Лапа</value>
   </data>
@@ -669,9 +661,6 @@
   </data>
   <data name="Robber" xml:space="preserve">
     <value>Сокол</value>
-  </data>
-  <data name="RunOut_CrisisAftermath" xml:space="preserve">
-    <value>Убежать</value>
   </data>
   <data name="Sabotage" xml:space="preserve">
     <value>Саботаж</value>

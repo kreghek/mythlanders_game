@@ -1460,7 +1460,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _postEffectManager
             );
         _combatCore.Initialize(
-            CombatantFactory.CreateHeroes(_manualCombatantBehaviour, _globeProvider.Globe.Player),
+            CombatantFactory.CreateHeroes(_manualCombatantBehaviour, _currentCampaign),
             CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(intentionFactory),
                 _args.CombatSequence.Combats.First().Monsters));
 
@@ -1494,10 +1494,9 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void RestoreGroupAfterCombat()
     {
-        foreach (var unit in _globe.Player.GetAll())
+        foreach (var hero in _currentCampaign.Heroes)
         {
-            unit.RestoreHitPointsAfterCombat();
-            //unit.RestoreManaPoint();
+            // Do nothing
         }
     }
 

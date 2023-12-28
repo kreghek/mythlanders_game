@@ -214,30 +214,8 @@ internal sealed class TestamentGame : Game
         }
     }
 
-    private void RegisterServices(IScreenManager screenManager)
+    private void RegisterCatalogs(BalanceTable balanceTable, DialogueResourceProvider dialogueResourceProvider)
     {
-        Services.AddService(screenManager);
-
-        var uiContentStorage = new UiContentStorage();
-        Services.AddService<IUiContentStorage>(uiContentStorage);
-
-        var uiSoundStorage = new UiSoundStorage();
-        Services.AddService<IUiSoundStorage>(uiSoundStorage);
-
-        var gameObjectsContentStorage = new GameObjectContentStorage();
-        Services.AddService(gameObjectsContentStorage);
-
-        Services.AddService<IDice>(new LinearDice());
-
-        Services.AddService<IJobProgressResolver>(new JobProgressResolver());
-
-        var dropResolver = new DropResolver(new DropResolverRandomSource(Services.GetRequiredService<IDice>()),
-            new SchemeService(), new PropFactory());
-        Services.AddService<IDropResolver>(dropResolver);
-
-        var dialogueResourceProvider = new DialogueResourceProvider(Content);
-
-        var balanceTable = new BalanceTable();
         if (_gameSettings.Mode == GameMode.Full)
         {
             var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable, isDemo: false);
@@ -271,14 +249,42 @@ internal sealed class TestamentGame : Game
             Services.AddService<IStoryPointCatalog>(storyPointCatalog);
         }
 
+        var crisesCatalog = new CrisesCatalog();
+        Services.AddService<ICrisesCatalog>(crisesCatalog);
+    }
+
+    private void RegisterServices(IScreenManager screenManager)
+    {
+        Services.AddService(screenManager);
+
+        var uiContentStorage = new UiContentStorage();
+        Services.AddService<IUiContentStorage>(uiContentStorage);
+
+        var uiSoundStorage = new UiSoundStorage();
+        Services.AddService<IUiSoundStorage>(uiSoundStorage);
+
+        var gameObjectsContentStorage = new GameObjectContentStorage();
+        Services.AddService(gameObjectsContentStorage);
+
+        Services.AddService<IDice>(new LinearDice());
+
+        Services.AddService<IJobProgressResolver>(new JobProgressResolver());
+
+        var dropResolver = new DropResolver(new DropResolverRandomSource(Services.GetRequiredService<IDice>()),
+            new SchemeService(), new PropFactory());
+        Services.AddService<IDropResolver>(dropResolver);
+
+        var dialogueResourceProvider = new DialogueResourceProvider(Content);
+
+        var balanceTable = new BalanceTable();
+
+        RegisterCatalogs(balanceTable: balanceTable, dialogueResourceProvider: dialogueResourceProvider);
+
         var eventInitializer = Services.GetRequiredService<IEventInitializer>();
         eventInitializer.Init();
 
         Services.AddService(
-            new GlobeProvider(
-                Services.GetRequiredService<IDice>(),
-                Services.GetRequiredService<IUnitSchemeCatalog>(),
-                Services.GetRequiredService<IEventCatalog>(),
+            new GlobeProvider(Services.GetRequiredService<IUnitSchemeCatalog>(),
                 Services.GetRequiredService<IStoryPointInitializer>()));
 
         var campaignWayTemplateCatalog = new CampaignWayTemplatesCatalog(Services.GetRequiredService<GlobeProvider>(),
@@ -286,10 +292,12 @@ internal sealed class TestamentGame : Game
             Services.GetRequiredService<IDice>(),
             Services.GetRequiredService<IJobProgressResolver>(),
             Services.GetRequiredService<IDropResolver>(),
-            Services.GetRequiredService<IUnitSchemeCatalog>());
+            Services.GetRequiredService<IUnitSchemeCatalog>(),
+            Services.GetRequiredService<ICrisesCatalog>());
+        Services.AddService(campaignWayTemplateCatalog);
 
         var campaignGenerator = new CampaignGenerator(
-            campaignWayTemplateCatalog,
+            Services.GetRequiredService<CampaignWayTemplatesCatalog>(),
             Services.GetRequiredService<IDice>());
 
         Services.AddService<ICampaignGenerator>(campaignGenerator);
@@ -310,8 +318,5 @@ internal sealed class TestamentGame : Game
 
         var movementVisualizer = new TestamentCombatMovementVisualizationProvider();
         Services.AddService<ICombatMovementVisualizationProvider>(movementVisualizer);
-
-        var crisesCatalog = new CrisesCatalog();
-        Services.AddService<ICrisesCatalog>(crisesCatalog);
     }
 }

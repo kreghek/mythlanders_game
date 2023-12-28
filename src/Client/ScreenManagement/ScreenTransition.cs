@@ -8,7 +8,7 @@ internal enum ScreenTransition
     Bestiary,
     EndGame,
     Credits,
-    Hero,
+    Barracks,
 
     Combat,
     Event,

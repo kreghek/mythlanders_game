@@ -1,4 +1,5 @@
 using Client.Assets.Catalogs.CampaignGeneration;
+using Client.Assets.Catalogs.Crises;
 using Client.Core;
 using Client.Core.Campaigns;
 
@@ -16,10 +17,10 @@ internal sealed class CampaignWayTemplatesCatalog
 
     public CampaignWayTemplatesCatalog(GlobeProvider globeProvider,
         IEventCatalog eventCatalog, IDice dice, IJobProgressResolver jobProgressResolver, IDropResolver dropResolver,
-        IUnitSchemeCatalog unitSchemeCatalog)
+        IUnitSchemeCatalog unitSchemeCatalog, ICrisesCatalog crisesCatalog)
     {
         _services = new CampaignStageTemplateServices(eventCatalog, globeProvider, jobProgressResolver, dropResolver,
-            dice, unitSchemeCatalog);
+            dice, unitSchemeCatalog, crisesCatalog);
     }
 
     public IGraph<GraphWay<ICampaignStageItem>> CreateGrindShortTemplate(ILocationSid locationSid)
@@ -57,13 +58,13 @@ internal sealed class CampaignWayTemplatesCatalog
             {
                 new RestCampaignStageTemplateFactory(),
                 new ShopCampaignStageTemplateFactory(),
-                new FindingEventCampaignStageTemplateFactory(),
+                new FindingEventCampaignStageTemplateFactory(_services),
                 new ChallengeCampaignStageTemplateFactory(_services)
             }, _services),
 
             // Crisis
 
-            new CrisisEventCampaignStageTemplateFactory()
+            new CrisisEventCampaignStageTemplateFactory(_services)
         };
 
         var way2Templates = new ICampaignStageTemplateFactory[]
@@ -80,7 +81,7 @@ internal sealed class CampaignWayTemplatesCatalog
                 new ShopCampaignStageTemplateFactory(),
                 //new SacredEventCampaignStageTemplateFactory(),
                 //new ShopCampaignStageTemplateFactory(),
-                new FindingEventCampaignStageTemplateFactory(),
+                new FindingEventCampaignStageTemplateFactory(_services),
                 new ChallengeCampaignStageTemplateFactory(_services)
             }, _services),
 
@@ -111,7 +112,7 @@ internal sealed class CampaignWayTemplatesCatalog
 
             // Crisis
 
-            new CrisisEventCampaignStageTemplateFactory()
+            new CrisisEventCampaignStageTemplateFactory(_services)
         };
 
         var way3Templates = new ICampaignStageTemplateFactory[]

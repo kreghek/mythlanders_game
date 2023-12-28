@@ -10,6 +10,7 @@ using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter.Ui;
 using Client.ScreenManagement;
 
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dices;
 
 using Core;
@@ -135,7 +136,25 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
                 panels.Add(panel);
                 panel.Selected += (_, _) =>
                 {
-                    var campaign = new HeroCampaign(campaignLaunch.Heroes, campaignLaunch.Location,
+                    var heroStartCoordsOpenList = new List<FieldCoords>
+                    {
+                        new FieldCoords(0, 0),
+                        new FieldCoords(0, 1),
+                        new FieldCoords(0, 2),
+                        new FieldCoords(1, 0),
+                        new FieldCoords(1, 1),
+                        new FieldCoords(1, 2)
+                    };
+
+                    var initHeroes = new List<(HeroState, FieldCoords)>();
+                    foreach (var launchHero in campaignLaunch.Heroes)
+                    {
+                        var rolledCoords = _dice.RollFromList(heroStartCoordsOpenList);
+                        initHeroes.Add((launchHero, rolledCoords));
+                        heroStartCoordsOpenList.Remove(rolledCoords);
+                    }
+
+                    var campaign = new HeroCampaign(initHeroes, campaignLaunch.Location,
                         campaignLaunch.Penalties, _dice.Roll(100));
 
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
@@ -151,6 +170,11 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         _availableCampaignPanels = panels;
 
         _commandButtons[0] = new ResourceTextButton(nameof(UiResource.BarraksButtonTitle));
+        _commandButtons[0].OnClick += (_, _) =>
+        {
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Barracks, null!);
+        };
+
         _commandButtons[1] = new ResourceTextButton(nameof(UiResource.ArmoryButtonTitle));
         _commandButtons[2] = new ResourceTextButton(nameof(UiResource.AdjutantButtonTitle));
         _commandButtons[3] = new ResourceTextButton(nameof(UiResource.ChroniclesButtonTitle));
@@ -178,6 +202,11 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         _mapPong.Update(gameTime.ElapsedGameTime.TotalSeconds);
 
         _locationOnMapCounter += gameTime.ElapsedGameTime.TotalSeconds * 10;
+
+        foreach (var commandButton in _commandButtons)
+        {
+            commandButton.Update(ResolutionIndependentRenderer);
+        }
     }
 
     private void DrawBackgroundMap(SpriteBatch spriteBatch)

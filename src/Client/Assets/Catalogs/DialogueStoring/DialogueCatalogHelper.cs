@@ -12,18 +12,19 @@ namespace Client.Assets.Catalogs.DialogueStoring;
 
 internal static class DialogueCatalogHelper
 {
-    public static Dialogue<ParagraphConditionContext, AftermathContext> Create(string dialogueSid,
+    public static Dialogue<ParagraphConditionContext, CampaignAftermathContext> Create(string dialogueSid,
         IDictionary<string, DialogueDtoScene> scenesDtoDict,
         DialogueCatalogCreationServices services)
     {
         var nodeListDicts =
-            new List<(string nodeSid, DialogueNode<ParagraphConditionContext, AftermathContext> node,
-                List<DialogueOption<ParagraphConditionContext, AftermathContext>> optionsList, DialogueDtoOption[]?
+            new List<(string nodeSid, DialogueNode<ParagraphConditionContext, CampaignAftermathContext> node,
+                List<DialogueOption<ParagraphConditionContext, CampaignAftermathContext>> optionsList, DialogueDtoOption
+                []?
                 optionsDto)>();
 
         foreach (var (sceneSid, dtoScene) in scenesDtoDict)
         {
-            var speeches = new List<DialogueSpeech<ParagraphConditionContext, AftermathContext>>();
+            var speeches = new List<DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext>>();
 
             for (var paragraphIndex = 0; paragraphIndex < dtoScene.Paragraphs.Length; paragraphIndex++)
             {
@@ -34,12 +35,13 @@ internal static class DialogueCatalogHelper
                 if (dialogueDtoParagraph.Text is not null)
                 {
                     // Regular paragraph
-                    var paragraphContext = new DialogueParagraphConfig<ParagraphConditionContext, AftermathContext>
-                    {
-                        Aftermaths = environmentEffects
-                    };
+                    var paragraphContext =
+                        new DialogueParagraphConfig<ParagraphConditionContext, CampaignAftermathContext>
+                        {
+                            Aftermaths = environmentEffects
+                        };
 
-                    var speach = new DialogueSpeech<ParagraphConditionContext, AftermathContext>(
+                    var speach = new DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext>(
                         GetSpeaker(dialogueDtoParagraph.Speaker),
                         $"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}",
                         paragraphContext);
@@ -52,13 +54,14 @@ internal static class DialogueCatalogHelper
 
                     foreach (var reaction in dialogueDtoParagraph.Reactions)
                     {
-                        var paragraphContext = new DialogueParagraphConfig<ParagraphConditionContext, AftermathContext>
-                        {
-                            Aftermaths = environmentEffects,
-                            Conditions = new[] { new HasHeroParagraphCondition(GetSpeaker(reaction.Hero)) }
-                        };
+                        var paragraphContext =
+                            new DialogueParagraphConfig<ParagraphConditionContext, CampaignAftermathContext>
+                            {
+                                Aftermaths = environmentEffects,
+                                Conditions = new[] { new HasHeroParagraphCondition(GetSpeaker(reaction.Hero)) }
+                            };
 
-                        var speech = new DialogueSpeech<ParagraphConditionContext, AftermathContext>(
+                        var speech = new DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext>(
                             GetSpeaker(reaction.Hero),
                             $"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}_reaction_{reaction.Hero}",
                             paragraphContext);
@@ -72,9 +75,9 @@ internal static class DialogueCatalogHelper
                 }
             }
 
-            var options = new List<DialogueOption<ParagraphConditionContext, AftermathContext>>();
-            var dialogNode = new DialogueNode<ParagraphConditionContext, AftermathContext>(
-                new DialogueParagraph<ParagraphConditionContext, AftermathContext>(speeches),
+            var options = new List<DialogueOption<ParagraphConditionContext, CampaignAftermathContext>>();
+            var dialogNode = new DialogueNode<ParagraphConditionContext, CampaignAftermathContext>(
+                new DialogueParagraph<ParagraphConditionContext, CampaignAftermathContext>(speeches),
                 options);
 
             nodeListDicts.Add((sceneSid, dialogNode, options, dtoScene.Options));
@@ -90,12 +93,12 @@ internal static class DialogueCatalogHelper
                     var dialogueDtoOption = optionsDto[optionIndex];
                     var aftermaths = CreateAftermaths(dialogueDtoOption.Aftermaths, services.OptionAftermathCreator);
 
-                    DialogueOption<ParagraphConditionContext, AftermathContext> dialogueOption;
+                    DialogueOption<ParagraphConditionContext, CampaignAftermathContext> dialogueOption;
                     if (dialogueDtoOption.Next is not null)
                     {
                         var next = nodeListDicts.Single(x => x.nodeSid == dialogueDtoOption.Next).node;
                         dialogueOption =
-                            new DialogueOption<ParagraphConditionContext, AftermathContext>(
+                            new DialogueOption<ParagraphConditionContext, CampaignAftermathContext>(
                                 $"{dialogueSid}_Scene_{nodeSid}_Option_{optionIndex}", next)
                             {
                                 Aftermath = aftermaths
@@ -104,8 +107,9 @@ internal static class DialogueCatalogHelper
                     else
                     {
                         dialogueOption =
-                            new DialogueOption<ParagraphConditionContext, AftermathContext>("Common_end_dialogue",
-                                DialogueNode<ParagraphConditionContext, AftermathContext>.EndNode)
+                            new DialogueOption<ParagraphConditionContext, CampaignAftermathContext>(
+                                "Common_end_dialogue",
+                                DialogueNode<ParagraphConditionContext, CampaignAftermathContext>.EndNode)
                             {
                                 Aftermath = aftermaths
                             };
@@ -116,17 +120,19 @@ internal static class DialogueCatalogHelper
             }
             else
             {
-                var dialogueOption = new DialogueOption<ParagraphConditionContext, AftermathContext>(
-                    "Common_end_dialogue", DialogueNode<ParagraphConditionContext, AftermathContext>.EndNode);
+                var dialogueOption = new DialogueOption<ParagraphConditionContext, CampaignAftermathContext>(
+                    "Common_end_dialogue", DialogueNode<ParagraphConditionContext, CampaignAftermathContext>.EndNode);
                 optionsList.Add(dialogueOption);
             }
         }
 
-        return new Dialogue<ParagraphConditionContext, AftermathContext>(nodeListDicts.Single(x => x.nodeSid == "root")
+        return new Dialogue<ParagraphConditionContext, CampaignAftermathContext>(nodeListDicts
+            .Single(x => x.nodeSid == "root")
             .node);
     }
 
-    private static IDialogueOptionAftermath<AftermathContext>? CreateAftermaths(DialogueDtoData[]? aftermathDtos,
+    private static IDialogueOptionAftermath<CampaignAftermathContext>? CreateAftermaths(
+        DialogueDtoData[]? aftermathDtos,
         IDialogueOptionAftermathCreator aftermathCreator)
     {
         if (aftermathDtos is null)
@@ -134,7 +140,7 @@ internal static class DialogueCatalogHelper
             return null;
         }
 
-        var list = new List<IDialogueOptionAftermath<AftermathContext>>();
+        var list = new List<IDialogueOptionAftermath<CampaignAftermathContext>>();
 
         foreach (var aftermathDto in aftermathDtos)
         {
@@ -145,16 +151,16 @@ internal static class DialogueCatalogHelper
         return new CompositeOptionAftermath(list);
     }
 
-    private static IReadOnlyCollection<IDialogueOptionAftermath<AftermathContext>> CreateEnvironmentEffects(
+    private static IReadOnlyCollection<IDialogueOptionAftermath<CampaignAftermathContext>> CreateEnvironmentEffects(
         DialogueDtoData[]? envs,
         IDialogueEnvironmentEffectCreator environmentEffectCreator)
     {
         if (envs is null)
         {
-            return Array.Empty<IDialogueOptionAftermath<AftermathContext>>();
+            return Array.Empty<IDialogueOptionAftermath<CampaignAftermathContext>>();
         }
 
-        var list = new List<IDialogueOptionAftermath<AftermathContext>>();
+        var list = new List<IDialogueOptionAftermath<CampaignAftermathContext>>();
 
         foreach (var envDto in envs)
         {

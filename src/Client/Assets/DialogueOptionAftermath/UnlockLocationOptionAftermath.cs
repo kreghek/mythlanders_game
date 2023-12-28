@@ -19,12 +19,12 @@ internal sealed class UnlockLocationOptionAftermath : DialogueOptionAftermathBas
         dialogContext.UnlockLocation(_locationSid);
     }
 
-    public override void Apply(AftermathContext aftermathContext)
+    public override void Apply(CampaignAftermathContext aftermathContext)
     {
         aftermathContext.UnlockLocation(_locationSid);
     }
 
-    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
+    protected override IReadOnlyList<object> GetDescriptionValues(CampaignAftermathContext aftermathContext)
     {
         return new object[]
         {

@@ -3,32 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.Catalogs.Dialogues;
-using Client.Core.Heroes;
 
 namespace Client.Core;
 
 internal sealed class StoryState : IStoryState
 {
-    private readonly Group _heroParty;
+    private readonly PoolGroup<HeroState> _heroParty;
     private readonly IList<CharacterRelation> _relations = new List<CharacterRelation>();
     private readonly IList<string> _storyKeys = new List<string>();
 
-    public StoryState(Group heroParty)
+    public StoryState(PoolGroup<HeroState> heroParty)
     {
         _heroParty = heroParty;
     }
 
-    private static CharacterRelation CreateFullyKnownRelations(Hero hero)
+    private static CharacterRelation CreateFullyKnownRelations(UnitName heroName)
     {
-        return new CharacterRelation(new DialogueSpeaker(hero.UnitScheme.Name))
+        return new CharacterRelation(new DialogueSpeaker(heroName))
         {
             Level = CharacterKnowledgeLevel.FullName
         };
     }
 
-    private static IReadOnlyCollection<CharacterRelation> GetPlayerUnitsAsFullKnown(Group heroParty)
+    private static IReadOnlyCollection<CharacterRelation> GetPlayerUnitsAsFullKnown(PoolGroup<HeroState> heroParty)
     {
-        var heroes = heroParty.GetUnits();
+        var heroes = heroParty.Units.Select(x => Enum.Parse<UnitName>(x.ClassSid, true));
         return heroes.Select(CreateFullyKnownRelations).ToArray();
     }
 

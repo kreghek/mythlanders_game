@@ -1,0 +1,33 @@
+﻿---
+root:
+  paragraphs:
+    - text: |
+        'Все запасы пищи пришли в негодность. Надвигается лютый голод.'
+      env:
+        - type: PlayMusic
+          data: ElectricDeathRay
+  options:
+    - text: 'Все герои соглашаются голодать.'
+      description: |
+        'Рука Голода тянется к вам!'
+        '- Все герои получают незначительный урон.'
+        '- Рука Голода становится ближе к группе.'
+      next: starve_all
+      aftermaths:
+        - type: DamageAllHeroes
+    - text: 'Один герой соглашается голодать'
+      next: starve_single
+      description: |
+        'Голодный сытому не внемлет:'
+        '- Герой получает серьезный урон.
+        '- В отряде может возникнуть дизорганизация.'
+      aftermaths:
+        - type: DamageSingleRandomHero
+
+starve_single:
+  paragraphs:
+    - text: <скоро будет>
+
+starve_all:
+  paragraphs:
+    - text: <скоро будет>

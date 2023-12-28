@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using Client.Core;
 using Client.Core.Campaigns;
 using Client.ScreenManagement;
 
@@ -7,13 +8,13 @@ namespace Client.GameScreens.Training;
 
 internal sealed class TrainingScreenTransitionArguments : IScreenTransitionArguments
 {
-    public TrainingScreenTransitionArguments(IReadOnlyList<Core.Heroes.Hero> availableUnits, HeroCampaign campaign)
+    public TrainingScreenTransitionArguments(IReadOnlyList<HeroState> availableHeroes, HeroCampaign campaign)
     {
-        AvailableUnits = availableUnits;
+        AvailableHeroes = availableHeroes;
         Campaign = campaign;
     }
 
-    public IReadOnlyList<Core.Heroes.Hero> AvailableUnits { get; init; }
+    public IReadOnlyList<HeroState> AvailableHeroes { get; }
 
     internal HeroCampaign Campaign { get; }
 }
