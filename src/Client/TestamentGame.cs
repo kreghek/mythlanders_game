@@ -275,10 +275,7 @@ internal sealed class TestamentGame : Game
         eventInitializer.Init();
 
         Services.AddService(
-            new GlobeProvider(
-                Services.GetRequiredService<IDice>(),
-                Services.GetRequiredService<IUnitSchemeCatalog>(),
-                Services.GetRequiredService<IEventCatalog>(),
+            new GlobeProvider(Services.GetRequiredService<IUnitSchemeCatalog>(),
                 Services.GetRequiredService<IStoryPointInitializer>()));
 
         var campaignWayTemplateCatalog = new CampaignWayTemplatesCatalog(Services.GetRequiredService<GlobeProvider>(),

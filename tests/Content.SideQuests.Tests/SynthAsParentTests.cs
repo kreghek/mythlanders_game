@@ -62,7 +62,7 @@ public class SynthAsParentTests
 
         var storyPointCatalog = new StoryPointCatalog(eventCatalog);
 
-        var globeProvider = new GlobeProvider(dice, unitSchemeCatalog, eventCatalog,
+        var globeProvider = new GlobeProvider(unitSchemeCatalog,
             storyPointCatalog);
 
         globeProvider.GenerateNew();

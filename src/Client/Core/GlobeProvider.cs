@@ -10,7 +10,6 @@ using Client.Core.Heroes;
 using Client.Core.ProgressStorage;
 
 using CombatDicesTeam.Combats;
-using CombatDicesTeam.Dices;
 
 using Core.Props;
 
@@ -20,29 +19,22 @@ internal sealed class GlobeProvider
 {
     private const string SAVE_FILE_TEMPLATE = "save-{0}.json";
 
-    private readonly IDice _dice;
-    private readonly IEventCatalog _eventCatalog;
-
     private readonly string _storagePath;
     private readonly IStoryPointInitializer _storyPointInitializer;
     private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
     private Globe? _globe;
 
-    public GlobeProvider(IDice dice,
-        IUnitSchemeCatalog unitSchemeCatalog,
-        IEventCatalog eventCatalog,
+    public GlobeProvider(IUnitSchemeCatalog unitSchemeCatalog,
         IStoryPointInitializer storyPointInitializer)
     {
-        _dice = dice;
         _unitSchemeCatalog = unitSchemeCatalog;
-        _eventCatalog = eventCatalog;
         _storyPointInitializer = storyPointInitializer;
         var binPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         _storagePath = Path.Combine(binPath, "CDT", "Testament");
     }
 
-    public (int Width, int Height)? ChoisedUserMonitorResolution { get; set; } = null;
+    public (int Width, int Height)? ChosenUserMonitorResolution { get; set; }
 
     public Globe Globe
     {
@@ -141,8 +133,6 @@ internal sealed class GlobeProvider
             LoadPlayerResources(progressDto.Player.Resources, Globe.Player.Inventory);
             LoadPlayerKnownMonsters(progressDto.Player, _unitSchemeCatalog, Globe.Player);
         }
-
-        Globe.UpdateNodes(_dice, _eventCatalog);
     }
 
     public void StoreCurrentGlobe()
@@ -409,18 +399,18 @@ internal sealed class GlobeProvider
 
     public sealed class SaveShortInfo
     {
-        public string FileName { get; set; }
+        public string FileName { get; set; } = null!;
 
         [JsonPropertyName(nameof(SaveDto.Name))]
-        public string PlayerName { get; init; }
+        public string PlayerName { get; init; } = null!;
 
         public DateTime UpdateTime { get; init; }
     }
 
     internal class SaveDto
     {
-        public string Name { get; init; }
-        public ProgressDto Progress { get; init; }
+        public string Name { get; init; } = null!;
+        public ProgressDto Progress { get; init; } = null!;
         public DateTime UpdateTime { get; init; }
     }
 }
