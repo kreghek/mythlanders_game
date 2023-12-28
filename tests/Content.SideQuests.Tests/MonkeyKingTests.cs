@@ -11,6 +11,7 @@ using Client.Core.CampaignRewards;
 using Client.Core.Campaigns;
 using Client.GameScreens.TextDialogue;
 using Client.GameScreens.TextDialogue.Ui;
+using Client.ScreenManagement.Ui.TextEvents;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dialogues;
@@ -50,7 +51,7 @@ public class MonkeyKingTests
 
         var storyPointCatalog = new StoryPointCatalog(eventCatalog);
 
-        var globeProvider = new GlobeProvider(dice, unitSchemeCatalog, eventCatalog,
+        var globeProvider = new GlobeProvider(unitSchemeCatalog,
             storyPointCatalog);
 
         globeProvider.GenerateNew();

@@ -1,16 +1,17 @@
-﻿using Client.Core.Campaigns;
-using Client.GameScreens.Crisis;
-using Client.ScreenManagement;
+﻿using Client.Assets.Catalogs.Crises;
+using Client.Core;
+
+using CombatDicesTeam.Dices;
 
 using Core.Crises;
 
 namespace Client.Assets.StageItems;
 
-internal sealed class FindingStageItem : ICampaignStageItem
+internal sealed class FindingStageItem : SmallTextEventStageItem
 {
-    public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
+    public FindingStageItem(IDice dice, ICrisesCatalog crisesCatalog, IEventCatalog eventCatalog) : base(dice, crisesCatalog, eventCatalog)
     {
-        screenManager.ExecuteTransition(currentScreen, ScreenTransition.Crisis,
-            new CrisisScreenTransitionArguments(currentCampaign, EventType.Treasues));
     }
+
+    protected override EventType EventType => EventType.Treasues;
 }

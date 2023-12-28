@@ -6,7 +6,7 @@ root:
         'Сама по себе идея, что сокровища просто так валяются в этом хищном мире.'
       env:
         - type: PlayMusic
-          data: MagicTrap
+          data: SkyThunder
   options:
     - text: 'Быстро взять все себе.'
       description: |

@@ -153,7 +153,7 @@
 		},
 		"storyEnvironmentSounds":
 		{
-			"path": "Audio/Stories/*.mp3",
+			"path": "Audio/Stories/Sounds/*.mp3",
 			"recursive": "True",
 			"action": "build",
 			"importer": "Mp3Importer",
@@ -163,16 +163,16 @@
 				"Quality": "Low"
 			}
 		},
-		"storyEnvironmentMusic":
+		"storyEnvironmentMusicOgg":
 		{
-			"path": "Audio/Stories/*.ogg",
+			"path": "Audio/Stories/Music/*.ogg",
 			"recursive": "True",
 			"action": "build",
 			"importer": "OggImporter",
 			"processor": "SongProcessor",
 			"processorParam":
 			{
-				"Quality": "Low"
+				"Quality": "Medium"
 			}
 		},
 		"uiSounds":

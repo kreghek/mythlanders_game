@@ -195,9 +195,9 @@ internal sealed class SettingsScreen : GameScreenBase
 
     private void InitSelectedMonitorResolution(GlobeProvider globeProvider)
     {
-        if (globeProvider.ChoisedUserMonitorResolution is null)
+        if (globeProvider.ChosenUserMonitorResolution is null)
         {
-            globeProvider.ChoisedUserMonitorResolution = _selectedMonitorResolutionButton is not null
+            globeProvider.ChosenUserMonitorResolution = _selectedMonitorResolutionButton is not null
                 ? _resolutionsButtonsInfos[_selectedMonitorResolutionButton]
                 : null;
         }
@@ -209,7 +209,7 @@ internal sealed class SettingsScreen : GameScreenBase
             }
 
             var foundResolutionButton = _resolutionsButtonsInfos
-                .SingleOrDefault(pair => pair.Value == globeProvider.ChoisedUserMonitorResolution);
+                .SingleOrDefault(pair => pair.Value == globeProvider.ChosenUserMonitorResolution);
             _selectedMonitorResolutionButton =
                 foundResolutionButton.Equals(default(KeyValuePair<ButtonBase, (int Width, int Height)>))
                     ? null
