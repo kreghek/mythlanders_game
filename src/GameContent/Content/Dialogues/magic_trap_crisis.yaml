@@ -8,7 +8,7 @@ root:
         'Действовать нужно быстро и точно.'
       env:
         - type: PlayMusic
-          data: MagicTrap
+          data: ElectricDeathRay
   options:
     - text: 'Один из героев закрывает всех от заряда своей широкой спиной.'
       description: |

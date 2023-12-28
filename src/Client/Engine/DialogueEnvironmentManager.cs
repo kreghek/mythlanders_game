@@ -35,11 +35,11 @@ internal sealed class DialogueEnvironmentManager : IDialogueEnvironmentManager
         _musicDict.Add("ChineseHappy", content.Load<Song>("Audio/Stories/Music/ChineseHappyMusic"));
         _musicDict.Add("ChineseMeditation", content.Load<Song>("Audio/Stories/Music/ChineseMeditationMusic"));
         
-        _musicDict.Add("MagicTrap", content.Load<Song>("Audio/Stories/Music/ElectricDeathRay"));
+        _musicDict.Add("ElectricDeathRay", content.Load<Song>("Audio/Stories/Music/ElectricDeathRay"));
         _musicDict.Add("CityHunting", content.Load<Song>("Audio/Stories/Music/CityHunting"));
         _musicDict.Add("InfernalSickness", content.Load<Song>("Audio/Stories/Music/InfernalSickness"));
         _musicDict.Add("Starvation", content.Load<Song>("Audio/Stories/Music/Starvation"));
-        _musicDict.Add("Preying", content.Load<Song>("Audio/Stories/Music/SkyThunder"));
+        _musicDict.Add("SkyThunder", content.Load<Song>("Audio/Stories/Music/SkyThunder"));
     }
 
     public void PlayEffect(string effectSid, string resourceName)
@@ -71,18 +71,5 @@ internal sealed class DialogueEnvironmentManager : IDialogueEnvironmentManager
 
         _currentEffects.Clear();
         _soundtrackManager.PlaySilence();
-    }
-    
-    private static string GetBackgroundEffectName(CrisisSid sid)
-    {
-        return sid.Value switch
-        {
-            "MagicTrap" => "ElectricDeathRay",
-            "CityHunting" => "CityHunting",
-            "InfernalSickness" => "InfernalSickness",
-            "Starvation" => "Starvation",
-            "Preying" => "SkyThunder",
-            _ => "Starvation"
-        };
     }
 }
