@@ -101,7 +101,7 @@ public class DialogueCatalogTests
         var act = () =>
         {
             catalog.Init();
-            var _ = catalog.GetDialogue("treasures_crisis");
+            var _ = catalog.GetDialogue("crystal_treasures_crisis");
         };
 
         // ASSERT
