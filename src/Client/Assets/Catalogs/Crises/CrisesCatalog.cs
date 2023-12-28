@@ -6,12 +6,12 @@ namespace Client.Assets.Catalogs.Crises;
 
 public static class CrisesCatalogSids
 {
-    public static string MagicTrap => nameof(MagicTrap);
     public static string CityWitchHunting => nameof(CityWitchHunting);
-    public static string JinkCity => nameof(JinkCity);
     public static string CrystalTreasures => nameof(CrystalTreasures);
     public static string DroneRemains => nameof(DroneRemains);
     public static string InfernalSickness => nameof(InfernalSickness);
+    public static string JinkCity => nameof(JinkCity);
+    public static string MagicTrap => nameof(MagicTrap);
     public static string Starvation => nameof(Starvation);
 }
 

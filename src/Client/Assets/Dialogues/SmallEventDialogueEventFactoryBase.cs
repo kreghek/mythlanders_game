@@ -12,6 +12,9 @@ namespace Client.Assets.Dialogues;
 
 internal abstract class SmallEventDialogueEventFactoryBase : IDialogueEventFactory
 {
+    protected abstract string DialogueFileSid { get; }
+    protected abstract string EventSid { get; }
+
     public DialogueEvent CreateEvent(IDialogueEventFactoryServices services)
     {
         var questStateMachine =
@@ -32,7 +35,4 @@ internal abstract class SmallEventDialogueEventFactoryBase : IDialogueEventFacto
     {
         return Array.Empty<IStoryPoint>();
     }
-
-    protected abstract string DialogueFileSid { get; }
-    protected abstract string EventSid { get; }
 }
