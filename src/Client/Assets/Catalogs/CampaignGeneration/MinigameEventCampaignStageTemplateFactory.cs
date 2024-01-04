@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.StageItems;
@@ -11,6 +12,13 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 
 internal sealed class MinigameEventCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
+    private CampaignStageTemplateServices _services;
+
+    public MinigameEventCampaignStageTemplateFactory(CampaignStageTemplateServices services)
+    {
+        _services = services;
+    }
+
     private static ICampaignStageItem[] MapContextToCurrentStageItems(IGraphTemplateContext<ICampaignStageItem> context)
     {
         return context.CurrentWay.Select(x => x.Payload).ToArray();
@@ -23,7 +31,14 @@ internal sealed class MinigameEventCampaignStageTemplateFactory : ICampaignStage
 
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        return new SlidingPuzzlesMiniGameStageItem();
+        var roll = _services.Dice.Roll(3);
+        return roll switch
+        { 
+            1 => new SlidingPuzzlesMiniGameStageItem(),
+            2 => new TowersMinigameStageItem(),
+            3 => new Match3MinigameStageItem(),
+            _ => throw new InvalidOperationException()
+        };
     }
 
     /// <inheritdoc />
