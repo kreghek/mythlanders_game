@@ -8,14 +8,16 @@ public sealed class TowersEngine
     {
         _bars = new List<TowerBar>();
 
-        for (int i = 0; i < initBars.Length; i++)
+        for (var i = 0; i < initBars.Length; i++)
         {
-            var rings = initBars[i].Select(x=> new TowerRing(x)).ToArray();
+            var rings = initBars[i].Select(x => new TowerRing(x)).ToArray();
 
             var isVictoryTarget = i == initBars.Length - 1;
             _bars.Add(new TowerBar(rings, isVictoryTarget));
         }
     }
+
+    public IReadOnlyList<TowerBar> Bars => _bars.ToArray();
 
     public void MoveRing(TowerBar sourceBar, TowerBar targetBar)
     {
@@ -25,6 +27,4 @@ public sealed class TowersEngine
     public event EventHandler<TowerRingMovedEventArgs>? TowerRingMoved;
 
     public event EventHandler? Complete;
-
-    public IReadOnlyList<TowerBar> Bars => _bars.ToArray();
 }

@@ -12,7 +12,7 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 
 internal sealed class MinigameEventCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
-    private CampaignStageTemplateServices _services;
+    private readonly CampaignStageTemplateServices _services;
 
     public MinigameEventCampaignStageTemplateFactory(CampaignStageTemplateServices services)
     {
@@ -33,7 +33,7 @@ internal sealed class MinigameEventCampaignStageTemplateFactory : ICampaignStage
     {
         var roll = _services.Dice.Roll(3);
         return roll switch
-        { 
+        {
             1 => new SlidingPuzzlesMiniGameStageItem(),
             2 => new TowersMinigameStageItem(),
             3 => new Match3MinigameStageItem(),

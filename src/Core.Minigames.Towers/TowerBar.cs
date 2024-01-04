@@ -8,6 +8,8 @@ public sealed class TowerBar
         IsVictoryTarget = isVictoryTarget;
     }
 
+    public bool IsVictoryTarget { get; }
+
     public IReadOnlyList<TowerRing> Rings { get; }
 
     public TowerRing PullOf()
@@ -19,6 +21,4 @@ public sealed class TowerBar
     {
         throw new NotImplementedException();
     }
-
-    public bool IsVictoryTarget { get; }
 }

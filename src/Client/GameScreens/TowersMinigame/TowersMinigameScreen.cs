@@ -15,18 +15,19 @@ namespace Client.GameScreens.TowersMinigame;
 
 internal class TowersMinigameScreen : GameScreenWithMenuBase
 {
+    private readonly IList<ButtonBase> _barButtonList;
     private readonly HeroCampaign _campaign;
     private readonly TowersEngine _towersEngine;
     private TowerRing? _activeRing;
-    private Texture2D _textures;
-    private readonly IList<ButtonBase> _barButtonList;
+    private readonly Texture2D _textures;
 
     public TowersMinigameScreen(TestamentGame game, TowersMiniGameScreenTransitionArguments args) : base(game)
     {
         _campaign = args.Campaign;
 
-        _towersEngine = new TowersEngine(new[] {
-            new []{ 3, 2, 1 },
+        _towersEngine = new TowersEngine(new[]
+        {
+            new[] { 3, 2, 1 },
             new int[0],
             new int[0] // target bar
         });
@@ -58,12 +59,14 @@ internal class TowersMinigameScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
-        var towersContentRect = new Rectangle(contentRect.Left + 10, contentRect.Top + 10, contentRect.Width - 20, contentRect.Height - 20); 
+        var towersContentRect = new Rectangle(contentRect.Left + 10, contentRect.Top + 10, contentRect.Width - 20,
+            contentRect.Height - 20);
 
         for (var barIndex = 0; barIndex < _barButtonList.Count; barIndex++)
         {
-            spriteBatch.Draw(_textures, new Rectangle(towersContentRect.Left + barIndex * 100 + 50, towersContentRect.Top + 10, 10, towersContentRect.Height - 20 - 10 - 10), new Rectangle(0, 0, 24, 128), Color.White);
-
+            spriteBatch.Draw(_textures,
+                new Rectangle(towersContentRect.Left + barIndex * 100 + 50, towersContentRect.Top + 10, 10,
+                    towersContentRect.Height - 20 - 10 - 10), new Rectangle(0, 0, 24, 128), Color.White);
 
             var button = _barButtonList[barIndex];
 
@@ -76,16 +79,6 @@ internal class TowersMinigameScreen : GameScreenWithMenuBase
         }
 
         spriteBatch.End();
-    }
-
-    protected override void UpdateContent(GameTime gameTime)
-    {
-        base.UpdateContent(gameTime);
-
-        foreach (var button in _barButtonList)
-        {
-            button.Update(ResolutionIndependentRenderer);
-        }
     }
 
     protected override void InitializeContent()
@@ -108,6 +101,16 @@ internal class TowersMinigameScreen : GameScreenWithMenuBase
             };
 
             _barButtonList.Add(barButton);
+        }
+    }
+
+    protected override void UpdateContent(GameTime gameTime)
+    {
+        base.UpdateContent(gameTime);
+
+        foreach (var button in _barButtonList)
+        {
+            button.Update(ResolutionIndependentRenderer);
         }
     }
 

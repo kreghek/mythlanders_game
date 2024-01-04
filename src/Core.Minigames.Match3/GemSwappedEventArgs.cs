@@ -1,6 +1,6 @@
 ﻿namespace Core.Minigames.Match3;
 
-public sealed class GemSwappedEventArgs: EventArgs
+public sealed class GemSwappedEventArgs : EventArgs
 {
     public GemSwappedEventArgs(Coords c1, Coords c2)
     {
@@ -12,12 +12,12 @@ public sealed class GemSwappedEventArgs: EventArgs
     public Coords C2 { get; }
 }
 
-public sealed class GemMatchedEventArgs: EventArgs
+public sealed class GemMatchedEventArgs : EventArgs
 {
-    public Coords MatchedCoords { get; }
-
     public GemMatchedEventArgs(Coords coords)
     {
         MatchedCoords = coords;
     }
+
+    public Coords MatchedCoords { get; }
 }

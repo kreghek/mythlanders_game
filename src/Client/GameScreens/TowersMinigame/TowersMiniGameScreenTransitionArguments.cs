@@ -2,4 +2,5 @@
 
 namespace Client.GameScreens.TowersMinigame;
 
-internal sealed record TowersMiniGameScreenTransitionArguments(HeroCampaign Campaign): CampaignScreenTransitionArgumentsBase(Campaign);
+internal sealed record TowersMiniGameScreenTransitionArguments
+    (HeroCampaign Campaign) : CampaignScreenTransitionArgumentsBase(Campaign);

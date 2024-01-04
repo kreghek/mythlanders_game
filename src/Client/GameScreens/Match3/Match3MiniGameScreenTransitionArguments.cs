@@ -2,4 +2,5 @@
 
 namespace Client.GameScreens.Match3;
 
-internal sealed record Match3MiniGameScreenTransitionArguments(HeroCampaign Campaign) : CampaignScreenTransitionArgumentsBase(Campaign);
+internal sealed record Match3MiniGameScreenTransitionArguments
+    (HeroCampaign Campaign) : CampaignScreenTransitionArgumentsBase(Campaign);

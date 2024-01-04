@@ -20,8 +20,10 @@ namespace Client.GameScreens.Match3;
 internal class Match3MinigameScreen : GameScreenWithMenuBase
 {
     private readonly HeroCampaign _campaign;
-    private readonly Match3Engine _match3Engine;
     private readonly Matrix<ButtonBase> _gemButtonMatrix;
+    private readonly Match3Engine _match3Engine;
+
+    private Coords? _selectedFirstGem;
 
     public Match3MinigameScreen(TestamentGame game, Match3MiniGameScreenTransitionArguments args) : base(game)
     {
@@ -34,7 +36,8 @@ internal class Match3MinigameScreen : GameScreenWithMenuBase
         {
             for (var rowIndex = 0; rowIndex < initialMatrix.Height; rowIndex++)
             {
-                initialMatrix[colIndex, rowIndex] = dice.RollFromList(new[] { GemColor.Green, GemColor.Red, GemColor.Blue });
+                initialMatrix[colIndex, rowIndex] =
+                    dice.RollFromList(new[] { GemColor.Green, GemColor.Red, GemColor.Blue });
             }
         }
 
@@ -78,22 +81,6 @@ internal class Match3MinigameScreen : GameScreenWithMenuBase
         spriteBatch.End();
     }
 
-    protected override void UpdateContent(GameTime gameTime)
-    {
-        base.UpdateContent(gameTime);
-
-        for (var colIndex = 0; colIndex < _gemButtonMatrix.Width; colIndex++)
-        {
-            for (var rowIndex = 0; rowIndex < _gemButtonMatrix.Height; rowIndex++)
-            {
-                var button = _gemButtonMatrix[colIndex, rowIndex];
-                button.Update(ResolutionIndependentRenderer);
-            }
-        }
-    }
-
-    private Coords? _selectedFirstGem;
-
     protected override void InitializeContent()
     {
         for (var colIndex = 0; colIndex < _gemButtonMatrix.Width; colIndex++)
@@ -118,6 +105,20 @@ internal class Match3MinigameScreen : GameScreenWithMenuBase
                 };
 
                 _gemButtonMatrix[colIndex, rowIndex] = button;
+            }
+        }
+    }
+
+    protected override void UpdateContent(GameTime gameTime)
+    {
+        base.UpdateContent(gameTime);
+
+        for (var colIndex = 0; colIndex < _gemButtonMatrix.Width; colIndex++)
+        {
+            for (var rowIndex = 0; rowIndex < _gemButtonMatrix.Height; rowIndex++)
+            {
+                var button = _gemButtonMatrix[colIndex, rowIndex];
+                button.Update(ResolutionIndependentRenderer);
             }
         }
     }
