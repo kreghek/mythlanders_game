@@ -33,9 +33,9 @@ internal class StayStrongFactory : CombatMovementFactoryBase
                     new AddCombatantStatusEffect(new SelfTargetSelector(),
                         new DelegateCombatStatusFactory(() =>
                             new DefensiveStanceCombatantStatusWrapper(
-                                new AutoRestoreChangeStatCombatantStatus(
-                                    new ChangeStatCombatantStatus(
-                                        new CombatantEffectSid(Sid),
+                                new AutoRestoreModifyStatCombatantStatus(
+                                    new ModifyStatCombatantStatus(
+                                        new CombatantStatusSid(Sid),
                                         new ToNextCombatantTurnEffectLifetime(),
                                         CombatantStatTypes.Defense,
                                         3))
@@ -48,9 +48,9 @@ internal class StayStrongFactory : CombatMovementFactoryBase
                     new AddCombatantStatusEffect(new SelfTargetSelector(),
                         new DelegateCombatStatusFactory(() =>
                             new DefensiveStanceCombatantStatusWrapper(
-                                new AutoRestoreChangeStatCombatantStatus(
-                                    new ChangeStatCombatantStatus(
-                                        new CombatantEffectSid(Sid),
+                                new AutoRestoreModifyStatCombatantStatus(
+                                    new ModifyStatCombatantStatus(
+                                        new CombatantStatusSid(Sid),
                                         new ToEndOfCurrentRoundEffectLifetime(),
                                         CombatantStatTypes.Defense,
                                         1))

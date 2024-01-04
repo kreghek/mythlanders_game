@@ -23,7 +23,7 @@ internal sealed class DemonicTauntFactory : CombatMovementFactoryBase
                         ChangePositionEffectDirection.ToVanguard
                     ),
                     new ChangeStatEffect(
-                        new CombatantEffectSid(Sid),
+                        new CombatantStatusSid(Sid),
                         new SelfTargetSelector(),
                         CombatantStatTypes.Defense,
                         3,

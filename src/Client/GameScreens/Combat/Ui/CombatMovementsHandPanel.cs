@@ -361,7 +361,7 @@ internal class CombatMovementsHandPanel : ControlBase
     }
 
     private static bool IsResolveStatEnough(CombatMovementInstance combatMovement,
-        IUnitStat currentCombatantResolveStat)
+        ICombatantStat currentCombatantResolveStat)
     {
         return combatMovement.Cost.Amount.Current <= currentCombatantResolveStat.Value.Current;
     }

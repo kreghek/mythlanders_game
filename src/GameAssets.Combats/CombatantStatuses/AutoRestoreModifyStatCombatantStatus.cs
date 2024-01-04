@@ -3,11 +3,11 @@ using CombatDicesTeam.Combats.CombatantStatuses;
 
 namespace GameAssets.Combats.CombatantStatuses;
 
-public sealed class AutoRestoreChangeStatCombatantStatus : ICombatantStatus
+public sealed class AutoRestoreModifyStatCombatantStatus : ICombatantStatus
 {
-    private readonly ChangeStatCombatantStatus _baseStatus;
+    private readonly ModifyStatCombatantStatus _baseStatus;
 
-    public AutoRestoreChangeStatCombatantStatus(ChangeStatCombatantStatus baseStatus)
+    public AutoRestoreModifyStatCombatantStatus(ModifyStatCombatantStatus baseStatus)
     {
         _baseStatus = baseStatus;
     }
