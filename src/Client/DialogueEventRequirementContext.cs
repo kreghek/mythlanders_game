@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,7 +32,7 @@ internal class DialogueEventRequirementContext : IDialogueEventRequirementContex
     }
 
     public IReadOnlyCollection<UnitName> ActiveHeroesInParty =>
-        _globe.Player.Party.GetUnits().Select(x => x.UnitScheme.Name).ToArray();
+        _globe.Player.Heroes.Units.Select(x => Enum.Parse<UnitName>(x.ClassSid, true)).ToArray();
 
     public IReadOnlyCollection<string> ActiveStories =>
         _eventCatalog.Events.Where(x => x.IsStarted).Select(x => x.Sid).ToArray();

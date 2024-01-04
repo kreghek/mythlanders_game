@@ -197,9 +197,9 @@ internal sealed class CheatInput : DrawableGameComponent
 
         var unitSchemeSid = args[0];
         var unitScheme = GetUnitSchemeByString(unitSchemeSid, _unitSchemeCatalog);
-
-        var targetUnit = globe.Player.GetAll().SingleOrDefault(x => x.UnitScheme == unitScheme);
-        var hpAmount = int.Parse(args[1]);
+        //
+        // var targetUnit = globe.Player.Heroes.Units.SingleOrDefault(x => x.UnitScheme == unitScheme);
+        // var hpAmount = int.Parse(args[1]);
 
         // targetUnit.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value
         //     .CurrentChange(hpAmount > 0 ? hpAmount : 0);

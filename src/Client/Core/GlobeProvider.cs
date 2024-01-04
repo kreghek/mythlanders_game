@@ -9,9 +9,9 @@ using System.Text.Json.Serialization;
 using Client.Core.Heroes;
 using Client.Core.ProgressStorage;
 
-using CombatDicesTeam.Dices;
+using CombatDicesTeam.Combats;
 
-using GameAssets.Combats;
+using Core.Props;
 
 namespace Client.Core;
 
@@ -19,29 +19,22 @@ internal sealed class GlobeProvider
 {
     private const string SAVE_FILE_TEMPLATE = "save-{0}.json";
 
-    private readonly IDice _dice;
-    private readonly IEventCatalog _eventCatalog;
-
     private readonly string _storagePath;
     private readonly IStoryPointInitializer _storyPointInitializer;
     private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
     private Globe? _globe;
 
-    public GlobeProvider(IDice dice,
-        IUnitSchemeCatalog unitSchemeCatalog,
-        IEventCatalog eventCatalog,
+    public GlobeProvider(IUnitSchemeCatalog unitSchemeCatalog,
         IStoryPointInitializer storyPointInitializer)
     {
-        _dice = dice;
         _unitSchemeCatalog = unitSchemeCatalog;
-        _eventCatalog = eventCatalog;
         _storyPointInitializer = storyPointInitializer;
         var binPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         _storagePath = Path.Combine(binPath, "CDT", "Testament");
     }
 
-    public (int Width, int Height)? ChoisedUserMonitorResolution { get; set; } = null;
+    public (int Width, int Height)? ChosenUserMonitorResolution { get; set; }
 
     public Globe Globe
     {
@@ -69,7 +62,9 @@ internal sealed class GlobeProvider
 
     public void GenerateFree(HeroState[] heroes)
     {
-        var globe = new Globe(new Player(heroes));
+        var globe = new Globe(new Player());
+
+        AssignFreeHeroes(globe);
 
         Globe = globe;
     }
@@ -132,22 +127,19 @@ internal sealed class GlobeProvider
 
         if (progressDto.Player is not null)
         {
-            LoadPlayerCharacters(progressDto.Player);
+            LoadHeroes(progressDto.Player);
             LoadPlayerAbilities(progressDto.Player);
 
             LoadPlayerResources(progressDto.Player.Resources, Globe.Player.Inventory);
             LoadPlayerKnownMonsters(progressDto.Player, _unitSchemeCatalog, Globe.Player);
         }
-
-        Globe.UpdateNodes(_dice, _eventCatalog);
     }
 
     public void StoreCurrentGlobe()
     {
         var player = new PlayerDto
         {
-            Group = GetPlayerGroupToSave(Globe.Player.Party.GetUnits()),
-            Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units),
+            Heroes = GetPlayerGroupToSave(Globe.Player.Heroes.Units),
             Resources = GetPlayerResourcesToSave(Globe.Player.Inventory),
             KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters),
             Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray()
@@ -171,41 +163,34 @@ internal sealed class GlobeProvider
         File.WriteAllText(storageFile, saveDataString);
     }
 
-    private void AssignFreeHeroes(Globe globe, string[] heroes)
+    private void AssignFreeHeroes(Globe globe)
     {
-        var startHeroes = CreateFreeHeroes(heroes.Select(x => Enum.Parse<UnitName>(x, true)).ToArray());
-        for (var slotIndex = 0; slotIndex < startHeroes.Length; slotIndex++)
+        var startHeroes = new List<HeroState>
         {
-            globe.Player.MoveToParty(startHeroes[slotIndex], slotIndex);
-        }
+            new("swordsman", new StatValue(5), ArraySegment<CombatMovement>.Empty),
+            new("partisan", new StatValue(3), ArraySegment<CombatMovement>.Empty),
+            new("robber", new StatValue(3), ArraySegment<CombatMovement>.Empty)
+        };
 
-        var startPoolHeroes = CreateStartPoolHeroes();
-        foreach (var hero in startPoolHeroes)
+        foreach (var hero in startHeroes)
         {
-            globe.Player.Pool.AddNewUnit(hero);
+            globe.Player.Heroes.AddNewUnit(hero);
         }
     }
 
     private void AssignStartHeroes(Globe globe)
     {
-        var startHeroes = CreateStartHeroes();
-        for (var slotIndex = 0; slotIndex < startHeroes.Length; slotIndex++)
+        var startHeroes = new List<HeroState>
         {
-            globe.Player.MoveToParty(startHeroes[slotIndex], slotIndex);
-        }
+            new("swordsman", new StatValue(5), ArraySegment<CombatMovement>.Empty),
+            new("partisan", new StatValue(3), ArraySegment<CombatMovement>.Empty),
+            new("robber", new StatValue(3), ArraySegment<CombatMovement>.Empty)
+        };
 
-        var startPoolHeroes = CreateStartPoolHeroes();
-        foreach (var hero in startPoolHeroes)
+        foreach (var hero in startHeroes)
         {
-            globe.Player.Pool.AddNewUnit(hero);
+            globe.Player.Heroes.AddNewUnit(hero);
         }
-    }
-
-    private Hero[] CreateFreeHeroes(UnitName[] heroes)
-    {
-        var startHeroes = heroes.Select(CreateStartHero).ToArray();
-
-        return startHeroes;
     }
 
     private static string CreateSaveData(string saveName, ProgressDto progress)
@@ -221,37 +206,6 @@ internal sealed class GlobeProvider
             JsonSerializer.Serialize(saveDto, options: new JsonSerializerOptions { WriteIndented = true });
 
         return serializedSaveData;
-    }
-
-    private Hero CreateStartHero(UnitName heroName)
-    {
-        return new Hero(_unitSchemeCatalog.Heroes[heroName], level: 1)
-        {
-            IsPlayerControlled = true
-        };
-    }
-
-    private Hero[] CreateStartHeroes()
-    {
-        var startHeroNames = new[]
-        {
-            UnitName.Swordsman,
-            UnitName.Partisan,
-            UnitName.Assaulter
-        };
-
-        var startHeroes = startHeroNames.Select(CreateStartHero).ToArray();
-
-        return startHeroes;
-    }
-
-    private Hero[] CreateStartPoolHeroes()
-    {
-        var startHeroNames = Array.Empty<UnitName>();
-
-        var startHeroes = startHeroNames.Select(CreateStartHero).ToArray();
-
-        return startHeroes;
     }
 
     private static EquipmentDto[] GetCharacterEquipmentToSave(Hero unit)
@@ -277,20 +231,18 @@ internal sealed class GlobeProvider
         return knownMonsters.Select(x => x.Name.ToString()).ToArray();
     }
 
-    private static GroupDto GetPlayerGroupToSave(IEnumerable<Hero> units)
+    private static GroupDto GetPlayerGroupToSave(IEnumerable<HeroState> units)
     {
-        var unitDtos = units.Select(
+        var combatantSaveItems = units.Select(
             unit => new PlayerUnitDto
             {
-                SchemeSid = unit.UnitScheme.Name.ToString(),
-                Hp = unit.Stats.Single(x => x.Type == CombatantStatTypes.HitPoints).Value.Current,
-                Level = unit.Level,
-                Equipments = GetCharacterEquipmentToSave(unit)
+                HeroSid = unit.ClassSid,
+                Hp = unit.HitPoints.Current
             });
 
         var groupDto = new GroupDto
         {
-            Units = unitDtos
+            Units = combatantSaveItems
         };
 
         return groupDto;
@@ -298,13 +250,11 @@ internal sealed class GlobeProvider
 
     private static ResourceDto[] GetPlayerResourcesToSave(Inventory inventory)
     {
-        // return inventory.Select(x => new ResourceDto
-        // {
-        //     Amount = x.Amount,
-        //     Type = x.Type.ToString()
-        // }).ToArray();
-
-        throw new Exception();
+        return inventory.CalcActualItems().Select(x => new ResourceDto
+        {
+            Amount = ((Resource)x).Count,
+            Type = x.Scheme.Sid
+        }).ToArray();
     }
 
     private string GetSaveName(string playerName)
@@ -355,6 +305,21 @@ internal sealed class GlobeProvider
         }
     }
 
+    private void LoadHeroes(PlayerDto lastSavePlayer)
+    {
+        if (lastSavePlayer.Heroes is null)
+        {
+            throw new InvalidOperationException();
+        }
+
+        var loadedHeroes = LoadPlayerGroup(lastSavePlayer.Heroes);
+
+        foreach (var unit in loadedHeroes)
+        {
+            Globe.Player.Heroes.AddNewUnit(unit);
+        }
+    }
+
     private void LoadPlayerAbilities(PlayerDto playerDto)
     {
         if (playerDto.Abilities is null)
@@ -371,44 +336,12 @@ internal sealed class GlobeProvider
         }
     }
 
-    private void LoadPlayerCharacters(PlayerDto lastSavePlayer)
+    private static List<HeroState> LoadPlayerGroup(GroupDto groupDto)
     {
-        var loadedParty = LoadPlayerGroup(lastSavePlayer.Group);
-        foreach (var slot in Globe.Player.Party.Slots)
-        {
-            slot.Hero = null;
-        }
-
-        for (var slotIndex = 0; slotIndex < loadedParty.Count; slotIndex++)
-        {
-            var unit = loadedParty[slotIndex];
-            Globe.Player.Party.Slots[slotIndex].Hero = unit;
-        }
-
-        var loadedPool = LoadPlayerGroup(lastSavePlayer.Pool);
-
-        foreach (var unit in loadedPool)
-        {
-            Globe.Player.Pool.AddNewUnit(unit);
-        }
-    }
-
-    private List<Hero> LoadPlayerGroup(GroupDto groupDto)
-    {
-        var units = new List<Hero>();
+        var units = new List<HeroState>();
         foreach (var unitDto in groupDto.Units)
         {
-            var unitName = (UnitName)Enum.Parse(typeof(UnitName), unitDto.SchemeSid);
-            var unitScheme = _unitSchemeCatalog.Heroes[unitName];
-
-            var unit = new Hero(unitScheme, unitDto.Level)
-            {
-                IsPlayerControlled = true
-            };
-
-            LoadCharacterEquipments(unit, unitDto.Equipments);
-
-            units.Add(unit);
+            units.Add(new HeroState(unitDto.HeroSid, new StatValue(unitDto.Hp), ArraySegment<CombatMovement>.Empty));
         }
 
         return units;
@@ -446,40 +379,38 @@ internal sealed class GlobeProvider
             return;
         }
 
-        // foreach (var resourceDto in resources)
-        // {
-        //     if (resourceDto is null)
-        //     {
-        //         continue;
-        //     }
-        //
-        //     var resource = inventory.SingleOrDefault(x => x.Type.ToString() == resourceDto.Type);
-        //     if (resource is null)
-        //     {
-        //         Debug.Fail("Every resouce in inventory must be same as in the save. Make migration of the save.");
-        //         continue;
-        //     }
-        //
-        //     resource.Amount = resourceDto.Amount;
-        // }
+        foreach (var resourceDto in resources)
+        {
+            if (resourceDto is null)
+            {
+                continue;
+            }
 
-        throw new Exception();
+            var resource = inventory.CalcActualItems().OfType<Resource>()
+                .SingleOrDefault(x => x.Scheme.Sid == resourceDto.Type);
+            if (resource is null)
+            {
+                resource = new Resource(new PropScheme(resourceDto.Type), resourceDto.Amount);
+            }
+
+            inventory.Add(resource);
+        }
     }
 
     public sealed class SaveShortInfo
     {
-        public string FileName { get; set; }
+        public string FileName { get; set; } = null!;
 
         [JsonPropertyName(nameof(SaveDto.Name))]
-        public string PlayerName { get; init; }
+        public string PlayerName { get; init; } = null!;
 
         public DateTime UpdateTime { get; init; }
     }
 
     internal class SaveDto
     {
-        public string Name { get; init; }
-        public ProgressDto Progress { get; init; }
+        public string Name { get; init; } = null!;
+        public ProgressDto Progress { get; init; } = null!;
         public DateTime UpdateTime { get; init; }
     }
 }

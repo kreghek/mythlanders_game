@@ -10,5 +10,5 @@ internal interface IEventCatalog
 {
     IEnumerable<DialogueEvent> Events { get; }
 
-    Dialogue<ParagraphConditionContext, AftermathContext> GetDialogue(string sid);
+    Dialogue<ParagraphConditionContext, CampaignAftermathContext> GetDialogue(string sid);
 }

@@ -25,13 +25,22 @@ internal sealed class DialogueEnvironmentManager : IDialogueEnvironmentManager
 
     public void Init(ContentManager content)
     {
-        _effectsDict.Add("DesertWind", content.Load<SoundEffect>("Audio/Stories/DesertWind"));
-        _effectsDict.Add("WomanSynthCrying", content.Load<SoundEffect>("Audio/Stories/WomanSynthCrying"));
-        _effectsDict.Add("ChineseCrowd", content.Load<SoundEffect>("Audio/Stories/ChineseCrowd"));
+        _effectsDict.Add("DesertWind", content.Load<SoundEffect>("Audio/Stories/Sounds/DesertWind"));
+        _effectsDict.Add("WomanSynthCrying", content.Load<SoundEffect>("Audio/Stories/Sounds/WomanSynthCrying"));
+        _effectsDict.Add("ChineseCrowd", content.Load<SoundEffect>("Audio/Stories/Sounds/ChineseCrowd"));
 
-        _musicDict.Add("EgyptianThriller", content.Load<Song>("Audio/Stories/EgyptianThrillerMusic"));
-        _musicDict.Add("ChineseHappy", content.Load<Song>("Audio/Stories/ChineseHappyMusic"));
-        _musicDict.Add("ChineseMeditation", content.Load<Song>("Audio/Stories/ChineseMeditationMusic"));
+        _musicDict.Add("EgyptianThriller", content.Load<Song>("Audio/Stories/Music/EgyptianThrillerMusic"));
+        _musicDict.Add("ChineseHappy", content.Load<Song>("Audio/Stories/Music/ChineseHappyMusic"));
+        _musicDict.Add("ChineseMeditation", content.Load<Song>("Audio/Stories/Music/ChineseMeditationMusic"));
+
+        _musicDict.Add("ElectricDeathRay", content.Load<Song>("Audio/Stories/Music/ElectricDeathRay"));
+        _musicDict.Add("CityHunting", content.Load<Song>("Audio/Stories/Music/CityHunting"));
+        _musicDict.Add("InfernalSickness", content.Load<Song>("Audio/Stories/Music/InfernalSickness"));
+        _musicDict.Add("Starvation", content.Load<Song>("Audio/Stories/Music/Starvation"));
+        _musicDict.Add("SkyThunder", content.Load<Song>("Audio/Stories/Music/SkyThunder"));
+        _musicDict.Add("Battle", content.Load<Song>("Audio/Stories/Music/Battle"));
+        _musicDict.Add("JunkCity", content.Load<Song>("Audio/Stories/Music/JunkCity"));
+        _musicDict.Add("SciFiMagic", content.Load<Song>("Audio/Stories/Music/SciFiMagic"));
     }
 
     public void PlayEffect(string effectSid, string resourceName)
@@ -42,10 +51,10 @@ internal sealed class DialogueEnvironmentManager : IDialogueEnvironmentManager
             _currentEffects.Remove(effectSid);
         }
 
-        var effectInstanse = _effectsDict[resourceName].CreateInstance();
-        _currentEffects.Add(effectSid, effectInstanse);
+        var effectInstance = _effectsDict[resourceName].CreateInstance();
+        _currentEffects.Add(effectSid, effectInstance);
 
-        effectInstanse.Play();
+        effectInstance.Play();
     }
 
     public void PlaySong(string resourceName)

@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Client.GameScreens.Barracks;
 using Client.GameScreens.Bestiary;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.CampaignReward;
@@ -9,7 +10,6 @@ using Client.GameScreens.CommandCenter;
 using Client.GameScreens.Credits;
 using Client.GameScreens.Crisis;
 using Client.GameScreens.EndGame;
-using Client.GameScreens.Hero;
 using Client.GameScreens.Intro;
 using Client.GameScreens.NotImplementedStage;
 using Client.GameScreens.Rest;
@@ -117,7 +117,7 @@ internal class ScreenManager : IScreenManager
                 (CampaignScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.CommandCenter => new CommandCenterScreen(_game,
                 (CommandCenterScreenTransitionArguments)screenTransitionArguments),
-            ScreenTransition.Hero => new HeroScreen(_game),
+            ScreenTransition.Barracks => new BarracksScreen(_game),
             ScreenTransition.Event => new TextDialogueScreen(_game,
                 (TextDialogueScreenTransitionArgs)screenTransitionArguments),
             ScreenTransition.Combat => new CombatScreen(_game,

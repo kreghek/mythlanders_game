@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.StageItems;
 using Client.Core.CampaignRewards;
 
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Graphs;
 
 namespace Client.Core.Campaigns;
@@ -13,14 +15,15 @@ namespace Client.Core.Campaigns;
 /// </summary>
 internal sealed class HeroCampaign
 {
-    public HeroCampaign(IReadOnlyCollection<HeroState> heroes, HeroCampaignLocation location,
+    public HeroCampaign(IReadOnlyCollection<(HeroState, FieldCoords)> initHeroes, HeroCampaignLocation location,
         IReadOnlyCollection<ICampaignReward> failurePenalties, int visualizationSeed)
     {
-        Heroes = heroes;
+        Heroes = CreateCampaignHeroes(initHeroes);
         Location = location;
 
         ActualRewards = location.Stages.GetAllNodes().Select(x => x.Payload)
-            .OfType<IRewardCampaignStageItem>().First().GetEstimateRewards(location);
+                            .OfType<IRewardCampaignStageItem>().FirstOrDefault()?.GetEstimateRewards(location) ??
+                        ArraySegment<ICampaignReward>.Empty;
         ActualFailurePenalties = failurePenalties;
 
         VisualizationSeed = visualizationSeed;
@@ -41,7 +44,7 @@ internal sealed class HeroCampaign
     public IReadOnlyCollection<ICampaignReward> ActualRewards { get; }
 
     public IGraphNode<ICampaignStageItem>? CurrentStage { get; set; }
-    public IReadOnlyCollection<HeroState> Heroes { get; }
+    public IReadOnlyCollection<HeroCampaignState> Heroes { get; }
 
     public HeroCampaignLocation Location { get; }
 
@@ -49,4 +52,12 @@ internal sealed class HeroCampaign
     public IList<IGraphNode<ICampaignStageItem>> Path { get; }
 
     public int VisualizationSeed { get; }
+
+    private IReadOnlyCollection<HeroCampaignState> CreateCampaignHeroes(
+        IEnumerable<(HeroState, FieldCoords)> heroes)
+    {
+        return heroes.Select(hero =>
+                new HeroCampaignState(hero.Item1, new FormationSlot(hero.Item2.ColumentIndex, hero.Item2.LineIndex)))
+            .ToList();
+    }
 }

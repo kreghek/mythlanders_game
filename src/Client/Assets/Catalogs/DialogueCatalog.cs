@@ -34,7 +34,7 @@ internal class DialogueCatalog : IEventCatalog, IEventInitializer
         Events = Array.Empty<DialogueEvent>();
     }
 
-    private Dialogue<ParagraphConditionContext, AftermathContext> LoadDialogue(string dialogueSid)
+    private Dialogue<ParagraphConditionContext, CampaignAftermathContext> LoadDialogue(string dialogueSid)
     {
         var dialogueYaml = _resourceProvider.GetResource(dialogueSid);
 
@@ -53,7 +53,7 @@ internal class DialogueCatalog : IEventCatalog, IEventInitializer
 
     public IEnumerable<DialogueEvent> Events { get; private set; }
 
-    public Dialogue<ParagraphConditionContext, AftermathContext> GetDialogue(string sid)
+    public Dialogue<ParagraphConditionContext, CampaignAftermathContext> GetDialogue(string sid)
     {
         if (!_isInitialized)
         {
