@@ -19,7 +19,7 @@ public sealed class SwapPositionEffectInstance : EffectInstanceBase<SwapPosition
 
         var targetCoords = targetSide.GetCombatantCoords(target);
 
-        context.NotifySwapFieldPosition(context.Actor, actorCoords, actorSide, targetCoords, targetSide);
+        context.NotifySwapFieldPosition(context.Actor, actorCoords, actorSide, targetCoords, targetSide, new PositionChangeReason());
     }
 
     private static CombatFieldSide GetTargetSide(ICombatant target, CombatField field)

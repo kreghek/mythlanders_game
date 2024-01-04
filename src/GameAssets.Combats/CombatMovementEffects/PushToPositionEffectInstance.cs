@@ -28,7 +28,7 @@ public sealed class PushToPositionEffectInstance : EffectInstanceBase<PushToPosi
             _ => throw new InvalidOperationException($"Unknown direction {BaseEffect.Direction}")
         };
 
-        context.NotifySwapFieldPosition(target, currentCoords, targetSide, targetCoords, targetSide);
+        context.NotifySwapFieldPosition(target, currentCoords, targetSide, targetCoords, targetSide, new PositionChangeReason());
     }
 
     private static CombatFieldSide GetTargetSide(ICombatant target, CombatField field)

@@ -18,7 +18,7 @@ internal class StonePathFactory : CombatMovementFactoryBase
                 new IEffect[]
                 {
                     new ChangeStatEffect(
-                        new CombatantEffectSid(Sid),
+                        new CombatantStatusSid(Sid),
                         new SelfTargetSelector(),
                         CombatantStatTypes.Defense,
                         3,

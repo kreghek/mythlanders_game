@@ -30,13 +30,13 @@ internal class NinthTrigramFactory : CombatMovementFactoryBase
                         ChangePositionEffectDirection.ToVanguard
                     ),
                     new ChangeStatEffect(
-                        new CombatantEffectSid(Sid),
+                        new CombatantStatusSid(Sid),
                         new StrongestClosestAllyTargetSelector(),
                         CombatantStatTypes.Defense,
                         2,
                         new ToNextCombatantTurnEffectLifetimeFactory()),
                     new ChangeStatEffect(
-                        new CombatantEffectSid(Sid),
+                        new CombatantStatusSid(Sid),
                         new SelfTargetSelector(),
                         CombatantStatTypes.Defense,
                         2,

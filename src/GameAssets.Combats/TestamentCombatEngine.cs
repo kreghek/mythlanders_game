@@ -14,8 +14,8 @@ public sealed class TestamentCombatEngine : CombatEngineBase
     {
         SpendCombatMovementResources(movement);
 
-        var effectContext =
-            new EffectCombatContext(CurrentCombatant, Field, Dice, HandleCombatantDamagedToStat,
+        var statusContext =
+            new StatusCombatContext(CurrentCombatant, Field, Dice, HandleCombatantDamagedToStat,
                 HandleSwapFieldPositions, this);
 
         var effectImposeItems = new List<CombatEffectImposeItem>();
@@ -26,7 +26,7 @@ public sealed class TestamentCombatEngine : CombatEngineBase
 
             void EffectInfluenceDelegate(ICombatant materializedTarget)
             {
-                effectInstanceClosure.Influence(materializedTarget, effectContext);
+                effectInstanceClosure.Influence(materializedTarget, statusContext);
             }
 
             var effectTargets = effectInstance.Selector.GetMaterialized(CurrentCombatant, GetCurrentSelectorContext());
@@ -50,7 +50,7 @@ public sealed class TestamentCombatEngine : CombatEngineBase
                         {
                             void AutoEffectInfluenceDelegate(ICombatant materializedTarget)
                             {
-                                autoDefenseEffect.Influence(materializedTarget, effectContext);
+                                autoDefenseEffect.Influence(materializedTarget, statusContext);
                             }
 
                             var autoDefenseEffectTargets =

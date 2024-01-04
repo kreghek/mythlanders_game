@@ -19,7 +19,7 @@ internal class VelesProtectionFactory : CombatMovementFactoryBase
                 new IEffect[]
                 {
                     new ChangeStatEffect(
-                        new CombatantEffectSid(Sid),
+                        new CombatantStatusSid(Sid),
                         new SelfTargetSelector(),
                         CombatantStatTypes.ShieldPoints,
                         3,

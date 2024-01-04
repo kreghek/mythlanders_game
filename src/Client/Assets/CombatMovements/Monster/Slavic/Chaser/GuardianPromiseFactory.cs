@@ -16,7 +16,7 @@ internal class GuardianPromiseFactory : SimpleCombatMovementFactoryBase
             new IEffect[]
             {
                 new ChangeStatEffect(
-                    new CombatantEffectSid(Sid),
+                    new CombatantStatusSid(Sid),
                     new SelfTargetSelector(),
                     CombatantStatTypes.Defense,
                     3,
@@ -25,7 +25,7 @@ internal class GuardianPromiseFactory : SimpleCombatMovementFactoryBase
             new IEffect[]
             {
                 new ChangeStatEffect(
-                    new CombatantEffectSid(Sid),
+                    new CombatantStatusSid(Sid),
                     new SelfTargetSelector(),
                     CombatantStatTypes.Defense,
                     1,
