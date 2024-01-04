@@ -3,17 +3,13 @@ using System.Collections.Generic;
 
 using Client.Core.Campaigns;
 using Client.GameScreens.Campaign;
+using Client.ScreenManagement;
 
-using Core.Combats;
-using Core.Dices;
 using Core.Minigames.Match3;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Rpg.Client.Engine;
-using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Match3;
 

@@ -1,8 +1,6 @@
 ﻿using Client.Core.Campaigns;
 using Client.GameScreens.Match3;
-
-using Rpg.Client.Core.Campaigns;
-using Rpg.Client.ScreenManagement;
+using Client.ScreenManagement;
 
 namespace Client.Assets.StageItems;
 
