@@ -3,9 +3,9 @@ using Client.ScreenManagement;
 
 namespace Client.GameScreens.SlidingPuzzles;
 
-internal sealed class SlidingPuzzlesScreenTransitionArguments : IScreenTransitionArguments
+internal sealed class SlidingPuzzlesMinigameScreenTransitionArguments : IScreenTransitionArguments
 {
-    public SlidingPuzzlesScreenTransitionArguments(HeroCampaign campaign)
+    public SlidingPuzzlesMinigameScreenTransitionArguments(HeroCampaign campaign)
     {
         Campaign = campaign;
     }

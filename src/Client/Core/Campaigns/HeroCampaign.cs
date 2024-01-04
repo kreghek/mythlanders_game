@@ -53,6 +53,12 @@ internal sealed class HeroCampaign
 
     public int VisualizationSeed { get; }
 
+    internal void CompleteCurrentStage()
+    {
+        //TODO Count stage complete job
+        throw new NotImplementedException();
+    }
+
     private IReadOnlyCollection<HeroCampaignState> CreateCampaignHeroes(
         IEnumerable<(HeroState, FieldCoords)> heroes)
     {

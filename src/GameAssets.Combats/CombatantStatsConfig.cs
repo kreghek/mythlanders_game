@@ -28,7 +28,7 @@ public sealed class CombatantStatsConfig
         };
     }
 
-    public IReadOnlyCollection<IUnitStat> GetStats()
+    public IReadOnlyCollection<ICombatantStat> GetStats()
     {
         return _stats.Select(x => new CombatantStat(x.Key, x.Value)).ToArray();
     }

@@ -45,7 +45,7 @@ public class TestamentCombatEngineTests
                 new[]
                 {
                     new ChangeStatEffect(
-                        new CombatantEffectSid("test_auto_defence"),
+                        new CombatantStatusSid("test_auto_defence"),
                         new SelfTargetSelector(),
                         CombatantStatTypes.Defense,
                         1,
@@ -157,9 +157,9 @@ public class TestamentCombatEngineTests
         combatantMock.Setup(x => x.Stats)
             .Returns(new[]
             {
-                Mock.Of<IUnitStat>(x => x.Type == CombatantStatTypes.HitPoints && x.Value == new StatValue(1)),
-                Mock.Of<IUnitStat>(x => x.Type == CombatantStatTypes.ShieldPoints && x.Value == new StatValue(1)),
-                Mock.Of<IUnitStat>(x => x.Type == CombatantStatTypes.Defense && x.Value == new StatValue(0))
+                Mock.Of<ICombatantStat>(x => x.Type == CombatantStatTypes.HitPoints && x.Value == new StatValue(1)),
+                Mock.Of<ICombatantStat>(x => x.Type == CombatantStatTypes.ShieldPoints && x.Value == new StatValue(1)),
+                Mock.Of<ICombatantStat>(x => x.Type == CombatantStatTypes.Defense && x.Value == new StatValue(0))
             });
 
         combatantMock.SetupGet(x => x.IsPlayerControlled).Returns(b);
@@ -185,9 +185,9 @@ public class TestamentCombatEngineTests
         combatantMock.Setup(x => x.Stats)
             .Returns(new[]
             {
-                Mock.Of<IUnitStat>(x => x.Type == CombatantStatTypes.HitPoints && x.Value == new StatValue(1)),
-                Mock.Of<IUnitStat>(x => x.Type == CombatantStatTypes.ShieldPoints && x.Value == new StatValue(1)),
-                Mock.Of<IUnitStat>(x => x.Type == CombatantStatTypes.Defense && x.Value == new StatValue(0))
+                Mock.Of<ICombatantStat>(x => x.Type == CombatantStatTypes.HitPoints && x.Value == new StatValue(1)),
+                Mock.Of<ICombatantStat>(x => x.Type == CombatantStatTypes.ShieldPoints && x.Value == new StatValue(1)),
+                Mock.Of<ICombatantStat>(x => x.Type == CombatantStatTypes.Defense && x.Value == new StatValue(0))
             });
 
         combatantMock.SetupGet(x => x.IsPlayerControlled).Returns(b);

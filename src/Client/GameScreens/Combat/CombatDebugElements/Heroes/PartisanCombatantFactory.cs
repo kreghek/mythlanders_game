@@ -22,13 +22,13 @@ public class PartisanCombatantFactory : IHeroCombatantFactory
     {
         var movementPool = new List<CombatMovement>
         {
+            CreateMovement<BlankShotFactory>(),
+
             CreateMovement<InspirationalBreakthroughFactory>(),
 
             CreateMovement<EnergeticSuperiorityFactory>(),
 
             CreateMovement<SurpriseManeuverFactory>(),
-
-            CreateMovement<BlankShotFactory>(),
 
             CreateMovement<OldGoodBrawlFactory>(),
 

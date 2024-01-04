@@ -89,7 +89,7 @@ internal sealed class CampaignWayTemplatesCatalog
 
             new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
             {
-                new MinigameEventCampaignStageTemplateFactory()
+                new MinigameEventCampaignStageTemplateFactory(_services)
             }),
 
             // Evo

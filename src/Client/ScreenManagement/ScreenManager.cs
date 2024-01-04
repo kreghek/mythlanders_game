@@ -129,7 +129,7 @@ internal class ScreenManager : IScreenManager
             ScreenTransition.Training => new TrainingScreen(_game,
                 (TrainingScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.SlidingPuzzles => new SlidingPuzzlesScreen(_game,
-                (SlidingPuzzlesScreenTransitionArguments)screenTransitionArguments),
+                (SlidingPuzzlesMinigameScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.Challenge => new ChallengeScreen(_game,
                 (ChallengeScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.CampaignReward => new CampaignRewardScreen(_game,
