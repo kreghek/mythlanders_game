@@ -1,10 +1,7 @@
 ﻿namespace Client.Assets;
 
-internal enum DamageType
+internal enum ImpactType
 {
-    Rapid,
-    Concentrated,
-        
     /// <summary>
     /// Кинетическое.
     /// </summary>
