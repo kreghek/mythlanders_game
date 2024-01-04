@@ -24,7 +24,7 @@ internal class LookOutFactory : CombatMovementFactoryBase
                 new IEffect[]
                 {
                     new ChangeStatEffect(
-                        new CombatantEffectSid(Sid),
+                        new CombatantStatusSid(Sid),
                         new ClosestAllyInColumnTargetSelector(),
                         CombatantStatTypes.Defense,
                         3,
@@ -37,7 +37,7 @@ internal class LookOutFactory : CombatMovementFactoryBase
                 new IEffect[]
                 {
                     new ChangeStatEffect(
-                        new CombatantEffectSid(Sid),
+                        new CombatantStatusSid(Sid),
                         new SelfTargetSelector(),
                         CombatantStatTypes.Defense,
                         1,

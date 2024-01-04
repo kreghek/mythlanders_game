@@ -155,7 +155,7 @@ public sealed class TestamentCombatant : ICombatant
     /// <summary>
     /// Current combatant stats.
     /// </summary>
-    public IReadOnlyCollection<IUnitStat> Stats { get; }
+    public IReadOnlyCollection<ICombatantStat> Stats { get; }
 
     /// <summary>
     /// Current combatant effects.
@@ -207,7 +207,7 @@ public sealed class TestamentCombatant : ICombatant
     public void UpdateStatuses(CombatantStatusUpdateType updateType,
         ICombatantStatusLifetimeDispelContext effectLifetimeDispelContext)
     {
-        var context = new CombatantEffectLifetimeUpdateContext(this, effectLifetimeDispelContext.Combat);
+        var context = new CombatantStatusLifetimeUpdateContext(this, effectLifetimeDispelContext.Combat);
 
         var statusesToDispel = new List<ICombatantStatus>();
         foreach (var status in _statuses)

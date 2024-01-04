@@ -442,10 +442,10 @@ internal class CombatScreen : GameScreenWithMenuBase
         _gameObjects.Remove(combatantGameObject);
     }
 
-    private void CombatCore_CombatantEffectHasBeenImposed(object? sender, CombatantEffectEventArgs e)
+    private void CombatCore_CombatantStatusHasBeenImposed(object? sender, CombatantStatusEventArgs e)
     {
         _combatantEffectNotifications.Add(
-            new EffectNotification(e.CombatantEffect, e.Combatant, EffectNotificationDirection.Imposed));
+            new EffectNotification(e.Status, e.Combatant, EffectNotificationDirection.Imposed));
         _animationBlockManager.RegisterBlocker(new DelayBlocker(new Duration(2)));
     }
 
@@ -549,7 +549,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void CombatCore_CombatantHasChangePosition(object? sender, CombatantHasChangedPositionEventArgs e)
     {
-        if (e.Combatant != _combatCore.CurrentCombatant)
+        if (e.Reason == CommonPositionChangeReasons.Maneuver || (e.Reason != CommonPositionChangeReasons.Maneuver && e.Combatant != _combatCore.CurrentCombatant))
         {
             var newWorldPosition = _combatantPositionProvider.GetPosition(e.NewFieldCoords,
                 e.FieldSide == _combatCore.Field.HeroSide
@@ -1432,7 +1432,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatCore.CombatantHasChangePosition += CombatCore_CombatantHasChangePosition;
         _combatCore.CombatFinished += CombatCore_CombatFinished;
         _combatCore.CombatantUsedMove += CombatCore_CombatantUsedMove;
-        _combatCore.CombatantEffectHasBeenImposed += CombatCore_CombatantEffectHasBeenImposed;
+        _combatCore.CombatantStatusHasBeenImposed += CombatCore_CombatantStatusHasBeenImposed;
         _combatCore.CombatantInterrupted += Combat_CombatantInterrupted;
         _combatCore.CombatRoundStarted += CombatCore_CombatRoundStarted;
 
@@ -1485,10 +1485,10 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             _manualCombatantBehaviour.Assign(maneuverIntention);
 
-            var newWorldPosition = _combatantPositionProvider.GetPosition(e.Coords, CombatantPositionSide.Heroes);
+            //var newWorldPosition = _combatantPositionProvider.GetPosition(e.Coords, CombatantPositionSide.Heroes);
 
-            var combatantGameObject = GetCombatantGameObject(_combatCore.CurrentCombatant);
-            combatantGameObject.MoveToFieldCoords(newWorldPosition);
+            //var combatantGameObject = GetCombatantGameObject(_combatCore.CurrentCombatant);
+            //combatantGameObject.MoveToFieldCoords(newWorldPosition);
         }
     }
 

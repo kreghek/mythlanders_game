@@ -15,7 +15,7 @@ internal class TrackerSavvyFactory : CombatMovementFactoryBase
     public override CombatMovement CreateMovement()
     {
         var combatantEffectFactory = new ModifyCombatantMoveStatsCombatantStatusFactory(
-            new CombatantEffectSid(Sid),
+            new CombatantStatusSid(Sid),
             new MultipleCombatantTurnEffectLifetimeFactory(1),
             CombatantMoveStats.Cost,
             -1);
@@ -25,7 +25,7 @@ internal class TrackerSavvyFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new ModifyEffectsEffect(new CombatantEffectSid(Sid),
+                    new ModifyEffectsEffect(new CombatantStatusSid(Sid),
                         new SelfTargetSelector(), 1),
                     new AddCombatantStatusEffect(new SelfTargetSelector(), combatantEffectFactory)
                 })
