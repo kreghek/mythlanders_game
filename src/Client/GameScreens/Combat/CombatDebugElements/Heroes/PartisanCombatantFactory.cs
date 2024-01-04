@@ -30,8 +30,6 @@ public class PartisanCombatantFactory : IHeroCombatantFactory
 
             CreateMovement<SurpriseManeuverFactory>(),
 
-            
-
             CreateMovement<OldGoodBrawlFactory>(),
 
             CreateMovement<SabotageFactory>()

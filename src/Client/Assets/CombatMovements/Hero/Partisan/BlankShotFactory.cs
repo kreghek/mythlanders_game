@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 
 using Client.Assets.CombatVisualEffects;
 using Client.Assets.InteractionDeliveryObjects;
