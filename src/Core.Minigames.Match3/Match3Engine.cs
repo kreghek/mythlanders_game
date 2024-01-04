@@ -1,5 +1,6 @@
-﻿using Core.Combats;
-using Core.Dices;
+﻿using CombatDicesTeam.Dices;
+
+using Core.Combats;
 
 namespace Core.Minigames.Match3;
 
