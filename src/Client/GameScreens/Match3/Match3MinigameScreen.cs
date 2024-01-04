@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 
 using Client.Core.Campaigns;
+using Client.Engine;
 using Client.GameScreens.Campaign;
 using Client.ScreenManagement;
 
+using CombatDicesTeam.Dices;
+
+using Core;
 using Core.Minigames.Match3;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +38,7 @@ internal class Match3MinigameScreen : GameScreenWithMenuBase
             }
         }
 
-        _match3Engine = new Match3Engine(initialMatrix, new GemSource());
+        _match3Engine = new Match3Engine(initialMatrix, new GemSource(dice));
 
         _gemButtonMatrix = new Matrix<ButtonBase>(8, 8);
     }

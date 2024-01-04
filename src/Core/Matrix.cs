@@ -1,4 +1,4 @@
-﻿namespace Core.Combats;
+﻿namespace Core;
 
 /// <summary>
 /// Матрица значений.

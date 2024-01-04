@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 
 using Client.Core.Campaigns;
+using Client.Engine;
 using Client.GameScreens.Campaign;
+using Client.ScreenManagement;
 
 using Core.Minigames.Towers;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Rpg.Client.Engine;
-using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.TowersMinigame;
 
@@ -34,7 +33,7 @@ internal class TowersMinigameScreen : GameScreenWithMenuBase
 
         _barButtonList = new List<ButtonBase>();
 
-        _textures = Game.Content.Load<Texture2D>("Sprites/GameObjects/TowersMinigame");
+        _textures = game.Content.Load<Texture2D>("Sprites/GameObjects/TowersMinigame");
     }
 
     protected override IList<ButtonBase> CreateMenu()
