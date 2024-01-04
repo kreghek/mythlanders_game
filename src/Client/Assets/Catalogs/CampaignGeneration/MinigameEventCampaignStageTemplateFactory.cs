@@ -23,7 +23,7 @@ internal sealed class MinigameEventCampaignStageTemplateFactory : ICampaignStage
 
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        return new SlidingPuzzlesStageItem();
+        return new SlidingPuzzlesMiniGameStageItem();
     }
 
     /// <inheritdoc />

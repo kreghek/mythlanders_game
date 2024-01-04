@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -19,8 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Core.Minigames.Match3\Core.Minigames.Match3.csproj" />
-      <ProjectReference Include="..\Core\Core.csproj" />
+      <ProjectReference Include="..\..\src\Core.Minigames.Match3\Core.Minigames.Match3.csproj" />
     </ItemGroup>
 
 </Project>

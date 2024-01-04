@@ -1,4 +1,3 @@
-using Core.Combats;
 using Core.MiniGames.Match3.Tests.TestCases;
 
 using Moq;
