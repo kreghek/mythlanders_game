@@ -3,5 +3,5 @@
 internal enum OffenceType
 {
     Rapid,
-    Concentrated,
+    Concentrated
 }

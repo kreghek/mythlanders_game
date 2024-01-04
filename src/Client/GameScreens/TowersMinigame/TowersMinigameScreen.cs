@@ -17,9 +17,9 @@ internal class TowersMinigameScreen : GameScreenWithMenuBase
 {
     private readonly IList<ButtonBase> _barButtonList;
     private readonly HeroCampaign _campaign;
+    private readonly Texture2D _textures;
     private readonly TowersEngine _towersEngine;
     private TowerRing? _activeRing;
-    private readonly Texture2D _textures;
 
     public TowersMinigameScreen(TestamentGame game, TowersMiniGameScreenTransitionArguments args) : base(game)
     {
