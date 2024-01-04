@@ -9,7 +9,7 @@ internal sealed class DamageAllHeroesOptionAftermath : DialogueOptionAftermathBa
 {
     private const int DAMAGE = 1;
 
-    public override void Apply(AftermathContext aftermathContext)
+    public override void Apply(CampaignAftermathContext aftermathContext)
     {
         var heroes = aftermathContext.GetPartyHeroes();
 
@@ -25,7 +25,7 @@ internal sealed class DamageAllHeroesOptionAftermath : DialogueOptionAftermathBa
         }
     }
 
-    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
+    protected override IReadOnlyList<object> GetDescriptionValues(CampaignAftermathContext aftermathContext)
     {
         var heroes = aftermathContext.GetPartyHeroes();
 

@@ -111,13 +111,7 @@ internal sealed class Globe
     public void Update(IDice dice, IEventCatalog eventCatalog)
     {
         UpdateGlobeEvents();
-        UpdateNodes(dice, eventCatalog);
         UpdateStoryPoints();
-    }
-
-    public void UpdateNodes(IDice dice, IEventCatalog eventCatalog)
-    {
-        Updated?.Invoke(this, EventArgs.Empty);
     }
 
     private void StoryPoint_Completed(object? sender, EventArgs e)
@@ -153,6 +147,4 @@ internal sealed class Globe
     {
         ResetCombatScopeJobsProgress();
     }
-
-    public event EventHandler? Updated;
 }

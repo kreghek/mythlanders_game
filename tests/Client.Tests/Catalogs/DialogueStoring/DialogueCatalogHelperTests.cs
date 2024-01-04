@@ -52,7 +52,7 @@ public class DialogueCatalogHelperTests
 
         dialogue.Root.TextBlock.Paragraphs.Should().HaveCount(1);
         dialogue.Root.Options.Single().Next.Should()
-            .Be(DialogueNode<ParagraphConditionContext, AftermathContext>.EndNode);
+            .Be(DialogueNode<ParagraphConditionContext, CampaignAftermathContext>.EndNode);
     }
 
     /// <summary>
@@ -88,7 +88,7 @@ public class DialogueCatalogHelperTests
         // ASSERT
 
         dialogue.Root.Options.Single().Next.Should()
-            .Be(DialogueNode<ParagraphConditionContext, AftermathContext>.EndNode);
+            .Be(DialogueNode<ParagraphConditionContext, CampaignAftermathContext>.EndNode);
     }
 
     /// <summary>

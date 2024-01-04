@@ -14,12 +14,12 @@ internal class PredefinedCombatOptionAftermath : DialogueOptionAftermathBase
         _sid = sid;
     }
 
-    public override void Apply(AftermathContext aftermathContext)
+    public override void Apply(CampaignAftermathContext aftermathContext)
     {
         aftermathContext.StartCombat(_sid);
     }
 
-    protected override IReadOnlyList<string> GetDescriptionValues(AftermathContext aftermathContext)
+    protected override IReadOnlyList<string> GetDescriptionValues(CampaignAftermathContext aftermathContext)
     {
         return Array.Empty<string>();
     }

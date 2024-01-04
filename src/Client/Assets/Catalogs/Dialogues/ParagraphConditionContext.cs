@@ -9,7 +9,7 @@ internal class ParagraphConditionContext
 {
     public ParagraphConditionContext(Player player)
     {
-        CurrentHeroes = player.Heroes.Select(x => x.ClassSid).ToArray();
+        CurrentHeroes = player.Heroes.Units.Select(x => x.ClassSid).ToArray();
     }
 
     /// <inheritdoc />

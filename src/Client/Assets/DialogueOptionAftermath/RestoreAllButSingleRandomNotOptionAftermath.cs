@@ -19,7 +19,7 @@ internal sealed class RestoreAllButSingleRandomNotOptionAftermath : DialogueOpti
         _dice = dice;
     }
 
-    public override void Apply(AftermathContext aftermathContext)
+    public override void Apply(CampaignAftermathContext aftermathContext)
     {
         DefineHeroesToHeal(aftermathContext);
 
@@ -29,7 +29,7 @@ internal sealed class RestoreAllButSingleRandomNotOptionAftermath : DialogueOpti
         }
     }
 
-    protected override IReadOnlyList<object> GetDescriptionValues(AftermathContext aftermathContext)
+    protected override IReadOnlyList<object> GetDescriptionValues(CampaignAftermathContext aftermathContext)
     {
         DefineHeroesToHeal(aftermathContext);
 
@@ -40,7 +40,7 @@ internal sealed class RestoreAllButSingleRandomNotOptionAftermath : DialogueOpti
         };
     }
 
-    private void DefineHeroesToHeal(AftermathContext context)
+    private void DefineHeroesToHeal(CampaignAftermathContext context)
     {
         var heroes = context.GetPartyHeroes();
         var rolledHero = _dice.RollFromList(heroes.ToArray());

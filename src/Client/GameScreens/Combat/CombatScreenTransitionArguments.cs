@@ -11,5 +11,5 @@ internal sealed record CombatScreenTransitionArguments(HeroCampaign Campaign,
     int CurrentCombatIndex,
     bool IsFreeCombat,
     ILocationSid Location,
-    Dialogue<ParagraphConditionContext, AftermathContext>? VictoryDialogue) :
+    Dialogue<ParagraphConditionContext, CampaignAftermathContext>? VictoryDialogue) :
     CampaignScreenTransitionArgumentsBase(Campaign);

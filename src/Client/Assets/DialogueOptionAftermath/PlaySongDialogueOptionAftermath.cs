@@ -16,12 +16,12 @@ internal sealed class PlaySongDialogueOptionAftermath : DialogueOptionAftermathB
         IsHidden = true;
     }
 
-    protected override IReadOnlyList<string> GetDescriptionValues(AftermathContext aftermathContext)
+    protected override IReadOnlyList<string> GetDescriptionValues(CampaignAftermathContext aftermathContext)
     {
         return ArraySegment<string>.Empty;
     }
 
-    public override void Apply(AftermathContext aftermathContext)
+    public override void Apply(CampaignAftermathContext aftermathContext)
     {
         aftermathContext.PlaySong(_resourceName);
     }
