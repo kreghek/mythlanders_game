@@ -5,6 +5,7 @@ using System.Linq;
 using Client.Core.Heroes.Factories;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
 
 namespace Client.Core;
 
@@ -21,12 +22,14 @@ internal sealed class HeroState
             { "guardian", new GuardianHeroFactory() }
        };
 
-    public HeroState(string classSid, IStatValue hitPoints, IEnumerable<ICombatantStat> combatStats, IEnumerable<CombatMovement> availableMovements)
+    public HeroState(string classSid, IStatValue hitPoints, IEnumerable<ICombatantStat> combatStats, IEnumerable<CombatMovement> availableMovements,
+        IReadOnlyCollection<ICombatantStatusFactory> startUpCombatStatuses)
     {
         ClassSid = classSid;
         HitPoints = hitPoints;
         CombatStats = combatStats;
         AvailableMovements = availableMovements.ToArray();
+        StartUpCombatStatuses = startUpCombatStatuses.ToArray();
 
         Equipments = ArraySegment<Equipment>.Empty;
         Perks = ArraySegment<IPerk>.Empty;
@@ -39,6 +42,8 @@ internal sealed class HeroState
     public IStatValue HitPoints { get; }
     public IEnumerable<ICombatantStat> CombatStats { get; }
     public IList<IPerk> Perks { get; }
+
+    public IReadOnlyCollection<ICombatantStatusFactory> StartUpCombatStatuses { get; }
 
     public static HeroState Create(string classSid)
     {

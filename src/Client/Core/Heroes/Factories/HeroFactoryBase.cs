@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.CombatMovements;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
 
@@ -20,10 +22,18 @@ internal abstract class HeroFactoryBase : IHeroFactory
     {
         var heroSequence = CreateInitCombatMovementPool();
         var stats = CreateInitStats();
+        var startupStatuses = CreateStartupStatuses();
 
-        var hero = new HeroState(ClassSid, stats.GetStats().Single(x => x.Type == CombatantStatTypes.HitPoints).Value,
-            stats.GetStats().Where(x => x.Type != CombatantStatTypes.HitPoints).ToArray(), heroSequence.Items);
+        var hp = stats.GetStats().Single(x => x.Type == CombatantStatTypes.HitPoints).Value;
+        var combatantStats = stats.GetStats().Where(x => x.Type != CombatantStatTypes.HitPoints).ToArray();
+
+        var hero = new HeroState(ClassSid, hp, combatantStats, heroSequence.Items, startupStatuses);
         return hero;
+    }
+
+    protected virtual IReadOnlyCollection<ICombatantStatusFactory> CreateStartupStatuses()
+    {
+        return Array.Empty<ICombatantStatusFactory>();
     }
 
     protected static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory

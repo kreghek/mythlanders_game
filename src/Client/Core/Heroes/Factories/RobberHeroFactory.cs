@@ -4,6 +4,7 @@ using Client.Assets.CombatMovements.Hero.Robber;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats.CombatantStatuses;
 
 using Core.Combats.CombatantStatuses;
 
@@ -15,37 +16,9 @@ internal sealed class RobberHeroFactory : HeroFactoryBase
 {
     protected override string ClassSid => "robber";
 
-    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
+    protected override IReadOnlyCollection<ICombatantStatusFactory> CreateStartupStatuses()
     {
-        var movementPool = new List<CombatMovement>
-        {
-            CreateMovement<ArrowsOfMoranaFactory>(),
-
-            CreateMovement<BalticThunderFactory>(),
-
-            CreateMovement<UndercutValuesFactory>(),
-
-            CreateMovement<WingsOfVelesFactory>(),
-
-            CreateMovement<WindWheelFactory>()
-        };
-
-        var heroSequence = new CombatMovementSequence();
-
-        for (var i = 0; i < 2; i++)
-        {
-            foreach (var movement in movementPool)
-            {
-                heroSequence.Items.Add(movement);
-            }
-        }
-
-        var stats = new CombatantStatsConfig();
-        stats.SetValue(CombatantStatTypes.HitPoints, hitpointsStat);
-        stats.SetValue(CombatantStatTypes.ShieldPoints, 0);
-        stats.SetValue(CombatantStatTypes.Resolve, 4);
-
-        var startupEffects = new[]
+        var startupStatueses = new[]
         {
             new ImpulseGeneratorCombatantStatusFactory(
                 CombatantStatusSids.ImpulseGenerator,
@@ -53,12 +26,7 @@ internal sealed class RobberHeroFactory : HeroFactoryBase
                 new OwnerBoundCombatantStatusLifetimeFactory())
         };
 
-        var hero = new TestamentCombatant("robber", heroSequence, stats, combatActorBehaviour, startupEffects)
-        {
-            DebugSid = sid, IsPlayerControlled = true
-        };
-
-        return hero;
+        return startupStatueses;
     }
 
     protected override CombatMovementSequence CreateInitCombatMovementPool()

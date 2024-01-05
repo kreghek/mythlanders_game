@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
 
 namespace Client.Core;
 
@@ -18,7 +18,7 @@ internal sealed class HeroCampaignState
         Equipments = state.Equipments;
         Perks = state.Perks;
 
-        InitialStatuses = Array.Empty<IHeroCombatStatus>();
+        StartUpCombatStatuses = state.StartUpCombatStatuses.ToArray();
     }
 
     public IStatValue HitPoints { get; }
@@ -31,5 +31,5 @@ internal sealed class HeroCampaignState
     public IReadOnlyList<Equipment> Equipments { get; }
     public IList<IPerk> Perks { get; }
 
-    public IReadOnlyCollection<IHeroCombatStatus> InitialStatuses { get; }
+    public IReadOnlyCollection<ICombatantStatusFactory> StartUpCombatStatuses { get; }
 }
