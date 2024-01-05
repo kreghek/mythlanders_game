@@ -44,45 +44,13 @@ internal class CombatantFactory
                     CreateStats(heroState.HitPoints, heroState.CombatStats),
                     combatActorBehaviour,
                     CreateInitialCombatStatuses(heroState))
-                { 
+                {
                     DebugSid = heroState.ClassSid,
                     IsPlayerControlled = true
                 }
             }).ToArray();
 
         return formationSlots;
-    }
-
-    private static IReadOnlyCollection<ICombatantStatusFactory> CreateInitialCombatStatuses(HeroCampaignState heroState)
-    {
-        //TODO Use "global" status of hero from campaign
-        return Array.Empty<ICombatantStatusFactory>();
-    }
-
-    private static CombatantStatsConfig CreateStats(IStatValue hitPoints, IEnumerable<ICombatantStat> combatStats)
-    {
-        var stats = new CombatantStatsConfig();
-
-        stats.SetValue(CombatantStatTypes.HitPoints, hitPoints);
-
-        foreach (var stat in combatStats)
-        {
-            stats.SetValue(stat.Type, new StatValue(stat.Value.ActualMax));
-        }
-
-        return stats;
-    }
-
-    private static CombatMovementSequence CreateCombatMovementSequence(IReadOnlyCollection<CombatMovement> availableMovements)
-    {
-        var sequence = new CombatMovementSequence();
-
-        foreach (var move in availableMovements)
-        {
-            sequence.Items.Add(move);
-        }
-
-        return sequence;
     }
 
     public static IReadOnlyCollection<FormationSlot> CreateMonsters(ICombatActorBehaviour combatActorBehaviour,
@@ -105,11 +73,44 @@ internal class CombatantFactory
         return formation;
     }
 
+    private static CombatMovementSequence CreateCombatMovementSequence(
+        IReadOnlyCollection<CombatMovement> availableMovements)
+    {
+        var sequence = new CombatMovementSequence();
+
+        foreach (var move in availableMovements)
+        {
+            sequence.Items.Add(move);
+        }
+
+        return sequence;
+    }
+
+    private static IReadOnlyCollection<ICombatantStatusFactory> CreateInitialCombatStatuses(HeroCampaignState heroState)
+    {
+        //TODO Use "global" status of hero from campaign
+        return Array.Empty<ICombatantStatusFactory>();
+    }
+
     private static TestamentCombatant CreateMonsterCombatant(
         ICombatActorBehaviour combatActorBehaviour,
         MonsterCombatantPrefab monsterCombatantPrefab)
     {
         return _monsterFactories[monsterCombatantPrefab.ClassSid].Create(monsterCombatantPrefab.ClassSid,
             combatActorBehaviour, monsterCombatantPrefab.Variation);
+    }
+
+    private static CombatantStatsConfig CreateStats(IStatValue hitPoints, IEnumerable<ICombatantStat> combatStats)
+    {
+        var stats = new CombatantStatsConfig();
+
+        stats.SetValue(CombatantStatTypes.HitPoints, hitPoints);
+
+        foreach (var stat in combatStats)
+        {
+            stats.SetValue(stat.Type, new StatValue(stat.Value.ActualMax));
+        }
+
+        return stats;
     }
 }

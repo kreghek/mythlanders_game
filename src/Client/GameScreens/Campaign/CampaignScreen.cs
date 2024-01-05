@@ -17,10 +17,10 @@ namespace Client.GameScreens.Campaign;
 
 internal class CampaignScreen : GameScreenWithMenuBase
 {
+    private readonly HeroCampaign _currentCampaign;
     private readonly GlobeProvider _globeProvider;
     private readonly ButtonBase _inventoryButton;
     private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
-    private readonly HeroCampaign _currentCampaign;
     private readonly ButtonBase _showStoryPointsButton;
     private readonly IUiContentStorage _uiContentStorage;
     private CampaignEffectsPanel _campaignEffectsPanel = null!;
@@ -99,16 +99,6 @@ internal class CampaignScreen : GameScreenWithMenuBase
         DrawHeroes(spriteBatch, contentRect);
 
         spriteBatch.End();
-    }
-
-    private void DrawHeroes(SpriteBatch spriteBatch, Rectangle contentRect)
-    {
-        var heroes = _currentCampaign.Heroes.ToArray();
-        for (var i = 0; i < heroes.Length; i++)
-        {
-            var hero = heroes[i];
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{hero.ClassSid} {hero.HitPoints.Current}/{hero.HitPoints.ActualMax}", new Vector2(contentRect.Left, contentRect.Top + i * 20), TestamentColors.MainSciFi);
-        }
     }
 
     protected override void InitializeContent()
@@ -199,6 +189,18 @@ internal class CampaignScreen : GameScreenWithMenuBase
                     }
                 }
             }
+        }
+    }
+
+    private void DrawHeroes(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        var heroes = _currentCampaign.Heroes.ToArray();
+        for (var i = 0; i < heroes.Length; i++)
+        {
+            var hero = heroes[i];
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                $"{hero.ClassSid} {hero.HitPoints.Current}/{hero.HitPoints.ActualMax}",
+                new Vector2(contentRect.Left, contentRect.Top + i * 20), TestamentColors.MainSciFi);
         }
     }
 

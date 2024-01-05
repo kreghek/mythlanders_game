@@ -12,15 +12,6 @@ internal sealed class AmazonHeroFactory : HeroFactoryBase
 {
     protected override string ClassSid => "amazon";
 
-    protected override CombatantStatsConfig CreateInitStats()
-    {
-        var stats = new CombatantStatsConfig();
-        stats.SetValue(CombatantStatTypes.HitPoints, 3);
-        stats.SetValue(CombatantStatTypes.ShieldPoints, 0);
-        stats.SetValue(CombatantStatTypes.Resolve, 4);
-        return stats;
-    }
-
     protected override CombatMovementSequence CreateInitCombatMovementPool()
     {
         var movementPool = new List<CombatMovement>
@@ -47,5 +38,14 @@ internal sealed class AmazonHeroFactory : HeroFactoryBase
         }
 
         return heroSequence;
+    }
+
+    protected override CombatantStatsConfig CreateInitStats()
+    {
+        var stats = new CombatantStatsConfig();
+        stats.SetValue(CombatantStatTypes.HitPoints, 3);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 0);
+        stats.SetValue(CombatantStatTypes.Resolve, 4);
+        return stats;
     }
 }

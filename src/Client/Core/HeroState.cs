@@ -12,17 +12,18 @@ namespace Client.Core;
 internal sealed class HeroState
 {
     private static readonly IDictionary<string, IHeroFactory> _heroFactories =
-       new Dictionary<string, IHeroFactory>
-       {
+        new Dictionary<string, IHeroFactory>
+        {
             { "swordsman", new SwordsmanHeroFactory() },
             { "amazon", new AmazonHeroFactory() },
             { "partisan", new PartisanHeroFactory() },
             { "robber", new RobberHeroFactory() },
             { "monk", new MonkHeroFactory() },
             { "guardian", new GuardianHeroFactory() }
-       };
+        };
 
-    public HeroState(string classSid, IStatValue hitPoints, IEnumerable<ICombatantStat> combatStats, IEnumerable<CombatMovement> availableMovements,
+    public HeroState(string classSid, IStatValue hitPoints, IEnumerable<ICombatantStat> combatStats,
+        IEnumerable<CombatMovement> availableMovements,
         IReadOnlyCollection<ICombatantStatusFactory> startUpCombatStatuses)
     {
         ClassSid = classSid;
@@ -38,9 +39,9 @@ internal sealed class HeroState
     public IReadOnlyCollection<CombatMovement> AvailableMovements { get; }
 
     public string ClassSid { get; }
+    public IEnumerable<ICombatantStat> CombatStats { get; }
     public IReadOnlyList<Equipment> Equipments { get; }
     public IStatValue HitPoints { get; }
-    public IEnumerable<ICombatantStat> CombatStats { get; }
     public IList<IPerk> Perks { get; }
 
     public IReadOnlyCollection<ICombatantStatusFactory> StartUpCombatStatuses { get; }

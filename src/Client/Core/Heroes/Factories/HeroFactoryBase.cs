@@ -18,6 +18,16 @@ internal abstract class HeroFactoryBase : IHeroFactory
 
     protected abstract CombatantStatsConfig CreateInitStats();
 
+    protected static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory
+    {
+        return Activator.CreateInstance<T>().CreateMovement();
+    }
+
+    protected virtual IReadOnlyCollection<ICombatantStatusFactory> CreateStartupStatuses()
+    {
+        return Array.Empty<ICombatantStatusFactory>();
+    }
+
     public HeroState Create()
     {
         var heroSequence = CreateInitCombatMovementPool();
@@ -29,15 +39,5 @@ internal abstract class HeroFactoryBase : IHeroFactory
 
         var hero = new HeroState(ClassSid, hp, combatantStats, heroSequence.Items, startupStatuses);
         return hero;
-    }
-
-    protected virtual IReadOnlyCollection<ICombatantStatusFactory> CreateStartupStatuses()
-    {
-        return Array.Empty<ICombatantStatusFactory>();
-    }
-
-    protected static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory
-    {
-        return Activator.CreateInstance<T>().CreateMovement();
     }
 }

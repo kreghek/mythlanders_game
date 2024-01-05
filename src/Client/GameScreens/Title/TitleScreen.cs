@@ -398,7 +398,7 @@ internal sealed class TitleScreen : GameScreenBase
 
         var saveData = globeProvider.GetStoredData(lastSave.FileName);
 
-        var activeUnits = saveData.Progress.Player?.Heroes?.Where(x=>x?.HeroSid != null).Select(x => x!.HeroSid!);
+        var activeUnits = saveData.Progress.Player?.Heroes?.Where(x => x?.HeroSid != null).Select(x => x!.HeroSid!);
 
         if (activeUnits is null)
         {

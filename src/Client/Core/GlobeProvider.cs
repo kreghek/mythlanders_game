@@ -9,8 +9,6 @@ using System.Text.Json.Serialization;
 using Client.Core.Heroes;
 using Client.Core.ProgressStorage;
 
-using CombatDicesTeam.Combats;
-
 using Core.Props;
 
 namespace Client.Core;
@@ -193,6 +191,18 @@ internal sealed class GlobeProvider
         }
     }
 
+    private static HeroDto[] CreateHeroesStorageData(IEnumerable<HeroState> units)
+    {
+        var heroesStorageItems = units.Select(
+            unit => new HeroDto
+            {
+                HeroSid = unit.ClassSid,
+                Hp = unit.HitPoints.Current
+            });
+
+        return heroesStorageItems.ToArray();
+    }
+
     private static string CreateSaveData(string saveName, ProgressDto progress)
     {
         var saveDto = new SaveDto
@@ -229,18 +239,6 @@ internal sealed class GlobeProvider
     private static string[] GetKnownMonsterSids(IList<UnitScheme> knownMonsters)
     {
         return knownMonsters.Select(x => x.Name.ToString()).ToArray();
-    }
-
-    private static HeroDto[] CreateHeroesStorageData(IEnumerable<HeroState> units)
-    {
-        var heroesStorageItems = units.Select(
-            unit => new HeroDto
-            {
-                HeroSid = unit.ClassSid,
-                Hp = unit.HitPoints.Current
-            });
-
-        return heroesStorageItems.ToArray();
     }
 
     private static ResourceDto[] GetPlayerResourcesToSave(Inventory inventory)
@@ -331,27 +329,6 @@ internal sealed class GlobeProvider
         }
     }
 
-    private static List<HeroState> LoadUnlockedHeroes(HeroDto[] heroesStorageDataItems)
-    {
-        var units = new List<HeroState>();
-        foreach (var heroDto in heroesStorageDataItems)
-        {
-            if (heroDto.HeroSid is null)
-            {
-                throw new InvalidOperationException($"Hero {heroDto.HeroSid} is unknown in save.");
-            }
-
-            var hero = HeroState.Create(heroDto.HeroSid);
-
-            var hpDiff = hero.HitPoints.Current - heroDto.Hp;
-            hero.HitPoints.Consume(hpDiff);
-
-            units.Add(hero);
-        }
-
-        return units;
-    }
-
     private static void LoadPlayerKnownMonsters(PlayerDto playerDto, IUnitSchemeCatalog unitSchemeCatalog,
         Player player)
     {
@@ -400,6 +377,27 @@ internal sealed class GlobeProvider
 
             inventory.Add(resource);
         }
+    }
+
+    private static List<HeroState> LoadUnlockedHeroes(HeroDto[] heroesStorageDataItems)
+    {
+        var units = new List<HeroState>();
+        foreach (var heroDto in heroesStorageDataItems)
+        {
+            if (heroDto.HeroSid is null)
+            {
+                throw new InvalidOperationException($"Hero {heroDto.HeroSid} is unknown in save.");
+            }
+
+            var hero = HeroState.Create(heroDto.HeroSid);
+
+            var hpDiff = hero.HitPoints.Current - heroDto.Hp;
+            hero.HitPoints.Consume(hpDiff);
+
+            units.Add(hero);
+        }
+
+        return units;
     }
 
     public sealed class SaveShortInfo

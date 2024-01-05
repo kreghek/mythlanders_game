@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using CombatDicesTeam.Combats;
-using System.Linq;
 
 namespace Client.Core;
 

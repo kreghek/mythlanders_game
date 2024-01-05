@@ -21,14 +21,14 @@ internal sealed class HeroCampaignState
         StartUpCombatStatuses = state.StartUpCombatStatuses.ToArray();
     }
 
-    public IStatValue HitPoints { get; }
-    public IEnumerable<ICombatantStat> CombatStats { get; }
-    public FormationSlot FormationSlot { get; }
-
     public IReadOnlyCollection<CombatMovement> AvailableMovements { get; }
 
     public string ClassSid { get; }
+    public IEnumerable<ICombatantStat> CombatStats { get; }
     public IReadOnlyList<Equipment> Equipments { get; }
+    public FormationSlot FormationSlot { get; }
+
+    public IStatValue HitPoints { get; }
     public IList<IPerk> Perks { get; }
 
     public IReadOnlyCollection<ICombatantStatusFactory> StartUpCombatStatuses { get; }

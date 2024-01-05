@@ -16,19 +16,6 @@ internal sealed class RobberHeroFactory : HeroFactoryBase
 {
     protected override string ClassSid => "robber";
 
-    protected override IReadOnlyCollection<ICombatantStatusFactory> CreateStartupStatuses()
-    {
-        var startupStatueses = new[]
-        {
-            new ImpulseGeneratorCombatantStatusFactory(
-                CombatantStatusSids.ImpulseGenerator,
-                CombatantStatusSids.Impulse,
-                new OwnerBoundCombatantStatusLifetimeFactory())
-        };
-
-        return startupStatueses;
-    }
-
     protected override CombatMovementSequence CreateInitCombatMovementPool()
     {
         var movementPool = new List<CombatMovement>
@@ -65,5 +52,18 @@ internal sealed class RobberHeroFactory : HeroFactoryBase
         stats.SetValue(CombatantStatTypes.Resolve, 4);
 
         return stats;
+    }
+
+    protected override IReadOnlyCollection<ICombatantStatusFactory> CreateStartupStatuses()
+    {
+        var startupStatueses = new[]
+        {
+            new ImpulseGeneratorCombatantStatusFactory(
+                CombatantStatusSids.ImpulseGenerator,
+                CombatantStatusSids.Impulse,
+                new OwnerBoundCombatantStatusLifetimeFactory())
+        };
+
+        return startupStatueses;
     }
 }
