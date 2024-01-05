@@ -44,6 +44,10 @@ internal class CombatantFactory
                     CreateStats(heroState.HitPoints, heroState.CombatStats),
                     combatActorBehaviour,
                     CreateInitialCombatStatuses(heroState))
+                { 
+                    DebugSid = heroState.ClassSid,
+                    IsPlayerControlled = true
+                }
             }).ToArray();
 
         return formationSlots;
@@ -63,7 +67,7 @@ internal class CombatantFactory
 
         foreach (var stat in combatStats)
         {
-            stats.SetValue(stat.Type, stat.Value);
+            stats.SetValue(stat.Type, new StatValue(stat.Value.ActualMax));
         }
 
         return stats;
