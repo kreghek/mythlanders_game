@@ -93,9 +93,7 @@ internal sealed class RestScreen : GameScreenWithMenuBase
                 {
                     foreach (var hero in _campaign.Heroes)
                     {
-                        //TODO Restore HP of campaign hero, not player
-                        //TODO Campaign hero HPs make as player hero HP wrapper 
-                        hero.State.HitPoints.Restore(2);
+                        hero.HitPoints.Restore(2);
                     }
 
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
