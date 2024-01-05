@@ -45,12 +45,11 @@ internal class CombatantFactory
     public static IReadOnlyCollection<FormationSlot> CreateHeroes(ICombatActorBehaviour combatActorBehaviour,
         HeroCampaign campaign)
     {
-        var aliveHeroes = campaign.Heroes.Where(x => x.State.HitPoints.Current > 0);
+        var aliveHeroes = campaign.Heroes.Where(x => x.HitPoints.Current > 0);
         var formationSlots = aliveHeroes.Select(hero =>
             new FormationSlot(hero.FormationSlot.ColumnIndex, hero.FormationSlot.LineIndex)
             {
-                Combatant = _heroFactories[hero.State.ClassSid]
-                    .Create(hero.State.ClassSid, combatActorBehaviour, hero.State.HitPoints)
+                Combatant = _heroFactories[hero.ClassSid].Create(hero.ClassSid, combatActorBehaviour, hero.HitPoints)
             }).ToArray();
 
         return formationSlots;

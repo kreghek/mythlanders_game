@@ -2,6 +2,7 @@
 using System;
 
 using CombatDicesTeam.Combats;
+using System.Linq;
 
 namespace Client.Core;
 
