@@ -56,7 +56,7 @@ internal sealed class HeroCampaign
     internal void CompleteCurrentStage()
     {
         //TODO Count stage complete job
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     private IReadOnlyCollection<HeroCampaignState> CreateCampaignHeroes(

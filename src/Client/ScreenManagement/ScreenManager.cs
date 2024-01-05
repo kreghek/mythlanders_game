@@ -11,11 +11,13 @@ using Client.GameScreens.Credits;
 using Client.GameScreens.Crisis;
 using Client.GameScreens.EndGame;
 using Client.GameScreens.Intro;
+using Client.GameScreens.Match3;
 using Client.GameScreens.NotImplementedStage;
 using Client.GameScreens.Rest;
 using Client.GameScreens.SlidingPuzzles;
 using Client.GameScreens.TextDialogue;
 using Client.GameScreens.Title;
+using Client.GameScreens.TowersMinigame;
 using Client.GameScreens.Training;
 using Client.GameScreens.VoiceCombat;
 
@@ -128,8 +130,10 @@ internal class ScreenManager : IScreenManager
                 (CrisisScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.Training => new TrainingScreen(_game,
                 (TrainingScreenTransitionArguments)screenTransitionArguments),
-            ScreenTransition.SlidingPuzzles => new SlidingPuzzlesScreen(_game,
+            ScreenTransition.SlidingPuzzlesMinigame => new SlidingPuzzlesScreen(_game,
                 (SlidingPuzzlesMinigameScreenTransitionArguments)screenTransitionArguments),
+            ScreenTransition.Match3Minigame => new Match3MinigameScreen(_game, (Match3MiniGameScreenTransitionArguments)screenTransitionArguments),
+            ScreenTransition.TowersMinigame => new TowersMinigameScreen(_game, (TowersMiniGameScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.Challenge => new ChallengeScreen(_game,
                 (ChallengeScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.CampaignReward => new CampaignRewardScreen(_game,

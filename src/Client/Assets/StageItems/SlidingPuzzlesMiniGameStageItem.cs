@@ -8,7 +8,7 @@ internal sealed class SlidingPuzzlesMiniGameStageItem : ICampaignStageItem
 {
     public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
     {
-        screenManager.ExecuteTransition(currentScreen, ScreenTransition.SlidingPuzzles,
+        screenManager.ExecuteTransition(currentScreen, ScreenTransition.SlidingPuzzlesMinigame,
             new SlidingPuzzlesMinigameScreenTransitionArguments(currentCampaign));
     }
 }
