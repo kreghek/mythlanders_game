@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Core;
+using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Campaign.Ui;
 using Client.ScreenManagement;
@@ -19,6 +20,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private readonly GlobeProvider _globeProvider;
     private readonly ButtonBase _inventoryButton;
     private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
+    private readonly HeroCampaign _currentCampaign;
     private readonly ButtonBase _showStoryPointsButton;
     private readonly IUiContentStorage _uiContentStorage;
     private CampaignEffectsPanel _campaignEffectsPanel = null!;
@@ -33,6 +35,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
     public CampaignScreen(TestamentGame game, CampaignScreenTransitionArguments screenTransitionArguments) : base(game)
     {
         _screenTransitionArguments = screenTransitionArguments;
+        _currentCampaign = screenTransitionArguments.Campaign;
 
         _globeProvider = game.Services.GetRequiredService<GlobeProvider>();
         _uiContentStorage = game.Services.GetRequiredService<IUiContentStorage>();
@@ -90,9 +93,22 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
         DrawCurrentStoryPoints(spriteBatch, storyPointRect);
 
-        DrawCampaignEffects(spriteBatch, contentRect);
+        var campaignEffectRect = new Rectangle(100 + contentRect.Left, contentRect.Top, 100, contentRect.Height);
+        DrawCampaignEffects(spriteBatch, campaignEffectRect);
+
+        DrawHeroes(spriteBatch, contentRect);
 
         spriteBatch.End();
+    }
+
+    private void DrawHeroes(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        var heroes = _currentCampaign.Heroes.ToArray();
+        for (var i = 0; i < heroes.Length; i++)
+        {
+            var hero = heroes[i];
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{hero.ClassSid} {hero.HitPoints.Current}/{hero.HitPoints.ActualMax}", new Vector2(contentRect.Left, contentRect.Top + i * 20), TestamentColors.MainSciFi);
+        }
     }
 
     protected override void InitializeContent()

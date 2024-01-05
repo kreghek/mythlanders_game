@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Robber;
 
 using CombatDicesTeam.Combats;
@@ -11,14 +9,11 @@ using Core.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
 
-namespace Client.GameScreens.Combat.CombatDebugElements.Heroes;
+namespace Client.Core.Heroes.Factories;
 
-public class RobberCombatantFactory : IHeroCombatantFactory
+internal sealed class RobberHeroFactory : HeroFactoryBase
 {
-    private static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory
-    {
-        return Activator.CreateInstance<T>().CreateMovement();
-    }
+    protected override string ClassSid => "robber";
 
     public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
     {
@@ -64,5 +59,43 @@ public class RobberCombatantFactory : IHeroCombatantFactory
         };
 
         return hero;
+    }
+
+    protected override CombatMovementSequence CreateInitCombatMovementPool()
+    {
+        var movementPool = new List<CombatMovement>
+        {
+            CreateMovement<ArrowsOfMoranaFactory>(),
+
+            CreateMovement<BalticThunderFactory>(),
+
+            CreateMovement<UndercutValuesFactory>(),
+
+            CreateMovement<WingsOfVelesFactory>(),
+
+            CreateMovement<WindWheelFactory>()
+        };
+
+        var heroSequence = new CombatMovementSequence();
+
+        for (var i = 0; i < 2; i++)
+        {
+            foreach (var movement in movementPool)
+            {
+                heroSequence.Items.Add(movement);
+            }
+        }
+
+        return heroSequence;
+    }
+
+    protected override CombatantStatsConfig CreateInitStats()
+    {
+        var stats = new CombatantStatsConfig();
+        stats.SetValue(CombatantStatTypes.HitPoints, 3);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 0);
+        stats.SetValue(CombatantStatTypes.Resolve, 4);
+
+        return stats;
     }
 }
