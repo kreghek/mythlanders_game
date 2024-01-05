@@ -139,7 +139,7 @@ internal sealed class GlobeProvider
     {
         var player = new PlayerDto
         {
-            Heroes = GetPlayerGroupToSave(Globe.Player.Heroes.Units),
+            Heroes = CreateHeroesStorageData(Globe.Player.Heroes.Units),
             Resources = GetPlayerResourcesToSave(Globe.Player.Inventory),
             KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters),
             Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray()
@@ -167,9 +167,9 @@ internal sealed class GlobeProvider
     {
         var startHeroes = new List<HeroState>
         {
-            new("swordsman", new StatValue(5), ArraySegment<CombatMovement>.Empty),
-            new("partisan", new StatValue(3), ArraySegment<CombatMovement>.Empty),
-            new("robber", new StatValue(3), ArraySegment<CombatMovement>.Empty)
+            HeroState.Create("swordsman"),
+            HeroState.Create("partisan"),
+            HeroState.Create("robber")
         };
 
         foreach (var hero in startHeroes)
@@ -182,9 +182,9 @@ internal sealed class GlobeProvider
     {
         var startHeroes = new List<HeroState>
         {
-            new("swordsman", new StatValue(5), ArraySegment<CombatMovement>.Empty),
-            new("partisan", new StatValue(3), ArraySegment<CombatMovement>.Empty),
-            new("robber", new StatValue(3), ArraySegment<CombatMovement>.Empty)
+            HeroState.Create("swordsman"),
+            HeroState.Create("partisan"),
+            HeroState.Create("robber")
         };
 
         foreach (var hero in startHeroes)
@@ -231,21 +231,16 @@ internal sealed class GlobeProvider
         return knownMonsters.Select(x => x.Name.ToString()).ToArray();
     }
 
-    private static GroupDto GetPlayerGroupToSave(IEnumerable<HeroState> units)
+    private static HeroDto[] CreateHeroesStorageData(IEnumerable<HeroState> units)
     {
-        var combatantSaveItems = units.Select(
-            unit => new PlayerUnitDto
+        var heroesStorageItems = units.Select(
+            unit => new HeroDto
             {
                 HeroSid = unit.ClassSid,
                 Hp = unit.HitPoints.Current
             });
 
-        var groupDto = new GroupDto
-        {
-            Units = combatantSaveItems
-        };
-
-        return groupDto;
+        return heroesStorageItems.ToArray();
     }
 
     private static ResourceDto[] GetPlayerResourcesToSave(Inventory inventory)
@@ -312,7 +307,7 @@ internal sealed class GlobeProvider
             throw new InvalidOperationException();
         }
 
-        var loadedHeroes = LoadPlayerGroup(lastSavePlayer.Heroes);
+        var loadedHeroes = LoadUnlockedHeroes(lastSavePlayer.Heroes);
 
         foreach (var unit in loadedHeroes)
         {
@@ -336,12 +331,22 @@ internal sealed class GlobeProvider
         }
     }
 
-    private static List<HeroState> LoadPlayerGroup(GroupDto groupDto)
+    private static List<HeroState> LoadUnlockedHeroes(HeroDto[] heroesStorageDataItems)
     {
         var units = new List<HeroState>();
-        foreach (var unitDto in groupDto.Units)
+        foreach (var heroDto in heroesStorageDataItems)
         {
-            units.Add(new HeroState(unitDto.HeroSid, new StatValue(unitDto.Hp), ArraySegment<CombatMovement>.Empty));
+            if (heroDto.HeroSid is null)
+            {
+                throw new InvalidOperationException($"Hero {heroDto.HeroSid} is unknown in save.");
+            }
+
+            var hero = HeroState.Create(heroDto.HeroSid);
+
+            var hpDiff = hero.HitPoints.Current - heroDto.Hp;
+            hero.HitPoints.Consume(hpDiff);
+
+            units.Add(hero);
         }
 
         return units;

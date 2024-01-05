@@ -81,19 +81,19 @@ internal class CampaignAftermathContext
 
     public void DamageHero(string heroClassSid, int damageAmount)
     {
-        var hero = _heroCampaign.Heroes.Single(x => x.State.ClassSid == heroClassSid);
-        hero.State.HitPoints.Consume(damageAmount);
+        var hero = _heroCampaign.Heroes.Single(x => x.ClassSid == heroClassSid);
+        hero.HitPoints.Consume(damageAmount);
         HeroHpChanged?.Invoke(this, new HeroStatChangedEventArgs(heroClassSid, -damageAmount));
     }
 
     public IReadOnlyCollection<string> GetPartyHeroes()
     {
-        return _heroCampaign.Heroes.Where(x => x.State.HitPoints.Current > 0).Select(x => x.State.ClassSid).ToArray();
+        return _heroCampaign.Heroes.Where(x => x.HitPoints.Current > 0).Select(x => x.ClassSid).ToArray();
     }
 
     public IReadOnlyCollection<string> GetWoundedHeroes()
     {
-        return _heroCampaign.Heroes.Where(x => x.State.HitPoints.Current <= 0).Select(x => x.State.ClassSid).ToArray();
+        return _heroCampaign.Heroes.Where(x => x.HitPoints.Current <= 0).Select(x => x.ClassSid).ToArray();
     }
 
     public void PlaySong(string resourceName)
@@ -113,8 +113,8 @@ internal class CampaignAftermathContext
 
     public void RestHero(string heroClassSid, int healAmount)
     {
-        var hero = _heroCampaign.Heroes.Single(x => x.State.ClassSid == heroClassSid);
-        hero.State.HitPoints.Restore(healAmount);
+        var hero = _heroCampaign.Heroes.Single(x => x.ClassSid == heroClassSid);
+        hero.HitPoints.Restore(healAmount);
         HeroHpChanged?.Invoke(this, new HeroStatChangedEventArgs(heroClassSid, healAmount));
     }
 

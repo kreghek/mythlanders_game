@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Core;
 using Client.Core.Campaigns;
-using Client.GameScreens.Combat.CombatDebugElements.Heroes;
 using Client.GameScreens.Combat.CombatDebugElements.Monsters.Black;
 using Client.GameScreens.Combat.CombatDebugElements.Monsters.Egyptian;
 using Client.GameScreens.Combat.CombatDebugElements.Monsters.Greek;
 using Client.GameScreens.Combat.CombatDebugElements.Monsters.Slavic;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
 
@@ -17,17 +18,6 @@ namespace Client.GameScreens.Combat.CombatDebugElements;
 
 internal class CombatantFactory
 {
-    private static readonly IDictionary<string, IHeroCombatantFactory> _heroFactories =
-        new Dictionary<string, IHeroCombatantFactory>
-        {
-            { "swordsman", new SwordsmanCombatantFactory() },
-            { "amazon", new AmazonCombatantFactory() },
-            { "partisan", new PartisanCombatantFactory() },
-            { "robber", new RobberCombatantFactory() },
-            { "monk", new MonkCombatantFactory() },
-            { "guardian", new GuardianCombatantFactory() }
-        };
-
     private static readonly IDictionary<string, IMonsterCombatantFactory> _monsterFactories =
         new Dictionary<string, IMonsterCombatantFactory>
         {
@@ -45,15 +35,54 @@ internal class CombatantFactory
     public static IReadOnlyCollection<FormationSlot> CreateHeroes(ICombatActorBehaviour combatActorBehaviour,
         HeroCampaign campaign)
     {
-        var aliveHeroes = campaign.Heroes.Where(x => x.State.HitPoints.Current > 0);
-        var formationSlots = aliveHeroes.Select(hero =>
-            new FormationSlot(hero.FormationSlot.ColumnIndex, hero.FormationSlot.LineIndex)
+        var aliveHeroes = campaign.Heroes.Where(x => x.HitPoints.Current > 0);
+        var formationSlots = aliveHeroes.Select(heroState =>
+            new FormationSlot(heroState.FormationSlot.ColumnIndex, heroState.FormationSlot.LineIndex)
             {
-                Combatant = _heroFactories[hero.State.ClassSid]
-                    .Create(hero.State.ClassSid, combatActorBehaviour, hero.State.HitPoints)
+                Combatant = new TestamentCombatant(heroState.ClassSid,
+                    CreateCombatMovementSequence(heroState.AvailableMovements),
+                    CreateStats(heroState.HitPoints, heroState.CombatStats),
+                    combatActorBehaviour,
+                    CreateInitialCombatStatuses(heroState))
+                { 
+                    DebugSid = heroState.ClassSid,
+                    IsPlayerControlled = true
+                }
             }).ToArray();
 
         return formationSlots;
+    }
+
+    private static IReadOnlyCollection<ICombatantStatusFactory> CreateInitialCombatStatuses(HeroCampaignState heroState)
+    {
+        //TODO Use "global" status of hero from campaign
+        return Array.Empty<ICombatantStatusFactory>();
+    }
+
+    private static CombatantStatsConfig CreateStats(IStatValue hitPoints, IEnumerable<ICombatantStat> combatStats)
+    {
+        var stats = new CombatantStatsConfig();
+
+        stats.SetValue(CombatantStatTypes.HitPoints, hitPoints);
+
+        foreach (var stat in combatStats)
+        {
+            stats.SetValue(stat.Type, new StatValue(stat.Value.ActualMax));
+        }
+
+        return stats;
+    }
+
+    private static CombatMovementSequence CreateCombatMovementSequence(IReadOnlyCollection<CombatMovement> availableMovements)
+    {
+        var sequence = new CombatMovementSequence();
+
+        foreach (var move in availableMovements)
+        {
+            sequence.Items.Add(move);
+        }
+
+        return sequence;
     }
 
     public static IReadOnlyCollection<FormationSlot> CreateMonsters(ICombatActorBehaviour combatActorBehaviour,
