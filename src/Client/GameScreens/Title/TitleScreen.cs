@@ -333,8 +333,8 @@ internal sealed class TitleScreen : GameScreenBase
         var rolledHeroes = dice.RollFromList(freeHeroes, dice.Roll(2, 4)).ToArray();
         var rolledHeroPositions = _dice.RollFromList(heroPositions, rolledHeroes.Length).ToArray();
         var heroStates = rolledHeroPositions
-            .Select((t, i) => (
-                new HeroState(rolledHeroes[i].Item1, rolledHeroes[i].Item2, ArraySegment<CombatMovement>.Empty), t))
+            .Select((position, heroIndex) => (
+                HeroState.Create(rolledHeroes[heroIndex].Item1), position))
             .ToArray();
         _globeProvider.GenerateFree(heroStates.Select(x => x.Item1).ToArray());
 
@@ -398,7 +398,7 @@ internal sealed class TitleScreen : GameScreenBase
 
         var saveData = globeProvider.GetStoredData(lastSave.FileName);
 
-        var activeUnits = saveData.Progress.Player?.Heroes?.Units.Select(x => x.HeroSid);
+        var activeUnits = saveData.Progress.Player?.Heroes?.Where(x => x?.HeroSid != null).Select(x => x!.HeroSid!);
 
         if (activeUnits is null)
         {

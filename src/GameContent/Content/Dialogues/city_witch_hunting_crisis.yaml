@@ -8,7 +8,7 @@ root:
         'Эта ночь не будет долгой, если что-то не предпринять.'
       env:
         - type: PlayMusic
-          data: WitchHunting
+          data: Battle
   options:
     - text: 'Попытаться убежать.'
       description: |

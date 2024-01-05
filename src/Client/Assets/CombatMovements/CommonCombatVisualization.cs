@@ -69,9 +69,11 @@ internal static class CommonCombatVisualization
             : actorAnimator;
 
         var moveToPositionActorState = new MoveToPositionActorState(actorAnimator,
-                        () => new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, visualizationContext.BattlefieldInteractionContext.GetCombatantPosition(visualizationContext.ActorGameObject.Combatant)),
-                        config.WaitAnimation,
-                        new Duration(1));
+            () => new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position,
+                visualizationContext.BattlefieldInteractionContext.GetCombatantPosition(visualizationContext
+                    .ActorGameObject.Combatant)),
+            config.WaitAnimation,
+            new Duration(1));
 
         var subStates = new IActorVisualizationState[]
         {
@@ -89,7 +91,7 @@ internal static class CommonCombatVisualization
                 config.DeliveryFactory,
                 visualizationContext.InteractionDeliveryManager,
                 config.LaunchFrame),
-             moveToPositionActorState
+            moveToPositionActorState
         };
 
         var innerState = new SequentialState(subStates);

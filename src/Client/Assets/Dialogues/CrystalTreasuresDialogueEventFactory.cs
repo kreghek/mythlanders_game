@@ -7,6 +7,6 @@ namespace Client.Assets.Dialogues;
 [UsedImplicitly]
 internal sealed class CrystalTreasuresDialogueEventFactory : SmallEventDialogueEventFactoryBase
 {
-    protected override string DialogueFileSid => CrisesCatalogSids.CrystalTreasures;
-    protected override string EventSid => "crystal_treasures";
+    protected override string DialogueFileSid => "crystal_treasures";
+    protected override string EventSid => CrisesCatalogSids.CrystalTreasures;
 }

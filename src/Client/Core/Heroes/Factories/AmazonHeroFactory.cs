@@ -1,24 +1,18 @@
-using System;
 using System.Collections.Generic;
 
-using Client.Assets.CombatMovements;
 using Client.Assets.CombatMovements.Hero.Amazon;
 
 using CombatDicesTeam.Combats;
-using CombatDicesTeam.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
 
-namespace Client.GameScreens.Combat.CombatDebugElements.Heroes;
+namespace Client.Core.Heroes.Factories;
 
-public class AmazonCombatantFactory : IHeroCombatantFactory
+internal sealed class AmazonHeroFactory : HeroFactoryBase
 {
-    private static CombatMovement CreateMovement<T>() where T : ICombatMovementFactory
-    {
-        return Activator.CreateInstance<T>().CreateMovement();
-    }
+    protected override string ClassSid => "amazon";
 
-    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, IStatValue hitpointsStat)
+    protected override CombatMovementSequence CreateInitCombatMovementPool()
     {
         var movementPool = new List<CombatMovement>
         {
@@ -43,16 +37,15 @@ public class AmazonCombatantFactory : IHeroCombatantFactory
             }
         }
 
+        return heroSequence;
+    }
+
+    protected override CombatantStatsConfig CreateInitStats()
+    {
         var stats = new CombatantStatsConfig();
         stats.SetValue(CombatantStatTypes.HitPoints, 3);
         stats.SetValue(CombatantStatTypes.ShieldPoints, 0);
         stats.SetValue(CombatantStatTypes.Resolve, 4);
-
-        var hero = new TestamentCombatant("amazon", heroSequence, stats, combatActorBehaviour,
-            ArraySegment<ICombatantStatusFactory>.Empty)
-        {
-            DebugSid = sid, IsPlayerControlled = true
-        };
-        return hero;
+        return stats;
     }
 }
