@@ -15,7 +15,9 @@ internal enum ScreenTransition
     Training,
     Armory,
     Tactical,
-    SlidingPuzzles,
+    SlidingPuzzlesMinigame,
+    Match3Minigame,
+    TowersMinigame,
     Rest,
     Crisis,
     Challenge,
@@ -25,7 +27,5 @@ internal enum ScreenTransition
     /// Temporal screen to fake transition to stage items which not implemented yet.
     /// </summary>
     NotImplemented,
-    VoiceCombat,
-    Match3Minigame,
-    TowersMinigame
+    VoiceCombat
 }
