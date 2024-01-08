@@ -30,16 +30,9 @@ internal sealed class Globe
         //var biomes = biomeGenerator.GenerateStartState();
 
         GlobeLevel = new GlobeLevel();
-
-        CurrentAvailableLocations = new List<ILocationSid>
-        {
-            LocationSids.Thicket
-        };
     }
 
     public IEnumerable<IStoryPoint> ActiveStoryPoints => _activeStoryPointsList;
-
-    public IList<ILocationSid> CurrentAvailableLocations { get; }
 
 
     public IReadOnlyCollection<IGlobeEvent> GlobeEvents => _globeEvents;
