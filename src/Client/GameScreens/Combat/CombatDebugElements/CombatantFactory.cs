@@ -88,8 +88,7 @@ internal class CombatantFactory
 
     private static IReadOnlyCollection<ICombatantStatusFactory> CreateInitialCombatStatuses(HeroCampaignState heroState)
     {
-        //TODO Use "global" status of hero from campaign
-        return Array.Empty<ICombatantStatusFactory>();
+        return heroState.StartUpCombatStatuses;
     }
 
     private static TestamentCombatant CreateMonsterCombatant(
