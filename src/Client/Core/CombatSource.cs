@@ -2,4 +2,4 @@
 
 namespace Client.Core;
 
-public sealed record CombatSource(IReadOnlyCollection<MonsterCombatantPrefab> Monsters, CombatReward Reward);
+public sealed record CombatSource(IReadOnlyCollection<PerkMonsterCombatantPrefab> Monsters, CombatReward Reward);

@@ -548,7 +548,7 @@ internal sealed class CampaignMap : ControlBase
     {
         if (campaignStageItem is CombatStageItem combat)
         {
-            var classSid = combat.CombatSequence.Combats.First().Monsters.First().ClassSid;
+            var classSid = combat.CombatSequence.Combats.First().Monsters.First().TemplatePrefab.ClassSid;
             var monsterClass = Enum.Parse<UnitName>(classSid, true);
 
             var monsterInfo = GameObjectHelper.GetLocalized(monsterClass);

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
@@ -35,7 +36,8 @@ public class DigitalWolfCombatantFactory : IMonsterCombatantFactory
         return monsterSequence;
     }
 
-    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex)
+    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex,
+        IReadOnlyCollection<ICombatantStatusFactory> combatantStatusFactories)
     {
         // ReSharper disable once UseObjectOrCollectionInitializer
         var monsterSequence = CreateCombatMoveVariation();

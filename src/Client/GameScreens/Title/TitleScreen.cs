@@ -14,6 +14,7 @@ using Client.GameScreens.Common;
 using Client.ScreenManagement;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Dices;
 using CombatDicesTeam.Graphs;
 
@@ -343,7 +344,10 @@ internal sealed class TitleScreen : GameScreenBase
 
         var prefabs = rolledCoords.Select((t, i) => new MonsterCombatantPrefab(rolledMonsters[i], 0, t)).ToList();
 
-        var combat = new CombatSource(prefabs, new CombatReward(Array.Empty<IDropTableScheme>()));
+        var combat =
+            new CombatSource(
+                prefabs.Select(x => new PerkMonsterCombatantPrefab(x, ArraySegment<ICombatantStatusFactory>.Empty))
+                    .ToArray(), new CombatReward(Array.Empty<IDropTableScheme>()));
         var combatSequence = new CombatSequence
         {
             Combats = new[] { combat }

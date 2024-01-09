@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Client.Assets.CombatMovements.Monster.Greek.Automaur;
 
@@ -40,7 +41,8 @@ public class AutomataurCombatantFactory : IMonsterCombatantFactory
         return monsterSequence;
     }
 
-    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex)
+    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex,
+        IReadOnlyCollection<ICombatantStatusFactory> combatantStatusFactories)
     {
         var monsterSequence = CreateCombatMoveVariation(variationIndex);
 
