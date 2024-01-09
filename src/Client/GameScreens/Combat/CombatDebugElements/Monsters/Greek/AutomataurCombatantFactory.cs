@@ -1,16 +1,12 @@
-using System;
-using System.Collections.Generic;
-
 using Client.Assets.CombatMovements.Monster.Greek.Automaur;
 
 using CombatDicesTeam.Combats;
-using CombatDicesTeam.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements.Monsters.Greek;
 
-public class AutomataurCombatantFactory : IMonsterCombatantFactory
+public class AutomataurCombatantFactory : MonsterCombatantFactoryBase
 {
     private static CombatMovementSequence CreateCombatMoveVariation(int variationIndex)
     {
@@ -41,23 +37,22 @@ public class AutomataurCombatantFactory : IMonsterCombatantFactory
         return monsterSequence;
     }
 
-    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex,
-        IReadOnlyCollection<ICombatantStatusFactory> combatantStatusFactories)
+    protected override CombatantStatsConfig CombatantStatsConfig()
     {
-        var monsterSequence = CreateCombatMoveVariation(variationIndex);
-
         var stats = new CombatantStatsConfig();
         stats.SetValue(CombatantStatTypes.HitPoints, 6);
         stats.SetValue(CombatantStatTypes.ShieldPoints, 4);
         stats.SetValue(CombatantStatTypes.Resolve, 5);
 
-        var monster = new TestamentCombatant("automataur", monsterSequence, stats, combatActorBehaviour,
-            ArraySegment<ICombatantStatusFactory>.Empty)
-        {
-            DebugSid = sid,
-            IsPlayerControlled = false
-        };
-
-        return monster;
+        return stats;
     }
+
+    protected override CombatMovementSequence CombatMovementSequence(int variationIndex)
+    {
+        var monsterSequence = CreateCombatMoveVariation(variationIndex);
+
+        return monsterSequence;
+    }
+
+    protected override string ClassSid => "automataur";
 }

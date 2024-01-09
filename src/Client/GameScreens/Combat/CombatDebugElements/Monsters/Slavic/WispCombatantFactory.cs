@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Client.Assets.CombatMovements.Monster.Slavic.Aspid;
+﻿using Client.Assets.CombatMovements.Monster.Slavic.Aspid;
 
 using CombatDicesTeam.Combats;
-using CombatDicesTeam.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
 

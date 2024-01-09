@@ -5,7 +5,7 @@ using CombatDicesTeam.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
 
-namespace Client.GameScreens.Combat.CombatDebugElements.Monsters.Slavic;
+namespace Client.GameScreens.Combat.CombatDebugElements.Monsters;
 
 public abstract class MonsterCombatantFactoryBase: IMonsterCombatantFactory
 {
