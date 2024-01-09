@@ -37,7 +37,7 @@ internal sealed class UnlockLocationRewardStageItem : IRewardCampaignStageItem
             _jobProgressResolver.ApplyProgress(completeCampaignProgress, job);
         }
 
-        _globeProvider.Globe.CurrentAvailableLocations.Add(_scoutedLocation);
+        _globeProvider.Globe.Player.AddLocation(_scoutedLocation);
 
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignReward,
             new CampaignRewardScreenTransitionArguments(currentCampaign, GetEstimateRewards(currentCampaign.Location)));

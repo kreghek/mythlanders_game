@@ -2,16 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets;
+
 namespace Client.Core;
 
 internal sealed class Player
 {
     private readonly HashSet<PlayerAbility> _abilities;
+    private readonly HashSet<ILocationSid> _locations;
 
     public Player(string name) : this()
     {
         Name = name;
     }
+
+    public IReadOnlyList<ILocationSid> CurrentAvailableLocations => _locations.ToArray();
 
     public Player()
     {
@@ -25,6 +30,13 @@ internal sealed class Player
         Name = CreateRandomName();
 
         StoryState = new StoryState(Heroes);
+
+        _locations = new HashSet<ILocationSid>(new[] { LocationSids.Thicket });
+    }
+
+    public void AddLocation(ILocationSid location)
+    {
+        _locations.Add(location);
     }
 
     public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;

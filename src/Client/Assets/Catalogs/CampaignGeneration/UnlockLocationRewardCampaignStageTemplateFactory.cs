@@ -23,7 +23,7 @@ internal sealed class UnlockLocationRewardCampaignStageTemplateFactory : ICampai
     private ILocationSid[] CalculateAvailableLocations()
     {
         return GameLocations.GetGameLocations()
-            .Except(_services.GlobeProvider.Globe.CurrentAvailableLocations).ToArray();
+            .Except(_services.GlobeProvider.Globe.Player.CurrentAvailableLocations).ToArray();
     }
 
     private static ICampaignStageItem[] MapContextToCurrentStageItems(IGraphTemplateContext<ICampaignStageItem> context)

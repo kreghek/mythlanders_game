@@ -8,6 +8,7 @@ using System.Text.Json.Serialization;
 
 using Client.Core.Heroes;
 using Client.Core.ProgressStorage;
+using Client.GameScreens;
 
 using Core.Props;
 
@@ -130,6 +131,35 @@ internal sealed class GlobeProvider
 
             LoadPlayerResources(progressDto.Player.Resources, Globe.Player.Inventory);
             LoadPlayerKnownMonsters(progressDto.Player, _unitSchemeCatalog, Globe.Player);
+
+            LoadAvailableLocations(progressDto.Player.AvailableLocations, Globe.Player);
+        }
+    }
+
+    private static void LoadAvailableLocations(string?[]? availableLocations, Player player)
+    {
+        if (availableLocations is null)
+        { 
+            return;
+        }
+
+        foreach (var storedLocationSid in availableLocations)
+        {
+            if (storedLocationSid is null)
+            {
+                continue;
+            }
+
+            var locationSid = LocationHelper.ParseLocationFromCatalog(storedLocationSid);
+
+            if (locationSid is null)
+            {
+                //TODO Log error and try to migrate save data
+
+                continue;
+            }
+
+            player.AddLocation(locationSid);
         }
     }
 
@@ -140,7 +170,8 @@ internal sealed class GlobeProvider
             Heroes = CreateHeroesStorageData(Globe.Player.Heroes.Units),
             Resources = GetPlayerResourcesToSave(Globe.Player.Inventory),
             KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters),
-            Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray()
+            Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray(),
+            AvailableLocations = Globe.Player.CurrentAvailableLocations.Select(x => x.ToString()).ToArray()
         };
 
         var progress = new ProgressDto

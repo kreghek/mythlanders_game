@@ -6,4 +6,5 @@ internal sealed record PlayerDto
     public HeroDto?[]? Heroes { get; init; }
     public string?[]? KnownMonsterSids { get; init; }
     public ResourceDto?[]? Resources { get; init; }
+    public string?[]? AvailableLocations { get; init; }
 }
