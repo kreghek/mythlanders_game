@@ -136,33 +136,6 @@ internal sealed class GlobeProvider
         }
     }
 
-    private static void LoadAvailableLocations(string?[]? availableLocations, Player player)
-    {
-        if (availableLocations is null)
-        { 
-            return;
-        }
-
-        foreach (var storedLocationSid in availableLocations)
-        {
-            if (storedLocationSid is null)
-            {
-                continue;
-            }
-
-            var locationSid = LocationHelper.ParseLocationFromCatalog(storedLocationSid);
-
-            if (locationSid is null)
-            {
-                //TODO Log error and try to migrate save data
-
-                continue;
-            }
-
-            player.AddLocation(locationSid);
-        }
-    }
-
     public void StoreCurrentGlobe()
     {
         var player = new PlayerDto
@@ -302,6 +275,33 @@ internal sealed class GlobeProvider
     private static bool IsDirectoryEmpty(string path)
     {
         return !Directory.EnumerateFileSystemEntries(path).Any();
+    }
+
+    private static void LoadAvailableLocations(string?[]? availableLocations, Player player)
+    {
+        if (availableLocations is null)
+        {
+            return;
+        }
+
+        foreach (var storedLocationSid in availableLocations)
+        {
+            if (storedLocationSid is null)
+            {
+                continue;
+            }
+
+            var locationSid = LocationHelper.ParseLocationFromCatalog(storedLocationSid);
+
+            if (locationSid is null)
+            {
+                //TODO Log error and try to migrate save data
+
+                continue;
+            }
+
+            player.AddLocation(locationSid);
+        }
     }
 
     private static void LoadCharacterEquipments(Hero unit, EquipmentDto[]? unitDtoEquipments)

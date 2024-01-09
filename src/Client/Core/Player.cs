@@ -16,8 +16,6 @@ internal sealed class Player
         Name = name;
     }
 
-    public IReadOnlyList<ILocationSid> CurrentAvailableLocations => _locations.ToArray();
-
     public Player()
     {
         Heroes = new PoolGroup<HeroState>();
@@ -34,13 +32,10 @@ internal sealed class Player
         _locations = new HashSet<ILocationSid>(new[] { LocationSids.Thicket });
     }
 
-    public void AddLocation(ILocationSid location)
-    {
-        _locations.Add(location);
-    }
-
     public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
     public IChallenge? Challenge { get; set; }
+
+    public IReadOnlyList<ILocationSid> CurrentAvailableLocations => _locations.ToArray();
 
     public PoolGroup<HeroState> Heroes { get; }
 
@@ -54,6 +49,11 @@ internal sealed class Player
     public void AddHero(HeroState heroState)
     {
         Heroes.AddNewUnit(heroState);
+    }
+
+    public void AddLocation(ILocationSid location)
+    {
+        _locations.Add(location);
     }
 
     public void AddPlayerAbility(PlayerAbility ability)

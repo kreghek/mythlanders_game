@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Client.Assets;
 using Client.Assets.StoryPointJobs;
 
 using CombatDicesTeam.Dices;

@@ -43,11 +43,6 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
     private double _locationOnMapCounter;
 
-    private void SaveGameProgress()
-    {
-        _globeProvider.StoreCurrentGlobe();
-    }
-
 
     public CommandCenterScreen(TestamentGame game, CommandCenterScreenTransitionArguments args) : base(game)
     {
@@ -329,5 +324,10 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         return values.ToDictionary(x => x,
             x => new Vector2(rnd.Next(_mapBackgroundTexture.Width / 4, _mapBackgroundTexture.Width * 3 / 4),
                 rnd.Next(_mapBackgroundTexture.Height / 4, _mapBackgroundTexture.Height * 3 / 4)));
+    }
+
+    private void SaveGameProgress()
+    {
+        _globeProvider.StoreCurrentGlobe();
     }
 }

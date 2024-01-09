@@ -14,6 +14,11 @@ namespace Client.GameScreens;
 /// </summary>
 internal static class LocationHelper
 {
+    public static IReadOnlyCollection<ILocationSid> GetAllLocation()
+    {
+        return GetAllFromStaticCatalog<ILocationSid>(typeof(LocationSids));
+    }
+
     public static LocationCulture GetLocationCulture(ILocationSid location)
     {
         var cultureAttr = GetLocationMetadataAttribute<LocationCultureAttribute>(location);
@@ -36,9 +41,12 @@ internal static class LocationHelper
         return themeAttr.Theme;
     }
 
-    public static IReadOnlyCollection<ILocationSid> GetAllLocation()
+    public static ILocationSid? ParseLocationFromCatalog(string storedLocationSid)
     {
-        return GetAllFromStaticCatalog<ILocationSid>(typeof(LocationSids));
+        var locations = GetAllLocation().Cast<LocationSid>();
+
+        return locations.SingleOrDefault(x =>
+            x.Key.Equals(storedLocationSid, StringComparison.InvariantCultureIgnoreCase));
     }
 
     private static IReadOnlyCollection<TObj> GetAllFromStaticCatalog<TObj>(Type catalog)
@@ -50,13 +58,6 @@ internal static class LocationHelper
             .Where(v => v is not null)
             .Select(v => (TObj)v!)
             .ToArray();
-    }
-
-    public static ILocationSid? ParseLocationFromCatalog(string storedLocationSid)
-    {
-        var locations = GetAllLocation().Cast<LocationSid>();
-
-        return locations.SingleOrDefault(x => x.Key.Equals(storedLocationSid, StringComparison.InvariantCultureIgnoreCase));
     }
 
     /// <summary>
