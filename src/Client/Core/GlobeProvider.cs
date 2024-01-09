@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-using Client.Assets;
 using Client.Core.Heroes;
 using Client.Core.ProgressStorage;
+using Client.GameScreens;
 
 using Core.Props;
 
@@ -143,15 +143,23 @@ internal sealed class GlobeProvider
             return;
         }
 
-        foreach (var locationSid in availableLocations)
+        foreach (var storedLocationSid in availableLocations)
         {
-            if (locationSid is null)
+            if (storedLocationSid is null)
             {
                 continue;
             }
 
+            var locationSid = LocationHelper.ParseLocationFromCatalog(storedLocationSid);
 
-            player.AddLocation(new LocationSid(locationSid));
+            if (locationSid is null)
+            {
+                //TODO Log error and try to migrate save data
+
+                continue;
+            }
+
+            player.AddLocation(locationSid);
         }
     }
 
