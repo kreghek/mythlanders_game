@@ -18,6 +18,7 @@ using Core.Combats.CombatantStatuses;
 using Core.PropDrop;
 
 using GameAssets.Combats;
+using GameAssets.Combats.CombatantStatuses;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
@@ -95,8 +96,8 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     }
 
     private static readonly ICombatantStatusFactory[] _availablePerkBuffs = {
-        new DelegateCombatStatusFactory(()=>new ModifyStatCombatantStatus(new CombatantStatusSid("HP"), new OwnerBoundCombatantEffectLifetime(), CombatantStatTypes.HitPoints, 1)),
-        new DelegateCombatStatusFactory(()=>new ModifyStatCombatantStatus(new CombatantStatusSid("SP"), new OwnerBoundCombatantEffectLifetime(), CombatantStatTypes.ShieldPoints, 1)),
+        new DelegateCombatStatusFactory(()=>new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(new CombatantStatusSid("HP"), new OwnerBoundCombatantEffectLifetime(), CombatantStatTypes.HitPoints, 1))),
+        new DelegateCombatStatusFactory(()=>new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(new CombatantStatusSid("SP"), new OwnerBoundCombatantEffectLifetime(), CombatantStatTypes.ShieldPoints, 1))),
     };
 
     /// <inheritdoc />

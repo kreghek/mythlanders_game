@@ -11,7 +11,7 @@ public sealed class CombatantStatsConfig
         _stats = new Dictionary<ICombatantStatType, IStatValue>
         {
             {
-                CombatantStatTypes.ShieldPoints, new CombatantStatValue(new StatValue(1))
+                CombatantStatTypes.ShieldPoints, new CombatantStatValue(new StatValue(0))
             },
             {
                 CombatantStatTypes.HitPoints, new CombatantStatValue(new StatValue(3))
