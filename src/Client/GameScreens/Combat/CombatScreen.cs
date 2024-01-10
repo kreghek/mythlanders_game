@@ -60,7 +60,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private readonly IList<EffectNotification> _combatantEffectNotifications = new List<EffectNotification>();
     private readonly ICombatantPositionProvider _combatantPositionProvider;
-    private readonly TestamentCombatEngine _combatCore;
+    private readonly MythlandersCombatEngine _combatCore;
     private readonly ICombatActorBehaviourDataProvider _combatDataBehaviourProvider;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
     private readonly IList<CorpseGameObject> _corpseObjects;
@@ -110,7 +110,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private TextureRegion2D _shieldParticleTexture = null!;
     private SoundEffect _shieldSound = null!;
 
-    public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
+    public CombatScreen(MythlandersGame game, CombatScreenTransitionArguments args) : base(game)
     {
         _args = args;
         var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
@@ -146,7 +146,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _gameSettings = game.Services.GetService<GameSettings>();
 
-        _combatantPositionProvider = new CombatantPositionProvider(TestamentConstants.CombatFieldSize.X);
+        _combatantPositionProvider = new CombatantPositionProvider(MythlandersConstants.CombatFieldSize.X);
 
         _jobProgressResolver = new JobProgressResolver();
 
@@ -773,9 +773,9 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private TestamentCombatEngine CreateCombat()
+    private MythlandersCombatEngine CreateCombat()
     {
-        return new TestamentCombatEngine(new CurrentRoundQueueResolver(), _dice);
+        return new MythlandersCombatEngine(new CurrentRoundQueueResolver(), _dice);
     }
 
     private ICamera2DAdapter CreateLayerCamera()
@@ -1267,7 +1267,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(),
                 $"-== Round {_combatCore.CurrentRoundNumber}==-",
-                roundPosition, TestamentColors.MainSciFi);
+                roundPosition, MythlandersColors.MainSciFi);
         }
 
         spriteBatch.End();

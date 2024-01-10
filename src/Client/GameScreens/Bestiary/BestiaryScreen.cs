@@ -19,7 +19,7 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
     private UnitScheme? _selectedMonster;
 
-    public BestiaryScreen(TestamentGame game)
+    public BestiaryScreen(MythlandersGame game)
         : base(game)
     {
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();

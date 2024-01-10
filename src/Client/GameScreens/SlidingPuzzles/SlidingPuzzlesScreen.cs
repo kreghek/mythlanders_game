@@ -25,7 +25,7 @@ internal sealed class SlidingPuzzlesScreen : GameScreenWithMenuBase
     private readonly int _width;
     private TimeSpan _currentTime;
 
-    public SlidingPuzzlesScreen(TestamentGame game, SlidingPuzzlesMinigameScreenTransitionArguments args) : base(game)
+    public SlidingPuzzlesScreen(MythlandersGame game, SlidingPuzzlesMinigameScreenTransitionArguments args) : base(game)
     {
         _campaign = args.Campaign;
 

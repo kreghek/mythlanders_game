@@ -41,7 +41,7 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
     private KeyboardState _keyboardState;
     private double _pressToContinueCounter;
 
-    protected TextEventScreenBase(TestamentGame game, TextEventScreenArgsBase args) : base(game)
+    protected TextEventScreenBase(MythlandersGame game, TextEventScreenArgsBase args) : base(game)
     {
         _textParagraphControls = new List<TextParagraphControl>();
         _dialogueOptions = new DialogueOptions();

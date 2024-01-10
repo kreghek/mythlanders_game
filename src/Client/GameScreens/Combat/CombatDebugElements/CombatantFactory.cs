@@ -38,7 +38,7 @@ internal class CombatantFactory
         var formationSlots = aliveHeroes.Select(heroState =>
             new FormationSlot(heroState.FormationSlot.ColumnIndex, heroState.FormationSlot.LineIndex)
             {
-                Combatant = new TestamentCombatant(heroState.ClassSid,
+                Combatant = new MythlandersCombatant(heroState.ClassSid,
                     CreateCombatMovementSequence(heroState.AvailableMovements),
                     CreateStats(heroState.HitPoints, heroState.CombatStats),
                     combatActorBehaviour,
@@ -90,7 +90,7 @@ internal class CombatantFactory
         return heroState.StartUpCombatStatuses;
     }
 
-    private static TestamentCombatant CreateMonsterCombatant(
+    private static MythlandersCombatant CreateMonsterCombatant(
         ICombatActorBehaviour combatActorBehaviour,
         PerkMonsterCombatantPrefab monsterCombatantPrefab)
     {

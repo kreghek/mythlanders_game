@@ -24,7 +24,7 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
     private readonly IUiContentStorage _uiContent;
     private RewardPanel _rewardPanel = null!;
 
-    public CampaignRewardScreen(TestamentGame game, CampaignRewardScreenTransitionArguments args) : base(game)
+    public CampaignRewardScreen(MythlandersGame game, CampaignRewardScreenTransitionArguments args) : base(game)
     {
         _campaignGenerator = game.Services.GetRequiredService<ICampaignGenerator>();
         _uiContent = game.Services.GetRequiredService<IUiContentStorage>();

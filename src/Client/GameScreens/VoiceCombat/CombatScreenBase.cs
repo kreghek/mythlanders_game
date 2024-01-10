@@ -31,7 +31,7 @@ internal abstract class CombatScreenBase : GameScreenWithMenuBase
     private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
 
-    protected CombatScreenBase(TestamentGame game, HeroCampaign campaign) : base(game)
+    protected CombatScreenBase(MythlandersGame game, HeroCampaign campaign) : base(game)
     {
         _campaign = campaign;
 
@@ -44,7 +44,7 @@ internal abstract class CombatScreenBase : GameScreenWithMenuBase
         _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
         _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
 
-        var data = new[] { TestamentColors.MaxDark };
+        var data = new[] { MythlandersColors.MaxDark };
         _backgroundTexture = new Texture2D(game.GraphicsDevice, 1, 1);
         _backgroundTexture.SetData(data);
     }

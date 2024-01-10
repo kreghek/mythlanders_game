@@ -18,7 +18,7 @@ internal sealed class CrisisScreen : TextEventScreenBase
     private readonly Texture2D _cleanScreenTexture;
     private readonly SoundtrackManager _soundtrackManager;
 
-    public CrisisScreen(TestamentGame game, CrisisScreenTransitionArguments args) : base(game, args)
+    public CrisisScreen(MythlandersGame game, CrisisScreenTransitionArguments args) : base(game, args)
     {
         var spriteName = GetBackgroundSpriteName(args.Crisis.Sid);
 

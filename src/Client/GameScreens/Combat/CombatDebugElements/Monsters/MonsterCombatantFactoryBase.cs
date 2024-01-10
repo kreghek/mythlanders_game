@@ -9,14 +9,14 @@ namespace Client.GameScreens.Combat.CombatDebugElements.Monsters;
 
 public abstract class MonsterCombatantFactoryBase: IMonsterCombatantFactory
 {
-    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex,
+    public MythlandersCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex,
         IReadOnlyCollection<ICombatantStatusFactory> combatantStatusFactories)
     {
         var monsterSequence = CombatMovementSequence(variationIndex);
         
         var stats = CombatantStatsConfig();
         
-        var monster = new TestamentCombatant(ClassSid, monsterSequence, stats, combatActorBehaviour,
+        var monster = new MythlandersCombatant(ClassSid, monsterSequence, stats, combatActorBehaviour,
             combatantStatusFactories)
         {
             DebugSid = sid, IsPlayerControlled = false

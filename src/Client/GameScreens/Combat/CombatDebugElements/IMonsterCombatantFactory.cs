@@ -9,6 +9,6 @@ namespace Client.GameScreens.Combat.CombatDebugElements;
 
 public interface IMonsterCombatantFactory
 {
-    TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex,
+    MythlandersCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex,
         IReadOnlyCollection<ICombatantStatusFactory> combatantStatusFactories);
 }

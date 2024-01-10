@@ -58,7 +58,7 @@ internal sealed class FieldManeuverIndicatorPanel : ControlBase
         var targetRectWidth = targetRect.Width - textSize.X;
         spriteBatch.DrawString(_font, text,
             new Vector2(targetRect.Location.X + targetRectWidth / 2, targetRect.Y),
-            Color.Lerp(TestamentColors.MainSciFi, Color.Transparent, 0.5f + GetCurrentT() * 0.25f));
+            Color.Lerp(MythlandersColors.MainSciFi, Color.Transparent, 0.5f + GetCurrentT() * 0.25f));
     }
 
     private float GetCurrentT()

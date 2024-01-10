@@ -25,7 +25,7 @@ internal sealed class SettingsScreen : GameScreenBase
     private readonly IReadOnlyDictionary<ButtonBase, (int Width, int Height)> _resolutionsButtonsInfos;
     private ButtonBase? _selectedMonitorResolutionButton;
 
-    public SettingsScreen(TestamentGame game)
+    public SettingsScreen(MythlandersGame game)
         : base(game)
     {
         var uiContentService = game.Services.GetService<IUiContentStorage>();

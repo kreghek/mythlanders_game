@@ -18,7 +18,7 @@ internal sealed class IntroScreen : GameScreenBase
     private double _frameCounter;
     private int _frameIndex;
 
-    public IntroScreen(TestamentGame game) : base(game)
+    public IntroScreen(MythlandersGame game) : base(game)
     {
         var uiContentStorage = game.Services.GetService<IUiContentStorage>();
 

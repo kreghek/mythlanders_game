@@ -11,7 +11,7 @@ using NReco.Logging.File;
 using Steamworks;
 #endif
 
-static ILogger<TestamentGame> CreateLogging()
+static ILogger<MythlandersGame> CreateLogging()
 {
     using var loggerFactory = LoggerFactory.Create(builder =>
     {
@@ -38,7 +38,7 @@ static ILogger<TestamentGame> CreateLogging()
             .AddFilter("Microsoft", LogLevel.Warning)
             .AddFilter("System", LogLevel.Warning);
     });
-    var logger = loggerFactory.CreateLogger<TestamentGame>();
+    var logger = loggerFactory.CreateLogger<MythlandersGame>();
     return logger;
 }
 
@@ -166,7 +166,7 @@ var gameSettings = new GameSettings
 };
 
 #if DEBUG
-using var game = new TestamentGame(logger, gameSettings);
+using var game = new MythlandersGame(logger, gameSettings);
 game.Run();
 #else
             try

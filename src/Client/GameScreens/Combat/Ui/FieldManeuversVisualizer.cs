@@ -244,7 +244,7 @@ internal class FieldManeuversVisualizer
                 spriteBatch.DrawString(spriteFont,
                     positionLabelText,
                     position + new Vector2(x, y),
-                    Color.Lerp(TestamentColors.MaxDark, Color.Transparent, 0.15f),
+                    Color.Lerp(MythlandersColors.MaxDark, Color.Transparent, 0.15f),
                     rotation, Vector2.Zero, 1f, SpriteEffects.None, 0);
             }
         }

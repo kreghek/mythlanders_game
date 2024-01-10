@@ -11,7 +11,7 @@ namespace Client.GameScreens.Arrival;
 
 internal class ArrivalScreen : GameScreenWithMenuBase
 {
-    public ArrivalScreen(TestamentGame game) : base(game)
+    public ArrivalScreen(MythlandersGame game) : base(game)
     {
     }
 

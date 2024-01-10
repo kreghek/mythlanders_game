@@ -31,7 +31,7 @@ internal sealed class GlobeProvider
         _unitSchemeCatalog = unitSchemeCatalog;
         _storyPointInitializer = storyPointInitializer;
         var binPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        _storagePath = Path.Combine(binPath, "CDT", "Testament");
+        _storagePath = Path.Combine(binPath, "CDT", "Mythlanders");
     }
 
     public (int Width, int Height)? ChosenUserMonitorResolution { get; set; }
