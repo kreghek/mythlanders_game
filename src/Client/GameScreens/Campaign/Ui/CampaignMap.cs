@@ -556,7 +556,7 @@ internal sealed class CampaignMap : ControlBase
 
             var monsterName = GameObjectHelper.GetLocalized(monsterClass);
             var sumPts = combatSource.Monsters.Sum(x => x.StartUpStatuses.Count + 1);
-            return UiResource.CampaignStageDisplayNameCombat + "\n" + $"{monsterName} ({sumPts})pts";
+            return UiResource.CampaignStageDisplayNameCombat + "\n" + $"{monsterName} ({sumPts} PTS)";
         }
 
         if (campaignStageItem is IRewardCampaignStageItem)
