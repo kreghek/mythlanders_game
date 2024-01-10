@@ -19,7 +19,7 @@ internal class NotImplementedStageScreen : GameScreenWithMenuBase
     private readonly IUiContentStorage _uiContentStorage;
     private Texture2D? _underConstructionTexture;
 
-    public NotImplementedStageScreen(TestamentGame game, NotImplementedStageScreenTransitionArguments args) : base(game)
+    public NotImplementedStageScreen(MythlandersGame game, NotImplementedStageScreenTransitionArguments args) : base(game)
     {
         _campaign = args.Campaign;
 

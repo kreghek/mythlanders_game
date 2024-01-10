@@ -52,7 +52,7 @@ internal sealed class TitleScreen : GameScreenBase
     private readonly UnitName[] _showcaseUnits;
     private readonly IUiContentStorage _uiContentStorage;
 
-    public TitleScreen(TestamentGame game)
+    public TitleScreen(MythlandersGame game)
         : base(game)
     {
         _globeProvider = Game.Services.GetService<GlobeProvider>();

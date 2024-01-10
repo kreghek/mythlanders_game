@@ -21,7 +21,7 @@ internal sealed class RestScreen : GameScreenWithMenuBase
     private readonly HeroCampaign _campaign;
     private readonly IUiContentStorage _uiContentStorage;
 
-    public RestScreen(TestamentGame game, RestScreenTransitionArguments args) : base(game)
+    public RestScreen(MythlandersGame game, RestScreenTransitionArguments args) : base(game)
     {
         _campaign = args.Campaign;
 

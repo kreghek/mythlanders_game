@@ -33,7 +33,7 @@ internal class TextDialogueScreen : TextEventScreenBase
     private double _counter;
     private int _frameIndex;
 
-    public TextDialogueScreen(TestamentGame game, TextDialogueScreenTransitionArgs args) : base(game, args)
+    public TextDialogueScreen(MythlandersGame game, TextDialogueScreenTransitionArgs args) : base(game, args)
     {
         _random = new Random();
 

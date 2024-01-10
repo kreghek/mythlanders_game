@@ -16,7 +16,7 @@ using NUnit.Framework;
 
 namespace GameAssets.Combats.Tests;
 
-public class TestamentCombatEngineTests
+public class MythlandersCombatEngineTests
 {
     [Test]
     public void CreateCombatMovementExecution_AttackToAutoDefence_AutoDefenceEffectsInfluencedOnTarget()
@@ -66,7 +66,7 @@ public class TestamentCombatEngineTests
             .Returns(new[] { hero, monsterMock.Object });
         var roundQueueResolver = roundQueueResolverMock.Object;
 
-        var combatEngine = new TestamentCombatEngine(roundQueueResolver, Mock.Of<IDice>());
+        var combatEngine = new MythlandersCombatEngine(roundQueueResolver, Mock.Of<IDice>());
         combatEngine.Initialize(new[]
             {
                 // hero
@@ -116,7 +116,7 @@ public class TestamentCombatEngineTests
             .Returns(new[] { hero });
         var roundQueueResolver = roundQueueResolverMock.Object;
 
-        var combatEngine = new TestamentCombatEngine(roundQueueResolver, Mock.Of<IDice>());
+        var combatEngine = new MythlandersCombatEngine(roundQueueResolver, Mock.Of<IDice>());
         combatEngine.Initialize(new[]
             {
                 // hero

@@ -21,7 +21,7 @@ internal class TowersMinigameScreen : GameScreenWithMenuBase
     private readonly TowersEngine _towersEngine;
     private TowerRing? _activeRing;
 
-    public TowersMinigameScreen(TestamentGame game, TowersMiniGameScreenTransitionArguments args) : base(game)
+    public TowersMinigameScreen(MythlandersGame game, TowersMiniGameScreenTransitionArguments args) : base(game)
     {
         _campaign = args.Campaign;
 

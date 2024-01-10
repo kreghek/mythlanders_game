@@ -15,7 +15,7 @@ internal sealed class EndGameScreen : GameScreenBase
     private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
     private readonly IUiContentStorage _uiContentStorage;
 
-    public EndGameScreen(TestamentGame game) : base(game)
+    public EndGameScreen(MythlandersGame game) : base(game)
     {
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();
         _camera = Game.Services.GetService<ICamera2DAdapter>();

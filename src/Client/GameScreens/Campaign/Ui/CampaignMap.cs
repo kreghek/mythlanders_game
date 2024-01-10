@@ -449,7 +449,7 @@ internal sealed class CampaignMap : ControlBase
             {
                 var button = rootButtons[i];
                 spriteBatch.DrawCircle(button.Rect.Center.ToVector2(),
-                    24 + (int)(8 * Math.Sin(_nodeHighlightCounter + i * 133)), 16, TestamentColors.MainSciFi);
+                    24 + (int)(8 * Math.Sin(_nodeHighlightCounter + i * 133)), 16, MythlandersColors.MainSciFi);
             }
         }
         else
@@ -465,7 +465,7 @@ internal sealed class CampaignMap : ControlBase
             {
                 var button = nextButtons[i];
                 spriteBatch.DrawCircle(button.Rect.Center.ToVector2(),
-                    16 + (int)(8 * Math.Sin(_nodeHighlightCounter + i * 133)), 16, TestamentColors.MainSciFi, 3);
+                    16 + (int)(8 * Math.Sin(_nodeHighlightCounter + i * 133)), 16, MythlandersColors.MainSciFi, 3);
             }
         }
     }
@@ -504,10 +504,10 @@ internal sealed class CampaignMap : ControlBase
     {
         return nodeState switch
         {
-            CampaignNodeState.Available => TestamentColors.MainSciFi,
-            CampaignNodeState.Current or CampaignNodeState.Passed => TestamentColors.MainAncient,
-            CampaignNodeState.Unavailable => TestamentColors.Disabled,
-            _ => TestamentColors.MainSciFi
+            CampaignNodeState.Available => MythlandersColors.MainSciFi,
+            CampaignNodeState.Current or CampaignNodeState.Passed => MythlandersColors.MainAncient,
+            CampaignNodeState.Unavailable => MythlandersColors.Disabled,
+            _ => MythlandersColors.MainSciFi
         };
     }
 

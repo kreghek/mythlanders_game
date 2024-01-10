@@ -46,8 +46,8 @@ internal sealed class ShieldBreakCombatVisualEffect : ICombatVisualEffect
                         Quantity = 15,
                         Rotation = new Range<float>(-1f, 1f),
                         Scale = new Range<float>(0.25f, 0.5f),
-                        Color = new Range<HslColor>(HslColor.FromRgb(TestamentColors.MainSciFi),
-                            HslColor.FromRgb(new Color(TestamentColors.MainSciFi, 0.5f)))
+                        Color = new Range<HslColor>(HslColor.FromRgb(MythlandersColors.MainSciFi),
+                            HslColor.FromRgb(new Color(MythlandersColors.MainSciFi, 0.5f)))
                     },
                     Modifiers =
                     {

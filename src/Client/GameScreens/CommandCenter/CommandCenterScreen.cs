@@ -44,7 +44,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
     private double _locationOnMapCounter;
 
 
-    public CommandCenterScreen(TestamentGame game, CommandCenterScreenTransitionArguments args) : base(game)
+    public CommandCenterScreen(MythlandersGame game, CommandCenterScreenTransitionArguments args) : base(game)
     {
         _dice = game.Services.GetRequiredService<IDice>();
         _globeProvider = game.Services.GetRequiredService<GlobeProvider>();
@@ -286,13 +286,13 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
             var lineT = Math.Sin(_locationOnMapCounter + index * 13);
 
             spriteBatch.DrawLine(connectorStartPoint.X, connectorStartPoint.Y, connectorEndPoint.X,
-                connectorEndPoint.Y, TestamentColors.MainSciFi, (float)(2 + lineT * 1));
+                connectorEndPoint.Y, MythlandersColors.MainSciFi, (float)(2 + lineT * 1));
             spriteBatch.DrawCircle(connectorStartPoint.X, connectorStartPoint.Y, (float)(8 + lineT * 2), 4,
-                TestamentColors.MainSciFi);
+                MythlandersColors.MainSciFi);
         }
 
         var t = Math.Sin(_locationOnMapCounter);
-        spriteBatch.DrawCircle(x1, y1, (float)(16 + t * 4), 4, TestamentColors.MainSciFi);
+        spriteBatch.DrawCircle(x1, y1, (float)(16 + t * 4), 4, MythlandersColors.MainSciFi);
     }
 
     private static IReadOnlyList<Point> GetConnectorPoints(int x1, int y1, int x2, int y2)

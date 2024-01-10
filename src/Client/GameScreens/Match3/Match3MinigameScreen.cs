@@ -25,7 +25,7 @@ internal class Match3MinigameScreen : GameScreenWithMenuBase
 
     private Coords? _selectedFirstGem;
 
-    public Match3MinigameScreen(TestamentGame game, Match3MiniGameScreenTransitionArguments args) : base(game)
+    public Match3MinigameScreen(MythlandersGame game, Match3MiniGameScreenTransitionArguments args) : base(game)
     {
         _campaign = args.Campaign;
         var dice = game.Services.GetRequiredService<IDice>();

@@ -31,7 +31,7 @@ internal class BarracksScreen : GameScreenWithMenuBase
     private SkillsInfoPanel _skillsInfoPanel = null!;
     private StatsInfoPanel _statsInfoPanel = null!;
 
-    public BarracksScreen(TestamentGame game) : base(game)
+    public BarracksScreen(MythlandersGame game) : base(game)
     {
         _globeProvider = game.Services.GetRequiredService<GlobeProvider>();
 

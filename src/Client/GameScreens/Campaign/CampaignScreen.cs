@@ -32,7 +32,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
     private bool _showStoryPoints;
 
-    public CampaignScreen(TestamentGame game, CampaignScreenTransitionArguments screenTransitionArguments) : base(game)
+    public CampaignScreen(MythlandersGame game, CampaignScreenTransitionArguments screenTransitionArguments) : base(game)
     {
         _screenTransitionArguments = screenTransitionArguments;
         _currentCampaign = screenTransitionArguments.Campaign;
@@ -200,7 +200,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
             var hero = heroes[i];
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                 $"{hero.ClassSid} {hero.HitPoints.Current}/{hero.HitPoints.ActualMax}",
-                new Vector2(contentRect.Left, contentRect.Top + i * 20), TestamentColors.MainSciFi);
+                new Vector2(contentRect.Left, contentRect.Top + i * 20), MythlandersColors.MainSciFi);
         }
     }
 

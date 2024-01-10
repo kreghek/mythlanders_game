@@ -17,7 +17,7 @@ internal abstract class GameScreenBase : IScreen
 
     private bool _isInitialized;
 
-    protected GameScreenBase(TestamentGame game)
+    protected GameScreenBase(MythlandersGame game)
     {
         Game = game;
 
@@ -31,7 +31,7 @@ internal abstract class GameScreenBase : IScreen
 
     protected ICamera2DAdapter Camera { get; }
 
-    protected TestamentGame Game { get; }
+    protected MythlandersGame Game { get; }
     protected IResolutionIndependentRenderer ResolutionIndependentRenderer { get; }
     protected IScreenManager ScreenManager { get; }
 
