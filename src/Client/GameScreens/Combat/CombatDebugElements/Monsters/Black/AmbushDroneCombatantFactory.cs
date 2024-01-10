@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Client.Assets.CombatMovements.Monster.Black.Agressor;
 using Client.Assets.CombatMovements.Monster.Black.AmbushDrone;
@@ -37,7 +38,8 @@ public class AmbushDroneCombatantFactory : IMonsterCombatantFactory
         return monsterSequence;
     }
 
-    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex)
+    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex,
+        IReadOnlyCollection<ICombatantStatusFactory> combatantStatusFactories)
     {
         var monsterSequence = CreateCombatMoveVariation(variationIndex);
 

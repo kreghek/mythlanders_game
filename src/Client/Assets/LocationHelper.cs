@@ -4,10 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
-using Client.Assets;
 using Client.Core;
 
-namespace Client.GameScreens;
+namespace Client.Assets;
 
 /// <summary>
 /// Utility to work with location metadata.

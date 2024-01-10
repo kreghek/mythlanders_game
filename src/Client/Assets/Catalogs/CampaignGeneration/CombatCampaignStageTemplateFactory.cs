@@ -6,12 +6,19 @@ using Client.Assets.StageItems;
 using Client.Core;
 using Client.Core.Campaigns;
 
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Dices;
 using CombatDicesTeam.GenericRanges;
 using CombatDicesTeam.Graphs;
 using CombatDicesTeam.Graphs.Generation.TemplateBased;
 
+using Core.Combats.CombatantStatuses;
 using Core.PropDrop;
+
+using GameAssets.Combats;
+using GameAssets.Combats.CombatantStatuses;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
@@ -48,7 +55,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         return _dice.RollFromList(templates);
     }
 
-    private static IDropTableScheme[] GetMonsterDropTables(MonsterCombatantTempate monsterCombatantPrefabs)
+    private static IEnumerable<IDropTableScheme> GetMonsterDropTables(MonsterCombatantTempate monsterCombatantPrefabs)
     {
         var dropTables = new List<IDropTableScheme>();
 
@@ -88,6 +95,11 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         return context.CurrentWay.Select(x => x.Payload).ToArray();
     }
 
+    private static readonly ICombatantStatusFactory[] _availablePerkBuffs = {
+        new DelegateCombatStatusFactory(()=>new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(new CombatantStatusSid("HP"), new OwnerBoundCombatantEffectLifetime(), CombatantStatTypes.HitPoints, 1))),
+        new DelegateCombatStatusFactory(()=>new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(new CombatantStatusSid("SP"), new OwnerBoundCombatantEffectLifetime(), CombatantStatTypes.ShieldPoints, 1))),
+    };
+
     /// <inheritdoc />
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
@@ -103,7 +115,8 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         }, 1));
 
         var combat = new CombatSource(
-            monsterCombatantTemplate.Prefabs,
+            monsterCombatantTemplate.Prefabs
+                .Select(x => new PerkMonsterCombatantPrefab(x, RollPerks(_availablePerkBuffs, _dice))).ToArray(),
             new CombatReward(totalDropTables.ToArray())
         );
 
@@ -115,6 +128,24 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         var stageItem = new CombatStageItem(_locationSid, combatSequence);
 
         return stageItem;
+    }
+
+    private static IReadOnlyCollection<ICombatantStatusFactory> RollPerks(IReadOnlyCollection<ICombatantStatusFactory> availablePerkBuffs,
+        IDice dice)
+    {
+        var count = dice.Roll(0, availablePerkBuffs.Count);
+
+        if (count < 0)
+        {
+            throw new InvalidOperationException("Rolled perk count can't be below zero.");
+        }
+        
+        if (count == 0)
+        {
+            return ArraySegment<ICombatantStatusFactory>.Empty;
+        }
+
+        return dice.RollFromList(availablePerkBuffs.ToArray(), count).ToArray();
     }
 
     /// <inheritdoc />

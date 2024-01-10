@@ -26,7 +26,7 @@ internal class CombatantFactory
             { "chaser", new ChaserCombatantFactory() },
             { "aspid", new AspidCombatantFactory() },
             { "volkolakwarrior", new VolkolakCombatantFactory() },
-            { "agressor", new AgressorCombatantFactory() },
+            { "agressor", new AggressorCombatantFactory() },
             { "ambushdrone", new AmbushDroneCombatantFactory() },
             { "automataur", new AutomataurCombatantFactory() }
         };
@@ -53,14 +53,14 @@ internal class CombatantFactory
     }
 
     public static IReadOnlyCollection<FormationSlot> CreateMonsters(ICombatActorBehaviour combatActorBehaviour,
-        IReadOnlyCollection<MonsterCombatantPrefab> monsters)
+        IReadOnlyCollection<PerkMonsterCombatantPrefab> monsters)
     {
         var formation = new List<FormationSlot>();
 
         foreach (var monsterCombatantPrefab in monsters)
         {
-            var formationSlot = new FormationSlot(monsterCombatantPrefab.FormationInfo.ColumentIndex,
-                monsterCombatantPrefab.FormationInfo.LineIndex);
+            var formationSlot = new FormationSlot(monsterCombatantPrefab.TemplatePrefab.FormationInfo.ColumentIndex,
+                monsterCombatantPrefab.TemplatePrefab.FormationInfo.LineIndex);
 
             var monsterCombatant = CreateMonsterCombatant(combatActorBehaviour, monsterCombatantPrefab);
 
@@ -92,10 +92,15 @@ internal class CombatantFactory
 
     private static TestamentCombatant CreateMonsterCombatant(
         ICombatActorBehaviour combatActorBehaviour,
-        MonsterCombatantPrefab monsterCombatantPrefab)
+        PerkMonsterCombatantPrefab monsterCombatantPrefab)
     {
-        return _monsterFactories[monsterCombatantPrefab.ClassSid].Create(monsterCombatantPrefab.ClassSid,
-            combatActorBehaviour, monsterCombatantPrefab.Variation);
+        var monsterClassSid = monsterCombatantPrefab.TemplatePrefab.ClassSid;
+        var monsterCombatantFactory = _monsterFactories[monsterClassSid];
+        var combatant = monsterCombatantFactory.Create(monsterClassSid,
+            combatActorBehaviour, monsterCombatantPrefab.TemplatePrefab.Variation,
+            monsterCombatantPrefab.StartUpStatuses);
+
+        return combatant;
     }
 
     private static CombatantStatsConfig CreateStats(IStatValue hitPoints, IEnumerable<ICombatantStat> combatStats)

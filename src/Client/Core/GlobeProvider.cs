@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+using Client.Assets;
 using Client.Core.Heroes;
 using Client.Core.ProgressStorage;
 using Client.GameScreens;

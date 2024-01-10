@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+using Client.Assets;
 using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
 using Client.Engine;
