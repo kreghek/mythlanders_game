@@ -550,7 +550,8 @@ internal sealed class CampaignMap : ControlBase
         if (campaignStageItem is CombatStageItem combat)
         {
             var combatSource = combat.CombatSequence.Combats.First();
-            var perkMonsterCombatantPrefab = combatSource.Monsters.OrderByDescending(x => x.StartUpStatuses.Count).First();
+            var perkMonsterCombatantPrefab =
+                combatSource.Monsters.OrderByDescending(x => x.StartUpStatuses.Count).First();
             var classSid = perkMonsterCombatantPrefab.TemplatePrefab.ClassSid;
             var monsterClass = Enum.Parse<UnitName>(classSid, true);
 
