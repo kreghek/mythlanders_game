@@ -159,7 +159,8 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
     {
         return new[]
         {
-            new InteractionDeliveryInfo(new CombatEffectImposeItem(combatant => { }, Array.Empty<MythlandersCombatant>()),
+            new InteractionDeliveryInfo(
+                new CombatEffectImposeItem(combatant => { }, Array.Empty<MythlandersCombatant>()),
                 actorAnimator.GraphicRoot.Position, actorAnimator.GraphicRoot.Position + new Vector2(0, -400))
         };
     }

@@ -8,6 +8,25 @@ namespace Client.GameScreens.Combat.CombatDebugElements.Monsters.Egyptian;
 
 public class ChaserCombatantFactory : MonsterCombatantFactoryBase
 {
+    protected override string ClassSid => "chaser";
+
+    protected override CombatantStatsConfig CombatantStatsConfig()
+    {
+        var stats = new CombatantStatsConfig();
+        stats.SetValue(CombatantStatTypes.HitPoints, 6);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 4);
+        stats.SetValue(CombatantStatTypes.Resolve, 5);
+
+        return stats;
+    }
+
+    protected override CombatMovementSequence CombatMovementSequence(int variationIndex)
+    {
+        var monsterSequence = CreateCombatMoveVariation(variationIndex);
+
+        return monsterSequence;
+    }
+
     private static CombatMovementSequence CreateCombatMoveVariation(int variationIndex)
     {
         var moveTemplate = new[,]
@@ -36,23 +55,4 @@ public class ChaserCombatantFactory : MonsterCombatantFactoryBase
 
         return monsterSequence;
     }
-
-    protected override CombatantStatsConfig CombatantStatsConfig()
-    {
-        var stats = new CombatantStatsConfig();
-        stats.SetValue(CombatantStatTypes.HitPoints, 6);
-        stats.SetValue(CombatantStatTypes.ShieldPoints, 4);
-        stats.SetValue(CombatantStatTypes.Resolve, 5);
-
-        return stats;
-    }
-
-    protected override CombatMovementSequence CombatMovementSequence(int variationIndex)
-    {
-        var monsterSequence = CreateCombatMoveVariation(variationIndex);
-
-        return monsterSequence;
-    }
-
-    protected override string ClassSid => "chaser";
 }

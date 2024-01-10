@@ -32,7 +32,8 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
     private bool _showStoryPoints;
 
-    public CampaignScreen(MythlandersGame game, CampaignScreenTransitionArguments screenTransitionArguments) : base(game)
+    public CampaignScreen(MythlandersGame game, CampaignScreenTransitionArguments screenTransitionArguments) :
+        base(game)
     {
         _screenTransitionArguments = screenTransitionArguments;
         _currentCampaign = screenTransitionArguments.Campaign;

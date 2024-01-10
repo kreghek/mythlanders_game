@@ -7,15 +7,21 @@ using GameAssets.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements.Monsters;
 
-public abstract class MonsterCombatantFactoryBase: IMonsterCombatantFactory
+public abstract class MonsterCombatantFactoryBase : IMonsterCombatantFactory
 {
+    protected abstract string ClassSid { get; }
+
+    protected abstract CombatantStatsConfig CombatantStatsConfig();
+
+    protected abstract CombatMovementSequence CombatMovementSequence(int variationIndex);
+
     public MythlandersCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex,
         IReadOnlyCollection<ICombatantStatusFactory> combatantStatusFactories)
     {
         var monsterSequence = CombatMovementSequence(variationIndex);
-        
+
         var stats = CombatantStatsConfig();
-        
+
         var monster = new MythlandersCombatant(ClassSid, monsterSequence, stats, combatActorBehaviour,
             combatantStatusFactories)
         {
@@ -24,10 +30,4 @@ public abstract class MonsterCombatantFactoryBase: IMonsterCombatantFactory
 
         return monster;
     }
-
-    protected abstract CombatantStatsConfig CombatantStatsConfig();
-
-    protected abstract CombatMovementSequence CombatMovementSequence(int variationIndex);
-
-    protected abstract string ClassSid { get; }
 }

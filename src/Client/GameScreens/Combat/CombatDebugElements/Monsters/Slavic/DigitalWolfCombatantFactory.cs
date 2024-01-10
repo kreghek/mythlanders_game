@@ -8,6 +8,23 @@ namespace Client.GameScreens.Combat.CombatDebugElements.Monsters.Slavic;
 
 public class DigitalWolfCombatantFactory : MonsterCombatantFactoryBase
 {
+    protected override string ClassSid => "digitalwolf";
+
+    protected override CombatantStatsConfig CombatantStatsConfig()
+    {
+        var stats = new CombatantStatsConfig();
+        stats.SetValue(CombatantStatTypes.HitPoints, 5);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 3);
+        stats.SetValue(CombatantStatTypes.Resolve, 4);
+        return stats;
+    }
+
+    protected override CombatMovementSequence CombatMovementSequence(int variationIndex)
+    {
+        var monsterSequence = CreateCombatMoveVariation();
+        return monsterSequence;
+    }
+
     private static CombatMovementSequence CreateCombatMoveVariation()
     {
         var list = new[]
@@ -31,21 +48,4 @@ public class DigitalWolfCombatantFactory : MonsterCombatantFactoryBase
 
         return monsterSequence;
     }
-
-    protected override CombatantStatsConfig CombatantStatsConfig()
-    {
-        var stats = new CombatantStatsConfig();
-        stats.SetValue(CombatantStatTypes.HitPoints, 5);
-        stats.SetValue(CombatantStatTypes.ShieldPoints, 3);
-        stats.SetValue(CombatantStatTypes.Resolve, 4);
-        return stats;
-    }
-
-    protected override CombatMovementSequence CombatMovementSequence(int variationIndex)
-    {
-        var monsterSequence = CreateCombatMoveVariation();
-        return monsterSequence;
-    }
-
-    protected override string ClassSid => "digitalwolf";
 }

@@ -8,7 +8,6 @@ using Client.Assets.Dialogues;
 using Client.Core;
 using Client.Core.CampaignRewards;
 using Client.Core.Campaigns;
-using Client.GameScreens;
 using Client.GameScreens.TextDialogue.Ui;
 using Client.ScreenManagement.Ui.TextEvents;
 
