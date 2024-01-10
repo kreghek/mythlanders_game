@@ -3,9 +3,9 @@ using CombatDicesTeam.Dices;
 
 namespace GameAssets.Combats;
 
-public sealed class TestamentCombatEngine : CombatEngineBase
+public sealed class MythlandersCombatEngine : CombatEngineBase
 {
-    public TestamentCombatEngine(IRoundQueueResolver roundQueueResolver, IDice dice) : base(dice, roundQueueResolver,
+    public MythlandersCombatEngine(IRoundQueueResolver roundQueueResolver, IDice dice) : base(dice, roundQueueResolver,
         new LimitedRoundsCombatStateStrategy(new EliminatingCombatStateStrategy(), 10))
     {
     }

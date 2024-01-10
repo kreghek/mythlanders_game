@@ -2,7 +2,7 @@
 
 namespace Client.GameScreens;
 
-internal static class TestamentColors
+internal static class MythlandersColors
 {
     public static Color Disabled { get; } = new Color(100, 106, 105);
     public static Color MainAncient { get; } = new Color(195, 180, 155); // wheat

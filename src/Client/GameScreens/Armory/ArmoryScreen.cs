@@ -13,7 +13,7 @@ internal sealed class ArmoryScreen : GameScreenWithMenuBase
 {
     private readonly ArmoryScreenTransitionArguments _args;
 
-    public ArmoryScreen(TestamentGame game, ArmoryScreenTransitionArguments args) : base(game)
+    public ArmoryScreen(MythlandersGame game, ArmoryScreenTransitionArguments args) : base(game)
     {
         _args = args;
     }

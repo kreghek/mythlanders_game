@@ -18,7 +18,7 @@ internal sealed class CreditsScreen : GameScreenBase
 
     private Texture2D? _smallLogoTexture;
 
-    public CreditsScreen(TestamentGame game) : base(game)
+    public CreditsScreen(MythlandersGame game) : base(game)
     {
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();
         _resolutionIndependentRenderer = game.Services.GetService<IResolutionIndependentRenderer>();

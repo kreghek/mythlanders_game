@@ -12,7 +12,7 @@
     <PropertyGroup>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <ApplicationIcon>Icon.ico</ApplicationIcon>
-        <AssemblyName>Testament</AssemblyName>
+        <AssemblyName>Mythlanders</AssemblyName>
     </PropertyGroup>
     <PropertyGroup>
         <!--<DefineConstants>STEAMWORKS</DefineConstants>-->

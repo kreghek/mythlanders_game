@@ -27,16 +27,16 @@ using MonoGame.Extended.ViewportAdapters;
 
 namespace Client;
 
-internal sealed class TestamentGame : Game
+internal sealed class MythlandersGame : Game
 {
     private readonly GameSettings _gameSettings;
     private readonly GraphicsDeviceManager _graphics;
-    private readonly ILogger<TestamentGame> _logger;
+    private readonly ILogger<MythlandersGame> _logger;
     private ScreenManager? _screenManager;
 
     private SpriteBatch? _spriteBatch;
 
-    public TestamentGame(ILogger<TestamentGame> logger, GameSettings gameSettings)
+    public MythlandersGame(ILogger<MythlandersGame> logger, GameSettings gameSettings)
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
@@ -316,7 +316,7 @@ internal sealed class TestamentGame : Game
         var unitGraphicsCatalog = new CombatantGraphicsCatalog(gameObjectsContentStorage);
         Services.AddService<ICombatantGraphicsCatalog>(unitGraphicsCatalog);
 
-        var movementVisualizer = new TestamentCombatMovementVisualizationProvider();
+        var movementVisualizer = new CombatMovementVisualizationProvider();
         Services.AddService<ICombatMovementVisualizationProvider>(movementVisualizer);
     }
 }

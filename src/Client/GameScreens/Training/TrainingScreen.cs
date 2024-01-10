@@ -18,7 +18,7 @@ internal sealed class TrainingScreen : GameScreenWithMenuBase
     private readonly HeroCampaign _campaign;
     private IReadOnlyList<(ButtonBase, HeroState)> _trainingButtons = null!;
 
-    public TrainingScreen(TestamentGame game, TrainingScreenTransitionArguments args) : base(game)
+    public TrainingScreen(MythlandersGame game, TrainingScreenTransitionArguments args) : base(game)
     {
         _availableHeroes = args.AvailableHeroes;
 

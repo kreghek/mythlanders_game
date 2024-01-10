@@ -2,7 +2,7 @@
 
 namespace Client.GameScreens;
 
-internal class TestamentConstants
+internal class MythlandersConstants
 {
     public static Point CombatFieldSize { get; } = new Point(1200, 490);
 }

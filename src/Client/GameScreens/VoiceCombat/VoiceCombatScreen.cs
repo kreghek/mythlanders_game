@@ -33,7 +33,7 @@ internal class VoiceCombatScreen : CombatScreenBase
     private readonly VoiceCombatOptions _voiceCombatOptions;
     private VoiceCombatMove? _intentedCpuMove;
 
-    public VoiceCombatScreen(TestamentGame game, VoiceCombatScreenTransitionArguments args) : base(game, args.Campaign)
+    public VoiceCombatScreen(MythlandersGame game, VoiceCombatScreenTransitionArguments args) : base(game, args.Campaign)
     {
         _campaign = args.Campaign;
 

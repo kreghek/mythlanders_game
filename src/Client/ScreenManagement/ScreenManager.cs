@@ -29,14 +29,14 @@ namespace Client.ScreenManagement;
 internal class ScreenManager : IScreenManager
 {
     private const double TRANSITION_DURATION = 1;
-    private readonly TestamentGame _game;
+    private readonly MythlandersGame _game;
     private readonly GameSettings _gameSettings;
     private readonly Texture2D _transitionTexture;
     private bool _screenChanged;
 
     private double? _transitionCounter;
 
-    public ScreenManager(TestamentGame game, GameSettings gameSettings)
+    public ScreenManager(MythlandersGame game, GameSettings gameSettings)
     {
         _game = game;
         _gameSettings = gameSettings;

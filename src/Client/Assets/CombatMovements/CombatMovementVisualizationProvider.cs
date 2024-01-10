@@ -10,11 +10,11 @@ using GameClient.Engine.Animations;
 
 namespace Client.Assets.CombatMovements;
 
-internal sealed class TestamentCombatMovementVisualizationProvider : ICombatMovementVisualizationProvider
+internal sealed class CombatMovementVisualizationProvider : ICombatMovementVisualizationProvider
 {
     private readonly IDictionary<CombatMovementSid, ICombatMovementFactory> _movementVisualizationDict;
 
-    public TestamentCombatMovementVisualizationProvider()
+    public CombatMovementVisualizationProvider()
     {
         var movementFactories = LoadFactories<ICombatMovementFactory>();
 

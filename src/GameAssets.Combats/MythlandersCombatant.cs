@@ -3,13 +3,13 @@ using CombatDicesTeam.Combats.CombatantStatuses;
 
 namespace GameAssets.Combats;
 
-public sealed class TestamentCombatant : ICombatant
+public sealed class MythlandersCombatant : ICombatant
 {
     private readonly IDictionary<ICombatMovementContainerType, ICombatMovementContainer> _combatMoveContainers;
     private readonly IReadOnlyCollection<ICombatantStatusFactory> _startupStatuses;
     private readonly IList<ICombatantStatus> _statuses;
 
-    public TestamentCombatant(string classSid,
+    public MythlandersCombatant(string classSid,
         CombatMovementSequence sequence,
         CombatantStatsConfig stats,
         ICombatActorBehaviour behaviour,
