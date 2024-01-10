@@ -73,6 +73,7 @@ internal sealed class CampaignMap : ControlBase
         _iconsTexture = iconsTexture;
         _resolutionIndependentRenderer = resolutionIndependentRenderer;
         _gameObjectContentStorage = gameObjectContentStorage;
+
         InitChildControls(heroCampaign.Location.Stages, heroCampaign);
     }
 
@@ -548,11 +549,14 @@ internal sealed class CampaignMap : ControlBase
     {
         if (campaignStageItem is CombatStageItem combat)
         {
-            var classSid = combat.CombatSequence.Combats.First().Monsters.First().TemplatePrefab.ClassSid;
+            var combatSource = combat.CombatSequence.Combats.First();
+            var perkMonsterCombatantPrefab = combatSource.Monsters.OrderByDescending(x => x.StartUpStatuses.Count).First();
+            var classSid = perkMonsterCombatantPrefab.TemplatePrefab.ClassSid;
             var monsterClass = Enum.Parse<UnitName>(classSid, true);
 
-            var monsterInfo = GameObjectHelper.GetLocalized(monsterClass);
-            return UiResource.CampaignStageDisplayNameCombat + "\n" + monsterInfo;
+            var monsterName = GameObjectHelper.GetLocalized(monsterClass);
+            var sumPts = combatSource.Monsters.Sum(x => x.StartUpStatuses.Count + 1);
+            return UiResource.CampaignStageDisplayNameCombat + "\n" + $"{monsterName} ({sumPts})pts";
         }
 
         if (campaignStageItem is IRewardCampaignStageItem)
