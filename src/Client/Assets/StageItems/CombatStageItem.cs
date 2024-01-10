@@ -15,8 +15,24 @@ internal sealed class CombatStageItem : ICampaignStageItem
     {
         _location = location;
         CombatSequence = combatSequence;
-        Metadata = new CombatMetadata(CombatSequence.Combats[0].Monsters.First().TemplatePrefab,
-            CombatEstimateDifficulty.Hard);
+
+        var combatSource = CombatSequence.Combats.First();
+
+        var leaderPrefab = combatSource.Monsters.OrderByDescending(x => x.StartUpStatuses.Count).First();
+        var sumPts = combatSource.Monsters.Sum(x => x.StartUpStatuses.Count + 1);
+
+        Metadata = new CombatMetadata(leaderPrefab.TemplatePrefab, CalcDifficulty(sumPts));
+    }
+
+    private static CombatEstimateDifficulty CalcDifficulty(int sumPts)
+    {
+        switch (sumPts)
+        {
+            case > 2:
+                return CombatEstimateDifficulty.Hard;
+            default:
+                return CombatEstimateDifficulty.Easy;
+        }
     }
 
     public CombatMetadata Metadata { get; }
