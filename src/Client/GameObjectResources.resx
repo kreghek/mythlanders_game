@@ -1013,4 +1013,8 @@
       <value>Zduhach Might</value>
         <comment>Skill</comment>
   </data>
+  <data name="AmbushDrone" xml:space="preserve">
+    <value>Ambush drone</value>
+    <comment>Monster</comment>
+  </data>
 </root>

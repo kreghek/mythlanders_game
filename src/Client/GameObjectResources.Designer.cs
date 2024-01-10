@@ -97,6 +97,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ambush drone.
+        /// </summary>
+        internal static string AmbushDrone {
+            get {
+                return ResourceManager.GetString("AmbushDrone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Broken arrows.
         /// </summary>
         internal static string ArcherEquipment {

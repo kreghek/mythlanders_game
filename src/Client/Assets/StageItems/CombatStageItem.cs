@@ -15,7 +15,10 @@ internal sealed class CombatStageItem : ICampaignStageItem
     {
         _location = location;
         CombatSequence = combatSequence;
-        Metadata = new CombatMetadata(CombatSequence.Combats[0].Monsters.First(), CombatEstimateDifficulty.Hard);
+
+        var combatSource = CombatSequence.Combats.First();
+        var leaderPrefab = combatSource.Monsters.First();
+        Metadata = new CombatMetadata(leaderPrefab, CombatEstimateDifficulty.Hard);
     }
 
     public CombatMetadata Metadata { get; }

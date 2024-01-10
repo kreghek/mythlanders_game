@@ -848,4 +848,7 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
   </data>
+  <data name="AmbushDrone" xml:space="preserve">
+    <value>Засадный дрон</value>
+  </data>
 </root>
