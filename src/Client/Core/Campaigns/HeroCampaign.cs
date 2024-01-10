@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.StageItems;
-using Client.Core.CampaignRewards;
+using Client.Core.CampaignEffects;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Graphs;
@@ -16,14 +16,14 @@ namespace Client.Core.Campaigns;
 internal sealed class HeroCampaign
 {
     public HeroCampaign(IReadOnlyCollection<(HeroState, FieldCoords)> initHeroes, HeroCampaignLocation location,
-        IReadOnlyCollection<ICampaignReward> failurePenalties, int visualizationSeed)
+        IReadOnlyCollection<ICampaignEffect> failurePenalties, int visualizationSeed)
     {
         Heroes = CreateCampaignHeroes(initHeroes);
         Location = location;
 
         ActualRewards = location.Stages.GetAllNodes().Select(x => x.Payload)
                             .OfType<IRewardCampaignStageItem>().FirstOrDefault()?.GetEstimateRewards(location) ??
-                        ArraySegment<ICampaignReward>.Empty;
+                        ArraySegment<ICampaignEffect>.Empty;
         ActualFailurePenalties = failurePenalties;
 
         VisualizationSeed = visualizationSeed;
@@ -34,14 +34,14 @@ internal sealed class HeroCampaign
     /// Effect which will apply if heroes fail campaign.
     /// Can be modified during campaign.
     /// </summary>
-    public IReadOnlyCollection<ICampaignReward> ActualFailurePenalties { get; }
+    public IReadOnlyCollection<ICampaignEffect> ActualFailurePenalties { get; }
 
     /// <summary>
     /// Effect which will apply if heroes win campaign.
     /// Can be modified during campaign.
     /// </summary>
     //TODO Add modifiers of effects
-    public IReadOnlyCollection<ICampaignReward> ActualRewards { get; }
+    public IReadOnlyCollection<ICampaignEffect> ActualRewards { get; }
 
     public IGraphNode<ICampaignStageItem>? CurrentStage { get; set; }
     public IReadOnlyCollection<HeroCampaignState> Heroes { get; }

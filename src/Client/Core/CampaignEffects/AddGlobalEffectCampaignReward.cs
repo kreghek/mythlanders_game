@@ -1,6 +1,8 @@
-﻿namespace Client.Core.CampaignRewards;
+﻿using Client.Core.CampaignEffects;
 
-internal class AddGlobalEffectCampaignReward : ICampaignReward
+namespace Client.Core.CampaignRewards;
+
+internal class AddGlobalEffectCampaignReward : ICampaignEffect
 {
     public AddGlobalEffectCampaignReward(IGlobeEvent targetGlobeEvent)
     {
@@ -9,7 +11,7 @@ internal class AddGlobalEffectCampaignReward : ICampaignReward
 
     internal IGlobeEvent TargetGlobeEvent { get; }
 
-    public string GetRewardName()
+    public string GetEffectDisplayText()
     {
         return TargetGlobeEvent.Title;
     }

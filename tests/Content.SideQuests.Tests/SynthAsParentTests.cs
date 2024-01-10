@@ -7,7 +7,7 @@ using Client.Assets.Catalogs;
 using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.Dialogues;
 using Client.Core;
-using Client.Core.CampaignRewards;
+using Client.Core.CampaignEffects;
 using Client.Core.Campaigns;
 using Client.GameScreens.TextDialogue.Ui;
 using Client.ScreenManagement.Ui.TextEvents;
@@ -164,7 +164,7 @@ public class SynthAsParentTests
             textEvent,
             new HeroCampaign(ArraySegment<(HeroState, FieldCoords)>.Empty,
                 new HeroCampaignLocation(Mock.Of<ILocationSid>(), new DirectedGraph<ICampaignStageItem>()),
-                ArraySegment<ICampaignReward>.Empty, default), Mock.Of<IEventContext>());
+                ArraySegment<ICampaignEffect>.Empty, default), Mock.Of<IEventContext>());
         var dialoguePlayer =
             new DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext>(testDialog, dialogueContextFactory);
 

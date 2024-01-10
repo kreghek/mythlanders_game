@@ -3,6 +3,7 @@ using System.Linq;
 
 using Client.Assets.StoryPointJobs;
 using Client.Core;
+using Client.Core.CampaignEffects;
 using Client.Core.CampaignRewards;
 using Client.Core.Campaigns;
 using Client.GameScreens.CampaignReward;
@@ -41,8 +42,8 @@ internal sealed class UnlockHeroRewardStageItem : IRewardCampaignStageItem
             new CampaignRewardScreenTransitionArguments(currentCampaign, GetEstimateRewards(currentCampaign.Location)));
     }
 
-    public IReadOnlyCollection<ICampaignReward> GetEstimateRewards(HeroCampaignLocation heroCampaign)
+    public IReadOnlyCollection<ICampaignEffect> GetEstimateRewards(HeroCampaignLocation heroCampaign)
     {
-        return new[] { new HeroCampaignReward(_jointedHeroName) };
+        return new[] { new UnlockHeroCampaignEffect(_jointedHeroName) };
     }
 }

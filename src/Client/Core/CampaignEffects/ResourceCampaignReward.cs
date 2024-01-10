@@ -1,10 +1,11 @@
+using Client.Core.CampaignEffects;
 using Client.GameScreens;
 
 using Core.Props;
 
 namespace Client.Core.CampaignRewards;
 
-internal sealed class ResourceCampaignReward : ICampaignReward
+internal sealed class ResourceCampaignReward : ICampaignEffect
 {
     private readonly IProp _resource;
 
@@ -13,7 +14,7 @@ internal sealed class ResourceCampaignReward : ICampaignReward
         _resource = resource;
     }
 
-    public string GetRewardName()
+    public string GetEffectDisplayText()
     {
         return GameObjectHelper.GetLocalizedProp(_resource.Scheme.Sid);
     }

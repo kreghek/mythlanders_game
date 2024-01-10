@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.CampaignReward.Ui;
 
-internal sealed class HeroCampaignRewardImageDrawer : CampaignRewardImageDrawerBase<HeroCampaignReward>
+internal sealed class HeroCampaignRewardImageDrawer : CampaignRewardImageDrawerBase<UnlockHeroCampaignEffect>
 {
     private readonly ContentManager _content;
     private readonly ICombatantGraphicsCatalog _unitGraphicsCatalog;
@@ -21,7 +21,7 @@ internal sealed class HeroCampaignRewardImageDrawer : CampaignRewardImageDrawerB
 
     public override Point ImageSize => new(32, 32);
 
-    protected override void Draw(HeroCampaignReward reward, SpriteBatch spriteBatch, Vector2 position)
+    protected override void Draw(UnlockHeroCampaignEffect reward, SpriteBatch spriteBatch, Vector2 position)
     {
         if (_thumbnailIcon is null)
         {

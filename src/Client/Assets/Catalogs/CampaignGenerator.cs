@@ -4,6 +4,7 @@ using System.Linq;
 
 using Client.Assets.GlobalEffects;
 using Client.Core;
+using Client.Core.CampaignEffects;
 using Client.Core.CampaignRewards;
 using Client.Core.Campaigns;
 
@@ -23,7 +24,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         _dice = dice;
     }
 
-    private static IReadOnlyCollection<ICampaignReward> CreateFailurePenalties()
+    private static IReadOnlyCollection<ICampaignEffect> CreateFailurePenalties()
     {
         return new[]
         {

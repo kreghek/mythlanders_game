@@ -4,6 +4,7 @@ using System.Linq;
 
 using Client.Assets.StoryPointJobs;
 using Client.Core;
+using Client.Core.CampaignEffects;
 using Client.Core.CampaignRewards;
 using Client.Core.Campaigns;
 using Client.GameScreens.CampaignReward;
@@ -73,7 +74,7 @@ internal sealed class ResourceRewardStageItem : IRewardCampaignStageItem
     }
 
 
-    public IReadOnlyCollection<ICampaignReward> GetEstimateRewards(HeroCampaignLocation heroCampaign)
+    public IReadOnlyCollection<ICampaignEffect> GetEstimateRewards(HeroCampaignLocation heroCampaign)
     {
         var campaignResources = CreateCampaignResources(heroCampaign);
 

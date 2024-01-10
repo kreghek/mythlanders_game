@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Client.Assets.Catalogs;
 using Client.Core;
-using Client.Core.CampaignRewards;
+using Client.Core.CampaignEffects;
 using Client.Engine;
 using Client.GameScreens.CampaignReward.Ui;
 using Client.GameScreens.CommandCenter;
@@ -20,7 +20,7 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
     private readonly ICampaignGenerator _campaignGenerator;
     private readonly GlobeProvider _globeProvider;
     private readonly ResourceTextButton _moveNextButton;
-    private readonly IReadOnlyCollection<ICampaignReward> _rewards;
+    private readonly IReadOnlyCollection<ICampaignEffect> _rewards;
     private readonly IUiContentStorage _uiContent;
     private RewardPanel _rewardPanel = null!;
 

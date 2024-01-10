@@ -5,7 +5,7 @@ using System.Linq;
 using Client.Assets;
 using Client.Assets.StageItems;
 using Client.Core;
-using Client.Core.CampaignRewards;
+using Client.Core.CampaignEffects;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Combat;
@@ -359,7 +359,7 @@ internal sealed class TitleScreen : GameScreenBase
         var oneCombatGraph = new DirectedGraph<ICampaignStageItem>();
         oneCombatGraph.AddNode(oneCombatNode);
         var campaignSource = new HeroCampaignLocation(rolledLocation, oneCombatGraph);
-        var campaign = new HeroCampaign(heroStates, campaignSource, ArraySegment<ICampaignReward>.Empty, 1);
+        var campaign = new HeroCampaign(heroStates, campaignSource, ArraySegment<ICampaignEffect>.Empty, 1);
 
         ScreenManager.ExecuteTransition(
             this,

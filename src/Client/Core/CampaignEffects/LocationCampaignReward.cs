@@ -1,8 +1,9 @@
+using Client.Core.CampaignEffects;
 using Client.GameScreens;
 
 namespace Client.Core.CampaignRewards;
 
-internal sealed class LocationCampaignReward : ICampaignReward
+internal sealed class LocationCampaignReward : ICampaignEffect
 {
     public LocationCampaignReward(ILocationSid location)
     {
@@ -11,7 +12,7 @@ internal sealed class LocationCampaignReward : ICampaignReward
 
     public ILocationSid Location { get; }
 
-    public string GetRewardName()
+    public string GetEffectDisplayText()
     {
         return GameObjectHelper.GetLocalized(Location);
     }
