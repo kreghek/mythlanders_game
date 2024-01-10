@@ -53,7 +53,7 @@ jobs:
         run: dotnet build --verbosity normal
 
       - name: Clean up codebase via ReSharper Command Line Tools
-        run: jb cleanupcode --profile="Full Cleanup" Testament.sln
+        run: jb cleanupcode --profile="Full Cleanup" Mythlanders.sln
         working-directory: ${{env.working-directory}}
 
       - name: Write comment with changes
@@ -88,4 +88,4 @@ jobs:
         uses: mshick/add-pr-comment@v2
         with:
           message-id: ${{ steps.fc.outputs.comment-id }}
-          message-path: /home/runner/work/ewar/ewar/cleanup_report.txt
+          message-path: /home/runner/work/mythlanders_game/mythlanders_game/cleanup_report.txt

@@ -57,7 +57,7 @@ jobs:
         run: dotnet build --verbosity normal
 
       - name: Clean up codebase via ReSharper Command Line Tools
-        run: jb cleanupcode --profile="Full Cleanup" Testament.sln
+        run: jb cleanupcode --profile="Full Cleanup" Mythlanders.sln
         working-directory: ${{env.working-directory}}
 
       - name: Commit changes

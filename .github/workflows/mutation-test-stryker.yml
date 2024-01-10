@@ -64,4 +64,4 @@ jobs:
     - name: Kill the mutants!
       run: |
         cd tests/${{ matrix.project }}.Tests
-        dotnet stryker --project=/home/runner/work/ewar/ewar/src/${{ matrix.project }}/${{ matrix.project }}.csproj --reporter "cleartexttree"
+        dotnet stryker --project=/home/runner/work/mythlanders_game/mythlanders_game/src/${{ matrix.project }}/${{ matrix.project }}.csproj --reporter "cleartexttree"
