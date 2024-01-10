@@ -247,6 +247,11 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
     private void DrawCampaigns(SpriteBatch spriteBatch, Rectangle contentRect)
     {
+        if (_availableCampaignPanels is null)
+        {
+            return;
+        }
+
         const int CAMPAIGN_CONTROL_WIDTH = 200;
         const int FULL_CAMPAIGN_WIDTH = (CAMPAIGN_CONTROL_WIDTH + ControlBase.CONTENT_MARGIN) * 3;
         var campaignOffsetX = (contentRect.Width - FULL_CAMPAIGN_WIDTH) / 2;

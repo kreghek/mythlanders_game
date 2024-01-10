@@ -97,6 +97,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Amazon.
+        /// </summary>
+        internal static string Amazon {
+            get {
+                return ResourceManager.GetString("Amazon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ambush drone.
+        /// </summary>
+        internal static string AmbushDrone {
+            get {
+                return ResourceManager.GetString("AmbushDrone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Broken arrows.
         /// </summary>
         internal static string ArcherEquipment {
@@ -246,15 +264,6 @@ namespace Client {
         internal static string Battleground {
             get {
                 return ResourceManager.GetString("Battleground", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Brown bear.
-        /// </summary>
-        internal static string Bear {
-            get {
-                return ResourceManager.GetString("Bear", resourceCulture);
             }
         }
         
@@ -475,11 +484,11 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sardo.
+        ///   Looks up a localized string similar to Corrupted bear.
         /// </summary>
-        internal static string Comissar {
+        internal static string CorruptedBear {
             get {
-                return ResourceManager.GetString("Comissar", resourceCulture);
+                return ResourceManager.GetString("CorruptedBear", resourceCulture);
             }
         }
         

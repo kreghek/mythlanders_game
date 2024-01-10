@@ -1,3 +1,5 @@
+using Client.GameScreens;
+
 namespace Client.Core.CampaignRewards;
 
 internal sealed class LocationCampaignReward : ICampaignReward
@@ -11,6 +13,6 @@ internal sealed class LocationCampaignReward : ICampaignReward
 
     public string GetRewardName()
     {
-        return Location.ToString() ?? "[loc]";
+        return GameObjectHelper.GetLocalized(Location);
     }
 }
