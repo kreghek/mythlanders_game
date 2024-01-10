@@ -105,7 +105,6 @@ public class MonkeyKingTests
         }
     }
 
-
     private static void QuestAvailableInApplicableLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider,
         DialogueEvent textEvent, ILocationSid[] availableLocations)
     {

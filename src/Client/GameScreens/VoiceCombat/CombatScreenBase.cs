@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Client.Assets;
 using Client.Core;
 using Client.Core.Campaigns;
 using Client.GameScreens.Combat.GameObjects.Background;
