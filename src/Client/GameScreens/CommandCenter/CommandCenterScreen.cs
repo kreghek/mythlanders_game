@@ -32,7 +32,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
     private readonly ButtonBase[] _commandButtons = new ButtonBase[4];
     private readonly Texture2D[] _commandCenterSegmentTexture;
     private readonly IDice _dice;
-
+    private readonly GlobeProvider _globeProvider;
     private readonly IDictionary<ILocationSid, Vector2> _locationCoords;
 
     private readonly Texture2D _mapBackgroundTexture;
@@ -43,9 +43,11 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
     private double _locationOnMapCounter;
 
+
     public CommandCenterScreen(TestamentGame game, CommandCenterScreenTransitionArguments args) : base(game)
     {
         _dice = game.Services.GetRequiredService<IDice>();
+        _globeProvider = game.Services.GetRequiredService<GlobeProvider>();
 
         _campaignLaunches = args.AvailableCampaigns;
 
@@ -111,6 +113,8 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
     protected override void InitializeContent()
     {
+        SaveGameProgress();
+
         var panels = new List<ICampaignPanel>();
 
         var campaignTexturesDict = new Dictionary<ILocationSid, Texture2D>
@@ -320,5 +324,10 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         return values.ToDictionary(x => x,
             x => new Vector2(rnd.Next(_mapBackgroundTexture.Width / 4, _mapBackgroundTexture.Width * 3 / 4),
                 rnd.Next(_mapBackgroundTexture.Height / 4, _mapBackgroundTexture.Height * 3 / 4)));
+    }
+
+    private void SaveGameProgress()
+    {
+        _globeProvider.StoreCurrentGlobe();
     }
 }

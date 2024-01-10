@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets;
+
 namespace Client.Core;
 
 internal sealed class Player
 {
     private readonly HashSet<PlayerAbility> _abilities;
+    private readonly HashSet<ILocationSid> _locations;
 
     public Player(string name) : this()
     {
@@ -25,10 +28,14 @@ internal sealed class Player
         Name = CreateRandomName();
 
         StoryState = new StoryState(Heroes);
+
+        _locations = new HashSet<ILocationSid>(new[] { LocationSids.Thicket });
     }
 
     public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
     public IChallenge? Challenge { get; set; }
+
+    public IReadOnlyList<ILocationSid> CurrentAvailableLocations => _locations.ToArray();
 
     public PoolGroup<HeroState> Heroes { get; }
 
@@ -42,6 +49,11 @@ internal sealed class Player
     public void AddHero(HeroState heroState)
     {
         Heroes.AddNewUnit(heroState);
+    }
+
+    public void AddLocation(ILocationSid location)
+    {
+        _locations.Add(location);
     }
 
     public void AddPlayerAbility(PlayerAbility ability)

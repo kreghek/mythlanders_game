@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -13,6 +14,11 @@ namespace Client.GameScreens;
 /// </summary>
 internal static class LocationHelper
 {
+    public static IReadOnlyCollection<ILocationSid> GetAllLocation()
+    {
+        return GetAllFromStaticCatalog<ILocationSid>(typeof(LocationSids));
+    }
+
     public static LocationCulture GetLocationCulture(ILocationSid location)
     {
         var cultureAttr = GetLocationMetadataAttribute<LocationCultureAttribute>(location);
@@ -33,6 +39,25 @@ internal static class LocationHelper
         }
 
         return themeAttr.Theme;
+    }
+
+    public static ILocationSid? ParseLocationFromCatalog(string storedLocationSid)
+    {
+        var locations = GetAllLocation().Cast<LocationSid>();
+
+        return locations.SingleOrDefault(x =>
+            x.Key.Equals(storedLocationSid, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+    private static IReadOnlyCollection<TObj> GetAllFromStaticCatalog<TObj>(Type catalog)
+    {
+        return catalog
+            .GetProperties(BindingFlags.Public | BindingFlags.Static)
+            .Where(f => f.PropertyType == typeof(TObj))
+            .Select(f => f.GetValue(null))
+            .Where(v => v is not null)
+            .Select(v => (TObj)v!)
+            .ToArray();
     }
 
     /// <summary>

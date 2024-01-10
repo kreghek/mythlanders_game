@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Reflection;
 
 using Client;
 using Client.Assets;
@@ -9,6 +8,7 @@ using Client.Assets.Dialogues;
 using Client.Core;
 using Client.Core.CampaignRewards;
 using Client.Core.Campaigns;
+using Client.GameScreens;
 using Client.GameScreens.TextDialogue.Ui;
 using Client.ScreenManagement.Ui.TextEvents;
 
@@ -86,7 +86,9 @@ public class MonkeyKingTests
     private static void QuestNotAvailableInOtherLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider,
         DialogueEvent textEvent, ILocationSid[] availableLocations)
     {
-        var allLocations = GetAllLocationsFromStaticCatalog<ILocationSid>(typeof(LocationSids));
+        var allLocations = LocationHelper.GetAllLocation();
+
+        allLocations.Should().NotBeEmpty();
 
         var notAvailableLocations = allLocations.Except(availableLocations).ToArray();
 
@@ -103,16 +105,6 @@ public class MonkeyKingTests
         }
     }
 
-    private static IReadOnlyCollection<TObj> GetAllLocationsFromStaticCatalog<TObj>(Type catalog)
-    {
-        return catalog
-            .GetFields(BindingFlags.Public | BindingFlags.Static)
-            .Where(f => f.FieldType == typeof(TObj))
-            .Select(f => f.GetValue(null))
-            .Where(v => v is not null)
-            .Select(v => (TObj)v!)
-            .ToArray();
-    }
 
     private static void QuestAvailableInApplicableLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider,
         DialogueEvent textEvent, ILocationSid[] availableLocations)
