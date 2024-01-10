@@ -24,6 +24,10 @@ internal sealed class CombatStageItem : ICampaignStageItem
         Metadata = new CombatMetadata(leaderPrefab.TemplatePrefab, CalcDifficulty(sumPts));
     }
 
+    public CombatMetadata Metadata { get; }
+
+    internal CombatSequence CombatSequence { get; }
+
     private static CombatEstimateDifficulty CalcDifficulty(int sumPts)
     {
         switch (sumPts)
@@ -34,10 +38,6 @@ internal sealed class CombatStageItem : ICampaignStageItem
                 return CombatEstimateDifficulty.Easy;
         }
     }
-
-    public CombatMetadata Metadata { get; }
-
-    internal CombatSequence CombatSequence { get; }
 
     public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
     {
