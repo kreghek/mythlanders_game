@@ -171,7 +171,7 @@ game.Run();
 #else
             try
             {
-                using var game = new TestamentGame(logger, gameSettings);
+                using var game = new MythlandersGame(logger, gameSettings);
                 game.Run();
             }
             catch (Exception exception)
