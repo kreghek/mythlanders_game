@@ -28,7 +28,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     {
         return new[]
         {
-            new AddGlobalEffectCampaignReward(new DecreaseDamageGlobeEvent())
+            new AddGlobalEffectCampaignEffect(new DecreaseDamageGlobeEvent())
         };
     }
 

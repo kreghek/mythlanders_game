@@ -1,5 +1,5 @@
 ﻿using Client.Assets.Catalogs;
-using Client.Core.CampaignRewards;
+using Client.Core.CampaignEffects;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;

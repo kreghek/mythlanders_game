@@ -91,4 +91,9 @@ internal sealed class Player
 
         return first[x] + " " + last[y];
     }
+
+    internal void AddMonsterPerk(IPerk perk)
+    {
+        throw new NotImplementedException();
+    }
 }

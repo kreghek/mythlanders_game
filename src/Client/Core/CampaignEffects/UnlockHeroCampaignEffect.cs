@@ -1,7 +1,6 @@
-using Client.Core.CampaignEffects;
 using Client.GameScreens;
 
-namespace Client.Core.CampaignRewards;
+namespace Client.Core.CampaignEffects;
 
 internal sealed class UnlockHeroCampaignEffect : ICampaignEffect
 {
@@ -11,6 +10,11 @@ internal sealed class UnlockHeroCampaignEffect : ICampaignEffect
     }
 
     public UnitName Hero { get; }
+
+    public void Apply(Globe globe)
+    {
+        globe.Player.AddHero(HeroState.Create(Hero.ToString()));
+    }
 
     public string GetEffectDisplayText()
     {

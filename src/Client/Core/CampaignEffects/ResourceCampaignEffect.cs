@@ -1,17 +1,21 @@
-using Client.Core.CampaignEffects;
 using Client.GameScreens;
 
 using Core.Props;
 
-namespace Client.Core.CampaignRewards;
+namespace Client.Core.CampaignEffects;
 
-internal sealed class ResourceCampaignReward : ICampaignEffect
+internal sealed class ResourceCampaignEffect : ICampaignEffect
 {
     private readonly IProp _resource;
 
-    public ResourceCampaignReward(IProp resource)
+    public ResourceCampaignEffect(IProp resource)
     {
         _resource = resource;
+    }
+
+    public void Apply(Globe globe)
+    {
+        globe.Player.Inventory.Add(_resource);
     }
 
     public string GetEffectDisplayText()

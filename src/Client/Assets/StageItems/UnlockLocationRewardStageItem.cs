@@ -46,6 +46,6 @@ internal sealed class UnlockLocationRewardStageItem : IRewardCampaignStageItem
 
     public IReadOnlyCollection<ICampaignEffect> GetEstimateRewards(HeroCampaignLocation heroCampaign)
     {
-        return new[] { new LocationCampaignReward(_scoutedLocation) };
+        return new[] { new LocationCampaignEffect(_scoutedLocation) };
     }
 }

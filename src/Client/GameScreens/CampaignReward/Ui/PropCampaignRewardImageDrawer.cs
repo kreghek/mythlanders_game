@@ -1,11 +1,11 @@
-using Client.Core.CampaignRewards;
+using Client.Core.CampaignEffects;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.CampaignReward.Ui;
 
-internal sealed class PropCampaignRewardImageDrawer : CampaignRewardImageDrawerBase<ResourceCampaignReward>
+internal sealed class PropCampaignRewardImageDrawer : CampaignRewardImageDrawerBase<ResourceCampaignEffect>
 {
     private readonly Texture2D _propTexture;
 
@@ -16,7 +16,7 @@ internal sealed class PropCampaignRewardImageDrawer : CampaignRewardImageDrawerB
 
     public override Point ImageSize => new Point(32);
 
-    protected override void Draw(ResourceCampaignReward reward, SpriteBatch spriteBatch, Vector2 position)
+    protected override void Draw(ResourceCampaignEffect reward, SpriteBatch spriteBatch, Vector2 position)
     {
         spriteBatch.Draw(_propTexture, position, new Rectangle(0, 0, 32, 32), Color.White);
     }
