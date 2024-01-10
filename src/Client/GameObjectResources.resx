@@ -116,6 +116,13 @@
   <data name="Agressor" xml:space="preserve">
     <value>Agressor</value>
   </data>
+  <data name="Amazon" xml:space="preserve">
+    <value>Amazon</value>
+  </data>
+  <data name="AmbushDrone" xml:space="preserve">
+    <value>Ambush drone</value>
+    <comment>Monster</comment>
+  </data>
   <data name="ArcherEquipment" xml:space="preserve">
     <value>Broken arrows</value>
         <comment>Resource</comment>
@@ -182,10 +189,6 @@
   <data name="Battleground" xml:space="preserve">
     <value>Battleground</value>
         <comment>Location</comment>
-  </data>
-  <data name="Bear" xml:space="preserve">
-    <value>Brown bear</value>
-        <comment>Monster</comment>
   </data>
   <data name="BigMonster" xml:space="preserve">
     <value>Big monster</value>
@@ -280,9 +283,9 @@
     <value />
         <comment>Equipment</comment>
   </data>
-  <data name="Comissar" xml:space="preserve">
-    <value>Sardo</value>
-        <comment>Hero</comment>
+  <data name="CorruptedBear" xml:space="preserve">
+    <value>Corrupted bear</value>
+        <comment>Monster</comment>
   </data>
   <data name="CoverOfDew" xml:space="preserve">
       <value>Cover of Dew</value>
