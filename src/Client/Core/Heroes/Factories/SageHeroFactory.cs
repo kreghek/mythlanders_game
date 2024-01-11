@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using Client.Assets.CombatMovements.Hero.Sage;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats.CombatantStatuses;
+
+using Core.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
 
@@ -45,5 +49,13 @@ internal sealed class SageHeroFactory : HeroFactoryBase
         stats.SetValue(CombatantStatTypes.ShieldPoints, 0);
         stats.SetValue(CombatantStatTypes.Resolve, 3);
         return stats;
+    }
+
+    protected override IReadOnlyCollection<ICombatantStatusFactory> CreateStartupStatuses()
+    {
+        return new[]
+        {
+            new DelegateCombatStatusFactory(()=>new SoulTakerCombatantStatus(new CombatantStatusSid("SoulTaker"), new CombatantStatusSid("PartOfSoul"), new OwnerBoundCombatantEffectLifetime()))
+        };
     }
 }
