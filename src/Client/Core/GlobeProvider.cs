@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 using Client.Assets;
+using Client.Assets.MonsterPerks;
 using Client.Core.Heroes;
 using Client.Core.ProgressStorage;
 
@@ -72,10 +73,23 @@ internal sealed class GlobeProvider
     {
         var globe = new Globe(new Player());
 
+        InitStartLocations(globe);
         InitStartStoryPoint(globe, _storyPointInitializer);
         AssignStartHeroes(globe);
+        InitStartMonsterPerks(globe);
 
         Globe = globe;
+    }
+
+    private void InitStartMonsterPerks(Globe globe)
+    {
+        globe.Player.AddMonsterPerk(MonsterPerkCatalog.ExtraHP);
+        globe.Player.AddMonsterPerk(MonsterPerkCatalog.ExtraSP);
+    }
+
+    private void InitStartLocations(Globe globe)
+    {
+        globe.Player.AddLocation(LocationSids.Thicket);
     }
 
     public IReadOnlyCollection<SaveShortInfo> GetSaves()

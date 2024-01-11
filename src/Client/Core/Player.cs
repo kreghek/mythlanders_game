@@ -30,10 +30,7 @@ internal sealed class Player
 
         StoryState = new StoryState(Heroes);
 
-        _locations = new HashSet<ILocationSid>(new[] { LocationSids.Thicket });
-
-        AddMonsterPerk(MonsterPerkCatalog.ExtraHP);
-        AddMonsterPerk(MonsterPerkCatalog.ExtraSP);
+        _locations = new HashSet<ILocationSid>();
     }
 
     public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
