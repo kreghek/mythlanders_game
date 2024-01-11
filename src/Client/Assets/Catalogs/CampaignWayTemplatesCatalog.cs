@@ -136,7 +136,7 @@ internal sealed class CampaignWayTemplatesCatalog
 
         var rewardNode = new GraphNode<GraphWay<ICampaignStageItem>>(new GraphWay<ICampaignStageItem>(new[]
         {
-            stageTemplateFactory
+            new ResourceRewardCampaignStageTemplateFactory(_services)
         }));
 
         wayGraph.AddNode(way11Node);

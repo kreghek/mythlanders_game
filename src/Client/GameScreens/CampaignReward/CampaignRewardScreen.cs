@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Client.Assets.Catalogs;
 using Client.Core;
 using Client.Core.CampaignEffects;
+using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.CampaignReward.Ui;
 using Client.GameScreens.CommandCenter;
@@ -23,6 +24,7 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
     private readonly IReadOnlyCollection<ICampaignEffect> _rewards;
     private readonly IUiContentStorage _uiContent;
     private RewardPanel _rewardPanel = null!;
+    private readonly HeroCampaign _campaign;
 
     public CampaignRewardScreen(MythlandersGame game, CampaignRewardScreenTransitionArguments args) : base(game)
     {
@@ -33,6 +35,7 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
         _moveNextButton = new ResourceTextButton(nameof(UiResource.CompleteCampaignButtonTitle));
         _moveNextButton.OnClick += MoveNextButton_OnClick;
 
+        _campaign = args.Campaign;
         _rewards = args.CampaignRewards;
     }
 
@@ -83,6 +86,13 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
     }
 
     private void MoveNext()
+    {
+        _campaign.WinCampaign(_globeProvider.Globe, Game.Services.GetRequiredService<IJobProgressResolver>());
+
+        ExitCampaign();
+    }
+
+    private void ExitCampaign()
     {
         var otherCampaignLaunches = _campaignGenerator.CreateSet(_globeProvider.Globe);
         ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,

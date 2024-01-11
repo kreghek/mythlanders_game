@@ -5,7 +5,6 @@ using System.Linq;
 using Client.Assets.GlobalEffects;
 using Client.Core;
 using Client.Core.CampaignEffects;
-using Client.Core.CampaignRewards;
 using Client.Core.Campaigns;
 
 using CombatDicesTeam.Dices;

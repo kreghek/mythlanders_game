@@ -22,4 +22,29 @@ internal sealed class ResourceCampaignEffect : ICampaignEffect
     {
         return GameObjectHelper.GetLocalizedProp(_resource.Scheme.Sid);
     }
+    
+    private static IReadOnlyCollection<IDropTableScheme> CreateCampaignResources(HeroCampaignLocation currentCampaign)
+    {
+        static IReadOnlyCollection<IDropTableScheme> GetLocationResourceDrop(string sid)
+        {
+            return new[]
+            {
+                new DropTableScheme(sid, new IDropTableRecordSubScheme[]
+                {
+                    new DropTableRecordSubScheme(null, GenericRange<int>.CreateMono(1), sid, 1)
+                }, 1)
+            };
+        }
+
+        switch (currentCampaign.Sid.ToString())
+        {
+            case nameof(LocationSids.Thicket):
+                return GetLocationResourceDrop("snow");
+
+            case nameof(LocationSids.Desert):
+                return GetLocationResourceDrop("sand");
+        }
+
+        return ArraySegment<IDropTableScheme>.Empty;
+    }
 }

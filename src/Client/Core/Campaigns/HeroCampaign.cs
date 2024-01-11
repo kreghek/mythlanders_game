@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.StageItems;
+using Client.Assets.StoryPointJobs;
 using Client.Core.CampaignEffects;
 
 using CombatDicesTeam.Combats;
@@ -65,5 +66,36 @@ internal sealed class HeroCampaign
         return heroes.Select(hero =>
                 new HeroCampaignState(hero.Item1, new FormationSlot(hero.Item2.ColumentIndex, hero.Item2.LineIndex)))
             .ToList();
+    }
+
+    public void WinCampaign(Globe globe, IJobProgressResolver jobProgressResolver)
+    {
+        ApplyCampaignEffects(globe, ActualRewards);
+
+        CountCampaignCompleteInActiveStoryPoints(globe, jobProgressResolver);
+    }
+    
+    public void FailCampaign(Globe globe, IJobProgressResolver jobProgressResolver)
+    {
+        ApplyCampaignEffects(globe, ActualFailurePenalties);
+    }
+
+    private static void CountCampaignCompleteInActiveStoryPoints(Globe globe, IJobProgressResolver jobProgressResolver)
+    {
+        var completeCampaignProgress = new CampaignCompleteJobProgress();
+        var currentJobs = globe.ActiveStoryPoints.ToArray();
+
+        foreach (var job in currentJobs)
+        {
+            jobProgressResolver.ApplyProgress(completeCampaignProgress, job);
+        }
+    }
+
+    private void ApplyCampaignEffects(Globe globe, IReadOnlyCollection<ICampaignEffect> effects)
+    {
+        foreach (var campaignEffect in effects)
+        {
+            campaignEffect.Apply(globe);
+        }
     }
 }
