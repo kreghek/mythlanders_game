@@ -1,4 +1,8 @@
+using Client.Assets.CombatMovements;
+using System.IO;
+
 using Client.Assets.Equipments.Sage;
+using Client.Assets.GraphicConfigs;
 using Client.Core;
 
 namespace Client.Assets.Heroes;
@@ -22,5 +26,11 @@ internal class SageFactory : HeroFactoryBase
         return new IUnitLevelScheme[]
         {
         };
+    }
+
+    protected override CombatantGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new SingleSpriteGraphicsConfig(Path.Combine(CommonConstants.PathToCharacterSprites, "Heroes",
+            HeroName.ToString(), "Thumbnail"));
     }
 }

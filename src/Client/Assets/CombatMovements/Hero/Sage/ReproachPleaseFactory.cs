@@ -9,26 +9,23 @@ namespace Client.Assets.CombatMovements.Hero.Sage;
 internal class ReproachPleaseFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
-    public override CombatMovementIcon CombatMovementIcon => new(3, 7);
+    public override CombatMovementIcon CombatMovementIcon => new(4, 7);
 
     /// <inheritdoc />
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
-            new CombatMovementCost(3),
+            new CombatMovementCost(1),
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
                     new DamageEffectWrapper(
-                        new StrongestMarkedEnemyTargetSelector(),
-                        DamageType.Normal,
-                        GenericRange<int>.CreateMono(1)),
+                        new RandomEnemyTargetSelector(),
+                        DamageType.ProtectionOnly,
+                        GenericRange<int>.CreateMono(4)),
                     new InterruptEffect(new SelfTargetSelector())
                 })
-        )
-        {
-            Tags = CombatMovementTags.Attack
-        };
+        );
     }
 }
 
