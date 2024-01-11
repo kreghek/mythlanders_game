@@ -28,8 +28,6 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     {
         UnitName.Herbalist,
 
-        UnitName.Sage,
-
         UnitName.Hoplite,
         UnitName.Engineer,
 
