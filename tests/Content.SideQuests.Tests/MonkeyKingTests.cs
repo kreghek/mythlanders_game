@@ -145,7 +145,8 @@ public class MonkeyKingTests
             textEvent,
             new HeroCampaign(ArraySegment<(HeroState, FieldCoords)>.Empty,
                 new HeroCampaignLocation(Mock.Of<ILocationSid>(), new DirectedGraph<ICampaignStageItem>()),
-                ArraySegment<ICampaignEffect>.Empty, ArraySegment<ICampaignEffect>.Empty, default), Mock.Of<IEventContext>());
+                ArraySegment<ICampaignEffect>.Empty, ArraySegment<ICampaignEffect>.Empty, default),
+            Mock.Of<IEventContext>());
         var dialoguePlayer =
             new DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext>(testDialog, dialogueContextFactory);
 

@@ -51,18 +51,9 @@ internal sealed class HeroCampaign
 
     public int VisualizationSeed { get; }
 
-    internal void CompleteCurrentStage()
+    public void FailCampaign(Globe globe, IJobProgressResolver jobProgressResolver)
     {
-        //TODO Count stage complete job
-        //throw new NotImplementedException();
-    }
-
-    private IReadOnlyCollection<HeroCampaignState> CreateCampaignHeroes(
-        IEnumerable<(HeroState, FieldCoords)> heroes)
-    {
-        return heroes.Select(hero =>
-                new HeroCampaignState(hero.Item1, new FormationSlot(hero.Item2.ColumentIndex, hero.Item2.LineIndex)))
-            .ToList();
+        ApplyCampaignEffects(globe, ActualFailurePenalties);
     }
 
     public void WinCampaign(Globe globe, IJobProgressResolver jobProgressResolver)
@@ -71,10 +62,19 @@ internal sealed class HeroCampaign
 
         CountCampaignCompleteInActiveStoryPoints(globe, jobProgressResolver);
     }
-    
-    public void FailCampaign(Globe globe, IJobProgressResolver jobProgressResolver)
+
+    internal void CompleteCurrentStage()
     {
-        ApplyCampaignEffects(globe, ActualFailurePenalties);
+        //TODO Count stage complete job
+        //throw new NotImplementedException();
+    }
+
+    private void ApplyCampaignEffects(Globe globe, IReadOnlyCollection<ICampaignEffect> effects)
+    {
+        foreach (var campaignEffect in effects)
+        {
+            campaignEffect.Apply(globe);
+        }
     }
 
     private static void CountCampaignCompleteInActiveStoryPoints(Globe globe, IJobProgressResolver jobProgressResolver)
@@ -88,11 +88,11 @@ internal sealed class HeroCampaign
         }
     }
 
-    private void ApplyCampaignEffects(Globe globe, IReadOnlyCollection<ICampaignEffect> effects)
+    private IReadOnlyCollection<HeroCampaignState> CreateCampaignHeroes(
+        IEnumerable<(HeroState, FieldCoords)> heroes)
     {
-        foreach (var campaignEffect in effects)
-        {
-            campaignEffect.Apply(globe);
-        }
+        return heroes.Select(hero =>
+                new HeroCampaignState(hero.Item1, new FormationSlot(hero.Item2.ColumentIndex, hero.Item2.LineIndex)))
+            .ToList();
     }
 }

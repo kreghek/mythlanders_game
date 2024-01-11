@@ -18,13 +18,13 @@ namespace Client.GameScreens.CampaignReward;
 
 internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
 {
+    private readonly HeroCampaign _campaign;
     private readonly ICampaignGenerator _campaignGenerator;
     private readonly GlobeProvider _globeProvider;
     private readonly ResourceTextButton _moveNextButton;
     private readonly IReadOnlyCollection<ICampaignEffect> _rewards;
     private readonly IUiContentStorage _uiContent;
     private RewardPanel _rewardPanel = null!;
-    private readonly HeroCampaign _campaign;
 
     public CampaignRewardScreen(MythlandersGame game, CampaignRewardScreenTransitionArguments args) : base(game)
     {
@@ -85,18 +85,18 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
         _moveNextButton.Update(ResolutionIndependentRenderer);
     }
 
-    private void MoveNext()
-    {
-        _campaign.WinCampaign(_globeProvider.Globe, Game.Services.GetRequiredService<IJobProgressResolver>());
-
-        ExitCampaign();
-    }
-
     private void ExitCampaign()
     {
         var otherCampaignLaunches = _campaignGenerator.CreateSet(_globeProvider.Globe);
         ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
             new CommandCenterScreenTransitionArguments(otherCampaignLaunches));
+    }
+
+    private void MoveNext()
+    {
+        _campaign.WinCampaign(_globeProvider.Globe, Game.Services.GetRequiredService<IJobProgressResolver>());
+
+        ExitCampaign();
     }
 
     private void MoveNextButton_OnClick(object? sender, EventArgs e)

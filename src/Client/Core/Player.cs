@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets;
-using Client.Assets.MonsterPerks;
-
 namespace Client.Core;
 
 internal sealed class Player
 {
     private readonly HashSet<PlayerAbility> _abilities;
     private readonly HashSet<ILocationSid> _locations;
+
+    private readonly IList<MonsterPerk> _monsterPerks = new List<MonsterPerk>();
 
     public Player(string name) : this()
     {
@@ -44,6 +43,8 @@ internal sealed class Player
 
     public IList<UnitScheme> KnownMonsters { get; }
 
+    public IReadOnlyCollection<MonsterPerk> MonsterPerks => _monsterPerks.ToArray();
+
     public string Name { get; }
     public IStoryState StoryState { get; }
 
@@ -55,6 +56,11 @@ internal sealed class Player
     public void AddLocation(ILocationSid location)
     {
         _locations.Add(location);
+    }
+
+    public void AddMonsterPerk(MonsterPerk perk)
+    {
+        _monsterPerks.Add(perk);
     }
 
     public void AddPlayerAbility(PlayerAbility ability)
@@ -80,6 +86,11 @@ internal sealed class Player
         return _abilities.Contains(ability);
     }
 
+    internal void RemoveMonsterPerk(MonsterPerk perk)
+    {
+        _monsterPerks.Remove(perk);
+    }
+
     private static string CreateRandomName()
     {
         var first = CreditsResource.NicknameFirstParts.Split(',').Select(x => x.Trim()).ToArray();
@@ -92,18 +103,4 @@ internal sealed class Player
 
         return first[x] + " " + last[y];
     }
-
-    public void AddMonsterPerk(MonsterPerk perk)
-    {
-        _monsterPerks.Add(perk);
-    }
-
-    internal void RemoveMonsterPerk(MonsterPerk perk)
-    {
-        _monsterPerks.Remove(perk);
-    }
-
-    public IReadOnlyCollection<MonsterPerk> MonsterPerks => _monsterPerks.ToArray();
-
-    private readonly IList<MonsterPerk> _monsterPerks = new List<MonsterPerk>();
 }

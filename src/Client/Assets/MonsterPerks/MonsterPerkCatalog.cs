@@ -14,11 +14,14 @@ namespace Client.Assets.MonsterPerks;
 public static class MonsterPerkCatalog
 {
     public static MonsterPerk ExtraHP { get; } = new(new DelegateCombatStatusFactory(() =>
-                    new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(new CombatantStatusSid(nameof(ExtraHP)),
-                        new OwnerBoundCombatantEffectLifetime(), CombatantStatTypes.HitPoints, 1))),
-                nameof(ExtraHP));
+            new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(
+                new CombatantStatusSid(nameof(ExtraHP)),
+                new OwnerBoundCombatantEffectLifetime(), CombatantStatTypes.HitPoints, 1))),
+        nameof(ExtraHP));
+
     public static MonsterPerk ExtraSP { get; } = new(new DelegateCombatStatusFactory(() =>
-                    new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(new CombatantStatusSid(nameof(ExtraSP)),
-                        new OwnerBoundCombatantEffectLifetime(), CombatantStatTypes.ShieldPoints, 1))),
-                nameof(ExtraSP));
+            new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(
+                new CombatantStatusSid(nameof(ExtraSP)),
+                new OwnerBoundCombatantEffectLifetime(), CombatantStatTypes.ShieldPoints, 1))),
+        nameof(ExtraSP));
 }

@@ -20,12 +20,12 @@ internal sealed class ResourceCampaignEffect : ICampaignEffect
     {
         foreach (var resource in _resources)
         {
-            globe.Player.Inventory.Add(resource);   
+            globe.Player.Inventory.Add(resource);
         }
     }
 
     public string GetEffectDisplayText()
     {
-        return string.Join(", ", _resources.Select(x=> GameObjectHelper.GetLocalizedProp(x.Scheme.Sid)));
+        return string.Join(", ", _resources.Select(x => GameObjectHelper.GetLocalizedProp(x.Scheme.Sid)));
     }
 }

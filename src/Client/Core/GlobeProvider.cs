@@ -81,17 +81,6 @@ internal sealed class GlobeProvider
         Globe = globe;
     }
 
-    private void InitStartMonsterPerks(Globe globe)
-    {
-        globe.Player.AddMonsterPerk(MonsterPerkCatalog.ExtraHP);
-        globe.Player.AddMonsterPerk(MonsterPerkCatalog.ExtraSP);
-    }
-
-    private void InitStartLocations(Globe globe)
-    {
-        globe.Player.AddLocation(LocationSids.Thicket);
-    }
-
     public IReadOnlyCollection<SaveShortInfo> GetSaves()
     {
         if (!Directory.Exists(_storagePath))
@@ -149,34 +138,6 @@ internal sealed class GlobeProvider
             LoadAvailableLocations(progressDto.Player.AvailableLocations, Globe.Player);
 
             LoadMonsterPerkPool(progressDto.Player.MonsterPerks, Globe.Player);
-        }
-    }
-
-    private void LoadMonsterPerkPool(string?[]? monsterPerks, Player player)
-    {
-        if (monsterPerks is null)
-        {
-            return;
-        }
-
-        var allPerks = PerkHelper.GetAllMonsterPerks();
-
-        foreach (var perkSid in monsterPerks)
-        {
-            if (perkSid is null)
-            {
-                continue;
-            }
-
-            var perk = allPerks.SingleOrDefault(x => x.Sid == perkSid);
-
-            if (perk is null)
-            {
-                //TODO Log unknown perk
-                continue;
-            }
-
-            player.AddMonsterPerk(perk);
         }
     }
 
@@ -312,6 +273,17 @@ internal sealed class GlobeProvider
         return currentSave.FileName;
     }
 
+    private void InitStartLocations(Globe globe)
+    {
+        globe.Player.AddLocation(LocationSids.Thicket);
+    }
+
+    private void InitStartMonsterPerks(Globe globe)
+    {
+        globe.Player.AddMonsterPerk(MonsterPerkCatalog.ExtraHP);
+        globe.Player.AddMonsterPerk(MonsterPerkCatalog.ExtraSP);
+    }
+
     private static void InitStartStoryPoint(Globe globe, IStoryPointInitializer storyPointCatalog)
     {
         storyPointCatalog.Init(globe);
@@ -386,6 +358,34 @@ internal sealed class GlobeProvider
         foreach (var unit in loadedHeroes)
         {
             Globe.Player.Heroes.AddNewUnit(unit);
+        }
+    }
+
+    private void LoadMonsterPerkPool(string?[]? monsterPerks, Player player)
+    {
+        if (monsterPerks is null)
+        {
+            return;
+        }
+
+        var allPerks = PerkHelper.GetAllMonsterPerks();
+
+        foreach (var perkSid in monsterPerks)
+        {
+            if (perkSid is null)
+            {
+                continue;
+            }
+
+            var perk = allPerks.SingleOrDefault(x => x.Sid == perkSid);
+
+            if (perk is null)
+            {
+                //TODO Log unknown perk
+                continue;
+            }
+
+            player.AddMonsterPerk(perk);
         }
     }
 

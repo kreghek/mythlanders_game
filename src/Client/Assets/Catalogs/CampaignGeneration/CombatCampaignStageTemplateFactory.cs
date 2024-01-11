@@ -19,13 +19,13 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
     private readonly IDice _dice;
+    private readonly GlobeProvider _globeProvider;
 
     private readonly ILocationSid _locationSid;
 
     private readonly MonsterCombatantTempate[] _monsterCombatantTemplates;
 
     private readonly MonsterCombatantTempateLevel _monsterLevel;
-    private readonly GlobeProvider _globeProvider;
 
     public CombatCampaignStageTemplateFactory(ILocationSid locationSid, MonsterCombatantTempateLevel monsterLevel,
         CampaignStageTemplateServices services)
@@ -124,7 +124,9 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
 
         var combat = new CombatSource(
             monsterCombatantTemplate.Prefabs
-                .Select(x => new PerkMonsterCombatantPrefab(x, RollPerks(_globeProvider.Globe.Player.MonsterPerks, _dice))).ToArray(),
+                .Select(x =>
+                    new PerkMonsterCombatantPrefab(x, RollPerks(_globeProvider.Globe.Player.MonsterPerks, _dice)))
+                .ToArray(),
             new CombatReward(totalDropTables.ToArray())
         );
 
