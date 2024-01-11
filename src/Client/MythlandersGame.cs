@@ -298,7 +298,10 @@ internal sealed class MythlandersGame : Game
 
         var campaignGenerator = new CampaignGenerator(
             Services.GetRequiredService<CampaignWayTemplatesCatalog>(),
-            Services.GetRequiredService<IDice>());
+            Services.GetRequiredService<IDice>(),
+            Services.GetRequiredService<IDropResolver>(),
+            Services.GetService<IUnitSchemeCatalog>(),
+            Services.GetRequiredService<GlobeProvider>());
 
         Services.AddService<ICampaignGenerator>(campaignGenerator);
 

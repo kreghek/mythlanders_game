@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets.StageItems;
 using Client.Assets.StoryPointJobs;
 using Client.Core.CampaignEffects;
 
@@ -17,14 +15,13 @@ namespace Client.Core.Campaigns;
 internal sealed class HeroCampaign
 {
     public HeroCampaign(IReadOnlyCollection<(HeroState, FieldCoords)> initHeroes, HeroCampaignLocation location,
+        IReadOnlyCollection<ICampaignEffect> rewards,
         IReadOnlyCollection<ICampaignEffect> failurePenalties, int visualizationSeed)
     {
         Heroes = CreateCampaignHeroes(initHeroes);
         Location = location;
 
-        ActualRewards = location.Stages.GetAllNodes().Select(x => x.Payload)
-                            .OfType<IRewardCampaignStageItem>().FirstOrDefault()?.GetEstimateRewards(location) ??
-                        ArraySegment<ICampaignEffect>.Empty;
+        ActualRewards = rewards;
         ActualFailurePenalties = failurePenalties;
 
         VisualizationSeed = visualizationSeed;

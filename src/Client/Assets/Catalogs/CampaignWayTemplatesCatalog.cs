@@ -25,24 +25,13 @@ internal sealed class CampaignWayTemplatesCatalog
 
     public IGraph<GraphWay<ICampaignStageItem>> CreateGrindShortTemplate(ILocationSid locationSid)
     {
-        return CreateShortTemplate(locationSid, new ResourceRewardCampaignStageTemplateFactory(_services));
-    }
-
-    public IGraph<GraphWay<ICampaignStageItem>> CreateRescueShortTemplate(ILocationSid locationSid)
-    {
-        return CreateShortTemplate(locationSid, new UnlockHeroRewardCampaignStageTemplateFactory(_services));
-    }
-
-    public IGraph<GraphWay<ICampaignStageItem>> CreateScoutShortTemplate(ILocationSid locationSid)
-    {
-        return CreateShortTemplate(locationSid, new UnlockLocationRewardCampaignStageTemplateFactory(_services));
+        return CreateShortTemplate(locationSid);
     }
 
     /// <summary>
     /// Creates graph
     /// </summary>
-    private IGraph<GraphWay<ICampaignStageItem>> CreateShortTemplate(ILocationSid locationSid,
-        ICampaignStageTemplateFactory stageTemplateFactory)
+    private IGraph<GraphWay<ICampaignStageItem>> CreateShortTemplate(ILocationSid locationSid)
     {
         var wayGraph = new DirectedGraph<GraphWay<ICampaignStageItem>>();
 
@@ -136,7 +125,7 @@ internal sealed class CampaignWayTemplatesCatalog
 
         var rewardNode = new GraphNode<GraphWay<ICampaignStageItem>>(new GraphWay<ICampaignStageItem>(new[]
         {
-            new ResourceRewardCampaignStageTemplateFactory(_services)
+            new RewardCampaignStageTemplateFactory(_services)
         }));
 
         wayGraph.AddNode(way11Node);

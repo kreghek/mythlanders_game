@@ -6,34 +6,18 @@ using Client.Assets.StageItems;
 using Client.Core;
 using Client.Core.Campaigns;
 
-using CombatDicesTeam.Combats;
-using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Dices;
 using CombatDicesTeam.GenericRanges;
 using CombatDicesTeam.Graphs;
 using CombatDicesTeam.Graphs.Generation.TemplateBased;
 
-using Core.Combats.CombatantStatuses;
 using Core.PropDrop;
-
-using GameAssets.Combats;
-using GameAssets.Combats.CombatantStatuses;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
 internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
-    private static readonly ICombatantStatusFactory[] _availablePerkBuffs =
-    {
-        new DelegateCombatStatusFactory(() =>
-            new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(new CombatantStatusSid("HP"),
-                new OwnerBoundCombatantEffectLifetime(), CombatantStatTypes.HitPoints, 1))),
-        new DelegateCombatStatusFactory(() =>
-            new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(new CombatantStatusSid("SP"),
-                new OwnerBoundCombatantEffectLifetime(), CombatantStatTypes.ShieldPoints, 1)))
-    };
-
     private readonly IDice _dice;
 
     private readonly ILocationSid _locationSid;
@@ -41,6 +25,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     private readonly MonsterCombatantTempate[] _monsterCombatantTemplates;
 
     private readonly MonsterCombatantTempateLevel _monsterLevel;
+    private readonly GlobeProvider _globeProvider;
 
     public CombatCampaignStageTemplateFactory(ILocationSid locationSid, MonsterCombatantTempateLevel monsterLevel,
         CampaignStageTemplateServices services)
@@ -48,6 +33,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         _locationSid = locationSid;
         _monsterLevel = monsterLevel;
         _dice = services.Dice;
+        _globeProvider = services.GlobeProvider;
 
         var factories = LoadCombatTemplateFactories<ICombatTemplateFactory>();
 
@@ -56,9 +42,6 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
 
     private MonsterCombatantTempate GetApplicableTemplate()
     {
-        var locationTemplates = _monsterCombatantTemplates
-            .Where(x => x.ApplicableLocations.Any(loc => loc == _locationSid)).ToArray();
-
         var templates = _monsterCombatantTemplates
             .Where(x => x.Level == _monsterLevel && x.ApplicableLocations.Any(loc => loc == _locationSid)).ToArray();
 
@@ -106,7 +89,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     }
 
     private static IReadOnlyCollection<ICombatantStatusFactory> RollPerks(
-        IReadOnlyCollection<ICombatantStatusFactory> availablePerkBuffs,
+        IReadOnlyCollection<MonsterPerk> availablePerkBuffs,
         IDice dice)
     {
         var count = dice.Roll(0, availablePerkBuffs.Count);
@@ -121,7 +104,8 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
             return ArraySegment<ICombatantStatusFactory>.Empty;
         }
 
-        return dice.RollFromList(availablePerkBuffs.ToArray(), count).ToArray();
+        var monsterPerk = dice.RollFromList(availablePerkBuffs.ToArray(), count).ToArray();
+        return monsterPerk.Select(x => x.Status).ToArray();
     }
 
     /// <inheritdoc />
@@ -140,7 +124,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
 
         var combat = new CombatSource(
             monsterCombatantTemplate.Prefabs
-                .Select(x => new PerkMonsterCombatantPrefab(x, RollPerks(_availablePerkBuffs, _dice))).ToArray(),
+                .Select(x => new PerkMonsterCombatantPrefab(x, RollPerks(_globeProvider.Globe.Player.MonsterPerks, _dice))).ToArray(),
             new CombatReward(totalDropTables.ToArray())
         );
 

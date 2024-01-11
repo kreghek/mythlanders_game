@@ -2,9 +2,9 @@
 
 internal sealed class MonsterPerkCampaignEffect : ICampaignEffect
 {
-    private readonly IPerk _perk;
+    private readonly MonsterPerk _perk;
 
-    public MonsterPerkCampaignEffect(IPerk perk)
+    public MonsterPerkCampaignEffect(MonsterPerk perk)
     {
         _perk = perk;
     }
@@ -16,6 +16,6 @@ internal sealed class MonsterPerkCampaignEffect : ICampaignEffect
 
     public string GetEffectDisplayText()
     {
-        throw new System.NotImplementedException();
+        return _perk.Sid;
     }
 }

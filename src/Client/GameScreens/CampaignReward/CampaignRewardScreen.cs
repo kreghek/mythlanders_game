@@ -36,7 +36,7 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
         _moveNextButton.OnClick += MoveNextButton_OnClick;
 
         _campaign = args.Campaign;
-        _rewards = args.CampaignRewards;
+        _rewards = args.Campaign.ActualRewards;
     }
 
     protected override IList<ButtonBase> CreateMenu()

@@ -4,6 +4,8 @@ using System.Linq;
 
 using Client.Assets;
 
+using CombatDicesTeam.Combats.CombatantStatuses;
+
 namespace Client.Core;
 
 internal sealed class Player
@@ -92,8 +94,14 @@ internal sealed class Player
         return first[x] + " " + last[y];
     }
 
-    internal void AddMonsterPerk(IPerk perk)
+    public void AddMonsterPerk(MonsterPerk perk)
     {
-        throw new NotImplementedException();
+        _monsterPerks.Add(perk);
     }
+
+    public IReadOnlyCollection<MonsterPerk> MonsterPerks => _monsterPerks.ToArray();
+
+    private readonly IList<MonsterPerk> _monsterPerks = new List<MonsterPerk>();
 }
+
+public sealed record MonsterPerk(ICombatantStatusFactory Status, string Sid); 

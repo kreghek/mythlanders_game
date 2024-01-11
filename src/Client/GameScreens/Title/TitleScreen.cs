@@ -359,7 +359,8 @@ internal sealed class TitleScreen : GameScreenBase
         var oneCombatGraph = new DirectedGraph<ICampaignStageItem>();
         oneCombatGraph.AddNode(oneCombatNode);
         var campaignSource = new HeroCampaignLocation(rolledLocation, oneCombatGraph);
-        var campaign = new HeroCampaign(heroStates, campaignSource, ArraySegment<ICampaignEffect>.Empty, 1);
+        var campaign = new HeroCampaign(heroStates, campaignSource, ArraySegment<ICampaignEffect>.Empty,
+            ArraySegment<ICampaignEffect>.Empty, 1);
 
         ScreenManager.ExecuteTransition(
             this,

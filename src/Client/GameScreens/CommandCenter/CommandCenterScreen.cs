@@ -159,7 +159,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
                     }
 
                     var campaign = new HeroCampaign(initHeroes, campaignLaunch.Location,
-                        campaignLaunch.Penalties, _dice.Roll(100));
+                        campaignLaunch.Rewards, campaignLaunch.Penalties, _dice.Roll(100));
 
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
                         new CampaignScreenTransitionArguments(campaign));
