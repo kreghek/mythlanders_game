@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using Client.Core.CampaignRewards;
+using Client.Core.CampaignEffects;
 using Client.Engine;
 
 using Microsoft.Xna.Framework;
@@ -11,12 +11,12 @@ namespace Client.GameScreens.CommandCenter.Ui;
 internal sealed class CampaignEffectsPanel : ControlBase
 {
     private const int CAMPAIGN_EFFECT_TEXT_HEIGHT = 20;
-    private readonly IReadOnlyCollection<ICampaignReward> _estimatedPenalties;
+    private readonly IReadOnlyCollection<ICampaignEffect> _estimatedPenalties;
 
-    private readonly IReadOnlyCollection<ICampaignReward> _estimatedRewards;
+    private readonly IReadOnlyCollection<ICampaignEffect> _estimatedRewards;
 
-    public CampaignEffectsPanel(IReadOnlyCollection<ICampaignReward> estimatedRewards,
-        IReadOnlyCollection<ICampaignReward> estimatedPenalties)
+    public CampaignEffectsPanel(IReadOnlyCollection<ICampaignEffect> estimatedRewards,
+        IReadOnlyCollection<ICampaignEffect> estimatedPenalties)
     {
         _estimatedRewards = estimatedRewards;
         _estimatedPenalties = estimatedPenalties;
@@ -45,7 +45,7 @@ internal sealed class CampaignEffectsPanel : ControlBase
         {
             spriteBatch.DrawString(
                 UiThemeManager.UiContentStorage.GetMainFont(),
-                effect.GetRewardName(),
+                effect.GetEffectDisplayText(),
                 new Vector2(contentRect.Left + CONTENT_MARGIN, currentBottomY),
                 Color.White);
             currentBottomY += CONTENT_MARGIN + CAMPAIGN_EFFECT_TEXT_HEIGHT;
@@ -63,7 +63,7 @@ internal sealed class CampaignEffectsPanel : ControlBase
         {
             spriteBatch.DrawString(
                 UiThemeManager.UiContentStorage.GetMainFont(),
-                effect.GetRewardName(),
+                effect.GetEffectDisplayText(),
                 new Vector2(contentRect.Left + CONTENT_MARGIN, currentBottomY),
                 Color.White);
             currentBottomY += CONTENT_MARGIN + CAMPAIGN_EFFECT_TEXT_HEIGHT;

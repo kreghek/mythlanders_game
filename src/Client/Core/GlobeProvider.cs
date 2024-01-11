@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 using Client.Assets;
+using Client.Assets.MonsterPerks;
 using Client.Core.Heroes;
 using Client.Core.ProgressStorage;
 
@@ -72,10 +73,23 @@ internal sealed class GlobeProvider
     {
         var globe = new Globe(new Player());
 
+        InitStartLocations(globe);
         InitStartStoryPoint(globe, _storyPointInitializer);
         AssignStartHeroes(globe);
+        InitStartMonsterPerks(globe);
 
         Globe = globe;
+    }
+
+    private void InitStartMonsterPerks(Globe globe)
+    {
+        globe.Player.AddMonsterPerk(MonsterPerkCatalog.ExtraHP);
+        globe.Player.AddMonsterPerk(MonsterPerkCatalog.ExtraSP);
+    }
+
+    private void InitStartLocations(Globe globe)
+    {
+        globe.Player.AddLocation(LocationSids.Thicket);
     }
 
     public IReadOnlyCollection<SaveShortInfo> GetSaves()
@@ -133,6 +147,36 @@ internal sealed class GlobeProvider
             LoadPlayerKnownMonsters(progressDto.Player, _unitSchemeCatalog, Globe.Player);
 
             LoadAvailableLocations(progressDto.Player.AvailableLocations, Globe.Player);
+
+            LoadMonsterPerkPool(progressDto.Player.MonsterPerks, Globe.Player);
+        }
+    }
+
+    private void LoadMonsterPerkPool(string?[]? monsterPerks, Player player)
+    {
+        if (monsterPerks is null)
+        {
+            return;
+        }
+
+        var allPerks = PerkHelper.GetAllMonsterPerks();
+
+        foreach (var perkSid in monsterPerks)
+        {
+            if (perkSid is null)
+            {
+                continue;
+            }
+
+            var perk = allPerks.SingleOrDefault(x => x.Sid == perkSid);
+
+            if (perk is null)
+            {
+                //TODO Log unknown perk
+                continue;
+            }
+
+            player.AddMonsterPerk(perk);
         }
     }
 
@@ -144,7 +188,8 @@ internal sealed class GlobeProvider
             Resources = GetPlayerResourcesToSave(Globe.Player.Inventory),
             KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters),
             Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray(),
-            AvailableLocations = Globe.Player.CurrentAvailableLocations.Select(x => x.ToString()).ToArray()
+            AvailableLocations = Globe.Player.CurrentAvailableLocations.Select(x => x.ToString()).ToArray(),
+            MonsterPerks = Globe.Player.MonsterPerks.Select(x => x.Sid).ToArray()
         };
 
         var progress = new ProgressDto

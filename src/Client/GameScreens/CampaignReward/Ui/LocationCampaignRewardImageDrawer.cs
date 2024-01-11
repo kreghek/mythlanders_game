@@ -2,7 +2,7 @@
 
 using Client.Assets;
 using Client.Core;
-using Client.Core.CampaignRewards;
+using Client.Core.CampaignEffects;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.CampaignReward.Ui;
 
-internal sealed class LocationCampaignRewardImageDrawer : CampaignRewardImageDrawerBase<LocationCampaignReward>
+internal sealed class LocationCampaignRewardImageDrawer : CampaignRewardImageDrawerBase<LocationCampaignEffect>
 {
     private readonly ContentManager _content;
     private readonly IDictionary<ILocationSid, Texture2D> _locationTextures;
@@ -32,7 +32,7 @@ internal sealed class LocationCampaignRewardImageDrawer : CampaignRewardImageDra
 
     public override Point ImageSize => new(200, 100);
 
-    protected override void Draw(LocationCampaignReward reward, SpriteBatch spriteBatch, Vector2 position)
+    protected override void Draw(LocationCampaignEffect reward, SpriteBatch spriteBatch, Vector2 position)
     {
         var texture = _locationTextures[reward.Location];
         spriteBatch.Draw(texture, position, new Rectangle(50, 0, 200, 100), Color.White);

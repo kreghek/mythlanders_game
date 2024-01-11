@@ -1,4 +1,4 @@
-using Client.Core.CampaignRewards;
+using Client.Core.CampaignEffects;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,7 +9,7 @@ internal interface ICampaignRewardImageDrawer
 {
     Point ImageSize { get; }
 
-    void Draw(ICampaignReward reward, SpriteBatch spriteBatch, Vector2 position);
+    void Draw(ICampaignEffect reward, SpriteBatch spriteBatch, Vector2 position);
 
-    bool IsApplicable(ICampaignReward reward);
+    bool IsApplicable(ICampaignEffect reward);
 }

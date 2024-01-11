@@ -32,7 +32,7 @@ internal sealed class CombatStageItem : ICampaignStageItem
     {
         switch (sumPts)
         {
-            case > 2:
+            case > 4:
                 return CombatEstimateDifficulty.Hard;
             default:
                 return CombatEstimateDifficulty.Easy;

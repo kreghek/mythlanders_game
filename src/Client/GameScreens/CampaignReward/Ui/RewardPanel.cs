@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Client.Core.CampaignRewards;
+using Client.Core.CampaignEffects;
 using Client.Engine;
 
 using Microsoft.Xna.Framework;
@@ -15,10 +15,10 @@ internal sealed class RewardPanel : ControlBase
     private readonly Texture2D _panelHeaderTexture;
     private readonly IReadOnlyCollection<ICampaignRewardImageDrawer> _rewardImageDrawers;
     private readonly SpriteFont _rewardNameFont;
-    private readonly IReadOnlyCollection<ICampaignReward> _rewards;
+    private readonly IReadOnlyCollection<ICampaignEffect> _rewards;
 
     public RewardPanel(
-        IReadOnlyCollection<ICampaignReward> rewards,
+        IReadOnlyCollection<ICampaignEffect> rewards,
         Texture2D panelHeaderTexture,
         SpriteFont labelFont,
         SpriteFont rewardNameFont,
@@ -65,7 +65,7 @@ internal sealed class RewardPanel : ControlBase
             }
 
             spriteBatch.DrawString(_rewardNameFont,
-                reward.GetRewardName(),
+                reward.GetEffectDisplayText(),
                 rewardPosition, Color.White);
         }
     }
