@@ -4,6 +4,7 @@ using System.Linq;
 
 using Client.Assets.Catalogs.CampaignGeneration;
 using Client.Assets.GlobalEffects;
+using Client.Assets.MonsterPerks;
 using Client.Core;
 using Client.Core.CampaignEffects;
 using Client.Core.Campaigns;
@@ -44,12 +45,28 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         _globeProvider = globeProvider;
     }
 
-    private static IReadOnlyCollection<ICampaignEffect> CreateFailurePenalties()
+    private IReadOnlyCollection<ICampaignEffect> CreateFailurePenalties()
     {
-        return new[]
+        if (_globeProvider.Globe.Player.MonsterPerks.Count() > 2)
         {
-            new AddGlobalEffectCampaignEffect(new DecreaseDamageGlobeEvent())
-        };
+            return new ICampaignEffect[]
+            {
+                new AddGlobalEffectCampaignEffect(new DecreaseDamageGlobeEvent()),
+                new RemoveMonsterPerkCampaignEffect(RollMonsterPerkFromPool())
+            };
+        }
+        else
+        {
+            return new ICampaignEffect[]
+            {
+                new AddGlobalEffectCampaignEffect(new DecreaseDamageGlobeEvent())
+            };
+        }
+    }
+
+    private MonsterPerk RollMonsterPerkFromPool()
+    {
+        return _dice.RollFromList(_globeProvider.Globe.Player.MonsterPerks.ToArray());
     }
 
     private HeroCampaignLocation CreateCampaignLocation(ILocationSid locationSid)
@@ -113,7 +130,6 @@ internal sealed class CampaignGenerator : ICampaignGenerator
             (CreateUnlockHeroEffect, (_)=>CalculateLockedHeroes().Any()),
             (CreateUnlockLocationEffect, (_)=>CalculateAvailableLocations().Any())
         };
-
         
         var rolledEffectFactory = RollEffectFactory(effectFactories, locationSid);
 
@@ -141,16 +157,10 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
     private MonsterPerk RollMonsterPerk()
     {
-        MonsterPerk[] availablePerkBuffs =
+        var availablePerkBuffs = new[]
         {
-            new(new DelegateCombatStatusFactory(() =>
-                    new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(new CombatantStatusSid("ExtraHP"),
-                        new OwnerBoundCombatantEffectLifetime(), CombatantStatTypes.HitPoints, 1))),
-                "ExtraHP"),
-            new(new DelegateCombatStatusFactory(() =>
-                    new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(new CombatantStatusSid("ExtraSp"),
-                        new OwnerBoundCombatantEffectLifetime(), CombatantStatTypes.ShieldPoints, 1))),
-                "ExtraSp")
+            MonsterPerkCatalog.ExtraHP,
+            MonsterPerkCatalog.ExtraSP
         };
 
         var monsterPerk = _dice.RollFromList(availablePerkBuffs);

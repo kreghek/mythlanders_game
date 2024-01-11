@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets;
-
-using CombatDicesTeam.Combats.CombatantStatuses;
+using Client.Assets.MonsterPerks;
 
 namespace Client.Core;
 
@@ -32,6 +31,9 @@ internal sealed class Player
         StoryState = new StoryState(Heroes);
 
         _locations = new HashSet<ILocationSid>(new[] { LocationSids.Thicket });
+
+        AddMonsterPerk(MonsterPerkCatalog.ExtraHP);
+        AddMonsterPerk(MonsterPerkCatalog.ExtraSP);
     }
 
     public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
@@ -99,9 +101,12 @@ internal sealed class Player
         _monsterPerks.Add(perk);
     }
 
+    internal void RemoveMonsterPerk(MonsterPerk perk)
+    {
+        _monsterPerks.Remove(perk);
+    }
+
     public IReadOnlyCollection<MonsterPerk> MonsterPerks => _monsterPerks.ToArray();
 
     private readonly IList<MonsterPerk> _monsterPerks = new List<MonsterPerk>();
 }
-
-public sealed record MonsterPerk(ICombatantStatusFactory Status, string Sid); 
