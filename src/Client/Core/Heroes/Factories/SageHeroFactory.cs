@@ -26,7 +26,7 @@ internal sealed class SageHeroFactory : HeroFactoryBase
 
             CreateMovement<NoViolencePleaseFactory>(),
 
-            CreateMovement<ReproachPleaseFactory>()
+            CreateMovement<ReproachFactory>()
         };
 
         var heroSequence = new CombatMovementSequence();
@@ -49,13 +49,5 @@ internal sealed class SageHeroFactory : HeroFactoryBase
         stats.SetValue(CombatantStatTypes.ShieldPoints, 0);
         stats.SetValue(CombatantStatTypes.Resolve, 3);
         return stats;
-    }
-
-    protected override IReadOnlyCollection<ICombatantStatusFactory> CreateStartupStatuses()
-    {
-        return new[]
-        {
-            new DelegateCombatStatusFactory(()=>new SoulTakerCombatantStatus(new CombatantStatusSid("SoulTaker"), new CombatantStatusSid("PartOfSoul"), new OwnerBoundCombatantEffectLifetime()))
-        };
     }
 }

@@ -4,8 +4,11 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.TargetSelectors;
 using GameAssets.Combats.CombatMovementEffects;
 
+using JetBrains.Annotations;
+
 namespace Client.Assets.CombatMovements.Hero.Sage;
 
+[UsedImplicitly]
 internal class AskedNoViolenceFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />

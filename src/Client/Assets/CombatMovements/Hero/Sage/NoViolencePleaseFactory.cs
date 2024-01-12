@@ -2,8 +2,11 @@ using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.Combats;
 using Core.Combats.TargetSelectors;
 
+using JetBrains.Annotations;
+
 namespace Client.Assets.CombatMovements.Hero.Sage;
 
+[UsedImplicitly]
 internal class NoViolencePleaseFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
