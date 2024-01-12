@@ -1,6 +1,12 @@
 using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+
+using Core.Combats.CombatantStatuses;
 using Core.Combats.TargetSelectors;
+
+using GameAssets.Combats.CombatantStatuses;
+using GameAssets.Combats.TargetSelectors;
 
 using JetBrains.Annotations;
 
@@ -20,9 +26,9 @@ internal class FaithBoostFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new ModifyEffectsEffect(
-                        new CombatantStatusSid(Sid),
-                        new RandomLineAllyTargetSelector(), 1)
+                    new AddCombatantStatusEffect(new RandomLineAllyTargetSelector(), new DelegateCombatStatusFactory(()=>new ModifyDamageCalculatedCombatantStatus(new CombatantStatusSid("SoulPower"), new ToNextCombatantTurnEffectLifetime(),
+                        combatant => { })))
+                    
                 })
         );
     }
