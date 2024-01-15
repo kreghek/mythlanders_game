@@ -6,8 +6,6 @@ using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
-using Core.Combats.CombatantStatuses;
-
 using GameAssets.Combats;
 
 namespace Client.Core.Heroes.Factories;

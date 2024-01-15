@@ -1,8 +1,8 @@
 using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats.CombatantStatuses;
 
-using Core.Combats.CombatantStatuses;
 using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats.CombatantStatuses;
@@ -26,12 +26,12 @@ internal class ReproachFactory : CombatMovementFactoryBase
                 new IEffect[]
                 {
                     new AddCombatantStatusEffect(new SelfTargetSelector(),
-                        new DelegateCombatStatusFactory(() =>
+                        new CombatStatusFactory(source =>
                             new SoulTakerCombatantStatus(new CombatantStatusSid("SoulTaker"),
                                 new CombatantStatusSid("PartOfSoul"), new UntilCombatantEffectMeetPredicatesLifetime(new ICombatMovePredicate[]
                                 {
                                     new IsAttackCombatMovePredicate()
-                                })))
+                                }), source))
                     )
                 })
         );

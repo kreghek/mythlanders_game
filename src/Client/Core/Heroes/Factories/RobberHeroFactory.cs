@@ -6,9 +6,8 @@ using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
-using Core.Combats.CombatantStatuses;
-
 using GameAssets.Combats;
+using GameAssets.Combats.CombatantStatuses;
 
 namespace Client.Core.Heroes.Factories;
 
@@ -56,14 +55,15 @@ internal sealed class RobberHeroFactory : HeroFactoryBase
 
     protected override IReadOnlyCollection<ICombatantStatusFactory> CreateStartupStatuses()
     {
-        var startupStatueses = new[]
+        var startupStatuses = new[]
         {
-            new ImpulseGeneratorCombatantStatusFactory(
+            new CombatStatusFactory(source => new ImpulseGeneratorCombatantStatus(
                 CombatantStatusSids.ImpulseGenerator,
                 CombatantStatusSids.Impulse,
-                new OwnerBoundCombatantStatusLifetimeFactory())
+                new OwnerBoundCombatantEffectLifetime(),
+                source))
         };
 
-        return startupStatueses;
+        return startupStatuses;
     }
 }

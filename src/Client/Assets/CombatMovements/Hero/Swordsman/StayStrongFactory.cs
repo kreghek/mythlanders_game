@@ -6,7 +6,6 @@ using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Combats.Effects;
 
-using Core.Combats.CombatantStatuses;
 using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats;
@@ -31,12 +30,13 @@ internal class StayStrongFactory : CombatMovementFactoryBase
                 new IEffect[]
                 {
                     new AddCombatantStatusEffect(new SelfTargetSelector(),
-                        new DelegateCombatStatusFactory(() =>
+                        new CombatStatusFactory(source =>
                             new DefensiveStanceCombatantStatusWrapper(
                                 new AutoRestoreModifyStatCombatantStatus(
                                     new ModifyStatCombatantStatus(
                                         new CombatantStatusSid(Sid),
                                         new ToNextCombatantTurnEffectLifetime(),
+                                        source,
                                         CombatantStatTypes.Defense,
                                         3))
                             )
@@ -46,12 +46,13 @@ internal class StayStrongFactory : CombatMovementFactoryBase
                 new IEffect[]
                 {
                     new AddCombatantStatusEffect(new SelfTargetSelector(),
-                        new DelegateCombatStatusFactory(() =>
+                        new CombatStatusFactory(source =>
                             new DefensiveStanceCombatantStatusWrapper(
                                 new AutoRestoreModifyStatCombatantStatus(
                                     new ModifyStatCombatantStatus(
                                         new CombatantStatusSid(Sid),
                                         new ToEndOfCurrentRoundEffectLifetime(),
+                                        source,
                                         CombatantStatTypes.Defense,
                                         1))
                             )

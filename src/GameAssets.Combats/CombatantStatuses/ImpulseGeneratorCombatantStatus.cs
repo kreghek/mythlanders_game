@@ -2,9 +2,7 @@ using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
-using GameAssets.Combats;
-
-namespace Core.Combats.CombatantStatuses;
+namespace GameAssets.Combats.CombatantStatuses;
 
 public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
 {
@@ -16,7 +14,7 @@ public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
     private ICombatant? _statusOwner;
 
     public ImpulseGeneratorCombatantStatus(ICombatantStatusSid sid, ICombatantStatusSid generatedSid,
-        ICombatantStatusLifetime lifetime) : base(sid, lifetime)
+        ICombatantStatusLifetime lifetime, ICombatantStatusSource source) : base(sid, lifetime, source)
     {
         _generatedSid = generatedSid;
     }
@@ -70,7 +68,7 @@ public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
         });
 
         var impulseCombatantEffect = new ModifyEffectsCombatantStatus(_generatedSid,
-            lifetime, DAMAGE_BONUS);
+            lifetime, Source, DAMAGE_BONUS);
 
         targetCombat.ImposeCombatantStatus(targetCombatant, impulseCombatantEffect);
     }
@@ -86,6 +84,6 @@ public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
         targetCombat.HandleCombatantDamagedToStat(targetCombatant, CombatantStatTypes.HitPoints, SURGE_DAMAGE);
 
         targetCombat.ImposeCombatantStatus(targetCombatant,
-            new StunCombatantStatus(CombatantStatusSids.Stun, new ToNextCombatantTurnEffectLifetime()));
+            new StunCombatantStatus(CombatantStatusSids.Stun, new ToNextCombatantTurnEffectLifetime(), Source));
     }
 }

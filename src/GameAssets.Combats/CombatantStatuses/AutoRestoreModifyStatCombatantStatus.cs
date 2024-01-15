@@ -14,6 +14,7 @@ public sealed class AutoRestoreModifyStatCombatantStatus : ICombatantStatus
 
     public ICombatantStatusLifetime Lifetime => _baseStatus.Lifetime;
     public ICombatantStatusSid Sid => _baseStatus.Sid;
+    public ICombatantStatusSource Source => _baseStatus.Source;
 
     public void Dispel(ICombatant combatant)
     {
@@ -24,7 +25,7 @@ public sealed class AutoRestoreModifyStatCombatantStatus : ICombatantStatus
     {
         _baseStatus.Impose(combatant, combatantEffectImposeContext);
 
-        var targetStat = combatant.Stats.Single(x => x.Type == _baseStatus.StatType);
+        var targetStat = combatant.Stats.Single(x => Equals(x.Type, _baseStatus.StatType));
         targetStat.Value.Restore();
     }
 

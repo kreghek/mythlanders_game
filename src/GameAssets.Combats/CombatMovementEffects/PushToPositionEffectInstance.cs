@@ -1,7 +1,9 @@
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.Effects;
 
-namespace Core.Combats.Effects;
+using Core.Combats.Effects;
+
+namespace GameAssets.Combats.CombatMovementEffects;
 
 public sealed class PushToPositionEffectInstance : EffectInstanceBase<PushToPositionEffect>
 {
@@ -9,7 +11,7 @@ public sealed class PushToPositionEffectInstance : EffectInstanceBase<PushToPosi
     {
     }
 
-    public override void Influence(ICombatant target, IStatusCombatContext context)
+    public override void Influence(ICombatant target, ICombatMovementContext context)
     {
         var targetSide = GetTargetSide(target, context.Field);
 

@@ -1,10 +1,7 @@
 ﻿using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
-using GameAssets.Combats;
-using GameAssets.Combats.CombatantStatuses;
-
-namespace Core.Combats.CombatantStatuses;
+namespace GameAssets.Combats.CombatantStatuses;
 
 public sealed class SoulTakerCombatantStatus : CombatantStatusBase
 {
@@ -12,7 +9,7 @@ public sealed class SoulTakerCombatantStatus : CombatantStatusBase
     private ICombatant? _statusOwner;
 
     public SoulTakerCombatantStatus(ICombatantStatusSid sid, ICombatantStatusSid generatedSid,
-        ICombatantStatusLifetime lifetime) : base(sid, lifetime)
+        ICombatantStatusLifetime lifetime, ICombatantStatusSource source) : base(sid, lifetime, source)
     {
         _generatedSid = generatedSid;
     }
@@ -28,7 +25,12 @@ public sealed class SoulTakerCombatantStatus : CombatantStatusBase
 
     private void Combat_CombatantHasBeenDamaged(object? sender, CombatantDamagedEventArgs e)
     {
-        var shieldStatus = new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(_generatedSid, Lifetime, CombatantStatTypes.ShieldPoints, 1));
+        var shieldStatus = new AutoRestoreModifyStatCombatantStatus(
+            new ModifyStatCombatantStatus(_generatedSid,
+                Lifetime, 
+                Source, 
+                CombatantStatTypes.ShieldPoints,
+                1));
 
         var targetCombat = (CombatEngineBase)sender!;
 

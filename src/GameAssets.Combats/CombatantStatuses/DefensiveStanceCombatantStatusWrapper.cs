@@ -28,4 +28,5 @@ public sealed class DefensiveStanceCombatantStatusWrapper : ICombatantStatus
 
     public ICombatantStatusLifetime Lifetime => _baseStatus.Lifetime;
     public ICombatantStatusSid Sid => _baseStatus.Sid;
+    public ICombatantStatusSource Source => _baseStatus.Source;
 }

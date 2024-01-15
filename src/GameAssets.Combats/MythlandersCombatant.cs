@@ -1,6 +1,8 @@
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
+using GameAssets.Combats.CombatantStatusSources;
+
 namespace GameAssets.Combats;
 
 public sealed class MythlandersCombatant : ICombatant
@@ -92,7 +94,7 @@ public sealed class MythlandersCombatant : ICombatant
     {
         foreach (var effectFactory in _startupStatuses)
         {
-            var effect = effectFactory.Create();
+            var effect = effectFactory.Create(new StartupStatusSource());
 
             var effectImposeContext = context.ImposeStatusContext;
 
@@ -177,7 +179,7 @@ public sealed class MythlandersCombatant : ICombatant
     /// <summary>
     /// Initial method to make combatant ready to fight.
     /// </summary>
-    /// <param name="combatCore"></param>
+    /// <param name="context"></param>
     public void PrepareToCombat(ICombatantStartupContext context)
     {
         StartupHand();
