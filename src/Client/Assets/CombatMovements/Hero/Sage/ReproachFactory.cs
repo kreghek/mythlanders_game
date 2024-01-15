@@ -5,6 +5,8 @@ using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using Core.Combats.CombatantStatuses;
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats.CombatantStatuses;
+
 using JetBrains.Annotations;
 
 namespace Client.Assets.CombatMovements.Hero.Sage;

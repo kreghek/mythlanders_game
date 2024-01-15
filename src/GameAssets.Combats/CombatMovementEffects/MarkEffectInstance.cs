@@ -4,6 +4,8 @@ using CombatDicesTeam.Combats.Effects;
 using Core.Combats.CombatantStatuses;
 using Core.Combats.Effects;
 
+using GameAssets.Combats.CombatantStatuses;
+
 namespace GameAssets.Combats.CombatMovementEffects;
 
 public sealed class MarkEffectInstance : EffectInstanceBase<MarkEffect>

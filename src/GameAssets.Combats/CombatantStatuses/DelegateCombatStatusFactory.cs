@@ -1,7 +1,7 @@
 ﻿using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
-namespace Core.Combats.CombatantStatuses;
+namespace GameAssets.Combats.CombatantStatuses;
 
 public sealed class DelegateCombatStatusFactory : ICombatantStatusFactory
 {
