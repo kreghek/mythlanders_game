@@ -10,7 +10,7 @@ namespace Client.Assets.GraphicConfigs.Heroes;
 
 internal sealed class RobberGraphicsConfig : HeroGraphicConfig
 {
-    public RobberGraphicsConfig(UnitName name) : base(name)
+    public RobberGraphicsConfig(string name) : base(name)
     {
         LaunchPoint = new Vector2(-128, 64);
     }

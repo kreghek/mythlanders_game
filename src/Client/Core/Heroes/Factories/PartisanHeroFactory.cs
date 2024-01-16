@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using Client.Assets.CombatMovements.Hero.Partisan;
+using Client.Assets.GraphicConfigs.Heroes;
 
 using CombatDicesTeam.Combats;
 
@@ -51,5 +52,10 @@ internal sealed class PartisanHeroFactory : HeroFactoryBase
         stats.SetValue(CombatantStatTypes.Resolve, 7);
 
         return stats;
+    }
+    
+    protected override CombatantGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new PartisanGraphicsConfig();
     }
 }

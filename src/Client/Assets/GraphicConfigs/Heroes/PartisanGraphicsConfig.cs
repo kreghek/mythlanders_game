@@ -10,7 +10,7 @@ namespace Client.Assets.GraphicConfigs.Heroes;
 
 internal sealed class PartisanGraphicsConfig : HeroGraphicConfig
 {
-    public PartisanGraphicsConfig() : base(UnitName.Partisan)
+    public PartisanGraphicsConfig() : base("Partisan")
     {
         LaunchPoint = new Vector2(-58, 48);
     }

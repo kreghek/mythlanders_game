@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 using Client.Assets.CombatMovements;
+using Client.Assets.GraphicConfigs;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantStatuses;
@@ -39,5 +41,11 @@ internal abstract class HeroFactoryBase : IHeroFactory
 
         var hero = new HeroState(ClassSid, hp, combatantStats, heroSequence.Items, startupStatuses);
         return hero;
+    }
+    
+    protected virtual CombatantGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new SingleSpriteGraphicsConfig(Path.Combine(CommonConstants.PathToCharacterSprites, "Heroes",
+            ClassSid, "Thumbnail"));
     }
 }

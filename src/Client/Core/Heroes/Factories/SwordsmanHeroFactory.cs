@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using Client.Assets.CombatMovements.Hero.Swordsman;
+using Client.Assets.GraphicConfigs.Heroes;
 
 using CombatDicesTeam.Combats;
 
@@ -49,5 +50,10 @@ internal sealed class SwordsmanHeroFactory : HeroFactoryBase
         stats.SetValue(CombatantStatTypes.Resolve, 5);
 
         return stats;
+    }
+    
+    protected override CombatantGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new SwordsmanGraphicsConfig(ClassSid);
     }
 }

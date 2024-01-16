@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Client.Assets.CombatMovements.Hero.Spearman;
+using Client.Assets.GraphicConfigs.Heroes;
 
 using CombatDicesTeam.Combats;
 
@@ -49,5 +50,10 @@ internal sealed class GuardianHeroFactory : HeroFactoryBase
         stats.SetValue(CombatantStatTypes.Resolve, 4);
 
         return stats;
+    }
+    
+    protected override CombatantGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new GuardsmanGraphicsConfig(ClassSid);
     }
 }

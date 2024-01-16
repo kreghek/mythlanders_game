@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Client.Assets.CombatMovements.Hero.Robber;
+using Client.Assets.GraphicConfigs.Heroes;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
@@ -67,5 +68,10 @@ internal sealed class RobberHeroFactory : HeroFactoryBase
         };
 
         return startupStatuses;
+    }
+    
+    protected override CombatantGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new RobberGraphicsConfig(ClassSid);
     }
 }
