@@ -1,6 +1,6 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-using Client.Assets.CombatMovements.Hero.Swordsman;
+using Client.Assets.CombatMovements.Hero.ShieldBearer;
 
 using CombatDicesTeam.Combats;
 
@@ -11,21 +11,13 @@ using JetBrains.Annotations;
 namespace Client.Core.Heroes.Factories;
 
 [UsedImplicitly]
-internal sealed class SwordsmanHeroFactory : HeroFactoryBase
+internal sealed class ShieldBearerHeroFactory : HeroFactoryBase
 {
     protected override CombatMovementSequence CreateInitCombatMovementPool()
     {
         var movementPool = new List<CombatMovement>
         {
-            CreateMovement<RiseYourSwordsFactory>(),
-
-            CreateMovement<DieBySwordFactory>(),
-
-            CreateMovement<StayStrongFactory>(),
-
-            CreateMovement<HitFromShoulderFactory>(),
-
-            CreateMovement<LookOutFactory>()
+            CreateMovement<BlindDefenseFactory>(),
         };
 
         var heroSequence = new CombatMovementSequence();
@@ -44,10 +36,9 @@ internal sealed class SwordsmanHeroFactory : HeroFactoryBase
     protected override CombatantStatsConfig CreateInitStats()
     {
         var stats = new CombatantStatsConfig();
-        stats.SetValue(CombatantStatTypes.HitPoints, 5);
-        stats.SetValue(CombatantStatTypes.ShieldPoints, 4);
-        stats.SetValue(CombatantStatTypes.Resolve, 5);
-
+        stats.SetValue(CombatantStatTypes.HitPoints, 4);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 5);
+        stats.SetValue(CombatantStatTypes.Resolve, 7);
         return stats;
     }
 }

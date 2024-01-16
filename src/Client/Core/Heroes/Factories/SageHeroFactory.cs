@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using Client.Assets.CombatMovements.Hero.Sage;
 
 using CombatDicesTeam.Combats;
-using CombatDicesTeam.Combats.CombatantEffectLifetimes;
-using CombatDicesTeam.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
 
+using JetBrains.Annotations;
+
 namespace Client.Core.Heroes.Factories;
 
+[UsedImplicitly]
 internal sealed class SageHeroFactory : HeroFactoryBase
 {
     protected override string ClassSid => "sage";

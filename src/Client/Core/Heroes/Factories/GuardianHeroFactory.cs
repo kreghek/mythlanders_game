@@ -6,12 +6,13 @@ using CombatDicesTeam.Combats;
 
 using GameAssets.Combats;
 
+using JetBrains.Annotations;
+
 namespace Client.Core.Heroes.Factories;
 
+[UsedImplicitly]
 internal sealed class GuardianHeroFactory : HeroFactoryBase
 {
-    protected override string ClassSid => "guardian";
-
     protected override CombatMovementSequence CreateInitCombatMovementPool()
     {
         var movementPool = new List<CombatMovement>

@@ -9,12 +9,14 @@ using CombatDicesTeam.Combats.CombatantStatuses;
 using GameAssets.Combats;
 using GameAssets.Combats.CombatantStatuses;
 
+using JetBrains.Annotations;
+
 namespace Client.Core.Heroes.Factories;
 
+
+[UsedImplicitly]
 internal sealed class RobberHeroFactory : HeroFactoryBase
 {
-    protected override string ClassSid => "robber";
-
     protected override CombatMovementSequence CreateInitCombatMovementPool()
     {
         var movementPool = new List<CombatMovement>
