@@ -1,8 +1,11 @@
 using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.Combats;
-using CombatDicesTeam.GenericRanges;
+using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats.CombatantStatuses;
+
 using Core.Combats.TargetSelectors;
-using GameAssets.Combats.CombatMovementEffects;
+
+using GameAssets.Combats.CombatantStatuses;
 
 using JetBrains.Annotations;
 
@@ -22,11 +25,14 @@ internal class AskedNoViolenceFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new DamageEffectWrapper(
-                        new ClosestInLineTargetSelector(),
-                        DamageType.Normal,
-                        GenericRange<int>.CreateMono(1)),
-                    new InterruptEffect(new SelfTargetSelector())
+                    new AddCombatantStatusEffect(new SelfTargetSelector(),
+                        new CombatStatusFactory(source =>
+                            new SoulTakerCombatantStatus(new CombatantStatusSid("SoulTaker"),
+                                new CombatantStatusSid("PartOfSoul"), new UntilCombatantEffectMeetPredicatesLifetime(new ICombatMovePredicate[]
+                                {
+                                    new IsAttackCombatMovePredicate()
+                                }), source))
+                    )
                 })
         );
     }

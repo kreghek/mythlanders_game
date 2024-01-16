@@ -28,7 +28,7 @@ internal class FaithBoostFactory : CombatMovementFactoryBase
                 {
                     new AddCombatantStatusEffect(
                         new RandomLineAllyTargetSelector(),
-                        new CombatStatusFactory((source)=>
+                        new CombatStatusFactory(source=>
                             new ModifyDamageCalculatedCombatantStatus(
                                 new CombatantStatusSid("SoulPower"),
                                 new ToNextCombatantTurnEffectLifetime(),
@@ -37,7 +37,6 @@ internal class FaithBoostFactory : CombatMovementFactoryBase
                                 {
                                     return combatant.Statuses.Count(x => (CombatantStatusSid)x.Sid == new CombatantStatusSid("PartOfSoul"));
                                 })))
-                    
                 })
         );
     }

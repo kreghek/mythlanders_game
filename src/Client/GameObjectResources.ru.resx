@@ -362,9 +362,6 @@
   <data name="EnergeticSuperiority_Description" xml:space="preserve">
     <value>Наносит 3 ед. урона по щитам самого заряженного противника в тылу.</value>
   </data>
-  <data name="EnergyShot" xml:space="preserve">
-    <value>Энерго-выстрел</value>
-  </data>
   <data name="Evasion" xml:space="preserve">
     <value>Уклонение</value>
   </data>
@@ -842,5 +839,29 @@
   </data>
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
+  </data>
+  <data name="Reproach" xml:space="preserve">
+    <value>Порицание</value>
+  </data>
+  <data name="FaithBoost" xml:space="preserve">
+    <value>Усиление веры</value>
+  </data>
+  <data name="FaithBoost_Description" xml:space="preserve">
+    <value>Увеличивает урон случайного союзника в зависимости от щита мудреца</value>
+  </data>
+  <data name="Reproach_Description" xml:space="preserve">
+    <value>Наносит урон ближайшему противнику в зависимости от уровня душевной боли. После этого противник пропускает ход.</value>
+  </data>
+  <data name="AskedNoViolence" xml:space="preserve">
+    <value>Я просил, никакого насилия!</value>
+  </data>
+  <data name="AskedNoViolence_Description" xml:space="preserve">
+    <value>Мудрец начинает собирать боль. Если кто-то атакует, это увеличивает боль на 1ед.</value>
+  </data>
+  <data name="NoViolencePlease" xml:space="preserve">
+    <value>Пожалуйста, не нужно насилия</value>
+  </data>
+  <data name="NoViolencePlease_Description" xml:space="preserve">
+    <value>Накладывает на случайного союзника щит, равный количеству боли.</value>
   </data>
 </root>
