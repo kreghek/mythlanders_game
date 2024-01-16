@@ -156,7 +156,7 @@ internal static class UnsortedHelpers
             UnitName.Wisp => 10,
             UnitName.Volkolak or UnitName.VolkolakWarrior => 11,
             UnitName.Partisan => 13,
-            UnitName.Assaulter => 14,
+            UnitName.ShieldBearer => 14,
             _ => 12
         };
     }

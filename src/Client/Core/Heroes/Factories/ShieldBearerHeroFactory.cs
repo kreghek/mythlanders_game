@@ -18,6 +18,7 @@ internal sealed class ShieldBearerHeroFactory : HeroFactoryBase
         var movementPool = new List<CombatMovement>
         {
             CreateMovement<BlindDefenseFactory>(),
+            CreateMovement<SuppressiveFireFactory>()
         };
 
         var heroSequence = new CombatMovementSequence();

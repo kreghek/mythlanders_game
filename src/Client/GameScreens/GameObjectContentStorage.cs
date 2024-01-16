@@ -94,7 +94,7 @@ internal class GameObjectContentStorage
         _heroTextureDict = new Dictionary<UnitName, Texture2D>
         {
             { UnitName.Partisan, LoadHeroesTexture(contentManager, "Partisan") },
-            { UnitName.Assaulter, LoadHeroesTexture(contentManager, "Assaulter") },
+            { UnitName.ShieldBearer, LoadHeroesTexture(contentManager, "Assaulter") },
             { UnitName.Swordsman, LoadHeroesTexture(contentManager, "Swordsman") },
             { UnitName.Herbalist, LoadHeroesTexture(contentManager, "Herbalist") },
             { UnitName.Robber, LoadHeroesTexture(contentManager, "Robber") },
@@ -232,7 +232,7 @@ internal class GameObjectContentStorage
         _deathSoundDict = new Dictionary<UnitName, SoundEffect>
         {
             { UnitName.Partisan, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
-            { UnitName.Assaulter, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+            { UnitName.ShieldBearer, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
             { UnitName.Swordsman, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BerimirDeath") },
             { UnitName.Robber, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
@@ -290,7 +290,7 @@ internal class GameObjectContentStorage
             { UnitName.Swordsman, LoadHeroPortrait("Swordsman") },
             { UnitName.Robber, LoadHeroPortrait("Robber") },
             { UnitName.Herbalist, LoadHeroPortrait("Herbalist") },
-            { UnitName.Assaulter, LoadHeroPortrait("Assaulter") },
+            { UnitName.ShieldBearer, LoadHeroPortrait("Assaulter") },
             { UnitName.Monk, LoadHeroPortrait("Monk") },
             { UnitName.Guardian, LoadHeroPortrait("Guardian") },
             { UnitName.Hoplite, LoadHeroPortrait("Hoplite") }

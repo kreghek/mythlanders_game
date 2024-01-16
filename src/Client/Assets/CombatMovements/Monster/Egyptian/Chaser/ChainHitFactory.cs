@@ -7,9 +7,9 @@ using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats.CombatMovementEffects;
 
-namespace Client.Assets.CombatMovements.Monster.Slavic.Chaser;
+namespace Client.Assets.CombatMovements.Monster.Egyptian.Chaser;
 
-internal class AfterlifeWhirlwindFactory : SimpleCombatMovementFactoryBase
+internal class ChainHitFactory : SimpleCombatMovementFactoryBase
 {
     protected override CombatMovementEffectConfig GetEffects()
     {
@@ -18,13 +18,12 @@ internal class AfterlifeWhirlwindFactory : SimpleCombatMovementFactoryBase
             {
                 new AdjustPositionEffect(new SelfTargetSelector()),
                 new DamageEffectWrapper(
-                    new AllVanguardEnemiesTargetSelector(),
+                    new StrongestEnemyTargetSelector(),
                     DamageType.Normal,
-                    GenericRange<int>.CreateMono(2)),
+                    GenericRange<int>.CreateMono(3)),
                 new PushToPositionEffect(
                     new SelfTargetSelector(),
-                    ChangePositionEffectDirection.ToVanguard
-                )
+                    ChangePositionEffectDirection.ToVanguard)
             });
     }
 

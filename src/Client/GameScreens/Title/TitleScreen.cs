@@ -374,7 +374,7 @@ internal sealed class TitleScreen : GameScreenBase
         {
             return new[]
             {
-                UnitName.Swordsman, UnitName.Robber, UnitName.Herbalist, UnitName.Assaulter, UnitName.Monk,
+                UnitName.Swordsman, UnitName.Robber, UnitName.Herbalist, UnitName.ShieldBearer, UnitName.Monk,
                 UnitName.Guardian, UnitName.Hoplite
             };
         }

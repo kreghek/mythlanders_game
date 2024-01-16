@@ -36,7 +36,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         UnitName.Medjay,
 
         UnitName.Zoologist,
-        UnitName.Assaulter
+        UnitName.ShieldBearer
     };
 
     private readonly IUnitSchemeCatalog _unitSchemeCatalog;

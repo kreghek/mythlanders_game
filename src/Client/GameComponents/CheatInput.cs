@@ -141,7 +141,7 @@ internal sealed class CheatInput : DrawableGameComponent
         return unitSchemeSid switch
         {
             "partisan" => unitSchemeCatalog.Heroes[UnitName.Partisan],
-            "assaulter" => unitSchemeCatalog.Heroes[UnitName.Assaulter],
+            "assaulter" => unitSchemeCatalog.Heroes[UnitName.ShieldBearer],
             "zoologist" => unitSchemeCatalog.Heroes[UnitName.Zoologist],
 
             "warrior" => unitSchemeCatalog.Heroes[UnitName.Swordsman],

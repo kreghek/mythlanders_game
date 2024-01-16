@@ -7,9 +7,9 @@ using Client.Core;
 
 namespace Client.Assets.Heroes;
 
-internal class AssaulterFactory : HeroFactoryBase
+internal class ShieldBearerFactory : HeroFactoryBase
 {
-    public override UnitName HeroName => UnitName.Assaulter;
+    public override UnitName HeroName => UnitName.ShieldBearer;
 
     protected override IEquipmentScheme[] GetEquipment()
     {

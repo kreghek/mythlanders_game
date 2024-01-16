@@ -160,6 +160,9 @@
             <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Assets\CombatMovements\Monster\Egyptian" />
+    </ItemGroup>
 
     <Target Name="CopySteamApiOnBuild" AfterTargets="AfterBuild">
         <Copy SourceFiles="..\..\libs\Windows-x64\steam_api64.dll" DestinationFolder="$(OutDir)" />

@@ -5,12 +5,11 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
-using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
-namespace Client.Assets.CombatMovements.Monster.Slavic.Chaser;
+namespace Client.Assets.CombatMovements.Monster.Egyptian.Chaser;
 
-internal class ChasingFactory : SimpleCombatMovementFactoryBase
+internal class AfterlifeWhirlwindFactory : SimpleCombatMovementFactoryBase
 {
     protected override CombatMovementEffectConfig GetEffects()
     {
@@ -19,16 +18,13 @@ internal class ChasingFactory : SimpleCombatMovementFactoryBase
             {
                 new AdjustPositionEffect(new SelfTargetSelector()),
                 new DamageEffectWrapper(
-                    new ClosestInLineTargetSelector(),
+                    new AllVanguardEnemiesTargetSelector(),
                     DamageType.Normal,
                     GenericRange<int>.CreateMono(2)),
                 new PushToPositionEffect(
-                    new ClosestInLineTargetSelector(),
-                    ChangePositionEffectDirection.ToVanguard),
-                new ChangeCurrentStatEffect(
-                    new ClosestInLineTargetSelector(),
-                    CombatantStatTypes.Resolve,
-                    GenericRange<int>.CreateMono(-2))
+                    new SelfTargetSelector(),
+                    ChangePositionEffectDirection.ToVanguard
+                )
             });
     }
 
