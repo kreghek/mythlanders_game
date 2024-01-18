@@ -5,6 +5,7 @@ using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatantStatuses;
 using GameAssets.Combats.TargetSelectors;
 
@@ -35,7 +36,9 @@ internal class FaithBoostFactory : CombatMovementFactoryBase
                                 source,
                                 combatant =>
                                 {
-                                    return combatant.Statuses.Count(x => (CombatantStatusSid)x.Sid == new CombatantStatusSid("PartOfSoul"));
+                                    return combatant.Stats
+                                        .Single(x => ReferenceEquals(x.Type, CombatantStatTypes.ShieldPoints)).Value
+                                        .Current;
                                 })))
                 })
         );

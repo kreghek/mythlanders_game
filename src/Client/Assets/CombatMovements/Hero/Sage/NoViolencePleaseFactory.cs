@@ -36,7 +36,10 @@ internal class NoViolencePleaseFactory : CombatMovementFactoryBase
                                 CombatantStatTypes.ShieldPoints,
                                 status =>
                                 {
-                                    return ((CombatMovementCombatantStatusSource)status.Source).Actor.Statuses.Count(x => (CombatantStatusSid)x.Sid == new CombatantStatusSid("PartOfSoul"));
+                                    var combatant = ((CombatMovementCombatantStatusSource)status.Source).Actor;
+                                    return combatant.Stats
+                                        .Single(x => ReferenceEquals(x.Type, CombatantStatTypes.ShieldPoints)).Value
+                                        .Current;
                                 })))
                 })
         );
