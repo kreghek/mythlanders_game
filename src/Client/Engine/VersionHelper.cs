@@ -24,6 +24,6 @@ internal static class VersionHelper
         }
 
         version = null;
-        return true;
+        return false;
     }
 }
