@@ -16,4 +16,9 @@ internal sealed class HiddenThreatStatModifier: IStatModifier
     {
         Value++;
     }
+
+    public void ClearValue()
+    {
+        Value = 0;
+    }
 }

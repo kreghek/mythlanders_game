@@ -5,10 +5,7 @@ namespace GameAssets.Combats.CombatantStatuses;
 
 public sealed class HiddenThreatCombatantStatus : CombatantStatusBase
 {
-    private ICombatant? _statusOwner;
-
-    private HiddenThreatStatModifier? _modifier;
-    private CombatEngineBase? _combat;
+    private HiddenThreatCombatantStatusData? _data;
 
     public HiddenThreatCombatantStatus(ICombatantStatusSid sid,
         ICombatantStatusLifetime lifetime, ICombatantStatusSource source) : base(sid, lifetime, source)
@@ -19,52 +16,53 @@ public sealed class HiddenThreatCombatantStatus : CombatantStatusBase
     {
         base.Impose(combatant, combatantEffectImposeContext);
 
-        _statusOwner = combatant;
-        _modifier = new HiddenThreatStatModifier(new CombatantStatusModifierSource(this));
-        _statusOwner.Stats.Single(x=>ReferenceEquals(x.Type, CombatantStatTypes.ShieldPoints)).Value.AddModifier(_modifier);
-
-        _combat = combatantEffectImposeContext.Combat;
+        _data = new HiddenThreatCombatantStatusData(combatant,
+            new HiddenThreatStatModifier(new CombatantStatusModifierSource(this)), combatantEffectImposeContext.Combat);
         
-        _combat.CombatantHasBeenDamaged += Combat_CombatantHasBeenDamaged;
+        GetTargetStatValue(combatant).AddModifier(_data.Modifier);
+
+        _data.Combat.CombatantHasBeenDamaged += Combat_CombatantHasBeenDamaged;
     }
 
     public override void Dispel(ICombatant combatant)
     {
         base.Dispel(combatant);
 
-        if (_combat is not null)
+        if (_data is not null)
         {
-            _combat.CombatantHasBeenDamaged -= Combat_CombatantHasBeenDamaged;
+            _data.Combat.CombatantHasBeenDamaged -= Combat_CombatantHasBeenDamaged;
+            
+            GetTargetStatValue(_data.Owner).RemoveModifier(_data.Modifier);
         }
         else
         {
             //TODO Handle error
-            // combat must be assigned on impose
+            // _data must be assigned on impose
         }
+    }
 
-        if (_modifier is not null && _statusOwner is not null)
-        {
-            _statusOwner.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.ShieldPoints)).Value
-                .RemoveModifier(_modifier);
-        }
-        else
-        {
-            //TODO Handle error
-        }
+    private static IStatValue GetTargetStatValue(ICombatant combatant)
+    {
+        return combatant.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.ShieldPoints)).Value;
     }
 
     private void Combat_CombatantHasBeenDamaged(object? sender, CombatantDamagedEventArgs e)
     {
-        if (_statusOwner != e.Combatant)
+        if (_data is null)
         {
-            if (_modifier is not null)
+            //TODO Handle error
+            // _data must be assigned on impose
+        }
+        else
+        {
+            if (_data.Owner != e.Combatant)
             {
-                _modifier.IncrementValue();
+                _data.Modifier.IncrementValue();
+                GetTargetStatValue(_data.Owner).Restore(1);
             }
             else
             {
-                //TODO Handle error
-                // modifier must be created on impose
+                _data.Modifier.ClearValue();
             }
         }
     }
