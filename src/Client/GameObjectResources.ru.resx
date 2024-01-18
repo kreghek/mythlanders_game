@@ -864,4 +864,7 @@
   <data name="NoViolencePlease_Description" xml:space="preserve">
     <value>Накладывает на случайного союзника щит, равный количеству боли.</value>
   </data>
+  <data name="HiddenThread" xml:space="preserve">
+    <value>Скрытая угроза</value>
+  </data>
 </root>

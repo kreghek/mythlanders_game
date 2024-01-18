@@ -1059,6 +1059,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hidden thread.
+        /// </summary>
+        internal static string HiddenThread {
+            get {
+                return ResourceManager.GetString("HiddenThread", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hit from the shoulder.
         /// </summary>
         internal static string HitFromShoulder {

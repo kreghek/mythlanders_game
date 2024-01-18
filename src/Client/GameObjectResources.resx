@@ -1027,4 +1027,7 @@
   <data name="NoViolencePlease_Description" xml:space="preserve">
       <value />
   </data>
+  <data name="HiddenThread" xml:space="preserve">
+      <value>Hidden thread</value><comment>Status</comment>
+  </data>
 </root>
