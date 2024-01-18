@@ -22,7 +22,6 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     private readonly IDice _dice;
     private readonly IDropResolver _dropResolver;
     private readonly GlobeProvider _globeProvider;
-    private readonly CampaignWayTemplatesCatalog _wayTemplatesCatalog;
 
     private readonly UnitName[] _heroInDev =
     {
@@ -40,6 +39,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     };
 
     private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+    private readonly CampaignWayTemplatesCatalog _wayTemplatesCatalog;
 
     public CampaignGenerator(CampaignWayTemplatesCatalog wayTemplatesCatalog,
         IDice dice,

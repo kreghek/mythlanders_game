@@ -1,6 +1,6 @@
-using Client.Assets.CombatMovements;
 using System.IO;
 
+using Client.Assets.CombatMovements;
 using Client.Assets.Equipments.Sage;
 using Client.Assets.GraphicConfigs;
 using Client.Core;
@@ -21,16 +21,16 @@ internal class SageFactory : HeroFactoryBase
         };
     }
 
+    protected override CombatantGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new SingleSpriteGraphicsConfig(Path.Combine(CommonConstants.PathToCharacterSprites, "Heroes",
+            HeroName.ToString(), "Thumbnail"));
+    }
+
     protected override IUnitLevelScheme[] GetLevels()
     {
         return new IUnitLevelScheme[]
         {
         };
-    }
-
-    protected override CombatantGraphicsConfigBase GetGraphicsConfig()
-    {
-        return new SingleSpriteGraphicsConfig(Path.Combine(CommonConstants.PathToCharacterSprites, "Heroes",
-            HeroName.ToString(), "Thumbnail"));
     }
 }

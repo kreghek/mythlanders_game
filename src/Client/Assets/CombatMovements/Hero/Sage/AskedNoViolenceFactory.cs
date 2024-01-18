@@ -1,7 +1,7 @@
-using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
+using CombatDicesTeam.Combats.Effects;
 
 using Core.Combats.TargetSelectors;
 

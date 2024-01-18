@@ -38,7 +38,8 @@ public sealed class LifeDrawEffectInstance : EffectInstanceBase<LifeDrawEffect>
             //TakeStat(target, UnitStatType.HitPoints, damageRemains);
             var stolenHitPoints = context.DamageCombatantStat(target, CombatantStatTypes.HitPoints, damageRemains);
 
-            context.Actor.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.HitPoints)).Value.Restore(stolenHitPoints);
+            context.Actor.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.HitPoints)).Value
+                .Restore(stolenHitPoints);
         }
     }
 

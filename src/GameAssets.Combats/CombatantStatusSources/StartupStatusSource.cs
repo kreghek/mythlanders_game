@@ -2,7 +2,6 @@
 
 namespace GameAssets.Combats.CombatantStatusSources;
 
-public sealed record StartupStatusSource: ICombatantStatusSource
+public sealed record StartupStatusSource : ICombatantStatusSource
 {
-    
 }

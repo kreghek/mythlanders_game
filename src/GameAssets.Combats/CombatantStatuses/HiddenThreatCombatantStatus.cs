@@ -12,18 +12,6 @@ public sealed class HiddenThreatCombatantStatus : CombatantStatusBase
     {
     }
 
-    public override void Impose(ICombatant combatant, ICombatantStatusImposeContext combatantEffectImposeContext)
-    {
-        base.Impose(combatant, combatantEffectImposeContext);
-
-        _data = new HiddenThreatCombatantStatusData(combatant,
-            new HiddenThreatStatModifier(new CombatantStatusModifierSource(this)), combatantEffectImposeContext.Combat);
-        
-        GetTargetStatValue(combatant).AddModifier(_data.Modifier);
-
-        _data.Combat.CombatantHasBeenDamaged += Combat_CombatantHasBeenDamaged;
-    }
-
     public override void Dispel(ICombatant combatant)
     {
         base.Dispel(combatant);
@@ -31,19 +19,23 @@ public sealed class HiddenThreatCombatantStatus : CombatantStatusBase
         if (_data is not null)
         {
             _data.Combat.CombatantHasBeenDamaged -= Combat_CombatantHasBeenDamaged;
-            
+
             GetTargetStatValue(_data.Owner).RemoveModifier(_data.Modifier);
         }
-        else
-        {
-            //TODO Handle error
-            // _data must be assigned on impose
-        }
+        //TODO Handle error
+        // _data must be assigned on impose
     }
 
-    private static IStatValue GetTargetStatValue(ICombatant combatant)
+    public override void Impose(ICombatant combatant, ICombatantStatusImposeContext combatantEffectImposeContext)
     {
-        return combatant.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.ShieldPoints)).Value;
+        base.Impose(combatant, combatantEffectImposeContext);
+
+        _data = new HiddenThreatCombatantStatusData(combatant,
+            new HiddenThreatStatModifier(new CombatantStatusModifierSource(this)), combatantEffectImposeContext.Combat);
+
+        GetTargetStatValue(combatant).AddModifier(_data.Modifier);
+
+        _data.Combat.CombatantHasBeenDamaged += Combat_CombatantHasBeenDamaged;
     }
 
     private void Combat_CombatantHasBeenDamaged(object? sender, CombatantDamagedEventArgs e)
@@ -65,5 +57,10 @@ public sealed class HiddenThreatCombatantStatus : CombatantStatusBase
                 _data.Modifier.ClearValue();
             }
         }
+    }
+
+    private static IStatValue GetTargetStatValue(ICombatant combatant)
+    {
+        return combatant.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.ShieldPoints)).Value;
     }
 }
