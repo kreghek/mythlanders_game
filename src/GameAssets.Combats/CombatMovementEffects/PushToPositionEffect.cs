@@ -1,6 +1,8 @@
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.Effects;
 
+using GameAssets.Combats.CombatMovementEffects;
+
 namespace Core.Combats.Effects;
 
 public sealed class PushToPositionEffect : IEffect

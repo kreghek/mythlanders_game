@@ -19,7 +19,8 @@ internal sealed class HeroState
             { "partisan", new PartisanHeroFactory() },
             { "robber", new RobberHeroFactory() },
             { "monk", new MonkHeroFactory() },
-            { "guardian", new GuardianHeroFactory() }
+            { "guardian", new GuardianHeroFactory() },
+            { "sage", new SageHeroFactory() }
         };
 
     public HeroState(string classSid, IStatValue hitPoints, IEnumerable<ICombatantStat> combatStats,

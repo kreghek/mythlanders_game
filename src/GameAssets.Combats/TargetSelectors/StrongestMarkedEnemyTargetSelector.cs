@@ -1,8 +1,7 @@
 using CombatDicesTeam.Combats;
 
-using Core.Combats.CombatantStatuses;
-
 using GameAssets.Combats;
+using GameAssets.Combats.CombatantStatuses;
 
 namespace Core.Combats.TargetSelectors;
 

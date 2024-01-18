@@ -1,8 +1,10 @@
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Combats.Effects;
 
-using Core.Combats.CombatantStatuses;
 using Core.Combats.Effects;
+
+using GameAssets.Combats.CombatantStatuses;
 
 namespace GameAssets.Combats.CombatMovementEffects;
 
@@ -15,11 +17,12 @@ public sealed class MarkEffectInstance : EffectInstanceBase<MarkEffect>
         _lifetime = lifetime;
     }
 
-    public override void Influence(ICombatant target, IStatusCombatContext context)
+    public override void Influence(ICombatant target, ICombatMovementContext context)
     {
         var markEffectSid = CombatantStatusSids.Mark;
 
         context.StatusImposedContext.ImposeCombatantStatus(target,
-            new DelegateCombatStatusFactory(() => new MarkCombatantStatus(markEffectSid, _lifetime)));
+            new CombatMovementCombatantStatusSource(context.Actor),
+            new CombatStatusFactory(source => new MarkCombatantStatus(markEffectSid, _lifetime, source)));
     }
 }

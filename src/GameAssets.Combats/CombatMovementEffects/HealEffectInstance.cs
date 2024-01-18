@@ -3,9 +3,9 @@ using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.Dices;
 using CombatDicesTeam.GenericRanges;
 
-using GameAssets.Combats;
+using Core.Combats.Effects;
 
-namespace Core.Combats.Effects;
+namespace GameAssets.Combats.CombatMovementEffects;
 
 public sealed class HealEffectInstance : EffectInstanceBase<HealEffect>
 {
@@ -22,7 +22,7 @@ public sealed class HealEffectInstance : EffectInstanceBase<HealEffect>
         Heal.Max.AddModifier(modifier);
     }
 
-    public override void Influence(ICombatant target, IStatusCombatContext context)
+    public override void Influence(ICombatant target, ICombatMovementContext context)
     {
         var rolledHeal = context.Dice.Roll(Heal.Min.ActualMax, Heal.Max.ActualMax);
 

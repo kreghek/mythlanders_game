@@ -403,10 +403,6 @@
   <data name="EnergeticSuperiority_Description" xml:space="preserve">
     <value></value>
   </data>
-  <data name="EnergyShot" xml:space="preserve">
-      <value>Energy shot</value>
-        <comment>Skill</comment>
-  </data>
   <data name="Evasion" xml:space="preserve">
     <value>Evasion</value>
         <comment>Perk</comment>
@@ -1006,5 +1002,32 @@
   <data name="ZduhachMight" xml:space="preserve">
       <value>Zduhach Might</value>
         <comment>Skill</comment>
+  </data>
+  <data name="FaithBoost" xml:space="preserve">
+      <value>Faith boost</value><comment>Combat Movement Sage</comment>
+  </data>
+  <data name="FaithBoost_Description" xml:space="preserve">
+      <value />
+  </data>
+  <data name="Reproach" xml:space="preserve">
+      <value>Reproach</value><comment>Combat Movement Sage</comment>
+  </data>
+  <data name="Reproach_Description" xml:space="preserve">
+      <value />
+  </data>
+  <data name="AskedNoViolence" xml:space="preserve">
+      <value>Asked No Violence</value><comment>Combat Movement Sage</comment>
+  </data>
+  <data name="AskedNoViolence_Description" xml:space="preserve">
+      <value />
+  </data>
+  <data name="NoViolencePlease" xml:space="preserve">
+      <value>No Violence, Please...</value><comment>Combat Movement Sage</comment>
+  </data>
+  <data name="NoViolencePlease_Description" xml:space="preserve">
+      <value />
+  </data>
+  <data name="HiddenThread" xml:space="preserve">
+      <value>Hidden thread</value><comment>Status</comment>
   </data>
 </root>

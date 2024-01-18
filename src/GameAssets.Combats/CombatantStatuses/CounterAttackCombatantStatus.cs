@@ -1,9 +1,9 @@
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
-namespace Core.Combats.CombatantStatuses;
+namespace GameAssets.Combats.CombatantStatuses;
 
-public sealed class ConterAttackCombatantStatus : CombatantStatusBase
+public sealed class CounterAttackCombatantStatus : CombatantStatusBase
 {
     //TODO Use this movement to do damage
     //TODO Pass this move in constructor via factory
@@ -11,7 +11,7 @@ public sealed class ConterAttackCombatantStatus : CombatantStatusBase
     private CombatEngineBase? _combat;
     private ICombatant? _ownerCombatant;
 
-    public ConterAttackCombatantStatus(ICombatantStatusSid sid, ICombatantStatusLifetime lifetime) : base(sid, lifetime)
+    public CounterAttackCombatantStatus(ICombatantStatusSid sid, ICombatantStatusLifetime lifetime, ICombatantStatusSource source) : base(sid, lifetime, source)
     {
     }
 

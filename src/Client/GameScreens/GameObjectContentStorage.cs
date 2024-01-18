@@ -102,7 +102,8 @@ internal class GameObjectContentStorage
             { UnitName.Guardian, LoadHeroesTexture(contentManager, "Guardian") },
             { UnitName.Medjay, LoadHeroesTexture(contentManager, "Medjay") },
             { UnitName.Hoplite, LoadHeroesTexture(contentManager, "Hoplite") },
-            { UnitName.Amazon, LoadHeroesTexture(contentManager, "Amazon") }
+            { UnitName.Amazon, LoadHeroesTexture(contentManager, "Amazon") },
+            { UnitName.Sage, LoadHeroesTexture(contentManager, "Sage") },
         };
 
         LoadMonsters(contentManager);
