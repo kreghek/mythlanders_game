@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets.Heroes;
 using Client.Assets.Monsters;
 using Client.Core;
+using Client.Core.Heroes.Factories;
 using Client.GameScreens;
 
 using Microsoft.Xna.Framework.Content;
@@ -21,8 +21,9 @@ internal sealed class CombatantGraphicsCatalog : ICombatantGraphicsCatalog
         var heroes = LoadHeroFactories();
         foreach (var factory in heroes)
         {
-            var graphics = factory.CreateGraphicsConfig(gameObjectContentStorage);
-            _graphicsDict.Add(factory.HeroName.ToString().ToUpper(), graphics);
+            var classSid = factory.ClassSid;
+            var graphicsConfig = factory.GetGraphicsConfig();
+            _graphicsDict.Add(classSid, graphicsConfig);
         }
 
         var monsters = LoadMonsterFactories();

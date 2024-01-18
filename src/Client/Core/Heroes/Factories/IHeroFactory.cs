@@ -2,5 +2,7 @@
 
 internal interface IHeroFactory
 {
+    string ClassSid { get; }
     HeroState Create();
+    CombatantGraphicsConfigBase GetGraphicsConfig();
 }

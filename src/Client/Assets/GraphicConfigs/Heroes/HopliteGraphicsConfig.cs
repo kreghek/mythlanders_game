@@ -8,7 +8,7 @@ namespace Client.Assets.GraphicConfigs.Heroes;
 
 internal sealed class HopliteGraphicsConfig : HeroGraphicConfig
 {
-    public HopliteGraphicsConfig(UnitName name) : base(name)
+    public HopliteGraphicsConfig(string name) : base(name)
     {
     }
 

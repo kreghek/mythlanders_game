@@ -15,7 +15,7 @@ namespace Client.Core.Heroes.Factories;
 
 internal abstract class HeroFactoryBase : IHeroFactory
 {
-    protected virtual string ClassSid => GetType().Name[..^"HeroFactory".Length].ToLowerInvariant();
+    public virtual string ClassSid => GetType().Name[..^"HeroFactory".Length].ToLowerInvariant();
     protected abstract CombatMovementSequence CreateInitCombatMovementPool();
 
     protected abstract CombatantStatsConfig CreateInitStats();
@@ -43,7 +43,7 @@ internal abstract class HeroFactoryBase : IHeroFactory
         return hero;
     }
     
-    protected virtual CombatantGraphicsConfigBase GetGraphicsConfig()
+    public virtual CombatantGraphicsConfigBase GetGraphicsConfig()
     {
         return new SingleSpriteGraphicsConfig(Path.Combine(CommonConstants.PathToCharacterSprites, "Heroes",
             ClassSid, "Thumbnail"));

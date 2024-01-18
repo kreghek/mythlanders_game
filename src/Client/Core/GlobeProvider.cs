@@ -21,11 +21,11 @@ internal sealed class GlobeProvider
 
     private readonly string _storagePath;
     private readonly IStoryPointInitializer _storyPointInitializer;
-    private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+    private readonly ICharacterCatalog _unitSchemeCatalog;
 
     private Globe? _globe;
 
-    public GlobeProvider(IUnitSchemeCatalog unitSchemeCatalog,
+    public GlobeProvider(ICharacterCatalog unitSchemeCatalog,
         IStoryPointInitializer storyPointInitializer)
     {
         _unitSchemeCatalog = unitSchemeCatalog;
@@ -405,7 +405,7 @@ internal sealed class GlobeProvider
         }
     }
 
-    private static void LoadPlayerKnownMonsters(PlayerDto playerDto, IUnitSchemeCatalog unitSchemeCatalog,
+    private static void LoadPlayerKnownMonsters(PlayerDto playerDto, ICharacterCatalog unitSchemeCatalog,
         Player player)
     {
         player.KnownMonsters.Clear();

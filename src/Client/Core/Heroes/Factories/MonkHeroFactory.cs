@@ -51,8 +51,8 @@ internal sealed class MonkHeroFactory : HeroFactoryBase
 
         return stats;
     }
-    
-    protected override CombatantGraphicsConfigBase GetGraphicsConfig()
+
+    public override CombatantGraphicsConfigBase GetGraphicsConfig()
     {
         return new MaosinGraphicsConfig(ClassSid);
     }

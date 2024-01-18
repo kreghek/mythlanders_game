@@ -52,7 +52,7 @@ internal sealed class GuardianHeroFactory : HeroFactoryBase
         return stats;
     }
     
-    protected override CombatantGraphicsConfigBase GetGraphicsConfig()
+    public override CombatantGraphicsConfigBase GetGraphicsConfig()
     {
         return new GuardsmanGraphicsConfig(ClassSid);
     }

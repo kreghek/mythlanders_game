@@ -69,8 +69,8 @@ internal sealed class RobberHeroFactory : HeroFactoryBase
 
         return startupStatuses;
     }
-    
-    protected override CombatantGraphicsConfigBase GetGraphicsConfig()
+
+    public override CombatantGraphicsConfigBase GetGraphicsConfig()
     {
         return new RobberGraphicsConfig(ClassSid);
     }

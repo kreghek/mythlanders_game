@@ -15,7 +15,7 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
     private readonly Player _player;
     private readonly IUiContentStorage _uiContentStorage;
-    private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+    private readonly ICharacterCatalog _unitSchemeCatalog;
 
     private UnitScheme? _selectedMonster;
 
@@ -24,7 +24,7 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
     {
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();
 
-        _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
+        _unitSchemeCatalog = game.Services.GetService<ICharacterCatalog>();
         var globeProvider = game.Services.GetService<GlobeProvider>();
         _player = globeProvider.Globe.Player;
 

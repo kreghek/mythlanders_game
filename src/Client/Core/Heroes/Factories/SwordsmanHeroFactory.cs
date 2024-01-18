@@ -51,8 +51,8 @@ internal sealed class SwordsmanHeroFactory : HeroFactoryBase
 
         return stats;
     }
-    
-    protected override CombatantGraphicsConfigBase GetGraphicsConfig()
+
+    public override CombatantGraphicsConfigBase GetGraphicsConfig()
     {
         return new SwordsmanGraphicsConfig(ClassSid);
     }

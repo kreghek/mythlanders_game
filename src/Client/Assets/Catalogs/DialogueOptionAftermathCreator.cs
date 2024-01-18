@@ -13,11 +13,9 @@ namespace Client.Assets.Catalogs;
 internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathCreator
 {
     private readonly IDice _dice;
-    private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
-    public DialogueOptionAftermathCreator(IUnitSchemeCatalog unitSchemeCatalog, IDice dice)
+    public DialogueOptionAftermathCreator(IDice dice)
     {
-        _unitSchemeCatalog = unitSchemeCatalog;
         _dice = dice;
     }
 
@@ -27,9 +25,8 @@ internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathC
 
         if (typeSid == "MeetHero")
         {
-            var heroNameStr = data;
-            var heroName = Enum.Parse<UnitName>(heroNameStr);
-            aftermath = new AddHeroOptionAftermath(_unitSchemeCatalog.Heroes[heroName]);
+            var heroName = data;
+            aftermath = new AddHeroOptionAftermath(heroName);
         }
         else if (typeSid == "ActivateStoryPoint")
         {

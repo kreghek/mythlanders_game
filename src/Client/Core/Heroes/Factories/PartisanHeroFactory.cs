@@ -53,8 +53,8 @@ internal sealed class PartisanHeroFactory : HeroFactoryBase
 
         return stats;
     }
-    
-    protected override CombatantGraphicsConfigBase GetGraphicsConfig()
+
+    public override CombatantGraphicsConfigBase GetGraphicsConfig()
     {
         return new PartisanGraphicsConfig();
     }

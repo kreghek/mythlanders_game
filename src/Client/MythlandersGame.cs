@@ -218,11 +218,11 @@ internal sealed class MythlandersGame : Game
     {
         if (_gameSettings.Mode == GameMode.Full)
         {
-            var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable, isDemo: false);
-            Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
+            var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
+            Services.AddService<ICharacterCatalog>(unitSchemeCatalog);
 
             var dialogueAftermathCreator =
-                new DialogueOptionAftermathCreator(unitSchemeCatalog, Services.GetRequiredService<IDice>());
+                new DialogueOptionAftermathCreator(Services.GetRequiredService<IDice>());
 
             var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider, dialogueAftermathCreator);
             Services.AddService<IEventInitializer>(dialogueCatalog);
@@ -234,11 +234,11 @@ internal sealed class MythlandersGame : Game
         }
         else
         {
-            var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable, isDemo: true);
-            Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
+            var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
+            Services.AddService<ICharacterCatalog>(unitSchemeCatalog);
 
             var dialogueAftermathCreator =
-                new DialogueOptionAftermathCreator(unitSchemeCatalog, Services.GetRequiredService<IDice>());
+                new DialogueOptionAftermathCreator(Services.GetRequiredService<IDice>());
 
             var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider, dialogueAftermathCreator);
             Services.AddService<IEventInitializer>(dialogueCatalog);
@@ -284,7 +284,7 @@ internal sealed class MythlandersGame : Game
         eventInitializer.Init();
 
         Services.AddService(
-            new GlobeProvider(Services.GetRequiredService<IUnitSchemeCatalog>(),
+            new GlobeProvider(Services.GetRequiredService<ICharacterCatalog>(),
                 Services.GetRequiredService<IStoryPointInitializer>()));
 
         var campaignWayTemplateCatalog = new CampaignWayTemplatesCatalog(Services.GetRequiredService<GlobeProvider>(),
@@ -292,7 +292,7 @@ internal sealed class MythlandersGame : Game
             Services.GetRequiredService<IDice>(),
             Services.GetRequiredService<IJobProgressResolver>(),
             Services.GetRequiredService<IDropResolver>(),
-            Services.GetRequiredService<IUnitSchemeCatalog>(),
+            Services.GetRequiredService<ICharacterCatalog>(),
             Services.GetRequiredService<ICrisesCatalog>());
         Services.AddService(campaignWayTemplateCatalog);
 
@@ -300,7 +300,7 @@ internal sealed class MythlandersGame : Game
             Services.GetRequiredService<CampaignWayTemplatesCatalog>(),
             Services.GetRequiredService<IDice>(),
             Services.GetRequiredService<IDropResolver>(),
-            Services.GetService<IUnitSchemeCatalog>(),
+            Services.GetService<ICharacterCatalog>(),
             Services.GetRequiredService<GlobeProvider>());
 
         Services.AddService<ICampaignGenerator>(campaignGenerator);

@@ -13,8 +13,6 @@ namespace Client.Core.Heroes.Factories;
 [UsedImplicitly]
 internal sealed class SageHeroFactory : HeroFactoryBase
 {
-    protected override string ClassSid => "sage";
-
     protected override CombatMovementSequence CreateInitCombatMovementPool()
     {
         var movementPool = new List<CombatMovement>

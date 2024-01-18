@@ -53,10 +53,10 @@ public class SynthAsParentTests
         var dice = new LinearDice();
 
         var balanceTable = new BalanceTable();
-        var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable, false);
+        var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
 
         var eventCatalog = new DialogueCatalog(new LocalDialogueResourceProvider(),
-            new DialogueOptionAftermathCreator(unitSchemeCatalog, dice));
+            new DialogueOptionAftermathCreator(dice));
         eventCatalog.Init();
 
         var storyPointCatalog = new StoryPointCatalog(eventCatalog);
