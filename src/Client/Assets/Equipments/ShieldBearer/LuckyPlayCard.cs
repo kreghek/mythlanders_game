@@ -2,7 +2,7 @@
 
 using Client.Core;
 
-namespace Client.Assets.Equipments.Assaulter;
+namespace Client.Assets.Equipments.ShieldBearer;
 
 internal sealed class LuckyPlayCard : IEquipmentScheme
 {

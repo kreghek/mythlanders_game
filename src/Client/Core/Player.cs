@@ -11,6 +11,8 @@ internal sealed class Player
 
     private readonly IList<MonsterPerk> _monsterPerks = new List<MonsterPerk>();
 
+    private IList<Equipment> _equipments = new List<Equipment>();
+
     public Player(string name) : this()
     {
         Name = name;
@@ -31,6 +33,8 @@ internal sealed class Player
 
         _locations = new HashSet<ILocationSid>();
     }
+
+    public IReadOnlyCollection<Equipment> Equipments => _equipments.ToArray();
 
     public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
     public IChallenge? Challenge { get; set; }
@@ -66,6 +70,11 @@ internal sealed class Player
     public void AddPlayerAbility(PlayerAbility ability)
     {
         _abilities.Add(ability);
+    }
+
+    public void AddEquipment(Equipment equipment)
+    {
+        _equipments.Add(equipment);
     }
 
     public void ClearAbilities()

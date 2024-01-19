@@ -1,7 +1,7 @@
 ﻿using Client.Core;
 using Client.Core.Equipments;
 
-namespace Client.Assets.Equipments.Assaulter;
+namespace Client.Assets.Equipments.ShieldBearer;
 
 internal sealed class AssaultRifle : SimpleBonusEquipmentBase
 {
