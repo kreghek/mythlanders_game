@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Client.GameScreens.Barracks;
 using Client.GameScreens.Bestiary;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.CampaignReward;
@@ -9,13 +10,14 @@ using Client.GameScreens.CommandCenter;
 using Client.GameScreens.Credits;
 using Client.GameScreens.Crisis;
 using Client.GameScreens.EndGame;
-using Client.GameScreens.Hero;
 using Client.GameScreens.Intro;
+using Client.GameScreens.Match3;
 using Client.GameScreens.NotImplementedStage;
 using Client.GameScreens.Rest;
 using Client.GameScreens.SlidingPuzzles;
 using Client.GameScreens.TextDialogue;
 using Client.GameScreens.Title;
+using Client.GameScreens.TowersMinigame;
 using Client.GameScreens.Training;
 using Client.GameScreens.VoiceCombat;
 
@@ -27,14 +29,14 @@ namespace Client.ScreenManagement;
 internal class ScreenManager : IScreenManager
 {
     private const double TRANSITION_DURATION = 1;
-    private readonly TestamentGame _game;
+    private readonly MythlandersGame _game;
     private readonly GameSettings _gameSettings;
     private readonly Texture2D _transitionTexture;
     private bool _screenChanged;
 
     private double? _transitionCounter;
 
-    public ScreenManager(TestamentGame game, GameSettings gameSettings)
+    public ScreenManager(MythlandersGame game, GameSettings gameSettings)
     {
         _game = game;
         _gameSettings = gameSettings;
@@ -117,7 +119,7 @@ internal class ScreenManager : IScreenManager
                 (CampaignScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.CommandCenter => new CommandCenterScreen(_game,
                 (CommandCenterScreenTransitionArguments)screenTransitionArguments),
-            ScreenTransition.Hero => new HeroScreen(_game),
+            ScreenTransition.Barracks => new BarracksScreen(_game),
             ScreenTransition.Event => new TextDialogueScreen(_game,
                 (TextDialogueScreenTransitionArgs)screenTransitionArguments),
             ScreenTransition.Combat => new CombatScreen(_game,
@@ -128,8 +130,12 @@ internal class ScreenManager : IScreenManager
                 (CrisisScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.Training => new TrainingScreen(_game,
                 (TrainingScreenTransitionArguments)screenTransitionArguments),
-            ScreenTransition.SlidingPuzzles => new SlidingPuzzlesScreen(_game,
-                (SlidingPuzzlesScreenTransitionArguments)screenTransitionArguments),
+            ScreenTransition.SlidingPuzzlesMinigame => new SlidingPuzzlesScreen(_game,
+                (SlidingPuzzlesMinigameScreenTransitionArguments)screenTransitionArguments),
+            ScreenTransition.Match3Minigame => new Match3MinigameScreen(_game,
+                (Match3MiniGameScreenTransitionArguments)screenTransitionArguments),
+            ScreenTransition.TowersMinigame => new TowersMinigameScreen(_game,
+                (TowersMiniGameScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.Challenge => new ChallengeScreen(_game,
                 (ChallengeScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.CampaignReward => new CampaignRewardScreen(_game,

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets.StageItems;
-using Client.Core.CampaignRewards;
+using Client.Assets.StoryPointJobs;
+using Client.Core.CampaignEffects;
 
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Graphs;
 
 namespace Client.Core.Campaigns;
@@ -13,14 +14,14 @@ namespace Client.Core.Campaigns;
 /// </summary>
 internal sealed class HeroCampaign
 {
-    public HeroCampaign(IReadOnlyCollection<HeroState> heroes, HeroCampaignLocation location,
-        IReadOnlyCollection<ICampaignReward> failurePenalties, int visualizationSeed)
+    public HeroCampaign(IReadOnlyCollection<(HeroState, FieldCoords)> initHeroes, HeroCampaignLocation location,
+        IReadOnlyCollection<ICampaignEffect> rewards,
+        IReadOnlyCollection<ICampaignEffect> failurePenalties, int visualizationSeed)
     {
-        Heroes = heroes;
+        Heroes = CreateCampaignHeroes(initHeroes);
         Location = location;
 
-        ActualRewards = location.Stages.GetAllNodes().Select(x => x.Payload)
-            .OfType<IRewardCampaignStageItem>().First().GetEstimateRewards(location);
+        ActualRewards = rewards;
         ActualFailurePenalties = failurePenalties;
 
         VisualizationSeed = visualizationSeed;
@@ -31,17 +32,17 @@ internal sealed class HeroCampaign
     /// Effect which will apply if heroes fail campaign.
     /// Can be modified during campaign.
     /// </summary>
-    public IReadOnlyCollection<ICampaignReward> ActualFailurePenalties { get; }
+    public IReadOnlyCollection<ICampaignEffect> ActualFailurePenalties { get; }
 
     /// <summary>
     /// Effect which will apply if heroes win campaign.
     /// Can be modified during campaign.
     /// </summary>
     //TODO Add modifiers of effects
-    public IReadOnlyCollection<ICampaignReward> ActualRewards { get; }
+    public IReadOnlyCollection<ICampaignEffect> ActualRewards { get; }
 
     public IGraphNode<ICampaignStageItem>? CurrentStage { get; set; }
-    public IReadOnlyCollection<HeroState> Heroes { get; }
+    public IReadOnlyCollection<HeroCampaignState> Heroes { get; }
 
     public HeroCampaignLocation Location { get; }
 
@@ -49,4 +50,49 @@ internal sealed class HeroCampaign
     public IList<IGraphNode<ICampaignStageItem>> Path { get; }
 
     public int VisualizationSeed { get; }
+
+    public void FailCampaign(Globe globe, IJobProgressResolver jobProgressResolver)
+    {
+        ApplyCampaignEffects(globe, ActualFailurePenalties);
+    }
+
+    public void WinCampaign(Globe globe, IJobProgressResolver jobProgressResolver)
+    {
+        ApplyCampaignEffects(globe, ActualRewards);
+
+        CountCampaignCompleteInActiveStoryPoints(globe, jobProgressResolver);
+    }
+
+    internal void CompleteCurrentStage()
+    {
+        //TODO Count stage complete job
+        //throw new NotImplementedException();
+    }
+
+    private void ApplyCampaignEffects(Globe globe, IReadOnlyCollection<ICampaignEffect> effects)
+    {
+        foreach (var campaignEffect in effects)
+        {
+            campaignEffect.Apply(globe);
+        }
+    }
+
+    private static void CountCampaignCompleteInActiveStoryPoints(Globe globe, IJobProgressResolver jobProgressResolver)
+    {
+        var completeCampaignProgress = new CampaignCompleteJobProgress();
+        var currentJobs = globe.ActiveStoryPoints.ToArray();
+
+        foreach (var job in currentJobs)
+        {
+            jobProgressResolver.ApplyProgress(completeCampaignProgress, job);
+        }
+    }
+
+    private IReadOnlyCollection<HeroCampaignState> CreateCampaignHeroes(
+        IEnumerable<(HeroState, FieldCoords)> heroes)
+    {
+        return heroes.Select(hero =>
+                new HeroCampaignState(hero.Item1, new FormationSlot(hero.Item2.ColumentIndex, hero.Item2.LineIndex)))
+            .ToList();
+    }
 }

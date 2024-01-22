@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Client.Assets.CombatMovements.Monster.Black.Agressor;
 using Client.Assets.CombatMovements.Monster.Black.AmbushDrone;
@@ -37,7 +38,8 @@ public class AmbushDroneCombatantFactory : IMonsterCombatantFactory
         return monsterSequence;
     }
 
-    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex)
+    public MythlandersCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex,
+        IReadOnlyCollection<ICombatantStatusFactory> combatantStatusFactories)
     {
         var monsterSequence = CreateCombatMoveVariation(variationIndex);
 
@@ -46,7 +48,7 @@ public class AmbushDroneCombatantFactory : IMonsterCombatantFactory
         stats.SetValue(CombatantStatTypes.ShieldPoints, 2);
         stats.SetValue(CombatantStatTypes.Resolve, 4);
 
-        var monster = new TestamentCombatant("ambushdrone", monsterSequence, stats, combatActorBehaviour,
+        var monster = new MythlandersCombatant("ambushdrone", monsterSequence, stats, combatActorBehaviour,
             ArraySegment<ICombatantStatusFactory>.Empty)
         {
             DebugSid = sid, IsPlayerControlled = false

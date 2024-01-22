@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Reflection;
 
 using Client;
 using Client.Assets;
@@ -7,11 +6,15 @@ using Client.Assets.Catalogs;
 using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.Dialogues;
 using Client.Core;
-using Client.GameScreens.TextDialogue;
+using Client.Core.CampaignEffects;
+using Client.Core.Campaigns;
 using Client.GameScreens.TextDialogue.Ui;
+using Client.ScreenManagement.Ui.TextEvents;
 
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
+using CombatDicesTeam.Graphs;
 
 using FluentAssertions;
 
@@ -46,7 +49,7 @@ public class MonkeyKingTests
 
         var storyPointCatalog = new StoryPointCatalog(eventCatalog);
 
-        var globeProvider = new GlobeProvider(dice, unitSchemeCatalog, eventCatalog,
+        var globeProvider = new GlobeProvider(unitSchemeCatalog,
             storyPointCatalog);
 
         globeProvider.GenerateNew();
@@ -82,7 +85,9 @@ public class MonkeyKingTests
     private static void QuestNotAvailableInOtherLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider,
         DialogueEvent textEvent, ILocationSid[] availableLocations)
     {
-        var allLocations = GetAllLocationsFromStaticCatalog<ILocationSid>(typeof(LocationSids));
+        var allLocations = LocationHelper.GetAllLocation();
+
+        allLocations.Should().NotBeEmpty();
 
         var notAvailableLocations = allLocations.Except(availableLocations).ToArray();
 
@@ -97,17 +102,6 @@ public class MonkeyKingTests
 
             stage1IsAvailable1.Should().BeFalse();
         }
-    }
-
-    private static IReadOnlyCollection<TObj> GetAllLocationsFromStaticCatalog<TObj>(Type catalog)
-    {
-        return catalog
-            .GetFields(BindingFlags.Public | BindingFlags.Static)
-            .Where(f => f.FieldType == typeof(TObj))
-            .Select(f => f.GetValue(null))
-            .Where(v => v is not null)
-            .Select(v => (TObj)v!)
-            .ToArray();
     }
 
     private static void QuestAvailableInApplicableLocations(DialogueCatalog eventCatalog, GlobeProvider globeProvider,
@@ -139,7 +133,7 @@ public class MonkeyKingTests
         }
     }
 
-    private static void CheckDialogue(Dialogue<ParagraphConditionContext, AftermathContext> testDialog,
+    private static void CheckDialogue(Dialogue<ParagraphConditionContext, CampaignAftermathContext> testDialog,
         int[] targetOptions, StoryPointCatalog storyPointCatalog,
         GlobeProvider globeProvider, DialogueEvent textEvent)
     {
@@ -148,9 +142,13 @@ public class MonkeyKingTests
             storyPointCatalog,
             globeProvider.Globe.Player,
             Mock.Of<IDialogueEnvironmentManager>(),
-            textEvent);
+            textEvent,
+            new HeroCampaign(ArraySegment<(HeroState, FieldCoords)>.Empty,
+                new HeroCampaignLocation(Mock.Of<ILocationSid>(), new DirectedGraph<ICampaignStageItem>()),
+                ArraySegment<ICampaignEffect>.Empty, ArraySegment<ICampaignEffect>.Empty, default),
+            Mock.Of<IEventContext>());
         var dialoguePlayer =
-            new DialoguePlayer<ParagraphConditionContext, AftermathContext>(testDialog, dialogueContextFactory);
+            new DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext>(testDialog, dialogueContextFactory);
 
         var targetOptionsIncludeFinish = targetOptions.Concat(new[] { 1 }).ToArray();
 

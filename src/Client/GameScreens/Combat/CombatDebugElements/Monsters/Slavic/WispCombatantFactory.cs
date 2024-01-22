@@ -1,16 +1,31 @@
-﻿using System;
-
-using Client.Assets.CombatMovements.Monster.Slavic.Aspid;
+﻿using Client.Assets.CombatMovements.Monster.Slavic.Aspid;
 
 using CombatDicesTeam.Combats;
-using CombatDicesTeam.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements.Monsters.Slavic;
 
-public class WispCombatantFactory : IMonsterCombatantFactory
+public class WispCombatantFactory : MonsterCombatantFactoryBase
 {
+    protected override string ClassSid => "wisp";
+
+    protected override CombatantStatsConfig CombatantStatsConfig()
+    {
+        var stats = new CombatantStatsConfig();
+        stats.SetValue(CombatantStatTypes.HitPoints, 5);
+        stats.SetValue(CombatantStatTypes.Resolve, 5);
+
+        return stats;
+    }
+
+    protected override CombatMovementSequence CombatMovementSequence(int variationIndex)
+    {
+        var monsterSequence = CreateCombatMoveVariation(variationIndex);
+
+        return monsterSequence;
+    }
+
     private static CombatMovementSequence CreateCombatMoveVariation(int variationIndex)
     {
         var moveTemplate = new[,]
@@ -38,23 +53,5 @@ public class WispCombatantFactory : IMonsterCombatantFactory
         }
 
         return monsterSequence;
-    }
-
-    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex)
-    {
-        var monsterSequence = CreateCombatMoveVariation(variationIndex);
-
-        var stats = new CombatantStatsConfig();
-        stats.SetValue(CombatantStatTypes.HitPoints, 5);
-        stats.SetValue(CombatantStatTypes.Resolve, 5);
-
-        var monster = new TestamentCombatant("wisp", monsterSequence, stats, combatActorBehaviour,
-            ArraySegment<ICombatantStatusFactory>.Empty)
-        {
-            DebugSid = sid,
-            IsPlayerControlled = false
-        };
-
-        return monster;
     }
 }

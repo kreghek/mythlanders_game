@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Client.Core.Heroes;
-
-using CombatDicesTeam.Combats;
-
 namespace Client.Core;
 
 internal sealed class Player
 {
     private readonly HashSet<PlayerAbility> _abilities;
+    private readonly HashSet<ILocationSid> _locations;
 
-    private readonly IList<HeroState> _heroes;
+    private readonly IList<MonsterPerk> _monsterPerks = new List<MonsterPerk>();
 
     public Player(string name) : this()
     {
@@ -21,8 +18,7 @@ internal sealed class Player
 
     public Player()
     {
-        Party = new Group();
-        Pool = new PoolGroup();
+        Heroes = new PoolGroup<HeroState>();
         KnownMonsters = new List<UnitScheme>();
 
         Inventory = new Inventory();
@@ -31,52 +27,40 @@ internal sealed class Player
 
         Name = CreateRandomName();
 
-        StoryState = new StoryState(Party);
+        StoryState = new StoryState(Heroes);
 
-        _heroes = new List<HeroState>
-        {
-            new("swordsman", new StatValue(5), new FieldCoords(0, 1)),
-            new("partisan", new StatValue(3), new FieldCoords(1, 0)),
-            new("robber", new StatValue(3), new FieldCoords(1, 2))
-        };
-    }
-
-    public Player(IReadOnlyCollection<HeroState> heroes)
-    {
-        Party = new Group();
-        Pool = new PoolGroup();
-        KnownMonsters = new List<UnitScheme>();
-
-        Inventory = new Inventory();
-
-        _abilities = new HashSet<PlayerAbility>();
-
-        Name = CreateRandomName();
-
-        StoryState = new StoryState(Party);
-
-        _heroes = new List<HeroState>(heroes);
+        _locations = new HashSet<ILocationSid>();
     }
 
     public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
     public IChallenge? Challenge { get; set; }
 
-    public IReadOnlyCollection<HeroState> Heroes => _heroes.ToArray();
+    public IReadOnlyList<ILocationSid> CurrentAvailableLocations => _locations.ToArray();
+
+    public PoolGroup<HeroState> Heroes { get; }
 
     public Inventory Inventory { get; }
 
     public IList<UnitScheme> KnownMonsters { get; }
 
+    public IReadOnlyCollection<MonsterPerk> MonsterPerks => _monsterPerks.ToArray();
+
     public string Name { get; }
-
-    public Group Party { get; }
-
-    public PoolGroup Pool { get; }
     public IStoryState StoryState { get; }
 
     public void AddHero(HeroState heroState)
     {
-        _heroes.Add(heroState);
+        Heroes.AddNewUnit(heroState);
+    }
+
+    public void AddLocation(ILocationSid location)
+    {
+        _locations.Add(location);
+    }
+
+    public void AddMonsterPerk(MonsterPerk perk)
+    {
+        _monsterPerks.Add(perk);
     }
 
     public void AddPlayerAbility(PlayerAbility ability)
@@ -97,25 +81,14 @@ internal sealed class Player
         }
     }
 
-    public IEnumerable<Hero> GetAll()
-    {
-        var unitsInSlots = Party.Slots.Where(x => x.Hero is not null).Select(x => x.Hero!);
-        return unitsInSlots.Concat(Pool.Units);
-    }
-
     public bool HasAbility(PlayerAbility ability)
     {
         return _abilities.Contains(ability);
     }
 
-    public void MoveToParty(Hero unit, int slotIndex)
+    internal void RemoveMonsterPerk(MonsterPerk perk)
     {
-        Pool.MoveToGroup(unit, slotIndex, Party);
-    }
-
-    public void MoveToPool(Hero unit)
-    {
-        Pool.MoveFromGroup(unit, Party);
+        _monsterPerks.Remove(perk);
     }
 
     private static string CreateRandomName()

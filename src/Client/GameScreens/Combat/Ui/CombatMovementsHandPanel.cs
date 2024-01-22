@@ -321,13 +321,13 @@ internal class CombatMovementsHandPanel : ControlBase
                 {
                     spriteBatch.DrawString(indicatorFont, textLine,
                         new Vector2(contentRect.Center.X - lineSize.X / 2 + i, contentRect.Y + lineIndex * 20 + j),
-                        Color.Lerp(TestamentColors.MaxDark, Color.Transparent, colorT));
+                        Color.Lerp(MythlandersColors.MaxDark, Color.Transparent, colorT));
                 }
             }
 
             spriteBatch.DrawString(indicatorFont, textLine,
                 new Vector2(contentRect.Center.X - lineSize.X / 2, contentRect.Y + lineIndex * 20),
-                Color.Lerp(TestamentColors.MainSciFi, Color.Transparent, colorT));
+                Color.Lerp(MythlandersColors.MainSciFi, Color.Transparent, colorT));
         }
     }
 
@@ -361,7 +361,7 @@ internal class CombatMovementsHandPanel : ControlBase
     }
 
     private static bool IsResolveStatEnough(CombatMovementInstance combatMovement,
-        IUnitStat currentCombatantResolveStat)
+        ICombatantStat currentCombatantResolveStat)
     {
         return combatMovement.Cost.Amount.Current <= currentCombatantResolveStat.Value.Current;
     }

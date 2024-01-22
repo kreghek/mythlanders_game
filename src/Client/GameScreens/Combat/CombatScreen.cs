@@ -60,7 +60,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private readonly IList<EffectNotification> _combatantEffectNotifications = new List<EffectNotification>();
     private readonly ICombatantPositionProvider _combatantPositionProvider;
-    private readonly TestamentCombatEngine _combatCore;
+    private readonly MythlandersCombatEngine _combatCore;
     private readonly ICombatActorBehaviourDataProvider _combatDataBehaviourProvider;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
     private readonly IList<CorpseGameObject> _corpseObjects;
@@ -110,7 +110,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private TextureRegion2D _shieldParticleTexture = null!;
     private SoundEffect _shieldSound = null!;
 
-    public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
+    public CombatScreen(MythlandersGame game, CombatScreenTransitionArguments args) : base(game)
     {
         _args = args;
         var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
@@ -146,7 +146,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _gameSettings = game.Services.GetService<GameSettings>();
 
-        _combatantPositionProvider = new CombatantPositionProvider(TestamentConstants.CombatFieldSize.X);
+        _combatantPositionProvider = new CombatantPositionProvider(MythlandersConstants.CombatFieldSize.X);
 
         _jobProgressResolver = new JobProgressResolver();
 
@@ -442,13 +442,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         _gameObjects.Remove(combatantGameObject);
     }
 
-    private void CombatCore_CombatantEffectHasBeenImposed(object? sender, CombatantEffectEventArgs e)
-    {
-        _combatantEffectNotifications.Add(
-            new EffectNotification(e.CombatantEffect, e.Combatant, EffectNotificationDirection.Imposed));
-        _animationBlockManager.RegisterBlocker(new DelayBlocker(new Duration(2)));
-    }
-
     private void CombatCore_CombatantEndsTurn(object? sender, CombatantEndsTurnEventArgs e)
     {
         DropSelection(e.Combatant);
@@ -549,7 +542,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void CombatCore_CombatantHasChangePosition(object? sender, CombatantHasChangedPositionEventArgs e)
     {
-        if (e.Combatant != _combatCore.CurrentCombatant)
+        if (e.Reason == CommonPositionChangeReasons.Maneuver || (e.Reason != CommonPositionChangeReasons.Maneuver &&
+                                                                 e.Combatant != _combatCore.CurrentCombatant))
         {
             var newWorldPosition = _combatantPositionProvider.GetPosition(e.NewFieldCoords,
                 e.FieldSide == _combatCore.Field.HeroSide
@@ -584,6 +578,13 @@ internal class CombatScreen : GameScreenWithMenuBase
             {
                 intention.Make(_combatCore);
             });
+    }
+
+    private void CombatCore_CombatantStatusHasBeenImposed(object? sender, CombatantStatusEventArgs e)
+    {
+        _combatantEffectNotifications.Add(
+            new EffectNotification(e.Status, e.Combatant, EffectNotificationDirection.Imposed));
+        _animationBlockManager.RegisterBlocker(new DelayBlocker(new Duration(2)));
     }
 
     private void CombatCore_CombatantUsedMove(object? sender, CombatantHandChangedEventArgs e)
@@ -727,6 +728,9 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             RestoreGroupAfterCombat();
 
+            _currentCampaign.CompleteCurrentStage();
+            _currentCampaign.FailCampaign(_globe, _jobProgressResolver);
+
             var campaignGenerator = Game.Services.GetService<ICampaignGenerator>();
             var campaigns = campaignGenerator.CreateSet(_globeProvider.Globe);
 
@@ -744,6 +748,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             var campaignGenerator = Game.Services.GetService<ICampaignGenerator>();
             var campaigns = campaignGenerator.CreateSet(_globeProvider.Globe);
+
+            _currentCampaign.CompleteCurrentStage();
 
             ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
                 new CommandCenterScreenTransitionArguments(campaigns));
@@ -772,9 +778,9 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
-    private TestamentCombatEngine CreateCombat()
+    private MythlandersCombatEngine CreateCombat()
     {
-        return new TestamentCombatEngine(new CurrentRoundQueueResolver(), _dice);
+        return new MythlandersCombatEngine(new CurrentRoundQueueResolver(), _dice);
     }
 
     private ICamera2DAdapter CreateLayerCamera()
@@ -1266,7 +1272,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(),
                 $"-== Round {_combatCore.CurrentRoundNumber}==-",
-                roundPosition, TestamentColors.MainSciFi);
+                roundPosition, MythlandersColors.MainSciFi);
         }
 
         spriteBatch.End();
@@ -1432,7 +1438,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _combatCore.CombatantHasChangePosition += CombatCore_CombatantHasChangePosition;
         _combatCore.CombatFinished += CombatCore_CombatFinished;
         _combatCore.CombatantUsedMove += CombatCore_CombatantUsedMove;
-        _combatCore.CombatantEffectHasBeenImposed += CombatCore_CombatantEffectHasBeenImposed;
+        _combatCore.CombatantStatusHasBeenImposed += CombatCore_CombatantStatusHasBeenImposed;
         _combatCore.CombatantInterrupted += Combat_CombatantInterrupted;
         _combatCore.CombatRoundStarted += CombatCore_CombatRoundStarted;
 
@@ -1460,7 +1466,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _postEffectManager
             );
         _combatCore.Initialize(
-            CombatantFactory.CreateHeroes(_manualCombatantBehaviour, _globeProvider.Globe.Player),
+            CombatantFactory.CreateHeroes(_manualCombatantBehaviour, _currentCampaign),
             CombatantFactory.CreateMonsters(new BotCombatActorBehaviour(intentionFactory),
                 _args.CombatSequence.Combats.First().Monsters));
 
@@ -1485,19 +1491,18 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             _manualCombatantBehaviour.Assign(maneuverIntention);
 
-            var newWorldPosition = _combatantPositionProvider.GetPosition(e.Coords, CombatantPositionSide.Heroes);
+            //var newWorldPosition = _combatantPositionProvider.GetPosition(e.Coords, CombatantPositionSide.Heroes);
 
-            var combatantGameObject = GetCombatantGameObject(_combatCore.CurrentCombatant);
-            combatantGameObject.MoveToFieldCoords(newWorldPosition);
+            //var combatantGameObject = GetCombatantGameObject(_combatCore.CurrentCombatant);
+            //combatantGameObject.MoveToFieldCoords(newWorldPosition);
         }
     }
 
     private void RestoreGroupAfterCombat()
     {
-        foreach (var unit in _globe.Player.GetAll())
+        foreach (var hero in _currentCampaign.Heroes)
         {
-            unit.RestoreHitPointsAfterCombat();
-            //unit.RestoreManaPoint();
+            // Do nothing
         }
     }
 

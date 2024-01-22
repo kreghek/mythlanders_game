@@ -73,6 +73,7 @@ internal sealed class CampaignMap : ControlBase
         _iconsTexture = iconsTexture;
         _resolutionIndependentRenderer = resolutionIndependentRenderer;
         _gameObjectContentStorage = gameObjectContentStorage;
+
         InitChildControls(heroCampaign.Location.Stages, heroCampaign);
     }
 
@@ -449,7 +450,7 @@ internal sealed class CampaignMap : ControlBase
             {
                 var button = rootButtons[i];
                 spriteBatch.DrawCircle(button.Rect.Center.ToVector2(),
-                    24 + (int)(8 * Math.Sin(_nodeHighlightCounter + i * 133)), 16, TestamentColors.MainSciFi);
+                    24 + (int)(8 * Math.Sin(_nodeHighlightCounter + i * 133)), 16, MythlandersColors.MainSciFi);
             }
         }
         else
@@ -465,7 +466,7 @@ internal sealed class CampaignMap : ControlBase
             {
                 var button = nextButtons[i];
                 spriteBatch.DrawCircle(button.Rect.Center.ToVector2(),
-                    16 + (int)(8 * Math.Sin(_nodeHighlightCounter + i * 133)), 16, TestamentColors.MainSciFi, 3);
+                    16 + (int)(8 * Math.Sin(_nodeHighlightCounter + i * 133)), 16, MythlandersColors.MainSciFi, 3);
             }
         }
     }
@@ -504,10 +505,10 @@ internal sealed class CampaignMap : ControlBase
     {
         return nodeState switch
         {
-            CampaignNodeState.Available => TestamentColors.MainSciFi,
-            CampaignNodeState.Current or CampaignNodeState.Passed => TestamentColors.MainAncient,
-            CampaignNodeState.Unavailable => TestamentColors.Disabled,
-            _ => TestamentColors.MainSciFi
+            CampaignNodeState.Available => MythlandersColors.MainSciFi,
+            CampaignNodeState.Current or CampaignNodeState.Passed => MythlandersColors.MainAncient,
+            CampaignNodeState.Unavailable => MythlandersColors.Disabled,
+            _ => MythlandersColors.MainSciFi
         };
     }
 
@@ -548,11 +549,14 @@ internal sealed class CampaignMap : ControlBase
     {
         if (campaignStageItem is CombatStageItem combat)
         {
-            var classSid = combat.CombatSequence.Combats.First().Monsters.First().ClassSid;
+            var combatSource = combat.CombatSequence.Combats.First();
+            var perkMonsterCombatantPrefab = combat.Metadata.MonsterLeader;
+            var classSid = perkMonsterCombatantPrefab.ClassSid;
             var monsterClass = Enum.Parse<UnitName>(classSid, true);
 
-            var monsterInfo = GameObjectHelper.GetLocalized(monsterClass);
-            return UiResource.CampaignStageDisplayNameCombat + "\n" + monsterInfo;
+            var monsterName = GameObjectHelper.GetLocalized(monsterClass);
+            var sumPts = combatSource.Monsters.Sum(x => x.StartUpStatuses.Count + 1);
+            return UiResource.CampaignStageDisplayNameCombat + "\n" + $"{monsterName} ({sumPts} PTS)";
         }
 
         if (campaignStageItem is IRewardCampaignStageItem)

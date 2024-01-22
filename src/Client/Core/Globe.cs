@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Client.Assets;
 using Client.Assets.StoryPointJobs;
 
 using CombatDicesTeam.Dices;
@@ -30,16 +29,9 @@ internal sealed class Globe
         //var biomes = biomeGenerator.GenerateStartState();
 
         GlobeLevel = new GlobeLevel();
-
-        CurrentAvailableLocations = new List<ILocationSid>
-        {
-            LocationSids.Thicket
-        };
     }
 
     public IEnumerable<IStoryPoint> ActiveStoryPoints => _activeStoryPointsList;
-
-    public IList<ILocationSid> CurrentAvailableLocations { get; }
 
 
     public IReadOnlyCollection<IGlobeEvent> GlobeEvents => _globeEvents;
@@ -111,13 +103,7 @@ internal sealed class Globe
     public void Update(IDice dice, IEventCatalog eventCatalog)
     {
         UpdateGlobeEvents();
-        UpdateNodes(dice, eventCatalog);
         UpdateStoryPoints();
-    }
-
-    public void UpdateNodes(IDice dice, IEventCatalog eventCatalog)
-    {
-        Updated?.Invoke(this, EventArgs.Empty);
     }
 
     private void StoryPoint_Completed(object? sender, EventArgs e)
@@ -153,6 +139,4 @@ internal sealed class Globe
     {
         ResetCombatScopeJobsProgress();
     }
-
-    public event EventHandler? Updated;
 }

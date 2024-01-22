@@ -4,9 +4,8 @@ using System.Linq;
 
 using Client.Core;
 using Client.Engine;
+using Client.GameScreens.CommandCenter;
 using Client.ScreenManagement;
-
-using CombatDicesTeam.Dices;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,32 +19,27 @@ internal sealed class ContinueGameModal : ModalDialogBase
     private const int BUTTON_WIDTH = 200;
 
     private const int PAGE_SIZE = 3;
+    private readonly ICampaignGenerator _campaignGenerator;
     private readonly IList<ButtonBase> _continueGameButtons;
-    private readonly IDice _dice;
-    private readonly IEventCatalog _eventCatalog;
     private readonly GlobeProvider _globeProvider;
     private readonly IList<ButtonBase> _pageButtons;
-    private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
     private readonly IScreen _screen;
     private readonly IScreenManager _screenManager;
 
     private int _pageIndex;
 
     public ContinueGameModal(IUiContentStorage uiContentStorage,
-        IResolutionIndependentRenderer resolutionIndependentRenderer, GlobeProvider globeProvider, IDice dice,
-        IEventCatalog eventCatalog, IScreenManager screenManager, IScreen screen) : base(uiContentStorage,
+        IResolutionIndependentRenderer resolutionIndependentRenderer, GlobeProvider globeProvider,
+        IScreenManager screenManager, IScreen screen, ICampaignGenerator campaignGenerator) : base(uiContentStorage,
         resolutionIndependentRenderer)
     {
         _continueGameButtons = new List<ButtonBase>();
         _pageButtons = new List<ButtonBase>();
 
-        _resolutionIndependentRenderer = resolutionIndependentRenderer;
         _globeProvider = globeProvider;
-        _dice = dice;
-        _eventCatalog = eventCatalog;
         _screenManager = screenManager;
         _screen = screen;
-
+        _campaignGenerator = campaignGenerator;
         CreateButtonOnEachSave();
 
         CreateNewGameButton();
@@ -115,7 +109,9 @@ internal sealed class ContinueGameModal : ModalDialogBase
             {
                 _globeProvider.LoadGlobe(saveInfo.FileName);
 
-                //_screenManager.ExecuteTransition(_screen, ScreenTransition.Map, null);
+                var otherCampaignLaunches = _campaignGenerator.CreateSet(_globeProvider.Globe);
+                _screenManager.ExecuteTransition(_screen, ScreenTransition.CommandCenter,
+                    new CommandCenterScreenTransitionArguments(otherCampaignLaunches));
             };
 
             _continueGameButtons.Add(continueGameButton);
@@ -177,6 +173,6 @@ internal sealed class ContinueGameModal : ModalDialogBase
 
     private void StartButton_OnClick(object? sender, EventArgs e)
     {
-        //TitleScreen.StartClearNewGame(_globeProvider, _eventCatalog, _screen, _screenManager, () => { });
+        TitleScreen.StartClearNewGame(_globeProvider, _screen, _screenManager, _campaignGenerator);
     }
 }

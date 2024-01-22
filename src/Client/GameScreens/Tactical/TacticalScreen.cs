@@ -15,7 +15,7 @@ internal sealed class TacticalScreen : GameScreenWithMenuBase
 {
     private readonly HeroCampaign _campaign;
 
-    public TacticalScreen(TestamentGame game, TacticalScreenTransitionArguments args) : base(game)
+    public TacticalScreen(MythlandersGame game, TacticalScreenTransitionArguments args) : base(game)
     {
         _campaign = args.HeroCampaign;
     }

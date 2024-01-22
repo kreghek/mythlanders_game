@@ -1,6 +1,8 @@
 ﻿using CombatDicesTeam.Combats;
 using CombatDicesTeam.GenericRanges;
 
+using GameAssets.Combats.CombatMovementEffects;
+
 namespace Core.Combats.Effects;
 
 public class HealEffect : IEffect

@@ -1,86 +1,48 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
+using Client.Assets;
 using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
-using Client.Core.Campaigns;
 using Client.Engine;
-using Client.GameScreens.Campaign;
 using Client.GameScreens.Combat.GameObjects.Background;
 using Client.GameScreens.Common;
 using Client.GameScreens.TextDialogue.Tutorial;
-using Client.GameScreens.TextDialogue.Ui;
 using Client.ScreenManagement;
 
 using CombatDicesTeam.Dialogues;
-using CombatDicesTeam.Dices;
 
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Client.GameScreens.TextDialogue;
 
-internal class TextDialogueScreen : GameScreenWithMenuBase
+internal class TextDialogueScreen : TextEventScreenBase
 {
     private const int BACKGROUND_LAYERS_COUNT = 3;
-    private const float BACKGROUND_LAYERS_SPEED = 0.1f;
-
-    /// <summary>
-    /// Event screen has no background parallax.
-    /// </summary>
-    private const float BG_CENTER_OFFSET_PERCENTAGE = 0;
 
     private readonly Texture2D _backgroundTexture;
     private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
-    private readonly HeroCampaign _currentCampaign;
-    private readonly DialogueContextFactory _dialogueContextFactory;
-    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
-    private readonly DialogueOptions _dialogueOptions;
-    private readonly DialoguePlayer<ParagraphConditionContext, AftermathContext> _dialoguePlayer;
-    private readonly IDice _dice;
-    private readonly IEventCatalog _eventCatalog;
     private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
-    private readonly GameSettings _gameSettings;
     private readonly ILocationSid _globeLocation;
-    private readonly GlobeProvider _globeProvider;
     private readonly Player _player;
     private readonly Random _random;
-    private readonly IList<TextParagraphControl> _textFragments;
     private readonly IUiContentStorage _uiContentStorage;
 
     private double _counter;
-
-    private int _currentFragmentIndex;
-
-    private bool _currentTextFragmentIsReady;
     private int _frameIndex;
 
-    private bool _isInitialized;
-
-    private KeyboardState _keyboardState;
-
-    private double _pressToContinueCounter;
-
-    public TextDialogueScreen(TestamentGame game, TextDialogueScreenTransitionArgs args) : base(game)
+    public TextDialogueScreen(MythlandersGame game, TextDialogueScreenTransitionArgs args) : base(game, args)
     {
         _random = new Random();
 
-        _globeProvider = game.Services.GetService<GlobeProvider>();
-        var globe = _globeProvider.Globe;
-        if (globe is null)
-        {
-            throw new InvalidOperationException();
-        }
-
+        var globeProvider = game.Services.GetService<GlobeProvider>();
+        var globe = globeProvider.Globe ?? throw new InvalidOperationException();
         _player = globe.Player ?? throw new InvalidOperationException();
 
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();
         _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
-        var storyPointCatalog = game.Services.GetService<IStoryPointCatalog>();
 
         _globeLocation = args.Location;
 
@@ -95,26 +57,6 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         _backgroundTexture = new Texture2D(game.GraphicsDevice, 1, 1);
         _backgroundTexture.SetData(data);
 
-        _dialogueOptions = new DialogueOptions();
-        _textFragments = new List<TextParagraphControl>();
-
-        _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
-
-        _dialogueContextFactory =
-            new DialogueContextFactory(globe, storyPointCatalog, _player, _dialogueEnvironmentManager,
-                args.DialogueEvent);
-        _dialoguePlayer =
-            new DialoguePlayer<ParagraphConditionContext, AftermathContext>(args.CurrentDialogue,
-                _dialogueContextFactory);
-
-        _eventCatalog = game.Services.GetService<IEventCatalog>();
-
-        _dice = Game.Services.GetService<IDice>();
-
-        _gameSettings = game.Services.GetService<GameSettings>();
-
-        _currentCampaign = args.Campaign;
-
         var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
 
         soundtrackManager.PlaySilence();
@@ -125,20 +67,16 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         return ArraySegment<ButtonBase>.Empty;
     }
 
-    protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
+    protected override void DrawSpecificBackgroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        if (!_isInitialized)
-        {
-            return;
-        }
-
         DrawGameObjects(spriteBatch);
+    }
 
+    protected override void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
         if (!_dialoguePlayer.IsEnd)
         {
             DrawCurrentSpeakerPortrait(spriteBatch);
-
-            DrawTextBlock(spriteBatch, contentRect);
         }
     }
 
@@ -151,23 +89,13 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         base.UpdateContent(gameTime);
 
         CheckTutorial();
+    }
 
-        if (!_isInitialized)
-        {
-            InitDialogueControls();
+    protected override void UpdateSpecificScreenContent(GameTime gameTime)
+    {
+        UpdateBackgroundObjects(gameTime);
 
-            _isInitialized = true;
-        }
-        else
-        {
-            UpdateBackgroundObjects(gameTime);
-
-            UpdateHud(gameTime);
-
-            UpdateSpeaker(gameTime);
-        }
-
-        _keyboardState = Keyboard.GetState();
+        UpdateSpeaker(gameTime);
     }
 
     private void CheckTutorial()
@@ -189,19 +117,16 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         AddModal(tutorialModal, isLate: false);
     }
 
-    private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
-        int backgroundMaxOffset)
+    private static UnitName ConvertSpeakerToUnitName(IDialogueSpeaker speaker)
+    {
+        var speakerName = speaker.ToString();
+        return Enum.Parse<UnitName>(speakerName!);
+    }
+
+    private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds)
     {
         for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
         {
-            var xFloat = backgroundStartOffset + BG_CENTER_OFFSET_PERCENTAGE * (BACKGROUND_LAYERS_COUNT - i - 1) *
-                BACKGROUND_LAYERS_SPEED * backgroundMaxOffset;
-            var roundedX = (int)Math.Round(xFloat);
-            var position = new Vector2(roundedX, 0);
-
-            //TODO Restore parallax
-            var position3d = new Vector3(position, 0);
-
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
@@ -228,7 +153,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
     {
         const int SPEAKER_FRAME_SIZE = 256;
 
-        var currentFragment = _dialoguePlayer.CurrentTextFragments[_currentFragmentIndex];
+        var currentFragment = CurrentFragment;
         var speaker = currentFragment.Speaker;
 
         if (DialogueSpeakers.Get(UnitName.Environment) == speaker)
@@ -245,35 +170,21 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
-        var col = 0;
-        var row = 0;
-        // var col = _frameIndex % 2;
-        // var row = _frameIndex / 2;
-
-        var name = Enum.Parse<UnitName>(speaker.ToString());
+        var name = ConvertSpeakerToUnitName(speaker);
 
         spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(name),
             new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Height - SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE),
-            new Rectangle(col * SPEAKER_FRAME_SIZE, row * SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE,
+            new Rectangle(SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE),
             Color.White);
 
         spriteBatch.End();
     }
 
-    private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
-        int backgroundMaxOffset)
+    private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds)
     {
-        var xFloat = backgroundStartOffset +
-                     -1 * BG_CENTER_OFFSET_PERCENTAGE * BACKGROUND_LAYERS_SPEED * 2 * backgroundMaxOffset;
-        var roundedX = (int)Math.Round(xFloat);
-
-        var position = new Vector2(roundedX, 0);
-
-        var position3d = new Vector3(position, 0);
-
         spriteBatch.Begin(
             sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
@@ -298,12 +209,9 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
 
         var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 
-        const int BG_START_OFFSET = -100;
-        const int BG_MAX_OFFSET = 200;
+        DrawBackgroundLayers(spriteBatch, backgrounds);
 
-        DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
-
-        DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
+        DrawForegroundLayers(spriteBatch, backgrounds);
 
         spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
             blendState: BlendState.AlphaBlend,
@@ -314,116 +222,6 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         spriteBatch.Draw(_backgroundTexture, ResolutionIndependentRenderer.VirtualBounds,
             Color.Lerp(Color.Transparent, Color.Black, 0.5f));
         spriteBatch.End();
-    }
-
-    private void DrawTextBlock(SpriteBatch spriteBatch, Rectangle contentRectangle)
-    {
-        spriteBatch.Begin(
-            sortMode: SpriteSortMode.Deferred,
-            blendState: BlendState.AlphaBlend,
-            samplerState: SamplerState.PointClamp,
-            depthStencilState: DepthStencilState.None,
-            rasterizerState: RasterizerState.CullNone,
-            transformMatrix: Camera.GetViewTransformationMatrix());
-
-        const int PORTRAIT_SIZE = 256;
-
-        if (_textFragments.Any())
-        {
-            var textFragmentControl = _textFragments[_currentFragmentIndex];
-
-            var textFragmentSize = textFragmentControl.CalculateSize().ToPoint();
-
-            const int SPEECH_MARGIN = 50;
-            var sumOptionHeight = _dialogueOptions.GetHeight();
-            var fragmentHeight = textFragmentSize.Y + SPEECH_MARGIN + sumOptionHeight;
-            var fragmentPosition = new Point(PORTRAIT_SIZE, contentRectangle.Bottom - fragmentHeight);
-            textFragmentControl.Rect = new Rectangle(fragmentPosition, textFragmentSize);
-            textFragmentControl.Draw(spriteBatch);
-
-            if (_currentTextFragmentIsReady)
-            {
-                // TODO Move to separated control
-                var isVisible = (float)Math.Sin(_pressToContinueCounter) > 0;
-
-                if (isVisible)
-                {
-                    spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), UiResource.DialogueContinueText,
-                        new Vector2(PORTRAIT_SIZE, contentRectangle.Bottom - 25), Color.White);
-                }
-            }
-        }
-
-        if (_currentFragmentIndex == _textFragments.Count - 1 && _textFragments[_currentFragmentIndex].IsComplete)
-        {
-            const int OPTION_BUTTON_MARGIN = 5;
-            var lastTopButtonPosition = _textFragments[_currentFragmentIndex].Rect.Bottom + OPTION_BUTTON_MARGIN;
-
-            _dialogueOptions.Rect = new Rectangle(PORTRAIT_SIZE, lastTopButtonPosition,
-                contentRectangle.Width - PORTRAIT_SIZE + 100,
-                contentRectangle.Height - lastTopButtonPosition + 100);
-            _dialogueOptions.Draw(spriteBatch);
-        }
-
-        spriteBatch.End();
-    }
-
-    private void HandleDialogueEnd()
-    {
-        _globeProvider.Globe.Update(_dice, _eventCatalog);
-        _dialogueEnvironmentManager.Clean();
-        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-            new CampaignScreenTransitionArguments(_currentCampaign));
-
-        if (_gameSettings.Mode == GameMode.Full)
-        {
-            _globeProvider.StoreCurrentGlobe();
-        }
-    }
-
-    private void InitDialogueControls()
-    {
-        _textFragments.Clear();
-        _currentFragmentIndex = 0;
-        foreach (var textFragment in _dialoguePlayer.CurrentTextFragments)
-        {
-            var name = Enum.Parse<UnitName>(textFragment.Speaker.ToString());
-            var textFragmentControl = new TextParagraphControl(
-                textFragment,
-                _gameObjectContentStorage.GetTextSoundEffect(name),
-                _dice,
-                _dialogueContextFactory.CreateAftermathContext(),
-                _player.StoryState);
-            _textFragments.Add(textFragmentControl);
-        }
-
-        var optionNumber = 1;
-        _dialogueOptions.Options.Clear();
-        foreach (var option in _dialoguePlayer.CurrentOptions)
-        {
-            var optionButton = new DialogueOptionButton(optionNumber, option.TextSid);
-            optionButton.OnClick += (_, _) =>
-            {
-                _dialoguePlayer.SelectOption(option);
-
-                if (_dialoguePlayer.IsEnd)
-                {
-                    HandleDialogueEnd();
-                }
-                else
-                {
-                    _isInitialized = false;
-                }
-            };
-
-            _dialogueOptions.Options.Add(optionButton);
-            optionNumber++;
-        }
-    }
-
-    private bool IsKeyPressed(Keys checkKey)
-    {
-        return Keyboard.GetState().IsKeyUp(checkKey) && _keyboardState.IsKeyDown(checkKey);
     }
 
     private void UpdateBackgroundObjects(GameTime gameTime)
@@ -439,64 +237,12 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         }
     }
 
-    private void UpdateHud(GameTime gameTime)
-    {
-        _pressToContinueCounter += gameTime.ElapsedGameTime.TotalSeconds * 10f;
-
-        var currentFragment = _textFragments[_currentFragmentIndex];
-        currentFragment.Update(gameTime);
-
-        var maxFragmentIndex = _textFragments.Count - 1;
-        if (IsKeyPressed(Keys.Space) && !_textFragments[_currentFragmentIndex].IsComplete)
-        {
-            currentFragment.FastComplete();
-
-            return;
-        }
-
-        if (currentFragment.IsComplete)
-        {
-            if (_currentFragmentIndex < maxFragmentIndex)
-            {
-                _currentTextFragmentIsReady = true;
-                //TODO Make auto-move to next dialog. Make it disable in settings by default.
-                if (IsKeyPressed(Keys.Space))
-                {
-                    _currentFragmentIndex++;
-                    _currentTextFragmentIsReady = false;
-                }
-            }
-        }
-
-        if (_currentFragmentIndex == maxFragmentIndex && _textFragments[_currentFragmentIndex].IsComplete)
-        {
-            _dialogueOptions.Update(ResolutionIndependentRenderer);
-
-            if (IsKeyPressed(Keys.D1))
-            {
-                _dialogueOptions.SelectOption(1);
-            }
-            else if (IsKeyPressed(Keys.D2))
-            {
-                _dialogueOptions.SelectOption(2);
-            }
-            else if (IsKeyPressed(Keys.D3))
-            {
-                _dialogueOptions.SelectOption(3);
-            }
-            else if (IsKeyPressed(Keys.D4))
-            {
-                _dialogueOptions.SelectOption(4);
-            }
-        }
-    }
-
     private void UpdateSpeaker(GameTime gameTime)
     {
         const int SPEAKER_FRAME_COUNT = 4;
         const double SPEAKER_FRAME_DURATION = 0.25;
 
-        var currentFragment = _textFragments[_currentFragmentIndex];
+        var currentFragment = _textParagraphControls[_currentFragmentIndex];
         if (!currentFragment.IsComplete)
         {
             _counter += gameTime.ElapsedGameTime.TotalSeconds;

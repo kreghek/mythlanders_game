@@ -1,16 +1,32 @@
-using System;
-
 using Client.Assets.CombatMovements.Monster.Slavic.Chaser;
 
 using CombatDicesTeam.Combats;
-using CombatDicesTeam.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements.Monsters.Egyptian;
 
-public class ChaserCombatantFactory : IMonsterCombatantFactory
+public class ChaserCombatantFactory : MonsterCombatantFactoryBase
 {
+    protected override string ClassSid => "chaser";
+
+    protected override CombatantStatsConfig CombatantStatsConfig()
+    {
+        var stats = new CombatantStatsConfig();
+        stats.SetValue(CombatantStatTypes.HitPoints, 6);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 4);
+        stats.SetValue(CombatantStatTypes.Resolve, 5);
+
+        return stats;
+    }
+
+    protected override CombatMovementSequence CombatMovementSequence(int variationIndex)
+    {
+        var monsterSequence = CreateCombatMoveVariation(variationIndex);
+
+        return monsterSequence;
+    }
+
     private static CombatMovementSequence CreateCombatMoveVariation(int variationIndex)
     {
         var moveTemplate = new[,]
@@ -38,23 +54,5 @@ public class ChaserCombatantFactory : IMonsterCombatantFactory
         }
 
         return monsterSequence;
-    }
-
-    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex)
-    {
-        var monsterSequence = CreateCombatMoveVariation(variationIndex);
-
-        var stats = new CombatantStatsConfig();
-        stats.SetValue(CombatantStatTypes.HitPoints, 6);
-        stats.SetValue(CombatantStatTypes.ShieldPoints, 4);
-        stats.SetValue(CombatantStatTypes.Resolve, 5);
-
-        var monster = new TestamentCombatant("chaser", monsterSequence, stats, combatActorBehaviour,
-            ArraySegment<ICombatantStatusFactory>.Empty)
-        {
-            DebugSid = sid, IsPlayerControlled = false
-        };
-
-        return monster;
     }
 }

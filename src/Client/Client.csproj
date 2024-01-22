@@ -12,7 +12,7 @@
     <PropertyGroup>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <ApplicationIcon>Icon.ico</ApplicationIcon>
-        <AssemblyName>Testament</AssemblyName>
+        <AssemblyName>Mythlanders</AssemblyName>
     </PropertyGroup>
     <PropertyGroup>
         <!--<DefineConstants>STEAMWORKS</DefineConstants>-->
@@ -59,7 +59,7 @@
         <PackageReference Include="YamlDotNet" Version="13.0.1" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="CombatDicesTeam.Combats" Version="0.3.4-alpha" />
+        <PackageReference Include="CombatDicesTeam.Combats" Version="0.5.1-alpha" />
         <PackageReference Include="CombatDicesTeam.Graphs" Version="1.0.1" />
         <PackageReference Include="CombatDicesTeam.Graphs.Generation" Version="1.0.0" />
         <PackageReference Include="CombatDicesTeam.Graphs.Layout" Version="1.0.0" />
@@ -68,6 +68,8 @@
     <ItemGroup>
         <ProjectReference Include="..\Core.Balance\Core.Balance.csproj" />
         <ProjectReference Include="..\Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj" />
+        <ProjectReference Include="..\Core.Minigames.Match3\Core.Minigames.Match3.csproj" />
+        <ProjectReference Include="..\Core.Minigames.Towers\Core.Minigames.Towers.csproj" />
         <ProjectReference Include="..\Core\Core.csproj" />
         <ProjectReference Include="..\GameAssets.Combats\GameAssets.Combats.csproj" />
         <ProjectReference Include="..\GameClient.Engine\GameClient.Engine.csproj" />

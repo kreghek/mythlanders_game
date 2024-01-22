@@ -33,7 +33,7 @@ internal class ArtOfCombatFactory : CombatMovementFactoryBase
                         new SelfTargetSelector(),
                         ChangePositionEffectDirection.ToVanguard
                     ),
-                    new ModifyEffectsEffect(new CombatantEffectSid(Sid),
+                    new ModifyEffectsEffect(new CombatantStatusSid(Sid),
                         new AllOtherRearguardAlliesTargetSelector(),
                         1)
                 })

@@ -133,6 +133,12 @@
   <data name="Agressor" xml:space="preserve">
     <value>Агрессор</value>
   </data>
+  <data name="Amazon" xml:space="preserve">
+    <value>Амазонка</value>
+  </data>
+  <data name="AmbushDrone" xml:space="preserve">
+    <value>Засадный дрон</value>
+  </data>
   <data name="ArcherEquipment" xml:space="preserve">
     <value>Сломанные стрелы</value>
   </data>
@@ -185,9 +191,6 @@
   </data>
   <data name="Battleground" xml:space="preserve">
     <value>Поле брани</value>
-  </data>
-  <data name="Bear" xml:space="preserve">
-    <value>Бурый медведь</value>
   </data>
   <data name="BigMonster" xml:space="preserve">
     <value>Большой</value>
@@ -263,8 +266,8 @@
     <value>Технологичный меч.
 Повышает урон на 25% за уровень.</value>
   </data>
-  <data name="Comissar" xml:space="preserve">
-    <value>Сардо</value>
+  <data name="CorruptedBear" xml:space="preserve">
+    <value>Оскверненный медведь</value>
   </data>
   <data name="CoverOfDew" xml:space="preserve">
     <value>Покров Росы</value>
@@ -310,14 +313,6 @@
   </data>
   <data name="DestroyedVillage" xml:space="preserve">
     <value>Раззоренный скит</value>
-  </data>
-  <data name="DestroyTheSickSource_CrisisAftermath" xml:space="preserve">
-    <value>Найти и уничтожить источник заразы</value>
-  </data>
-  <data name="DestroyTheSickSource_CrisisAftermath_Hint" xml:space="preserve">
-    <value>Это будет грязная работенка!
-- Все герои получают слабый урон.
-- Где-то далеко в пространстве и времени слышен потусторонний выдох</value>
   </data>
   <data name="DevastatingPaw" xml:space="preserve">
     <value>Опустошающая Лапа</value>
@@ -366,9 +361,6 @@
   </data>
   <data name="EnergeticSuperiority_Description" xml:space="preserve">
     <value>Наносит 3 ед. урона по щитам самого заряженного противника в тылу.</value>
-  </data>
-  <data name="EnergyShot" xml:space="preserve">
-    <value>Энерго-выстрел</value>
   </data>
   <data name="Evasion" xml:space="preserve">
     <value>Уклонение</value>
@@ -670,9 +662,6 @@
   <data name="Robber" xml:space="preserve">
     <value>Сокол</value>
   </data>
-  <data name="RunOut_CrisisAftermath" xml:space="preserve">
-    <value>Убежать</value>
-  </data>
   <data name="Sabotage" xml:space="preserve">
     <value>Саботаж</value>
   </data>
@@ -850,5 +839,32 @@
   </data>
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
+  </data>
+  <data name="Reproach" xml:space="preserve">
+    <value>Порицание</value>
+  </data>
+  <data name="FaithBoost" xml:space="preserve">
+    <value>Усиление веры</value>
+  </data>
+  <data name="FaithBoost_Description" xml:space="preserve">
+    <value>Увеличивает урон случайного союзника в зависимости от щита мудреца</value>
+  </data>
+  <data name="Reproach_Description" xml:space="preserve">
+    <value>Наносит урон ближайшему противнику в зависимости от уровня душевной боли. После этого противник пропускает ход.</value>
+  </data>
+  <data name="AskedNoViolence" xml:space="preserve">
+    <value>Я просил, никакого насилия!</value>
+  </data>
+  <data name="AskedNoViolence_Description" xml:space="preserve">
+    <value>Мудрец начинает собирать боль. Если кто-то атакует, это увеличивает боль на 1ед.</value>
+  </data>
+  <data name="NoViolencePlease" xml:space="preserve">
+    <value>Пожалуйста, не нужно насилия</value>
+  </data>
+  <data name="NoViolencePlease_Description" xml:space="preserve">
+    <value>Накладывает на случайного союзника щит, равный количеству боли.</value>
+  </data>
+  <data name="HiddenThread" xml:space="preserve">
+    <value>Скрытая угроза</value>
   </data>
 </root>

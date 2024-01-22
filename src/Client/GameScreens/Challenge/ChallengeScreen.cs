@@ -23,7 +23,7 @@ internal sealed class ChallengeScreen : GameScreenWithMenuBase
     private ResourceTextButton _acceptButton;
     private ResourceTextButton _skipButton;
 
-    public ChallengeScreen(TestamentGame game, ChallengeScreenTransitionArguments args) : base(game)
+    public ChallengeScreen(MythlandersGame game, ChallengeScreenTransitionArguments args) : base(game)
     {
         var globeProvider = Game.Services.GetRequiredService<GlobeProvider>();
 
@@ -109,7 +109,7 @@ internal sealed class ChallengeScreen : GameScreenWithMenuBase
             var text = GetJobTypeDescription(job.Scheme.Type);
             var jobText = $"{text}: {job.Progress}/{job.Scheme.GoalValue.Value}";
             spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetTitlesFont(), jobText,
-                new Vector2(contentRect.Left, contentRect.Top + jobIndex * 20), TestamentColors.MainSciFi);
+                new Vector2(contentRect.Left, contentRect.Top + jobIndex * 20), MythlandersColors.MainSciFi);
         }
     }
 

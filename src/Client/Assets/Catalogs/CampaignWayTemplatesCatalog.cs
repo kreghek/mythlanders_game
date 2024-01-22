@@ -1,4 +1,5 @@
 using Client.Assets.Catalogs.CampaignGeneration;
+using Client.Assets.Catalogs.Crises;
 using Client.Core;
 using Client.Core.Campaigns;
 
@@ -16,32 +17,21 @@ internal sealed class CampaignWayTemplatesCatalog
 
     public CampaignWayTemplatesCatalog(GlobeProvider globeProvider,
         IEventCatalog eventCatalog, IDice dice, IJobProgressResolver jobProgressResolver, IDropResolver dropResolver,
-        IUnitSchemeCatalog unitSchemeCatalog)
+        IUnitSchemeCatalog unitSchemeCatalog, ICrisesCatalog crisesCatalog)
     {
         _services = new CampaignStageTemplateServices(eventCatalog, globeProvider, jobProgressResolver, dropResolver,
-            dice, unitSchemeCatalog);
+            dice, unitSchemeCatalog, crisesCatalog);
     }
 
     public IGraph<GraphWay<ICampaignStageItem>> CreateGrindShortTemplate(ILocationSid locationSid)
     {
-        return CreateShortTemplate(locationSid, new ResourceRewardCampaignStageTemplateFactory(_services));
-    }
-
-    public IGraph<GraphWay<ICampaignStageItem>> CreateRescueShortTemplate(ILocationSid locationSid)
-    {
-        return CreateShortTemplate(locationSid, new UnlockHeroRewardCampaignStageTemplateFactory(_services));
-    }
-
-    public IGraph<GraphWay<ICampaignStageItem>> CreateScoutShortTemplate(ILocationSid locationSid)
-    {
-        return CreateShortTemplate(locationSid, new UnlockLocationRewardCampaignStageTemplateFactory(_services));
+        return CreateShortTemplate(locationSid);
     }
 
     /// <summary>
     /// Creates graph
     /// </summary>
-    private IGraph<GraphWay<ICampaignStageItem>> CreateShortTemplate(ILocationSid locationSid,
-        ICampaignStageTemplateFactory stageTemplateFactory)
+    private IGraph<GraphWay<ICampaignStageItem>> CreateShortTemplate(ILocationSid locationSid)
     {
         var wayGraph = new DirectedGraph<GraphWay<ICampaignStageItem>>();
 
@@ -57,13 +47,13 @@ internal sealed class CampaignWayTemplatesCatalog
             {
                 new RestCampaignStageTemplateFactory(),
                 new ShopCampaignStageTemplateFactory(),
-                new FindingEventCampaignStageTemplateFactory(),
+                new FindingEventCampaignStageTemplateFactory(_services),
                 new ChallengeCampaignStageTemplateFactory(_services)
             }, _services),
 
             // Crisis
 
-            new CrisisEventCampaignStageTemplateFactory()
+            new CrisisEventCampaignStageTemplateFactory(_services)
         };
 
         var way2Templates = new ICampaignStageTemplateFactory[]
@@ -80,7 +70,7 @@ internal sealed class CampaignWayTemplatesCatalog
                 new ShopCampaignStageTemplateFactory(),
                 //new SacredEventCampaignStageTemplateFactory(),
                 //new ShopCampaignStageTemplateFactory(),
-                new FindingEventCampaignStageTemplateFactory(),
+                new FindingEventCampaignStageTemplateFactory(_services),
                 new ChallengeCampaignStageTemplateFactory(_services)
             }, _services),
 
@@ -88,7 +78,7 @@ internal sealed class CampaignWayTemplatesCatalog
 
             new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
             {
-                new MinigameEventCampaignStageTemplateFactory()
+                new MinigameEventCampaignStageTemplateFactory(_services)
             }),
 
             // Evo
@@ -111,7 +101,7 @@ internal sealed class CampaignWayTemplatesCatalog
 
             // Crisis
 
-            new CrisisEventCampaignStageTemplateFactory()
+            new CrisisEventCampaignStageTemplateFactory(_services)
         };
 
         var way3Templates = new ICampaignStageTemplateFactory[]
@@ -135,7 +125,7 @@ internal sealed class CampaignWayTemplatesCatalog
 
         var rewardNode = new GraphNode<GraphWay<ICampaignStageItem>>(new GraphWay<ICampaignStageItem>(new[]
         {
-            stageTemplateFactory
+            new RewardCampaignStageTemplateFactory(_services)
         }));
 
         wayGraph.AddNode(way11Node);

@@ -1,7 +1,9 @@
 ﻿using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.Effects;
 
-namespace Core.Combats.Effects;
+using Core.Combats.Effects;
+
+namespace GameAssets.Combats.CombatMovementEffects;
 
 public sealed class SwapPositionEffectInstance : EffectInstanceBase<SwapPositionEffect>
 {
@@ -9,7 +11,7 @@ public sealed class SwapPositionEffectInstance : EffectInstanceBase<SwapPosition
     {
     }
 
-    public override void Influence(ICombatant target, IStatusCombatContext context)
+    public override void Influence(ICombatant target, ICombatMovementContext context)
     {
         var actorSide = GetTargetSide(context.Actor, context.Field);
 
@@ -19,7 +21,8 @@ public sealed class SwapPositionEffectInstance : EffectInstanceBase<SwapPosition
 
         var targetCoords = targetSide.GetCombatantCoords(target);
 
-        context.NotifySwapFieldPosition(context.Actor, actorCoords, actorSide, targetCoords, targetSide);
+        context.NotifySwapFieldPosition(context.Actor, actorCoords, actorSide, targetCoords, targetSide,
+            new PositionChangeReason());
     }
 
     private static CombatFieldSide GetTargetSide(ICombatant target, CombatField field)

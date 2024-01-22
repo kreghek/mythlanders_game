@@ -48,7 +48,7 @@ internal sealed class ConfirmIneffectiveAttackModal : ModalDialogBase
 
         spriteBatch.DrawString(warningFont,
             wrappedText,
-            textPosition, TestamentColors.MainAncient);
+            textPosition, MythlandersColors.MainAncient);
 
         _rejectButton.Rect = new Rectangle(ContentRect.Left + ControlBase.CONTENT_MARGIN,
             ContentRect.Bottom - (20 + ControlBase.CONTENT_MARGIN), 100, 20);

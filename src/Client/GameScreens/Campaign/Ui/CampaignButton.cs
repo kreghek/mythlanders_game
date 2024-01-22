@@ -53,9 +53,9 @@ internal sealed class CampaignNodeButton : ButtonBase
     {
         return NodeState switch
         {
-            CampaignNodeState.Passed or CampaignNodeState.Current => TestamentColors.MainAncient,
-            CampaignNodeState.Unavailable => TestamentColors.Disabled,
-            CampaignNodeState.Available => TestamentColors.MainSciFi,
+            CampaignNodeState.Passed or CampaignNodeState.Current => MythlandersColors.MainAncient,
+            CampaignNodeState.Unavailable => MythlandersColors.Disabled,
+            CampaignNodeState.Available => MythlandersColors.MainSciFi,
             _ => base.CalculateColor()
         };
     }
@@ -78,7 +78,7 @@ internal sealed class CampaignNodeButton : ButtonBase
 
         if (NodeState == CampaignNodeState.Passed)
         {
-            spriteBatch.DrawCircle(contentRect.Center.ToVector2(), 24, 16, TestamentColors.MainAncient);
+            spriteBatch.DrawCircle(contentRect.Center.ToVector2(), 24, 16, MythlandersColors.MainAncient);
         }
     }
 }

@@ -1,16 +1,30 @@
-using System;
-
 using Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
 using CombatDicesTeam.Combats;
-using CombatDicesTeam.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements.Monsters.Slavic;
 
-public class DigitalWolfCombatantFactory : IMonsterCombatantFactory
+public class DigitalWolfCombatantFactory : MonsterCombatantFactoryBase
 {
+    protected override string ClassSid => "digitalwolf";
+
+    protected override CombatantStatsConfig CombatantStatsConfig()
+    {
+        var stats = new CombatantStatsConfig();
+        stats.SetValue(CombatantStatTypes.HitPoints, 5);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 3);
+        stats.SetValue(CombatantStatTypes.Resolve, 4);
+        return stats;
+    }
+
+    protected override CombatMovementSequence CombatMovementSequence(int variationIndex)
+    {
+        var monsterSequence = CreateCombatMoveVariation();
+        return monsterSequence;
+    }
+
     private static CombatMovementSequence CreateCombatMoveVariation()
     {
         var list = new[]
@@ -33,24 +47,5 @@ public class DigitalWolfCombatantFactory : IMonsterCombatantFactory
         }
 
         return monsterSequence;
-    }
-
-    public TestamentCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex)
-    {
-        // ReSharper disable once UseObjectOrCollectionInitializer
-        var monsterSequence = CreateCombatMoveVariation();
-
-        var stats = new CombatantStatsConfig();
-        stats.SetValue(CombatantStatTypes.HitPoints, 5);
-        stats.SetValue(CombatantStatTypes.ShieldPoints, 3);
-        stats.SetValue(CombatantStatTypes.Resolve, 4);
-
-        var monster = new TestamentCombatant("digitalwolf", monsterSequence, stats, combatActorBehaviour,
-            ArraySegment<ICombatantStatusFactory>.Empty)
-        {
-            DebugSid = sid, IsPlayerControlled = false
-        };
-
-        return monster;
     }
 }

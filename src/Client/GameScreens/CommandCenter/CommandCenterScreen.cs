@@ -10,6 +10,7 @@ using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter.Ui;
 using Client.ScreenManagement;
 
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dices;
 
 using Core;
@@ -31,7 +32,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
     private readonly ButtonBase[] _commandButtons = new ButtonBase[4];
     private readonly Texture2D[] _commandCenterSegmentTexture;
     private readonly IDice _dice;
-
+    private readonly GlobeProvider _globeProvider;
     private readonly IDictionary<ILocationSid, Vector2> _locationCoords;
 
     private readonly Texture2D _mapBackgroundTexture;
@@ -42,9 +43,11 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
     private double _locationOnMapCounter;
 
-    public CommandCenterScreen(TestamentGame game, CommandCenterScreenTransitionArguments args) : base(game)
+
+    public CommandCenterScreen(MythlandersGame game, CommandCenterScreenTransitionArguments args) : base(game)
     {
         _dice = game.Services.GetRequiredService<IDice>();
+        _globeProvider = game.Services.GetRequiredService<GlobeProvider>();
 
         _campaignLaunches = args.AvailableCampaigns;
 
@@ -110,6 +113,8 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
     protected override void InitializeContent()
     {
+        SaveGameProgress();
+
         var panels = new List<ICampaignPanel>();
 
         var campaignTexturesDict = new Dictionary<ILocationSid, Texture2D>
@@ -135,8 +140,26 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
                 panels.Add(panel);
                 panel.Selected += (_, _) =>
                 {
-                    var campaign = new HeroCampaign(campaignLaunch.Heroes, campaignLaunch.Location,
-                        campaignLaunch.Penalties, _dice.Roll(100));
+                    var heroStartCoordsOpenList = new List<FieldCoords>
+                    {
+                        new FieldCoords(0, 0),
+                        new FieldCoords(0, 1),
+                        new FieldCoords(0, 2),
+                        new FieldCoords(1, 0),
+                        new FieldCoords(1, 1),
+                        new FieldCoords(1, 2)
+                    };
+
+                    var initHeroes = new List<(HeroState, FieldCoords)>();
+                    foreach (var launchHero in campaignLaunch.Heroes)
+                    {
+                        var rolledCoords = _dice.RollFromList(heroStartCoordsOpenList);
+                        initHeroes.Add((launchHero, rolledCoords));
+                        heroStartCoordsOpenList.Remove(rolledCoords);
+                    }
+
+                    var campaign = new HeroCampaign(initHeroes, campaignLaunch.Location,
+                        campaignLaunch.Rewards, campaignLaunch.Penalties, _dice.Roll(100));
 
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
                         new CampaignScreenTransitionArguments(campaign));
@@ -151,6 +174,11 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         _availableCampaignPanels = panels;
 
         _commandButtons[0] = new ResourceTextButton(nameof(UiResource.BarraksButtonTitle));
+        _commandButtons[0].OnClick += (_, _) =>
+        {
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Barracks, null!);
+        };
+
         _commandButtons[1] = new ResourceTextButton(nameof(UiResource.ArmoryButtonTitle));
         _commandButtons[2] = new ResourceTextButton(nameof(UiResource.AdjutantButtonTitle));
         _commandButtons[3] = new ResourceTextButton(nameof(UiResource.ChroniclesButtonTitle));
@@ -178,6 +206,11 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         _mapPong.Update(gameTime.ElapsedGameTime.TotalSeconds);
 
         _locationOnMapCounter += gameTime.ElapsedGameTime.TotalSeconds * 10;
+
+        foreach (var commandButton in _commandButtons)
+        {
+            commandButton.Update(ResolutionIndependentRenderer);
+        }
     }
 
     private void DrawBackgroundMap(SpriteBatch spriteBatch)
@@ -214,6 +247,11 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
     private void DrawCampaigns(SpriteBatch spriteBatch, Rectangle contentRect)
     {
+        if (_availableCampaignPanels is null)
+        {
+            return;
+        }
+
         const int CAMPAIGN_CONTROL_WIDTH = 200;
         const int FULL_CAMPAIGN_WIDTH = (CAMPAIGN_CONTROL_WIDTH + ControlBase.CONTENT_MARGIN) * 3;
         var campaignOffsetX = (contentRect.Width - FULL_CAMPAIGN_WIDTH) / 2;
@@ -253,13 +291,13 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
             var lineT = Math.Sin(_locationOnMapCounter + index * 13);
 
             spriteBatch.DrawLine(connectorStartPoint.X, connectorStartPoint.Y, connectorEndPoint.X,
-                connectorEndPoint.Y, TestamentColors.MainSciFi, (float)(2 + lineT * 1));
+                connectorEndPoint.Y, MythlandersColors.MainSciFi, (float)(2 + lineT * 1));
             spriteBatch.DrawCircle(connectorStartPoint.X, connectorStartPoint.Y, (float)(8 + lineT * 2), 4,
-                TestamentColors.MainSciFi);
+                MythlandersColors.MainSciFi);
         }
 
         var t = Math.Sin(_locationOnMapCounter);
-        spriteBatch.DrawCircle(x1, y1, (float)(16 + t * 4), 4, TestamentColors.MainSciFi);
+        spriteBatch.DrawCircle(x1, y1, (float)(16 + t * 4), 4, MythlandersColors.MainSciFi);
     }
 
     private static IReadOnlyList<Point> GetConnectorPoints(int x1, int y1, int x2, int y2)
@@ -291,5 +329,10 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         return values.ToDictionary(x => x,
             x => new Vector2(rnd.Next(_mapBackgroundTexture.Width / 4, _mapBackgroundTexture.Width * 3 / 4),
                 rnd.Next(_mapBackgroundTexture.Height / 4, _mapBackgroundTexture.Height * 3 / 4)));
+    }
+
+    private void SaveGameProgress()
+    {
+        _globeProvider.StoreCurrentGlobe();
     }
 }

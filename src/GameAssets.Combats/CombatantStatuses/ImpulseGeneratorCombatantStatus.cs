@@ -2,9 +2,7 @@ using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
-using GameAssets.Combats;
-
-namespace Core.Combats.CombatantStatuses;
+namespace GameAssets.Combats.CombatantStatuses;
 
 public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
 {
@@ -16,7 +14,7 @@ public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
     private ICombatant? _statusOwner;
 
     public ImpulseGeneratorCombatantStatus(ICombatantStatusSid sid, ICombatantStatusSid generatedSid,
-        ICombatantStatusLifetime lifetime) : base(sid, lifetime)
+        ICombatantStatusLifetime lifetime, ICombatantStatusSource source) : base(sid, lifetime, source)
     {
         _generatedSid = generatedSid;
     }
@@ -70,9 +68,9 @@ public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
         });
 
         var impulseCombatantEffect = new ModifyEffectsCombatantStatus(_generatedSid,
-            lifetime, DAMAGE_BONUS);
+            lifetime, Source, DAMAGE_BONUS);
 
-        targetCombat.ImposeCombatantEffect(targetCombatant, impulseCombatantEffect);
+        targetCombat.ImposeCombatantStatus(targetCombatant, impulseCombatantEffect);
     }
 
     private void ImpulseSurge(ICombatant targetCombatant, CombatEngineBase targetCombat)
@@ -80,12 +78,12 @@ public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
         var impulseEffects = CollectImpulseEffects(targetCombatant);
         foreach (var combatantEffect in impulseEffects)
         {
-            targetCombat.DispelCombatantEffect(targetCombatant, combatantEffect);
+            targetCombat.DispelCombatantStatus(targetCombatant, combatantEffect);
         }
 
         targetCombat.HandleCombatantDamagedToStat(targetCombatant, CombatantStatTypes.HitPoints, SURGE_DAMAGE);
 
-        targetCombat.ImposeCombatantEffect(targetCombatant,
-            new StunCombatantStatus(CombatantStatusSids.Stun, new ToNextCombatantTurnEffectLifetime()));
+        targetCombat.ImposeCombatantStatus(targetCombatant,
+            new StunCombatantStatus(CombatantStatusSids.Stun, new ToNextCombatantTurnEffectLifetime(), Source));
     }
 }

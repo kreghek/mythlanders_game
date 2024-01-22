@@ -23,7 +23,7 @@ internal sealed class WeatherParticleGenerator : IParticleGenerator
     {
         var texture = _textures[_random.Next(_textures.Count)];
 
-        var startPosition = new Vector2(TestamentConstants.CombatFieldSize.X * (float)_random.NextDouble(), 0);
+        var startPosition = new Vector2(MythlandersConstants.CombatFieldSize.X * (float)_random.NextDouble(), 0);
         var targetPosition = new Vector2(startPosition.X + 200 + _random.Next(400), 480);
 
         var velocity = new Vector2(

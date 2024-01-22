@@ -21,7 +21,7 @@ internal abstract class GameScreenWithMenuBase : GameScreenBase
 
     private bool _menuCreated;
 
-    protected GameScreenWithMenuBase(TestamentGame game) : base(game)
+    protected GameScreenWithMenuBase(MythlandersGame game) : base(game)
     {
         var uiContentStorage = game.Services.GetService<IUiContentStorage>();
         _resolutionIndependentRenderer = Game.Services.GetService<IResolutionIndependentRenderer>();

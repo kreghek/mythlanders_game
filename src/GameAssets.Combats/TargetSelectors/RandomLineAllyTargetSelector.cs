@@ -1,7 +1,7 @@
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dices;
 
-namespace Core.Combats.TargetSelectors;
+namespace GameAssets.Combats.TargetSelectors;
 
 public sealed class RandomLineAllyTargetSelector : ITargetSelector
 {

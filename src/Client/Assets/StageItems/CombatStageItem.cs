@@ -15,12 +15,29 @@ internal sealed class CombatStageItem : ICampaignStageItem
     {
         _location = location;
         CombatSequence = combatSequence;
-        Metadata = new CombatMetadata(CombatSequence.Combats[0].Monsters.First(), CombatEstimateDifficulty.Hard);
+
+        var combatSource = CombatSequence.Combats.First();
+
+        var leaderPrefab = combatSource.Monsters.OrderByDescending(x => x.StartUpStatuses.Count).First();
+        var sumPts = combatSource.Monsters.Sum(x => x.StartUpStatuses.Count + 1);
+
+        Metadata = new CombatMetadata(leaderPrefab.TemplatePrefab, CalcDifficulty(sumPts));
     }
 
     public CombatMetadata Metadata { get; }
 
     internal CombatSequence CombatSequence { get; }
+
+    private static CombatEstimateDifficulty CalcDifficulty(int sumPts)
+    {
+        switch (sumPts)
+        {
+            case > 4:
+                return CombatEstimateDifficulty.Hard;
+            default:
+                return CombatEstimateDifficulty.Easy;
+        }
+    }
 
     public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
     {
