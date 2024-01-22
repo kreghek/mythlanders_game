@@ -28,7 +28,8 @@ internal class CombatantFactory
             { "volkolakwarrior", new VolkolakCombatantFactory() },
             { "agressor", new AggressorCombatantFactory() },
             { "ambushdrone", new AmbushDroneCombatantFactory() },
-            { "automataur", new AutomataurCombatantFactory() }
+            { "automataur", new AutomataurCombatantFactory() },
+            { "paintedskin", new PaintedSkinCombatantFactory() }
         };
 
     public static IReadOnlyCollection<FormationSlot> CreateHeroes(ICombatActorBehaviour combatActorBehaviour,

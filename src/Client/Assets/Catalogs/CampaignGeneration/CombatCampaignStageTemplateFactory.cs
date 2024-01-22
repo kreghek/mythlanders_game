@@ -6,6 +6,7 @@ using Client.Assets.StageItems;
 using Client.Core;
 using Client.Core.Campaigns;
 
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Dices;
 using CombatDicesTeam.GenericRanges;
@@ -42,10 +43,17 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
 
     private MonsterCombatantTempate GetApplicableTemplate()
     {
-        var templates = _monsterCombatantTemplates
-            .Where(x => x.Level == _monsterLevel && x.ApplicableLocations.Any(loc => loc == _locationSid)).ToArray();
+        // var templates = _monsterCombatantTemplates
+        //     .Where(x => x.Level == _monsterLevel && x.ApplicableLocations.Any(loc => loc == _locationSid)).ToArray();
+        //
+        // return _dice.RollFromList(templates);
 
-        return _dice.RollFromList(templates);
+        return new MonsterCombatantTempate(new MonsterCombatantTempateLevel(0), Array.Empty<ILocationSid>(), new[]
+        {
+            new MonsterCombatantPrefab("corruptedbear", 0, new FieldCoords(0, 1)),
+            new MonsterCombatantPrefab("chaser", 0, new FieldCoords(1, 0)),
+            new MonsterCombatantPrefab("automataur", 0, new FieldCoords(1, 2)),
+        });
     }
 
     private static IEnumerable<IDropTableScheme> GetMonsterDropTables(MonsterCombatantTempate monsterCombatantPrefabs)
