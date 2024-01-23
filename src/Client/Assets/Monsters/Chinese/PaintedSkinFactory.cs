@@ -7,9 +7,9 @@ using JetBrains.Annotations;
 namespace Client.Assets.Monsters.Chinese;
 
 [UsedImplicitly]
-internal sealed class HuapiguiFactory : MonsterFactoryBase
+internal sealed class PaintedSkinFactory : MonsterFactoryBase
 {
-    public override UnitName ClassName => UnitName.Huapigui;
+    public override UnitName ClassName => UnitName.PaintedSkin;
 
     public override CharacterCultureSid Culture => CharacterCultureSid.Chinese;
 
