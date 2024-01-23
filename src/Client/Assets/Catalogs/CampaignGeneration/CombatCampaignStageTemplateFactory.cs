@@ -44,7 +44,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     {
         var templates = _monsterCombatantTemplates
             .Where(x => x.Level == _monsterLevel && x.ApplicableLocations.Any(loc => loc == _locationSid)).ToArray();
-        
+
         return _dice.RollFromList(templates);
     }
 
