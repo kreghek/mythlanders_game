@@ -471,6 +471,7 @@ internal class GameObjectContentStorage
             { UnitName.HornedFrog, LoadMonsterTexture(contentManager, "HornedFrog") },
 
             { UnitName.Huapigui, LoadMonsterTexture(contentManager, "Huapigui") },
+            { UnitName.PaintedSkin, LoadMonsterTexture(contentManager, "PaintedSkin") },
 
             { UnitName.Chaser, LoadMonsterTexture(contentManager, "Chaser") },
 

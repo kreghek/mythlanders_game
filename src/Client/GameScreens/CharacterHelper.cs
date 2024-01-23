@@ -12,7 +12,7 @@ internal static class CharacterHelper
             (CharacterCultureSid.Slavic,
                 new[] { "Aspid", "CorruptedBear", "DigitalWolf", "HornedFrog", "Stryga", "Volkolak", "Wisp" }),
             (CharacterCultureSid.Egyptian, new[] { "Chaser" }),
-            (CharacterCultureSid.Chinese, new[] { "Huapigui" }),
+            (CharacterCultureSid.Chinese, new[] { "Huapigui", "PaintedSkin" }),
             (CharacterCultureSid.Black, new[] { "Marauder", "BoldMarauder", "Agressor", "AmbushDrone" }),
             (CharacterCultureSid.Greek, new[] { "Automataur" })
         };
