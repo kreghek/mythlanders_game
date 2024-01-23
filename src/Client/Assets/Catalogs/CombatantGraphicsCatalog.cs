@@ -30,7 +30,7 @@ internal sealed class CombatantGraphicsCatalog : ICombatantGraphicsCatalog
         foreach (var factory in monsters)
         {
             var graphics = factory.CreateGraphicsConfig(gameObjectContentStorage);
-            _graphicsDict.Add(factory.ClassName.ToString().ToUpper(), graphics);
+            _graphicsDict.Add(factory.ClassName.ToString().ToLower(), graphics);
         }
     }
 
@@ -62,6 +62,6 @@ internal sealed class CombatantGraphicsCatalog : ICombatantGraphicsCatalog
 
     public CombatantGraphicsConfigBase GetGraphics(string classSid)
     {
-        return _graphicsDict[classSid.ToUpper()];
+        return _graphicsDict[classSid];
     }
 }
