@@ -1030,4 +1030,7 @@
       <value>Zduhach Might</value>
         <comment>Skill</comment>
   </data>
+  <data name="HiddenThread" xml:space="preserve">
+      <value>Hidden thread</value><comment>Status</comment>
+  </data>
 </root>

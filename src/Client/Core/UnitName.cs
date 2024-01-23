@@ -71,5 +71,6 @@ public enum UnitName
     Automataur,
     Hydra,
 
-    GreekMonster
+    GreekMonster,
+    PaintedSkin
 }

@@ -11,7 +11,8 @@ public sealed class CounterAttackCombatantStatus : CombatantStatusBase
     private CombatEngineBase? _combat;
     private ICombatant? _ownerCombatant;
 
-    public CounterAttackCombatantStatus(ICombatantStatusSid sid, ICombatantStatusLifetime lifetime, ICombatantStatusSource source) : base(sid, lifetime, source)
+    public CounterAttackCombatantStatus(ICombatantStatusSid sid, ICombatantStatusLifetime lifetime,
+        ICombatantStatusSource source) : base(sid, lifetime, source)
     {
     }
 
