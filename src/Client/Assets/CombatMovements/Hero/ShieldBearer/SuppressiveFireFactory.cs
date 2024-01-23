@@ -16,6 +16,19 @@ namespace Client.Assets.CombatMovements.Hero.ShieldBearer;
 [UsedImplicitly]
 internal class SuppressiveFireFactory : CombatMovementFactoryBase
 {
+    public override CombatMovement CreateMovement()
+    {
+        return new CombatMovement(Sid,
+            new CombatMovementCost(3),
+            CombatMovementEffectConfig.Create(
+                CreateEffects()
+            )
+        )
+        {
+            Tags = CombatMovementTags.Attack
+        };
+    }
+
     private static IEffect[] CreateEffects()
     {
         return Enumerable.Range(0, 5).Select(_ => new IEffect[]
@@ -31,18 +44,4 @@ internal class SuppressiveFireFactory : CombatMovementFactoryBase
             }
         ).SelectMany(x => x).ToArray();
     }
-
-    public override CombatMovement CreateMovement()
-    {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(3),
-            CombatMovementEffectConfig.Create(
-                CreateEffects()
-            )
-        )
-        {
-            Tags = CombatMovementTags.Attack
-        };
-    }
 }
-

@@ -17,6 +17,19 @@ namespace Client.Assets.CombatMovements.Hero.ShieldBearer;
 [UsedImplicitly]
 internal class BlindDefenseFactory : CombatMovementFactoryBase
 {
+    public override CombatMovement CreateMovement()
+    {
+        return new CombatMovement(Sid,
+            new CombatMovementCost(3),
+            CombatMovementEffectConfig.Create(
+                CreateEffects()
+            )
+        )
+        {
+            Tags = CombatMovementTags.Attack
+        };
+    }
+
     private IEffect[] CreateEffects()
     {
         return Enumerable.Range(0, 5).Select(_ =>
@@ -33,18 +46,5 @@ internal class BlindDefenseFactory : CombatMovementFactoryBase
                 3,
                 new ToNextCombatantTurnEffectLifetimeFactory())
         }).ToArray();
-    }
-
-    public override CombatMovement CreateMovement()
-    {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(3),
-            CombatMovementEffectConfig.Create(
-                CreateEffects()
-                )
-        )
-        {
-            Tags = CombatMovementTags.Attack
-        };
     }
 }

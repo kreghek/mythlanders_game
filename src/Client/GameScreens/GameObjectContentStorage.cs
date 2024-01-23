@@ -83,15 +83,6 @@ internal class GameObjectContentStorage
         throw new InvalidOperationException();
     }
 
-    private static IEnumerable<IHeroFactory> LoadHeroFactories()
-    {
-        var assembly = typeof(IHeroFactory).Assembly;
-        var factoryTypes = assembly.GetTypes()
-            .Where(x => typeof(IHeroFactory).IsAssignableFrom(x) && x != typeof(IHeroFactory) && !x.IsAbstract);
-        var factories = factoryTypes.Select(Activator.CreateInstance);
-        return factories.OfType<IHeroFactory>().ToArray();
-    }
-
     public void LoadContent(ContentManager contentManager)
     {
         _contentManager = contentManager;
@@ -105,7 +96,8 @@ internal class GameObjectContentStorage
 
         var heroFactories = LoadHeroFactories();
 
-        _heroTextureDict = heroFactories.ToDictionary(x => GetUnitNameByHerofactoryName(x), x => LoadHeroesTexture(contentManager, x.ClassSid));
+        _heroTextureDict = heroFactories.ToDictionary(x => GetUnitNameByHerofactoryName(x),
+            x => LoadHeroesTexture(contentManager, x.ClassSid));
 
         LoadMonsters(contentManager);
 
@@ -286,7 +278,8 @@ internal class GameObjectContentStorage
             { UnitName.Robber, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Hawk") }
         };
 
-        _heroPortraitsTextureDict = heroFactories.ToDictionary(x => GetUnitNameByHerofactoryName(x), x => LoadHeroPortrait(x.ClassSid));
+        _heroPortraitsTextureDict =
+            heroFactories.ToDictionary(x => GetUnitNameByHerofactoryName(x), x => LoadHeroPortrait(x.ClassSid));
 
         //NPCs
         _heroPortraitsTextureDict.Add(UnitName.Synth, LoadNpcPortrait("DamagedSynth"));
@@ -344,11 +337,6 @@ internal class GameObjectContentStorage
 
             { "AmbushDrone", GetAnimationInner("AmbushDrone") }
         };
-    }
-
-    private static UnitName GetUnitNameByHerofactoryName(IHeroFactory x)
-    {
-        return Enum.Parse<UnitName>(x.ClassSid);
     }
 
     internal SpriteAtlasAnimationData GetAnimation(string animationSet)
@@ -459,10 +447,24 @@ internal class GameObjectContentStorage
         return _contentManager ?? throw new InvalidOperationException("Storage is not loaded.");
     }
 
+    private static UnitName GetUnitNameByHerofactoryName(IHeroFactory x)
+    {
+        return Enum.Parse<UnitName>(x.ClassSid);
+    }
+
     private static Texture2D LoadHeroesTexture(ContentManager contentManager, string classSid)
     {
         var path = Path.Combine("Sprites", "GameObjects", "Characters", "Heroes", classSid, "Full");
         return contentManager.Load<Texture2D>(path);
+    }
+
+    private static IEnumerable<IHeroFactory> LoadHeroFactories()
+    {
+        var assembly = typeof(IHeroFactory).Assembly;
+        var factoryTypes = assembly.GetTypes()
+            .Where(x => typeof(IHeroFactory).IsAssignableFrom(x) && x != typeof(IHeroFactory) && !x.IsAbstract);
+        var factories = factoryTypes.Select(Activator.CreateInstance);
+        return factories.OfType<IHeroFactory>().ToArray();
     }
 
     private void LoadMonsters(ContentManager contentManager)

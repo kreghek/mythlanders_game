@@ -14,10 +14,14 @@ using JetBrains.Annotations;
 
 namespace Client.Core.Heroes.Factories;
 
-
 [UsedImplicitly]
 internal sealed class RobberHeroFactory : HeroFactoryBase
 {
+    public override CombatantGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new RobberGraphicsConfig(ClassSid);
+    }
+
     protected override CombatMovementSequence CreateInitCombatMovementPool()
     {
         var movementPool = new List<CombatMovement>
@@ -68,10 +72,5 @@ internal sealed class RobberHeroFactory : HeroFactoryBase
         };
 
         return startupStatuses;
-    }
-
-    public override CombatantGraphicsConfigBase GetGraphicsConfig()
-    {
-        return new RobberGraphicsConfig(ClassSid);
     }
 }

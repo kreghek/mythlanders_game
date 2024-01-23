@@ -5,7 +5,6 @@ using System.Linq;
 using Client.Assets.GlobalEffects;
 using Client.Core;
 using Client.Core.Campaigns;
-using Client.Core.Heroes;
 
 using CombatDicesTeam.Dialogues;
 

@@ -15,7 +15,6 @@ namespace Client.Core.Heroes.Factories;
 
 internal abstract class HeroFactoryBase : IHeroFactory
 {
-    public virtual string ClassSid => GetType().Name[..^"HeroFactory".Length];
     protected abstract CombatMovementSequence CreateInitCombatMovementPool();
 
     protected abstract CombatantStatsConfig CreateInitStats();
@@ -30,6 +29,8 @@ internal abstract class HeroFactoryBase : IHeroFactory
         return Array.Empty<ICombatantStatusFactory>();
     }
 
+    public virtual string ClassSid => GetType().Name[..^"HeroFactory".Length];
+
     public HeroState Create()
     {
         var heroSequence = CreateInitCombatMovementPool();
@@ -37,12 +38,13 @@ internal abstract class HeroFactoryBase : IHeroFactory
         var startupStatuses = CreateStartupStatuses();
 
         var hp = stats.GetStats().Single(x => ReferenceEquals(x.Type, CombatantStatTypes.HitPoints)).Value;
-        var combatantStats = stats.GetStats().Where(x => !ReferenceEquals(x.Type, CombatantStatTypes.HitPoints)).ToArray();
+        var combatantStats = stats.GetStats().Where(x => !ReferenceEquals(x.Type, CombatantStatTypes.HitPoints))
+            .ToArray();
 
         var hero = new HeroState(ClassSid, hp, combatantStats, heroSequence.Items, startupStatuses);
         return hero;
     }
-    
+
     public virtual CombatantGraphicsConfigBase GetGraphicsConfig()
     {
         return new SingleSpriteGraphicsConfig(Path.Combine(CommonConstants.PathToCharacterSprites, "Heroes",

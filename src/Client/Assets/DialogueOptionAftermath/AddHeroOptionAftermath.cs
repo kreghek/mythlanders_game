@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 
 using Client.Assets.Catalogs.Dialogues;
-using Client.Core;
-using Client.Core.Heroes;
 
 namespace Client.Assets.DialogueOptionAftermath;
 

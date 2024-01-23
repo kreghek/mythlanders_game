@@ -15,11 +15,20 @@ internal sealed class UnitSchemeCatalog : ICharacterCatalog
         var heroes = LoadHeroFactories().ToArray();
 
         AvailableHeroes = heroes.Select(x => x.ClassSid).ToArray();
-        
+
         var monsterFactories = LoadMonsterFactories();
         var loadedMonsters = monsterFactories.Select(x => x.Create(balanceTable));
 
         AllMonsters = loadedMonsters.ToArray();
+    }
+
+    private static IEnumerable<IHeroFactory> LoadHeroFactories()
+    {
+        var assembly = typeof(IHeroFactory).Assembly;
+        var factoryTypes = assembly.GetTypes()
+            .Where(x => typeof(IHeroFactory).IsAssignableFrom(x) && x != typeof(IHeroFactory) && !x.IsAbstract);
+        var factories = factoryTypes.Select(Activator.CreateInstance);
+        return factories.OfType<IHeroFactory>().ToArray();
     }
 
     private static IEnumerable<IMonsterFactory> LoadMonsterFactories()
@@ -29,15 +38,6 @@ internal sealed class UnitSchemeCatalog : ICharacterCatalog
             .Where(x => typeof(IMonsterFactory).IsAssignableFrom(x) && x != typeof(IMonsterFactory) && !x.IsAbstract);
         var factories = factoryTypes.Select(Activator.CreateInstance);
         return factories.OfType<IMonsterFactory>().ToArray();
-    }
-    
-    private static IEnumerable<IHeroFactory> LoadHeroFactories()
-    {
-        var assembly = typeof(IHeroFactory).Assembly;
-        var factoryTypes = assembly.GetTypes()
-            .Where(x => typeof(IHeroFactory).IsAssignableFrom(x) && x != typeof(IHeroFactory) && !x.IsAbstract);
-        var factories = factoryTypes.Select(Activator.CreateInstance);
-        return factories.OfType<IHeroFactory>().ToArray();
     }
 
 

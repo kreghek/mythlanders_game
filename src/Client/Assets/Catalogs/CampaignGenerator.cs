@@ -19,6 +19,7 @@ namespace Client.Assets.Catalogs;
 
 internal sealed class CampaignGenerator : ICampaignGenerator
 {
+    private readonly ICharacterCatalog _characterCatalog;
     private readonly IDice _dice;
     private readonly IDropResolver _dropResolver;
     private readonly GlobeProvider _globeProvider;
@@ -37,7 +38,6 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         nameof(UnitName.Zoologist)
     };
 
-    private readonly ICharacterCatalog _characterCatalog;
     private readonly CampaignWayTemplatesCatalog _wayTemplatesCatalog;
 
     public CampaignGenerator(CampaignWayTemplatesCatalog wayTemplatesCatalog,

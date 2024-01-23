@@ -14,6 +14,11 @@ namespace Client.Core.Heroes.Factories;
 [UsedImplicitly]
 internal sealed class GuardianHeroFactory : HeroFactoryBase
 {
+    public override CombatantGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new GuardsmanGraphicsConfig(ClassSid);
+    }
+
     protected override CombatMovementSequence CreateInitCombatMovementPool()
     {
         var movementPool = new List<CombatMovement>
@@ -50,10 +55,5 @@ internal sealed class GuardianHeroFactory : HeroFactoryBase
         stats.SetValue(CombatantStatTypes.Resolve, 4);
 
         return stats;
-    }
-    
-    public override CombatantGraphicsConfigBase GetGraphicsConfig()
-    {
-        return new GuardsmanGraphicsConfig(ClassSid);
     }
 }

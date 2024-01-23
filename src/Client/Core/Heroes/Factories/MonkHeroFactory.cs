@@ -14,6 +14,11 @@ namespace Client.Core.Heroes.Factories;
 [UsedImplicitly]
 internal sealed class MonkHeroFactory : HeroFactoryBase
 {
+    public override CombatantGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new MaosinGraphicsConfig(ClassSid);
+    }
+
     protected override CombatMovementSequence CreateInitCombatMovementPool()
     {
         var movementPool = new List<CombatMovement>
@@ -50,10 +55,5 @@ internal sealed class MonkHeroFactory : HeroFactoryBase
         stats.SetValue(CombatantStatTypes.Resolve, 7);
 
         return stats;
-    }
-
-    public override CombatantGraphicsConfigBase GetGraphicsConfig()
-    {
-        return new MaosinGraphicsConfig(ClassSid);
     }
 }

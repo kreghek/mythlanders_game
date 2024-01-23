@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Core;
-using Client.Core.Heroes;
 
 namespace Client.Assets.Catalogs.Dialogues;
 
