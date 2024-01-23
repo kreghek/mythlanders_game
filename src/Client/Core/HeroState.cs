@@ -17,7 +17,7 @@ internal sealed class HeroState
     {
         var heroFactories = LoadHeroFactories();
 
-        return heroFactories.ToDictionary(x => x.GetType().Name[..^"HeroFactory".Length].ToLowerInvariant(), x => x);
+        return heroFactories.ToDictionary(x => x.GetType().Name[..^"HeroFactory".Length], x => x);
     }
     
     private static IEnumerable<IHeroFactory> LoadHeroFactories()

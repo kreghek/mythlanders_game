@@ -15,7 +15,7 @@ namespace Client.Core.Heroes.Factories;
 
 internal abstract class HeroFactoryBase : IHeroFactory
 {
-    public virtual string ClassSid => GetType().Name[..^"HeroFactory".Length].ToLowerInvariant();
+    public virtual string ClassSid => GetType().Name[..^"HeroFactory".Length];
     protected abstract CombatMovementSequence CreateInitCombatMovementPool();
 
     protected abstract CombatantStatsConfig CreateInitStats();
