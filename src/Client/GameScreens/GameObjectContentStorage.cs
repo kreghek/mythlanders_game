@@ -105,7 +105,7 @@ internal class GameObjectContentStorage
 
         var heroFactories = LoadHeroFactories();
 
-        _heroTextureDict = heroFactories.ToDictionary(x => Enum.Parse<UnitName>(x.GetType().Name[..^"HeroFactory".Length]), x => LoadHeroesTexture(contentManager, "Partisan"));
+        _heroTextureDict = heroFactories.ToDictionary(x => GetUnitNameByHerofactoryName(x), x => LoadHeroesTexture(contentManager, x.ClassSid));
 
         LoadMonsters(contentManager);
 
