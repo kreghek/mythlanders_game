@@ -53,6 +53,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
             new MonsterCombatantPrefab("corruptedbear", 0, new FieldCoords(0, 1)),
             new MonsterCombatantPrefab("chaser", 0, new FieldCoords(1, 0)),
             new MonsterCombatantPrefab("automataur", 0, new FieldCoords(1, 2)),
+            new MonsterCombatantPrefab("paintedskin", 0, new FieldCoords(0, 2)),
         });
     }
 
