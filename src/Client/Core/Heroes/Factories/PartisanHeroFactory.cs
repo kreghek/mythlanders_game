@@ -1,17 +1,19 @@
 using System.Collections.Generic;
 
 using Client.Assets.CombatMovements.Hero.Partisan;
+using Client.Assets.GraphicConfigs.Heroes;
 
 using CombatDicesTeam.Combats;
 
 using GameAssets.Combats;
 
+using JetBrains.Annotations;
+
 namespace Client.Core.Heroes.Factories;
 
+[UsedImplicitly]
 internal sealed class PartisanHeroFactory : HeroFactoryBase
 {
-    protected override string ClassSid => "partisan";
-
     protected override CombatMovementSequence CreateInitCombatMovementPool()
     {
         var movementPool = new List<CombatMovement>
@@ -50,5 +52,10 @@ internal sealed class PartisanHeroFactory : HeroFactoryBase
         stats.SetValue(CombatantStatTypes.Resolve, 7);
 
         return stats;
+    }
+
+    public override CombatantGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new PartisanGraphicsConfig();
     }
 }

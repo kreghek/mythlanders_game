@@ -1,4 +1,5 @@
-﻿using Client.Assets.CombatMovements.Monster.Slavic.Chaser;
+﻿using Client.Assets.CombatMovements.Monster.Egyptian.Chaser;
+using Client.Assets.CombatMovements.Monster.Slavic.Chaser;
 
 using CombatDicesTeam.Combats;
 

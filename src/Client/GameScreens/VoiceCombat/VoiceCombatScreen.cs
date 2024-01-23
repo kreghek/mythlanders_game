@@ -41,7 +41,7 @@ internal class VoiceCombatScreen : CombatScreenBase
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();
         _dice = game.Services.GetService<IDice>();
 
-        _leftCombatant = new VoiceCombatant(13, 10, 0, UnitName.Assaulter);
+        _leftCombatant = new VoiceCombatant(13, 10, 0, UnitName.ShieldBearer);
         _rightCombatant = new VoiceCombatant(10, 8, 0, UnitName.ChineseOldman);
 
         _voiceCombatOptions = new VoiceCombatOptions();

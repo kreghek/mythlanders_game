@@ -8,7 +8,7 @@ namespace Client.Assets.GraphicConfigs.Heroes;
 
 internal sealed class SwordsmanGraphicsConfig : HeroGraphicConfig
 {
-    public SwordsmanGraphicsConfig(UnitName name) : base(name)
+    public SwordsmanGraphicsConfig(string name) : base(name)
     {
     }
 

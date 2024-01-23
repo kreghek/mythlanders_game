@@ -4,16 +4,16 @@ namespace Client.Core.CampaignEffects;
 
 internal sealed class UnlockHeroCampaignEffect : ICampaignEffect
 {
-    public UnlockHeroCampaignEffect(UnitName hero)
+    public UnlockHeroCampaignEffect(string heroSid)
     {
-        Hero = hero;
+        Hero = heroSid;
     }
 
-    public UnitName Hero { get; }
+    public string Hero { get; }
 
     public void Apply(Globe globe)
     {
-        globe.Player.AddHero(HeroState.Create(Hero.ToString()));
+        globe.Player.AddHero(HeroState.Create(Hero));
     }
 
     public string GetEffectDisplayText()

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Client.Assets.CombatMovements.Hero.Robber;
+using Client.Assets.GraphicConfigs.Heroes;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
@@ -9,12 +10,14 @@ using CombatDicesTeam.Combats.CombatantStatuses;
 using GameAssets.Combats;
 using GameAssets.Combats.CombatantStatuses;
 
+using JetBrains.Annotations;
+
 namespace Client.Core.Heroes.Factories;
 
+
+[UsedImplicitly]
 internal sealed class RobberHeroFactory : HeroFactoryBase
 {
-    protected override string ClassSid => "robber";
-
     protected override CombatMovementSequence CreateInitCombatMovementPool()
     {
         var movementPool = new List<CombatMovement>
@@ -65,5 +68,10 @@ internal sealed class RobberHeroFactory : HeroFactoryBase
         };
 
         return startupStatuses;
+    }
+
+    public override CombatantGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new RobberGraphicsConfig(ClassSid);
     }
 }

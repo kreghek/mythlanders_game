@@ -11,17 +11,23 @@ namespace Client.Core;
 
 internal sealed class HeroState
 {
-    private static readonly IDictionary<string, IHeroFactory> _heroFactories =
-        new Dictionary<string, IHeroFactory>
-        {
-            { "swordsman", new SwordsmanHeroFactory() },
-            { "amazon", new AmazonHeroFactory() },
-            { "partisan", new PartisanHeroFactory() },
-            { "robber", new RobberHeroFactory() },
-            { "monk", new MonkHeroFactory() },
-            { "guardian", new GuardianHeroFactory() },
-            { "sage", new SageHeroFactory() }
-        };
+    private static readonly IDictionary<string, IHeroFactory> _heroFactories = CreateHeroFactoryMap();
+
+    private static IDictionary<string, IHeroFactory> CreateHeroFactoryMap()
+    {
+        var heroFactories = LoadHeroFactories();
+
+        return heroFactories.ToDictionary(x => x.GetType().Name[..^"HeroFactory".Length], x => x);
+    }
+    
+    private static IEnumerable<IHeroFactory> LoadHeroFactories()
+    {
+        var assembly = typeof(IHeroFactory).Assembly;
+        var factoryTypes = assembly.GetTypes()
+            .Where(x => typeof(IHeroFactory).IsAssignableFrom(x) && x != typeof(IHeroFactory) && !x.IsAbstract);
+        var factories = factoryTypes.Select(Activator.CreateInstance);
+        return factories.OfType<IHeroFactory>().ToArray();
+    }
 
     public HeroState(string classSid, IStatValue hitPoints, IEnumerable<ICombatantStat> combatStats,
         IEnumerable<CombatMovement> availableMovements,

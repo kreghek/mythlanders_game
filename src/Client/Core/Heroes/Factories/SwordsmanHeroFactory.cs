@@ -1,17 +1,19 @@
 using System.Collections.Generic;
 
 using Client.Assets.CombatMovements.Hero.Swordsman;
+using Client.Assets.GraphicConfigs.Heroes;
 
 using CombatDicesTeam.Combats;
 
 using GameAssets.Combats;
 
+using JetBrains.Annotations;
+
 namespace Client.Core.Heroes.Factories;
 
+[UsedImplicitly]
 internal sealed class SwordsmanHeroFactory : HeroFactoryBase
 {
-    protected override string ClassSid => "swordsman";
-
     protected override CombatMovementSequence CreateInitCombatMovementPool()
     {
         var movementPool = new List<CombatMovement>
@@ -48,5 +50,10 @@ internal sealed class SwordsmanHeroFactory : HeroFactoryBase
         stats.SetValue(CombatantStatTypes.Resolve, 5);
 
         return stats;
+    }
+
+    public override CombatantGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new SwordsmanGraphicsConfig(ClassSid);
     }
 }

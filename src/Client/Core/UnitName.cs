@@ -10,7 +10,7 @@ public enum UnitName
     Environment,
 
     Partisan,
-    Assaulter,
+    ShieldBearer,
     Zoologist,
 
     Swordsman,

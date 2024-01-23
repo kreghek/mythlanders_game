@@ -2,8 +2,8 @@ using System.Collections.Generic;
 
 namespace Client.Core;
 
-internal interface IUnitSchemeCatalog
+internal interface ICharacterCatalog
 {
     IReadOnlyCollection<UnitScheme> AllMonsters { get; }
-    IDictionary<UnitName, UnitScheme> Heroes { get; }
+    IReadOnlyCollection<string> AvailableHeroes { get; }
 }

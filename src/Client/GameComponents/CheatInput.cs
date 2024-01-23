@@ -19,7 +19,7 @@ internal sealed class CheatInput : DrawableGameComponent
     private readonly IEventCatalog _eventCatalog;
     private readonly SpriteBatch _spriteBatch;
     private readonly SpriteFont _spriteFont;
-    private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+    private readonly ICharacterCatalog _unitSchemeCatalog;
     private double? _errorCounter;
     private string? _errorText;
     private KeyboardState _lastState;
@@ -34,7 +34,7 @@ internal sealed class CheatInput : DrawableGameComponent
         _backgroundTexture = new Texture2D(game.GraphicsDevice, 1, 1);
         _backgroundTexture.SetData(data);
 
-        _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
+        _unitSchemeCatalog = game.Services.GetService<ICharacterCatalog>();
         _eventCatalog = game.Services.GetService<IEventCatalog>();
     }
 
@@ -111,83 +111,15 @@ internal sealed class CheatInput : DrawableGameComponent
         return oldKeyboard.IsKeyDown(keys) && keyboard.IsKeyUp(keys);
     }
 
-    private static SystemEventMarker GetSystemMarker(string unitSchemeSid)
-    {
-        return unitSchemeSid switch
-        {
-            "zoologist" => SystemEventMarker.MeetZoologist,
-
-            "archer" => SystemEventMarker.MeetArcher,
-            "herbalist" => SystemEventMarker.MeetHerbalist,
-
-            "monk" => SystemEventMarker.MeetMonk,
-            "spearman" => SystemEventMarker.MeetSpearman,
-            "missionary" => SystemEventMarker.MeetMissionary,
-
-            "priest" => SystemEventMarker.MeetPriest,
-            "Medjay" => SystemEventMarker.MeetMedjay,
-            "liberator" => SystemEventMarker.MeetLiberator,
-
-            "hoplite" => SystemEventMarker.MeetHoplite,
-            "amazon" => SystemEventMarker.MeetAmazon,
-            "engineer" => SystemEventMarker.MeetEngineer,
-
-            _ => throw new InvalidOperationException($"Unknown unit {unitSchemeSid}")
-        };
-    }
-
-    private static UnitScheme GetUnitSchemeByString(string unitSchemeSid, IUnitSchemeCatalog unitSchemeCatalog)
-    {
-        return unitSchemeSid switch
-        {
-            "partisan" => unitSchemeCatalog.Heroes[UnitName.Partisan],
-            "assaulter" => unitSchemeCatalog.Heroes[UnitName.Assaulter],
-            "zoologist" => unitSchemeCatalog.Heroes[UnitName.Zoologist],
-
-            "warrior" => unitSchemeCatalog.Heroes[UnitName.Swordsman],
-            "robber" => unitSchemeCatalog.Heroes[UnitName.Robber],
-            "herbalist" => unitSchemeCatalog.Heroes[UnitName.Herbalist],
-
-            "monk" => unitSchemeCatalog.Heroes[UnitName.Monk],
-            "spearman" => unitSchemeCatalog.Heroes[UnitName.Guardian],
-            "missionary" => unitSchemeCatalog.Heroes[UnitName.Sage],
-
-            "priest" => unitSchemeCatalog.Heroes[UnitName.Priest],
-            "medjay" => unitSchemeCatalog.Heroes[UnitName.Medjay],
-            "liberator" => unitSchemeCatalog.Heroes[UnitName.Liberator],
-
-            "hoplite" => unitSchemeCatalog.Heroes[UnitName.Hoplite],
-            "amazon" => unitSchemeCatalog.Heroes[UnitName.Amazon],
-            "engineer" => unitSchemeCatalog.Heroes[UnitName.Engineer],
-
-            _ => throw new InvalidOperationException($"Unknown unit {unitSchemeSid}")
-        };
-    }
-
     private void HandleAddUnit(string[] args)
     {
         var globeProvider = Game.Services.GetService<GlobeProvider>();
         var globe = globeProvider.Globe;
 
-        var unitSchemeSid = args[0];
-        var unitScheme = GetUnitSchemeByString(unitSchemeSid, _unitSchemeCatalog);
-
-        const int DEFAULT_LEVEL = 1;
-        // var unit = new Hero(unitScheme, DEFAULT_LEVEL)
-        // {
-        //     IsPlayerControlled = true
-        // };
-        //
-        // globe.Player.Pool.AddNewUnit(unit);
-
-        // Events
-        var targetSystemMarker = GetSystemMarker(unitSchemeSid);
-        //var characterEvent = _eventCatalog.Events.SingleOrDefault(x => x.SystemMarker == targetSystemMarker);
-        // if (characterEvent is not null)
-        // {
-        //     // Simulate the event resolving.
-        //     characterEvent.Counter = 1;
-        // }
+        var heroSid = args[0];
+        var hero = HeroState.Create(heroSid);
+        
+        globe.Player.AddHero(hero);
     }
 
     private void HandleChangeHp(string[] args)
@@ -196,13 +128,13 @@ internal sealed class CheatInput : DrawableGameComponent
         var globe = globeProvider.Globe;
 
         var unitSchemeSid = args[0];
-        var unitScheme = GetUnitSchemeByString(unitSchemeSid, _unitSchemeCatalog);
-        //
-        // var targetUnit = globe.Player.Heroes.Units.SingleOrDefault(x => x.UnitScheme == unitScheme);
-        // var hpAmount = int.Parse(args[1]);
 
-        // targetUnit.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value
-        //     .CurrentChange(hpAmount > 0 ? hpAmount : 0);
+        var hero = globe.Player.Heroes.Units.SingleOrDefault(x => x.ClassSid == unitSchemeSid);
+        if (hero is not null)
+        {
+            var hpAmount = int.Parse(args[1]);
+            hero.HitPoints.CurrentChange(hpAmount > 0 ? hpAmount : 0);
+        }
     }
 
     private void HandleCreateCombat(string[] commandArgs)

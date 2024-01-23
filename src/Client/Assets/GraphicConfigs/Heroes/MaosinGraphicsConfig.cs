@@ -10,7 +10,7 @@ namespace Client.Assets.GraphicConfigs.Heroes;
 
 internal sealed class MaosinGraphicsConfig : HeroGraphicConfig
 {
-    public MaosinGraphicsConfig(UnitName name) : base(name)
+    public MaosinGraphicsConfig(string name) : base(name)
     {
         InteractionPoint = new Vector2(0, 64);
         StatsPanelOrigin = new Vector2(0, 64 + 16);

@@ -167,6 +167,12 @@
     <value>Ascetic robe</value>
         <comment>Equipment</comment>
   </data>
+  <data name="AskedNoViolence" xml:space="preserve">
+      <value>Asked No Violence</value><comment>Combat Movement Sage</comment>
+  </data>
+  <data name="AskedNoViolence_Description" xml:space="preserve">
+      <value />
+  </data>
   <data name="Aspid" xml:space="preserve">
     <value>Aspid</value>
         <comment>Monster</comment>
@@ -417,6 +423,12 @@
   <data name="EyesOfChaos_Description" xml:space="preserve">
     <value></value>
   </data>
+  <data name="FaithBoost" xml:space="preserve">
+      <value>Faith boost</value><comment>Combat Movement Sage</comment>
+  </data>
+  <data name="FaithBoost_Description" xml:space="preserve">
+      <value />
+  </data>
   <data name="FatalBlow" xml:space="preserve">
       <value>Fatal blow</value>
       <comment>Combat Movement Agressor</comment>
@@ -510,6 +522,9 @@
   <data name="HiddenIntention_Description" xml:space="preserve">
     <value />
         <comment>Combat movement Monk</comment>
+  </data>
+  <data name="HiddenThread" xml:space="preserve">
+      <value>Hidden thread</value><comment>Status</comment>
   </data>
   <data name="HitFromShoulder" xml:space="preserve">
     <value>Hit from the shoulder</value>
@@ -688,6 +703,12 @@
     <value />
         <comment>Combat movement Monk</comment>
   </data>
+  <data name="NoViolencePlease" xml:space="preserve">
+      <value>No Violence, Please...</value><comment>Combat Movement Sage</comment>
+  </data>
+  <data name="NoViolencePlease_Description" xml:space="preserve">
+      <value />
+  </data>
   <data name="ObeyAll_CrisisAftermath" xml:space="preserve">
     <value>Obey all</value>
         <comment>Crisis Aftermath</comment>
@@ -754,6 +775,12 @@
   <data name="RegenerativeProtocol_Description" xml:space="preserve">
       <value />
       <comment>Combat Movement Digital Hort</comment>
+  </data>
+  <data name="Reproach" xml:space="preserve">
+      <value>Reproach</value><comment>Combat Movement Sage</comment>
+  </data>
+  <data name="Reproach_Description" xml:space="preserve">
+      <value />
   </data>
   <data name="RestAll_CrisisAftermath" xml:space="preserve">
     <value>Rest all</value>
@@ -1002,30 +1029,6 @@
   <data name="ZduhachMight" xml:space="preserve">
       <value>Zduhach Might</value>
         <comment>Skill</comment>
-  </data>
-  <data name="FaithBoost" xml:space="preserve">
-      <value>Faith boost</value><comment>Combat Movement Sage</comment>
-  </data>
-  <data name="FaithBoost_Description" xml:space="preserve">
-      <value />
-  </data>
-  <data name="Reproach" xml:space="preserve">
-      <value>Reproach</value><comment>Combat Movement Sage</comment>
-  </data>
-  <data name="Reproach_Description" xml:space="preserve">
-      <value />
-  </data>
-  <data name="AskedNoViolence" xml:space="preserve">
-      <value>Asked No Violence</value><comment>Combat Movement Sage</comment>
-  </data>
-  <data name="AskedNoViolence_Description" xml:space="preserve">
-      <value />
-  </data>
-  <data name="NoViolencePlease" xml:space="preserve">
-      <value>No Violence, Please...</value><comment>Combat Movement Sage</comment>
-  </data>
-  <data name="NoViolencePlease_Description" xml:space="preserve">
-      <value />
   </data>
   <data name="HiddenThread" xml:space="preserve">
       <value>Hidden thread</value><comment>Status</comment>

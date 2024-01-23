@@ -23,34 +23,33 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     private readonly IDropResolver _dropResolver;
     private readonly GlobeProvider _globeProvider;
 
-    private readonly UnitName[] _heroInDev =
+    private readonly string[] _heroInDev =
     {
-        UnitName.Herbalist,
+        nameof(UnitName.Herbalist),
 
-        UnitName.Hoplite,
-        UnitName.Engineer,
+        nameof(UnitName.Hoplite),
+        nameof(UnitName.Engineer),
 
-        UnitName.Priest,
-        UnitName.Liberator,
-        UnitName.Medjay,
+        nameof(UnitName.Priest),
+        nameof(UnitName.Liberator),
+        nameof(UnitName.Medjay),
 
-        UnitName.Zoologist,
-        UnitName.Assaulter
+        nameof(UnitName.Zoologist)
     };
 
-    private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+    private readonly ICharacterCatalog _characterCatalog;
     private readonly CampaignWayTemplatesCatalog _wayTemplatesCatalog;
 
     public CampaignGenerator(CampaignWayTemplatesCatalog wayTemplatesCatalog,
         IDice dice,
         IDropResolver dropResolver,
-        IUnitSchemeCatalog unitSchemeCatalog,
+        ICharacterCatalog unitSchemeCatalog,
         GlobeProvider globeProvider)
     {
         _wayTemplatesCatalog = wayTemplatesCatalog;
         _dice = dice;
         _dropResolver = dropResolver;
-        _unitSchemeCatalog = unitSchemeCatalog;
+        _characterCatalog = unitSchemeCatalog;
         _globeProvider = globeProvider;
     }
 
@@ -60,11 +59,11 @@ internal sealed class CampaignGenerator : ICampaignGenerator
             .Except(_globeProvider.Globe.Player.CurrentAvailableLocations).ToArray();
     }
 
-    private IReadOnlyCollection<UnitName> CalculateLockedHeroes()
+    private IReadOnlyCollection<string> CalculateLockedHeroes()
     {
-        return _unitSchemeCatalog.Heroes.Select(x => x.Value.Name)
+        return _characterCatalog.AvailableHeroes
             .Except(_globeProvider.Globe.Player.Heroes.Units.Select(
-                x => Enum.Parse<UnitName>(x.ClassSid, true)))
+                x => x.ClassSid))
             .Except(_heroInDev)
             .ToArray();
     }

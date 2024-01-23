@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 using Client.Assets.CombatMovements;
 using Client.Core;
@@ -51,26 +50,6 @@ internal static class UnsortedHelpers
     {
         const int ICON_SIZE = 64;
         return new Rectangle(icon.X * ICON_SIZE, icon.Y * ICON_SIZE, ICON_SIZE, ICON_SIZE);
-    }
-
-    public static UnitScheme? GetPlayerPersonSchemeByEquipmentType(IUnitSchemeCatalog unitSchemeCatalog,
-        EquipmentItemType? equipmentItemType)
-    {
-        if (equipmentItemType is null)
-        {
-            return null;
-        }
-
-        switch (equipmentItemType)
-        {
-            case EquipmentItemType.Warrior: return unitSchemeCatalog.Heroes[UnitName.Swordsman];
-            case EquipmentItemType.Archer: return unitSchemeCatalog.Heroes[UnitName.Robber];
-            case EquipmentItemType.Herbalist: return unitSchemeCatalog.Heroes[UnitName.Herbalist];
-            case EquipmentItemType.Priest: return unitSchemeCatalog.Heroes[UnitName.Priest];
-            default:
-                Debug.Fail($"Unknown resource type {equipmentItemType}.");
-                return null;
-        }
     }
 
     public static Rectangle GetUnitPortraitRect(UnitName unitName)
@@ -156,7 +135,7 @@ internal static class UnsortedHelpers
             UnitName.Wisp => 10,
             UnitName.Volkolak or UnitName.VolkolakWarrior => 11,
             UnitName.Partisan => 13,
-            UnitName.Assaulter => 14,
+            UnitName.ShieldBearer => 14,
             _ => 12
         };
     }
