@@ -37,7 +37,7 @@ public static class MonsterPerkCatalog
         nameof(ImprovedAllDamage));
     
     public static MonsterPerk ImprovedMeleeDamage { get; } = new(new CombatStatusFactory(source =>
-            new ModifyEffectsCombatantStatus(new CombatantStatusSid(nameof(ImprovedMeleeDamage)),
+            new ImproveMeleeDamageCombatantStatus(new CombatantStatusSid(nameof(ImprovedMeleeDamage)),
                 new OwnerBoundCombatantEffectLifetime(),
                 source,
                 1)),
