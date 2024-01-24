@@ -12,31 +12,20 @@ namespace Client.GameScreens.Combat.Ui;
 
 internal class CombatMovementHint : HintBase
 {
-    private readonly string? _combatMoveCostText;
     private readonly string _combatMoveDescription;
     private readonly CombatMovementInstance _combatMovement;
-
+    private readonly IStatValue _currentActorResolveValue;
     private readonly string _combatMoveTitle;
     private readonly SpriteFont _font;
     private readonly SpriteFont _nameFont;
 
-    public CombatMovementHint(CombatMovementInstance combatMovement)
+    public CombatMovementHint(CombatMovementInstance combatMovement, IStatValue currentActorResolveValue)
     {
         _nameFont = UiThemeManager.UiContentStorage.GetTitlesFont();
         _font = UiThemeManager.UiContentStorage.GetMainFont();
         _combatMovement = combatMovement;
-
+        _currentActorResolveValue = currentActorResolveValue;
         _combatMoveTitle = GameObjectHelper.GetLocalized(_combatMovement.SourceMovement.Sid);
-
-        if (_combatMovement.SourceMovement.Cost.HasCost)
-        {
-            _combatMoveCostText =
-                string.Format(UiResource.SkillManaCostTemplate, _combatMovement.SourceMovement.Cost.Amount);
-        }
-        else
-        {
-            _combatMoveCostText = null;
-        }
 
         _combatMoveDescription = StringHelper.LineBreaking(
             GameObjectHelper.GetLocalizedDescription(_combatMovement.SourceMovement.Sid),
@@ -60,18 +49,17 @@ internal class CombatMovementHint : HintBase
 
         spriteBatch.DrawString(_nameFont, _combatMoveTitle, combatMoveTitlePosition, color);
 
-        spriteBatch.DrawString(_font,
-            string.Format(UiResource.ManaCostLabelTemplate, _combatMovement.Cost.Amount.Current),
-            combatMoveTitlePosition + new Vector2(0, 15), color);
-
-        var manaCostPosition = combatMoveTitlePosition + new Vector2(0, 25);
-        if (string.IsNullOrEmpty(_combatMoveCostText))
+        var resolveColor = color;
+        if (_combatMovement.Cost.Amount.Current > _currentActorResolveValue.Current)
         {
-            spriteBatch.DrawString(_font,
-                _combatMoveCostText,
-                manaCostPosition, color);
+            resolveColor = Color.Lerp(color, MythlandersColors.DangerRedMain, 0.75f);
         }
 
+        spriteBatch.DrawString(_font,
+            string.Format(UiResource.CombatMovementCostLabelTemplate, _combatMovement.Cost.Amount.Current, _currentActorResolveValue.Current),
+            combatMoveTitlePosition + new Vector2(0, 15), resolveColor);
+
+        var manaCostPosition = combatMoveTitlePosition + new Vector2(0, 25);
         var descriptionBlockPosition = manaCostPosition + new Vector2(0, 20);
         spriteBatch.DrawString(_font, _combatMoveDescription, descriptionBlockPosition, Color.Wheat);
     }

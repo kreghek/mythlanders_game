@@ -24,8 +24,8 @@ internal sealed class CombatantQueuePanel : ControlBase
     private readonly IList<(Rectangle, ICombatantStatus)> _effectInfoList =
         new List<(Rectangle, ICombatantStatus)>();
 
-    private readonly IList<(Rectangle, CombatMovementInstance)> _monsterCombatMoveInfoList =
-        new List<(Rectangle, CombatMovementInstance)>();
+    private readonly IList<(Rectangle, CombatMovementInstance, ICombatant)> _monsterCombatMoveInfoList =
+        new List<(Rectangle, CombatMovementInstance, ICombatant)>();
 
     private readonly IUiContentStorage _uiContentStorage;
     private HintBase? _combatMoveHint;
@@ -98,7 +98,7 @@ internal sealed class CombatantQueuePanel : ControlBase
                 if (plannedMove is not null)
                 {
                     _monsterCombatMoveInfoList.Add(
-                        new ValueTuple<Rectangle, CombatMovementInstance>(portraitDestRect, plannedMove));
+                        new ValueTuple<Rectangle, CombatMovementInstance, ICombatant>(portraitDestRect, plannedMove, combatant));
                 }
             }
 
@@ -119,9 +119,9 @@ internal sealed class CombatantQueuePanel : ControlBase
         };
     }
 
-    private static HintBase CreateEffectHint((Rectangle, CombatMovementInstance) moveInfo)
+    private static HintBase CreateEffectHint((Rectangle, CombatMovementInstance, ICombatant) moveInfo)
     {
-        var hint = new CombatMovementHint(moveInfo.Item2)
+        var hint = new CombatMovementHint(moveInfo.Item2, moveInfo.Item3.Stats.Single(x=>x.Type == CombatantStatTypes.Resolve).Value)
         {
             Rect = new Rectangle(moveInfo.Item1.Location, new Point(200, 40))
         };

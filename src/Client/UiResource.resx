@@ -418,8 +418,8 @@ Do you really need to spend the priceless current move for nothing?</value>
   <data name="LongCombatSequenceText" xml:space="preserve">
     <value>Long</value>
   </data>
-  <data name="ManaCostLabelTemplate" xml:space="preserve">
-    <value>Psy-energy cost: {0}</value>
+  <data name="CombatMovementCostLabelTemplate" xml:space="preserve">
+    <value>Resolve cost: {0}/{1}</value>
   </data>
   <data name="ManaLabelTemplate" xml:space="preserve">
     <value>Psy-energy: {0}/{1}</value>
@@ -526,9 +526,6 @@ Do you really need to spend the priceless current move for nothing?</value>
   <data name="SkillDirectionTargetText" xml:space="preserve">
     <value>target</value>
     <comment>Дательный падеж</comment>
-  </data>
-  <data name="SkillManaCostTemplate" xml:space="preserve">
-    <value>Required {0} psy-energy</value>
   </data>
   <data name="SkipButtonTitle" xml:space="preserve">
     <value>Skip</value>

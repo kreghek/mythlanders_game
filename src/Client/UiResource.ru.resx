@@ -411,8 +411,8 @@
   <data name="LongCombatSequenceText" xml:space="preserve">
     <value>Долгий</value>
   </data>
-  <data name="ManaCostLabelTemplate" xml:space="preserve">
-    <value>Цена: {0}</value>
+  <data name="CombatMovementCostLabelTemplate" xml:space="preserve">
+    <value>Требуемая решимость: {0}/{1}</value>
   </data>
   <data name="ManaLabelTemplate" xml:space="preserve">
     <value>Пси-энергия: {0}/{1}</value>
@@ -515,9 +515,6 @@
   </data>
   <data name="SkillDirectionTargetText" xml:space="preserve">
     <value>цели</value>
-  </data>
-  <data name="SkillManaCostTemplate" xml:space="preserve">
-    <value>Требуется {0} пси-энергии</value>
   </data>
   <data name="SkipButtonTitle" xml:space="preserve">
     <value>Пропустить</value>

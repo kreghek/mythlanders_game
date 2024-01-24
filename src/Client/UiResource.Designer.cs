@@ -376,6 +376,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resolve cost: {0}/{1}.
+        /// </summary>
+        internal static string CombatMovementCostLabelTemplate {
+            get {
+                return ResourceManager.GetString("CombatMovementCostLabelTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Combat progress: {0}/{1}.
         /// </summary>
         internal static string CombatProgressTemplate {
@@ -901,15 +910,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Psy-energy cost: {0}.
-        /// </summary>
-        internal static string ManaCostLabelTemplate {
-            get {
-                return ResourceManager.GetString("ManaCostLabelTemplate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Psy-energy: {0}/{1}.
         /// </summary>
         internal static string ManaLabelTemplate {
@@ -1212,15 +1212,6 @@ namespace Client {
         internal static string SkillDirectionTargetText {
             get {
                 return ResourceManager.GetString("SkillDirectionTargetText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Required {0} psy-energy.
-        /// </summary>
-        internal static string SkillManaCostTemplate {
-            get {
-                return ResourceManager.GetString("SkillManaCostTemplate", resourceCulture);
             }
         }
         

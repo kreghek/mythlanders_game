@@ -70,8 +70,11 @@ internal class CombatMovementsHandPanel : ControlBase
                 return;
             }
 
-            _activeCombatMovementHint = new CombatMovementHint(e.Entity);
-            CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(e.Entity));
+            if (_combatant is not null)
+            {
+                _activeCombatMovementHint = new CombatMovementHint(e.Entity, _combatant.Stats.Single(x => x.Type == CombatantStatTypes.Resolve).Value);
+                CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(e.Entity));
+            }
         };
         _hoverController.Leave += (_, e) =>
         {
