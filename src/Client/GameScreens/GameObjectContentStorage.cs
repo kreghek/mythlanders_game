@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 using Client.Assets;
 using Client.Assets.CombatMovements;
 using Client.Core;
+using Client.Core.Heroes.Factories;
 using Client.Engine;
 
 using Microsoft.Xna.Framework.Audio;
@@ -91,20 +93,11 @@ internal class GameObjectContentStorage
         _font = contentManager.Load<SpriteFont>("Fonts/Main");
 
         _allWhiteEffect = contentManager.Load<Effect>("Effects/AllWhite");
-        _heroTextureDict = new Dictionary<UnitName, Texture2D>
-        {
-            { UnitName.Partisan, LoadHeroesTexture(contentManager, "Partisan") },
-            { UnitName.ShieldBearer, LoadHeroesTexture(contentManager, "Assaulter") },
-            { UnitName.Swordsman, LoadHeroesTexture(contentManager, "Swordsman") },
-            { UnitName.Herbalist, LoadHeroesTexture(contentManager, "Herbalist") },
-            { UnitName.Robber, LoadHeroesTexture(contentManager, "Robber") },
-            { UnitName.Monk, LoadHeroesTexture(contentManager, "Monk") },
-            { UnitName.Guardian, LoadHeroesTexture(contentManager, "Guardian") },
-            { UnitName.Medjay, LoadHeroesTexture(contentManager, "Medjay") },
-            { UnitName.Hoplite, LoadHeroesTexture(contentManager, "Hoplite") },
-            { UnitName.Amazon, LoadHeroesTexture(contentManager, "Amazon") },
-            { UnitName.Sage, LoadHeroesTexture(contentManager, "Sage") },
-        };
+
+        var heroFactories = LoadHeroFactories();
+
+        _heroTextureDict = heroFactories.ToDictionary(x => GetUnitNameByHerofactoryName(x),
+            x => LoadHeroesTexture(contentManager, x.ClassSid));
 
         LoadMonsters(contentManager);
 
@@ -285,18 +278,13 @@ internal class GameObjectContentStorage
             { UnitName.Robber, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Hawk") }
         };
 
-        _heroPortraitsTextureDict = new Dictionary<UnitName, Texture2D>
-        {
-            { UnitName.Swordsman, LoadHeroPortrait("Swordsman") },
-            { UnitName.Robber, LoadHeroPortrait("Robber") },
-            { UnitName.Herbalist, LoadHeroPortrait("Herbalist") },
-            { UnitName.ShieldBearer, LoadHeroPortrait("Assaulter") },
-            { UnitName.Monk, LoadHeroPortrait("Monk") },
-            { UnitName.Guardian, LoadHeroPortrait("Guardian") },
-            { UnitName.Hoplite, LoadHeroPortrait("Hoplite") }
-            //{ UnitName.Synth, LoadHeroPortrait("DamagedSynth") },
-            //{ UnitName.ChineseOldman, LoadHeroPortrait("ChineseOldman") }
-        };
+        _heroPortraitsTextureDict =
+            heroFactories.ToDictionary(x => GetUnitNameByHerofactoryName(x), x => LoadHeroPortrait(x.ClassSid));
+
+        //NPCs
+        _heroPortraitsTextureDict.Add(UnitName.Synth, LoadNpcPortrait("DamagedSynth"));
+        _heroPortraitsTextureDict.Add(UnitName.ChineseOldman, LoadNpcPortrait("ChineseOldman"));
+        _heroPortraitsTextureDict.Add(UnitName.Undefined, LoadUndefinedPortrait());
 
         Texture2D LoadBackgroundLayer(LocationCulture biomeType, ILocationSid locationSid,
             BackgroundLayerType layerType)
@@ -322,6 +310,18 @@ internal class GameObjectContentStorage
         {
             return contentManager.Load<Texture2D>(Path.Combine(CommonConstants.PathToCharacterSprites, "Heroes",
                 classSid, "Portrait"));
+        }
+
+        Texture2D LoadNpcPortrait(string classSid)
+        {
+            return contentManager.Load<Texture2D>(Path.Combine(CommonConstants.PathToCharacterSprites, "Npc",
+                classSid, "Portrait"));
+        }
+
+        Texture2D LoadUndefinedPortrait()
+        {
+            return contentManager.Load<Texture2D>(Path.Combine(CommonConstants.PathToCharacterSprites, "Undefined",
+                "Portrait"));
         }
 
         _puzzleTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/Puzzle");
@@ -447,10 +447,24 @@ internal class GameObjectContentStorage
         return _contentManager ?? throw new InvalidOperationException("Storage is not loaded.");
     }
 
+    private static UnitName GetUnitNameByHerofactoryName(IHeroFactory x)
+    {
+        return Enum.Parse<UnitName>(x.ClassSid);
+    }
+
     private static Texture2D LoadHeroesTexture(ContentManager contentManager, string classSid)
     {
         var path = Path.Combine("Sprites", "GameObjects", "Characters", "Heroes", classSid, "Full");
         return contentManager.Load<Texture2D>(path);
+    }
+
+    private static IEnumerable<IHeroFactory> LoadHeroFactories()
+    {
+        var assembly = typeof(IHeroFactory).Assembly;
+        var factoryTypes = assembly.GetTypes()
+            .Where(x => typeof(IHeroFactory).IsAssignableFrom(x) && x != typeof(IHeroFactory) && !x.IsAbstract);
+        var factories = factoryTypes.Select(Activator.CreateInstance);
+        return factories.OfType<IHeroFactory>().ToArray();
     }
 
     private void LoadMonsters(ContentManager contentManager)
@@ -471,6 +485,7 @@ internal class GameObjectContentStorage
             { UnitName.HornedFrog, LoadMonsterTexture(contentManager, "HornedFrog") },
 
             { UnitName.Huapigui, LoadMonsterTexture(contentManager, "Huapigui") },
+            { UnitName.PaintedSkin, LoadMonsterTexture(contentManager, "PaintedSkin") },
 
             { UnitName.Chaser, LoadMonsterTexture(contentManager, "Chaser") },
 

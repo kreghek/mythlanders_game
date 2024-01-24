@@ -1,7 +1,7 @@
-using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
+using CombatDicesTeam.Combats.Effects;
 
 using Core.Combats.TargetSelectors;
 
@@ -27,10 +27,11 @@ internal class AskedNoViolenceFactory : CombatMovementFactoryBase
                 {
                     new AddCombatantStatusEffect(new SelfTargetSelector(),
                         new CombatStatusFactory(source =>
-                            new SoulTakerCombatantStatus(new CombatantStatusSid("SoulTaker"),
-                                new CombatantStatusSid("PartOfSoul"), new UntilCombatantEffectMeetPredicatesLifetime(new ICombatMovePredicate[]
+                            new HiddenThreatCombatantStatus(new CombatantStatusSid("HiddenThreat"),
+                                new UntilCombatantEffectMeetPredicatesLifetime(new ICombatMovePredicate[]
                                 {
-                                    new IsAttackCombatMovePredicate()
+                                    new IsAttackCombatMovePredicate(),
+                                    new OwnerIsAttacked()
                                 }), source))
                     )
                 })

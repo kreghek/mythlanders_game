@@ -1,4 +1,4 @@
-using Client.Assets.CombatMovements.Monster.Greek.Automaur;
+﻿using Client.Assets.CombatMovements.Monster.Greek.Automaur;
 
 using CombatDicesTeam.Combats;
 
@@ -6,16 +6,15 @@ using GameAssets.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements.Monsters.Greek;
 
-public class AutomataurCombatantFactory : MonsterCombatantFactoryBase
+public class PaintedSkinCombatantFactory : MonsterCombatantFactoryBase
 {
-    protected override string ClassSid => "automataur";
+    protected override string ClassSid => "paintedskin";
 
     protected override CombatantStatsConfig CombatantStatsConfig()
     {
         var stats = new CombatantStatsConfig();
-        stats.SetValue(CombatantStatTypes.HitPoints, 4);
-        stats.SetValue(CombatantStatTypes.ShieldPoints, 4);
-        stats.SetValue(CombatantStatTypes.Resolve, 6);
+        stats.SetValue(CombatantStatTypes.HitPoints, 6);
+        stats.SetValue(CombatantStatTypes.Resolve, 7);
 
         return stats;
     }

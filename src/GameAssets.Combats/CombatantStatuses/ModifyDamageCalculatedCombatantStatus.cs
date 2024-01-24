@@ -11,7 +11,8 @@ public sealed class ModifyDamageCalculatedCombatantStatus : CombatantStatusBase
     private readonly Func<ICombatant, int> _valueDelegate;
     private IStatModifier? _statModifier;
 
-    public ModifyDamageCalculatedCombatantStatus(ICombatantStatusSid sid, ICombatantStatusLifetime lifetime, ICombatantStatusSource source, Func<ICombatant, int> valueDelegate) :
+    public ModifyDamageCalculatedCombatantStatus(ICombatantStatusSid sid, ICombatantStatusLifetime lifetime,
+        ICombatantStatusSource source, Func<ICombatant, int> valueDelegate) :
         base(sid, lifetime, source)
     {
         _valueDelegate = valueDelegate;

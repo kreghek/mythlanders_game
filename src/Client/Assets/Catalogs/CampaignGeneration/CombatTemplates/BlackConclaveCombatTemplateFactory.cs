@@ -20,8 +20,8 @@ internal sealed class BlackConclaveCombatTemplateFactory : ICombatTemplateFactor
                 new[] { LocationSids.Desert, LocationSids.Monastery, LocationSids.ShipGraveyard },
                 new MonsterCombatantPrefab[]
                 {
-                    new("agressor", 0, new FieldCoords(0, 1)),
-                    new("agressor", 1, new FieldCoords(0, 2))
+                    new("Agressor", 0, new FieldCoords(0, 1)),
+                    new("Agressor", 1, new FieldCoords(0, 2))
                 }),
 
             new MonsterCombatantTempate(
@@ -29,8 +29,8 @@ internal sealed class BlackConclaveCombatTemplateFactory : ICombatTemplateFactor
                 new[] { LocationSids.Thicket, LocationSids.Desert, LocationSids.Monastery, LocationSids.ShipGraveyard },
                 new MonsterCombatantPrefab[]
                 {
-                    new("ambushdrone", 0, new FieldCoords(0, 1)),
-                    new("ambushdrone", 1, new FieldCoords(0, 2))
+                    new("AmbushDrone", 0, new FieldCoords(0, 1)),
+                    new("AmbushDrone", 1, new FieldCoords(0, 2))
                 }),
 
             new MonsterCombatantTempate(
@@ -38,8 +38,8 @@ internal sealed class BlackConclaveCombatTemplateFactory : ICombatTemplateFactor
                 new[] { LocationSids.Desert, LocationSids.Monastery, LocationSids.ShipGraveyard },
                 new MonsterCombatantPrefab[]
                 {
-                    new("agressor", 0, new FieldCoords(0, 1)),
-                    new("agressor", 1, new FieldCoords(1, 1))
+                    new("Agressor", 0, new FieldCoords(0, 1)),
+                    new("Agressor", 1, new FieldCoords(1, 1))
                 }),
 
             new MonsterCombatantTempate(
@@ -47,8 +47,8 @@ internal sealed class BlackConclaveCombatTemplateFactory : ICombatTemplateFactor
                 new[] { LocationSids.Thicket, LocationSids.Desert, LocationSids.Monastery, LocationSids.ShipGraveyard },
                 new MonsterCombatantPrefab[]
                 {
-                    new("ambushdrone", 0, new FieldCoords(0, 1)),
-                    new("ambushdrone", 1, new FieldCoords(0, 2))
+                    new("AmbushDrone", 0, new FieldCoords(0, 1)),
+                    new("AmbushDrone", 1, new FieldCoords(0, 2))
                 }),
 
             new MonsterCombatantTempate(
@@ -56,9 +56,9 @@ internal sealed class BlackConclaveCombatTemplateFactory : ICombatTemplateFactor
                 new[] { LocationSids.Desert, LocationSids.Monastery, LocationSids.ShipGraveyard },
                 new MonsterCombatantPrefab[]
                 {
-                    new("agressor", 0, new FieldCoords(0, 1)),
-                    new("agressor", 1, new FieldCoords(0, 2)),
-                    new("agressor", 0, new FieldCoords(1, 1))
+                    new("Agressor", 0, new FieldCoords(0, 1)),
+                    new("Agressor", 1, new FieldCoords(0, 2)),
+                    new("Agressor", 0, new FieldCoords(1, 1))
                 }),
 
             new MonsterCombatantTempate(
@@ -66,8 +66,8 @@ internal sealed class BlackConclaveCombatTemplateFactory : ICombatTemplateFactor
                 new[] { LocationSids.Thicket, LocationSids.Desert, LocationSids.Monastery, LocationSids.ShipGraveyard },
                 new MonsterCombatantPrefab[]
                 {
-                    new("ambushdrone", 0, new FieldCoords(0, 1)),
-                    new("ambushdrone", 1, new FieldCoords(0, 2))
+                    new("AmbushDrone", 0, new FieldCoords(0, 1)),
+                    new("AmbushDrone", 1, new FieldCoords(0, 2))
                 })
         };
     }

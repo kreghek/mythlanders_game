@@ -118,7 +118,7 @@ internal sealed class CheatInput : DrawableGameComponent
 
         var heroSid = args[0];
         var hero = HeroState.Create(heroSid);
-        
+
         globe.Player.AddHero(hero);
     }
 

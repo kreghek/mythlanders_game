@@ -20,15 +20,16 @@ internal class CombatantFactory
     private static readonly IDictionary<string, IMonsterCombatantFactory> _monsterFactories =
         new Dictionary<string, IMonsterCombatantFactory>
         {
-            { "digitalwolf", new DigitalWolfCombatantFactory() },
-            { "corruptedbear", new CorruptedBearCombatantFactory() },
-            { "wisp", new WispCombatantFactory() },
-            { "chaser", new ChaserCombatantFactory() },
-            { "aspid", new AspidCombatantFactory() },
-            { "volkolakwarrior", new VolkolakCombatantFactory() },
-            { "agressor", new AggressorCombatantFactory() },
-            { "ambushdrone", new AmbushDroneCombatantFactory() },
-            { "automataur", new AutomataurCombatantFactory() }
+            { "DigitalWolf", new DigitalWolfCombatantFactory() },
+            { "CorruptedBear", new CorruptedBearCombatantFactory() },
+            { "Wisp", new WispCombatantFactory() },
+            { "Chaser", new ChaserCombatantFactory() },
+            { "Aspid", new AspidCombatantFactory() },
+            { "VolkolakWarrior", new VolkolakCombatantFactory() },
+            { "Agressor", new AggressorCombatantFactory() },
+            { "AmbushDrone", new AmbushDroneCombatantFactory() },
+            { "Automataur", new AutomataurCombatantFactory() },
+            { "PaintedSkin", new PaintedSkinCombatantFactory() }
         };
 
     public static IReadOnlyCollection<FormationSlot> CreateHeroes(ICombatActorBehaviour combatActorBehaviour,

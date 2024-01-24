@@ -1,9 +1,9 @@
 using System.Linq;
 
-using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
+using CombatDicesTeam.Combats.Effects;
 
 using GameAssets.Combats;
 using GameAssets.Combats.TargetSelectors;
@@ -28,7 +28,7 @@ internal class NoViolencePleaseFactory : CombatMovementFactoryBase
                 {
                     new AddCombatantStatusEffect(
                         new RandomLineAllyTargetSelector(),
-                        new CombatStatusFactory(source=>
+                        new CombatStatusFactory(source =>
                             new ModifyStatCombatantStatus(
                                 new CombatantStatusSid("SoulArmor"),
                                 new ToNextCombatantTurnEffectLifetime(),
@@ -36,7 +36,10 @@ internal class NoViolencePleaseFactory : CombatMovementFactoryBase
                                 CombatantStatTypes.ShieldPoints,
                                 status =>
                                 {
-                                    return ((CombatMovementCombatantStatusSource)status.Source).Actor.Statuses.Count(x => (CombatantStatusSid)x.Sid == new CombatantStatusSid("PartOfSoul"));
+                                    var combatant = ((CombatMovementCombatantStatusSource)status.Source).Actor;
+                                    return combatant.Stats
+                                        .Single(x => ReferenceEquals(x.Type, CombatantStatTypes.ShieldPoints)).Value
+                                        .Current;
                                 })))
                 })
         );

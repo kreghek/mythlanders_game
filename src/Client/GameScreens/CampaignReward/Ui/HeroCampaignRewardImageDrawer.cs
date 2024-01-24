@@ -25,7 +25,7 @@ internal sealed class HeroCampaignRewardImageDrawer : CampaignRewardImageDrawerB
     {
         if (_thumbnailIcon is null)
         {
-            var classSid = reward.Hero.ToString();
+            var classSid = reward.Hero;
             var thumbnailPath = _unitGraphicsCatalog.GetGraphics(classSid).ThumbnailPath;
             _thumbnailIcon = _content.Load<Texture2D>(thumbnailPath);
         }

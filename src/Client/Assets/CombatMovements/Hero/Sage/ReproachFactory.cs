@@ -1,5 +1,5 @@
-using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.GenericRanges;
 
 using Core.Combats.TargetSelectors;
@@ -33,4 +33,3 @@ internal class ReproachFactory : CombatMovementFactoryBase
         );
     }
 }
-
