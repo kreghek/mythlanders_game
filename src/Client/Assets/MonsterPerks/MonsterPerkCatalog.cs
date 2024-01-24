@@ -11,28 +11,35 @@ namespace Client.Assets.MonsterPerks;
 
 public static class MonsterPerkCatalog
 {
-    public static MonsterPerk ExtraHP { get; } = new(new CombatStatusFactory(source =>
+    public static MonsterPerk ExtraHp { get; } = new(new CombatStatusFactory(source =>
             new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(
-                new CombatantStatusSid(nameof(ExtraHP)),
+                new CombatantStatusSid(nameof(ExtraHp)),
                 new OwnerBoundCombatantEffectLifetime(),
                 source,
                 CombatantStatTypes.HitPoints,
                 1))),
-        nameof(ExtraHP));
+        nameof(ExtraHp));
 
-    public static MonsterPerk ExtraSP { get; } = new(new CombatStatusFactory(source =>
+    public static MonsterPerk ExtraSp { get; } = new(new CombatStatusFactory(source =>
             new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(
-                new CombatantStatusSid(nameof(ExtraSP)),
+                new CombatantStatusSid(nameof(ExtraSp)),
                 new OwnerBoundCombatantEffectLifetime(),
                 source,
                 CombatantStatTypes.ShieldPoints,
                 1))),
-        nameof(ExtraSP));
+        nameof(ExtraSp));
         
-    public static MonsterPerk ImprovedDamage { get; } = new(new CombatStatusFactory(source =>
-            new ModifyEffectsCombatantStatus(new CombatantStatusSid(nameof(ImprovedDamage)),
+    public static MonsterPerk ImprovedAllDamage { get; } = new(new CombatStatusFactory(source =>
+            new ModifyEffectsCombatantStatus(new CombatantStatusSid(nameof(ImprovedAllDamage)),
                 new OwnerBoundCombatantEffectLifetime(),
                 source,
                 1)),
-        nameof(ImprovedDamage));
+        nameof(ImprovedAllDamage));
+    
+    public static MonsterPerk ImprovedMeleeDamage { get; } = new(new CombatStatusFactory(source =>
+            new ModifyEffectsCombatantStatus(new CombatantStatusSid(nameof(ImprovedMeleeDamage)),
+                new OwnerBoundCombatantEffectLifetime(),
+                source,
+                1)),
+        nameof(ImprovedMeleeDamage));
 }
