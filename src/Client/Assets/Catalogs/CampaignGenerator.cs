@@ -201,7 +201,8 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         var availablePerkBuffs = new[]
         {
             MonsterPerkCatalog.ExtraHP,
-            MonsterPerkCatalog.ExtraSP
+            MonsterPerkCatalog.ExtraSP,
+            MonsterPerkCatalog.ImprovedDamage
         };
 
         var monsterPerk = _dice.RollFromList(availablePerkBuffs);

@@ -28,4 +28,11 @@ public static class MonsterPerkCatalog
                 CombatantStatTypes.ShieldPoints,
                 1))),
         nameof(ExtraSP));
+        
+    public static MonsterPerk ImprovedDamage { get; } = new(new CombatStatusFactory(source =>
+            new ModifyEffectsCombatantStatus(new CombatantStatusSid(nameof(ImprovedDamage)),
+                new OwnerBoundCombatantEffectLifetime(),
+                source,
+                1)),
+        nameof(ImprovedDamage));
 }
