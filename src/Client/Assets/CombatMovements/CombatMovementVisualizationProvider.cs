@@ -74,6 +74,16 @@ internal sealed class CombatMovementVisualizationProvider : ICombatMovementVisua
         return factory.CombatMovementIcon;
     }
 
+    public IReadOnlyList<CombatMovementEffectValue> GetCombatMovementValues(CombatMovementSid sid, CombatMovementInstance combatMovementInstance)
+    {
+        if (!_movementVisualizationDict.TryGetValue(sid, out var factory))
+        {
+            return Array.Empty<CombatMovementEffectValue>();
+        }
+
+        return factory.GetEffectsValues(combatMovementInstance);
+    }
+
     public CombatMovementScene GetMovementVisualizationState(CombatMovementSid sid, IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {

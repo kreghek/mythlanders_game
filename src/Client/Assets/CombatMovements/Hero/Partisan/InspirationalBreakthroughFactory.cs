@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 using Client.Engine;
 using Client.GameScreens;
 
@@ -76,5 +80,14 @@ internal class InspirationalBreakthroughFactory : CombatMovementFactoryBase
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);
+    }
+
+    public override IReadOnlyList<CombatMovementEffectValue> GetEffectsValues(CombatMovementInstance combatMovementInstance)
+    {
+        return new[] {
+            new CombatMovementEffectValue("damage", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectValueType.Damage),
+            new CombatMovementEffectValue("buff", ExtractDamageModifier(combatMovementInstance, 2), CombatMovementEffectValueType.DamageModifier),
+            new CombatMovementEffectValue("duration", 1, CombatMovementEffectValueType.RoundDuration)
+        };
     }
 }

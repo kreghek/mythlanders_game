@@ -1,4 +1,6 @@
-﻿using Client.Engine;
+﻿using System.Collections.Generic;
+
+using Client.Engine;
 
 using CombatDicesTeam.Combats;
 
@@ -12,4 +14,6 @@ internal interface ICombatMovementFactory
 
     CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext);
+
+    IReadOnlyList<CombatMovementEffectValue> GetEffectsValues(CombatMovementInstance combatMovementInstance);
 }

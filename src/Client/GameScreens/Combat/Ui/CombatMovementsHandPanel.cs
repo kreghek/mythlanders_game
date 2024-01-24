@@ -72,7 +72,7 @@ internal class CombatMovementsHandPanel : ControlBase
 
             if (_combatant is not null)
             {
-                _activeCombatMovementHint = new CombatMovementHint(e.Entity, _combatant.Stats.Single(x => x.Type == CombatantStatTypes.Resolve).Value);
+                _activeCombatMovementHint = new CombatMovementHint(e.Entity, _combatant.Stats.Single(x => x.Type == CombatantStatTypes.Resolve).Value, _combatMovementVisualizer);
                 CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(e.Entity));
             }
         };

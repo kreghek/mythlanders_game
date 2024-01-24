@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Client.Assets.CombatVisualEffects;
 using Client.Assets.InteractionDeliveryObjects;
@@ -98,5 +99,12 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
     {
         return (start, target) =>
             new EnergyArrowProjectile(start, target, visualizationContext.GameObjectContentStorage.GetBulletGraphics());
+    }
+
+    public override IReadOnlyList<CombatMovementEffectValue> GetEffectsValues(CombatMovementInstance combatMovementInstance)
+    {
+        return new[] {
+            new CombatMovementEffectValue("damage", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectValueType.Damage)
+        };
     }
 }

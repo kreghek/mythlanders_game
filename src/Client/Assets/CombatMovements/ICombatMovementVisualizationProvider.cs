@@ -1,4 +1,6 @@
-﻿using Client.Engine;
+﻿using System.Collections.Generic;
+
+using Client.Engine;
 
 using CombatDicesTeam.Combats;
 
@@ -9,6 +11,8 @@ namespace Client.Assets.CombatMovements;
 /// </summary>
 internal interface ICombatMovementVisualizationProvider
 {
+    IReadOnlyList<CombatMovementEffectValue> GetCombatMovementValues(CombatMovementSid sid, CombatMovementInstance combatMovementInstance);
+
     /// <summary>
     /// Gets Combat movement icon.
     /// </summary>

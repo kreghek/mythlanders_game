@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.CombatMovements;
 using Client.Engine;
 
 using CombatDicesTeam.Combats;
@@ -20,7 +21,7 @@ internal sealed class CombatantQueuePanel : ControlBase
     private const int PORTRAIT_WIDTH = 32;
     private readonly CombatEngineBase _activeCombat;
     private readonly ICombatantThumbnailProvider _combatantThumbnailProvider;
-
+    private readonly ICombatMovementVisualizationProvider _combatMovementVisualizationProvider;
     private readonly IList<(Rectangle, ICombatantStatus)> _effectInfoList =
         new List<(Rectangle, ICombatantStatus)>();
 
@@ -36,11 +37,13 @@ internal sealed class CombatantQueuePanel : ControlBase
 
     public CombatantQueuePanel(CombatEngineBase combat,
         IUiContentStorage uiContentStorage,
-        ICombatantThumbnailProvider combatantThumbnailProvider)
+        ICombatantThumbnailProvider combatantThumbnailProvider,
+        ICombatMovementVisualizationProvider combatMovementVisualizationProvider)
     {
         _activeCombat = combat;
         _uiContentStorage = uiContentStorage;
         _combatantThumbnailProvider = combatantThumbnailProvider;
+        _combatMovementVisualizationProvider = combatMovementVisualizationProvider;
     }
 
     public Point CalcContentSize()
@@ -119,9 +122,9 @@ internal sealed class CombatantQueuePanel : ControlBase
         };
     }
 
-    private static HintBase CreateEffectHint((Rectangle, CombatMovementInstance, ICombatant) moveInfo)
+    private HintBase CreateEffectHint((Rectangle, CombatMovementInstance, ICombatant) moveInfo)
     {
-        var hint = new CombatMovementHint(moveInfo.Item2, moveInfo.Item3.Stats.Single(x=>x.Type == CombatantStatTypes.Resolve).Value)
+        var hint = new CombatMovementHint(moveInfo.Item2, moveInfo.Item3.Stats.Single(x=>x.Type == CombatantStatTypes.Resolve).Value, _combatMovementVisualizationProvider)
         {
             Rect = new Rectangle(moveInfo.Item1.Location, new Point(200, 40))
         };

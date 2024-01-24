@@ -385,6 +385,33 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} damage.
+        /// </summary>
+        internal static string CombatMovementEffectValueType_Damage_Template {
+            get {
+                return ResourceManager.GetString("CombatMovementEffectValueType_Damage_Template", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to damage on {0}.
+        /// </summary>
+        internal static string CombatMovementEffectValueType_DamageModifer_Template {
+            get {
+                return ResourceManager.GetString("CombatMovementEffectValueType_DamageModifer_Template", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} round(s).
+        /// </summary>
+        internal static string CombatMovementEffectValueType_RoundDuration_Template {
+            get {
+                return ResourceManager.GetString("CombatMovementEffectValueType_RoundDuration_Template", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Combat progress: {0}/{1}.
         /// </summary>
         internal static string CombatProgressTemplate {

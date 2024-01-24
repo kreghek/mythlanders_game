@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Engine;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
 
 using GameClient.Engine.Animations;
 
@@ -68,5 +70,21 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);
+    }
+
+    public virtual IReadOnlyList<CombatMovementEffectValue> GetEffectsValues(CombatMovementInstance combatMovementInstance)
+    {
+        return Array.Empty<CombatMovementEffectValue>();
+    }
+
+    protected static int ExtractDamage(CombatMovementInstance combatMovementInstance, int effectIndex)
+    {
+        return ((DamageEffectInstance)combatMovementInstance.Effects.ToArray()[effectIndex]).Damage.Min.Current;
+    }
+
+    protected static int ExtractDamageModifier(CombatMovementInstance combatMovementInstance, int effectIndex)
+    {
+        //TODO Use IStatValue to the effect instance
+        return ((ModifyEffectsEffectInstance)combatMovementInstance.Effects.ToArray()[effectIndex]).BaseEffect.Value;
     }
 }

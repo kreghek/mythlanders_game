@@ -232,6 +232,16 @@
   <data name="CombatMovementCostLabelTemplate" xml:space="preserve">
     <value>Resolve cost: {0}/{1}</value>
   </data>
+  <data name="CombatMovementEffectValueType_DamageModifer_Template" xml:space="preserve">
+    <value>damage on {0}</value>
+  </data>
+  <data name="CombatMovementEffectValueType_Damage_Template" xml:space="preserve">
+    <value>{0} damage</value>
+  </data>
+  <data name="CombatMovementEffectValueType_RoundDuration_Template" xml:space="preserve">
+    <value>{0} round(s)</value>
+    <comment>1</comment>
+  </data>
   <data name="CombatProgressTemplate" xml:space="preserve">
     <value>Combat progress: {0}/{1}</value>
   </data>
