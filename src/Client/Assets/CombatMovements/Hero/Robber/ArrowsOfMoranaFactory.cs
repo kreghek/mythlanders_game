@@ -109,7 +109,12 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
         {
             var targetRandomPosition = visualizationContext.Dice.RollPoint(targetArea);
             var arrowInteractionInfo = new InteractionDeliveryInfo(
-                new CombatEffectImposeItem(combatant => { }, Array.Empty<MythlandersCombatant>()),
+                new CombatEffectImposeItem(_ =>
+                {
+                    visualizationContext.GameObjectContentStorage
+                        .GetSkillUsageSound(GameObjectSoundType.ImpulseArrowBlasts)
+                        .CreateInstance().Play();
+                }, Array.Empty<MythlandersCombatant>()),
                 targetRandomPosition - arrowRainOffset,
                 targetRandomPosition);
 
