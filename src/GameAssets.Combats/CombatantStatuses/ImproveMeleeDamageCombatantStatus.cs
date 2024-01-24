@@ -68,8 +68,19 @@ public sealed class ImproveMeleeDamageCombatantStatus : CombatantStatusBase
         return meleeSids.Contains(combatMovement.Sid);
     }
 
-    private static IReadOnlyCollection<CombatMovementSid> GetMeleeMovementSids()
+    private static IEnumerable<CombatMovementSid> GetMeleeMovementSids()
     {
-        return new[] { new CombatMovementSid("CyberClaws") };
+        return _meleeCombatMovement.Select(x => new CombatMovementSid(x)).ToArray();
     }
+
+    private static readonly IReadOnlyCollection<string> _meleeCombatMovement = new[]
+    {
+        // Partisan
+        
+        "InspirationalBreakthrough",
+        "OldGoodBrawl",
+        
+        // Wolf
+        "CyberClaws"
+    };
 }
