@@ -219,6 +219,9 @@
   <data name="CombatLevelUpTemplate" xml:space="preserve">
     <value>{0} ед. опыта для повышения уровня</value>
   </data>
+  <data name="CombatMovementCostLabelTemplate" xml:space="preserve">
+    <value>Требуемая решимость: {0}/{1}</value>
+  </data>
   <data name="CombatProgressTemplate" xml:space="preserve">
     <value>Прогресс сражения: {0}/{1}</value>
   </data>
@@ -410,9 +413,6 @@
   </data>
   <data name="LongCombatSequenceText" xml:space="preserve">
     <value>Долгий</value>
-  </data>
-  <data name="CombatMovementCostLabelTemplate" xml:space="preserve">
-    <value>Требуемая решимость: {0}/{1}</value>
   </data>
   <data name="ManaLabelTemplate" xml:space="preserve">
     <value>Пси-энергия: {0}/{1}</value>

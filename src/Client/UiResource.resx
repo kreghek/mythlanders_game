@@ -229,6 +229,9 @@
   <data name="CombatLevelUpTemplate" xml:space="preserve">
     <value>{0} xp to level up</value>
   </data>
+  <data name="CombatMovementCostLabelTemplate" xml:space="preserve">
+    <value>Resolve cost: {0}/{1}</value>
+  </data>
   <data name="CombatProgressTemplate" xml:space="preserve">
     <value>Combat progress: {0}/{1}</value>
   </data>
@@ -417,9 +420,6 @@ Do you really need to spend the priceless current move for nothing?</value>
   </data>
   <data name="LongCombatSequenceText" xml:space="preserve">
     <value>Long</value>
-  </data>
-  <data name="CombatMovementCostLabelTemplate" xml:space="preserve">
-    <value>Resolve cost: {0}/{1}</value>
   </data>
   <data name="ManaLabelTemplate" xml:space="preserve">
     <value>Psy-energy: {0}/{1}</value>
