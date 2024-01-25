@@ -50,4 +50,9 @@ internal class SpiralInversionFactory : SimpleCombatMovementFactoryBase
                 CombatMovementEffectDisplayValueTemplate.ResolveDamage)
         };
     }
+
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Melee;
+    }
 }

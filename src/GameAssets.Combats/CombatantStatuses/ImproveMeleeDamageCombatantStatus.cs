@@ -64,23 +64,11 @@ public sealed class ImproveMeleeDamageCombatantStatus : CombatantStatusBase
 
     private static bool IsCombatMovementMelee(CombatMovement combatMovement)
     {
-        var meleeSids = GetMeleeMovementSids();
-        return meleeSids.Contains(combatMovement.Sid);
-    }
+        if (combatMovement.Metadata is CombatMovementMetadata metadata)
+        {
+            return metadata.Traits.Contains(CombatMovementMetadataTraits.Melee);
+        }
 
-    private static IEnumerable<CombatMovementSid> GetMeleeMovementSids()
-    {
-        return _meleeCombatMovement.Select(x => new CombatMovementSid(x)).ToArray();
+        return false;
     }
-
-    private static readonly IReadOnlyCollection<string> _meleeCombatMovement = new[]
-    {
-        // Partisan
-        
-        "InspirationalBreakthrough",
-        "OldGoodBrawl",
-        
-        // Wolf
-        "CyberClaws"
-    };
 }
