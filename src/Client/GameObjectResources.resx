@@ -188,7 +188,7 @@
     <comment>Combat Movement Sage</comment>
   </data>
   <data name="AskedNoViolence_Description" xml:space="preserve">
-    <value />
+    <value>The Sage begins to collect the hidden threat. If someone attacks, it increases the threat by &lt;threat&gt;.</value>
   </data>
   <data name="Aspid" xml:space="preserve">
     <value>Aspid</value>
@@ -206,7 +206,7 @@
     <comment>Combat Movement Robber</comment>
   </data>
   <data name="BalticThunder_Description" xml:space="preserve">
-    <value>Deals &lt;damage&gt;to the closest enemy in the line.</value>
+    <value>Deals &lt;damage&gt; to the closest enemy in the line.</value>
     <comment>Combat Movement Robber</comment>
   </data>
   <data name="Battleground" xml:space="preserve">
@@ -226,11 +226,12 @@
     <comment>Combat movement Partisan</comment>
   </data>
   <data name="BlankShot_Description" xml:space="preserve">
-    <value>Moves to the vanguard and deals 2 damage to the nearest enemy in the line. If the partisan was already in the vanguard, then it deals 1 bonus damage.</value>
+    <value>Moves to the vanguard and deals &lt;damage&gt; to the nearest enemy in the line. If the partisan was already in the vanguard, then it deals &lt;bonus_damage&gt;.</value>
     <comment>Combat movement Partisan</comment>
   </data>
   <data name="BlindDefense" xml:space="preserve">
     <value>Blind defense</value>
+    <comment>Combat Movement ShieldBearer</comment>
   </data>
   <data name="BoldMarauder" xml:space="preserve">
     <value>Marauder</value>
@@ -256,7 +257,7 @@
     <comment>Combat Movement Amazon</comment>
   </data>
   <data name="BringBeastDown_Description" xml:space="preserve">
-    <value />
+    <value>Deals &lt;damage&gt; to the strongest enemy with the mark. And misses the next move.</value>
     <comment>Combat Movement Amazon</comment>
   </data>
   <data name="BuyFood_CrisisAftermath" xml:space="preserve">
@@ -272,7 +273,7 @@
     <comment>Combat Movement Chaser</comment>
   </data>
   <data name="ChainHit_Description" xml:space="preserve">
-    <value />
+    <value>Moves to the vanguard and deals &lt;damage&gt; on the strongest enemy.</value>
     <comment>Combat Movement Chaser</comment>
   </data>
   <data name="ChaoticNeuroInterface" xml:space="preserve">
@@ -288,7 +289,7 @@
     <comment>Combat Movement Chaser</comment>
   </data>
   <data name="Chasing_Description" xml:space="preserve">
-    <value />
+    <value>Throws a chain forward that deals &lt;damage&gt; and burns &lt;resolve_damage&gt; to the farthest enemy. Then he pulls the enemy into the vanguard.</value>
     <comment>Combat Movement Chaser</comment>
   </data>
   <data name="ChineseOldman" xml:space="preserve">
@@ -326,7 +327,7 @@
     <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="CyberClaws_Description" xml:space="preserve">
-    <value />
+    <value>Deals &lt;damage&gt; to the closest enemy in the line and moves to the vanguard.</value>
     <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="DanceWithThePast" xml:space="preserve">
@@ -334,18 +335,20 @@
     <comment>Combat Movement Agressor</comment>
   </data>
   <data name="DanceWithThePast_Description" xml:space="preserve">
-    <value />
+    <value>Moves to the vanguard and deals two &lt;damage&gt; hits.</value>
     <comment>Combat Movement Agressor</comment>
   </data>
   <data name="DarkLight" xml:space="preserve">
     <value>Dark light</value>
-    <comment>Skill</comment>
+    <comment>Combat Movement Priest</comment>
   </data>
   <data name="DarkRaids" xml:space="preserve">
     <value>Dark raids</value>
+    <comment>Combat Movement Aspid</comment>
   </data>
   <data name="DarkRaids_Description" xml:space="preserve">
-    <value />
+    <value>Moves forward and deals two &lt;damage&gt; hits.</value>
+    <comment>Combat Movement Aspid</comment>
   </data>
   <data name="DeathPath" xml:space="preserve">
     <value>Death path</value>
@@ -354,10 +357,6 @@
   <data name="DeceptivelyLightRobe" xml:space="preserve">
     <value>Deceptively light robe</value>
     <comment>Equipment</comment>
-  </data>
-  <data name="DefenseStance" xml:space="preserve">
-    <value>Defense stance</value>
-    <comment>Skill</comment>
   </data>
   <data name="Desert" xml:space="preserve">
     <value>Somewhere in the Desert...</value>
@@ -1050,5 +1049,9 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Zduhach Might</value>
     <comment>Skill</comment>
+  </data>
+  <data name="BlindDefense_Description" xml:space="preserve">
+    <value>Gain &lt;defense&gt; and fire 5 &lt;damage&gt; shots at random enemies.</value>
+    <comment>Combat Movement ShieldBearer</comment>
   </data>
 </root>

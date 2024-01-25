@@ -190,7 +190,7 @@
     <comment>Combat Movement Sage</comment>
   </data>
   <data name="AskedNoViolence_Description" xml:space="preserve">
-    <value>Мудрец начинает собирать боль. Если кто-то атакует, это увеличивает боль на 1ед.</value>
+    <value>Мудрец начинает собирать скрытую угрозу. Если кто-то атакует, это увеличивает угрозу на &lt;threat&gt;.</value>
   </data>
   <data name="Aspid" xml:space="preserve">
     <value>Аспид</value>
@@ -228,11 +228,12 @@
     <comment>Combat movement Partisan</comment>
   </data>
   <data name="BlankShot_Description" xml:space="preserve">
-    <value>Перемещается в авангард и наносит 2 ед. урона ближайшему противнику на линии. Если партизан уже был в авангарде, то наносит бонусный урон 1ед.</value>
+    <value>Перемещается в авангард и наносит &lt;damage&gt; ближайшему противнику на линии. Если партизан уже был в авангарде, то наносит &lt;bonus_damage&gt;.</value>
     <comment>Combat movement Partisan</comment>
   </data>
   <data name="BlindDefense" xml:space="preserve">
     <value>Глухая оборона</value>
+    <comment>Combat Movement ShieldBearer</comment>
   </data>
   <data name="BoldMarauder" xml:space="preserve">
     <value>Марадер</value>
@@ -259,7 +260,7 @@
     <comment>Combat Movement Amazon</comment>
   </data>
   <data name="BringBeastDown_Description" xml:space="preserve">
-    <value>Наносит урон 4 ед. самому сильному противнику с меткой. И пропускает следующий ход.</value>
+    <value>Наносит &lt;damage&gt; самому сильному противнику с меткой. И пропускает следующий ход.</value>
     <comment>Combat Movement Amazon</comment>
   </data>
   <data name="BuyFood_CrisisAftermath" xml:space="preserve">
@@ -275,7 +276,7 @@
     <comment>Combat Movement Chaser</comment>
   </data>
   <data name="ChainHit_Description" xml:space="preserve">
-    <value>Перемещается вперед и наносит урон в 3 ед. самому сильному противнику.</value>
+    <value>Перемещается в авангард и наносит &lt;damage&gt; самому сильному противнику.</value>
     <comment>Combat Movement Chaser</comment>
   </data>
   <data name="ChaoticNeuroInterface" xml:space="preserve">
@@ -291,7 +292,7 @@
     <comment>Combat Movement Chaser</comment>
   </data>
   <data name="Chasing_Description" xml:space="preserve">
-    <value>Выбрасывает вперед цепь, которая наносит 2 ед. урона и сжигает 2 ед. энергии самому дальнему противнику. Затем вытягивает противника в авангард.</value>
+    <value>Выбрасывает вперед цепь, которая наносит &lt;damage&gt; и сжигает &lt;resolve_damage&gt; самому дальнему противнику. Затем вытягивает противника в авангард.</value>
     <comment>Combat Movement Chaser</comment>
   </data>
   <data name="ChineseOldman" xml:space="preserve">
@@ -330,7 +331,7 @@
     <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="CyberClaws_Description" xml:space="preserve">
-    <value>Наносит урон в 3 ед. ближайшему в линии противнику и перемещается в авангард.</value>
+    <value>Наносит &lt;damage&gt; ближайшему в линии противнику и перемещается в авангард.</value>
     <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="DanceWithThePast" xml:space="preserve">
@@ -338,18 +339,20 @@
     <comment>Combat Movement Agressor</comment>
   </data>
   <data name="DanceWithThePast_Description" xml:space="preserve">
-    <value>Перемещается в авангард и два удара 2 ед. урона.</value>
+    <value>Перемещается в авангард и наносит два удара &lt;damage&gt;.</value>
     <comment>Combat Movement Agressor</comment>
   </data>
   <data name="DarkLight" xml:space="preserve">
-    <value>Темная молная</value>
-    <comment>Skill</comment>
+    <value>Темная молния</value>
+    <comment>Combat Movement Priest</comment>
   </data>
   <data name="DarkRaids" xml:space="preserve">
     <value>Налеты Тьмы</value>
+    <comment>Combat Movement Aspid</comment>
   </data>
   <data name="DarkRaids_Description" xml:space="preserve">
-    <value>Перемещается вперед и наносит два удара каждым капешем 2 ед. урона.</value>
+    <value>Перемещается вперед и наносит два удара &lt;damage&gt;.</value>
+    <comment>Combat Movement Aspid</comment>
   </data>
   <data name="DeathPath" xml:space="preserve">
     <value>Тропа смерти</value>
@@ -358,10 +361,6 @@
   <data name="DeceptivelyLightRobe" xml:space="preserve">
     <value>Обманчиво лёгкая роба</value>
     <comment>Equipment</comment>
-  </data>
-  <data name="DefenseStance" xml:space="preserve">
-    <value>Защитная стойка</value>
-    <comment>Skill</comment>
   </data>
   <data name="Desert" xml:space="preserve">
     <value>Где-то в пустыне...</value>
@@ -1067,5 +1066,9 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
     <comment>Skill</comment>
+  </data>
+  <data name="BlindDefense_Description" xml:space="preserve">
+    <value>Получает &lt;defense&gt; и выполняет 5 выстрелов &lt;damage&gt; по случайным проивникам.</value>
+    <comment>Combat Movement ShieldBearer</comment>
   </data>
 </root>
