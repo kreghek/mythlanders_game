@@ -374,7 +374,7 @@
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="DieBySword_Description" xml:space="preserve">
-    <value>Moves forward and deals 2 damage to the closest enemy in the line.</value>
+    <value>Moves forward and deals &lt;damage&gt; to the closest enemy in the line.</value>
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="DigitalWolf" xml:space="preserve">
@@ -383,21 +383,23 @@
   </data>
   <data name="DopeHerb" xml:space="preserve">
     <value>Dope herb</value>
-    <comment>Skill</comment>
+    <comment>Combat Movement Herbalist</comment>
   </data>
   <data name="DoubleKapesh" xml:space="preserve">
     <value>Double kapesh!</value>
     <comment>Combat Movement Chaser</comment>
   </data>
   <data name="DoubleKapesh_Description" xml:space="preserve">
-    <value />
+    <value>Moves forward and deals two hits with each &lt;damage&gt; capesh.</value>
     <comment>Combat Movement Chaser</comment>
   </data>
   <data name="EbonySkin" xml:space="preserve">
     <value>Ebony skin</value>
+    <comment>Combat Movement Aspid</comment>
   </data>
   <data name="EbonySkin_Description" xml:space="preserve">
-    <value />
+    <value>Increases its defense by &lt;defense&gt;. When auto-triggered, increases protection by &lt;defense_auto&gt;.</value>
+    <comment>Combat Movement Aspid</comment>
   </data>
   <data name="EgyptianBookOfDeath" xml:space="preserve">
     <value>Egyptian Book of a dead</value>
@@ -416,14 +418,16 @@
     <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="EnergeticBite_Description" xml:space="preserve">
-    <value />
+    <value>Deals &lt;damage&gt; to the shields of the most charged enemy and goes to the rearguard.</value>
     <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="EnergeticSuperiority" xml:space="preserve">
     <value>Energetic Superiority</value>
+    <comment>Combat Movement Partisan</comment>
   </data>
   <data name="EnergeticSuperiority_Description" xml:space="preserve">
-    <value />
+    <value>Deals &lt;damage&gt; to the shields of the most charged enemy in the rearguard.</value>
+    <comment>Combat Movement Partisan</comment>
   </data>
   <data name="Evasion" xml:space="preserve">
     <value>Evasion</value>
@@ -434,24 +438,25 @@
     <comment>Perk</comment>
   </data>
   <data name="EyesOfChaos" xml:space="preserve">
-    <value>Eyes of chaos</value>
+    <value>Eyes of Chaos</value>
   </data>
   <data name="EyesOfChaos_Description" xml:space="preserve">
-    <value />
+    <value>Deals &lt;damage&gt; to all enemies in the vanguard and moves to the vanguard itself.</value>
   </data>
   <data name="FaithBoost" xml:space="preserve">
     <value>Faith boost</value>
     <comment>Combat Movement Sage</comment>
   </data>
   <data name="FaithBoost_Description" xml:space="preserve">
-    <value />
+    <value>Increases damage of a random ally based on Sage's Shield</value>
+    <comment>Combat Movement Sage</comment>
   </data>
   <data name="FatalBlow" xml:space="preserve">
     <value>Fatal blow</value>
     <comment>Combat Movement Agressor</comment>
   </data>
   <data name="FatalBlow_Description" xml:space="preserve">
-    <value />
+    <value>Deals &lt;damage&gt; and burns &lt;resolve_damage&gt; to the farthest enemy. Then he pulls the enemy into the vanguard.</value>
     <comment>Combat Movement Agressor</comment>
   </data>
   <data name="FingerOfAnubis" xml:space="preserve">
@@ -463,7 +468,7 @@
     <comment>Combat Movement Amazon</comment>
   </data>
   <data name="FinishWounded_Description" xml:space="preserve">
-    <value />
+    <value>Deals &lt;damage&gt; to the weakest enemy with the mark.</value>
     <comment>Combat Movement Amazon</comment>
   </data>
   <data name="FlockAlphaTactics" xml:space="preserve">
@@ -471,18 +476,14 @@
     <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="FlockAlphaTactics_Description" xml:space="preserve">
-    <value />
-  </data>
-  <data name="GreyWolf" xml:space="preserve">
-    <value>Grey wolf</value>
-    <comment>Monster</comment>
+    <value>He rushes to the vanguard. Deals &lt;damage&gt; to the strongest enemy and takes away &lt;resolve_damage&gt;.</value>
   </data>
   <data name="GrimResolve" xml:space="preserve">
     <value>Grim resolve</value>
     <comment>Combat Movement Agressor</comment>
   </data>
   <data name="GrimResolve_Description" xml:space="preserve">
-    <value />
+    <value>Deals &lt;damage&gt; and burns &lt;resolve_damage&gt; to the farthest enemy. Then he pulls the enemy into the vanguard.</value>
     <comment>Combat Movement Agressor</comment>
   </data>
   <data name="GuardianPromise" xml:space="preserve">
@@ -490,7 +491,7 @@
     <comment>Combat Movement Chaser</comment>
   </data>
   <data name="GuardianPromise_Description" xml:space="preserve">
-    <value />
+    <value>Increases its defense by &lt;defense&gt;. When auto-triggered, increases protection by &lt;defense_auto&gt;.</value>
     <comment>Combat Movement Chaser</comment>
   </data>
   <data name="GuardianWoman" xml:space="preserve">
@@ -502,7 +503,8 @@
     <comment>Combat Movement Monk</comment>
   </data>
   <data name="HandOfThousandForms_Description" xml:space="preserve">
-    <value>Move to vanguard and deal 2 damage to the nearest enemy in lane. If the monk was already in the vanguard, then deal 1 bonus damage.</value>
+    <value>Move to vanguard and deal &lt;damage&gt; to the nearest enemy in lane. If the monk was already in the vanguard, then deal &lt;bonus_damage&gt;.</value>
+    <comment>Combat Movement Monk</comment>
   </data>
   <data name="HaventBeenPunchedInTheFaceForALongTime_voice" xml:space="preserve">
     <value>Haven't been punched in the face for a long time?</value>
@@ -510,7 +512,7 @@
   </data>
   <data name="HealingSalve" xml:space="preserve">
     <value>Healing salve</value>
-    <comment>Skill</comment>
+    <comment>Combat Movement Herbalist</comment>
   </data>
   <data name="Herbalist" xml:space="preserve">
     <value>Rada The Old</value>
@@ -537,7 +539,7 @@
     <comment>Combat movement Monk</comment>
   </data>
   <data name="HiddenIntention_Description" xml:space="preserve">
-    <value />
+    <value>Deals &lt;damage&gt; to the weakest enemy. The monk himself moves to the rearguard.</value>
     <comment>Combat movement Monk</comment>
   </data>
   <data name="HiddenThread" xml:space="preserve">
@@ -549,7 +551,7 @@
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="HitFromShoulder_Description" xml:space="preserve">
-    <value>Deals a powerful blow for 3 damage and moves to the vanguard.</value>
+    <value>Deals a powerful blow for &lt;damage&gt; and moves to the vanguard.</value>
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="Hoplite" xml:space="preserve">
