@@ -1250,7 +1250,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Deals &lt;damage&gt; to all enemies in line.
         /// </summary>
         internal static string IronStream_Description {
             get {
@@ -1547,7 +1547,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Strongly attacks the closest enemy in line with &lt;damage&gt;..
         /// </summary>
         internal static string OminousThorn_Description {
             get {

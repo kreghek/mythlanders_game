@@ -630,7 +630,7 @@
     <comment>Combat movement Ambush Drone</comment>
   </data>
   <data name="IronStream_Description" xml:space="preserve">
-    <value />
+    <value>Deals &lt;damage&gt; to all enemies in line</value>
     <comment>Combat movement Ambush Drone</comment>
   </data>
   <data name="JuggernautHeavyPowerArmor" xml:space="preserve">
@@ -759,7 +759,7 @@
     <comment>Combat movement Ambush Drone</comment>
   </data>
   <data name="OminousThorn_Description" xml:space="preserve">
-    <value />
+    <value>Strongly attacks the closest enemy in line with &lt;damage&gt;.</value>
     <comment>Combat movement Ambush Drone</comment>
   </data>
   <data name="ParaliticChor" xml:space="preserve">
