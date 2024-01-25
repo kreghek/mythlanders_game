@@ -857,7 +857,7 @@
     <value>Ловушка змея</value>
   </data>
   <data name="SerpentTrap_Description" xml:space="preserve">
-    <value>Перемещается вперед и наносит урон в 3 ед. самому сильному противнику.</value>
+    <value>Перемещается вперед и наносит урон в &lt;damage&gt; самому сильному противнику.</value>
   </data>
   <data name="ShipGraveyard" xml:space="preserve">
     <value>Кладбище кораблей</value>
@@ -883,7 +883,7 @@
     <value>Инверсионная спираль</value>
   </data>
   <data name="SpiralInversion_Description" xml:space="preserve">
-    <value>Выбрасывает вперед своё змеиное тело и наносит 2 ед. урона и сжигает 2 ед. энергии самому дальнему противнику. Затем вытягивает противника в авангард.</value>
+    <value>Выбрасывает вперед своё змеиное тело и наносит &lt;damage&gt; и сжигает &lt;damage_resolve&gt; самому дальнему противнику. Затем вытягивает противника в авангард.</value>
   </data>
   <data name="StaffHit" xml:space="preserve">
     <value>Удары посохом</value>

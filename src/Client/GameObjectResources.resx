@@ -847,7 +847,7 @@
     <value>Serpent trap</value>
   </data>
   <data name="SerpentTrap_Description" xml:space="preserve">
-    <value />
+    <value>Moves forward and deals &lt;damage&gt; damage to the strongest enemy.</value>
   </data>
   <data name="ShipGraveyard" xml:space="preserve">
     <value>Ship Graveyard</value>
