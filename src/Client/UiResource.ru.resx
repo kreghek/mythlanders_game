@@ -594,4 +594,13 @@
   <data name="CombatMovementCost_Info_LabelTemplate" xml:space="preserve">
     <value>Требуемая решимость: {0}</value>
   </data>
+  <data name="CombatMovementEffectValueType_ResolveDamage_Template" xml:space="preserve">
+    <value>{0} урона решимости</value>
+  </data>
+  <data name="CombatMovementEffectValueType_HitPoints_Template" xml:space="preserve">
+    <value>{0} ед. здоровья</value>
+  </data>
+  <data name="CombatMovementEffectValueType_ShieldPoints_Template" xml:space="preserve">
+    <value>{0} щитов</value>
+  </data>
 </root>

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using Client.Engine;
 using Client.GameScreens;
 
@@ -61,5 +63,12 @@ internal class SerpentTrapFactory : SimpleCombatMovementFactoryBase
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.Attack;
+    }
+    
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
+    {
+        return new[] { 
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1), CombatMovementEffectDisplayValueTemplate.Damage)
+        };
     }
 }

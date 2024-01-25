@@ -611,4 +611,13 @@ This hero can no longer act in the current battle.</value>
   <data name="CombatMovementCost_Info_LabelTemplate" xml:space="preserve">
     <value>Resolve cost: {0}</value>
   </data>
+  <data name="CombatMovementEffectValueType_ResolveDamage_Template" xml:space="preserve">
+    <value>{0} resolve damage</value>
+  </data>
+  <data name="CombatMovementEffectValueType_HitPoints_Template" xml:space="preserve">
+    <value>{0} hp</value>
+  </data>
+  <data name="CombatMovementEffectValueType_ShieldPoints_Template" xml:space="preserve">
+    <value>{0} shields</value>
+  </data>
 </root>

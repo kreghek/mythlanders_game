@@ -83,6 +83,13 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
     {
         return ((DamageEffectInstance)combatMovementInstance.Effects.ToArray()[effectIndex]).Damage.Min.Current;
     }
+    
+    protected static int ExtractStatChangingValue(CombatMovementInstance combatMovementInstance, int effectIndex)
+    {
+        //TODO Use IStatValue to the effect instance
+        return ((ChangeCurrentStatEffectInstance)combatMovementInstance.Effects.ToArray()[effectIndex]).BaseEffect
+            .StatValue.Min;
+    }
 
     protected static int ExtractDamageModifier(CombatMovementInstance combatMovementInstance, int effectIndex)
     {

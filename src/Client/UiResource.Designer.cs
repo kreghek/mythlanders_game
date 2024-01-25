@@ -411,11 +411,38 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} hp.
+        /// </summary>
+        internal static string CombatMovementEffectValueType_HitPoints_Template {
+            get {
+                return ResourceManager.GetString("CombatMovementEffectValueType_HitPoints_Template", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} resolve damage.
+        /// </summary>
+        internal static string CombatMovementEffectValueType_ResolveDamage_Template {
+            get {
+                return ResourceManager.GetString("CombatMovementEffectValueType_ResolveDamage_Template", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} round(s).
         /// </summary>
         internal static string CombatMovementEffectValueType_RoundDuration_Template {
             get {
                 return ResourceManager.GetString("CombatMovementEffectValueType_RoundDuration_Template", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} shields.
+        /// </summary>
+        internal static string CombatMovementEffectValueType_ShieldPoints_Template {
+            get {
+                return ResourceManager.GetString("CombatMovementEffectValueType_ShieldPoints_Template", resourceCulture);
             }
         }
         

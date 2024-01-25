@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Client.Assets.CombatVisualEffects;
 using Client.Assets.InteractionDeliveryObjects;
@@ -94,5 +95,12 @@ internal class IronStreamFactory : SimpleCombatMovementFactoryBase
     {
         return (start, target) =>
             new GunBulletProjectile(start, target, visualizationContext.GameObjectContentStorage.GetBulletGraphics());
+    }
+    
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
+    {
+        return new[] { 
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectDisplayValueTemplate.Damage)
+        };
     }
 }
