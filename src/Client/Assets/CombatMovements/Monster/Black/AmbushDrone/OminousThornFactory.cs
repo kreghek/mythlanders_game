@@ -16,6 +16,7 @@ namespace Client.Assets.CombatMovements.Monster.Black.AmbushDrone;
 
 internal class OminousThornFactory : SimpleCombatMovementFactoryBase
 {
+    /// <inheritdoc />
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
@@ -48,6 +49,7 @@ internal class OminousThornFactory : SimpleCombatMovementFactoryBase
             visualizationContext, config);
     }
 
+    /// <inheritdoc />
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(
@@ -60,11 +62,13 @@ internal class OminousThornFactory : SimpleCombatMovementFactoryBase
             });
     }
 
+    /// <inheritdoc />
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.Attack;
     }
-    
+
+    /// <inheritdoc />
     public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
     {
         return new[] { 
@@ -72,6 +76,7 @@ internal class OminousThornFactory : SimpleCombatMovementFactoryBase
         };
     }
 
+    /// <inheritdoc />
     protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
     {
         yield return CombatMovementMetadataTraits.Melee;
