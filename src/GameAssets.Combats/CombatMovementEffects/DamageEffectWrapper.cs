@@ -23,4 +23,6 @@ public class DamageEffectWrapper : IEffect
     {
         return _innerDamageEffect.CreateInstance();
     }
+
+    public GenericRange<int> Damage => _innerDamageEffect.Damage;
 }

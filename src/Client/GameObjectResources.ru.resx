@@ -193,7 +193,7 @@
     <value>Балтийский шторм</value>
   </data>
   <data name="BalticThunder_Description" xml:space="preserve">
-    <value>Наносит урон 3ед. ближайшему в линии противнику.</value>
+    <value>Наносит &lt;damage&gt; ближайшему в линии противнику.</value>
   </data>
   <data name="Battleground" xml:space="preserve">
     <value>Поле брани</value>
@@ -462,6 +462,9 @@
   <data name="HiddenThread" xml:space="preserve">
     <value>Скрытая угроза</value>
   </data>
+  <data name="HiddenThread_Duplicate[1]" xml:space="preserve">
+    <value>Скрытая угроза</value>
+  </data>
   <data name="HitFromShoulder" xml:space="preserve">
     <value>Удар с плеча</value>
   </data>
@@ -519,7 +522,7 @@
     <value>Вдохновляющий прорыв</value>
   </data>
   <data name="InspirationalBreakthrough_Description" xml:space="preserve">
-    <value>Наносит 1ед. урона ближайшему в линии противнику и вдохновляет всех союзников в тылу, увеличивая их урон на 1 ед. в течении 1 раунда.</value>
+    <value>Наносит &lt;damage&gt;ближайшему в линии противнику и вдохновляет всех союзников в тылу, увеличивая их &lt;buff&gt; в течении &lt;duration&gt;.</value>
   </data>
   <data name="InspiringRush" xml:space="preserve">
     <value>Вдохновляющий рывок</value>
@@ -866,8 +869,5 @@
   </data>
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
-  </data>
-  <data name="HiddenThread" xml:space="preserve">
-    <value>Скрытая угроза</value>
   </data>
 </root>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.CombatMovements;
 using Client.Engine;
 
 using CombatDicesTeam.Combats;
@@ -20,12 +21,12 @@ internal sealed class CombatantQueuePanel : ControlBase
     private const int PORTRAIT_WIDTH = 32;
     private readonly CombatEngineBase _activeCombat;
     private readonly ICombatantThumbnailProvider _combatantThumbnailProvider;
-
+    private readonly ICombatMovementVisualizationProvider _combatMovementVisualizationProvider;
     private readonly IList<(Rectangle, ICombatantStatus)> _effectInfoList =
         new List<(Rectangle, ICombatantStatus)>();
 
-    private readonly IList<(Rectangle, CombatMovementInstance)> _monsterCombatMoveInfoList =
-        new List<(Rectangle, CombatMovementInstance)>();
+    private readonly IList<(Rectangle, CombatMovementInstance, ICombatant)> _monsterCombatMoveInfoList =
+        new List<(Rectangle, CombatMovementInstance, ICombatant)>();
 
     private readonly IUiContentStorage _uiContentStorage;
     private HintBase? _combatMoveHint;
@@ -36,11 +37,13 @@ internal sealed class CombatantQueuePanel : ControlBase
 
     public CombatantQueuePanel(CombatEngineBase combat,
         IUiContentStorage uiContentStorage,
-        ICombatantThumbnailProvider combatantThumbnailProvider)
+        ICombatantThumbnailProvider combatantThumbnailProvider,
+        ICombatMovementVisualizationProvider combatMovementVisualizationProvider)
     {
         _activeCombat = combat;
         _uiContentStorage = uiContentStorage;
         _combatantThumbnailProvider = combatantThumbnailProvider;
+        _combatMovementVisualizationProvider = combatMovementVisualizationProvider;
     }
 
     public Point CalcContentSize()
@@ -98,7 +101,7 @@ internal sealed class CombatantQueuePanel : ControlBase
                 if (plannedMove is not null)
                 {
                     _monsterCombatMoveInfoList.Add(
-                        new ValueTuple<Rectangle, CombatMovementInstance>(portraitDestRect, plannedMove));
+                        new ValueTuple<Rectangle, CombatMovementInstance, ICombatant>(portraitDestRect, plannedMove, combatant));
                 }
             }
 
@@ -119,9 +122,12 @@ internal sealed class CombatantQueuePanel : ControlBase
         };
     }
 
-    private static HintBase CreateEffectHint((Rectangle, CombatMovementInstance) moveInfo)
+    private HintBase CreateEffectHint((Rectangle, CombatMovementInstance, ICombatant) moveInfo)
     {
-        var hint = new CombatMovementHint(moveInfo.Item2)
+        var currentActorResolveValue =
+            moveInfo.Item3.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.Resolve)).Value;
+        
+        var hint = new CombatMovementHint(moveInfo.Item2, currentActorResolveValue, _combatMovementVisualizationProvider)
         {
             Rect = new Rectangle(moveInfo.Item1.Location, new Point(200, 40))
         };

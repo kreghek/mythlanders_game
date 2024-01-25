@@ -1,4 +1,6 @@
-﻿using Client.Engine;
+﻿using System.Collections.Generic;
+
+using Client.Engine;
 using Client.GameScreens;
 
 using CombatDicesTeam.Combats;
@@ -9,7 +11,7 @@ using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats.CombatMovementEffects;
 
-namespace Client.Assets.CombatMovements.Monster.Black.Agressor;
+namespace Client.Assets.CombatMovements.Monster.Black.AmbushDrone;
 
 internal class OminousThornFactory : SimpleCombatMovementFactoryBase
 {
@@ -60,5 +62,12 @@ internal class OminousThornFactory : SimpleCombatMovementFactoryBase
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.Attack;
+    }
+    
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
+    {
+        return new[] { 
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectDisplayValueTemplate.Damage)
+        };
     }
 }

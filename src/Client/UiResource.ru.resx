@@ -219,6 +219,18 @@
   <data name="CombatLevelUpTemplate" xml:space="preserve">
     <value>{0} ед. опыта для повышения уровня</value>
   </data>
+  <data name="CombatMovementCost_Combat_LabelTemplate" xml:space="preserve">
+    <value>Требуемая решимость: {0}/{1}</value>
+  </data>
+  <data name="CombatMovementEffectValueType_DamageModifer_Template" xml:space="preserve">
+    <value>урон на {0} ед.</value>
+  </data>
+  <data name="CombatMovementEffectValueType_Damage_Template" xml:space="preserve">
+    <value>{0} ед. урона</value>
+  </data>
+  <data name="CombatMovementEffectValueType_RoundDuration_Template" xml:space="preserve">
+    <value>{0} раунд(ов)</value>
+  </data>
   <data name="CombatProgressTemplate" xml:space="preserve">
     <value>Прогресс сражения: {0}/{1}</value>
   </data>
@@ -411,9 +423,6 @@
   <data name="LongCombatSequenceText" xml:space="preserve">
     <value>Долгий</value>
   </data>
-  <data name="ManaCostLabelTemplate" xml:space="preserve">
-    <value>Цена: {0}</value>
-  </data>
   <data name="ManaLabelTemplate" xml:space="preserve">
     <value>Пси-энергия: {0}/{1}</value>
   </data>
@@ -516,9 +525,6 @@
   <data name="SkillDirectionTargetText" xml:space="preserve">
     <value>цели</value>
   </data>
-  <data name="SkillManaCostTemplate" xml:space="preserve">
-    <value>Требуется {0} пси-энергии</value>
-  </data>
   <data name="SkipButtonTitle" xml:space="preserve">
     <value>Пропустить</value>
   </data>
@@ -584,5 +590,17 @@
   </data>
   <data name="_AllChars" xml:space="preserve">
     <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
+  </data>
+  <data name="CombatMovementCost_Info_LabelTemplate" xml:space="preserve">
+    <value>Требуемая решимость: {0}</value>
+  </data>
+  <data name="CombatMovementEffectValueType_ResolveDamage_Template" xml:space="preserve">
+    <value>{0} урона решимости</value>
+  </data>
+  <data name="CombatMovementEffectValueType_HitPoints_Template" xml:space="preserve">
+    <value>{0} ед. здоровья</value>
+  </data>
+  <data name="CombatMovementEffectValueType_ShieldPoints_Template" xml:space="preserve">
+    <value>{0} щитов</value>
   </data>
 </root>
