@@ -79,7 +79,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Deals &lt;damage&gt; to all enemies in the vanguard and moves to the vanguard itself..
         /// </summary>
         internal static string AfterlifeWhirlwind_Description {
             get {
@@ -178,7 +178,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deals 2 damage to all enemies..
+        ///   Looks up a localized string similar to Deals &lt;damage&gt; to all enemies..
         /// </summary>
         internal static string ArrowsOfMorana_Description {
             get {
@@ -196,7 +196,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Deals &lt;damage&gt; to the closest enemy in the line and inspires all allies in the rear, increasing their &lt;damagebuff&gt; over &lt;duration&gt;..
         /// </summary>
         internal static string ArtOfCombat_Description {
             get {
@@ -223,7 +223,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to The Sage begins to collect the hidden threat. If someone attacks, it increases the threat by &lt;threat&gt;..
         /// </summary>
         internal static string AskedNoViolence_Description {
             get {
@@ -268,7 +268,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deals &lt;damage&gt;to the closest enemy in the line..
+        ///   Looks up a localized string similar to Deals &lt;damage&gt; to the closest enemy in the line..
         /// </summary>
         internal static string BalticThunder_Description {
             get {
@@ -313,7 +313,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Moves to the vanguard and deals 2 damage to the nearest enemy in the line. If the partisan was already in the vanguard, then it deals 1 bonus damage..
+        ///   Looks up a localized string similar to Moves to the vanguard and deals &lt;damage&gt; to the nearest enemy in the line. If the partisan was already in the vanguard, then it deals &lt;bonus_damage&gt;..
         /// </summary>
         internal static string BlankShot_Description {
             get {
@@ -327,6 +327,15 @@ namespace Client {
         internal static string BlindDefense {
             get {
                 return ResourceManager.GetString("BlindDefense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gain &lt;defense&gt; and fire 5 &lt;damage&gt; shots at random enemies..
+        /// </summary>
+        internal static string BlindDefense_Description {
+            get {
+                return ResourceManager.GetString("BlindDefense_Description", resourceCulture);
             }
         }
         
@@ -385,7 +394,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Deals &lt;damage&gt; to the strongest enemy with the mark. And misses the next move..
         /// </summary>
         internal static string BringBeastDown_Description {
             get {
@@ -421,7 +430,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Moves to the vanguard and deals &lt;damage&gt; on the strongest enemy..
         /// </summary>
         internal static string ChainHit_Description {
             get {
@@ -457,7 +466,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Throws a chain forward that deals &lt;damage&gt; and burns &lt;resolve_damage&gt; to the farthest enemy. Then he pulls the enemy into the vanguard..
         /// </summary>
         internal static string Chasing_Description {
             get {
@@ -547,7 +556,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Deals &lt;damage&gt; to the closest enemy in the line and moves to the vanguard..
         /// </summary>
         internal static string CyberClaws_Description {
             get {
@@ -565,7 +574,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Moves to the vanguard and deals two &lt;damage&gt; hits..
         /// </summary>
         internal static string DanceWithThePast_Description {
             get {
@@ -592,7 +601,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Moves forward and deals two &lt;damage&gt; hits..
         /// </summary>
         internal static string DarkRaids_Description {
             get {
@@ -615,15 +624,6 @@ namespace Client {
         internal static string DeceptivelyLightRobe {
             get {
                 return ResourceManager.GetString("DeceptivelyLightRobe", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Defense stance.
-        /// </summary>
-        internal static string DefenseStance {
-            get {
-                return ResourceManager.GetString("DefenseStance", resourceCulture);
             }
         }
         
@@ -664,7 +664,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Moves forward and deals 2 damage to the closest enemy in the line..
+        ///   Looks up a localized string similar to Moves forward and deals &lt;damage&gt; to the closest enemy in the line..
         /// </summary>
         internal static string DieBySword_Description {
             get {
@@ -700,7 +700,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Moves forward and deals two hits with each &lt;damage&gt; capesh..
         /// </summary>
         internal static string DoubleKapesh_Description {
             get {
@@ -718,7 +718,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Increases its defense by &lt;defense&gt;. When auto-triggered, increases protection by &lt;defense_auto&gt;..
         /// </summary>
         internal static string EbonySkin_Description {
             get {
@@ -763,7 +763,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Deals &lt;damage&gt; to the shields of the most charged enemy and goes to the rearguard..
         /// </summary>
         internal static string EnergeticBite_Description {
             get {
@@ -781,7 +781,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Deals &lt;damage&gt; to the shields of the most charged enemy in the rearguard..
         /// </summary>
         internal static string EnergeticSuperiority_Description {
             get {
@@ -808,7 +808,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Eyes of chaos.
+        ///   Looks up a localized string similar to Eyes of Chaos.
         /// </summary>
         internal static string EyesOfChaos {
             get {
@@ -817,7 +817,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Deals &lt;damage&gt; to all enemies in the vanguard and moves to the vanguard itself..
         /// </summary>
         internal static string EyesOfChaos_Description {
             get {
@@ -835,7 +835,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Increases damage of a random ally based on Sage&apos;s Shield.
         /// </summary>
         internal static string FaithBoost_Description {
             get {
@@ -853,7 +853,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Deals &lt;damage&gt; and burns &lt;resolve_damage&gt; to the farthest enemy. Then he pulls the enemy into the vanguard..
         /// </summary>
         internal static string FatalBlow_Description {
             get {
@@ -880,7 +880,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Deals &lt;damage&gt; to the weakest enemy with the mark..
         /// </summary>
         internal static string FinishWounded_Description {
             get {
@@ -898,20 +898,11 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to He rushes to the vanguard. Deals &lt;damage&gt; to the strongest enemy and takes away &lt;resolve_damage&gt;..
         /// </summary>
         internal static string FlockAlphaTactics_Description {
             get {
                 return ResourceManager.GetString("FlockAlphaTactics_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Grey wolf.
-        /// </summary>
-        internal static string GreyWolf {
-            get {
-                return ResourceManager.GetString("GreyWolf", resourceCulture);
             }
         }
         
@@ -925,7 +916,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Deals &lt;damage&gt; and burns &lt;resolve_damage&gt; to the farthest enemy. Then he pulls the enemy into the vanguard..
         /// </summary>
         internal static string GrimResolve_Description {
             get {
@@ -943,7 +934,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Increases its defense by &lt;defense&gt;. When auto-triggered, increases protection by &lt;defense_auto&gt;..
         /// </summary>
         internal static string GuardianPromise_Description {
             get {
@@ -970,7 +961,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Move to vanguard and deal 2 damage to the nearest enemy in lane. If the monk was already in the vanguard, then deal 1 bonus damage..
+        ///   Looks up a localized string similar to Move to vanguard and deal &lt;damage&gt; to the nearest enemy in lane. If the monk was already in the vanguard, then deal &lt;bonus_damage&gt;..
         /// </summary>
         internal static string HandOfThousandForms_Description {
             get {
@@ -1051,7 +1042,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Deals &lt;damage&gt; to the weakest enemy. The monk himself moves to the rearguard..
         /// </summary>
         internal static string HiddenIntention_Description {
             get {
@@ -1069,15 +1060,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hidden thread.
-        /// </summary>
-        internal static string HiddenThread_Duplicate_1_ {
-            get {
-                return ResourceManager.GetString("HiddenThread_Duplicate[1]", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Hit from the shoulder.
         /// </summary>
         internal static string HitFromShoulder {
@@ -1087,7 +1069,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deals a powerful blow for 3 damage and moves to the vanguard..
+        ///   Looks up a localized string similar to Deals a powerful blow for &lt;damage&gt; and moves to the vanguard..
         /// </summary>
         internal static string HitFromShoulder_Description {
             get {
@@ -1242,7 +1224,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deals &lt;damage&gt;to the closest enemy in the line and inspires all allies in the rearguard, increasing their &lt;buff&gt; for &lt;duration&gt;..
+        ///   Looks up a localized string similar to Deals &lt;damage&gt; to the closest enemy in the line and inspires all allies in the rearguard, increasing their &lt;buff&gt; for &lt;duration&gt;..
         /// </summary>
         internal static string InspirationalBreakthrough_Description {
             get {
@@ -1269,7 +1251,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Deals &lt;damage&gt; to all enemies in line.
         /// </summary>
         internal static string IronStream_Description {
             get {
@@ -1566,7 +1548,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Strongly attacks the closest enemy in line with &lt;damage&gt;..
         /// </summary>
         internal static string OminousThorn_Description {
             get {
@@ -1647,7 +1629,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Restores &lt;hp&gt; and goes to the rearguard..
         /// </summary>
         internal static string RegenerativeProtocol_Description {
             get {
@@ -1773,7 +1755,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Moves forward and deals &lt;damage&gt; damage to the strongest enemy..
         /// </summary>
         internal static string SerpentTrap_Description {
             get {
@@ -2106,7 +2088,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to On &lt;turns_duration&gt; increases shields by &lt;sp&gt; and moves to the rearguard..
         /// </summary>
         internal static string VelesProtection_Description {
             get {
