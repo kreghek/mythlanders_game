@@ -79,11 +79,17 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
         return Array.Empty<CombatMovementEffectDisplayValue>();
     }
 
+    /// <summary>
+    /// Extract damage from DamageEffectInstance
+    /// </summary>
     protected static int ExtractDamage(CombatMovementInstance combatMovementInstance, int effectIndex)
     {
         return ((DamageEffectInstance)combatMovementInstance.Effects.ToArray()[effectIndex]).Damage.Min.Current;
     }
-    
+
+    /// <summary>
+    /// Extract stat value from ChangeCurrentStatEffectInstance
+    /// </summary>
     protected static int ExtractStatChangingValue(CombatMovementInstance combatMovementInstance, int effectIndex)
     {
         //TODO Use IStatValue to the effect instance
@@ -91,6 +97,9 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
             .StatValue.Min;
     }
 
+    /// <summary>
+    /// Extract damage modifier from ModifyEffectsEffectInstance
+    /// </summary>
     protected static int ExtractDamageModifier(CombatMovementInstance combatMovementInstance, int effectIndex)
     {
         //TODO Use IStatValue to the effect instance
