@@ -7,12 +7,14 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.Aspid;
 
 internal class DarkRaidsFactory : SimpleCombatMovementFactoryBase
 {
+    /// <inheritdoc />
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(
@@ -33,11 +35,19 @@ internal class DarkRaidsFactory : SimpleCombatMovementFactoryBase
             });
     }
 
+    /// <inheritdoc />
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.Attack;
     }
-    
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Melee;
+    }
+
+    /// <inheritdoc />
     public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
     {
         return new[] { 

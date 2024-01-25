@@ -14,6 +14,7 @@ namespace Client.Assets.CombatMovements.Monster.Slavic.Aspid;
 
 internal class SpiralInversionFactory : SimpleCombatMovementFactoryBase
 {
+    /// <inheritdoc />
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(
@@ -34,11 +35,13 @@ internal class SpiralInversionFactory : SimpleCombatMovementFactoryBase
             });
     }
 
+    /// <inheritdoc />
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.Attack;
     }
 
+    /// <inheritdoc />
     public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {
@@ -49,5 +52,11 @@ internal class SpiralInversionFactory : SimpleCombatMovementFactoryBase
             new CombatMovementEffectDisplayValue("damage_resolve", ExtractDamage(combatMovementInstance, 3),
                 CombatMovementEffectDisplayValueTemplate.ResolveDamage)
         };
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Melee;
     }
 }

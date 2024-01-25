@@ -11,6 +11,7 @@ using GameClient.Engine.Animations;
 
 namespace Client.Assets.CombatMovements;
 
+
 internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
 {
     private static IAnimationFrameSet CreateLinear(IReadOnlyList<int> frames, float fps)
@@ -84,7 +85,7 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
     /// </summary>
     protected static int ExtractDamage(CombatMovementInstance combatMovementInstance, int effectIndex)
     {
-        return ((DamageEffectInstance)combatMovementInstance.Effects.ToArray()[effectIndex]).Damage.Min.Current;
+        return ((DamageEffectInstance)combatMovementInstance.Effects.ToArray()[effectIndex]).Damage.Min.ActualMax;
     }
 
     /// <summary>
@@ -92,9 +93,7 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
     /// </summary>
     protected static int ExtractStatChangingValue(CombatMovementInstance combatMovementInstance, int effectIndex)
     {
-        //TODO Use IStatValue to the effect instance
-        return ((ChangeCurrentStatEffectInstance)combatMovementInstance.Effects.ToArray()[effectIndex]).BaseEffect
-            .StatValue.Min;
+        return ((ChangeCurrentStatEffectInstance)combatMovementInstance.Effects.ToArray()[effectIndex]).StatValue.Min.ActualMax;
     }
 
     /// <summary>
@@ -102,7 +101,6 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
     /// </summary>
     protected static int ExtractDamageModifier(CombatMovementInstance combatMovementInstance, int effectIndex)
     {
-        //TODO Use IStatValue to the effect instance
-        return ((ModifyEffectsEffectInstance)combatMovementInstance.Effects.ToArray()[effectIndex]).BaseEffect.Value;
+        return ((ModifyEffectsEffectInstance)combatMovementInstance.Effects.ToArray()[effectIndex]).BuffPower.ActualMax;
     }
 }
