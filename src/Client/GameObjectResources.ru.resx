@@ -802,7 +802,7 @@
     <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="RegenerativeProtocol_Description" xml:space="preserve">
-    <value>Восстанавливает 3 ед. здоровья и уходит в тыл.</value>
+    <value>Восстанавливает &lt;hp&gt; и уходит в тыл.</value>
     <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="Reproach" xml:space="preserve">
@@ -1004,7 +1004,7 @@
     <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="VelesProtection_Description" xml:space="preserve">
-    <value>На 3 хода увеличивает щиты на 3 ед. и перемещается в тыл.</value>
+    <value>На &lt;turns_duration&gt; увеличивает щиты на &lt;sp&gt; и перемещается в тыл.</value>
     <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="Volkolak" xml:space="preserve">

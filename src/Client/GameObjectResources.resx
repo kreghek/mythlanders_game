@@ -794,7 +794,7 @@
     <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="RegenerativeProtocol_Description" xml:space="preserve">
-    <value />
+    <value>Restores &lt;hp&gt; and goes to the rearguard.</value>
     <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="Reproach" xml:space="preserve">
@@ -989,7 +989,7 @@
     <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="VelesProtection_Description" xml:space="preserve">
-    <value />
+    <value>On &lt;turns_duration&gt; increases shields by &lt;sp&gt; and moves to the rearguard.</value>
     <comment>Combat Movement Digital Hort</comment>
   </data>
   <data name="Volkolak" xml:space="preserve">
