@@ -84,7 +84,7 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
     /// </summary>
     protected static int ExtractDamage(CombatMovementInstance combatMovementInstance, int effectIndex)
     {
-        return ((DamageEffectInstance)combatMovementInstance.Effects.ToArray()[effectIndex]).Damage.Min.Current;
+        return ((DamageEffectInstance)combatMovementInstance.Effects.ToArray()[effectIndex]).Damage.Min.ActualMax;
     }
 
     /// <summary>
