@@ -4,11 +4,11 @@ using CombatDicesTeam.Combats.Effects;
 
 namespace GameAssets.Combats.CombatantStatuses;
 
-public sealed class ImproveMeleeDamageCombatantStatus : CombatantStatusBase
+public sealed class ImproveRangeDamageCombatantStatus : CombatantStatusBase
 {
     private readonly IStatModifier _statModifier;
 
-    public ImproveMeleeDamageCombatantStatus(ICombatantStatusSid sid, ICombatantStatusLifetime lifetime,
+    public ImproveRangeDamageCombatantStatus(ICombatantStatusSid sid, ICombatantStatusLifetime lifetime,
         ICombatantStatusSource source, int value) :
         base(sid, lifetime, source)
     {
@@ -66,7 +66,7 @@ public sealed class ImproveMeleeDamageCombatantStatus : CombatantStatusBase
     {
         if (combatMovement.Metadata is CombatMovementMetadata metadata)
         {
-            return metadata.Traits.Contains(CombatMovementMetadataTraits.Melee);
+            return metadata.Traits.Contains(CombatMovementMetadataTraits.Range);
         }
 
         return false;

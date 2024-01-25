@@ -28,7 +28,8 @@ public sealed class MonsterPerkManager : IMonsterPerkManager
             MonsterPerkCatalog.ExtraHp,
             MonsterPerkCatalog.ExtraSp,
             MonsterPerkCatalog.ImprovedAllDamage,
-            MonsterPerkCatalog.ImprovedMeleeDamage
+            MonsterPerkCatalog.ImprovedMeleeDamage,
+            MonsterPerkCatalog.ImprovedRangeDamage
         };
 
         var monsterPerk = _dice.RollFromList(availablePerkBuffs);
