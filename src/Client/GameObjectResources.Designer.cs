@@ -268,7 +268,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deals 3 damage to the closest enemy in the line..
+        ///   Looks up a localized string similar to Deals &lt;damage&gt;to the closest enemy in the line..
         /// </summary>
         internal static string BalticThunder_Description {
             get {
@@ -1069,6 +1069,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hidden thread.
+        /// </summary>
+        internal static string HiddenThread_Duplicate_1_ {
+            get {
+                return ResourceManager.GetString("HiddenThread_Duplicate[1]", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hit from the shoulder.
         /// </summary>
         internal static string HitFromShoulder {
@@ -1233,7 +1242,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deals 1 damage to the closest enemy in the line and inspires all allies in the rear, increasing their damage by 1 for 1 round..
+        ///   Looks up a localized string similar to Deals &lt;damage&gt;to the closest enemy in the line and inspires all allies in the rearguard, increasing their &lt;buff&gt; for &lt;duration&gt;..
         /// </summary>
         internal static string InspirationalBreakthrough_Description {
             get {

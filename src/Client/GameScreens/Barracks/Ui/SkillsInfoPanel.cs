@@ -77,7 +77,7 @@ internal sealed class SkillsInfoPanel : PanelBase
         }
 
         var manaCostText =
-            string.Format(UiResource.ManaCostLabelTemplate, skillButton.Entity.Cost.Amount.Current);
+            string.Format(UiResource.CombatMovementCost_Info_LabelTemplate, skillButton.Entity.Cost.Amount.Current);
         spriteBatch.DrawString(_mainFont, manaCostText,
             skillButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 20), Color.Cyan);
     }

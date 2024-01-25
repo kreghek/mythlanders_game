@@ -1,4 +1,7 @@
-﻿using Client.Engine;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using Client.Engine;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.Effects;
@@ -55,5 +58,12 @@ internal class CyberClawsFactory : CombatMovementFactoryBase
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);
+    }
+
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
+    {
+        return new[] { 
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1), CombatMovementEffectDisplayValueTemplate.Damage)
+        };
     }
 }

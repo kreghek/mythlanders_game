@@ -1,4 +1,6 @@
-﻿using Client.Engine;
+﻿using System.Collections.Generic;
+
+using Client.Engine;
 
 using CombatDicesTeam.Combats;
 
@@ -9,6 +11,13 @@ namespace Client.Assets.CombatMovements;
 /// </summary>
 internal interface ICombatMovementVisualizationProvider
 {
+    /// <summary>
+    /// Extract actual key values of combat movement to display in on UI.
+    /// </summary>
+    /// <param name="combatMovementInstance">Combat movement from which a values should be extracted.</param>
+    /// <returns>Set of values or empty.</returns>
+    IReadOnlyList<CombatMovementEffectDisplayValue> ExtractCombatMovementValues(CombatMovementInstance combatMovementInstance);
+
     /// <summary>
     /// Gets Combat movement icon.
     /// </summary>

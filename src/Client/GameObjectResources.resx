@@ -189,7 +189,7 @@
         <comment>Combat Movement Robber</comment>
   </data>
   <data name="BalticThunder_Description" xml:space="preserve">
-      <value>Deals 3 damage to the closest enemy in the line.</value>
+      <value>Deals &lt;damage&gt;to the closest enemy in the line.</value>
       <comment>Combat Movement Robber</comment>
   </data>
   <data name="Battleground" xml:space="preserve">
@@ -526,6 +526,9 @@
   <data name="HiddenThread" xml:space="preserve">
       <value>Hidden thread</value><comment>Status</comment>
   </data>
+  <data name="HiddenThread_Duplicate[1]" xml:space="preserve">
+      <value>Hidden thread</value><comment>Status</comment>
+  </data>
   <data name="HitFromShoulder" xml:space="preserve">
     <value>Hit from the shoulder</value>
         <comment>Combat Movement Swordsman</comment>
@@ -598,7 +601,7 @@
         <comment>Combat Movement Partisan</comment>
   </data>
   <data name="InspirationalBreakthrough_Description" xml:space="preserve">
-      <value>Deals 1 damage to the closest enemy in the line and inspires all allies in the rear, increasing their damage by 1 for 1 round.</value>
+      <value>Deals &lt;damage&gt;to the closest enemy in the line and inspires all allies in the rearguard, increasing their &lt;buff&gt; for &lt;duration&gt;.</value>
       <comment>Combat Movement Partisan</comment>
   </data>
   <data name="InspiringRush" xml:space="preserve">
@@ -1029,8 +1032,5 @@
   <data name="ZduhachMight" xml:space="preserve">
       <value>Zduhach Might</value>
         <comment>Skill</comment>
-  </data>
-  <data name="HiddenThread" xml:space="preserve">
-      <value>Hidden thread</value><comment>Status</comment>
   </data>
 </root>
