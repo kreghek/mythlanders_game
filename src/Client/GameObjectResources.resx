@@ -598,7 +598,7 @@
         <comment>Combat Movement Partisan</comment>
   </data>
   <data name="InspirationalBreakthrough_Description" xml:space="preserve">
-      <value>Deals &lt;damage&gt;to the closest enemy in the line and inspires all allies in the rearguard, increasing their &lt;buff&gt; for &lt;duration&gt;.</value>
+      <value>Deals &lt;damage&gt; to the closest enemy in the line and inspires all allies in the rearguard, increasing their &lt;buff&gt; for &lt;duration&gt;.</value>
       <comment>Combat Movement Partisan</comment>
   </data>
   <data name="InspiringRush" xml:space="preserve">
@@ -1029,8 +1029,5 @@
   <data name="ZduhachMight" xml:space="preserve">
       <value>Zduhach Might</value>
         <comment>Skill</comment>
-  </data>
-  <data name="HiddenThread_Duplicate[1]" xml:space="preserve">
-      <value>Hidden thread</value><comment>Status</comment>
   </data>
 </root>

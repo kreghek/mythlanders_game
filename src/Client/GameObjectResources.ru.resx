@@ -519,7 +519,7 @@
     <value>Вдохновляющий прорыв</value>
   </data>
   <data name="InspirationalBreakthrough_Description" xml:space="preserve">
-    <value>Наносит &lt;damage&gt;ближайшему в линии противнику и вдохновляет всех союзников в тылу, увеличивая их &lt;buff&gt; в течении &lt;duration&gt;.</value>
+    <value>Наносит &lt;damage&gt; ближайшему в линии противнику и вдохновляет всех союзников в тылу, увеличивая их &lt;buff&gt; в течении &lt;duration&gt;.</value>
   </data>
   <data name="InspiringRush" xml:space="preserve">
     <value>Вдохновляющий рывок</value>
@@ -866,8 +866,5 @@
   </data>
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
-  </data>
-  <data name="HiddenThread_Duplicate[1]" xml:space="preserve">
-    <value>Скрытая угроза</value>
   </data>
 </root>

@@ -101,10 +101,10 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
             new EnergyArrowProjectile(start, target, visualizationContext.GameObjectContentStorage.GetBulletGraphics());
     }
 
-    public override IReadOnlyList<CombatMovementEffectValue> GetEffectsValues(CombatMovementInstance combatMovementInstance)
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
     {
         return new[] {
-            new CombatMovementEffectValue("damage", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectValueType.Damage)
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectDisplayValueTemplate.Damage)
         };
     }
 }

@@ -229,7 +229,7 @@
   <data name="CombatLevelUpTemplate" xml:space="preserve">
     <value>{0} xp to level up</value>
   </data>
-  <data name="CombatMovementCostLabelTemplate" xml:space="preserve">
+  <data name="CombatMovementCost_Combat_LabelTemplate" xml:space="preserve">
     <value>Resolve cost: {0}/{1}</value>
   </data>
   <data name="CombatMovementEffectValueType_DamageModifer_Template" xml:space="preserve">
@@ -607,5 +607,8 @@ This hero can no longer act in the current battle.</value>
   </data>
   <data name="_AllChars" xml:space="preserve">
     <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
+  </data>
+  <data name="CombatMovementCost_Info_LabelTemplate" xml:space="preserve">
+    <value>Resolve cost: {0}</value>
   </data>
 </root>

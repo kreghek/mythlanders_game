@@ -15,5 +15,10 @@ internal interface ICombatMovementFactory
     CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext);
 
-    IReadOnlyList<CombatMovementEffectValue> GetEffectsValues(CombatMovementInstance combatMovementInstance);
+    /// <summary>
+    /// Extracts a actual key values of CM to display on UI.
+    /// </summary>
+    /// <param name="combatMovementInstance">Combat movement.</param>
+    /// <returns>Returns set of values with meta-data or empty array.</returns>
+    IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance);
 }

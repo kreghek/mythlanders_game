@@ -70,12 +70,17 @@ internal class CombatMovementsHandPanel : ControlBase
                 return;
             }
 
-            if (_combatant is not null)
+            if (_combatant is null)
             {
-                _activeCombatMovementHint = new CombatMovementHint(e.Entity, _combatant.Stats.Single(x => x.Type == CombatantStatTypes.Resolve).Value, _combatMovementVisualizer);
-                CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(e.Entity));
+                // Control is not ready to work.
+                return;
             }
+
+            var currentActorResolveValue = _combatant.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.Resolve)).Value;
+            _activeCombatMovementHint = new CombatMovementHint(e.Entity, currentActorResolveValue, _combatMovementVisualizer);
+            CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(e.Entity));
         };
+        
         _hoverController.Leave += (_, e) =>
         {
             _activeCombatMovementHint = null;

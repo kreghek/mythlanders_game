@@ -124,7 +124,10 @@ internal sealed class CombatantQueuePanel : ControlBase
 
     private HintBase CreateEffectHint((Rectangle, CombatMovementInstance, ICombatant) moveInfo)
     {
-        var hint = new CombatMovementHint(moveInfo.Item2, moveInfo.Item3.Stats.Single(x=>x.Type == CombatantStatTypes.Resolve).Value, _combatMovementVisualizationProvider)
+        var currentActorResolveValue =
+            moveInfo.Item3.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.Resolve)).Value;
+        
+        var hint = new CombatMovementHint(moveInfo.Item2, currentActorResolveValue, _combatMovementVisualizationProvider)
         {
             Rect = new Rectangle(moveInfo.Item1.Location, new Point(200, 40))
         };

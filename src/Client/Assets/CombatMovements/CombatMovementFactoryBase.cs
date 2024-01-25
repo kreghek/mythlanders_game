@@ -72,9 +72,11 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
             visualizationContext, config);
     }
 
-    public virtual IReadOnlyList<CombatMovementEffectValue> GetEffectsValues(CombatMovementInstance combatMovementInstance)
+    /// <inheritdoc />
+    public virtual IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
     {
-        return Array.Empty<CombatMovementEffectValue>();
+        return Array.Empty<CombatMovementEffectDisplayValue>();
     }
 
     protected static int ExtractDamage(CombatMovementInstance combatMovementInstance, int effectIndex)

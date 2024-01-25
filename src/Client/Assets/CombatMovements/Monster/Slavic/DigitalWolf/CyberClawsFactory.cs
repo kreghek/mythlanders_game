@@ -60,10 +60,10 @@ internal class CyberClawsFactory : CombatMovementFactoryBase
             visualizationContext, config);
     }
 
-    public override IReadOnlyList<CombatMovementEffectValue> GetEffectsValues(CombatMovementInstance combatMovementInstance)
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
     {
         return new[] { 
-            new CombatMovementEffectValue("damage", ExtractDamage(combatMovementInstance, 1), CombatMovementEffectValueType.Damage)
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1), CombatMovementEffectDisplayValueTemplate.Damage)
         };
     }
 }

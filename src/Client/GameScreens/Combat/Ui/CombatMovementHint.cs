@@ -33,17 +33,17 @@ internal class CombatMovementHint : HintBase
         _combatMovementVisualizationProvider = combatMovementVisualizationProvider;
         _combatMoveTitle = GameObjectHelper.GetLocalized(_combatMovement.SourceMovement.Sid);
 
-        var values = GetCombatMovementValues(combatMovement);
+        var combatMovementDisplayValues = ExtractCombatMovementValues(combatMovement);
 
         var combatMovementSid = _combatMovement.SourceMovement.Sid;
         _combatMoveDescription = StringHelper.LineBreaking(
-            RenderDescriptionText(values, combatMovementSid),
+            RenderDescriptionText(combatMovementDisplayValues, combatMovementSid),
             60);
 
         ContentSize = CalcContentSize(_combatMoveTitle, _combatMoveDescription);
     }
 
-    private static string RenderDescriptionText(IReadOnlyList<CombatMovementEffectValue> values, CombatMovementSid combatMovementSid)
+    private static string RenderDescriptionText(IReadOnlyList<CombatMovementEffectDisplayValue> values, CombatMovementSid combatMovementSid)
     {
         var descriptionMarkupText = GameObjectHelper.GetLocalizedDescription(combatMovementSid);
 
@@ -55,28 +55,26 @@ internal class CombatMovementHint : HintBase
         return descriptionMarkupText;
     }
 
-    private static string GetValueText(CombatMovementEffectValue value)
+    private static string GetValueText(CombatMovementEffectDisplayValue value)
     {
-        var template = GetValueTemplate(value.ValueType, value.Value);
+        var template = GetValueTemplate(value.Template);
         return string.Format(template, value.Value);
     }
 
-    private static string GetValueTemplate(CombatMovementEffectValueType valueType, int value)
+    private static string GetValueTemplate(CombatMovementEffectDisplayValueTemplate valueType)
     {
         return valueType switch
         {
-            CombatMovementEffectValueType.Damage => UiResource.CombatMovementEffectValueType_Damage_Template,
-            CombatMovementEffectValueType.DamageModifier => UiResource.CombatMovementEffectValueType_DamageModifer_Template,
-            CombatMovementEffectValueType.RoundDuration => UiResource.CombatMovementEffectValueType_RoundDuration_Template,
+            CombatMovementEffectDisplayValueTemplate.Damage => UiResource.CombatMovementEffectValueType_Damage_Template,
+            CombatMovementEffectDisplayValueTemplate.DamageModifier => UiResource.CombatMovementEffectValueType_DamageModifer_Template,
+            CombatMovementEffectDisplayValueTemplate.RoundDuration => UiResource.CombatMovementEffectValueType_RoundDuration_Template,
             _ => "<{0}> units",
         };
     }
 
-    private IReadOnlyList<CombatMovementEffectValue> GetCombatMovementValues(CombatMovementInstance combatMovement)
+    private IReadOnlyList<CombatMovementEffectDisplayValue> ExtractCombatMovementValues(CombatMovementInstance combatMovement)
     {
-        var factorySid = combatMovement.SourceMovement.Sid;
-
-        return _combatMovementVisualizationProvider.GetCombatMovementValues(factorySid, combatMovement);
+        return _combatMovementVisualizationProvider.ExtractCombatMovementValues(combatMovement);
     }
 
     public Vector2 ContentSize { get; }
@@ -101,7 +99,7 @@ internal class CombatMovementHint : HintBase
         }
 
         spriteBatch.DrawString(_costTextFont,
-            string.Format(UiResource.CombatMovementCostLabelTemplate, _combatMovement.Cost.Amount.Current, _currentActorResolveValue.Current),
+            string.Format(UiResource.CombatMovementCost_Combat_LabelTemplate, _combatMovement.Cost.Amount.Current, _currentActorResolveValue.Current),
             combatMoveTitlePosition + new Vector2(0, 15), resolveColor);
 
         var manaCostPosition = combatMoveTitlePosition + new Vector2(0, 25);
