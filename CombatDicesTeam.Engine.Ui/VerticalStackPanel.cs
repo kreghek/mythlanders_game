@@ -30,4 +30,6 @@ public sealed class VerticalStackPanel: ControlBase
             currentPosition += new Point(0, innerElement.Size.Y);
         }
     }
+
+    public override Point Size => _innerElements.Any() ? new Point(_innerElements.Max(x=>x.Size.X), _innerElements.Sum(x=>x.Size.Y)): Point.Zero;
 }

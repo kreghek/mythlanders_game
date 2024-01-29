@@ -39,8 +39,6 @@ internal class CombatMovementHint : HintBase
 
         var combatMoveDescription = CalcCombatMoveDescription(combatMovement);
 
-        ContentSize = CalcContentSize(combatMoveTitle, combatMoveDescription);
-
         var combatMovementTraitTexts = Array.Empty<Text>();
         if (_combatMovement.SourceMovement.Metadata is not null)
         {
@@ -85,6 +83,8 @@ internal class CombatMovementHint : HintBase
                     ControlTextures.Transparent,
                     combatMovementTraitTexts)
             });
+
+        ContentSize = _content.Size.ToVector2();
     }
 
     private string CalcCombatMoveDescription(CombatMovementInstance combatMovement)
@@ -163,15 +163,5 @@ internal class CombatMovementHint : HintBase
     {
         _content.Rect = clientRect;
         _content.Draw(spriteBatch);
-    }
-
-    private Vector2 CalcContentSize(string combatMoveTitle, string combatMoveDescription)
-    {
-        var titleSize = _nameTextFont.MeasureString(combatMoveTitle);
-        var descriptionSize = _descriptionTextFont.MeasureString(combatMoveDescription);
-
-        return new Vector2(
-            Math.Max(titleSize.X, descriptionSize.X),
-            15 + 20 + 10 + descriptionSize.Y);
     }
 }
