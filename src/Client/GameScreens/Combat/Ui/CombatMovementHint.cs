@@ -7,6 +7,7 @@ using Client.Core;
 using Client.Engine;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Engine.Ui;
 
 using GameAssets.Combats;
 

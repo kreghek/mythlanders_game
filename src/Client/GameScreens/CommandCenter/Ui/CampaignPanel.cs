@@ -4,6 +4,8 @@ using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 
+using CombatDicesTeam.Engine.Ui;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

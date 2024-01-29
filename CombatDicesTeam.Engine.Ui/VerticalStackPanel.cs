@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.Engine;
+namespace CombatDicesTeam.Engine.Ui;
 
 public sealed class VerticalStackPanel: ControlBase
 {
@@ -27,7 +27,7 @@ public sealed class VerticalStackPanel: ControlBase
             
             innerElement.Draw(spriteBatch);
 
-            currentPosition += new Point(0, innerElement.Rect.Size.Y);
+            currentPosition += new Point(0, innerElement.Size.Y);
         }
     }
 }

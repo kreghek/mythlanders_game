@@ -6,6 +6,7 @@ using Client.Assets.CombatMovements;
 using Client.Engine;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Engine.Ui;
 
 using GameAssets.Combats;
 

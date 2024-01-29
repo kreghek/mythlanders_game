@@ -9,6 +9,7 @@ using Client.Core.Campaigns;
 using Client.Engine;
 using Client.ScreenManagement;
 
+using CombatDicesTeam.Engine.Ui;
 using CombatDicesTeam.Graphs;
 using CombatDicesTeam.Graphs.Visualization;
 

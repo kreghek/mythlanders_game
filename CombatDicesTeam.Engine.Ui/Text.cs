@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.Engine;
+namespace CombatDicesTeam.Engine.Ui;
 
 public sealed class Text : ControlBase
 {
@@ -26,4 +26,6 @@ public sealed class Text : ControlBase
     {
         spriteBatch.DrawString(_font, _textDelegate(), contentRect.Location.ToVector2(), _colorDelegate(contentColor));
     }
+
+    public override Point Size => (_font.MeasureString(_textDelegate()) + new Vector2(CONTENT_MARGIN)).ToPoint();
 }

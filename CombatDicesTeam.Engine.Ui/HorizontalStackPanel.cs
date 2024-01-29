@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.Engine;
+namespace CombatDicesTeam.Engine.Ui;
 
 public sealed class HorizontalStackPanel: ControlBase
 {
@@ -27,7 +27,7 @@ public sealed class HorizontalStackPanel: ControlBase
             
             innerElement.Draw(spriteBatch);
 
-            currentPosition += new Point(innerElement.Rect.Size.X + CONTENT_MARGIN, 0);
+            currentPosition += new Point(innerElement.Size.X, 0);
         }
     }
 }

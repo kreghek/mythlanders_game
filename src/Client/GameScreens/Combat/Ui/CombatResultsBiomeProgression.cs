@@ -1,6 +1,8 @@
 using Client.Engine;
 using Client.GameScreens.Combat.Ui.CombatResultModalModels;
 
+using CombatDicesTeam.Engine.Ui;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.Engine;
+namespace CombatDicesTeam.Engine.Ui;
 
 public abstract class ControlBase
 {
@@ -38,6 +38,8 @@ public abstract class ControlBase
     };
 
     public Rectangle Rect { get; set; }
+
+    public virtual Point Size { get; }
 
     protected virtual int Margin => CONTENT_MARGIN;
 
