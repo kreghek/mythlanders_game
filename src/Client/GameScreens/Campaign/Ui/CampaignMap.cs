@@ -61,7 +61,7 @@ internal sealed class CampaignMap : ControlBase
         Texture2D hudTexture,
         Texture2D iconsTexture,
         IResolutionIndependentRenderer resolutionIndependentRenderer,
-        GameObjectContentStorage gameObjectContentStorage)
+        GameObjectContentStorage gameObjectContentStorage) : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _heroCampaign = heroCampaign;
         _screenManager = screenManager;

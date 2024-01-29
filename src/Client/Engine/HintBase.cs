@@ -8,4 +8,8 @@ internal abstract class HintBase : ControlBase
     {
         return Color.Lerp(Color.Transparent, Color.SlateBlue, 0.85f);
     }
+
+    protected HintBase() : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
+    {
+    }
 }

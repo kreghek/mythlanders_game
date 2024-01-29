@@ -7,7 +7,7 @@ internal abstract class PanelBase : ControlBase
 {
     private readonly SpriteFont _titleFont;
 
-    protected PanelBase()
+    protected PanelBase() : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _titleFont = UiThemeManager.UiContentStorage.GetTitlesFont();
     }

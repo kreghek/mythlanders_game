@@ -45,7 +45,7 @@ internal class CombatMovementsHandPanel : ControlBase
     public CombatMovementsHandPanel(
         Texture2D verticalButtonIcons,
         IUiContentStorage uiContentStorage,
-        ICombatMovementVisualizationProvider combatMovementVisualizer)
+        ICombatMovementVisualizationProvider combatMovementVisualizer) : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _buttons = new CombatMovementButton[3];
 

@@ -16,7 +16,7 @@ internal class CampaignEffectsPanel : ControlBase
     private readonly IReadOnlyCollection<ICampaignEffect> _estimatedRewards;
 
     public CampaignEffectsPanel(IReadOnlyCollection<ICampaignEffect> estimatedRewards,
-        IReadOnlyCollection<ICampaignEffect> estimatedPenalties)
+        IReadOnlyCollection<ICampaignEffect> estimatedPenalties) : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _estimatedRewards = estimatedRewards;
         _estimatedPenalties = estimatedPenalties;

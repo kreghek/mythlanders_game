@@ -9,7 +9,7 @@ internal abstract class ButtonBase : ControlBase
 {
     protected UiButtonState _buttonState;
 
-    protected ButtonBase()
+    protected ButtonBase() : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _buttonState = UiButtonState.OutOfButton;
     }

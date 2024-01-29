@@ -66,6 +66,7 @@
         <PackageReference Include="CombatDicesTeam.Graphs.Visualization" Version="0.3.0-alpha" />
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\..\CombatDicesTeam.Engine.Ui\CombatDicesTeam.Engine.Ui.csproj" />
         <ProjectReference Include="..\Core.Balance\Core.Balance.csproj" />
         <ProjectReference Include="..\Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj" />
         <ProjectReference Include="..\Core.Minigames.Match3\Core.Minigames.Match3.csproj" />

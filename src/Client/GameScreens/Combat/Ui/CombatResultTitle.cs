@@ -12,7 +12,7 @@ internal sealed class CombatResultTitle : ControlBase
     private readonly CombatResult _combatResult;
     private readonly SpriteFont _titleFont;
 
-    public CombatResultTitle(CombatResult combatResult)
+    public CombatResultTitle(CombatResult combatResult) : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _titleFont = UiThemeManager.UiContentStorage.GetTitlesFont();
         _combatResult = combatResult;
