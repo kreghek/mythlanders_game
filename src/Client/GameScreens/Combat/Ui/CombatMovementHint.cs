@@ -161,6 +161,7 @@ internal class CombatMovementHint : HintBase
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
     {
+        _content.Rect = clientRect;
         _content.Draw(spriteBatch);
     }
 
