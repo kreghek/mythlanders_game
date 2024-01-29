@@ -4,11 +4,11 @@ using CombatDicesTeam.Combats.Effects;
 
 namespace GameAssets.Combats.CombatantStatuses;
 
-public sealed class ImproveMeleeDamageCombatantStatus : CombatantStatusBase
+public sealed class ImproveRangeDamageCombatantStatus : CombatantStatusBase
 {
     private readonly IStatModifier _statModifier;
 
-    public ImproveMeleeDamageCombatantStatus(ICombatantStatusSid sid, ICombatantStatusLifetime lifetime,
+    public ImproveRangeDamageCombatantStatus(ICombatantStatusSid sid, ICombatantStatusLifetime lifetime,
         ICombatantStatusSource source, int value) :
         base(sid, lifetime, source)
     {
@@ -48,7 +48,7 @@ public sealed class ImproveMeleeDamageCombatantStatus : CombatantStatusBase
         {
             foreach (var combatMovementInstance in combatMovementContainer.GetItems())
             {
-                if (combatMovementInstance is not null && IsCombatMovementMelee(combatMovementInstance.SourceMovement))
+                if (combatMovementInstance is not null && IsCombatMovementHasTrait(combatMovementInstance.SourceMovement, CombatMovementMetadataTraits.Range))
                 {
                     foreach (var effectInstance in combatMovementInstance.Effects)
                     {
@@ -62,11 +62,11 @@ public sealed class ImproveMeleeDamageCombatantStatus : CombatantStatusBase
         }
     }
 
-    private static bool IsCombatMovementMelee(CombatMovement combatMovement)
+    private static bool IsCombatMovementHasTrait(CombatMovement combatMovement, CombatMovementMetadataTrait testTrait)
     {
         if (combatMovement.Metadata is CombatMovementMetadata metadata)
         {
-            return metadata.Traits.Contains(CombatMovementMetadataTraits.Melee);
+            return metadata.Traits.Contains(testTrait);
         }
 
         return false;

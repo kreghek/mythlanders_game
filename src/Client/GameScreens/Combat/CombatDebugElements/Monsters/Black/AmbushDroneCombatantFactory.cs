@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Client.Assets.CombatMovements.Monster.Black.AmbushDrone;
+﻿using Client.Assets.CombatMovements.Monster.Black.AmbushDrone;
 
 using CombatDicesTeam.Combats;
-using CombatDicesTeam.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
 
 namespace Client.GameScreens.Combat.CombatDebugElements.Monsters.Black;
 
-public class AmbushDroneCombatantFactory : IMonsterCombatantFactory
+public class AmbushDroneCombatantFactory : MonsterCombatantFactoryBase
 {
     private static CombatMovementSequence CreateCombatMoveVariation(int variationIndex)
     {
@@ -37,22 +33,20 @@ public class AmbushDroneCombatantFactory : IMonsterCombatantFactory
         return monsterSequence;
     }
 
-    public MythlandersCombatant Create(string sid, ICombatActorBehaviour combatActorBehaviour, int variationIndex,
-        IReadOnlyCollection<ICombatantStatusFactory> combatantStatusFactories)
+    protected override CombatantStatsConfig CombatantStatsConfig()
     {
-        var monsterSequence = CreateCombatMoveVariation(variationIndex);
-
         var stats = new CombatantStatsConfig();
         stats.SetValue(CombatantStatTypes.HitPoints, 2);
         stats.SetValue(CombatantStatTypes.ShieldPoints, 2);
         stats.SetValue(CombatantStatTypes.Resolve, 4);
 
-        var monster = new MythlandersCombatant("ambushdrone", monsterSequence, stats, combatActorBehaviour,
-            ArraySegment<ICombatantStatusFactory>.Empty)
-        {
-            DebugSid = sid, IsPlayerControlled = false
-        };
+        return stats;
+    }
 
-        return monster;
+    protected override CombatMovementSequence CombatMovementSequence(int variationIndex)
+    {
+        var monsterSequence = CreateCombatMoveVariation(variationIndex);
+
+        return monsterSequence;
     }
 }

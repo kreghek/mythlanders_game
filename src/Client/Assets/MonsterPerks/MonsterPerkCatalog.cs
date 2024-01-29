@@ -42,4 +42,11 @@ public static class MonsterPerkCatalog
                 source,
                 1)),
         nameof(ImprovedMeleeDamage));
+    
+    public static MonsterPerk ImprovedRangeDamage { get; } = new(new CombatStatusFactory(source =>
+            new ImproveRangeDamageCombatantStatus(new CombatantStatusSid(nameof(ImprovedRangeDamage)),
+                new OwnerBoundCombatantEffectLifetime(),
+                source,
+                1)),
+        nameof(ImprovedRangeDamage));
 }
