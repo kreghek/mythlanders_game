@@ -9,7 +9,7 @@ namespace Client.GameScreens.Combat.CombatDebugElements.Monsters;
 
 public abstract class MonsterCombatantFactoryBase : IMonsterCombatantFactory
 {
-    protected abstract string ClassSid { get; }
+    protected virtual string ClassSid => GetType().Name.Substring(0, GetType().Name.Length - "CombatantFactory".Length).ToLowerInvariant();
 
     protected abstract CombatantStatsConfig CombatantStatsConfig();
 
