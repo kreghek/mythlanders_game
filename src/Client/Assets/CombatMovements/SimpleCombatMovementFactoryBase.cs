@@ -18,7 +18,6 @@ internal abstract class SimpleCombatMovementFactoryBase : CombatMovementFactoryB
             metadata = new CombatMovementMetadata(traits.ToArray());
         }
 
-
         return new CombatMovement(base.Sid, GetCost(), GetEffects())
         {
             Tags = GetTags(),
