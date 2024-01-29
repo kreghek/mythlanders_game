@@ -7,23 +7,23 @@ public sealed class Text : ControlBase
 {
     private readonly Point _textureOffset;
     private readonly SpriteFont _font;
-    private readonly Color _color;
+    private readonly Func<Color, Color> _colorDelegate;
     private readonly Func<string> _textDelegate;
 
-    public Text(Texture2D texture, Point textureOffset, SpriteFont font, Color color, Func<string> textDelegate) : base(texture)
+    public Text(Texture2D texture, Point textureOffset, SpriteFont font, Func<Color, Color> colorDelegate, Func<string> textDelegate) : base(texture)
     {
         _textureOffset = textureOffset;
         _font = font;
-        _color = color;
+        _colorDelegate = colorDelegate;
         _textDelegate = textDelegate;
     }
 
     protected override Point CalcTextureOffset() => _textureOffset;
 
-    protected override Color CalculateColor() => _color;
+    protected override Color CalculateColor() => Color.White;
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
-        spriteBatch.DrawString(_font, _textDelegate(), contentRect.Location.ToVector2(), contentColor);
+        spriteBatch.DrawString(_font, _textDelegate(), contentRect.Location.ToVector2(), _colorDelegate(contentColor));
     }
 }

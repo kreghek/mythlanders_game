@@ -1,14 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.Engine;
 
-public sealed class VerticalStackPanel: ControlBase
+public sealed class HorizontalStackPanel: ControlBase
 {
     private readonly Point _textureOffset;
     private readonly IReadOnlyList<ControlBase> _innerElements;
 
-    public VerticalStackPanel(Texture2D texture, Point textureOffset, IReadOnlyList<ControlBase> innerElements) : base(texture)
+    public HorizontalStackPanel(Texture2D texture, Point textureOffset, IReadOnlyList<ControlBase> innerElements) : base(texture)
     {
         _textureOffset = textureOffset;
         _innerElements = innerElements;
@@ -27,7 +27,7 @@ public sealed class VerticalStackPanel: ControlBase
             
             innerElement.Draw(spriteBatch);
 
-            currentPosition += new Point(0, innerElement.Rect.Size.Y);
+            currentPosition += new Point(innerElement.Rect.Size.X + CONTENT_MARGIN, 0);
         }
     }
 }
