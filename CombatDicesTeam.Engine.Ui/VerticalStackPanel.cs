@@ -31,5 +31,10 @@ public sealed class VerticalStackPanel: ControlBase
         }
     }
 
+    protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
+    {
+        // No background
+    }
+
     public override Point Size => _innerElements.Any() ? new Point(_innerElements.Max(x=>x.Size.X), _innerElements.Sum(x=>x.Size.Y)): Point.Zero;
 }

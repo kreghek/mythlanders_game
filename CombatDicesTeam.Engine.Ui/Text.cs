@@ -28,4 +28,9 @@ public sealed class Text : ControlBase
     }
 
     public override Point Size => (_font.MeasureString(_textDelegate()) + new Vector2(CONTENT_MARGIN)).ToPoint();
+
+    protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
+    {
+        // No background
+    }
 }

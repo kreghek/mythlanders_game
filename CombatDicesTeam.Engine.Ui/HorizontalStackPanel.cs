@@ -32,4 +32,9 @@ public sealed class HorizontalStackPanel: ControlBase
     }
 
     public override Point Size => _innerElements.Any() ? new Point(_innerElements.Sum(x => x.Size.X), _innerElements.Max(x => x.Size.Y)) : Point.Zero;
+
+    protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
+    {
+        // No background
+    }
 }
