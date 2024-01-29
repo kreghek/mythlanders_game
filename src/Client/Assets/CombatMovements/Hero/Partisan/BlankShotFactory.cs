@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Client.Assets.CombatVisualEffects;
 using Client.Assets.InteractionDeliveryObjects;
@@ -13,6 +14,7 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
 using GameClient.Engine.Animations;
@@ -29,6 +31,16 @@ namespace Client.Assets.CombatMovements.Hero.Partisan;
 [UsedImplicitly]
 internal class BlankShotFactory : CombatMovementFactoryBase
 {
+    /// <inheritdoc />
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1), CombatMovementEffectDisplayValueTemplate.Damage),
+            new CombatMovementEffectDisplayValue("bonus_damage", 1, CombatMovementEffectDisplayValueTemplate.DamageModifier)
+        };
+    }
+
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(3, 6);
 
@@ -51,7 +63,8 @@ internal class BlankShotFactory : CombatMovementFactoryBase
                 })
         )
         {
-            Tags = CombatMovementTags.Attack
+            Tags = CombatMovementTags.Attack,
+            Metadata = new CombatMovementMetadata(new[] { CombatMovementMetadataTraits.Range })
         };
     }
 

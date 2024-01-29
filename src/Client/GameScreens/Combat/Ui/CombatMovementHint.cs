@@ -84,7 +84,7 @@ internal class CombatMovementHint : HintBase
                     combatMovementTraitTexts)
             });
 
-        ContentSize = _content.Size.ToVector2();
+        ContentSize = _content.Size.ToVector2() + new Vector2(CONTENT_MARGIN * 2);
     }
 
     private string CalcCombatMoveDescription(CombatMovementInstance combatMovement)
