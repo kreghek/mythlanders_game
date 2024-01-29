@@ -48,7 +48,7 @@ public sealed class ImproveRangeDamageCombatantStatus : CombatantStatusBase
         {
             foreach (var combatMovementInstance in combatMovementContainer.GetItems())
             {
-                if (combatMovementInstance is not null && IsCombatMovementMelee(combatMovementInstance.SourceMovement))
+                if (combatMovementInstance is not null && IsCombatMovementHasTrait(combatMovementInstance.SourceMovement, CombatMovementMetadataTraits.Range))
                 {
                     foreach (var effectInstance in combatMovementInstance.Effects)
                     {
@@ -62,11 +62,11 @@ public sealed class ImproveRangeDamageCombatantStatus : CombatantStatusBase
         }
     }
 
-    private static bool IsCombatMovementMelee(CombatMovement combatMovement)
+    private static bool IsCombatMovementHasTrait(CombatMovement combatMovement, CombatMovementMetadataTrait testTrait)
     {
         if (combatMovement.Metadata is CombatMovementMetadata metadata)
         {
-            return metadata.Traits.Contains(CombatMovementMetadataTraits.Range);
+            return metadata.Traits.Contains(testTrait);
         }
 
         return false;
