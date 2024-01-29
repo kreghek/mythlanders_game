@@ -41,6 +41,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Minigames.Towers", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Minigames.Match3", "src\Core.Minigames.Match3\Core.Minigames.Match3.csproj", "{1A9B0447-0C0C-4132-9C7A-5513FDDE8E2B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CombatDicesTeam.Engine.Ui", "CombatDicesTeam.Engine.Ui\CombatDicesTeam.Engine.Ui.csproj", "{FDDD6CBB-F1B6-4805-9B63-C5CB2DA7F13B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +117,10 @@ Global
 		{1A9B0447-0C0C-4132-9C7A-5513FDDE8E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A9B0447-0C0C-4132-9C7A-5513FDDE8E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A9B0447-0C0C-4132-9C7A-5513FDDE8E2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDDD6CBB-F1B6-4805-9B63-C5CB2DA7F13B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDDD6CBB-F1B6-4805-9B63-C5CB2DA7F13B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDDD6CBB-F1B6-4805-9B63-C5CB2DA7F13B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDDD6CBB-F1B6-4805-9B63-C5CB2DA7F13B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

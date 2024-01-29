@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Client.Assets.CombatMovements;
 using Client.Core;
 using Client.Engine;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Engine.Ui;
+
+using GameAssets.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,33 +18,95 @@ namespace Client.GameScreens.Combat.Ui;
 
 internal class CombatMovementHint : HintBase
 {
-    private readonly string _combatMoveDescription;
     private readonly CombatMovementInstance _combatMovement;
     private readonly IStatValue _currentActorResolveValue;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizationProvider;
-    private readonly string _combatMoveTitle;
     private readonly SpriteFont _descriptionTextFont;
     private readonly SpriteFont _nameTextFont;
-    private readonly SpriteFont _costTextFont;
+
+    private readonly VerticalStackPanel _content;
 
     public CombatMovementHint(CombatMovementInstance combatMovement, IStatValue currentActorResolveValue, ICombatMovementVisualizationProvider combatMovementVisualizationProvider)
     {
+        _combatMovement = combatMovement;
+        
         _nameTextFont = UiThemeManager.UiContentStorage.GetTitlesFont();
         _descriptionTextFont = UiThemeManager.UiContentStorage.GetMainFont();
-        _costTextFont = UiThemeManager.UiContentStorage.GetTitlesFont();
-        _combatMovement = combatMovement;
+        var costTextFont = UiThemeManager.UiContentStorage.GetTitlesFont();
         _currentActorResolveValue = currentActorResolveValue;
         _combatMovementVisualizationProvider = combatMovementVisualizationProvider;
-        _combatMoveTitle = GameObjectHelper.GetLocalized(_combatMovement.SourceMovement.Sid);
+        var combatMoveTitle = GameObjectHelper.GetLocalized(_combatMovement.SourceMovement.Sid);
 
+        var combatMoveDescription = CalcCombatMoveDescription(combatMovement);
+
+        var combatMovementTraitTexts = Array.Empty<Text>();
+        if (_combatMovement.SourceMovement.Metadata is not null)
+        {
+            combatMovementTraitTexts = ((CombatMovementMetadata)_combatMovement.SourceMovement.Metadata)
+                .Traits
+                .Select(x => new Text(
+                    UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
+                    ControlTextures.Panel,
+                    _descriptionTextFont,
+                    _ => Color.White,
+                    () => x.Sid)).ToArray();
+        }
+
+        _content = new VerticalStackPanel(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(), ControlTextures.Transparent,
+            new ControlBase[]
+            {
+                new Text(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
+                    ControlTextures.Transparent,
+                    _nameTextFont,
+                    _=>Color.White,
+                    ()=> GameObjectHelper.GetLocalized(_combatMovement.SourceMovement.Sid)
+                    ),
+                
+                new Text(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
+                    ControlTextures.Transparent,
+                    costTextFont,
+                    CalcCostColor,
+                    ()=> string.Format(
+                        UiResource.CombatMovementCost_Combat_LabelTemplate,
+                        _combatMovement.Cost.Amount.Current,
+                        _currentActorResolveValue.Current)
+                ),
+                
+                new Text(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
+                    ControlTextures.Transparent,
+                    _descriptionTextFont,
+                    _=>Color.Wheat,
+                    ()=> CalcCombatMoveDescription(_combatMovement)
+                ),
+                
+                new HorizontalStackPanel(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
+                    ControlTextures.Transparent,
+                    combatMovementTraitTexts)
+            });
+
+        ContentSize = _content.Size.ToVector2() + new Vector2(CONTENT_MARGIN * 2);
+    }
+
+    private string CalcCombatMoveDescription(CombatMovementInstance combatMovement)
+    {
         var combatMovementDisplayValues = ExtractCombatMovementValues(combatMovement);
 
         var combatMovementSid = _combatMovement.SourceMovement.Sid;
-        _combatMoveDescription = StringHelper.LineBreaking(
+        var combatMoveDescription = StringHelper.LineBreaking(
             RenderDescriptionText(combatMovementDisplayValues, combatMovementSid),
             60);
+        return combatMoveDescription;
+    }
 
-        ContentSize = CalcContentSize(_combatMoveTitle, _combatMoveDescription);
+    private Color CalcCostColor(Color color)
+    {
+        var resolveColor = Color.Lerp(color, MythlandersColors.MaxDark, 0.5f);
+        if (_combatMovement.Cost.Amount.Current > _currentActorResolveValue.Current)
+        {
+            resolveColor = Color.Lerp(color, MythlandersColors.DangerRedMain, 0.75f);
+        }
+
+        return resolveColor;
     }
 
     private static string RenderDescriptionText(IReadOnlyList<CombatMovementEffectDisplayValue> values, CombatMovementSid combatMovementSid)
@@ -95,34 +161,7 @@ internal class CombatMovementHint : HintBase
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
     {
-        var color = Color.White;
-
-        var combatMoveTitlePosition = clientRect.Location.ToVector2();
-
-        spriteBatch.DrawString(_nameTextFont, _combatMoveTitle, combatMoveTitlePosition, color);
-
-        var resolveColor = Color.Lerp(color, MythlandersColors.MaxDark, 0.5f);
-        if (_combatMovement.Cost.Amount.Current > _currentActorResolveValue.Current)
-        {
-            resolveColor = Color.Lerp(color, MythlandersColors.DangerRedMain, 0.75f);
-        }
-
-        spriteBatch.DrawString(_costTextFont,
-            string.Format(UiResource.CombatMovementCost_Combat_LabelTemplate, _combatMovement.Cost.Amount.Current, _currentActorResolveValue.Current),
-            combatMoveTitlePosition + new Vector2(0, 15), resolveColor);
-
-        var manaCostPosition = combatMoveTitlePosition + new Vector2(0, 25);
-        var descriptionBlockPosition = manaCostPosition + new Vector2(0, 20);
-        spriteBatch.DrawString(_descriptionTextFont, _combatMoveDescription, descriptionBlockPosition, Color.Wheat);
-    }
-
-    private Vector2 CalcContentSize(string combatMoveTitle, string combatMoveDescription)
-    {
-        var titleSize = _nameTextFont.MeasureString(combatMoveTitle);
-        var descriptionSize = _descriptionTextFont.MeasureString(combatMoveDescription);
-
-        return new Vector2(
-            Math.Max(titleSize.X, descriptionSize.X),
-            15 + 20 + 10 + descriptionSize.Y);
+        _content.Rect = clientRect;
+        _content.Draw(spriteBatch);
     }
 }

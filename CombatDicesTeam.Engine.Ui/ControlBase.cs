@@ -1,10 +1,17 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.Engine;
+namespace CombatDicesTeam.Engine.Ui;
 
 public abstract class ControlBase
 {
+    private readonly Texture2D _texture;
+
+    protected ControlBase(Texture2D texture)
+    {
+        _texture = texture;
+    }
+    
     public const int CONTENT_MARGIN = 4;
     private const int CORNER_SIZE = 15;
     private const int INNER_SIZE = (16 - CORNER_SIZE) * 2;
@@ -31,6 +38,8 @@ public abstract class ControlBase
     };
 
     public Rectangle Rect { get; set; }
+
+    public virtual Point Size { get; }
 
     protected virtual int Margin => CONTENT_MARGIN;
 
@@ -76,8 +85,6 @@ public abstract class ControlBase
                 new Rectangle(rectWidth + CORNER_SIZE, rectHeight + CORNER_SIZE, CORNER_SIZE, CORNER_SIZE)
             }
         };
-
-        var _texture = UiThemeManager.UiContentStorage.GetControlBackgroundTexture();
 
         for (var x = 0; x < 3; x++)
         {

@@ -2,6 +2,8 @@
 
 using Client.Engine;
 
+using CombatDicesTeam.Engine.Ui;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -13,7 +15,7 @@ internal sealed class FieldManeuverIndicatorPanel : ControlBase
     private readonly SpriteFont _font;
     private double _counter;
 
-    public FieldManeuverIndicatorPanel(SpriteFont font, IManeuverContext context)
+    public FieldManeuverIndicatorPanel(SpriteFont font, IManeuverContext context) : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _font = font;
         _context = context;

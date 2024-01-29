@@ -5,6 +5,8 @@ using System.Linq;
 using Client.Core;
 using Client.Engine;
 
+using CombatDicesTeam.Engine.Ui;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -14,7 +16,7 @@ internal sealed class CampaignLaunchHeroes : ControlBase
 {
     private readonly IReadOnlyCollection<HeroState> _heroStates;
 
-    public CampaignLaunchHeroes(IReadOnlyCollection<HeroState> heroStates)
+    public CampaignLaunchHeroes(IReadOnlyCollection<HeroState> heroStates) : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _heroStates = heroStates;
     }

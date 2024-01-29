@@ -3,6 +3,8 @@ using System.Linq;
 
 using Client.Engine;
 
+using CombatDicesTeam.Engine.Ui;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -11,8 +13,8 @@ namespace Client.ScreenManagement.Ui.TextEvents;
 internal class DialogueOptions : ControlBase
 {
     private const int OPTION_BUTTON_MARGIN = 5;
-
-    public DialogueOptions()
+    
+    public DialogueOptions(): base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         Options = new List<DialogueOptionButton>();
     }

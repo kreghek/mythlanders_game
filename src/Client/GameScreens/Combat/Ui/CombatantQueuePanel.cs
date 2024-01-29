@@ -6,6 +6,7 @@ using Client.Assets.CombatMovements;
 using Client.Engine;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Engine.Ui;
 
 using GameAssets.Combats;
 
@@ -38,7 +39,7 @@ internal sealed class CombatantQueuePanel : ControlBase
     public CombatantQueuePanel(CombatEngineBase combat,
         IUiContentStorage uiContentStorage,
         ICombatantThumbnailProvider combatantThumbnailProvider,
-        ICombatMovementVisualizationProvider combatMovementVisualizationProvider)
+        ICombatMovementVisualizationProvider combatMovementVisualizationProvider) : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _activeCombat = combat;
         _uiContentStorage = uiContentStorage;
