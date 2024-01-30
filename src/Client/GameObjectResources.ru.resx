@@ -235,6 +235,10 @@
     <value>Глухая оборона</value>
     <comment>Combat Movement ShieldBearer</comment>
   </data>
+  <data name="BlindDefense_Description" xml:space="preserve">
+    <value>Получает &lt;defense&gt; и выполняет 5 выстрелов &lt;damage&gt; по случайным проивникам.</value>
+    <comment>Combat Movement ShieldBearer</comment>
+  </data>
   <data name="BoldMarauder" xml:space="preserve">
     <value>Марадер</value>
   </data>
@@ -1068,15 +1072,5 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
     <comment>Skill</comment>
-  </data>
-  <data name="BlindDefense_Description" xml:space="preserve">
-    <value>Получает &lt;defense&gt; и выполняет 5 выстрелов &lt;damage&gt; по случайным проивникам.</value>
-    <comment>Combat Movement ShieldBearer</comment>
-  </data>
-  <data name="Melee" xml:space="preserve">
-    <value>Рукопашный</value>
-  </data>
-  <data name="Range" xml:space="preserve">
-    <value>Стрелковый</value>
   </data>
 </root>
