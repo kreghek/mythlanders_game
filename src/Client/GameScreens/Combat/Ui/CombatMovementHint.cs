@@ -21,23 +21,19 @@ internal class CombatMovementHint : HintBase
     private readonly CombatMovementInstance _combatMovement;
     private readonly IStatValue _currentActorResolveValue;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizationProvider;
-    private readonly SpriteFont _descriptionTextFont;
-    private readonly SpriteFont _nameTextFont;
 
     private readonly VerticalStackPanel _content;
 
-    public CombatMovementHint(CombatMovementInstance combatMovement, IStatValue currentActorResolveValue, ICombatMovementVisualizationProvider combatMovementVisualizationProvider)
+    public CombatMovementHint(CombatMovementInstance combatMovement, IStatValue currentActorResolveValue,
+        ICombatMovementVisualizationProvider combatMovementVisualizationProvider)
     {
         _combatMovement = combatMovement;
-        
-        _nameTextFont = UiThemeManager.UiContentStorage.GetTitlesFont();
-        _descriptionTextFont = UiThemeManager.UiContentStorage.GetMainFont();
+
+        var nameTextFont = UiThemeManager.UiContentStorage.GetTitlesFont();
+        var descriptionTextFont = UiThemeManager.UiContentStorage.GetMainFont();
         var costTextFont = UiThemeManager.UiContentStorage.GetTitlesFont();
         _currentActorResolveValue = currentActorResolveValue;
         _combatMovementVisualizationProvider = combatMovementVisualizationProvider;
-        var combatMoveTitle = GameObjectHelper.GetLocalized(_combatMovement.SourceMovement.Sid);
-
-        var combatMoveDescription = CalcCombatMoveDescription(combatMovement);
 
         var combatMovementTraitTexts = Array.Empty<Text>();
         if (_combatMovement.SourceMovement.Metadata is not null)
@@ -47,38 +43,39 @@ internal class CombatMovementHint : HintBase
                 .Select(x => new Text(
                     UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
                     ControlTextures.Panel,
-                    _descriptionTextFont,
+                    descriptionTextFont,
                     _ => Color.White,
-                    () => x.Sid)).ToArray();
+                    () => GameObjectHelper.GetLocalizedTrait(x.Sid))).ToArray();
         }
 
-        _content = new VerticalStackPanel(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(), ControlTextures.Transparent,
+        _content = new VerticalStackPanel(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
+            ControlTextures.Transparent,
             new ControlBase[]
             {
                 new Text(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
                     ControlTextures.Transparent,
-                    _nameTextFont,
-                    _=>Color.White,
-                    ()=> GameObjectHelper.GetLocalized(_combatMovement.SourceMovement.Sid)
-                    ),
-                
+                    nameTextFont,
+                    _ => Color.White,
+                    () => GameObjectHelper.GetLocalized(_combatMovement.SourceMovement.Sid)
+                ),
+
                 new Text(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
                     ControlTextures.Transparent,
                     costTextFont,
                     CalcCostColor,
-                    ()=> string.Format(
+                    () => string.Format(
                         UiResource.CombatMovementCost_Combat_LabelTemplate,
                         _combatMovement.Cost.Amount.Current,
                         _currentActorResolveValue.Current)
                 ),
-                
+
                 new Text(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
                     ControlTextures.Transparent,
-                    _descriptionTextFont,
-                    _=>Color.Wheat,
-                    ()=> CalcCombatMoveDescription(_combatMovement)
+                    descriptionTextFont,
+                    _ => Color.Wheat,
+                    () => CalcCombatMoveDescription(_combatMovement)
                 ),
-                
+
                 new HorizontalStackPanel(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
                     ControlTextures.Transparent,
                     combatMovementTraitTexts)
