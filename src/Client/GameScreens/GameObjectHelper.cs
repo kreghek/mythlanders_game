@@ -29,6 +29,11 @@ internal static class GameObjectHelper
         return GetLocalizedInner(sid);
     }
 
+    public static string GetLocalizedTrait(string sid)
+    {
+        return GetLocalizedInner(sid);
+    }
+
     public static string GetLocalized(CharacterRelation relation)
     {
         if (relation.Level == CharacterKnowledgeLevel.FullName)
