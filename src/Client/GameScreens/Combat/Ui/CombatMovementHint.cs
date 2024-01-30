@@ -72,7 +72,7 @@ internal class CombatMovementHint : HintBase
                         _currentActorResolveValue.Current)
                 ),
                 
-                new Text(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
+                new RichText(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
                     ControlTextures.Transparent,
                     _descriptionTextFont,
                     _=>Color.Wheat,
