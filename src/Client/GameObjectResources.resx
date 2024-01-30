@@ -695,6 +695,9 @@
     <value>Gelik</value>
     <comment>Hero</comment>
   </data>
+  <data name="Melee" xml:space="preserve">
+    <value>Melee</value>
+  </data>
   <data name="Mines" xml:space="preserve">
     <value>The Mines</value>
     <comment>Location</comment>
@@ -784,6 +787,9 @@
   <data name="Prey_CrisisAftermath" xml:space="preserve">
     <value>Pay attention</value>
     <comment>Crisis Aftermath</comment>
+  </data>
+  <data name="Ranged" xml:space="preserve">
+    <value>Ranged</value>
   </data>
   <data name="RapidShot" xml:space="preserve">
     <value>Rapid shot</value>
