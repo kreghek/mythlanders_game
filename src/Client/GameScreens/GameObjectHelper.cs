@@ -23,16 +23,6 @@ internal static class GameObjectHelper
     {
         return GetLocalizedInner(sid.Value);
     }
-    
-    public static string GetLocalizedMonsterPerk(string sid)
-    {
-        return GetLocalizedInner(sid);
-    }
-
-    public static string GetLocalizedTrait(string sid)
-    {
-        return GetLocalizedInner(sid);
-    }
 
     public static string GetLocalized(CharacterRelation relation)
     {
@@ -94,9 +84,19 @@ internal static class GameObjectHelper
         return GetLocalizedInner($"{equipmentSid}Description");
     }
 
+    public static string GetLocalizedMonsterPerk(string sid)
+    {
+        return GetLocalizedInner(sid);
+    }
+
     public static string GetLocalizedProp(string sid)
     {
         return GetLocalizedInner($"{sid}_prop");
+    }
+
+    public static string GetLocalizedTrait(string sid)
+    {
+        return GetLocalizedInner(sid);
     }
 
     public static string GetLocalizedVoiceCombatMove(string sid)

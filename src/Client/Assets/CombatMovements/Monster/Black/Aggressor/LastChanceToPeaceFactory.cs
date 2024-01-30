@@ -14,6 +14,12 @@ namespace Client.Assets.CombatMovements.Monster.Black.Aggressor;
 
 internal class LastChanceToPeaceFactory : SimpleCombatMovementFactoryBase
 {
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Ranged;
+    }
+
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(
@@ -34,11 +40,5 @@ internal class LastChanceToPeaceFactory : SimpleCombatMovementFactoryBase
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.Attack;
-    }
-    
-    /// <inheritdoc />
-    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
-    {
-        yield return CombatMovementMetadataTraits.Ranged;
     }
 }

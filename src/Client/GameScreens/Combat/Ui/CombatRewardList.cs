@@ -24,7 +24,8 @@ internal class CombatRewardList : ControlBase
 
     public CombatRewardList(
         Texture2D propIconsTexture,
-        IReadOnlyCollection<AnimatedCountableUnitItemStat> rewardItems) : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
+        IReadOnlyCollection<AnimatedCountableUnitItemStat> rewardItems) : base(UiThemeManager.UiContentStorage
+        .GetControlBackgroundTexture())
     {
         _titleFont = UiThemeManager.UiContentStorage.GetTitlesFont();
         _textFont = UiThemeManager.UiContentStorage.GetMainFont();

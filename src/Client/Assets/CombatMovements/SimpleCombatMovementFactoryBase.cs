@@ -25,6 +25,11 @@ internal abstract class SimpleCombatMovementFactoryBase : CombatMovementFactoryB
         };
     }
 
+    protected virtual IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield break;
+    }
+
     protected virtual CombatMovementCost GetCost()
     {
         return new CombatMovementCost(1);
@@ -35,10 +40,5 @@ internal abstract class SimpleCombatMovementFactoryBase : CombatMovementFactoryB
     protected virtual CombatMovementTags GetTags()
     {
         return CombatMovementTags.None;
-    }
-
-    protected virtual IEnumerable<CombatMovementMetadataTrait> CreateTraits()
-    {
-        yield break;
     }
 }
