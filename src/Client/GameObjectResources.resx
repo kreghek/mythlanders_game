@@ -608,7 +608,7 @@
     <comment>Perk</comment>
   </data>
   <data name="Impulse" xml:space="preserve">
-    <value>Impulse</value>
+    <value>Impulse</value><comment>Status</comment>
   </data>
   <data name="ImpulseGenerator" xml:space="preserve">
     <value>Impulse generator</value>
@@ -1061,5 +1061,17 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Zduhach Might</value>
     <comment>Skill</comment>
+  </data>
+  <data name="ExtraXp" xml:space="preserve">
+    <value>Extra HP</value>
+  </data>
+  <data name="ExtraSp" xml:space="preserve">
+    <value>Extra shields</value>
+  </data>
+  <data name="ImprovedMeleeDamage" xml:space="preserve">
+    <value>Improved Melee</value>
+  </data>
+  <data name="ImprovedRangeDamage" xml:space="preserve">
+    <value>Improved Range</value>
   </data>
 </root>
