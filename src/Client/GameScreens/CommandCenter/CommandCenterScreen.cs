@@ -182,6 +182,10 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
         _commandButtons[1] = new ResourceTextButton(nameof(UiResource.ArmoryButtonTitle));
         _commandButtons[2] = new ResourceTextButton(nameof(UiResource.AdjutantButtonTitle));
+        _commandButtons[2].OnClick += (_, _) =>
+        {
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary, null!);
+        };
         _commandButtons[3] = new ResourceTextButton(nameof(UiResource.ChroniclesButtonTitle));
 
         Texture2D LoadCampaignThumbnailImage(string textureName)
