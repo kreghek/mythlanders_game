@@ -19,6 +19,15 @@ public static class MonsterPerkCatalog
                 CombatantStatTypes.HitPoints,
                 1))),
         nameof(ExtraHp));
+    
+    public static MonsterPerk VanguardExtraHp { get; } = new(new CombatStatusFactory(source =>
+            new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(
+                new CombatantStatusSid(nameof(VanguardExtraHp)),
+                new OwnerBoundCombatantEffectLifetime(),
+                source,
+                CombatantStatTypes.HitPoints,
+                1))),
+        nameof(ExtraHp));
 
     public static MonsterPerk ExtraSp { get; } = new(new CombatStatusFactory(source =>
             new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(
