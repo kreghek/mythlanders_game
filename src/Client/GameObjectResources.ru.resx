@@ -1073,4 +1073,16 @@
     <value>Получает &lt;defense&gt; и выполняет 5 выстрелов &lt;damage&gt; по случайным проивникам.</value>
     <comment>Combat Movement ShieldBearer</comment>
   </data>
+  <data name="ExtraXp" xml:space="preserve">
+    <value>Экстра ХП</value>
+  </data>
+  <data name="ExtraSp" xml:space="preserve">
+    <value>Экстра щиты</value>
+  </data>
+  <data name="ImprovedMeleeDamage" xml:space="preserve">
+    <value>Улучшенная рукопашная</value>
+  </data>
+  <data name="ImprovedRangeDamage" xml:space="preserve">
+    <value>Улучшенная стрельба</value>
+  </data>
 </root>

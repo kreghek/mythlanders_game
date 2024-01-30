@@ -23,6 +23,11 @@ internal static class GameObjectHelper
     {
         return GetLocalizedInner(sid.Value);
     }
+    
+    public static string GetLocalizedMonsterPerk(string sid)
+    {
+        return GetLocalizedInner(sid);
+    }
 
     public static string GetLocalized(CharacterRelation relation)
     {
