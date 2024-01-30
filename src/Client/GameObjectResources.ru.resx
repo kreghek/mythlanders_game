@@ -796,9 +796,6 @@
     <value>Уделить внимание</value>
     <comment>Crisis Aftermath</comment>
   </data>
-  <data name="Range" xml:space="preserve">
-    <value>Стрелковый</value>
-  </data>
   <data name="Ranged" xml:space="preserve">
     <value>Стрелковый</value>
   </data>
