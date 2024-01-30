@@ -1,5 +1,7 @@
 ﻿using System;
 
+using CombatDicesTeam.Engine.Ui;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -9,7 +11,7 @@ internal abstract class ButtonBase : ControlBase
 {
     protected UiButtonState _buttonState;
 
-    protected ButtonBase()
+    protected ButtonBase() : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _buttonState = UiButtonState.OutOfButton;
     }

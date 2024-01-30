@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Client.Assets.CombatVisualEffects;
 using Client.Assets.InteractionDeliveryObjects;
@@ -12,6 +13,7 @@ using CombatDicesTeam.GenericRanges;
 
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
 using GameClient.Engine.Animations;
@@ -72,6 +74,7 @@ internal class IronStreamFactory : SimpleCombatMovementFactoryBase
                 projectileFactory, new AnimationFrameInfo(1)));
     }
 
+    /// <inheritdoc />
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(
@@ -84,6 +87,7 @@ internal class IronStreamFactory : SimpleCombatMovementFactoryBase
             });
     }
 
+    /// <inheritdoc />
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.Attack;
@@ -94,5 +98,19 @@ internal class IronStreamFactory : SimpleCombatMovementFactoryBase
     {
         return (start, target) =>
             new GunBulletProjectile(start, target, visualizationContext.GameObjectContentStorage.GetBulletGraphics());
+    }
+    
+    /// <inheritdoc />
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
+    {
+        return new[] { 
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectDisplayValueTemplate.Damage)
+        };
+    }
+    
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Ranged;
     }
 }

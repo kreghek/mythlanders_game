@@ -11,6 +11,7 @@ using Client.GameScreens.TextDialogue.Ui;
 
 using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
+using CombatDicesTeam.Engine.Ui;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -34,7 +35,8 @@ internal sealed class TextParagraphControl : ControlBase
     private bool _envCommandsExecuted;
 
     public TextParagraphControl(DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext> eventTextParagraph,
-        SoundEffect textSoundEffect, IDice dice, CampaignAftermathContext aftermathContext, IStoryState storyState)
+        SoundEffect textSoundEffect, IDice dice, CampaignAftermathContext aftermathContext, IStoryState storyState): 
+        base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _displayNameFont = UiThemeManager.UiContentStorage.GetMainFont();
         _aftermathContext = aftermathContext;

@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Engine;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
 
 using GameClient.Engine.Animations;
 
 namespace Client.Assets.CombatMovements;
+
 
 internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
 {
@@ -68,5 +71,36 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);
+    }
+
+    /// <inheritdoc />
+    public virtual IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return Array.Empty<CombatMovementEffectDisplayValue>();
+    }
+
+    /// <summary>
+    /// Extract damage from DamageEffectInstance
+    /// </summary>
+    protected static int ExtractDamage(CombatMovementInstance combatMovementInstance, int effectIndex)
+    {
+        return ((DamageEffectInstance)combatMovementInstance.Effects.ToArray()[effectIndex]).Damage.Min.ActualMax;
+    }
+
+    /// <summary>
+    /// Extract stat value from ChangeCurrentStatEffectInstance
+    /// </summary>
+    protected static int ExtractStatChangingValue(CombatMovementInstance combatMovementInstance, int effectIndex)
+    {
+        return ((ChangeCurrentStatEffectInstance)combatMovementInstance.Effects.ToArray()[effectIndex]).StatValue.Min.ActualMax;
+    }
+
+    /// <summary>
+    /// Extract damage modifier from ModifyEffectsEffectInstance
+    /// </summary>
+    protected static int ExtractDamageModifier(CombatMovementInstance combatMovementInstance, int effectIndex)
+    {
+        return ((ModifyEffectsEffectInstance)combatMovementInstance.Effects.ToArray()[effectIndex]).BuffPower.ActualMax;
     }
 }

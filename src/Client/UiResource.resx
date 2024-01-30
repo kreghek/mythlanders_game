@@ -229,6 +229,19 @@
   <data name="CombatLevelUpTemplate" xml:space="preserve">
     <value>{0} xp to level up</value>
   </data>
+  <data name="CombatMovementCost_Combat_LabelTemplate" xml:space="preserve">
+    <value>Resolve cost: {0}/{1}</value>
+  </data>
+  <data name="CombatMovementEffectValueType_DamageModifer_Template" xml:space="preserve">
+    <value>damage on {0}</value>
+  </data>
+  <data name="CombatMovementEffectValueType_Damage_Template" xml:space="preserve">
+    <value>{0} damage</value>
+  </data>
+  <data name="CombatMovementEffectValueType_RoundDuration_Template" xml:space="preserve">
+    <value>{0} round(s)</value>
+    <comment>1</comment>
+  </data>
   <data name="CombatProgressTemplate" xml:space="preserve">
     <value>Combat progress: {0}/{1}</value>
   </data>
@@ -418,9 +431,6 @@ Do you really need to spend the priceless current move for nothing?</value>
   <data name="LongCombatSequenceText" xml:space="preserve">
     <value>Long</value>
   </data>
-  <data name="ManaCostLabelTemplate" xml:space="preserve">
-    <value>Psy-energy cost: {0}</value>
-  </data>
   <data name="ManaLabelTemplate" xml:space="preserve">
     <value>Psy-energy: {0}/{1}</value>
   </data>
@@ -527,9 +537,6 @@ Do you really need to spend the priceless current move for nothing?</value>
     <value>target</value>
     <comment>Дательный падеж</comment>
   </data>
-  <data name="SkillManaCostTemplate" xml:space="preserve">
-    <value>Required {0} psy-energy</value>
-  </data>
   <data name="SkipButtonTitle" xml:space="preserve">
     <value>Skip</value>
   </data>
@@ -600,5 +607,17 @@ This hero can no longer act in the current battle.</value>
   </data>
   <data name="_AllChars" xml:space="preserve">
     <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
+  </data>
+  <data name="CombatMovementCost_Info_LabelTemplate" xml:space="preserve">
+    <value>Resolve cost: {0}</value>
+  </data>
+  <data name="CombatMovementEffectValueType_ResolveDamage_Template" xml:space="preserve">
+    <value>{0} resolve damage</value>
+  </data>
+  <data name="CombatMovementEffectValueType_HitPoints_Template" xml:space="preserve">
+    <value>{0} hp</value>
+  </data>
+  <data name="CombatMovementEffectValueType_ShieldPoints_Template" xml:space="preserve">
+    <value>{0} shields</value>
   </data>
 </root>

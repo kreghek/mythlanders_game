@@ -4,6 +4,8 @@ using System.Linq;
 using Client.Core.CampaignEffects;
 using Client.Engine;
 
+using CombatDicesTeam.Engine.Ui;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -22,7 +24,7 @@ internal sealed class RewardPanel : ControlBase
         Texture2D panelHeaderTexture,
         SpriteFont labelFont,
         SpriteFont rewardNameFont,
-        IReadOnlyCollection<ICampaignRewardImageDrawer> rewardImageDrawers)
+        IReadOnlyCollection<ICampaignRewardImageDrawer> rewardImageDrawers) : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _rewards = rewards;
         _panelHeaderTexture = panelHeaderTexture;

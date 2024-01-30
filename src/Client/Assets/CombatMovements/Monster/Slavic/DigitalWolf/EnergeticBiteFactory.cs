@@ -14,6 +14,7 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
 using GameClient.Engine;
@@ -41,7 +42,8 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
                 })
         )
         {
-            Tags = CombatMovementTags.Attack
+            Tags = CombatMovementTags.Attack,
+            Metadata = new CombatMovementMetadata(new[] { CombatMovementMetadataTraits.Melee })
         };
     }
 
@@ -141,5 +143,15 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
                 effectImposeItem.ImposeDelegate(target);
             }
         }
+    }
+
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1),
+                CombatMovementEffectDisplayValueTemplate.Damage)
+        };
     }
 }

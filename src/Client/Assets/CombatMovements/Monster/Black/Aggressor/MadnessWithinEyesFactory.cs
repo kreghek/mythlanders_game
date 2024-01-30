@@ -6,7 +6,7 @@ using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats;
 
-namespace Client.Assets.CombatMovements.Monster.Black.Agressor;
+namespace Client.Assets.CombatMovements.Monster.Black.Aggressor;
 
 internal class MadnessWithinEyesFactory : SimpleCombatMovementFactoryBase
 {

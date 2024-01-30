@@ -280,8 +280,8 @@ internal sealed class GlobeProvider
 
     private void InitStartMonsterPerks(Globe globe)
     {
-        globe.Player.AddMonsterPerk(MonsterPerkCatalog.ExtraHP);
-        globe.Player.AddMonsterPerk(MonsterPerkCatalog.ExtraSP);
+        globe.Player.AddMonsterPerk(MonsterPerkCatalog.ExtraHp);
+        globe.Player.AddMonsterPerk(MonsterPerkCatalog.ExtraSp);
     }
 
     private static void InitStartStoryPoint(Globe globe, IStoryPointInitializer storyPointCatalog)

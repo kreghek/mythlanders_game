@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 using Client.Engine;
 using Client.GameScreens;
 
@@ -8,6 +12,7 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
 using JetBrains.Annotations;
@@ -15,18 +20,30 @@ using JetBrains.Annotations;
 namespace Client.Assets.CombatMovements.Hero.Partisan;
 
 [UsedImplicitly]
-internal class InspirationalBreakthroughFactory : CombatMovementFactoryBase
+internal class InspirationalBreakthroughFactory : SimpleCombatMovementFactoryBase
 {
     /// <inheritdoc />
-    public override CombatMovementIcon CombatMovementIcon => new(1, 6);
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(2);
+    }
 
     /// <inheritdoc />
-    public override CombatMovement CreateMovement()
+    protected override CombatMovementTags GetTags()
     {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(2),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
+        return CombatMovementTags.Attack;
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Melee;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
                 {
                     new DamageEffectWrapper(
                         new ClosestInLineTargetSelector(),
@@ -39,12 +56,11 @@ internal class InspirationalBreakthroughFactory : CombatMovementFactoryBase
                     new ModifyEffectsEffect(
                         new CombatantStatusSid(Sid),
                         new AllOtherRearguardAlliesTargetSelector(), 1)
-                })
-        )
-        {
-            Tags = CombatMovementTags.Attack
-        };
+                });
     }
+
+    /// <inheritdoc />
+    public override CombatMovementIcon CombatMovementIcon => new(1, 6);
 
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
@@ -76,5 +92,14 @@ internal class InspirationalBreakthroughFactory : CombatMovementFactoryBase
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);
+    }
+
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
+    {
+        return new[] {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectDisplayValueTemplate.Damage),
+            new CombatMovementEffectDisplayValue("buff", ExtractDamageModifier(combatMovementInstance, 2), CombatMovementEffectDisplayValueTemplate.DamageModifier),
+            new CombatMovementEffectDisplayValue("duration", 1, CombatMovementEffectDisplayValueTemplate.RoundDuration)
+        };
     }
 }

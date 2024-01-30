@@ -5,12 +5,11 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
-using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
-namespace Client.Assets.CombatMovements.Monster.Black.Agressor;
+namespace Client.Assets.CombatMovements.Monster.Black.Aggressor;
 
-internal class GrimResolveFactory : SimpleCombatMovementFactoryBase
+internal class DanceWithThePastFactory : SimpleCombatMovementFactoryBase
 {
     protected override CombatMovementEffectConfig GetEffects()
     {
@@ -22,13 +21,13 @@ internal class GrimResolveFactory : SimpleCombatMovementFactoryBase
                     new ClosestInLineTargetSelector(),
                     DamageType.Normal,
                     GenericRange<int>.CreateMono(2)),
+                new DamageEffectWrapper(
+                    new ClosestInLineTargetSelector(),
+                    DamageType.Normal,
+                    GenericRange<int>.CreateMono(2)),
                 new PushToPositionEffect(
-                    new ClosestInLineTargetSelector(),
-                    ChangePositionEffectDirection.ToVanguard),
-                new ChangeCurrentStatEffect(
-                    new ClosestInLineTargetSelector(),
-                    CombatantStatTypes.Resolve,
-                    GenericRange<int>.CreateMono(-2))
+                    new SelfTargetSelector(),
+                    ChangePositionEffectDirection.ToVanguard)
             });
     }
 

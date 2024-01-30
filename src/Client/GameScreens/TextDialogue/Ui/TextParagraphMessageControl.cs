@@ -3,6 +3,7 @@ using Client.Engine;
 
 using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
+using CombatDicesTeam.Engine.Ui;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -16,10 +17,11 @@ internal sealed class TextParagraphMessageControl : ControlBase
     private readonly bool _isCharacterSpeech;
 
     private readonly Speech _speech;
-
+    
     public TextParagraphMessageControl(
         DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext> eventTextFragment,
-        SoundEffect textSoundEffect, IDice dice, bool isCharacterSpeech)
+        SoundEffect textSoundEffect, IDice dice, bool isCharacterSpeech):
+        base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _font = UiThemeManager.UiContentStorage.GetTitlesFont();
 

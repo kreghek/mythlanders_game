@@ -1,4 +1,6 @@
-﻿using Client.Engine;
+﻿using System.Collections.Generic;
+
+using Client.Engine;
 using Client.GameScreens;
 
 using CombatDicesTeam.Combats;
@@ -8,6 +10,7 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
 using JetBrains.Annotations;
@@ -15,16 +18,32 @@ using JetBrains.Annotations;
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
 [UsedImplicitly]
-internal class DieBySwordFactory : CombatMovementFactoryBase
+internal class DieBySwordFactory : SimpleCombatMovementFactoryBase
 {
     public override CombatMovementIcon CombatMovementIcon => new(0, 0);
 
-    public override CombatMovement CreateMovement()
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
     {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(2),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
+        return new CombatMovementCost(2);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Melee;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
                 {
                     new PushToPositionEffect(
                         new SelfTargetSelector(),
@@ -34,11 +53,7 @@ internal class DieBySwordFactory : CombatMovementFactoryBase
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
                         GenericRange<int>.CreateMono(2))
-                })
-        )
-        {
-            Tags = CombatMovementTags.Attack
-        };
+                });
     }
 
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
