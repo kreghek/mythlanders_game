@@ -92,9 +92,8 @@ internal class CombatMovementHint : HintBase
         var combatMovementDisplayValues = ExtractCombatMovementValues(combatMovement);
 
         var combatMovementSid = _combatMovement.SourceMovement.Sid;
-        var combatMoveDescription = StringHelper.LineBreaking(
-            RenderDescriptionText(combatMovementDisplayValues, combatMovementSid),
-            60);
+        var combatMoveDescription = 
+            RenderDescriptionText(combatMovementDisplayValues, combatMovementSid);
         return combatMoveDescription;
     }
 
@@ -111,7 +110,7 @@ internal class CombatMovementHint : HintBase
 
     private static string RenderDescriptionText(IReadOnlyList<CombatMovementEffectDisplayValue> values, CombatMovementSid combatMovementSid)
     {
-        var descriptionMarkupText = GameObjectHelper.GetLocalizedDescription(combatMovementSid);
+        var descriptionMarkupText = StringHelper.LineBreaking(GameObjectHelper.GetLocalizedDescription(combatMovementSid), 60);
 
         foreach (var value in values)
         {

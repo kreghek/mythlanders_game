@@ -21,7 +21,7 @@ public static class TextParser
 
             if (Regex.IsMatch(part, pattern))
             {
-                string pattern2 = "<style=(.*?)>(.*?)<\\/style>";
+                string pattern2 = "<style=(.*?)>([\\s\\S]*?)<\\/style>";
                 Match match = Regex.Match(part, pattern2);
                 string styleDescription = match.Groups[1].Value;
 

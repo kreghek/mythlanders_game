@@ -26,7 +26,8 @@ public sealed class RichText : ControlBase
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
-        var nodes = TextParser.ParseText(_textDelegate());
+        var inputText = _textDelegate();
+        var nodes = TextParser.ParseText(inputText);
         var currentPosition = contentRect.Location.ToVector2();
 
         foreach (var node in nodes)
