@@ -7,7 +7,7 @@ public static class TextParser
     public static IReadOnlyList<RichTextCommand> ParseText(string inputText)
     {
         // Parsing of the tags to change text color.
-        string pattern = "(<style=(?:.*?)>(?:.*?)<\\/style>)";
+        string pattern = "(<style=(?:.*?)>(?:[\\s\\S]*?)<\\/style>)";
         string[] splitText = Regex.Split(inputText, pattern);
 
         var list = new List<RichTextCommand>();

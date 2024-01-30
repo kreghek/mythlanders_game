@@ -37,7 +37,7 @@ public sealed class RichText : ControlBase
 
                 if (symbol == '\n')
                 {
-                    currentPosition = new Vector2(0, currentPosition.Y + symbolSize.Y);
+                    currentPosition = new Vector2(contentRect.Left, currentPosition.Y + symbolSize.Y / 2);
                 }
                 else
                 {
@@ -48,7 +48,7 @@ public sealed class RichText : ControlBase
                         currentColor = Color.Lerp(currentColor, Color.Red, 0.75f);
                     }
 
-                    spriteBatch.DrawString(_font, symbol.ToString(), contentRect.Location.ToVector2(),
+                    spriteBatch.DrawString(_font, symbol.ToString(), currentPosition,
                         currentColor);
                     currentPosition += new Vector2(symbolSize.X, 0);
                 }
@@ -63,9 +63,9 @@ public sealed class RichText : ControlBase
         // No background
     }
 
-    private string GetPlantText(string text)
+    private static string GetPlantText(string text)
     {
-        return string.Join(' ', TextParser.ParseText(text).Select(x => x.Value));
+        return string.Join("", TextParser.ParseText(text).Select(x => x.Value));
     }
 }
 
