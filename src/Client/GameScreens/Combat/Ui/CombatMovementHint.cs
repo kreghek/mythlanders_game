@@ -115,7 +115,9 @@ internal class CombatMovementHint : HintBase
 
         foreach (var value in values)
         {
-            descriptionMarkupText = descriptionMarkupText.Replace($"<{value.Tag}>", GetValueText(value));
+            var valueText = GetValueText(value);
+            var styledValueText = $"<style=color1>{valueText}</style>";
+            descriptionMarkupText = descriptionMarkupText.Replace($"<{value.Tag}>", styledValueText);
         }
 
         return descriptionMarkupText;
