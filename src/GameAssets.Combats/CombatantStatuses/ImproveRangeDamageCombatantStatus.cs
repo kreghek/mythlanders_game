@@ -48,7 +48,7 @@ public sealed class ImproveRangeDamageCombatantStatus : CombatantStatusBase
         {
             foreach (var combatMovementInstance in combatMovementContainer.GetItems())
             {
-                if (combatMovementInstance is not null && IsCombatMovementHasTrait(combatMovementInstance.SourceMovement, CombatMovementMetadataTraits.Range))
+                if (combatMovementInstance is not null && IsCombatMovementHasTrait(combatMovementInstance.SourceMovement, CombatMovementMetadataTraits.Ranged))
                 {
                     foreach (var effectInstance in combatMovementInstance.Effects)
                     {
