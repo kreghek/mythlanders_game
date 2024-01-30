@@ -111,6 +111,6 @@ internal class IronStreamFactory : SimpleCombatMovementFactoryBase
     /// <inheritdoc />
     protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
     {
-        yield return CombatMovementMetadataTraits.Range;
+        yield return CombatMovementMetadataTraits.Ranged;
     }
 }

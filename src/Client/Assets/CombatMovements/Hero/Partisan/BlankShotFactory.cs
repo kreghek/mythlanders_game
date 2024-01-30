@@ -64,7 +64,7 @@ internal class BlankShotFactory : CombatMovementFactoryBase
         )
         {
             Tags = CombatMovementTags.Attack,
-            Metadata = new CombatMovementMetadata(new[] { CombatMovementMetadataTraits.Range })
+            Metadata = new CombatMovementMetadata(new[] { CombatMovementMetadataTraits.Ranged })
         };
     }
 
