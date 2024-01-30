@@ -1395,6 +1395,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Melee.
+        /// </summary>
+        internal static string Melee {
+            get {
+                return ResourceManager.GetString("Melee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Mines.
         /// </summary>
         internal static string Mines {
@@ -1598,6 +1607,15 @@ namespace Client {
         internal static string Preying_Crisis {
             get {
                 return ResourceManager.GetString("Preying_Crisis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ranged.
+        /// </summary>
+        internal static string Ranged {
+            get {
+                return ResourceManager.GetString("Ranged", resourceCulture);
             }
         }
         
