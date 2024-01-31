@@ -1,4 +1,6 @@
-﻿using CombatDicesTeam.Combats;
+﻿using System.Collections.Generic;
+
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.GenericRanges;
 
@@ -8,10 +10,16 @@ using Core.Combats.TargetSelectors;
 using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
-namespace Client.Assets.CombatMovements.Monster.Black.Agressor;
+namespace Client.Assets.CombatMovements.Monster.Black.Aggressor;
 
 internal class GrimResolveFactory : SimpleCombatMovementFactoryBase
 {
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Ranged;
+    }
+
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(

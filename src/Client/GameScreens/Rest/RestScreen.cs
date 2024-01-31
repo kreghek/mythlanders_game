@@ -8,6 +8,8 @@ using Client.GameScreens.Campaign;
 using Client.GameScreens.Rest.Ui;
 using Client.ScreenManagement;
 
+using CombatDicesTeam.Engine.Ui;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

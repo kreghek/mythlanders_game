@@ -6,6 +6,7 @@ using Client.Assets.CombatMovements;
 using Client.Engine;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Engine.Ui;
 
 using GameAssets.Combats;
 
@@ -45,7 +46,8 @@ internal class CombatMovementsHandPanel : ControlBase
     public CombatMovementsHandPanel(
         Texture2D verticalButtonIcons,
         IUiContentStorage uiContentStorage,
-        ICombatMovementVisualizationProvider combatMovementVisualizer)
+        ICombatMovementVisualizationProvider combatMovementVisualizer) : base(UiThemeManager.UiContentStorage
+        .GetControlBackgroundTexture())
     {
         _buttons = new CombatMovementButton[3];
 
@@ -70,9 +72,19 @@ internal class CombatMovementsHandPanel : ControlBase
                 return;
             }
 
-            _activeCombatMovementHint = new CombatMovementHint(e.Entity);
+            if (_combatant is null)
+            {
+                // Control is not ready to work.
+                return;
+            }
+
+            var currentActorResolveValue =
+                _combatant.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.Resolve)).Value;
+            _activeCombatMovementHint =
+                new CombatMovementHint(e.Entity, currentActorResolveValue, _combatMovementVisualizer);
             CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(e.Entity));
         };
+
         _hoverController.Leave += (_, e) =>
         {
             _activeCombatMovementHint = null;

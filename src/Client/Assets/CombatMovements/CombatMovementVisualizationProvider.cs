@@ -64,6 +64,7 @@ internal sealed class CombatMovementVisualizationProvider : ICombatMovementVisua
         return factories.OfType<TFactory>().ToArray();
     }
 
+    /// <inheritdoc />
     public CombatMovementIcon GetMoveIcon(CombatMovementSid sid)
     {
         if (!_movementVisualizationDict.TryGetValue(sid, out var factory))
@@ -74,6 +75,19 @@ internal sealed class CombatMovementVisualizationProvider : ICombatMovementVisua
         return factory.CombatMovementIcon;
     }
 
+    /// <inheritdoc />
+    public IReadOnlyList<CombatMovementEffectDisplayValue> ExtractCombatMovementValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        if (!_movementVisualizationDict.TryGetValue(combatMovementInstance.SourceMovement.Sid, out var factory))
+        {
+            return Array.Empty<CombatMovementEffectDisplayValue>();
+        }
+
+        return factory.ExtractEffectsValues(combatMovementInstance);
+    }
+
+    /// <inheritdoc />
     public CombatMovementScene GetMovementVisualizationState(CombatMovementSid sid, IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {

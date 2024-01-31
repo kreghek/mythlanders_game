@@ -219,7 +219,8 @@ internal class GameObjectContentStorage
             { GameObjectSoundType.Gunshot, LoadSkillEffect("Gunshot") },
             { GameObjectSoundType.AssaultRifleBurst, LoadSkillEffect("AssaultRifleBurst") },
             { GameObjectSoundType.CyberRifleShot, LoadSkillEffect("CyberRifleShot") },
-            { GameObjectSoundType.AmazonWarCry, LoadSkillEffect("AmazonWarCry") }
+            { GameObjectSoundType.AmazonWarCry, LoadSkillEffect("AmazonWarCry") },
+            { GameObjectSoundType.ImpulseArrowBlasts, LoadSkillEffect("RainingArrowBlasts") }
         };
 
         _deathSoundDict = new Dictionary<UnitName, SoundEffect>

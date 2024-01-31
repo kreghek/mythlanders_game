@@ -1,4 +1,4 @@
-﻿using Client.Assets.CombatMovements.Monster.Black.Agressor;
+﻿using Client.Assets.CombatMovements.Monster.Black.Aggressor;
 
 using CombatDicesTeam.Combats;
 

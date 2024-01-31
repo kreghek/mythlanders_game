@@ -1,4 +1,6 @@
-﻿namespace Client.Core.CampaignEffects;
+﻿using Client.GameScreens;
+
+namespace Client.Core.CampaignEffects;
 
 internal sealed class MonsterPerkCampaignEffect : ICampaignEffect
 {
@@ -16,6 +18,6 @@ internal sealed class MonsterPerkCampaignEffect : ICampaignEffect
 
     public string GetEffectDisplayText()
     {
-        return _perk.Sid;
+        return GameObjectHelper.GetLocalizedMonsterPerk(_perk.Sid);
     }
 }
