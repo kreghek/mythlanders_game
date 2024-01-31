@@ -30,7 +30,7 @@ internal class VelesProtectionFactory : CombatMovementFactoryBase
                 })
         );
     }
-    
+
     public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {

@@ -94,17 +94,20 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
                 projectileFactory, new AnimationFrameInfo(1)));
     }
 
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0),
+                CombatMovementEffectDisplayValueTemplate.Damage)
+        };
+    }
+
     private static Func<Vector2, Vector2, IInteractionDelivery> GetCreateProjectileFunc(
         ICombatMovementVisualizationContext visualizationContext)
     {
         return (start, target) =>
             new EnergyArrowProjectile(start, target, visualizationContext.GameObjectContentStorage.GetBulletGraphics());
-    }
-
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
-    {
-        return new[] {
-            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectDisplayValueTemplate.Damage)
-        };
     }
 }

@@ -15,6 +15,12 @@ namespace Client.Assets.CombatMovements.Monster.Black.Aggressor;
 internal class FatalBlowFactory : SimpleCombatMovementFactoryBase
 {
     /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Ranged;
+    }
+
+    /// <inheritdoc />
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(
@@ -33,12 +39,6 @@ internal class FatalBlowFactory : SimpleCombatMovementFactoryBase
                     CombatantStatTypes.Resolve,
                     GenericRange<int>.CreateMono(-2))
             });
-    }
-    
-    /// <inheritdoc />
-    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
-    {
-        yield return CombatMovementMetadataTraits.Ranged;
     }
 
     /// <inheritdoc />

@@ -50,6 +50,23 @@ internal class OminousThornFactory : SimpleCombatMovementFactoryBase
     }
 
     /// <inheritdoc />
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0),
+                CombatMovementEffectDisplayValueTemplate.Damage)
+        };
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Melee;
+    }
+
+    /// <inheritdoc />
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(
@@ -66,19 +83,5 @@ internal class OminousThornFactory : SimpleCombatMovementFactoryBase
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.Attack;
-    }
-
-    /// <inheritdoc />
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
-    {
-        return new[] { 
-            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectDisplayValueTemplate.Damage)
-        };
-    }
-
-    /// <inheritdoc />
-    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
-    {
-        yield return CombatMovementMetadataTraits.Melee;
     }
 }
