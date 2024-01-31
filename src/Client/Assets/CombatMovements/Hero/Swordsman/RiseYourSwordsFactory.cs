@@ -2,10 +2,13 @@
 using Client.GameScreens;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Combats.Effects;
 
 using Core.Combats.TargetSelectors;
+
+using GameAssets.Combats.CombatantStatuses;
 
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
@@ -22,10 +25,13 @@ internal class RiseYourSwordsFactory : CombatMovementFactoryBase
                 {
                     new AddCombatantStatusEffect(
                         new AllAllyTargetSelector(),
-                        new ModifyEffectsCombatantStatusFactory(
-                            new CombatantStatusSid(Sid),
-                            new MultipleCombatantTurnEffectLifetimeFactory(1),
-                            1))
+                        new CombatStatusFactory(source =>
+                        {
+                            return new ImproveMeleeDamageCombatantStatus(new CombatantStatusSid(Sid),
+                                new MultipleCombatantTurnEffectLifetime(1),
+                                source,
+                                1);
+                        }))
                 })
         );
     }

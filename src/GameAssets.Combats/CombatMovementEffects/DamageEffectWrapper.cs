@@ -15,6 +15,8 @@ public class DamageEffectWrapper : IEffect
                 CombatantStatTypes.Defense));
     }
 
+    public GenericRange<int> Damage => _innerDamageEffect.Damage;
+
     public IReadOnlyCollection<IEffectCondition> ImposeConditions => _innerDamageEffect.ImposeConditions;
 
     public ITargetSelector Selector => _innerDamageEffect.Selector;

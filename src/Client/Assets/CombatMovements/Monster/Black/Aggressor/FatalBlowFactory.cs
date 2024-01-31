@@ -1,16 +1,26 @@
-﻿using CombatDicesTeam.Combats;
+﻿using System.Collections.Generic;
+
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.GenericRanges;
 
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
-namespace Client.Assets.CombatMovements.Monster.Black.Agressor;
+namespace Client.Assets.CombatMovements.Monster.Black.Aggressor;
 
-internal class DanceWithThePastFactory : SimpleCombatMovementFactoryBase
+internal class FatalBlowFactory : SimpleCombatMovementFactoryBase
 {
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Ranged;
+    }
+
+    /// <inheritdoc />
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(
@@ -21,16 +31,17 @@ internal class DanceWithThePastFactory : SimpleCombatMovementFactoryBase
                     new ClosestInLineTargetSelector(),
                     DamageType.Normal,
                     GenericRange<int>.CreateMono(2)),
-                new DamageEffectWrapper(
-                    new ClosestInLineTargetSelector(),
-                    DamageType.Normal,
-                    GenericRange<int>.CreateMono(2)),
                 new PushToPositionEffect(
-                    new SelfTargetSelector(),
-                    ChangePositionEffectDirection.ToVanguard)
+                    new ClosestInLineTargetSelector(),
+                    ChangePositionEffectDirection.ToVanguard),
+                new ChangeCurrentStatEffect(
+                    new ClosestInLineTargetSelector(),
+                    CombatantStatTypes.Resolve,
+                    GenericRange<int>.CreateMono(-2))
             });
     }
 
+    /// <inheritdoc />
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.Attack;

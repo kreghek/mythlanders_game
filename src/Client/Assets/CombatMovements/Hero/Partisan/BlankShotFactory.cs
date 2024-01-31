@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Client.Assets.CombatVisualEffects;
 using Client.Assets.InteractionDeliveryObjects;
@@ -13,6 +14,7 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
 using GameClient.Engine.Animations;
@@ -51,7 +53,8 @@ internal class BlankShotFactory : CombatMovementFactoryBase
                 })
         )
         {
-            Tags = CombatMovementTags.Attack
+            Tags = CombatMovementTags.Attack,
+            Metadata = new CombatMovementMetadata(new[] { CombatMovementMetadataTraits.Ranged })
         };
     }
 
@@ -99,6 +102,19 @@ internal class BlankShotFactory : CombatMovementFactoryBase
             visualizationContext,
             new SingleDistanceVisualizationConfig(prepareAnimation, additionalVisualEffectShotAnimation, waitAnimation,
                 projectileFactory, new AnimationFrameInfo(1)));
+    }
+
+    /// <inheritdoc />
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1),
+                CombatMovementEffectDisplayValueTemplate.Damage),
+            new CombatMovementEffectDisplayValue("bonus_damage", 1,
+                CombatMovementEffectDisplayValueTemplate.DamageModifier)
+        };
     }
 
     private static Func<Vector2, Vector2, IInteractionDelivery> GetCreateProjectileFunc(

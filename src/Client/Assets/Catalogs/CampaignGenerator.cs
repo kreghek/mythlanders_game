@@ -4,7 +4,6 @@ using System.Linq;
 
 using Client.Assets.Catalogs.CampaignGeneration;
 using Client.Assets.GlobalEffects;
-using Client.Assets.MonsterPerks;
 using Client.Core;
 using Client.Core.CampaignEffects;
 using Client.Core.Campaigns;
@@ -38,18 +37,22 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         nameof(UnitName.Zoologist)
     };
 
+    private readonly IMonsterPerkManager _monsterPerkManager;
+
     private readonly CampaignWayTemplatesCatalog _wayTemplatesCatalog;
 
     public CampaignGenerator(CampaignWayTemplatesCatalog wayTemplatesCatalog,
         IDice dice,
         IDropResolver dropResolver,
         ICharacterCatalog unitSchemeCatalog,
+        IMonsterPerkManager monsterPerkManager,
         GlobeProvider globeProvider)
     {
         _wayTemplatesCatalog = wayTemplatesCatalog;
         _dice = dice;
         _dropResolver = dropResolver;
         _characterCatalog = unitSchemeCatalog;
+        _monsterPerkManager = monsterPerkManager;
         _globeProvider = globeProvider;
     }
 
@@ -145,9 +148,9 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var rewards = rolledEffectFactory(locationSid);
 
-        var perk = new MonsterPerkCampaignEffect(RollMonsterPerk());
+        var perksToUnlock = _monsterPerkManager.RollLocationPerks().Select(x => new MonsterPerkCampaignEffect(x));
 
-        return rewards.Union(new[] { perk }).ToArray();
+        return rewards.Union(perksToUnlock).ToArray();
     }
 
     private IReadOnlyCollection<ICampaignEffect> CreateUnlockHeroEffect(ILocationSid locationSid)
@@ -194,19 +197,6 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                 return rolledEffectFactory.Item1;
             }
         }
-    }
-
-    private MonsterPerk RollMonsterPerk()
-    {
-        var availablePerkBuffs = new[]
-        {
-            MonsterPerkCatalog.ExtraHP,
-            MonsterPerkCatalog.ExtraSP
-        };
-
-        var monsterPerk = _dice.RollFromList(availablePerkBuffs);
-
-        return monsterPerk;
     }
 
     private MonsterPerk RollMonsterPerkFromPool()

@@ -1,6 +1,8 @@
 ﻿using Client.Core;
 using Client.Engine;
 
+using CombatDicesTeam.Engine.Ui;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,7 +12,8 @@ internal sealed class PlaceholderCampaignPanel : ControlBase, ICampaignPanel
 {
     private readonly Texture2D _placeholderTexture;
 
-    public PlaceholderCampaignPanel(Texture2D placeholderTexture)
+    public PlaceholderCampaignPanel(Texture2D placeholderTexture) : base(UiThemeManager.UiContentStorage
+        .GetControlBackgroundTexture())
     {
         _placeholderTexture = placeholderTexture;
     }

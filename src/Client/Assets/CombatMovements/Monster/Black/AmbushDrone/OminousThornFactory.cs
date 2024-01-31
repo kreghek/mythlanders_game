@@ -1,4 +1,6 @@
-﻿using Client.Engine;
+﻿using System.Collections.Generic;
+
+using Client.Engine;
 using Client.GameScreens;
 
 using CombatDicesTeam.Combats;
@@ -7,12 +9,14 @@ using CombatDicesTeam.GenericRanges;
 
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
-namespace Client.Assets.CombatMovements.Monster.Black.Agressor;
+namespace Client.Assets.CombatMovements.Monster.Black.AmbushDrone;
 
 internal class OminousThornFactory : SimpleCombatMovementFactoryBase
 {
+    /// <inheritdoc />
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
@@ -45,6 +49,24 @@ internal class OminousThornFactory : SimpleCombatMovementFactoryBase
             visualizationContext, config);
     }
 
+    /// <inheritdoc />
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0),
+                CombatMovementEffectDisplayValueTemplate.Damage)
+        };
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Melee;
+    }
+
+    /// <inheritdoc />
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(
@@ -57,6 +79,7 @@ internal class OminousThornFactory : SimpleCombatMovementFactoryBase
             });
     }
 
+    /// <inheritdoc />
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.Attack;
