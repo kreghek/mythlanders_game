@@ -19,25 +19,21 @@ namespace Client.GameScreens.Combat.Ui;
 internal class CombatMovementHint : HintBase
 {
     private readonly CombatMovementInstance _combatMovement;
-    private readonly IStatValue _currentActorResolveValue;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizationProvider;
-    private readonly SpriteFont _descriptionTextFont;
-    private readonly SpriteFont _nameTextFont;
 
     private readonly VerticalStackPanel _content;
+    private readonly IStatValue _currentActorResolveValue;
 
-    public CombatMovementHint(CombatMovementInstance combatMovement, IStatValue currentActorResolveValue, ICombatMovementVisualizationProvider combatMovementVisualizationProvider)
+    public CombatMovementHint(CombatMovementInstance combatMovement, IStatValue currentActorResolveValue,
+        ICombatMovementVisualizationProvider combatMovementVisualizationProvider)
     {
         _combatMovement = combatMovement;
-        
-        _nameTextFont = UiThemeManager.UiContentStorage.GetTitlesFont();
-        _descriptionTextFont = UiThemeManager.UiContentStorage.GetMainFont();
+
+        var nameTextFont = UiThemeManager.UiContentStorage.GetTitlesFont();
+        var descriptionTextFont = UiThemeManager.UiContentStorage.GetMainFont();
         var costTextFont = UiThemeManager.UiContentStorage.GetTitlesFont();
         _currentActorResolveValue = currentActorResolveValue;
         _combatMovementVisualizationProvider = combatMovementVisualizationProvider;
-        var combatMoveTitle = GameObjectHelper.GetLocalized(_combatMovement.SourceMovement.Sid);
-
-        var combatMoveDescription = CalcCombatMoveDescription(combatMovement);
 
         var combatMovementTraitTexts = Array.Empty<Text>();
         if (_combatMovement.SourceMovement.Metadata is not null)
@@ -47,38 +43,39 @@ internal class CombatMovementHint : HintBase
                 .Select(x => new Text(
                     UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
                     ControlTextures.Panel,
-                    _descriptionTextFont,
+                    descriptionTextFont,
                     _ => Color.White,
-                    () => x.Sid)).ToArray();
+                    () => GameObjectHelper.GetLocalizedTrait(x.Sid))).ToArray();
         }
 
-        _content = new VerticalStackPanel(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(), ControlTextures.Transparent,
+        _content = new VerticalStackPanel(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
+            ControlTextures.Transparent,
             new ControlBase[]
             {
                 new Text(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
                     ControlTextures.Transparent,
-                    _nameTextFont,
-                    _=>Color.White,
-                    ()=> GameObjectHelper.GetLocalized(_combatMovement.SourceMovement.Sid)
-                    ),
-                
+                    nameTextFont,
+                    _ => Color.White,
+                    () => GameObjectHelper.GetLocalized(_combatMovement.SourceMovement.Sid)
+                ),
+
                 new Text(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
                     ControlTextures.Transparent,
                     costTextFont,
                     CalcCostColor,
-                    ()=> string.Format(
+                    () => string.Format(
                         UiResource.CombatMovementCost_Combat_LabelTemplate,
                         _combatMovement.Cost.Amount.Current,
                         _currentActorResolveValue.Current)
                 ),
-                
-                new Text(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
+
+                new RichText(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
                     ControlTextures.Transparent,
-                    _descriptionTextFont,
-                    _=>Color.Wheat,
-                    ()=> CalcCombatMoveDescription(_combatMovement)
+                    descriptionTextFont,
+                    _ => Color.Wheat,
+                    () => CalcCombatMoveDescription(_combatMovement)
                 ),
-                
+
                 new HorizontalStackPanel(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
                     ControlTextures.Transparent,
                     combatMovementTraitTexts)
@@ -87,14 +84,26 @@ internal class CombatMovementHint : HintBase
         ContentSize = _content.Size.ToVector2() + new Vector2(CONTENT_MARGIN * 2);
     }
 
+    public Vector2 ContentSize { get; }
+
+    protected override Point CalcTextureOffset()
+    {
+        return Point.Zero;
+    }
+
+    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
+    {
+        _content.Rect = clientRect;
+        _content.Draw(spriteBatch);
+    }
+
     private string CalcCombatMoveDescription(CombatMovementInstance combatMovement)
     {
         var combatMovementDisplayValues = ExtractCombatMovementValues(combatMovement);
 
         var combatMovementSid = _combatMovement.SourceMovement.Sid;
-        var combatMoveDescription = StringHelper.LineBreaking(
-            RenderDescriptionText(combatMovementDisplayValues, combatMovementSid),
-            60);
+        var combatMoveDescription =
+            RenderDescriptionText(combatMovementDisplayValues, combatMovementSid);
         return combatMoveDescription;
     }
 
@@ -109,22 +118,10 @@ internal class CombatMovementHint : HintBase
         return resolveColor;
     }
 
-    private static string RenderDescriptionText(IReadOnlyList<CombatMovementEffectDisplayValue> values, CombatMovementSid combatMovementSid)
+    private IReadOnlyList<CombatMovementEffectDisplayValue> ExtractCombatMovementValues(
+        CombatMovementInstance combatMovement)
     {
-        var descriptionMarkupText = GameObjectHelper.GetLocalizedDescription(combatMovementSid);
-
-        foreach (var value in values)
-        {
-            descriptionMarkupText = descriptionMarkupText.Replace($"<{value.Tag}>", GetValueText(value));
-        }
-
-        return descriptionMarkupText;
-    }
-
-    private static string GetValueText(CombatMovementEffectDisplayValue value)
-    {
-        var template = GetValueTemplate(value.Template);
-        return string.Format(template, value.Value);
+        return _combatMovementVisualizationProvider.ExtractCombatMovementValues(combatMovement);
     }
 
     private static string GetValueTemplate(CombatMovementEffectDisplayValueTemplate valueType)
@@ -143,25 +140,29 @@ internal class CombatMovementHint : HintBase
                 UiResource.CombatMovementEffectValueType_HitPoints_Template,
             CombatMovementEffectDisplayValueTemplate.ShieldPoints =>
                 UiResource.CombatMovementEffectValueType_ShieldPoints_Template,
-            _ => "<{0}> units",
+            _ => "<{0}> units"
         };
     }
 
-    private IReadOnlyList<CombatMovementEffectDisplayValue> ExtractCombatMovementValues(CombatMovementInstance combatMovement)
+    private static string GetValueText(CombatMovementEffectDisplayValue value)
     {
-        return _combatMovementVisualizationProvider.ExtractCombatMovementValues(combatMovement);
+        var template = GetValueTemplate(value.Template);
+        return string.Format(template, value.Value);
     }
 
-    public Vector2 ContentSize { get; }
-
-    protected override Point CalcTextureOffset()
+    private static string RenderDescriptionText(IReadOnlyList<CombatMovementEffectDisplayValue> values,
+        CombatMovementSid combatMovementSid)
     {
-        return Point.Zero;
-    }
+        var descriptionMarkupText =
+            StringHelper.LineBreaking(GameObjectHelper.GetLocalizedDescription(combatMovementSid), 60);
 
-    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
-    {
-        _content.Rect = clientRect;
-        _content.Draw(spriteBatch);
+        foreach (var value in values)
+        {
+            var valueText = GetValueText(value);
+            var styledValueText = $"<style=color1>{valueText}</style>";
+            descriptionMarkupText = descriptionMarkupText.Replace($"<{value.Tag}>", styledValueText);
+        }
+
+        return descriptionMarkupText;
     }
 }

@@ -12,6 +12,18 @@ namespace Client.Assets.CombatMovements.Monster.Slavic.Aspid;
 
 internal class EbonySkinFactory : SimpleCombatMovementFactoryBase
 {
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("defense", ExtractStatChangingValue(combatMovementInstance, 0),
+                CombatMovementEffectDisplayValueTemplate.ShieldPoints),
+            new CombatMovementEffectDisplayValue("defense_auto", ExtractStatChangingValue(combatMovementInstance, 1),
+                CombatMovementEffectDisplayValueTemplate.ShieldPoints)
+        };
+    }
+
     protected override CombatMovementEffectConfig GetEffects()
     {
         return new CombatMovementEffectConfig(
@@ -38,17 +50,5 @@ internal class EbonySkinFactory : SimpleCombatMovementFactoryBase
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.AutoDefense;
-    }
-    
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
-        CombatMovementInstance combatMovementInstance)
-    {
-        return new[]
-        {
-            new CombatMovementEffectDisplayValue("defense", ExtractStatChangingValue(combatMovementInstance, 0),
-                CombatMovementEffectDisplayValueTemplate.ShieldPoints),
-            new CombatMovementEffectDisplayValue("defense_auto", ExtractStatChangingValue(combatMovementInstance, 1),
-                CombatMovementEffectDisplayValueTemplate.ShieldPoints)
-        };
     }
 }

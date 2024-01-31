@@ -16,11 +16,6 @@ public sealed class MonsterPerkManager : IMonsterPerkManager
         _dice = dice;
     }
 
-    public IReadOnlyCollection<MonsterPerk> RollLocationPerks()
-    {
-        return new[] { RollMonsterPerk() };
-    }
-    
     private MonsterPerk RollMonsterPerk()
     {
         var availablePerkBuffs = new[]
@@ -35,5 +30,10 @@ public sealed class MonsterPerkManager : IMonsterPerkManager
         var monsterPerk = _dice.RollFromList(availablePerkBuffs);
 
         return monsterPerk;
+    }
+
+    public IReadOnlyCollection<MonsterPerk> RollLocationPerks()
+    {
+        return new[] { RollMonsterPerk() };
     }
 }

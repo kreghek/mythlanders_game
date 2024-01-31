@@ -233,6 +233,10 @@
     <value>Blind defense</value>
     <comment>Combat Movement ShieldBearer</comment>
   </data>
+  <data name="BlindDefense_Description" xml:space="preserve">
+    <value>Gain &lt;defense&gt; and fire 5 &lt;damage&gt; shots at random enemies.</value>
+    <comment>Combat Movement ShieldBearer</comment>
+  </data>
   <data name="BoldMarauder" xml:space="preserve">
     <value>Marauder</value>
   </data>
@@ -604,7 +608,7 @@
     <comment>Perk</comment>
   </data>
   <data name="Impulse" xml:space="preserve">
-    <value>Impulse</value>
+    <value>Impulse</value><comment>Status</comment>
   </data>
   <data name="ImpulseGenerator" xml:space="preserve">
     <value>Impulse generator</value>
@@ -690,6 +694,9 @@
   <data name="Medjay" xml:space="preserve">
     <value>Gelik</value>
     <comment>Hero</comment>
+  </data>
+  <data name="Melee" xml:space="preserve">
+    <value>Melee</value>
   </data>
   <data name="Mines" xml:space="preserve">
     <value>The Mines</value>
@@ -780,6 +787,9 @@
   <data name="Prey_CrisisAftermath" xml:space="preserve">
     <value>Pay attention</value>
     <comment>Crisis Aftermath</comment>
+  </data>
+  <data name="Ranged" xml:space="preserve">
+    <value>Ranged</value>
   </data>
   <data name="RapidShot" xml:space="preserve">
     <value>Rapid shot</value>
@@ -1052,8 +1062,16 @@
     <value>Zduhach Might</value>
     <comment>Skill</comment>
   </data>
-  <data name="BlindDefense_Description" xml:space="preserve">
-    <value>Gain &lt;defense&gt; and fire 5 &lt;damage&gt; shots at random enemies.</value>
-    <comment>Combat Movement ShieldBearer</comment>
+  <data name="ExtraXp" xml:space="preserve">
+    <value>Extra HP</value>
+  </data>
+  <data name="ExtraSp" xml:space="preserve">
+    <value>Extra shields</value>
+  </data>
+  <data name="ImprovedMeleeDamage" xml:space="preserve">
+    <value>Improved Melee</value>
+  </data>
+  <data name="ImprovedRangeDamage" xml:space="preserve">
+    <value>Improved Range</value>
   </data>
 </root>
