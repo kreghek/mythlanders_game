@@ -1,4 +1,6 @@
-﻿using CombatDicesTeam.Combats;
+﻿using System.Collections.Generic;
+
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.Effects;
 
@@ -27,5 +29,15 @@ internal class VelesProtectionFactory : CombatMovementFactoryBase
                     new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
                 })
         );
+    }
+
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("sp", ExtractStatChangingValue(combatMovementInstance, 1),
+                CombatMovementEffectDisplayValueTemplate.ShieldPoints)
+        };
     }
 }

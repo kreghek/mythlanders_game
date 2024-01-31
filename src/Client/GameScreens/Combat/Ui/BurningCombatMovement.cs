@@ -1,5 +1,7 @@
 ﻿using Client.Engine;
 
+using CombatDicesTeam.Engine.Ui;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,7 +12,8 @@ internal sealed class BurningCombatMovement : ControlBase
     private readonly IconData _iconData;
     private double _lifetime = 1;
 
-    public BurningCombatMovement(IconData iconData, int handSlotIndex)
+    public BurningCombatMovement(IconData iconData, int handSlotIndex) : base(UiThemeManager.UiContentStorage
+        .GetControlBackgroundTexture())
     {
         _iconData = iconData;
         HandSlotIndex = handSlotIndex;

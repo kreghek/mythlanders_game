@@ -4,6 +4,8 @@ using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 
+using CombatDicesTeam.Engine.Ui;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -15,7 +17,8 @@ internal sealed class CampaignPanel : ControlBase, ICampaignPanel
     private readonly CampaignLaunchHeroes _campaignHeroes;
     private readonly CampaignButton _selectButton;
 
-    public CampaignPanel(HeroCampaignLaunch campaignLaunch, Texture2D campaignTexture)
+    public CampaignPanel(HeroCampaignLaunch campaignLaunch, Texture2D campaignTexture) : base(
+        UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _selectButton = new CampaignButton(campaignTexture, campaignLaunch.Location.Sid);
         _selectButton.OnClick += (_, _) => { Selected?.Invoke(this, EventArgs.Empty); };

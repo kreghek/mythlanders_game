@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 
 using Client.Assets.CombatVisualEffects;
 using Client.Assets.InteractionDeliveryObjects;
@@ -14,6 +14,7 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
 using GameClient.Engine.Animations;
@@ -52,7 +53,8 @@ internal class EnergeticSuperiorityFactory : CombatMovementFactoryBase
                 })
         )
         {
-            Tags = CombatMovementTags.Attack
+            Tags = CombatMovementTags.Attack,
+            Metadata = new CombatMovementMetadata(new[] { CombatMovementMetadataTraits.Ranged })
         };
     }
 
@@ -102,25 +104,21 @@ internal class EnergeticSuperiorityFactory : CombatMovementFactoryBase
                 projectileFactory, new AnimationFrameInfo(1)));
     }
 
+    /// <inheritdoc />
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1),
+                CombatMovementEffectDisplayValueTemplate.Damage)
+        };
+    }
+
     private static Func<Vector2, Vector2, IInteractionDelivery> GetCreateProjectileFunc(
         ICombatMovementVisualizationContext visualizationContext)
     {
         return (start, target) =>
             new GunBulletProjectile(start, target, visualizationContext.GameObjectContentStorage.GetBulletGraphics());
-    }
-
-    private static ICombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
-        ICombatant actorCombatant)
-    {
-        var firstImposeItem =
-            movementExecution.EffectImposeItems.FirstOrDefault(x =>
-                x.MaterializedTargets.All(t => t != actorCombatant));
-        if (firstImposeItem is null)
-        {
-            return null;
-        }
-
-        var targetCombatUnit = firstImposeItem.MaterializedTargets.FirstOrDefault(t => t != actorCombatant);
-        return targetCombatUnit;
     }
 }

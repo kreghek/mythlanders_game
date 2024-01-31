@@ -1,4 +1,6 @@
-﻿using Client.Engine;
+﻿using System.Collections.Generic;
+
+using Client.Engine;
 using Client.GameScreens;
 
 using CombatDicesTeam.Combats;
@@ -7,31 +9,14 @@ using CombatDicesTeam.GenericRanges;
 
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
 namespace Client.Assets.CombatMovements.Hero.Robber;
 
-internal class UndercutValuesFactory : CombatMovementFactoryBase
+internal class UndercutValuesFactory : SimpleCombatMovementFactoryBase
 {
     public override CombatMovementIcon CombatMovementIcon => new(2, 7);
-
-    public override CombatMovement CreateMovement()
-    {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(2),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
-                {
-                    new DamageEffectWrapper(
-                        new ClosestInLineTargetSelector(),
-                        DamageType.Normal,
-                        GenericRange<int>.CreateMono(1))
-                })
-        )
-        {
-            Tags = CombatMovementTags.Attack
-        };
-    }
 
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
@@ -63,5 +48,35 @@ internal class UndercutValuesFactory : CombatMovementFactoryBase
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Melee;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(2);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
+        {
+            new DamageEffectWrapper(
+                new ClosestInLineTargetSelector(),
+                DamageType.Normal,
+                GenericRange<int>.CreateMono(1))
+        });
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
     }
 }

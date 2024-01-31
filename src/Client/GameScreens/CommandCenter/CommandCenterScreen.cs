@@ -12,6 +12,7 @@ using Client.ScreenManagement;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dices;
+using CombatDicesTeam.Engine.Ui;
 
 using Core;
 

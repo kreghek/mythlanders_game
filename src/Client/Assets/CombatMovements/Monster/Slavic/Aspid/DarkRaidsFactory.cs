@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.GenericRanges;
@@ -5,12 +7,31 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.Aspid;
 
 internal class DarkRaidsFactory : SimpleCombatMovementFactoryBase
 {
+    /// <inheritdoc />
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1),
+                CombatMovementEffectDisplayValueTemplate.Damage)
+        };
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Melee;
+    }
+
+    /// <inheritdoc />
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(
@@ -31,6 +52,7 @@ internal class DarkRaidsFactory : SimpleCombatMovementFactoryBase
             });
     }
 
+    /// <inheritdoc />
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.Attack;

@@ -1,6 +1,8 @@
 using Client.Engine;
 using Client.GameScreens.Combat.Ui.CombatResultModalModels;
 
+using CombatDicesTeam.Engine.Ui;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -11,7 +13,8 @@ internal class CombatResultsBiomeProgression : ControlBase
     private readonly AnimatedCountableUnitItemStat _progression;
     private readonly SpriteFont _textFont;
 
-    public CombatResultsBiomeProgression(AnimatedCountableUnitItemStat progression)
+    public CombatResultsBiomeProgression(AnimatedCountableUnitItemStat progression) : base(
+        UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _textFont = UiThemeManager.UiContentStorage.GetMainFont();
         _progression = progression;
