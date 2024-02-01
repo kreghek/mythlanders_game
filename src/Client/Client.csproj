@@ -59,13 +59,14 @@
         <PackageReference Include="YamlDotNet" Version="13.0.1" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="CombatDicesTeam.Combats" Version="0.5.1-alpha" />
+        <PackageReference Include="CombatDicesTeam.Combats" Version="0.6.0-alpha" />
         <PackageReference Include="CombatDicesTeam.Graphs" Version="1.0.1" />
         <PackageReference Include="CombatDicesTeam.Graphs.Generation" Version="1.0.0" />
         <PackageReference Include="CombatDicesTeam.Graphs.Layout" Version="1.0.0" />
         <PackageReference Include="CombatDicesTeam.Graphs.Visualization" Version="0.3.0-alpha" />
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\..\CombatDicesTeam.Engine.Ui\CombatDicesTeam.Engine.Ui.csproj" />
         <ProjectReference Include="..\Core.Balance\Core.Balance.csproj" />
         <ProjectReference Include="..\Core.Combats.BotBehaviour\Core.Combats.BotBehaviour.csproj" />
         <ProjectReference Include="..\Core.Minigames.Match3\Core.Minigames.Match3.csproj" />
@@ -159,6 +160,9 @@
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
             <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
         </AssemblyAttribute>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Assets\CombatMovements\Monster\Egyptian" />
     </ItemGroup>
 
     <Target Name="CopySteamApiOnBuild" AfterTargets="AfterBuild">

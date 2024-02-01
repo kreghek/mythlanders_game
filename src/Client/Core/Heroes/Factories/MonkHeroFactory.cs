@@ -1,16 +1,23 @@
 using System.Collections.Generic;
 
 using Client.Assets.CombatMovements.Hero.Monk;
+using Client.Assets.GraphicConfigs.Heroes;
 
 using CombatDicesTeam.Combats;
 
 using GameAssets.Combats;
 
+using JetBrains.Annotations;
+
 namespace Client.Core.Heroes.Factories;
 
+[UsedImplicitly]
 internal sealed class MonkHeroFactory : HeroFactoryBase
 {
-    protected override string ClassSid => "monk";
+    public override CombatantGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new MaosinGraphicsConfig(ClassSid);
+    }
 
     protected override CombatMovementSequence CreateInitCombatMovementPool()
     {

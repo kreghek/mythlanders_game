@@ -10,7 +10,7 @@ public enum UnitName
     Environment,
 
     Partisan,
-    Assaulter,
+    ShieldBearer,
     Zoologist,
 
     Swordsman,
@@ -71,5 +71,6 @@ public enum UnitName
     Automataur,
     Hydra,
 
-    GreekMonster
+    GreekMonster,
+    PaintedSkin
 }

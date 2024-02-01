@@ -6,6 +6,8 @@ using Client.Core;
 using Client.Engine;
 using Client.GameScreens.Combat.Ui.CombatResultModalModels;
 
+using CombatDicesTeam.Engine.Ui;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -22,7 +24,8 @@ internal class CombatRewardList : ControlBase
 
     public CombatRewardList(
         Texture2D propIconsTexture,
-        IReadOnlyCollection<AnimatedCountableUnitItemStat> rewardItems)
+        IReadOnlyCollection<AnimatedCountableUnitItemStat> rewardItems) : base(UiThemeManager.UiContentStorage
+        .GetControlBackgroundTexture())
     {
         _titleFont = UiThemeManager.UiContentStorage.GetTitlesFont();
         _textFont = UiThemeManager.UiContentStorage.GetMainFont();

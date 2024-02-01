@@ -15,8 +15,8 @@ internal sealed class DesertCombatTemplateFactory : LocationSpecificCombatTempla
     {
         return new MonsterCombatantPrefab[]
         {
-            new("chaser", 0, new FieldCoords(0, 1)),
-            new("chaser", 1, new FieldCoords(0, 2))
+            new("Chaser", 0, new FieldCoords(0, 1)),
+            new("Chaser", 1, new FieldCoords(0, 2))
         };
     }
 
@@ -24,8 +24,8 @@ internal sealed class DesertCombatTemplateFactory : LocationSpecificCombatTempla
     {
         return new MonsterCombatantPrefab[]
         {
-            new("chaser", 0, new FieldCoords(0, 1)),
-            new("chaser", 1, new FieldCoords(1, 1))
+            new("Chaser", 0, new FieldCoords(0, 1)),
+            new("Chaser", 1, new FieldCoords(1, 1))
         };
     }
 
@@ -33,9 +33,9 @@ internal sealed class DesertCombatTemplateFactory : LocationSpecificCombatTempla
     {
         return new MonsterCombatantPrefab[]
         {
-            new("chaser", 0, new FieldCoords(0, 1)),
-            new("chaser", 1, new FieldCoords(0, 2)),
-            new("chaser", 0, new FieldCoords(1, 1))
+            new("Chaser", 0, new FieldCoords(0, 1)),
+            new("Chaser", 1, new FieldCoords(0, 2)),
+            new("Chaser", 0, new FieldCoords(1, 1))
         };
     }
 }

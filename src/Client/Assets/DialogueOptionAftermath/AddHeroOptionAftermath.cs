@@ -1,35 +1,28 @@
 ﻿using System.Collections.Generic;
 
 using Client.Assets.Catalogs.Dialogues;
-using Client.Core;
-using Client.Core.Heroes;
 
 namespace Client.Assets.DialogueOptionAftermath;
 
 internal sealed class AddHeroOptionAftermath : DialogueOptionAftermathBase
 {
-    private readonly UnitScheme _scheme;
+    private readonly string _heroSid;
 
-    public AddHeroOptionAftermath(UnitScheme scheme)
+    public AddHeroOptionAftermath(string heroSid)
     {
-        _scheme = scheme;
+        _heroSid = heroSid;
     }
 
     public override void Apply(CampaignAftermathContext aftermathContext)
     {
-        const int DEFAULT_LEVEL = 1;
-        var unit = new Hero(_scheme, DEFAULT_LEVEL)
-        {
-            IsPlayerControlled = true
-        };
-        aftermathContext.AddNewHero(unit);
+        aftermathContext.AddNewHero(_heroSid);
     }
 
     protected override IReadOnlyList<object> GetDescriptionValues(CampaignAftermathContext aftermathContext)
     {
         return new object[]
         {
-            _scheme.Name
+            _heroSid
         };
     }
 }

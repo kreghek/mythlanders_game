@@ -370,15 +370,6 @@ internal sealed class TitleScreen : GameScreenBase
 
     private UnitName[] GetAvailableHeroes()
     {
-        if (_gameSettings.Mode == GameMode.Demo)
-        {
-            return new[]
-            {
-                UnitName.Swordsman, UnitName.Robber, UnitName.Herbalist, UnitName.Assaulter, UnitName.Monk,
-                UnitName.Guardian, UnitName.Hoplite
-            };
-        }
-
         var lastHeroes = GetLastHeroes(_globeProvider);
 
         return lastHeroes;

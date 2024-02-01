@@ -4,7 +4,6 @@ using System.Linq;
 
 using Client.Assets.Catalogs.CampaignGeneration;
 using Client.Assets.GlobalEffects;
-using Client.Assets.MonsterPerks;
 using Client.Core;
 using Client.Core.CampaignEffects;
 using Client.Core.Campaigns;
@@ -19,38 +18,41 @@ namespace Client.Assets.Catalogs;
 
 internal sealed class CampaignGenerator : ICampaignGenerator
 {
+    private readonly ICharacterCatalog _characterCatalog;
     private readonly IDice _dice;
     private readonly IDropResolver _dropResolver;
     private readonly GlobeProvider _globeProvider;
 
-    private readonly UnitName[] _heroInDev =
+    private readonly string[] _heroInDev =
     {
-        UnitName.Herbalist,
+        nameof(UnitName.Herbalist),
 
-        UnitName.Hoplite,
-        UnitName.Engineer,
+        nameof(UnitName.Hoplite),
+        nameof(UnitName.Engineer),
 
-        UnitName.Priest,
-        UnitName.Liberator,
-        UnitName.Medjay,
+        nameof(UnitName.Priest),
+        nameof(UnitName.Liberator),
+        nameof(UnitName.Medjay),
 
-        UnitName.Zoologist,
-        UnitName.Assaulter
+        nameof(UnitName.Zoologist)
     };
 
-    private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+    private readonly IMonsterPerkManager _monsterPerkManager;
+
     private readonly CampaignWayTemplatesCatalog _wayTemplatesCatalog;
 
     public CampaignGenerator(CampaignWayTemplatesCatalog wayTemplatesCatalog,
         IDice dice,
         IDropResolver dropResolver,
-        IUnitSchemeCatalog unitSchemeCatalog,
+        ICharacterCatalog unitSchemeCatalog,
+        IMonsterPerkManager monsterPerkManager,
         GlobeProvider globeProvider)
     {
         _wayTemplatesCatalog = wayTemplatesCatalog;
         _dice = dice;
         _dropResolver = dropResolver;
-        _unitSchemeCatalog = unitSchemeCatalog;
+        _characterCatalog = unitSchemeCatalog;
+        _monsterPerkManager = monsterPerkManager;
         _globeProvider = globeProvider;
     }
 
@@ -60,11 +62,11 @@ internal sealed class CampaignGenerator : ICampaignGenerator
             .Except(_globeProvider.Globe.Player.CurrentAvailableLocations).ToArray();
     }
 
-    private IReadOnlyCollection<UnitName> CalculateLockedHeroes()
+    private IReadOnlyCollection<string> CalculateLockedHeroes()
     {
-        return _unitSchemeCatalog.Heroes.Select(x => x.Value.Name)
+        return _characterCatalog.AvailableHeroes
             .Except(_globeProvider.Globe.Player.Heroes.Units.Select(
-                x => Enum.Parse<UnitName>(x.ClassSid, true)))
+                x => x.ClassSid))
             .Except(_heroInDev)
             .ToArray();
     }
@@ -146,9 +148,9 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var rewards = rolledEffectFactory(locationSid);
 
-        var perk = new MonsterPerkCampaignEffect(RollMonsterPerk());
+        var perksToUnlock = _monsterPerkManager.RollLocationPerks().Select(x => new MonsterPerkCampaignEffect(x));
 
-        return rewards.Union(new[] { perk }).ToArray();
+        return rewards.Union(perksToUnlock).ToArray();
     }
 
     private IReadOnlyCollection<ICampaignEffect> CreateUnlockHeroEffect(ILocationSid locationSid)
@@ -195,19 +197,6 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                 return rolledEffectFactory.Item1;
             }
         }
-    }
-
-    private MonsterPerk RollMonsterPerk()
-    {
-        var availablePerkBuffs = new[]
-        {
-            MonsterPerkCatalog.ExtraHP,
-            MonsterPerkCatalog.ExtraSP
-        };
-
-        var monsterPerk = _dice.RollFromList(availablePerkBuffs);
-
-        return monsterPerk;
     }
 
     private MonsterPerk RollMonsterPerkFromPool()

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 using Client.Assets.CombatMovements;
+using Client.Assets.GraphicConfigs;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantStatuses;
@@ -13,7 +15,6 @@ namespace Client.Core.Heroes.Factories;
 
 internal abstract class HeroFactoryBase : IHeroFactory
 {
-    protected abstract string ClassSid { get; }
     protected abstract CombatMovementSequence CreateInitCombatMovementPool();
 
     protected abstract CombatantStatsConfig CreateInitStats();
@@ -28,16 +29,25 @@ internal abstract class HeroFactoryBase : IHeroFactory
         return Array.Empty<ICombatantStatusFactory>();
     }
 
+    public virtual string ClassSid => GetType().Name[..^"HeroFactory".Length];
+
     public HeroState Create()
     {
         var heroSequence = CreateInitCombatMovementPool();
         var stats = CreateInitStats();
         var startupStatuses = CreateStartupStatuses();
 
-        var hp = stats.GetStats().Single(x => x.Type == CombatantStatTypes.HitPoints).Value;
-        var combatantStats = stats.GetStats().Where(x => x.Type != CombatantStatTypes.HitPoints).ToArray();
+        var hp = stats.GetStats().Single(x => ReferenceEquals(x.Type, CombatantStatTypes.HitPoints)).Value;
+        var combatantStats = stats.GetStats().Where(x => !ReferenceEquals(x.Type, CombatantStatTypes.HitPoints))
+            .ToArray();
 
         var hero = new HeroState(ClassSid, hp, combatantStats, heroSequence.Items, startupStatuses);
         return hero;
+    }
+
+    public virtual CombatantGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new SingleSpriteGraphicsConfig(Path.Combine(CommonConstants.PathToCharacterSprites, "Heroes",
+            ClassSid, "Thumbnail"));
     }
 }

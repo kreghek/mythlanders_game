@@ -18,7 +18,7 @@ internal sealed class CombatantThumbnailProvider : ICombatantThumbnailProvider
 
     public Texture2D Get(string classSid)
     {
-        var thumbnalPath = _unitGraphicsCatalog.GetGraphics(classSid).ThumbnailPath;
-        return _contentManager.Load<Texture2D>(thumbnalPath);
+        var thumbnailPath = _unitGraphicsCatalog.GetGraphics(classSid).ThumbnailPath;
+        return _contentManager.Load<Texture2D>(thumbnailPath);
     }
 }

@@ -13,9 +13,9 @@ public class AutomataurCombatantFactory : MonsterCombatantFactoryBase
     protected override CombatantStatsConfig CombatantStatsConfig()
     {
         var stats = new CombatantStatsConfig();
-        stats.SetValue(CombatantStatTypes.HitPoints, 6);
+        stats.SetValue(CombatantStatTypes.HitPoints, 4);
         stats.SetValue(CombatantStatTypes.ShieldPoints, 4);
-        stats.SetValue(CombatantStatTypes.Resolve, 5);
+        stats.SetValue(CombatantStatTypes.Resolve, 6);
 
         return stats;
     }

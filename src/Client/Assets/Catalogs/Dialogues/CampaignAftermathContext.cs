@@ -5,7 +5,6 @@ using System.Linq;
 using Client.Assets.GlobalEffects;
 using Client.Core;
 using Client.Core.Campaigns;
-using Client.Core.Heroes;
 
 using CombatDicesTeam.Dialogues;
 
@@ -43,9 +42,9 @@ internal class CampaignAftermathContext
         _globe.AddGlobalEvent(globalEvent);
     }
 
-    public void AddNewHero(Hero unit)
+    public void AddNewHero(string heroSid)
     {
-        _eventContext.AddNewCharacter(unit);
+        _eventContext.AddNewHero(heroSid);
     }
 
     public void AddResources(IProp resource)

@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.Catalogs.DialogueStoring;
@@ -92,7 +91,7 @@ public class DialogueCatalogTests
         var provider = new DialogueResourceProvider(content);
 
         var aftermathCreator =
-            new DialogueOptionAftermathCreator(new UnitSchemeCatalog(new BalanceTable(), false), new LinearDice());
+            new DialogueOptionAftermathCreator(new LinearDice());
 
         var catalog = new DialogueCatalog(provider, aftermathCreator);
 

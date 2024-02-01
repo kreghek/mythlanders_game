@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Client.Assets.CombatVisualEffects;
 using Client.Assets.InteractionDeliveryObjects;
@@ -91,6 +92,16 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
             visualizationContext,
             new SingleDistanceVisualizationConfig(prepareAnimation, additionalVisualEffectShotAnimation, waitAnimation,
                 projectileFactory, new AnimationFrameInfo(1)));
+    }
+
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0),
+                CombatMovementEffectDisplayValueTemplate.Damage)
+        };
     }
 
     private static Func<Vector2, Vector2, IInteractionDelivery> GetCreateProjectileFunc(

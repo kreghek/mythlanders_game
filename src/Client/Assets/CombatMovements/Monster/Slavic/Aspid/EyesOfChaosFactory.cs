@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.GenericRanges;
@@ -11,6 +13,16 @@ namespace Client.Assets.CombatMovements.Monster.Slavic.Aspid;
 
 internal class EyesOfChaosFactory : SimpleCombatMovementFactoryBase
 {
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1),
+                CombatMovementEffectDisplayValueTemplate.Damage)
+        };
+    }
+
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(

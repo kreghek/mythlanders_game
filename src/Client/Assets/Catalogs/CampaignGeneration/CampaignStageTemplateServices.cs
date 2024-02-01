@@ -16,5 +16,5 @@ internal sealed record CampaignStageTemplateServices(
     IJobProgressResolver JobProgressResolver,
     IDropResolver DropResolver,
     IDice Dice,
-    IUnitSchemeCatalog UnitSchemeCatalog,
+    ICharacterCatalog UnitSchemeCatalog,
     ICrisesCatalog CrisesCatalog);

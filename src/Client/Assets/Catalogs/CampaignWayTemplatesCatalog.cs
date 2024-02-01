@@ -17,7 +17,7 @@ internal sealed class CampaignWayTemplatesCatalog
 
     public CampaignWayTemplatesCatalog(GlobeProvider globeProvider,
         IEventCatalog eventCatalog, IDice dice, IJobProgressResolver jobProgressResolver, IDropResolver dropResolver,
-        IUnitSchemeCatalog unitSchemeCatalog, ICrisesCatalog crisesCatalog)
+        ICharacterCatalog unitSchemeCatalog, ICrisesCatalog crisesCatalog)
     {
         _services = new CampaignStageTemplateServices(eventCatalog, globeProvider, jobProgressResolver, dropResolver,
             dice, unitSchemeCatalog, crisesCatalog);

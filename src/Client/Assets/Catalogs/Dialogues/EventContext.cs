@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Core;
-using Client.Core.Heroes;
 
 namespace Client.Assets.Catalogs.Dialogues;
 
@@ -27,9 +26,9 @@ internal sealed class EventContext : IEventContext
 
     public DialogueEvent CurrentDialogueEvent { get; }
 
-    public void AddNewCharacter(Hero unit)
+    public void AddNewHero(string heroSid)
     {
-        _globe.Player.Heroes.AddNewUnit(HeroState.Create(unit.UnitScheme.Name.ToString()));
+        _globe.Player.Heroes.AddNewUnit(HeroState.Create(heroSid));
     }
 
     public void AddNewGlobalEvent(IGlobeEvent globalEvent)
