@@ -17,11 +17,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.GameScreens.Armory;
+namespace Client.GameScreens.Trade;
 
-internal sealed class ArmoryScreen : GameScreenWithMenuBase
+internal sealed class TradeScreen : GameScreenWithMenuBase
 {
-    private readonly ArmoryScreenTransitionArguments _args;
+    private readonly TradeScreenTransitionArguments _args;
 
     private IEnumerable<Equipment> equipments;
     private readonly GameObjectContentStorage _contentStorage;
@@ -29,7 +29,7 @@ internal sealed class ArmoryScreen : GameScreenWithMenuBase
     private readonly VerticalStackPanel _availableEquipments;
     private readonly List<IconButton> _equipmentButtons;
 
-    public ArmoryScreen(MythlandersGame game, ArmoryScreenTransitionArguments args) : base(game)
+    public TradeScreen(MythlandersGame game, TradeScreenTransitionArguments args) : base(game)
     {
         _contentStorage = game.Services.GetRequiredService<GameObjectContentStorage>();
 
@@ -37,12 +37,7 @@ internal sealed class ArmoryScreen : GameScreenWithMenuBase
         
         _args = args;
 
-        equipments =new[]
-        {
-            new Equipment(new CombatSword()),
-            new Equipment(new ArcherPulsarBow()),
-            new Equipment(new MultifunctionalClocks())
-        };
+        equipments = args.AvailableEquipment;
 
         _equipmentButtons = new List<IconButton>();
 
