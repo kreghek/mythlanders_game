@@ -17,7 +17,10 @@ internal sealed class IconButton : ButtonBase
     {
         _icon = iconData.Spritesheet;
         _iconRect = iconData.SourceRect;
+        Size = iconData.SourceRect.Size;
     }
+
+    public override Point Size { get; }
 
     protected override Point CalcTextureOffset()
     {

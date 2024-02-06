@@ -8,6 +8,8 @@ using CombatDicesTeam.Dialogues;
 
 using Stateless;
 
+using static Client.Assets.Catalogs.Dialogues.DialogueEvent;
+
 namespace Client.Assets.Dialogues;
 
 internal abstract class SmallEventDialogueEventFactoryBase : IDialogueEventFactory
@@ -20,7 +22,10 @@ internal abstract class SmallEventDialogueEventFactoryBase : IDialogueEventFacto
         var questStateMachine =
             new StateMachine<DialogueEventState, DialogueEventTrigger>(DialogueConstants.InitialStage);
 
-        var requirements = new Dictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>>();
+        var requirements = new Dictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>>() 
+        {
+            { DialogueConstants.InitialStage , new[]{ new IsNotCrisesRequirement() } }
+        };
 
         var dialogues = new Dictionary<DialogueEventState, string>
         {

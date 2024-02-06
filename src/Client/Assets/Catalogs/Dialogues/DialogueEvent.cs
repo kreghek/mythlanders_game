@@ -61,4 +61,12 @@ public sealed class DialogueEvent
             return false;
         }
     }
+
+    public sealed class IsNotCrisesRequirement : IDialogueEventRequirement
+    {
+        public bool IsApplicableFor(IDialogueEventRequirementContext context)
+        {
+            return false;
+        }
+    }
 }

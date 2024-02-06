@@ -1,38 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Client.Assets.Catalogs.Dialogues;
-using Client.Core;
-
-using CombatDicesTeam.Dialogues;
-
-using JetBrains.Annotations;
-
-using Stateless;
+﻿using JetBrains.Annotations;
 
 namespace Client.Assets.Dialogues;
 
 [UsedImplicitly]
-internal sealed class CityWitchHuntingDialogueEventFactory : IDialogueEventFactory
+internal sealed class CityWitchHuntingDialogueEventFactory : SmallEventDialogueEventFactoryBase
 {
-    public DialogueEvent CreateEvent(IDialogueEventFactoryServices services)
-    {
-        var questStateMachine =
-            new StateMachine<DialogueEventState, DialogueEventTrigger>(DialogueConstants.InitialStage);
-
-        var requirements = new Dictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>>();
-
-        var dialogues = new Dictionary<DialogueEventState, string>
-        {
-            [DialogueConstants.InitialStage] = "city_witch_hunting_crisis"
-        };
-
-        return new DialogueEvent("CityWitchHuntingEvent", questStateMachine, requirements,
-            dialogues);
-    }
-
-    public IReadOnlyCollection<IStoryPoint> CreateStoryPoints(IDialogueEventFactoryServices services)
-    {
-        return Array.Empty<IStoryPoint>();
-    }
+    protected override string DialogueFileSid => "city_witch_hunting";
+    protected override string EventSid => "CityWitchHunting";
 }
