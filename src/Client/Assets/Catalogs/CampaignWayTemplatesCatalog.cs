@@ -69,7 +69,7 @@ internal sealed class CampaignWayTemplatesCatalog
                 new RestCampaignStageTemplateFactory(),
                 new ShopCampaignStageTemplateFactory(),
                 //new SacredEventCampaignStageTemplateFactory(),
-                //new ShopCampaignStageTemplateFactory(),
+                new ShopCampaignStageTemplateFactory(),
                 new FindingEventCampaignStageTemplateFactory(_services),
                 new ChallengeCampaignStageTemplateFactory(_services)
             }, _services),
@@ -83,21 +83,18 @@ internal sealed class CampaignWayTemplatesCatalog
 
             // Evo
 
-            // new ICampaignStageTemplateFactory[]
-            // {
-            //     new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-            //     {
-            //         new TrainingCampaignStageTemplateFactory(_services),
-            //         new WorkshopCampaignStageTemplateFactory(_services)
-            //     }, _services),
-            //
-            //     new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-            //     {
-            //         new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
-            //         new SacredEventCampaignStageTemplateFactory(),
-            //         new MinigameEventCampaignStageTemplateFactory()
-            //     }, _services)
-            // },
+            new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+            {
+                new TrainingCampaignStageTemplateFactory(_services),
+                new WorkshopCampaignStageTemplateFactory(_services)
+            }, _services),
+            
+            new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+            {
+                new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+                new SacredEventCampaignStageTemplateFactory(),
+                new MinigameEventCampaignStageTemplateFactory(_services)
+            }, _services),
 
             // Crisis
 
