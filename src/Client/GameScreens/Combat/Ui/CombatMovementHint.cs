@@ -135,7 +135,7 @@ internal class CombatMovementHint : HintBase
             CombatMovementEffectDisplayValueTemplate.RoundDuration =>
                 UiResource.CombatMovementEffectValueType_RoundDuration_Template,
             CombatMovementEffectDisplayValueTemplate.HitPointsDamage =>
-            UiResource.CombatMovementEffectValueType_HitPointsDamage_Template,
+                UiResource.CombatMovementEffectValueType_HitPointsDamage_Template,
             CombatMovementEffectDisplayValueTemplate.ResolveDamage =>
                 UiResource.CombatMovementEffectValueType_ResolveDamage_Template,
             CombatMovementEffectDisplayValueTemplate.HitPoints =>

@@ -54,14 +54,6 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
         };
     }
 
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
-    {
-        return new[]
-        {
-            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectDisplayValueTemplate.Damage)
-        };
-    }
-
     /// <inheritdoc />
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution,
@@ -118,7 +110,7 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
             var targetRandomPosition = visualizationContext.Dice.RollPoint(targetArea);
             var arrowInteractionInfo = new InteractionDeliveryInfo(
                 new CombatEffectImposeItem(_ => { },
-                Array.Empty<MythlandersCombatant>()),
+                    Array.Empty<MythlandersCombatant>()),
                 targetRandomPosition - arrowRainOffset,
                 targetRandomPosition);
 
@@ -162,6 +154,16 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
                     1f,
                     () => innerState.IsComplete)
             });
+    }
+
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0),
+                CombatMovementEffectDisplayValueTemplate.Damage)
+        };
     }
 
     private static InteractionDeliveryInfo[] CreateEmptyRainSourceInteraction(IActorAnimator actorAnimator)
