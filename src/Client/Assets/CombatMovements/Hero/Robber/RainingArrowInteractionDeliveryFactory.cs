@@ -55,7 +55,7 @@ internal sealed class RainingArrowInteractionDeliveryFactory : IDeliveryFactory
             _combatVisualEffectManager.AddEffect(blast);
 
             var sfx = _gameObjectContentStorage
-                        .GetSkillUsageSound(GameObjectSoundType.ImpulseArrowBlasts)
+                        .GetSkillUsageSound(GameObjectSoundType.ImpulseArrowBlast)
                         .CreateInstance();
             sfx.Pitch = (float)rnd * 2 - 1;
             sfx.Play();
