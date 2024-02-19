@@ -16,7 +16,7 @@ namespace Client.Assets.CombatMovements.Hero.Robber;
 
 internal class UndercutValuesFactory : SimpleCombatMovementFactoryBase
 {
-    public override CombatMovementIcon CombatMovementIcon => new(2, 7);
+    public override CombatMovementIcon CombatMovementIcon => new(4, 7);
 
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
