@@ -38,10 +38,12 @@ internal sealed class RainingArrowInteractionDeliveryFactory : IDeliveryFactory
     public IInteractionDelivery Create(CombatEffectImposeItem interactionImpose, Vector2 startPoint,
         Vector2 targetPoint)
     {
-        var arrow = new EnergyArrowProjectile(startPoint, targetPoint, _gameObjectContentStorage.GetBulletGraphics(),
-            0.25f + GetRandomOffset(startPoint, 1));
+        var rnd = GetRandomOffset(startPoint, 1);
 
-        arrow.InteractionPerformed += (_, _) =>
+        var arrow = new EnergyArrowProjectile(startPoint, targetPoint, _gameObjectContentStorage.GetBulletGraphics(),
+            0.25f + rnd);
+
+        arrow.InteractionPerformed += (s, _) =>
         {
             var blast = new EnergyBlastVisualEffect(
                 targetPoint,
@@ -49,6 +51,12 @@ internal sealed class RainingArrowInteractionDeliveryFactory : IDeliveryFactory
                 _gameObjectContentStorage.GetParticlesTexture());
 
             _combatVisualEffectManager.AddEffect(blast);
+
+            var sfx = _gameObjectContentStorage
+                .GetSkillUsageSound(GameObjectSoundType.ImpulseArrowBlast)
+                .CreateInstance();
+            sfx.Pitch = (float)rnd * 2 - 1;
+            sfx.Play();
         };
 
         return arrow;
