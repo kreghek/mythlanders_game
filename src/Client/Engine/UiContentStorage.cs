@@ -241,7 +241,7 @@ internal sealed class UiContentStorage : IUiContentStorage
         _modalsTopSymbolTexture = contentManager.Load<Texture2D>("Sprites/Ui/ModalHeaders");
 
         _combatSkillPanelTextre = contentManager.Load<Texture2D>("Sprites/Ui/CombatSkillsPanel");
-        _equipmentIconsTexture = contentManager.Load<Texture2D>("Sprites/Ui/EquipmentIcons");
+        //_equipmentIconsTexture = contentManager.Load<Texture2D>("Sprites/Ui/EquipmentIcons");
 
         _cursonTextures = contentManager.Load<Texture2D>("Sprites/Ui/Cursors");
 
