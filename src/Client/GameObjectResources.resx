@@ -982,12 +982,12 @@
     <value>Two plus two is five...</value>
     <comment>Voice</comment>
   </data>
-  <data name="UndercutValues" xml:space="preserve">
-    <value>Undercut values</value>
+  <data name="WeOnlyLiveOnce" xml:space="preserve">
+    <value>We Live Only Once!</value>
     <comment>Combat Movement Robber</comment>
   </data>
-  <data name="UndercutValues_Description" xml:space="preserve">
-    <value>Deals 1 damage to the closest enemy in the line. If it was the strongest enemy, it applies bleeding for 2 rounds, dealing damage to 1 health each round.</value>
+  <data name="WeOnlyLiveOnce_Description" xml:space="preserve">
+    <value>Deals &lt;damage&gt; to the closest enemy in the line. If it was the strongest enemy, it applies bleeding for &lt;duration&gt;, dealing &lt;bleed_damage&gt; each round.</value>
     <comment>Combat Movement Robber</comment>
   </data>
   <data name="VampireBite" xml:space="preserve">
