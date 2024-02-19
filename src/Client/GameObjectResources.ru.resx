@@ -997,12 +997,12 @@
     <value>Два плюс два будет пять...</value>
     <comment>Voice</comment>
   </data>
-  <data name="UndercutValues" xml:space="preserve">
-    <value>Подрезать ценности</value>
+  <data name="WeOnlyLiveOnce" xml:space="preserve">
+    <value>Где наше не пропадало?!</value>
     <comment>Combat Movement Robber</comment>
   </data>
-  <data name="UndercutValues_Description" xml:space="preserve">
-    <value>Наносит урон 1ед. ближайшему в линии противнику. Если это был самый сильный противник, то накладывает кровотечение на 2 раунда, наносящее урон 1ед. здоровью каждый раунд.</value>
+  <data name="WeOnlyLiveOnce_Description" xml:space="preserve">
+    <value>Наносит &lt;damage&gt; ближайшему в линии противнику. Если это был самый сильный противник, то накладывает кровотечение на &lt;duration&gt;, наносящее урон &lt;bleed_damage&gt; каждый раунд.</value>
     <comment>Combat Movement Robber</comment>
   </data>
   <data name="VampireBite" xml:space="preserve">
