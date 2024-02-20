@@ -30,7 +30,7 @@ internal sealed class WorkshopCampaignStageTemplateFactory : ICampaignStageTempl
 
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        return new TrainingStageItem(_services.GlobeProvider.Globe.Player, _services.Dice);
+        return new WorkshopStageItem(_services.GlobeProvider.Globe.Player, _services.Dice);
     }
 
     /// <inheritdoc />

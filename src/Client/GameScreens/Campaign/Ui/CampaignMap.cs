@@ -586,6 +586,16 @@ internal sealed class CampaignMap : ControlBase
             return UiResource.CampaignStageDisplayNameRest;
         }
 
+        if (campaignStageItem is WorkshopStageItem)
+        {
+            return "workshop";
+        }
+
+        if (campaignStageItem is TradingStageItem)
+        {
+            return "trading";
+        }
+
         return UiResource.CampaignStageDisplayNameUnknown;
     }
 

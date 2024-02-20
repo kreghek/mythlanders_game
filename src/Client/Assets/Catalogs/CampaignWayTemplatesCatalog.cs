@@ -37,6 +37,9 @@ internal sealed class CampaignWayTemplatesCatalog
 
         var way1Templates = new ICampaignStageTemplateFactory[]
         {
+            // DEBUG
+            new TradingCampaignStageTemplateFactory(_services),
+
             // Combat
 
             new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Easy, _services),
@@ -46,7 +49,7 @@ internal sealed class CampaignWayTemplatesCatalog
             new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
             {
                 new RestCampaignStageTemplateFactory(),
-                new ShopCampaignStageTemplateFactory(),
+                new TradingCampaignStageTemplateFactory(_services),
                 new FindingEventCampaignStageTemplateFactory(_services),
                 new ChallengeCampaignStageTemplateFactory(_services)
             }, _services),
@@ -67,9 +70,8 @@ internal sealed class CampaignWayTemplatesCatalog
             new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
             {
                 new RestCampaignStageTemplateFactory(),
-                new ShopCampaignStageTemplateFactory(),
+                new TradingCampaignStageTemplateFactory(_services),
                 //new SacredEventCampaignStageTemplateFactory(),
-                //new ShopCampaignStageTemplateFactory(),
                 new FindingEventCampaignStageTemplateFactory(_services),
                 new ChallengeCampaignStageTemplateFactory(_services)
             }, _services),
@@ -83,21 +85,18 @@ internal sealed class CampaignWayTemplatesCatalog
 
             // Evo
 
-            // new ICampaignStageTemplateFactory[]
-            // {
-            //     new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-            //     {
-            //         new TrainingCampaignStageTemplateFactory(_services),
-            //         new WorkshopCampaignStageTemplateFactory(_services)
-            //     }, _services),
-            //
-            //     new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-            //     {
-            //         new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
-            //         new SacredEventCampaignStageTemplateFactory(),
-            //         new MinigameEventCampaignStageTemplateFactory()
-            //     }, _services)
-            // },
+            new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+            {
+                new TrainingCampaignStageTemplateFactory(_services),
+                new WorkshopCampaignStageTemplateFactory(_services)
+            }, _services),
+            
+            new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+            {
+                new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+                new SacredEventCampaignStageTemplateFactory(),
+                new MinigameEventCampaignStageTemplateFactory(_services)
+            }, _services),
 
             // Crisis
 

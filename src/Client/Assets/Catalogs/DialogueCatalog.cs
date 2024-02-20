@@ -69,8 +69,6 @@ internal class DialogueCatalog : IEventCatalog, IEventInitializer
     {
         var events = new List<DialogueEvent>();
 
-        Events = events;
-
         var dialogueFactoryType = typeof(IDialogueEventFactory);
         var factoryTypes = dialogueFactoryType.Assembly.GetTypes().Where(x =>
             dialogueFactoryType.IsAssignableFrom(x) && x != dialogueFactoryType && !x.IsAbstract);
@@ -83,6 +81,8 @@ internal class DialogueCatalog : IEventCatalog, IEventInitializer
             var dialogueEvent = factory.CreateEvent(factoryServices);
             events.Add(dialogueEvent);
         }
+
+        Events = events;
 
         _isInitialized = true;
     }

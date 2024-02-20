@@ -4,11 +4,11 @@ using Client.Core;
 using Client.Core.Campaigns;
 using Client.ScreenManagement;
 
-namespace Client.GameScreens.Armory;
+namespace Client.GameScreens.Trade;
 
-internal sealed class ArmoryScreenTransitionArguments : IScreenTransitionArguments
+internal sealed class TradeScreenTransitionArguments : IScreenTransitionArguments
 {
-    public ArmoryScreenTransitionArguments(HeroCampaign currentCampaign, IReadOnlyList<Equipment> availableEquipment)
+    public TradeScreenTransitionArguments(HeroCampaign currentCampaign, IReadOnlyList<Equipment> availableEquipment)
     {
         CurrentCampaign = currentCampaign;
         AvailableEquipment = availableEquipment;

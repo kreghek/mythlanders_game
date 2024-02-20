@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Client.GameScreens.Armory;
 using Client.GameScreens.Barracks;
 using Client.GameScreens.Bestiary;
 using Client.GameScreens.Campaign;
@@ -18,8 +19,10 @@ using Client.GameScreens.SlidingPuzzles;
 using Client.GameScreens.TextDialogue;
 using Client.GameScreens.Title;
 using Client.GameScreens.TowersMinigame;
+using Client.GameScreens.Trade;
 using Client.GameScreens.Training;
 using Client.GameScreens.VoiceCombat;
+using Client.GameScreens.Workshop;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -130,6 +133,10 @@ internal class ScreenManager : IScreenManager
                 (CrisisScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.Training => new TrainingScreen(_game,
                 (TrainingScreenTransitionArguments)screenTransitionArguments),
+            ScreenTransition.Workshop => new WorkshopScreen(_game,
+                (WorkshopScreenTransitionArguments)screenTransitionArguments),
+            ScreenTransition.Trade => new TradeScreen(_game,
+                (TradeScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.SlidingPuzzlesMinigame => new SlidingPuzzlesScreen(_game,
                 (SlidingPuzzlesMinigameScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.Match3Minigame => new Match3MinigameScreen(_game,

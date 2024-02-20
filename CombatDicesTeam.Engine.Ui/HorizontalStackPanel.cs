@@ -39,7 +39,7 @@ public sealed class HorizontalStackPanel : ControlBase
         var currentPosition = contentRect.Location;
         foreach (var innerElement in _innerElements)
         {
-            innerElement.Rect = new Rectangle(currentPosition, innerElement.Rect.Size);
+            innerElement.Rect = new Rectangle(currentPosition, innerElement.Size);
 
             innerElement.Draw(spriteBatch);
 
