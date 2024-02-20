@@ -10,12 +10,12 @@ using CombatDicesTeam.Dices;
 
 namespace Client.Assets.StageItems;
 
-internal sealed class TradeStageItem : ICampaignStageItem
+internal sealed class TradingStageItem : ICampaignStageItem
 {
     private readonly IDice _dice;
     private readonly Player _player;
 
-    public TradeStageItem(Player player, IDice dice)
+    public TradingStageItem(Player player, IDice dice)
     {
         _player = player;
         _dice = dice;

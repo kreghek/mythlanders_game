@@ -38,7 +38,7 @@ internal sealed class CampaignWayTemplatesCatalog
         var way1Templates = new ICampaignStageTemplateFactory[]
         {
             // DEBUG
-            new WorkshopCampaignStageTemplateFactory(_services),
+            new TradingCampaignStageTemplateFactory(_services),
 
             // Combat
 

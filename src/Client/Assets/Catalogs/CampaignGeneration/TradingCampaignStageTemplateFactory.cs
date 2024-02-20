@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.StageItems;
 using Client.Core.Campaigns;
 
 using CombatDicesTeam.Graphs;
@@ -8,8 +9,15 @@ using CombatDicesTeam.Graphs.Generation.TemplateBased;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
-internal sealed class ShopCampaignStageTemplateFactory : ICampaignStageTemplateFactory
+internal sealed class TradingCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
+    private CampaignStageTemplateServices _services;
+
+    public TradingCampaignStageTemplateFactory(CampaignStageTemplateServices services)
+    {
+        _services = services;
+    }
+
     private static ICampaignStageItem[] MapContextToCurrentStageItems(IGraphTemplateContext<ICampaignStageItem> context)
     {
         return context.CurrentWay.Select(x => x.Payload).ToArray();
@@ -22,7 +30,7 @@ internal sealed class ShopCampaignStageTemplateFactory : ICampaignStageTemplateF
 
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        return new NotImplemenetedStageItem("Shop");
+        return new TradingStageItem(_services.GlobeProvider.Globe.Player, _services.Dice);
     }
 
     /// <inheritdoc />
