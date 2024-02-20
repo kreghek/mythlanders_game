@@ -33,8 +33,8 @@ internal sealed class TradeScreen : GameScreenWithMenuBase
     {
         _contentStorage = game.Services.GetRequiredService<GameObjectContentStorage>();
 
-        var player = game.Services.GetRequiredService<Player>();
-        
+        var player = game.Services.GetRequiredService<GlobeProvider>().Globe.Player;
+
         _args = args;
 
         equipments = args.AvailableEquipment;
@@ -66,7 +66,7 @@ internal sealed class TradeScreen : GameScreenWithMenuBase
                     button,
                     new Text(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(), ControlTextures.Transparent,
                         UiThemeManager.UiContentStorage.GetTitlesFont(), _ => Color.White,
-                        () => equipment.Scheme.Sid.ToString())
+                        () => GameObjectHelper.GetLocalized(equipment.Scheme.Sid))
                 });
         }).ToArray();
 
@@ -81,8 +81,18 @@ internal sealed class TradeScreen : GameScreenWithMenuBase
 
     protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
     {
+        spriteBatch.Begin(
+           sortMode: SpriteSortMode.Deferred,
+           blendState: BlendState.AlphaBlend,
+           samplerState: SamplerState.PointClamp,
+           depthStencilState: DepthStencilState.None,
+           rasterizerState: RasterizerState.CullNone,
+           transformMatrix: Camera.GetViewTransformationMatrix());
+
         _availableEquipments.Rect = contentRect;
         _availableEquipments.Draw(spriteBatch);
+
+        spriteBatch.End();
     }
 
     protected override void UpdateContent(GameTime gameTime)

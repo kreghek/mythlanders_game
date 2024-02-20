@@ -49,7 +49,7 @@ internal sealed class CampaignWayTemplatesCatalog
             new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
             {
                 new RestCampaignStageTemplateFactory(),
-                new ShopCampaignStageTemplateFactory(),
+                new TradingCampaignStageTemplateFactory(_services),
                 new FindingEventCampaignStageTemplateFactory(_services),
                 new ChallengeCampaignStageTemplateFactory(_services)
             }, _services),
@@ -70,9 +70,8 @@ internal sealed class CampaignWayTemplatesCatalog
             new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
             {
                 new RestCampaignStageTemplateFactory(),
-                new ShopCampaignStageTemplateFactory(),
+                new TradingCampaignStageTemplateFactory(_services),
                 //new SacredEventCampaignStageTemplateFactory(),
-                new ShopCampaignStageTemplateFactory(),
                 new FindingEventCampaignStageTemplateFactory(_services),
                 new ChallengeCampaignStageTemplateFactory(_services)
             }, _services),
