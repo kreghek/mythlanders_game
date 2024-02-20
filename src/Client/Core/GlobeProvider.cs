@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -138,6 +139,29 @@ internal sealed class GlobeProvider
             LoadAvailableLocations(progressDto.Player.AvailableLocations, Globe.Player);
 
             LoadMonsterPerkPool(progressDto.Player.MonsterPerks, Globe.Player);
+
+            LoadEquipments(progressDto.Player.Equipments, Globe.Player);
+        }
+    }
+
+    private void LoadEquipments(string?[]? equipments, Player player)
+    {
+        if (equipments is null)
+        {
+            return;
+        }
+
+        var gameEquipmentSchemes = Assembly.GetExecutingAssembly().GetTypes()
+            .Where(x => typeof(IEquipmentScheme).IsAssignableFrom(x) && !x.IsAbstract && !x.IsInterface)
+            .Select(x=>(IEquipmentScheme)Activator.CreateInstance(x));
+
+        foreach (var equipmentSid in equipments)
+        {
+            var scheme = gameEquipmentSchemes.SingleOrDefault(x => x.Sid.ToString() == equipmentSid);
+
+            var equipment = new Equipment(scheme);
+
+            player.AddEquipment(equipment);
         }
     }
 
@@ -150,7 +174,8 @@ internal sealed class GlobeProvider
             KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters),
             Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray(),
             AvailableLocations = Globe.Player.CurrentAvailableLocations.Select(x => x.ToString()).ToArray(),
-            MonsterPerks = Globe.Player.MonsterPerks.Select(x => x.Sid).ToArray()
+            MonsterPerks = Globe.Player.MonsterPerks.Select(x => x.Sid).ToArray(),
+            Equipments = Globe.Player.Equipments.Select(x=>x.Scheme.Sid.ToString()).ToArray()
         };
 
         var progress = new ProgressDto
@@ -228,24 +253,6 @@ internal sealed class GlobeProvider
         return serializedSaveData;
     }
 
-    private static EquipmentDto[] GetCharacterEquipmentToSave(Hero unit)
-    {
-        var equipmentDtoList = new List<EquipmentDto>();
-
-        foreach (var equipment in unit.Equipments)
-        {
-            var dto = new EquipmentDto
-            {
-                Sid = equipment.Scheme.Sid.ToString(),
-                Level = equipment.Level
-            };
-
-            equipmentDtoList.Add(dto);
-        }
-
-        return equipmentDtoList.ToArray();
-    }
-
     private static string[] GetKnownMonsterSids(IList<UnitScheme> knownMonsters)
     {
         return knownMonsters.Select(x => x.Name.ToString()).ToArray();
@@ -318,31 +325,6 @@ internal sealed class GlobeProvider
             }
 
             player.AddLocation(locationSid);
-        }
-    }
-
-    private static void LoadCharacterEquipments(Hero unit, EquipmentDto[]? unitDtoEquipments)
-    {
-        if (unitDtoEquipments is null)
-        {
-            // Old version of the saves.
-            return;
-        }
-
-        foreach (var dto in unitDtoEquipments)
-        {
-            var equipment = unit.Equipments.SingleOrDefault(x => x.Scheme.Sid.ToString() == dto.Sid);
-
-            if (equipment is null)
-            {
-                Debug.Fail($"{dto.Sid} is invalid equipment in the storage. Make migration of the save.");
-                continue;
-            }
-
-            for (var i = 0; i < equipment.Level; i++)
-            {
-                equipment.LevelUp();
-            }
         }
     }
 

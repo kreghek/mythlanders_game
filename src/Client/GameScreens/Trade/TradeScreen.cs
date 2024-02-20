@@ -27,6 +27,8 @@ internal sealed class TradeScreen : GameScreenWithMenuBase
     private readonly GameObjectContentStorage _contentStorage;
 
     private readonly VerticalStackPanel _availableEquipments;
+    private readonly VerticalStackPanel _currentEquipment;
+
     private readonly List<IconButton> _equipmentButtons;
 
     public TradeScreen(MythlandersGame game, TradeScreenTransitionArguments args) : base(game)
@@ -72,6 +74,33 @@ internal sealed class TradeScreen : GameScreenWithMenuBase
 
         _availableEquipments = new VerticalStackPanel(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
             ControlTextures.Transparent, equipmentElements);
+
+
+        var currentEquipmentElements = player.Equipments.Select(equipment =>
+        {
+            var metadata = (EquipmentSchemeMetadata)equipment.Scheme.Metadata;
+
+            var button = new IconButton(new IconData(_contentStorage.GetEquipmentIcons(), GetEquipmentIconRect(metadata)));
+
+            button.OnClick += (_, _) =>
+            {
+               
+            };
+
+            _equipmentButtons.Add(button);
+
+            return new HorizontalStackPanel(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
+                ControlTextures.Transparent,
+                new ControlBase[]
+                {
+                    button,
+                    new Text(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(), ControlTextures.Transparent,
+                        UiThemeManager.UiContentStorage.GetTitlesFont(), _ => Color.White,
+                        () => GameObjectHelper.GetLocalized(equipment.Scheme.Sid))
+                });
+        }).ToArray();
+        _currentEquipment = new VerticalStackPanel(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
+            ControlTextures.Transparent, currentEquipmentElements);
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -91,6 +120,9 @@ internal sealed class TradeScreen : GameScreenWithMenuBase
 
         _availableEquipments.Rect = contentRect;
         _availableEquipments.Draw(spriteBatch);
+
+        _currentEquipment.Rect = new Rectangle(new Point(contentRect.Center.X, contentRect.Top), new Point(contentRect.Width / 2, contentRect.Height));
+        _currentEquipment.Draw(spriteBatch);
 
         spriteBatch.End();
     }

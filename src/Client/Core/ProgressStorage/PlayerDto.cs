@@ -8,4 +8,5 @@ internal sealed record PlayerDto
     public string?[]? KnownMonsterSids { get; init; }
     public string?[]? MonsterPerks { get; init; }
     public ResourceDto?[]? Resources { get; init; }
+    public string?[]? Equipments { get; init; }
 }
