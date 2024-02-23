@@ -6,7 +6,7 @@ public class TextParserTests
     [Test]
     public void TestParseText()
     {
-        string inputText = "text <style=color1,ani2>styled text</style>";
+        var inputText = "text <style=color1,ani2>styled text</style>";
         var result = TextParser.ParseText(inputText);
 
         Assert.AreEqual(2, result.Count);
@@ -16,11 +16,11 @@ public class TextParserTests
         Assert.AreEqual("styled text", result[1].Value);
         Assert.AreEqual(new RichTextNodeStyle(1, 2), result[1].Style);
     }
-    
+
     [Test]
     public void TestParseText2()
     {
-        string inputText = "text\n<style=color1,ani2>styled text</style>";
+        var inputText = "text\n<style=color1,ani2>styled text</style>";
         var result = TextParser.ParseText(inputText);
 
         Assert.AreEqual(2, result.Count);

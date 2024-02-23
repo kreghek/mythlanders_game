@@ -17,7 +17,8 @@ internal sealed class CampaignPanel : ControlBase, ICampaignPanel
     private readonly CampaignLaunchHeroes _campaignHeroes;
     private readonly CampaignButton _selectButton;
 
-    public CampaignPanel(HeroCampaignLaunch campaignLaunch, Texture2D campaignTexture) : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
+    public CampaignPanel(HeroCampaignLaunch campaignLaunch, Texture2D campaignTexture) : base(
+        UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _selectButton = new CampaignButton(campaignTexture, campaignLaunch.Location.Sid);
         _selectButton.OnClick += (_, _) => { Selected?.Invoke(this, EventArgs.Empty); };

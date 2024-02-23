@@ -26,5 +26,5 @@ internal enum GameObjectSoundType
     AmazonWarCry,
     ArmedMove,
     CyberRifleShot,
-    ImpulseArrowBlasts
+    ImpulseArrowBlast
 }

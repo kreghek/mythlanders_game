@@ -16,7 +16,8 @@ internal sealed class CampaignLaunchHeroes : ControlBase
 {
     private readonly IReadOnlyCollection<HeroState> _heroStates;
 
-    public CampaignLaunchHeroes(IReadOnlyCollection<HeroState> heroStates) : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
+    public CampaignLaunchHeroes(IReadOnlyCollection<HeroState> heroStates) : base(UiThemeManager.UiContentStorage
+        .GetControlBackgroundTexture())
     {
         _heroStates = heroStates;
     }
