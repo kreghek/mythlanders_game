@@ -23,7 +23,7 @@ internal sealed class TradeScreen : GameScreenWithMenuBase
 {
     private readonly TradeScreenTransitionArguments _args;
 
-    private IEnumerable<Equipment> equipments;
+    private IEnumerable<TradeOffer> _offers;
     private readonly GameObjectContentStorage _contentStorage;
 
     private readonly VerticalStackPanel _availableEquipments;
@@ -39,13 +39,14 @@ internal sealed class TradeScreen : GameScreenWithMenuBase
 
         _args = args;
 
-        equipments = args.AvailableEquipment;
+        _offers = args.AvailableOffers;
 
         _equipmentButtons = new List<IconButton>();
 
-        var equipmentElements = equipments.Select(equipment =>
+        var equipmentElements = _offers.Select(offer =>
         {
-            var metadata = (EquipmentSchemeMetadata)equipment.Scheme.Metadata;
+            var equipment = (IEquipmentScheme)offer.Prop;
+            var metadata = ((EquipmentSchemeMetadata)equipment).Scheme.Metadata;
 
             var button = new IconButton(new IconData(_contentStorage.GetEquipmentIcons(), GetEquipmentIconRect(metadata)));
             
@@ -53,12 +54,12 @@ internal sealed class TradeScreen : GameScreenWithMenuBase
             {
                 args.CurrentCampaign.CompleteCurrentStage();
                 
-                player.AddEquipment(equipment);
-                
+                player.AddEquipment(offer);
+
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
                     new CampaignScreenTransitionArguments(args.CurrentCampaign));
             };
-            
+
             _equipmentButtons.Add(button);
             
             return new HorizontalStackPanel(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
@@ -68,7 +69,7 @@ internal sealed class TradeScreen : GameScreenWithMenuBase
                     button,
                     new Text(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(), ControlTextures.Transparent,
                         UiThemeManager.UiContentStorage.GetTitlesFont(), _ => Color.White,
-                        () => GameObjectHelper.GetLocalized(equipment.Scheme.Sid))
+                        () => GameObjectHelper.GetLocalized(offer.Scheme.Sid))
                 });
         }).ToArray();
 

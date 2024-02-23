@@ -1,8 +1,10 @@
 using System;
 
+using Core.Props;
+
 namespace Client.Core;
 
-internal sealed class Equipment
+internal sealed class Equipment: IProp
 {
     public Equipment(IEquipmentScheme scheme)
     {
@@ -14,6 +16,7 @@ internal sealed class Equipment
     public int RequiredResourceAmountToLevelUp => (int)Math.Pow(2, Level + 1);
 
     public IEquipmentScheme Scheme { get; }
+    IPropScheme IProp.Scheme { get; }
 
     public void LevelUp()
     {

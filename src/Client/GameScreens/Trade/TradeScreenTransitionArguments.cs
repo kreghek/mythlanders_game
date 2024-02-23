@@ -8,13 +8,13 @@ namespace Client.GameScreens.Trade;
 
 internal sealed class TradeScreenTransitionArguments : IScreenTransitionArguments
 {
-    public TradeScreenTransitionArguments(HeroCampaign currentCampaign, IReadOnlyList<Equipment> availableEquipment)
+    public TradeScreenTransitionArguments(HeroCampaign currentCampaign, IReadOnlyList<TradeOffer> availableOffers)
     {
         CurrentCampaign = currentCampaign;
-        AvailableEquipment = availableEquipment;
+        AvailableOffers = availableOffers;
     }
 
-    public IReadOnlyList<Equipment> AvailableEquipment { get; }
+    public IReadOnlyList<TradeOffer> AvailableOffers { get; }
 
     public HeroCampaign CurrentCampaign { get; }
 }
