@@ -1002,6 +1002,14 @@
     <value>Two plus two is five...</value>
     <comment>Voice</comment>
   </data>
+  <data name="UnlimitedSin" xml:space="preserve">
+    <value>Unlimited Sin</value>
+    <comment>Combat Movement Priest</comment>
+  </data>
+  <data name="UnlimitedSin_Description" xml:space="preserve">
+    <value>If the priest stands alone in the vanguard or in the rear, then he applies a buff to himself that increases damage by &lt;damage_buff&gt; until allies appear nearby.</value>
+    <comment>Combat Movement Priest</comment>
+  </data>
   <data name="VampireBite" xml:space="preserve">
     <value>Vampire bite</value>
     <comment>Skill</comment>

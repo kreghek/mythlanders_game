@@ -39,7 +39,7 @@ internal class UnlimitedSinFactory : CombatMovementFactoryBase
     {
         return new CombatMovementEffectDisplayValue[]
         {
-            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectDisplayValueTemplate.Damage)
+            new CombatMovementEffectDisplayValue("damage_buff", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectDisplayValueTemplate.Damage)
         };
     }
 }

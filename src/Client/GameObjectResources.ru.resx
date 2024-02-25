@@ -1015,6 +1015,12 @@
     <value>Два плюс два будет пять...</value>
     <comment>Voice</comment>
   </data>
+  <data name="UnlimitedSin" xml:space="preserve">
+    <value>Бесконечный Грех</value>
+  </data>
+  <data name="UnlimitedSin_Description" xml:space="preserve">
+    <value>Если жрец стоит один в авангарде или в тылу, то он накладывает на себя усиление, увеличивающее урон на &lt;damage_buff&gt; до появления союзников рядом.</value>
+  </data>
   <data name="VampireBite" xml:space="preserve">
     <value>Вампирический удар</value>
     <comment>Skill</comment>

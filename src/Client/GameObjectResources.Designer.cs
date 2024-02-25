@@ -2124,6 +2124,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unlimited Sin.
+        /// </summary>
+        internal static string UnlimitedSin {
+            get {
+                return ResourceManager.GetString("UnlimitedSin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If the priest stands alone in the vanguard or in the rear, then he applies a buff to himself that increases damage by &lt;damage_buff&gt; until allies appear nearby..
+        /// </summary>
+        internal static string UnlimitedSin_Description {
+            get {
+                return ResourceManager.GetString("UnlimitedSin_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Vampire bite.
         /// </summary>
         internal static string VampireBite {
