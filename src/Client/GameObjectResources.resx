@@ -342,8 +342,12 @@
     <value>Moves to the vanguard and deals two &lt;damage&gt; hits.</value>
     <comment>Combat Movement Agressor</comment>
   </data>
-  <data name="DarkLight" xml:space="preserve">
-    <value>Dark light</value>
+  <data name="DarkLightning" xml:space="preserve">
+    <value>Dark Lightning</value>
+    <comment>Combat Movement Priest</comment>
+  </data>
+  <data name="DarkLightning_Description" xml:space="preserve">
+    <value>Deals &lt;damage&gt; to the first enemy in line. If the enemy had armor, then the lightning would strike two other enemies behind him on the left and right with the same damage.</value>
     <comment>Combat Movement Priest</comment>
   </data>
   <data name="DarkRaids" xml:space="preserve">
@@ -441,6 +445,12 @@
     <value>Ability to avoid 50% of any attacks.</value>
     <comment>Perk</comment>
   </data>
+  <data name="ExtraSp" xml:space="preserve">
+    <value>Extra shields</value>
+  </data>
+  <data name="ExtraXp" xml:space="preserve">
+    <value>Extra HP</value>
+  </data>
   <data name="EyesOfChaos" xml:space="preserve">
     <value>Eyes of Chaos</value>
   </data>
@@ -465,7 +475,11 @@
   </data>
   <data name="FingerOfAnubis" xml:space="preserve">
     <value>The Finger of Anubis</value>
-    <comment>Skill</comment>
+    <comment>Combat Movement Priest</comment>
+  </data>
+  <data name="FingerOfAnubis_Description" xml:space="preserve">
+    <value>Deal &lt;damage&gt; to the nearest enemy in the line. If there are no other combatants to the left or right of the enemy, then the damage is increased by &lt;damage_buff&gt;.</value>
+    <comment>Combat Movement Priest</comment>
   </data>
   <data name="FinishWounded" xml:space="preserve">
     <value>Finish a wounded</value>
@@ -606,6 +620,12 @@
   <data name="ImprovedHitPointsDescription" xml:space="preserve">
     <value>Amount of the hit points increased by 2 times.</value>
     <comment>Perk</comment>
+  </data>
+  <data name="ImprovedMeleeDamage" xml:space="preserve">
+    <value>Improved Melee</value>
+  </data>
+  <data name="ImprovedRangeDamage" xml:space="preserve">
+    <value>Improved Range</value>
   </data>
   <data name="Impulse" xml:space="preserve">
     <value>Impulse</value><comment>Status</comment>
@@ -769,9 +789,14 @@
     <value>Strongly attacks the closest enemy in line with &lt;damage&gt;.</value>
     <comment>Combat movement Ambush Drone</comment>
   </data>
-  <data name="ParaliticChor" xml:space="preserve">
-    <value>Paralitic Chor</value>
-    <comment>Skill</comment>
+  <data name="ParalyticChoir" xml:space="preserve">
+    <value>Paralytic Choir</value>
+    <comment>Combat movement Priest</comment>
+  </data>
+  <data name="ParalyticChoir_Description" xml:space="preserve">
+    <value>
+Stuns the strongest enemy for &lt;duration&gt; if there is at least one other combatant nearby.</value>
+    <comment>Combat movement Priest</comment>
   </data>
   <data name="Partisan" xml:space="preserve">
     <value>The Deaf</value>
@@ -787,6 +812,10 @@
   <data name="Prey_CrisisAftermath" xml:space="preserve">
     <value>Pay attention</value>
     <comment>Crisis Aftermath</comment>
+  </data>
+  <data name="Priest" xml:space="preserve">
+    <value>Kahotep</value>
+    <comment>Hero</comment>
   </data>
   <data name="Ranged" xml:space="preserve">
     <value>Ranged</value>
@@ -982,13 +1011,13 @@
     <value>Two plus two is five...</value>
     <comment>Voice</comment>
   </data>
-  <data name="WeOnlyLiveOnce" xml:space="preserve">
-    <value>We Live Only Once!</value>
-    <comment>Combat Movement Robber</comment>
+  <data name="UnlimitedSin" xml:space="preserve">
+    <value>Unlimited Sin</value>
+    <comment>Combat Movement Priest</comment>
   </data>
-  <data name="WeOnlyLiveOnce_Description" xml:space="preserve">
-    <value>Deals &lt;damage&gt; to the closest enemy in the line. If it was the strongest enemy, it applies bleeding for &lt;duration&gt;, dealing &lt;bleed_damage&gt; each round.</value>
-    <comment>Combat Movement Robber</comment>
+  <data name="UnlimitedSin_Description" xml:space="preserve">
+    <value>If the priest stands alone in the vanguard or in the rear, then he applies a buff to himself that increases damage by &lt;damage_buff&gt; until allies appear nearby.</value>
+    <comment>Combat Movement Priest</comment>
   </data>
   <data name="VampireBite" xml:space="preserve">
     <value>Vampire bite</value>
@@ -1017,6 +1046,14 @@
   <data name="WarriorEquipment" xml:space="preserve">
     <value>Sword pieces</value>
     <comment>Resource</comment>
+  </data>
+  <data name="WeOnlyLiveOnce" xml:space="preserve">
+    <value>We Live Only Once!</value>
+    <comment>Combat Movement Robber</comment>
+  </data>
+  <data name="WeOnlyLiveOnce_Description" xml:space="preserve">
+    <value>Deals &lt;damage&gt; to the closest enemy in the line. If it was the strongest enemy, it applies bleeding for &lt;duration&gt;, dealing &lt;bleed_damage&gt; each round.</value>
+    <comment>Combat Movement Robber</comment>
   </data>
   <data name="WideSwordSlash" xml:space="preserve">
     <value>Wide sword slash</value>
@@ -1061,17 +1098,5 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Zduhach Might</value>
     <comment>Skill</comment>
-  </data>
-  <data name="ExtraXp" xml:space="preserve">
-    <value>Extra HP</value>
-  </data>
-  <data name="ExtraSp" xml:space="preserve">
-    <value>Extra shields</value>
-  </data>
-  <data name="ImprovedMeleeDamage" xml:space="preserve">
-    <value>Improved Melee</value>
-  </data>
-  <data name="ImprovedRangeDamage" xml:space="preserve">
-    <value>Improved Range</value>
   </data>
 </root>

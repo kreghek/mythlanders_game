@@ -346,9 +346,12 @@
     <value>Перемещается в авангард и наносит два удара &lt;damage&gt;.</value>
     <comment>Combat Movement Agressor</comment>
   </data>
-  <data name="DarkLight" xml:space="preserve">
+  <data name="DarkLightning" xml:space="preserve">
     <value>Темная молния</value>
     <comment>Combat Movement Priest</comment>
+  </data>
+  <data name="DarkLightning_Description" xml:space="preserve">
+    <value>Наносит &lt;damage&gt; первому в линии противнику. Если противник имел броню, то молния поражает двух других противников за ним слева и справа с тем же уроном.</value>
   </data>
   <data name="DarkRaids" xml:space="preserve">
     <value>Налеты Тьмы</value>
@@ -445,6 +448,12 @@
     <value>Способность избегать 50% любых атак.</value>
     <comment>Perk</comment>
   </data>
+  <data name="ExtraSp" xml:space="preserve">
+    <value>Экстра щиты</value>
+  </data>
+  <data name="ExtraXp" xml:space="preserve">
+    <value>Экстра ХП</value>
+  </data>
   <data name="EyesOfChaos" xml:space="preserve">
     <value>Очи Хаоса</value>
   </data>
@@ -470,6 +479,9 @@
   <data name="FingerOfAnubis" xml:space="preserve">
     <value>Перст Анубиса</value>
     <comment>Skill</comment>
+  </data>
+  <data name="FingerOfAnubis_Description" xml:space="preserve">
+    <value>Наносить &lt;damage&gt; ближайшему противнику в линии. Если слева и справа от противника нет других комбатантов, то урон увеличивается на &lt;damage_buff&gt;.</value>
   </data>
   <data name="FinishWounded" xml:space="preserve">
     <value>Добить подранка</value>
@@ -611,6 +623,12 @@
   <data name="ImprovedHitPointsDescription" xml:space="preserve">
     <value>Количество хит поинтов увеличено в 2 раза.</value>
     <comment>Perk</comment>
+  </data>
+  <data name="ImprovedMeleeDamage" xml:space="preserve">
+    <value>Улучшенная рукопашная</value>
+  </data>
+  <data name="ImprovedRangeDamage" xml:space="preserve">
+    <value>Улучшенная стрельба</value>
   </data>
   <data name="Impulse" xml:space="preserve">
     <value>Импульс</value>
@@ -777,9 +795,11 @@
     <value>Сильно атакует ближайшего противника в линии на &lt;damage&gt;.</value>
     <comment>Combat movement Ambush Drone</comment>
   </data>
-  <data name="ParaliticChor" xml:space="preserve">
-    <value>Паралитический хор</value>
-    <comment>Skill</comment>
+  <data name="ParalyticChoir" xml:space="preserve">
+    <value>Паралитический Хор</value>
+  </data>
+  <data name="ParalyticChoir_Description" xml:space="preserve">
+    <value>Накладывает стан на самого сильного противника на &lt;duration&gt;, если рядом есть хоть один другой комбатант.</value>
   </data>
   <data name="Partisan" xml:space="preserve">
     <value>Глухой</value>
@@ -795,6 +815,9 @@
   <data name="Prey_CrisisAftermath" xml:space="preserve">
     <value>Уделить внимание</value>
     <comment>Crisis Aftermath</comment>
+  </data>
+  <data name="Priest" xml:space="preserve">
+    <value>Кахотеп</value>
   </data>
   <data name="Ranged" xml:space="preserve">
     <value>Стрелковый</value>
@@ -997,13 +1020,11 @@
     <value>Два плюс два будет пять...</value>
     <comment>Voice</comment>
   </data>
-  <data name="WeOnlyLiveOnce" xml:space="preserve">
-    <value>Где наше не пропадало?!</value>
-    <comment>Combat Movement Robber</comment>
+  <data name="UnlimitedSin" xml:space="preserve">
+    <value>Бесконечный Грех</value>
   </data>
-  <data name="WeOnlyLiveOnce_Description" xml:space="preserve">
-    <value>Наносит &lt;damage&gt; ближайшему в линии противнику. Если это был самый сильный противник, то накладывает кровотечение на &lt;duration&gt;, наносящее урон &lt;bleed_damage&gt; каждый раунд.</value>
-    <comment>Combat Movement Robber</comment>
+  <data name="UnlimitedSin_Description" xml:space="preserve">
+    <value>Если жрец стоит один в авангарде или в тылу, то он накладывает на себя усиление, увеличивающее урон на &lt;damage_buff&gt; до появления союзников рядом.</value>
   </data>
   <data name="VampireBite" xml:space="preserve">
     <value>Вампирический удар</value>
@@ -1032,6 +1053,14 @@
   <data name="WarriorEquipment" xml:space="preserve">
     <value>Осколки меча</value>
     <comment>Resource</comment>
+  </data>
+  <data name="WeOnlyLiveOnce" xml:space="preserve">
+    <value>Где наше не пропадало?!</value>
+    <comment>Combat Movement Robber</comment>
+  </data>
+  <data name="WeOnlyLiveOnce_Description" xml:space="preserve">
+    <value>Наносит &lt;damage&gt; ближайшему в линии противнику. Если это был самый сильный противник, то накладывает кровотечение на &lt;duration&gt;, наносящее урон &lt;bleed_damage&gt; каждый раунд.</value>
+    <comment>Combat Movement Robber</comment>
   </data>
   <data name="WideSwordSlash" xml:space="preserve">
     <value>Широкий удар мечом</value>
@@ -1078,17 +1107,5 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
     <comment>Skill</comment>
-  </data>
-  <data name="ExtraXp" xml:space="preserve">
-    <value>Экстра ХП</value>
-  </data>
-  <data name="ExtraSp" xml:space="preserve">
-    <value>Экстра щиты</value>
-  </data>
-  <data name="ImprovedMeleeDamage" xml:space="preserve">
-    <value>Улучшенная рукопашная</value>
-  </data>
-  <data name="ImprovedRangeDamage" xml:space="preserve">
-    <value>Улучшенная стрельба</value>
   </data>
 </root>

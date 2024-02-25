@@ -583,11 +583,20 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dark light.
+        ///   Looks up a localized string similar to Dark Lightning.
         /// </summary>
-        internal static string DarkLight {
+        internal static string DarkLightning {
             get {
-                return ResourceManager.GetString("DarkLight", resourceCulture);
+                return ResourceManager.GetString("DarkLightning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deals &lt;damage&gt; to the first enemy in line. If the enemy had armor, then the lightning would strike two other enemies behind him on the left and right with the same damage..
+        /// </summary>
+        internal static string DarkLightning_Description {
+            get {
+                return ResourceManager.GetString("DarkLightning_Description", resourceCulture);
             }
         }
         
@@ -885,6 +894,15 @@ namespace Client {
         internal static string FingerOfAnubis {
             get {
                 return ResourceManager.GetString("FingerOfAnubis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deal &lt;damage&gt; to the nearest enemy in the line. If there are no other combatants to the left or right of the enemy, then the damage is increased by &lt;damage_buff&gt;..
+        /// </summary>
+        internal static string FingerOfAnubis_Description {
+            get {
+                return ResourceManager.GetString("FingerOfAnubis_Description", resourceCulture);
             }
         }
         
@@ -1602,11 +1620,21 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Paralitic Chor.
+        ///   Looks up a localized string similar to Paralytic Choir.
         /// </summary>
-        internal static string ParaliticChor {
+        internal static string ParalyticChoir {
             get {
-                return ResourceManager.GetString("ParaliticChor", resourceCulture);
+                return ResourceManager.GetString("ParalyticChoir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///Stuns the strongest enemy for &lt;duration&gt; if there is at least one other combatant nearby..
+        /// </summary>
+        internal static string ParalyticChoir_Description {
+            get {
+                return ResourceManager.GetString("ParalyticChoir_Description", resourceCulture);
             }
         }
         
@@ -1643,6 +1671,15 @@ namespace Client {
         internal static string Preying_Crisis {
             get {
                 return ResourceManager.GetString("Preying_Crisis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kahotep.
+        /// </summary>
+        internal static string Priest {
+            get {
+                return ResourceManager.GetString("Priest", resourceCulture);
             }
         }
         
@@ -2102,6 +2139,24 @@ namespace Client {
         internal static string TwoPlusTwoIsFive_voice {
             get {
                 return ResourceManager.GetString("TwoPlusTwoIsFive_voice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unlimited Sin.
+        /// </summary>
+        internal static string UnlimitedSin {
+            get {
+                return ResourceManager.GetString("UnlimitedSin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If the priest stands alone in the vanguard or in the rear, then he applies a buff to himself that increases damage by &lt;damage_buff&gt; until allies appear nearby..
+        /// </summary>
+        internal static string UnlimitedSin_Description {
+            get {
+                return ResourceManager.GetString("UnlimitedSin_Description", resourceCulture);
             }
         }
         

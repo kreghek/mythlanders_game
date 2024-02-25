@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Client.Assets.CombatMovements.Hero.Priest;
+using Client.Assets.GraphicConfigs.Heroes;
 
 using CombatDicesTeam.Combats;
 
@@ -17,13 +18,13 @@ internal sealed class PriestHeroFactory : HeroFactoryBase
     {
         var movementPool = new List<CombatMovement>
         {
-            CreateMovement<DarkLightingFactory>(),
+            CreateMovement<DarkLightningFactory>(),
 
             CreateMovement<UnlimitedSinFactory>(),
 
             CreateMovement<ParalyticChoirFactory>(),
 
-            CreateMovement<FingerOfAnubisFactory>()            
+            CreateMovement<FingerOfAnubisFactory>()
         };
 
         var heroSequence = new CombatMovementSequence();
@@ -46,5 +47,10 @@ internal sealed class PriestHeroFactory : HeroFactoryBase
         stats.SetValue(CombatantStatTypes.ShieldPoints, 0);
         stats.SetValue(CombatantStatTypes.Resolve, 6);
         return stats;
+    }
+
+    public override CombatantGraphicsConfigBase GetGraphicsConfig()
+    {
+        return new PriestGraphicsConfig();
     }
 }

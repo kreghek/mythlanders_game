@@ -4,6 +4,7 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.TargetSelectors;
 using GameAssets.Combats.CombatMovementEffects;
 using JetBrains.Annotations;
+using System.Collections.Generic;
 
 namespace Client.Assets.CombatMovements.Hero.Priest;
 
@@ -11,7 +12,7 @@ namespace Client.Assets.CombatMovements.Hero.Priest;
 internal class UnlimitedSinFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
-    public override CombatMovementIcon CombatMovementIcon => new(5, 5);
+    public override CombatMovementIcon CombatMovementIcon => new(2, 4);
 
     /// <inheritdoc />
     public override CombatMovement CreateMovement()
@@ -30,6 +31,15 @@ internal class UnlimitedSinFactory : CombatMovementFactoryBase
         )
         {
             Tags = CombatMovementTags.Attack
+        };
+    }
+
+    /// <inheritdoc />
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
+    {
+        return new CombatMovementEffectDisplayValue[]
+        {
+            new CombatMovementEffectDisplayValue("damage_buff", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectDisplayValueTemplate.Damage)
         };
     }
 }
