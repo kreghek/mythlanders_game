@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework;
 
 namespace Client.Assets.GraphicConfigs.Monsters.Slavic;
 
-internal sealed class DigitalWolfGraphicsConfig : SlavicMonsterGraphicConfig
+internal sealed class DigitalHortGraphicsConfig : SlavicMonsterGraphicConfig
 {
-    public DigitalWolfGraphicsConfig(UnitName unit) : base(unit)
+    public DigitalHortGraphicsConfig(UnitName unit) : base(unit)
     {
         InteractionPoint = new Vector2(64, 16);
 

@@ -4,12 +4,15 @@ using Client.Core;
 
 using GameClient.Engine.Animations;
 
+using Microsoft.Xna.Framework;
+
 namespace Client.Assets.GraphicConfigs.Monsters.Egyptian;
 
 internal sealed class ChaserGraphicConfig : EgyptianMonsterGraphicConfig
 {
     public ChaserGraphicConfig() : base(UnitName.Chaser)
     {
+        Origin = new Vector2(75, 110);
     }
 
     public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
@@ -17,8 +20,7 @@ internal sealed class ChaserGraphicConfig : EgyptianMonsterGraphicConfig
         return new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
         {
             {
-                PredefinedAnimationSid.Idle,
-                new LinearAnimationFrameSet(new[] { 0 }, 0, frameWidth: 128, frameHeight: 150, textureColumns: 3)
+                PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdle()
             },
             {
                 PredefinedAnimationSid.MoveForward,
