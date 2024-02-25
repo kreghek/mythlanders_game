@@ -31,6 +31,6 @@ internal sealed class DigitalWolfFactory : IMonsterFactory
 
     public CombatantGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
     {
-        return new DigitalWolfGraphicsConfig(ClassName);
+        return new DigitalHortGraphicsConfig(ClassName);
     }
 }
