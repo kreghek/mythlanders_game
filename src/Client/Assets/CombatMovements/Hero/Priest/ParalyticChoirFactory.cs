@@ -5,6 +5,7 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.TargetSelectors;
 using GameAssets.Combats.CombatMovementEffects;
 using JetBrains.Annotations;
+using System.Collections.Generic;
 
 [UsedImplicitly]
 internal class ParalyticChoirFactory : CombatMovementFactoryBase
@@ -29,6 +30,15 @@ internal class ParalyticChoirFactory : CombatMovementFactoryBase
         )
         {
             Tags = CombatMovementTags.Attack
+        };
+    }
+
+    /// <inheritdoc />
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
+    {
+        return new CombatMovementEffectDisplayValue[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectDisplayValueTemplate.Damage)
         };
     }
 }

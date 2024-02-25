@@ -18,7 +18,7 @@ internal sealed class PriestHeroFactory : HeroFactoryBase
     {
         var movementPool = new List<CombatMovement>
         {
-            CreateMovement<DarkLightingFactory>(),
+            CreateMovement<DarkLightningFactory>(),
 
             CreateMovement<UnlimitedSinFactory>(),
 

@@ -583,11 +583,20 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dark light.
+        ///   Looks up a localized string similar to Dark Lightning.
         /// </summary>
-        internal static string DarkLight {
+        internal static string DarkLightning {
             get {
-                return ResourceManager.GetString("DarkLight", resourceCulture);
+                return ResourceManager.GetString("DarkLightning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deals &lt;damage&gt; to the first enemy in line. If the enemy had armor, then the lightning would strike two other enemies behind him on the left and right with the same damage..
+        /// </summary>
+        internal static string DarkLightning_Description {
+            get {
+                return ResourceManager.GetString("DarkLightning_Description", resourceCulture);
             }
         }
         

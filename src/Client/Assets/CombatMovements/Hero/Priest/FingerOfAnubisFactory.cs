@@ -4,6 +4,7 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.TargetSelectors;
 using GameAssets.Combats.CombatMovementEffects;
 using JetBrains.Annotations;
+using System.Collections.Generic;
 
 namespace Client.Assets.CombatMovements.Hero.Priest;
 
@@ -30,6 +31,15 @@ internal class FingerOfAnubisFactory : CombatMovementFactoryBase
         )
         {
             Tags = CombatMovementTags.Attack
+        };
+    }
+
+    /// <inheritdoc />
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
+    {
+        return new CombatMovementEffectDisplayValue[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectDisplayValueTemplate.Damage)
         };
     }
 }
