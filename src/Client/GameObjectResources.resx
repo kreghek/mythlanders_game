@@ -813,6 +813,10 @@ Stuns the strongest enemy for &lt;duration&gt; if there is at least one other co
     <value>Pay attention</value>
     <comment>Crisis Aftermath</comment>
   </data>
+  <data name="Priest" xml:space="preserve">
+    <value>Kahotep</value>
+    <comment>Hero</comment>
+  </data>
   <data name="Ranged" xml:space="preserve">
     <value>Ranged</value>
   </data>

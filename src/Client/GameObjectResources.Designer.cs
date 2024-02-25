@@ -1675,6 +1675,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Kahotep.
+        /// </summary>
+        internal static string Priest {
+            get {
+                return ResourceManager.GetString("Priest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ranged.
         /// </summary>
         internal static string Ranged {
