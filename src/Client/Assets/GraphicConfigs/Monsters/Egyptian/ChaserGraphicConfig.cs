@@ -12,7 +12,7 @@ internal sealed class ChaserGraphicConfig : EgyptianMonsterGraphicConfig
 {
     public ChaserGraphicConfig() : base(UnitName.Chaser)
     {
-        Origin = new Vector2(75, 110);
+        Origin = new Vector2(80, 110);
     }
 
     public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
