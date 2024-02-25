@@ -11,7 +11,7 @@ namespace Client.Assets.CombatMovements.Hero.Priest;
 internal class UnlimitedSinFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
-    public override CombatMovementIcon CombatMovementIcon => new(5, 5);
+    public override CombatMovementIcon CombatMovementIcon => new(2, 4);
 
     /// <inheritdoc />
     public override CombatMovement CreateMovement()

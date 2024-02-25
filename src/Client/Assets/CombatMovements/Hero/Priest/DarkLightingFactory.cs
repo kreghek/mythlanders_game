@@ -1,4 +1,3 @@
-using Client.Assets.CombatMovements;
 using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.GenericRanges;
@@ -12,7 +11,7 @@ namespace Client.Assets.CombatMovements.Hero.Priest;
 internal class DarkLightingFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
-    public override CombatMovementIcon CombatMovementIcon => new(5, 5);
+    public override CombatMovementIcon CombatMovementIcon => new(3, 5);
 
     /// <inheritdoc />
     public override CombatMovement CreateMovement()
