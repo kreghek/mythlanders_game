@@ -32,11 +32,11 @@ internal sealed class ChaserGraphicConfig : EgyptianMonsterGraphicConfig
             },
             {
                 PredefinedAnimationSid.Wound,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, fps: 8)
+                AnimationFrameSetFactory.CreateIdleFromGrid(new[]{ 3 })
             },
             {
                 PredefinedAnimationSid.Death,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 32, frameCount: 8, fps: 8)
+                AnimationFrameSetFactory.CreateIdleFromGrid(new[]{ 4 })
             }
         };
     }
