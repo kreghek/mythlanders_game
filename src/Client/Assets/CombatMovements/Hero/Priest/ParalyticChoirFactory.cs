@@ -38,7 +38,7 @@ internal class ParalyticChoirFactory : CombatMovementFactoryBase
     {
         return new CombatMovementEffectDisplayValue[]
         {
-            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectDisplayValueTemplate.Damage)
+            new CombatMovementEffectDisplayValue("duration", 1, CombatMovementEffectDisplayValueTemplate.RoundDuration)
         };
     }
 }

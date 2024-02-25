@@ -1620,11 +1620,21 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Paralitic Chor.
+        ///   Looks up a localized string similar to Paralytic Choir.
         /// </summary>
-        internal static string ParaliticChor {
+        internal static string ParalyticChoir {
             get {
-                return ResourceManager.GetString("ParaliticChor", resourceCulture);
+                return ResourceManager.GetString("ParalyticChoir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///Stuns the strongest enemy for &lt;duration&gt; if there is at least one other combatant nearby..
+        /// </summary>
+        internal static string ParalyticChoir_Description {
+            get {
+                return ResourceManager.GetString("ParalyticChoir_Description", resourceCulture);
             }
         }
         

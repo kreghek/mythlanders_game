@@ -789,9 +789,14 @@
     <value>Strongly attacks the closest enemy in line with &lt;damage&gt;.</value>
     <comment>Combat movement Ambush Drone</comment>
   </data>
-  <data name="ParaliticChor" xml:space="preserve">
-    <value>Paralitic Chor</value>
-    <comment>Skill</comment>
+  <data name="ParalyticChoir" xml:space="preserve">
+    <value>Paralytic Choir</value>
+    <comment>Combat movement Priest</comment>
+  </data>
+  <data name="ParalyticChoir_Description" xml:space="preserve">
+    <value>
+Stuns the strongest enemy for &lt;duration&gt; if there is at least one other combatant nearby.</value>
+    <comment>Combat movement Priest</comment>
   </data>
   <data name="Partisan" xml:space="preserve">
     <value>The Deaf</value>

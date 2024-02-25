@@ -795,9 +795,11 @@
     <value>Сильно атакует ближайшего противника в линии на &lt;damage&gt;.</value>
     <comment>Combat movement Ambush Drone</comment>
   </data>
-  <data name="ParaliticChor" xml:space="preserve">
-    <value>Паралитический хор</value>
-    <comment>Skill</comment>
+  <data name="ParalyticChoir" xml:space="preserve">
+    <value>Паралитический Хор</value>
+  </data>
+  <data name="ParalyticChoir_Description" xml:space="preserve">
+    <value>Накладывает стан на самого сильного противника на &lt;duration&gt;, если рядом есть хоть один другой комбатант.</value>
   </data>
   <data name="Partisan" xml:space="preserve">
     <value>Глухой</value>
