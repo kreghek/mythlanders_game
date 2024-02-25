@@ -1,6 +1,6 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-using Client.Assets.CombatMovements.Hero.Amazon;
+using Client.Assets.CombatMovements.Hero.Priest;
 
 using CombatDicesTeam.Combats;
 
@@ -11,21 +11,19 @@ using JetBrains.Annotations;
 namespace Client.Core.Heroes.Factories;
 
 [UsedImplicitly]
-internal sealed class AmazonHeroFactory : HeroFactoryBase
+internal sealed class PriestHeroFactory : HeroFactoryBase
 {
     protected override CombatMovementSequence CreateInitCombatMovementPool()
     {
         var movementPool = new List<CombatMovement>
         {
-            CreateMovement<HuntFactory>(),
+            CreateMovement<DarkLightingFactory>(),
 
-            CreateMovement<FinishWoundedFactory>(),
+            CreateMovement<UnlimitedSinFactory>(),
 
-            CreateMovement<TrackerSavvyFactory>(),
+            CreateMovement<ParalyticChoirFactory>(),
 
-            CreateMovement<JustHitBoarWithKnifeFactory>(),
-
-            CreateMovement<BringBeastDownFactory>()
+            CreateMovement<FingerOfAnubisFactory>()            
         };
 
         var heroSequence = new CombatMovementSequence();
@@ -44,9 +42,9 @@ internal sealed class AmazonHeroFactory : HeroFactoryBase
     protected override CombatantStatsConfig CreateInitStats()
     {
         var stats = new CombatantStatsConfig();
-        stats.SetValue(CombatantStatTypes.HitPoints, 3);
+        stats.SetValue(CombatantStatTypes.HitPoints, 2);
         stats.SetValue(CombatantStatTypes.ShieldPoints, 0);
-        stats.SetValue(CombatantStatTypes.Resolve, 4);
+        stats.SetValue(CombatantStatTypes.Resolve, 6);
         return stats;
     }
 }
