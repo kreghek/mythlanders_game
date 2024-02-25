@@ -25,7 +25,7 @@ internal class FingerOfAnubisFactory : CombatMovementFactoryBase
                 new DamageEffectWrapper(
                     new ClosestInLineTargetSelector(),
                     DamageType.Normal,
-                    GenericRange<int>.CreateMono(1)),
+                    GenericRange<int>.CreateMono(2)),
                 new InterruptEffect(new ClosestInLineTargetSelector())
                 })
         )
@@ -39,7 +39,8 @@ internal class FingerOfAnubisFactory : CombatMovementFactoryBase
     {
         return new CombatMovementEffectDisplayValue[]
         {
-            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectDisplayValueTemplate.Damage)
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectDisplayValueTemplate.Damage),
+            new CombatMovementEffectDisplayValue("damage_buff", 2, CombatMovementEffectDisplayValueTemplate.DamageModifier)
         };
     }
 }

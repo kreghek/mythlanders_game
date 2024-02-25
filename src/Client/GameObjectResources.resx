@@ -475,7 +475,11 @@
   </data>
   <data name="FingerOfAnubis" xml:space="preserve">
     <value>The Finger of Anubis</value>
-    <comment>Skill</comment>
+    <comment>Combat Movement Priest</comment>
+  </data>
+  <data name="FingerOfAnubis_Description" xml:space="preserve">
+    <value>Deal &lt;damage&gt; to the nearest enemy in the line. If there are no other combatants to the left or right of the enemy, then the damage is increased by &lt;damage_buff&gt;.</value>
+    <comment>Combat Movement Priest</comment>
   </data>
   <data name="FinishWounded" xml:space="preserve">
     <value>Finish a wounded</value>

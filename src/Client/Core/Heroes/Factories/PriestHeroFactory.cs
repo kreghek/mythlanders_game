@@ -24,7 +24,7 @@ internal sealed class PriestHeroFactory : HeroFactoryBase
 
             CreateMovement<ParalyticChoirFactory>(),
 
-            CreateMovement<FingerOfAnubisFactory>()            
+            CreateMovement<FingerOfAnubisFactory>()
         };
 
         var heroSequence = new CombatMovementSequence();

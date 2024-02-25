@@ -898,6 +898,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deal &lt;damage&gt; to the nearest enemy in the line. If there are no other combatants to the left or right of the enemy, then the damage is increased by &lt;damage_buff&gt;..
+        /// </summary>
+        internal static string FingerOfAnubis_Description {
+            get {
+                return ResourceManager.GetString("FingerOfAnubis_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Finish a wounded.
         /// </summary>
         internal static string FinishWounded {

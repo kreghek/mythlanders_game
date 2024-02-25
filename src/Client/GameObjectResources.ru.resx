@@ -480,6 +480,9 @@
     <value>Перст Анубиса</value>
     <comment>Skill</comment>
   </data>
+  <data name="FingerOfAnubis_Description" xml:space="preserve">
+    <value>Наносить &lt;damage&gt; ближайшему противнику в линии. Если слева и справа от противника нет других комбатантов, то урон увеличивается на &lt;damage_buff&gt;.</value>
+  </data>
   <data name="FinishWounded" xml:space="preserve">
     <value>Добить подранка</value>
     <comment>Combat Movement Amazon</comment>
