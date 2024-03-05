@@ -41,6 +41,7 @@ internal class HealingSalveFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
+                    // Increase HP to emulate heal
                     new DamageEffectWrapper(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,

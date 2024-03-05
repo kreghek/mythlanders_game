@@ -41,6 +41,7 @@ internal class DopeHerbFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
+                    // Interrupt enemy
                     new DamageEffectWrapper(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,

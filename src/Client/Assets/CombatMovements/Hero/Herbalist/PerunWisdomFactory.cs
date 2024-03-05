@@ -28,7 +28,7 @@ using MonoGame.Extended.TextureAtlases;
 namespace Client.Assets.CombatMovements.Hero.Herbalist;
 
 [UsedImplicitly]
-internal class RogMutationFactory : CombatMovementFactoryBase
+internal class PerunWisdomFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(3, 6);
@@ -41,7 +41,7 @@ internal class RogMutationFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    // Psychotropic skill 
+                    // drop periodic statuses from ally
                     new DamageEffectWrapper(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
@@ -49,7 +49,7 @@ internal class RogMutationFactory : CombatMovementFactoryBase
                 })
         )
         {
-            Metadata = new CombatMovementMetadata(new[] { CombatMovementMetadataTraits.Support })
+            Metadata = new CombatMovementMetadata(new[] { CombatMovementMetadataTraits.Ranged })
         };
     }
 

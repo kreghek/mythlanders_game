@@ -28,7 +28,7 @@ using MonoGame.Extended.TextureAtlases;
 namespace Client.Assets.CombatMovements.Hero.Herbalist;
 
 [UsedImplicitly]
-internal class RogMutationFactory : CombatMovementFactoryBase
+internal class AncientMassSmokeFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(3, 6);
@@ -41,7 +41,7 @@ internal class RogMutationFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    // Psychotropic skill 
+                    // Mass armor, painkiller
                     new DamageEffectWrapper(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,

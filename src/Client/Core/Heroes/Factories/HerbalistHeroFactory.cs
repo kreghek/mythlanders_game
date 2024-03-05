@@ -27,11 +27,13 @@ internal sealed class HerbalistHeroFactory : HeroFactoryBase
 
             CreateMovement<HealingSalveFactory>(),
 
-            CreateMovement<MassHealFactory>(),
+            CreateMovement<AncientMassSmokeFactory>(),
 
             CreateMovement<ToxicGasFactory>(),
             
-            CreateMovement<RogMutationFactory>()
+            CreateMovement<RogMutationFactory>(),
+            
+            CreateMovement<FrenzyFlowerDustFactory>()
         };
 
         var heroSequence = new CombatMovementSequence();

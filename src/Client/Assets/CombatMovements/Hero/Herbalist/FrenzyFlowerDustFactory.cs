@@ -28,7 +28,7 @@ using MonoGame.Extended.TextureAtlases;
 namespace Client.Assets.CombatMovements.Hero.Herbalist;
 
 [UsedImplicitly]
-internal class MassHealFactory : CombatMovementFactoryBase
+internal class FrenzyFlowerDustFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(3, 6);
@@ -41,6 +41,7 @@ internal class MassHealFactory : CombatMovementFactoryBase
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
+                    // Increase melee attack skills
                     new DamageEffectWrapper(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
