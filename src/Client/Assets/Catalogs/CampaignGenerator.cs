@@ -25,8 +25,6 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
     private readonly string[] _heroInDev =
     {
-        nameof(UnitName.Herbalist),
-
         nameof(UnitName.Hoplite),
         nameof(UnitName.Engineer),
 
