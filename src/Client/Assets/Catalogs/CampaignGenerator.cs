@@ -32,7 +32,6 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         nameof(UnitName.Priest),
         nameof(UnitName.Liberator),
-        nameof(UnitName.Medjay),
 
         nameof(UnitName.Zoologist)
     };
