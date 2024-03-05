@@ -55,24 +55,26 @@ internal sealed class MonasteryBackgroundObjectFactory : IBackgroundObjectFactor
 
     public IReadOnlyList<IBackgroundObject> CreateCloudLayerObjects()
     {
-        var list = new List<IBackgroundObject>();
+        //var list = new List<IBackgroundObject>();
 
-        for (var i = 0; i < 100; i++)
-        {
-            var weatherObject = new DemonicFireAnimatedObject(_gameObjectContentStorage.GetParticlesTexture(),
-                new Rectangle(0, 32, 32, 32),
-                new Vector2(i * 10, 240));
-            list.Add(weatherObject);
-        }
+        //for (var i = 0; i < 100; i++)
+        //{
+        //    var weatherObject = new DemonicFireAnimatedObject(_gameObjectContentStorage.GetParticlesTexture(),
+        //        new Rectangle(0, 32, 32, 32),
+        //        new Vector2(i * 10, 240));
+        //    list.Add(weatherObject);
+        //}
 
-        return list;
+        //return list;
+
+        return new List<IBackgroundObject>(0);
     }
 
     public IReadOnlyList<IBackgroundObject> CreateMainLayerObjects()
     {
         var mainLayerObjects = new List<IBackgroundObject>();
 
-        const int FLOOR_COUNT = 1024 / 256;
+        const int FLOOR_COUNT = 1024 / 256 + 1;
 
         for (var objectIndex = 0; objectIndex < FLOOR_COUNT; objectIndex++)
         {
@@ -115,6 +117,6 @@ internal sealed class MonasteryBackgroundObjectFactory : IBackgroundObjectFactor
 
     public IReadOnlyList<IBackgroundObject> CreateFarLayerObjects()
     {
-        return CreateHouses(farLayerBottom: 180);
+        return new List<IBackgroundObject>(0); //CreateHouses(farLayerBottom: 180);
     }
 }
