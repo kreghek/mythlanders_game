@@ -13,13 +13,13 @@ internal sealed class Globe
 
     private readonly List<IGlobeEvent> _globeEvents;
 
-    public Globe(Player player)
+    public Globe(Player player, GameProgression progression)
     {
         _globeEvents = new List<IGlobeEvent>();
         _activeStoryPointsList = new List<IStoryPoint>();
 
-        //_biomeGenerator = biomeGenerator;
         Player = player;
+        Progression = progression;
         // First variant of the names.
         /*
          * "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
@@ -41,6 +41,7 @@ internal sealed class Globe
     public bool IsNodeInitialized { get; set; }
 
     public Player Player { get; }
+    public GameProgression Progression { get; }
 
     public void AddActiveStoryPoint(IStoryPoint storyPoint)
     {
