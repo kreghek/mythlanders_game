@@ -138,10 +138,25 @@ internal sealed class TitleScreen : GameScreenBase
 
         var availableLaunches = campaignGenerator.CreateSet(globeProvider.Globe);
 
-        screenManager.ExecuteTransition(
-            currentScreen,
-            ScreenTransition.CommandCenter,
-            new CommandCenterScreenTransitionArguments(availableLaunches));
+        if (globeProvider.Globe.Progression.HasEntry("CommandCenterAvailable"))
+        {
+            screenManager.ExecuteTransition(
+                currentScreen,
+                ScreenTransition.CommandCenter,
+                new CommandCenterScreenTransitionArguments(availableLaunches));    
+        }
+        else
+        {
+            var scenarioCampaigns = new ScenarioCampaigns();
+            var campaign = scenarioCampaigns.GetCampaign("tutorial", globeProvider.Globe.Player);
+
+            screenManager.ExecuteTransition(
+                currentScreen,
+                ScreenTransition.Combat,
+                new CombatScreenTransitionArguments(campaign,
+                    ((CombatStageItem)campaign.CurrentStage.Payload).CombatSequence, 0, false, campaign.Location.Sid,
+                    null));
+        }
     }
 
     protected override void DrawContent(SpriteBatch spriteBatch)
