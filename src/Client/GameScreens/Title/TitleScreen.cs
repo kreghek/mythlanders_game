@@ -150,11 +150,13 @@ internal sealed class TitleScreen : GameScreenBase
             var scenarioCampaigns = new ScenarioCampaigns();
             var campaign = scenarioCampaigns.GetCampaign("tutorial", globeProvider.Globe.Player);
 
+            var startStage = campaign.Location.Stages.GetAllNodes().First().Payload;
+
             screenManager.ExecuteTransition(
                 currentScreen,
                 ScreenTransition.Combat,
                 new CombatScreenTransitionArguments(campaign,
-                    ((CombatStageItem)campaign.CurrentStage.Payload).CombatSequence, 0, false, campaign.Location.Sid,
+                    ((CombatStageItem)startStage).CombatSequence, 0, false, campaign.Location.Sid,
                     null));
         }
     }
