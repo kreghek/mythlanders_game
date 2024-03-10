@@ -9,7 +9,6 @@ using Client.Core.CampaignEffects;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Combat;
-using Client.GameScreens.CommandCenter;
 using Client.GameScreens.Common;
 using Client.ScreenManagement;
 
@@ -22,6 +21,7 @@ using Core.PropDrop;
 
 using GameClient.Engine.RectControl;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -37,9 +37,9 @@ internal sealed class TitleScreen : GameScreenBase
     private readonly PongRectangleControl _bgPong;
     private readonly IList<ButtonBase> _buttons;
     private readonly ICamera2DAdapter _camera;
-    private readonly ICampaignGenerator _campaignGenerator;
     private readonly IDice _dice;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
+    private readonly StateCoordinator _coordinator;
     private readonly GameSettings _gameSettings;
 
     private readonly GlobeProvider _globeProvider;
@@ -55,20 +55,21 @@ internal sealed class TitleScreen : GameScreenBase
     public TitleScreen(MythlandersGame game)
         : base(game)
     {
-        _globeProvider = Game.Services.GetService<GlobeProvider>();
+        _globeProvider = Game.Services.GetRequiredService<GlobeProvider>();
 
-        _camera = Game.Services.GetService<ICamera2DAdapter>();
-        _resolutionIndependentRenderer = Game.Services.GetService<IResolutionIndependentRenderer>();
-        _campaignGenerator = game.Services.GetService<ICampaignGenerator>();
+        _camera = Game.Services.GetRequiredService<ICamera2DAdapter>();
+        _resolutionIndependentRenderer = Game.Services.GetRequiredService<IResolutionIndependentRenderer>();
 
-        _dice = Game.Services.GetService<IDice>();
-        _gameSettings = Game.Services.GetService<GameSettings>();
+        _dice = Game.Services.GetRequiredService<IDice>();
+        _gameSettings = Game.Services.GetRequiredService<GameSettings>();
 
-        var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+        var soundtrackManager = Game.Services.GetRequiredService<SoundtrackManager>();
         soundtrackManager.PlayTitleTrack();
 
-        _uiContentStorage = game.Services.GetService<IUiContentStorage>();
-        _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
+        _uiContentStorage = game.Services.GetRequiredService<IUiContentStorage>();
+        _gameObjectContentStorage = game.Services.GetRequiredService<GameObjectContentStorage>();
+
+        _coordinator = game.Services.GetRequiredService<StateCoordinator>();
 
         _buttons = new List<ButtonBase>();
 
@@ -132,33 +133,11 @@ internal sealed class TitleScreen : GameScreenBase
     }
 
     public static void StartClearNewGame(GlobeProvider globeProvider, IScreen currentScreen,
-        IScreenManager screenManager, ICampaignGenerator campaignGenerator)
+        StateCoordinator coordinator)
     {
         globeProvider.GenerateNew();
 
-        var availableLaunches = campaignGenerator.CreateSet(globeProvider.Globe);
-
-        if (globeProvider.Globe.Progression.HasEntry("CommandCenterAvailable"))
-        {
-            screenManager.ExecuteTransition(
-                currentScreen,
-                ScreenTransition.CommandCenter,
-                new CommandCenterScreenTransitionArguments(availableLaunches));    
-        }
-        else
-        {
-            var scenarioCampaigns = new ScenarioCampaigns();
-            var campaign = scenarioCampaigns.GetCampaign("tutorial", globeProvider.Globe.Player);
-
-            var startStage = campaign.Location.Stages.GetAllNodes().First().Payload;
-
-            screenManager.ExecuteTransition(
-                currentScreen,
-                ScreenTransition.Combat,
-                new CombatScreenTransitionArguments(campaign,
-                    ((CombatStageItem)startStage).CombatSequence, 0, false, campaign.Location.Sid,
-                    null));
-        }
+        coordinator.MakeTransition(currentScreen);
     }
 
     protected override void DrawContent(SpriteBatch spriteBatch)
@@ -240,7 +219,7 @@ internal sealed class TitleScreen : GameScreenBase
         loadGameButton.OnClick += (_, _) =>
         {
             var continueDialog = new ContinueGameModal(_uiContentStorage, _resolutionIndependentRenderer,
-                _globeProvider, ScreenManager, this, _campaignGenerator);
+                _globeProvider, this, _coordinator);
             AddModal(continueDialog, isLate: true);
             continueDialog.Show();
         };
@@ -450,6 +429,6 @@ internal sealed class TitleScreen : GameScreenBase
 
     private void StartButton_OnClick(object? sender, EventArgs e)
     {
-        StartClearNewGame(_globeProvider, this, ScreenManager, _campaignGenerator);
+        StartClearNewGame(_globeProvider, this, _coordinator);
     }
 }
