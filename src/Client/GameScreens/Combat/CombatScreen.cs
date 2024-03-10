@@ -42,6 +42,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using MonoGame;
+using MonoGame.Extended.Screens;
 using MonoGame.Extended.TextureAtlases;
 
 namespace Client.GameScreens.Combat;
@@ -84,6 +85,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly ManualCombatActorBehaviour _manualCombatantBehaviour;
     private readonly PostEffectCatalog _postEffectCatalog;
     private readonly PostEffectManager _postEffectManager;
+    private readonly StateCoordinator _coordinator;
     private readonly RenderTarget2D _renderTarget;
     private readonly ShadeService _shadeService;
 
@@ -208,6 +210,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _postEffectCatalog = new PostEffectCatalog();
         _postEffectManager = new PostEffectManager(_postEffectCatalog);
+
+        _coordinator = game.Services.GetRequiredService<StateCoordinator>();
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -714,12 +718,30 @@ internal class CombatScreen : GameScreenWithMenuBase
                 else
                 {
                     _globeProvider.Globe.Update(_dice, _eventCatalog);
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                        new CampaignScreenTransitionArguments(_currentCampaign));
 
-                    if (_gameSettings.Mode == GameMode.Full)
+
+
+
+                    if (_globeProvider.Globe.Progression.HasEntry("CommandCenterAvailable"))
                     {
+                        var availableLaunches = _campaignGenerator.CreateSet(globe);
+
+                        ScreenManager.ExecuteTransition(
+                            currentScreen,
+                            ScreenTransition.CommandCenter,
+                            new CommandCenterScreenTransitionArguments(availableLaunches));
+                    }
+                    else if (_globeProvider.Globe.Progression.HasEntry("CampaignMapAvailable"))
+                    {
+                        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                            new CampaignScreenTransitionArguments(_currentCampaign));
+
+
                         _globeProvider.StoreCurrentGlobe();
+                    }
+                    else
+                    { 
+
                     }
                 }
             }
