@@ -10,7 +10,7 @@ public sealed class RichText : ControlBase
     private readonly Func<string> _textDelegate;
     private readonly Point _textureOffset;
 
-    private Color _highlightColor1 = new(243, 168, 51);
+    private Color _highlightColor1 = new(109, 234, 214);
     private Color _highlightColor2 = new(243, 168, 51);
     private Color _highlightColor3 = new(243, 168, 51);
 
