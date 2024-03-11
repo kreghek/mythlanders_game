@@ -10,7 +10,9 @@ public sealed class RichText : ControlBase
     private readonly Func<string> _textDelegate;
     private readonly Point _textureOffset;
 
-    private Color _highlightColor = new Color(243, 168, 255);
+    private Color _highlightColor1 = new(243, 168, 51);
+    private Color _highlightColor2 = new(243, 168, 51);
+    private Color _highlightColor3 = new(243, 168, 51);
 
     public RichText(Texture2D texture, Point textureOffset, SpriteFont font, Func<Color, Color> colorDelegate,
         Func<string> textDelegate) : base(texture)
@@ -43,7 +45,7 @@ public sealed class RichText : ControlBase
     {
         var inputText = _textDelegate();
         var nodes = TextParser.ParseText(inputText);
-        var currentPosition = contentRect.Location.ToVector2();
+        var currentSymbolPosition = contentRect.Location.ToVector2();
 
         foreach (var node in nodes)
         {
@@ -53,23 +55,29 @@ public sealed class RichText : ControlBase
 
                 if (symbol == '\n')
                 {
-                    currentPosition = new Vector2(contentRect.Left, currentPosition.Y + symbolSize.Y / 2);
+                    currentSymbolPosition = new Vector2(contentRect.Left, currentSymbolPosition.Y + symbolSize.Y / 2);
                 }
                 else
                 {
-                    var currentColor = _colorDelegate(contentColor);
+                    var symbolColor = GetTextColorByIndex(node.Style.ColorIndex) ?? _colorDelegate(contentColor);
 
-                    if (node.Style.ColorIndex is not null)
-                    {
-                        currentColor = Color.Lerp(currentColor, _highlightColor, 0.75f);
-                    }
-
-                    spriteBatch.DrawString(_font, symbol.ToString(), currentPosition,
-                        currentColor);
-                    currentPosition += new Vector2(symbolSize.X, 0);
+                    spriteBatch.DrawString(_font, symbol.ToString(), currentSymbolPosition,
+                        symbolColor);
+                    currentSymbolPosition += new Vector2(symbolSize.X, 0);
                 }
             }
         }
+    }
+
+    private Color? GetTextColorByIndex(int? colorIndex)
+    {
+        return colorIndex switch
+        {
+            1 => (Color?)_highlightColor1,
+            2 => (Color?)_highlightColor2,
+            3 => (Color?)_highlightColor3,
+            _ => null,
+        };
     }
 
     private static string GetPlantText(string text)
