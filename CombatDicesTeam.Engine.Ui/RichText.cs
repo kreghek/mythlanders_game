@@ -59,7 +59,7 @@ public sealed class RichText : ControlBase
 
                     if (node.Style.ColorIndex is not null)
                     {
-                        currentColor = Color.Lerp(currentColor, Color.Red, 0.75f);
+                        currentColor = Color.Lerp(currentColor, Color.Orange, 0.75f);
                     }
 
                     spriteBatch.DrawString(_font, symbol.ToString(), currentPosition,
@@ -75,7 +75,3 @@ public sealed class RichText : ControlBase
         return string.Join("", TextParser.ParseText(text).Select(x => x.Value));
     }
 }
-
-public sealed record RichTextCommand(string Value, RichTextNodeStyle Style);
-
-public sealed record RichTextNodeStyle(int? ColorIndex, int? Animation);
