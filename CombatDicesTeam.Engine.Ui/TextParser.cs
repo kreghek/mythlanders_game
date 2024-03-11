@@ -50,12 +50,12 @@ public static class TextParser
         {
             if (item.StartsWith("color"))
             {
-                var s = item[("color".Length)..];
+                var s = item["color".Length..];
                 colorIndex = int.Parse(s);
             }
             else if (item.StartsWith("ani"))
             {
-                var s = item[("ani".Length)..];
+                var s = item["ani".Length..];
                 animationIndex = int.Parse(s);
             }
         }

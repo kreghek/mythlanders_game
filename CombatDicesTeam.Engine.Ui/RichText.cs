@@ -10,6 +10,8 @@ public sealed class RichText : ControlBase
     private readonly Func<string> _textDelegate;
     private readonly Point _textureOffset;
 
+    private Color _highlightColor = new Color(243, 168, 255);
+
     public RichText(Texture2D texture, Point textureOffset, SpriteFont font, Func<Color, Color> colorDelegate,
         Func<string> textDelegate) : base(texture)
     {
@@ -59,7 +61,7 @@ public sealed class RichText : ControlBase
 
                     if (node.Style.ColorIndex is not null)
                     {
-                        currentColor = Color.Lerp(currentColor, Color.Orange, 0.75f);
+                        currentColor = Color.Lerp(currentColor, _highlightColor, 0.75f);
                     }
 
                     spriteBatch.DrawString(_font, symbol.ToString(), currentPosition,
