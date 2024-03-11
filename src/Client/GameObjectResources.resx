@@ -662,7 +662,7 @@
     <comment>Combat movement Swordsman</comment>
   </data>
   <data name="LookOut_Description" xml:space="preserve">
-    <value>Increases the Defense of the nearest ally in a column by 3 until the end of the ally's turn. The swordsman himself moves to the vanguard. When automatically triggered, increases your defense by 1.</value>
+    <value>Increases the Defense of the nearest ally in a column by &lt;defence&gt; until the end of the ally's turn. The swordsman himself moves to the vanguard. When automatically triggered, increases your defense by &lt;auto_defence&gt;.</value>
     <comment>Combat movement Swordsman</comment>
   </data>
   <data name="LordOfNonHumanRealm" xml:space="preserve">
@@ -834,7 +834,7 @@
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="RiseYourSwords_Description" xml:space="preserve">
-    <value>Increases the damage of melee attack moves by 1 for all allies for 2 turns.</value>
+    <value>Increases the damage of melee attack moves by &lt;damage_buff&gt; for all allies for &lt;duration&gt;.</value>
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="Robber" xml:space="preserve">
@@ -911,7 +911,7 @@
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="StayStrong_Description" xml:space="preserve">
-    <value>Increases your defense by 3 until the end of the round. When auto-triggered, it increases its defense by 1 until the next turn.</value>
+    <value>Increases your defense by &lt;defence&gt; until the end of the round. When auto-triggered, it increases its defense by &lt;auto_defence&gt; until the next turn.</value>
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="Stryga" xml:space="preserve">

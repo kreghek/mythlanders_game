@@ -667,7 +667,7 @@
     <comment>Combat movement Swordsman</comment>
   </data>
   <data name="LookOut_Description" xml:space="preserve">
-    <value>Увеличивает защиту ближайшего союзника в столбце на 3 до конца хода союзника. Сам мечник перемещается в авангард. При автосрабатывании, увеличивает свою защиту на 1ед.</value>
+    <value>Увеличивает защиту ближайшего союзника в столбце на &lt;defence&gt; до конца хода союзника. Сам мечник перемещается в авангард. При автосрабатывании, увеличивает свою защиту на &lt;auto_defence&gt;.</value>
     <comment>Combat movement Swordsman</comment>
   </data>
   <data name="LordOfNonHumanRealm" xml:space="preserve">
@@ -844,7 +844,7 @@
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="RiseYourSwords_Description" xml:space="preserve">
-    <value>Увеличивает урон атакующих движений ближнего боя на 1 ед. у всех союзников на 2 хода.</value>
+    <value>Увеличивает урон атакующих движений ближнего боя на &lt;damage_buff&gt; у всех союзников на &lt;duration&gt;.</value>
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="Robber" xml:space="preserve">
@@ -926,7 +926,7 @@
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="StayStrong_Description" xml:space="preserve">
-    <value>Увеличивает свою защиту на 3ед. до конца раунда. При авто-срабатывании, увеличивает свою защиту на 1ед. до конца раунда.</value>
+    <value>Увеличивает свою защиту на &lt;defence&gt; до конца раунда. При авто-срабатывании, увеличивает свою защиту на &lt;auto_defence&gt; до конца раунда.</value>
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="Stryga" xml:space="preserve">
