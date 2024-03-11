@@ -107,7 +107,7 @@ internal sealed class ContinueGameModal : ModalDialogBase
             {
                 _globeProvider.LoadGlobe(saveInfo.FileName);
 
-                _coordinator.MakeTransition(_screen);
+                _coordinator.MakeStartTransition(_screen);
             };
 
             _continueGameButtons.Add(continueGameButton);

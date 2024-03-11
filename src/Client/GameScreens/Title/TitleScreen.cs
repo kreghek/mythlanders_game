@@ -137,7 +137,7 @@ internal sealed class TitleScreen : GameScreenBase
     {
         globeProvider.GenerateNew();
 
-        coordinator.MakeTransition(currentScreen);
+        coordinator.MakeStartTransition(currentScreen);
     }
 
     protected override void DrawContent(SpriteBatch spriteBatch)

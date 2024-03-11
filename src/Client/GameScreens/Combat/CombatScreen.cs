@@ -719,30 +719,10 @@ internal class CombatScreen : GameScreenWithMenuBase
                 {
                     _globeProvider.Globe.Update(_dice, _eventCatalog);
 
-
-
-
-                    if (_globeProvider.Globe.Progression.HasEntry("CommandCenterAvailable"))
-                    {
-                        var availableLaunches = _campaignGenerator.CreateSet(globe);
-
-                        ScreenManager.ExecuteTransition(
-                            currentScreen,
-                            ScreenTransition.CommandCenter,
-                            new CommandCenterScreenTransitionArguments(availableLaunches));
-                    }
-                    else if (_globeProvider.Globe.Progression.HasEntry("CampaignMapAvailable"))
-                    {
-                        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                            new CampaignScreenTransitionArguments(_currentCampaign));
-
-
-                        _globeProvider.StoreCurrentGlobe();
-                    }
-                    else
-                    { 
-
-                    }
+                    _globeProvider.StoreCurrentGlobe();
+                    _currentCampaign.CompleteCurrentStage();
+                    
+                    _coordinator.MakeCombatWinTransition(this, _currentCampaign);
                 }
             }
         }
@@ -752,12 +732,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             _currentCampaign.CompleteCurrentStage();
             _currentCampaign.FailCampaign(_globe, _jobProgressResolver);
-
-            var campaignGenerator = Game.Services.GetService<ICampaignGenerator>();
-            var campaigns = campaignGenerator.CreateSet(_globeProvider.Globe);
-
-            ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
-                new CommandCenterScreenTransitionArguments(campaigns));
+            
+            _coordinator.MakeCombatFailureTransition(this);
         }
         else
         {
