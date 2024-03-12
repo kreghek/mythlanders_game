@@ -79,9 +79,10 @@ internal class StayStrongFactory : CombatMovementFactoryBase
         return CommonCombatVisualization.CreateSelfBuffVisualization(actorAnimator, movementExecution,
             visualizationContext, defenseAnimation, defenseSoundEffect);
     }
-    
+
     /// <inheritdoc />
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
     {
         return new[]
         {

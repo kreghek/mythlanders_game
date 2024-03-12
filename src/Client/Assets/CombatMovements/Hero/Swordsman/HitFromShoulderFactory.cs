@@ -55,6 +55,17 @@ internal class HitFromShoulderFactory : SimpleCombatMovementFactoryBase
     }
 
     /// <inheritdoc />
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0),
+                CombatMovementEffectDisplayValueTemplate.Damage)
+        };
+    }
+
+    /// <inheritdoc />
     protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
     {
         yield return CombatMovementMetadataTraits.Melee;
@@ -86,15 +97,5 @@ internal class HitFromShoulderFactory : SimpleCombatMovementFactoryBase
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.Attack;
-    }
-    
-    /// <inheritdoc />
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
-    {
-        return new[]
-        {
-            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0),
-                CombatMovementEffectDisplayValueTemplate.Damage)
-        };
     }
 }
