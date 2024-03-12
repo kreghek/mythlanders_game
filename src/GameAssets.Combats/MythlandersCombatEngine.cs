@@ -44,7 +44,8 @@ public sealed class MythlandersCombatEngine : CombatEngineBase
                     var targetDefenseMovement = GetAutoDefenseMovement(effectTarget);
                     var targetIsInQueue = CurrentRoundQueue.Any(x => x == effectTarget);
 
-                    if (targetDefenseMovement is not null && targetIsInQueue && effectTarget.IsPlayerControlled != CurrentCombatant.IsPlayerControlled)
+                    if (targetDefenseMovement is not null && targetIsInQueue &&
+                        effectTarget.IsPlayerControlled != CurrentCombatant.IsPlayerControlled)
                     {
                         foreach (var autoDefenseEffect in targetDefenseMovement.AutoDefenseEffects)
                         {

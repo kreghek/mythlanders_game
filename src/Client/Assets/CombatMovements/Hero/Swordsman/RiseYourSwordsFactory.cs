@@ -53,14 +53,16 @@ internal class RiseYourSwordsFactory : CombatMovementFactoryBase
         return CommonCombatVisualization.CreateSelfBuffVisualization(actorAnimator, movementExecution,
             visualizationContext, defenseAnimation, defenseSoundEffect);
     }
-    
+
     /// <inheritdoc />
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
     {
         return new[]
         {
-            new CombatMovementEffectDisplayValue("damage_buff", 1, CombatMovementEffectDisplayValueTemplate.DamageModifier),
-            new CombatMovementEffectDisplayValue("duration", 1, CombatMovementEffectDisplayValueTemplate.TurnDuration),
+            new CombatMovementEffectDisplayValue("damage_buff", 1,
+                CombatMovementEffectDisplayValueTemplate.DamageModifier),
+            new CombatMovementEffectDisplayValue("duration", 1, CombatMovementEffectDisplayValueTemplate.TurnDuration)
         };
     }
 }
