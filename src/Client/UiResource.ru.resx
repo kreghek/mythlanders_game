@@ -606,4 +606,10 @@
   <data name="_AllChars" xml:space="preserve">
     <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
   </data>
+  <data name="CombatMovementEffectValueType_TurnDuration_Template" xml:space="preserve">
+    <value>{0} ходов</value>
+  </data>
+  <data name="CombatMovementEffectValueType_Defence_Template" xml:space="preserve">
+    <value>{0} ед. защиты</value>
+  </data>
 </root>
