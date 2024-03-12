@@ -252,7 +252,6 @@
   </data>
   <data name="CombatMovementEffectValueType_RoundDuration_Template" xml:space="preserve">
     <value>{0} round(s)</value>
-    <comment>1</comment>
   </data>
   <data name="CombatMovementEffectValueType_ShieldPoints_Template" xml:space="preserve">
     <value>{0} shields</value>
@@ -622,5 +621,11 @@ This hero can no longer act in the current battle.</value>
   </data>
   <data name="_AllChars" xml:space="preserve">
     <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
+  </data>
+  <data name="CombatMovementEffectValueType_TurnDuration_Template" xml:space="preserve">
+    <value>{0} turns</value>
+  </data>
+  <data name="CombatMovementEffectValueType_Defence_Template" xml:space="preserve">
+    <value>{0} defence</value>
   </data>
 </root>

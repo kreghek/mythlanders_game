@@ -8,8 +8,10 @@ internal enum CombatMovementEffectDisplayValueTemplate
     Damage,
     DamageModifier,
     RoundDuration,
+    TurnDuration,
     ResolveDamage,
     HitPoints,
     ShieldPoints,
-    HitPointsDamage
+    HitPointsDamage,
+    Defence
 }
