@@ -33,8 +33,7 @@ internal class ScenarioCampaigns
                 {
                     new CombatSource(new[]
                     {
-                        new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("AmbushDrone", 0, new FieldCoords(0,0)), ArraySegment<ICombatantStatusFactory>.Empty),
-                        new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("AmbushDrone", 1, new FieldCoords(1,0)), ArraySegment<ICombatantStatusFactory>.Empty)
+                        new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("AmbushDrone", 0, new FieldCoords(0,1)), ArraySegment<ICombatantStatusFactory>.Empty)
                     }, new CombatReward(Array.Empty<IDropTableScheme>()))
                 }
             };
@@ -44,7 +43,7 @@ internal class ScenarioCampaigns
 
             return new HeroCampaign(new[]
                 {
-                    (player.Heroes.Units.Single(x => x.ClassSid == "Swordsman"), new FieldCoords(0, 0))
+                    (player.Heroes.Units.Single(x => x.ClassSid == "Swordsman"), new FieldCoords(0, 1))
                 }, new HeroCampaignLocation(LocationSids.Thicket, graph), ArraySegment<ICampaignEffect>.Empty,
                 ArraySegment<ICampaignEffect>.Empty, 0);
         }
