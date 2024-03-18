@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Combat.Ui;
 
-internal class CombatRewardList : ControlBase
+internal class CombatRewardList : UiElementContentBase
 {
     private const int MARGIN = 5;
     private readonly Texture2D _rewardIconsTexture;

@@ -5,6 +5,8 @@ using Client.Core;
 using Client.Engine;
 using Client.ScreenManagement;
 
+using CombatDicesTeam.Engine.Ui;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

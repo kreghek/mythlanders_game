@@ -3,12 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CombatDicesTeam.Engine.Ui;
 
-public sealed class VerticalStackPanel : ControlBase
+public sealed class VerticalStackPanel : UiElementContentBase
 {
-    private readonly IReadOnlyList<ControlBase> _innerElements;
+    private readonly IReadOnlyList<UiElementContentBase> _innerElements;
     private readonly Point _textureOffset;
 
-    public VerticalStackPanel(Texture2D texture, Point textureOffset, IReadOnlyList<ControlBase> innerElements) :
+    public VerticalStackPanel(Texture2D texture, Point textureOffset, IReadOnlyList<UiElementContentBase> innerElements) :
         base(texture)
     {
         _textureOffset = textureOffset;

@@ -50,7 +50,7 @@ internal class CombatMovementHint : HintBase
 
         _content = new VerticalStackPanel(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
             ControlTextures.Transparent,
-            new ControlBase[]
+            new UiElementContentBase[]
             {
                 new Text(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
                     ControlTextures.Transparent,

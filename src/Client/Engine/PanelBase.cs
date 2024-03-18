@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.Engine;
 
-internal abstract class PanelBase : ControlBase
+internal abstract class PanelBase : UiElementContentBase
 {
     private readonly SpriteFont _titleFont;
 

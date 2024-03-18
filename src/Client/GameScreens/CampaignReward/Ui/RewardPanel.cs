@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.CampaignReward.Ui;
 
-internal sealed class RewardPanel : ControlBase
+internal sealed class RewardPanel : UiElementContentBase
 {
     private readonly SpriteFont _labelFont;
     private readonly Texture2D _panelHeaderTexture;

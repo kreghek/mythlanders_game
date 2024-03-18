@@ -1,11 +1,11 @@
 using Microsoft.Xna.Framework;
 
-namespace Client.Engine;
+namespace CombatDicesTeam.Engine.Ui;
 
 /// <summary>
 /// Service to work with projection of the screen projection of the game-world objects.
 /// </summary>
-internal interface IScreenProjection
+public interface IScreenProjection
 {
     /// <summary>
     /// Convert screen coordinates to coordinates in the world.

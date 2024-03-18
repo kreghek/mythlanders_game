@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.VoiceCombat;
 
-internal class VoiceCombatOptions : ControlBase
+internal class VoiceCombatOptions : UiElementContentBase
 {
     private const int OPTION_BUTTON_MARGIN = 5;
 

@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Combat.Ui;
 
-internal sealed class BurningCombatMovement : ControlBase
+internal sealed class BurningCombatMovement : UiElementContentBase
 {
     private readonly IconData _iconData;
     private double _lifetime = 1;

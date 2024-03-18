@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Combat.Ui;
 
-internal sealed class FieldManeuverIndicatorPanel : ControlBase
+internal sealed class FieldManeuverIndicatorPanel : UiElementContentBase
 {
     private readonly IManeuverContext _context;
     private readonly SpriteFont _font;

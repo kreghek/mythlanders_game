@@ -68,10 +68,10 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
             ResolutionIndependentRenderer.VirtualBounds.Height - MENU_HEIGHT);
 
         var mapRect = new Rectangle(
-            contentRect.Left + ControlBase.CONTENT_MARGIN,
-            (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN,
-            contentRect.Width - ControlBase.CONTENT_MARGIN * 2,
-            (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2);
+            contentRect.Left + UiElementContentBase.CONTENT_MARGIN,
+            (contentRect.Top + (contentRect.Height / 8)) + UiElementContentBase.CONTENT_MARGIN,
+            contentRect.Width - UiElementContentBase.CONTENT_MARGIN * 2,
+            (contentRect.Height / 2) - UiElementContentBase.CONTENT_MARGIN * 2);
 
         var mapPongRandomSource = new PongRectangleRandomSource(new LinearDice(), 2f);
 
@@ -229,17 +229,17 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         {
             spriteBatch.Draw(_commandCenterSegmentTexture[i],
                 new Rectangle(
-                    (contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
-                    (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN +
-                    (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
+                    (contentRect.Left + UiElementContentBase.CONTENT_MARGIN) + i * (200 + UiElementContentBase.CONTENT_MARGIN),
+                    (contentRect.Top + (contentRect.Height / 8)) + UiElementContentBase.CONTENT_MARGIN +
+                    (contentRect.Height / 2) - UiElementContentBase.CONTENT_MARGIN * 2,
                     200,
                     200),
                 Color.White);
 
             _commandButtons[i].Rect = new Rectangle(
-                (contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
-                (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN +
-                (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
+                (contentRect.Left + UiElementContentBase.CONTENT_MARGIN) + i * (200 + UiElementContentBase.CONTENT_MARGIN),
+                (contentRect.Top + (contentRect.Height / 8)) + UiElementContentBase.CONTENT_MARGIN +
+                (contentRect.Height / 2) - UiElementContentBase.CONTENT_MARGIN * 2,
                 100, 20);
 
             _commandButtons[i].Draw(spriteBatch);
@@ -254,15 +254,15 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         }
 
         const int CAMPAIGN_CONTROL_WIDTH = 200;
-        const int FULL_CAMPAIGN_WIDTH = (CAMPAIGN_CONTROL_WIDTH + ControlBase.CONTENT_MARGIN) * 3;
+        const int FULL_CAMPAIGN_WIDTH = (CAMPAIGN_CONTROL_WIDTH + UiElementContentBase.CONTENT_MARGIN) * 3;
         var campaignOffsetX = (contentRect.Width - FULL_CAMPAIGN_WIDTH) / 2;
 
         for (var campaignIndex = 0; campaignIndex < _availableCampaignPanels.Count; campaignIndex++)
         {
             var panel = _availableCampaignPanels[campaignIndex];
             panel.SetRect(new Rectangle(
-                campaignOffsetX + contentRect.Left + ControlBase.CONTENT_MARGIN + 200 * campaignIndex,
-                contentRect.Top + ControlBase.CONTENT_MARGIN,
+                campaignOffsetX + contentRect.Left + UiElementContentBase.CONTENT_MARGIN + 200 * campaignIndex,
+                contentRect.Top + UiElementContentBase.CONTENT_MARGIN,
                 200,
                 panel.Hover ? 200 : 100));
             panel.Draw(spriteBatch);
@@ -307,9 +307,9 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
             { MinimalMargin = 24 });
     }
 
-    private ControlBase GetLocationButton(ILocationSid locationOnHover)
+    private UiElementContentBase GetLocationButton(ILocationSid locationOnHover)
     {
-        return (ControlBase)_availableCampaignPanels!.Single(x => x.Location == locationOnHover);
+        return (UiElementContentBase)_availableCampaignPanels!.Single(x => x.Location == locationOnHover);
     }
 
     private Point GetLocationCoordsOnMap(ILocationSid locationOnHover)

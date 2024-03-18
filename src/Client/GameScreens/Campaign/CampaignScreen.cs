@@ -89,8 +89,8 @@ internal class CampaignScreen : GameScreenWithMenuBase
         const int STORY_POINT_PANEL_WIDTH = 200;
         const int STORY_POINT_PANEL_HEIGHT = 400;
         var storyPointRect = new Rectangle(
-            contentRect.Right - STORY_POINT_PANEL_WIDTH - ControlBase.CONTENT_MARGIN,
-            contentRect.Top + ControlBase.CONTENT_MARGIN,
+            contentRect.Right - STORY_POINT_PANEL_WIDTH - UiElementContentBase.CONTENT_MARGIN,
+            contentRect.Top + UiElementContentBase.CONTENT_MARGIN,
             STORY_POINT_PANEL_WIDTH,
             STORY_POINT_PANEL_HEIGHT);
 
@@ -127,10 +127,10 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private void DrawCampaignEffects(SpriteBatch spriteBatch, Rectangle contentRect)
     {
         _campaignEffectsPanel.Rect = new Rectangle(
-            contentRect.Left + ControlBase.CONTENT_MARGIN,
-            contentRect.Top + ControlBase.CONTENT_MARGIN,
+            contentRect.Left + UiElementContentBase.CONTENT_MARGIN,
+            contentRect.Top + UiElementContentBase.CONTENT_MARGIN,
             200,
-            ControlBase.CONTENT_MARGIN * 5 + 20 * 4);
+            UiElementContentBase.CONTENT_MARGIN * 5 + 20 * 4);
 
         _campaignEffectsPanel.Draw(spriteBatch);
     }

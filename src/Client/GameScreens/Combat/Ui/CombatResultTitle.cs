@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Combat.Ui;
 
-internal sealed class CombatResultTitle : ControlBase
+internal sealed class CombatResultTitle : UiElementContentBase
 {
     private readonly CombatResult _combatResult;
     private readonly SpriteFont _titleFont;

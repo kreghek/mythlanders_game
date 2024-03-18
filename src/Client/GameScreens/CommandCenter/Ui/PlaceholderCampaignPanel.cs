@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.CommandCenter.Ui;
 
-internal sealed class PlaceholderCampaignPanel : ControlBase, ICampaignPanel
+internal sealed class PlaceholderCampaignPanel : UiElementContentBase, ICampaignPanel
 {
     private readonly Texture2D _placeholderTexture;
 

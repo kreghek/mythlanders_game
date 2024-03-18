@@ -54,8 +54,8 @@ internal sealed class TrainingScreen : GameScreenWithMenuBase
             var button = _trainingButtons[buttonIndex];
 
             button.Item1.Rect = new Rectangle(
-                contentRect.Left + ControlBase.CONTENT_MARGIN,
-                contentRect.Top + ControlBase.CONTENT_MARGIN + (buttonIndex * (25 + ControlBase.CONTENT_MARGIN)),
+                contentRect.Left + UiElementContentBase.CONTENT_MARGIN,
+                contentRect.Top + UiElementContentBase.CONTENT_MARGIN + (buttonIndex * (25 + UiElementContentBase.CONTENT_MARGIN)),
                 100,
                 20);
 

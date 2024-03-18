@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Combat.Ui;
 
-internal class CombatResultsBiomeProgression : ControlBase
+internal class CombatResultsBiomeProgression : UiElementContentBase
 {
     private readonly AnimatedCountableUnitItemStat _progression;
     private readonly SpriteFont _textFont;

@@ -18,7 +18,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Client.GameScreens.Combat.Ui;
 
-internal class CombatMovementsHandPanel : ControlBase
+internal class CombatMovementsHandPanel : UiElementContentBase
 {
     private const int ICON_SIZE = 64;
     private const int BUTTON_PADDING = 5;
@@ -276,7 +276,7 @@ internal class CombatMovementsHandPanel : ControlBase
         _hoverController.HandleLeave(sender as CombatMovementButton);
     }
 
-    private void DrawHotkey(SpriteBatch spriteBatch, string hotKey, ControlBase button, bool isSelected)
+    private void DrawHotkey(SpriteBatch spriteBatch, string hotKey, UiElementContentBase button, bool isSelected)
     {
         var font = _uiContentStorage.GetMainFont();
         var textSize = font.MeasureString(hotKey);
@@ -288,7 +288,7 @@ internal class CombatMovementsHandPanel : ControlBase
         spriteBatch.DrawString(_uiContentStorage.GetMainFont(), hotKey, hotkeyPosition, Color.Wheat);
     }
 
-    private static void DrawHoverInfo(ControlBase baseControl, CombatMovementHint hintControl,
+    private static void DrawHoverInfo(UiElementContentBase baseControl, CombatMovementHint hintControl,
         SpriteBatch spriteBatch)
     {
         var baseControlCenter = baseControl.Rect.Center;

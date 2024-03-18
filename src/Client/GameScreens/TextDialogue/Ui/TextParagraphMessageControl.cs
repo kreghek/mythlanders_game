@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.TextDialogue.Ui;
 
-internal sealed class TextParagraphMessageControl : ControlBase
+internal sealed class TextParagraphMessageControl : UiElementContentBase
 {
     private readonly SpriteFont _font;
     private readonly bool _isCharacterSpeech;

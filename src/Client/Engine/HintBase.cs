@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 
 namespace Client.Engine;
 
-internal abstract class HintBase : ControlBase
+internal abstract class HintBase : UiElementContentBase
 {
     protected HintBase() : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {

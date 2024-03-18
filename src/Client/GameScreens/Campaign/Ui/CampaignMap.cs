@@ -24,7 +24,7 @@ using MonoGame;
 
 namespace Client.GameScreens.Campaign.Ui;
 
-internal sealed class CampaignMap : ControlBase
+internal sealed class CampaignMap : UiElementContentBase
 {
     public enum MapState
     {

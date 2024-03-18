@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.CommandCenter.Ui;
 
-internal sealed class CampaignLaunchHeroes : ControlBase
+internal sealed class CampaignLaunchHeroes : UiElementContentBase
 {
     private readonly IReadOnlyCollection<HeroState> _heroStates;
 

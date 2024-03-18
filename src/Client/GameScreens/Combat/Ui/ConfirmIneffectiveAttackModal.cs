@@ -52,13 +52,13 @@ internal sealed class ConfirmIneffectiveAttackModal : ModalDialogBase
             wrappedText,
             textPosition, MythlandersColors.MainAncient);
 
-        _rejectButton.Rect = new Rectangle(ContentRect.Left + ControlBase.CONTENT_MARGIN,
-            ContentRect.Bottom - (20 + ControlBase.CONTENT_MARGIN), 100, 20);
+        _rejectButton.Rect = new Rectangle(ContentRect.Left + UiElementContentBase.CONTENT_MARGIN,
+            ContentRect.Bottom - (20 + UiElementContentBase.CONTENT_MARGIN), 100, 20);
 
         _rejectButton.Draw(spriteBatch);
 
-        _confirmButton.Rect = new Rectangle(ContentRect.Right - (ControlBase.CONTENT_MARGIN + 100),
-            ContentRect.Bottom - (20 + ControlBase.CONTENT_MARGIN), 100, 20);
+        _confirmButton.Rect = new Rectangle(ContentRect.Right - (UiElementContentBase.CONTENT_MARGIN + 100),
+            ContentRect.Bottom - (20 + UiElementContentBase.CONTENT_MARGIN), 100, 20);
 
         _confirmButton.Draw(spriteBatch);
     }

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CombatDicesTeam.Engine.Ui;
 
-public sealed class RichText : ControlBase
+public sealed class RichText : UiElementContentBase
 {
     private readonly Func<Color, Color> _colorDelegate;
     private readonly SpriteFont _font;

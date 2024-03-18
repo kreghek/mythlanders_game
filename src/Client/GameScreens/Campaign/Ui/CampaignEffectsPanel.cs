@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Campaign.Ui;
 
-internal class CampaignEffectsPanel : ControlBase
+internal class CampaignEffectsPanel : UiElementContentBase
 {
     private const int CAMPAIGN_EFFECT_TEXT_HEIGHT = 20;
     private readonly IReadOnlyCollection<ICampaignEffect> _estimatedPenalties;

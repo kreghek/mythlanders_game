@@ -19,7 +19,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.ScreenManagement.Ui.TextEvents;
 
-internal sealed class TextParagraphControl : ControlBase
+internal sealed class TextParagraphControl : UiElementContentBase
 {
     private const int DISPLAY_NAME_HEIGHT = 32;
     private readonly CampaignAftermathContext _aftermathContext;

@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Client.Engine;
 
-internal abstract class ButtonBase : ControlBase
+internal abstract class ButtonBase : UiElementContentBase
 {
     protected UiButtonState _buttonState;
 

@@ -56,7 +56,7 @@ internal sealed class RestScreen : GameScreenWithMenuBase
         const int HEADER_HEIGHT = 100;
 
         spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), UiResource.RestScreen_Title,
-            new Vector2(contentRect.Center.X, contentRect.Top + ControlBase.CONTENT_MARGIN), Color.Wheat);
+            new Vector2(contentRect.Center.X, contentRect.Top + UiElementContentBase.CONTENT_MARGIN), Color.Wheat);
 
         for (var buttonIndex = 0; buttonIndex < _actionButtons.Count; buttonIndex++)
         {

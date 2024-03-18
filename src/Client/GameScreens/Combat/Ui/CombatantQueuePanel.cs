@@ -16,7 +16,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Client.GameScreens.Combat.Ui;
 
-internal sealed class CombatantQueuePanel : ControlBase
+internal sealed class CombatantQueuePanel : UiElementContentBase
 {
     private const int RESOLVE_WIDTH = 12;
     private const int PORTRAIT_WIDTH = 32;

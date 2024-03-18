@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.ScreenManagement.Ui.TextEvents;
 
-internal class DialogueOptions : ControlBase
+internal class DialogueOptions : UiElementContentBase
 {
     private const int OPTION_BUTTON_MARGIN = 5;
 

@@ -4,6 +4,7 @@ using Client.Engine;
 using Client.GameScreens.Combat.GameObjects;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Engine.Ui;
 
 using GameClient.Engine.Ui;
 

@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.CommandCenter.Ui;
 
-internal sealed class CampaignPanel : ControlBase, ICampaignPanel
+internal sealed class CampaignPanel : UiElementContentBase, ICampaignPanel
 {
     private readonly CampaignEffectsPanel _campaignEffectsPanel;
     private readonly CampaignLaunchHeroes _campaignHeroes;
