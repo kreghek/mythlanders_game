@@ -15,26 +15,6 @@ using Stateless;
 namespace Client.Assets.Dialogues;
 
 [UsedImplicitly]
-internal sealed class TutorialSlavicDialogueEventFactory : IDialogueEventFactory
-{
-    public DialogueEvent CreateEvent(IDialogueEventFactoryServices services)
-    {
-        var questStateMachine =
-            new StateMachine<DialogueEventState, DialogueEventTrigger>(DialogueConstants.InitialStage);
-
-        return new DialogueEvent(DialogueConstants.SideQuests.SynthAsParent.Sid, questStateMachine, requirements,
-            dialogues);
-    }
-
-    public IReadOnlyCollection<IStoryPoint> CreateStoryPoints(IDialogueEventFactoryServices services)
-    {
-        var spList = new List<IStoryPoint>();
-
-        return spList;
-    }
-}
-
-[UsedImplicitly]
 internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
 {
     public DialogueEvent CreateEvent(IDialogueEventFactoryServices services)
