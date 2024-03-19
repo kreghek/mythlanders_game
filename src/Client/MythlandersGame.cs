@@ -326,7 +326,7 @@ internal sealed class MythlandersGame : Game
         var movementVisualizer = new CombatMovementVisualizationProvider();
         Services.AddService<ICombatMovementVisualizationProvider>(movementVisualizer);
 
-        Services.AddService(new ScenarioCampaigns());
+        Services.AddService(new ScenarioCampaigns(Services.GetRequiredService<IEventCatalog>()));
 
         var coordinator = new StateCoordinator(
             Services.GetRequiredService<GlobeProvider>(), 

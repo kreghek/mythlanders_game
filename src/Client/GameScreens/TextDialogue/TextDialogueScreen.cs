@@ -156,7 +156,7 @@ internal class TextDialogueScreen : TextEventScreenBase
         var currentFragment = CurrentFragment;
         var speaker = currentFragment.Speaker;
 
-        if (DialogueSpeakers.Get(UnitName.Environment) == speaker)
+        if (DialogueSpeakers.Get(UnitName.Environment).Equals(speaker))
         {
             // This text describes environment. There is no speaker.
             return;
@@ -176,7 +176,7 @@ internal class TextDialogueScreen : TextEventScreenBase
             new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Height - SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE),
-            new Rectangle(SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE,
+            new Rectangle(0, 0, SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE),
             Color.White);
 

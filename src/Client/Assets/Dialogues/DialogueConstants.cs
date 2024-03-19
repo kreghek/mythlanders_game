@@ -13,11 +13,21 @@ internal static class DialogueConstants
     public static DialogueEventState CompleteStage { get; } = new("complete");
     public static DialogueEventState InitialStage { get; } = new("stage_1");
 
+    public static class MainPlot
+    {
+        public static class SlavicTutorial
+        {
+            public static string Sid => "slavic_tutorial";
+
+            public static string Stage1 = "stage_1";
+        }
+    }
+
     public static class SideQuests
     {
         public static class SynthAsParent
         {
-            public static string Sid { get; } = "synth_as_parent";
+            public static string Sid => "synth_as_parent";
 
             public static DialogueEventState Stage1_Canon_In_Progress { get; } =
                 new("stage_1_canon_in_progress") { NoDialogue = true };

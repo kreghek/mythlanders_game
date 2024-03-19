@@ -29,6 +29,7 @@ public enum UnitName
     Amazon,
     Engineer,
 
+    Radio,
     Hq,
     Oldman,
     GuardianWoman,

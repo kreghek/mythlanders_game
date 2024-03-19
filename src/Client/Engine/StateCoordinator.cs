@@ -7,6 +7,7 @@ using Client.Core.Campaigns;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Combat;
 using Client.GameScreens.CommandCenter;
+using Client.GameScreens.TextDialogue;
 using Client.ScreenManagement;
 
 namespace Client.Engine;
@@ -49,11 +50,11 @@ internal class StateCoordinator
             }
             else
             {
-                var campaign = _scenarioCampaigns.GetCampaign("tutorial", globe.Player);
+                var nextStage = currentCampaign.Location.Stages.GetNext(currentCampaign.CurrentStage).First();
 
-                var startStage = campaign.CurrentStage.Payload;
-                
-                startStage.ExecuteTransition(currentScreen, _screenManager, currentCampaign);
+                currentCampaign.CurrentStage = nextStage;
+
+                nextStage.Payload.ExecuteTransition(currentScreen, _screenManager, currentCampaign);
             }
         }
     }
@@ -111,14 +112,63 @@ internal class StateCoordinator
         {
             var campaign = _scenarioCampaigns.GetCampaign("tutorial", globe.Player);
 
-            var startStage = campaign.Location.Stages.GetAllNodes().First().Payload;
+            var startNode = campaign.Location.Stages.GetAllNodes().First();
+            var startStage = startNode.Payload;
 
+            campaign.CurrentStage = startNode;
+
+            startStage.ExecuteTransition(currentScreen, _screenManager, campaign);
+
+            //if (startStage is CombatStageItem combatStage)
+            //{
+            //    startStage.ExecuteTransition(currentScreen, _screenManager, campaign);
+
+            //    //_screenManager.ExecuteTransition(
+            //    //    currentScreen,
+            //    //    ScreenTransition.Combat,
+            //    //    new CombatScreenTransitionArguments(campaign,
+            //    //        combatStage.CombatSequence, 0, false, campaign.Location.Sid,
+            //    //        null));
+            //}
+            //else if (startStage is DialogueEventStageItem dialogueStage)
+            //{
+            //    dialogueStage.ExecuteTransition(currentScreen, _screenManager, campaign)
+
+            //    _screenManager.ExecuteTransition(
+            //        currentScreen,
+            //        ScreenTransition.Event,
+            //        new TextDialogueScreenTransitionArgs(campaign, dialogueStage.
+            //            combatStage.CombatSequence, 0, false, campaign.Location.Sid,
+            //            null));
+            //}
+        }
+    }
+
+    public void MakeCommonTransition(IScreen currentScreen, HeroCampaign currentCampaign)
+    {
+        var globe = _globeProvider.Globe;
+
+        if (globe.Progression.HasEntry("CampaignMapAvailable"))
+        {
             _screenManager.ExecuteTransition(
                 currentScreen,
-                ScreenTransition.Combat,
-                new CombatScreenTransitionArguments(campaign,
-                    ((CombatStageItem)startStage).CombatSequence, 0, false, campaign.Location.Sid,
-                    null));
+                ScreenTransition.Campaign,
+                new CampaignScreenTransitionArguments(currentCampaign));
+        }
+        else
+        {
+            if (globe.Progression.HasEntry("TutorialComplete"))
+            {
+                throw new NotImplementedException();
+            }
+            else
+            {
+                var nextStage = currentCampaign.Location.Stages.GetNext(currentCampaign.CurrentStage).First();
+
+                currentCampaign.CurrentStage = nextStage;
+
+                nextStage.Payload.ExecuteTransition(currentScreen, _screenManager, currentCampaign);
+            }
         }
     }
 }

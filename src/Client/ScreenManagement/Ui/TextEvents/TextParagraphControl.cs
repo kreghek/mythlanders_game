@@ -42,7 +42,7 @@ internal sealed class TextParagraphControl : ControlBase
         _aftermathContext = aftermathContext;
         _speaker = eventTextParagraph.Speaker;
 
-        var speakerState = storyState.CharacterRelations.SingleOrDefault(x => x.Character == _speaker) ??
+        var speakerState = storyState.CharacterRelations.SingleOrDefault(x => x.Character.Equals(_speaker)) ??
                            new CharacterRelation(_speaker);
 
         _localizedSpeakerName = GetSpeakerDisplayName(speakerState);
@@ -104,7 +104,7 @@ internal sealed class TextParagraphControl : ControlBase
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
     {
-        if (DialogueSpeakers.Env != _speaker)
+        if (DialogueSpeakers.Env.Equals(_speaker))
         {
             DrawSpeakerDisplayName(spriteBatch, clientRect.Location.ToVector2());
         }

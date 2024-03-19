@@ -23,6 +23,7 @@ namespace Client.ScreenManagement;
 internal abstract class TextEventScreenBase : GameScreenWithMenuBase
 {
     private readonly HeroCampaign _currentCampaign;
+    private readonly StateCoordinator _coordinator;
     private readonly DialogueContextFactory _dialogueContextFactory;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly DialogueOptions _dialogueOptions;
@@ -54,6 +55,8 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
         var player = globe.Player ?? throw new InvalidOperationException();
         var storyPointCatalog = game.Services.GetRequiredService<IStoryPointCatalog>();
         var dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
+
+        _coordinator = game.Services.GetRequiredService<StateCoordinator>();
 
         _dialogueContextFactory =
             new DialogueContextFactory(globe, storyPointCatalog, player, dialogueEnvironmentManager,
@@ -187,8 +190,8 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
     {
         _globeProvider.Globe.Update(_dice, _eventCatalog);
         _dialogueEnvironmentManager.Clean();
-        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-            new CampaignScreenTransitionArguments(_currentCampaign));
+
+        _coordinator.MakeCommonTransition(this, _currentCampaign);
 
         _globeProvider.StoreCurrentGlobe();
     }
