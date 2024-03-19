@@ -104,7 +104,7 @@ internal sealed class TextParagraphControl : ControlBase
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
     {
-        if (DialogueSpeakers.Env.Equals(_speaker))
+        if (!DialogueSpeakers.Env.Equals(_speaker))
         {
             DrawSpeakerDisplayName(spriteBatch, clientRect.Location.ToVector2());
         }

@@ -27,6 +27,9 @@ meeting_partisan_scene:
   options:
     - text: 'Понял'
       next: fight_scene
+      aftermaths:
+        - type: Trigger
+          data: stage_1_fight
 
 ignore_scene:
   paragraphs:
@@ -37,6 +40,9 @@ ignore_scene:
   options:
     - text: 'Понял'
       next: fight_scene
+      aftermaths:
+        - type: Trigger
+          data: stage_1_fight
 
 fight_scene:
   paragraphs:

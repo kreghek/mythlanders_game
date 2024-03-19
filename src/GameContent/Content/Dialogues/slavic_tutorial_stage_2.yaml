@@ -21,7 +21,7 @@ handshake_with_partisan_scene:
     - text: 'Далее'
       next: fight_scene
       aftermaths:
-        - type: AddHero
+        - type: MeetHero
           data: partisan
 
 ignore_scene:
@@ -33,7 +33,7 @@ ignore_scene:
     - text: 'Далее'
       next: fight_scene
       aftermaths:
-        - type: AddHero
+        - type: MeetHero
           data: partisan
 
 fight_scene:
