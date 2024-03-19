@@ -156,7 +156,7 @@ internal class TextDialogueScreen : TextEventScreenBase
         var currentFragment = CurrentFragment;
         var speaker = currentFragment.Speaker;
 
-        if (DialogueSpeakers.Get(UnitName.Environment).ToString() == speaker.ToString())
+        if (DialogueSpeakers.Get(UnitName.Environment).Equals(speaker))
         {
             // This text describes environment. There is no speaker.
             return;

@@ -42,7 +42,7 @@ internal sealed class TextParagraphControl : ControlBase
         _aftermathContext = aftermathContext;
         _speaker = eventTextParagraph.Speaker;
 
-        var speakerState = storyState.CharacterRelations.SingleOrDefault(x => x.Character.ToString() == _speaker.ToString()) ??
+        var speakerState = storyState.CharacterRelations.SingleOrDefault(x => x.Character.Equals(_speaker)) ??
                            new CharacterRelation(_speaker);
 
         _localizedSpeakerName = GetSpeakerDisplayName(speakerState);

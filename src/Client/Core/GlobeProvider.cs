@@ -190,9 +190,7 @@ internal sealed class GlobeProvider
     {
         var startHeroes = new List<HeroState>
         {
-            HeroState.Create("Swordsman"),
-            //HeroState.Create("Partisan"),
-            //HeroState.Create("Robber")
+            HeroState.Create("Swordsman")
         };
 
         foreach (var hero in startHeroes)
