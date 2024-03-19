@@ -6,7 +6,7 @@ root:
       env:
         - type: PlayEffect
           data: ChineseCrowd
-    - speaker: Partisan
+    - speaker: Radio
       text: '"Слышишь, дядя! Иди сюда." Радио говорит незнакомым голосом.'
       env:
         - type: PlayMusic
@@ -21,7 +21,7 @@ meeting_partisan_scene:
   paragraphs:
     - speaker: Swordsman
       text: '"Ты кто?"'
-    - speaker: Partisan
+    - speaker: Radio
       text: '"Неравнодушный прохожий. Тащи свою жопу сюда." Радио говорит незнакомым голосом.'
     - text: 'Воздух вокруг стал напряженным. Сейчас будет битва.'
   options:
@@ -31,7 +31,7 @@ meeting_partisan_scene:
 ignore_scene:
   paragraphs:
     - text: 'Ратник глупо смотрит на радио. Не стоит отвечать, это может быть засада.'
-    - speaker: Partisan
+    - speaker: Radio
       text: '"Алле, есть там кто?" Радио говорит незнакомым голосом.'
     - text: 'Воздух вокруг стал напряженным. Сейчас будет битва.'
   options:
