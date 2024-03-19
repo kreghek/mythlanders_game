@@ -32,7 +32,8 @@ internal class ScenarioCampaigns
 
             var graph = new DirectedGraph<ICampaignStageItem>();
 
-            graph.AddNode(new GraphNode<ICampaignStageItem>(new DialogueEventStageItem("slavic_tutorial", locationSid, _eventCatalog)));
+            var node1 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem("slavic_tutorial", locationSid, _eventCatalog));
+            graph.AddNode(node1);
 
             var combatSequence = new CombatSequence
             {
@@ -43,11 +44,16 @@ internal class ScenarioCampaigns
                         new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("AmbushDrone", 0, new FieldCoords(0, 1)), ArraySegment<ICombatantStatusFactory>.Empty)
                     }, new CombatReward(Array.Empty<IDropTableScheme>()))
                 }
-            };            
-            
-            graph.AddNode(new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequence)));
+            };
 
-            graph.AddNode(new GraphNode<ICampaignStageItem>(new DialogueEventStageItem("slavic_tutorial", locationSid, _eventCatalog)));
+            var node2 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequence));
+            graph.AddNode(node2);
+
+            var node3 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem("slavic_tutorial", locationSid, _eventCatalog));
+            graph.AddNode(node3);
+
+            graph.ConnectNodes(node1, node2);
+            graph.ConnectNodes(node2, node3);
 
             return new HeroCampaign(new[]
                 {

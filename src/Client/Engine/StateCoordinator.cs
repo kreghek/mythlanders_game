@@ -143,4 +143,32 @@ internal class StateCoordinator
             //}
         }
     }
+
+    public void MakeCommonTransition(IScreen currentScreen, HeroCampaign currentCampaign)
+    {
+        var globe = _globeProvider.Globe;
+
+        if (globe.Progression.HasEntry("CampaignMapAvailable"))
+        {
+            _screenManager.ExecuteTransition(
+                currentScreen,
+                ScreenTransition.Campaign,
+                new CampaignScreenTransitionArguments(currentCampaign));
+        }
+        else
+        {
+            if (globe.Progression.HasEntry("TutorialComplete"))
+            {
+                throw new NotImplementedException();
+            }
+            else
+            {
+                var nextStage = currentCampaign.Location.Stages.GetNext(currentCampaign.CurrentStage).First();
+
+                currentCampaign.CurrentStage = nextStage;
+
+                nextStage.Payload.ExecuteTransition(currentScreen, _screenManager, currentCampaign);
+            }
+        }
+    }
 }
