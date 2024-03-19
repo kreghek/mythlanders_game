@@ -1,43 +1,42 @@
 ---
 root:
   paragraphs:
-    - speaker: Swordsman
-      text: '"Тут я буду говорить про то, что в мире стало опасно и надо двигаться.", уныло говорит ратник.'
+    - text: 'Ратник встречается с партизаном.'
       env:
         - type: PlayEffect
           data: ChineseCrowd
     - speaker: Partisan
-      text: '"Слышишь, дядя! Иди сюда." Радио говорит незнакомым голосом.'
-      env:
-        - type: PlayMusic
-          data: ChineseHappy
+      text: '"Ну вот и свиделись." Мужик с сединой на висках и хищным взглядом протягивает руку.'
   options:
-    - text: 'Узнать, кто на связи'
-      next: meeting_partisan_scene
+    - text: 'Ратник пожимает руку'
+      next: handshake_with_partisan_scene
     - text: 'Игнорировать'
       next: ignore_scene
 
-meeting_partisan_scene:
+handshake_with_partisan_scene:
   paragraphs:
     - speaker: Swordsman
-      text: '"Ты кто?"'
-    - speaker: Partisan
-      text: '"Неравнодушный прохожий. Тащи свою жопу сюда." Радио говорит незнакомым голосом.'
-    - text: 'Воздух вокруг стал напряженным. Сейчас будет битва.'
+      text: '"Так это ты был по рации?"'
   options:
-    - text: 'Понял'
+    - text: 'Далее'
       next: fight_scene
+      aftermaths:
+        - type: AddHero
+          data: partisan
 
 ignore_scene:
   paragraphs:
-    - text: 'Ратник глупо смотрит на радио. Не стоит отвечать, это может быть засада.'
+    - text: 'Ратник глупо смотрит партизана.'
     - speaker: Partisan
-      text: '"Алле, есть там кто?" Радио говорит незнакомым голосом.'
-    - text: 'Воздух вокруг стал напряженным. Сейчас будет битва.'
+      text: '"Так, значит, дядя?" Мужик явно не доволен манерами Беримира.'
   options:
-    - text: 'Понял'
+    - text: 'Далее'
       next: fight_scene
+      aftermaths:
+        - type: AddHero
+          data: partisan
 
 fight_scene:
   paragraphs:
+    - text: 'Воздух вокруг стал напряженным. Сейчас будет битва.'
     - text: 'Раздался огушающий свист. Это засадные дроны!'
