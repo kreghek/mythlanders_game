@@ -32,7 +32,7 @@ internal class ScenarioCampaigns
 
             var graph = new DirectedGraph<ICampaignStageItem>();
 
-            graph.AddNode(new GraphNode<ICampaignStageItem>(new DialogueEventStageItem("tutorial_slavic_stage_1", locationSid, _eventCatalog)));
+            graph.AddNode(new GraphNode<ICampaignStageItem>(new DialogueEventStageItem("slavic_tutorial", locationSid, _eventCatalog)));
 
             var combatSequence = new CombatSequence
             {
@@ -47,7 +47,7 @@ internal class ScenarioCampaigns
             
             graph.AddNode(new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequence)));
 
-            graph.AddNode(new GraphNode<ICampaignStageItem>(new DialogueEventStageItem("tutorial_slavic_stage_2", locationSid, _eventCatalog)));
+            graph.AddNode(new GraphNode<ICampaignStageItem>(new DialogueEventStageItem("slavic_tutorial", locationSid, _eventCatalog)));
 
             return new HeroCampaign(new[]
                 {
