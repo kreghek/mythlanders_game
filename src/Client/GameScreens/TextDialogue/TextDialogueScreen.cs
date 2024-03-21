@@ -17,7 +17,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.TextDialogue;
 
-internal class TextDialogueScreen : TextEventScreenBase
+internal class TextDialogueScreen : CampaignTextEventScreenBase
 {
     private const int BACKGROUND_LAYERS_COUNT = 3;
 

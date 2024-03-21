@@ -4,16 +4,13 @@ using System.Linq;
 
 using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
-using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens;
-using Client.GameScreens.Campaign;
 using Client.ScreenManagement.Ui.TextEvents;
 
 using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
 
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -22,8 +19,6 @@ namespace Client.ScreenManagement;
 
 internal abstract class TextEventScreenBase : GameScreenWithMenuBase
 {
-    private readonly HeroCampaign _currentCampaign;
-    private readonly DialogueContextFactory _dialogueContextFactory;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly DialogueOptions _dialogueOptions;
     protected readonly DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext> _dialoguePlayer;
@@ -41,6 +36,11 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
     private KeyboardState _keyboardState;
     private double _pressToContinueCounter;
 
+    protected abstract IDialogueContextFactory<ParagraphConditionContext, CampaignAftermathContext> DialogueContextFactory
+    {
+        get;
+    }
+
     protected TextEventScreenBase(MythlandersGame game, TextEventScreenArgsBase args) : base(game)
     {
         _textParagraphControls = new List<TextParagraphControl>();
@@ -48,27 +48,16 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
 
         _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
         _dice = Game.Services.GetService<IDice>();
-
+        
         var globeProvider = game.Services.GetService<GlobeProvider>();
         var globe = globeProvider.Globe ?? throw new InvalidOperationException();
         var player = globe.Player ?? throw new InvalidOperationException();
-        var storyPointCatalog = game.Services.GetRequiredService<IStoryPointCatalog>();
-        var dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
+        _storyState = player.StoryState;
 
-        _dialogueContextFactory =
-            new DialogueContextFactory(globe, storyPointCatalog, player, dialogueEnvironmentManager,
-                args.DialogueEvent, args.Campaign,
-                new EventContext(globe, storyPointCatalog, player, args.DialogueEvent));
         _dialoguePlayer =
             new DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext>(args.CurrentDialogue,
-                _dialogueContextFactory);
-
-        _currentCampaign = args.Campaign;
-        _storyState = player.StoryState;
-        _globeProvider = globeProvider;
-        _dialogueEnvironmentManager = dialogueEnvironmentManager;
-        _eventCatalog = game.Services.GetRequiredService<IEventCatalog>();
-        _uiContentStorage = game.Services.GetRequiredService<IUiContentStorage>();
+                DialogueContextFactory);
+       
     }
 
     protected DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext> CurrentFragment =>
@@ -183,16 +172,7 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
         spriteBatch.End();
     }
 
-    private void HandleDialogueEnd()
-    {
-        _globeProvider.Globe.Update(_dice, _eventCatalog);
-        _dialogueEnvironmentManager.Clean();
-        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-            new CampaignScreenTransitionArguments(_currentCampaign));
-
-        _globeProvider.StoreCurrentGlobe();
-    }
-
+    protected abstract void HandleDialogueEnd();
 
     private void InitDialogueControls()
     {
@@ -205,7 +185,7 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
                 textFragment,
                 _gameObjectContentStorage.GetTextSoundEffect(speaker),
                 _dice,
-                _dialogueContextFactory.CreateAftermathContext(),
+                DialogueContextFactory.CreateAftermathContext(),
                 _storyState);
             _textParagraphControls.Add(textFragmentControl);
         }

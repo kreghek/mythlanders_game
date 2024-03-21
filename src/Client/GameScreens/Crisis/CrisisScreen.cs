@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Crisis;
 
-internal sealed class CrisisScreen : TextEventScreenBase
+internal sealed class CrisisScreen : CampaignTextEventScreenBase
 {
     private readonly Texture2D _backgroundTexture;
     private readonly Texture2D _cleanScreenTexture;

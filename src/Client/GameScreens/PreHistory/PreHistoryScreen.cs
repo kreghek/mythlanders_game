@@ -2,10 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using Client.Engine;
-using Client.GameScreens.Crisis;
 using Client.ScreenManagement;
-
-using Core.Crises;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
@@ -86,27 +83,5 @@ internal sealed class PreHistoryScreen : TextEventScreenBase
         texture.SetData(data);
 
         return texture;
-    }
-
-    private static string GetBackgroundSpriteName(CrisisSid sid)
-    {
-        return sid.Value switch
-        {
-            "MagicTrap" => "ElectricTrap",
-            "CityHunting" => "CityHunting",
-            "InfernalSickness" => "InfernalSickness",
-            "Starvation" => "Starvation",
-            "Preying" => "Preying",
-            "Bandits" => "Bandits",
-            "DesertStorm" => "DesertStorm",
-            "FireCaster" => "FireCaster",
-
-            "Cultists" => "Cultists",
-            "Drone" => "Drone",
-            "Tavern" => "Tavern",
-            "Treasures" => "Treasures",
-
-            _ => "ElectricTrap"
-        };
     }
 }
