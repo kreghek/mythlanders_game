@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets;
+using Client.Assets.Catalogs;
+using Client.Assets.Catalogs.Dialogues;
+using Client.Assets.Catalogs.DialogueStoring;
 using Client.Assets.StageItems;
 using Client.Core;
 using Client.Core.CampaignEffects;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Combat;
-using Client.GameScreens.CommandCenter;
 using Client.GameScreens.Common;
+using Client.GameScreens.PreHistory;
 using Client.ScreenManagement;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantStatuses;
+using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
 using CombatDicesTeam.Graphs;
 
@@ -22,8 +26,12 @@ using Core.PropDrop;
 
 using GameClient.Engine.RectControl;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace Client.GameScreens.Title;
 
@@ -51,6 +59,7 @@ internal sealed class TitleScreen : GameScreenBase
     private readonly SettingsModal _settingsModal;
     private readonly UnitName[] _showcaseUnits;
     private readonly IUiContentStorage _uiContentStorage;
+    private readonly IDialogueResourceProvider _resourceProvider;
 
     public TitleScreen(MythlandersGame game)
         : base(game)
@@ -69,6 +78,8 @@ internal sealed class TitleScreen : GameScreenBase
 
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();
         _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
+
+        _resourceProvider = game.Services.GetRequiredService<IDialogueResourceProvider>();
 
         _buttons = new List<ButtonBase>();
 
@@ -132,16 +143,29 @@ internal sealed class TitleScreen : GameScreenBase
     }
 
     public static void StartClearNewGame(GlobeProvider globeProvider, IScreen currentScreen,
-        IScreenManager screenManager, ICampaignGenerator campaignGenerator)
+        IScreenManager screenManager, ICampaignGenerator campaignGenerator, IDialogueResourceProvider dialogueResourceProvider)
     {
         globeProvider.GenerateNew();
+        
+        var dialogueYaml = dialogueResourceProvider.GetResource("pre-history");
 
-        var availableLaunches = campaignGenerator.CreateSet(globeProvider.Globe);
+        var deserializer = new DeserializerBuilder()
+            .WithNamingConvention(CamelCaseNamingConvention.Instance)
+            .Build();
+
+        var dialogueDtoDict = deserializer.Deserialize<Dictionary<string, DialogueDtoScene>>(dialogueYaml);
+
+        var preHistoryDialogue = DialogueCatalogHelper.Create(
+            "pre-history", dialogueDtoDict,
+            new DialogueCatalogCreationServices<PreHistoryAftermathContext>(
+                new PreHistoryDialogueEnvironmentEffectCreator(), new PreHistoryOptionAftermathCreator()),
+            _ => ArraySegment<IDialogueParagraphCondition<ParagraphConditionContext>>.Empty);
+        
 
         screenManager.ExecuteTransition(
             currentScreen,
-            ScreenTransition.CommandCenter,
-            new CommandCenterScreenTransitionArguments(availableLaunches));
+            ScreenTransition.PreHistory,
+            new PreHistoryScreenScreenTransitionArguments(preHistoryDialogue));
     }
 
     protected override void DrawContent(SpriteBatch spriteBatch)
@@ -223,7 +247,7 @@ internal sealed class TitleScreen : GameScreenBase
         loadGameButton.OnClick += (_, _) =>
         {
             var continueDialog = new ContinueGameModal(_uiContentStorage, _resolutionIndependentRenderer,
-                _globeProvider, ScreenManager, this, _campaignGenerator);
+                _globeProvider, ScreenManager, this, _campaignGenerator, _resourceProvider);
             AddModal(continueDialog, isLate: true);
             continueDialog.Show();
         };
@@ -433,6 +457,6 @@ internal sealed class TitleScreen : GameScreenBase
 
     private void StartButton_OnClick(object? sender, EventArgs e)
     {
-        StartClearNewGame(_globeProvider, this, ScreenManager, _campaignGenerator);
+        StartClearNewGame(_globeProvider, this, ScreenManager, _campaignGenerator, _resourceProvider);
     }
 }

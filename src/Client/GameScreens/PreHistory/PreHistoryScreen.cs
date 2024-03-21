@@ -9,51 +9,9 @@ using CombatDicesTeam.Dialogues;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.PreHistory;
-
-internal sealed class PreHistoryAftermathContext
-{
-    private readonly ContentManager _contentManager;
-    private Texture2D? _backgroundTexture;
-    
-    public PreHistoryAftermathContext(ContentManager contentManager)
-    {
-        _contentManager = contentManager;
-    }
-
-    public void SetBackground(string backgroundName)
-    {
-        _backgroundTexture = _contentManager.Load<Texture2D>($"Sprites/GameObjects/PreHistory/{backgroundName}");
-    }
-
-    public Texture2D? GetBackgroundTexture()
-    {
-        return _backgroundTexture;
-    }
-}
-
-internal sealed class PreHistoryDialogueContextFactory: IDialogueContextFactory<ParagraphConditionContext, PreHistoryAftermathContext>
-{
-    private readonly PreHistoryAftermathContext _aftermathContext;
-
-    public PreHistoryDialogueContextFactory(PreHistoryAftermathContext aftermathContext)
-    {
-        _aftermathContext = aftermathContext;
-    }
-    
-    public PreHistoryAftermathContext CreateAftermathContext()
-    {
-        return _aftermathContext;
-    }
-
-    public ParagraphConditionContext CreateParagraphConditionContext()
-    {
-        throw new NotImplementedException();
-    }
-}
 
 internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionContext, PreHistoryAftermathContext>
 {

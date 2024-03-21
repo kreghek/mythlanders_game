@@ -13,6 +13,7 @@ using Client.GameScreens.EndGame;
 using Client.GameScreens.Intro;
 using Client.GameScreens.Match3;
 using Client.GameScreens.NotImplementedStage;
+using Client.GameScreens.PreHistory;
 using Client.GameScreens.Rest;
 using Client.GameScreens.SlidingPuzzles;
 using Client.GameScreens.TextDialogue;
@@ -115,6 +116,8 @@ internal class ScreenManager : IScreenManager
         return targetTransition switch
         {
             ScreenTransition.Title => new TitleScreen(_game),
+            ScreenTransition.PreHistory => new PreHistoryScreen(_game,
+                (PreHistoryScreenScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.Campaign => new CampaignScreen(_game,
                 (CampaignScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.CommandCenter => new CommandCenterScreen(_game,

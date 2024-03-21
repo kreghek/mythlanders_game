@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.Catalogs;
 using Client.Core;
 using Client.Engine;
 using Client.GameScreens.CommandCenter;
@@ -20,6 +21,7 @@ internal sealed class ContinueGameModal : ModalDialogBase
 
     private const int PAGE_SIZE = 3;
     private readonly ICampaignGenerator _campaignGenerator;
+    private readonly IDialogueResourceProvider _dialogueResourceProvider;
     private readonly IList<ButtonBase> _continueGameButtons;
     private readonly GlobeProvider _globeProvider;
     private readonly IList<ButtonBase> _pageButtons;
@@ -30,7 +32,7 @@ internal sealed class ContinueGameModal : ModalDialogBase
 
     public ContinueGameModal(IUiContentStorage uiContentStorage,
         IResolutionIndependentRenderer resolutionIndependentRenderer, GlobeProvider globeProvider,
-        IScreenManager screenManager, IScreen screen, ICampaignGenerator campaignGenerator) : base(uiContentStorage,
+        IScreenManager screenManager, IScreen screen, ICampaignGenerator campaignGenerator, IDialogueResourceProvider dialogueResourceProvider) : base(uiContentStorage,
         resolutionIndependentRenderer)
     {
         _continueGameButtons = new List<ButtonBase>();
@@ -40,6 +42,8 @@ internal sealed class ContinueGameModal : ModalDialogBase
         _screenManager = screenManager;
         _screen = screen;
         _campaignGenerator = campaignGenerator;
+        _dialogueResourceProvider = dialogueResourceProvider;
+        
         CreateButtonOnEachSave();
 
         CreateNewGameButton();
@@ -173,6 +177,6 @@ internal sealed class ContinueGameModal : ModalDialogBase
 
     private void StartButton_OnClick(object? sender, EventArgs e)
     {
-        TitleScreen.StartClearNewGame(_globeProvider, _screen, _screenManager, _campaignGenerator);
+        TitleScreen.StartClearNewGame(_globeProvider, _screen, _screenManager, _campaignGenerator, _dialogueResourceProvider);
     }
 }
