@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
 using Client.Engine;
 using Client.GameScreens;
@@ -11,57 +10,56 @@ using Client.ScreenManagement.Ui.TextEvents;
 using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Client.ScreenManagement;
 
-internal abstract class TextEventScreenBase : GameScreenWithMenuBase
+internal abstract class TextEventScreenBase<TParagraphConditionContext, TAftermathContext> : GameScreenWithMenuBase
 {
-    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly DialogueOptions _dialogueOptions;
-    protected readonly DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext> _dialoguePlayer;
+    protected readonly DialoguePlayer<TParagraphConditionContext, TAftermathContext> _dialoguePlayer;
     private readonly IDice _dice;
-    private readonly IEventCatalog _eventCatalog;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
-    private readonly GlobeProvider _globeProvider;
     private readonly IStoryState _storyState;
-
-    protected readonly IList<TextParagraphControl> _textParagraphControls;
     private readonly IUiContentStorage _uiContentStorage;
-    protected int _currentFragmentIndex;
+
+    protected readonly IList<TextParagraphControl<TParagraphConditionContext, TAftermathContext>> TextParagraphControls;
+    protected int CurrentFragmentIndex;
     private bool _currentTextFragmentIsReady;
     private bool _isInitialized;
     private KeyboardState _keyboardState;
     private double _pressToContinueCounter;
 
-    protected abstract IDialogueContextFactory<ParagraphConditionContext, CampaignAftermathContext> DialogueContextFactory
+    protected abstract IDialogueContextFactory<TParagraphConditionContext, TAftermathContext> DialogueContextFactory
     {
         get;
     }
 
-    protected TextEventScreenBase(MythlandersGame game, TextEventScreenArgsBase args) : base(game)
+    protected TextEventScreenBase(MythlandersGame game, TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> args) : base(game)
     {
-        _textParagraphControls = new List<TextParagraphControl>();
+        TextParagraphControls = new List<TextParagraphControl<TParagraphConditionContext, TAftermathContext>>();
         _dialogueOptions = new DialogueOptions();
 
-        _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
-        _dice = Game.Services.GetService<IDice>();
+        _gameObjectContentStorage = game.Services.GetRequiredService<GameObjectContentStorage>();
+        _dice = Game.Services.GetRequiredService<IDice>();
+        _uiContentStorage = game.Services.GetRequiredService<IUiContentStorage>();
         
-        var globeProvider = game.Services.GetService<GlobeProvider>();
-        var globe = globeProvider.Globe ?? throw new InvalidOperationException();
-        var player = globe.Player ?? throw new InvalidOperationException();
+        var globeProvider = game.Services.GetRequiredService<GlobeProvider>();
+        var globe = globeProvider.Globe;
+        var player = globe.Player;
         _storyState = player.StoryState;
 
         _dialoguePlayer =
-            new DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext>(args.CurrentDialogue,
+            new DialoguePlayer<TParagraphConditionContext, TAftermathContext>(args.CurrentDialogue,
+                // ReSharper disable once VirtualMemberCallInConstructor
                 DialogueContextFactory);
-       
     }
 
-    protected DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext> CurrentFragment =>
-        _dialoguePlayer.CurrentTextFragments[_currentFragmentIndex];
+    protected DialogueSpeech<TParagraphConditionContext, TAftermathContext> CurrentFragment =>
+        _dialoguePlayer.CurrentTextFragments[CurrentFragmentIndex];
 
     protected override IList<ButtonBase> CreateMenu()
     {
@@ -130,9 +128,9 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
 
         const int PORTRAIT_SIZE = 256;
 
-        if (_textParagraphControls.Any())
+        if (TextParagraphControls.Any())
         {
-            var textFragmentControl = _textParagraphControls[_currentFragmentIndex];
+            var textFragmentControl = TextParagraphControls[CurrentFragmentIndex];
 
             var textFragmentSize = textFragmentControl.CalculateSize().ToPoint();
 
@@ -156,12 +154,12 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
             }
         }
 
-        if (_currentFragmentIndex == _textParagraphControls.Count - 1 &&
-            _textParagraphControls[_currentFragmentIndex].IsComplete)
+        if (CurrentFragmentIndex == TextParagraphControls.Count - 1 &&
+            TextParagraphControls[CurrentFragmentIndex].IsComplete)
         {
             const int OPTION_BUTTON_MARGIN = 5;
             var lastTopButtonPosition =
-                _textParagraphControls[_currentFragmentIndex].Rect.Bottom + OPTION_BUTTON_MARGIN;
+                TextParagraphControls[CurrentFragmentIndex].Rect.Bottom + OPTION_BUTTON_MARGIN;
 
             _dialogueOptions.Rect = new Rectangle(PORTRAIT_SIZE, lastTopButtonPosition,
                 contentRectangle.Width - PORTRAIT_SIZE + 100,
@@ -176,18 +174,18 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
 
     private void InitDialogueControls()
     {
-        _textParagraphControls.Clear();
-        _currentFragmentIndex = 0;
+        TextParagraphControls.Clear();
+        CurrentFragmentIndex = 0;
         foreach (var textFragment in _dialoguePlayer.CurrentTextFragments)
         {
             var speaker = ConvertSpeakerToUnitName(textFragment.Speaker);
-            var textFragmentControl = new TextParagraphControl(
+            var textFragmentControl = new TextParagraphControl<TParagraphConditionContext, TAftermathContext>(
                 textFragment,
                 _gameObjectContentStorage.GetTextSoundEffect(speaker),
                 _dice,
                 DialogueContextFactory.CreateAftermathContext(),
                 _storyState);
-            _textParagraphControls.Add(textFragmentControl);
+            TextParagraphControls.Add(textFragmentControl);
         }
 
         var optionNumber = 1;
@@ -223,11 +221,11 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
     {
         _pressToContinueCounter += gameTime.ElapsedGameTime.TotalSeconds * 10f;
 
-        var currentFragment = _textParagraphControls[_currentFragmentIndex];
+        var currentFragment = TextParagraphControls[CurrentFragmentIndex];
         currentFragment.Update(gameTime);
 
-        var maxFragmentIndex = _textParagraphControls.Count - 1;
-        if (IsKeyPressed(Keys.Space) && !_textParagraphControls[_currentFragmentIndex].IsComplete)
+        var maxFragmentIndex = TextParagraphControls.Count - 1;
+        if (IsKeyPressed(Keys.Space) && !TextParagraphControls[CurrentFragmentIndex].IsComplete)
         {
             currentFragment.FastComplete();
 
@@ -236,19 +234,19 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
 
         if (currentFragment.IsComplete)
         {
-            if (_currentFragmentIndex < maxFragmentIndex)
+            if (CurrentFragmentIndex < maxFragmentIndex)
             {
                 _currentTextFragmentIsReady = true;
                 //TODO Make auto-move to next dialog. Make it disabled in settings by default.
                 if (IsKeyPressed(Keys.Space))
                 {
-                    _currentFragmentIndex++;
+                    CurrentFragmentIndex++;
                     _currentTextFragmentIsReady = false;
                 }
             }
         }
 
-        if (_currentFragmentIndex == maxFragmentIndex && _textParagraphControls[_currentFragmentIndex].IsComplete)
+        if (CurrentFragmentIndex == maxFragmentIndex && TextParagraphControls[CurrentFragmentIndex].IsComplete)
         {
             _dialogueOptions.Update(ResolutionIndependentRenderer);
 

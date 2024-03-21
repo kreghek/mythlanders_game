@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Client.ScreenManagement;
 
-internal abstract class CampaignTextEventScreenBase : TextEventScreenBase
+internal abstract class CampaignTextEventScreenBase : TextEventScreenBase<ParagraphConditionContext, CampaignAftermathContext>
 {
     private readonly DialogueContextFactory _dialogueContextFactory;
     

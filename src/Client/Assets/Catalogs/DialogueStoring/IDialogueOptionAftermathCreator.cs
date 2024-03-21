@@ -4,7 +4,7 @@ using CombatDicesTeam.Dialogues;
 
 namespace Client.Assets.Catalogs.DialogueStoring;
 
-internal interface IDialogueOptionAftermathCreator
+internal interface IDialogueOptionAftermathCreator<in TAftermathContext>
 {
-    IDialogueOptionAftermath<CampaignAftermathContext> Create(string aftermathTypeSid, string data);
+    IDialogueOptionAftermath<TAftermathContext> Create(string aftermathTypeSid, string data);
 }

@@ -10,7 +10,7 @@ using CombatDicesTeam.Dices;
 
 namespace Client.Assets.Catalogs;
 
-internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathCreator
+internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathCreator<CampaignAftermathContext>
 {
     private readonly IDice _dice;
 

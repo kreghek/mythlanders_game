@@ -16,14 +16,14 @@ namespace Client.Assets.Catalogs;
 
 internal class DialogueCatalog : IEventCatalog, IEventInitializer
 {
-    private readonly IDialogueEnvironmentEffectCreator _envCommandCreator;
-    private readonly IDialogueOptionAftermathCreator _optionAftermathCreator;
+    private readonly IDialogueEnvironmentEffectCreator<CampaignAftermathContext> _envCommandCreator;
+    private readonly IDialogueOptionAftermathCreator<CampaignAftermathContext> _optionAftermathCreator;
     private readonly IDialogueResourceProvider _resourceProvider;
 
     private bool _isInitialized;
 
     public DialogueCatalog(IDialogueResourceProvider resourceProvider,
-        IDialogueOptionAftermathCreator optionAftermathCreator)
+        IDialogueOptionAftermathCreator<CampaignAftermathContext> optionAftermathCreator)
     {
         _resourceProvider = resourceProvider;
         _optionAftermathCreator = optionAftermathCreator;
@@ -44,9 +44,11 @@ internal class DialogueCatalog : IEventCatalog, IEventInitializer
 
         var dialogueDtoDict = deserializer.Deserialize<Dictionary<string, DialogueDtoScene>>(dialogueYaml);
 
-        var services = new DialogueCatalogCreationServices(_envCommandCreator, _optionAftermathCreator);
+        var services = new DialogueCatalogCreationServices<CampaignAftermathContext>(_envCommandCreator, _optionAftermathCreator);
 
-        var dialogue = DialogueCatalogHelper.Create(dialogueSid, dialogueDtoDict, services);
+        var dialogue = DialogueCatalogHelper.Create(dialogueSid,
+            dialogueDtoDict, services,
+            (speaker => new[] { new HasHeroParagraphCondition(speaker) }));
 
         return dialogue;
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -45,8 +46,9 @@ public class DialogueCatalogHelperTests
         // ACT
 
         var dialogue = DialogueCatalogHelper.Create("test", dict,
-            new DialogueCatalogCreationServices(Mock.Of<IDialogueEnvironmentEffectCreator>(),
-                Mock.Of<IDialogueOptionAftermathCreator>()));
+            new DialogueCatalogCreationServices<CampaignAftermathContext>(Mock.Of<IDialogueEnvironmentEffectCreator<CampaignAftermathContext>>(),
+                Mock.Of<IDialogueOptionAftermathCreator<CampaignAftermathContext>>()),
+            _ => ArraySegment<IDialogueParagraphCondition<ParagraphConditionContext>>.Empty);
 
         // ASSERT
 
@@ -82,8 +84,9 @@ public class DialogueCatalogHelperTests
         // ACT
 
         var dialogue = DialogueCatalogHelper.Create("test", dict,
-            new DialogueCatalogCreationServices(Mock.Of<IDialogueEnvironmentEffectCreator>(),
-                Mock.Of<IDialogueOptionAftermathCreator>()));
+            new DialogueCatalogCreationServices<CampaignAftermathContext>(Mock.Of<IDialogueEnvironmentEffectCreator<CampaignAftermathContext>>(),
+                Mock.Of<IDialogueOptionAftermathCreator<CampaignAftermathContext>>()),
+            _ => ArraySegment<IDialogueParagraphCondition<ParagraphConditionContext>>.Empty);
 
         // ASSERT
 
@@ -125,8 +128,9 @@ public class DialogueCatalogHelperTests
         // ACT
 
         var dialogue = DialogueCatalogHelper.Create("test", dict,
-            new DialogueCatalogCreationServices(Mock.Of<IDialogueEnvironmentEffectCreator>(),
-                Mock.Of<IDialogueOptionAftermathCreator>()));
+            new DialogueCatalogCreationServices<CampaignAftermathContext>(Mock.Of<IDialogueEnvironmentEffectCreator<CampaignAftermathContext>>(),
+                Mock.Of<IDialogueOptionAftermathCreator<CampaignAftermathContext>>()),
+            _ => ArraySegment<IDialogueParagraphCondition<ParagraphConditionContext>>.Empty);
 
         // ASSERT
 
@@ -160,8 +164,9 @@ public class DialogueCatalogHelperTests
         // ACT
 
         var dialogue = DialogueCatalogHelper.Create("test", dict,
-            new DialogueCatalogCreationServices(Mock.Of<IDialogueEnvironmentEffectCreator>(),
-                Mock.Of<IDialogueOptionAftermathCreator>()));
+            new DialogueCatalogCreationServices<CampaignAftermathContext>(Mock.Of<IDialogueEnvironmentEffectCreator<CampaignAftermathContext>>(),
+                Mock.Of<IDialogueOptionAftermathCreator<CampaignAftermathContext>>()),
+            _ => ArraySegment<IDialogueParagraphCondition<ParagraphConditionContext>>.Empty);
 
         // ASSERT
 

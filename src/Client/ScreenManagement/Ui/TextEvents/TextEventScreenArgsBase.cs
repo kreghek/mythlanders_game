@@ -6,7 +6,9 @@ using CombatDicesTeam.Dialogues;
 
 namespace Client.ScreenManagement.Ui.TextEvents;
 
-internal abstract record CampaignTextEventScreenArgsBase(HeroCampaign Campaign, Dialogue<ParagraphConditionContext, CampaignAftermathContext> CurrentDialogue, DialogueEvent DialogueEvent): TextEventScreenArgsBase(CurrentDialogue)
+internal abstract record CampaignTextEventScreenArgsBase(HeroCampaign Campaign,
+    Dialogue<ParagraphConditionContext, CampaignAftermathContext> CurrentDialogue, DialogueEvent DialogueEvent) :
+    TextEventScreenArgsBase<ParagraphConditionContext, CampaignAftermathContext>(CurrentDialogue);
 
-internal abstract record TextEventScreenArgsBase(
-    Dialogue<ParagraphConditionContext, CampaignAftermathContext> CurrentDialogue) : IScreenTransitionArguments;
+internal abstract record TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext>(
+    Dialogue<TParagraphConditionContext, TAftermathContext> CurrentDialogue) : IScreenTransitionArguments;

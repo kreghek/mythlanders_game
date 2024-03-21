@@ -242,7 +242,7 @@ internal class TextDialogueScreen : CampaignTextEventScreenBase
         const int SPEAKER_FRAME_COUNT = 4;
         const double SPEAKER_FRAME_DURATION = 0.25;
 
-        var currentFragment = _textParagraphControls[_currentFragmentIndex];
+        var currentFragment = TextParagraphControls[CurrentFragmentIndex];
         if (!currentFragment.IsComplete)
         {
             _counter += gameTime.ElapsedGameTime.TotalSeconds;

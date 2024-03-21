@@ -7,7 +7,7 @@ using CombatDicesTeam.Dialogues;
 
 namespace Client.Assets.Catalogs.DialogueStoring;
 
-internal sealed class DialogueEnvironmentEffectCreator : IDialogueEnvironmentEffectCreator
+internal sealed class DialogueEnvironmentEffectCreator : IDialogueEnvironmentEffectCreator<CampaignAftermathContext>
 {
     public IDialogueOptionAftermath<CampaignAftermathContext> Create(string typeSid, string data)
     {

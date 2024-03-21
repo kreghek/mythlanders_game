@@ -35,7 +35,7 @@ public class DialogueCatalogTests
         resourceProviderMock.Setup(x => x.GetResource(It.IsAny<string>())).Returns(sourceDialogue);
         var resourceProvider = resourceProviderMock.Object;
 
-        var aftermathCreator = Mock.Of<IDialogueOptionAftermathCreator>();
+        var aftermathCreator = Mock.Of<IDialogueOptionAftermathCreator<CampaignAftermathContext>>();
 
         var catalog = new DialogueCatalog(resourceProvider, aftermathCreator);
         catalog.Init();
@@ -63,7 +63,7 @@ public class DialogueCatalogTests
         resourceProviderMock.Setup(x => x.GetResource(It.IsAny<string>())).Returns(sourceDialogue);
         var resourceProvider = resourceProviderMock.Object;
 
-        var aftermathCreator = Mock.Of<IDialogueOptionAftermathCreator>();
+        var aftermathCreator = Mock.Of<IDialogueOptionAftermathCreator<CampaignAftermathContext>>();
 
         var catalog = new DialogueCatalog(resourceProvider, aftermathCreator);
         catalog.Init();
