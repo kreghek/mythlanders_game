@@ -18,7 +18,7 @@ internal sealed class CombatantGraphicsCatalog : ICombatantGraphicsCatalog
 
     public CombatantGraphicsCatalog(GameObjectContentStorage gameObjectContentStorage)
     {
-        var heroes = LoadHeroFactories();
+        var heroes = CatalogHelper.GetAllFactories<IHeroFactory>();
         foreach (var factory in heroes)
         {
             var classSid = factory.ClassSid;
@@ -33,16 +33,7 @@ internal sealed class CombatantGraphicsCatalog : ICombatantGraphicsCatalog
             _graphicsDict.Add(factory.ClassName.ToString().ToLower(), graphics);
         }
     }
-
-    private static IReadOnlyCollection<IHeroFactory> LoadHeroFactories()
-    {
-        var assembly = typeof(IHeroFactory).Assembly;
-        var factoryTypes = assembly.GetTypes()
-            .Where(x => typeof(IHeroFactory).IsAssignableFrom(x) && x != typeof(IHeroFactory) && !x.IsAbstract);
-        var factories = factoryTypes.Select(Activator.CreateInstance);
-        return factories.OfType<IHeroFactory>().ToArray();
-    }
-
+    
     private static IReadOnlyCollection<IMonsterFactory> LoadMonsterFactories()
     {
         var assembly = typeof(IMonsterFactory).Assembly;

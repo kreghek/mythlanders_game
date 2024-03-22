@@ -25,4 +25,9 @@ internal static class CatalogHelper
         var factories = factoryTypes.Select(Activator.CreateInstance);
         return factories.OfType<TFactory>().ToArray();
     }
+
+    public static IReadOnlyCollection<TFactory> GetAllFactories<TFactory>()
+    {
+        return GetAllFactories<TFactory>(typeof(TFactory).Assembly);
+    }
 }
