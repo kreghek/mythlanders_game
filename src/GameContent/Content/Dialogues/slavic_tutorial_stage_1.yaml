@@ -1,43 +1,10 @@
 ---
 root:
   paragraphs:
+    - text: 'Недалеко слышатся звуки битвы.'
     - speaker: Swordsman
-      text: '"Тут я буду говорить про то, что в мире стало опасно и надо двигаться.", уныло говорит ратник.'
+      text: '"Огненные бури! Я должен вступить в этот бой, несмотря на опасность."'
       env:
         - type: PlayEffect
-          data: ChineseCrowd
-    - speaker: Radio
-      text: '"Слышишь, дядя! Иди сюда." Радио говорит незнакомым голосом.'
-      env:
-        - type: PlayMusic
-          data: ChineseHappy
-  options:
-    - text: 'Узнать, кто на связи'
-      next: meeting_partisan_scene
-    - text: 'Игнорировать'
-      next: ignore_scene
-
-meeting_partisan_scene:
-  paragraphs:
-    - speaker: Swordsman
-      text: '"Ты кто?"'
-    - speaker: Radio
-      text: '"Неравнодушный прохожий. Тащи свою жопу сюда." Радио говорит незнакомым голосом.'
-    - text: 'Воздух вокруг стал напряженным. Сейчас будет битва.'
-  options:
-    - text: 'Понял'
-      next: fight_scene
-
-ignore_scene:
-  paragraphs:
-    - text: 'Ратник глупо смотрит на радио. Не стоит отвечать, это может быть засада.'
-    - speaker: Radio
-      text: '"Алле, есть там кто?" Радио говорит незнакомым голосом.'
-    - text: 'Воздух вокруг стал напряженным. Сейчас будет битва.'
-  options:
-    - text: 'Понял'
-      next: fight_scene
-
-fight_scene:
-  paragraphs:
-    - text: 'Раздался огушающий свист. Это засадные дроны!'
+          data: Battle
+    - text: 'За спиной послышался приглушенный рык. Раненный монтр готов сражаться до последнего вздоха.'
