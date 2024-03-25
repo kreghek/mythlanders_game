@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-using Client.Assets.Catalogs;
 using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
 using Client.Engine;
-using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter;
 using Client.ScreenManagement;
 using Client.ScreenManagement.Ui.TextEvents;
@@ -40,7 +38,7 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
     protected override IDialogueContextFactory<ParagraphConditionContext, PreHistoryAftermathContext> CreateDialogueContextFactory(TextEventScreenArgsBase<ParagraphConditionContext, PreHistoryAftermathContext> args)
     {
-        _aftermathContext = new PreHistoryAftermathContext(Game.Content, Game.Services.GetRequiredService<IDialogueEnvironmentManager>());
+        _aftermathContext = new PreHistoryAftermathContext(Game.Content, Game.Services.GetRequiredService<IDialogueEnvironmentManager>(), Game.Services.GetService<GlobeProvider>().Globe.Player);
 
         return new PreHistoryDialogueContextFactory(_aftermathContext, Game.Services.GetRequiredService<GlobeProvider>().Globe.Player);
     }

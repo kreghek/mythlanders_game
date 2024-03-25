@@ -75,7 +75,6 @@ internal sealed class GlobeProvider
 
         InitStartLocations(globe);
         InitStartStoryPoint(globe, _storyPointInitializer);
-        AssignStartHeroes(globe);
         InitStartMonsterPerks(globe);
 
         Globe = globe;
@@ -172,21 +171,6 @@ internal sealed class GlobeProvider
     }
 
     private void AssignFreeHeroes(Globe globe)
-    {
-        var startHeroes = new List<HeroState>
-        {
-            HeroState.Create("Swordsman"),
-            HeroState.Create("Partisan"),
-            HeroState.Create("Robber")
-        };
-
-        foreach (var hero in startHeroes)
-        {
-            globe.Player.Heroes.AddNewUnit(hero);
-        }
-    }
-
-    private void AssignStartHeroes(Globe globe)
     {
         var startHeroes = new List<HeroState>
         {

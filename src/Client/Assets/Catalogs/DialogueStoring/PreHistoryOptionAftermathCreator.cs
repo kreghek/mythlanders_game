@@ -26,6 +26,16 @@ internal sealed class PreHistoryOptionAftermathCreator : IDialogueOptionAftermat
             return new PlaySongDialogueOptionAftermath(data);
         }
 
+        if (aftermathTypeSid == "AddMonsterPerk")
+        { 
+            return new AddMonsterPerkOptionAftermath(data);
+        }
+
+        if (aftermathTypeSid == "AddHero")
+        {
+            return new AddHeroOptionAftermath(data);
+        }
+
         throw new InvalidOperationException($"Type {aftermathTypeSid} is unknown.");
     }
 }

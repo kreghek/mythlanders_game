@@ -1,4 +1,12 @@
-﻿using CombatDicesTeam.Dialogues;
+﻿using System;
+using System.Linq;
+
+using Client.Assets;
+using Client.Assets.Catalogs;
+using Client.Assets.MonsterPerks;
+using Client.Core;
+
+using CombatDicesTeam.Dialogues;
 
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,12 +17,14 @@ internal sealed class PreHistoryAftermathContext
 {
     private readonly ContentManager _contentManager;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
+    private readonly Player _player;
     private Texture2D? _backgroundTexture;
     
-    public PreHistoryAftermathContext(ContentManager contentManager, IDialogueEnvironmentManager dialogueEnvironmentManager)
+    public PreHistoryAftermathContext(ContentManager contentManager, IDialogueEnvironmentManager dialogueEnvironmentManager, Player player)
     {
         _contentManager = contentManager;
         _dialogueEnvironmentManager = dialogueEnvironmentManager;
+        _player = player;
     }
 
     public void SetBackground(string backgroundName)
@@ -35,5 +45,18 @@ internal sealed class PreHistoryAftermathContext
     public void PlaySoundEffect(string effectSid, string resourceName)
     {
         _dialogueEnvironmentManager.PlayEffect(effectSid, resourceName);
+    }
+
+    public void AddNewHero(string heroSid)
+    {
+        _player.AddHero(HeroState.Create(heroSid));
+    }
+
+    internal void AddMonsterPerk(string perkSid)
+    {
+        var monsterPerks = CatalogHelper.GetAllFromStaticCatalog<MonsterPerk>(typeof(MonsterPerkCatalog));
+        var targetPerk = monsterPerks.Single(x => string.Equals(x.Sid, perkSid, StringComparison.InvariantCultureIgnoreCase));
+
+        _player.AddMonsterPerk(targetPerk);
     }
 }
