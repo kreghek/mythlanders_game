@@ -119,7 +119,7 @@ p8_monk:
   paragraphs:
     - text: |
         'Шаолиньский монах Маосин начал свое приключение.'
-       env:
+      env:
         - type: Background
           data: Monk
 
