@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 
 using Client.Assets.Catalogs.Dialogues;
+using Client.Core;
 using Client.Engine;
 using Client.ScreenManagement;
+using Client.ScreenManagement.Ui.TextEvents;
 
 using CombatDicesTeam.Dialogues;
 
@@ -17,22 +19,20 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 {
     private readonly Texture2D _cleanScreenTexture;
     private readonly SoundtrackManager _soundtrackManager;
-    private readonly PreHistoryAftermathContext _aftermathContext;
+    private PreHistoryAftermathContext? _aftermathContext;
 
     public PreHistoryScreen(MythlandersGame game, PreHistoryScreenScreenTransitionArguments args) : base(game, args)
     {
         _cleanScreenTexture = CreateTexture(game.GraphicsDevice, 1, 1, _ => new Color(36, 40, 41));
 
         _soundtrackManager = game.Services.GetRequiredService<SoundtrackManager>();
-
-        _aftermathContext = new PreHistoryAftermathContext(game.Content, game.Services.GetRequiredService<IDialogueEnvironmentManager>());
-        
-        DialogueContextFactory = new PreHistoryDialogueContextFactory(_aftermathContext);
     }
 
-    protected override IDialogueContextFactory<ParagraphConditionContext, PreHistoryAftermathContext> DialogueContextFactory
+    protected override IDialogueContextFactory<ParagraphConditionContext, PreHistoryAftermathContext> CreateDialogueContextFactory(TextEventScreenArgsBase<ParagraphConditionContext, PreHistoryAftermathContext> args)
     {
-        get;
+        _aftermathContext = new PreHistoryAftermathContext(Game.Content, Game.Services.GetRequiredService<IDialogueEnvironmentManager>());
+
+        return new PreHistoryDialogueContextFactory(_aftermathContext, Game.Services.GetRequiredService<GlobeProvider>().Globe.Player);
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -52,7 +52,7 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
         spriteBatch.Draw(_cleanScreenTexture, contentRect, Color.White);
 
-        if (_aftermathContext.GetBackgroundTexture() is not null)
+        if (_aftermathContext!.GetBackgroundTexture() is not null)
         {
             spriteBatch.Draw(_aftermathContext.GetBackgroundTexture(), new Vector2(-256, 0), Color.White);
         }

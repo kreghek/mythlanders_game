@@ -27,16 +27,15 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     private readonly IUiContentStorage _uiContentStorage;
 
     protected readonly IList<TextParagraphControl<TParagraphConditionContext, TAftermathContext>> TextParagraphControls;
+    private readonly TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> _args;
     protected int CurrentFragmentIndex;
     private bool _currentTextFragmentIsReady;
     private bool _isInitialized;
     private KeyboardState _keyboardState;
     private double _pressToContinueCounter;
 
-    protected abstract IDialogueContextFactory<TParagraphConditionContext, TAftermathContext> DialogueContextFactory
-    {
-        get;
-    }
+    protected abstract IDialogueContextFactory<TParagraphConditionContext, TAftermathContext> CreateDialogueContextFactory(TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> args);
+
 
     protected TextEventScreenBase(MythlandersGame game, TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> args) : base(game)
     {
@@ -52,10 +51,9 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         var player = globe.Player;
         _storyState = player.StoryState;
 
-        _dialoguePlayer =
-            new DialoguePlayer<TParagraphConditionContext, TAftermathContext>(args.CurrentDialogue,
-                // ReSharper disable once VirtualMemberCallInConstructor
-                DialogueContextFactory);
+        _dialoguePlayer = new DialoguePlayer<TParagraphConditionContext, TAftermathContext>(args.CurrentDialogue,
+                CreateDialogueContextFactory(args));
+        _args = args;
     }
 
     protected DialogueSpeech<TParagraphConditionContext, TAftermathContext> CurrentFragment =>
@@ -183,7 +181,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
                 textFragment,
                 _gameObjectContentStorage.GetTextSoundEffect(speaker),
                 _dice,
-                DialogueContextFactory.CreateAftermathContext(),
+                CreateDialogueContextFactory(_args).CreateAftermathContext(),
                 _storyState);
             TextParagraphControls.Add(textFragmentControl);
         }

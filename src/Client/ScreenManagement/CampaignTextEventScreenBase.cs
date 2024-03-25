@@ -15,8 +15,6 @@ namespace Client.ScreenManagement;
 
 internal abstract class CampaignTextEventScreenBase : TextEventScreenBase<ParagraphConditionContext, CampaignAftermathContext>
 {
-    private readonly DialogueContextFactory _dialogueContextFactory;
-    
     private readonly HeroCampaign _currentCampaign;
     
     private readonly GlobeProvider _globeProvider;
@@ -28,9 +26,7 @@ internal abstract class CampaignTextEventScreenBase : TextEventScreenBase<Paragr
     protected CampaignTextEventScreenBase(MythlandersGame game, CampaignTextEventScreenArgsBase args) : base(game, args)
     {
         var globeProvider = game.Services.GetService<GlobeProvider>();
-        var globe = globeProvider.Globe ?? throw new InvalidOperationException();
-        var player = globe.Player ?? throw new InvalidOperationException();
-        var storyPointCatalog = game.Services.GetRequiredService<IStoryPointCatalog>();
+
         var dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
         
         _currentCampaign = args.Campaign;
@@ -39,17 +35,26 @@ internal abstract class CampaignTextEventScreenBase : TextEventScreenBase<Paragr
         _eventCatalog = game.Services.GetRequiredService<IEventCatalog>();
         
         _dice = Game.Services.GetService<IDice>();
-        
-        _dialogueContextFactory =
-            new DialogueContextFactory(globe, storyPointCatalog, player, dialogueEnvironmentManager,
-                args.DialogueEvent, args.Campaign,
-                new EventContext(globe, storyPointCatalog, player, args.DialogueEvent));
     }
 
-    protected override IDialogueContextFactory<ParagraphConditionContext, CampaignAftermathContext>
-        DialogueContextFactory => _dialogueContextFactory;
+    protected override IDialogueContextFactory<ParagraphConditionContext, CampaignAftermathContext> CreateDialogueContextFactory(TextEventScreenArgsBase<ParagraphConditionContext, CampaignAftermathContext> args)
+    {
+        var globeProvider = Game.Services.GetService<GlobeProvider>();
+        var globe = globeProvider.Globe ?? throw new InvalidOperationException();
+        var player = globe.Player ?? throw new InvalidOperationException();
 
-    
+        var storyPointCatalog = Game.Services.GetRequiredService<IStoryPointCatalog>();
+
+        var dialogueEnvironmentManager = Game.Services.GetRequiredService<IDialogueEnvironmentManager>();
+
+        var campaignArgs = (CampaignTextEventScreenArgsBase)args;
+
+        return new DialogueContextFactory(globe, storyPointCatalog, player, dialogueEnvironmentManager,
+        campaignArgs.DialogueEvent, campaignArgs.Campaign,
+                new EventContext(globe, storyPointCatalog, player, campaignArgs.DialogueEvent));
+    }
+
+
     protected override void HandleDialogueEnd()
     {
         _globeProvider.Globe.Update(_dice, _eventCatalog);

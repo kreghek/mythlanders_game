@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 
+using Client.Assets.Catalogs.Dialogues;
 using Client.Engine;
 using Client.ScreenManagement;
+
+using CombatDicesTeam.Dialogues;
 
 using Core.Crises;
 
