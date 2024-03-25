@@ -9,6 +9,10 @@ using Client.ScreenManagement;
 using Client.ScreenManagement.Ui.TextEvents;
 
 using CombatDicesTeam.Dialogues;
+using CombatDicesTeam.Dices;
+using CombatDicesTeam.Engine.Ui;
+
+using GameClient.Engine.RectControl;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
@@ -25,6 +29,7 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
     private readonly ICampaignGenerator _campaignGenerator;
 
     private PreHistoryAftermathContext? _aftermathContext;
+    private PongRectangleControl _pongBackground;
 
     public PreHistoryScreen(MythlandersGame game, PreHistoryScreenScreenTransitionArguments args) : base(game, args)
     {
@@ -34,6 +39,24 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
         _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
         _globeProvider = game.Services.GetService<GlobeProvider>();
         _campaignGenerator = game.Services.GetService<ICampaignGenerator>();
+
+
+        var contentRect = new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Location.X,
+            ResolutionIndependentRenderer.VirtualBounds.Location.Y,
+            ResolutionIndependentRenderer.VirtualBounds.Width,
+            ResolutionIndependentRenderer.VirtualBounds.Height);
+
+        var mapRect = new Rectangle(
+            contentRect.Left + ControlBase.CONTENT_MARGIN,
+            (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN,
+            contentRect.Width - ControlBase.CONTENT_MARGIN * 2,
+            (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2);
+
+        var mapPongRandomSource = new PongRectangleRandomSource(new LinearDice(), 2f);
+
+        _pongBackground = new PongRectangleControl(new Point(1024, 512),
+            mapRect,
+            mapPongRandomSource);
     }
 
     protected override IDialogueContextFactory<ParagraphConditionContext, PreHistoryAftermathContext> CreateDialogueContextFactory(TextEventScreenArgsBase<ParagraphConditionContext, PreHistoryAftermathContext> args)
@@ -62,7 +85,9 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
         if (_aftermathContext!.GetBackgroundTexture() is not null)
         {
-            spriteBatch.Draw(_aftermathContext.GetBackgroundTexture(), new Vector2(-256, 0), Color.White);
+            spriteBatch.Draw(_aftermathContext.GetBackgroundTexture(),
+            _pongBackground.GetRects()[0],
+            Color.White);
         }
 
         spriteBatch.Draw(_cleanScreenTexture,
@@ -83,6 +108,7 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
     protected override void UpdateSpecificScreenContent(GameTime gameTime)
     {
+        _pongBackground.Update(gameTime.ElapsedGameTime.TotalSeconds);
     }
 
     protected override void HandleDialogueEnd()
