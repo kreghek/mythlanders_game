@@ -18,7 +18,7 @@ namespace Client.GameScreens.PreHistory;
 
 internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionContext, PreHistoryAftermathContext>
 {
-    private const double TRANSITION_DURATION_SEC = 2;
+    private const double TRANSITION_DURATION_SEC = 1.25;
 
     private readonly Texture2D _cleanScreenTexture;
     private readonly SoundtrackManager _soundtrackManager;
@@ -66,6 +66,17 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
         spriteBatch.Draw(_cleanScreenTexture, contentRect, Color.White);
 
+        DrawBackgroundBasedOnTransition(spriteBatch);
+
+        spriteBatch.Draw(_cleanScreenTexture,
+            new Rectangle(contentRect.Center.X, contentRect.Top, contentRect.Width / 2, contentRect.Height),
+            Color.Lerp(Color.White, Color.Transparent, 0.25f));
+
+        spriteBatch.End();
+    }
+
+    private void DrawBackgroundBasedOnTransition(SpriteBatch spriteBatch)
+    {
         if (_currentBackgroundTexture is not null)
         {
             if (_backgroundTransitionCounter is not null)
@@ -79,12 +90,6 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
                 spriteBatch.Draw(_currentBackgroundTexture, new Vector2(-256, 0), Color.White);
             }
         }
-
-        spriteBatch.Draw(_cleanScreenTexture,
-            new Rectangle(contentRect.Center.X, contentRect.Top, contentRect.Width / 2, contentRect.Height),
-            Color.Lerp(Color.White, Color.Transparent, 0.25f));
-
-        spriteBatch.End();
     }
 
     protected override void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -97,6 +102,11 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
     }
 
     protected override void UpdateSpecificScreenContent(GameTime gameTime)
+    {
+        UpdateTransition(gameTime);
+    }
+
+    private void UpdateTransition(GameTime gameTime)
     {
         var targetBackgroundTexture = _aftermathContext!.GetBackgroundTexture();
 
