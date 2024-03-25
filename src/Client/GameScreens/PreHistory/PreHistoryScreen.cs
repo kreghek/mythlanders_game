@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 
+using Client.Assets.Catalogs;
 using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
 using Client.Engine;
+using Client.GameScreens.Campaign;
+using Client.GameScreens.CommandCenter;
 using Client.ScreenManagement;
 using Client.ScreenManagement.Ui.TextEvents;
 
@@ -19,6 +22,10 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 {
     private readonly Texture2D _cleanScreenTexture;
     private readonly SoundtrackManager _soundtrackManager;
+    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
+    private readonly GlobeProvider _globeProvider;
+    private readonly ICampaignGenerator _campaignGenerator;
+
     private PreHistoryAftermathContext? _aftermathContext;
 
     public PreHistoryScreen(MythlandersGame game, PreHistoryScreenScreenTransitionArguments args) : base(game, args)
@@ -26,6 +33,9 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
         _cleanScreenTexture = CreateTexture(game.GraphicsDevice, 1, 1, _ => new Color(36, 40, 41));
 
         _soundtrackManager = game.Services.GetRequiredService<SoundtrackManager>();
+        _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
+        _globeProvider = game.Services.GetService<GlobeProvider>();
+        _campaignGenerator = game.Services.GetService<ICampaignGenerator>();
     }
 
     protected override IDialogueContextFactory<ParagraphConditionContext, PreHistoryAftermathContext> CreateDialogueContextFactory(TextEventScreenArgsBase<ParagraphConditionContext, PreHistoryAftermathContext> args)
@@ -79,7 +89,14 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
     protected override void HandleDialogueEnd()
     {
-        throw new NotImplementedException();
+        _dialogueEnvironmentManager.Clean();
+
+        var otherCampaignLaunches = _campaignGenerator.CreateSet(_globeProvider.Globe);
+
+        ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
+            new CommandCenterScreenTransitionArguments(otherCampaignLaunches));
+
+        _globeProvider.StoreCurrentGlobe();
     }
 
     private static Texture2D CreateTexture(GraphicsDevice device, int width, int height, Func<int, Color> paint)
