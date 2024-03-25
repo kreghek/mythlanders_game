@@ -22,14 +22,18 @@ namespace Client.GameScreens.PreHistory;
 
 internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionContext, PreHistoryAftermathContext>
 {
+    private const int BACKGROUND_WIDTH = 1024;
+    private const int BACKGROUND_HEIGHT = 512;
+
     private readonly Texture2D _cleanScreenTexture;
     private readonly SoundtrackManager _soundtrackManager;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly GlobeProvider _globeProvider;
     private readonly ICampaignGenerator _campaignGenerator;
 
+    private readonly PongRectangleControl _pongBackground;
+
     private PreHistoryAftermathContext? _aftermathContext;
-    private PongRectangleControl _pongBackground;
 
     public PreHistoryScreen(MythlandersGame game, PreHistoryScreenScreenTransitionArguments args) : base(game, args)
     {
@@ -52,9 +56,9 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
             contentRect.Width - ControlBase.CONTENT_MARGIN * 2,
             (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2);
 
-        var mapPongRandomSource = new PongRectangleRandomSource(new LinearDice(), 2f);
+        var mapPongRandomSource = new PongRectangleRandomSource(new LinearDice(), 3f);
 
-        _pongBackground = new PongRectangleControl(new Point(1024, 512),
+        _pongBackground = new PongRectangleControl(new Point(BACKGROUND_WIDTH, BACKGROUND_HEIGHT),
             mapRect,
             mapPongRandomSource);
     }
