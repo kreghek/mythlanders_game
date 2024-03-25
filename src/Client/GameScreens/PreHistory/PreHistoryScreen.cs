@@ -18,6 +18,8 @@ namespace Client.GameScreens.PreHistory;
 
 internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionContext, PreHistoryAftermathContext>
 {
+    private const double TRANSITION_DURATION_SEC = 2;
+
     private readonly Texture2D _cleanScreenTexture;
     private readonly SoundtrackManager _soundtrackManager;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
@@ -25,6 +27,10 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
     private readonly ICampaignGenerator _campaignGenerator;
 
     private PreHistoryAftermathContext? _aftermathContext;
+
+    private Texture2D? _currentBackgroundTexture;
+    private Texture2D? _nextBackgroundTexture;
+    private double? _backgroundTransitionCounter;
 
     public PreHistoryScreen(MythlandersGame game, PreHistoryScreenScreenTransitionArguments args) : base(game, args)
     {
@@ -60,9 +66,18 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
         spriteBatch.Draw(_cleanScreenTexture, contentRect, Color.White);
 
-        if (_aftermathContext!.GetBackgroundTexture() is not null)
+        if (_currentBackgroundTexture is not null)
         {
-            spriteBatch.Draw(_aftermathContext.GetBackgroundTexture(), new Vector2(-256, 0), Color.White);
+            if (_backgroundTransitionCounter is not null)
+            {
+                var progress = (TRANSITION_DURATION_SEC - _backgroundTransitionCounter.Value) / TRANSITION_DURATION_SEC;
+                var t = (float)Math.Sin(Math.PI * progress);
+                spriteBatch.Draw(_currentBackgroundTexture, new Vector2(-256, 0), Color.Lerp(Color.White, Color.Transparent, t));
+            }
+            else
+            {
+                spriteBatch.Draw(_currentBackgroundTexture, new Vector2(-256, 0), Color.White);
+            }
         }
 
         spriteBatch.Draw(_cleanScreenTexture,
@@ -83,6 +98,32 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
     protected override void UpdateSpecificScreenContent(GameTime gameTime)
     {
+        var targetBackgroundTexture = _aftermathContext!.GetBackgroundTexture();
+
+        if (targetBackgroundTexture != _currentBackgroundTexture && _backgroundTransitionCounter is null)
+        {
+            _nextBackgroundTexture = targetBackgroundTexture;
+            _backgroundTransitionCounter = TRANSITION_DURATION_SEC;
+        }
+
+        if (_backgroundTransitionCounter is not null)
+        {
+            if (_backgroundTransitionCounter > 0)
+            {
+                _backgroundTransitionCounter -= gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (_backgroundTransitionCounter <= TRANSITION_DURATION_SEC * 0.5)
+                {
+                    _currentBackgroundTexture = _nextBackgroundTexture;
+
+                    if (_backgroundTransitionCounter <= 0)
+                    {
+                        _backgroundTransitionCounter = null;
+                        _nextBackgroundTexture = null;
+                    }
+                }
+            }
+        }
     }
 
     protected override void HandleDialogueEnd()
