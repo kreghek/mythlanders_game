@@ -2,13 +2,12 @@
 using System.Linq;
 
 using Client.Assets.Catalogs.Dialogues;
-using Client.Assets.DialogueOptionAftermath;
 
 using CombatDicesTeam.Dices;
 
-namespace Core.Crises;
+namespace Client.Assets.DialogueOptionAftermath.Campaign;
 
-internal sealed class RestSingleRandomOptionAftermath : DialogueOptionAftermathBase
+internal sealed class RestSingleRandomOptionAftermath : CampaignDialogueOptionAftermathBase
 {
     private const int HEAL = 2;
     private readonly IDice _dice;

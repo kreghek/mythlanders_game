@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 using Client.Assets.Catalogs.Dialogues;
 
-namespace Client.Assets.DialogueOptionAftermath;
+namespace Client.Assets.DialogueOptionAftermath.Campaign;
 
-internal sealed class PlaySongDialogueOptionAftermath : DialogueOptionAftermathBase, IDecorativeEnvironmentAftermath
+internal sealed class PlaySongDialogueOptionAftermath : CampaignDialogueOptionAftermathBase, IDecorativeEnvironmentAftermath<CampaignAftermathContext>
 {
     private readonly string _resourceName;
 

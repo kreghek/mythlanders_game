@@ -5,9 +5,9 @@ using Client.Assets.Catalogs.Dialogues;
 
 using CombatDicesTeam.Dialogues;
 
-namespace Client.Assets.DialogueOptionAftermath;
+namespace Client.Assets.DialogueOptionAftermath.Campaign;
 
-internal class DialogueEventTriggerOptionAftermath : DialogueOptionAftermathBase
+internal class DialogueEventTriggerOptionAftermath : CampaignDialogueOptionAftermathBase
 {
     private readonly string _trigger;
 

@@ -4,9 +4,9 @@ using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.GlobalEffects;
 using Client.Core;
 
-namespace Client.Assets.DialogueOptionAftermath;
+namespace Client.Assets.DialogueOptionAftermath.Campaign;
 
-internal sealed class UnitDeepPreyingOptionAftermath : DialogueOptionAftermathBase
+internal sealed class UnitDeepPreyingOptionAftermath : CampaignDialogueOptionAftermathBase
 {
     private readonly UnitName _name;
 

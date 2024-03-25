@@ -25,7 +25,7 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
         _soundtrackManager = game.Services.GetRequiredService<SoundtrackManager>();
 
-        _aftermathContext = new PreHistoryAftermathContext(game.Content);
+        _aftermathContext = new PreHistoryAftermathContext(game.Content, game.Services.GetRequiredService<IDialogueEnvironmentManager>());
         
         DialogueContextFactory = new PreHistoryDialogueContextFactory(_aftermathContext);
     }

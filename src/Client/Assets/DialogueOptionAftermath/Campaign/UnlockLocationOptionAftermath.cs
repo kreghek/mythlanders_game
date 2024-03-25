@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
 
-namespace Client.Assets.DialogueOptionAftermath;
+namespace Client.Assets.DialogueOptionAftermath.Campaign;
 
-internal sealed class UnlockLocationOptionAftermath : DialogueOptionAftermathBase
+internal sealed class UnlockLocationOptionAftermath : CampaignDialogueOptionAftermathBase
 {
     private readonly ILocationSid _locationSid;
 

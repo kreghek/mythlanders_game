@@ -24,7 +24,7 @@ internal sealed class TextParagraphControl<TParagraphConditionContext, TAftermat
     private readonly TAftermathContext _aftermathContext;
 
     private readonly SpriteFont _displayNameFont;
-    private readonly IReadOnlyCollection<IDialogueOptionAftermath<TAftermathContext>> _envCommands;
+    private readonly IReadOnlyCollection<IDecorativeEnvironmentAftermath<TAftermathContext>> _envCommands;
     private readonly string? _localizedSpeakerName;
     private readonly TextParagraphMessageControl<TParagraphConditionContext, TAftermathContext> _message;
     private readonly Vector2 _messageSize;
@@ -47,7 +47,11 @@ internal sealed class TextParagraphControl<TParagraphConditionContext, TAftermat
         _localizedSpeakerName = GetSpeakerDisplayName(speakerState);
         _message = new TextParagraphMessageControl<TParagraphConditionContext, TAftermathContext>(eventTextParagraph, textSoundEffect, dice,
             DialogueSpeakers.Env != _speaker);
-        _envCommands = eventTextParagraph.Aftermaths.Where(x => x is IDecorativeEnvironmentAftermath).ToArray();
+
+        _envCommands = eventTextParagraph.Aftermaths
+            .Where(x => x is IDecorativeEnvironmentAftermath<TAftermathContext>)
+            .Cast<IDecorativeEnvironmentAftermath<TAftermathContext>>()
+            .ToArray();
 
         _messageSize = _message.CalculateSize();
         _speakerDisplayNameSize = _localizedSpeakerName is not null

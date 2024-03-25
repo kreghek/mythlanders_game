@@ -1,15 +1,13 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.Catalogs.Dialogues;
-using Client.Assets.DialogueOptionAftermath;
 
-namespace Core.Crises;
+namespace Client.Assets.DialogueOptionAftermath.Campaign;
 
-internal sealed class RestAllOptionAftermath : DialogueOptionAftermathBase
+internal sealed class DamageAllHeroesOptionAftermath : CampaignDialogueOptionAftermathBase
 {
-    private const int HEAL = 1;
-
+    private const int DAMAGE = 1;
 
     public override void Apply(CampaignAftermathContext aftermathContext)
     {
@@ -23,7 +21,7 @@ internal sealed class RestAllOptionAftermath : DialogueOptionAftermathBase
 
         foreach (var hero in heroes)
         {
-            aftermathContext.RestHero(hero, HEAL);
+            aftermathContext.DamageHero(hero, DAMAGE);
         }
     }
 
@@ -34,7 +32,7 @@ internal sealed class RestAllOptionAftermath : DialogueOptionAftermathBase
         return new object[]
         {
             heroes,
-            HEAL
+            DAMAGE
         };
     }
 }

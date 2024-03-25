@@ -2,9 +2,9 @@
 
 using Client.Assets.Catalogs.Dialogues;
 
-namespace Client.Assets.DialogueOptionAftermath;
+namespace Client.Assets.DialogueOptionAftermath.Campaign;
 
-internal sealed class AddHeroOptionAftermath : DialogueOptionAftermathBase
+internal sealed class AddHeroOptionAftermath : CampaignDialogueOptionAftermathBase
 {
     private readonly string _heroSid;
 

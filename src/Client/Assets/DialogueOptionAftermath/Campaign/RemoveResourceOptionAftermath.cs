@@ -7,15 +7,15 @@ using Core.Props;
 
 using JetBrains.Annotations;
 
-namespace Client.Assets.DialogueOptionAftermath;
+namespace Client.Assets.DialogueOptionAftermath.Campaign;
 
 [UsedImplicitly]
-internal class AddResourceOptionAftermath : DialogueOptionAftermathBase
+internal class RemoveResourceOptionAftermath : CampaignDialogueOptionAftermathBase
 {
     private readonly int _count;
     private readonly string _resourceSid;
 
-    public AddResourceOptionAftermath(string resourceSid, int count)
+    public RemoveResourceOptionAftermath(string resourceSid, int count)
     {
         _resourceSid = resourceSid;
         _count = count;
@@ -23,7 +23,7 @@ internal class AddResourceOptionAftermath : DialogueOptionAftermathBase
 
     public override void Apply(CampaignAftermathContext aftermathContext)
     {
-        aftermathContext.AddResources(new Resource(new PropScheme(_resourceSid), _count));
+        aftermathContext.RemoveResource(new Resource(new PropScheme(_resourceSid), _count));
     }
 
     protected override IReadOnlyList<object> GetDescriptionValues(CampaignAftermathContext aftermathContext)

@@ -2,7 +2,7 @@ using System;
 
 using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.Catalogs.DialogueStoring;
-using Client.Assets.DialogueOptionAftermath;
+using Client.Assets.DialogueOptionAftermath.Campaign;
 using Client.Core;
 
 using CombatDicesTeam.Dialogues;

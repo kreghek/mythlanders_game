@@ -5,9 +5,9 @@ using Client.Assets.Catalogs.Dialogues;
 
 using CombatDicesTeam.Dices;
 
-namespace Client.Assets.DialogueOptionAftermath;
+namespace Client.Assets.DialogueOptionAftermath.Campaign;
 
-internal sealed class DamageSingleRandomOptionAftermath : DialogueOptionAftermathBase
+internal sealed class DamageSingleRandomOptionAftermath : CampaignDialogueOptionAftermathBase
 {
     private const int DAMAGE = 3;
     private readonly IDice _dice;

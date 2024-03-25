@@ -3,9 +3,9 @@
 using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
 
-namespace Client.Assets.DialogueOptionAftermath;
+namespace Client.Assets.DialogueOptionAftermath.Campaign;
 
-internal class ChangeCharacterRelationsOptionAftermath : DialogueOptionAftermathBase
+internal class ChangeCharacterRelationsOptionAftermath : CampaignDialogueOptionAftermathBase
 {
     private readonly CharacterKnowledgeLevel _knowledgeLevel;
     private readonly UnitName _targetCharacter;

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 using Client.Assets.Catalogs.Dialogues;
 
-namespace Client.Assets.DialogueOptionAftermath;
+namespace Client.Assets.DialogueOptionAftermath.Campaign;
 
-internal class PredefinedCombatOptionAftermath : DialogueOptionAftermathBase
+internal class PredefinedCombatOptionAftermath : CampaignDialogueOptionAftermathBase
 {
     private readonly string _sid;
 

@@ -2,9 +2,9 @@
 
 using Client.Assets.Catalogs.Dialogues;
 
-namespace Client.Assets.DialogueOptionAftermath;
+namespace Client.Assets.DialogueOptionAftermath.Campaign;
 
-internal class ActivateStoryPointOptionAftermath : DialogueOptionAftermathBase
+internal class ActivateStoryPointOptionAftermath : CampaignDialogueOptionAftermathBase
 {
     private readonly string _storyPointSid;
 
