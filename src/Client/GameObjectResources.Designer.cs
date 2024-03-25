@@ -807,20 +807,20 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Extra shields.
+        ///   Looks up a localized string similar to Extra HP.
         /// </summary>
-        internal static string ExtraSp {
+        internal static string ExtraHitPoints {
             get {
-                return ResourceManager.GetString("ExtraSp", resourceCulture);
+                return ResourceManager.GetString("ExtraHitPoints", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Extra HP.
+        ///   Looks up a localized string similar to Extra shields.
         /// </summary>
-        internal static string ExtraXp {
+        internal static string ExtraShieldPoints {
             get {
-                return ResourceManager.GetString("ExtraXp", resourceCulture);
+                return ResourceManager.GetString("ExtraShieldPoints", resourceCulture);
             }
         }
         
@@ -1169,6 +1169,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Improved Damage.
+        /// </summary>
+        internal static string ImprovedAllDamage {
+            get {
+                return ResourceManager.GetString("ImprovedAllDamage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Improved armor.
         /// </summary>
         internal static string ImprovedArmor {
@@ -1430,6 +1439,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Melee.
+        /// </summary>
+        internal static string Melee {
+            get {
+                return ResourceManager.GetString("Melee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Mines.
         /// </summary>
         internal static string Mines {
@@ -1633,6 +1651,15 @@ namespace Client {
         internal static string Preying_Crisis {
             get {
                 return ResourceManager.GetString("Preying_Crisis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ranged.
+        /// </summary>
+        internal static string Ranged {
+            get {
+                return ResourceManager.GetString("Ranged", resourceCulture);
             }
         }
         
@@ -2110,6 +2137,15 @@ namespace Client {
         internal static string VampireBite {
             get {
                 return ResourceManager.GetString("VampireBite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vanguard Extra Hit Points.
+        /// </summary>
+        internal static string VanguardExtraHitPoints {
+            get {
+                return ResourceManager.GetString("VanguardExtraHitPoints", resourceCulture);
             }
         }
         
