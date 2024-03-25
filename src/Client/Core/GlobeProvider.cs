@@ -21,15 +21,18 @@ internal sealed class GlobeProvider
 
     private readonly string _storagePath;
     private readonly IStoryPointInitializer _storyPointInitializer;
+    private readonly MonsterPerkCatalog _monsterPerkCatalog;
     private readonly ICharacterCatalog _unitSchemeCatalog;
 
     private Globe? _globe;
 
     public GlobeProvider(ICharacterCatalog unitSchemeCatalog,
-        IStoryPointInitializer storyPointInitializer)
+        IStoryPointInitializer storyPointInitializer,
+        MonsterPerkCatalog monsterPerkCatalog)
     {
         _unitSchemeCatalog = unitSchemeCatalog;
         _storyPointInitializer = storyPointInitializer;
+        _monsterPerkCatalog = monsterPerkCatalog;
         var binPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         _storagePath = Path.Combine(binPath, "CDT", "Mythlanders");
     }
@@ -280,8 +283,8 @@ internal sealed class GlobeProvider
 
     private void InitStartMonsterPerks(Globe globe)
     {
-        globe.Player.AddMonsterPerk(MonsterPerkCatalog.ExtraHp);
-        globe.Player.AddMonsterPerk(MonsterPerkCatalog.ExtraSp);
+        globe.Player.AddMonsterPerk(_monsterPerkCatalog.Perks.Single(x=>x.Sid == "ExtraHitPoints"));
+        globe.Player.AddMonsterPerk(_monsterPerkCatalog.Perks.Single(x=>x.Sid == "ExtraShieldPoints"));
     }
 
     private static void InitStartStoryPoint(Globe globe, IStoryPointInitializer storyPointCatalog)

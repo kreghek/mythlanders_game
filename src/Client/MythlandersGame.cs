@@ -5,6 +5,7 @@ using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.Catalogs.Crises;
 using Client.Assets.CombatMovements;
+using Client.Assets.MonsterPerks;
 using Client.Core;
 using Client.Engine;
 using Client.GameComponents;
@@ -283,9 +284,14 @@ internal sealed class MythlandersGame : Game
         var eventInitializer = Services.GetRequiredService<IEventInitializer>();
         eventInitializer.Init();
 
+        var monsterPerkCatalog = new MonsterPerkCatalog();
+        monsterPerkCatalog.Init();
+        Services.AddService(monsterPerkCatalog);
+        
         Services.AddService(
             new GlobeProvider(Services.GetRequiredService<ICharacterCatalog>(),
-                Services.GetRequiredService<IStoryPointInitializer>()));
+                Services.GetRequiredService<IStoryPointInitializer>(),
+                Services.GetRequiredService<MonsterPerkCatalog>()));
 
         var campaignWayTemplateCatalog = new CampaignWayTemplatesCatalog(Services.GetRequiredService<GlobeProvider>(),
             Services.GetRequiredService<IEventCatalog>(),
@@ -296,7 +302,7 @@ internal sealed class MythlandersGame : Game
             Services.GetRequiredService<ICrisesCatalog>());
         Services.AddService(campaignWayTemplateCatalog);
 
-        var monsterPerkManager = new MonsterPerkManager(Services.GetRequiredService<IDice>());
+        var monsterPerkManager = new MonsterPerkManager(Services.GetRequiredService<IDice>(), Services.GetRequiredService<MonsterPerkCatalog>());
         Services.AddService<IMonsterPerkManager>(monsterPerkManager);
 
         var campaignGenerator = new CampaignGenerator(

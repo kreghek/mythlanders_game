@@ -17,4 +17,17 @@ internal static class CatalogHelper
             .Select(v => (TObj)v!)
             .ToArray();
     }
+
+    public static IReadOnlyCollection<TFactory> GetAllFactories<TFactory>(Assembly catalogAssembly)
+    {
+        var factoryTypes = catalogAssembly.GetTypes()
+            .Where(x => typeof(TFactory).IsAssignableFrom(x) && x != typeof(TFactory) && !x.IsAbstract);
+        var factories = factoryTypes.Select(Activator.CreateInstance);
+        return factories.OfType<TFactory>().ToArray();
+    }
+
+    public static IReadOnlyCollection<TFactory> GetAllFactories<TFactory>()
+    {
+        return GetAllFactories<TFactory>(typeof(TFactory).Assembly);
+    }
 }
