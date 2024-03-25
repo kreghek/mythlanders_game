@@ -61,7 +61,7 @@ p5:
         'Кто из них аккупировал Фронтир первым?'
       env:
         - type: Background
-          data: FirstFractionn
+          data: FirstFraction
   options:
     - text: 'Черный Конклав'
       next: p6_black
