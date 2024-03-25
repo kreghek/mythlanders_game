@@ -9,6 +9,10 @@ using Client.ScreenManagement;
 using Client.ScreenManagement.Ui.TextEvents;
 
 using CombatDicesTeam.Dialogues;
+using CombatDicesTeam.Dices;
+using CombatDicesTeam.Engine.Ui;
+
+using GameClient.Engine.RectControl;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
@@ -18,6 +22,9 @@ namespace Client.GameScreens.PreHistory;
 
 internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionContext, PreHistoryAftermathContext>
 {
+    private const int BACKGROUND_WIDTH = 1024;
+    private const int BACKGROUND_HEIGHT = 512;
+
     private const double TRANSITION_DURATION_SEC = 1.25;
 
     private readonly Texture2D _cleanScreenTexture;
@@ -25,6 +32,8 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly GlobeProvider _globeProvider;
     private readonly ICampaignGenerator _campaignGenerator;
+
+    private readonly PongRectangleControl _pongBackground;
 
     private PreHistoryAftermathContext? _aftermathContext;
 
@@ -40,6 +49,24 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
         _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
         _globeProvider = game.Services.GetService<GlobeProvider>();
         _campaignGenerator = game.Services.GetService<ICampaignGenerator>();
+
+
+        var contentRect = new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Location.X,
+            ResolutionIndependentRenderer.VirtualBounds.Location.Y,
+            ResolutionIndependentRenderer.VirtualBounds.Width,
+            ResolutionIndependentRenderer.VirtualBounds.Height);
+
+        var mapRect = new Rectangle(
+            contentRect.Left + ControlBase.CONTENT_MARGIN,
+            (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN,
+            contentRect.Width - ControlBase.CONTENT_MARGIN * 2,
+            (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2);
+
+        var mapPongRandomSource = new PongRectangleRandomSource(new LinearDice(), 3f);
+
+        _pongBackground = new PongRectangleControl(new Point(BACKGROUND_WIDTH, BACKGROUND_HEIGHT),
+            mapRect,
+            mapPongRandomSource);
     }
 
     protected override IDialogueContextFactory<ParagraphConditionContext, PreHistoryAftermathContext> CreateDialogueContextFactory(TextEventScreenArgsBase<ParagraphConditionContext, PreHistoryAftermathContext> args)
@@ -83,11 +110,16 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
             {
                 var progress = (TRANSITION_DURATION_SEC - _backgroundTransitionCounter.Value) / TRANSITION_DURATION_SEC;
                 var t = (float)Math.Sin(Math.PI * progress);
-                spriteBatch.Draw(_currentBackgroundTexture, new Vector2(-256, 0), Color.Lerp(Color.White, Color.Transparent, t));
+
+                spriteBatch.Draw(_currentBackgroundTexture,
+                    _pongBackground.GetRects()[0],
+                    Color.Lerp(Color.White, Color.Transparent, t));
             }
             else
             {
-                spriteBatch.Draw(_currentBackgroundTexture, new Vector2(-256, 0), Color.White);
+                spriteBatch.Draw(_currentBackgroundTexture,
+                    _pongBackground.GetRects()[0],
+                    Color.White);
             }
         }
     }
@@ -103,6 +135,7 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
     protected override void UpdateSpecificScreenContent(GameTime gameTime)
     {
+        _pongBackground.Update(gameTime.ElapsedGameTime.TotalSeconds);
         UpdateTransition(gameTime);
     }
 
