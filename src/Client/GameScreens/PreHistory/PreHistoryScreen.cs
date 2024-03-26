@@ -9,10 +9,6 @@ using Client.ScreenManagement;
 using Client.ScreenManagement.Ui.TextEvents;
 
 using CombatDicesTeam.Dialogues;
-using CombatDicesTeam.Dices;
-using CombatDicesTeam.Engine.Ui;
-
-using GameClient.Engine.RectControl;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
@@ -32,8 +28,8 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
     private PreHistoryAftermathContext? _aftermathContext;
 
-    private IPreHistoryBackground? _currentBackgroundTexture;
-    private IPreHistoryBackground? _nextBackgroundTexture;
+    private IPreHistoryBackground? _currentBackground;
+    private IPreHistoryBackground? _nextBackground;
     private double? _backgroundTransitionCounter;
 
     public PreHistoryScreen(MythlandersGame game, PreHistoryScreenScreenTransitionArguments args) : base(game, args)
@@ -112,6 +108,13 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
         return new PreHistoryDialogueContextFactory(_aftermathContext, Game.Services.GetRequiredService<GlobeProvider>().Globe.Player);
     }
 
+    protected override void HandleOptionHover(DialogueOptionButton button)
+    {
+        base.HandleOptionHover(button);
+
+        _currentBackground?.HoverOption(button.Number - 1);
+    }
+
     protected override IList<ButtonBase> CreateMenu()
     {
         return ArraySegment<ButtonBase>.Empty;
@@ -140,18 +143,18 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
     private void DrawBackgroundBasedOnTransition(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        if (_currentBackgroundTexture is not null)
+        if (_currentBackground is not null)
         {
             if (_backgroundTransitionCounter is not null)
             {
                 var progress = (TRANSITION_DURATION_SEC - _backgroundTransitionCounter.Value) / TRANSITION_DURATION_SEC;
                 var t = (float)Math.Sin(Math.PI * progress);
 
-                _currentBackgroundTexture.Draw(spriteBatch, contentRect, t * 1);
+                _currentBackground.Draw(spriteBatch, contentRect, t * 1);
             }
             else
             {
-                _currentBackgroundTexture.Draw(spriteBatch, contentRect, 1);
+                _currentBackground.Draw(spriteBatch, contentRect, 1);
             }
         }
     }
@@ -167,7 +170,7 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
     protected override void UpdateSpecificScreenContent(GameTime gameTime)
     {
-        _currentBackgroundTexture?.Update(gameTime, true);
+        _currentBackground?.Update(gameTime, true);
         
         UpdateTransition(gameTime);
     }
@@ -176,9 +179,9 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
     {
         var targetBackgroundTexture = _aftermathContext!.GetBackgroundTexture();
 
-        if (targetBackgroundTexture != _currentBackgroundTexture && _backgroundTransitionCounter is null)
+        if (targetBackgroundTexture != _currentBackground && _backgroundTransitionCounter is null)
         {
-            _nextBackgroundTexture = targetBackgroundTexture;
+            _nextBackground = targetBackgroundTexture;
             _backgroundTransitionCounter = TRANSITION_DURATION_SEC;
         }
 
@@ -190,12 +193,12 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
                 if (_backgroundTransitionCounter <= TRANSITION_DURATION_SEC * 0.5)
                 {
-                    _currentBackgroundTexture = _nextBackgroundTexture;
+                    _currentBackground = _nextBackground;
 
                     if (_backgroundTransitionCounter <= 0)
                     {
                         _backgroundTransitionCounter = null;
-                        _nextBackgroundTexture = null;
+                        _nextBackground = null;
                     }
                 }
             }
