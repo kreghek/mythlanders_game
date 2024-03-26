@@ -1,38 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets;
-using Client.Assets.Catalogs;
 using Client.Assets.MonsterPerks;
 using Client.Core;
 
 using CombatDicesTeam.Dialogues;
 
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-
 namespace Client.GameScreens.PreHistory;
 
 internal sealed class PreHistoryAftermathContext
 {
-    private readonly ContentManager _contentManager;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly Player _player;
-    private Texture2D? _backgroundTexture;
+    private readonly IDictionary<string, IPreHistoryBackground> _backgrounds;
+
+    private IPreHistoryBackground? _backgroundTexture;
     
-    public PreHistoryAftermathContext(ContentManager contentManager, IDialogueEnvironmentManager dialogueEnvironmentManager, Player player)
+    public PreHistoryAftermathContext(IDictionary<string, IPreHistoryBackground> backgrounds, 
+        IDialogueEnvironmentManager dialogueEnvironmentManager,
+        Player player)
     {
-        _contentManager = contentManager;
         _dialogueEnvironmentManager = dialogueEnvironmentManager;
         _player = player;
+
+        _backgrounds = backgrounds;
     }
 
     public void SetBackground(string backgroundName)
     {
-        _backgroundTexture = _contentManager.Load<Texture2D>($"Sprites/GameObjects/PreHistory/{backgroundName}");
+        _backgroundTexture = _backgrounds[backgroundName];
     }
 
-    public Texture2D? GetBackgroundTexture()
+    public IPreHistoryBackground? GetBackgroundTexture()
     {
         return _backgroundTexture;
     }
