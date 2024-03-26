@@ -12,6 +12,6 @@ public class MonsterPerkCatalog
         var factories = CatalogHelper.GetAllFactories<IMonsterPerkFactory>(typeof(IMonsterPerkFactory).Assembly);
         Perks = factories.Select(x => x.Create()).ToArray();
     }
-    
+
     public IReadOnlyCollection<MonsterPerk> Perks { get; }
 }

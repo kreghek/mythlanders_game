@@ -14,6 +14,12 @@ namespace Client.Assets.CombatMovements.Monster.Black.Aggressor;
 
 internal class GrimResolveFactory : SimpleCombatMovementFactoryBase
 {
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Ranged;
+    }
+
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(
@@ -32,12 +38,6 @@ internal class GrimResolveFactory : SimpleCombatMovementFactoryBase
                     CombatantStatTypes.Resolve,
                     GenericRange<int>.CreateMono(-2))
             });
-    }
-    
-    /// <inheritdoc />
-    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
-    {
-        yield return CombatMovementMetadataTraits.Ranged;
     }
 
     protected override CombatMovementTags GetTags()

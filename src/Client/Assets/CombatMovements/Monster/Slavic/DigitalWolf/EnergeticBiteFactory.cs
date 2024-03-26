@@ -119,6 +119,16 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
             new[] { new FollowActorOperatorCameraTask(actorAnimator, () => innerState.IsComplete) });
     }
 
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1),
+                CombatMovementEffectDisplayValueTemplate.Damage)
+        };
+    }
+
     private static ICombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,
         ICombatant actorCombatant)
     {
@@ -143,15 +153,5 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
                 effectImposeItem.ImposeDelegate(target);
             }
         }
-    }
-
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
-        CombatMovementInstance combatMovementInstance)
-    {
-        return new[]
-        {
-            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1),
-                CombatMovementEffectDisplayValueTemplate.Damage)
-        };
     }
 }

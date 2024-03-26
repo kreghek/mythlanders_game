@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace GameAssets.Combats;
+﻿namespace GameAssets.Combats;
 
 /// <summary>
 /// Metadat object to describe the game's logic over base combat engine.
