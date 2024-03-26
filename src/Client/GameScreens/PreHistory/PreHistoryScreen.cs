@@ -35,7 +35,7 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
     public PreHistoryScreen(MythlandersGame game, PreHistoryScreenScreenTransitionArguments args) : base(game, args)
     {
-        _cleanScreenTexture = CreateTexture(game.GraphicsDevice, 1, 1, _ => new Color(36, 40, 41));
+        _cleanScreenTexture = CreateTexture(game.GraphicsDevice, 1, 1, _ => new Color(44, 30, 49));
 
         _soundtrackManager = game.Services.GetRequiredService<SoundtrackManager>();
         _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
@@ -146,9 +146,9 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
         DrawBackgroundBasedOnTransition(spriteBatch, contentRect);
 
-        spriteBatch.Draw(_cleanScreenTexture,
-            new Rectangle(contentRect.Center.X, contentRect.Top, contentRect.Width / 2, contentRect.Height),
-            Color.Lerp(Color.White, Color.Transparent, 0.25f));
+        //spriteBatch.Draw(_cleanScreenTexture,
+        //    new Rectangle(contentRect.Center.X, contentRect.Top, contentRect.Width / 2, contentRect.Height),
+        //    Color.Lerp(Color.White, Color.Transparent, 0.25f));
 
         spriteBatch.End();
     }
