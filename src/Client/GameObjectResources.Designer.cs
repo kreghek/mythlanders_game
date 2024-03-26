@@ -1682,6 +1682,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reduce enemy shield points.
+        /// </summary>
+        internal static string ReduceEnemyShieldPoints {
+            get {
+                return ResourceManager.GetString("ReduceEnemyShieldPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Regenerative protocol.
         /// </summary>
         internal static string RegenerativeProtocol {

@@ -1,4 +1,5 @@
 ﻿using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Combats.Effects;
 
