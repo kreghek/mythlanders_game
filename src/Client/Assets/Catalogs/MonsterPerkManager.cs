@@ -10,8 +10,8 @@ namespace Client.Assets.Catalogs;
 
 public sealed class MonsterPerkManager : IMonsterPerkManager
 {
-    private readonly IDice _dice;
     private readonly MonsterPerkCatalog _catalog;
+    private readonly IDice _dice;
 
     public MonsterPerkManager(IDice dice, MonsterPerkCatalog catalog)
     {
