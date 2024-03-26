@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 namespace Client.Assets.MonsterPerks;
 
 [UsedImplicitly]
-public sealed class ReduceEnemyShieldPointsMonsterPerkFactory : MonsterPerkFactoryBase
+public sealed class ReduceEnemyResolvePointsMonsterPerkFactory : MonsterPerkFactoryBase
 {
     protected override ICombatantStatusFactory CreateStatus()
     {
@@ -22,7 +22,7 @@ public sealed class ReduceEnemyShieldPointsMonsterPerkFactory : MonsterPerkFacto
                         new CombatantStatusSid(PerkName),
                         new TargetCombatantsBoundCombatantStatusLifetime(owner),
                         source2,
-                        CombatantStatTypes.ShieldPoints,
+                        CombatantStatTypes.Resolve,
                         -1)),
                 new EnemiesAuraTargetSelector()
             ));
