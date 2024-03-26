@@ -10,6 +10,8 @@ using Client.ScreenManagement.Ui.TextEvents;
 using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
 
+using GameClient.Engine.Ui;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -34,6 +36,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     private double _pressToContinueCounter;
     protected int CurrentFragmentIndex;
 
+    private readonly HoverController<DialogueOptionButton> _optionHoverController;
 
     protected TextEventScreenBase(MythlandersGame game,
         TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> args) : base(game)
@@ -53,6 +56,34 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         _dialoguePlayer = new DialoguePlayer<TParagraphConditionContext, TAftermathContext>(args.CurrentDialogue,
             CreateDialogueContextFactory(args));
         _args = args;
+
+        _optionHoverController = new HoverController<DialogueOptionButton>();
+
+        _optionHoverController.Hover += (sender, button) =>
+        {
+            if (button is not null)
+            {
+                HandleOptionHover(button);
+            }
+        };
+
+        _optionHoverController.Leave += (sender, button) =>
+        {
+            if (button is not null)
+            {
+                HandleOptionLeave(button);
+            }
+        };
+    }
+
+    protected virtual void HandleOptionHover(DialogueOptionButton button)
+    {
+        
+    }
+    
+    protected virtual void HandleOptionLeave(DialogueOptionButton button)
+    {
+        
     }
 
     protected DialogueSpeech<TParagraphConditionContext, TAftermathContext> CurrentFragment =>
@@ -193,9 +224,11 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         foreach (var option in _dialoguePlayer.CurrentOptions)
         {
             var optionButton = new DialogueOptionButton(optionNumber, option.TextSid);
-            optionButton.OnClick += (_, _) =>
+            optionButton.OnClick += (s, _) =>
             {
                 _dialoguePlayer.SelectOption(option);
+
+                HandleOptionSelection((DialogueOptionButton)s!);
 
                 if (_dialoguePlayer.IsEnd)
                 {
@@ -207,9 +240,22 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
                 }
             };
 
+            optionButton.OnHover += (sender, _) =>
+            {
+                _optionHoverController.HandleHover((DialogueOptionButton?)sender);
+            };
+            
+            optionButton.OnLeave += (sender, _) =>
+            {
+                _optionHoverController.HandleLeave((DialogueOptionButton?)sender);
+            };
+
             _dialogueOptions.Options.Add(optionButton);
             optionNumber++;
         }
+    }
+
+    protected virtual void HandleOptionSelection(DialogueOptionButton button) { 
     }
 
     private bool IsKeyPressed(Keys checkKey)

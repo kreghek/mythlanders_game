@@ -67,7 +67,7 @@ p5:
       next: p6_black
       aftermaths:
         - type: AddMonsterPerk
-          data: BlackMessah
+          data: BlackMessiah
         - type: AddMonsterPerk
           data: UnitedRush
     - text: 'Союз Промышленников'
