@@ -26,6 +26,8 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     protected readonly DialoguePlayer<TParagraphConditionContext, TAftermathContext> _dialoguePlayer;
     private readonly IDice _dice;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
+
+    private readonly HoverController<DialogueOptionButton> _optionHoverController;
     private readonly IStoryState _storyState;
     private readonly IUiContentStorage _uiContentStorage;
 
@@ -35,8 +37,6 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     private KeyboardState _keyboardState;
     private double _pressToContinueCounter;
     protected int CurrentFragmentIndex;
-
-    private readonly HoverController<DialogueOptionButton> _optionHoverController;
 
     protected TextEventScreenBase(MythlandersGame game,
         TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> args) : base(game)
@@ -76,16 +76,6 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         };
     }
 
-    protected virtual void HandleOptionHover(DialogueOptionButton button)
-    {
-        
-    }
-    
-    protected virtual void HandleOptionLeave(DialogueOptionButton button)
-    {
-        
-    }
-
     protected DialogueSpeech<TParagraphConditionContext, TAftermathContext> CurrentFragment =>
         _dialoguePlayer.CurrentTextFragments[CurrentFragmentIndex];
 
@@ -119,6 +109,18 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     protected abstract void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect);
 
     protected abstract void HandleDialogueEnd();
+
+    protected virtual void HandleOptionHover(DialogueOptionButton button)
+    {
+    }
+
+    protected virtual void HandleOptionLeave(DialogueOptionButton button)
+    {
+    }
+
+    protected virtual void HandleOptionSelection(DialogueOptionButton button)
+    {
+    }
 
     protected override void UpdateContent(GameTime gameTime)
     {
@@ -244,7 +246,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
             {
                 _optionHoverController.HandleHover((DialogueOptionButton?)sender);
             };
-            
+
             optionButton.OnLeave += (sender, _) =>
             {
                 _optionHoverController.HandleLeave((DialogueOptionButton?)sender);
@@ -253,9 +255,6 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
             _dialogueOptions.Options.Add(optionButton);
             optionNumber++;
         }
-    }
-
-    protected virtual void HandleOptionSelection(DialogueOptionButton button) { 
     }
 
     private bool IsKeyPressed(Keys checkKey)

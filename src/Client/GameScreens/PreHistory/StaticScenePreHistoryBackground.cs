@@ -10,16 +10,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.PreHistory;
 
-internal sealed class StaticScenePreHistoryBackground: IPreHistoryBackground
+internal sealed class StaticScenePreHistoryBackground : IPreHistoryBackground
 {
-    private readonly Texture2D? _texture;
-    
     private readonly PongRectangleControl _pongBackground;
-    
+    private readonly Texture2D? _texture;
+
     public StaticScenePreHistoryBackground(Texture2D texture, Rectangle screenRectangle)
     {
         _texture = texture;
-        
+
         var contentRect = screenRectangle;
 
         var mapRect = new Rectangle(
@@ -34,7 +33,7 @@ internal sealed class StaticScenePreHistoryBackground: IPreHistoryBackground
             mapRect,
             mapPongRandomSource);
     }
-    
+
     public void Update(GameTime gameTime, bool isInteractive)
     {
         _pongBackground.Update(gameTime.ElapsedGameTime.TotalSeconds);
@@ -49,11 +48,9 @@ internal sealed class StaticScenePreHistoryBackground: IPreHistoryBackground
 
     public void SelectOption(int index)
     {
-        
     }
 
     public void HoverOption(int? index)
     {
-        
     }
 }

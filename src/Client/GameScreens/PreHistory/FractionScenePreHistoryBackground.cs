@@ -5,25 +5,25 @@ namespace Client.GameScreens.PreHistory;
 
 internal sealed class FractionScenePreHistoryBackground : IPreHistoryBackground
 {
-    private readonly Texture2D _leftTexture;
     private readonly Texture2D _leftDisabledTexture;
-    private readonly Texture2D _rightTexture;
+    private readonly Texture2D _leftTexture;
     private readonly Texture2D _rightDisabledTexture;
-
-    private int? _optionSelected;
+    private readonly Texture2D _rightTexture;
     private int? _hoverSelected;
 
-    public FractionScenePreHistoryBackground(Texture2D leftTexture, Texture2D leftDisabledTexture, Texture2D rightTexture, Texture2D rightDisabledTexture)
+    private int? _optionSelected;
+
+    public FractionScenePreHistoryBackground(Texture2D leftTexture, Texture2D leftDisabledTexture,
+        Texture2D rightTexture, Texture2D rightDisabledTexture)
     {
         _leftTexture = leftTexture;
         _leftDisabledTexture = leftDisabledTexture;
         _rightTexture = rightTexture;
         _rightDisabledTexture = rightDisabledTexture;
     }
-    
+
     public void Update(GameTime gameTime, bool isInteractive)
     {
-        
     }
 
     public void Draw(SpriteBatch spriteBatch, Rectangle contentRect, double transition)
@@ -53,11 +53,11 @@ internal sealed class FractionScenePreHistoryBackground : IPreHistoryBackground
                 leftTexture = _leftDisabledTexture;
             }
         }
-        
+
         spriteBatch.Draw(leftTexture,
             contentRect.Location.ToVector2(),
             Color.Lerp(Color.Transparent, Color.White, (float)transition));
-        
+
         spriteBatch.Draw(rightTexture,
             new Vector2(contentRect.Right - rightTexture.Width, 0),
             Color.Lerp(Color.Transparent, Color.White, (float)transition));

@@ -31,6 +31,8 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
     private double? _backgroundTransitionCounter;
 
     private IPreHistoryBackground? _currentBackground;
+
+    private bool _isBackgoundInteractive;
     private IPreHistoryBackground? _nextBackground;
 
     public PreHistoryScreen(MythlandersGame game, PreHistoryScreenScreenTransitionArguments args) : base(game, args)
@@ -43,14 +45,16 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
         _campaignGenerator = game.Services.GetService<ICampaignGenerator>();
     }
 
-    protected override IDialogueContextFactory<ParagraphConditionContext, PreHistoryAftermathContext> CreateDialogueContextFactory(TextEventScreenArgsBase<ParagraphConditionContext, PreHistoryAftermathContext> args)
+    protected override IDialogueContextFactory<ParagraphConditionContext, PreHistoryAftermathContext>
+        CreateDialogueContextFactory(
+            TextEventScreenArgsBase<ParagraphConditionContext, PreHistoryAftermathContext> args)
     {
         var contentRect = new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Location.X,
             ResolutionIndependentRenderer.VirtualBounds.Location.Y,
             ResolutionIndependentRenderer.VirtualBounds.Width,
             ResolutionIndependentRenderer.VirtualBounds.Height);
 
-        var backgrounds = new Dictionary<string, IPreHistoryBackground>()
+        var backgrounds = new Dictionary<string, IPreHistoryBackground>
         {
             {
                 "AncientRising",
@@ -111,30 +115,15 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
                     Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/Hoplite"), contentRect)
             }
         };
-        
+
         _aftermathContext = new PreHistoryAftermathContext(backgrounds,
-            Game.Services.GetRequiredService<IDialogueEnvironmentManager>(), 
+            Game.Services.GetRequiredService<IDialogueEnvironmentManager>(),
             Game.Services.GetService<GlobeProvider>().Globe.Player,
             Game.Services.GetService<MonsterPerkCatalog>());
 
-        return new PreHistoryDialogueContextFactory(_aftermathContext, Game.Services.GetRequiredService<GlobeProvider>().Globe.Player);
+        return new PreHistoryDialogueContextFactory(_aftermathContext,
+            Game.Services.GetRequiredService<GlobeProvider>().Globe.Player);
     }
-
-    protected override void HandleOptionHover(DialogueOptionButton button)
-    {
-        base.HandleOptionHover(button);
-
-        _currentBackground?.HoverOption(button.Number - 1);
-    }
-
-    protected override void HandleOptionSelection(DialogueOptionButton button)
-    {
-        base.HandleOptionSelection(button);
-
-        _isBackgoundInteractive = false;
-    }
-
-    private bool _isBackgoundInteractive;
 
     protected override IList<ButtonBase> CreateMenu()
     {
@@ -174,9 +163,30 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
         _globeProvider.StoreCurrentGlobe();
     }
 
+    protected override void HandleOptionHover(DialogueOptionButton button)
+    {
+        base.HandleOptionHover(button);
+
+        _currentBackground?.HoverOption(button.Number - 1);
+    }
+
+    protected override void HandleOptionSelection(DialogueOptionButton button)
+    {
+        base.HandleOptionSelection(button);
+
+        _isBackgoundInteractive = false;
+    }
+
     protected override void InitializeContent()
     {
         _soundtrackManager.PlaySilence();
+    }
+
+    protected override void UpdateSpecificScreenContent(GameTime gameTime)
+    {
+        _currentBackground?.Update(gameTime, _isBackgoundInteractive);
+
+        UpdateTransition(gameTime);
     }
 
     private static Texture2D CreateTexture(GraphicsDevice device, int width, int height, Func<int, Color> paint)
@@ -214,13 +224,6 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
                 _currentBackground.Draw(spriteBatch, contentRect, 1);
             }
         }
-    }
-
-    protected override void UpdateSpecificScreenContent(GameTime gameTime)
-    {
-        _currentBackground?.Update(gameTime, _isBackgoundInteractive);
-        
-        UpdateTransition(gameTime);
     }
 
     private void UpdateTransition(GameTime gameTime)
