@@ -3,8 +3,6 @@ using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
-using GameAssets.Combats.CombatantStatuses;
-using GameAssets.Combats.CombatantStatusLifetimes;
 
 using JetBrains.Annotations;
 
@@ -25,7 +23,7 @@ public sealed class ReduceEnemyShieldPointsMonsterPerkFactory : MonsterPerkFacto
                         new TargetCombatantsBoundCombatantStatusLifetime(owner),
                         source2,
                         CombatantStatTypes.ShieldPoints,
-                        1)),
+                        -1)),
                 new EnemiesAuraTargetSelector()
             ));
     }
