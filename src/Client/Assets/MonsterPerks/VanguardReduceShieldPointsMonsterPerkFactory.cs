@@ -24,7 +24,7 @@ public sealed class VanguardReduceShieldPointsMonsterPerkFactory : MonsterPerkFa
                         new TargetCombatantsBoundCombatantStatusLifetime(owner),
                         source2,
                         CombatantStatTypes.ShieldPoints,
-                        1)),
+                        -1)),
                 new EnemyVanguardAuraTargetSelector()
             ));
     }

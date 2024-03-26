@@ -3,9 +3,9 @@ using CombatDicesTeam.Combats.CombatantStatuses;
 
 namespace GameAssets.Combats.AuraTargetSelectors;
 
-public sealed class EnemyVanguardAuraTargetSelector : IAuraTargetSelector
+public sealed class AllyRearguardAuraTargetSelector : IAuraTargetSelector
 {
-    private static IEnumerable<ICombatant> GetVanguardCombatant(CombatFieldSide side)
+    private static IEnumerable<ICombatant> GetRearguardCombatant(CombatFieldSide side)
     {
         return GetIterator(side).ToArray();
     }
@@ -14,7 +14,7 @@ public sealed class EnemyVanguardAuraTargetSelector : IAuraTargetSelector
     {
         for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
         {
-            var slot = side[new FieldCoords(0, lineIndex)];
+            var slot = side[new FieldCoords(1, lineIndex)];
             if (slot.Combatant is not null)
             {
                 yield return slot.Combatant;
@@ -35,11 +35,11 @@ public sealed class EnemyVanguardAuraTargetSelector : IAuraTargetSelector
         }
     }
 
-    private static bool IsInVanguard(ICombatant testCombatant, IAuraTargetSelectorContext context)
+    private static bool IsInRearguard(ICombatant testCombatant, IAuraTargetSelectorContext context)
     {
         var testCombatantSide = GetTargetSide(testCombatant, context.Combat.Field);
 
-        var vanguards = GetVanguardCombatant(testCombatantSide);
+        var vanguards = GetRearguardCombatant(testCombatantSide);
 
         return vanguards.Contains(testCombatant);
     }
@@ -47,7 +47,7 @@ public sealed class EnemyVanguardAuraTargetSelector : IAuraTargetSelector
     public bool IsCombatantUnderAura(ICombatant auraOwner, ICombatant testCombatant,
         IAuraTargetSelectorContext context)
     {
-        return auraOwner.IsPlayerControlled != testCombatant.IsPlayerControlled &&
-               IsInVanguard(testCombatant, context);
+        return auraOwner.IsPlayerControlled == testCombatant.IsPlayerControlled &&
+               IsInRearguard(testCombatant, context);
     }
 }
