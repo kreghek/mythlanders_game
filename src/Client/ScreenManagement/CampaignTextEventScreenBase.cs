@@ -13,31 +13,33 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Client.ScreenManagement;
 
-internal abstract class CampaignTextEventScreenBase : TextEventScreenBase<ParagraphConditionContext, CampaignAftermathContext>
+internal abstract class
+    CampaignTextEventScreenBase : TextEventScreenBase<ParagraphConditionContext, CampaignAftermathContext>
 {
     private readonly HeroCampaign _currentCampaign;
-    
-    private readonly GlobeProvider _globeProvider;
-    private readonly IEventCatalog _eventCatalog;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
-    
+
     private readonly IDice _dice;
-    
+    private readonly IEventCatalog _eventCatalog;
+
+    private readonly GlobeProvider _globeProvider;
+
     protected CampaignTextEventScreenBase(MythlandersGame game, CampaignTextEventScreenArgsBase args) : base(game, args)
     {
         var globeProvider = game.Services.GetService<GlobeProvider>();
 
         var dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
-        
+
         _currentCampaign = args.Campaign;
         _globeProvider = globeProvider;
         _dialogueEnvironmentManager = dialogueEnvironmentManager;
         _eventCatalog = game.Services.GetRequiredService<IEventCatalog>();
-        
+
         _dice = Game.Services.GetService<IDice>();
     }
 
-    protected override IDialogueContextFactory<ParagraphConditionContext, CampaignAftermathContext> CreateDialogueContextFactory(TextEventScreenArgsBase<ParagraphConditionContext, CampaignAftermathContext> args)
+    protected override IDialogueContextFactory<ParagraphConditionContext, CampaignAftermathContext>
+        CreateDialogueContextFactory(TextEventScreenArgsBase<ParagraphConditionContext, CampaignAftermathContext> args)
     {
         var globeProvider = Game.Services.GetService<GlobeProvider>();
         var globe = globeProvider.Globe ?? throw new InvalidOperationException();
@@ -50,8 +52,8 @@ internal abstract class CampaignTextEventScreenBase : TextEventScreenBase<Paragr
         var campaignArgs = (CampaignTextEventScreenArgsBase)args;
 
         return new DialogueContextFactory(globe, storyPointCatalog, player, dialogueEnvironmentManager,
-        campaignArgs.DialogueEvent, campaignArgs.Campaign,
-                new EventContext(globe, storyPointCatalog, player, campaignArgs.DialogueEvent));
+            campaignArgs.DialogueEvent, campaignArgs.Campaign,
+            new EventContext(globe, storyPointCatalog, player, campaignArgs.DialogueEvent));
     }
 
 

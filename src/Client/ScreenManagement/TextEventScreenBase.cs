@@ -21,6 +21,7 @@ namespace Client.ScreenManagement;
 
 internal abstract class TextEventScreenBase<TParagraphConditionContext, TAftermathContext> : GameScreenWithMenuBase
 {
+    private readonly TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> _args;
     private readonly DialogueOptions _dialogueOptions;
     protected readonly DialoguePlayer<TParagraphConditionContext, TAftermathContext> _dialoguePlayer;
     private readonly IDice _dice;
@@ -29,19 +30,17 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     private readonly IUiContentStorage _uiContentStorage;
 
     protected readonly IList<TextParagraphControl<TParagraphConditionContext, TAftermathContext>> TextParagraphControls;
-    private readonly TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> _args;
-    protected int CurrentFragmentIndex;
     private bool _currentTextFragmentIsReady;
     private bool _isInitialized;
     private KeyboardState _keyboardState;
     private double _pressToContinueCounter;
+    protected int CurrentFragmentIndex;
 
     private HoverController<DialogueOptionButton> _optionHoverController;
 
-    protected abstract IDialogueContextFactory<TParagraphConditionContext, TAftermathContext> CreateDialogueContextFactory(TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> args);
 
-
-    protected TextEventScreenBase(MythlandersGame game, TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> args) : base(game)
+    protected TextEventScreenBase(MythlandersGame game,
+        TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> args) : base(game)
     {
         TextParagraphControls = new List<TextParagraphControl<TParagraphConditionContext, TAftermathContext>>();
         _dialogueOptions = new DialogueOptions();
@@ -49,14 +48,14 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         _gameObjectContentStorage = game.Services.GetRequiredService<GameObjectContentStorage>();
         _dice = Game.Services.GetRequiredService<IDice>();
         _uiContentStorage = game.Services.GetRequiredService<IUiContentStorage>();
-        
+
         var globeProvider = game.Services.GetRequiredService<GlobeProvider>();
         var globe = globeProvider.Globe;
         var player = globe.Player;
         _storyState = player.StoryState;
 
         _dialoguePlayer = new DialoguePlayer<TParagraphConditionContext, TAftermathContext>(args.CurrentDialogue,
-                CreateDialogueContextFactory(args));
+            CreateDialogueContextFactory(args));
         _args = args;
 
         _optionHoverController = new HoverController<DialogueOptionButton>();
@@ -91,6 +90,9 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     protected DialogueSpeech<TParagraphConditionContext, TAftermathContext> CurrentFragment =>
         _dialoguePlayer.CurrentTextFragments[CurrentFragmentIndex];
 
+    protected abstract IDialogueContextFactory<TParagraphConditionContext, TAftermathContext>
+        CreateDialogueContextFactory(TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> args);
+
     protected override IList<ButtonBase> CreateMenu()
     {
         return ArraySegment<ButtonBase>.Empty;
@@ -116,6 +118,8 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     protected abstract void DrawSpecificBackgroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect);
 
     protected abstract void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect);
+
+    protected abstract void HandleDialogueEnd();
 
     protected override void UpdateContent(GameTime gameTime)
     {
@@ -199,8 +203,6 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
         spriteBatch.End();
     }
-
-    protected abstract void HandleDialogueEnd();
 
     private void InitDialogueControls()
     {

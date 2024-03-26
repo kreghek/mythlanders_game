@@ -45,7 +45,8 @@ internal sealed class TextParagraphControl<TParagraphConditionContext, TAftermat
                            new CharacterRelation(_speaker);
 
         _localizedSpeakerName = GetSpeakerDisplayName(speakerState);
-        _message = new TextParagraphMessageControl<TParagraphConditionContext, TAftermathContext>(eventTextParagraph, textSoundEffect, dice,
+        _message = new TextParagraphMessageControl<TParagraphConditionContext, TAftermathContext>(eventTextParagraph,
+            textSoundEffect, dice,
             DialogueSpeakers.Env != _speaker);
 
         _envCommands = eventTextParagraph.Aftermaths

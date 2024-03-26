@@ -20,18 +20,18 @@ namespace Client.GameScreens.PreHistory;
 internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionContext, PreHistoryAftermathContext>
 {
     private const double TRANSITION_DURATION_SEC = 1.25;
-
-    private readonly Texture2D _cleanScreenTexture;
-    private readonly SoundtrackManager _soundtrackManager;
-    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
-    private readonly GlobeProvider _globeProvider;
     private readonly ICampaignGenerator _campaignGenerator;
 
+    private readonly Texture2D _cleanScreenTexture;
+    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
+    private readonly GlobeProvider _globeProvider;
+
+    private readonly SoundtrackManager _soundtrackManager;
     private PreHistoryAftermathContext? _aftermathContext;
+    private double? _backgroundTransitionCounter;
 
     private IPreHistoryBackground? _currentBackground;
     private IPreHistoryBackground? _nextBackground;
-    private double? _backgroundTransitionCounter;
 
     public PreHistoryScreen(MythlandersGame game, PreHistoryScreenScreenTransitionArguments args) : base(game, args)
     {
@@ -153,6 +153,52 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
         spriteBatch.End();
     }
 
+    protected override void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+    }
+
+    protected override void HandleDialogueEnd()
+    {
+        _dialogueEnvironmentManager.Clean();
+
+        var otherCampaignLaunches = _campaignGenerator.CreateSet(_globeProvider.Globe);
+
+        ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
+            new CommandCenterScreenTransitionArguments(otherCampaignLaunches));
+
+        _globeProvider.StoreCurrentGlobe();
+    }
+
+    protected override void InitializeContent()
+    {
+        _soundtrackManager.PlaySilence();
+    }
+
+    protected override void UpdateSpecificScreenContent(GameTime gameTime)
+    {
+        _pongBackground.Update(gameTime.ElapsedGameTime.TotalSeconds);
+        UpdateTransition(gameTime);
+    }
+
+    private static Texture2D CreateTexture(GraphicsDevice device, int width, int height, Func<int, Color> paint)
+    {
+        //initialize a texture
+        var texture = new Texture2D(device, width, height);
+
+        //the array holds the color for each pixel in the texture
+        var data = new Color[width * height];
+        for (var pixel = 0; pixel < data.Length; pixel++)
+        {
+            //the function applies the color according to the specified pixel
+            data[pixel] = paint(pixel);
+        }
+
+        //set the color
+        texture.SetData(data);
+
+        return texture;
+    }
+
     private void DrawBackgroundBasedOnTransition(SpriteBatch spriteBatch, Rectangle contentRect)
     {
         if (_currentBackground is not null)
@@ -215,36 +261,5 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
                 }
             }
         }
-    }
-
-    protected override void HandleDialogueEnd()
-    {
-        _dialogueEnvironmentManager.Clean();
-
-        var otherCampaignLaunches = _campaignGenerator.CreateSet(_globeProvider.Globe);
-
-        ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
-            new CommandCenterScreenTransitionArguments(otherCampaignLaunches));
-
-        _globeProvider.StoreCurrentGlobe();
-    }
-
-    private static Texture2D CreateTexture(GraphicsDevice device, int width, int height, Func<int, Color> paint)
-    {
-        //initialize a texture
-        var texture = new Texture2D(device, width, height);
-
-        //the array holds the color for each pixel in the texture
-        var data = new Color[width * height];
-        for (var pixel = 0; pixel < data.Length; pixel++)
-        {
-            //the function applies the color according to the specified pixel
-            data[pixel] = paint(pixel);
-        }
-
-        //set the color
-        texture.SetData(data);
-
-        return texture;
     }
 }

@@ -5,9 +5,11 @@ using Client.GameScreens.PreHistory;
 
 namespace Client.Assets.DialogueOptionAftermath.PreHistory;
 
-internal class SetBackGroundDialogueOptionAftermath : PreHistoryDialogueOptionAftermathBase, IDecorativeEnvironmentAftermath<PreHistoryAftermathContext>
+internal class SetBackGroundDialogueOptionAftermath : PreHistoryDialogueOptionAftermathBase,
+    IDecorativeEnvironmentAftermath<PreHistoryAftermathContext>
 {
     private readonly string _backgroundName;
+
     public SetBackGroundDialogueOptionAftermath(string backgroundName)
     {
         _backgroundName = backgroundName;

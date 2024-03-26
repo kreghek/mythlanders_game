@@ -33,7 +33,7 @@ internal sealed class CombatantGraphicsCatalog : ICombatantGraphicsCatalog
             _graphicsDict.Add(factory.ClassName.ToString().ToLower(), graphics);
         }
     }
-    
+
     private static IReadOnlyCollection<IMonsterFactory> LoadMonsterFactories()
     {
         var assembly = typeof(IMonsterFactory).Assembly;

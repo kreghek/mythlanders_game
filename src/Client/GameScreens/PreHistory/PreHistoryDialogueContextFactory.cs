@@ -5,7 +5,8 @@ using CombatDicesTeam.Dialogues;
 
 namespace Client.GameScreens.PreHistory;
 
-internal sealed class PreHistoryDialogueContextFactory: IDialogueContextFactory<ParagraphConditionContext, PreHistoryAftermathContext>
+internal sealed class
+    PreHistoryDialogueContextFactory : IDialogueContextFactory<ParagraphConditionContext, PreHistoryAftermathContext>
 {
     private readonly PreHistoryAftermathContext _aftermathContext;
     private readonly Player _player;
@@ -15,7 +16,7 @@ internal sealed class PreHistoryDialogueContextFactory: IDialogueContextFactory<
         _aftermathContext = aftermathContext;
         _player = player;
     }
-    
+
     public PreHistoryAftermathContext CreateAftermathContext()
     {
         return _aftermathContext;

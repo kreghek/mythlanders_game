@@ -27,7 +27,7 @@ internal sealed class PreHistoryOptionAftermathCreator : IDialogueOptionAftermat
         }
 
         if (aftermathTypeSid == "AddMonsterPerk")
-        { 
+        {
             return new AddMonsterPerkOptionAftermath(data);
         }
 

@@ -12,10 +12,12 @@ namespace Client.Assets.Catalogs.DialogueStoring;
 
 internal static class DialogueCatalogHelper
 {
-    public static Dialogue<TParagraphConditionContext, TAftermathContext> Create<TParagraphConditionContext, TAftermathContext>(string dialogueSid,
+    public static Dialogue<TParagraphConditionContext, TAftermathContext> Create<TParagraphConditionContext,
+        TAftermathContext>(string dialogueSid,
         IDictionary<string, DialogueDtoScene> scenesDtoDict,
         DialogueCatalogCreationServices<TAftermathContext> services,
-        Func<IDialogueSpeaker, IReadOnlyCollection<IDialogueParagraphCondition<TParagraphConditionContext>>> defaultSpeakerReactionConditionFactory)
+        Func<IDialogueSpeaker, IReadOnlyCollection<IDialogueParagraphCondition<TParagraphConditionContext>>>
+            defaultSpeakerReactionConditionFactory)
     {
         var nodeListDicts =
             new List<(string nodeSid, DialogueNode<TParagraphConditionContext, TAftermathContext> node,
@@ -92,7 +94,7 @@ internal static class DialogueCatalogHelper
                 for (var optionIndex = 0; optionIndex < optionsDto.Length; optionIndex++)
                 {
                     var dialogueDtoOption = optionsDto[optionIndex];
-                    var aftermaths = CreateAftermaths<TAftermathContext>(dialogueDtoOption.Aftermaths, services.OptionAftermathCreator);
+                    var aftermaths = CreateAftermaths(dialogueDtoOption.Aftermaths, services.OptionAftermathCreator);
 
                     DialogueOption<TParagraphConditionContext, TAftermathContext> dialogueOption;
                     if (dialogueDtoOption.Next is not null)
@@ -152,7 +154,8 @@ internal static class DialogueCatalogHelper
         return new CompositeOptionAftermath<TAftermathContext>(list);
     }
 
-    private static IReadOnlyCollection<IDialogueOptionAftermath<TAftermathContext>> CreateEnvironmentEffects<TAftermathContext>(
+    private static IReadOnlyCollection<IDialogueOptionAftermath<TAftermathContext>> CreateEnvironmentEffects<
+        TAftermathContext>(
         DialogueDtoData[]? envs,
         IDialogueEnvironmentEffectCreator<TAftermathContext> environmentEffectCreator)
     {
