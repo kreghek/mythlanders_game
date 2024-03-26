@@ -2,7 +2,9 @@
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatantStatuses;
+using GameAssets.Combats.CombatantStatusLifetimes;
 
 using JetBrains.Annotations;
 
@@ -14,10 +16,17 @@ public sealed class ReduceEnemyShieldPointsMonsterPerkFactory : MonsterPerkFacto
     protected override ICombatantStatusFactory CreateStatus()
     {
         return new CombatStatusFactory(source =>
-            new ReduceEnemiesShieldPointsCombatantStatus(
-                new CombatantStatusSid(nameof(PerkName)),
+            new AuraCombatantStatus(new CombatantStatusSid(nameof(PerkName)),
                 new OwnerBoundCombatantEffectLifetime(),
                 source,
-                1));
+                new CombatStatusFactory(source2 => 
+                    new ModifyStatCombatantStatus(
+                        new CombatantStatusSid(PerkName),
+                        new TargetCombatantsBoundCombatantStatusLifetime(),
+                        source2,
+                        CombatantStatTypes.ShieldPoints,
+                        1)),
+                new EnemiesAuraTargetSelector()
+            ));
     }
 }
