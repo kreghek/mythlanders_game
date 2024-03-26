@@ -174,12 +174,6 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
         _soundtrackManager.PlaySilence();
     }
 
-    protected override void UpdateSpecificScreenContent(GameTime gameTime)
-    {
-        _pongBackground.Update(gameTime.ElapsedGameTime.TotalSeconds);
-        UpdateTransition(gameTime);
-    }
-
     private static Texture2D CreateTexture(GraphicsDevice device, int width, int height, Func<int, Color> paint)
     {
         //initialize a texture
@@ -215,15 +209,6 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
                 _currentBackground.Draw(spriteBatch, contentRect, 1);
             }
         }
-    }
-
-    protected override void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect)
-    {
-    }
-
-    protected override void InitializeContent()
-    {
-        _soundtrackManager.PlaySilence();
     }
 
     protected override void UpdateSpecificScreenContent(GameTime gameTime)
