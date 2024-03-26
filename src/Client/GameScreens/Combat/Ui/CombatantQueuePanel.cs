@@ -23,6 +23,7 @@ internal sealed class CombatantQueuePanel : ControlBase
     private readonly CombatEngineBase _activeCombat;
     private readonly ICombatantThumbnailProvider _combatantThumbnailProvider;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizationProvider;
+
     private readonly IList<(Rectangle, ICombatantStatus)> _effectInfoList =
         new List<(Rectangle, ICombatantStatus)>();
 
@@ -39,7 +40,8 @@ internal sealed class CombatantQueuePanel : ControlBase
     public CombatantQueuePanel(CombatEngineBase combat,
         IUiContentStorage uiContentStorage,
         ICombatantThumbnailProvider combatantThumbnailProvider,
-        ICombatMovementVisualizationProvider combatMovementVisualizationProvider) : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
+        ICombatMovementVisualizationProvider combatMovementVisualizationProvider) : base(UiThemeManager.UiContentStorage
+        .GetControlBackgroundTexture())
     {
         _activeCombat = combat;
         _uiContentStorage = uiContentStorage;
@@ -102,7 +104,8 @@ internal sealed class CombatantQueuePanel : ControlBase
                 if (plannedMove is not null)
                 {
                     _monsterCombatMoveInfoList.Add(
-                        new ValueTuple<Rectangle, CombatMovementInstance, ICombatant>(portraitDestRect, plannedMove, combatant));
+                        new ValueTuple<Rectangle, CombatMovementInstance, ICombatant>(portraitDestRect, plannedMove,
+                            combatant));
                 }
             }
 
@@ -127,8 +130,9 @@ internal sealed class CombatantQueuePanel : ControlBase
     {
         var currentActorResolveValue =
             moveInfo.Item3.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.Resolve)).Value;
-        
-        var hint = new CombatMovementHint(moveInfo.Item2, currentActorResolveValue, _combatMovementVisualizationProvider)
+
+        var hint = new CombatMovementHint(moveInfo.Item2, currentActorResolveValue,
+            _combatMovementVisualizationProvider)
         {
             Rect = new Rectangle(moveInfo.Item1.Location, new Point(200, 40))
         };

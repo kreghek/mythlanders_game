@@ -94,9 +94,9 @@ internal class GameObjectContentStorage
 
         _allWhiteEffect = contentManager.Load<Effect>("Effects/AllWhite");
 
-        var heroFactories = LoadHeroFactories();
+        var heroFactories = CatalogHelper.GetAllFactories<IHeroFactory>();
 
-        _heroTextureDict = heroFactories.ToDictionary(x => GetUnitNameByHerofactoryName(x),
+        _heroTextureDict = heroFactories.ToDictionary(x => GetUnitNameByHeroFactoryName(x),
             x => LoadHeroesTexture(contentManager, x.ClassSid));
 
         LoadMonsters(contentManager);
@@ -220,7 +220,7 @@ internal class GameObjectContentStorage
             { GameObjectSoundType.AssaultRifleBurst, LoadSkillEffect("AssaultRifleBurst") },
             { GameObjectSoundType.CyberRifleShot, LoadSkillEffect("CyberRifleShot") },
             { GameObjectSoundType.AmazonWarCry, LoadSkillEffect("AmazonWarCry") },
-            { GameObjectSoundType.ImpulseArrowBlasts, LoadSkillEffect("RainingArrowBlasts") },
+            { GameObjectSoundType.ImpulseArrowBlast, LoadSkillEffect("ImpulseArrowBlast") }
         };
 
         _deathSoundDict = new Dictionary<UnitName, SoundEffect>
@@ -280,7 +280,7 @@ internal class GameObjectContentStorage
         };
 
         _heroPortraitsTextureDict =
-            heroFactories.ToDictionary(x => GetUnitNameByHerofactoryName(x), x => LoadHeroPortrait(x.ClassSid));
+            heroFactories.ToDictionary(x => GetUnitNameByHeroFactoryName(x), x => LoadHeroPortrait(x.ClassSid));
 
         //NPCs
         _heroPortraitsTextureDict.Add(UnitName.Synth, LoadNpcPortrait("DamagedSynth"));
@@ -448,7 +448,7 @@ internal class GameObjectContentStorage
         return _contentManager ?? throw new InvalidOperationException("Storage is not loaded.");
     }
 
-    private static UnitName GetUnitNameByHerofactoryName(IHeroFactory x)
+    private static UnitName GetUnitNameByHeroFactoryName(IHeroFactory x)
     {
         return Enum.Parse<UnitName>(x.ClassSid);
     }
@@ -457,15 +457,6 @@ internal class GameObjectContentStorage
     {
         var path = Path.Combine("Sprites", "GameObjects", "Characters", "Heroes", classSid, "Full");
         return contentManager.Load<Texture2D>(path);
-    }
-
-    private static IEnumerable<IHeroFactory> LoadHeroFactories()
-    {
-        var assembly = typeof(IHeroFactory).Assembly;
-        var factoryTypes = assembly.GetTypes()
-            .Where(x => typeof(IHeroFactory).IsAssignableFrom(x) && x != typeof(IHeroFactory) && !x.IsAbstract);
-        var factories = factoryTypes.Select(Activator.CreateInstance);
-        return factories.OfType<IHeroFactory>().ToArray();
     }
 
     private void LoadMonsters(ContentManager contentManager)

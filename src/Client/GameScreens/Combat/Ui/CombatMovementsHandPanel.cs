@@ -46,7 +46,8 @@ internal class CombatMovementsHandPanel : ControlBase
     public CombatMovementsHandPanel(
         Texture2D verticalButtonIcons,
         IUiContentStorage uiContentStorage,
-        ICombatMovementVisualizationProvider combatMovementVisualizer) : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
+        ICombatMovementVisualizationProvider combatMovementVisualizer) : base(UiThemeManager.UiContentStorage
+        .GetControlBackgroundTexture())
     {
         _buttons = new CombatMovementButton[3];
 
@@ -77,11 +78,13 @@ internal class CombatMovementsHandPanel : ControlBase
                 return;
             }
 
-            var currentActorResolveValue = _combatant.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.Resolve)).Value;
-            _activeCombatMovementHint = new CombatMovementHint(e.Entity, currentActorResolveValue, _combatMovementVisualizer);
+            var currentActorResolveValue =
+                _combatant.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.Resolve)).Value;
+            _activeCombatMovementHint =
+                new CombatMovementHint(e.Entity, currentActorResolveValue, _combatMovementVisualizer);
             CombatMovementHover?.Invoke(this, new CombatMovementPickedEventArgs(e.Entity));
         };
-        
+
         _hoverController.Leave += (_, e) =>
         {
             _activeCombatMovementHint = null;

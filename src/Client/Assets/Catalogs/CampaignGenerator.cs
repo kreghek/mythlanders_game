@@ -19,7 +19,6 @@ namespace Client.Assets.Catalogs;
 internal sealed class CampaignGenerator : ICampaignGenerator
 {
     private readonly ICharacterCatalog _characterCatalog;
-    private readonly IMonsterPerkManager _monsterPerkManager;
     private readonly IDice _dice;
     private readonly IDropResolver _dropResolver;
     private readonly GlobeProvider _globeProvider;
@@ -37,6 +36,8 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         nameof(UnitName.Zoologist)
     };
+
+    private readonly IMonsterPerkManager _monsterPerkManager;
 
     private readonly CampaignWayTemplatesCatalog _wayTemplatesCatalog;
 
@@ -147,7 +148,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var rewards = rolledEffectFactory(locationSid);
 
-        var perksToUnlock = _monsterPerkManager.RollLocationPerks().Select(x=> new MonsterPerkCampaignEffect(x));
+        var perksToUnlock = _monsterPerkManager.RollLocationPerks().Select(x => new MonsterPerkCampaignEffect(x));
 
         return rewards.Union(perksToUnlock).ToArray();
     }

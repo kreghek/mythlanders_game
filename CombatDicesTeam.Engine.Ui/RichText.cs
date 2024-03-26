@@ -1,18 +1,17 @@
-﻿using System.Text;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace CombatDicesTeam.Engine.Ui;
 
 public sealed class RichText : ControlBase
 {
-    private readonly Point _textureOffset;
-    private readonly SpriteFont _font;
     private readonly Func<Color, Color> _colorDelegate;
+    private readonly SpriteFont _font;
     private readonly Func<string> _textDelegate;
+    private readonly Point _textureOffset;
 
-    public RichText(Texture2D texture, Point textureOffset, SpriteFont font, Func<Color, Color> colorDelegate, Func<string> textDelegate) : base(texture)
+    public RichText(Texture2D texture, Point textureOffset, SpriteFont font, Func<Color, Color> colorDelegate,
+        Func<string> textDelegate) : base(texture)
     {
         _textureOffset = textureOffset;
         _font = font;
@@ -20,9 +19,23 @@ public sealed class RichText : ControlBase
         _textDelegate = textDelegate;
     }
 
-    protected override Point CalcTextureOffset() => _textureOffset;
+    public override Point Size =>
+        (_font.MeasureString(GetPlantText(_textDelegate())) + new Vector2(CONTENT_MARGIN)).ToPoint();
 
-    protected override Color CalculateColor() => Color.White;
+    protected override Point CalcTextureOffset()
+    {
+        return _textureOffset;
+    }
+
+    protected override Color CalculateColor()
+    {
+        return Color.White;
+    }
+
+    protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
+    {
+        // No background
+    }
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
@@ -55,13 +68,6 @@ public sealed class RichText : ControlBase
                 }
             }
         }
-    }
-
-    public override Point Size => (_font.MeasureString(GetPlantText(_textDelegate())) + new Vector2(CONTENT_MARGIN)).ToPoint();
-
-    protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
-    {
-        // No background
     }
 
     private static string GetPlantText(string text)

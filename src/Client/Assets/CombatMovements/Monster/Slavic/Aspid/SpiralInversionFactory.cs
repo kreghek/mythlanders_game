@@ -15,6 +15,25 @@ namespace Client.Assets.CombatMovements.Monster.Slavic.Aspid;
 internal class SpiralInversionFactory : SimpleCombatMovementFactoryBase
 {
     /// <inheritdoc />
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1),
+                CombatMovementEffectDisplayValueTemplate.Damage),
+            new CombatMovementEffectDisplayValue("damage_resolve", ExtractDamage(combatMovementInstance, 3),
+                CombatMovementEffectDisplayValueTemplate.ResolveDamage)
+        };
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Melee;
+    }
+
+    /// <inheritdoc />
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(
@@ -39,24 +58,5 @@ internal class SpiralInversionFactory : SimpleCombatMovementFactoryBase
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.Attack;
-    }
-
-    /// <inheritdoc />
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
-        CombatMovementInstance combatMovementInstance)
-    {
-        return new[]
-        {
-            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1),
-                CombatMovementEffectDisplayValueTemplate.Damage),
-            new CombatMovementEffectDisplayValue("damage_resolve", ExtractDamage(combatMovementInstance, 3),
-                CombatMovementEffectDisplayValueTemplate.ResolveDamage)
-        };
-    }
-
-    /// <inheritdoc />
-    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
-    {
-        yield return CombatMovementMetadataTraits.Melee;
     }
 }

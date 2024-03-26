@@ -76,7 +76,8 @@ internal sealed class CombatMovementVisualizationProvider : ICombatMovementVisua
     }
 
     /// <inheritdoc />
-    public IReadOnlyList<CombatMovementEffectDisplayValue> ExtractCombatMovementValues(CombatMovementInstance combatMovementInstance)
+    public IReadOnlyList<CombatMovementEffectDisplayValue> ExtractCombatMovementValues(
+        CombatMovementInstance combatMovementInstance)
     {
         if (!_movementVisualizationDict.TryGetValue(combatMovementInstance.SourceMovement.Sid, out var factory))
         {

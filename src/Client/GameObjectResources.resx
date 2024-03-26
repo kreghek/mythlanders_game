@@ -441,6 +441,12 @@
     <value>Ability to avoid 50% of any attacks.</value>
     <comment>Perk</comment>
   </data>
+  <data name="ExtraHitPoints" xml:space="preserve">
+    <value>Extra HP</value><comment>Monster Perk</comment>
+  </data>
+  <data name="ExtraShieldPoints" xml:space="preserve">
+    <value>Extra shields</value><comment>Monster Perk</comment>
+  </data>
   <data name="EyesOfChaos" xml:space="preserve">
     <value>Eyes of Chaos</value>
   </data>
@@ -591,6 +597,9 @@
 - Berimir takes an additional 1 damage penalty for all combats until the end of the campaign.</value>
     <comment>Crisis Aftermath</comment>
   </data>
+  <data name="ImprovedAllDamage" xml:space="preserve">
+    <value>Improved Damage</value><comment>Monster Perk</comment>
+  </data>
   <data name="ImprovedArmor" xml:space="preserve">
     <value>Improved armor</value>
     <comment>Perk</comment>
@@ -606,6 +615,12 @@
   <data name="ImprovedHitPointsDescription" xml:space="preserve">
     <value>Amount of the hit points increased by 2 times.</value>
     <comment>Perk</comment>
+  </data>
+  <data name="ImprovedMeleeDamage" xml:space="preserve">
+    <value>Improved Melee</value><comment>Monster Perk</comment>
+  </data>
+  <data name="ImprovedRangeDamage" xml:space="preserve">
+    <value>Improved Range</value><comment>Monster Perk</comment>
   </data>
   <data name="Impulse" xml:space="preserve">
     <value>Impulse</value><comment>Status</comment>
@@ -662,7 +677,7 @@
     <comment>Combat movement Swordsman</comment>
   </data>
   <data name="LookOut_Description" xml:space="preserve">
-    <value>Increases the Defense of the nearest ally in a column by 3 until the end of the ally's turn. The swordsman himself moves to the vanguard. When automatically triggered, increases your defense by 1.</value>
+    <value>Increases the Defense of the nearest ally in a column by &lt;defence&gt; until the end of the ally's turn. The swordsman himself moves to the vanguard. When automatically triggered, increases your defense by &lt;auto_defence&gt;.</value>
     <comment>Combat movement Swordsman</comment>
   </data>
   <data name="LordOfNonHumanRealm" xml:space="preserve">
@@ -795,9 +810,32 @@
     <value>Rapid shot</value>
     <comment>Skill</comment>
   </data>
+  <data name="RearguardExtraHitPoints" xml:space="preserve">
+    <value>Rearguard Extra HP</value>
+    <comment>Monster Perk</comment>
+  </data>
+  <data name="RearguardExtraShieldPoints" xml:space="preserve">
+    <value>Rearguard Extra SP</value>
+    <comment>Monster Perk</comment>
+  </data>
+  <data name="RearguardReduceHitPoints" xml:space="preserve">
+    <value>Reduce Rearguard HP</value>
+    <comment>Monster Perk</comment>
+  </data>
+  <data name="RearguardReduceShieldPoints" xml:space="preserve">
+    <value>Reduce Rearguard SP</value>
+    <comment>Monster Perk</comment>
+  </data>
   <data name="RedemptionStaff" xml:space="preserve">
     <value>Staff of Redemption</value>
     <comment>Equipment</comment>
+  </data>
+  <data name="ReduceEnemyResolvePoints" xml:space="preserve">
+    <value>Reduce resolve</value>
+    <comment>Monster Perk</comment>
+  </data>
+  <data name="ReduceEnemyShieldPoints" xml:space="preserve">
+    <value>Reduce SP</value><comment>Monster Perk</comment>
   </data>
   <data name="RegenerativeProtocol" xml:space="preserve">
     <value>Regenerative protocol</value>
@@ -834,7 +872,7 @@
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="RiseYourSwords_Description" xml:space="preserve">
-    <value>Increases the damage of melee attack moves by 1 for all allies for 2 turns.</value>
+    <value>Increases the damage of melee attack moves by &lt;damage_buff&gt; for all allies for &lt;duration&gt;.</value>
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="Robber" xml:space="preserve">
@@ -911,7 +949,7 @@
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="StayStrong_Description" xml:space="preserve">
-    <value>Increases your defense by 3 until the end of the round. When auto-triggered, it increases its defense by 1 until the next turn.</value>
+    <value>Increases your defense by &lt;defence&gt; until the end of the round. When auto-triggered, it increases its defense by &lt;auto_defence&gt; until the next turn.</value>
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="Stryga" xml:space="preserve">
@@ -982,17 +1020,25 @@
     <value>Two plus two is five...</value>
     <comment>Voice</comment>
   </data>
-  <data name="UndercutValues" xml:space="preserve">
-    <value>Undercut values</value>
-    <comment>Combat Movement Robber</comment>
-  </data>
-  <data name="UndercutValues_Description" xml:space="preserve">
-    <value>Deals 1 damage to the closest enemy in the line. If it was the strongest enemy, it applies bleeding for 2 rounds, dealing damage to 1 health each round.</value>
-    <comment>Combat Movement Robber</comment>
-  </data>
   <data name="VampireBite" xml:space="preserve">
     <value>Vampire bite</value>
     <comment>Skill</comment>
+  </data>
+  <data name="VanguardExtraHitPoints" xml:space="preserve">
+    <value>Vanguard Extra HP</value>
+    <comment>Monster Perk</comment>
+  </data>
+  <data name="VanguardExtraShieldPoints" xml:space="preserve">
+    <value>Vanguard Extra SP</value>
+    <comment>Monster Perk</comment>
+  </data>
+  <data name="VanguardReduceHitPoints" xml:space="preserve">
+    <value>Reduce Vanguard HP</value>
+    <comment>Monster Perk</comment>
+  </data>
+  <data name="VanguardReduceShieldPoints" xml:space="preserve">
+    <value>Reduce Vanguard SP</value>
+    <comment>Monster Perk</comment>
   </data>
   <data name="VelesProtection" xml:space="preserve">
     <value>Veles protection</value>
@@ -1017,6 +1063,14 @@
   <data name="WarriorEquipment" xml:space="preserve">
     <value>Sword pieces</value>
     <comment>Resource</comment>
+  </data>
+  <data name="WeOnlyLiveOnce" xml:space="preserve">
+    <value>We Live Only Once!</value>
+    <comment>Combat Movement Robber</comment>
+  </data>
+  <data name="WeOnlyLiveOnce_Description" xml:space="preserve">
+    <value>Deals &lt;damage&gt; to the closest enemy in the line. If it was the strongest enemy, it applies bleeding for &lt;duration&gt;, dealing &lt;bleed_damage&gt; each round.</value>
+    <comment>Combat Movement Robber</comment>
   </data>
   <data name="WideSwordSlash" xml:space="preserve">
     <value>Wide sword slash</value>
@@ -1061,17 +1115,5 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Zduhach Might</value>
     <comment>Skill</comment>
-  </data>
-  <data name="ExtraXp" xml:space="preserve">
-    <value>Extra HP</value>
-  </data>
-  <data name="ExtraSp" xml:space="preserve">
-    <value>Extra shields</value>
-  </data>
-  <data name="ImprovedMeleeDamage" xml:space="preserve">
-    <value>Improved Melee</value>
-  </data>
-  <data name="ImprovedRangeDamage" xml:space="preserve">
-    <value>Improved Range</value>
   </data>
 </root>

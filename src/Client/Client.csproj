@@ -59,7 +59,7 @@
         <PackageReference Include="YamlDotNet" Version="13.0.1" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="CombatDicesTeam.Combats" Version="0.6.0-alpha" />
+        <PackageReference Include="CombatDicesTeam.Combats" Version="0.8.0-alpha" />
         <PackageReference Include="CombatDicesTeam.Graphs" Version="1.0.1" />
         <PackageReference Include="CombatDicesTeam.Graphs.Generation" Version="1.0.0" />
         <PackageReference Include="CombatDicesTeam.Graphs.Layout" Version="1.0.0" />

@@ -16,9 +16,10 @@ internal sealed class CampaignEffectsPanel : ControlBase
     private readonly IReadOnlyCollection<ICampaignEffect> _estimatedPenalties;
 
     private readonly IReadOnlyCollection<ICampaignEffect> _estimatedRewards;
-    
+
     public CampaignEffectsPanel(IReadOnlyCollection<ICampaignEffect> estimatedRewards,
-        IReadOnlyCollection<ICampaignEffect> estimatedPenalties) : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
+        IReadOnlyCollection<ICampaignEffect> estimatedPenalties) : base(UiThemeManager.UiContentStorage
+        .GetControlBackgroundTexture())
     {
         _estimatedRewards = estimatedRewards;
         _estimatedPenalties = estimatedPenalties;
