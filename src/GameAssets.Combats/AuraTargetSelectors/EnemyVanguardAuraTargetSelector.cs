@@ -3,7 +3,7 @@ using CombatDicesTeam.Combats.CombatantStatuses;
 
 namespace GameAssets.Combats.AuraTargetSelectors;
 
-public sealed class AllyVanguardAuraTargetSelector : IAuraTargetSelector
+public sealed class EnemyVanguardAuraTargetSelector : IAuraTargetSelector
 {
     private static IEnumerable<ICombatant> GetVanguardCombatant(CombatFieldSide side)
     {
@@ -47,7 +47,7 @@ public sealed class AllyVanguardAuraTargetSelector : IAuraTargetSelector
     public bool IsCombatantUnderAura(ICombatant auraOwner, ICombatant testCombatant,
         IAuraTargetSelectorContext context)
     {
-        return auraOwner.IsPlayerControlled == testCombatant.IsPlayerControlled &&
+        return auraOwner.IsPlayerControlled != testCombatant.IsPlayerControlled &&
                IsInVanguard(testCombatant, context);
     }
 }
