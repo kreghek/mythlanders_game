@@ -35,13 +35,13 @@ internal class FlockAlphaTacticsFactory : CombatMovementFactoryBase
             Tags = CombatMovementTags.Attack
         };
     }
-    
+
     public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {
         return new[]
         {
-            new CombatMovementEffectDisplayValue("damage", 
+            new CombatMovementEffectDisplayValue("damage",
                 ExtractDamage(combatMovementInstance, 1),
                 CombatMovementEffectDisplayValueTemplate.Damage),
 

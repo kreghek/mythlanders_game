@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets;
 using Client.Core.Heroes.Factories;
 
 using CombatDicesTeam.Combats;
@@ -44,17 +45,8 @@ internal sealed class HeroState
 
     private static IDictionary<string, IHeroFactory> CreateHeroFactoryMap()
     {
-        var heroFactories = LoadHeroFactories();
+        var heroFactories = CatalogHelper.GetAllFactories<IHeroFactory>();
 
         return heroFactories.ToDictionary(x => x.GetType().Name[..^"HeroFactory".Length], x => x);
-    }
-
-    private static IEnumerable<IHeroFactory> LoadHeroFactories()
-    {
-        var assembly = typeof(IHeroFactory).Assembly;
-        var factoryTypes = assembly.GetTypes()
-            .Where(x => typeof(IHeroFactory).IsAssignableFrom(x) && x != typeof(IHeroFactory) && !x.IsAbstract);
-        var factories = factoryTypes.Select(Activator.CreateInstance);
-        return factories.OfType<IHeroFactory>().ToArray();
     }
 }

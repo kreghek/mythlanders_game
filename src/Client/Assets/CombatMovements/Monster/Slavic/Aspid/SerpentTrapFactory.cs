@@ -47,6 +47,23 @@ internal class SerpentTrapFactory : SimpleCombatMovementFactoryBase
     }
 
     /// <inheritdoc />
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1),
+                CombatMovementEffectDisplayValueTemplate.Damage)
+        };
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Melee;
+    }
+
+    /// <inheritdoc />
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(
@@ -67,19 +84,5 @@ internal class SerpentTrapFactory : SimpleCombatMovementFactoryBase
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.Attack;
-    }
-
-    /// <inheritdoc />
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
-    {
-        return new[] { 
-            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1), CombatMovementEffectDisplayValueTemplate.Damage)
-        };
-    }
-
-    /// <inheritdoc />
-    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
-    {
-        yield return CombatMovementMetadataTraits.Melee;
     }
 }

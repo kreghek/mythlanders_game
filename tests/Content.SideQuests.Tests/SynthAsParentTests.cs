@@ -6,6 +6,7 @@ using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.Dialogues;
+using Client.Assets.MonsterPerks;
 using Client.Core;
 using Client.Core.CampaignEffects;
 using Client.Core.Campaigns;
@@ -61,8 +62,11 @@ public class SynthAsParentTests
 
         var storyPointCatalog = new StoryPointCatalog(eventCatalog);
 
+        var monsterPerkCatalog = new MonsterPerkCatalog();
+
         var globeProvider = new GlobeProvider(unitSchemeCatalog,
-            storyPointCatalog);
+            storyPointCatalog,
+            monsterPerkCatalog);
 
         globeProvider.GenerateNew();
 
