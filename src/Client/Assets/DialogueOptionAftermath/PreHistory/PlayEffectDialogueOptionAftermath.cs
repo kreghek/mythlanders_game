@@ -5,7 +5,8 @@ using Client.GameScreens.PreHistory;
 
 namespace Client.Assets.DialogueOptionAftermath.PreHistory;
 
-internal sealed class PlayEffectDialogueOptionAftermath : PreHistoryDialogueOptionAftermathBase, IDecorativeEnvironmentAftermath<PreHistoryAftermathContext>
+internal sealed class PlayEffectDialogueOptionAftermath : PreHistoryDialogueOptionAftermathBase,
+    IDecorativeEnvironmentAftermath<PreHistoryAftermathContext>
 {
     private readonly string _effectSid;
     private readonly string _resourceName;

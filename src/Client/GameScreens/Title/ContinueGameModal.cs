@@ -21,8 +21,8 @@ internal sealed class ContinueGameModal : ModalDialogBase
 
     private const int PAGE_SIZE = 3;
     private readonly ICampaignGenerator _campaignGenerator;
-    private readonly IDialogueResourceProvider _dialogueResourceProvider;
     private readonly IList<ButtonBase> _continueGameButtons;
+    private readonly IDialogueResourceProvider _dialogueResourceProvider;
     private readonly GlobeProvider _globeProvider;
     private readonly IList<ButtonBase> _pageButtons;
     private readonly IScreen _screen;
@@ -32,7 +32,8 @@ internal sealed class ContinueGameModal : ModalDialogBase
 
     public ContinueGameModal(IUiContentStorage uiContentStorage,
         IResolutionIndependentRenderer resolutionIndependentRenderer, GlobeProvider globeProvider,
-        IScreenManager screenManager, IScreen screen, ICampaignGenerator campaignGenerator, IDialogueResourceProvider dialogueResourceProvider) : base(uiContentStorage,
+        IScreenManager screenManager, IScreen screen, ICampaignGenerator campaignGenerator,
+        IDialogueResourceProvider dialogueResourceProvider) : base(uiContentStorage,
         resolutionIndependentRenderer)
     {
         _continueGameButtons = new List<ButtonBase>();
@@ -43,7 +44,7 @@ internal sealed class ContinueGameModal : ModalDialogBase
         _screen = screen;
         _campaignGenerator = campaignGenerator;
         _dialogueResourceProvider = dialogueResourceProvider;
-        
+
         CreateButtonOnEachSave();
 
         CreateNewGameButton();
@@ -177,6 +178,7 @@ internal sealed class ContinueGameModal : ModalDialogBase
 
     private void StartButton_OnClick(object? sender, EventArgs e)
     {
-        TitleScreen.StartClearNewGame(_globeProvider, _screen, _screenManager, _campaignGenerator, _dialogueResourceProvider);
+        TitleScreen.StartClearNewGame(_globeProvider, _screen, _screenManager, _campaignGenerator,
+            _dialogueResourceProvider);
     }
 }

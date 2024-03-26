@@ -55,11 +55,11 @@ internal sealed class TitleScreen : GameScreenBase
     private readonly ParticleSystem _particleSystem;
     private readonly ParticleSystem[] _pulseParticleSystems;
     private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
+    private readonly IDialogueResourceProvider _resourceProvider;
 
     private readonly SettingsModal _settingsModal;
     private readonly UnitName[] _showcaseUnits;
     private readonly IUiContentStorage _uiContentStorage;
-    private readonly IDialogueResourceProvider _resourceProvider;
 
     public TitleScreen(MythlandersGame game)
         : base(game)
@@ -143,10 +143,11 @@ internal sealed class TitleScreen : GameScreenBase
     }
 
     public static void StartClearNewGame(GlobeProvider globeProvider, IScreen currentScreen,
-        IScreenManager screenManager, ICampaignGenerator campaignGenerator, IDialogueResourceProvider dialogueResourceProvider)
+        IScreenManager screenManager, ICampaignGenerator campaignGenerator,
+        IDialogueResourceProvider dialogueResourceProvider)
     {
         globeProvider.GenerateNew();
-        
+
         var dialogueYaml = dialogueResourceProvider.GetResource("pre-history");
 
         var deserializer = new DeserializerBuilder()
@@ -160,7 +161,6 @@ internal sealed class TitleScreen : GameScreenBase
             new DialogueCatalogCreationServices<PreHistoryAftermathContext>(
                 new PreHistoryDialogueEnvironmentEffectCreator(), new PreHistoryOptionAftermathCreator()),
             _ => ArraySegment<IDialogueParagraphCondition<ParagraphConditionContext>>.Empty);
-        
 
         screenManager.ExecuteTransition(
             currentScreen,

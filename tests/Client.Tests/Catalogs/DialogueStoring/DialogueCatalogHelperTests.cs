@@ -46,7 +46,8 @@ public class DialogueCatalogHelperTests
         // ACT
 
         var dialogue = DialogueCatalogHelper.Create("test", dict,
-            new DialogueCatalogCreationServices<CampaignAftermathContext>(Mock.Of<IDialogueEnvironmentEffectCreator<CampaignAftermathContext>>(),
+            new DialogueCatalogCreationServices<CampaignAftermathContext>(
+                Mock.Of<IDialogueEnvironmentEffectCreator<CampaignAftermathContext>>(),
                 Mock.Of<IDialogueOptionAftermathCreator<CampaignAftermathContext>>()),
             _ => ArraySegment<IDialogueParagraphCondition<ParagraphConditionContext>>.Empty);
 
@@ -84,7 +85,8 @@ public class DialogueCatalogHelperTests
         // ACT
 
         var dialogue = DialogueCatalogHelper.Create("test", dict,
-            new DialogueCatalogCreationServices<CampaignAftermathContext>(Mock.Of<IDialogueEnvironmentEffectCreator<CampaignAftermathContext>>(),
+            new DialogueCatalogCreationServices<CampaignAftermathContext>(
+                Mock.Of<IDialogueEnvironmentEffectCreator<CampaignAftermathContext>>(),
                 Mock.Of<IDialogueOptionAftermathCreator<CampaignAftermathContext>>()),
             _ => ArraySegment<IDialogueParagraphCondition<ParagraphConditionContext>>.Empty);
 
@@ -128,7 +130,8 @@ public class DialogueCatalogHelperTests
         // ACT
 
         var dialogue = DialogueCatalogHelper.Create("test", dict,
-            new DialogueCatalogCreationServices<CampaignAftermathContext>(Mock.Of<IDialogueEnvironmentEffectCreator<CampaignAftermathContext>>(),
+            new DialogueCatalogCreationServices<CampaignAftermathContext>(
+                Mock.Of<IDialogueEnvironmentEffectCreator<CampaignAftermathContext>>(),
                 Mock.Of<IDialogueOptionAftermathCreator<CampaignAftermathContext>>()),
             _ => ArraySegment<IDialogueParagraphCondition<ParagraphConditionContext>>.Empty);
 
@@ -164,7 +167,8 @@ public class DialogueCatalogHelperTests
         // ACT
 
         var dialogue = DialogueCatalogHelper.Create("test", dict,
-            new DialogueCatalogCreationServices<CampaignAftermathContext>(Mock.Of<IDialogueEnvironmentEffectCreator<CampaignAftermathContext>>(),
+            new DialogueCatalogCreationServices<CampaignAftermathContext>(
+                Mock.Of<IDialogueEnvironmentEffectCreator<CampaignAftermathContext>>(),
                 Mock.Of<IDialogueOptionAftermathCreator<CampaignAftermathContext>>()),
             _ => ArraySegment<IDialogueParagraphCondition<ParagraphConditionContext>>.Empty);
 

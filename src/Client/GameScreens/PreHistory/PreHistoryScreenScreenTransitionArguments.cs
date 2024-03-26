@@ -7,4 +7,4 @@ namespace Client.GameScreens.PreHistory;
 
 internal sealed record PreHistoryScreenScreenTransitionArguments
 (Dialogue<ParagraphConditionContext, PreHistoryAftermathContext> CurrentDialogue
-    ) : TextEventScreenArgsBase<ParagraphConditionContext, PreHistoryAftermathContext>(CurrentDialogue);
+) : TextEventScreenArgsBase<ParagraphConditionContext, PreHistoryAftermathContext>(CurrentDialogue);

@@ -26,20 +26,20 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
     private const int BACKGROUND_HEIGHT = 512;
 
     private const double TRANSITION_DURATION_SEC = 1.25;
-
-    private readonly Texture2D _cleanScreenTexture;
-    private readonly SoundtrackManager _soundtrackManager;
-    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
-    private readonly GlobeProvider _globeProvider;
     private readonly ICampaignGenerator _campaignGenerator;
 
+    private readonly Texture2D _cleanScreenTexture;
+    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
+    private readonly GlobeProvider _globeProvider;
+
     private readonly PongRectangleControl _pongBackground;
+    private readonly SoundtrackManager _soundtrackManager;
 
     private PreHistoryAftermathContext? _aftermathContext;
+    private double? _backgroundTransitionCounter;
 
     private Texture2D? _currentBackgroundTexture;
     private Texture2D? _nextBackgroundTexture;
-    private double? _backgroundTransitionCounter;
 
     public PreHistoryScreen(MythlandersGame game, PreHistoryScreenScreenTransitionArguments args) : base(game, args)
     {
@@ -49,7 +49,6 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
         _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
         _globeProvider = game.Services.GetService<GlobeProvider>();
         _campaignGenerator = game.Services.GetService<ICampaignGenerator>();
-
 
         var contentRect = new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Location.X,
             ResolutionIndependentRenderer.VirtualBounds.Location.Y,
@@ -69,11 +68,16 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
             mapPongRandomSource);
     }
 
-    protected override IDialogueContextFactory<ParagraphConditionContext, PreHistoryAftermathContext> CreateDialogueContextFactory(TextEventScreenArgsBase<ParagraphConditionContext, PreHistoryAftermathContext> args)
+    protected override IDialogueContextFactory<ParagraphConditionContext, PreHistoryAftermathContext>
+        CreateDialogueContextFactory(
+            TextEventScreenArgsBase<ParagraphConditionContext, PreHistoryAftermathContext> args)
     {
-        _aftermathContext = new PreHistoryAftermathContext(Game.Content, Game.Services.GetRequiredService<IDialogueEnvironmentManager>(), Game.Services.GetService<GlobeProvider>().Globe.Player);
+        _aftermathContext = new PreHistoryAftermathContext(Game.Content,
+            Game.Services.GetRequiredService<IDialogueEnvironmentManager>(),
+            Game.Services.GetService<GlobeProvider>().Globe.Player);
 
-        return new PreHistoryDialogueContextFactory(_aftermathContext, Game.Services.GetRequiredService<GlobeProvider>().Globe.Player);
+        return new PreHistoryDialogueContextFactory(_aftermathContext,
+            Game.Services.GetRequiredService<GlobeProvider>().Globe.Player);
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -102,6 +106,52 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
         spriteBatch.End();
     }
 
+    protected override void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+    }
+
+    protected override void HandleDialogueEnd()
+    {
+        _dialogueEnvironmentManager.Clean();
+
+        var otherCampaignLaunches = _campaignGenerator.CreateSet(_globeProvider.Globe);
+
+        ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
+            new CommandCenterScreenTransitionArguments(otherCampaignLaunches));
+
+        _globeProvider.StoreCurrentGlobe();
+    }
+
+    protected override void InitializeContent()
+    {
+        _soundtrackManager.PlaySilence();
+    }
+
+    protected override void UpdateSpecificScreenContent(GameTime gameTime)
+    {
+        _pongBackground.Update(gameTime.ElapsedGameTime.TotalSeconds);
+        UpdateTransition(gameTime);
+    }
+
+    private static Texture2D CreateTexture(GraphicsDevice device, int width, int height, Func<int, Color> paint)
+    {
+        //initialize a texture
+        var texture = new Texture2D(device, width, height);
+
+        //the array holds the color for each pixel in the texture
+        var data = new Color[width * height];
+        for (var pixel = 0; pixel < data.Length; pixel++)
+        {
+            //the function applies the color according to the specified pixel
+            data[pixel] = paint(pixel);
+        }
+
+        //set the color
+        texture.SetData(data);
+
+        return texture;
+    }
+
     private void DrawBackgroundBasedOnTransition(SpriteBatch spriteBatch)
     {
         if (_currentBackgroundTexture is not null)
@@ -122,21 +172,6 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
                     Color.White);
             }
         }
-    }
-
-    protected override void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect)
-    {
-    }
-
-    protected override void InitializeContent()
-    {
-        _soundtrackManager.PlaySilence();
-    }
-
-    protected override void UpdateSpecificScreenContent(GameTime gameTime)
-    {
-        _pongBackground.Update(gameTime.ElapsedGameTime.TotalSeconds);
-        UpdateTransition(gameTime);
     }
 
     private void UpdateTransition(GameTime gameTime)
@@ -167,36 +202,5 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
                 }
             }
         }
-    }
-
-    protected override void HandleDialogueEnd()
-    {
-        _dialogueEnvironmentManager.Clean();
-
-        var otherCampaignLaunches = _campaignGenerator.CreateSet(_globeProvider.Globe);
-
-        ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
-            new CommandCenterScreenTransitionArguments(otherCampaignLaunches));
-
-        _globeProvider.StoreCurrentGlobe();
-    }
-
-    private static Texture2D CreateTexture(GraphicsDevice device, int width, int height, Func<int, Color> paint)
-    {
-        //initialize a texture
-        var texture = new Texture2D(device, width, height);
-
-        //the array holds the color for each pixel in the texture
-        var data = new Color[width * height];
-        for (var pixel = 0; pixel < data.Length; pixel++)
-        {
-            //the function applies the color according to the specified pixel
-            data[pixel] = paint(pixel);
-        }
-
-        //set the color
-        texture.SetData(data);
-
-        return texture;
     }
 }

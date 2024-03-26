@@ -44,7 +44,8 @@ internal class DialogueCatalog : IEventCatalog, IEventInitializer
 
         var dialogueDtoDict = deserializer.Deserialize<Dictionary<string, DialogueDtoScene>>(dialogueYaml);
 
-        var services = new DialogueCatalogCreationServices<CampaignAftermathContext>(_envCommandCreator, _optionAftermathCreator);
+        var services =
+            new DialogueCatalogCreationServices<CampaignAftermathContext>(_envCommandCreator, _optionAftermathCreator);
 
         var dialogue = DialogueCatalogHelper.Create(dialogueSid,
             dialogueDtoDict, services,
