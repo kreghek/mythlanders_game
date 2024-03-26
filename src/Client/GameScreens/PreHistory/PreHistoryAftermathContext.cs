@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets;
 using Client.Assets.MonsterPerks;
 using Client.Core;
 
@@ -14,17 +13,19 @@ internal sealed class PreHistoryAftermathContext
 {
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly Player _player;
+    private readonly MonsterPerkCatalog _monsterPerkCatalog;
     private readonly IDictionary<string, IPreHistoryBackground> _backgrounds;
 
     private IPreHistoryBackground? _backgroundTexture;
     
     public PreHistoryAftermathContext(IDictionary<string, IPreHistoryBackground> backgrounds, 
         IDialogueEnvironmentManager dialogueEnvironmentManager,
-        Player player)
+        Player player,
+        MonsterPerkCatalog monsterPerkCatalog)
     {
         _dialogueEnvironmentManager = dialogueEnvironmentManager;
         _player = player;
-
+        _monsterPerkCatalog = monsterPerkCatalog;
         _backgrounds = backgrounds;
     }
 
@@ -55,7 +56,7 @@ internal sealed class PreHistoryAftermathContext
 
     internal void AddMonsterPerk(string perkSid)
     {
-        var monsterPerks = CatalogHelper.GetAllFromStaticCatalog<MonsterPerk>(typeof(MonsterPerkCatalog));
+        var monsterPerks = _monsterPerkCatalog.Perks;
         var targetPerk = monsterPerks.Single(x => string.Equals(x.Sid, perkSid, StringComparison.InvariantCultureIgnoreCase));
 
         _player.AddMonsterPerk(targetPerk);

@@ -44,7 +44,7 @@ internal sealed class StaticScenePreHistoryBackground: IPreHistoryBackground
     {
         spriteBatch.Draw(_texture,
             _pongBackground.GetRects()[0],
-            Color.Lerp(Color.White, Color.Transparent, (float)transition));
+            Color.Lerp(Color.Transparent, Color.White, (float)transition));
     }
 
     public void SelectOption(int index)

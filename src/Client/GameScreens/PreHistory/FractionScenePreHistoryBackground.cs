@@ -56,11 +56,11 @@ internal sealed class FractionScenePreHistoryBackground : IPreHistoryBackground
         
         spriteBatch.Draw(leftTexture,
             contentRect.Location.ToVector2(),
-            Color.Lerp(Color.White, Color.Transparent, (float)transition));
+            Color.Lerp(Color.Transparent, Color.White, (float)transition));
         
         spriteBatch.Draw(rightTexture,
-            contentRect.Location.ToVector2() - new Vector2(rightTexture.Width, 0),
-            Color.Lerp(Color.White, Color.Transparent, (float)transition));
+            new Vector2(contentRect.Right - rightTexture.Width, 0),
+            Color.Lerp(Color.Transparent, Color.White, (float)transition));
     }
 
     public void SelectOption(int index)

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using Client.Assets.Catalogs.Dialogues;
+using Client.Assets.MonsterPerks;
 using Client.Core;
 using Client.Engine;
 using Client.GameScreens.CommandCenter;
@@ -80,9 +81,19 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
                     Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/SelectUnitedDisabled"))
             },
             {
-                "HeroSelection",
+                "Black",
                 new StaticScenePreHistoryBackground(
-                    Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/HeroSelection"), contentRect)
+                    Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/Black"), contentRect)
+            },
+            {
+                "Union",
+                new StaticScenePreHistoryBackground(
+                    Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/Union"), contentRect)
+            },
+            {
+                "StartHeroes",
+                new StaticScenePreHistoryBackground(
+                    Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/StartHeroes"), contentRect)
             },
             {
                 "Monk",
@@ -103,7 +114,8 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
         
         _aftermathContext = new PreHistoryAftermathContext(backgrounds,
             Game.Services.GetRequiredService<IDialogueEnvironmentManager>(), 
-            Game.Services.GetService<GlobeProvider>().Globe.Player);
+            Game.Services.GetService<GlobeProvider>().Globe.Player,
+            Game.Services.GetService<MonsterPerkCatalog>());
 
         return new PreHistoryDialogueContextFactory(_aftermathContext, Game.Services.GetRequiredService<GlobeProvider>().Globe.Player);
     }
@@ -150,7 +162,7 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
                 var progress = (TRANSITION_DURATION_SEC - _backgroundTransitionCounter.Value) / TRANSITION_DURATION_SEC;
                 var t = (float)Math.Sin(Math.PI * progress);
 
-                _currentBackground.Draw(spriteBatch, contentRect, t * 1);
+                _currentBackground.Draw(spriteBatch, contentRect, 1 - t * 1);
             }
             else
             {
