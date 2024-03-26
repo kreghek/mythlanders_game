@@ -127,6 +127,15 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
         _currentBackground?.HoverOption(button.Number - 1);
     }
 
+    protected override void HandleOptionSelection(DialogueOptionButton button)
+    {
+        base.HandleOptionSelection(button);
+
+        _isBackgoundInteractive = false;
+    }
+
+    private bool _isBackgoundInteractive;
+
     protected override IList<ButtonBase> CreateMenu()
     {
         return ArraySegment<ButtonBase>.Empty;
@@ -145,10 +154,6 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
         spriteBatch.Draw(_cleanScreenTexture, contentRect, Color.White);
 
         DrawBackgroundBasedOnTransition(spriteBatch, contentRect);
-
-        //spriteBatch.Draw(_cleanScreenTexture,
-        //    new Rectangle(contentRect.Center.X, contentRect.Top, contentRect.Width / 2, contentRect.Height),
-        //    Color.Lerp(Color.White, Color.Transparent, 0.25f));
 
         spriteBatch.End();
     }
@@ -213,7 +218,7 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
     protected override void UpdateSpecificScreenContent(GameTime gameTime)
     {
-        _currentBackground?.Update(gameTime, true);
+        _currentBackground?.Update(gameTime, _isBackgoundInteractive);
         
         UpdateTransition(gameTime);
     }
@@ -242,6 +247,7 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
                     {
                         _backgroundTransitionCounter = null;
                         _nextBackground = null;
+                        _isBackgoundInteractive = true;
                     }
                 }
             }

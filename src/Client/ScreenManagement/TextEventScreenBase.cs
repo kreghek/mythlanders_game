@@ -36,8 +36,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     private double _pressToContinueCounter;
     protected int CurrentFragmentIndex;
 
-    private HoverController<DialogueOptionButton> _optionHoverController;
-
+    private readonly HoverController<DialogueOptionButton> _optionHoverController;
 
     protected TextEventScreenBase(MythlandersGame game,
         TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> args) : base(game)
@@ -225,9 +224,11 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         foreach (var option in _dialoguePlayer.CurrentOptions)
         {
             var optionButton = new DialogueOptionButton(optionNumber, option.TextSid);
-            optionButton.OnClick += (_, _) =>
+            optionButton.OnClick += (s, _) =>
             {
                 _dialoguePlayer.SelectOption(option);
+
+                HandleOptionSelection((DialogueOptionButton)s!);
 
                 if (_dialoguePlayer.IsEnd)
                 {
@@ -252,6 +253,9 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
             _dialogueOptions.Options.Add(optionButton);
             optionNumber++;
         }
+    }
+
+    protected virtual void HandleOptionSelection(DialogueOptionButton button) { 
     }
 
     private bool IsKeyPressed(Keys checkKey)
