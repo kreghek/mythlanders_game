@@ -1062,16 +1062,22 @@
     <value>Zduhach Might</value>
     <comment>Skill</comment>
   </data>
-  <data name="ExtraXp" xml:space="preserve">
-    <value>Extra HP</value>
+  <data name="ExtraHitPoints" xml:space="preserve">
+    <value>Extra HP</value><comment>Monster Perk</comment>
   </data>
-  <data name="ExtraSp" xml:space="preserve">
-    <value>Extra shields</value>
+  <data name="ExtraShieldPoints" xml:space="preserve">
+    <value>Extra shields</value><comment>Monster Perk</comment>
   </data>
   <data name="ImprovedMeleeDamage" xml:space="preserve">
-    <value>Improved Melee</value>
+    <value>Improved Melee</value><comment>Monster Perk</comment>
   </data>
   <data name="ImprovedRangeDamage" xml:space="preserve">
-    <value>Improved Range</value>
+    <value>Improved Range</value><comment>Monster Perk</comment>
+  </data>
+  <data name="ImprovedAllDamage" xml:space="preserve">
+    <value>Improved Damage</value><comment>Monster Perk</comment>
+  </data>
+  <data name="VanguardExtraHitPoints" xml:space="preserve">
+    <value>Vanguard Extra Hit Points</value>
   </data>
 </root>
