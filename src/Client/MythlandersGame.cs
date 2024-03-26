@@ -286,7 +286,7 @@ internal sealed class MythlandersGame : Game
 
         var monsterPerkCatalog = new MonsterPerkCatalog();
         Services.AddService(monsterPerkCatalog);
-        
+
         Services.AddService(
             new GlobeProvider(Services.GetRequiredService<ICharacterCatalog>(),
                 Services.GetRequiredService<IStoryPointInitializer>(),
@@ -301,7 +301,8 @@ internal sealed class MythlandersGame : Game
             Services.GetRequiredService<ICrisesCatalog>());
         Services.AddService(campaignWayTemplateCatalog);
 
-        var monsterPerkManager = new MonsterPerkManager(Services.GetRequiredService<IDice>(), Services.GetRequiredService<MonsterPerkCatalog>());
+        var monsterPerkManager = new MonsterPerkManager(Services.GetRequiredService<IDice>(),
+            Services.GetRequiredService<MonsterPerkCatalog>());
         Services.AddService<IMonsterPerkManager>(monsterPerkManager);
 
         var campaignGenerator = new CampaignGenerator(
