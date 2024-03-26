@@ -1079,10 +1079,10 @@
     <value>Мощь великого Здухача</value>
     <comment>Skill</comment>
   </data>
-  <data name="ExtraXp" xml:space="preserve">
+  <data name="ExtraHitPoints" xml:space="preserve">
     <value>Экстра ХП</value>
   </data>
-  <data name="ExtraSp" xml:space="preserve">
+  <data name="ExtraShieldPoints" xml:space="preserve">
     <value>Экстра щиты</value>
   </data>
   <data name="ImprovedMeleeDamage" xml:space="preserve">
@@ -1090,5 +1090,11 @@
   </data>
   <data name="ImprovedRangeDamage" xml:space="preserve">
     <value>Улучшенная стрельба</value>
+  </data>
+  <data name="ImprovedAllDamage" xml:space="preserve">
+    <value>Улучшенный урон</value>
+  </data>
+  <data name="VanguardExtraHitPoints" xml:space="preserve">
+    <value>Экстра ХП авангарда</value>
   </data>
 </root>
