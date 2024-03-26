@@ -3,14 +3,14 @@ using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
-using GameAssets.Combats.CombatantStatusLifetimes;
+using GameAssets.Combats.CombatantStatuses;
 
 using JetBrains.Annotations;
 
 namespace Client.Assets.MonsterPerks;
 
 [UsedImplicitly]
-public sealed class ReduceEnemyShieldPointsMonsterPerkFactory : MonsterPerkFactoryBase
+public sealed class VanguardExtraHitPointsMonsterPerkFactory : MonsterPerkFactoryBase
 {
     protected override ICombatantStatusFactory CreateStatus()
     {
