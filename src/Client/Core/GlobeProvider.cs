@@ -371,7 +371,7 @@ internal sealed class GlobeProvider
             return;
         }
 
-        var allPerks = PerkHelper.GetAllMonsterPerks();
+        var allPerks = _monsterPerkCatalog.Perks;
 
         foreach (var perkSid in monsterPerks)
         {
