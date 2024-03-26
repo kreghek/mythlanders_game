@@ -1080,4 +1080,7 @@
   <data name="VanguardExtraHitPoints" xml:space="preserve">
     <value>Vanguard Extra Hit Points</value>
   </data>
+  <data name="ReduceEnemyShieldPoints" xml:space="preserve">
+    <value>Reduce enemy shield points</value><comment>Monster Perk</comment>
+  </data>
 </root>
