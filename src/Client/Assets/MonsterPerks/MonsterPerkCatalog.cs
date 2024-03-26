@@ -7,11 +7,11 @@ namespace Client.Assets.MonsterPerks;
 
 public class MonsterPerkCatalog
 {
-    public IReadOnlyCollection<MonsterPerk> Perks { get; private set; }
-
-    public void Init()
+    public MonsterPerkCatalog()
     {
         var factories = CatalogHelper.GetAllFactories<IMonsterPerkFactory>(typeof(IMonsterPerkFactory).Assembly);
         Perks = factories.Select(x => x.Create()).ToArray();
     }
+
+    public IReadOnlyCollection<MonsterPerk> Perks { get; }
 }

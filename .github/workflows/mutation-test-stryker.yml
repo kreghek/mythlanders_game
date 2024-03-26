@@ -2,11 +2,10 @@ name: Mutation Tests using Stryker.NET
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * *' # Nightly
   push:
     branches:
       - 'dev/**'
+      - main
 
 jobs:
 

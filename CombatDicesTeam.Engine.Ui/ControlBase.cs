@@ -5,13 +5,6 @@ namespace CombatDicesTeam.Engine.Ui;
 
 public abstract class ControlBase
 {
-    private readonly Texture2D _texture;
-
-    protected ControlBase(Texture2D texture)
-    {
-        _texture = texture;
-    }
-    
     public const int CONTENT_MARGIN = 4;
     private const int CORNER_SIZE = 15;
     private const int INNER_SIZE = (16 - CORNER_SIZE) * 2;
@@ -36,6 +29,13 @@ public abstract class ControlBase
             new(INNER_SIZE + CORNER_SIZE, INNER_SIZE + CORNER_SIZE, CORNER_SIZE, CORNER_SIZE)
         }
     };
+
+    private readonly Texture2D _texture;
+
+    protected ControlBase(Texture2D texture)
+    {
+        _texture = texture;
+    }
 
     public Rectangle Rect { get; set; }
 

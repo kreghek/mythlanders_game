@@ -21,36 +21,36 @@ internal class OldGoodBrawlFactory : SimpleCombatMovementFactoryBase
     public override CombatMovementIcon CombatMovementIcon => new(4, 4);
 
     /// <inheritdoc />
-    protected override CombatMovementCost GetCost()
-    {
-        return new CombatMovementCost(2);
-    }
-
-    /// <inheritdoc />
-    protected override CombatMovementTags GetTags()
-    {
-        return CombatMovementTags.Attack;
-    }
-
-    /// <inheritdoc />
     protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
     {
         yield return CombatMovementMetadataTraits.Melee;
     }
 
     /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(2);
+    }
+
+    /// <inheritdoc />
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(new IEffect[]
-                {
-                    new DamageEffectWrapper(
-                        new ClosestInLineTargetSelector(),
-                        DamageType.Normal,
-                        GenericRange<int>.CreateMono(2)),
-                    new PushToPositionEffect(
-                        new SelfTargetSelector(),
-                        ChangePositionEffectDirection.ToVanguard
-                    )
-                });
+        {
+            new DamageEffectWrapper(
+                new ClosestInLineTargetSelector(),
+                DamageType.Normal,
+                GenericRange<int>.CreateMono(2)),
+            new PushToPositionEffect(
+                new SelfTargetSelector(),
+                ChangePositionEffectDirection.ToVanguard
+            )
+        });
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
     }
 }

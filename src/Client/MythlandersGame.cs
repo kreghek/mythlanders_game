@@ -285,7 +285,6 @@ internal sealed class MythlandersGame : Game
         eventInitializer.Init();
 
         var monsterPerkCatalog = new MonsterPerkCatalog();
-        monsterPerkCatalog.Init();
         Services.AddService(monsterPerkCatalog);
         
         Services.AddService(

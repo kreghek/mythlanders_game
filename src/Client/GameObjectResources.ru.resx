@@ -667,7 +667,7 @@
     <comment>Combat movement Swordsman</comment>
   </data>
   <data name="LookOut_Description" xml:space="preserve">
-    <value>Увеличивает защиту ближайшего союзника в столбце на 3 до конца хода союзника. Сам мечник перемещается в авангард. При автосрабатывании, увеличивает свою защиту на 1ед.</value>
+    <value>Увеличивает защиту ближайшего союзника в столбце на &lt;defence&gt; до конца хода союзника. Сам мечник перемещается в авангард. При автосрабатывании, увеличивает свою защиту на &lt;auto_defence&gt;.</value>
     <comment>Combat movement Swordsman</comment>
   </data>
   <data name="LordOfNonHumanRealm" xml:space="preserve">
@@ -844,7 +844,7 @@
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="RiseYourSwords_Description" xml:space="preserve">
-    <value>Увеличивает урон атакующих движений ближнего боя на 1 ед. у всех союзников на 2 хода.</value>
+    <value>Увеличивает урон атакующих движений ближнего боя на &lt;damage_buff&gt; у всех союзников на &lt;duration&gt;.</value>
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="Robber" xml:space="preserve">
@@ -926,7 +926,7 @@
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="StayStrong_Description" xml:space="preserve">
-    <value>Увеличивает свою защиту на 3ед. до конца раунда. При авто-срабатывании, увеличивает свою защиту на 1ед. до конца раунда.</value>
+    <value>Увеличивает свою защиту на &lt;defence&gt; до конца раунда. При авто-срабатывании, увеличивает свою защиту на &lt;auto_defence&gt; до конца раунда.</value>
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="Stryga" xml:space="preserve">
@@ -997,12 +997,12 @@
     <value>Два плюс два будет пять...</value>
     <comment>Voice</comment>
   </data>
-  <data name="UndercutValues" xml:space="preserve">
-    <value>Подрезать ценности</value>
+  <data name="WeOnlyLiveOnce" xml:space="preserve">
+    <value>Где наше не пропадало?!</value>
     <comment>Combat Movement Robber</comment>
   </data>
-  <data name="UndercutValues_Description" xml:space="preserve">
-    <value>Наносит урон 1ед. ближайшему в линии противнику. Если это был самый сильный противник, то накладывает кровотечение на 2 раунда, наносящее урон 1ед. здоровью каждый раунд.</value>
+  <data name="WeOnlyLiveOnce_Description" xml:space="preserve">
+    <value>Наносит &lt;damage&gt; ближайшему в линии противнику. Если это был самый сильный противник, то накладывает кровотечение на &lt;duration&gt;, наносящее урон &lt;bleed_damage&gt; каждый раунд.</value>
     <comment>Combat Movement Robber</comment>
   </data>
   <data name="VampireBite" xml:space="preserve">

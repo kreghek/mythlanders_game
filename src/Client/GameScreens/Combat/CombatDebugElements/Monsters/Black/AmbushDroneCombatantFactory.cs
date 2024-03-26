@@ -8,6 +8,23 @@ namespace Client.GameScreens.Combat.CombatDebugElements.Monsters.Black;
 
 public class AmbushDroneCombatantFactory : MonsterCombatantFactoryBase
 {
+    protected override CombatantStatsConfig CombatantStatsConfig()
+    {
+        var stats = new CombatantStatsConfig();
+        stats.SetValue(CombatantStatTypes.HitPoints, 2);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 2);
+        stats.SetValue(CombatantStatTypes.Resolve, 4);
+
+        return stats;
+    }
+
+    protected override CombatMovementSequence CombatMovementSequence(int variationIndex)
+    {
+        var monsterSequence = CreateCombatMoveVariation(variationIndex);
+
+        return monsterSequence;
+    }
+
     private static CombatMovementSequence CreateCombatMoveVariation(int variationIndex)
     {
         var moveTemplate = new[,]
@@ -29,23 +46,6 @@ public class AmbushDroneCombatantFactory : MonsterCombatantFactoryBase
                 monsterSequence.Items.Add(combatMovement);
             }
         }
-
-        return monsterSequence;
-    }
-
-    protected override CombatantStatsConfig CombatantStatsConfig()
-    {
-        var stats = new CombatantStatsConfig();
-        stats.SetValue(CombatantStatTypes.HitPoints, 2);
-        stats.SetValue(CombatantStatTypes.ShieldPoints, 2);
-        stats.SetValue(CombatantStatTypes.Resolve, 4);
-
-        return stats;
-    }
-
-    protected override CombatMovementSequence CombatMovementSequence(int variationIndex)
-    {
-        var monsterSequence = CreateCombatMoveVariation(variationIndex);
 
         return monsterSequence;
     }
