@@ -6,13 +6,6 @@ on:
       - main
       - dev/**
       - feature/**
-  pull_request:
-    branches:
-      - 'release/**' # Run the workflow for pull requests to a release branch to control hotfixes
-      - 'demo/**'    # Run the workflow for pull requests to a demo branch to control hotfixes
-      - 'dev/**'     # Run the workflow for pull requests to a development branch
-      - 'feature/**' # Run the workflow for pull requests to a feature branch
-      - 'main'       # Run the workflow for pull requests to the main branch to control hotfixes
 
 env:
   MGFXC_WINE_PATH: /home/runner/.winemonogame
@@ -28,6 +21,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - run: git pull
 
       - name: Setup .NET 6
         uses: actions/setup-dotnet@v3
