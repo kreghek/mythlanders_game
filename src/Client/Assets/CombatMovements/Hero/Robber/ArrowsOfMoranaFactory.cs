@@ -109,12 +109,8 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
         {
             var targetRandomPosition = visualizationContext.Dice.RollPoint(targetArea);
             var arrowInteractionInfo = new InteractionDeliveryInfo(
-                new CombatEffectImposeItem(_ =>
-                {
-                    visualizationContext.GameObjectContentStorage
-                        .GetSkillUsageSound(GameObjectSoundType.ImpulseArrowBlasts)
-                        .CreateInstance().Play();
-                }, Array.Empty<MythlandersCombatant>()),
+                new CombatEffectImposeItem(_ => { },
+                    Array.Empty<MythlandersCombatant>()),
                 targetRandomPosition - arrowRainOffset,
                 targetRandomPosition);
 
@@ -158,6 +154,16 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
                     1f,
                     () => innerState.IsComplete)
             });
+    }
+
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0),
+                CombatMovementEffectDisplayValueTemplate.Damage)
+        };
     }
 
     private static InteractionDeliveryInfo[] CreateEmptyRainSourceInteraction(IActorAnimator actorAnimator)

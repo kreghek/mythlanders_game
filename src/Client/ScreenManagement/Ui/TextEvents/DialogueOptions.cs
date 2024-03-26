@@ -13,8 +13,8 @@ namespace Client.ScreenManagement.Ui.TextEvents;
 internal class DialogueOptions : ControlBase
 {
     private const int OPTION_BUTTON_MARGIN = 5;
-    
-    public DialogueOptions(): base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
+
+    public DialogueOptions() : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         Options = new List<DialogueOptionButton>();
     }

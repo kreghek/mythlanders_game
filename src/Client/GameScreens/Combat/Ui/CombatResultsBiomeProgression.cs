@@ -13,7 +13,8 @@ internal class CombatResultsBiomeProgression : ControlBase
     private readonly AnimatedCountableUnitItemStat _progression;
     private readonly SpriteFont _textFont;
 
-    public CombatResultsBiomeProgression(AnimatedCountableUnitItemStat progression) : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
+    public CombatResultsBiomeProgression(AnimatedCountableUnitItemStat progression) : base(
+        UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _textFont = UiThemeManager.UiContentStorage.GetMainFont();
         _progression = progression;
