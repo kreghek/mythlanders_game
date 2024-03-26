@@ -2,7 +2,7 @@
 
 namespace GameAssets.Combats.CombatantStatusLifetimes;
 
-public class TargetCombatantBoundCombatantStatusLifetime: ICombatantStatusLifetime
+public class TargetCombatantBoundCombatantStatusLifetime : ICombatantStatusLifetime
 {
     public TargetCombatantBoundCombatantStatusLifetime(ICombatant combatant)
     {
