@@ -108,7 +108,7 @@ internal sealed class TextParagraphControl<TParagraphConditionContext, TAftermat
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
     {
-        if (DialogueSpeakers.Env != _speaker)
+        if (!DialogueSpeakers.Env.Equals(_speaker))
         {
             DrawSpeakerDisplayName(spriteBatch, clientRect.Location.ToVector2());
         }
@@ -126,7 +126,7 @@ internal sealed class TextParagraphControl<TParagraphConditionContext, TAftermat
 
     private static string? GetSpeakerDisplayName(CharacterRelation characterRelation)
     {
-        if (characterRelation.Character == DialogueSpeakers.Env)
+        if (characterRelation.Character.Equals(DialogueSpeakers.Env))
         {
             return null;
         }
