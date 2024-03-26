@@ -32,16 +32,6 @@ namespace Client.Assets.CombatMovements.Hero.Partisan;
 internal class BlankShotFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
-    {
-        return new[]
-        {
-            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1), CombatMovementEffectDisplayValueTemplate.Damage),
-            new CombatMovementEffectDisplayValue("bonus_damage", 1, CombatMovementEffectDisplayValueTemplate.DamageModifier)
-        };
-    }
-
-    /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(3, 6);
 
     /// <inheritdoc />
@@ -112,6 +102,19 @@ internal class BlankShotFactory : CombatMovementFactoryBase
             visualizationContext,
             new SingleDistanceVisualizationConfig(prepareAnimation, additionalVisualEffectShotAnimation, waitAnimation,
                 projectileFactory, new AnimationFrameInfo(1)));
+    }
+
+    /// <inheritdoc />
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1),
+                CombatMovementEffectDisplayValueTemplate.Damage),
+            new CombatMovementEffectDisplayValue("bonus_damage", 1,
+                CombatMovementEffectDisplayValueTemplate.DamageModifier)
+        };
     }
 
     private static Func<Vector2, Vector2, IInteractionDelivery> GetCreateProjectileFunc(
