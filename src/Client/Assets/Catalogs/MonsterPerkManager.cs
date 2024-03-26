@@ -10,8 +10,8 @@ namespace Client.Assets.Catalogs;
 
 public sealed class MonsterPerkManager : IMonsterPerkManager
 {
-    private readonly IDice _dice;
     private readonly MonsterPerkCatalog _catalog;
+    private readonly IDice _dice;
 
     public MonsterPerkManager(IDice dice, MonsterPerkCatalog catalog)
     {
@@ -19,11 +19,6 @@ public sealed class MonsterPerkManager : IMonsterPerkManager
         _catalog = catalog;
     }
 
-    public IReadOnlyCollection<MonsterPerk> RollLocationPerks()
-    {
-        return new[] { RollMonsterPerk() };
-    }
-    
     private MonsterPerk RollMonsterPerk()
     {
         var availablePerkBuffs = _catalog.Perks.ToArray();
@@ -31,5 +26,10 @@ public sealed class MonsterPerkManager : IMonsterPerkManager
         var monsterPerk = _dice.RollFromList(availablePerkBuffs);
 
         return monsterPerk;
+    }
+
+    public IReadOnlyCollection<MonsterPerk> RollLocationPerks()
+    {
+        return new[] { RollMonsterPerk() };
     }
 }

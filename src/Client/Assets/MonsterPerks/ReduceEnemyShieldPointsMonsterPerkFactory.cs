@@ -19,10 +19,10 @@ public sealed class ReduceEnemyShieldPointsMonsterPerkFactory : MonsterPerkFacto
             new AuraCombatantStatus(new CombatantStatusSid(nameof(PerkName)),
                 new OwnerBoundCombatantEffectLifetime(),
                 source,
-                new CombatStatusFactory(source2 => 
+                owner => new CombatStatusFactory(source2 => 
                     new ModifyStatCombatantStatus(
                         new CombatantStatusSid(PerkName),
-                        new TargetCombatantsBoundCombatantStatusLifetime(),
+                        new TargetCombatantsBoundCombatantStatusLifetime(owner),
                         source2,
                         CombatantStatTypes.ShieldPoints,
                         1)),

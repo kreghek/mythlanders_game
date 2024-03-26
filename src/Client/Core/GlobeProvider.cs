@@ -18,10 +18,10 @@ namespace Client.Core;
 internal sealed class GlobeProvider
 {
     private const string SAVE_FILE_TEMPLATE = "save-{0}.json";
+    private readonly MonsterPerkCatalog _monsterPerkCatalog;
 
     private readonly string _storagePath;
     private readonly IStoryPointInitializer _storyPointInitializer;
-    private readonly MonsterPerkCatalog _monsterPerkCatalog;
     private readonly ICharacterCatalog _unitSchemeCatalog;
 
     private Globe? _globe;
@@ -283,8 +283,8 @@ internal sealed class GlobeProvider
 
     private void InitStartMonsterPerks(Globe globe)
     {
-        globe.Player.AddMonsterPerk(_monsterPerkCatalog.Perks.Single(x=>x.Sid == "ExtraHitPoints"));
-        globe.Player.AddMonsterPerk(_monsterPerkCatalog.Perks.Single(x=>x.Sid == "ExtraShieldPoints"));
+        globe.Player.AddMonsterPerk(_monsterPerkCatalog.Perks.Single(x => x.Sid == "ExtraHitPoints"));
+        globe.Player.AddMonsterPerk(_monsterPerkCatalog.Perks.Single(x => x.Sid == "ExtraShieldPoints"));
     }
 
     private static void InitStartStoryPoint(Globe globe, IStoryPointInitializer storyPointCatalog)

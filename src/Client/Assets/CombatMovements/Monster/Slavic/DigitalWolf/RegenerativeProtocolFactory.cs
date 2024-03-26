@@ -26,7 +26,7 @@ internal class RegenerativeProtocolFactory : CombatMovementFactoryBase
                 })
         );
     }
-    
+
     public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {

@@ -61,7 +61,7 @@ public class SynthAsParentTests
         eventCatalog.Init();
 
         var storyPointCatalog = new StoryPointCatalog(eventCatalog);
-        
+
         var monsterPerkCatalog = new MonsterPerkCatalog();
 
         var globeProvider = new GlobeProvider(unitSchemeCatalog,

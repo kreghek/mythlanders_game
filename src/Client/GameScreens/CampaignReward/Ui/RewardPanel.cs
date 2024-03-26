@@ -24,7 +24,8 @@ internal sealed class RewardPanel : ControlBase
         Texture2D panelHeaderTexture,
         SpriteFont labelFont,
         SpriteFont rewardNameFont,
-        IReadOnlyCollection<ICampaignRewardImageDrawer> rewardImageDrawers) : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
+        IReadOnlyCollection<ICampaignRewardImageDrawer> rewardImageDrawers) : base(UiThemeManager.UiContentStorage
+        .GetControlBackgroundTexture())
     {
         _rewards = rewards;
         _panelHeaderTexture = panelHeaderTexture;
