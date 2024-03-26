@@ -18,7 +18,7 @@ public sealed class VanguardExtraHitPointsMonsterPerkFactory : MonsterPerkFactor
             new AuraCombatantStatus(new CombatantStatusSid(nameof(PerkName)),
                 new OwnerBoundCombatantEffectLifetime(),
                 source,
-                owner => new CombatStatusFactory(source2 => 
+                owner => new CombatStatusFactory(source2 =>
                     new ModifyStatCombatantStatus(
                         new CombatantStatusSid(PerkName),
                         new TargetCombatantsBoundCombatantStatusLifetime(owner),

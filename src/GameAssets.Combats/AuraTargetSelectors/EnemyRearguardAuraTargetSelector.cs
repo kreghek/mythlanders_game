@@ -5,11 +5,6 @@ namespace GameAssets.Combats.AuraTargetSelectors;
 
 public sealed class EnemyRearguardAuraTargetSelector : IAuraTargetSelector
 {
-    private static IEnumerable<ICombatant> GetRearguardCombatant(CombatFieldSide side)
-    {
-        return GetIterator(side).ToArray();
-    }
-
     private static IEnumerable<ICombatant> GetIterator(CombatFieldSide side)
     {
         for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
@@ -22,6 +17,11 @@ public sealed class EnemyRearguardAuraTargetSelector : IAuraTargetSelector
         }
     }
 
+    private static IEnumerable<ICombatant> GetRearguardCombatant(CombatFieldSide side)
+    {
+        return GetIterator(side).ToArray();
+    }
+
     private static CombatFieldSide GetTargetSide(ICombatant target, CombatField field)
     {
         var heroes = field.HeroSide.GetAllCombatants();
@@ -29,10 +29,8 @@ public sealed class EnemyRearguardAuraTargetSelector : IAuraTargetSelector
         {
             return field.HeroSide;
         }
-        else
-        {
-            return field.MonsterSide;
-        }
+
+        return field.MonsterSide;
     }
 
     private static bool IsInRearguard(ICombatant testCombatant, IAuraTargetSelectorContext context)
