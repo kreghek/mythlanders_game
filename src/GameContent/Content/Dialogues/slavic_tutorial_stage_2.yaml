@@ -1,42 +1,16 @@
 ---
 root:
   paragraphs:
-    - text: 'Ратник встречается с партизаном.'
+    - text: 'Ратник видит двух человек, окруженных монстрами. Но эти бойцы и не думают сдаваться.'
+    - speaker: Swordsman
+      text: '"Странные они.", тихо говорит Беримир себе под нос.'
       env:
         - type: PlayEffect
-          data: ChineseCrowd
+          data: Battle
     - speaker: Partisan
-      text: '"Ну вот и свиделись." Мужик с сединой на висках и хищным взглядом протягивает руку.'
-  options:
-    - text: 'Ратник пожимает руку'
-      next: handshake_with_partisan_scene
-    - text: 'Игнорировать'
-      next: ignore_scene
-
-handshake_with_partisan_scene:
-  paragraphs:
-    - speaker: Swordsman
-      text: '"Так это ты был по рации?"'
-  options:
-    - text: 'Далее'
-      next: fight_scene
-      aftermaths:
-        - type: MeetHero
-          data: partisan
-
-ignore_scene:
-  paragraphs:
-    - text: 'Ратник глупо смотрит партизана.'
-    - speaker: Partisan
-      text: '"Так, значит, дядя?" Мужик явно не доволен манерами Беримира.'
-  options:
-    - text: 'Далее'
-      next: fight_scene
-      aftermaths:
-        - type: MeetHero
-          data: partisan
-
-fight_scene:
-  paragraphs:
-    - text: 'Воздух вокруг стал напряженным. Сейчас будет битва.'
-    - text: 'Раздался огушающий свист. Это засадные дроны!'
+      text: '"Эй, приятель, не смотри на меня, просто поддержи меня. Наша борьба еще не окончена!"'
+    - speaker: Robber
+      text: '"Знаете, в моих любимых сказках всегда присутствует хитрый разбойник. Однако, он не всегда покидает передряги с... неповрежденными крыльями. Может быть, в этот раз моя удача улыбнется мне. И я буду не только хитрым, но еще и беззаботным негодяем?"'
+  aftermaths:
+    - type: MeetHero
+      data: partisan
