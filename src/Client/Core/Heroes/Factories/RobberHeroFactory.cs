@@ -30,7 +30,7 @@ internal sealed class RobberHeroFactory : HeroFactoryBase
 
             CreateMovement<BalticThunderFactory>(),
 
-            CreateMovement<UndercutValuesFactory>(),
+            CreateMovement<WeOnlyLiveOnceFactory>(),
 
             CreateMovement<WingsOfVelesFactory>(),
 

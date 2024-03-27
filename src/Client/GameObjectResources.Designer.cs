@@ -1349,7 +1349,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Increases the Defense of the nearest ally in a column by 3 until the end of the ally&apos;s turn. The swordsman himself moves to the vanguard. When automatically triggered, increases your defense by 1..
+        ///   Looks up a localized string similar to Increases the Defense of the nearest ally in a column by &lt;defence&gt; until the end of the ally&apos;s turn. The swordsman himself moves to the vanguard. When automatically triggered, increases your defense by &lt;auto_defence&gt;..
         /// </summary>
         internal static string LookOut_Description {
             get {
@@ -1426,6 +1426,15 @@ namespace Client {
         internal static string Medjay {
             get {
                 return ResourceManager.GetString("Medjay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Melee.
+        /// </summary>
+        internal static string Melee {
+            get {
+                return ResourceManager.GetString("Melee", resourceCulture);
             }
         }
         
@@ -1637,6 +1646,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ranged.
+        /// </summary>
+        internal static string Ranged {
+            get {
+                return ResourceManager.GetString("Ranged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rapid shot.
         /// </summary>
         internal static string RapidShot {
@@ -1736,7 +1754,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Increases the damage of melee attack moves by 1 for all allies for 2 turns..
+        ///   Looks up a localized string similar to Increases the damage of melee attack moves by &lt;damage_buff&gt; for all allies for &lt;duration&gt;..
         /// </summary>
         internal static string RiseYourSwords_Description {
             get {
@@ -1925,7 +1943,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Increases your defense by 3 until the end of the round. When auto-triggered, it increases its defense by 1 until the next turn..
+        ///   Looks up a localized string similar to Increases your defense by &lt;defence&gt; until the end of the round. When auto-triggered, it increases its defense by &lt;auto_defence&gt; until the next turn..
         /// </summary>
         internal static string StayStrong_Description {
             get {
@@ -2087,24 +2105,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Undercut values.
-        /// </summary>
-        internal static string UndercutValues {
-            get {
-                return ResourceManager.GetString("UndercutValues", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Deals 1 damage to the closest enemy in the line. If it was the strongest enemy, it applies bleeding for 2 rounds, dealing damage to 1 health each round..
-        /// </summary>
-        internal static string UndercutValues_Description {
-            get {
-                return ResourceManager.GetString("UndercutValues_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Vampire bite.
         /// </summary>
         internal static string VampireBite {
@@ -2164,6 +2164,24 @@ namespace Client {
         internal static string WarriorEquipment {
             get {
                 return ResourceManager.GetString("WarriorEquipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We Live Only Once!.
+        /// </summary>
+        internal static string WeOnlyLiveOnce {
+            get {
+                return ResourceManager.GetString("WeOnlyLiveOnce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deals &lt;damage&gt; to the closest enemy in the line. If it was the strongest enemy, it applies bleeding for &lt;duration&gt;, dealing &lt;bleed_damage&gt; each round..
+        /// </summary>
+        internal static string WeOnlyLiveOnce_Description {
+            get {
+                return ResourceManager.GetString("WeOnlyLiveOnce_Description", resourceCulture);
             }
         }
         
