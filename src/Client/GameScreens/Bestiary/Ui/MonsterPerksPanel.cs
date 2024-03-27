@@ -14,13 +14,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Bestiary.Ui;
 
-public class MonsterPerksPanel: ControlBase
+public class MonsterPerksPanel : ControlBase
 {
+    private readonly VerticalStackPanel _content;
     private readonly IReadOnlyList<MonsterPerk> _monsterPerks;
 
-    private readonly VerticalStackPanel _content;
-
-    public MonsterPerksPanel(Texture2D controlTextures, SpriteFont perkNameFont, SpriteFont perkDescriptionFont, IEnumerable<MonsterPerk> monsterPerks) : base(controlTextures)
+    public MonsterPerksPanel(Texture2D controlTextures, SpriteFont perkNameFont, SpriteFont perkDescriptionFont,
+        IEnumerable<MonsterPerk> monsterPerks) : base(controlTextures)
     {
         _monsterPerks = monsterPerks.OrderBy(x => x.Sid).ToArray();
 
@@ -87,7 +87,7 @@ public class MonsterPerksPanel: ControlBase
         return ArraySegment<CombatMovementEffectDisplayValue>.Empty;
     }
 
-    private static string RenderDescriptionText(IReadOnlyList<CombatMovementEffectDisplayValue> values,
+    private static string RenderDescriptionText(IEnumerable<CombatMovementEffectDisplayValue> values,
         CombatMovementSid combatMovementSid)
     {
         var descriptionMarkupText =

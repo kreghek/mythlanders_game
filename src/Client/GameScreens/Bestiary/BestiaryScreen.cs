@@ -17,9 +17,9 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
     private readonly Player _player;
     private readonly IUiContentStorage _uiContentStorage;
     private readonly ICharacterCatalog _unitSchemeCatalog;
+    private MonsterPerksPanel _perksPanel = null!;
 
     private UnitScheme? _selectedMonster;
-    private MonsterPerksPanel _perksPanel = null!;
 
     public BestiaryScreen(MythlandersGame game)
         : base(game)
