@@ -1686,7 +1686,16 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void UpdateUsedCombatMovement(GameTime gameTime)
     {
-        _usedCombatMovementTitle?.Update(gameTime);
+        if (_usedCombatMovementTitle is null)
+        {
+            return;
+        }
+
+        _usedCombatMovementTitle.Update(gameTime);
+        if (_usedCombatMovementTitle.IsExpired)
+        {
+            _usedCombatMovementTitle = null;
+        }
     }
 
     private void UpdateCombatRoundLabel(GameTime gameTime)
