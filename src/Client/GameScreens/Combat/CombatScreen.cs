@@ -591,6 +591,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private const double COMBAT_MOVEMENT_TITLE_DURATION = 1.2;
     private double? _usedCombatMovementCounter;
     private CombatMovementInstance? _usedCombatMovementInstance;
+    private bool _usedCombatMovementSide;
     
     private void CombatCore_CombatantUsedMove(object? sender, CombatantHandChangedEventArgs e)
     {
@@ -601,6 +602,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _usedCombatMovementCounter = COMBAT_MOVEMENT_TITLE_DURATION;
         _usedCombatMovementInstance = e.Move;
+        _usedCombatMovementSide = e.Combatant.IsPlayerControlled;
     }
 
     private void CombatCore_CombatFinished(object? sender, CombatFinishedEventArgs e)
@@ -1261,6 +1263,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
 
         DrawCombatantEffectNotifications(spriteBatch, contentRectangle);
+        
         DrawUsedCombatMovementTitle(spriteBatch, contentRectangle);
 
         if (_combatRoundCounter is not null)
@@ -1289,15 +1292,22 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             return;
         }
+        
+        var titlesFont = _uiContentStorage.GetTitlesFont();
 
         var sourceMovementTitle = GameObjectHelper.GetLocalized(_usedCombatMovementInstance.SourceMovement.Sid);
+        var size = titlesFont.MeasureString(sourceMovementTitle);
 
         var t = 1 - _usedCombatMovementCounter.Value / COMBAT_MOVEMENT_TITLE_DURATION;
 
-        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), sourceMovementTitle,
-            new Vector2(contentRectangle.Left + ControlBase.CONTENT_MARGIN,
-                contentRectangle.Top + ControlBase.CONTENT_MARGIN),
-            Color.Lerp(Color.Transparent, MythlandersColors.MainSciFi, (float)Math.Cos(t * Math.PI * 0.5)));
+        var position = _usedCombatMovementSide ? new Vector2(contentRectangle.Left + ControlBase.CONTENT_MARGIN,
+            contentRectangle.Top + ControlBase.CONTENT_MARGIN):
+            new Vector2(contentRectangle.Right - ControlBase.CONTENT_MARGIN - size.X,
+                contentRectangle.Top + ControlBase.CONTENT_MARGIN);
+
+        var color = Color.Lerp(Color.Transparent, MythlandersColors.MainSciFi, (float)Math.Cos(t * Math.PI * 0.5));
+        
+        spriteBatch.DrawString(titlesFont, sourceMovementTitle, position, color);
     }
 
     private void DrawShieldPointsBar(SpriteBatch spriteBatch, IStatValue sp, Vector2 barCenter,
