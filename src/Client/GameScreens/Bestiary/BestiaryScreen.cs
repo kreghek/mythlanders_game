@@ -12,23 +12,22 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Bestiary;
 
-internal sealed record BestiaryScreenTransitionArgumanets(IReadOnlyList<HeroCampaignLaunch> AvailableCampaigns) : IScreenTransitionArguments;
-
 internal sealed class BestiaryScreen : GameScreenWithMenuBase
 {
     private readonly IList<ButtonBase> _monstersButtonList;
 
     private readonly Player _player;
+    private readonly IReadOnlyList<HeroCampaignLaunch> _availableLaunches;
     private readonly IUiContentStorage _uiContentStorage;
     private readonly ICharacterCatalog _unitSchemeCatalog;
     private MonsterPerksPanel _perksPanel = null!;
 
     private UnitScheme? _selectedMonster;
 
-    public BestiaryScreen(MythlandersGame game, BestiaryScreenTransitionArgumanets args)
+    public BestiaryScreen(MythlandersGame game, BestiaryScreenTransitionArguments args)
         : base(game)
     {
-        _availableCampaigns = args.availableCampaigns;
+        _availableLaunches = args.AvailableLaunches;
 
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();
 
@@ -45,7 +44,7 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
         backButton.OnClick += (_, _) =>
         {
-            ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter, new CommandCenterScreenTransitionArguments())
+            ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter, new CommandCenterScreenTransitionArguments(_availableLaunches));
         };
 
         return new ButtonBase[] { backButton };
