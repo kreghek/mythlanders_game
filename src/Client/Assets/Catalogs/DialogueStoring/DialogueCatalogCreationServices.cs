@@ -1,4 +1,4 @@
 namespace Client.Assets.Catalogs.DialogueStoring;
 
-internal sealed record DialogueCatalogCreationServices(IDialogueParagraphEffectCreator EnvEffectCreator,
+internal sealed record DialogueCatalogCreationServices(IDialogueParagraphEffectCreator ParagraphEffectCreator,
     IDialogueOptionAftermathCreator OptionAftermathCreator);

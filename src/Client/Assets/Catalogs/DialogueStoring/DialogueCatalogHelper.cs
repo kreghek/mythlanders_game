@@ -30,7 +30,7 @@ internal static class DialogueCatalogHelper
             {
                 var dialogueDtoParagraph = dtoScene.Paragraphs[paragraphIndex];
 
-                var environmentEffects = CreateEnvironmentEffects(dialogueDtoParagraph.Env, services.EnvEffectCreator);
+                var environmentEffects = CreateEnvironmentEffects(dialogueDtoParagraph.Env, services.ParagraphEffectCreator);
 
                 if (dialogueDtoParagraph.Text is not null)
                 {
