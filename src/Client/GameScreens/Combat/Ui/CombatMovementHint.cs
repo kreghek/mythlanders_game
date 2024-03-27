@@ -132,14 +132,20 @@ internal class CombatMovementHint : HintBase
                 UiResource.CombatMovementEffectValueType_Damage_Template,
             CombatMovementEffectDisplayValueTemplate.DamageModifier =>
                 UiResource.CombatMovementEffectValueType_DamageModifer_Template,
+            CombatMovementEffectDisplayValueTemplate.TurnDuration =>
+                UiResource.CombatMovementEffectValueType_TurnDuration_Template,
             CombatMovementEffectDisplayValueTemplate.RoundDuration =>
                 UiResource.CombatMovementEffectValueType_RoundDuration_Template,
+            CombatMovementEffectDisplayValueTemplate.HitPointsDamage =>
+                UiResource.CombatMovementEffectValueType_HitPointsDamage_Template,
             CombatMovementEffectDisplayValueTemplate.ResolveDamage =>
                 UiResource.CombatMovementEffectValueType_ResolveDamage_Template,
             CombatMovementEffectDisplayValueTemplate.HitPoints =>
                 UiResource.CombatMovementEffectValueType_HitPoints_Template,
             CombatMovementEffectDisplayValueTemplate.ShieldPoints =>
                 UiResource.CombatMovementEffectValueType_ShieldPoints_Template,
+            CombatMovementEffectDisplayValueTemplate.Defence =>
+                UiResource.CombatMovementEffectValueType_Defence_Template,
             _ => "<{0}> units"
         };
     }
