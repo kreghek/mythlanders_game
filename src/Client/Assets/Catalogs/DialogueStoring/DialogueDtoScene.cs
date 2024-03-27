@@ -6,6 +6,4 @@ internal class DialogueDtoScene
 {
     public DialogueDtoOption[]? Options { get; [UsedImplicitly] init; }
     public DialogueDtoParagraph[]? Paragraphs { get; [UsedImplicitly] init; }
-    
-    public DialogueDtoData[]? Aftermaths { get; [UsedImplicitly] init; }
 }

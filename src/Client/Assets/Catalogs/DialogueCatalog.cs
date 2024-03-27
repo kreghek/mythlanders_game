@@ -23,12 +23,13 @@ internal class DialogueCatalog : IEventCatalog, IEventInitializer
     private bool _isInitialized;
 
     public DialogueCatalog(IDialogueResourceProvider resourceProvider,
-        IDialogueOptionAftermathCreator optionAftermathCreator)
+        IDialogueOptionAftermathCreator optionAftermathCreator,
+        IDialogueEnvironmentEffectCreator environmentEffectCreator)
     {
         _resourceProvider = resourceProvider;
         _optionAftermathCreator = optionAftermathCreator;
 
-        _envCommandCreator = new DialogueEnvironmentEffectCreator();
+        _envCommandCreator = environmentEffectCreator;
 
         _isInitialized = false;
         Events = Array.Empty<DialogueEvent>();

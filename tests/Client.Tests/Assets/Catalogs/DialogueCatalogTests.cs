@@ -36,8 +36,9 @@ public class DialogueCatalogTests
         var resourceProvider = resourceProviderMock.Object;
 
         var aftermathCreator = Mock.Of<IDialogueOptionAftermathCreator>();
+        var envCreator = Mock.Of<IDialogueEnvironmentEffectCreator>();
 
-        var catalog = new DialogueCatalog(resourceProvider, aftermathCreator);
+        var catalog = new DialogueCatalog(resourceProvider, aftermathCreator, envCreator);
         catalog.Init();
 
         // ACT
@@ -64,8 +65,9 @@ public class DialogueCatalogTests
         var resourceProvider = resourceProviderMock.Object;
 
         var aftermathCreator = Mock.Of<IDialogueOptionAftermathCreator>();
+        var envCreator = Mock.Of<IDialogueEnvironmentEffectCreator>();
 
-        var catalog = new DialogueCatalog(resourceProvider, aftermathCreator);
+        var catalog = new DialogueCatalog(resourceProvider, aftermathCreator, envCreator);
         catalog.Init();
 
         // ACT
@@ -90,10 +92,10 @@ public class DialogueCatalogTests
         var content = new ContentManager(serviceProvider, "Content");
         var provider = new DialogueResourceProvider(content);
 
-        var aftermathCreator =
-            new DialogueOptionAftermathCreator(new LinearDice());
+        var aftermathCreator = new DialogueOptionAftermathCreator(new LinearDice());
+        var envCreator = Mock.Of<IDialogueEnvironmentEffectCreator>();
 
-        var catalog = new DialogueCatalog(provider, aftermathCreator);
+        var catalog = new DialogueCatalog(provider, aftermathCreator, envCreator);
 
         // ACT
 

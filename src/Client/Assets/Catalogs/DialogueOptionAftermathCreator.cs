@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.Catalogs.DialogueStoring;
@@ -10,7 +11,7 @@ using CombatDicesTeam.Dices;
 
 namespace Client.Assets.Catalogs;
 
-internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathCreator
+internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathCreator, IDialogueEnvironmentEffectCreator
 {
     private readonly IDice _dice;
 
@@ -21,54 +22,37 @@ internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathC
 
     public IDialogueOptionAftermath<CampaignAftermathContext> Create(string typeSid, string data)
     {
-        IDialogueOptionAftermath<CampaignAftermathContext>? aftermath = null;
-
-        if (typeSid == "MeetHero")
+        switch (typeSid)
         {
-            var heroName = data;
-            aftermath = new AddHeroOptionAftermath(heroName);
+            case "PlayEffect":
+                return new PlayEffectDialogueOptionAftermath(data, data);
+            case "PlayMusic":
+                return new PlaySongDialogueOptionAftermath(data);
+            case "MeetHero":
+                return new AddHeroOptionAftermath(data);
+            case "ActivateStoryPoint":
+                return new ActivateStoryPointOptionAftermath(data);
+            case "Trigger":
+                return new ActivateStoryPointOptionAftermath(data);
+            case "UnlockLocation":
+                return new UnlockLocationOptionAftermath(CatalogHelper
+                    .GetAllFromStaticCatalog<ILocationSid>(typeof(LocationSids)).Single(x => x.ToString() == data));
+            case "SetRelationsToKnown":
+                return new ChangeCharacterRelationsOptionAftermath(Enum.Parse<UnitName>(data),
+                    CharacterKnowledgeLevel.FullName);
+            
+            case "DamageSingleRandomHero":
+                return new DamageSingleRandomOptionAftermath(_dice);
+            case "DamageAllHeroes":
+                return new DamageAllHeroesOptionAftermath();
+            
+            case "AddResources":
+                return AddResourceOptionAftermath.CreateFromData(data);
+            case "RemoveResources":
+                return RemoveResourceOptionAftermath.CreateFromData(data);
+            
+            default:
+                throw new InvalidOperationException($"Type {typeSid} is unknown.");
         }
-        else if (typeSid == "ActivateStoryPoint")
-        {
-            var spId = data;
-            aftermath = new ActivateStoryPointOptionAftermath(spId);
-        }
-        else if (typeSid == "UnlockLocation")
-        {
-            //var sid = data;
-            //var locationId = Enum.Parse<LocationSids>(sid);
-            //aftermath = new UnlockLocationOptionAftermath(locationId);
-        }
-        else if (typeSid == "Trigger")
-        {
-            var trigger = data;
-            aftermath = new DialogueEventTriggerOptionAftermath(trigger);
-        }
-        else if (typeSid == "SetRelationsToKnown")
-        {
-            var unitName = data;
-            aftermath = new ChangeCharacterRelationsOptionAftermath(Enum.Parse<UnitName>(unitName),
-                CharacterKnowledgeLevel.FullName);
-        }
-        else if (typeSid == "DamageSingleRandomHero")
-        {
-            aftermath = new DamageSingleRandomOptionAftermath(_dice);
-        }
-        else if (typeSid == "DamageAllHeroes")
-        {
-            aftermath = new DamageAllHeroesOptionAftermath();
-        }
-        else if (typeSid == "AddResources")
-        {
-            var args = data.Split(' ');
-            aftermath = new AddResourceOptionAftermath(args[0], int.Parse(args[1]));
-        }
-
-        if (aftermath is null)
-        {
-            throw new InvalidOperationException($"Type {typeSid} is unknown.");
-        }
-
-        return aftermath;
     }
 }
