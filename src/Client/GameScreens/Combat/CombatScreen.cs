@@ -588,10 +588,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _animationBlockManager.RegisterBlocker(new DelayBlocker(new Duration(2)));
     }
 
-    private const double COMBAT_MOVEMENT_TITLE_DURATION = 1.2;
-    private double? _usedCombatMovementCounter;
-    private CombatMovementInstance? _usedCombatMovementInstance;
-    private bool _usedCombatMovementSide;
+    private UsedCombatMovementTitle? _usedCombatMovementTitle;
     
     private void CombatCore_CombatantUsedMove(object? sender, CombatantHandChangedEventArgs e)
     {
@@ -600,9 +597,8 @@ internal class CombatScreen : GameScreenWithMenuBase
             _combatMovementsHandPanel?.StartMovementBurning(e.HandSlotIndex);
         }
 
-        _usedCombatMovementCounter = COMBAT_MOVEMENT_TITLE_DURATION;
-        _usedCombatMovementInstance = e.Move;
-        _usedCombatMovementSide = e.Combatant.IsPlayerControlled;
+        _usedCombatMovementTitle = new UsedCombatMovementTitle(_uiContentStorage.GetTitlesFont(),
+            e.Move.SourceMovement.Sid, e.Combatant.IsPlayerControlled);
     }
 
     private void CombatCore_CombatFinished(object? sender, CombatFinishedEventArgs e)
@@ -1288,26 +1284,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     
     private void DrawUsedCombatMovementTitle(SpriteBatch spriteBatch, Rectangle contentRectangle)
     {
-        if (_usedCombatMovementCounter is null || _usedCombatMovementInstance is null)
-        {
-            return;
-        }
-        
-        var titlesFont = _uiContentStorage.GetTitlesFont();
-
-        var sourceMovementTitle = GameObjectHelper.GetLocalized(_usedCombatMovementInstance.SourceMovement.Sid);
-        var size = titlesFont.MeasureString(sourceMovementTitle);
-
-        var t = 1 - _usedCombatMovementCounter.Value / COMBAT_MOVEMENT_TITLE_DURATION;
-
-        var position = _usedCombatMovementSide ? new Vector2(contentRectangle.Left + ControlBase.CONTENT_MARGIN,
-            contentRectangle.Top + ControlBase.CONTENT_MARGIN):
-            new Vector2(contentRectangle.Right - ControlBase.CONTENT_MARGIN - size.X,
-                contentRectangle.Top + ControlBase.CONTENT_MARGIN);
-
-        var color = Color.Lerp(Color.Transparent, MythlandersColors.MainSciFi, (float)Math.Cos(t * Math.PI * 0.5));
-        
-        spriteBatch.DrawString(titlesFont, sourceMovementTitle, position, color);
+        _usedCombatMovementTitle?.Draw(spriteBatch, contentRectangle);
     }
 
     private void DrawShieldPointsBar(SpriteBatch spriteBatch, IStatValue sp, Vector2 barCenter,
@@ -1709,18 +1686,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void UpdateUsedCombatMovement(GameTime gameTime)
     {
-        if (_usedCombatMovementCounter is not null)
-        {
-            if (_usedCombatMovementCounter > 0)
-            {
-                _usedCombatMovementCounter -= gameTime.ElapsedGameTime.TotalSeconds;
-            }
-            else
-            {
-                _usedCombatMovementCounter = null;
-                _usedCombatMovementInstance = null;
-            }
-        }
+        _usedCombatMovementTitle?.Update(gameTime);
     }
 
     private void UpdateCombatRoundLabel(GameTime gameTime)
