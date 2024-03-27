@@ -153,7 +153,7 @@ internal static class DialogueCatalogHelper
 
     private static IReadOnlyCollection<IDialogueOptionAftermath<CampaignAftermathContext>> CreateEnvironmentEffects(
         DialogueDtoData[]? envs,
-        IDialogueEnvironmentEffectCreator environmentEffectCreator)
+        IDialogueParagraphEffectCreator environmentEffectCreator)
     {
         if (envs is null)
         {

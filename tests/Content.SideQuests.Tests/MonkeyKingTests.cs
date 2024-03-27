@@ -44,7 +44,7 @@ public class MonkeyKingTests
         var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
 
         var eventCatalog = new DialogueCatalog(new LocalDialogueResourceProvider(),
-            new DialogueOptionAftermathCreator(dice), new DialogueOptionAftermathCreator(dice));
+            new DialogueAftermathCreator(dice), new DialogueAftermathCreator(dice));
         eventCatalog.Init();
 
         var storyPointCatalog = new StoryPointCatalog(eventCatalog);

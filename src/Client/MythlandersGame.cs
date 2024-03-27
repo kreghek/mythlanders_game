@@ -222,7 +222,7 @@ internal sealed class MythlandersGame : Game
             Services.AddService<ICharacterCatalog>(unitSchemeCatalog);
 
             var dialogueAftermathCreator =
-                new DialogueOptionAftermathCreator(Services.GetRequiredService<IDice>());
+                new DialogueAftermathCreator(Services.GetRequiredService<IDice>());
 
             var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider, dialogueAftermathCreator, dialogueAftermathCreator);
             Services.AddService<IEventInitializer>(dialogueCatalog);
@@ -238,7 +238,7 @@ internal sealed class MythlandersGame : Game
             Services.AddService<ICharacterCatalog>(unitSchemeCatalog);
 
             var dialogueAftermathCreator =
-                new DialogueOptionAftermathCreator(Services.GetRequiredService<IDice>());
+                new DialogueAftermathCreator(Services.GetRequiredService<IDice>());
 
             var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider,
                 dialogueAftermathCreator,

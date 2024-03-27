@@ -16,7 +16,7 @@ namespace Client.Assets.Catalogs;
 
 internal class DialogueCatalog : IEventCatalog, IEventInitializer
 {
-    private readonly IDialogueEnvironmentEffectCreator _envCommandCreator;
+    private readonly IDialogueParagraphEffectCreator _envCommandCreator;
     private readonly IDialogueOptionAftermathCreator _optionAftermathCreator;
     private readonly IDialogueResourceProvider _resourceProvider;
 
@@ -24,7 +24,7 @@ internal class DialogueCatalog : IEventCatalog, IEventInitializer
 
     public DialogueCatalog(IDialogueResourceProvider resourceProvider,
         IDialogueOptionAftermathCreator optionAftermathCreator,
-        IDialogueEnvironmentEffectCreator environmentEffectCreator)
+        IDialogueParagraphEffectCreator environmentEffectCreator)
     {
         _resourceProvider = resourceProvider;
         _optionAftermathCreator = optionAftermathCreator;
