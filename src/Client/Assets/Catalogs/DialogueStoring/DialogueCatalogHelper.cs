@@ -41,12 +41,12 @@ internal static class DialogueCatalogHelper
                             Aftermaths = environmentEffects
                         };
 
-                    var speach = new DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext>(
+                    var speech = new DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext>(
                         GetSpeaker(dialogueDtoParagraph.Speaker),
                         $"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}",
                         paragraphContext);
 
-                    speeches.Add(speach);
+                    speeches.Add(speech);
                 }
                 else if (dialogueDtoParagraph.Reactions is not null)
                 {
