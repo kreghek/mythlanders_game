@@ -14,9 +14,9 @@ using GameAssets.Combats.CombatMovementEffects;
 
 namespace Client.Assets.CombatMovements.Hero.Robber;
 
-internal class UndercutValuesFactory : SimpleCombatMovementFactoryBase
+internal class WeOnlyLiveOnceFactory : SimpleCombatMovementFactoryBase
 {
-    public override CombatMovementIcon CombatMovementIcon => new(2, 7);
+    public override CombatMovementIcon CombatMovementIcon => new(4, 7);
 
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
@@ -78,5 +78,14 @@ internal class UndercutValuesFactory : SimpleCombatMovementFactoryBase
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.Attack;
+    }
+
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
+    {
+        return new[] { 
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectDisplayValueTemplate.Damage),
+            new CombatMovementEffectDisplayValue("duration", 3, CombatMovementEffectDisplayValueTemplate.RoundDuration),
+            new CombatMovementEffectDisplayValue("bleed_damage", 1, CombatMovementEffectDisplayValueTemplate.HitPointsDamage),
+        };
     }
 }
