@@ -29,21 +29,45 @@ public class MonsterPerksPanel : ControlBase
         _content = new VerticalStackPanel(controlTextures, ControlTextures.Transparent, perkUiElements);
     }
 
+    protected override Point CalcTextureOffset()
+    {
+        return ControlTextures.Transparent;
+    }
+
+    protected override Color CalculateColor()
+    {
+        return Color.White;
+    }
+
+    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
+    {
+        _content.Rect = contentRect;
+        _content.Draw(spriteBatch);
+    }
+
+    private static string CalcMonsterPerkDescription(MonsterPerk monsterPerk)
+    {
+        var perkDisplayValues = ExtractCombatMovementValues(monsterPerk);
+
+        var perkSid = monsterPerk.Sid;
+        var perkDescription =
+            RenderDescriptionText(perkDisplayValues, perkSid);
+        return perkDescription;
+    }
+
     private List<ControlBase> CreatePerkUiElements(Texture2D controlTextures, SpriteFont perkNameFont,
         SpriteFont perkDescriptionFont)
     {
         var perkUiElements = new List<ControlBase>();
         foreach (var monsterPerk in _monsterPerks)
         {
-            
-            
             var perkNameText = new Text(controlTextures,
                 ControlTextures.Transparent,
                 perkNameFont,
                 _ => Color.White,
                 () => GameObjectHelper.GetLocalized(monsterPerk.Sid)
             );
-            
+
             var perkDescriptionText = new RichText(controlTextures,
                 ControlTextures.Transparent,
                 perkDescriptionFont,
@@ -51,11 +75,12 @@ public class MonsterPerksPanel : ControlBase
                 () => CalcMonsterPerkDescription(monsterPerk)
             );
 
-            var perkRightElement = new VerticalStackPanel(controlTextures, ControlTextures.Transparent, new ControlBase[]
-            {
-                perkNameText,
-                perkDescriptionText
-            });
+            var perkRightElement = new VerticalStackPanel(controlTextures, ControlTextures.Transparent,
+                new ControlBase[]
+                {
+                    perkNameText,
+                    perkDescriptionText
+                });
 
             var iconLeftImage = new Image(controlTextures, new Rectangle(0, 0, 64, 64), controlTextures,
                 ControlTextures.Transparent);
@@ -71,44 +96,12 @@ public class MonsterPerksPanel : ControlBase
 
         return perkUiElements;
     }
-    
-    private static string CalcMonsterPerkDescription(MonsterPerk monsterPerk)
-    {
-        var perkDisplayValues = ExtractCombatMovementValues(monsterPerk);
-
-        var perkSid = monsterPerk.Sid;
-        var perkDescription =
-            RenderDescriptionText(perkDisplayValues, perkSid);
-        return perkDescription;
-    }
 
     private static IReadOnlyList<CombatMovementEffectDisplayValue> ExtractCombatMovementValues(MonsterPerk monsterPerk)
     {
         return ArraySegment<CombatMovementEffectDisplayValue>.Empty;
     }
 
-    private static string RenderDescriptionText(IEnumerable<CombatMovementEffectDisplayValue> values,
-        CombatMovementSid combatMovementSid)
-    {
-        var descriptionMarkupText =
-            StringHelper.LineBreaking(GameObjectHelper.GetLocalizedDescription(combatMovementSid), 60);
-
-        foreach (var value in values)
-        {
-            var valueText = GetValueText(value);
-            var styledValueText = $"<style=color1>{valueText}</style>";
-            descriptionMarkupText = descriptionMarkupText.Replace($"<{value.Tag}>", styledValueText);
-        }
-
-        return descriptionMarkupText;
-    }
-    
-    private static string GetValueText(CombatMovementEffectDisplayValue value)
-    {
-        var template = GetValueTemplate(value.Template);
-        return string.Format(template, value.Value);
-    }
-    
     private static string GetValueTemplate(CombatMovementEffectDisplayValueTemplate valueType)
     {
         return valueType switch
@@ -135,13 +128,25 @@ public class MonsterPerksPanel : ControlBase
         };
     }
 
-    protected override Point CalcTextureOffset() => ControlTextures.Transparent;
-
-    protected override Color CalculateColor() => Color.White;
-
-    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
+    private static string GetValueText(CombatMovementEffectDisplayValue value)
     {
-        _content.Rect = contentRect;
-        _content.Draw(spriteBatch);
+        var template = GetValueTemplate(value.Template);
+        return string.Format(template, value.Value);
+    }
+
+    private static string RenderDescriptionText(IEnumerable<CombatMovementEffectDisplayValue> values,
+        CombatMovementSid combatMovementSid)
+    {
+        var descriptionMarkupText =
+            StringHelper.LineBreaking(GameObjectHelper.GetLocalizedDescription(combatMovementSid), 60);
+
+        foreach (var value in values)
+        {
+            var valueText = GetValueText(value);
+            var styledValueText = $"<style=color1>{valueText}</style>";
+            descriptionMarkupText = descriptionMarkupText.Replace($"<{value.Tag}>", styledValueText);
+        }
+
+        return descriptionMarkupText;
     }
 }
