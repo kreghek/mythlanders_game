@@ -28,7 +28,7 @@ internal sealed class DialogueAftermathCreator : IDialogueOptionAftermathCreator
             "PlayMusic" => new PlaySongDialogueOptionAftermath(data),
             "MeetHero" => new AddHeroOptionAftermath(data),
             "ActivateStoryPoint" => new ActivateStoryPointOptionAftermath(data),
-            "Trigger" => new ActivateStoryPointOptionAftermath(data),
+            "Trigger" => new DialogueEventTriggerOptionAftermath(data),
             "UnlockLocation" => new UnlockLocationOptionAftermath(CatalogHelper
                 .GetAllFromStaticCatalog<ILocationSid>(typeof(LocationSids))
                 .Single(x => x.ToString() == data)),
