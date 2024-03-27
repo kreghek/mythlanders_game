@@ -49,6 +49,7 @@ public enum UnitName
     SwampWomanFish, // болотная русалка
     Drekava, // Дрекавак
     DigitalWolf,
+    DigitalHort,
     CorruptedBear,
     Volkolak,
     Dead, // Умертивие
