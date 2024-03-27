@@ -13,6 +13,16 @@ namespace Client.Assets.CombatMovements.Monster.Slavic.Aspid;
 
 internal class EyesOfChaosFactory : SimpleCombatMovementFactoryBase
 {
+    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1),
+                CombatMovementEffectDisplayValueTemplate.Damage)
+        };
+    }
+
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(
@@ -33,12 +43,5 @@ internal class EyesOfChaosFactory : SimpleCombatMovementFactoryBase
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.Attack;
-    }
-    
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
-    {
-        return new[] { 
-            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1), CombatMovementEffectDisplayValueTemplate.Damage)
-        };
     }
 }

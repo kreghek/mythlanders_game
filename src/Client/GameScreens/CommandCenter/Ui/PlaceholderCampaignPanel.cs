@@ -12,7 +12,8 @@ internal sealed class PlaceholderCampaignPanel : ControlBase, ICampaignPanel
 {
     private readonly Texture2D _placeholderTexture;
 
-    public PlaceholderCampaignPanel(Texture2D placeholderTexture) : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
+    public PlaceholderCampaignPanel(Texture2D placeholderTexture) : base(UiThemeManager.UiContentStorage
+        .GetControlBackgroundTexture())
     {
         _placeholderTexture = placeholderTexture;
     }

@@ -7,12 +7,12 @@ public static class TextParser
     public static IReadOnlyList<RichTextCommand> ParseText(string inputText)
     {
         // Parsing of the tags to change text color.
-        string pattern = "(<style=(?:.*?)>(?:[\\s\\S]*?)<\\/style>)";
-        string[] splitText = Regex.Split(inputText, pattern);
+        var pattern = "(<style=(?:.*?)>(?:[\\s\\S]*?)<\\/style>)";
+        var splitText = Regex.Split(inputText, pattern);
 
         var list = new List<RichTextCommand>();
-        
-        foreach (string part in splitText)
+
+        foreach (var part in splitText)
         {
             if (string.IsNullOrWhiteSpace(part))
             {
@@ -21,13 +21,13 @@ public static class TextParser
 
             if (Regex.IsMatch(part, pattern))
             {
-                string pattern2 = "<style=(.*?)>([\\s\\S]*?)<\\/style>";
-                Match match = Regex.Match(part, pattern2);
-                string styleDescription = match.Groups[1].Value;
+                var pattern2 = "<style=(.*?)>([\\s\\S]*?)<\\/style>";
+                var match = Regex.Match(part, pattern2);
+                var styleDescription = match.Groups[1].Value;
 
                 var style = ParseStyle(styleDescription);
-                
-                string content = match.Groups[2].Value;
+
+                var content = match.Groups[2].Value;
                 list.Add(new RichTextCommand(content, style));
             }
             else
