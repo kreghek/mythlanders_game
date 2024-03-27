@@ -25,7 +25,6 @@ using Client.ScreenManagement;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dices;
-using CombatDicesTeam.Engine.Ui;
 
 using Core.Combats.BotBehaviour;
 using Core.PropDrop;
@@ -110,6 +109,8 @@ internal class CombatScreen : GameScreenWithMenuBase
     private SoundEffect _shieldBreakingSound = null!;
     private TextureRegion2D _shieldParticleTexture = null!;
     private SoundEffect _shieldSound = null!;
+
+    private UsedCombatMovementTitle? _usedCombatMovementTitle;
 
     public CombatScreen(MythlandersGame game, CombatScreenTransitionArguments args) : base(game)
     {
@@ -588,8 +589,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         _animationBlockManager.RegisterBlocker(new DelayBlocker(new Duration(2)));
     }
 
-    private UsedCombatMovementTitle? _usedCombatMovementTitle;
-    
     private void CombatCore_CombatantUsedMove(object? sender, CombatantHandChangedEventArgs e)
     {
         if (e.Combatant.IsPlayerControlled)
@@ -1229,7 +1228,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: _mainCamera.GetViewTransformationMatrix());
-        
+
         if (!_combatCore.StateStrategy
                 .CalculateCurrentState(new CombatStateStrategyContext(_combatCore.CurrentCombatants,
                     _combatCore.CurrentRoundNumber)).IsFinalState
@@ -1259,7 +1258,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
 
         DrawCombatantEffectNotifications(spriteBatch, contentRectangle);
-        
+
         DrawUsedCombatMovementTitle(spriteBatch, contentRectangle);
 
         if (_combatRoundCounter is not null)
@@ -1278,13 +1277,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
 
         spriteBatch.End();
-    }
-
-    
-    
-    private void DrawUsedCombatMovementTitle(SpriteBatch spriteBatch, Rectangle contentRectangle)
-    {
-        _usedCombatMovementTitle?.Draw(spriteBatch, contentRectangle);
     }
 
     private void DrawShieldPointsBar(SpriteBatch spriteBatch, IStatValue sp, Vector2 barCenter,
@@ -1338,6 +1330,12 @@ internal class CombatScreen : GameScreenWithMenuBase
             DrawShieldPointsBar(spriteBatch, sp, statsPanelOrigin, ARC_LENGTH, SIDES, RADIUS_SP + 2, START_ANGLE,
                 BAR_WIDTH);
         }
+    }
+
+
+    private void DrawUsedCombatMovementTitle(SpriteBatch spriteBatch, Rectangle contentRectangle)
+    {
+        _usedCombatMovementTitle?.Draw(spriteBatch, contentRectangle);
     }
 
     private void DropSelection(ICombatant combatant)
@@ -1684,20 +1682,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         UpdateUsedCombatMovement(gameTime);
     }
 
-    private void UpdateUsedCombatMovement(GameTime gameTime)
-    {
-        if (_usedCombatMovementTitle is null)
-        {
-            return;
-        }
-
-        _usedCombatMovementTitle.Update(gameTime);
-        if (_usedCombatMovementTitle.IsExpired)
-        {
-            _usedCombatMovementTitle = null;
-        }
-    }
-
     private void UpdateCombatRoundLabel(GameTime gameTime)
     {
         if (_combatRoundCounter is null)
@@ -1725,6 +1709,20 @@ internal class CombatScreen : GameScreenWithMenuBase
             {
                 bullet.Update(gameTime);
             }
+        }
+    }
+
+    private void UpdateUsedCombatMovement(GameTime gameTime)
+    {
+        if (_usedCombatMovementTitle is null)
+        {
+            return;
+        }
+
+        _usedCombatMovementTitle.Update(gameTime);
+        if (_usedCombatMovementTitle.IsExpired)
+        {
+            _usedCombatMovementTitle = null;
         }
     }
 

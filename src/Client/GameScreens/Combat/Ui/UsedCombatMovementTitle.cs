@@ -11,9 +11,9 @@ namespace Client.GameScreens.Combat.Ui;
 public class UsedCombatMovementTitle
 {
     private const double COMBAT_MOVEMENT_TITLE_DURATION_SECONDS = 1.2;
+    private readonly CombatMovementSid _combatMovementSid;
 
     private readonly SpriteFont _font;
-    private readonly CombatMovementSid _combatMovementSid;
     private readonly bool _isHeroSide;
 
     private double _usedCombatMovementCounterSeconds;
@@ -27,13 +27,15 @@ public class UsedCombatMovementTitle
         _usedCombatMovementCounterSeconds = COMBAT_MOVEMENT_TITLE_DURATION_SECONDS;
     }
 
+    public bool IsExpired { get; private set; }
+
     public void Draw(SpriteBatch spriteBatch, Rectangle contentRectangle)
     {
         if (IsExpired)
         {
             return;
         }
-        
+
         var sourceMovementTitle = GameObjectHelper.GetLocalized(_combatMovementSid);
         var size = _font.MeasureString(sourceMovementTitle);
 
@@ -56,7 +58,7 @@ public class UsedCombatMovementTitle
         {
             return;
         }
-        
+
         if (_usedCombatMovementCounterSeconds > 0)
         {
             _usedCombatMovementCounterSeconds -= gameTime.ElapsedGameTime.TotalSeconds;
@@ -65,8 +67,5 @@ public class UsedCombatMovementTitle
         {
             IsExpired = true;
         }
-
     }
-
-    public bool IsExpired { get; private set; }
 }
