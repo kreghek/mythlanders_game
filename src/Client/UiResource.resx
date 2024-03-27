@@ -232,15 +232,29 @@
   <data name="CombatMovementCost_Combat_LabelTemplate" xml:space="preserve">
     <value>Resolve cost: {0}/{1}</value>
   </data>
+  <data name="CombatMovementCost_Info_LabelTemplate" xml:space="preserve">
+    <value>Resolve cost: {0}</value>
+  </data>
   <data name="CombatMovementEffectValueType_DamageModifer_Template" xml:space="preserve">
     <value>damage on {0}</value>
   </data>
   <data name="CombatMovementEffectValueType_Damage_Template" xml:space="preserve">
     <value>{0} damage</value>
   </data>
+  <data name="CombatMovementEffectValueType_HitPointsDamage_Template" xml:space="preserve">
+    <value>{0} damage to hit points</value>
+  </data>
+  <data name="CombatMovementEffectValueType_HitPoints_Template" xml:space="preserve">
+    <value>{0} hp</value>
+  </data>
+  <data name="CombatMovementEffectValueType_ResolveDamage_Template" xml:space="preserve">
+    <value>{0} resolve damage</value>
+  </data>
   <data name="CombatMovementEffectValueType_RoundDuration_Template" xml:space="preserve">
     <value>{0} round(s)</value>
-    <comment>1</comment>
+  </data>
+  <data name="CombatMovementEffectValueType_ShieldPoints_Template" xml:space="preserve">
+    <value>{0} shields</value>
   </data>
   <data name="CombatProgressTemplate" xml:space="preserve">
     <value>Combat progress: {0}/{1}</value>
@@ -608,16 +622,10 @@ This hero can no longer act in the current battle.</value>
   <data name="_AllChars" xml:space="preserve">
     <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
   </data>
-  <data name="CombatMovementCost_Info_LabelTemplate" xml:space="preserve">
-    <value>Resolve cost: {0}</value>
+  <data name="CombatMovementEffectValueType_TurnDuration_Template" xml:space="preserve">
+    <value>{0} turns</value>
   </data>
-  <data name="CombatMovementEffectValueType_ResolveDamage_Template" xml:space="preserve">
-    <value>{0} resolve damage</value>
-  </data>
-  <data name="CombatMovementEffectValueType_HitPoints_Template" xml:space="preserve">
-    <value>{0} hp</value>
-  </data>
-  <data name="CombatMovementEffectValueType_ShieldPoints_Template" xml:space="preserve">
-    <value>{0} shields</value>
+  <data name="CombatMovementEffectValueType_Defence_Template" xml:space="preserve">
+    <value>{0} defence</value>
   </data>
 </root>
