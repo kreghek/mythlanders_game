@@ -92,6 +92,7 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
         InitializeMonsterButtons();
 
         _perksPanel = new MonsterPerksPanel(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
+            Game.Content.Load<Texture2D>("Sprites/GameObjects/MonsterPerkIcons"),
             UiThemeManager.UiContentStorage.GetTitlesFont(), UiThemeManager.UiContentStorage.GetMainFont(),
             _player.MonsterPerks);
     }

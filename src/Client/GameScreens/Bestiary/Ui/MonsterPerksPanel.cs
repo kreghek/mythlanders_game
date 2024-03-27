@@ -18,10 +18,13 @@ public class MonsterPerksPanel : ControlBase
 {
     private readonly VerticalStackPanel _content;
     private readonly IReadOnlyList<MonsterPerk> _monsterPerks;
+    private readonly Texture2D _monsterPerkIconsTexture;
 
-    public MonsterPerksPanel(Texture2D controlTextures, SpriteFont perkNameFont, SpriteFont perkDescriptionFont,
+    public MonsterPerksPanel(Texture2D controlTextures, Texture2D monsterPerkIconsTexture, SpriteFont perkNameFont, SpriteFont perkDescriptionFont,
         IEnumerable<MonsterPerk> monsterPerks) : base(controlTextures)
     {
+        _monsterPerkIconsTexture = monsterPerkIconsTexture;
+
         _monsterPerks = monsterPerks.OrderBy(x => x.Sid).ToArray();
 
         var perkUiElements = CreatePerkUiElements(controlTextures, perkNameFont, perkDescriptionFont);
@@ -65,7 +68,7 @@ public class MonsterPerksPanel : ControlBase
                 ControlTextures.Transparent,
                 perkNameFont,
                 _ => Color.White,
-                () => GameObjectHelper.GetLocalized(monsterPerk.Sid)
+                () => GameObjectHelper.GetLocalizedMonsterPerk(monsterPerk.Sid)
             );
 
             var perkDescriptionText = new RichText(controlTextures,
@@ -82,7 +85,7 @@ public class MonsterPerksPanel : ControlBase
                     perkDescriptionText
                 });
 
-            var iconLeftImage = new Image(controlTextures, new Rectangle(0, 0, 64, 64), controlTextures,
+            var iconLeftImage = new Image(_monsterPerkIconsTexture, new Rectangle(0, 0, 64, 64), controlTextures,
                 ControlTextures.Transparent);
 
             var perkElement = new HorizontalStackPanel(controlTextures, ControlTextures.Transparent,

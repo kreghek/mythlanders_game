@@ -1062,7 +1062,7 @@
     <value>Zduhach Might</value>
     <comment>Skill</comment>
   </data>
-  <data name="ExtraXp" xml:space="preserve">
+  <data name="ExtraHp" xml:space="preserve">
     <value>Extra HP</value>
   </data>
   <data name="ExtraSp" xml:space="preserve">

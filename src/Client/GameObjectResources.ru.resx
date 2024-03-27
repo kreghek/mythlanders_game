@@ -1079,7 +1079,7 @@
     <value>Мощь великого Здухача</value>
     <comment>Skill</comment>
   </data>
-  <data name="ExtraXp" xml:space="preserve">
+  <data name="ExtraHp" xml:space="preserve">
     <value>Экстра ХП</value>
   </data>
   <data name="ExtraSp" xml:space="preserve">
