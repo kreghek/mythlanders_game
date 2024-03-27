@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using Client.Core;
@@ -12,19 +11,35 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Bestiary.Ui;
 
-public class MonsterPerksPanel: ControlBase
+public class MonsterPerksPanel : ControlBase
 {
+    private readonly VerticalStackPanel _content;
     private readonly IReadOnlyList<MonsterPerk> _monsterPerks;
 
-    private readonly VerticalStackPanel _content;
-
-    public MonsterPerksPanel(Texture2D controlTextures, SpriteFont perkNameFont, SpriteFont perkDescriptionFont, IEnumerable<MonsterPerk> monsterPerks) : base(controlTextures)
+    public MonsterPerksPanel(Texture2D controlTextures, SpriteFont perkNameFont, SpriteFont perkDescriptionFont,
+        IEnumerable<MonsterPerk> monsterPerks) : base(controlTextures)
     {
         _monsterPerks = monsterPerks.OrderBy(x => x.Sid).ToArray();
 
         var perkUiElements = CreatePerkUiElements(controlTextures: controlTextures, perkNameFont: perkNameFont);
 
         _content = new VerticalStackPanel(controlTextures, ControlTextures.Transparent, perkUiElements);
+    }
+
+    protected override Point CalcTextureOffset()
+    {
+        return ControlTextures.Transparent;
+    }
+
+    protected override Color CalculateColor()
+    {
+        return Color.White;
+    }
+
+    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
+    {
+        _content.Rect = contentRect;
+        _content.Draw(spriteBatch);
     }
 
     private List<ControlBase> CreatePerkUiElements(Texture2D controlTextures, SpriteFont perkNameFont)
@@ -43,15 +58,5 @@ public class MonsterPerksPanel: ControlBase
         }
 
         return perkUiElements;
-    }
-
-    protected override Point CalcTextureOffset() => ControlTextures.Transparent;
-
-    protected override Color CalculateColor() => Color.White;
-
-    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
-    {
-        _content.Rect = contentRect;
-        _content.Draw(spriteBatch);
     }
 }
