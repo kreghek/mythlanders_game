@@ -15,7 +15,10 @@ public sealed class LastBreathMonsterPerkFactory : MonsterPerkFactoryBase
     {
         return new CombatStatusFactory(source =>
             new LastBreathCombatantStatus(new CombatantStatusSid(nameof(PerkName)),
-                new OwnerBoundCombatantEffectLifetime(),
+                new UntilCombatantEffectMeetPredicatesLifetime(new[]
+                {
+                    new OwnerStatBelow()
+                }),
                 source,
                 1,
                 2));

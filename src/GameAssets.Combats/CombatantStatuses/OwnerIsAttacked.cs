@@ -11,3 +11,12 @@ public sealed class OwnerIsAttacked : ICombatMovePredicate
         return false;
     }
 }
+
+public sealed class OwnerStatBelow : ICombatMovePredicate
+{
+    public bool Check(CombatMovementInstance combatMove)
+    {
+        //TODO Implement
+        return false;
+    }
+}
