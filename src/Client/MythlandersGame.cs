@@ -302,7 +302,8 @@ internal sealed class MythlandersGame : Game
         Services.AddService(campaignWayTemplateCatalog);
 
         var monsterPerkManager = new MonsterPerkManager(Services.GetRequiredService<IDice>(),
-            Services.GetRequiredService<MonsterPerkCatalog>());
+            Services.GetRequiredService<MonsterPerkCatalog>(),
+            Services.GetRequiredService<GlobeProvider>());
         Services.AddService<IMonsterPerkManager>(monsterPerkManager);
 
         var campaignGenerator = new CampaignGenerator(
