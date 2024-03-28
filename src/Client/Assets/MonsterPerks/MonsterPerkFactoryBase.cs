@@ -1,4 +1,7 @@
-﻿using Client.Core;
+﻿using System;
+using System.Collections.Generic;
+
+using Client.Core;
 
 using CombatDicesTeam.Combats.CombatantStatuses;
 
@@ -13,6 +16,17 @@ public abstract class MonsterPerkFactoryBase : IMonsterPerkFactory
 
     public MonsterPerk Create()
     {
-        return new MonsterPerk(CreateStatus(), PerkName);
+        return new MonsterPerk(CreateStatus(), PerkName)
+        {
+            Predicates = CreatePredicates(),
+            IsUnique = IsUnique
+        };
     }
+
+    protected virtual IReadOnlyCollection<IMonsterPerkPredicate> CreatePredicates()
+    {
+        return ArraySegment<IMonsterPerkPredicate>.Empty;
+    }
+
+    protected virtual bool IsUnique => false;
 }

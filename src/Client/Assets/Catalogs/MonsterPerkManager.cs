@@ -8,22 +8,25 @@ using CombatDicesTeam.Dices;
 
 namespace Client.Assets.Catalogs;
 
-public sealed class MonsterPerkManager : IMonsterPerkManager
+internal sealed class MonsterPerkManager : IMonsterPerkManager
 {
     private readonly MonsterPerkCatalog _catalog;
+    private readonly Player _player;
     private readonly IDice _dice;
 
-    public MonsterPerkManager(IDice dice, MonsterPerkCatalog catalog)
+    public MonsterPerkManager(IDice dice, MonsterPerkCatalog catalog, Player player)
     {
         _dice = dice;
         _catalog = catalog;
+        _player = player;
     }
 
     private MonsterPerk RollMonsterPerk()
     {
-        var availablePerkBuffs = _catalog.Perks.ToArray();
+        var availableMonsterPerks = _catalog.Perks.ToArray();
+        var filterUniquePerks = availableMonsterPerks.Except(_player.MonsterPerks).ToArray();
 
-        var monsterPerk = _dice.RollFromList(availablePerkBuffs);
+        var monsterPerk = _dice.RollFromList(filterUniquePerks);
 
         return monsterPerk;
     }

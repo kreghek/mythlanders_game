@@ -88,24 +88,28 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         return context.CurrentWay.Select(x => x.Payload).ToArray();
     }
 
-    private static IReadOnlyCollection<ICombatantStatusFactory> RollPerks(
-        IReadOnlyCollection<MonsterPerk> availablePerkBuffs,
+    private static IReadOnlyCollection<ICombatantStatusFactory> RollPerks(MonsterCombatantPrefab monsterCombatantPrefab,
+        IReadOnlyCollection<MonsterPerk> availableMonsterPerks,
         IDice dice)
     {
-        var count = dice.Roll(0, availablePerkBuffs.Count);
+        var filteredPerks = availableMonsterPerks
+            .Where(x => x.Predicates.All(p => p.IsApplicableTo(monsterCombatantPrefab))).ToArray();
+        
+        var count = dice.Roll(0, filteredPerks.Length);
 
-        if (count < 0)
+        switch (count)
         {
-            throw new InvalidOperationException("Rolled perk count can't be below zero.");
+            case < 0:
+                throw new InvalidOperationException("Rolled perk count can't be below zero.");
+            case 0:
+                return ArraySegment<ICombatantStatusFactory>.Empty;
+            default:
+                {
+                    var monsterPerk = dice.RollFromList(filteredPerks.ToArray(), count).ToArray();
+        
+                    return monsterPerk.Select(x => x.Status).ToArray();
+                }
         }
-
-        if (count == 0)
-        {
-            return ArraySegment<ICombatantStatusFactory>.Empty;
-        }
-
-        var monsterPerk = dice.RollFromList(availablePerkBuffs.ToArray(), count).ToArray();
-        return monsterPerk.Select(x => x.Status).ToArray();
     }
 
     /// <inheritdoc />
@@ -125,7 +129,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         var combat = new CombatSource(
             monsterCombatantTemplate.Prefabs
                 .Select(x =>
-                    new PerkMonsterCombatantPrefab(x, RollPerks(_globeProvider.Globe.Player.MonsterPerks, _dice)))
+                    new PerkMonsterCombatantPrefab(x, RollPerks(x, _globeProvider.Globe.Player.MonsterPerks, _dice)))
                 .ToArray(),
             new CombatReward(totalDropTables.ToArray())
         );
