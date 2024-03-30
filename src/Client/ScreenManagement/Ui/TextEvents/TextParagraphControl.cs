@@ -21,7 +21,6 @@ namespace Client.ScreenManagement.Ui.TextEvents;
 
 internal sealed class TextParagraphControl : ControlBase
 {
-    private const int DISPLAY_NAME_HEIGHT = 32;
     private readonly CampaignAftermathContext _aftermathContext;
 
     private readonly SpriteFont _displayNameFont;
@@ -32,7 +31,7 @@ internal sealed class TextParagraphControl : ControlBase
     private readonly IDialogueSpeaker _speaker;
     private readonly Vector2 _speakerDisplayNameSize;
 
-    private bool _envCommandsExecuted;
+    private bool _decorativeAftermathsAreExecuted;
 
     public TextParagraphControl(DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext> eventTextParagraph,
         SoundEffect textSoundEffect, IDice dice, CampaignAftermathContext aftermathContext, IStoryState storyState) :
@@ -73,9 +72,9 @@ internal sealed class TextParagraphControl : ControlBase
 
     public void Update(GameTime gameTime)
     {
-        if (!_envCommandsExecuted)
+        if (!_decorativeAftermathsAreExecuted)
         {
-            _envCommandsExecuted = true;
+            _decorativeAftermathsAreExecuted = true;
 
             foreach (var aftermath in _paragraphAftermaths)
             {
