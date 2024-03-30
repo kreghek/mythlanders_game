@@ -41,7 +41,7 @@ internal class ScenarioCampaigns
                 {
                     new CombatSource(new[]
                     {
-                        new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("AmbushDrone", 0, new FieldCoords(0, 1)), ArraySegment<ICombatantStatusFactory>.Empty)
+                        new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("DigitalWolf", 0, new FieldCoords(0, 1)), ArraySegment<ICombatantStatusFactory>.Empty)
                     }, new CombatReward(Array.Empty<IDropTableScheme>()))
                 }
             };
