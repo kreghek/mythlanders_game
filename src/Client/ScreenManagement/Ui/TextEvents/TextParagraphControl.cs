@@ -25,7 +25,7 @@ internal sealed class TextParagraphControl : ControlBase
     private readonly CampaignAftermathContext _aftermathContext;
 
     private readonly SpriteFont _displayNameFont;
-    private readonly IReadOnlyCollection<IDialogueOptionAftermath<CampaignAftermathContext>> _envCommands;
+    private readonly IReadOnlyCollection<IDialogueOptionAftermath<CampaignAftermathContext>> _paragraphAftermaths;
     private readonly string? _localizedSpeakerName;
     private readonly TextParagraphMessageControl _message;
     private readonly Vector2 _messageSize;
@@ -47,8 +47,8 @@ internal sealed class TextParagraphControl : ControlBase
 
         _localizedSpeakerName = GetSpeakerDisplayName(speakerState);
         _message = new TextParagraphMessageControl(eventTextParagraph, textSoundEffect, dice,
-            DialogueSpeakers.Env != _speaker);
-        _envCommands = eventTextParagraph.Aftermaths.Where(x => x is IDecorativeEnvironmentAftermath).ToArray();
+            !DialogueSpeakers.Env.Equals(_speaker));
+        _paragraphAftermaths = eventTextParagraph.Aftermaths.Where(x => x is IDecorativeEnvironmentAftermath).ToArray();
 
         _messageSize = _message.CalculateSize();
         _speakerDisplayNameSize = _localizedSpeakerName is not null
@@ -77,9 +77,9 @@ internal sealed class TextParagraphControl : ControlBase
         {
             _envCommandsExecuted = true;
 
-            foreach (var envCommand in _envCommands)
+            foreach (var aftermath in _paragraphAftermaths)
             {
-                envCommand.Apply(_aftermathContext);
+                aftermath.Apply(_aftermathContext);
             }
         }
 
@@ -104,7 +104,7 @@ internal sealed class TextParagraphControl : ControlBase
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
     {
-        if (DialogueSpeakers.Env.Equals(_speaker))
+        if (!DialogueSpeakers.Env.Equals(_speaker))
         {
             DrawSpeakerDisplayName(spriteBatch, clientRect.Location.ToVector2());
         }
