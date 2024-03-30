@@ -122,7 +122,7 @@ internal sealed class TextParagraphControl : ControlBase
 
     private static string? GetSpeakerDisplayName(CharacterRelation characterRelation)
     {
-        if (characterRelation.Character == DialogueSpeakers.Env)
+        if (characterRelation.Character.Equals(DialogueSpeakers.Env))
         {
             return null;
         }
