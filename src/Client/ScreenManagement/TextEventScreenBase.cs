@@ -201,6 +201,7 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
     {
         _textParagraphControls.Clear();
         _currentFragmentIndex = 0;
+
         foreach (var textFragment in _dialoguePlayer.CurrentTextFragments)
         {
             var speaker = ConvertSpeakerToUnitName(textFragment.Speaker);
