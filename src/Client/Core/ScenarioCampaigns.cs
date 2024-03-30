@@ -7,10 +7,14 @@ using Client.Core.CampaignEffects;
 using Client.Core.Campaigns;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Graphs;
 
 using Core.PropDrop;
+
+using GameAssets.Combats;
+using GameAssets.Combats.CombatantStatuses;
 
 namespace Client.Core;
 
@@ -35,25 +39,46 @@ internal class ScenarioCampaigns
             var node1 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem("slavic_tutorial", locationSid, _eventCatalog));
             graph.AddNode(node1);
 
-            var combatSequence = new CombatSequence
+            var combatSequenceT1 = new CombatSequence
             {
                 Combats = new[]
                 {
                     new CombatSource(new[]
                     {
-                        new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("AmbushDrone", 0, new FieldCoords(0, 1)), ArraySegment<ICombatantStatusFactory>.Empty)
+                        new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("DigitalWolf", 0, new FieldCoords(0, 1)), new []{
+
+                            new CombatStatusFactory(source =>new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(new CombatantStatusSid("Wound"), new OwnerBoundCombatantEffectLifetime(), source, CombatantStatTypes.HitPoints, -4)))
+
+
+                        })
                     }, new CombatReward(Array.Empty<IDropTableScheme>()))
                 }
             };
 
-            var node2 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequence));
+            var node2 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT1));
             graph.AddNode(node2);
 
             var node3 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem("slavic_tutorial", locationSid, _eventCatalog));
             graph.AddNode(node3);
 
+            var combatSequenceT2 = new CombatSequence
+            {
+                Combats = new[]
+                {
+                    new CombatSource(new[]
+                    {
+                        new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("DigitalWolf", 0, new FieldCoords(0, 0)), Array.Empty<ICombatantStatusFactory>()),
+                        new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("Aspid", 0, new FieldCoords(0, 1)), Array.Empty<ICombatantStatusFactory>())
+                    }, new CombatReward(Array.Empty<IDropTableScheme>()))
+                }
+            };
+
+            var node4 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT2));
+            graph.AddNode(node3);
+
             graph.ConnectNodes(node1, node2);
             graph.ConnectNodes(node2, node3);
+            graph.ConnectNodes(node3, node4);
 
             return new HeroCampaign(new[]
                 {

@@ -16,7 +16,7 @@ internal static class DialogueCatalogHelper
         IDictionary<string, DialogueDtoScene> scenesDtoDict,
         DialogueCatalogCreationServices services)
     {
-        var nodeListDicts =
+        var nodeListDictionaries =
             new List<(string nodeSid, DialogueNode<ParagraphConditionContext, CampaignAftermathContext> node,
                 List<DialogueOption<ParagraphConditionContext, CampaignAftermathContext>> optionsList, DialogueDtoOption
                 []?
@@ -24,13 +24,18 @@ internal static class DialogueCatalogHelper
 
         foreach (var (sceneSid, dtoScene) in scenesDtoDict)
         {
+            if (dtoScene.Paragraphs is null)
+            {
+                continue;
+            }
+
             var speeches = new List<DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext>>();
 
             for (var paragraphIndex = 0; paragraphIndex < dtoScene.Paragraphs.Length; paragraphIndex++)
             {
                 var dialogueDtoParagraph = dtoScene.Paragraphs[paragraphIndex];
 
-                var environmentEffects = CreateEnvironmentEffects(dialogueDtoParagraph.Env, services.EnvEffectCreator);
+                var environmentEffects = CreateParagraphEffects(dialogueDtoParagraph.Env, services.ParagraphEffectCreator);
 
                 if (dialogueDtoParagraph.Text is not null)
                 {
@@ -41,12 +46,12 @@ internal static class DialogueCatalogHelper
                             Aftermaths = environmentEffects
                         };
 
-                    var speach = new DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext>(
+                    var speech = new DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext>(
                         GetSpeaker(dialogueDtoParagraph.Speaker),
                         $"{dialogueSid}_Scene_{sceneSid}_Paragraph_{paragraphIndex}",
                         paragraphContext);
 
-                    speeches.Add(speach);
+                    speeches.Add(speech);
                 }
                 else if (dialogueDtoParagraph.Reactions is not null)
                 {
@@ -80,11 +85,11 @@ internal static class DialogueCatalogHelper
                 new DialogueParagraph<ParagraphConditionContext, CampaignAftermathContext>(speeches),
                 options);
 
-            nodeListDicts.Add((sceneSid, dialogNode, options, dtoScene.Options));
+            nodeListDictionaries.Add((sceneSid, dialogNode, options, dtoScene.Options));
         }
 
         // Linking scenes via player's options
-        foreach (var (nodeSid, _, optionsList, optionsDto) in nodeListDicts)
+        foreach (var (nodeSid, _, optionsList, optionsDto) in nodeListDictionaries)
         {
             if (optionsDto is not null)
             {
@@ -96,7 +101,7 @@ internal static class DialogueCatalogHelper
                     DialogueOption<ParagraphConditionContext, CampaignAftermathContext> dialogueOption;
                     if (dialogueDtoOption.Next is not null)
                     {
-                        var next = nodeListDicts.Single(x => x.nodeSid == dialogueDtoOption.Next).node;
+                        var next = nodeListDictionaries.Single(x => x.nodeSid == dialogueDtoOption.Next).node;
                         dialogueOption =
                             new DialogueOption<ParagraphConditionContext, CampaignAftermathContext>(
                                 $"{dialogueSid}_Scene_{nodeSid}_Option_{optionIndex}", next)
@@ -126,7 +131,7 @@ internal static class DialogueCatalogHelper
             }
         }
 
-        return new Dialogue<ParagraphConditionContext, CampaignAftermathContext>(nodeListDicts
+        return new Dialogue<ParagraphConditionContext, CampaignAftermathContext>(nodeListDictionaries
             .Single(x => x.nodeSid == "root")
             .node);
     }
@@ -140,35 +145,21 @@ internal static class DialogueCatalogHelper
             return null;
         }
 
-        var list = new List<IDialogueOptionAftermath<CampaignAftermathContext>>();
-
-        foreach (var aftermathDto in aftermathDtos)
-        {
-            var aftermath = aftermathCreator.Create(aftermathDto.Type, aftermathDto.Data);
-            list.Add(aftermath);
-        }
+        var list = aftermathDtos.Select(aftermathDto => aftermathCreator.Create(aftermathDto.Type, aftermathDto.Data)).ToList();
 
         return new CompositeOptionAftermath(list);
     }
 
-    private static IReadOnlyCollection<IDialogueOptionAftermath<CampaignAftermathContext>> CreateEnvironmentEffects(
-        DialogueDtoData[]? envs,
-        IDialogueEnvironmentEffectCreator environmentEffectCreator)
+    private static IReadOnlyCollection<IDialogueOptionAftermath<CampaignAftermathContext>> CreateParagraphEffects(
+        DialogueDtoData[]? paragraphEffects,
+        IDialogueParagraphEffectCreator paragraphEffectCreator)
     {
-        if (envs is null)
+        if (paragraphEffects is null)
         {
             return Array.Empty<IDialogueOptionAftermath<CampaignAftermathContext>>();
         }
 
-        var list = new List<IDialogueOptionAftermath<CampaignAftermathContext>>();
-
-        foreach (var envDto in envs)
-        {
-            var envEffect = environmentEffectCreator.Create(envDto.Type, envDto.Data);
-            list.Add(envEffect);
-        }
-
-        return list;
+        return paragraphEffects.Select(envDto => paragraphEffectCreator.Create(envDto.Type, envDto.Data)).ToList();
     }
 
     private static IDialogueSpeaker GetSpeaker(string? dtoSpeaker)

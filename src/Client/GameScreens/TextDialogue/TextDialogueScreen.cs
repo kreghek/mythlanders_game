@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Client.Assets;
 using Client.Assets.Catalogs.Dialogues;
@@ -27,6 +28,7 @@ internal class TextDialogueScreen : TextEventScreenBase
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly ILocationSid _globeLocation;
     private readonly Player _player;
+    private readonly GlobeProvider _globeProvider;
     private readonly Random _random;
     private readonly IUiContentStorage _uiContentStorage;
 
@@ -38,6 +40,7 @@ internal class TextDialogueScreen : TextEventScreenBase
         _random = new Random();
 
         var globeProvider = game.Services.GetService<GlobeProvider>();
+
         var globe = globeProvider.Globe ?? throw new InvalidOperationException();
         _player = globe.Player ?? throw new InvalidOperationException();
 
@@ -60,6 +63,8 @@ internal class TextDialogueScreen : TextEventScreenBase
         var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
 
         soundtrackManager.PlaySilence();
+
+        _globeProvider = globeProvider;
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -100,6 +105,9 @@ internal class TextDialogueScreen : TextEventScreenBase
 
     private void CheckTutorial()
     {
+        if (!_globeProvider.Globe.Progression.HasEntry("TutorialComplete"))
+        { return; }
+
         if (_player.HasAbility(PlayerAbility.SkipTutorials))
         {
             return;
