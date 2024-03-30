@@ -7,10 +7,14 @@ using Client.Core.CampaignEffects;
 using Client.Core.Campaigns;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Graphs;
 
 using Core.PropDrop;
+
+using GameAssets.Combats;
+using GameAssets.Combats.CombatantStatuses;
 
 namespace Client.Core;
 
@@ -41,7 +45,12 @@ internal class ScenarioCampaigns
                 {
                     new CombatSource(new[]
                     {
-                        new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("DigitalWolf", 0, new FieldCoords(0, 1)), ArraySegment<ICombatantStatusFactory>.Empty)
+                        new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("DigitalWolf", 0, new FieldCoords(0, 1)), new []{
+
+                            new CombatStatusFactory(source =>new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(new CombatantStatusSid("Wound"), new OwnerBoundCombatantEffectLifetime(), source, CombatantStatTypes.HitPoints, -4)))
+
+
+                        })
                     }, new CombatReward(Array.Empty<IDropTableScheme>()))
                 }
             };
