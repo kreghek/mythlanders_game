@@ -23,9 +23,10 @@ internal sealed class ContinueGameModal : ModalDialogBase
     private readonly IList<ButtonBase> _continueGameButtons;
     private readonly IDialogueResourceProvider _dialogueResourceProvider;
     private readonly GlobeProvider _globeProvider;
+    private readonly IScreenManager _screenManager;
     private readonly IList<ButtonBase> _pageButtons;
     private readonly IScreen _screen;
-
+    private readonly ICampaignGenerator _campaignGenerator;
     private int _pageIndex;
 
     public ContinueGameModal(IUiContentStorage uiContentStorage,
@@ -38,7 +39,9 @@ internal sealed class ContinueGameModal : ModalDialogBase
         _pageButtons = new List<ButtonBase>();
 
         _globeProvider = globeProvider;
+        _screenManager = screenManager;
         _screen = screen;
+        _campaignGenerator = campaignGenerator;
         _coordinator = coordinator;
 
         _dialogueResourceProvider = dialogueResourceProvider;

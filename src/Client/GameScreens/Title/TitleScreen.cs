@@ -47,6 +47,7 @@ internal sealed class TitleScreen : GameScreenBase
     private readonly ICamera2DAdapter _camera;
     private readonly IDice _dice;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
+    private readonly ICampaignGenerator _campaignGenerator;
     private readonly StateCoordinator _coordinator;
     private readonly GameSettings _gameSettings;
 
@@ -77,6 +78,7 @@ internal sealed class TitleScreen : GameScreenBase
 
         _uiContentStorage = game.Services.GetRequiredService<IUiContentStorage>();
         _gameObjectContentStorage = game.Services.GetRequiredService<GameObjectContentStorage>();
+        _campaignGenerator = game.Services.GetRequiredService<ICampaignGenerator>();
 
         _coordinator = game.Services.GetRequiredService<StateCoordinator>();
 
@@ -249,7 +251,7 @@ internal sealed class TitleScreen : GameScreenBase
         loadGameButton.OnClick += (_, _) =>
         {
             var continueDialog = new ContinueGameModal(_uiContentStorage, _resolutionIndependentRenderer,
-                _globeProvider, ScreenManager, this, _coordinator, _campaignGenerator, _resourceProvider);
+                _globeProvider, ScreenManager, this, _campaignGenerator, _coordinator, _resourceProvider);
             AddModal(continueDialog, isLate: true);
             continueDialog.Show();
         };

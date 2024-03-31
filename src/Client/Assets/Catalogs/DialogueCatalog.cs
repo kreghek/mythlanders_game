@@ -16,15 +16,15 @@ namespace Client.Assets.Catalogs;
 
 internal class DialogueCatalog : IEventCatalog, IEventInitializer
 {
-    private readonly IDialogueParagraphEffectCreator _envCommandCreator;
-    private readonly IDialogueOptionAftermathCreator _optionAftermathCreator;
+    private readonly IDialogueParagraphEffectCreator<CampaignAftermathContext> _envCommandCreator;
+    private readonly IDialogueOptionAftermathCreator<CampaignAftermathContext> _optionAftermathCreator;
     private readonly IDialogueResourceProvider _resourceProvider;
 
     private bool _isInitialized;
 
     public DialogueCatalog(IDialogueResourceProvider resourceProvider,
-        IDialogueOptionAftermathCreator optionAftermathCreator,
-        IDialogueParagraphEffectCreator environmentEffectCreator)
+        IDialogueOptionAftermathCreator<CampaignAftermathContext> optionAftermathCreator,
+        IDialogueParagraphEffectCreator<CampaignAftermathContext> environmentEffectCreator)
     {
         _resourceProvider = resourceProvider;
         _optionAftermathCreator = optionAftermathCreator;

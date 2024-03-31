@@ -156,7 +156,7 @@ internal static class DialogueCatalogHelper
     private static IReadOnlyCollection<IDialogueOptionAftermath<TAftermathContext>> CreateParagraphEffects<
         TAftermathContext>(
         DialogueDtoData[]? paragraphEffects,
-        IDialogueEnvironmentEffectCreator<TAftermathContext> paragraphEffectCreator)
+        IDialogueParagraphEffectCreator<TAftermathContext> paragraphEffectCreator)
     {
         if (paragraphEffects is null)
         {

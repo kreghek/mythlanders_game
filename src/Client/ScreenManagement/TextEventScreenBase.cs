@@ -21,7 +21,6 @@ namespace Client.ScreenManagement;
 
 internal abstract class TextEventScreenBase<TParagraphConditionContext, TAftermathContext> : GameScreenWithMenuBase
 {
-    private readonly HeroCampaign _currentCampaign;
     private readonly StateCoordinator _coordinator;
     private readonly DialogueContextFactory _dialogueContextFactory;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
@@ -209,15 +208,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         spriteBatch.End();
     }
 
-    private void HandleDialogueEnd()
-    {
-        _globeProvider.Globe.Update(_dice, _eventCatalog);
-        _dialogueEnvironmentManager.Clean();
-
-        _coordinator.MakeCommonTransition(this, _currentCampaign);
-
-        _globeProvider.StoreCurrentGlobe();
-    }
+    protected abstract void HandleDialogueEnd();
 
     private void InitDialogueControls()
     {

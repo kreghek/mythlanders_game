@@ -1,5 +1,5 @@
 namespace Client.Assets.Catalogs.DialogueStoring;
 
 internal sealed record DialogueCatalogCreationServices<TAftermathContext>(
-    IDialogueEnvironmentEffectCreator<TAftermathContext> ParagraphEffectCreator,
+    IDialogueParagraphEffectCreator<TAftermathContext> ParagraphEffectCreator,
     IDialogueOptionAftermathCreator<TAftermathContext> OptionAftermathCreator);
