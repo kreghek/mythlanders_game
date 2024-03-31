@@ -51,16 +51,11 @@ internal class StateCoordinator
             }
             else
             {
-                var campaign = _scenarioCampaigns.GetCampaign("tutorial", globe.Player);
+                var tutorialCampaign = _scenarioCampaigns.GetCampaign("tutorial", globe.Player);
 
-                var startStage = campaign.Location.Stages.GetAllNodes().First().Payload;
+                var startStage = tutorialCampaign.Location.Stages.GetAllNodes().First().Payload;
 
-                _screenManager.ExecuteTransition(
-                    currentScreen,
-                    ScreenTransition.Combat,
-                    new CombatScreenTransitionArguments(campaign,
-                        ((CombatStageItem)startStage).CombatSequence, 0, false, campaign.Location.Sid,
-                        null));
+                startStage.ExecuteTransition(currentScreen, _screenManager, tutorialCampaign);
             }
         }
     }

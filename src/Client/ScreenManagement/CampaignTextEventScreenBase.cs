@@ -3,7 +3,7 @@
 using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
 using Client.Core.Campaigns;
-using Client.GameScreens.Campaign;
+using Client.Engine;
 using Client.ScreenManagement.Ui.TextEvents;
 
 using CombatDicesTeam.Dialogues;
@@ -21,6 +21,7 @@ internal abstract class
 
     private readonly IDice _dice;
     private readonly IEventCatalog _eventCatalog;
+    private readonly StateCoordinator _coordinator;
 
     private readonly GlobeProvider _globeProvider;
 
@@ -34,6 +35,7 @@ internal abstract class
         _globeProvider = globeProvider;
         _dialogueEnvironmentManager = dialogueEnvironmentManager;
         _eventCatalog = game.Services.GetRequiredService<IEventCatalog>();
+        _coordinator = game.Services.GetRequiredService<StateCoordinator>();
 
         _dice = Game.Services.GetService<IDice>();
     }
@@ -52,7 +54,7 @@ internal abstract class
         var campaignArgs = (CampaignTextEventScreenArgsBase)args;
 
         return new DialogueContextFactory(globe, storyPointCatalog, player, dialogueEnvironmentManager,
-            campaignArgs.DialogueEvent, campaignArgs.Campaign,
+            campaignArgs.DialogueEvent, _currentCampaign,
             new EventContext(globe, storyPointCatalog, player, campaignArgs.DialogueEvent));
     }
 
@@ -61,9 +63,8 @@ internal abstract class
     {
         _globeProvider.Globe.Update(_dice, _eventCatalog);
         _dialogueEnvironmentManager.Clean();
-        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-            new CampaignScreenTransitionArguments(_currentCampaign));
-
         _globeProvider.StoreCurrentGlobe();
+
+        _coordinator.MakeCommonTransition(this, _currentCampaign);
     }
 }

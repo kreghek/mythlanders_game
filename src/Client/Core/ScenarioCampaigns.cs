@@ -18,7 +18,7 @@ using GameAssets.Combats.CombatantStatuses;
 
 namespace Client.Core;
 
-internal class ScenarioCampaigns
+internal sealed class ScenarioCampaigns
 {
     private readonly IEventCatalog _eventCatalog;
 
@@ -32,11 +32,14 @@ internal class ScenarioCampaigns
         if (sid == "tutorial")
         {
             var locationSid = LocationSids.Thicket;
-            var startHero = player.Heroes.Units.Single(x => x.ClassSid == "Swordsman");
+
+            var tutorialHero = GetTutorialHero(player, sid);
+
+            var tutorialDialogueSid = GetTutorialDialogueByTutorialHero(tutorialHero);
 
             var graph = new DirectedGraph<ICampaignStageItem>();
 
-            var node1 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem("slavic_tutorial", locationSid,
+            var node1 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem(tutorialDialogueSid, locationSid,
                 _eventCatalog));
             graph.AddNode(node1);
 
@@ -62,7 +65,7 @@ internal class ScenarioCampaigns
             var node2 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT1));
             graph.AddNode(node2);
 
-            var node3 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem("slavic_tutorial", locationSid,
+            var node3 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem(tutorialDialogueSid, locationSid,
                 _eventCatalog));
             graph.AddNode(node3);
 
@@ -90,11 +93,40 @@ internal class ScenarioCampaigns
 
             return new HeroCampaign(new[]
                 {
-                    (startHero, new FieldCoords(0, 1))
+                    (tutorialHero, new FieldCoords(0, 1))
                 }, new HeroCampaignLocation(LocationSids.Thicket, graph), ArraySegment<ICampaignEffect>.Empty,
                 ArraySegment<ICampaignEffect>.Empty, 0);
         }
 
         throw new ArgumentException();
+    }
+
+    private string GetTutorialDialogueByTutorialHero(HeroState tutorialHero)
+    {
+        if (tutorialHero.ClassSid == "Swordsman")
+        {
+            return "slavic_tutorial";
+        }
+        else if (tutorialHero.ClassSid == "Monk")
+        {
+            return "chinese_tutorial";
+        }
+        else if (tutorialHero.ClassSid == "Hoplite")
+        {
+            return "greek_tutorial";
+        }
+        else if (tutorialHero.ClassSid == "Liberator")
+        {
+            return "egypt_tutorial";
+        }
+        else
+        {
+            throw new InvalidOperationException();
+        }
+    }
+
+    private static HeroState GetTutorialHero(Player player, string sid)
+    {
+        return player.Heroes.Units.First();
     }
 }
