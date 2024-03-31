@@ -13,7 +13,6 @@ using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.Engine.PostProcessing;
-using Client.GameScreens.Campaign;
 using Client.GameScreens.Combat.CombatDebugElements;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.Background;
@@ -42,7 +41,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using MonoGame;
-using MonoGame.Extended.Screens;
 using MonoGame.Extended.TextureAtlases;
 
 namespace Client.GameScreens.Combat;
@@ -64,6 +62,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly MythlandersCombatEngine _combatCore;
     private readonly ICombatActorBehaviourDataProvider _combatDataBehaviourProvider;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
+    private readonly StateCoordinator _coordinator;
     private readonly IList<CorpseGameObject> _corpseObjects;
     private readonly HeroCampaign _currentCampaign;
     private readonly IDice _dice;
@@ -85,7 +84,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly ManualCombatActorBehaviour _manualCombatantBehaviour;
     private readonly PostEffectCatalog _postEffectCatalog;
     private readonly PostEffectManager _postEffectManager;
-    private readonly StateCoordinator _coordinator;
     private readonly RenderTarget2D _renderTarget;
     private readonly ShadeService _shadeService;
 
@@ -721,7 +719,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
                     _globeProvider.StoreCurrentGlobe();
                     _currentCampaign.CompleteCurrentStage();
-                    
+
                     _coordinator.MakeCombatWinTransition(this, _currentCampaign);
                 }
             }
@@ -732,7 +730,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             _currentCampaign.CompleteCurrentStage();
             _currentCampaign.FailCampaign(_globe, _jobProgressResolver);
-            
+
             _coordinator.MakeCombatFailureTransition(this);
         }
         else

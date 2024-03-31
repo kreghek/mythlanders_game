@@ -7,18 +7,19 @@ using Client.Core.Campaigns;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Combat;
 using Client.GameScreens.CommandCenter;
-using Client.GameScreens.TextDialogue;
 using Client.ScreenManagement;
 
 namespace Client.Engine;
+
 internal class StateCoordinator
 {
-    private readonly GlobeProvider _globeProvider;
-    private readonly IScreenManager _screenManager;
     private readonly ICampaignGenerator _campaignGenerator;
+    private readonly GlobeProvider _globeProvider;
     private readonly ScenarioCampaigns _scenarioCampaigns;
+    private readonly IScreenManager _screenManager;
 
-    public StateCoordinator(GlobeProvider globeProvider, IScreenManager screenManager, ICampaignGenerator campaignGenerator, ScenarioCampaigns scenarioCampaigns)
+    public StateCoordinator(GlobeProvider globeProvider, IScreenManager screenManager,
+        ICampaignGenerator campaignGenerator, ScenarioCampaigns scenarioCampaigns)
     {
         _globeProvider = globeProvider;
         _screenManager = screenManager;
@@ -26,43 +27,10 @@ internal class StateCoordinator
         _scenarioCampaigns = scenarioCampaigns;
     }
 
-    public void MakeStartTransition(IScreen currentScreen)
-    {
-        MoveToScreen(currentScreen, _globeProvider.Globe);
-    }
-    
-    public void MakeCombatWinTransition(IScreen currentScreen, HeroCampaign currentCampaign)
-    {
-        var globe = _globeProvider.Globe;
-        
-        if (globe.Progression.HasEntry("CampaignMapAvailable"))
-        {
-            _screenManager.ExecuteTransition(
-                currentScreen,
-                ScreenTransition.Campaign,
-                new CampaignScreenTransitionArguments(currentCampaign));
-        }
-        else
-        {
-            if (globe.Progression.HasEntry("TutorialComplete"))
-            {
-                throw new NotImplementedException();
-            }
-            else
-            {
-                var nextStage = currentCampaign.Location.Stages.GetNext(currentCampaign.CurrentStage).First();
-
-                currentCampaign.CurrentStage = nextStage;
-
-                nextStage.Payload.ExecuteTransition(currentScreen, _screenManager, currentCampaign);
-            }
-        }
-    }
-    
     public void MakeCombatFailureTransition(IScreen currentScreen)
     {
         var globe = _globeProvider.Globe;
-        
+
         if (globe.Progression.HasEntry("CommandCenterAvailable"))
         {
             var availableLaunches = _campaignGenerator.CreateSet(globe);
@@ -90,6 +58,63 @@ internal class StateCoordinator
                 startStage.ExecuteTransition(currentScreen, _screenManager, tutorialCampaign);
             }
         }
+    }
+
+    public void MakeCombatWinTransition(IScreen currentScreen, HeroCampaign currentCampaign)
+    {
+        var globe = _globeProvider.Globe;
+
+        if (globe.Progression.HasEntry("CampaignMapAvailable"))
+        {
+            _screenManager.ExecuteTransition(
+                currentScreen,
+                ScreenTransition.Campaign,
+                new CampaignScreenTransitionArguments(currentCampaign));
+        }
+        else
+        {
+            if (globe.Progression.HasEntry("TutorialComplete"))
+            {
+                throw new NotImplementedException();
+            }
+
+            var nextStage = currentCampaign.Location.Stages.GetNext(currentCampaign.CurrentStage).First();
+
+            currentCampaign.CurrentStage = nextStage;
+
+            nextStage.Payload.ExecuteTransition(currentScreen, _screenManager, currentCampaign);
+        }
+    }
+
+    public void MakeCommonTransition(IScreen currentScreen, HeroCampaign currentCampaign)
+    {
+        var globe = _globeProvider.Globe;
+
+        if (globe.Progression.HasEntry("CampaignMapAvailable"))
+        {
+            _screenManager.ExecuteTransition(
+                currentScreen,
+                ScreenTransition.Campaign,
+                new CampaignScreenTransitionArguments(currentCampaign));
+        }
+        else
+        {
+            if (globe.Progression.HasEntry("TutorialComplete"))
+            {
+                throw new NotImplementedException();
+            }
+
+            var nextStage = currentCampaign.Location.Stages.GetNext(currentCampaign.CurrentStage).First();
+
+            currentCampaign.CurrentStage = nextStage;
+
+            nextStage.Payload.ExecuteTransition(currentScreen, _screenManager, currentCampaign);
+        }
+    }
+
+    public void MakeStartTransition(IScreen currentScreen)
+    {
+        MoveToScreen(currentScreen, _globeProvider.Globe);
     }
 
     private void MoveToScreen(IScreen currentScreen, Globe globe)
@@ -136,34 +161,6 @@ internal class StateCoordinator
             //            combatStage.CombatSequence, 0, false, campaign.Location.Sid,
             //            null));
             //}
-        }
-    }
-
-    public void MakeCommonTransition(IScreen currentScreen, HeroCampaign currentCampaign)
-    {
-        var globe = _globeProvider.Globe;
-
-        if (globe.Progression.HasEntry("CampaignMapAvailable"))
-        {
-            _screenManager.ExecuteTransition(
-                currentScreen,
-                ScreenTransition.Campaign,
-                new CampaignScreenTransitionArguments(currentCampaign));
-        }
-        else
-        {
-            if (globe.Progression.HasEntry("TutorialComplete"))
-            {
-                throw new NotImplementedException();
-            }
-            else
-            {
-                var nextStage = currentCampaign.Location.Stages.GetNext(currentCampaign.CurrentStage).First();
-
-                currentCampaign.CurrentStage = nextStage;
-
-                nextStage.Payload.ExecuteTransition(currentScreen, _screenManager, currentCampaign);
-            }
         }
     }
 }

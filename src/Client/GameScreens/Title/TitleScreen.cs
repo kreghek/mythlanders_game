@@ -45,10 +45,10 @@ internal sealed class TitleScreen : GameScreenBase
     private readonly PongRectangleControl _bgPong;
     private readonly IList<ButtonBase> _buttons;
     private readonly ICamera2DAdapter _camera;
-    private readonly IDice _dice;
-    private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly ICampaignGenerator _campaignGenerator;
     private readonly StateCoordinator _coordinator;
+    private readonly IDice _dice;
+    private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly GameSettings _gameSettings;
 
     private readonly GlobeProvider _globeProvider;

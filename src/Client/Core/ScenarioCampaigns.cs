@@ -39,7 +39,8 @@ internal sealed class ScenarioCampaigns
 
             var graph = new DirectedGraph<ICampaignStageItem>();
 
-            var node1 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem(tutorialDialogueSid, locationSid, _eventCatalog));
+            var node1 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem(tutorialDialogueSid, locationSid,
+                _eventCatalog));
             graph.AddNode(node1);
 
             var combatSequenceT1 = new CombatSequence
@@ -48,12 +49,15 @@ internal sealed class ScenarioCampaigns
                 {
                     new CombatSource(new[]
                     {
-                        new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("DigitalWolf", 0, new FieldCoords(0, 1)), new []{
-
-                            new CombatStatusFactory(source =>new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(new CombatantStatusSid("Wound"), new OwnerBoundCombatantEffectLifetime(), source, CombatantStatTypes.HitPoints, -4)))
-
-
-                        })
+                        new PerkMonsterCombatantPrefab(
+                            new MonsterCombatantPrefab("DigitalWolf", 0, new FieldCoords(0, 1)), new[]
+                            {
+                                new CombatStatusFactory(source =>
+                                    new AutoRestoreModifyStatCombatantStatus(
+                                        new ModifyStatCombatantStatus(new CombatantStatusSid("Wound"),
+                                            new OwnerBoundCombatantEffectLifetime(), source,
+                                            CombatantStatTypes.HitPoints, -4)))
+                            })
                     }, new CombatReward(Array.Empty<IDropTableScheme>()))
                 }
             };
@@ -61,7 +65,8 @@ internal sealed class ScenarioCampaigns
             var node2 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT1));
             graph.AddNode(node2);
 
-            var node3 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem(tutorialDialogueSid, locationSid, _eventCatalog));
+            var node3 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem(tutorialDialogueSid, locationSid,
+                _eventCatalog));
             graph.AddNode(node3);
 
             var combatSequenceT2 = new CombatSequence
@@ -70,8 +75,11 @@ internal sealed class ScenarioCampaigns
                 {
                     new CombatSource(new[]
                     {
-                        new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("DigitalWolf", 0, new FieldCoords(0, 0)), Array.Empty<ICombatantStatusFactory>()),
-                        new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("Aspid", 0, new FieldCoords(0, 1)), Array.Empty<ICombatantStatusFactory>())
+                        new PerkMonsterCombatantPrefab(
+                            new MonsterCombatantPrefab("DigitalWolf", 0, new FieldCoords(0, 0)),
+                            Array.Empty<ICombatantStatusFactory>()),
+                        new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("Aspid", 0, new FieldCoords(0, 1)),
+                            Array.Empty<ICombatantStatusFactory>())
                     }, new CombatReward(Array.Empty<IDropTableScheme>()))
                 }
             };
