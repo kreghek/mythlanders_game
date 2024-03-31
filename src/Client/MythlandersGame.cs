@@ -225,7 +225,8 @@ internal sealed class MythlandersGame : Game
             var dialogueAftermathCreator =
                 new DialogueAftermathCreator(Services.GetRequiredService<IDice>());
 
-            var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider, dialogueAftermathCreator, dialogueAftermathCreator);
+            var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider, dialogueAftermathCreator,
+                dialogueAftermathCreator);
             Services.AddService<IEventInitializer>(dialogueCatalog);
             Services.AddService<IEventCatalog>(dialogueCatalog);
 
@@ -338,11 +339,10 @@ internal sealed class MythlandersGame : Game
         Services.AddService(new ScenarioCampaigns(Services.GetRequiredService<IEventCatalog>()));
 
         var coordinator = new StateCoordinator(
-            Services.GetRequiredService<GlobeProvider>(), 
-            Services.GetRequiredService<IScreenManager>(), 
-            Services.GetRequiredService<ICampaignGenerator>(), 
+            Services.GetRequiredService<GlobeProvider>(),
+            Services.GetRequiredService<IScreenManager>(),
+            Services.GetRequiredService<ICampaignGenerator>(),
             Services.GetRequiredService<ScenarioCampaigns>());
         Services.AddService(coordinator);
-
     }
 }

@@ -21,10 +21,10 @@ namespace Client.ScreenManagement;
 
 internal abstract class TextEventScreenBase<TParagraphConditionContext, TAftermathContext> : GameScreenWithMenuBase
 {
+    private readonly TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> _args;
     private readonly StateCoordinator _coordinator;
     private readonly DialogueContextFactory _dialogueContextFactory;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
-    private readonly TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> _args;
     private readonly DialogueOptions _dialogueOptions;
     protected readonly DialoguePlayer<TParagraphConditionContext, TAftermathContext> _dialoguePlayer;
     private readonly IDice _dice;
@@ -111,6 +111,8 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     protected abstract void DrawSpecificBackgroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect);
 
     protected abstract void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect);
+
+    protected abstract void HandleDialogueEnd();
 
 
     protected virtual void HandleOptionHover(DialogueOptionButton button)
@@ -207,8 +209,6 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
         spriteBatch.End();
     }
-
-    protected abstract void HandleDialogueEnd();
 
     private void InitDialogueControls()
     {

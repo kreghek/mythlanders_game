@@ -31,7 +31,8 @@ internal sealed class Player
 
         StoryState = new StoryState(Heroes);
         StoryState.AddCharacterRelations(UnitName.Radio);
-        StoryState.CharacterRelations.Single(x => x.Character.Equals(DialogueSpeakers.Get(UnitName.Radio))).Level = CharacterKnowledgeLevel.FullName;
+        StoryState.CharacterRelations.Single(x => x.Character.Equals(DialogueSpeakers.Get(UnitName.Radio))).Level =
+            CharacterKnowledgeLevel.FullName;
 
         _locations = new HashSet<ILocationSid>();
     }

@@ -11,7 +11,8 @@ using CombatDicesTeam.Dices;
 
 namespace Client.Assets.Catalogs;
 
-internal sealed class DialogueAftermathCreator : IDialogueOptionAftermathCreator<CampaignAftermathContext>, IDialogueParagraphEffectCreator<CampaignAftermathContext>
+internal sealed class DialogueAftermathCreator : IDialogueOptionAftermathCreator<CampaignAftermathContext>,
+    IDialogueParagraphEffectCreator<CampaignAftermathContext>
 {
     private readonly IDice _dice;
 

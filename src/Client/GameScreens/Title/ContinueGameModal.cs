@@ -19,19 +19,20 @@ internal sealed class ContinueGameModal : ModalDialogBase
     private const int BUTTON_WIDTH = 200;
 
     private const int PAGE_SIZE = 3;
-    private readonly StateCoordinator _coordinator;
+    private readonly ICampaignGenerator _campaignGenerator;
     private readonly IList<ButtonBase> _continueGameButtons;
+    private readonly StateCoordinator _coordinator;
     private readonly IDialogueResourceProvider _dialogueResourceProvider;
     private readonly GlobeProvider _globeProvider;
-    private readonly IScreenManager _screenManager;
     private readonly IList<ButtonBase> _pageButtons;
     private readonly IScreen _screen;
-    private readonly ICampaignGenerator _campaignGenerator;
+    private readonly IScreenManager _screenManager;
     private int _pageIndex;
 
     public ContinueGameModal(IUiContentStorage uiContentStorage,
         IResolutionIndependentRenderer resolutionIndependentRenderer, GlobeProvider globeProvider,
-        IScreenManager screenManager, IScreen screen, ICampaignGenerator campaignGenerator, StateCoordinator coordinator,
+        IScreenManager screenManager, IScreen screen, ICampaignGenerator campaignGenerator,
+        StateCoordinator coordinator,
         IDialogueResourceProvider dialogueResourceProvider) : base(uiContentStorage,
         resolutionIndependentRenderer)
     {

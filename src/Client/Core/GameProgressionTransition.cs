@@ -2,4 +2,5 @@
 
 namespace Client.Core;
 
-public record GameProgressionTransition(IEnumerable<GameProgressionTrigger> Triggers, IEnumerable<GameProgressionEntry> Entries, IGameProgressionTransition Next) : IGameProgressionTransition;
+public record GameProgressionTransition(IEnumerable<GameProgressionTrigger> Triggers,
+    IEnumerable<GameProgressionEntry> Entries, IGameProgressionTransition Next) : IGameProgressionTransition;
