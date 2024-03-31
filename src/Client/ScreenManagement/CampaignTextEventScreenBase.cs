@@ -16,12 +16,12 @@ namespace Client.ScreenManagement;
 internal abstract class
     CampaignTextEventScreenBase : TextEventScreenBase<ParagraphConditionContext, CampaignAftermathContext>
 {
+    private readonly StateCoordinator _coordinator;
     private readonly HeroCampaign _currentCampaign;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
 
     private readonly IDice _dice;
     private readonly IEventCatalog _eventCatalog;
-    private readonly StateCoordinator _coordinator;
 
     private readonly GlobeProvider _globeProvider;
 
