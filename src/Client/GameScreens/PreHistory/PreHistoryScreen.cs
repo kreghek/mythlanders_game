@@ -20,11 +20,11 @@ namespace Client.GameScreens.PreHistory;
 internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionContext, PreHistoryAftermathContext>
 {
     private const double TRANSITION_DURATION_SEC = 1.25;
-    private readonly ICampaignGenerator _campaignGenerator;
 
     private readonly Texture2D _cleanScreenTexture;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly GlobeProvider _globeProvider;
+    private readonly StateCoordinator _coordinator;
 
     private readonly SoundtrackManager _soundtrackManager;
     private PreHistoryAftermathContext? _aftermathContext;
@@ -42,7 +42,8 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
         _soundtrackManager = game.Services.GetRequiredService<SoundtrackManager>();
         _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
         _globeProvider = game.Services.GetService<GlobeProvider>();
-        _campaignGenerator = game.Services.GetService<ICampaignGenerator>();
+
+        _coordinator = game.Services.GetService<StateCoordinator>();
     }
 
     protected override IDialogueContextFactory<ParagraphConditionContext, PreHistoryAftermathContext>
@@ -155,12 +156,9 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
     {
         _dialogueEnvironmentManager.Clean();
 
-        var otherCampaignLaunches = _campaignGenerator.CreateSet(_globeProvider.Globe);
-
-        ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
-            new CommandCenterScreenTransitionArguments(otherCampaignLaunches));
-
         _globeProvider.StoreCurrentGlobe();
+
+        _coordinator.MakeStartTransition(this);
     }
 
     protected override void HandleOptionHover(DialogueOptionButton button)
