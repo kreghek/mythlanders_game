@@ -107,22 +107,23 @@ internal sealed class ScenarioCampaigns
         {
             return "slavic_tutorial";
         }
-        else if (tutorialHero.ClassSid == "Monk")
+
+        if (tutorialHero.ClassSid == "Monk")
         {
             return "chinese_tutorial";
         }
-        else if (tutorialHero.ClassSid == "Hoplite")
+
+        if (tutorialHero.ClassSid == "Hoplite")
         {
             return "greek_tutorial";
         }
-        else if (tutorialHero.ClassSid == "Liberator")
+
+        if (tutorialHero.ClassSid == "Liberator")
         {
             return "egypt_tutorial";
         }
-        else
-        {
-            throw new InvalidOperationException();
-        }
+
+        throw new InvalidOperationException();
     }
 
     private static HeroState GetTutorialHero(Player player, string sid)

@@ -62,7 +62,8 @@ internal sealed class TutorialChineseDialogueEventFactory : IDialogueEventFactor
             new StateMachine<DialogueEventState, DialogueEventTrigger>(DialogueConstants.InitialStage);
 
         questStateMachine.Configure(DialogueConstants.InitialStage)
-            .Permit(DialogueConstants.MainPlot.ChineseTutorial.Stage1_Fight_Trigger, DialogueConstants.MainPlot.ChineseTutorial.Stage2);
+            .Permit(DialogueConstants.MainPlot.ChineseTutorial.Stage1_Fight_Trigger,
+                DialogueConstants.MainPlot.ChineseTutorial.Stage2);
 
         var requirements = new Dictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>>
         {
@@ -71,8 +72,10 @@ internal sealed class TutorialChineseDialogueEventFactory : IDialogueEventFactor
 
         var dialogues = new Dictionary<DialogueEventState, string>
         {
-            [DialogueConstants.InitialStage] = GetDialogueFileName(DialogueConstants.MainPlot.ChineseTutorial.Stage1Dialogue),
-            [DialogueConstants.MainPlot.ChineseTutorial.Stage2] = GetDialogueFileName(DialogueConstants.MainPlot.ChineseTutorial.Stage2Dialogue)
+            [DialogueConstants.InitialStage] =
+                GetDialogueFileName(DialogueConstants.MainPlot.ChineseTutorial.Stage1Dialogue),
+            [DialogueConstants.MainPlot.ChineseTutorial.Stage2] =
+                GetDialogueFileName(DialogueConstants.MainPlot.ChineseTutorial.Stage2Dialogue)
         };
 
         return new DialogueEvent(DialogueConstants.MainPlot.ChineseTutorial.Sid, questStateMachine, requirements,

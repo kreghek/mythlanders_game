@@ -5,7 +5,6 @@ using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.MonsterPerks;
 using Client.Core;
 using Client.Engine;
-using Client.GameScreens.CommandCenter;
 using Client.ScreenManagement;
 using Client.ScreenManagement.Ui.TextEvents;
 
@@ -22,9 +21,9 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
     private const double TRANSITION_DURATION_SEC = 1.25;
 
     private readonly Texture2D _cleanScreenTexture;
+    private readonly StateCoordinator _coordinator;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly GlobeProvider _globeProvider;
-    private readonly StateCoordinator _coordinator;
 
     private readonly SoundtrackManager _soundtrackManager;
     private PreHistoryAftermathContext? _aftermathContext;
