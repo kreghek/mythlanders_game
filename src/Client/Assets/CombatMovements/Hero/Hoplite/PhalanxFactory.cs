@@ -1,29 +1,61 @@
-//using System.Collections.Generic;
+using System.Collections.Generic;
 
-//using Client;
-//using Client.GameScreens.Combat.GameObjects;
+using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.Effects;
+using CombatDicesTeam.GenericRanges;
 
-//using Core.Combats;
+using Core.Combats.Effects;
+using Core.Combats.TargetSelectors;
 
-//using Rpg.Client.Assets.TargetSelectors;
-//using Rpg.Client.Core;
-//using Rpg.Client.Engine;
-//using Rpg.Client.GameScreens;
-//using Rpg.Client.GameScreens.Combat.GameObjects;
+using GameAssets.Combats;
+using GameAssets.Combats.CombatMovementEffects;
 
-//namespace Rpg.Client.Assets.Skills.Hero.Hoplite
-//{
-//    internal class PhalanxSkill : VisualizedSkillBase
-//    {
-//        public PhalanxSkill() : this(false)
-//        {
-//        }
+using JetBrains.Annotations;
 
-//        private PhalanxSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
-//        {
-//        }
+namespace Client.Assets.CombatMovements.Hero.Hoplite;
 
-//        public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
+[UsedImplicitly]
+internal class PhalanxFactory : SimpleCombatMovementFactoryBase
+{
+    /// <inheritdoc />
+    public override CombatMovementIcon CombatMovementIcon => new(4, 4); //IconOneBasedIndex = 23
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Melee;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(2);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
+        {
+            new DamageEffectWrapper(
+                new ClosestInLineTargetSelector(),
+                DamageType.Normal,
+                GenericRange<int>.CreateMono(2)),
+            new PushToPositionEffect(
+                new SelfTargetSelector(),
+                ChangePositionEffectDirection.ToVanguard
+            )
+        });
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
+    }
+}
+
+//public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
 //        {
 //            SkillRuleFactory.CreateProtection(SkillSid.DefenseStance, SkillDirection.Self, 1, 0.75f),
 //            SkillRuleFactory.CreateProtection(SkillSid.DefenseStance, new LeftAllyTargetSelector(), duration: 1,
@@ -31,26 +63,6 @@
 //            SkillRuleFactory.CreateProtection(SkillSid.DefenseStance, SkillDirection.Self, duration: 1,
 //                multiplier: 0.25f, imposeConditions: new[] { new IsRightAllyWithShieldCondition() })
 //        };
-
-//        public override SkillSid Sid => SkillSid.DefenseStance;
-//        public override SkillTargetType TargetType => SkillTargetType.Self;
-//        public override SkillType Type => SkillType.None;
-
-//        private static SkillVisualization PredefinedVisualization => new()
-//        {
-//            Type = SkillVisualizationStateType.Self,
-//            SoundEffectType = GameObjectSoundType.Defence,
-//            IconOneBasedIndex = 23,
-//            AnimationSid = PredefinedAnimationSid.Skill2
-//        };
-
-//        public override IActorVisualizationState CreateState(CombatantGameObject animatedUnitGameObject,
-//            CombatantGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
-//        {
-//            animatedUnitGameObject.ChangeState(CombatUnitState.Defense);
-//            return base.CreateState(animatedUnitGameObject, targetUnitGameObject, mainStateBlocker, context);
-//        }
-
 //        private static int? GetRightIndex(int baseIndex)
 //        {
 //            return baseIndex switch
@@ -93,6 +105,3 @@
 //                return UiResource.EffectConditionIsRightAllyWithShieldText;
 //            }
 //        }
-//    }
-//}
-
