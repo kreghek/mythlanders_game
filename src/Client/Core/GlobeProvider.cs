@@ -65,7 +65,7 @@ internal sealed class GlobeProvider
 
     public void GenerateFree(HeroState[] heroes)
     {
-        var globe = new Globe(new Player());
+        var globe = new Globe(new Player(), new GameProgression());
 
         AssignFreeHeroes(globe);
 
@@ -74,7 +74,7 @@ internal sealed class GlobeProvider
 
     public void GenerateNew()
     {
-        var globe = new Globe(new Player());
+        var globe = new Globe(new Player(), new GameProgression());
 
         InitStartLocations(globe);
         InitStartStoryPoint(globe, _storyPointInitializer);
@@ -127,7 +127,7 @@ internal sealed class GlobeProvider
 
         var player = new Player(saveDataDto.Name);
 
-        Globe = new Globe(player);
+        Globe = new Globe(player, new GameProgression());
 
         if (progressDto.Player is not null)
         {

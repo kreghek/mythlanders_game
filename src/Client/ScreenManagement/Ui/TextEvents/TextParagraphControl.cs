@@ -24,14 +24,14 @@ internal sealed class TextParagraphControl<TParagraphConditionContext, TAftermat
     private readonly TAftermathContext _aftermathContext;
 
     private readonly SpriteFont _displayNameFont;
-    private readonly IReadOnlyCollection<IDecorativeEnvironmentAftermath<TAftermathContext>> _envCommands;
+    private readonly IReadOnlyCollection<IDialogueOptionAftermath<TAftermathContext>> _paragraphAftermaths;
     private readonly string? _localizedSpeakerName;
     private readonly TextParagraphMessageControl<TParagraphConditionContext, TAftermathContext> _message;
     private readonly Vector2 _messageSize;
     private readonly IDialogueSpeaker _speaker;
     private readonly Vector2 _speakerDisplayNameSize;
 
-    private bool _envCommandsExecuted;
+    private bool _decorativeAftermathsAreExecuted;
 
     public TextParagraphControl(DialogueSpeech<TParagraphConditionContext, TAftermathContext> eventTextParagraph,
         SoundEffect textSoundEffect, IDice dice, TAftermathContext aftermathContext, IStoryState storyState) :
@@ -41,18 +41,14 @@ internal sealed class TextParagraphControl<TParagraphConditionContext, TAftermat
         _aftermathContext = aftermathContext;
         _speaker = eventTextParagraph.Speaker;
 
-        var speakerState = storyState.CharacterRelations.SingleOrDefault(x => x.Character == _speaker) ??
+        var speakerState = storyState.CharacterRelations.SingleOrDefault(x => x.Character.Equals(_speaker)) ??
                            new CharacterRelation(_speaker);
 
         _localizedSpeakerName = GetSpeakerDisplayName(speakerState);
         _message = new TextParagraphMessageControl<TParagraphConditionContext, TAftermathContext>(eventTextParagraph,
             textSoundEffect, dice,
-            DialogueSpeakers.Env != _speaker);
-
-        _envCommands = eventTextParagraph.Aftermaths
-            .Where(x => x is IDecorativeEnvironmentAftermath<TAftermathContext>)
-            .Cast<IDecorativeEnvironmentAftermath<TAftermathContext>>()
-            .ToArray();
+            !DialogueSpeakers.Env.Equals(_speaker));
+        _paragraphAftermaths = eventTextParagraph.Aftermaths.ToArray();
 
         _messageSize = _message.CalculateSize();
         _speakerDisplayNameSize = _localizedSpeakerName is not null
@@ -77,13 +73,13 @@ internal sealed class TextParagraphControl<TParagraphConditionContext, TAftermat
 
     public void Update(GameTime gameTime)
     {
-        if (!_envCommandsExecuted)
+        if (!_decorativeAftermathsAreExecuted)
         {
-            _envCommandsExecuted = true;
+            _decorativeAftermathsAreExecuted = true;
 
-            foreach (var envCommand in _envCommands)
+            foreach (var aftermath in _paragraphAftermaths)
             {
-                envCommand.Apply(_aftermathContext);
+                aftermath.Apply(_aftermathContext);
             }
         }
 

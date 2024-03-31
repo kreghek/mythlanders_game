@@ -45,9 +45,9 @@ internal sealed class TitleScreen : GameScreenBase
     private readonly PongRectangleControl _bgPong;
     private readonly IList<ButtonBase> _buttons;
     private readonly ICamera2DAdapter _camera;
-    private readonly ICampaignGenerator _campaignGenerator;
     private readonly IDice _dice;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
+    private readonly StateCoordinator _coordinator;
     private readonly GameSettings _gameSettings;
 
     private readonly GlobeProvider _globeProvider;
@@ -64,20 +64,21 @@ internal sealed class TitleScreen : GameScreenBase
     public TitleScreen(MythlandersGame game)
         : base(game)
     {
-        _globeProvider = Game.Services.GetService<GlobeProvider>();
+        _globeProvider = Game.Services.GetRequiredService<GlobeProvider>();
 
-        _camera = Game.Services.GetService<ICamera2DAdapter>();
-        _resolutionIndependentRenderer = Game.Services.GetService<IResolutionIndependentRenderer>();
-        _campaignGenerator = game.Services.GetService<ICampaignGenerator>();
+        _camera = Game.Services.GetRequiredService<ICamera2DAdapter>();
+        _resolutionIndependentRenderer = Game.Services.GetRequiredService<IResolutionIndependentRenderer>();
 
-        _dice = Game.Services.GetService<IDice>();
-        _gameSettings = Game.Services.GetService<GameSettings>();
+        _dice = Game.Services.GetRequiredService<IDice>();
+        _gameSettings = Game.Services.GetRequiredService<GameSettings>();
 
-        var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+        var soundtrackManager = Game.Services.GetRequiredService<SoundtrackManager>();
         soundtrackManager.PlayTitleTrack();
 
-        _uiContentStorage = game.Services.GetService<IUiContentStorage>();
-        _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
+        _uiContentStorage = game.Services.GetRequiredService<IUiContentStorage>();
+        _gameObjectContentStorage = game.Services.GetRequiredService<GameObjectContentStorage>();
+
+        _coordinator = game.Services.GetRequiredService<StateCoordinator>();
 
         _resourceProvider = game.Services.GetRequiredService<IDialogueResourceProvider>();
 
@@ -143,6 +144,7 @@ internal sealed class TitleScreen : GameScreenBase
     }
 
     public static void StartClearNewGame(GlobeProvider globeProvider, IScreen currentScreen,
+        StateCoordinator coordinator,
         IScreenManager screenManager, ICampaignGenerator campaignGenerator,
         IDialogueResourceProvider dialogueResourceProvider)
     {
@@ -247,7 +249,7 @@ internal sealed class TitleScreen : GameScreenBase
         loadGameButton.OnClick += (_, _) =>
         {
             var continueDialog = new ContinueGameModal(_uiContentStorage, _resolutionIndependentRenderer,
-                _globeProvider, ScreenManager, this, _campaignGenerator, _resourceProvider);
+                _globeProvider, ScreenManager, this, _coordinator, _campaignGenerator, _resourceProvider);
             AddModal(continueDialog, isLate: true);
             continueDialog.Show();
         };
@@ -457,6 +459,6 @@ internal sealed class TitleScreen : GameScreenBase
 
     private void StartButton_OnClick(object? sender, EventArgs e)
     {
-        StartClearNewGame(_globeProvider, this, ScreenManager, _campaignGenerator, _resourceProvider);
+        StartClearNewGame(_globeProvider, this, _coordinator, ScreenManager, _campaignGenerator, _resourceProvider);
     }
 }

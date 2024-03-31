@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Client.Assets;
 using Client.Assets.Catalogs.Dialogues;
@@ -27,6 +28,7 @@ internal class TextDialogueScreen : CampaignTextEventScreenBase
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly ILocationSid _globeLocation;
     private readonly Player _player;
+    private readonly GlobeProvider _globeProvider;
     private readonly Random _random;
     private readonly IUiContentStorage _uiContentStorage;
 
@@ -38,6 +40,7 @@ internal class TextDialogueScreen : CampaignTextEventScreenBase
         _random = new Random();
 
         var globeProvider = game.Services.GetService<GlobeProvider>();
+
         var globe = globeProvider.Globe ?? throw new InvalidOperationException();
         _player = globe.Player ?? throw new InvalidOperationException();
 
@@ -60,6 +63,8 @@ internal class TextDialogueScreen : CampaignTextEventScreenBase
         var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
 
         soundtrackManager.PlaySilence();
+
+        _globeProvider = globeProvider;
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -100,6 +105,9 @@ internal class TextDialogueScreen : CampaignTextEventScreenBase
 
     private void CheckTutorial()
     {
+        if (!_globeProvider.Globe.Progression.HasEntry("TutorialComplete"))
+        { return; }
+
         if (_player.HasAbility(PlayerAbility.SkipTutorials))
         {
             return;
@@ -156,7 +164,7 @@ internal class TextDialogueScreen : CampaignTextEventScreenBase
         var currentFragment = CurrentFragment;
         var speaker = currentFragment.Speaker;
 
-        if (DialogueSpeakers.Get(UnitName.Environment) == speaker)
+        if (DialogueSpeakers.Get(UnitName.Environment).Equals(speaker))
         {
             // This text describes environment. There is no speaker.
             return;
@@ -176,7 +184,7 @@ internal class TextDialogueScreen : CampaignTextEventScreenBase
             new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Height - SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE),
-            new Rectangle(SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE,
+            new Rectangle(0, 0, SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE),
             Color.White);
 

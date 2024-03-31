@@ -285,6 +285,8 @@ internal class GameObjectContentStorage
         //NPCs
         _heroPortraitsTextureDict.Add(UnitName.Synth, LoadNpcPortrait("DamagedSynth"));
         _heroPortraitsTextureDict.Add(UnitName.ChineseOldman, LoadNpcPortrait("ChineseOldman"));
+        _heroPortraitsTextureDict.Add(UnitName.Radio, LoadNpcPortrait("Radio"));
+        _heroPortraitsTextureDict.Add(UnitName.DigitalHort, LoadNpcPortrait("DigitalHort"));
         _heroPortraitsTextureDict.Add(UnitName.Undefined, LoadUndefinedPortrait());
 
         Texture2D LoadBackgroundLayer(LocationCulture biomeType, ILocationSid locationSid,

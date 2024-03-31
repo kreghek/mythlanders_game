@@ -45,6 +45,8 @@ internal class CampaignAftermathContext
     public void AddNewHero(string heroSid)
     {
         _eventContext.AddNewHero(heroSid);
+
+        _heroCampaign.AddHero(HeroState.Create(heroSid));
     }
 
     public void AddResources(IProp resource)

@@ -83,9 +83,9 @@
             <AutoGen>True</AutoGen>
         </Compile>
         <Compile Update="GameObjectResources.Designer.cs">
-            <DependentUpon>GameObjectResources.resx</DependentUpon>
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>GameObjectResources.resx</DependentUpon>
         </Compile>
         <Compile Update="StoryResources.Designer.cs">
             <DependentUpon>StoryResources.resx</DependentUpon>

@@ -21,6 +21,10 @@ namespace Client.ScreenManagement;
 
 internal abstract class TextEventScreenBase<TParagraphConditionContext, TAftermathContext> : GameScreenWithMenuBase
 {
+    private readonly HeroCampaign _currentCampaign;
+    private readonly StateCoordinator _coordinator;
+    private readonly DialogueContextFactory _dialogueContextFactory;
+    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> _args;
     private readonly DialogueOptions _dialogueOptions;
     protected readonly DialoguePlayer<TParagraphConditionContext, TAftermathContext> _dialoguePlayer;
@@ -53,6 +57,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         var player = globe.Player;
         _storyState = player.StoryState;
 
+        _coordinator = game.Services.GetRequiredService<StateCoordinator>();
         _dialoguePlayer = new DialoguePlayer<TParagraphConditionContext, TAftermathContext>(args.CurrentDialogue,
             CreateDialogueContextFactory(args));
         _args = args;
@@ -108,7 +113,6 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
     protected abstract void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect);
 
-    protected abstract void HandleDialogueEnd();
 
     protected virtual void HandleOptionHover(DialogueOptionButton button)
     {
@@ -205,10 +209,21 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         spriteBatch.End();
     }
 
+    private void HandleDialogueEnd()
+    {
+        _globeProvider.Globe.Update(_dice, _eventCatalog);
+        _dialogueEnvironmentManager.Clean();
+
+        _coordinator.MakeCommonTransition(this, _currentCampaign);
+
+        _globeProvider.StoreCurrentGlobe();
+    }
+
     private void InitDialogueControls()
     {
         TextParagraphControls.Clear();
         CurrentFragmentIndex = 0;
+
         foreach (var textFragment in _dialoguePlayer.CurrentTextFragments)
         {
             var speaker = ConvertSpeakerToUnitName(textFragment.Speaker);

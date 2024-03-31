@@ -2,7 +2,7 @@ using CombatDicesTeam.Dialogues;
 
 namespace Client.Assets.Catalogs.DialogueStoring;
 
-internal interface IDialogueEnvironmentEffectCreator<in TAftermathContext>
+internal interface IDialogueParagraphEffectCreator<in TAftermathContext>
 {
     IDialogueOptionAftermath<TAftermathContext> Create(string typeSid, string data);
 }

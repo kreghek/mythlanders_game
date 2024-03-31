@@ -3,6 +3,8 @@
 using Client.Assets.Catalogs.Dialogues;
 using Client.GameScreens;
 
+using CombatDicesTeam.Dialogues;
+
 using Core.Props;
 
 using JetBrains.Annotations;
@@ -33,5 +35,11 @@ internal class AddResourceOptionAftermath : CampaignDialogueOptionAftermathBase
             GameObjectHelper.GetLocalizedProp(_resourceSid),
             _count
         };
+    }
+
+    public static IDialogueOptionAftermath<CampaignAftermathContext> CreateFromData(string data)
+    {
+        var args = data.Split(' ');
+        return new AddResourceOptionAftermath(args[0], int.Parse(args[1]));
     }
 }

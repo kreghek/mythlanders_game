@@ -47,7 +47,7 @@ public class DialogueCatalogHelperTests
 
         var dialogue = DialogueCatalogHelper.Create("test", dict,
             new DialogueCatalogCreationServices<CampaignAftermathContext>(
-                Mock.Of<IDialogueEnvironmentEffectCreator<CampaignAftermathContext>>(),
+                Mock.Of<IDialogueParagraphEffectCreator<CampaignAftermathContext>>(),
                 Mock.Of<IDialogueOptionAftermathCreator<CampaignAftermathContext>>()),
             _ => ArraySegment<IDialogueParagraphCondition<ParagraphConditionContext>>.Empty);
 
@@ -86,7 +86,7 @@ public class DialogueCatalogHelperTests
 
         var dialogue = DialogueCatalogHelper.Create("test", dict,
             new DialogueCatalogCreationServices<CampaignAftermathContext>(
-                Mock.Of<IDialogueEnvironmentEffectCreator<CampaignAftermathContext>>(),
+                Mock.Of<IDialogueParagraphEffectCreator<CampaignAftermathContext>>(),
                 Mock.Of<IDialogueOptionAftermathCreator<CampaignAftermathContext>>()),
             _ => ArraySegment<IDialogueParagraphCondition<ParagraphConditionContext>>.Empty);
 
@@ -131,7 +131,7 @@ public class DialogueCatalogHelperTests
 
         var dialogue = DialogueCatalogHelper.Create("test", dict,
             new DialogueCatalogCreationServices<CampaignAftermathContext>(
-                Mock.Of<IDialogueEnvironmentEffectCreator<CampaignAftermathContext>>(),
+                Mock.Of<IDialogueParagraphEffectCreator<CampaignAftermathContext>>(),
                 Mock.Of<IDialogueOptionAftermathCreator<CampaignAftermathContext>>()),
             _ => ArraySegment<IDialogueParagraphCondition<ParagraphConditionContext>>.Empty);
 
@@ -168,7 +168,7 @@ public class DialogueCatalogHelperTests
 
         var dialogue = DialogueCatalogHelper.Create("test", dict,
             new DialogueCatalogCreationServices<CampaignAftermathContext>(
-                Mock.Of<IDialogueEnvironmentEffectCreator<CampaignAftermathContext>>(),
+                Mock.Of<IDialogueParagraphEffectCreator<CampaignAftermathContext>>(),
                 Mock.Of<IDialogueOptionAftermathCreator<CampaignAftermathContext>>()),
             _ => ArraySegment<IDialogueParagraphCondition<ParagraphConditionContext>>.Empty);
 

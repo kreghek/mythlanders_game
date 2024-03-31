@@ -42,6 +42,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using MonoGame;
+using MonoGame.Extended.Screens;
 using MonoGame.Extended.TextureAtlases;
 
 namespace Client.GameScreens.Combat;
@@ -84,6 +85,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly ManualCombatActorBehaviour _manualCombatantBehaviour;
     private readonly PostEffectCatalog _postEffectCatalog;
     private readonly PostEffectManager _postEffectManager;
+    private readonly StateCoordinator _coordinator;
     private readonly RenderTarget2D _renderTarget;
     private readonly ShadeService _shadeService;
 
@@ -208,6 +210,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _postEffectCatalog = new PostEffectCatalog();
         _postEffectManager = new PostEffectManager(_postEffectCatalog);
+
+        _coordinator = game.Services.GetRequiredService<StateCoordinator>();
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -714,13 +718,11 @@ internal class CombatScreen : GameScreenWithMenuBase
                 else
                 {
                     _globeProvider.Globe.Update(_dice, _eventCatalog);
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                        new CampaignScreenTransitionArguments(_currentCampaign));
 
-                    if (_gameSettings.Mode == GameMode.Full)
-                    {
-                        _globeProvider.StoreCurrentGlobe();
-                    }
+                    _globeProvider.StoreCurrentGlobe();
+                    _currentCampaign.CompleteCurrentStage();
+                    
+                    _coordinator.MakeCombatWinTransition(this, _currentCampaign);
                 }
             }
         }
@@ -730,12 +732,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             _currentCampaign.CompleteCurrentStage();
             _currentCampaign.FailCampaign(_globe, _jobProgressResolver);
-
-            var campaignGenerator = Game.Services.GetService<ICampaignGenerator>();
-            var campaigns = campaignGenerator.CreateSet(_globeProvider.Globe);
-
-            ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
-                new CommandCenterScreenTransitionArguments(campaigns));
+            
+            _coordinator.MakeCombatFailureTransition(this);
         }
         else
         {
