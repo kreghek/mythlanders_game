@@ -47,7 +47,11 @@ internal static class PreHistoryScenes
             },
             {
                 "StartHeroes",
-                new StaticScene(LoadTexture("StartHeroes", contentManager), contentRect)
+                new StartHeroesScene(
+                    LoadTexture("SwordsmanSelection", contentManager),
+                    LoadTexture("MonkSelection", contentManager),
+                    LoadTexture("HopliteSelection", contentManager),
+                    LoadTexture("LiberatorSelection", contentManager))
             },
             {
                 "Monk",
