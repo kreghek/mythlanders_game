@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.CombatMovements;
@@ -17,10 +16,11 @@ namespace Client.GameScreens.Bestiary.Ui;
 internal sealed class MonsterPerksPanel : ControlBase
 {
     private readonly VerticalStackPanel _content;
-    private readonly IReadOnlyList<MonsterPerk> _monsterPerks;
     private readonly Texture2D _monsterPerkIconsTexture;
+    private readonly IReadOnlyList<MonsterPerk> _monsterPerks;
 
-    public MonsterPerksPanel(Texture2D controlTextures, Texture2D monsterPerkIconsTexture, SpriteFont perkNameFont, SpriteFont perkDescriptionFont,
+    public MonsterPerksPanel(Texture2D controlTextures, Texture2D monsterPerkIconsTexture, SpriteFont perkNameFont,
+        SpriteFont perkDescriptionFont,
         IEnumerable<MonsterPerk> monsterPerks) : base(controlTextures)
     {
         _monsterPerkIconsTexture = monsterPerkIconsTexture;

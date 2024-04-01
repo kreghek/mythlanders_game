@@ -14,10 +14,10 @@ namespace Client.GameScreens.Bestiary;
 
 internal sealed class BestiaryScreen : GameScreenWithMenuBase
 {
+    private readonly IReadOnlyList<HeroCampaignLaunch> _availableLaunches;
     private readonly IList<ButtonBase> _monstersButtonList;
 
     private readonly Player _player;
-    private readonly IReadOnlyList<HeroCampaignLaunch> _availableLaunches;
     private readonly IUiContentStorage _uiContentStorage;
     private readonly ICharacterCatalog _unitSchemeCatalog;
     private MonsterPerksPanel _perksPanel = null!;
@@ -44,7 +44,8 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
         backButton.OnClick += (_, _) =>
         {
-            ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter, new CommandCenterScreenTransitionArguments(_availableLaunches));
+            ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
+                new CommandCenterScreenTransitionArguments(_availableLaunches));
         };
 
         return new ButtonBase[] { backButton };

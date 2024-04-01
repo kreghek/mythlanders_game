@@ -6,4 +6,5 @@ using CombatDicesTeam.Combats.CombatantStatuses;
 
 namespace Client.Core;
 
-internal sealed record MonsterPerk(ICombatantStatusFactory Status, string Sid, IReadOnlyCollection<CombatMovementEffectDisplayValue> Values);
+internal sealed record MonsterPerk(ICombatantStatusFactory Status, string Sid,
+    IReadOnlyCollection<CombatMovementEffectDisplayValue> Values);

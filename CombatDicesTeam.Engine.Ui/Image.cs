@@ -16,7 +16,12 @@ public sealed class Image : ControlBase
         _textureOffset = textureOffset;
     }
 
-    protected override Point CalcTextureOffset() => _textureOffset;
+    public override Point Size => _sourceRect.Size;
+
+    protected override Point CalcTextureOffset()
+    {
+        return _textureOffset;
+    }
 
     protected override Color CalculateColor()
     {
@@ -27,6 +32,4 @@ public sealed class Image : ControlBase
     {
         spriteBatch.Draw(_image, contentRect.Location.ToVector2(), _sourceRect, contentColor);
     }
-    
-    public override Point Size => _sourceRect.Size;
 }
