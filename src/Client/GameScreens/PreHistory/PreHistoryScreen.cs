@@ -27,12 +27,12 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
     private readonly SoundtrackManager _soundtrackManager;
     private PreHistoryAftermathContext? _aftermathContext;
-    private double? _backgroundTransitionCounter;
+    private double? _sceneTransitionCounter;
 
-    private IPreHistoryBackground? _currentBackground;
+    private IPreHistoryScene? _currentScene;
+    private IPreHistoryScene? _nextScene;
 
     private bool _isBackgoundInteractive;
-    private IPreHistoryBackground? _nextBackground;
 
     public PreHistoryScreen(MythlandersGame game, PreHistoryScreenScreenTransitionArguments args) : base(game, args)
     {
@@ -54,69 +54,9 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
             ResolutionIndependentRenderer.VirtualBounds.Width,
             ResolutionIndependentRenderer.VirtualBounds.Height);
 
-        var backgrounds = new Dictionary<string, IPreHistoryBackground>
-        {
-            {
-                "AncientRising",
-                new StaticScenePreHistoryBackground(
-                    Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/AncientRising"), contentRect)
-            },
-            {
-                "Monsters",
-                new StaticScenePreHistoryBackground(
-                    Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/Monsters"), contentRect)
-            },
-            {
-                "MonstersAttack",
-                new StaticScenePreHistoryBackground(
-                    Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/MonstersAttack"), contentRect)
-            },
-            {
-                "Hero",
-                new StaticScenePreHistoryBackground(
-                    Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/Hero"), contentRect)
-            },
-            {
-                "FirstFraction",
-                new FractionScenePreHistoryBackground(
-                    Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/SelectBlack"),
-                    Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/SelectBlackDisabled"),
-                    Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/SelectUnited"),
-                    Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/SelectUnitedDisabled"))
-            },
-            {
-                "Black",
-                new StaticScenePreHistoryBackground(
-                    Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/Black"), contentRect)
-            },
-            {
-                "Union",
-                new StaticScenePreHistoryBackground(
-                    Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/Union"), contentRect)
-            },
-            {
-                "StartHeroes",
-                new StaticScenePreHistoryBackground(
-                    Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/StartHeroes"), contentRect)
-            },
-            {
-                "Monk",
-                new StaticScenePreHistoryBackground(
-                    Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/Monk"), contentRect)
-            },
-            {
-                "Swordsman",
-                new StaticScenePreHistoryBackground(
-                    Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/Swordsman"), contentRect)
-            },
-            {
-                "Hoplite",
-                new StaticScenePreHistoryBackground(
-                    Game.Content.Load<Texture2D>("Sprites/GameObjects/PreHistory/Hoplite"), contentRect)
-            }
-        };
+        var scenes = PreHistoryScenes.Create(Game.Content, contentRect);
 
-        _aftermathContext = new PreHistoryAftermathContext(backgrounds,
+        _aftermathContext = new PreHistoryAftermathContext(scenes,
             Game.Services.GetRequiredService<IDialogueEnvironmentManager>(),
             Game.Services.GetService<GlobeProvider>().Globe.Player,
             Game.Services.GetService<MonsterPerkCatalog>());
@@ -164,7 +104,7 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
     {
         base.HandleOptionHover(button);
 
-        _currentBackground?.HoverOption(button.Number - 1);
+        _currentScene?.HoverOption(button.Number - 1);
     }
 
     protected override void HandleOptionSelection(DialogueOptionButton button)
@@ -181,7 +121,7 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
     protected override void UpdateSpecificScreenContent(GameTime gameTime)
     {
-        _currentBackground?.Update(gameTime, _isBackgoundInteractive);
+        _currentScene?.Update(gameTime, _isBackgoundInteractive);
 
         UpdateTransition(gameTime);
     }
@@ -207,18 +147,18 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
     private void DrawBackgroundBasedOnTransition(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        if (_currentBackground is not null)
+        if (_currentScene is not null)
         {
-            if (_backgroundTransitionCounter is not null)
+            if (_sceneTransitionCounter is not null)
             {
-                var progress = (TRANSITION_DURATION_SEC - _backgroundTransitionCounter.Value) / TRANSITION_DURATION_SEC;
+                var progress = (TRANSITION_DURATION_SEC - _sceneTransitionCounter.Value) / TRANSITION_DURATION_SEC;
                 var t = (float)Math.Sin(Math.PI * progress);
 
-                _currentBackground.Draw(spriteBatch, contentRect, 1 - t * 1);
+                _currentScene.Draw(spriteBatch, contentRect, 1 - t * 1);
             }
             else
             {
-                _currentBackground.Draw(spriteBatch, contentRect, 1);
+                _currentScene.Draw(spriteBatch, contentRect, 1);
             }
         }
     }
@@ -227,26 +167,26 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
     {
         var targetBackgroundTexture = _aftermathContext!.GetBackgroundTexture();
 
-        if (targetBackgroundTexture != _currentBackground && _backgroundTransitionCounter is null)
+        if (targetBackgroundTexture != _currentScene && _sceneTransitionCounter is null)
         {
-            _nextBackground = targetBackgroundTexture;
-            _backgroundTransitionCounter = TRANSITION_DURATION_SEC;
+            _nextScene = targetBackgroundTexture;
+            _sceneTransitionCounter = TRANSITION_DURATION_SEC;
         }
 
-        if (_backgroundTransitionCounter is not null)
+        if (_sceneTransitionCounter is not null)
         {
-            if (_backgroundTransitionCounter > 0)
+            if (_sceneTransitionCounter > 0)
             {
-                _backgroundTransitionCounter -= gameTime.ElapsedGameTime.TotalSeconds;
+                _sceneTransitionCounter -= gameTime.ElapsedGameTime.TotalSeconds;
 
-                if (_backgroundTransitionCounter <= TRANSITION_DURATION_SEC * 0.5)
+                if (_sceneTransitionCounter <= TRANSITION_DURATION_SEC * 0.5)
                 {
-                    _currentBackground = _nextBackground;
+                    _currentScene = _nextScene;
 
-                    if (_backgroundTransitionCounter <= 0)
+                    if (_sceneTransitionCounter <= 0)
                     {
-                        _backgroundTransitionCounter = null;
-                        _nextBackground = null;
+                        _sceneTransitionCounter = null;
+                        _nextScene = null;
                         _isBackgoundInteractive = true;
                     }
                 }

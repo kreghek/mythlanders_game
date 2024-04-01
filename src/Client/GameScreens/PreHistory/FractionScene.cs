@@ -3,7 +3,30 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.PreHistory;
 
-internal sealed class FractionScenePreHistoryBackground : IPreHistoryBackground
+internal sealed class StartHeroesScene : IPreHistoryScene
+{
+    public void Draw(SpriteBatch spriteBatch, Rectangle contentRect, double transition)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void HoverOption(int? index)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void SelectOption(int index)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Update(GameTime gameTime, bool isInteractive)
+    {
+        throw new System.NotImplementedException();
+    }
+}
+
+internal sealed class FractionScene : IPreHistoryScene
 {
     private readonly Texture2D _leftDisabledTexture;
     private readonly Texture2D _leftTexture;
@@ -13,7 +36,7 @@ internal sealed class FractionScenePreHistoryBackground : IPreHistoryBackground
 
     private int? _optionSelected;
 
-    public FractionScenePreHistoryBackground(Texture2D leftTexture, Texture2D leftDisabledTexture,
+    public FractionScene(Texture2D leftTexture, Texture2D leftDisabledTexture,
         Texture2D rightTexture, Texture2D rightDisabledTexture)
     {
         _leftTexture = leftTexture;

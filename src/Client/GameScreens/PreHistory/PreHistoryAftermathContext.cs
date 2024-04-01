@@ -11,14 +11,14 @@ namespace Client.GameScreens.PreHistory;
 
 internal sealed class PreHistoryAftermathContext
 {
-    private readonly IDictionary<string, IPreHistoryBackground> _backgrounds;
+    private readonly IDictionary<string, IPreHistoryScene> _backgrounds;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly MonsterPerkCatalog _monsterPerkCatalog;
     private readonly Player _player;
 
-    private IPreHistoryBackground? _backgroundTexture;
+    private IPreHistoryScene? _backgroundTexture;
 
-    public PreHistoryAftermathContext(IDictionary<string, IPreHistoryBackground> backgrounds,
+    public PreHistoryAftermathContext(IDictionary<string, IPreHistoryScene> backgrounds,
         IDialogueEnvironmentManager dialogueEnvironmentManager,
         Player player,
         MonsterPerkCatalog monsterPerkCatalog)
@@ -34,7 +34,7 @@ internal sealed class PreHistoryAftermathContext
         _player.AddHero(HeroState.Create(heroSid));
     }
 
-    public IPreHistoryBackground? GetBackgroundTexture()
+    public IPreHistoryScene? GetBackgroundTexture()
     {
         return _backgroundTexture;
     }
