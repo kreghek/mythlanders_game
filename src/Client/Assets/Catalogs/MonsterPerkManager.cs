@@ -7,7 +7,7 @@ using CombatDicesTeam.Dices;
 
 namespace Client.Assets.Catalogs;
 
-public sealed class MonsterPerkManager : IMonsterPerkManager
+internal sealed class MonsterPerkManager : IMonsterPerkManager
 {
     private readonly IDice _dice;
 

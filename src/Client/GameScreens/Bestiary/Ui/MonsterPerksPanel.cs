@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Bestiary.Ui;
 
-public class MonsterPerksPanel : ControlBase
+internal sealed class MonsterPerksPanel : ControlBase
 {
     private readonly VerticalStackPanel _content;
     private readonly IReadOnlyList<MonsterPerk> _monsterPerks;
@@ -102,7 +102,7 @@ public class MonsterPerksPanel : ControlBase
 
     private static IReadOnlyList<CombatMovementEffectDisplayValue> ExtractCombatMovementValues(MonsterPerk monsterPerk)
     {
-        return ArraySegment<CombatMovementEffectDisplayValue>.Empty;
+        return monsterPerk.Values.ToArray();
     }
 
     private static string GetValueTemplate(CombatMovementEffectDisplayValueTemplate valueType)

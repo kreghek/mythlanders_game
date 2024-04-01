@@ -441,6 +441,17 @@
     <value>Ability to avoid 50% of any attacks.</value>
     <comment>Perk</comment>
   </data>
+  <data name="ExtraHp_Description" xml:space="preserve">
+    <value>Gain additional &lt;hp&gt;</value>
+    <comment>Monster Perk</comment>
+  </data>
+  <data name="ExtraHp" xml:space="preserve">
+    <value>Extra HP</value>
+    <comment>Monster Perk</comment>
+  </data>
+  <data name="ExtraSp" xml:space="preserve">
+    <value>Extra shields</value>
+  </data>
   <data name="EyesOfChaos" xml:space="preserve">
     <value>Eyes of Chaos</value>
   </data>
@@ -606,6 +617,12 @@
   <data name="ImprovedHitPointsDescription" xml:space="preserve">
     <value>Amount of the hit points increased by 2 times.</value>
     <comment>Perk</comment>
+  </data>
+  <data name="ImprovedMeleeDamage" xml:space="preserve">
+    <value>Improved Melee</value>
+  </data>
+  <data name="ImprovedRangeDamage" xml:space="preserve">
+    <value>Improved Range</value>
   </data>
   <data name="Impulse" xml:space="preserve">
     <value>Impulse</value><comment>Status</comment>
@@ -982,14 +999,6 @@
     <value>Two plus two is five...</value>
     <comment>Voice</comment>
   </data>
-  <data name="WeOnlyLiveOnce" xml:space="preserve">
-    <value>We Live Only Once!</value>
-    <comment>Combat Movement Robber</comment>
-  </data>
-  <data name="WeOnlyLiveOnce_Description" xml:space="preserve">
-    <value>Deals &lt;damage&gt; to the closest enemy in the line. If it was the strongest enemy, it applies bleeding for &lt;duration&gt;, dealing &lt;bleed_damage&gt; each round.</value>
-    <comment>Combat Movement Robber</comment>
-  </data>
   <data name="VampireBite" xml:space="preserve">
     <value>Vampire bite</value>
     <comment>Skill</comment>
@@ -1017,6 +1026,14 @@
   <data name="WarriorEquipment" xml:space="preserve">
     <value>Sword pieces</value>
     <comment>Resource</comment>
+  </data>
+  <data name="WeOnlyLiveOnce" xml:space="preserve">
+    <value>We Live Only Once!</value>
+    <comment>Combat Movement Robber</comment>
+  </data>
+  <data name="WeOnlyLiveOnce_Description" xml:space="preserve">
+    <value>Deals &lt;damage&gt; to the closest enemy in the line. If it was the strongest enemy, it applies bleeding for &lt;duration&gt;, dealing &lt;bleed_damage&gt; each round.</value>
+    <comment>Combat Movement Robber</comment>
   </data>
   <data name="WideSwordSlash" xml:space="preserve">
     <value>Wide sword slash</value>
@@ -1061,17 +1078,5 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Zduhach Might</value>
     <comment>Skill</comment>
-  </data>
-  <data name="ExtraHp" xml:space="preserve">
-    <value>Extra HP</value>
-  </data>
-  <data name="ExtraSp" xml:space="preserve">
-    <value>Extra shields</value>
-  </data>
-  <data name="ImprovedMeleeDamage" xml:space="preserve">
-    <value>Improved Melee</value>
-  </data>
-  <data name="ImprovedRangeDamage" xml:space="preserve">
-    <value>Improved Range</value>
   </data>
 </root>

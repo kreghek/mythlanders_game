@@ -817,6 +817,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Gain additional &lt;hp&gt;.
+        /// </summary>
+        internal static string ExtraHp_Description {
+            get {
+                return ResourceManager.GetString("ExtraHp_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Extra shields.
         /// </summary>
         internal static string ExtraSp {
