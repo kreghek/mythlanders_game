@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 
 using Client.Core;
+using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Bestiary.Ui;
+using Client.GameScreens.CommandCenter;
 using Client.ScreenManagement;
 
 using Microsoft.Xna.Framework;
@@ -15,15 +17,18 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
     private readonly IList<ButtonBase> _monstersButtonList;
 
     private readonly Player _player;
+    private readonly IReadOnlyList<HeroCampaignLaunch> _availableLaunches;
     private readonly IUiContentStorage _uiContentStorage;
     private readonly ICharacterCatalog _unitSchemeCatalog;
     private MonsterPerksPanel _perksPanel = null!;
 
     private UnitScheme? _selectedMonster;
 
-    public BestiaryScreen(MythlandersGame game)
+    public BestiaryScreen(MythlandersGame game, BestiaryScreenTransitionArguments args)
         : base(game)
     {
+        _availableLaunches = args.AvailableLaunches;
+
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();
 
         _unitSchemeCatalog = game.Services.GetService<ICharacterCatalog>();
@@ -39,6 +44,7 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
         backButton.OnClick += (_, _) =>
         {
+            ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter, new CommandCenterScreenTransitionArguments(_availableLaunches));
         };
 
         return new ButtonBase[] { backButton };
@@ -86,6 +92,7 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
         InitializeMonsterButtons();
 
         _perksPanel = new MonsterPerksPanel(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
+            Game.Content.Load<Texture2D>("Sprites/GameObjects/MonsterPerkIcons"),
             UiThemeManager.UiContentStorage.GetTitlesFont(), UiThemeManager.UiContentStorage.GetMainFont(),
             _player.MonsterPerks);
     }
