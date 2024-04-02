@@ -14,12 +14,9 @@ public sealed record MonsterPerk(ICombatantStatusFactory Status, string Sid)
         };
 
     public bool IsUnique { get; init; }
-}
 
-public sealed class DefaultMonsterPerkPredicate : IMonsterPerkPredicate
-{
-    public bool IsApplicableTo(MonsterCombatantPrefab monsterPrefab)
-    {
-        return true;
-    }
+    /// <summary>
+    /// This perk cant be rolled as location reward.
+    /// </summary>
+    public bool CantBeRolledAsReward { get; init; }
 }
