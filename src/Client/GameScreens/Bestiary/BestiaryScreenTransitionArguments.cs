@@ -6,4 +6,4 @@ using Client.ScreenManagement;
 namespace Client.GameScreens.Bestiary;
 
 internal sealed record BestiaryScreenTransitionArguments
-    (IReadOnlyList<HeroCampaignLaunch> AvailableLaunches) : IScreenTransitionArguments;
+    (ScreenTransition ParentScreen, object ParentScreenArgs) : IScreenTransitionArguments;

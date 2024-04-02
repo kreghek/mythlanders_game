@@ -246,9 +246,9 @@ internal sealed class GlobeProvider
         return equipmentDtoList.ToArray();
     }
 
-    private static string[] GetKnownMonsterSids(IList<UnitScheme> knownMonsters)
+    private static string[] GetKnownMonsterSids(IList<MonsterKnowledge> knownMonsters)
     {
-        return knownMonsters.Select(x => x.Name.ToString()).ToArray();
+        return knownMonsters.Select(x => x.ClassSid).ToArray();
     }
 
     private static ResourceDto[] GetPlayerResourcesToSave(Inventory inventory)
@@ -425,7 +425,7 @@ internal sealed class GlobeProvider
             }
             else
             {
-                player.KnownMonsters.Add(monsterScheme);
+                player.KnownMonsters.Add(new MonsterKnowledge(monsterSid, MonsterKnowledgeLevel.CommonDescription));
             }
         }
     }

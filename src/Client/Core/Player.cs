@@ -4,6 +4,14 @@ using System.Linq;
 
 namespace Client.Core;
 
+internal sealed record MonsterKnowledge(string ClassSid, MonsterKnowledgeLevel Level);
+
+internal enum MonsterKnowledgeLevel
+{
+    CommonDescription,
+    Stats
+}
+
 internal sealed class Player
 {
     private readonly HashSet<PlayerAbility> _abilities;
@@ -19,7 +27,7 @@ internal sealed class Player
     public Player()
     {
         Heroes = new PoolGroup<HeroState>();
-        KnownMonsters = new List<UnitScheme>();
+        KnownMonsters = new List<MonsterKnowledge>();
 
         Inventory = new Inventory();
 
@@ -41,7 +49,7 @@ internal sealed class Player
 
     public Inventory Inventory { get; }
 
-    public IList<UnitScheme> KnownMonsters { get; }
+    public IList<MonsterKnowledge> KnownMonsters { get; }
 
     public IReadOnlyCollection<MonsterPerk> MonsterPerks => _monsterPerks.ToArray();
 

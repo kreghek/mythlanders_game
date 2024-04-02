@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Bestiary.Ui;
+using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter;
 using Client.ScreenManagement;
 
@@ -14,7 +16,8 @@ namespace Client.GameScreens.Bestiary;
 
 internal sealed class BestiaryScreen : GameScreenWithMenuBase
 {
-    private readonly IReadOnlyList<HeroCampaignLaunch> _availableLaunches;
+    private readonly ScreenTransition _parentScreen;
+    private readonly object _parentScreenArgs;
     private readonly IList<ButtonBase> _monstersButtonList;
 
     private readonly Player _player;
@@ -27,7 +30,8 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
     public BestiaryScreen(MythlandersGame game, BestiaryScreenTransitionArguments args)
         : base(game)
     {
-        _availableLaunches = args.AvailableLaunches;
+        _parentScreenArgs = args.ParentScreenArgs;
+        _parentScreen = args.ParentScreen;
 
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();
 
@@ -44,8 +48,19 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
         backButton.OnClick += (_, _) =>
         {
-            ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
-                new CommandCenterScreenTransitionArguments(_availableLaunches));
+            switch (_parentScreen)
+            {
+                case ScreenTransition.CommandCenter:
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
+                        (CommandCenterScreenTransitionArguments)_parentScreenArgs);
+                    break;
+
+                case ScreenTransition.Campaign:
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                        (CampaignScreenTransitionArguments)_parentScreenArgs);
+                    break;
+            }
+
         };
 
         return new ButtonBase[] { backButton };
@@ -110,21 +125,15 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
     private static IList<string> CollectMonsterStats(UnitScheme monsterScheme, int monsterLevel)
     {
-        // var monster = new Core.Hero(monsterScheme, monsterLevel);
-        //
-        // var unitName = monsterScheme.Name;
-        // var name = GameObjectHelper.GetLocalized(unitName);
+        var unitName = monsterScheme.Name;
+        var name = GameObjectHelper.GetLocalized(unitName);
 
-        var sb = new List<string>();
-        // {
-        //     name,
-        //     string.Format(UiResource.HitPointsLabelTemplate,
-        //         monster.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.ActualMax),
-        //     string.Format(UiResource.ShieldPointsLabelTemplate,
-        //         monster.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value.ActualMax),
-        //     string.Format(UiResource.DamageLabelTemplate, monster.Damage),
-        //     string.Format(UiResource.ArmorLabelTemplate, monster.Armor)
-        // };
+        var sb = new List<string>()
+        {
+            name,
+             string.Format(UiResource.HitPointsLabelTemplate, "???"),
+             string.Format(UiResource.ShieldPointsLabelTemplate, "???")
+         };
         //
         // foreach (var perk in monster.Perks)
         // {
@@ -154,7 +163,7 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
         foreach (var monsterScheme in monsterSchemes)
         {
-            if (!_player.KnownMonsters.Contains(monsterScheme))
+            if (!_player.KnownMonsters.Any(x => string.Equals(x.ClassSid, monsterScheme.Name.ToString(), System.StringComparison.CurrentCultureIgnoreCase)))
             {
                 // This monster is unknown. So do not display it on the screen.
                 continue;
