@@ -49,7 +49,8 @@ internal sealed class MonsterPerkManager : IMonsterPerkManager
     private MonsterPerk RollRewardMonsterPerk()
     {
         var availableMonsterPerks = _catalog.Perks.ToArray();
-        var filterUniquePerks = availableMonsterPerks.Except(_globeProvider.Globe.Player.MonsterPerks.Where(x=>x.IsUnique)).ToArray();
+        var filterUniquePerks = availableMonsterPerks
+            .Except(_globeProvider.Globe.Player.MonsterPerks.Where(x => x.IsUnique)).ToArray();
 
         var monsterPerk = _dice.RollFromList(filterUniquePerks);
 
