@@ -9,7 +9,13 @@ namespace Client.Assets.MonsterPerks;
 
 public abstract class MonsterPerkFactoryBase : IMonsterPerkFactory
 {
+    protected virtual bool IsUnique => false;
     protected string PerkName => GetType().Name[..^"MonsterPerkFactory".Length];
+
+    protected virtual IReadOnlyCollection<IMonsterPerkPredicate> CreatePredicates()
+    {
+        return ArraySegment<IMonsterPerkPredicate>.Empty;
+    }
 
     protected abstract ICombatantStatusFactory CreateStatus();
 
@@ -22,11 +28,4 @@ public abstract class MonsterPerkFactoryBase : IMonsterPerkFactory
             IsUnique = IsUnique
         };
     }
-
-    protected virtual IReadOnlyCollection<IMonsterPerkPredicate> CreatePredicates()
-    {
-        return ArraySegment<IMonsterPerkPredicate>.Empty;
-    }
-
-    protected virtual bool IsUnique => false;
 }

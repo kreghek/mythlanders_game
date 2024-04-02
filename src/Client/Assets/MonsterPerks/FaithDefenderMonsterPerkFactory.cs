@@ -13,14 +13,7 @@ namespace Client.Assets.MonsterPerks;
 [UsedImplicitly]
 public sealed class FaithDefenderMonsterPerkFactory : MonsterPerkFactoryBase
 {
-    protected override ICombatantStatusFactory CreateStatus()
-    {
-        return new CombatStatusFactory(source =>
-            new ModifyEffectsCombatantStatus(new CombatantStatusSid(nameof(PerkName)),
-                new OwnerBoundCombatantEffectLifetime(),
-                source,
-                1));
-    }
+    protected override bool IsUnique => true;
 
     protected override IReadOnlyCollection<IMonsterPerkPredicate> CreatePredicates()
     {
@@ -30,5 +23,12 @@ public sealed class FaithDefenderMonsterPerkFactory : MonsterPerkFactoryBase
         };
     }
 
-    protected override bool IsUnique => true;
+    protected override ICombatantStatusFactory CreateStatus()
+    {
+        return new CombatStatusFactory(source =>
+            new ModifyEffectsCombatantStatus(new CombatantStatusSid(nameof(PerkName)),
+                new OwnerBoundCombatantEffectLifetime(),
+                source,
+                1));
+    }
 }
