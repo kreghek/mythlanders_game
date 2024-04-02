@@ -346,7 +346,7 @@ internal sealed class TitleScreen : GameScreenBase
 
         var combat =
             new CombatSource(
-                prefabs.Select(x => new PerkMonsterCombatantPrefab(x, ArraySegment<ICombatantStatusFactory>.Empty))
+                prefabs.Select(x => new PerkMonsterCombatantPrefab(x, ArraySegment<MonsterPerk>.Empty))
                     .ToArray(), new CombatReward(Array.Empty<IDropTableScheme>()));
         var combatSequence = new CombatSequence
         {
