@@ -22,13 +22,14 @@ internal class HuntFactory : CombatMovementFactoryBase
     /// <inheritdoc />
     public override CombatMovement CreateMovement()
     {
-        var combatantEffectFactory = new ModifyCombatantMoveStatsCombatantStatusFactory(
+        var freeAttackStatusFactory = new CombatStatusFactory(source => new ModifyCombatantMoveStatsCombatantStatus(
             new CombatantStatusSid(Sid),
-            new UntilCombatantEffectMeetPredicatesLifetimeFactory(new IsAttackCombatMovePredicate()),
+            new UntilCombatantEffectMeetPredicatesLifetime(new[] { new IsAttackUsedLifetimeExpirationCondition() }),
+            source,
             CombatantMoveStats.Cost,
-            -1000);
+            -1000));
 
-        var freeAttacksEffect = new AddCombatantStatusEffect(new SelfTargetSelector(), combatantEffectFactory);
+        var freeAttacksEffect = new AddCombatantStatusEffect(new SelfTargetSelector(), freeAttackStatusFactory);
 
         return new CombatMovement(Sid,
             new CombatMovementCost(3),

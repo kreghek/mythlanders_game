@@ -2,6 +2,7 @@
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatantStatuses;
 
 using JetBrains.Annotations;
@@ -17,7 +18,7 @@ public sealed class LastBreathMonsterPerkFactory : MonsterPerkFactoryBase
             new LastBreathCombatantStatus(new CombatantStatusSid(nameof(PerkName)),
                 new UntilCombatantEffectMeetPredicatesLifetime(new[]
                 {
-                    new OwnerStatBelow()
+                    new OwnerStatBelowLifetimeExpirationCondition(CombatantStatTypes.HitPoints, 1)
                 }),
                 source,
                 1,
