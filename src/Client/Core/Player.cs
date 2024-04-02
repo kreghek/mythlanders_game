@@ -4,14 +4,6 @@ using System.Linq;
 
 namespace Client.Core;
 
-internal sealed record MonsterKnowledge(string ClassSid, MonsterKnowledgeLevel Level);
-
-internal enum MonsterKnowledgeLevel
-{
-    CommonDescription,
-    Stats
-}
-
 internal sealed class Player
 {
     private readonly HashSet<PlayerAbility> _abilities;
