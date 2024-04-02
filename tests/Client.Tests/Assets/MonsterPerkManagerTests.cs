@@ -18,6 +18,46 @@ namespace Client.Tests.Assets;
 
 public class MonsterPerkManagerTests
 {
+    [Test]
+    public void RollLocationRewardPerks_do_not_roll_perks_unique()
+    {
+        // ARRANGE
+
+        var uniquePerk = new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "black")
+        {
+            IsUnique = true
+        };
+
+        var regularPerk = new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "all");
+
+        var monsterPerkCatalog = Mock.Of<IMonsterPerkCatalog>(x => x.Perks == new[]
+        {
+            uniquePerk,
+            regularPerk,
+            new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "ExtraHitPoints"),
+            new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "ExtraShieldPoints")
+        });
+
+        var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
+
+        var globeProvider = new GlobeProvider(Mock.Of<ICharacterCatalog>(), Mock.Of<IStoryPointInitializer>(),
+            monsterPerkCatalog);
+
+        globeProvider.GenerateNew();
+        globeProvider.Globe.Player.AddMonsterPerk(uniquePerk);
+
+        var sut = new MonsterPerkManager(dice, monsterPerkCatalog,
+            globeProvider);
+
+        // ACT
+
+        var perks = sut.RollLocationRewardPerks();
+
+        // ASSERT
+
+        perks.Single().Sid.Should().NotBe(uniquePerk.Sid);
+    }
+
     [Theory]
     [TestCase(1)]
     [TestCase(2)]
@@ -35,13 +75,13 @@ public class MonsterPerkManagerTests
         };
 
         var regularPerk = new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "all");
-        
-        var monsterPerkCatalog = Mock.Of<IMonsterPerkCatalog>(x=>x.Perks == new []
+
+        var monsterPerkCatalog = Mock.Of<IMonsterPerkCatalog>(x => x.Perks == new[]
         {
             blackPerk,
             regularPerk,
             new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "ExtraHitPoints"),
-            new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "ExtraShieldPoints"),
+            new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "ExtraShieldPoints")
         });
 
         var diceMock = new Mock<IDice>();
@@ -52,26 +92,26 @@ public class MonsterPerkManagerTests
 
         var globeProvider = new GlobeProvider(Mock.Of<ICharacterCatalog>(), Mock.Of<IStoryPointInitializer>(),
             monsterPerkCatalog);
-        
+
         globeProvider.GenerateNew();
-        
+
         globeProvider.Globe.Player.AddMonsterPerk(blackPerk);
         globeProvider.Globe.Player.AddMonsterPerk(regularPerk);
 
         var monster = new MonsterCombatantPrefab("test-monster", default, new FieldCoords(default, default));
-        
+
         var sut = new MonsterPerkManager(dice, monsterPerkCatalog,
             globeProvider);
-        
+
         // ACT
 
         var perks = sut.RollMonsterPerks(monster);
-        
+
         // ASSERT
 
         perks.Single().Sid.Should().NotBe(blackPerk.Sid);
     }
-    
+
     [Test]
     public void RollMonsterPerks_rolls_perks_only_for_black()
     {
@@ -86,13 +126,13 @@ public class MonsterPerkManagerTests
         };
 
         var regularPerk = new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "all");
-        
-        var monsterPerkCatalog = Mock.Of<IMonsterPerkCatalog>(x=>x.Perks == new []
+
+        var monsterPerkCatalog = Mock.Of<IMonsterPerkCatalog>(x => x.Perks == new[]
         {
             blackPerk,
             regularPerk,
             new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "ExtraHitPoints"),
-            new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "ExtraShieldPoints"),
+            new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "ExtraShieldPoints")
         });
 
         var diceMock = new Mock<IDice>();
@@ -103,64 +143,26 @@ public class MonsterPerkManagerTests
 
         var globeProvider = new GlobeProvider(Mock.Of<ICharacterCatalog>(), Mock.Of<IStoryPointInitializer>(),
             monsterPerkCatalog);
-        
+
         globeProvider.GenerateNew();
-        
+
         globeProvider.Globe.Player.AddMonsterPerk(blackPerk);
-        globeProvider.Globe.Player.RemoveMonsterPerk(globeProvider.Globe.Player.MonsterPerks.Single(x=>x.Sid == "ExtraHitPoints"));
-        globeProvider.Globe.Player.RemoveMonsterPerk(globeProvider.Globe.Player.MonsterPerks.Single(x=>x.Sid == "ExtraShieldPoints"));
+        globeProvider.Globe.Player.RemoveMonsterPerk(
+            globeProvider.Globe.Player.MonsterPerks.Single(x => x.Sid == "ExtraHitPoints"));
+        globeProvider.Globe.Player.RemoveMonsterPerk(
+            globeProvider.Globe.Player.MonsterPerks.Single(x => x.Sid == "ExtraShieldPoints"));
 
         var monster = new MonsterCombatantPrefab("aggressor", default, new FieldCoords(default, default));
-        
+
         var sut = new MonsterPerkManager(dice, monsterPerkCatalog,
             globeProvider);
-        
+
         // ACT
 
         var perks = sut.RollMonsterPerks(monster);
-        
+
         // ASSERT
 
         perks.Single().Sid.Should().Be(blackPerk.Sid);
-    }
-    
-    [Test]
-    public void RollLocationRewardPerks_do_not_roll_perks_unique()
-    {
-        // ARRANGE
-
-        var uniquePerk = new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "black")
-        {
-            IsUnique = true
-        };
-
-        var regularPerk = new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "all");
-        
-        var monsterPerkCatalog = Mock.Of<IMonsterPerkCatalog>(x=>x.Perks == new []
-        {
-            uniquePerk,
-            regularPerk,
-            new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "ExtraHitPoints"),
-            new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "ExtraShieldPoints"),
-        });
-
-        var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
-
-        var globeProvider = new GlobeProvider(Mock.Of<ICharacterCatalog>(), Mock.Of<IStoryPointInitializer>(),
-            monsterPerkCatalog);
-        
-        globeProvider.GenerateNew();
-        globeProvider.Globe.Player.AddMonsterPerk(uniquePerk);
-        
-        var sut = new MonsterPerkManager(dice, monsterPerkCatalog,
-            globeProvider);
-        
-        // ACT
-
-        var perks = sut.RollLocationRewardPerks();
-        
-        // ASSERT
-
-        perks.Single().Sid.Should().NotBe(uniquePerk.Sid);
     }
 }

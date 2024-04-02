@@ -14,7 +14,6 @@ using Client.GameScreens.Common;
 using Client.ScreenManagement;
 
 using CombatDicesTeam.Combats;
-using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Dices;
 using CombatDicesTeam.Graphs;
 
