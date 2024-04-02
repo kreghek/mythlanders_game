@@ -18,8 +18,8 @@ internal sealed class CombatStageItem : ICampaignStageItem
 
         var combatSource = CombatSequence.Combats.First();
 
-        var leaderPrefab = combatSource.Monsters.OrderByDescending(x => x.StartUpStatuses.Count).First();
-        var sumPts = combatSource.Monsters.Sum(x => x.StartUpStatuses.Count + 1);
+        var leaderPrefab = combatSource.Monsters.OrderByDescending(x => x.Perks.Count).First();
+        var sumPts = combatSource.Monsters.Sum(x => x.Perks.Count + 1);
 
         Metadata = new CombatMetadata(leaderPrefab.TemplatePrefab, CalcDifficulty(sumPts));
     }

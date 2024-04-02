@@ -6,7 +6,6 @@ using Client.Assets.StageItems;
 using Client.Core;
 using Client.Core.Campaigns;
 
-using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Dices;
 using CombatDicesTeam.GenericRanges;
 using CombatDicesTeam.Graphs;
@@ -26,6 +25,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     private readonly MonsterCombatantTempate[] _monsterCombatantTemplates;
 
     private readonly MonsterCombatantTempateLevel _monsterLevel;
+    private readonly IMonsterPerkManager _monsterPerkManager;
 
     public CombatCampaignStageTemplateFactory(ILocationSid locationSid, MonsterCombatantTempateLevel monsterLevel,
         CampaignStageTemplateServices services)
@@ -34,6 +34,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         _monsterLevel = monsterLevel;
         _dice = services.Dice;
         _globeProvider = services.GlobeProvider;
+        _monsterPerkManager = services.MonsterPerkManager;
 
         var factories = LoadCombatTemplateFactories<ICombatTemplateFactory>();
 
@@ -88,30 +89,6 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         return context.CurrentWay.Select(x => x.Payload).ToArray();
     }
 
-    private static IReadOnlyCollection<ICombatantStatusFactory> RollPerks(MonsterCombatantPrefab monsterCombatantPrefab,
-        IReadOnlyCollection<MonsterPerk> availableMonsterPerks,
-        IDice dice)
-    {
-        var filteredPerks = availableMonsterPerks
-            .Where(x => x.Predicates.All(p => p.IsApplicableTo(monsterCombatantPrefab))).ToArray();
-        
-        var count = dice.Roll(0, filteredPerks.Length);
-
-        switch (count)
-        {
-            case < 0:
-                throw new InvalidOperationException("Rolled perk count can't be below zero.");
-            case 0:
-                return ArraySegment<ICombatantStatusFactory>.Empty;
-            default:
-                {
-                    var monsterPerk = dice.RollFromList(filteredPerks.ToArray(), count).ToArray();
-        
-                    return monsterPerk.Select(x => x.Status).ToArray();
-                }
-        }
-    }
-
     /// <inheritdoc />
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
@@ -129,7 +106,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         var combat = new CombatSource(
             monsterCombatantTemplate.Prefabs
                 .Select(x =>
-                    new PerkMonsterCombatantPrefab(x, RollPerks(x, _globeProvider.Globe.Player.MonsterPerks, _dice)))
+                    new PerkMonsterCombatantPrefab(x, _monsterPerkManager.RollMonsterPerks(x)))
                 .ToArray(),
             new CombatReward(totalDropTables.ToArray())
         );
