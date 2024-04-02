@@ -23,10 +23,10 @@ internal sealed class MonsterPerkManager : IMonsterPerkManager
     }
 
     private static IReadOnlyCollection<MonsterPerk> RollPerks(MonsterCombatantPrefab monsterCombatantPrefab,
-        IEnumerable<MonsterPerk> availableMonsterPerks,
+        IEnumerable<MonsterPerk> playerMonsterPerks,
         IDice dice)
     {
-        var filteredPerks = availableMonsterPerks
+        var filteredPerks = playerMonsterPerks
             .Where(x => x.Predicates.All(p => p.IsApplicableTo(monsterCombatantPrefab))).ToArray();
 
         var count = dice.Roll(0, filteredPerks.Length);
