@@ -279,21 +279,21 @@ internal sealed class MythlandersGame : Game
 
         var balanceTable = new BalanceTable();
 
-        RegisterCatalogs(balanceTable: balanceTable, dialogueResourceProvider: dialogueResourceProvider);
+        RegisterCatalogs(balanceTable, dialogueResourceProvider);
 
         var eventInitializer = Services.GetRequiredService<IEventInitializer>();
         eventInitializer.Init();
 
         var monsterPerkCatalog = new MonsterPerkCatalog();
-        Services.AddService(monsterPerkCatalog);
+        Services.AddService<IMonsterPerkCatalog>(monsterPerkCatalog);
 
         Services.AddService(
             new GlobeProvider(Services.GetRequiredService<ICharacterCatalog>(),
                 Services.GetRequiredService<IStoryPointInitializer>(),
-                Services.GetRequiredService<MonsterPerkCatalog>()));
+                Services.GetRequiredService<IMonsterPerkCatalog>()));
 
         var monsterPerkManager = new MonsterPerkManager(Services.GetRequiredService<IDice>(),
-            Services.GetRequiredService<MonsterPerkCatalog>(),
+            Services.GetRequiredService<IMonsterPerkCatalog>(),
             Services.GetRequiredService<GlobeProvider>());
         Services.AddService<IMonsterPerkManager>(monsterPerkManager);
         

@@ -11,11 +11,11 @@ namespace Client.Assets.Catalogs;
 
 internal sealed class MonsterPerkManager : IMonsterPerkManager
 {
-    private readonly MonsterPerkCatalog _catalog;
+    private readonly IMonsterPerkCatalog _catalog;
     private readonly IDice _dice;
     private readonly GlobeProvider _globeProvider;
 
-    public MonsterPerkManager(IDice dice, MonsterPerkCatalog catalog, GlobeProvider globeProvider)
+    public MonsterPerkManager(IDice dice, IMonsterPerkCatalog catalog, GlobeProvider globeProvider)
     {
         _dice = dice;
         _catalog = catalog;
@@ -23,7 +23,7 @@ internal sealed class MonsterPerkManager : IMonsterPerkManager
     }
 
     private static IReadOnlyCollection<MonsterPerk> RollPerks(MonsterCombatantPrefab monsterCombatantPrefab,
-        IReadOnlyCollection<MonsterPerk> availableMonsterPerks,
+        IEnumerable<MonsterPerk> availableMonsterPerks,
         IDice dice)
     {
         var filteredPerks = availableMonsterPerks
