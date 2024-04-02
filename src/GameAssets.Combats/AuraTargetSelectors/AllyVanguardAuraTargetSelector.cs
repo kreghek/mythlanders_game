@@ -5,11 +5,6 @@ namespace GameAssets.Combats.AuraTargetSelectors;
 
 public sealed class AllyVanguardAuraTargetSelector : IAuraTargetSelector
 {
-    private static IEnumerable<ICombatant> GetVanguardCombatant(CombatFieldSide side)
-    {
-        return GetIterator(side).ToArray();
-    }
-
     private static IEnumerable<ICombatant> GetIterator(CombatFieldSide side)
     {
         for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
@@ -29,10 +24,13 @@ public sealed class AllyVanguardAuraTargetSelector : IAuraTargetSelector
         {
             return field.HeroSide;
         }
-        else
-        {
-            return field.MonsterSide;
-        }
+
+        return field.MonsterSide;
+    }
+
+    private static IEnumerable<ICombatant> GetVanguardCombatant(CombatFieldSide side)
+    {
+        return GetIterator(side).ToArray();
     }
 
     private static bool IsInVanguard(ICombatant testCombatant, IAuraTargetSelectorContext context)
