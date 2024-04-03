@@ -16,7 +16,7 @@ public sealed class ExtraHitPointsMonsterPerkFactory : MonsterPerkFactoryBase
     {
         return new CombatStatusFactory(source =>
             new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(
-                new CombatantStatusSid(nameof(PerkName)),
+                new CombatantStatusSid(PerkName),
                 new OwnerBoundCombatantEffectLifetime(),
                 source,
                 CombatantStatTypes.HitPoints,
