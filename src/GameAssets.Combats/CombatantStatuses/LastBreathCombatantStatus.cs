@@ -3,27 +3,18 @@ using CombatDicesTeam.Combats.CombatantStatuses;
 
 namespace GameAssets.Combats.CombatantStatuses;
 
-public class LastBreathCombatantStatus: CombatantStatusBase
+public class LastBreathCombatantStatus : CombatantStatusBase
 {
-    private readonly int _thresholdValue;
     private readonly int _restoreValue;
-    private ICombatant? _owner;
+    private readonly int _thresholdValue;
     private CombatEngineBase? _combat;
+    private ICombatant? _owner;
 
-    public LastBreathCombatantStatus(ICombatantStatusSid sid, ICombatantStatusLifetime lifetime, ICombatantStatusSource source, int thresholdValue, int restoreValue) : base(sid, lifetime, source)
+    public LastBreathCombatantStatus(ICombatantStatusSid sid, ICombatantStatusLifetime lifetime,
+        ICombatantStatusSource source, int thresholdValue, int restoreValue) : base(sid, lifetime, source)
     {
         _thresholdValue = thresholdValue;
         _restoreValue = restoreValue;
-    }
-
-    public override void Impose(ICombatant combatant, ICombatantStatusImposeContext context)
-    {
-        base.Impose(combatant, context);
-
-        _owner = combatant;
-        _combat = context.Combat;
-        
-        _combat.CombatantHasBeenDamaged += Combat_CombatantHasBeenDamaged;
     }
 
     public override void Dispel(ICombatant combatant)
@@ -34,6 +25,16 @@ public class LastBreathCombatantStatus: CombatantStatusBase
         {
             _combat.CombatantHasBeenDamaged -= Combat_CombatantHasBeenDamaged;
         }
+    }
+
+    public override void Impose(ICombatant combatant, ICombatantStatusImposeContext context)
+    {
+        base.Impose(combatant, context);
+
+        _owner = combatant;
+        _combat = context.Combat;
+
+        _combat.CombatantHasBeenDamaged += Combat_CombatantHasBeenDamaged;
     }
 
     private void Combat_CombatantHasBeenDamaged(object? sender, CombatantDamagedEventArgs e)

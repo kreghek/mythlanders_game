@@ -28,11 +28,12 @@ internal class AskedNoViolenceFactory : CombatMovementFactoryBase
                     new AddCombatantStatusEffect(new SelfTargetSelector(),
                         new CombatStatusFactory(source =>
                             new HiddenThreatCombatantStatus(new CombatantStatusSid("HiddenThreat"),
-                                new UntilCombatantEffectMeetPredicatesLifetime(new ICombatantStatusLifetimeExpirationCondition[]
-                                {
-                                    new IsAttackUsedLifetimeExpirationCondition(),
-                                    new OwnerIsAttackedOrMovedLifetimeExpirationCondition()
-                                }), source))
+                                new UntilCombatantEffectMeetPredicatesLifetime(
+                                    new ICombatantStatusLifetimeExpirationCondition[]
+                                    {
+                                        new IsAttackUsedLifetimeExpirationCondition(),
+                                        new OwnerIsAttackedOrMovedLifetimeExpirationCondition()
+                                    }), source))
                     )
                 })
         );

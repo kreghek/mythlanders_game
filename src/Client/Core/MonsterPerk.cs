@@ -6,6 +6,11 @@ namespace Client.Core;
 
 public sealed record MonsterPerk(ICombatantStatusFactory Status, string Sid)
 {
+    /// <summary>
+    /// This perk cant be rolled as location reward.
+    /// </summary>
+    public bool CantBeRolledAsReward { get; init; }
+
     public bool IsUnique { get; init; }
 
     public IReadOnlyCollection<IMonsterPerkPredicate> Predicates { get; init; } =
@@ -13,9 +18,4 @@ public sealed record MonsterPerk(ICombatantStatusFactory Status, string Sid)
         {
             new DefaultMonsterPerkPredicate()
         };
-
-    /// <summary>
-    /// This perk cant be rolled as location reward.
-    /// </summary>
-    public bool CantBeRolledAsReward { get; init; }
 }

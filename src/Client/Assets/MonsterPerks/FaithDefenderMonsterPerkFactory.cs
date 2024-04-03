@@ -13,6 +13,7 @@ namespace Client.Assets.MonsterPerks;
 [UsedImplicitly]
 public sealed class FaithDefenderMonsterPerkFactory : MonsterPerkFactoryBase
 {
+    protected override bool CantBeRolledAsReward => true;
     protected override bool IsUnique => true;
 
     protected override IReadOnlyCollection<IMonsterPerkPredicate> CreatePredicates()
@@ -31,5 +32,4 @@ public sealed class FaithDefenderMonsterPerkFactory : MonsterPerkFactoryBase
                 source,
                 1));
     }
-    protected override bool CantBeRolledAsReward => true;
 }
