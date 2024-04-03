@@ -21,7 +21,7 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
     private readonly ScreenTransition _parentScreen;
     private readonly object _parentScreenArgs;
     private readonly IList<ButtonBase> _monstersButtonList;
-    private readonly TextButton _knowedgeTabButton;
+    private readonly TextButton _knowledgeTabButton;
     private readonly Player _player;
     private readonly IUiContentStorage _uiContentStorage;
     private readonly ICharacterCatalog _unitSchemeCatalog;
@@ -45,8 +45,8 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
         _monstersButtonList = new List<ButtonBase>();
 
-        _knowedgeTabButton = new TextButton("Knowedge");
-        _knowedgeTabButton.OnClick += (s, e) => { _currentTab = BestiaryTab.Knownedge; };
+        _knowledgeTabButton = new TextButton("Knowedge");
+        _knowledgeTabButton.OnClick += (s, e) => { _currentTab = BestiaryTab.Knowledge; };
 
         _monsterPerkTabButton = new TextButton("Perks");
         _monsterPerkTabButton.OnClick += (s, e) => { _currentTab = BestiaryTab.Perks; };
@@ -87,8 +87,8 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
-        _knowedgeTabButton.Rect = new Rectangle(contentRect.Left + ControlBase.CONTENT_MARGIN, contentRect.Top + ControlBase.CONTENT_MARGIN, 100, 20);
-        _knowedgeTabButton.Draw(spriteBatch);
+        _knowledgeTabButton.Rect = new Rectangle(contentRect.Left + ControlBase.CONTENT_MARGIN, contentRect.Top + ControlBase.CONTENT_MARGIN, 100, 20);
+        _knowledgeTabButton.Draw(spriteBatch);
 
         _monsterPerkTabButton.Rect = new Rectangle(contentRect.Left + ControlBase.CONTENT_MARGIN + 100 + ControlBase.CONTENT_MARGIN, contentRect.Top + ControlBase.CONTENT_MARGIN, 100, 20);
         _monsterPerkTabButton.Draw(spriteBatch);
@@ -101,8 +101,8 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
         switch (_currentTab)
         {
-            case BestiaryTab.Knownedge:
-                DrawKnowedge(spriteBatch, tabBodyRect);
+            case BestiaryTab.Knowledge:
+                DrawKnowledge(spriteBatch, tabBodyRect);
                 break;
             case BestiaryTab.Perks:
                 DrawPerks(spriteBatch, tabBodyRect);
@@ -126,7 +126,7 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
         _perksPanel.Draw(spriteBatch);
     }
 
-    private void DrawKnowedge(SpriteBatch spriteBatch, Rectangle contentRect)
+    private void DrawKnowledge(SpriteBatch spriteBatch, Rectangle contentRect)
     {
         for (var index = 0; index < _monstersButtonList.Count; index++)
         {
@@ -166,7 +166,7 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
         switch (_currentTab)
         {
-            case BestiaryTab.Knownedge:
+            case BestiaryTab.Knowledge:
                 foreach (var button in _monstersButtonList)
                 {
                     button.Update(ResolutionIndependentRenderer);
@@ -181,7 +181,7 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
     private void UpdateTabs()
     {
-        _knowedgeTabButton.Update(ResolutionIndependentRenderer);
+        _knowledgeTabButton.Update(ResolutionIndependentRenderer);
         _monsterPerkTabButton.Update(ResolutionIndependentRenderer);
     }
 
@@ -244,7 +244,7 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
     private enum BestiaryTab
     {
-        Knownedge,
+        Knowledge,
         Perks
     }
 }
