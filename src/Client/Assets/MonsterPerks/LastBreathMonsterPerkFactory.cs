@@ -10,16 +10,18 @@ using JetBrains.Annotations;
 namespace Client.Assets.MonsterPerks;
 
 [UsedImplicitly]
-public sealed class ExtraHitPointsMonsterPerkFactory : MonsterPerkFactoryBase
+public sealed class LastBreathMonsterPerkFactory : MonsterPerkFactoryBase
 {
     protected override ICombatantStatusFactory CreateStatus()
     {
         return new CombatStatusFactory(source =>
-            new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(
-                new CombatantStatusSid(PerkName),
-                new OwnerBoundCombatantEffectLifetime(),
+            new LastBreathCombatantStatus(new CombatantStatusSid(PerkName),
+                new UntilCombatantEffectMeetPredicatesLifetime(new[]
+                {
+                    new OwnerStatBelowLifetimeExpirationCondition(CombatantStatTypes.HitPoints, 1)
+                }),
                 source,
-                CombatantStatTypes.HitPoints,
-                1)));
+                1,
+                2));
     }
 }

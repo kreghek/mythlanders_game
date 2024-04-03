@@ -1116,4 +1116,7 @@
     <value>Zduhach Might</value>
     <comment>Skill</comment>
   </data>
+  <data name="LastBreath" xml:space="preserve">
+    <value>The Last Breath</value><comment>Monster Perk, Status</comment>
+  </data>
 </root>

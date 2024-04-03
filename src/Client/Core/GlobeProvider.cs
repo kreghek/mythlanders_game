@@ -18,7 +18,7 @@ namespace Client.Core;
 internal sealed class GlobeProvider
 {
     private const string SAVE_FILE_TEMPLATE = "save-{0}.json";
-    private readonly MonsterPerkCatalog _monsterPerkCatalog;
+    private readonly IMonsterPerkCatalog _monsterPerkCatalog;
 
     private readonly string _storagePath;
     private readonly IStoryPointInitializer _storyPointInitializer;
@@ -28,7 +28,7 @@ internal sealed class GlobeProvider
 
     public GlobeProvider(ICharacterCatalog unitSchemeCatalog,
         IStoryPointInitializer storyPointInitializer,
-        MonsterPerkCatalog monsterPerkCatalog)
+        IMonsterPerkCatalog monsterPerkCatalog)
     {
         _unitSchemeCatalog = unitSchemeCatalog;
         _storyPointInitializer = storyPointInitializer;
