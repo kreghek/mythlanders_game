@@ -48,7 +48,7 @@ internal sealed class MonsterPerkManager : IMonsterPerkManager
 
     private MonsterPerk RollRewardMonsterPerk()
     {
-        var availableMonsterPerks = _catalog.Perks.ToArray();
+        var availableMonsterPerks = _catalog.Perks.Where(x => !x.CantBeRolledAsReward).ToArray();
         var filterUniquePerks = availableMonsterPerks
             .Except(_globeProvider.Globe.Player.MonsterPerks.Where(x => x.IsUnique)).ToArray();
 

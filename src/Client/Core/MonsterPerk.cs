@@ -13,12 +13,9 @@ public sealed record MonsterPerk(ICombatantStatusFactory Status, string Sid)
         {
             new DefaultMonsterPerkPredicate()
         };
-}
 
-public sealed class DefaultMonsterPerkPredicate : IMonsterPerkPredicate
-{
-    public bool IsApplicableTo(MonsterCombatantPrefab monsterPrefab)
-    {
-        return true;
-    }
+    /// <summary>
+    /// This perk cant be rolled as location reward.
+    /// </summary>
+    public bool CantBeRolledAsReward { get; init; }
 }

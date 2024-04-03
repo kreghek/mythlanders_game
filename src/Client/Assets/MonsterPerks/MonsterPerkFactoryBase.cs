@@ -25,7 +25,9 @@ public abstract class MonsterPerkFactoryBase : IMonsterPerkFactory
         return new MonsterPerk(CreateStatus(), PerkName)
         {
             Predicates = CreatePredicates(),
-            IsUnique = IsUnique
+            IsUnique = IsUnique,
+            CantBeRolledAsReward = CantBeRolledAsReward
         };
     }
+    protected virtual bool CantBeRolledAsReward => false;
 }

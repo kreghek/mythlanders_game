@@ -31,4 +31,5 @@ public sealed class FaithDefenderMonsterPerkFactory : MonsterPerkFactoryBase
                 source,
                 1));
     }
+    protected override bool CantBeRolledAsReward => true;
 }
