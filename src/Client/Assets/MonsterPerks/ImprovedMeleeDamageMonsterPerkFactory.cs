@@ -14,7 +14,7 @@ public sealed class ImprovedMeleeDamageMonsterPerkFactory : MonsterPerkFactoryBa
     protected override ICombatantStatusFactory CreateStatus()
     {
         return new CombatStatusFactory(source =>
-            new ImproveMeleeDamageCombatantStatus(new CombatantStatusSid(nameof(PerkName)),
+            new ImproveMeleeDamageCombatantStatus(new CombatantStatusSid(PerkName),
                 new OwnerBoundCombatantEffectLifetime(),
                 source,
                 1));

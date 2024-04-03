@@ -15,7 +15,7 @@ public sealed class RearguardReduceShieldPointsMonsterPerkFactory : MonsterPerkF
     protected override ICombatantStatusFactory CreateStatus()
     {
         return new CombatStatusFactory(source =>
-            new AuraCombatantStatus(new CombatantStatusSid(nameof(PerkName)),
+            new AuraCombatantStatus(new CombatantStatusSid(PerkName),
                 new OwnerBoundCombatantEffectLifetime(),
                 source,
                 owner => new CombatStatusFactory(source2 =>

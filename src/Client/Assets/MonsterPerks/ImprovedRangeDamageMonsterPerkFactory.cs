@@ -14,7 +14,7 @@ public sealed class ImprovedRangeDamageMonsterPerkFactory : MonsterPerkFactoryBa
     protected override ICombatantStatusFactory CreateStatus()
     {
         return new CombatStatusFactory(source =>
-            new ImproveRangeDamageCombatantStatus(new CombatantStatusSid(nameof(PerkName)),
+            new ImproveRangeDamageCombatantStatus(new CombatantStatusSid(PerkName),
                 new OwnerBoundCombatantEffectLifetime(),
                 source,
                 1));

@@ -15,7 +15,7 @@ public sealed class LastBreathMonsterPerkFactory : MonsterPerkFactoryBase
     protected override ICombatantStatusFactory CreateStatus()
     {
         return new CombatStatusFactory(source =>
-            new LastBreathCombatantStatus(new CombatantStatusSid(nameof(PerkName)),
+            new LastBreathCombatantStatus(new CombatantStatusSid(PerkName),
                 new UntilCombatantEffectMeetPredicatesLifetime(new[]
                 {
                     new OwnerStatBelowLifetimeExpirationCondition(CombatantStatTypes.HitPoints, 1)

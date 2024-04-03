@@ -26,7 +26,7 @@ public sealed class FaithDefenderMonsterPerkFactory : MonsterPerkFactoryBase
     protected override ICombatantStatusFactory CreateStatus()
     {
         return new CombatStatusFactory(source =>
-            new ModifyEffectsCombatantStatus(new CombatantStatusSid(nameof(PerkName)),
+            new ModifyEffectsCombatantStatus(new CombatantStatusSid(PerkName),
                 new OwnerBoundCombatantEffectLifetime(),
                 source,
                 1));
