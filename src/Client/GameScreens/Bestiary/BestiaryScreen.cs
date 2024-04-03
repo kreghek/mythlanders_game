@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Core;
-using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Bestiary.Ui;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter;
 using Client.ScreenManagement;
+
+using CombatDicesTeam.Engine.Ui;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,10 +21,12 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
     private readonly ScreenTransition _parentScreen;
     private readonly object _parentScreenArgs;
     private readonly IList<ButtonBase> _monstersButtonList;
-
+    private readonly TextButton _knowedgeTabButton;
     private readonly Player _player;
     private readonly IUiContentStorage _uiContentStorage;
     private readonly ICharacterCatalog _unitSchemeCatalog;
+    private readonly TextButton _monsterPerkTabButton;
+
     private MonsterPerksPanel _perksPanel = null!;
 
     private UnitScheme? _selectedMonster;
@@ -40,6 +44,12 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
         _player = globeProvider.Globe.Player;
 
         _monstersButtonList = new List<ButtonBase>();
+
+        _knowedgeTabButton = new TextButton("Knowedge");
+        _knowedgeTabButton.OnClick += (s, e) => { _currentTab = BestiaryTab.Knownedge; };
+
+        _monsterPerkTabButton = new TextButton("Perks");
+        _monsterPerkTabButton.OnClick += (s, e) => { _currentTab = BestiaryTab.Perks; };
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -77,6 +87,47 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
+        _knowedgeTabButton.Rect = new Rectangle(contentRect.Left + ControlBase.CONTENT_MARGIN, contentRect.Top + ControlBase.CONTENT_MARGIN, 100, 20);
+        _knowedgeTabButton.Draw(spriteBatch);
+
+        _monsterPerkTabButton.Rect = new Rectangle(contentRect.Left + ControlBase.CONTENT_MARGIN + 100 + ControlBase.CONTENT_MARGIN, contentRect.Top + ControlBase.CONTENT_MARGIN, 100, 20);
+        _monsterPerkTabButton.Draw(spriteBatch);
+
+        var tabBodyRect = new Rectangle(
+            contentRect.Left + ControlBase.CONTENT_MARGIN,
+            contentRect.Top + ControlBase.CONTENT_MARGIN + ControlBase.CONTENT_MARGIN + 20, 
+            contentRect.Width - ControlBase.CONTENT_MARGIN * 2,
+            contentRect.Height - ControlBase.CONTENT_MARGIN * 2);
+
+        switch (_currentTab)
+        {
+            case BestiaryTab.Knownedge:
+                DrawKnowedge(spriteBatch, tabBodyRect);
+                break;
+            case BestiaryTab.Perks:
+                DrawPerks(spriteBatch, tabBodyRect);
+                break;
+            default:
+                break;
+        }
+
+        spriteBatch.End();
+    }
+
+    private void DrawPerks(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        _perksPanel.Rect =
+            new Rectangle(
+                contentRect.Left + ControlBase.CONTENT_MARGIN, 
+                contentRect.Top + ControlBase.CONTENT_MARGIN, 
+                contentRect.Width - ControlBase.CONTENT_MARGIN * 2,
+                contentRect.Height - ControlBase.CONTENT_MARGIN * 2);
+
+        _perksPanel.Draw(spriteBatch);
+    }
+
+    private void DrawKnowedge(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
         for (var index = 0; index < _monstersButtonList.Count; index++)
         {
             var button = _monstersButtonList[index];
@@ -86,7 +137,7 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
         if (_selectedMonster is not null)
         {
-            var sb = CollectMonsterStats(_selectedMonster, monsterLevel: 1);
+            var sb = CollectMonsterStats(_selectedMonster);
 
             for (var statIndex = 0; statIndex < sb.Count; statIndex++)
             {
@@ -95,12 +146,6 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
                     new Vector2(contentRect.Center.X, contentRect.Top + statIndex * 22), Color.White);
             }
         }
-
-        _perksPanel.Rect =
-            new Rectangle(contentRect.Center.X, contentRect.Top, contentRect.Width / 2, contentRect.Height);
-        _perksPanel.Draw(spriteBatch);
-
-        spriteBatch.End();
     }
 
     protected override void InitializeContent()
@@ -117,13 +162,30 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
     {
         base.UpdateContent(gameTime);
 
-        foreach (var button in _monstersButtonList)
+        UpdateTabs();
+
+        switch (_currentTab)
         {
-            button.Update(ResolutionIndependentRenderer);
+            case BestiaryTab.Knownedge:
+                foreach (var button in _monstersButtonList)
+                {
+                    button.Update(ResolutionIndependentRenderer);
+                }
+                break;
+            case BestiaryTab.Perks:
+                break;
+            default:
+                break;
         }
     }
 
-    private static IList<string> CollectMonsterStats(UnitScheme monsterScheme, int monsterLevel)
+    private void UpdateTabs()
+    {
+        _knowedgeTabButton.Update(ResolutionIndependentRenderer);
+        _monsterPerkTabButton.Update(ResolutionIndependentRenderer);
+    }
+
+    private static IList<string> CollectMonsterStats(UnitScheme monsterScheme)
     {
         var unitName = monsterScheme.Name;
         var name = GameObjectHelper.GetLocalized(unitName);
@@ -155,6 +217,8 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
         return sb;
     }
 
+    private BestiaryTab _currentTab;
+
     private void InitializeMonsterButtons()
     {
         var monsterSchemes = _unitSchemeCatalog.AllMonsters;
@@ -176,5 +240,11 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
             button.OnClick += (_, _) => { _selectedMonster = monsterScheme; };
             _monstersButtonList.Add(button);
         }
+    }
+
+    private enum BestiaryTab
+    {
+        Knownedge,
+        Perks
     }
 }
