@@ -1124,4 +1124,7 @@
     <value>Мощь великого Здухача</value>
     <comment>Skill</comment>
   </data>
+  <data name="LastBreath" xml:space="preserve">
+    <value>Последнее Дыхание</value>
+  </data>
 </root>
