@@ -10,7 +10,7 @@ using JetBrains.Annotations;
 namespace Client.Assets.MonsterPerks;
 
 [UsedImplicitly]
-public sealed class ExtraShieldPointsMonsterPerkFactory : MonsterPerkFactoryBase
+public sealed class ExtraResolvePointsMonsterPerkFactory : MonsterPerkFactoryBase
 {
     protected override int IconIndex => IconHelper.GetMonsterPerkIconIndex(0, 1);
 
@@ -21,7 +21,7 @@ public sealed class ExtraShieldPointsMonsterPerkFactory : MonsterPerkFactoryBase
                 new CombatantStatusSid(PerkName),
                 new OwnerBoundCombatantEffectLifetime(),
                 source,
-                CombatantStatTypes.ShieldPoints,
+                CombatantStatTypes.Resolve,
                 1)));
     }
 }
