@@ -451,6 +451,9 @@
   <data name="ExtraShieldPoints" xml:space="preserve">
     <value>Экстра щиты</value>
   </data>
+  <data name="ExtraSpeed" xml:space="preserve">
+    <value>Экстра Скорость</value>
+  </data>
   <data name="EyesOfChaos" xml:space="preserve">
     <value>Очи Хаоса</value>
   </data>
@@ -668,6 +671,9 @@
   <data name="JustHitBoarWithKnife_Description" xml:space="preserve">
     <value>Наносит урон 1ед. ближайшему в линии противнику. Если это был самый сильный противник, то накладывает кровотечение на 2 раунда, наносящее урон 1ед. здоровью каждый раунд.</value>
     <comment>Combat movement Amazon</comment>
+  </data>
+  <data name="LastBreath" xml:space="preserve">
+    <value>Последнее Дыхание</value>
   </data>
   <data name="LastChanceToPeace" xml:space="preserve">
     <value>Последний шанс на мир</value>
@@ -1123,8 +1129,5 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
     <comment>Skill</comment>
-  </data>
-  <data name="LastBreath" xml:space="preserve">
-    <value>Последнее Дыхание</value>
   </data>
 </root>

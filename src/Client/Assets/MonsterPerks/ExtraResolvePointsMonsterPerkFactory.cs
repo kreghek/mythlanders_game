@@ -2,6 +2,7 @@
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatantStatuses;
 
 using JetBrains.Annotations;
@@ -9,16 +10,18 @@ using JetBrains.Annotations;
 namespace Client.Assets.MonsterPerks;
 
 [UsedImplicitly]
-public sealed class ImprovedRangeDamageMonsterPerkFactory : MonsterPerkFactoryBase
+public sealed class ExtraResolvePointsMonsterPerkFactory : MonsterPerkFactoryBase
 {
-    protected override int IconIndex => IconHelper.GetMonsterPerkIconIndex(2, 0);
+    protected override int IconIndex => IconHelper.GetMonsterPerkIconIndex(3, 0);
 
     protected override ICombatantStatusFactory CreateStatus()
     {
         return new CombatStatusFactory(source =>
-            new ImproveRangeDamageCombatantStatus(new CombatantStatusSid(PerkName),
+            new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(
+                new CombatantStatusSid(PerkName),
                 new OwnerBoundCombatantEffectLifetime(),
                 source,
-                1));
+                CombatantStatTypes.Resolve,
+                1)));
     }
 }

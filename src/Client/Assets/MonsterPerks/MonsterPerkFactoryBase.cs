@@ -10,6 +10,8 @@ namespace Client.Assets.MonsterPerks;
 public abstract class MonsterPerkFactoryBase : IMonsterPerkFactory
 {
     protected virtual bool CantBeRolledAsReward => false;
+
+    protected virtual int IconIndex { get; }
     protected virtual bool IsUnique => false;
     protected string PerkName => GetType().Name[..^"MonsterPerkFactory".Length];
 
@@ -31,6 +33,4 @@ public abstract class MonsterPerkFactoryBase : IMonsterPerkFactory
             IconIndex = IconIndex
         };
     }
-
-    protected virtual int IconIndex { get; }
 }

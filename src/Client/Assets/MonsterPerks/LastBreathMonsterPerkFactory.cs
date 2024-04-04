@@ -12,6 +12,8 @@ namespace Client.Assets.MonsterPerks;
 [UsedImplicitly]
 public sealed class LastBreathMonsterPerkFactory : MonsterPerkFactoryBase
 {
+    protected override int IconIndex => IconHelper.GetMonsterPerkIconIndex(2, 1);
+
     protected override ICombatantStatusFactory CreateStatus()
     {
         return new CombatStatusFactory(source =>
@@ -24,6 +26,4 @@ public sealed class LastBreathMonsterPerkFactory : MonsterPerkFactoryBase
                 1,
                 2));
     }
-
-    protected override int IconIndex => IconHelper.GetMonsterPerkIconIndex(2, 1);
 }

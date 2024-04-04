@@ -444,6 +444,10 @@
   <data name="ExtraHitPoints" xml:space="preserve">
     <value>Extra HP</value><comment>Monster Perk</comment>
   </data>
+  <data name="ExtraSpeed" xml:space="preserve">
+    <value>Extra Speed</value>
+    <comment>Monster Perk</comment>
+  </data>
   <data name="ExtraShieldPoints" xml:space="preserve">
     <value>Extra shields</value><comment>Monster Perk</comment>
   </data>
@@ -663,6 +667,9 @@
   <data name="JustHitBoarWithKnife_Description" xml:space="preserve">
     <value>Deals 1 damage to the closest enemy in the line. If it was the strongest enemy, it applies bleeding for 2 rounds, dealing damage to 1 health each round.</value>
     <comment>Combat movement Amazon</comment>
+  </data>
+  <data name="LastBreath" xml:space="preserve">
+    <value>The Last Breath</value><comment>Monster Perk, Status</comment>
   </data>
   <data name="LastChanceToPeace" xml:space="preserve">
     <value>Last chance to peace</value>
@@ -1115,8 +1122,5 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Zduhach Might</value>
     <comment>Skill</comment>
-  </data>
-  <data name="LastBreath" xml:space="preserve">
-    <value>The Last Breath</value><comment>Monster Perk, Status</comment>
   </data>
 </root>

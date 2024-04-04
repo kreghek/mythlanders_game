@@ -12,6 +12,8 @@ namespace Client.Assets.MonsterPerks;
 [UsedImplicitly]
 public sealed class ExtraHitPointsMonsterPerkFactory : MonsterPerkFactoryBase
 {
+    protected override int IconIndex => IconHelper.GetMonsterPerkIconIndex(1, 0);
+
     protected override ICombatantStatusFactory CreateStatus()
     {
         return new CombatStatusFactory(source =>
@@ -22,6 +24,4 @@ public sealed class ExtraHitPointsMonsterPerkFactory : MonsterPerkFactoryBase
                 CombatantStatTypes.HitPoints,
                 1)));
     }
-
-    protected override int IconIndex => IconHelper.GetMonsterPerkIconIndex(1, 0);
 }
