@@ -19,4 +19,6 @@ public sealed class ImprovedRangeDamageMonsterPerkFactory : MonsterPerkFactoryBa
                 source,
                 1));
     }
+
+    protected override int IconIndex => IconHelper.GetMonsterPerkIconIndex(2, 0);
 }

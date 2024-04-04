@@ -32,5 +32,5 @@ public abstract class MonsterPerkFactoryBase : IMonsterPerkFactory
         };
     }
 
-    protected virtual int IconIndex { get; init; }
+    protected virtual int IconIndex { get; }
 }
