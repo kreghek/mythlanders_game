@@ -12,7 +12,7 @@ namespace Client.Assets.MonsterPerks;
 [UsedImplicitly]
 public sealed class ExtraShieldPointsMonsterPerkFactory : MonsterPerkFactoryBase
 {
-    protected override int IconIndex => IconHelper.GetMonsterPerkIconIndex(0, 1);
+    protected override int IconIndex => IconHelper.GetMonsterPerkIconIndex(3, 0);
 
     protected override ICombatantStatusFactory CreateStatus()
     {
