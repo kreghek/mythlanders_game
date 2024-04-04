@@ -17,4 +17,5 @@ internal sealed record CampaignStageTemplateServices(
     IDropResolver DropResolver,
     IDice Dice,
     ICharacterCatalog UnitSchemeCatalog,
-    ICrisesCatalog CrisesCatalog);
+    ICrisesCatalog CrisesCatalog,
+    IMonsterPerkManager MonsterPerkManager);

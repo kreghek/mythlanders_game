@@ -441,16 +441,19 @@
     <value>Ability to avoid 50% of any attacks.</value>
     <comment>Perk</comment>
   </data>
+  <data name="ExtraHitPoints" xml:space="preserve">
+    <value>Extra HP</value><comment>Monster Perk</comment>
+  </data>
   <data name="ExtraHp_Description" xml:space="preserve">
     <value>Gain additional &lt;hp&gt;</value>
     <comment>Monster Perk</comment>
   </data>
-  <data name="ExtraHp" xml:space="preserve">
-    <value>Extra HP</value>
+  <data name="ExtraSpeed" xml:space="preserve">
+    <value>Extra Speed</value>
     <comment>Monster Perk</comment>
   </data>
-  <data name="ExtraSp" xml:space="preserve">
-    <value>Extra shields</value>
+  <data name="ExtraShieldPoints" xml:space="preserve">
+    <value>Extra shields</value><comment>Monster Perk</comment>
   </data>
   <data name="EyesOfChaos" xml:space="preserve">
     <value>Eyes of Chaos</value>
@@ -602,6 +605,9 @@
 - Berimir takes an additional 1 damage penalty for all combats until the end of the campaign.</value>
     <comment>Crisis Aftermath</comment>
   </data>
+  <data name="ImprovedAllDamage" xml:space="preserve">
+    <value>Improved Damage</value><comment>Monster Perk</comment>
+  </data>
   <data name="ImprovedArmor" xml:space="preserve">
     <value>Improved armor</value>
     <comment>Perk</comment>
@@ -619,10 +625,10 @@
     <comment>Perk</comment>
   </data>
   <data name="ImprovedMeleeDamage" xml:space="preserve">
-    <value>Improved Melee</value>
+    <value>Improved Melee</value><comment>Monster Perk</comment>
   </data>
   <data name="ImprovedRangeDamage" xml:space="preserve">
-    <value>Improved Range</value>
+    <value>Improved Range</value><comment>Monster Perk</comment>
   </data>
   <data name="Impulse" xml:space="preserve">
     <value>Impulse</value><comment>Status</comment>
@@ -665,6 +671,9 @@
   <data name="JustHitBoarWithKnife_Description" xml:space="preserve">
     <value>Deals 1 damage to the closest enemy in the line. If it was the strongest enemy, it applies bleeding for 2 rounds, dealing damage to 1 health each round.</value>
     <comment>Combat movement Amazon</comment>
+  </data>
+  <data name="LastBreath" xml:space="preserve">
+    <value>The Last Breath</value><comment>Monster Perk, Status</comment>
   </data>
   <data name="LastChanceToPeace" xml:space="preserve">
     <value>Last chance to peace</value>
@@ -812,9 +821,32 @@
     <value>Rapid shot</value>
     <comment>Skill</comment>
   </data>
+  <data name="RearguardExtraHitPoints" xml:space="preserve">
+    <value>Rearguard Extra HP</value>
+    <comment>Monster Perk</comment>
+  </data>
+  <data name="RearguardExtraShieldPoints" xml:space="preserve">
+    <value>Rearguard Extra SP</value>
+    <comment>Monster Perk</comment>
+  </data>
+  <data name="RearguardReduceHitPoints" xml:space="preserve">
+    <value>Reduce Rearguard HP</value>
+    <comment>Monster Perk</comment>
+  </data>
+  <data name="RearguardReduceShieldPoints" xml:space="preserve">
+    <value>Reduce Rearguard SP</value>
+    <comment>Monster Perk</comment>
+  </data>
   <data name="RedemptionStaff" xml:space="preserve">
     <value>Staff of Redemption</value>
     <comment>Equipment</comment>
+  </data>
+  <data name="ReduceEnemyResolvePoints" xml:space="preserve">
+    <value>Reduce resolve</value>
+    <comment>Monster Perk</comment>
+  </data>
+  <data name="ReduceEnemyShieldPoints" xml:space="preserve">
+    <value>Reduce SP</value><comment>Monster Perk</comment>
   </data>
   <data name="RegenerativeProtocol" xml:space="preserve">
     <value>Regenerative protocol</value>
@@ -1002,6 +1034,22 @@
   <data name="VampireBite" xml:space="preserve">
     <value>Vampire bite</value>
     <comment>Skill</comment>
+  </data>
+  <data name="VanguardExtraHitPoints" xml:space="preserve">
+    <value>Vanguard Extra HP</value>
+    <comment>Monster Perk</comment>
+  </data>
+  <data name="VanguardExtraShieldPoints" xml:space="preserve">
+    <value>Vanguard Extra SP</value>
+    <comment>Monster Perk</comment>
+  </data>
+  <data name="VanguardReduceHitPoints" xml:space="preserve">
+    <value>Reduce Vanguard HP</value>
+    <comment>Monster Perk</comment>
+  </data>
+  <data name="VanguardReduceShieldPoints" xml:space="preserve">
+    <value>Reduce Vanguard SP</value>
+    <comment>Monster Perk</comment>
   </data>
   <data name="VelesProtection" xml:space="preserve">
     <value>Veles protection</value>

@@ -445,14 +445,17 @@
     <value>Способность избегать 50% любых атак.</value>
     <comment>Perk</comment>
   </data>
-  <data name="ExtraHp" xml:space="preserve">
+  <data name="ExtraHitPoints" xml:space="preserve">
     <value>Экстра ХП</value>
   </data>
   <data name="ExtraHp_Description" xml:space="preserve">
     <value>Увеличивает ХП на &lt;hp&gt;</value>
   </data>
-  <data name="ExtraSp" xml:space="preserve">
+  <data name="ExtraShieldPoints" xml:space="preserve">
     <value>Экстра щиты</value>
+  </data>
+  <data name="ExtraSpeed" xml:space="preserve">
+    <value>Экстра Скорость</value>
   </data>
   <data name="EyesOfChaos" xml:space="preserve">
     <value>Очи Хаоса</value>
@@ -605,6 +608,9 @@
 - Могучие потусторонние силы будут смотреть на вас с неодобрением.</value>
     <comment>Crisis Aftermath</comment>
   </data>
+  <data name="ImprovedAllDamage" xml:space="preserve">
+    <value>Улучшенный урон</value>
+  </data>
   <data name="ImprovedArmor" xml:space="preserve">
     <value>Улучшенная броня</value>
     <comment>Perk</comment>
@@ -668,6 +674,9 @@
   <data name="JustHitBoarWithKnife_Description" xml:space="preserve">
     <value>Наносит урон 1ед. ближайшему в линии противнику. Если это был самый сильный противник, то накладывает кровотечение на 2 раунда, наносящее урон 1ед. здоровью каждый раунд.</value>
     <comment>Combat movement Amazon</comment>
+  </data>
+  <data name="LastBreath" xml:space="preserve">
+    <value>Последнее Дыхание</value>
   </data>
   <data name="LastChanceToPeace" xml:space="preserve">
     <value>Последний шанс на мир</value>
@@ -818,9 +827,27 @@
     <value>Быстрый выстрел</value>
     <comment>Skill</comment>
   </data>
+  <data name="RearguardExtraHitPoints" xml:space="preserve">
+    <value>Экстра хп тыла</value>
+  </data>
+  <data name="RearguardExtraShieldPoints" xml:space="preserve">
+    <value>Экстра щиты тыла</value>
+  </data>
+  <data name="RearguardReduceHitPoints" xml:space="preserve">
+    <value>Поглощение хп тыла</value>
+  </data>
+  <data name="RearguardReduceShieldPoints" xml:space="preserve">
+    <value>Поглощение щитов тыла</value>
+  </data>
   <data name="RedemptionStaff" xml:space="preserve">
     <value>Посох Покаяния</value>
     <comment>Equipment</comment>
+  </data>
+  <data name="ReduceEnemyResolvePoints" xml:space="preserve">
+    <value>Поглощение решимости</value>
+  </data>
+  <data name="ReduceEnemyShieldPoints" xml:space="preserve">
+    <value>Поглощение щитов</value>
   </data>
   <data name="RegenerativeProtocol" xml:space="preserve">
     <value>Регенеративный протокол</value>
@@ -844,7 +871,7 @@
   <data name="RestAll_CrisisAftermath_Hint" xml:space="preserve">
     <value>Правильный поступок!
 - Все герои немного восстанавливают здоровье.
-- В этой таверне вам больше доверяют.</value>
+- В этой таверне вам доверяют больше.</value>
     <comment>Crisis Aftermath</comment>
   </data>
   <data name="Rest_CrisisAftermath" xml:space="preserve">
@@ -1015,6 +1042,18 @@
   <data name="VampireBite" xml:space="preserve">
     <value>Вампирический удар</value>
     <comment>Skill</comment>
+  </data>
+  <data name="VanguardExtraHitPoints" xml:space="preserve">
+    <value>Экстра ХП авангарда</value>
+  </data>
+  <data name="VanguardExtraShieldPoints" xml:space="preserve">
+    <value>Экстра щиты авангарда</value>
+  </data>
+  <data name="VanguardReduceHitPoints" xml:space="preserve">
+    <value>Поглощение хп авангарда</value>
+  </data>
+  <data name="VanguardReduceShieldPoints" xml:space="preserve">
+    <value>Поглощение щитов авангарда</value>
   </data>
   <data name="VelesProtection" xml:space="preserve">
     <value>Под защитой Велеса</value>
