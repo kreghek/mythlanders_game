@@ -27,7 +27,10 @@ public abstract class MonsterPerkFactoryBase : IMonsterPerkFactory
         {
             Predicates = CreatePredicates(),
             IsUnique = IsUnique,
-            CantBeRolledAsReward = CantBeRolledAsReward
+            CantBeRolledAsReward = CantBeRolledAsReward,
+            IconIndex = IconIndex
         };
     }
+
+    protected virtual int IconIndex { get; }
 }

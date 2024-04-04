@@ -19,4 +19,6 @@ public sealed class ImprovedMeleeDamageMonsterPerkFactory : MonsterPerkFactoryBa
                 source,
                 1));
     }
+
+    protected override int IconIndex => IconHelper.GetMonsterPerkIconIndex(1, 1);
 }

@@ -24,4 +24,6 @@ public sealed class LastBreathMonsterPerkFactory : MonsterPerkFactoryBase
                 1,
                 2));
     }
+
+    protected override int IconIndex => IconHelper.GetMonsterPerkIconIndex(2, 1);
 }

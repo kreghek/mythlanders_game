@@ -22,4 +22,6 @@ public sealed class ExtraShieldPointsMonsterPerkFactory : MonsterPerkFactoryBase
                 CombatantStatTypes.ShieldPoints,
                 1)));
     }
+
+    protected override int IconIndex => IconHelper.GetMonsterPerkIconIndex(0, 1);
 }

@@ -18,4 +18,6 @@ public sealed record MonsterPerk(ICombatantStatusFactory Status, string Sid)
         {
             new DefaultMonsterPerkPredicate()
         };
+
+    public int IconIndex { get; init; }
 }

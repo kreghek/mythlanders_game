@@ -22,4 +22,6 @@ public sealed class ExtraHitPointsMonsterPerkFactory : MonsterPerkFactoryBase
                 CombatantStatTypes.HitPoints,
                 1)));
     }
+
+    protected override int IconIndex => IconHelper.GetMonsterPerkIconIndex(1, 0);
 }
