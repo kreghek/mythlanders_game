@@ -17,10 +17,10 @@ internal sealed class CampaignWayTemplatesCatalog
 
     public CampaignWayTemplatesCatalog(GlobeProvider globeProvider,
         IEventCatalog eventCatalog, IDice dice, IJobProgressResolver jobProgressResolver, IDropResolver dropResolver,
-        ICharacterCatalog unitSchemeCatalog, ICrisesCatalog crisesCatalog)
+        ICharacterCatalog unitSchemeCatalog, ICrisesCatalog crisesCatalog, IMonsterPerkManager monsterPerkManager)
     {
         _services = new CampaignStageTemplateServices(eventCatalog, globeProvider, jobProgressResolver, dropResolver,
-            dice, unitSchemeCatalog, crisesCatalog);
+            dice, unitSchemeCatalog, crisesCatalog, monsterPerkManager);
     }
 
     public IGraph<GraphWay<ICampaignStageItem>> CreateGrindShortTemplate(ILocationSid locationSid)

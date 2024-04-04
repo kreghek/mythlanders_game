@@ -148,7 +148,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var rewards = rolledEffectFactory(locationSid);
 
-        var perksToUnlock = _monsterPerkManager.RollLocationPerks().Select(x => new MonsterPerkCampaignEffect(x));
+        var perksToUnlock = _monsterPerkManager.RollLocationRewardPerks().Select(x => new MonsterPerkCampaignEffect(x));
 
         return rewards.Union(perksToUnlock).ToArray();
     }
