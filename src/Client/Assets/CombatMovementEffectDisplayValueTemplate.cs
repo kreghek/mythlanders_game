@@ -1,9 +1,9 @@
-namespace Client.Assets.CombatMovements;
+namespace Client.Assets;
 
 /// <summary>
 /// Template used to render CM-effect key value in a description.
 /// </summary>
-internal enum CombatMovementEffectDisplayValueTemplate
+public enum DescriptionKeyValueTemplate
 {
     Damage,
     DamageModifier,

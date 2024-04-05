@@ -11,7 +11,7 @@ public abstract class MonsterPerkFactoryBase : IMonsterPerkFactory
 {
     protected virtual bool CantBeRolledAsReward => false;
 
-    protected virtual int IconIndex { get; }
+    protected virtual int IconIndex => IconHelper.GetMonsterPerkIconIndex(0, 0);
     protected virtual bool IsUnique => false;
     protected string PerkName => GetType().Name[..^"MonsterPerkFactory".Length];
 
@@ -30,7 +30,13 @@ public abstract class MonsterPerkFactoryBase : IMonsterPerkFactory
             Predicates = CreatePredicates(),
             IsUnique = IsUnique,
             CantBeRolledAsReward = CantBeRolledAsReward,
-            IconIndex = IconIndex
+            IconIndex = IconIndex,
+            Values = CreateValues()
         };
+    }
+    
+    protected virtual IReadOnlyCollection<DescriptionKeyValue> CreateValues()
+    {
+        return ArraySegment<DescriptionKeyValue>.Empty;
     }
 }

@@ -55,14 +55,14 @@ internal class RiseYourSwordsFactory : CombatMovementFactoryBase
     }
 
     /// <inheritdoc />
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {
         return new[]
         {
-            new CombatMovementEffectDisplayValue("damage_buff", 1,
-                CombatMovementEffectDisplayValueTemplate.DamageModifier),
-            new CombatMovementEffectDisplayValue("duration", 1, CombatMovementEffectDisplayValueTemplate.TurnDuration)
+            new DescriptionKeyValue("damage_buff", 1,
+                DescriptionKeyValueTemplate.DamageModifier),
+            new DescriptionKeyValue("duration", 1, DescriptionKeyValueTemplate.TurnDuration)
         };
     }
 }
