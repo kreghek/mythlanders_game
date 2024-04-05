@@ -13,5 +13,6 @@ public enum DescriptionKeyValueTemplate
     HitPoints,
     ShieldPoints,
     HitPointsDamage,
-    Defence
+    Defence,
+    Resolve
 }

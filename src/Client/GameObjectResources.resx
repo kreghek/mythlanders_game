@@ -444,7 +444,7 @@
   <data name="ExtraHitPoints" xml:space="preserve">
     <value>Extra HP</value><comment>Monster Perk</comment>
   </data>
-  <data name="ExtraHp_Description" xml:space="preserve">
+  <data name="ExtraHitPoints_Description" xml:space="preserve">
     <value>Gain additional &lt;hp&gt;</value>
     <comment>Monster Perk</comment>
   </data>
@@ -453,7 +453,7 @@
     <comment>Monster Perk</comment>
   </data>
   <data name="ExtraShieldPoints" xml:space="preserve">
-    <value>Extra shields</value><comment>Monster Perk</comment>
+    <value>Extra Shields</value><comment>Monster Perk</comment>
   </data>
   <data name="EyesOfChaos" xml:space="preserve">
     <value>Eyes of Chaos</value>
@@ -1126,5 +1126,20 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Zduhach Might</value>
     <comment>Skill</comment>
+  </data>
+  <data name="ExtraShieldPoints_Description" xml:space="preserve">
+    <value>Gain additional &lt;sp&gt;</value>
+  </data>
+  <data name="ExtraSpeed_Description" xml:space="preserve">
+    <value>Gain additional &lt;resolve&gt;</value>
+  </data>
+  <data name="ImprovedAllDamage_Description" xml:space="preserve">
+    <value>Gain &lt;style=color1&gt;all&lt;/style&gt; damage on &lt;damage&gt;</value>
+  </data>
+  <data name="ImprovedMeleeDamage_Description" xml:space="preserve">
+    <value>Gain &lt;style=color1&gt;melee&lt;/style&gt; damage on &lt;damage&gt;</value>
+  </data>
+  <data name="ImprovedRangeDamage_Description" xml:space="preserve">
+    <value>Gain &lt;style=color1&gt;ranged&lt;/style&gt; damage on &lt;damage&gt;</value>
   </data>
 </root>
