@@ -1,4 +1,7 @@
-﻿using CombatDicesTeam.Combats;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
@@ -20,5 +23,13 @@ public sealed class ImprovedRangeDamageMonsterPerkFactory : MonsterPerkFactoryBa
                 new OwnerBoundCombatantEffectLifetime(),
                 source,
                 1));
+    }
+    
+    protected override IReadOnlyCollection<DescriptionKeyValue> CreateValues()
+    {
+        return new[]
+        {
+            new DescriptionKeyValue("damage", 1, DescriptionKeyValueTemplate.DamageModifier)
+        }.ToList();
     }
 }

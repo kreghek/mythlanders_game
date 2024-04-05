@@ -1,4 +1,7 @@
-﻿using CombatDicesTeam.Combats;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
@@ -25,5 +28,14 @@ public sealed class LastBreathMonsterPerkFactory : MonsterPerkFactoryBase
                 source,
                 1,
                 2));
+    }
+    
+    protected override IReadOnlyCollection<DescriptionKeyValue> CreateValues()
+    {
+        return new[]
+        {
+            new DescriptionKeyValue("hp", 1, DescriptionKeyValueTemplate.HitPoints),
+            new DescriptionKeyValue("hp_restore", 2, DescriptionKeyValueTemplate.HitPoints)
+        }.ToList();
     }
 }

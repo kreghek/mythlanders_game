@@ -1403,6 +1403,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Restore &lt;hp_restore&gt; if hit points below &lt;hp_threshold&gt;.
+        /// </summary>
+        internal static string LastBreath_Description {
+            get {
+                return ResourceManager.GetString("LastBreath_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last chance to peace.
         /// </summary>
         internal static string LastChanceToPeace {
@@ -1754,11 +1763,29 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Extra &lt;hp&gt; to ally &lt;style=color1&gt;rearguard&lt;/style&gt;.
+        /// </summary>
+        internal static string RearguardExtraHitPoints_Description {
+            get {
+                return ResourceManager.GetString("RearguardExtraHitPoints_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rearguard Extra SP.
         /// </summary>
         internal static string RearguardExtraShieldPoints {
             get {
                 return ResourceManager.GetString("RearguardExtraShieldPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extra &lt;sp&gt; to ally &lt;style=color1&gt;rearguard&lt;/style&gt;.
+        /// </summary>
+        internal static string RearguardExtraShieldPoints_Description {
+            get {
+                return ResourceManager.GetString("RearguardExtraShieldPoints_Description", resourceCulture);
             }
         }
         
@@ -1772,11 +1799,38 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reduce &lt;hp&gt; of enemy &lt;style=color1&gt;rearguard&lt;/style&gt;.
+        /// </summary>
+        internal static string RearguardReduceHitPoints_Description {
+            get {
+                return ResourceManager.GetString("RearguardReduceHitPoints_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reduce &lt;resolve&gt; of enemy &lt;style=color1&gt;rearguard&lt;/style&gt;.
+        /// </summary>
+        internal static string RearguardReduceResolve_Description {
+            get {
+                return ResourceManager.GetString("RearguardReduceResolve_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reduce Rearguard SP.
         /// </summary>
         internal static string RearguardReduceShieldPoints {
             get {
                 return ResourceManager.GetString("RearguardReduceShieldPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reduce &lt;sp&gt; of enemy &lt;style=color1&gt;rearguard&lt;/style&gt;.
+        /// </summary>
+        internal static string RearguardReduceShieldPoints_Description {
+            get {
+                return ResourceManager.GetString("RearguardReduceShieldPoints_Description", resourceCulture);
             }
         }
         
@@ -2258,11 +2312,29 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Extra &lt;hp&gt; to ally &lt;style=color1&gt;vanguard&lt;/style&gt;.
+        /// </summary>
+        internal static string VanguardExtraHitPoints_Description {
+            get {
+                return ResourceManager.GetString("VanguardExtraHitPoints_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Vanguard Extra SP.
         /// </summary>
         internal static string VanguardExtraShieldPoints {
             get {
                 return ResourceManager.GetString("VanguardExtraShieldPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extra &lt;sp&gt; to ally &lt;style=color1&gt;vanguard&lt;/style&gt;.
+        /// </summary>
+        internal static string VanguardExtraShieldPoints_Description {
+            get {
+                return ResourceManager.GetString("VanguardExtraShieldPoints_Description", resourceCulture);
             }
         }
         
@@ -2276,11 +2348,38 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reduce &lt;hp&gt; of enemy &lt;style=color1&gt;vanguard&lt;/style&gt;.
+        /// </summary>
+        internal static string VanguardReduceHitPoints_Description {
+            get {
+                return ResourceManager.GetString("VanguardReduceHitPoints_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reduce &lt;resolve&gt; of enemy &lt;style=color1&gt;vanguard&lt;/style&gt;.
+        /// </summary>
+        internal static string VanguardReduceResolve_Description {
+            get {
+                return ResourceManager.GetString("VanguardReduceResolve_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reduce Vanguard SP.
         /// </summary>
         internal static string VanguardReduceShieldPoints {
             get {
                 return ResourceManager.GetString("VanguardReduceShieldPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reduce &lt;sp&gt; of enemy &lt;style=color1&gt;vanguard&lt;/style&gt;.
+        /// </summary>
+        internal static string VanguardReduceShieldPoints_Description {
+            get {
+                return ResourceManager.GetString("VanguardReduceShieldPoints_Description", resourceCulture);
             }
         }
         
