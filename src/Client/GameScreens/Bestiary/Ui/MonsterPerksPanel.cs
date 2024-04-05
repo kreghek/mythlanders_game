@@ -128,6 +128,8 @@ internal sealed class MonsterPerksPanel : ControlBase
                 UiResource.CombatMovementEffectValueType_ShieldPoints_Template,
             DescriptionKeyValueTemplate.Defence =>
                 UiResource.CombatMovementEffectValueType_Defence_Template,
+            DescriptionKeyValueTemplate.Resolve =>
+                UiResource.CombatMovementEffectValueType_Resolve_Template,
             _ => "<{0}> units"
         };
     }

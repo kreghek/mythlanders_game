@@ -612,4 +612,7 @@
   <data name="CombatMovementEffectValueType_Defence_Template" xml:space="preserve">
     <value>{0} ед. защиты</value>
   </data>
+  <data name="CombatMovementEffectValueType_Resolve_Template" xml:space="preserve">
+    <value>{0} решимости</value>
+  </data>
 </root>

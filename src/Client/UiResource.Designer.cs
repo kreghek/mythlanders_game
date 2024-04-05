@@ -438,6 +438,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} resolve.
+        /// </summary>
+        internal static string CombatMovementEffectValueType_Resolve_Template {
+            get {
+                return ResourceManager.GetString("CombatMovementEffectValueType_Resolve_Template", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} resolve damage.
         /// </summary>
         internal static string CombatMovementEffectValueType_ResolveDamage_Template {
