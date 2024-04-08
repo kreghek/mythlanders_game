@@ -18,8 +18,8 @@ internal sealed class ContinueGameModal : ModalDialogBase
     private const int BUTTON_WIDTH = 200;
 
     private const int PAGE_SIZE = 3;
-    private readonly StateCoordinator _coordinator;
     private readonly IList<ButtonBase> _continueGameButtons;
+    private readonly StateCoordinator _coordinator;
     private readonly GlobeProvider _globeProvider;
     private readonly IList<ButtonBase> _pageButtons;
     private readonly IScreen _screen;

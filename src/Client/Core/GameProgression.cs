@@ -10,8 +10,6 @@ namespace Client.Core;
 public class GameProgression
 {
     private readonly IList<GameProgressionEntry> _entries;
-    
-    public GameProgressionTransition Current { get; }
 
     public GameProgression()
     {
@@ -30,6 +28,8 @@ public class GameProgression
             },
             Singleton<NullGameProgressionTransition>.Instance);
     }
+
+    public GameProgressionTransition Current { get; }
 
     public IReadOnlyCollection<GameProgressionEntry> Entries => _entries.ToArray();
 

@@ -21,22 +21,25 @@ internal sealed class TutorialSlavicDialogueEventFactory : IDialogueEventFactory
             new StateMachine<DialogueEventState, DialogueEventTrigger>(DialogueConstants.InitialStage);
 
         questStateMachine.Configure(DialogueConstants.InitialStage)
-            .Permit(DialogueConstants.MainPlot.SlavicTutorial.Stage1_Fight_Trigger, DialogueConstants.MainPlot.SlavicTutorial.Stage2);
+            .Permit(DialogueConstants.MainPlot.SlavicTutorial.Stage1_Fight_Trigger,
+                DialogueConstants.MainPlot.SlavicTutorial.Stage2);
 
         var requirements = new Dictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>>
         {
             [DialogueConstants.InitialStage] = Array.Empty<IDialogueEventRequirement>()
         };
-        
+
         var dialogues = new Dictionary<DialogueEventState, string>
         {
-            [DialogueConstants.InitialStage] = GetDialogueFileName(DialogueConstants.MainPlot.SlavicTutorial.Stage1Dialogue),
-            [DialogueConstants.MainPlot.SlavicTutorial.Stage2] = GetDialogueFileName(DialogueConstants.MainPlot.SlavicTutorial.Stage2Dialogue)
+            [DialogueConstants.InitialStage] =
+                GetDialogueFileName(DialogueConstants.MainPlot.SlavicTutorial.Stage1Dialogue),
+            [DialogueConstants.MainPlot.SlavicTutorial.Stage2] =
+                GetDialogueFileName(DialogueConstants.MainPlot.SlavicTutorial.Stage2Dialogue)
         };
 
         return new DialogueEvent(DialogueConstants.MainPlot.SlavicTutorial.Sid, questStateMachine, requirements,
             dialogues);
-        
+
         static string GetDialogueFileName(string stageName)
         {
             var sid = DialogueConstants.MainPlot.SlavicTutorial.Sid;

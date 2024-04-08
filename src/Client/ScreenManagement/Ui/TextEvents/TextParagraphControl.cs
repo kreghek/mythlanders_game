@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.Catalogs.Dialogues;
-using Client.Assets.DialogueOptionAftermath;
 using Client.Core;
 using Client.Engine;
 using Client.GameScreens;
@@ -24,10 +23,10 @@ internal sealed class TextParagraphControl : ControlBase
     private readonly CampaignAftermathContext _aftermathContext;
 
     private readonly SpriteFont _displayNameFont;
-    private readonly IReadOnlyCollection<IDialogueOptionAftermath<CampaignAftermathContext>> _paragraphAftermaths;
     private readonly string? _localizedSpeakerName;
     private readonly TextParagraphMessageControl _message;
     private readonly Vector2 _messageSize;
+    private readonly IReadOnlyCollection<IDialogueOptionAftermath<CampaignAftermathContext>> _paragraphAftermaths;
     private readonly IDialogueSpeaker _speaker;
     private readonly Vector2 _speakerDisplayNameSize;
 

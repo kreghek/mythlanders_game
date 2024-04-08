@@ -1,4 +1,5 @@
 ﻿using Client.Assets.Catalogs.Dialogues;
+using Client.Core;
 
 using CombatDicesTeam.Dialogues;
 
@@ -7,6 +8,7 @@ using FluentAssertions;
 using NUnit.Framework;
 
 namespace Client.Tests.Assets.Catalogs;
+
 internal class DialogueSpeakerTests
 {
     [Test]
@@ -14,8 +16,8 @@ internal class DialogueSpeakerTests
     {
         // ARRANGE
 
-        var speaker1 = new DialogueSpeaker(Core.UnitName.Swordsman);
-        var speaker2 = new DialogueSpeaker(Core.UnitName.Swordsman);
+        var speaker1 = new DialogueSpeaker(UnitName.Swordsman);
+        var speaker2 = new DialogueSpeaker(UnitName.Swordsman);
 
         // ACT
 
@@ -31,8 +33,8 @@ internal class DialogueSpeakerTests
     {
         // ARRANGE
 
-        IDialogueSpeaker speaker1 = new DialogueSpeaker(Core.UnitName.Swordsman);
-        IDialogueSpeaker speaker2 = new DialogueSpeaker(Core.UnitName.Swordsman);
+        IDialogueSpeaker speaker1 = new DialogueSpeaker(UnitName.Swordsman);
+        IDialogueSpeaker speaker2 = new DialogueSpeaker(UnitName.Swordsman);
 
         // ACT
 

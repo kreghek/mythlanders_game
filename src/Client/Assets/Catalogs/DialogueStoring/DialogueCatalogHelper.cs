@@ -35,7 +35,8 @@ internal static class DialogueCatalogHelper
             {
                 var dialogueDtoParagraph = dtoScene.Paragraphs[paragraphIndex];
 
-                var environmentEffects = CreateParagraphEffects(dialogueDtoParagraph.Env, services.ParagraphEffectCreator);
+                var environmentEffects =
+                    CreateParagraphEffects(dialogueDtoParagraph.Env, services.ParagraphEffectCreator);
 
                 if (dialogueDtoParagraph.Text is not null)
                 {
@@ -145,7 +146,8 @@ internal static class DialogueCatalogHelper
             return null;
         }
 
-        var list = aftermathDtos.Select(aftermathDto => aftermathCreator.Create(aftermathDto.Type, aftermathDto.Data)).ToList();
+        var list = aftermathDtos.Select(aftermathDto => aftermathCreator.Create(aftermathDto.Type, aftermathDto.Data))
+            .ToList();
 
         return new CompositeOptionAftermath(list);
     }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using Client.Assets;
 using Client.Assets.Catalogs.Dialogues;
@@ -27,8 +26,8 @@ internal class TextDialogueScreen : TextEventScreenBase
     private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly ILocationSid _globeLocation;
-    private readonly Player _player;
     private readonly GlobeProvider _globeProvider;
+    private readonly Player _player;
     private readonly Random _random;
     private readonly IUiContentStorage _uiContentStorage;
 
@@ -106,7 +105,9 @@ internal class TextDialogueScreen : TextEventScreenBase
     private void CheckTutorial()
     {
         if (!_globeProvider.Globe.Progression.HasEntry("TutorialComplete"))
-        { return; }
+        {
+            return;
+        }
 
         if (_player.HasAbility(PlayerAbility.SkipTutorials))
         {

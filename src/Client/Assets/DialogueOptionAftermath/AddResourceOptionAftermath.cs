@@ -28,6 +28,12 @@ internal class AddResourceOptionAftermath : DialogueOptionAftermathBase
         aftermathContext.AddResources(new Resource(new PropScheme(_resourceSid), _count));
     }
 
+    public static IDialogueOptionAftermath<CampaignAftermathContext> CreateFromData(string data)
+    {
+        var args = data.Split(' ');
+        return new AddResourceOptionAftermath(args[0], int.Parse(args[1]));
+    }
+
     protected override IReadOnlyList<object> GetDescriptionValues(CampaignAftermathContext aftermathContext)
     {
         return new object[]
@@ -35,11 +41,5 @@ internal class AddResourceOptionAftermath : DialogueOptionAftermathBase
             GameObjectHelper.GetLocalizedProp(_resourceSid),
             _count
         };
-    }
-
-    public static IDialogueOptionAftermath<CampaignAftermathContext> CreateFromData(string data)
-    {
-        var args = data.Split(' ');
-        return new AddResourceOptionAftermath(args[0], int.Parse(args[1]));
     }
 }

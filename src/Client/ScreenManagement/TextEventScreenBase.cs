@@ -7,7 +7,6 @@ using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens;
-using Client.GameScreens.Campaign;
 using Client.ScreenManagement.Ui.TextEvents;
 
 using CombatDicesTeam.Dialogues;
@@ -22,8 +21,8 @@ namespace Client.ScreenManagement;
 
 internal abstract class TextEventScreenBase : GameScreenWithMenuBase
 {
-    private readonly HeroCampaign _currentCampaign;
     private readonly StateCoordinator _coordinator;
+    private readonly HeroCampaign _currentCampaign;
     private readonly DialogueContextFactory _dialogueContextFactory;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly DialogueOptions _dialogueOptions;

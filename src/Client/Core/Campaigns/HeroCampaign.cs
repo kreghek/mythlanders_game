@@ -3,7 +3,6 @@ using System.Linq;
 
 using Client.Assets.StoryPointJobs;
 using Client.Core.CampaignEffects;
-using Client.Core.Heroes;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Graphs;
@@ -53,6 +52,30 @@ internal sealed class HeroCampaign
 
     public int VisualizationSeed { get; }
 
+    public void AddHero(HeroState heroState)
+    {
+        var slots = new[]
+        {
+            (0, 0),
+            (1, 0),
+
+            (0, 1),
+            (1, 1),
+
+            (0, 2),
+            (1, 2)
+        };
+
+        var free = slots.Except(_heroes.Select(x => (x.FormationSlot.ColumnIndex, x.FormationSlot.LineIndex)));
+
+        if (free.Any())
+        {
+            var f1 = free.First();
+
+            _heroes.Add(new HeroCampaignState(heroState, new FormationSlot(f1.Item1, f1.Item2)));
+        }
+    }
+
     public void FailCampaign(Globe globe, IJobProgressResolver jobProgressResolver)
     {
         ApplyCampaignEffects(globe, ActualFailurePenalties);
@@ -96,29 +119,5 @@ internal sealed class HeroCampaign
         return heroes.Select(hero =>
                 new HeroCampaignState(hero.Item1, new FormationSlot(hero.Item2.ColumentIndex, hero.Item2.LineIndex)))
             .ToList();
-    }
-
-    public void AddHero(HeroState heroState)
-    {
-        var slots = new[]
-        {
-            (0, 0),
-            (1, 0),
-
-            (0, 1),
-            (1, 1),
-
-            (0, 2),
-            (1, 2)
-        };
-
-        var free = slots.Except(_heroes.Select(x => (x.FormationSlot.ColumnIndex, x.FormationSlot.LineIndex)));
-
-        if (free.Any())
-        {
-            var f1 = free.First();
-
-            _heroes.Add(new HeroCampaignState(heroState, new FormationSlot(f1.Item1, f1.Item2)));
-        }
     }
 }
