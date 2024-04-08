@@ -3,17 +3,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.PreHistory;
 
-internal sealed class FractionScenePreHistoryBackground : IPreHistoryBackground
+internal sealed class FractionScene : IPreHistoryScene
 {
     private readonly Texture2D _leftDisabledTexture;
     private readonly Texture2D _leftTexture;
     private readonly Texture2D _rightDisabledTexture;
     private readonly Texture2D _rightTexture;
-    private int? _hoverSelected;
+    private int? _hoverOption;
 
-    private int? _optionSelected;
+    private int? _selectedOption;
 
-    public FractionScenePreHistoryBackground(Texture2D leftTexture, Texture2D leftDisabledTexture,
+    public FractionScene(Texture2D leftTexture, Texture2D leftDisabledTexture,
         Texture2D rightTexture, Texture2D rightDisabledTexture)
     {
         _leftTexture = leftTexture;
@@ -31,24 +31,24 @@ internal sealed class FractionScenePreHistoryBackground : IPreHistoryBackground
         var leftTexture = _leftTexture;
         var rightTexture = _rightTexture;
 
-        if (_optionSelected is not null)
+        if (_selectedOption is not null)
         {
-            if (_optionSelected == 0)
+            if (_selectedOption == 0)
             {
                 rightTexture = _rightDisabledTexture;
             }
-            else if (_optionSelected == 1)
+            else if (_selectedOption == 1)
             {
                 leftTexture = _leftDisabledTexture;
             }
         }
-        else if (_hoverSelected is not null)
+        else if (_hoverOption is not null)
         {
-            if (_hoverSelected == 0)
+            if (_hoverOption == 0)
             {
                 rightTexture = _rightDisabledTexture;
             }
-            else if (_hoverSelected == 1)
+            else if (_hoverOption == 1)
             {
                 leftTexture = _leftDisabledTexture;
             }
@@ -65,11 +65,11 @@ internal sealed class FractionScenePreHistoryBackground : IPreHistoryBackground
 
     public void SelectOption(int index)
     {
-        _optionSelected = index;
+        _selectedOption = index;
     }
 
     public void HoverOption(int? index)
     {
-        _hoverSelected = index;
+        _hoverOption = index;
     }
 }

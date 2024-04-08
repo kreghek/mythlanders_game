@@ -10,12 +10,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.PreHistory;
 
-internal sealed class StaticScenePreHistoryBackground : IPreHistoryBackground
+internal sealed class StaticScene : IPreHistoryScene
 {
     private readonly PongRectangleControl _pongBackground;
     private readonly Texture2D? _texture;
 
-    public StaticScenePreHistoryBackground(Texture2D texture, Rectangle screenRectangle)
+    public StaticScene(Texture2D texture, Rectangle screenRectangle)
     {
         _texture = texture;
 

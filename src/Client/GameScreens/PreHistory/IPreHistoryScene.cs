@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.PreHistory;
 
-internal interface IPreHistoryBackground
+internal interface IPreHistoryScene
 {
     /// <summary>
     /// </summary>
