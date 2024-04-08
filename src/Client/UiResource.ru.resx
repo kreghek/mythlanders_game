@@ -255,6 +255,9 @@
   <data name="CombatMovementEffectValueType_ResolveDamage_Template" xml:space="preserve">
     <value>{0} урона решимости</value>
   </data>
+  <data name="CombatMovementEffectValueType_Resolve_Template" xml:space="preserve">
+    <value>{0} решимости</value>
+  </data>
   <data name="CombatMovementEffectValueType_RoundDuration_Template" xml:space="preserve">
     <value>{0} раунд(ов)</value>
   </data>

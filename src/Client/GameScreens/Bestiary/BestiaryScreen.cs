@@ -21,11 +21,11 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
     private readonly ScreenTransition _parentScreen;
     private readonly object _parentScreenArgs;
     private readonly IList<ButtonBase> _monstersButtonList;
-    private readonly TextButton _knowledgeTabButton;
+    private readonly ButtonBase _knowledgeTabButton;
     private readonly Player _player;
     private readonly IUiContentStorage _uiContentStorage;
     private readonly ICharacterCatalog _unitSchemeCatalog;
-    private readonly TextButton _monsterPerkTabButton;
+    private readonly ButtonBase _monsterPerkTabButton;
 
     private MonsterPerksPanel _perksPanel = null!;
 
@@ -45,10 +45,10 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
         _monstersButtonList = new List<ButtonBase>();
 
-        _knowledgeTabButton = new TextButton("Knowedge");
+        _knowledgeTabButton = new ResourceTextButton(nameof(UiResource.BestiaryTabMonsterKnowledgeCaption));
         _knowledgeTabButton.OnClick += (s, e) => { _currentTab = BestiaryTab.Knowledge; };
 
-        _monsterPerkTabButton = new TextButton("Perks");
+        _monsterPerkTabButton = new ResourceTextButton(nameof(UiResource.BestiaryTabMonsterPerksCaption));
         _monsterPerkTabButton.OnClick += (s, e) => { _currentTab = BestiaryTab.Perks; };
     }
 
@@ -143,10 +143,12 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
         var descriptionText = StringHelper.LineBreaking(UiResource.BestiaryTabMonsterKnowledgeDescription, 60);
         spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), descriptionText, contentRect.Location.ToVector2() + new Vector2(ControlBase.CONTENT_MARGIN), MythlandersColors.Description);
 
+        var descriptionSize = _uiContentStorage.GetTitlesFont().MeasureString(descriptionText);
+
         for (var index = 0; index < _monstersButtonList.Count; index++)
         {
             var button = _monstersButtonList[index];
-            button.Rect = new Rectangle(contentRect.Left, contentRect.Top + index * 21, 100, 20);
+            button.Rect = new Rectangle(contentRect.Left + ControlBase.CONTENT_MARGIN, (int)descriptionSize.Y + ControlBase.CONTENT_MARGIN + index * (20 + ControlBase.CONTENT_MARGIN), 100, 20);
             button.Draw(spriteBatch);
         }
 
@@ -158,7 +160,7 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
             {
                 var line = sb[statIndex];
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), line,
-                    new Vector2(contentRect.Center.X, contentRect.Top + statIndex * 22), Color.White);
+                    new Vector2(contentRect.Left + ControlBase.CONTENT_MARGIN + 100 + ControlBase.CONTENT_MARGIN, (int)descriptionSize.Y + ControlBase.CONTENT_MARGIN + statIndex * 22), Color.White);
             }
         }
     }

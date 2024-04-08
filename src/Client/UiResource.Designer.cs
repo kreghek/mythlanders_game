@@ -160,6 +160,42 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monster Knowledge.
+        /// </summary>
+        internal static string BestiaryTabMonsterKnowledgeCaption {
+            get {
+                return ResourceManager.GetString("BestiaryTabMonsterKnowledgeCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;ve already met these monsters. Fight more often to learn new things about monsters and explore their vulnerabilities..
+        /// </summary>
+        internal static string BestiaryTabMonsterKnowledgeDescription {
+            get {
+                return ResourceManager.GetString("BestiaryTabMonsterKnowledgeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monster Perks.
+        /// </summary>
+        internal static string BestiaryTabMonsterPerksCaption {
+            get {
+                return ResourceManager.GetString("BestiaryTabMonsterPerksCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current monster upgrades. Choose your next company and next monster upgrade carefully to ensure you are always capable of defeating them..
+        /// </summary>
+        internal static string BestiaryTabMonsterPerksDescription {
+            get {
+                return ResourceManager.GetString("BestiaryTabMonsterPerksDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lvl.
         /// </summary>
         internal static string BiomeLevelText {

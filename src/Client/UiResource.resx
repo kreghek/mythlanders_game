@@ -265,6 +265,9 @@
   <data name="CombatMovementEffectValueType_ResolveDamage_Template" xml:space="preserve">
     <value>{0} resolve damage</value>
   </data>
+  <data name="CombatMovementEffectValueType_Resolve_Template" xml:space="preserve">
+    <value>{0} resolve</value>
+  </data>
   <data name="CombatMovementEffectValueType_RoundDuration_Template" xml:space="preserve">
     <value>{0} round(s)</value>
   </data>
