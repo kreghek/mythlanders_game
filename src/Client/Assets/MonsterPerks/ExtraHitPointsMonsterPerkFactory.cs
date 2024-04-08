@@ -10,12 +10,14 @@ using GameAssets.Combats.CombatantStatuses;
 
 using JetBrains.Annotations;
 
+using Microsoft.Xna.Framework;
+
 namespace Client.Assets.MonsterPerks;
 
 [UsedImplicitly]
 public sealed class ExtraHitPointsMonsterPerkFactory : MonsterPerkFactoryBase
 {
-    protected override int IconIndex => IconHelper.GetMonsterPerkIconIndex(1, 0);
+    protected override Point IconCoords => IconHelper.GetMonsterPerkIconIndex(1, 0);
 
     protected override ICombatantStatusFactory CreateStatus()
     {
