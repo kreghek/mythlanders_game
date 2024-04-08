@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using Client.Core;
-using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Bestiary.Ui;
+using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter;
 using Client.ScreenManagement;
+
+using CombatDicesTeam.Engine.Ui;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,12 +17,15 @@ namespace Client.GameScreens.Bestiary;
 
 internal sealed class BestiaryScreen : GameScreenWithMenuBase
 {
-    private readonly IReadOnlyList<HeroCampaignLaunch> _availableLaunches;
+    private readonly ScreenTransition _parentScreen;
+    private readonly object _parentScreenArgs;
     private readonly IList<ButtonBase> _monstersButtonList;
-
+    private readonly ButtonBase _knowledgeTabButton;
     private readonly Player _player;
     private readonly IUiContentStorage _uiContentStorage;
     private readonly ICharacterCatalog _unitSchemeCatalog;
+    private readonly ButtonBase _monsterPerkTabButton;
+
     private MonsterPerksPanel _perksPanel = null!;
 
     private UnitScheme? _selectedMonster;
@@ -27,7 +33,8 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
     public BestiaryScreen(MythlandersGame game, BestiaryScreenTransitionArguments args)
         : base(game)
     {
-        _availableLaunches = args.AvailableLaunches;
+        _parentScreenArgs = args.ParentScreenArgs;
+        _parentScreen = args.ParentScreen;
 
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();
 
@@ -36,6 +43,12 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
         _player = globeProvider.Globe.Player;
 
         _monstersButtonList = new List<ButtonBase>();
+
+        _knowledgeTabButton = new ResourceTextButton(nameof(UiResource.BestiaryTabMonsterKnowledgeCaption));
+        _knowledgeTabButton.OnClick += (s, e) => { _currentTab = BestiaryTab.Knowledge; };
+
+        _monsterPerkTabButton = new ResourceTextButton(nameof(UiResource.BestiaryTabMonsterPerksCaption));
+        _monsterPerkTabButton.OnClick += (s, e) => { _currentTab = BestiaryTab.Perks; };
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -44,8 +57,19 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
         backButton.OnClick += (_, _) =>
         {
-            ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
-                new CommandCenterScreenTransitionArguments(_availableLaunches));
+            switch (_parentScreen)
+            {
+                case ScreenTransition.CommandCenter:
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
+                        (CommandCenterScreenTransitionArguments)_parentScreenArgs);
+                    break;
+
+                case ScreenTransition.Campaign:
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                        (CampaignScreenTransitionArguments)_parentScreenArgs);
+                    break;
+            }
+
         };
 
         return new ButtonBase[] { backButton };
@@ -62,30 +86,87 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
+        const int BUTTON_WIDTH = 100;
+
+        var tabPosition = contentRect.Left + ControlBase.CONTENT_MARGIN;
+
+        if (_player.KnownMonsters.Any())
+        {
+            _knowledgeTabButton.Rect = new Rectangle(tabPosition, contentRect.Top + ControlBase.CONTENT_MARGIN, BUTTON_WIDTH, 20);
+            _knowledgeTabButton.Draw(spriteBatch);
+
+            tabPosition += _knowledgeTabButton.Rect.Width + ControlBase.CONTENT_MARGIN;
+        }
+
+        if (_player.MonsterPerks.Any())
+        {
+            _monsterPerkTabButton.Rect = new Rectangle(tabPosition, contentRect.Top + ControlBase.CONTENT_MARGIN, BUTTON_WIDTH, 20);
+            _monsterPerkTabButton.Draw(spriteBatch);
+        }
+
+        var tabBodyRect = new Rectangle(
+            tabPosition,
+            contentRect.Top + ControlBase.CONTENT_MARGIN + ControlBase.CONTENT_MARGIN + 20, 
+            contentRect.Width - ControlBase.CONTENT_MARGIN * 2,
+            contentRect.Height - ControlBase.CONTENT_MARGIN * 2);
+
+        switch (_currentTab)
+        {
+            case BestiaryTab.Knowledge:
+                DrawKnowledge(spriteBatch, tabBodyRect);
+                break;
+            case BestiaryTab.Perks:
+                DrawPerks(spriteBatch, tabBodyRect);
+                break;
+            default:
+                break;
+        }
+
+        spriteBatch.End();
+    }
+
+    private void DrawPerks(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        var descriptionText = StringHelper.LineBreaking(UiResource.BestiaryTabMonsterPerksDescription, 60);
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), descriptionText, contentRect.Location.ToVector2() + new Vector2(ControlBase.CONTENT_MARGIN), MythlandersColors.Description);
+
+        var descriptionSize = _uiContentStorage.GetTitlesFont().MeasureString(descriptionText);
+
+        _perksPanel.Rect =
+            new Rectangle(
+                contentRect.Left + ControlBase.CONTENT_MARGIN, 
+                contentRect.Top + ControlBase.CONTENT_MARGIN + (int)descriptionSize.Y + ControlBase.CONTENT_MARGIN, 
+                contentRect.Width - ControlBase.CONTENT_MARGIN * 2,
+                contentRect.Height - ControlBase.CONTENT_MARGIN * 2);
+
+        _perksPanel.Draw(spriteBatch);
+    }
+
+    private void DrawKnowledge(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        var descriptionText = StringHelper.LineBreaking(UiResource.BestiaryTabMonsterKnowledgeDescription, 60);
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), descriptionText, contentRect.Location.ToVector2() + new Vector2(ControlBase.CONTENT_MARGIN), MythlandersColors.Description);
+
+        var descriptionSize = _uiContentStorage.GetTitlesFont().MeasureString(descriptionText);
+
         for (var index = 0; index < _monstersButtonList.Count; index++)
         {
             var button = _monstersButtonList[index];
-            button.Rect = new Rectangle(contentRect.Left, contentRect.Top + index * 21, 100, 20);
+            button.Rect = new Rectangle(contentRect.Left + ControlBase.CONTENT_MARGIN, contentRect.Top + (int)descriptionSize.Y + ControlBase.CONTENT_MARGIN + index * (20 + ControlBase.CONTENT_MARGIN), 100, 20);
             button.Draw(spriteBatch);
         }
 
         if (_selectedMonster is not null)
         {
-            var sb = CollectMonsterStats(_selectedMonster, monsterLevel: 1);
+            var sb = CollectMonsterStats(_selectedMonster);
 
             for (var statIndex = 0; statIndex < sb.Count; statIndex++)
             {
                 var line = sb[statIndex];
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), line,
-                    new Vector2(contentRect.Center.X, contentRect.Top + statIndex * 22), Color.White);
+                    new Vector2(contentRect.Left + ControlBase.CONTENT_MARGIN + 100 + ControlBase.CONTENT_MARGIN, contentRect.Top + (int)descriptionSize.Y + ControlBase.CONTENT_MARGIN + statIndex * 22), Color.White);
             }
         }
-
-        _perksPanel.Rect =
-            new Rectangle(contentRect.Center.X, contentRect.Top, contentRect.Width / 2, contentRect.Height);
-        _perksPanel.Draw(spriteBatch);
-
-        spriteBatch.End();
     }
 
     protected override void InitializeContent()
@@ -102,29 +183,47 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
     {
         base.UpdateContent(gameTime);
 
-        foreach (var button in _monstersButtonList)
+        UpdateTabs();
+
+        switch (_currentTab)
         {
-            button.Update(ResolutionIndependentRenderer);
+            case BestiaryTab.Knowledge:
+                foreach (var button in _monstersButtonList)
+                {
+                    button.Update(ResolutionIndependentRenderer);
+                }
+                break;
+            case BestiaryTab.Perks:
+                break;
+            default:
+                break;
         }
     }
 
-    private static IList<string> CollectMonsterStats(UnitScheme monsterScheme, int monsterLevel)
+    private void UpdateTabs()
     {
-        // var monster = new Core.Hero(monsterScheme, monsterLevel);
-        //
-        // var unitName = monsterScheme.Name;
-        // var name = GameObjectHelper.GetLocalized(unitName);
+        if (_player.KnownMonsters.Any())
+        {
+            _knowledgeTabButton.Update(ResolutionIndependentRenderer);
+        }
 
-        var sb = new List<string>();
-        // {
-        //     name,
-        //     string.Format(UiResource.HitPointsLabelTemplate,
-        //         monster.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.ActualMax),
-        //     string.Format(UiResource.ShieldPointsLabelTemplate,
-        //         monster.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value.ActualMax),
-        //     string.Format(UiResource.DamageLabelTemplate, monster.Damage),
-        //     string.Format(UiResource.ArmorLabelTemplate, monster.Armor)
-        // };
+        if (_player.MonsterPerks.Any())
+        {
+            _monsterPerkTabButton.Update(ResolutionIndependentRenderer);
+        }
+    }
+
+    private static IList<string> CollectMonsterStats(UnitScheme monsterScheme)
+    {
+        var unitName = monsterScheme.Name;
+        var name = GameObjectHelper.GetLocalized(unitName);
+
+        var sb = new List<string>()
+        {
+            name,
+             string.Format(UiResource.HitPointsLabelTemplate, "???"),
+             string.Format(UiResource.ShieldPointsLabelTemplate, "???")
+         };
         //
         // foreach (var perk in monster.Perks)
         // {
@@ -146,6 +245,8 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
         return sb;
     }
 
+    private BestiaryTab _currentTab;
+
     private void InitializeMonsterButtons()
     {
         var monsterSchemes = _unitSchemeCatalog.AllMonsters;
@@ -154,7 +255,7 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
         foreach (var monsterScheme in monsterSchemes)
         {
-            if (!_player.KnownMonsters.Contains(monsterScheme))
+            if (!_player.KnownMonsters.Any(x => string.Equals(x.ClassSid, monsterScheme.Name.ToString(), System.StringComparison.CurrentCultureIgnoreCase)))
             {
                 // This monster is unknown. So do not display it on the screen.
                 continue;
@@ -167,5 +268,11 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
             button.OnClick += (_, _) => { _selectedMonster = monsterScheme; };
             _monstersButtonList.Add(button);
         }
+    }
+
+    private enum BestiaryTab
+    {
+        Knowledge,
+        Perks
     }
 }

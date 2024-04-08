@@ -13,19 +13,6 @@ internal sealed class WispFactory : MonsterFactoryBase
 
     public override CharacterCultureSid Culture => CharacterCultureSid.Slavic;
 
-    public override UnitScheme Create(IBalanceTable balanceTable)
-    {
-        return new UnitScheme(balanceTable.GetCommonUnitBasics())
-        {
-            Name = UnitName.Wisp,
-            LocationSids = new[]
-            {
-                LocationSids.DestroyedVillage, LocationSids.Swamp
-            },
-            IsMonster = true
-        };
-    }
-
     public override CombatantGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
     {
         return new GenericMonsterGraphicsConfig(ClassName, Culture);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets;
+using Client.Assets.StageItems;
 using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
@@ -14,6 +15,7 @@ using Client.ScreenManagement;
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dices;
 using CombatDicesTeam.Engine.Ui;
+using CombatDicesTeam.Graphs;
 
 using Core;
 
@@ -44,7 +46,6 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
     private IReadOnlyList<ICampaignPanel>? _availableCampaignPanels;
 
     private double _locationOnMapCounter;
-
 
     public CommandCenterScreen(MythlandersGame game, CommandCenterScreenTransitionArguments args) : base(game)
     {
@@ -163,6 +164,9 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
                     var campaign = new HeroCampaign(initHeroes, campaignLaunch.Location,
                         campaignLaunch.Rewards, campaignLaunch.Penalties, _dice.Roll(100));
 
+                    var monsterLeaderSids = ExtractmonsterLeadersFromCampaign(campaign);
+                    WriteAllCampaignMonsterLeadersToKnown(monsterLeaderSids);
+
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
                         new CampaignScreenTransitionArguments(campaign));
                 };
@@ -186,13 +190,30 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         _commandButtons[2].OnClick += (_, _) =>
         {
             ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary,
-                new BestiaryScreenTransitionArguments(_campaignLaunches));
+                new BestiaryScreenTransitionArguments(ScreenTransition.CommandCenter, new CommandCenterScreenTransitionArguments(_campaignLaunches)));
         };
         _commandButtons[3] = new ResourceTextButton(nameof(UiResource.ChroniclesButtonTitle));
 
         Texture2D LoadCampaignThumbnailImage(string textureName)
         {
             return Game.Content.Load<Texture2D>($"Sprites/GameObjects/Campaigns/{textureName}");
+        }
+    }
+
+    private static IReadOnlyCollection<string> ExtractmonsterLeadersFromCampaign(HeroCampaign campaign)
+    {
+        var combats = campaign.Location.Stages.GetAllNodes().Where(x=>x.Payload is CombatStageItem).Select(x=>x.Payload).Cast<CombatStageItem>();
+        return combats.Select(x => x.Metadata.MonsterLeader.ClassSid).Distinct().ToArray();
+    }
+
+    private void WriteAllCampaignMonsterLeadersToKnown(IEnumerable<string> monsterLeaderClassSids)
+    {
+        foreach (var sid in monsterLeaderClassSids)
+        {
+            if (!_globeProvider.Globe.Player.KnownMonsters.Any(x => string.Equals(x.ClassSid, sid, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                _globeProvider.Globe.Player.KnownMonsters.Add(new MonsterKnowledge(sid, MonsterKnowledgeLevel.CommonDescription));
+            }
         }
     }
 

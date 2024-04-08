@@ -5,6 +5,7 @@ using System.Linq;
 using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
+using Client.GameScreens.Bestiary;
 using Client.GameScreens.Campaign.Ui;
 using Client.ScreenManagement;
 
@@ -33,6 +34,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private double _presentationDelayCounter = 3;
 
     private bool _showStoryPoints;
+    private readonly ButtonBase _bestiaryButton;
 
     public CampaignScreen(MythlandersGame game, CampaignScreenTransitionArguments screenTransitionArguments) :
         base(game)
@@ -48,19 +50,32 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
         _inventoryButton = new ResourceTextButton(nameof(UiResource.InventoryButtonTitle));
         _inventoryButton.OnClick += InventoryButton_OnClick;
+
+        _bestiaryButton = new ResourceTextButton(nameof(UiResource.BestiaryButtonTitle));
+        _bestiaryButton.OnClick += BestiaryButton_OnClick;
+
+    }
+
+    private void BestiaryButton_OnClick(object? sender, EventArgs e)
+    {
+        ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary, new BestiaryScreenTransitionArguments(ScreenTransition.Campaign, new CampaignScreenTransitionArguments(_currentCampaign)));
     }
 
     protected override IList<ButtonBase> CreateMenu()
     {
+        var menuButtons = new List<ButtonBase>();
+
         if (_globeProvider.Globe.Player.Inventory.CalcActualItems().Any())
         {
-            return new[]
-            {
-                _inventoryButton
-            };
+            menuButtons.Add(_inventoryButton);
         }
 
-        return Array.Empty<ButtonBase>();
+        if (_globeProvider.Globe.Player.MonsterPerks.Any() && _globeProvider.Globe.Player.KnownMonsters.Any())
+        {
+            menuButtons.Add(_bestiaryButton);
+        }
+
+        return menuButtons;
     }
 
     protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
