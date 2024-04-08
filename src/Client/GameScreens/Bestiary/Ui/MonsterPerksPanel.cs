@@ -87,7 +87,8 @@ internal sealed class MonsterPerksPanel : ControlBase
 
             const int ICON_SIZE = 64;
             var iconLeftImage = new Image(_monsterPerkIconsTexture,
-                new Rectangle(monsterPerk.IconCoords.X * ICON_SIZE, monsterPerk.IconCoords.Y * ICON_SIZE, ICON_SIZE, ICON_SIZE),
+                new Rectangle(monsterPerk.IconCoords.X * ICON_SIZE, monsterPerk.IconCoords.Y * ICON_SIZE, ICON_SIZE,
+                    ICON_SIZE),
                 controlTextures,
                 ControlTextures.Transparent);
 
