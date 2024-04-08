@@ -11,9 +11,4 @@ internal class AutomataurFactory : MonsterFactoryBase
     public override UnitName ClassName => UnitName.Automataur;
 
     public override CharacterCultureSid Culture => CharacterCultureSid.Greek;
-
-    public override UnitScheme Create(IBalanceTable balanceTable)
-    {
-        return new UnitScheme(balanceTable.GetCommonUnitBasics());
-    }
 }
