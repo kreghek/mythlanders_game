@@ -72,6 +72,6 @@ internal static class PreHistoryScenes
 
     private static Texture2D LoadTexture(string fileName, ContentManager contentManager)
     {
-        return contentManager.Load<Texture2D>(Path.Combine("Sprites","GameObjects","PreHistory", fileName));
+        return contentManager.Load<Texture2D>(Path.Combine("Sprites", "GameObjects", "PreHistory", fileName));
     }
 }

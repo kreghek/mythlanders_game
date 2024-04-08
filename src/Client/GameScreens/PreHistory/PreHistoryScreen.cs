@@ -27,12 +27,12 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
     private readonly SoundtrackManager _soundtrackManager;
     private PreHistoryAftermathContext? _aftermathContext;
-    private double? _sceneTransitionCounter;
 
     private IPreHistoryScene? _currentScene;
-    private IPreHistoryScene? _nextScene;
 
     private bool _isBackgoundInteractive;
+    private IPreHistoryScene? _nextScene;
+    private double? _sceneTransitionCounter;
 
     public PreHistoryScreen(MythlandersGame game, PreHistoryScreenScreenTransitionArguments args) : base(game, args)
     {
