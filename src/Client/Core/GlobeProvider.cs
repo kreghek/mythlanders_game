@@ -18,7 +18,7 @@ namespace Client.Core;
 internal sealed class GlobeProvider
 {
     private const string SAVE_FILE_TEMPLATE = "save-{0}.json";
-    private readonly MonsterPerkCatalog _monsterPerkCatalog;
+    private readonly IMonsterPerkCatalog _monsterPerkCatalog;
 
     private readonly string _storagePath;
     private readonly IStoryPointInitializer _storyPointInitializer;
@@ -28,7 +28,7 @@ internal sealed class GlobeProvider
 
     public GlobeProvider(ICharacterCatalog unitSchemeCatalog,
         IStoryPointInitializer storyPointInitializer,
-        MonsterPerkCatalog monsterPerkCatalog)
+        IMonsterPerkCatalog monsterPerkCatalog)
     {
         _unitSchemeCatalog = unitSchemeCatalog;
         _storyPointInitializer = storyPointInitializer;
@@ -233,9 +233,9 @@ internal sealed class GlobeProvider
         return equipmentDtoList.ToArray();
     }
 
-    private static string[] GetKnownMonsterSids(IList<UnitScheme> knownMonsters)
+    private static string[] GetKnownMonsterSids(IList<MonsterKnowledge> knownMonsters)
     {
-        return knownMonsters.Select(x => x.Name.ToString()).ToArray();
+        return knownMonsters.Select(x => x.ClassSid).ToArray();
     }
 
     private static ResourceDto[] GetPlayerResourcesToSave(Inventory inventory)
@@ -355,7 +355,7 @@ internal sealed class GlobeProvider
             return;
         }
 
-        var allPerks = PerkHelper.GetAllMonsterPerks();
+        var allPerks = _monsterPerkCatalog.Perks;
 
         foreach (var perkSid in monsterPerks)
         {
@@ -412,7 +412,7 @@ internal sealed class GlobeProvider
             }
             else
             {
-                player.KnownMonsters.Add(monsterScheme);
+                player.KnownMonsters.Add(new MonsterKnowledge(monsterSid, MonsterKnowledgeLevel.CommonDescription));
             }
         }
     }

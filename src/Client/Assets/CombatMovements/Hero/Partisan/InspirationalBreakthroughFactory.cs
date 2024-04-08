@@ -55,16 +55,16 @@ internal class InspirationalBreakthroughFactory : SimpleCombatMovementFactoryBas
             visualizationContext, config);
     }
 
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {
         return new[]
         {
-            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0),
-                CombatMovementEffectDisplayValueTemplate.Damage),
-            new CombatMovementEffectDisplayValue("buff", ExtractDamageModifier(combatMovementInstance, 2),
-                CombatMovementEffectDisplayValueTemplate.DamageModifier),
-            new CombatMovementEffectDisplayValue("duration", 1, CombatMovementEffectDisplayValueTemplate.RoundDuration)
+            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 0),
+                DescriptionKeyValueTemplate.Damage),
+            new DescriptionKeyValue("buff", ExtractDamageModifier(combatMovementInstance, 2),
+                DescriptionKeyValueTemplate.DamageModifier),
+            new DescriptionKeyValue("duration", 1, DescriptionKeyValueTemplate.RoundDuration)
         };
     }
 
