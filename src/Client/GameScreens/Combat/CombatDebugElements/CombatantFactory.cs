@@ -99,7 +99,7 @@ internal class CombatantFactory
         var monsterCombatantFactory = _monsterFactories[monsterClassSid];
         var combatant = monsterCombatantFactory.Create(monsterClassSid,
             combatActorBehaviour, monsterCombatantPrefab.TemplatePrefab.Variation,
-            monsterCombatantPrefab.StartUpStatuses);
+            monsterCombatantPrefab.Perks.Select(x => x.Status).ToArray());
 
         return combatant;
     }
