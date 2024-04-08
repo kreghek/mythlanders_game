@@ -10,12 +10,14 @@ using GameAssets.Combats.CombatantStatuses;
 
 using JetBrains.Annotations;
 
+using Microsoft.Xna.Framework;
+
 namespace Client.Assets.MonsterPerks;
 
 [UsedImplicitly]
 public sealed class LastBreathMonsterPerkFactory : MonsterPerkFactoryBase
 {
-    protected override int IconIndex => IconHelper.GetMonsterPerkIconIndex(2, 1);
+    protected override Point IconCoords => IconHelper.GetMonsterPerkIconIndex(2, 1);
 
     protected override ICombatantStatusFactory CreateStatus()
     {

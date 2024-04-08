@@ -5,6 +5,8 @@ using Client.Assets;
 
 using CombatDicesTeam.Combats.CombatantStatuses;
 
+using Microsoft.Xna.Framework;
+
 namespace Client.Core;
 
 public sealed record MonsterPerk(ICombatantStatusFactory Status, string Sid)
@@ -14,7 +16,7 @@ public sealed record MonsterPerk(ICombatantStatusFactory Status, string Sid)
     /// </summary>
     public bool CantBeRolledAsReward { get; init; }
 
-    public int IconIndex { get; init; }
+    public Point IconCoords { get; init; }
 
     public bool IsUnique { get; init; }
 

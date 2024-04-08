@@ -85,7 +85,10 @@ internal sealed class MonsterPerksPanel : ControlBase
                     perkDescriptionText
                 });
 
-            var iconLeftImage = new Image(_monsterPerkIconsTexture, new Rectangle(0, 0, 64, 64), controlTextures,
+            const int ICON_SIZE = 64;
+            var iconLeftImage = new Image(_monsterPerkIconsTexture,
+                new Rectangle(monsterPerk.IconCoords.X * ICON_SIZE, monsterPerk.IconCoords.Y * ICON_SIZE, ICON_SIZE, ICON_SIZE),
+                controlTextures,
                 ControlTextures.Transparent);
 
             var perkElement = new HorizontalStackPanel(controlTextures, ControlTextures.Transparent,
