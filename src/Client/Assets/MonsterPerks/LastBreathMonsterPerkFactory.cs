@@ -1,4 +1,7 @@
-﻿using CombatDicesTeam.Combats;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
@@ -7,12 +10,14 @@ using GameAssets.Combats.CombatantStatuses;
 
 using JetBrains.Annotations;
 
+using Microsoft.Xna.Framework;
+
 namespace Client.Assets.MonsterPerks;
 
 [UsedImplicitly]
 public sealed class LastBreathMonsterPerkFactory : MonsterPerkFactoryBase
 {
-    protected override int IconIndex => IconHelper.GetMonsterPerkIconIndex(2, 1);
+    protected override Point IconCoords => IconHelper.GetMonsterPerkIconIndex(2, 1);
 
     protected override ICombatantStatusFactory CreateStatus()
     {
@@ -25,5 +30,14 @@ public sealed class LastBreathMonsterPerkFactory : MonsterPerkFactoryBase
                 source,
                 1,
                 2));
+    }
+
+    protected override IReadOnlyCollection<DescriptionKeyValue> CreateValues()
+    {
+        return new[]
+        {
+            new DescriptionKeyValue("hp", 1, DescriptionKeyValueTemplate.HitPoints),
+            new DescriptionKeyValue("hp_restore", 2, DescriptionKeyValueTemplate.HitPoints)
+        }.ToList();
     }
 }

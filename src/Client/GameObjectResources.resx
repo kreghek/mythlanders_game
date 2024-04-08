@@ -444,12 +444,16 @@
   <data name="ExtraHitPoints" xml:space="preserve">
     <value>Extra HP</value><comment>Monster Perk</comment>
   </data>
+  <data name="ExtraHitPoints_Description" xml:space="preserve">
+    <value>Gain additional &lt;hp&gt;</value>
+    <comment>Monster Perk</comment>
+  </data>
   <data name="ExtraSpeed" xml:space="preserve">
     <value>Extra Speed</value>
     <comment>Monster Perk</comment>
   </data>
   <data name="ExtraShieldPoints" xml:space="preserve">
-    <value>Extra shields</value><comment>Monster Perk</comment>
+    <value>Extra Shields</value><comment>Monster Perk</comment>
   </data>
   <data name="EyesOfChaos" xml:space="preserve">
     <value>Eyes of Chaos</value>
@@ -1122,5 +1126,54 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Zduhach Might</value>
     <comment>Skill</comment>
+  </data>
+  <data name="ExtraShieldPoints_Description" xml:space="preserve">
+    <value>Gain additional &lt;sp&gt;</value>
+  </data>
+  <data name="ExtraSpeed_Description" xml:space="preserve">
+    <value>Gain additional &lt;resolve&gt;</value>
+  </data>
+  <data name="ImprovedAllDamage_Description" xml:space="preserve">
+    <value>Gain &lt;style=color1&gt;all&lt;/style&gt; damage on &lt;damage&gt;</value>
+  </data>
+  <data name="ImprovedMeleeDamage_Description" xml:space="preserve">
+    <value>Gain &lt;style=color1&gt;melee&lt;/style&gt; damage on &lt;damage&gt;</value>
+  </data>
+  <data name="ImprovedRangeDamage_Description" xml:space="preserve">
+    <value>Gain &lt;style=color1&gt;ranged&lt;/style&gt; damage on &lt;damage&gt;</value>
+  </data>
+  <data name="LastBreath_Description" xml:space="preserve">
+    <value>Restore &lt;hp_restore&gt; if hit points below &lt;hp_threshold&gt;</value>
+  </data>
+  <data name="RearguardExtraHitPoints_Description" xml:space="preserve">
+    <value>Extra &lt;hp&gt; to ally &lt;style=color1&gt;rearguard&lt;/style&gt;</value>
+  </data>
+  <data name="RearguardExtraShieldPoints_Description" xml:space="preserve">
+    <value>Extra &lt;sp&gt; to ally &lt;style=color1&gt;rearguard&lt;/style&gt;</value>
+  </data>
+  <data name="VanguardExtraHitPoints_Description" xml:space="preserve">
+    <value>Extra &lt;hp&gt; to ally &lt;style=color1&gt;vanguard&lt;/style&gt;</value>
+  </data>
+  <data name="VanguardExtraShieldPoints_Description" xml:space="preserve">
+    <value>Extra &lt;sp&gt; to ally &lt;style=color1&gt;vanguard&lt;/style&gt;</value>
+  </data>
+
+  <data name="RearguardReduceHitPoints_Description" xml:space="preserve">
+    <value>Reduce &lt;hp&gt; of enemy &lt;style=color1&gt;rearguard&lt;/style&gt;</value>
+  </data>
+  <data name="RearguardReduceShieldPoints_Description" xml:space="preserve">
+    <value>Reduce &lt;sp&gt; of enemy &lt;style=color1&gt;rearguard&lt;/style&gt;</value>
+  </data>
+  <data name="VanguardReduceHitPoints_Description" xml:space="preserve">
+    <value>Reduce &lt;hp&gt; of enemy &lt;style=color1&gt;vanguard&lt;/style&gt;</value>
+  </data>
+  <data name="VanguardReduceShieldPoints_Description" xml:space="preserve">
+    <value>Reduce &lt;sp&gt; of enemy &lt;style=color1&gt;vanguard&lt;/style&gt;</value>
+  </data>
+  <data name="VanguardReduceResolve_Description" xml:space="preserve">
+    <value>Reduce &lt;resolve&gt; of enemy &lt;style=color1&gt;vanguard&lt;/style&gt;</value>
+  </data>
+  <data name="RearguardReduceResolve_Description" xml:space="preserve">
+    <value>Reduce &lt;resolve&gt; of enemy &lt;style=color1&gt;rearguard&lt;/style&gt;</value>
   </data>
 </root>

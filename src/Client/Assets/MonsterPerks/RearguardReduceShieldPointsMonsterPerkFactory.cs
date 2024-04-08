@@ -1,4 +1,7 @@
-﻿using CombatDicesTeam.Combats;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
@@ -27,5 +30,13 @@ public sealed class RearguardReduceShieldPointsMonsterPerkFactory : MonsterPerkF
                         -1)),
                 new EnemyRearguardAuraTargetSelector()
             ));
+    }
+
+    protected override IReadOnlyCollection<DescriptionKeyValue> CreateValues()
+    {
+        return new[]
+        {
+            new DescriptionKeyValue("sp", 1, DescriptionKeyValueTemplate.ShieldPoints)
+        }.ToList();
     }
 }

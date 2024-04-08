@@ -4,7 +4,7 @@ using Client.Core;
 
 namespace Client.Assets.Catalogs;
 
-public interface IMonsterPerkManager
+internal interface IMonsterPerkManager
 {
     IReadOnlyCollection<MonsterPerk> RollLocationRewardPerks();
     IReadOnlyCollection<MonsterPerk> RollMonsterPerks(MonsterCombatantPrefab targetMonsterPrefab);
