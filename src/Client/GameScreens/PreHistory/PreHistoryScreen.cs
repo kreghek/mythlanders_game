@@ -58,8 +58,8 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
         _aftermathContext = new PreHistoryAftermathContext(scenes,
             Game.Services.GetRequiredService<IDialogueEnvironmentManager>(),
-            Game.Services.GetService<GlobeProvider>().Globe.Player,
-            Game.Services.GetService<MonsterPerkCatalog>());
+            Game.Services.GetRequiredService<GlobeProvider>().Globe.Player,
+            Game.Services.GetRequiredService<IMonsterPerkCatalog>());
 
         return new PreHistoryDialogueContextFactory(_aftermathContext,
             Game.Services.GetRequiredService<GlobeProvider>().Globe.Player);

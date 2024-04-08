@@ -13,7 +13,7 @@ internal sealed class PreHistoryAftermathContext
 {
     private readonly IDictionary<string, IPreHistoryScene> _backgrounds;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
-    private readonly MonsterPerkCatalog _monsterPerkCatalog;
+    private readonly IMonsterPerkCatalog _monsterPerkCatalog;
     private readonly Player _player;
 
     private IPreHistoryScene? _backgroundTexture;
@@ -21,7 +21,7 @@ internal sealed class PreHistoryAftermathContext
     public PreHistoryAftermathContext(IDictionary<string, IPreHistoryScene> backgrounds,
         IDialogueEnvironmentManager dialogueEnvironmentManager,
         Player player,
-        MonsterPerkCatalog monsterPerkCatalog)
+        IMonsterPerkCatalog monsterPerkCatalog)
     {
         _dialogueEnvironmentManager = dialogueEnvironmentManager;
         _player = player;
