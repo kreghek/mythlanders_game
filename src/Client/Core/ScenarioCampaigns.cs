@@ -49,15 +49,13 @@ internal sealed class ScenarioCampaigns
                 {
                     new CombatSource(new[]
                     {
-                        new PerkMonsterCombatantPrefab(
-                            new MonsterCombatantPrefab("DigitalWolf", 0, new FieldCoords(0, 1)), new[]
-                            {
-                                new CombatStatusFactory(source =>
-                                    new AutoRestoreModifyStatCombatantStatus(
-                                        new ModifyStatCombatantStatus(new CombatantStatusSid("Wound"),
-                                            new OwnerBoundCombatantEffectLifetime(), source,
-                                            CombatantStatTypes.HitPoints, -4)))
-                            })
+                        new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("DigitalWolf", 0, new FieldCoords(0, 1)), new []{
+                            new MonsterPerk(
+                            new CombatStatusFactory(source =>new AutoRestoreModifyStatCombatantStatus(new ModifyStatCombatantStatus(new CombatantStatusSid("Wound"), new OwnerBoundCombatantEffectLifetime(), source, CombatantStatTypes.HitPoints, -4))),
+                            "Wound"
+                            )
+
+                        })
                     }, new CombatReward(Array.Empty<IDropTableScheme>()))
                 }
             };
@@ -75,11 +73,8 @@ internal sealed class ScenarioCampaigns
                 {
                     new CombatSource(new[]
                     {
-                        new PerkMonsterCombatantPrefab(
-                            new MonsterCombatantPrefab("DigitalWolf", 0, new FieldCoords(0, 0)),
-                            Array.Empty<ICombatantStatusFactory>()),
-                        new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("Aspid", 0, new FieldCoords(0, 1)),
-                            Array.Empty<ICombatantStatusFactory>())
+                        new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("DigitalWolf", 0, new FieldCoords(0, 0)), Array.Empty<MonsterPerk>()),
+                        new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("Aspid", 0, new FieldCoords(0, 1)), Array.Empty<MonsterPerk>())
                     }, new CombatReward(Array.Empty<IDropTableScheme>()))
                 }
             };
