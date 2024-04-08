@@ -87,14 +87,26 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
-        _knowledgeTabButton.Rect = new Rectangle(contentRect.Left + ControlBase.CONTENT_MARGIN, contentRect.Top + ControlBase.CONTENT_MARGIN, 100, 20);
-        _knowledgeTabButton.Draw(spriteBatch);
+        const int BUTTON_WIDTH = 100;
 
-        _monsterPerkTabButton.Rect = new Rectangle(contentRect.Left + ControlBase.CONTENT_MARGIN + 100 + ControlBase.CONTENT_MARGIN, contentRect.Top + ControlBase.CONTENT_MARGIN, 100, 20);
-        _monsterPerkTabButton.Draw(spriteBatch);
+        var tabPosition = contentRect.Left + ControlBase.CONTENT_MARGIN;
+
+        if (_player.KnownMonsters.Any())
+        {
+            _knowledgeTabButton.Rect = new Rectangle(tabPosition, contentRect.Top + ControlBase.CONTENT_MARGIN, BUTTON_WIDTH, 20);
+            _knowledgeTabButton.Draw(spriteBatch);
+
+            tabPosition += _knowledgeTabButton.Rect.Width + ControlBase.CONTENT_MARGIN;
+        }
+
+        if (_player.MonsterPerks.Any())
+        {
+            _monsterPerkTabButton.Rect = new Rectangle(tabPosition, contentRect.Top + ControlBase.CONTENT_MARGIN, BUTTON_WIDTH, 20);
+            _monsterPerkTabButton.Draw(spriteBatch);
+        }
 
         var tabBodyRect = new Rectangle(
-            contentRect.Left + ControlBase.CONTENT_MARGIN,
+            tabPosition,
             contentRect.Top + ControlBase.CONTENT_MARGIN + ControlBase.CONTENT_MARGIN + 20, 
             contentRect.Width - ControlBase.CONTENT_MARGIN * 2,
             contentRect.Height - ControlBase.CONTENT_MARGIN * 2);
@@ -128,6 +140,9 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
     private void DrawKnowledge(SpriteBatch spriteBatch, Rectangle contentRect)
     {
+        var descriptionText = StringHelper.LineBreaking(UiResource.BestiaryTabMonsterKnowledgeDescription, 60);
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), descriptionText, contentRect.Location.ToVector2() + new Vector2(ControlBase.CONTENT_MARGIN), MythlandersColors.Description);
+
         for (var index = 0; index < _monstersButtonList.Count; index++)
         {
             var button = _monstersButtonList[index];
@@ -181,8 +196,15 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
     private void UpdateTabs()
     {
-        _knowledgeTabButton.Update(ResolutionIndependentRenderer);
-        _monsterPerkTabButton.Update(ResolutionIndependentRenderer);
+        if (_player.KnownMonsters.Any())
+        {
+            _knowledgeTabButton.Update(ResolutionIndependentRenderer);
+        }
+
+        if (_player.MonsterPerks.Any())
+        {
+            _monsterPerkTabButton.Update(ResolutionIndependentRenderer);
+        }
     }
 
     private static IList<string> CollectMonsterStats(UnitScheme monsterScheme)
