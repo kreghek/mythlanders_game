@@ -448,11 +448,11 @@
   <data name="ExtraHitPoints" xml:space="preserve">
     <value>Экстра ХП</value>
   </data>
-  <data name="ExtraHp_Description" xml:space="preserve">
+  <data name="ExtraHitPoints_Description" xml:space="preserve">
     <value>Увеличивает ХП на &lt;hp&gt;</value>
   </data>
   <data name="ExtraShieldPoints" xml:space="preserve">
-    <value>Экстра щиты</value>
+    <value>Экстра Щиты</value>
   </data>
   <data name="ExtraSpeed" xml:space="preserve">
     <value>Экстра Скорость</value>
@@ -1132,5 +1132,20 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
     <comment>Skill</comment>
+  </data>
+  <data name="ExtraShieldPoints_Description" xml:space="preserve">
+    <value>Увеличивает щиты на &lt;sp&gt;</value>
+  </data>
+  <data name="ExtraSpeed_Description" xml:space="preserve">
+    <value>Увеличивает щиты на &lt;resolve&gt;</value>
+  </data>
+  <data name="ImprovedAllDamage_Description" xml:space="preserve">
+    <value>Увеличивает &lt;style=color1&gt;весь&lt;/style&gt; урона на &lt;damage&gt;</value>
+  </data>
+  <data name="ImprovedMeleeDamage_Description" xml:space="preserve">
+    <value>Увеличивает &lt;style=color1&gt;рукопашный&lt;/style&gt; урон на &lt;damage&gt;</value>
+  </data>
+  <data name="ImprovedRangeDamage_Description" xml:space="preserve">
+    <value>Увеличивает &lt;style=color1&gt;струлковый&lt;/style&gt; урон на &lt;damage&gt;</value>
   </data>
 </root>

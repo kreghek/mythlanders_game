@@ -1,4 +1,7 @@
-﻿using CombatDicesTeam.Combats;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 
@@ -27,5 +30,13 @@ public sealed class VanguardExtraHitPointsMonsterPerkFactory : MonsterPerkFactor
                         1)),
                 new AllyVanguardAuraTargetSelector()
             ));
+    }
+    
+    protected override IReadOnlyCollection<DescriptionKeyValue> CreateValues()
+    {
+        return new[]
+        {
+            new DescriptionKeyValue("hp", 1, DescriptionKeyValueTemplate.HitPoints)
+        }.ToList();
     }
 }
