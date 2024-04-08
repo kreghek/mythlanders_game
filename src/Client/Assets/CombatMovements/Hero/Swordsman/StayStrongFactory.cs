@@ -81,13 +81,13 @@ internal class StayStrongFactory : CombatMovementFactoryBase
     }
 
     /// <inheritdoc />
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {
         return new[]
         {
-            new CombatMovementEffectDisplayValue("defence", 3, CombatMovementEffectDisplayValueTemplate.Defence),
-            new CombatMovementEffectDisplayValue("auto_defence", 1, CombatMovementEffectDisplayValueTemplate.Defence)
+            new DescriptionKeyValue("defence", 3, DescriptionKeyValueTemplate.Defence),
+            new DescriptionKeyValue("auto_defence", 1, DescriptionKeyValueTemplate.Defence)
         };
     }
 }

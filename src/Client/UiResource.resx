@@ -628,4 +628,7 @@ This hero can no longer act in the current battle.</value>
   <data name="CombatMovementEffectValueType_Defence_Template" xml:space="preserve">
     <value>{0} defence</value>
   </data>
+  <data name="CombatMovementEffectValueType_Resolve_Template" xml:space="preserve">
+    <value>{0} resolve</value>
+  </data>
 </root>

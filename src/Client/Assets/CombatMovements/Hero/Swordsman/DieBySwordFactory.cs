@@ -55,13 +55,13 @@ internal class DieBySwordFactory : SimpleCombatMovementFactoryBase
     }
 
     /// <inheritdoc />
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {
         return new[]
         {
-            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1),
-                CombatMovementEffectDisplayValueTemplate.Damage)
+            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 1),
+                DescriptionKeyValueTemplate.Damage)
         };
     }
 

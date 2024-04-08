@@ -16,7 +16,7 @@ internal interface ICombatMovementVisualizationProvider
     /// </summary>
     /// <param name="combatMovementInstance">Combat movement from which a values should be extracted.</param>
     /// <returns>Set of values or empty.</returns>
-    IReadOnlyList<CombatMovementEffectDisplayValue> ExtractCombatMovementValues(
+    IReadOnlyList<DescriptionKeyValue> ExtractCombatMovementValues(
         CombatMovementInstance combatMovementInstance);
 
     /// <summary>
