@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using Client.Core;
@@ -128,10 +127,15 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
 
     private void DrawPerks(SpriteBatch spriteBatch, Rectangle contentRect)
     {
+        var descriptionText = StringHelper.LineBreaking(UiResource.BestiaryTabMonsterPerksDescription, 60);
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), descriptionText, contentRect.Location.ToVector2() + new Vector2(ControlBase.CONTENT_MARGIN), MythlandersColors.Description);
+
+        var descriptionSize = _uiContentStorage.GetTitlesFont().MeasureString(descriptionText);
+
         _perksPanel.Rect =
             new Rectangle(
                 contentRect.Left + ControlBase.CONTENT_MARGIN, 
-                contentRect.Top + ControlBase.CONTENT_MARGIN, 
+                contentRect.Top + ControlBase.CONTENT_MARGIN + (int)descriptionSize.Y + ControlBase.CONTENT_MARGIN, 
                 contentRect.Width - ControlBase.CONTENT_MARGIN * 2,
                 contentRect.Height - ControlBase.CONTENT_MARGIN * 2);
 
@@ -148,7 +152,7 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
         for (var index = 0; index < _monstersButtonList.Count; index++)
         {
             var button = _monstersButtonList[index];
-            button.Rect = new Rectangle(contentRect.Left + ControlBase.CONTENT_MARGIN, (int)descriptionSize.Y + ControlBase.CONTENT_MARGIN + index * (20 + ControlBase.CONTENT_MARGIN), 100, 20);
+            button.Rect = new Rectangle(contentRect.Left + ControlBase.CONTENT_MARGIN, contentRect.Top + (int)descriptionSize.Y + ControlBase.CONTENT_MARGIN + index * (20 + ControlBase.CONTENT_MARGIN), 100, 20);
             button.Draw(spriteBatch);
         }
 
@@ -160,7 +164,7 @@ internal sealed class BestiaryScreen : GameScreenWithMenuBase
             {
                 var line = sb[statIndex];
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), line,
-                    new Vector2(contentRect.Left + ControlBase.CONTENT_MARGIN + 100 + ControlBase.CONTENT_MARGIN, (int)descriptionSize.Y + ControlBase.CONTENT_MARGIN + statIndex * 22), Color.White);
+                    new Vector2(contentRect.Left + ControlBase.CONTENT_MARGIN + 100 + ControlBase.CONTENT_MARGIN, contentRect.Top + (int)descriptionSize.Y + ControlBase.CONTENT_MARGIN + statIndex * 22), Color.White);
             }
         }
     }

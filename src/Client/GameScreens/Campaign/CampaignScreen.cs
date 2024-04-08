@@ -51,7 +51,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
         _inventoryButton = new ResourceTextButton(nameof(UiResource.InventoryButtonTitle));
         _inventoryButton.OnClick += InventoryButton_OnClick;
 
-        _bestiaryButton = new TextButton("bes");
+        _bestiaryButton = new ResourceTextButton(nameof(UiResource.BestiaryButtonTitle));
         _bestiaryButton.OnClick += BestiaryButton_OnClick;
 
     }
@@ -70,7 +70,10 @@ internal class CampaignScreen : GameScreenWithMenuBase
             menuButtons.Add(_inventoryButton);
         }
 
-        menuButtons.Add(_bestiaryButton);
+        if (_globeProvider.Globe.Player.MonsterPerks.Any() && _globeProvider.Globe.Player.KnownMonsters.Any())
+        {
+            menuButtons.Add(_bestiaryButton);
+        }
 
         return menuButtons;
     }
