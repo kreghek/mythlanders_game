@@ -31,7 +31,7 @@ public sealed class RearguardReduceHitPointsMonsterPerkFactory : MonsterPerkFact
                 new EnemyRearguardAuraTargetSelector()
             ));
     }
-    
+
     protected override IReadOnlyCollection<DescriptionKeyValue> CreateValues()
     {
         return new[]

@@ -31,7 +31,7 @@ public sealed class RearguardExtraShieldPointsMonsterPerkFactory : MonsterPerkFa
                 new AllyRearguardAuraTargetSelector()
             ));
     }
-    
+
     protected override IReadOnlyCollection<DescriptionKeyValue> CreateValues()
     {
         return new[]

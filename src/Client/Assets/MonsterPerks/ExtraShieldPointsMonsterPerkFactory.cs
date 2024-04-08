@@ -27,7 +27,7 @@ public sealed class ExtraShieldPointsMonsterPerkFactory : MonsterPerkFactoryBase
                 CombatantStatTypes.ShieldPoints,
                 1)));
     }
-    
+
     protected override IReadOnlyCollection<DescriptionKeyValue> CreateValues()
     {
         return new[]

@@ -24,7 +24,7 @@ public sealed class ImprovedRangeDamageMonsterPerkFactory : MonsterPerkFactoryBa
                 source,
                 1));
     }
-    
+
     protected override IReadOnlyCollection<DescriptionKeyValue> CreateValues()
     {
         return new[]

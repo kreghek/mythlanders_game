@@ -1,6 +1,4 @@
-﻿using Client.Assets.CombatMovements;
-
-namespace Client.Assets;
+﻿namespace Client.Assets;
 
 /// <summary>
 /// Key value with meta data.

@@ -31,7 +31,7 @@ public sealed class VanguardReduceHitPointsMonsterPerkFactory : MonsterPerkFacto
                 new EnemyVanguardAuraTargetSelector()
             ));
     }
-    
+
     protected override IReadOnlyCollection<DescriptionKeyValue> CreateValues()
     {
         return new[]

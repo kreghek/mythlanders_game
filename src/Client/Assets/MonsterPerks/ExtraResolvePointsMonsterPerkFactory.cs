@@ -27,7 +27,7 @@ public sealed class ExtraResolvePointsMonsterPerkFactory : MonsterPerkFactoryBas
                 CombatantStatTypes.Resolve,
                 1)));
     }
-    
+
     protected override IReadOnlyCollection<DescriptionKeyValue> CreateValues()
     {
         return new[]

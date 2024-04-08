@@ -30,7 +30,7 @@ public sealed class ReduceEnemyShieldPointsMonsterPerkFactory : MonsterPerkFacto
                 new EnemiesAuraTargetSelector()
             ));
     }
-    
+
     protected override IReadOnlyCollection<DescriptionKeyValue> CreateValues()
     {
         return new[]

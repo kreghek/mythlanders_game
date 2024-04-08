@@ -31,7 +31,7 @@ public sealed class VanguardExtraHitPointsMonsterPerkFactory : MonsterPerkFactor
                 new AllyVanguardAuraTargetSelector()
             ));
     }
-    
+
     protected override IReadOnlyCollection<DescriptionKeyValue> CreateValues()
     {
         return new[]

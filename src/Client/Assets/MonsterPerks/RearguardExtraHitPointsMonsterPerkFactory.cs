@@ -31,7 +31,7 @@ public sealed class RearguardExtraHitPointsMonsterPerkFactory : MonsterPerkFacto
                 new AllyRearguardAuraTargetSelector()
             ));
     }
-    
+
     protected override IReadOnlyCollection<DescriptionKeyValue> CreateValues()
     {
         return new[]

@@ -29,7 +29,7 @@ public sealed class LastBreathMonsterPerkFactory : MonsterPerkFactoryBase
                 1,
                 2));
     }
-    
+
     protected override IReadOnlyCollection<DescriptionKeyValue> CreateValues()
     {
         return new[]

@@ -22,6 +22,11 @@ public abstract class MonsterPerkFactoryBase : IMonsterPerkFactory
 
     protected abstract ICombatantStatusFactory CreateStatus();
 
+    protected virtual IReadOnlyCollection<DescriptionKeyValue> CreateValues()
+    {
+        return ArraySegment<DescriptionKeyValue>.Empty;
+    }
+
 
     public MonsterPerk Create()
     {
@@ -33,10 +38,5 @@ public abstract class MonsterPerkFactoryBase : IMonsterPerkFactory
             IconIndex = IconIndex,
             Values = CreateValues()
         };
-    }
-    
-    protected virtual IReadOnlyCollection<DescriptionKeyValue> CreateValues()
-    {
-        return ArraySegment<DescriptionKeyValue>.Empty;
     }
 }

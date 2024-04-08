@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 using Client.Assets;
-using Client.Assets.CombatMovements;
 
 using CombatDicesTeam.Combats.CombatantStatuses;
 

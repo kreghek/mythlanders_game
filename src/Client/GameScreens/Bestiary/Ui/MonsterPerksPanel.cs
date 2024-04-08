@@ -2,7 +2,6 @@
 using System.Linq;
 
 using Client.Assets;
-using Client.Assets.CombatMovements;
 using Client.Core;
 using Client.Engine;
 
