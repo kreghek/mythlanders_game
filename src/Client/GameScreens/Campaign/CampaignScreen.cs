@@ -20,6 +20,7 @@ namespace Client.GameScreens.Campaign;
 
 internal class CampaignScreen : GameScreenWithMenuBase
 {
+    private readonly ButtonBase _bestiaryButton;
     private readonly HeroCampaign _currentCampaign;
     private readonly GlobeProvider _globeProvider;
     private readonly ButtonBase _inventoryButton;
@@ -34,7 +35,6 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private double _presentationDelayCounter = 3;
 
     private bool _showStoryPoints;
-    private readonly ButtonBase _bestiaryButton;
 
     public CampaignScreen(MythlandersGame game, CampaignScreenTransitionArguments screenTransitionArguments) :
         base(game)
@@ -53,12 +53,6 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
         _bestiaryButton = new ResourceTextButton(nameof(UiResource.BestiaryButtonTitle));
         _bestiaryButton.OnClick += BestiaryButton_OnClick;
-
-    }
-
-    private void BestiaryButton_OnClick(object? sender, EventArgs e)
-    {
-        ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary, new BestiaryScreenTransitionArguments(ScreenTransition.Campaign, new CampaignScreenTransitionArguments(_currentCampaign)));
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -137,6 +131,13 @@ internal class CampaignScreen : GameScreenWithMenuBase
         }
 
         _showStoryPointsButton.Update(ResolutionIndependentRenderer);
+    }
+
+    private void BestiaryButton_OnClick(object? sender, EventArgs e)
+    {
+        ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary,
+            new BestiaryScreenTransitionArguments(ScreenTransition.Campaign,
+                new CampaignScreenTransitionArguments(_currentCampaign)));
     }
 
     private void DrawCampaignEffects(SpriteBatch spriteBatch, Rectangle contentRect)

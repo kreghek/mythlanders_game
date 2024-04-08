@@ -15,7 +15,6 @@ using Client.ScreenManagement;
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dices;
 using CombatDicesTeam.Engine.Ui;
-using CombatDicesTeam.Graphs;
 
 using Core;
 
@@ -190,30 +189,14 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         _commandButtons[2].OnClick += (_, _) =>
         {
             ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary,
-                new BestiaryScreenTransitionArguments(ScreenTransition.CommandCenter, new CommandCenterScreenTransitionArguments(_campaignLaunches)));
+                new BestiaryScreenTransitionArguments(ScreenTransition.CommandCenter,
+                    new CommandCenterScreenTransitionArguments(_campaignLaunches)));
         };
         _commandButtons[3] = new ResourceTextButton(nameof(UiResource.ChroniclesButtonTitle));
 
         Texture2D LoadCampaignThumbnailImage(string textureName)
         {
             return Game.Content.Load<Texture2D>($"Sprites/GameObjects/Campaigns/{textureName}");
-        }
-    }
-
-    private static IReadOnlyCollection<string> ExtractmonsterLeadersFromCampaign(HeroCampaign campaign)
-    {
-        var combats = campaign.Location.Stages.GetAllNodes().Where(x=>x.Payload is CombatStageItem).Select(x=>x.Payload).Cast<CombatStageItem>();
-        return combats.Select(x => x.Metadata.MonsterLeader.ClassSid).Distinct().ToArray();
-    }
-
-    private void WriteAllCampaignMonsterLeadersToKnown(IEnumerable<string> monsterLeaderClassSids)
-    {
-        foreach (var sid in monsterLeaderClassSids)
-        {
-            if (!_globeProvider.Globe.Player.KnownMonsters.Any(x => string.Equals(x.ClassSid, sid, StringComparison.InvariantCultureIgnoreCase)))
-            {
-                _globeProvider.Globe.Player.KnownMonsters.Add(new MonsterKnowledge(sid, MonsterKnowledgeLevel.CommonDescription));
-            }
         }
     }
 
@@ -328,6 +311,13 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         spriteBatch.DrawCircle(x1, y1, (float)(16 + t * 4), 4, MythlandersColors.MainSciFi);
     }
 
+    private static IReadOnlyCollection<string> ExtractmonsterLeadersFromCampaign(HeroCampaign campaign)
+    {
+        var combats = campaign.Location.Stages.GetAllNodes().Where(x => x.Payload is CombatStageItem)
+            .Select(x => x.Payload).Cast<CombatStageItem>();
+        return combats.Select(x => x.Metadata.MonsterLeader.ClassSid).Distinct().ToArray();
+    }
+
     private static IReadOnlyList<Point> GetConnectorPoints(int x1, int y1, int x2, int y2)
     {
         return LineHelper.GetBrokenLine(x1, y1, x2, y2, new LineHelper.BrokenLineOptions
@@ -362,5 +352,18 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
     private void SaveGameProgress()
     {
         _globeProvider.StoreCurrentGlobe();
+    }
+
+    private void WriteAllCampaignMonsterLeadersToKnown(IEnumerable<string> monsterLeaderClassSids)
+    {
+        foreach (var sid in monsterLeaderClassSids)
+        {
+            if (!_globeProvider.Globe.Player.KnownMonsters.Any(x =>
+                    string.Equals(x.ClassSid, sid, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                _globeProvider.Globe.Player.KnownMonsters.Add(new MonsterKnowledge(sid,
+                    MonsterKnowledgeLevel.CommonDescription));
+            }
+        }
     }
 }

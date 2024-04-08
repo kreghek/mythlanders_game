@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-
-using Client.Core.Campaigns;
-using Client.ScreenManagement;
+﻿using Client.ScreenManagement;
 
 namespace Client.GameScreens.Bestiary;
 

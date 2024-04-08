@@ -13,7 +13,8 @@ internal abstract class MonsterFactoryBase : IMonsterFactory
     public abstract CharacterCultureSid Culture { get; }
     public abstract UnitName ClassName { get; }
 
-    public UnitScheme Create(IBalanceTable balanceTable) { 
+    public UnitScheme Create(IBalanceTable balanceTable)
+    {
         return new UnitScheme(balanceTable.GetCommonUnitBasics())
         {
             Name = ClassName
