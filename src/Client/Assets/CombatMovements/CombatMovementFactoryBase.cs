@@ -98,9 +98,9 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
     }
 
     /// <inheritdoc />
-    public virtual IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+    public virtual IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {
-        return Array.Empty<CombatMovementEffectDisplayValue>();
+        return Array.Empty<DescriptionKeyValue>();
     }
 }

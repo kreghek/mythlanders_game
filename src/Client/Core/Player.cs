@@ -21,7 +21,7 @@ internal sealed class Player
     public Player()
     {
         Heroes = new PoolGroup<HeroState>();
-        KnownMonsters = new List<UnitScheme>();
+        KnownMonsters = new List<MonsterKnowledge>();
 
         Inventory = new Inventory();
 
@@ -45,7 +45,7 @@ internal sealed class Player
 
     public Inventory Inventory { get; }
 
-    public IList<UnitScheme> KnownMonsters { get; }
+    public IList<MonsterKnowledge> KnownMonsters { get; }
 
     public IReadOnlyCollection<MonsterPerk> MonsterPerks => _monsterPerks.ToArray();
 

@@ -20,5 +20,5 @@ internal interface ICombatMovementFactory
     /// </summary>
     /// <param name="combatMovementInstance">Combat movement.</param>
     /// <returns>Returns set of values with meta-data or empty array.</returns>
-    IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance);
+    IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance);
 }

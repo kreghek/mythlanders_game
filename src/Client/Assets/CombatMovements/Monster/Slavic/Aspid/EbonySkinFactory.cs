@@ -12,15 +12,15 @@ namespace Client.Assets.CombatMovements.Monster.Slavic.Aspid;
 
 internal class EbonySkinFactory : SimpleCombatMovementFactoryBase
 {
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {
         return new[]
         {
-            new CombatMovementEffectDisplayValue("defense", ExtractStatChangingValue(combatMovementInstance, 0),
-                CombatMovementEffectDisplayValueTemplate.ShieldPoints),
-            new CombatMovementEffectDisplayValue("defense_auto", ExtractStatChangingValue(combatMovementInstance, 1),
-                CombatMovementEffectDisplayValueTemplate.ShieldPoints)
+            new DescriptionKeyValue("defense", ExtractStatChangingValue(combatMovementInstance, 0),
+                DescriptionKeyValueTemplate.ShieldPoints),
+            new DescriptionKeyValue("defense_auto", ExtractStatChangingValue(combatMovementInstance, 1),
+                DescriptionKeyValueTemplate.ShieldPoints)
         };
     }
 
