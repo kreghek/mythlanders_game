@@ -1134,7 +1134,7 @@
     <comment>Skill</comment>
   </data>
   <data name="ExtraShieldPoints_Description" xml:space="preserve">
-    <value>Увеличивает щиты на &lt;hp&gt;</value>
+    <value>Увеличивает щиты на &lt;sp&gt;</value>
   </data>
   <data name="ExtraSpeed_Description" xml:space="preserve">
     <value>Увеличивает щиты на &lt;resolve&gt;</value>
