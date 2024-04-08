@@ -5,6 +5,7 @@ using System.Linq;
 using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
+using Client.GameScreens.Bestiary;
 using Client.GameScreens.Campaign.Ui;
 using Client.ScreenManagement;
 
@@ -19,6 +20,7 @@ namespace Client.GameScreens.Campaign;
 
 internal class CampaignScreen : GameScreenWithMenuBase
 {
+    private readonly ButtonBase _bestiaryButton;
     private readonly HeroCampaign _currentCampaign;
     private readonly GlobeProvider _globeProvider;
     private readonly ButtonBase _inventoryButton;
@@ -48,19 +50,26 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
         _inventoryButton = new ResourceTextButton(nameof(UiResource.InventoryButtonTitle));
         _inventoryButton.OnClick += InventoryButton_OnClick;
+
+        _bestiaryButton = new ResourceTextButton(nameof(UiResource.BestiaryButtonTitle));
+        _bestiaryButton.OnClick += BestiaryButton_OnClick;
     }
 
     protected override IList<ButtonBase> CreateMenu()
     {
+        var menuButtons = new List<ButtonBase>();
+
         if (_globeProvider.Globe.Player.Inventory.CalcActualItems().Any())
         {
-            return new[]
-            {
-                _inventoryButton
-            };
+            menuButtons.Add(_inventoryButton);
         }
 
-        return Array.Empty<ButtonBase>();
+        if (_globeProvider.Globe.Player.MonsterPerks.Any() && _globeProvider.Globe.Player.KnownMonsters.Any())
+        {
+            menuButtons.Add(_bestiaryButton);
+        }
+
+        return menuButtons;
     }
 
     protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -122,6 +131,13 @@ internal class CampaignScreen : GameScreenWithMenuBase
         }
 
         _showStoryPointsButton.Update(ResolutionIndependentRenderer);
+    }
+
+    private void BestiaryButton_OnClick(object? sender, EventArgs e)
+    {
+        ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary,
+            new BestiaryScreenTransitionArguments(ScreenTransition.Campaign,
+                new CampaignScreenTransitionArguments(_currentCampaign)));
     }
 
     private void DrawCampaignEffects(SpriteBatch spriteBatch, Rectangle contentRect)

@@ -5,7 +5,7 @@ using Client.Core;
 
 namespace Client.Assets.MonsterPerks;
 
-public class MonsterPerkCatalog
+public class MonsterPerkCatalog : IMonsterPerkCatalog
 {
     public MonsterPerkCatalog()
     {

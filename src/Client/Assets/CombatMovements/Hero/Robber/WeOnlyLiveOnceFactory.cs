@@ -50,16 +50,16 @@ internal class WeOnlyLiveOnceFactory : SimpleCombatMovementFactoryBase
             visualizationContext, config);
     }
 
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {
         return new[]
         {
-            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0),
-                CombatMovementEffectDisplayValueTemplate.Damage),
-            new CombatMovementEffectDisplayValue("duration", 3, CombatMovementEffectDisplayValueTemplate.RoundDuration),
-            new CombatMovementEffectDisplayValue("bleed_damage", 1,
-                CombatMovementEffectDisplayValueTemplate.HitPointsDamage)
+            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 0),
+                DescriptionKeyValueTemplate.Damage),
+            new DescriptionKeyValue("duration", 3, DescriptionKeyValueTemplate.RoundDuration),
+            new DescriptionKeyValue("bleed_damage", 1,
+                DescriptionKeyValueTemplate.HitPointsDamage)
         };
     }
 
