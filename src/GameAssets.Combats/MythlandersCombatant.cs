@@ -167,13 +167,13 @@ public sealed class MythlandersCombatant : ICombatant
     /// <summary>
     /// Add a status to combatant.
     /// </summary>
-    public void AddStatus(ICombatantStatus effect, ICombatantStatusImposeContext statusImposeContext,
+    public void AddStatus(ICombatantStatus status, ICombatantStatusImposeContext statusImposeContext,
         ICombatantStatusLifetimeImposeContext lifetimeImposeContext)
     {
-        effect.Impose(this, statusImposeContext);
-        _statuses.Add(effect);
+        status.Impose(this, statusImposeContext);
+        _statuses.Add(status);
 
-        effect.Lifetime.HandleImposed(effect, lifetimeImposeContext);
+        status.Lifetime.HandleImposed(status, lifetimeImposeContext);
     }
 
     /// <summary>

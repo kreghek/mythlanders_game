@@ -151,6 +151,18 @@
     <value>Bestiary</value>
     <comment>Бестиарий монстров в игре</comment>
   </data>
+  <data name="BestiaryTabMonsterKnowledgeCaption" xml:space="preserve">
+    <value>Monster Knowledge</value>
+  </data>
+  <data name="BestiaryTabMonsterKnowledgeDescription" xml:space="preserve">
+    <value>You've already met these monsters. Fight more often to learn new things about monsters and explore their vulnerabilities.</value>
+  </data>
+  <data name="BestiaryTabMonsterPerksCaption" xml:space="preserve">
+    <value>Monster Perks</value>
+  </data>
+  <data name="BestiaryTabMonsterPerksDescription" xml:space="preserve">
+    <value>Current monster upgrades. Choose your next company and next monster upgrade carefully to ensure you are always capable of defeating them.</value>
+  </data>
   <data name="BiomeLevelText" xml:space="preserve">
     <value>Lvl</value>
   </data>
@@ -241,6 +253,9 @@
   <data name="CombatMovementEffectValueType_Damage_Template" xml:space="preserve">
     <value>{0} damage</value>
   </data>
+  <data name="CombatMovementEffectValueType_Defence_Template" xml:space="preserve">
+    <value>{0} defence</value>
+  </data>
   <data name="CombatMovementEffectValueType_HitPointsDamage_Template" xml:space="preserve">
     <value>{0} damage to hit points</value>
   </data>
@@ -250,11 +265,17 @@
   <data name="CombatMovementEffectValueType_ResolveDamage_Template" xml:space="preserve">
     <value>{0} resolve damage</value>
   </data>
+  <data name="CombatMovementEffectValueType_Resolve_Template" xml:space="preserve">
+    <value>{0} resolve</value>
+  </data>
   <data name="CombatMovementEffectValueType_RoundDuration_Template" xml:space="preserve">
     <value>{0} round(s)</value>
   </data>
   <data name="CombatMovementEffectValueType_ShieldPoints_Template" xml:space="preserve">
     <value>{0} shields</value>
+  </data>
+  <data name="CombatMovementEffectValueType_TurnDuration_Template" xml:space="preserve">
+    <value>{0} turns</value>
   </data>
   <data name="CombatProgressTemplate" xml:space="preserve">
     <value>Combat progress: {0}/{1}</value>
@@ -621,11 +642,5 @@ This hero can no longer act in the current battle.</value>
   </data>
   <data name="_AllChars" xml:space="preserve">
     <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
-  </data>
-  <data name="CombatMovementEffectValueType_TurnDuration_Template" xml:space="preserve">
-    <value>{0} turns</value>
-  </data>
-  <data name="CombatMovementEffectValueType_Defence_Template" xml:space="preserve">
-    <value>{0} defence</value>
   </data>
 </root>
