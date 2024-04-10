@@ -36,18 +36,18 @@ internal class FlockAlphaTacticsFactory : CombatMovementFactoryBase
         };
     }
 
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {
         return new[]
         {
-            new CombatMovementEffectDisplayValue("damage",
+            new DescriptionKeyValue("damage",
                 ExtractDamage(combatMovementInstance, 1),
-                CombatMovementEffectDisplayValueTemplate.Damage),
+                DescriptionKeyValueTemplate.Damage),
 
-            new CombatMovementEffectDisplayValue("resolve_damage",
+            new DescriptionKeyValue("resolve_damage",
                 ExtractStatChangingValue(combatMovementInstance, 2) * -1,
-                CombatMovementEffectDisplayValueTemplate.ResolveDamage)
+                DescriptionKeyValueTemplate.ResolveDamage)
         };
     }
 }

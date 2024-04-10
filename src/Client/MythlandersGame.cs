@@ -5,6 +5,7 @@ using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.Catalogs.Crises;
 using Client.Assets.CombatMovements;
+using Client.Assets.MonsterPerks;
 using Client.Core;
 using Client.Engine;
 using Client.GameComponents;
@@ -278,14 +279,23 @@ internal sealed class MythlandersGame : Game
 
         var balanceTable = new BalanceTable();
 
-        RegisterCatalogs(balanceTable: balanceTable, dialogueResourceProvider: dialogueResourceProvider);
+        RegisterCatalogs(balanceTable, dialogueResourceProvider);
 
         var eventInitializer = Services.GetRequiredService<IEventInitializer>();
         eventInitializer.Init();
 
+        var monsterPerkCatalog = new MonsterPerkCatalog();
+        Services.AddService<IMonsterPerkCatalog>(monsterPerkCatalog);
+
         Services.AddService(
             new GlobeProvider(Services.GetRequiredService<ICharacterCatalog>(),
-                Services.GetRequiredService<IStoryPointInitializer>()));
+                Services.GetRequiredService<IStoryPointInitializer>(),
+                Services.GetRequiredService<IMonsterPerkCatalog>()));
+
+        var monsterPerkManager = new MonsterPerkManager(Services.GetRequiredService<IDice>(),
+            Services.GetRequiredService<IMonsterPerkCatalog>(),
+            Services.GetRequiredService<GlobeProvider>());
+        Services.AddService<IMonsterPerkManager>(monsterPerkManager);
 
         var campaignWayTemplateCatalog = new CampaignWayTemplatesCatalog(Services.GetRequiredService<GlobeProvider>(),
             Services.GetRequiredService<IEventCatalog>(),
@@ -293,11 +303,9 @@ internal sealed class MythlandersGame : Game
             Services.GetRequiredService<IJobProgressResolver>(),
             Services.GetRequiredService<IDropResolver>(),
             Services.GetRequiredService<ICharacterCatalog>(),
-            Services.GetRequiredService<ICrisesCatalog>());
+            Services.GetRequiredService<ICrisesCatalog>(),
+            Services.GetRequiredService<IMonsterPerkManager>());
         Services.AddService(campaignWayTemplateCatalog);
-
-        var monsterPerkManager = new MonsterPerkManager(Services.GetRequiredService<IDice>());
-        Services.AddService<IMonsterPerkManager>(monsterPerkManager);
 
         var campaignGenerator = new CampaignGenerator(
             Services.GetRequiredService<CampaignWayTemplatesCatalog>(),
