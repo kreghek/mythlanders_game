@@ -40,7 +40,7 @@ internal sealed class GuardsmanGraphicsConfig : HeroGraphicConfig
             {
                 PredefinedAnimationSid.Defense,
                 AnimationFrameSetFactory.CreateSequential(startFrameIndex: 39, frameCount: 1, fps: 0)
-            },
+            }
         };
     }
 }

@@ -23,40 +23,6 @@ internal class OffensiveFactory : SimpleCombatMovementFactoryBase
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(3, 3);
 
-    /// <inheritdoc />
-    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
-    {
-        yield return CombatMovementMetadataTraits.Melee;
-    }
-
-    /// <inheritdoc />
-    protected override CombatMovementCost GetCost()
-    {
-        return new CombatMovementCost(2);
-    }
-
-    /// <inheritdoc />
-    protected override CombatMovementEffectConfig GetEffects()
-    {
-        return CombatMovementEffectConfig.Create(new IEffect[]
-        {
-            new DamageEffectWrapper(
-                new ClosestInLineTargetSelector(),
-                DamageType.Normal,
-                GenericRange<int>.CreateMono(2)),
-            new PushToPositionEffect(
-                new SelfTargetSelector(),
-                ChangePositionEffectDirection.ToVanguard
-            )
-        });
-    }
-
-    /// <inheritdoc />
-    protected override CombatMovementTags GetTags()
-    {
-        return CombatMovementTags.Attack;
-    }
-
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
@@ -98,5 +64,39 @@ internal class OffensiveFactory : SimpleCombatMovementFactoryBase
             new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 0),
                 DescriptionKeyValueTemplate.Damage)
         };
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Melee;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(2);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
+        {
+            new DamageEffectWrapper(
+                new ClosestInLineTargetSelector(),
+                DamageType.Normal,
+                GenericRange<int>.CreateMono(2)),
+            new PushToPositionEffect(
+                new SelfTargetSelector(),
+                ChangePositionEffectDirection.ToVanguard
+            )
+        });
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
     }
 }
