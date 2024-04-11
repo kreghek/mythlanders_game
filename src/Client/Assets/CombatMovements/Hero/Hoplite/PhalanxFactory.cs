@@ -84,10 +84,4 @@ internal class PhalanxFactory : SimpleCombatMovementFactoryBase
                 )
             });
     }
-
-    /// <inheritdoc />
-    protected override CombatMovementTags GetTags()
-    {
-        return CombatMovementTags.Attack;
-    }
 }
