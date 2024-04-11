@@ -69,7 +69,7 @@ internal class PhalanxFactory : SimpleCombatMovementFactoryBase
                     )
                 )
                 {
-                    ImposeConditions = { new IsRightAllyWithShieldCondition() }
+                    ImposeConditions = new[] { new IsRightAllyWithShieldCondition() }
                 }
             },
             new IEffect[]
@@ -94,60 +94,6 @@ internal class PhalanxFactory : SimpleCombatMovementFactoryBase
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.Attack;
-    }
-
-    private sealed class IsRightAllyWithShieldCondition : IEffectCondition
-    {
-        public bool Check()
-        {
-            ICombatant effectActor = null;
-            CombatField field = null;
-
-            var rightAllyCombatant = GetRightAlly(effectActor, field);
-
-            if (rightAllyCombatant is null)
-            {
-                return false;
-            }
-
-            var isRightCombatantHasShield = CheckIsCombatantHasShield(rightAllyCombatant);
-
-            return isRightCombatantHasShield;
-        }
-
-        private static bool CheckIsCombatantHasShield(ICombatant testCombatant)
-        {
-            return
-                testCombatant.Statuses
-                    .Any(x=>ReferenceEquals(x, SystemStatuses.HasShield));
-            //.ClassSid is "Swordsman" or "Hoplite" or "Guardian" or "Assaulter" or "Liberator";
-        }
-    }
-
-    private static ICombatant? GetRightAlly(ICombatant baseCombatant, CombatField field)
-    {
-        var side = GetTargetSide(baseCombatant, field);
-        var currentCoords = side.GetCombatantCoords(baseCombatant);
-
-        if (currentCoords.LineIndex == 2)
-        {
-            return null;
-        }
-
-        var rightCoords = new FieldCoords(currentCoords.ColumentIndex, currentCoords.LineIndex + 2);
-
-        return side[rightCoords].Combatant;
-    }
-    
-    private static CombatFieldSide GetTargetSide(ICombatant target, CombatField field)
-    {
-        var heroes = field.HeroSide.GetAllCombatants();
-        if (heroes.Contains(target))
-        {
-            return field.HeroSide;
-        }
-
-        return field.MonsterSide;
     }
 }
 
