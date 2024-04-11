@@ -802,6 +802,12 @@
 - Культ Солнца будет знать больше про древние культуры.</value>
     <comment>Crisis Aftermath</comment>
   </data>
+  <data name="Offensive" xml:space="preserve">
+    <value>Наступление</value>
+  </data>
+  <data name="Offensive_Description" xml:space="preserve">
+    <value>Ударом копья наносит &lt;damage&gt; противнику в линии.</value>
+  </data>
   <data name="OldGoodBrawl" xml:space="preserve">
     <value>Старый добрый мордобой</value>
     <comment>Combat movement Partisan</comment>

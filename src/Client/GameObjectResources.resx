@@ -801,6 +801,14 @@
     <value />
     <comment>Crisis Aftermath</comment>
   </data>
+  <data name="Offensive" xml:space="preserve">
+    <value>Offensive</value>
+    <comment>Combat Movement Hoplite</comment>
+  </data>
+  <data name="Offensive_Description" xml:space="preserve">
+    <value>With a spear strike, inflicts &lt;damage&gt; on the enemy in a line.</value>
+    <comment>Combat Movement Hoplite</comment>
+  </data>
   <data name="OldGoodBrawl" xml:space="preserve">
     <value>Old good brawl</value>
     <comment>Combat movement Partisan</comment>
