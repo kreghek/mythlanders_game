@@ -454,8 +454,14 @@
   <data name="ExtraShieldPoints" xml:space="preserve">
     <value>Экстра Щиты</value>
   </data>
+  <data name="ExtraShieldPoints_Description" xml:space="preserve">
+    <value>Увеличивает щиты на &lt;sp&gt;</value>
+  </data>
   <data name="ExtraSpeed" xml:space="preserve">
     <value>Экстра Скорость</value>
+  </data>
+  <data name="ExtraSpeed_Description" xml:space="preserve">
+    <value>Увеличивает щиты на &lt;resolve&gt;</value>
   </data>
   <data name="EyesOfChaos" xml:space="preserve">
     <value>Очи Хаоса</value>
@@ -611,6 +617,9 @@
   <data name="ImprovedAllDamage" xml:space="preserve">
     <value>Улучшенный урон</value>
   </data>
+  <data name="ImprovedAllDamage_Description" xml:space="preserve">
+    <value>Увеличивает &lt;style=color1&gt;весь&lt;/style&gt; урона на &lt;damage&gt;</value>
+  </data>
   <data name="ImprovedArmor" xml:space="preserve">
     <value>Улучшенная броня</value>
     <comment>Perk</comment>
@@ -630,8 +639,14 @@
   <data name="ImprovedMeleeDamage" xml:space="preserve">
     <value>Улучшенная рукопашная</value>
   </data>
+  <data name="ImprovedMeleeDamage_Description" xml:space="preserve">
+    <value>Увеличивает &lt;style=color1&gt;рукопашный&lt;/style&gt; урон на &lt;damage&gt;</value>
+  </data>
   <data name="ImprovedRangeDamage" xml:space="preserve">
     <value>Улучшенная стрельба</value>
+  </data>
+  <data name="ImprovedRangeDamage_Description" xml:space="preserve">
+    <value>Увеличивает &lt;style=color1&gt;струлковый&lt;/style&gt; урон на &lt;damage&gt;</value>
   </data>
   <data name="Impulse" xml:space="preserve">
     <value>Импульс</value>
@@ -654,6 +669,12 @@
   <data name="InspiringRush" xml:space="preserve">
     <value>Вдохновляющий рывок</value>
     <comment>Skill</comment>
+  </data>
+  <data name="InvinciblePhalanx" xml:space="preserve">
+    <value>Несокрушимая Фаланга</value>
+  </data>
+  <data name="InvinciblePhalanx_Description" xml:space="preserve">
+    <value>Если союзники выстроились в колонну, то вся колонна становится &lt;style=color1&gt;неуязвимой&lt;/style&gt; до следующего хода гоплита.</value>
   </data>
   <data name="IronStream" xml:space="preserve">
     <value>Железный Поток</value>
@@ -1132,20 +1153,5 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
     <comment>Skill</comment>
-  </data>
-  <data name="ExtraShieldPoints_Description" xml:space="preserve">
-    <value>Увеличивает щиты на &lt;sp&gt;</value>
-  </data>
-  <data name="ExtraSpeed_Description" xml:space="preserve">
-    <value>Увеличивает щиты на &lt;resolve&gt;</value>
-  </data>
-  <data name="ImprovedAllDamage_Description" xml:space="preserve">
-    <value>Увеличивает &lt;style=color1&gt;весь&lt;/style&gt; урона на &lt;damage&gt;</value>
-  </data>
-  <data name="ImprovedMeleeDamage_Description" xml:space="preserve">
-    <value>Увеличивает &lt;style=color1&gt;рукопашный&lt;/style&gt; урон на &lt;damage&gt;</value>
-  </data>
-  <data name="ImprovedRangeDamage_Description" xml:space="preserve">
-    <value>Увеличивает &lt;style=color1&gt;струлковый&lt;/style&gt; урон на &lt;damage&gt;</value>
   </data>
 </root>

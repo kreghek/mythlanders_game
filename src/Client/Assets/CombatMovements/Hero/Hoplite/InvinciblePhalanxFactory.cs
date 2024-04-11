@@ -13,19 +13,15 @@ using GameAssets.Combats.EffectConditions;
 
 using JetBrains.Annotations;
 
+using Steamworks;
+
 namespace Client.Assets.CombatMovements.Hero.Hoplite;
 
 [UsedImplicitly]
-internal class PhalanxFactory : SimpleCombatMovementFactoryBase
+internal class InvinciblePhalanxFactory : SimpleCombatMovementFactoryBase
 {
     /// <inheritdoc />
-    public override CombatMovementIcon CombatMovementIcon => new(4, 4); //IconOneBasedIndex = 23
-
-    /// <inheritdoc />
-    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
-    {
-        yield return CombatMovementMetadataTraits.Melee;
-    }
+    public override CombatMovementIcon CombatMovementIcon => new(4, 3);
 
     /// <inheritdoc />
     protected override CombatMovementCost GetCost()
@@ -38,7 +34,7 @@ internal class PhalanxFactory : SimpleCombatMovementFactoryBase
     {
         return new CombatMovementEffectConfig(new IEffect[]
             {
-                new AddCombatantStatusEffect(new SelfTargetSelector(),
+                new AddCombatantStatusEffect(new AllAllyColumnTargetSelector(),
                     new CombatStatusFactory(source =>
                         new DefensiveStanceCombatantStatusWrapper(
                             new AutoRestoreModifyStatCombatantStatus(
@@ -47,24 +43,12 @@ internal class PhalanxFactory : SimpleCombatMovementFactoryBase
                                     new ToNextCombatantTurnEffectLifetime(),
                                     source,
                                     CombatantStatTypes.Defense,
-                                    1)))
-                    )
-                ),
-                new AddCombatantStatusEffect(new LeftAllyTargetSelector(),
-                    new CombatStatusFactory(source =>
-                        new DefensiveStanceCombatantStatusWrapper(
-                            new AutoRestoreModifyStatCombatantStatus(
-                                new ModifyStatCombatantStatus(
-                                    new CombatantStatusSid(Sid),
-                                    new ToNextCombatantTurnEffectLifetime(),
-                                    source,
-                                    CombatantStatTypes.Defense,
-                                    2))
+                                    1000))
                         )
                     )
                 )
                 {
-                    ImposeConditions = new[] { new IsRightAllyWithShieldCondition() }
+                    ImposeConditions = new[] { new IsAllyColumnFilledShieldCondition() }
                 }
             },
             new IEffect[]

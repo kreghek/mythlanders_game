@@ -25,7 +25,7 @@ internal sealed class HopliteHeroFactory : HeroFactoryBase
     {
         var movementPool = new List<CombatMovement>
         {
-            CreateMovement<PhalanxFactory>(),
+            CreateMovement<InvinciblePhalanxFactory>(),
 
             CreateMovement<OffensiveFactory>(),
 

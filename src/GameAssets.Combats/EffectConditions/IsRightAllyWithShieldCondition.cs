@@ -21,10 +21,7 @@ public sealed class IsRightAllyWithShieldCondition : IEffectCondition
 
     private static bool CheckIsCombatantHasShield(ICombatant testCombatant)
     {
-        return
-            testCombatant.Statuses
-                .Any(x => ReferenceEquals(x, SystemStatuses.HasShield));
-        //.ClassSid is "Swordsman" or "Hoplite" or "Guardian" or "Assaulter" or "Liberator";
+        return testCombatant.Statuses.Any(x => ReferenceEquals(x, SystemStatuses.HasShield));
     }
 
     private static ICombatant? GetRightAlly(ICombatant baseCombatant, CombatField field)
