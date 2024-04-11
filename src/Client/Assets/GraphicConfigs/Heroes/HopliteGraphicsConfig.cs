@@ -37,6 +37,10 @@ internal sealed class HopliteGraphicsConfig : HeroGraphicConfig
                 AnimationFrameSetFactory.CreateSequentialFromGrid(rows: new[] { 7 }, fps: 8)
             },
             {
+                PredefinedAnimationSid.Defense,
+                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 12, frameCount: 4, fps: 0, isLoop: false)
+            },
+            {
                 PredefinedAnimationSid.Death,
                 AnimationFrameSetFactory.CreateSequentialFromGrid(rows: new[] { 8 }, fps: 8)
             }
