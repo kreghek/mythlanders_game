@@ -9,9 +9,9 @@ public sealed class IsAllyColumnFilledShieldCondition : IEffectCondition
         var side = GetTargetSide(actor, combatField);
         var currentCoords = side.GetCombatantCoords(actor);
 
-        for (var i = 0; i < currentCoords.LineIndex; i++)
+        for (var i = 0; i < side.LineCount; i++)
         {
-            if (side[new FieldCoords(currentCoords.ColumentIndex, 0)].Combatant is null)
+            if (side[new FieldCoords(currentCoords.ColumentIndex, i)].Combatant is null)
             {
                 return false;
             }

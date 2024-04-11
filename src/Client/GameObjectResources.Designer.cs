@@ -1665,6 +1665,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Offensive.
+        /// </summary>
+        internal static string Offensive {
+            get {
+                return ResourceManager.GetString("Offensive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to With a spear strike, inflicts &lt;damage&gt;on the enemy in a line..
+        /// </summary>
+        internal static string Offensive_Description {
+            get {
+                return ResourceManager.GetString("Offensive_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Old good brawl.
         /// </summary>
         internal static string OldGoodBrawl {

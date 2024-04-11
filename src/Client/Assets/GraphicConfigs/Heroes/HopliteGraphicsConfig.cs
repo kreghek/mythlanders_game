@@ -26,11 +26,11 @@ internal sealed class HopliteGraphicsConfig : HeroGraphicConfig
             },
             {
                 PredefinedAnimationSid.MoveForward,
-                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 32, frameCount: 8, fps: 6)
+                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 48, frameCount: 8, fps: 6)
             },
             {
                 PredefinedAnimationSid.MoveBackward,
-                AnimationFrameSetFactory.CreateSequentialFromGrid(rows: new[] { 6 }, fps: 8)
+                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 48, frameCount: 8, fps: 6)
             },
             {
                 PredefinedAnimationSid.Wound,

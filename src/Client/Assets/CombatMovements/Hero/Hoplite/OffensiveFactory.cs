@@ -21,7 +21,7 @@ namespace Client.Assets.CombatMovements.Hero.Hoplite;
 internal class OffensiveFactory : SimpleCombatMovementFactoryBase
 {
     /// <inheritdoc />
-    public override CombatMovementIcon CombatMovementIcon => new(4, 4); //IconOneBasedIndex = 22
+    public override CombatMovementIcon CombatMovementIcon => new(3, 3);
 
     /// <inheritdoc />
     protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()

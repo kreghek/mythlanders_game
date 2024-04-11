@@ -36,6 +36,14 @@ internal sealed class MaosinGraphicsConfig : HeroGraphicConfig
             {
                 PredefinedAnimationSid.Death,
                 AnimationFrameSetFactory.CreateSequential(startFrameIndex: 56, frameCount: 8, fps: 8)
+            },
+            {
+                PredefinedAnimationSid.DefenseStance,
+                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 1, fps: 1)
+            },
+            {
+                PredefinedAnimationSid.Defense,
+                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 1, fps: 1)
             }
         };
     }
