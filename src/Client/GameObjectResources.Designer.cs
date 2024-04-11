@@ -1674,7 +1674,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to With a spear strike, inflicts &lt;damage&gt;on the enemy in a line..
+        ///   Looks up a localized string similar to With a spear strike, inflicts &lt;damage&gt; on the enemy in a line..
         /// </summary>
         internal static string Offensive_Description {
             get {

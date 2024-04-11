@@ -806,7 +806,7 @@
     <value>Наступление</value>
   </data>
   <data name="Offensive_Description" xml:space="preserve">
-    <value>Ударом копья наносит &lt;damage&gt;противнику в линии.</value>
+    <value>Ударом копья наносит &lt;damage&gt; противнику в линии.</value>
   </data>
   <data name="OldGoodBrawl" xml:space="preserve">
     <value>Старый добрый мордобой</value>
