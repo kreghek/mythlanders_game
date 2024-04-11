@@ -1350,6 +1350,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invincible Phalanx.
+        /// </summary>
+        internal static string InvinciblePhalanx {
+            get {
+                return ResourceManager.GetString("InvinciblePhalanx", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If allies are lined up in a column, the entire column becomes &lt;style=color1&gt;invulnerable&lt;/style&gt; to next turn of the hoplite..
+        /// </summary>
+        internal static string InvinciblePhalanx_Description {
+            get {
+                return ResourceManager.GetString("InvinciblePhalanx_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Iron Stream.
         /// </summary>
         internal static string IronStream {
