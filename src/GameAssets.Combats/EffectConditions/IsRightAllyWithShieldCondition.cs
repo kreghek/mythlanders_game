@@ -3,22 +3,9 @@
 using GameAssets.Combats.CombatantStatuses;
 
 namespace GameAssets.Combats.EffectConditions;
+
 public sealed class IsRightAllyWithShieldCondition : IEffectCondition
 {
-    public bool Check(ICombatant actor, CombatField combatField)
-    {
-        var rightAllyCombatant = GetRightAlly(actor, combatField);
-
-        if (rightAllyCombatant is null)
-        {
-            return false;
-        }
-
-        var isRightCombatantHasShield = CheckIsCombatantHasShield(rightAllyCombatant);
-
-        return isRightCombatantHasShield;
-    }
-
     private static bool CheckIsCombatantHasShield(ICombatant testCombatant)
     {
         return testCombatant.Statuses.Any(x => ReferenceEquals(x, SystemStatuses.HasShield));
@@ -48,5 +35,19 @@ public sealed class IsRightAllyWithShieldCondition : IEffectCondition
         }
 
         return field.MonsterSide;
+    }
+
+    public bool Check(ICombatant actor, CombatField combatField)
+    {
+        var rightAllyCombatant = GetRightAlly(actor, combatField);
+
+        if (rightAllyCombatant is null)
+        {
+            return false;
+        }
+
+        var isRightCombatantHasShield = CheckIsCombatantHasShield(rightAllyCombatant);
+
+        return isRightCombatantHasShield;
     }
 }

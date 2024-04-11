@@ -4,6 +4,17 @@ namespace GameAssets.Combats.EffectConditions;
 
 public sealed class IsAllyColumnFilledShieldCondition : IEffectCondition
 {
+    private static CombatFieldSide GetTargetSide(ICombatant target, CombatField field)
+    {
+        var heroes = field.HeroSide.GetAllCombatants();
+        if (heroes.Contains(target))
+        {
+            return field.HeroSide;
+        }
+
+        return field.MonsterSide;
+    }
+
     public bool Check(ICombatant actor, CombatField combatField)
     {
         var side = GetTargetSide(actor, combatField);
@@ -18,16 +29,5 @@ public sealed class IsAllyColumnFilledShieldCondition : IEffectCondition
         }
 
         return true;
-    }
-
-    private static CombatFieldSide GetTargetSide(ICombatant target, CombatField field)
-    {
-        var heroes = field.HeroSide.GetAllCombatants();
-        if (heroes.Contains(target))
-        {
-            return field.HeroSide;
-        }
-
-        return field.MonsterSide;
     }
 }

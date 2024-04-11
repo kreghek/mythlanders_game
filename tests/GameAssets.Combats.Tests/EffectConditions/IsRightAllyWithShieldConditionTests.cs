@@ -4,10 +4,10 @@ using GameAssets.Combats.CombatantStatuses;
 
 namespace GameAssets.Combats.EffectConditions.Tests;
 
-[TestFixture()]
+[TestFixture]
 public class IsRightAllyWithShieldConditionTests
 {
-    [Test()]
+    [Test]
     public void Check_passes_if_shield_right()
     {
         // ARRANGE
@@ -20,7 +20,6 @@ public class IsRightAllyWithShieldConditionTests
         var allyMock = new Mock<ICombatant>();
         allyMock.SetupGet(x => x.Statuses).Returns(new[] { SystemStatuses.HasShield });
         var ally = allyMock.Object;
-
 
         var field = new CombatField();
         field.HeroSide[new FieldCoords(0, 1)].Combatant = actor;
@@ -35,7 +34,7 @@ public class IsRightAllyWithShieldConditionTests
         fact.Should().BeTrue();
     }
 
-    [Test()]
+    [Test]
     public void Check_fails_then_shield_left()
     {
         // ARRANGE
@@ -48,7 +47,6 @@ public class IsRightAllyWithShieldConditionTests
         var allyMock = new Mock<ICombatant>();
         allyMock.SetupGet(x => x.Statuses).Returns(new[] { SystemStatuses.HasShield });
         var ally = allyMock.Object;
-
 
         var field = new CombatField();
         field.HeroSide[new FieldCoords(0, 2)].Combatant = actor;
@@ -63,7 +61,7 @@ public class IsRightAllyWithShieldConditionTests
         fact.Should().BeFalse();
     }
 
-    [Test()]
+    [Test]
     public void Check_fails_then_shield_behind()
     {
         // ARRANGE
@@ -76,7 +74,6 @@ public class IsRightAllyWithShieldConditionTests
         var allyMock = new Mock<ICombatant>();
         allyMock.SetupGet(x => x.Statuses).Returns(new[] { SystemStatuses.HasShield });
         var ally = allyMock.Object;
-
 
         var field = new CombatField();
         field.HeroSide[new FieldCoords(0, 1)].Combatant = actor;
@@ -91,7 +88,7 @@ public class IsRightAllyWithShieldConditionTests
         fact.Should().BeFalse();
     }
 
-    [Test()]
+    [Test]
     public void Check_fails_then_no_shield()
     {
         // ARRANGE
@@ -105,7 +102,6 @@ public class IsRightAllyWithShieldConditionTests
         allyMock.SetupGet(x => x.Statuses).Returns(new[] { SystemStatuses.HasShield });
         var ally = allyMock.Object;
 
-
         var field = new CombatField();
         field.HeroSide[new FieldCoords(0, 1)].Combatant = actor;
 
@@ -118,7 +114,7 @@ public class IsRightAllyWithShieldConditionTests
         fact.Should().BeFalse();
     }
 
-    [Test()]
+    [Test]
     public void Check_fails_then_actor_on_right_edge()
     {
         // ARRANGE
@@ -131,7 +127,6 @@ public class IsRightAllyWithShieldConditionTests
         var allyMock = new Mock<ICombatant>();
         allyMock.SetupGet(x => x.Statuses).Returns(new[] { SystemStatuses.HasShield });
         var ally = allyMock.Object;
-
 
         var field = new CombatField();
         field.HeroSide[new FieldCoords(0, 2)].Combatant = actor;

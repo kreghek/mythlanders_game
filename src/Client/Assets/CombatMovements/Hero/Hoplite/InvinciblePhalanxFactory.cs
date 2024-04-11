@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
@@ -12,8 +10,6 @@ using GameAssets.Combats.CombatantStatuses;
 using GameAssets.Combats.EffectConditions;
 
 using JetBrains.Annotations;
-
-using Steamworks;
 
 namespace Client.Assets.CombatMovements.Hero.Hoplite;
 

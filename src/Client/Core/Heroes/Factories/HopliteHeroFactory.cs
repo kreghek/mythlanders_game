@@ -59,9 +59,9 @@ internal sealed class HopliteHeroFactory : HeroFactoryBase
 
     protected override IReadOnlyCollection<ICombatantStatusFactory> CreateStartupStatuses()
     {
-        return new[]{
+        return new[]
+        {
             new CombatStatusFactory(source => SystemStatuses.HasShield)
-
         };
     }
 }
