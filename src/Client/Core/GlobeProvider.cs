@@ -76,9 +76,7 @@ internal sealed class GlobeProvider
     {
         var globe = new Globe(new Player(), new GameProgression());
 
-        InitStartLocations(globe);
         InitStartStoryPoint(globe, _storyPointInitializer);
-        InitStartMonsterPerks(globe);
 
         Globe = globe;
     }

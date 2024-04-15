@@ -23,8 +23,33 @@ p2:
         - type: Background
           data: Monsters
   options:
-    - text: 'Далее'
+    - text: 'Монстры были сильными'
       next: p3
+      aftermaths:
+        - type: AddMonsterPerk
+          data: ExtraHitPoints
+        - type: AddMonsterPerk
+          data: ImproveMeleeDamage
+        - type: AddMonsterPerk
+          data: LastBreath
+    - text: 'Монстры были умными'
+      next: p3
+      aftermaths:
+        - type: AddMonsterPerk
+          data: ExtraShieldPoints
+        - type: AddMonsterPerk
+          data: ImproveRangeDamage
+        - type: AddMonsterPerk
+          data: RearguardReduceHitPoints
+    - text: 'Монстры были слаженными'
+      next: p3
+      aftermaths:
+        - type: AddMonsterPerk
+          data: VanguardExtraHitPoints
+        - type: AddMonsterPerk
+          data: VanguardReduceHitPoints
+        - type: AddMonsterPerk
+          data: ImproveAllDamage
 
 p3:
   paragraphs:
