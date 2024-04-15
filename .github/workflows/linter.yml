@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - dev/**
+      - feature/**
 
 env:
   MGFXC_WINE_PATH: /home/runner/.winemonogame

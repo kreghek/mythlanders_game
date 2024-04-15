@@ -15,15 +15,15 @@ namespace Client.Assets.CombatMovements.Monster.Slavic.Aspid;
 internal class SpiralInversionFactory : SimpleCombatMovementFactoryBase
 {
     /// <inheritdoc />
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {
         return new[]
         {
-            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 1),
-                CombatMovementEffectDisplayValueTemplate.Damage),
-            new CombatMovementEffectDisplayValue("damage_resolve", ExtractDamage(combatMovementInstance, 3),
-                CombatMovementEffectDisplayValueTemplate.ResolveDamage)
+            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 1),
+                DescriptionKeyValueTemplate.Damage),
+            new DescriptionKeyValue("damage_resolve", ExtractDamage(combatMovementInstance, 3),
+                DescriptionKeyValueTemplate.ResolveDamage)
         };
     }
 

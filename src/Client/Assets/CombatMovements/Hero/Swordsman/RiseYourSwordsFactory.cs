@@ -1,4 +1,6 @@
-﻿using Client.Engine;
+﻿using System.Collections.Generic;
+
+using Client.Engine;
 using Client.GameScreens;
 
 using CombatDicesTeam.Combats;
@@ -10,8 +12,11 @@ using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats.CombatantStatuses;
 
+using JetBrains.Annotations;
+
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
+[UsedImplicitly]
 internal class RiseYourSwordsFactory : CombatMovementFactoryBase
 {
     public override CombatMovementIcon CombatMovementIcon => new(4, 2);
@@ -47,5 +52,17 @@ internal class RiseYourSwordsFactory : CombatMovementFactoryBase
 
         return CommonCombatVisualization.CreateSelfBuffVisualization(actorAnimator, movementExecution,
             visualizationContext, defenseAnimation, defenseSoundEffect);
+    }
+
+    /// <inheritdoc />
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new DescriptionKeyValue("damage_buff", 1,
+                DescriptionKeyValueTemplate.DamageModifier),
+            new DescriptionKeyValue("duration", 1, DescriptionKeyValueTemplate.TurnDuration)
+        };
     }
 }

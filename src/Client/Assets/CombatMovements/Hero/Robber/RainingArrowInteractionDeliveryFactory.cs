@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Client.Assets.ActorVisualizationStates.Primitives;
 using Client.Assets.CombatVisualEffects;
@@ -44,7 +43,6 @@ internal sealed class RainingArrowInteractionDeliveryFactory : IDeliveryFactory
         var arrow = new EnergyArrowProjectile(startPoint, targetPoint, _gameObjectContentStorage.GetBulletGraphics(),
             0.25f + rnd);
 
-
         arrow.InteractionPerformed += (s, _) =>
         {
             var blast = new EnergyBlastVisualEffect(
@@ -55,8 +53,8 @@ internal sealed class RainingArrowInteractionDeliveryFactory : IDeliveryFactory
             _combatVisualEffectManager.AddEffect(blast);
 
             var sfx = _gameObjectContentStorage
-                        .GetSkillUsageSound(GameObjectSoundType.ImpulseArrowBlast)
-                        .CreateInstance();
+                .GetSkillUsageSound(GameObjectSoundType.ImpulseArrowBlast)
+                .CreateInstance();
             sfx.Pitch = (float)rnd * 2 - 1;
             sfx.Play();
         };
