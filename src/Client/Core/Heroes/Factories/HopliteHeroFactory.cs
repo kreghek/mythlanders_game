@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-using Client.Assets.CombatMovements.Hero.Spearman;
+using Client.Assets.CombatMovements.Hero.Hoplite;
 using Client.Assets.GraphicConfigs.Heroes;
 
 using CombatDicesTeam.Combats;
@@ -14,26 +14,24 @@ using JetBrains.Annotations;
 namespace Client.Core.Heroes.Factories;
 
 [UsedImplicitly]
-internal sealed class GuardianHeroFactory : HeroFactoryBase
+internal sealed class HopliteHeroFactory : HeroFactoryBase
 {
     public override CombatantGraphicsConfigBase GetGraphicsConfig()
     {
-        return new GuardsmanGraphicsConfig(ClassSid);
+        return new HopliteGraphicsConfig(ClassSid);
     }
 
     protected override CombatMovementSequence CreateInitCombatMovementPool()
     {
         var movementPool = new List<CombatMovement>
         {
-            CreateMovement<StonePathFactory>(),
+            CreateMovement<InvinciblePhalanxFactory>(),
 
-            CreateMovement<PatientPredatorFactory>(),
+            CreateMovement<OffensiveFactory>(),
 
-            CreateMovement<DemonicTauntFactory>(),
+            CreateMovement<ContemptFactory>(),
 
-            CreateMovement<PenetrationStrikeFactory>(),
-
-            CreateMovement<DragonAngerFactory>()
+            CreateMovement<AresWarBringerThreadsFactory>()
         };
 
         var heroSequence = new CombatMovementSequence();
@@ -53,8 +51,8 @@ internal sealed class GuardianHeroFactory : HeroFactoryBase
     {
         var stats = new CombatantStatsConfig();
         stats.SetValue(CombatantStatTypes.HitPoints, 5);
-        stats.SetValue(CombatantStatTypes.ShieldPoints, 5);
-        stats.SetValue(CombatantStatTypes.Resolve, 4);
+        stats.SetValue(CombatantStatTypes.ShieldPoints, 4);
+        stats.SetValue(CombatantStatTypes.Resolve, 5);
 
         return stats;
     }

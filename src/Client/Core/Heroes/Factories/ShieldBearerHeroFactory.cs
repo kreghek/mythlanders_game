@@ -3,8 +3,10 @@
 using Client.Assets.CombatMovements.Hero.ShieldBearer;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
+using GameAssets.Combats.CombatantStatuses;
 
 using JetBrains.Annotations;
 
@@ -41,5 +43,13 @@ internal sealed class ShieldBearerHeroFactory : HeroFactoryBase
         stats.SetValue(CombatantStatTypes.ShieldPoints, 5);
         stats.SetValue(CombatantStatTypes.Resolve, 7);
         return stats;
+    }
+
+    protected override IReadOnlyCollection<ICombatantStatusFactory> CreateStartupStatuses()
+    {
+        return new[]
+        {
+            new CombatStatusFactory(source => SystemStatuses.HasShield)
+        };
     }
 }
