@@ -50,6 +50,19 @@ internal class WeOnlyLiveOnceFactory : SimpleCombatMovementFactoryBase
             visualizationContext, config);
     }
 
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 0),
+                DescriptionKeyValueTemplate.Damage),
+            new DescriptionKeyValue("duration", 3, DescriptionKeyValueTemplate.RoundDuration),
+            new DescriptionKeyValue("bleed_damage", 1,
+                DescriptionKeyValueTemplate.HitPointsDamage)
+        };
+    }
+
     /// <inheritdoc />
     protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
     {
@@ -78,14 +91,5 @@ internal class WeOnlyLiveOnceFactory : SimpleCombatMovementFactoryBase
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.Attack;
-    }
-
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
-    {
-        return new[] { 
-            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0), CombatMovementEffectDisplayValueTemplate.Damage),
-            new CombatMovementEffectDisplayValue("duration", 3, CombatMovementEffectDisplayValueTemplate.RoundDuration),
-            new CombatMovementEffectDisplayValue("bleed_damage", 1, CombatMovementEffectDisplayValueTemplate.HitPointsDamage),
-        };
     }
 }

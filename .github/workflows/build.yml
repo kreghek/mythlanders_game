@@ -3,14 +3,18 @@ name: Build
 on:
   push:
     branches:
-      - 'demo/**'
-      - 'dev/**'
-      - 'main'
+      - 'release/**' # Run the workflow when pushing to a release branch
+      - 'demo/**'    # Run the workflow when pushing to a demo branch
+      - 'dev/**'     # Run the workflow when pushing to a development branch
+      - 'feature/**' # Run the workflow when pushing to a feature branch
+      - 'main'       # Run the workflow when pushing to the main branch
   pull_request:
     branches:
-      - 'demo/**'
-      - 'dev/**'
-      - 'main'
+      - 'release/**' # Run the workflow for pull requests to a release branch to control hotfixes
+      - 'demo/**'    # Run the workflow for pull requests to a demo branch to control hotfixes
+      - 'dev/**'     # Run the workflow for pull requests to a development branch
+      - 'feature/**' # Run the workflow for pull requests to a feature branch
+      - 'main'       # Run the workflow for pull requests to the main branch to control hotfixes
 
 jobs:
   build:
