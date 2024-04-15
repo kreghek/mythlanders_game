@@ -30,6 +30,7 @@ using Core.PropDrop;
 using Core.Props;
 
 using GameAssets.Combats;
+using GameAssets.Combats.CombatantStatuses;
 
 using GameClient.Engine;
 using GameClient.Engine.RectControl;
@@ -982,7 +983,11 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void DrawCombatantStatuses(Vector2 statsPanelOrigin, ICombatant combatant, SpriteBatch spriteBatch)
     {
-        var orderedCombatantStatuses = combatant.Statuses.OrderBy(x => x.Sid.ToString()).ToArray();
+        var orderedCombatantStatuses = combatant.Statuses
+            .Where(x => !CatalogHelper.GetAllFromStaticCatalog<ICombatantStatus>(typeof(SystemStatuses)).Contains(x))
+            .OrderBy(x => x.Sid.ToString())
+            .ToArray();
+
         for (var statusIndex = 0; statusIndex < orderedCombatantStatuses.Length; statusIndex++)
         {
             var combatantStatus = orderedCombatantStatuses[statusIndex];

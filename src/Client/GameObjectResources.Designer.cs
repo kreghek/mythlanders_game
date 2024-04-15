@@ -1350,6 +1350,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invincible Phalanx.
+        /// </summary>
+        internal static string InvinciblePhalanx {
+            get {
+                return ResourceManager.GetString("InvinciblePhalanx", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If allies are lined up in a column, the entire column becomes &lt;style=color1&gt;invulnerable&lt;/style&gt; to next turn of the hoplite..
+        /// </summary>
+        internal static string InvinciblePhalanx_Description {
+            get {
+                return ResourceManager.GetString("InvinciblePhalanx_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Iron Stream.
         /// </summary>
         internal static string IronStream {
@@ -1643,6 +1661,24 @@ namespace Client {
         internal static string ObeyAll_CrisisAftermath {
             get {
                 return ResourceManager.GetString("ObeyAll_CrisisAftermath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Offensive.
+        /// </summary>
+        internal static string Offensive {
+            get {
+                return ResourceManager.GetString("Offensive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to With a spear strike, inflicts &lt;damage&gt; on the enemy in a line..
+        /// </summary>
+        internal static string Offensive_Description {
+            get {
+                return ResourceManager.GetString("Offensive_Description", resourceCulture);
             }
         }
         

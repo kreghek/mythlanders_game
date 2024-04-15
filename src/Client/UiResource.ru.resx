@@ -354,9 +354,6 @@
   <data name="DialogueContinueText" xml:space="preserve">
     <value>Нажмите [ПРОБЕЛ] чтобы продолжить</value>
   </data>
-  <data name="EffectConditionIsRightAllyWithShieldText" xml:space="preserve">
-    <value>если правый союзник с щитом</value>
-  </data>
   <data name="EndOfGameMessage" xml:space="preserve">
     <value>Это конец демо. Поздравляем!{0}Спасибо за внимание!</value>
   </data>
