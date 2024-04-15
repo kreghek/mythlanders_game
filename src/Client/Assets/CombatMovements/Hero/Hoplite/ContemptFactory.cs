@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 
 using Client.Assets.CombatVisualEffects;
+using Client.Assets.InteractionDeliveryObjects;
 using Client.Engine;
 using Client.GameScreens;
+using Client.GameScreens.Combat.GameObjects;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.Effects;
@@ -18,6 +21,8 @@ using GameClient.Engine.Animations;
 using GameClient.Engine.CombatVisualEffects;
 
 using JetBrains.Annotations;
+
+using Microsoft.Xna.Framework;
 
 using MonoGame.Extended.TextureAtlases;
 
@@ -70,37 +75,35 @@ internal class ContemptFactory : SimpleCombatMovementFactoryBase
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
-        var swordsmanAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Hoplite");
+        var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Hoplite");
 
-        var keepSwordStrongerAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "prepare-spear");
+        var prepareAnimation = AnimationHelper.ConvertToAnimation(animationSet, "prepare-spear");
         var keepSwordSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SwordPrepare);
 
-        var chargeAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "charge");
+        var chargeAnimation = AnimationHelper.ConvertToAnimation(animationSet, "charge");
         var chargeSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.ArmedMove);
 
-        var hitAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "spear-hit");
+        var hitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "spear-hit");
         var swordHitSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SwordSlash);
 
-        var hitCompleteAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "hit-complete");
+        var hitCompleteAnimation = AnimationHelper.ConvertToAnimation(animationSet, "hit-complete");
 
-        var backAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "back");
+        var backAnimation = AnimationHelper.ConvertToAnimation(animationSet, "back");
 
         var config = new SingleMeleeVisualizationConfig(
-            new SoundedAnimation(keepSwordStrongerAnimation, keepSwordSoundEffect.CreateInstance()),
+            new SoundedAnimation(prepareAnimation, keepSwordSoundEffect.CreateInstance()),
             new SoundedAnimation(chargeAnimation, chargeSoundEffect.CreateInstance()),
             new SoundedAnimation(hitAnimation, swordHitSoundEffect.CreateInstance()),
             new SoundedAnimation(hitCompleteAnimation, null),
             new SoundedAnimation(backAnimation, null));
-
-        return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
+        
+        var hitScene = CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);
 
-        var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Partisan");
-
-        var prepareAnimation = AnimationHelper.ConvertToAnimation(animationSet, "prepare-rifle");
+        // throw
 
         var shotSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.CyberRifleShot);
@@ -133,9 +136,22 @@ internal class ContemptFactory : SimpleCombatMovementFactoryBase
         var waitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "rifle-wait");
 
         var projectileFactory = new InteractionDeliveryFactory(GetCreateProjectileFunc(visualizationContext));
-        return CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
+        
+        
+        var spearThrowScene = CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
             visualizationContext,
             new SingleDistanceVisualizationConfig(prepareAnimation, additionalVisualEffectShotAnimation, waitAnimation,
                 projectileFactory, new AnimationFrameInfo(1)));
+        
+        // combine
+
+        return spearThrowScene.MergeWith(hitScene);
+    }
+    
+    private static Func<Vector2, Vector2, IInteractionDelivery> GetCreateProjectileFunc(
+        ICombatMovementVisualizationContext visualizationContext)
+    {
+        return (start, target) =>
+            new GunBulletProjectile(start, target, visualizationContext.GameObjectContentStorage.GetBulletGraphics());
     }
 }
