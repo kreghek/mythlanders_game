@@ -10,9 +10,9 @@ public sealed class RichText : ControlBase
     private readonly Func<string> _textDelegate;
     private readonly Point _textureOffset;
 
-    private Color _highlightColor1 = new(109, 234, 214);
-    private Color _highlightColor2 = new(243, 168, 51);
-    private Color _highlightColor3 = new(243, 168, 51);
+    private readonly Color _highlightColor1 = new(109, 234, 214);
+    private readonly Color _highlightColor2 = new(243, 168, 51);
+    private readonly Color _highlightColor3 = new(243, 168, 51);
 
     public RichText(Texture2D texture, Point textureOffset, SpriteFont font, Func<Color, Color> colorDelegate,
         Func<string> textDelegate) : base(texture)
@@ -69,19 +69,19 @@ public sealed class RichText : ControlBase
         }
     }
 
+    private static string GetPlantText(string text)
+    {
+        return string.Join("", TextParser.ParseText(text).Select(x => x.Value));
+    }
+
     private Color? GetTextColorByIndex(int? colorIndex)
     {
         return colorIndex switch
         {
-            1 => (Color?)_highlightColor1,
-            2 => (Color?)_highlightColor2,
-            3 => (Color?)_highlightColor3,
-            _ => null,
+            1 => _highlightColor1,
+            2 => _highlightColor2,
+            3 => _highlightColor3,
+            _ => null
         };
-    }
-
-    private static string GetPlantText(string text)
-    {
-        return string.Join("", TextParser.ParseText(text).Select(x => x.Value));
     }
 }

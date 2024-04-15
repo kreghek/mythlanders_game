@@ -25,11 +25,6 @@ internal class CombatMovementHint : HintBase
     private readonly VerticalStackPanel _content;
     private readonly IStatValue _currentActorResolveValue;
 
-    protected override Color CalculateColor()
-    {
-        return Color.Lerp(Color.Transparent, Color.White, 0.85f);
-    }
-
     public CombatMovementHint(CombatMovementInstance combatMovement, IStatValue currentActorResolveValue,
         ICombatMovementVisualizationProvider combatMovementVisualizationProvider)
     {
@@ -95,6 +90,11 @@ internal class CombatMovementHint : HintBase
     protected override Point CalcTextureOffset()
     {
         return new Point(0, 96);
+    }
+
+    protected override Color CalculateColor()
+    {
+        return Color.Lerp(Color.Transparent, Color.White, 0.85f);
     }
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
