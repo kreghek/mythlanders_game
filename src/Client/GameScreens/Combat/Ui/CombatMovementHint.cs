@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets;
 using Client.Assets.CombatMovements;
 using Client.Core;
 using Client.Engine;
@@ -123,41 +124,47 @@ internal class CombatMovementHint : HintBase
         return resolveColor;
     }
 
-    private IReadOnlyList<CombatMovementEffectDisplayValue> ExtractCombatMovementValues(
+    private IReadOnlyList<DescriptionKeyValue> ExtractCombatMovementValues(
         CombatMovementInstance combatMovement)
     {
         return _combatMovementVisualizationProvider.ExtractCombatMovementValues(combatMovement);
     }
 
-    private static string GetValueTemplate(CombatMovementEffectDisplayValueTemplate valueType)
+    private static string GetValueTemplate(DescriptionKeyValueTemplate valueType)
     {
         return valueType switch
         {
-            CombatMovementEffectDisplayValueTemplate.Damage =>
+            DescriptionKeyValueTemplate.Damage =>
                 UiResource.CombatMovementEffectValueType_Damage_Template,
-            CombatMovementEffectDisplayValueTemplate.DamageModifier =>
+            DescriptionKeyValueTemplate.DamageModifier =>
                 UiResource.CombatMovementEffectValueType_DamageModifer_Template,
-            CombatMovementEffectDisplayValueTemplate.RoundDuration =>
+            DescriptionKeyValueTemplate.TurnDuration =>
+                UiResource.CombatMovementEffectValueType_TurnDuration_Template,
+            DescriptionKeyValueTemplate.RoundDuration =>
                 UiResource.CombatMovementEffectValueType_RoundDuration_Template,
-            CombatMovementEffectDisplayValueTemplate.HitPointsDamage =>
+            DescriptionKeyValueTemplate.HitPointsDamage =>
                 UiResource.CombatMovementEffectValueType_HitPointsDamage_Template,
-            CombatMovementEffectDisplayValueTemplate.ResolveDamage =>
+            DescriptionKeyValueTemplate.ResolveDamage =>
                 UiResource.CombatMovementEffectValueType_ResolveDamage_Template,
-            CombatMovementEffectDisplayValueTemplate.HitPoints =>
+            DescriptionKeyValueTemplate.HitPoints =>
                 UiResource.CombatMovementEffectValueType_HitPoints_Template,
-            CombatMovementEffectDisplayValueTemplate.ShieldPoints =>
+            DescriptionKeyValueTemplate.ShieldPoints =>
                 UiResource.CombatMovementEffectValueType_ShieldPoints_Template,
+            DescriptionKeyValueTemplate.Defence =>
+                UiResource.CombatMovementEffectValueType_Defence_Template,
+            DescriptionKeyValueTemplate.Resolve =>
+                UiResource.CombatMovementEffectValueType_Resolve_Template,
             _ => "<{0}> units"
         };
     }
 
-    private static string GetValueText(CombatMovementEffectDisplayValue value)
+    private static string GetValueText(DescriptionKeyValue value)
     {
         var template = GetValueTemplate(value.Template);
         return string.Format(template, value.Value);
     }
 
-    private static string RenderDescriptionText(IReadOnlyList<CombatMovementEffectDisplayValue> values,
+    private static string RenderDescriptionText(IReadOnlyList<DescriptionKeyValue> values,
         CombatMovementSid combatMovementSid)
     {
         var descriptionMarkupText =

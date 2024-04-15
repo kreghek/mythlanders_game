@@ -16,14 +16,16 @@ public sealed class HiddenThreatCombatantStatus : CombatantStatusBase
     {
         base.Dispel(combatant);
 
-        if (_data is not null)
+        if (_data is null)
         {
-            _data.Combat.CombatantHasBeenDamaged -= Combat_CombatantHasBeenDamaged;
-
-            GetTargetStatValue(_data.Owner).RemoveModifier(_data.Modifier);
+            //TODO Handle error
+            // _data must be assigned on impose
+            return;
         }
-        //TODO Handle error
-        // _data must be assigned on impose
+
+        _data.Combat.CombatantHasBeenDamaged -= Combat_CombatantHasBeenDamaged;
+
+        GetTargetStatValue(_data.Owner).RemoveModifier(_data.Modifier);
     }
 
     public override void Impose(ICombatant combatant, ICombatantStatusImposeContext combatantEffectImposeContext)

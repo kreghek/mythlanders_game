@@ -1,4 +1,6 @@
-﻿using Client.Engine;
+﻿using System.Collections.Generic;
+
+using Client.Engine;
 using Client.GameScreens;
 
 using CombatDicesTeam.Combats;
@@ -60,5 +62,17 @@ internal class LookOutFactory : CombatMovementFactoryBase
 
         return CommonCombatVisualization.CreateSelfBuffVisualization(actorAnimator, movementExecution,
             visualizationContext, defenseAnimation, defenseSoundEffect);
+    }
+
+    /// <inheritdoc />
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new DescriptionKeyValue("defence", ExtractDamage(combatMovementInstance, 0),
+                DescriptionKeyValueTemplate.Defence),
+            new DescriptionKeyValue("auto_defence", 1, DescriptionKeyValueTemplate.Defence)
+        };
     }
 }
