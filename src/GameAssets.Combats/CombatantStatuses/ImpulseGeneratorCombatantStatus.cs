@@ -64,7 +64,7 @@ public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
         // effect life ends on attack.
         var lifetime = new UntilCombatantEffectMeetPredicatesLifetime(new[]
         {
-            new IsAttackCombatMovePredicate()
+            new IsAttackUsedLifetimeExpirationCondition()
         });
 
         var impulseCombatantEffect = new ModifyEffectsCombatantStatus(_generatedSid,
