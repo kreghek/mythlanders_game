@@ -23,8 +23,33 @@ p2:
         - type: Background
           data: Monsters
   options:
-    - text: 'Далее'
+    - text: 'Монстры были сильными'
       next: p3
+      aftermaths:
+        - type: AddMonsterPerk
+          data: ExtraHitPoints
+        - type: AddMonsterPerk
+          data: ImprovedMeleeDamage
+        - type: AddMonsterPerk
+          data: LastBreath
+    - text: 'Монстры были умными'
+      next: p3
+      aftermaths:
+        - type: AddMonsterPerk
+          data: ExtraShieldPoints
+        - type: AddMonsterPerk
+          data: ImprovedRangeDamage
+        - type: AddMonsterPerk
+          data: RearguardReduceHitPoints
+    - text: 'Монстры были слаженными'
+      next: p3
+      aftermaths:
+        - type: AddMonsterPerk
+          data: VanguardExtraHitPoints
+        - type: AddMonsterPerk
+          data: VanguardReduceHitPoints
+        - type: AddMonsterPerk
+          data: ImprovedAllDamage
 
 p3:
   paragraphs:
@@ -127,6 +152,8 @@ p7:
           data: Partisan
         - type: AddHero
           data: Robber
+        - type: UnlockLocation
+          data: Monastery
     - text: 'Ратник'
       next: p8_swordsman
       aftermaths:
@@ -136,6 +163,8 @@ p7:
           data: Partisan
         - type: AddHero
           data: Robber
+        - type: UnlockLocation
+          data: Thicket
     - text: 'Спартанец'
       next: p8_spartian
       aftermaths:
@@ -145,6 +174,8 @@ p7:
           data: Partisan
         - type: AddHero
           data: Robber
+        - type: UnlockLocation
+          data: ShipGraveyard
 
 p8_monk:
   paragraphs:

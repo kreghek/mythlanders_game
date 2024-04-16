@@ -76,9 +76,7 @@ internal sealed class GlobeProvider
     {
         var globe = new Globe(new Player(), new GameProgression());
 
-        InitStartLocations(globe);
         InitStartStoryPoint(globe, _storyPointInitializer);
-        InitStartMonsterPerks(globe);
 
         Globe = globe;
     }
@@ -260,17 +258,6 @@ internal sealed class GlobeProvider
         return currentSave.FileName;
     }
 
-    private void InitStartLocations(Globe globe)
-    {
-        globe.Player.AddLocation(LocationSids.Thicket);
-    }
-
-    private void InitStartMonsterPerks(Globe globe)
-    {
-        globe.Player.AddMonsterPerk(_monsterPerkCatalog.Perks.Single(x => x.Sid == "ExtraHitPoints"));
-        globe.Player.AddMonsterPerk(_monsterPerkCatalog.Perks.Single(x => x.Sid == "ExtraShieldPoints"));
-    }
-
     private static void InitStartStoryPoint(Globe globe, IStoryPointInitializer storyPointCatalog)
     {
         storyPointCatalog.Init(globe);
@@ -404,6 +391,11 @@ internal sealed class GlobeProvider
 
         foreach (var monsterSid in playerDto.KnownMonsterSids)
         {
+            if (monsterSid is null)
+            {
+                continue;
+            }
+
             var monsterScheme = unitSchemeCatalog.AllMonsters.SingleOrDefault(x => x.Name.ToString() == monsterSid);
 
             if (monsterScheme is null)
@@ -433,10 +425,7 @@ internal sealed class GlobeProvider
 
             var resource = inventory.CalcActualItems().OfType<Resource>()
                 .SingleOrDefault(x => x.Scheme.Sid == resourceDto.Type);
-            if (resource is null)
-            {
-                resource = new Resource(new PropScheme(resourceDto.Type), resourceDto.Amount);
-            }
+            resource ??= new Resource(new PropScheme(resourceDto.Type), resourceDto.Amount);
 
             inventory.Add(resource);
         }
