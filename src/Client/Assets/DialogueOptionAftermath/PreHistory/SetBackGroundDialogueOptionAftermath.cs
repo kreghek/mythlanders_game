@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Client.Assets.DialogueOptionAftermath.Campaign;
 using Client.GameScreens.PreHistory;
 
 namespace Client.Assets.DialogueOptionAftermath.PreHistory;
