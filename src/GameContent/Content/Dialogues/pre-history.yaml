@@ -152,6 +152,8 @@ p7:
           data: Partisan
         - type: AddHero
           data: Robber
+        - type: UnlockLocation
+          data: Monastery
     - text: 'Ратник'
       next: p8_swordsman
       aftermaths:
@@ -161,6 +163,8 @@ p7:
           data: Partisan
         - type: AddHero
           data: Robber
+        - type: UnlockLocation
+          data: Thicket
     - text: 'Спартанец'
       next: p8_spartian
       aftermaths:
@@ -170,6 +174,8 @@ p7:
           data: Partisan
         - type: AddHero
           data: Robber
+        - type: UnlockLocation
+          data: ShipGraveyard
 
 p8_monk:
   paragraphs:
