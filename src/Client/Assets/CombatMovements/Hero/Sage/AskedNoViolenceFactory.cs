@@ -28,9 +28,9 @@ internal class AskedNoViolenceFactory : CombatMovementFactoryBase
                     new AddCombatantStatusEffect(new SelfTargetSelector(),
                         new CombatStatusFactory(source =>
                             new HiddenThreatCombatantStatus(new CombatantStatusSid("HiddenThreat"),
-                                new UntilCombatantEffectMeetPredicatesLifetime(new ICombatMovePredicate[]
+                                new UntilCombatantEffectMeetPredicatesLifetime(new ICombatantStatusLifetimeExpirationCondition[]
                                 {
-                                    new IsAttackCombatMovePredicate(),
+                                    new IsAttackUsedLifetimeExpirationCondition(),
                                     new OwnerIsAttacked()
                                 }), source))
                     )

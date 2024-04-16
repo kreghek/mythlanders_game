@@ -3,7 +3,7 @@ using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 
 namespace GameAssets.Combats.CombatantStatuses;
 
-public sealed class OwnerIsAttacked : ICombatMovePredicate
+public sealed class OwnerIsAttacked : ICombatantStatusLifetimeExpirationCondition
 {
     public bool Check(CombatMovementInstance combatMove)
     {
