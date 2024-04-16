@@ -12,7 +12,7 @@ internal class HitPointsChangedTextIndicator : TextIndicatorBase
 
     public HitPointsChangedTextIndicator(int amount, StatChangeDirection direction,
         Vector2 startPosition,
-        SpriteFont font, int stackIndex) : base(startPosition + new Vector2(stackIndex * 20, 0), font)
+        SpriteFont font, int stackIndex) : base(startPosition + new Vector2(0, stackIndex * 20), font)
     {
         _amount = amount;
         _direction = direction;
