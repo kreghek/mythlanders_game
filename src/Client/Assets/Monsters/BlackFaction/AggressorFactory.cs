@@ -7,9 +7,9 @@ using JetBrains.Annotations;
 namespace Client.Assets.Monsters.BlackFaction;
 
 [UsedImplicitly]
-internal sealed class AgressorFactory : IMonsterFactory
+internal sealed class AggressorFactory : IMonsterFactory
 {
-    public UnitName ClassName => UnitName.Agressor;
+    public UnitName ClassName => UnitName.Aggressor;
 
     public UnitScheme Create(IBalanceTable balanceTable)
     {
@@ -20,7 +20,7 @@ internal sealed class AgressorFactory : IMonsterFactory
             SupportRank = 0.0f,
             Resolve = 9,
 
-            Name = UnitName.Agressor,
+            Name = UnitName.Aggressor,
             LocationSids = new[]
             {
                 LocationSids.Swamp, LocationSids.Battleground, LocationSids.DeathPath,
