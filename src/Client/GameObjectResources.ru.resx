@@ -385,12 +385,6 @@
     <value>Перемещается вперед и наносит &lt;damage&gt; ближайшему в линии противнику.</value>
     <comment>Combat Movement Swordsman</comment>
   </data>
-  <data name="DigitalHort" xml:space="preserve">
-    <value>Серый</value>
-  </data>
-  <data name="DigitalHort_Hidden" xml:space="preserve">
-    <value>Цифровой Хорт</value>
-  </data>
   <data name="DigitalWolf" xml:space="preserve">
     <value>Цифровой волк</value>
     <comment>Monster</comment>
@@ -451,23 +445,11 @@
     <value>Способность избегать 50% любых атак.</value>
     <comment>Perk</comment>
   </data>
-  <data name="ExtraHitPoints" xml:space="preserve">
+  <data name="ExtraSp" xml:space="preserve">
+    <value>Экстра щиты</value>
+  </data>
+  <data name="ExtraXp" xml:space="preserve">
     <value>Экстра ХП</value>
-  </data>
-  <data name="ExtraHitPoints_Description" xml:space="preserve">
-    <value>Увеличивает ХП на &lt;hp&gt;</value>
-  </data>
-  <data name="ExtraShieldPoints" xml:space="preserve">
-    <value>Экстра Щиты</value>
-  </data>
-  <data name="ExtraShieldPoints_Description" xml:space="preserve">
-    <value>Увеличивает щиты на &lt;sp&gt;</value>
-  </data>
-  <data name="ExtraSpeed" xml:space="preserve">
-    <value>Экстра Скорость</value>
-  </data>
-  <data name="ExtraSpeed_Description" xml:space="preserve">
-    <value>Увеличивает щиты на &lt;resolve&gt;</value>
   </data>
   <data name="EyesOfChaos" xml:space="preserve">
     <value>Очи Хаоса</value>
@@ -620,12 +602,6 @@
 - Могучие потусторонние силы будут смотреть на вас с неодобрением.</value>
     <comment>Crisis Aftermath</comment>
   </data>
-  <data name="ImprovedAllDamage" xml:space="preserve">
-    <value>Улучшенный урон</value>
-  </data>
-  <data name="ImprovedAllDamage_Description" xml:space="preserve">
-    <value>Увеличивает &lt;style=color1&gt;весь&lt;/style&gt; урона на &lt;damage&gt;</value>
-  </data>
   <data name="ImprovedArmor" xml:space="preserve">
     <value>Улучшенная броня</value>
     <comment>Perk</comment>
@@ -645,14 +621,8 @@
   <data name="ImprovedMeleeDamage" xml:space="preserve">
     <value>Улучшенная рукопашная</value>
   </data>
-  <data name="ImprovedMeleeDamage_Description" xml:space="preserve">
-    <value>Увеличивает &lt;style=color1&gt;рукопашный&lt;/style&gt; урон на &lt;damage&gt;</value>
-  </data>
   <data name="ImprovedRangeDamage" xml:space="preserve">
     <value>Улучшенная стрельба</value>
-  </data>
-  <data name="ImprovedRangeDamage_Description" xml:space="preserve">
-    <value>Увеличивает &lt;style=color1&gt;струлковый&lt;/style&gt; урон на &lt;damage&gt;</value>
   </data>
   <data name="Impulse" xml:space="preserve">
     <value>Импульс</value>
@@ -676,12 +646,6 @@
     <value>Вдохновляющий рывок</value>
     <comment>Skill</comment>
   </data>
-  <data name="InvinciblePhalanx" xml:space="preserve">
-    <value>Несокрушимая Фаланга</value>
-  </data>
-  <data name="InvinciblePhalanx_Description" xml:space="preserve">
-    <value>Если союзники выстроились в колонну, то вся колонна становится &lt;style=color1&gt;неуязвимой&lt;/style&gt; до следующего хода гоплита.</value>
-  </data>
   <data name="IronStream" xml:space="preserve">
     <value>Железный Поток</value>
     <comment>Combat movement Ambush Drone</comment>
@@ -702,9 +666,6 @@
     <value>Наносит урон 1ед. ближайшему в линии противнику. Если это был самый сильный противник, то накладывает кровотечение на 2 раунда, наносящее урон 1ед. здоровью каждый раунд.</value>
     <comment>Combat movement Amazon</comment>
   </data>
-  <data name="LastBreath" xml:space="preserve">
-    <value>Последнее Дыхание</value>
-  </data>
   <data name="LastChanceToPeace" xml:space="preserve">
     <value>Последний шанс на мир</value>
     <comment>Combat Movement Agressor</comment>
@@ -718,7 +679,7 @@
     <comment>Combat movement Swordsman</comment>
   </data>
   <data name="LookOut_Description" xml:space="preserve">
-    <value>Увеличивает защиту ближайшего союзника в столбце на &lt;defence&gt; до конца хода союзника. Сам мечник перемещается в авангард. При автосрабатывании, увеличивает свою защиту на &lt;auto_defence&gt;.</value>
+    <value>Увеличивает защиту ближайшего союзника в столбце на 3 до конца хода союзника. Сам мечник перемещается в авангард. При автосрабатывании, увеличивает свою защиту на 1ед.</value>
     <comment>Combat movement Swordsman</comment>
   </data>
   <data name="LordOfNonHumanRealm" xml:space="preserve">
@@ -808,12 +769,6 @@
 - Культ Солнца будет знать больше про древние культуры.</value>
     <comment>Crisis Aftermath</comment>
   </data>
-  <data name="Offensive" xml:space="preserve">
-    <value>Наступление</value>
-  </data>
-  <data name="Offensive_Description" xml:space="preserve">
-    <value>Ударом копья наносит &lt;damage&gt; противнику в линии.</value>
-  </data>
   <data name="OldGoodBrawl" xml:space="preserve">
     <value>Старый добрый мордобой</value>
     <comment>Combat movement Partisan</comment>
@@ -860,27 +815,9 @@
     <value>Быстрый выстрел</value>
     <comment>Skill</comment>
   </data>
-  <data name="RearguardExtraHitPoints" xml:space="preserve">
-    <value>Экстра хп тыла</value>
-  </data>
-  <data name="RearguardExtraShieldPoints" xml:space="preserve">
-    <value>Экстра щиты тыла</value>
-  </data>
-  <data name="RearguardReduceHitPoints" xml:space="preserve">
-    <value>Поглощение хп тыла</value>
-  </data>
-  <data name="RearguardReduceShieldPoints" xml:space="preserve">
-    <value>Поглощение щитов тыла</value>
-  </data>
   <data name="RedemptionStaff" xml:space="preserve">
     <value>Посох Покаяния</value>
     <comment>Equipment</comment>
-  </data>
-  <data name="ReduceEnemyResolvePoints" xml:space="preserve">
-    <value>Поглощение решимости</value>
-  </data>
-  <data name="ReduceEnemyShieldPoints" xml:space="preserve">
-    <value>Поглощение щитов</value>
   </data>
   <data name="RegenerativeProtocol" xml:space="preserve">
     <value>Регенеративный протокол</value>
@@ -904,7 +841,7 @@
   <data name="RestAll_CrisisAftermath_Hint" xml:space="preserve">
     <value>Правильный поступок!
 - Все герои немного восстанавливают здоровье.
-- В этой таверне вам доверяют больше.</value>
+- В этой таверне вам больше доверяют.</value>
     <comment>Crisis Aftermath</comment>
   </data>
   <data name="Rest_CrisisAftermath" xml:space="preserve">
@@ -919,7 +856,7 @@
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="RiseYourSwords_Description" xml:space="preserve">
-    <value>Увеличивает урон атакующих движений ближнего боя на &lt;damage_buff&gt; у всех союзников на &lt;duration&gt;.</value>
+    <value>Увеличивает урон атакующих движений ближнего боя на 1 ед. у всех союзников на 2 хода.</value>
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="Robber" xml:space="preserve">
@@ -1001,7 +938,7 @@
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="StayStrong_Description" xml:space="preserve">
-    <value>Увеличивает свою защиту на &lt;defence&gt; до конца раунда. При авто-срабатывании, увеличивает свою защиту на &lt;auto_defence&gt; до конца раунда.</value>
+    <value>Увеличивает свою защиту на 3ед. до конца раунда. При авто-срабатывании, увеличивает свою защиту на 1ед. до конца раунда.</value>
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="Stryga" xml:space="preserve">
@@ -1072,21 +1009,17 @@
     <value>Два плюс два будет пять...</value>
     <comment>Voice</comment>
   </data>
+  <data name="UndercutValues" xml:space="preserve">
+    <value>Подрезать ценности</value>
+    <comment>Combat Movement Robber</comment>
+  </data>
+  <data name="UndercutValues_Description" xml:space="preserve">
+    <value>Наносит урон 1ед. ближайшему в линии противнику. Если это был самый сильный противник, то накладывает кровотечение на 2 раунда, наносящее урон 1ед. здоровью каждый раунд.</value>
+    <comment>Combat Movement Robber</comment>
+  </data>
   <data name="VampireBite" xml:space="preserve">
     <value>Вампирический удар</value>
     <comment>Skill</comment>
-  </data>
-  <data name="VanguardExtraHitPoints" xml:space="preserve">
-    <value>Экстра ХП авангарда</value>
-  </data>
-  <data name="VanguardExtraShieldPoints" xml:space="preserve">
-    <value>Экстра щиты авангарда</value>
-  </data>
-  <data name="VanguardReduceHitPoints" xml:space="preserve">
-    <value>Поглощение хп авангарда</value>
-  </data>
-  <data name="VanguardReduceShieldPoints" xml:space="preserve">
-    <value>Поглощение щитов авангарда</value>
   </data>
   <data name="VelesProtection" xml:space="preserve">
     <value>Под защитой Велеса</value>
@@ -1111,14 +1044,6 @@
   <data name="WarriorEquipment" xml:space="preserve">
     <value>Осколки меча</value>
     <comment>Resource</comment>
-  </data>
-  <data name="WeOnlyLiveOnce" xml:space="preserve">
-    <value>Где наше не пропадало?!</value>
-    <comment>Combat Movement Robber</comment>
-  </data>
-  <data name="WeOnlyLiveOnce_Description" xml:space="preserve">
-    <value>Наносит &lt;damage&gt; ближайшему в линии противнику. Если это был самый сильный противник, то накладывает кровотечение на &lt;duration&gt;, наносящее урон &lt;bleed_damage&gt; каждый раунд.</value>
-    <comment>Combat Movement Robber</comment>
   </data>
   <data name="WideSwordSlash" xml:space="preserve">
     <value>Широкий удар мечом</value>

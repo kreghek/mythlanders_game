@@ -147,18 +147,6 @@
   <data name="BestiaryButtonTitle" xml:space="preserve">
     <value>Бестиарий</value>
   </data>
-  <data name="BestiaryTabMonsterKnowledgeCaption" xml:space="preserve">
-    <value>Знания о монстрах</value>
-  </data>
-  <data name="BestiaryTabMonsterKnowledgeDescription" xml:space="preserve">
-    <value>Эти монстры вам уже встречались. Сражайтесь чаще, чтобы узнавать новое о монстрах и исследовать их уязвимые места.</value>
-  </data>
-  <data name="BestiaryTabMonsterPerksCaption" xml:space="preserve">
-    <value>Перки монстров</value>
-  </data>
-  <data name="BestiaryTabMonsterPerksDescription" xml:space="preserve">
-    <value>Текущие улучшения монстров. Внимательно выбирайте свою следующую компанию и следующее улучшение монстров, чтобы всегда быть способным к победе над ними.</value>
-  </data>
   <data name="BiomeLevelText" xml:space="preserve">
     <value>Ур.</value>
   </data>
@@ -243,29 +231,17 @@
   <data name="CombatMovementEffectValueType_Damage_Template" xml:space="preserve">
     <value>{0} ед. урона</value>
   </data>
-  <data name="CombatMovementEffectValueType_Defence_Template" xml:space="preserve">
-    <value>{0} ед. защиты</value>
-  </data>
-  <data name="CombatMovementEffectValueType_HitPointsDamage_Template" xml:space="preserve">
-    <value>{0} ед. урона здоровью</value>
-  </data>
   <data name="CombatMovementEffectValueType_HitPoints_Template" xml:space="preserve">
     <value>{0} ед. здоровья</value>
   </data>
   <data name="CombatMovementEffectValueType_ResolveDamage_Template" xml:space="preserve">
     <value>{0} урона решимости</value>
   </data>
-  <data name="CombatMovementEffectValueType_Resolve_Template" xml:space="preserve">
-    <value>{0} решимости</value>
-  </data>
   <data name="CombatMovementEffectValueType_RoundDuration_Template" xml:space="preserve">
     <value>{0} раунд(ов)</value>
   </data>
   <data name="CombatMovementEffectValueType_ShieldPoints_Template" xml:space="preserve">
     <value>{0} щитов</value>
-  </data>
-  <data name="CombatMovementEffectValueType_TurnDuration_Template" xml:space="preserve">
-    <value>{0} ходов</value>
   </data>
   <data name="CombatProgressTemplate" xml:space="preserve">
     <value>Прогресс сражения: {0}/{1}</value>
@@ -353,6 +329,9 @@
   </data>
   <data name="DialogueContinueText" xml:space="preserve">
     <value>Нажмите [ПРОБЕЛ] чтобы продолжить</value>
+  </data>
+  <data name="EffectConditionIsRightAllyWithShieldText" xml:space="preserve">
+    <value>если правый союзник с щитом</value>
   </data>
   <data name="EndOfGameMessage" xml:space="preserve">
     <value>Это конец демо. Поздравляем!{0}Спасибо за внимание!</value>

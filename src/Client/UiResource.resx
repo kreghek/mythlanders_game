@@ -151,18 +151,6 @@
     <value>Bestiary</value>
     <comment>Бестиарий монстров в игре</comment>
   </data>
-  <data name="BestiaryTabMonsterKnowledgeCaption" xml:space="preserve">
-    <value>Monster Knowledge</value>
-  </data>
-  <data name="BestiaryTabMonsterKnowledgeDescription" xml:space="preserve">
-    <value>You've already met these monsters. Fight more often to learn new things about monsters and explore their vulnerabilities.</value>
-  </data>
-  <data name="BestiaryTabMonsterPerksCaption" xml:space="preserve">
-    <value>Monster Perks</value>
-  </data>
-  <data name="BestiaryTabMonsterPerksDescription" xml:space="preserve">
-    <value>Current monster upgrades. Choose your next company and next monster upgrade carefully to ensure you are always capable of defeating them.</value>
-  </data>
   <data name="BiomeLevelText" xml:space="preserve">
     <value>Lvl</value>
   </data>
@@ -253,29 +241,18 @@
   <data name="CombatMovementEffectValueType_Damage_Template" xml:space="preserve">
     <value>{0} damage</value>
   </data>
-  <data name="CombatMovementEffectValueType_Defence_Template" xml:space="preserve">
-    <value>{0} defence</value>
-  </data>
-  <data name="CombatMovementEffectValueType_HitPointsDamage_Template" xml:space="preserve">
-    <value>{0} damage to hit points</value>
-  </data>
   <data name="CombatMovementEffectValueType_HitPoints_Template" xml:space="preserve">
     <value>{0} hp</value>
   </data>
   <data name="CombatMovementEffectValueType_ResolveDamage_Template" xml:space="preserve">
     <value>{0} resolve damage</value>
   </data>
-  <data name="CombatMovementEffectValueType_Resolve_Template" xml:space="preserve">
-    <value>{0} resolve</value>
-  </data>
   <data name="CombatMovementEffectValueType_RoundDuration_Template" xml:space="preserve">
     <value>{0} round(s)</value>
+    <comment>1</comment>
   </data>
   <data name="CombatMovementEffectValueType_ShieldPoints_Template" xml:space="preserve">
     <value>{0} shields</value>
-  </data>
-  <data name="CombatMovementEffectValueType_TurnDuration_Template" xml:space="preserve">
-    <value>{0} turns</value>
   </data>
   <data name="CombatProgressTemplate" xml:space="preserve">
     <value>Combat progress: {0}/{1}</value>
@@ -363,6 +340,9 @@ Do you really need to spend the priceless current move for nothing?</value>
   <data name="DialogueContinueText" xml:space="preserve">
     <value>Press [SPACE] to continue</value>
     <comment>Нажимается, чтобы запустить следующий фрагмент текста, когда текущий полностью показан.</comment>
+  </data>
+  <data name="EffectConditionIsRightAllyWithShieldText" xml:space="preserve">
+    <value>if right ally with shield</value>
   </data>
   <data name="EndOfGameMessage" xml:space="preserve">
     <value>This is end of the game. Congratulations!{0}Thank you for attention</value>

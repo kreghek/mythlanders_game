@@ -160,42 +160,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Monster Knowledge.
-        /// </summary>
-        internal static string BestiaryTabMonsterKnowledgeCaption {
-            get {
-                return ResourceManager.GetString("BestiaryTabMonsterKnowledgeCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You&apos;ve already met these monsters. Fight more often to learn new things about monsters and explore their vulnerabilities..
-        /// </summary>
-        internal static string BestiaryTabMonsterKnowledgeDescription {
-            get {
-                return ResourceManager.GetString("BestiaryTabMonsterKnowledgeDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Monster Perks.
-        /// </summary>
-        internal static string BestiaryTabMonsterPerksCaption {
-            get {
-                return ResourceManager.GetString("BestiaryTabMonsterPerksCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Current monster upgrades. Choose your next company and next monster upgrade carefully to ensure you are always capable of defeating them..
-        /// </summary>
-        internal static string BestiaryTabMonsterPerksDescription {
-            get {
-                return ResourceManager.GetString("BestiaryTabMonsterPerksDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Lvl.
         /// </summary>
         internal static string BiomeLevelText {
@@ -448,38 +412,11 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} defence.
-        /// </summary>
-        internal static string CombatMovementEffectValueType_Defence_Template {
-            get {
-                return ResourceManager.GetString("CombatMovementEffectValueType_Defence_Template", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} hp.
         /// </summary>
         internal static string CombatMovementEffectValueType_HitPoints_Template {
             get {
                 return ResourceManager.GetString("CombatMovementEffectValueType_HitPoints_Template", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} damage to hit points.
-        /// </summary>
-        internal static string CombatMovementEffectValueType_HitPointsDamage_Template {
-            get {
-                return ResourceManager.GetString("CombatMovementEffectValueType_HitPointsDamage_Template", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} resolve.
-        /// </summary>
-        internal static string CombatMovementEffectValueType_Resolve_Template {
-            get {
-                return ResourceManager.GetString("CombatMovementEffectValueType_Resolve_Template", resourceCulture);
             }
         }
         
@@ -507,15 +444,6 @@ namespace Client {
         internal static string CombatMovementEffectValueType_ShieldPoints_Template {
             get {
                 return ResourceManager.GetString("CombatMovementEffectValueType_ShieldPoints_Template", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} turns.
-        /// </summary>
-        internal static string CombatMovementEffectValueType_TurnDuration_Template {
-            get {
-                return ResourceManager.GetString("CombatMovementEffectValueType_TurnDuration_Template", resourceCulture);
             }
         }
         
@@ -744,6 +672,15 @@ namespace Client {
         internal static string DialogueContinueText {
             get {
                 return ResourceManager.GetString("DialogueContinueText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to if right ally with shield.
+        /// </summary>
+        internal static string EffectConditionIsRightAllyWithShieldText {
+            get {
+                return ResourceManager.GetString("EffectConditionIsRightAllyWithShieldText", resourceCulture);
             }
         }
         
