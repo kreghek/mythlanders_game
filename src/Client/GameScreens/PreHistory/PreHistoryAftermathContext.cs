@@ -62,4 +62,9 @@ internal sealed class PreHistoryAftermathContext
 
         _player.AddMonsterPerk(targetPerk);
     }
+
+    internal void UnlockLocation(ILocationSid locationSid)
+    {
+        _player.AddLocation(locationSid);
+    }
 }

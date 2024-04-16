@@ -29,7 +29,7 @@ p2:
         - type: AddMonsterPerk
           data: ExtraHitPoints
         - type: AddMonsterPerk
-          data: ImproveMeleeDamage
+          data: ImprovedMeleeDamage
         - type: AddMonsterPerk
           data: LastBreath
     - text: 'Монстры были умными'
@@ -38,7 +38,7 @@ p2:
         - type: AddMonsterPerk
           data: ExtraShieldPoints
         - type: AddMonsterPerk
-          data: ImproveRangeDamage
+          data: ImprovedRangeDamage
         - type: AddMonsterPerk
           data: RearguardReduceHitPoints
     - text: 'Монстры были слаженными'
@@ -49,7 +49,7 @@ p2:
         - type: AddMonsterPerk
           data: VanguardReduceHitPoints
         - type: AddMonsterPerk
-          data: ImproveAllDamage
+          data: ImprovedAllDamage
 
 p3:
   paragraphs:

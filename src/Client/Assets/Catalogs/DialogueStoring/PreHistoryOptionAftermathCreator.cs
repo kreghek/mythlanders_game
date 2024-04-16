@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 
 using Client.Assets.DialogueOptionAftermath.PreHistory;
+using Client.Core;
 using Client.GameScreens.PreHistory;
 
 using CombatDicesTeam.Dialogues;
@@ -11,31 +13,17 @@ internal sealed class PreHistoryOptionAftermathCreator : IDialogueOptionAftermat
 {
     public IDialogueOptionAftermath<PreHistoryAftermathContext> Create(string aftermathTypeSid, string data)
     {
-        if (aftermathTypeSid == "Background")
+        return aftermathTypeSid switch
         {
-            return new SetBackGroundDialogueOptionAftermath(data);
-        }
-
-        if (aftermathTypeSid == "PlayEffect")
-        {
-            return new PlayEffectDialogueOptionAftermath(data, data);
-        }
-
-        if (aftermathTypeSid == "PlayMusic")
-        {
-            return new PlaySongDialogueOptionAftermath(data);
-        }
-
-        if (aftermathTypeSid == "AddMonsterPerk")
-        {
-            return new AddMonsterPerkOptionAftermath(data);
-        }
-
-        if (aftermathTypeSid == "AddHero")
-        {
-            return new AddHeroOptionAftermath(data);
-        }
-
-        throw new InvalidOperationException($"Type {aftermathTypeSid} is unknown.");
+            "Background" => new SetBackGroundDialogueOptionAftermath(data),
+            "PlayEffect" => new PlayEffectDialogueOptionAftermath(data, data),
+            "PlayMusic" => new PlaySongDialogueOptionAftermath(data),
+            "AddMonsterPerk" => new AddMonsterPerkOptionAftermath(data),
+            "AddHero" => new AddHeroOptionAftermath(data),
+            "UnlockLocation" => new UnlockLocationOptionAftermath(CatalogHelper
+                .GetAllFromStaticCatalog<ILocationSid>(typeof(LocationSids))
+                .Single(x => x.ToString() == data)),
+            _ => throw new InvalidOperationException($"Type {aftermathTypeSid} is unknown.")
+        };
     }
 }
