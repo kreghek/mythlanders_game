@@ -30,7 +30,7 @@ public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
 
     private IReadOnlyCollection<ICombatantStatus> CollectImpulseEffects(ICombatant targetCombatant)
     {
-        return targetCombatant.Statuses.Where(x => x.Sid == _generatedSid).ToArray();
+        return targetCombatant.Statuses.Where(x => Equals(x.Sid, _generatedSid)).ToArray();
     }
 
     private void Combat_CombatantHasChangePosition(object? sender, CombatantHasChangedPositionEventArgs e)
@@ -46,7 +46,7 @@ public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
 
         var targetCombat = (CombatEngineBase)sender!;
 
-        var currentGeneratedCount = targetCombatant.Statuses.Count(x => x.Sid == _generatedSid);
+        var currentGeneratedCount = targetCombatant.Statuses.Count(x => Equals(x.Sid, _generatedSid));
 
         if (currentGeneratedCount < GENERATED_LIMIT)
         {
