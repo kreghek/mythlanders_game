@@ -26,6 +26,13 @@ internal static class DialogueConstants
 
             public static DialogueEventState Stage2 { get; } = new("stage_2") { NoDialogue = true };
         }
+
+        public static class Episode1
+        {
+            public static string Sid => "main_plot_e1";
+            
+            public static string Stage1Dialogue = "stage_1";
+        }
     }
 
     public static class SideQuests

@@ -7,5 +7,5 @@ root:
           data: Campaigns
     - text: 'Далее рассказывается, что нужно сделать 3 подвига, чтобы обозначить себя и найти других героев.'
       env:
-        - type: AddStoryPoint
+        - type: ActivateStoryPoint
           data: HearMeBrothers
