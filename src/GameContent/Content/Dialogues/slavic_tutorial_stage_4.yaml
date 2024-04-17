@@ -1,0 +1,11 @@
+---
+root:
+  paragraphs:
+    - text: 'Тут рассказывается про то, что герои дошли до своей базы.'
+      env:
+        - type: UnlockFeature
+          data: Campaigns
+    - text: 'Далее рассказывается, что нужно сделать 3 подвига, чтобы обозначить себя и найти других героев.'
+      env:
+        - type: AddStoryPoint
+          data: HearMeBrothers
