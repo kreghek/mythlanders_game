@@ -85,11 +85,20 @@ internal class ScenarioCampaigns
             };
 
             var node4 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT2));
-            graph.AddNode(node3);
+            graph.AddNode(node4);
+            
+            var node5 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem("slavic_tutorial", locationSid,
+                _eventCatalog));
+            graph.AddNode(node5);
+            
+            var node6 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT2));
+            graph.AddNode(node6);
 
             graph.ConnectNodes(node1, node2);
             graph.ConnectNodes(node2, node3);
             graph.ConnectNodes(node3, node4);
+            graph.ConnectNodes(node4, node5);
+            graph.ConnectNodes(node5, node6);
 
             return new HeroCampaign(new[]
                 {
