@@ -17,9 +17,9 @@ internal static class DialogueConstants
     {
         public static class SlavicTutorial
         {
-            public static string Stage1Dialogue = "stage_1";
+            public static string Stage1Dialogue => "stage_1";
 
-            public static string Stage2Dialogue = "stage_2";
+            public static string Stage2Dialogue => "stage_2";
             public static string Sid => "slavic_tutorial";
 
             public static DialogueEventTrigger Stage1_Fight_Trigger { get; } = new("stage_1_fight");
@@ -31,7 +31,7 @@ internal static class DialogueConstants
         {
             public static string Sid => "main_plot_e1";
             
-            public static string Stage1Dialogue = "stage_1";
+            public static string Stage1Dialogue => "stage_1";
         }
     }
 
