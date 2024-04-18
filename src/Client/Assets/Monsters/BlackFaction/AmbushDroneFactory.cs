@@ -13,31 +13,6 @@ internal sealed class AmbushDroneFactory : MonsterFactoryBase
     public override UnitName ClassName => UnitName.AmbushDrone;
     public override CharacterCultureSid Culture => CharacterCultureSid.Black;
 
-    public override UnitScheme Create(IBalanceTable balanceTable)
-    {
-        return new UnitScheme(balanceTable.GetCommonUnitBasics())
-        {
-            TankRank = 0.25f,
-            DamageDealerRank = 0.75f,
-            SupportRank = 0.0f,
-            Resolve = 9,
-
-            Name = UnitName.AmbushDrone,
-            LocationSids = new[]
-            {
-                LocationSids.Swamp, LocationSids.Battleground, LocationSids.DeathPath,
-                LocationSids.Mines,
-
-                LocationSids.Desert, LocationSids.SacredPlace,
-
-                LocationSids.ShipGraveyard,
-
-                LocationSids.Monastery
-            },
-            IsMonster = true
-        };
-    }
-
     public override CombatantGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
     {
         return new AmbushDroneGraphicsConfig(ClassName);

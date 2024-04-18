@@ -65,14 +65,14 @@ internal class LookOutFactory : CombatMovementFactoryBase
     }
 
     /// <inheritdoc />
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {
         return new[]
         {
-            new CombatMovementEffectDisplayValue("damage", ExtractDamage(combatMovementInstance, 0),
-                CombatMovementEffectDisplayValueTemplate.Defence),
-            new CombatMovementEffectDisplayValue("auto_defence", 1, CombatMovementEffectDisplayValueTemplate.Defence)
+            new DescriptionKeyValue("defence", ExtractDamage(combatMovementInstance, 0),
+                DescriptionKeyValueTemplate.Defence),
+            new DescriptionKeyValue("auto_defence", 1, DescriptionKeyValueTemplate.Defence)
         };
     }
 }
