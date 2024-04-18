@@ -31,8 +31,10 @@ using Core.PropDrop;
 using Core.Props;
 
 using GameAssets.Combats;
+using GameAssets.Combats.CombatantStatuses;
 
 using GameClient.Engine;
+using GameClient.Engine.CombatVisualEffects;
 using GameClient.Engine.RectControl;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -495,10 +497,12 @@ internal class CombatScreen : GameScreenWithMenuBase
 
                 _visualEffectManager.AddEffect(damageIndicator);
 
-                var bloodEffect = new BloodCombatVisualEffect(combatantGameObject.InteractionPoint,
-                    hitDirection,
-                    new TextureRegion2D(_bloodParticleTexture));
-                _visualEffectManager.AddEffect(bloodEffect);
+                var damageEffects = GetDamageVisualEffect(e.Combatant, combatantGameObject, hitDirection);
+
+                foreach (var damageEffect in damageEffects)
+                {
+                    _visualEffectManager.AddEffect(damageEffect);                    
+                }
 
                 _bloodSound.CreateInstance().Play();
 
@@ -538,6 +542,53 @@ internal class CombatScreen : GameScreenWithMenuBase
                 AddHitShaking();
             }
         }
+    }
+
+    private IReadOnlyCollection<ICombatVisualEffect> GetDamageVisualEffect(ICombatant combatant,
+        CombatantGameObject combatantGameObject,
+        HitDirection hitDirection)
+    {
+        var list = new List<ICombatVisualEffect>();
+        
+        if (combatant.Statuses.Contains(SystemCombatantStatuses.Biological))
+        {
+            if (combatant.Statuses.Contains(SystemCombatantStatuses.Mutant))
+            {
+                var bloodEffect = new GreenBloodCombatVisualEffect(combatantGameObject.InteractionPoint,
+                    hitDirection,
+                    new TextureRegion2D(_bloodParticleTexture));
+            
+                list.Add(bloodEffect);
+            }
+            else
+            {
+                var bloodEffect = new BloodCombatVisualEffect(combatantGameObject.InteractionPoint,
+                    hitDirection,
+                    new TextureRegion2D(_bloodParticleTexture));
+            
+                list.Add(bloodEffect);   
+            }
+        }
+
+        if (combatant.Statuses.Contains(SystemCombatantStatuses.Mechanical))
+        {
+            var bloodEffect = new MechanicalDamageVisualEffect(combatantGameObject.InteractionPoint,
+                hitDirection,
+                new TextureRegion2D(_bloodParticleTexture));
+            
+            list.Add(bloodEffect);
+        }
+        
+        if (combatant.Statuses.Contains(SystemCombatantStatuses.Energy))
+        {
+            var bloodEffect = new EnergyBloodCombatVisualEffect(combatantGameObject.InteractionPoint,
+                hitDirection,
+                new TextureRegion2D(_bloodParticleTexture));
+            
+            list.Add(bloodEffect);
+        }
+
+        return list.ToArray();
     }
 
     private void CombatCore_CombatantHasChangePosition(object? sender, CombatantHasChangedPositionEventArgs e)

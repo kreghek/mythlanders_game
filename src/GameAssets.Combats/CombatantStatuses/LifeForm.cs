@@ -7,5 +7,7 @@ public enum LifeForm
     Energy,
     
     Humanoid,
-    Beast
+    Beast,
+    Mutant,
+    Construct
 }
