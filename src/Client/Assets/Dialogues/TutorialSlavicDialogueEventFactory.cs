@@ -23,6 +23,9 @@ internal sealed class TutorialSlavicDialogueEventFactory : IDialogueEventFactory
         questStateMachine.Configure(DialogueConstants.InitialStage)
             .Permit(DialogueConstants.MainPlot.SlavicTutorial.Stage1_Fight_Trigger,
                 DialogueConstants.MainPlot.SlavicTutorial.Stage2);
+        questStateMachine.Configure(DialogueConstants.MainPlot.SlavicTutorial.Stage2)
+            .Permit(DialogueConstants.MainPlot.SlavicTutorial.Stage2_Meet_Heroes,
+                DialogueConstants.MainPlot.SlavicTutorial.Stage3);
 
         var requirements = new Dictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>>
         {
@@ -34,7 +37,9 @@ internal sealed class TutorialSlavicDialogueEventFactory : IDialogueEventFactory
             [DialogueConstants.InitialStage] =
                 GetDialogueFileName(DialogueConstants.MainPlot.SlavicTutorial.Stage1Dialogue),
             [DialogueConstants.MainPlot.SlavicTutorial.Stage2] =
-                GetDialogueFileName(DialogueConstants.MainPlot.SlavicTutorial.Stage2Dialogue)
+                GetDialogueFileName(DialogueConstants.MainPlot.SlavicTutorial.Stage2Dialogue),
+            [DialogueConstants.MainPlot.SlavicTutorial.Stage3] =
+                GetDialogueFileName(DialogueConstants.MainPlot.SlavicTutorial.Stage3Dialogue)
         };
 
         return new DialogueEvent(DialogueConstants.MainPlot.SlavicTutorial.Sid, questStateMachine, requirements,

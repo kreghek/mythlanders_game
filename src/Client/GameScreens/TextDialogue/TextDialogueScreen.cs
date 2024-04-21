@@ -109,8 +109,7 @@ internal class TextDialogueScreen : TextEventScreenBase
             return;
         }
 
-        if (_player.HasAbility(PlayerAbility.ReadSideQuestTutorial) &&
-            _globeProvider.Globe.Features.HasFeature(GameFeatures.SideQuests))
+        if (_player.HasAbility(PlayerAbility.ReadSideQuestTutorial))
         {
             return;
         }
