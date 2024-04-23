@@ -315,6 +315,9 @@
 Повышает урон на 25% за уровень.</value>
     <comment>Equipment</comment>
   </data>
+  <data name="Contempt" xml:space="preserve">
+    <value>Презрение</value>
+  </data>
   <data name="CorruptedBear" xml:space="preserve">
     <value>Оскверненный медведь</value>
     <comment>Monster</comment>
