@@ -22,7 +22,7 @@ internal sealed class Job : IJob
     /// <inheritdoc />
     public override string ToString()
     {
-        var rm = UiResource.ResourceManager;
+        var rm = GameObjectResources.ResourceManager;
         if (IsComplete)
         {
             var completePattern = rm.GetString(_completePatternResourceSid);

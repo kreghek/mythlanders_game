@@ -21,8 +21,9 @@ namespace Client.ScreenManagement;
 
 internal abstract class TextEventScreenBase<TParagraphConditionContext, TAftermathContext> : GameScreenWithMenuBase
 {
-    private readonly TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> _args;
     private readonly StateCoordinator _coordinator;
+    private readonly HeroCampaign _currentCampaign;
+    private readonly TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> _args;
     private readonly DialogueContextFactory _dialogueContextFactory;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly DialogueOptions _dialogueOptions;

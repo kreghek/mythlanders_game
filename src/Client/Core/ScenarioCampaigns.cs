@@ -88,11 +88,38 @@ internal sealed class ScenarioCampaigns
             };
 
             var node4 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT2));
-            graph.AddNode(node3);
+            graph.AddNode(node4);
+
+            var node5 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem(tutorialDialogueSid, locationSid,
+                _eventCatalog));
+            graph.AddNode(node5);
+
+            var node6_1 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT2));
+            graph.AddNode(node6_1);
+
+            var node6_2 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT2));
+            graph.AddNode(node6_2);
+
+            var node7 = new GraphNode<ICampaignStageItem>(new RestStageItem());
+            graph.AddNode(node7);
+
+            var node8 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem(tutorialDialogueSid, locationSid,
+                _eventCatalog));
+            graph.AddNode(node8);
+
+            var nodeReward = new GraphNode<ICampaignStageItem>(new RewardStageItem());
+            graph.AddNode(nodeReward);
 
             graph.ConnectNodes(node1, node2);
             graph.ConnectNodes(node2, node3);
             graph.ConnectNodes(node3, node4);
+            graph.ConnectNodes(node4, node5);
+            graph.ConnectNodes(node5, node6_1);
+            graph.ConnectNodes(node5, node6_2);
+            graph.ConnectNodes(node6_1, node7);
+            graph.ConnectNodes(node6_2, node7);
+            graph.ConnectNodes(node7, node8);
+            graph.ConnectNodes(node8, nodeReward);
 
             return new HeroCampaign(new[]
                 {

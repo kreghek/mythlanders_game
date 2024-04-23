@@ -124,6 +124,11 @@ internal class CampaignAftermathContext
         throw new NotImplementedException();
     }
 
+    public void UnlockFeature(GameFeature feature)
+    {
+        _globe.Features.AddFeature(feature);
+    }
+
     public void UnlockLocation(ILocationSid locationSid)
     {
         _player.AddLocation(locationSid);

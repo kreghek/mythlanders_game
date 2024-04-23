@@ -104,22 +104,17 @@ internal class TextDialogueScreen : CampaignTextEventScreenBase
 
     private void CheckTutorial()
     {
-        if (!_globeProvider.Globe.Progression.HasEntry("TutorialComplete"))
-        {
-            return;
-        }
-
         if (_player.HasAbility(PlayerAbility.SkipTutorials))
         {
             return;
         }
 
-        if (_player.HasAbility(PlayerAbility.ReadEventTutorial))
+        if (_player.HasAbility(PlayerAbility.ReadSideQuestTutorial))
         {
             return;
         }
 
-        _player.AddPlayerAbility(PlayerAbility.ReadEventTutorial);
+        _player.AddPlayerAbility(PlayerAbility.ReadSideQuestTutorial);
 
         var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
             ResolutionIndependentRenderer, _player);

@@ -1,12 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-using Client.Assets.Catalogs.Dialogues;
+﻿using Client.Assets.Catalogs.Dialogues;
 
 using CombatDicesTeam.Dialogues;
 
 namespace Client.Assets.Dialogues;
 
-[SuppressMessage("ReSharper", "InconsistentNaming")]
 internal static class DialogueConstants
 {
     public static DialogueEventTrigger CompleteCurrentStageChallengeTrigger { get; } = new("complete_challenge");
@@ -35,8 +32,22 @@ internal static class DialogueConstants
             public static string Sid => "chinese_tutorial";
 
             public static DialogueEventTrigger Stage1_Fight_Trigger { get; } = new("stage_1_fight");
-
+            public static string Stage1Dialogue => "stage_1";
             public static DialogueEventState Stage2 { get; } = new("stage_2") { NoDialogue = true };
+            public static DialogueEventTrigger Stage2_Meet_Heroes_Trigger { get; } = new("stage_2_meet_heroes");
+            public static string Stage2Dialogue => "stage_2";
+            public static DialogueEventState Stage3 { get; } = new("stage_3") { NoDialogue = true };
+            public static DialogueEventTrigger Stage3_WaySelection_Trigger { get; } = new("stage_3_way_selection");
+            public static string Stage3Dialogue => "stage_3";
+            public static DialogueEventState Stage4 { get; } = new("stage_4") { NoDialogue = true };
+            public static string Stage4Dialogue => "stage_4";
+        }
+
+        public static class Episode1
+        {
+            public static string Sid => "main_plot_e1";
+
+            public static string Stage1Dialogue => "stage_1";
         }
 
         public static class GreekTutorial

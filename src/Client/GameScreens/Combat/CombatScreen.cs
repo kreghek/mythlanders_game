@@ -732,7 +732,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             _currentCampaign.CompleteCurrentStage();
             _currentCampaign.FailCampaign(_globe, _jobProgressResolver);
 
-            _coordinator.MakeCombatFailureTransition(this);
+            _coordinator.MakeCombatFailureTransition(this, _currentCampaign);
         }
         else
         {
