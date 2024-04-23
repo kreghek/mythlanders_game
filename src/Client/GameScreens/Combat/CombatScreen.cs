@@ -111,6 +111,8 @@ internal class CombatScreen : GameScreenWithMenuBase
     private TextureRegion2D _shieldParticleTexture = null!;
     private SoundEffect _shieldSound = null!;
 
+    private UsedCombatMovementTitle? _usedCombatMovementTitle;
+
     public CombatScreen(MythlandersGame game, CombatScreenTransitionArguments args) : base(game)
     {
         _args = args;
@@ -596,6 +598,9 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             _combatMovementsHandPanel?.StartMovementBurning(e.HandSlotIndex);
         }
+
+        _usedCombatMovementTitle = new UsedCombatMovementTitle(_uiContentStorage.GetTitlesFont(),
+            e.Move.SourceMovement.Sid, e.Combatant.IsPlayerControlled);
     }
 
     private void CombatCore_CombatFinished(object? sender, CombatFinishedEventArgs e)
@@ -1224,42 +1229,38 @@ internal class CombatScreen : GameScreenWithMenuBase
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: _mainCamera.GetViewTransformationMatrix());
-        try
-        {
-            if (!_combatCore.StateStrategy
-                    .CalculateCurrentState(new CombatStateStrategyContext(_combatCore.CurrentCombatants,
-                        _combatCore.CurrentRoundNumber)).IsFinalState
-                && _combatCore.CurrentCombatant.IsPlayerControlled)
-            {
-                if (!_animationBlockManager.HasBlockers)
-                {
-                    DrawCombatantQueue(spriteBatch, contentRectangle);
 
-                    if (!_maneuversVisualizer.IsHidden)
+        if (!_combatCore.StateStrategy
+                .CalculateCurrentState(new CombatStateStrategyContext(_combatCore.CurrentCombatants,
+                    _combatCore.CurrentRoundNumber)).IsFinalState
+            && _combatCore.CurrentCombatant.IsPlayerControlled)
+        {
+            if (!_animationBlockManager.HasBlockers)
+            {
+                DrawCombatantQueue(spriteBatch, contentRectangle);
+
+                if (!_maneuversVisualizer.IsHidden)
+                {
+                    if (!_maneuversIndicator.IsHidden)
                     {
-                        if (!_maneuversIndicator.IsHidden)
+                        // ALT to show stats and statuses
+                        // Hide maneuvers to avoid HUD-mess
+                        if (!Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
                         {
-                            // ALT to show stats and statuses
-                            // Hide maneuvers to avoid HUD-mess
-                            if (!Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
-                            {
-                                DrawManeuverIndicator(spriteBatch, contentRectangle);
-                            }
+                            DrawManeuverIndicator(spriteBatch, contentRectangle);
                         }
                     }
-
-                    //DrawCombatSequenceProgress(spriteBatch);
-
-                    DrawCombatMovementsPanel(spriteBatch, contentRectangle);
                 }
-            }
 
-            DrawCombatantEffectNotifications(spriteBatch: spriteBatch, contentRectangle: contentRectangle);
+                //DrawCombatSequenceProgress(spriteBatch);
+
+                DrawCombatMovementsPanel(spriteBatch, contentRectangle);
+            }
         }
-        catch
-        {
-            // TODO Fix NRE in the end of the combat with more professional way 
-        }
+
+        DrawCombatantEffectNotifications(spriteBatch, contentRectangle);
+
+        DrawUsedCombatMovementTitle(spriteBatch, contentRectangle);
 
         if (_combatRoundCounter is not null)
         {
@@ -1330,6 +1331,12 @@ internal class CombatScreen : GameScreenWithMenuBase
             DrawShieldPointsBar(spriteBatch, sp, statsPanelOrigin, ARC_LENGTH, SIDES, RADIUS_SP + 2, START_ANGLE,
                 BAR_WIDTH);
         }
+    }
+
+
+    private void DrawUsedCombatMovementTitle(SpriteBatch spriteBatch, Rectangle contentRectangle)
+    {
+        _usedCombatMovementTitle?.Draw(spriteBatch, contentRectangle);
     }
 
     private void DropSelection(ICombatant combatant)
@@ -1665,13 +1672,15 @@ internal class CombatScreen : GameScreenWithMenuBase
             }
         }
 
-        _maneuversIndicator?.Update(gameTime);
+        _maneuversIndicator.Update(gameTime);
 
         _combatantQueuePanel?.Update(ResolutionIndependentRenderer);
 
         _targetMarkers.Update(gameTime);
 
         UpdateCombatantEffectNotifications(gameTime);
+
+        UpdateUsedCombatMovement(gameTime);
     }
 
     private void UpdateCombatRoundLabel(GameTime gameTime)
@@ -1701,6 +1710,20 @@ internal class CombatScreen : GameScreenWithMenuBase
             {
                 bullet.Update(gameTime);
             }
+        }
+    }
+
+    private void UpdateUsedCombatMovement(GameTime gameTime)
+    {
+        if (_usedCombatMovementTitle is null)
+        {
+            return;
+        }
+
+        _usedCombatMovementTitle.Update(gameTime);
+        if (_usedCombatMovementTitle.IsExpired)
+        {
+            _usedCombatMovementTitle = null;
         }
     }
 
