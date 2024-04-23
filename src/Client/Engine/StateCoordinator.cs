@@ -77,20 +77,6 @@ internal class StateCoordinator
         }
     }
 
-    private void AutoSelectNextCampaignStage(IScreen currentScreen, HeroCampaign currentCampaign)
-    {
-        var nextStage = currentCampaign.Location.Stages.GetNext(currentCampaign.CurrentStage).First();
-
-        currentCampaign.CurrentStage = nextStage;
-
-        nextStage.Payload.ExecuteTransition(currentScreen, _screenManager, currentCampaign);
-    }
-    
-    private void AutoRetryCampaignStage(IScreen currentScreen, HeroCampaign currentCampaign)
-    {
-        currentCampaign.CurrentStage.Payload.ExecuteTransition(currentScreen, _screenManager, currentCampaign);
-    }
-
     public void MakeStartTransition(IScreen currentScreen)
     {
         var campaign = _scenarioCampaigns.GetCampaign("tutorial", _globeProvider.Globe.Player);
@@ -101,5 +87,19 @@ internal class StateCoordinator
         campaign.CurrentStage = startNode;
 
         startStage.ExecuteTransition(currentScreen, _screenManager, campaign);
+    }
+
+    private void AutoRetryCampaignStage(IScreen currentScreen, HeroCampaign currentCampaign)
+    {
+        currentCampaign.CurrentStage.Payload.ExecuteTransition(currentScreen, _screenManager, currentCampaign);
+    }
+
+    private void AutoSelectNextCampaignStage(IScreen currentScreen, HeroCampaign currentCampaign)
+    {
+        var nextStage = currentCampaign.Location.Stages.GetNext(currentCampaign.CurrentStage).First();
+
+        currentCampaign.CurrentStage = nextStage;
+
+        nextStage.Payload.ExecuteTransition(currentScreen, _screenManager, currentCampaign);
     }
 }

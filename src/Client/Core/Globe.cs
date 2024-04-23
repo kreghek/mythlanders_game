@@ -32,13 +32,13 @@ internal sealed class Globe
     }
 
     public IEnumerable<IStoryPoint> ActiveStoryPoints => _activeStoryPointsList;
+    public CurrentGameFeatures Features { get; }
 
     public IReadOnlyCollection<IGlobeEvent> GlobeEvents => _globeEvents;
 
     public GlobeLevel GlobeLevel { get; }
 
     public Player Player { get; }
-    public CurrentGameFeatures Features { get; }
 
     public void AddActiveStoryPoint(IStoryPoint storyPoint)
     {

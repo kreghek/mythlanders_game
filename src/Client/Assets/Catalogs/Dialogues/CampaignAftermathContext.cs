@@ -124,15 +124,15 @@ internal class CampaignAftermathContext
         throw new NotImplementedException();
     }
 
+    public void UnlockFeature(GameFeature feature)
+    {
+        _globe.Features.AddFeature(feature);
+    }
+
     public void UnlockLocation(ILocationSid locationSid)
     {
         throw new NotImplementedException();
     }
 
     public event EventHandler<HeroStatChangedEventArgs>? HeroHpChanged;
-
-    public void UnlockFeature(GameFeature feature)
-    {
-        _globe.Features.AddFeature(feature);
-    }
 }

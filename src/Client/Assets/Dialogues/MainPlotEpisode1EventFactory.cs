@@ -23,7 +23,7 @@ internal sealed class MainPlotEpisode1EventFactory : IDialogueEventFactory
 
         var requirements = new Dictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>>
         {
-            [DialogueConstants.InitialStage] = new []
+            [DialogueConstants.InitialStage] = new[]
             {
                 new StoryKeyRequirement("HearMeBrothersComplete")
             }

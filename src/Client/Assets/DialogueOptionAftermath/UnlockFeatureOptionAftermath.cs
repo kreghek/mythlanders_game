@@ -22,18 +22,18 @@ internal sealed class UnlockFeatureOptionAftermath : DialogueOptionAftermathBase
         aftermathContext.UnlockFeature(_feature);
     }
 
+    public static IDialogueOptionAftermath<CampaignAftermathContext> CreateFromData(string data)
+    {
+        var features = CatalogHelper.GetAllFromStaticCatalog<GameFeature>(typeof(GameFeatures));
+        var feature = features.Single(x => x.Value == data);
+        return new UnlockFeatureOptionAftermath(feature);
+    }
+
     protected override IReadOnlyList<object> GetDescriptionValues(CampaignAftermathContext aftermathContext)
     {
         return new object[]
         {
             _feature.Value
         };
-    }
-
-    public static IDialogueOptionAftermath<CampaignAftermathContext> CreateFromData(string data)
-    {
-        var features = CatalogHelper.GetAllFromStaticCatalog<GameFeature>(typeof(GameFeatures));
-        var feature = features.Single(x => x.Value == data);
-        return new UnlockFeatureOptionAftermath(feature);
     }
 }

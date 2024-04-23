@@ -27,8 +27,8 @@ internal sealed class TutorialSlavicDialogueEventFactory : IDialogueEventFactory
             .Permit(DialogueConstants.MainPlot.SlavicTutorial.Stage2_Meet_Heroes_Trigger,
                 DialogueConstants.MainPlot.SlavicTutorial.Stage3);
         questStateMachine.Configure(DialogueConstants.MainPlot.SlavicTutorial.Stage3)
-           .Permit(DialogueConstants.MainPlot.SlavicTutorial.Stage3_WaySelection_Trigger,
-               DialogueConstants.MainPlot.SlavicTutorial.Stage4);
+            .Permit(DialogueConstants.MainPlot.SlavicTutorial.Stage3_WaySelection_Trigger,
+                DialogueConstants.MainPlot.SlavicTutorial.Stage4);
 
         var requirements = new Dictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>>
         {

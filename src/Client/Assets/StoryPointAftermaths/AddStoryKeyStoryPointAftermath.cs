@@ -2,10 +2,10 @@
 
 namespace Client.Assets.StoryPointAftermaths;
 
-internal sealed class AddStoryKeyStoryPointAftermath: IStoryPointAftermath
+internal sealed class AddStoryKeyStoryPointAftermath : IStoryPointAftermath
 {
-    private readonly string _key;
     private readonly Globe _globe;
+    private readonly string _key;
 
     public AddStoryKeyStoryPointAftermath(string key, Globe globe)
     {

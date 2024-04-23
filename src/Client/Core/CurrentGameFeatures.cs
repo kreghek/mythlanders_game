@@ -14,16 +14,16 @@ public sealed class CurrentGameFeatures
 
     public IReadOnlyCollection<GameFeature> Features => _features.ToArray();
 
-    public bool HasFeature(GameFeature feature)
-    {
-        return Features.SingleOrDefault(x => x.Equals(feature)) is not null;
-    }
-
     public void AddFeature(GameFeature feature)
     {
         if (!HasFeature(feature))
         {
             _features.Add(feature);
         }
+    }
+
+    public bool HasFeature(GameFeature feature)
+    {
+        return Features.SingleOrDefault(x => x.Equals(feature)) is not null;
     }
 }

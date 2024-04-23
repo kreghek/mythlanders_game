@@ -86,24 +86,24 @@ internal class ScenarioCampaigns
 
             var node4 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT2));
             graph.AddNode(node4);
-            
+
             var node5 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem("slavic_tutorial", locationSid,
                 _eventCatalog));
             graph.AddNode(node5);
-            
+
             var node6_1 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT2));
             graph.AddNode(node6_1);
-            
+
             var node6_2 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT2));
             graph.AddNode(node6_2);
-            
+
             var node7 = new GraphNode<ICampaignStageItem>(new RestStageItem());
             graph.AddNode(node7);
-            
+
             var node8 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem("slavic_tutorial", locationSid,
                 _eventCatalog));
             graph.AddNode(node8);
-            
+
             var nodeReward = new GraphNode<ICampaignStageItem>(new RewardStageItem());
             graph.AddNode(nodeReward);
 

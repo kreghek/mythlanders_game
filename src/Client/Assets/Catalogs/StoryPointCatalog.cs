@@ -20,6 +20,25 @@ internal sealed class StoryPointCatalog : IStoryPointCatalog, IStoryPointInitial
         _eventCatalog = eventCatalog;
     }
 
+    private void InitStoryPointsFromDialogues(ICollection<IStoryPoint> spList)
+    {
+        var dialogueFactoryType = typeof(IDialogueEventFactory);
+        var factoryTypes = dialogueFactoryType.Assembly.GetTypes().Where(x =>
+            dialogueFactoryType.IsAssignableFrom(x) && x != dialogueFactoryType && !x.IsAbstract);
+        var factories = factoryTypes.Select(Activator.CreateInstance).OfType<IDialogueEventFactory>();
+
+        var factoryServices = new DialogueEventFactoryServices(_eventCatalog);
+
+        foreach (var factory in factories)
+        {
+            var storyPoints = factory.CreateStoryPoints(factoryServices);
+            foreach (var storyPoint in storyPoints)
+            {
+                spList.Add(storyPoint);
+            }
+        }
+    }
+
     public IReadOnlyCollection<IStoryPoint> GetAll()
     {
         return _storyPoints;
@@ -47,24 +66,5 @@ internal sealed class StoryPointCatalog : IStoryPointCatalog, IStoryPointInitial
         });
 
         _storyPoints = spList;
-    }
-
-    private void InitStoryPointsFromDialogues(ICollection<IStoryPoint> spList)
-    {
-        var dialogueFactoryType = typeof(IDialogueEventFactory);
-        var factoryTypes = dialogueFactoryType.Assembly.GetTypes().Where(x =>
-            dialogueFactoryType.IsAssignableFrom(x) && x != dialogueFactoryType && !x.IsAbstract);
-        var factories = factoryTypes.Select(Activator.CreateInstance).OfType<IDialogueEventFactory>();
-
-        var factoryServices = new DialogueEventFactoryServices(_eventCatalog);
-
-        foreach (var factory in factories)
-        {
-            var storyPoints = factory.CreateStoryPoints(factoryServices);
-            foreach (var storyPoint in storyPoints)
-            {
-                spList.Add(storyPoint);
-            }
-        }
     }
 }
