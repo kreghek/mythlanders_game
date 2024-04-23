@@ -120,12 +120,12 @@ internal sealed class ChallengeScreen : GameScreenWithMenuBase
             return UiResource.JobTypeDefeat;
         }
 
-        if (type == JobTypeCatalog.Combats)
+        if (type == JobTypeCatalog.WinCombats)
         {
             return UiResource.JobTypeCombats;
         }
 
-        if (type == JobTypeCatalog.CompleteCampaigns)
+        if (type == JobTypeCatalog.WinCampaigns)
         {
             return UiResource.JobTypeCompleteCampans;
         }

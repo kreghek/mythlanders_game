@@ -315,6 +315,9 @@
 Повышает урон на 25% за уровень.</value>
     <comment>Equipment</comment>
   </data>
+  <data name="CommonJobCompletePattern" xml:space="preserve">
+    <value>{0}: завершено</value>
+  </data>
   <data name="CorruptedBear" xml:space="preserve">
     <value>Оскверненный медведь</value>
     <comment>Monster</comment>
@@ -365,6 +368,12 @@
   <data name="DeceptivelyLightRobe" xml:space="preserve">
     <value>Обманчиво лёгкая роба</value>
     <comment>Equipment</comment>
+  </data>
+  <data name="DefeatAnyEnemies" xml:space="preserve">
+    <value>Победить противников</value>
+  </data>
+  <data name="DefeatAnyEnemiesDuringCampaign" xml:space="preserve">
+    <value>Победить противников в течении одной кампании</value>
   </data>
   <data name="Desert" xml:space="preserve">
     <value>Где-то в пустыне...</value>
@@ -1123,6 +1132,9 @@
   <data name="WideSwordSlash" xml:space="preserve">
     <value>Широкий удар мечом</value>
     <comment>Skill</comment>
+  </data>
+  <data name="WinCampaigns" xml:space="preserve">
+    <value>Выиграть любые кампании</value>
   </data>
   <data name="WindWheel" xml:space="preserve">
     <value>Ветренное колесо</value>

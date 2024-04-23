@@ -152,7 +152,7 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
             CurrentJobs = new[]
             {
                 new Job(
-                    new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.CompleteCampaigns, new JobGoalValue(1)),
+                    new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.WinCampaigns, new JobGoalValue(1)),
                     nameof(UiResource.CampaignsJobTitleSid),
                     nameof(UiResource.CampaignsJobProgressPatternSid),
                     nameof(UiResource.CampaignsJobCompletePatternSid))

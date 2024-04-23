@@ -16,3 +16,5 @@ root:
           data: Partisan
         - type: MeetHero
           data: Robber
+        - type: Trigger
+          data: stage_2_meet_heroes

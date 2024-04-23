@@ -130,4 +130,9 @@ internal class CampaignAftermathContext
     }
 
     public event EventHandler<HeroStatChangedEventArgs>? HeroHpChanged;
+
+    public void UnlockFeature(GameFeature feature)
+    {
+        _globe.Features.AddFeature(feature);
+    }
 }
