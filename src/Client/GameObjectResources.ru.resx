@@ -318,6 +318,9 @@
   <data name="CommonJobCompletePattern" xml:space="preserve">
     <value>{0}: завершено</value>
   </data>
+  <data name="Contempt" xml:space="preserve">
+    <value>Презрение</value>
+  </data>
   <data name="CorruptedBear" xml:space="preserve">
     <value>Оскверненный медведь</value>
     <comment>Monster</comment>

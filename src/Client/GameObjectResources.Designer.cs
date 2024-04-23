@@ -529,6 +529,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contempt.
+        /// </summary>
+        internal static string Contempt {
+            get {
+                return ResourceManager.GetString("Contempt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Corrupted bear.
         /// </summary>
         internal static string CorruptedBear {
