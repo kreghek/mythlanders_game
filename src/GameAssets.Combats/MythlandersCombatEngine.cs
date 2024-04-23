@@ -22,6 +22,13 @@ public sealed class MythlandersCombatEngine : CombatEngineBase
 
         foreach (var effectInstance in movement.Effects)
         {
+            if (!effectInstance.ImposeConditions.All(x => x.Check(CurrentCombatant, Field)))
+            {
+                // It is not meet the conditions.
+                // Ignore this effect.
+                continue;
+            }
+
             var effectInstanceClosure = effectInstance;
 
             void EffectInfluenceDelegate(ICombatant materializedTarget)

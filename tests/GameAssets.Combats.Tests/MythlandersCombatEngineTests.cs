@@ -6,13 +6,7 @@ using CombatDicesTeam.GenericRanges;
 
 using Core.Combats.TargetSelectors;
 
-using FluentAssertions;
-
 using GameAssets.Combats.CombatMovementEffects;
-
-using Moq;
-
-using NUnit.Framework;
 
 namespace GameAssets.Combats.Tests;
 
