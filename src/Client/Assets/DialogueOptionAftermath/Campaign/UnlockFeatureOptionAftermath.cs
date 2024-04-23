@@ -6,9 +6,9 @@ using Client.Core;
 
 using CombatDicesTeam.Dialogues;
 
-namespace Client.Assets.DialogueOptionAftermath;
+namespace Client.Assets.DialogueOptionAftermath.Campaign;
 
-internal sealed class UnlockFeatureOptionAftermath : DialogueOptionAftermathBase
+internal sealed class UnlockFeatureOptionAftermath : CampaignDialogueOptionAftermathBase
 {
     private readonly GameFeature _feature;
 

@@ -21,11 +21,7 @@ namespace Client.ScreenManagement;
 
 internal abstract class TextEventScreenBase<TParagraphConditionContext, TAftermathContext> : GameScreenWithMenuBase
 {
-    private readonly StateCoordinator _coordinator;
-    private readonly HeroCampaign _currentCampaign;
     private readonly TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> _args;
-    private readonly DialogueContextFactory _dialogueContextFactory;
-    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly DialogueOptions _dialogueOptions;
     protected readonly DialoguePlayer<TParagraphConditionContext, TAftermathContext> _dialoguePlayer;
     private readonly IDice _dice;
@@ -57,7 +53,6 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         var player = globe.Player;
         _storyState = player.StoryState;
 
-        _coordinator = game.Services.GetRequiredService<StateCoordinator>();
         _dialoguePlayer = new DialoguePlayer<TParagraphConditionContext, TAftermathContext>(args.CurrentDialogue,
             CreateDialogueContextFactory(args));
         _args = args;
