@@ -77,37 +77,13 @@ internal class ContemptFactory : SimpleCombatMovementFactoryBase
     {
         var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Hoplite");
 
-        var prepareAnimation = AnimationHelper.ConvertToAnimation(animationSet, "prepare-spear");
-        var keepSwordSoundEffect =
-            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SwordPrepare);
-
-        var chargeAnimation = AnimationHelper.ConvertToAnimation(animationSet, "charge");
-        var chargeSoundEffect =
-            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.ArmedMove);
-
-        var hitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "spear-hit");
-        var swordHitSoundEffect =
-            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SwordSlash);
-
-        var hitCompleteAnimation = AnimationHelper.ConvertToAnimation(animationSet, "hit-complete");
-
-        var backAnimation = AnimationHelper.ConvertToAnimation(animationSet, "back");
-
-        var config = new SingleMeleeVisualizationConfig(
-            new SoundedAnimation(prepareAnimation, keepSwordSoundEffect.CreateInstance()),
-            new SoundedAnimation(chargeAnimation, chargeSoundEffect.CreateInstance()),
-            new SoundedAnimation(hitAnimation, swordHitSoundEffect.CreateInstance()),
-            new SoundedAnimation(hitCompleteAnimation, null),
-            new SoundedAnimation(backAnimation, null));
-        
-        var hitScene = CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
-            visualizationContext, config);
-
         // throw
+
+        var prepareAnimation = AnimationHelper.ConvertToAnimation(animationSet, "prepare-spear");
 
         var shotSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.CyberRifleShot);
-        var shotAnimation = AnimationHelper.ConvertToAnimation(animationSet, "rifle-shot");
+        var shotAnimation = AnimationHelper.ConvertToAnimation(animationSet, "throw-spear");
         var soundedShotAnimation = new SoundedAnimationFrameSet(shotAnimation,
             new[]
             {
@@ -133,15 +109,44 @@ internal class ContemptFactory : SimpleCombatMovementFactoryBase
                 new AnimationFrame<ICombatVisualEffect>(new AnimationFrameInfo(1), shotEffect)
             });
 
-        var waitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "rifle-wait");
+        var waitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "wait-spear");
 
         var projectileFactory = new InteractionDeliveryFactory(GetCreateProjectileFunc(visualizationContext));
-        
-        
+
+
         var spearThrowScene = CommonCombatVisualization.CreateSingleDistanceVisualization(actorAnimator, movementExecution,
             visualizationContext,
             new SingleDistanceVisualizationConfig(prepareAnimation, additionalVisualEffectShotAnimation, waitAnimation,
                 projectileFactory, new AnimationFrameInfo(1)));
+
+        // hit
+
+        var keepSwordSoundEffect =
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SwordPrepare);
+
+        var chargeAnimation = AnimationHelper.ConvertToAnimation(animationSet, "wait-spear");
+        var chargeSoundEffect =
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.ArmedMove);
+
+        var hitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "kick");
+        var swordHitSoundEffect =
+            visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SwordSlash);
+
+        var hitCompleteAnimation = AnimationHelper.ConvertToAnimation(animationSet, "hit-complete");
+
+        var backAnimation = AnimationHelper.ConvertToAnimation(animationSet, "back");
+
+        var config = new SingleMeleeVisualizationConfig(
+            new SoundedAnimation(prepareAnimation, keepSwordSoundEffect.CreateInstance()),
+            new SoundedAnimation(chargeAnimation, chargeSoundEffect.CreateInstance()),
+            new SoundedAnimation(hitAnimation, swordHitSoundEffect.CreateInstance()),
+            new SoundedAnimation(hitCompleteAnimation, null),
+            new SoundedAnimation(backAnimation, null));
+        
+        var hitScene = CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
+            visualizationContext, config);
+
+       
         
         // combine
 
