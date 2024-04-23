@@ -7,3 +7,5 @@ root:
       env:
         - type: UnlockFeature
           data: CampaignMap
+        - type: Trigger
+          data: stage_3_way_selection

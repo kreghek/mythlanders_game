@@ -511,6 +511,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}: complete.
+        /// </summary>
+        internal static string CommonJobCompletePattern {
+            get {
+                return ResourceManager.GetString("CommonJobCompletePattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}: {1}/{2}.
+        /// </summary>
+        internal static string CommonJobInProgressPattern {
+            get {
+                return ResourceManager.GetString("CommonJobInProgressPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Corrupted bear.
         /// </summary>
         internal static string CorruptedBear {
@@ -628,6 +646,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Defeat any enemies.
+        /// </summary>
+        internal static string DefeatAnyEnemies {
+            get {
+                return ResourceManager.GetString("DefeatAnyEnemies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Defeat any enemies during one campaign.
+        /// </summary>
+        internal static string DefeatAnyEnemiesDuringCampaign {
+            get {
+                return ResourceManager.GetString("DefeatAnyEnemiesDuringCampaign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Somewhere in the Desert....
         /// </summary>
         internal static string Desert {
@@ -669,6 +705,24 @@ namespace Client {
         internal static string DieBySword_Description {
             get {
                 return ResourceManager.GetString("DieBySword_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Gray.
+        /// </summary>
+        internal static string DigitalHort {
+            get {
+                return ResourceManager.GetString("DigitalHort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Digital Hort.
+        /// </summary>
+        internal static string DigitalHort_Hidden {
+            get {
+                return ResourceManager.GetString("DigitalHort_Hidden", resourceCulture);
             }
         }
         
@@ -2498,6 +2552,15 @@ namespace Client {
         internal static string WideSwordSlash {
             get {
                 return ResourceManager.GetString("WideSwordSlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Win any campaigns.
+        /// </summary>
+        internal static string WinCampaigns {
+            get {
+                return ResourceManager.GetString("WinCampaigns", resourceCulture);
             }
         }
         

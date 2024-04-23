@@ -34,14 +34,15 @@ internal sealed class StoryPointCatalog : IStoryPointCatalog, IStoryPointInitial
 
         spList.Add(new StoryPoint("HearMeBrothers")
         {
+            TitleSid = "HearMeBrothers",
             CurrentJobs = new[]
             {
                 new Job(new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.Defeats, new JobGoalValue(200)),
-                    String.Empty, String.Empty, String.Empty),
-                new Job(new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.CompleteCampaigns, new JobGoalValue(5)),
-                    String.Empty, String.Empty, String.Empty),
-                new Job(new JobScheme(JobScopeCatalog.Campaign, JobTypeCatalog.Defeats, new JobGoalValue(20)),
-                    String.Empty, String.Empty, String.Empty)
+                    "DefeatAnyEnemies", "CommonJobInProgressPattern", "CommonJobCompletePattern"),
+                new Job(new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.WinCampaigns, new JobGoalValue(5)),
+                    "WinCampaigns", "CommonJobInProgressPattern", "CommonJobCompletePattern"),
+                new Job(new JobScheme(JobScopeCatalog.Campaign, JobTypeCatalog.Defeats, new JobGoalValue(30)),
+                    "DefeatAnyEnemiesDuringCampaign", "CommonJobInProgressPattern", "CommonJobCompletePattern")
             },
             Aftermaths = new[] { new AddStoryKeyStoryPointAftermath("HearMeBrothersComplete", globe) }
         });
