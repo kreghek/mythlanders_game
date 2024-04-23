@@ -315,6 +315,9 @@
 Повышает урон на 25% за уровень.</value>
     <comment>Equipment</comment>
   </data>
+  <data name="CommonJobCompletePattern" xml:space="preserve">
+    <value>{0}: завершено</value>
+  </data>
   <data name="Contempt" xml:space="preserve">
     <value>Презрение</value>
   </data>
@@ -369,6 +372,12 @@
     <value>Обманчиво лёгкая роба</value>
     <comment>Equipment</comment>
   </data>
+  <data name="DefeatAnyEnemies" xml:space="preserve">
+    <value>Победить противников</value>
+  </data>
+  <data name="DefeatAnyEnemiesDuringCampaign" xml:space="preserve">
+    <value>Победить противников в течении одной кампании</value>
+  </data>
   <data name="Desert" xml:space="preserve">
     <value>Где-то в пустыне...</value>
     <comment>Location</comment>
@@ -387,6 +396,12 @@
   <data name="DieBySword_Description" xml:space="preserve">
     <value>Перемещается вперед и наносит &lt;damage&gt; ближайшему в линии противнику.</value>
     <comment>Combat Movement Swordsman</comment>
+  </data>
+  <data name="DigitalHort" xml:space="preserve">
+    <value>Серый</value>
+  </data>
+  <data name="DigitalHort_Hidden" xml:space="preserve">
+    <value>Цифровой Хорт</value>
   </data>
   <data name="DigitalWolf" xml:space="preserve">
     <value>Цифровой волк</value>
@@ -1120,6 +1135,9 @@
   <data name="WideSwordSlash" xml:space="preserve">
     <value>Широкий удар мечом</value>
     <comment>Skill</comment>
+  </data>
+  <data name="WinCampaigns" xml:space="preserve">
+    <value>Выиграть любые кампании</value>
   </data>
   <data name="WindWheel" xml:space="preserve">
     <value>Ветренное колесо</value>

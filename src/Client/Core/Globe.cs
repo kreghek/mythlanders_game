@@ -13,13 +13,13 @@ internal sealed class Globe
 
     private readonly List<IGlobeEvent> _globeEvents;
 
-    public Globe(Player player)
+    public Globe(Player player, CurrentGameFeatures progression)
     {
         _globeEvents = new List<IGlobeEvent>();
         _activeStoryPointsList = new List<IStoryPoint>();
 
-        //_biomeGenerator = biomeGenerator;
         Player = player;
+        Features = progression;
         // First variant of the names.
         /*
          * "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
@@ -32,13 +32,11 @@ internal sealed class Globe
     }
 
     public IEnumerable<IStoryPoint> ActiveStoryPoints => _activeStoryPointsList;
-
+    public CurrentGameFeatures Features { get; }
 
     public IReadOnlyCollection<IGlobeEvent> GlobeEvents => _globeEvents;
 
     public GlobeLevel GlobeLevel { get; }
-
-    public bool IsNodeInitialized { get; set; }
 
     public Player Player { get; }
 
@@ -46,20 +44,6 @@ internal sealed class Globe
     {
         storyPoint.Completed += StoryPoint_Completed;
         _activeStoryPointsList.Add(storyPoint);
-    }
-
-    public void AddCombat(GlobeNode targetNode)
-    {
-        // var combatList = new List<CombatSource>();
-        //
-        // var combatSequence = new CombatSequence
-        // {
-        //     Combats = combatList
-        // };
-        //
-        // targetNode.CombatSequence = combatSequence;
-        //
-        // Updated?.Invoke(this, EventArgs.Empty);
     }
 
     public void AddGlobalEvent(IGlobeEvent globalEvent)

@@ -45,6 +45,8 @@ internal class CampaignAftermathContext
     public void AddNewHero(string heroSid)
     {
         _eventContext.AddNewHero(heroSid);
+
+        _heroCampaign.AddHero(HeroState.Create(heroSid));
     }
 
     public void AddResources(IProp resource)
@@ -120,6 +122,11 @@ internal class CampaignAftermathContext
     public void StartCombat(string sid)
     {
         throw new NotImplementedException();
+    }
+
+    public void UnlockFeature(GameFeature feature)
+    {
+        _globe.Features.AddFeature(feature);
     }
 
     public void UnlockLocation(ILocationSid locationSid)

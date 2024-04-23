@@ -7,7 +7,6 @@ using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens;
-using Client.GameScreens.Campaign;
 using Client.ScreenManagement.Ui.TextEvents;
 
 using CombatDicesTeam.Dialogues;
@@ -22,6 +21,7 @@ namespace Client.ScreenManagement;
 
 internal abstract class TextEventScreenBase : GameScreenWithMenuBase
 {
+    private readonly StateCoordinator _coordinator;
     private readonly HeroCampaign _currentCampaign;
     private readonly DialogueContextFactory _dialogueContextFactory;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
@@ -54,6 +54,8 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
         var player = globe.Player ?? throw new InvalidOperationException();
         var storyPointCatalog = game.Services.GetRequiredService<IStoryPointCatalog>();
         var dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
+
+        _coordinator = game.Services.GetRequiredService<StateCoordinator>();
 
         _dialogueContextFactory =
             new DialogueContextFactory(globe, storyPointCatalog, player, dialogueEnvironmentManager,
@@ -187,8 +189,8 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
     {
         _globeProvider.Globe.Update(_dice, _eventCatalog);
         _dialogueEnvironmentManager.Clean();
-        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-            new CampaignScreenTransitionArguments(_currentCampaign));
+
+        _coordinator.MakeCommonTransition(this, _currentCampaign);
 
         _globeProvider.StoreCurrentGlobe();
     }
@@ -198,6 +200,7 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
     {
         _textParagraphControls.Clear();
         _currentFragmentIndex = 0;
+
         foreach (var textFragment in _dialoguePlayer.CurrentTextFragments)
         {
             var speaker = ConvertSpeakerToUnitName(textFragment.Speaker);

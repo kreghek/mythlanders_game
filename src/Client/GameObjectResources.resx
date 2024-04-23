@@ -311,6 +311,12 @@
     <value />
     <comment>Equipment</comment>
   </data>
+  <data name="CommonJobCompletePattern" xml:space="preserve">
+    <value>{0}: complete</value>
+  </data>
+  <data name="CommonJobInProgressPattern" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+  </data>
   <data name="Contempt" xml:space="preserve">
     <value>Contempt</value>
     <comment>Combat Movement Hoplite</comment>
@@ -366,6 +372,14 @@
     <value>Deceptively light robe</value>
     <comment>Equipment</comment>
   </data>
+  <data name="DefeatAnyEnemies" xml:space="preserve">
+    <value>Defeat any enemies</value>
+    <comment>Job</comment>
+  </data>
+  <data name="DefeatAnyEnemiesDuringCampaign" xml:space="preserve">
+    <value>Defeat any enemies during one campaign</value>
+    <comment>Job</comment>
+  </data>
   <data name="Desert" xml:space="preserve">
     <value>Somewhere in the Desert...</value>
     <comment>Location</comment>
@@ -384,6 +398,14 @@
   <data name="DieBySword_Description" xml:space="preserve">
     <value>Moves forward and deals &lt;damage&gt; to the closest enemy in the line.</value>
     <comment>Combat Movement Swordsman</comment>
+  </data>
+  <data name="DigitalHort" xml:space="preserve">
+    <value>The Gray</value>
+    <comment>Monster NPC</comment>
+  </data>
+  <data name="DigitalHort_Hidden" xml:space="preserve">
+    <value>Digital Hort</value>
+    <comment>NPC</comment>
   </data>
   <data name="DigitalWolf" xml:space="preserve">
     <value>Digital wolf</value>
@@ -1154,6 +1176,10 @@
   <data name="WideSwordSlash" xml:space="preserve">
     <value>Wide sword slash</value>
     <comment>Skill</comment>
+  </data>
+  <data name="WinCampaigns" xml:space="preserve">
+    <value>Win any campaigns</value>
+    <comment>Job</comment>
   </data>
   <data name="WindWheel" xml:space="preserve">
     <value>Wind wheel</value>

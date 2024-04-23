@@ -44,8 +44,8 @@ internal sealed class StoryState : IStoryState
         });
     }
 
-    public void AddKey(string storySid, string key)
+    public void AddKey(string key)
     {
-        throw new NotImplementedException();
+        _storyKeys.Add(key);
     }
 }
