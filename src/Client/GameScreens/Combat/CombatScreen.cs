@@ -13,7 +13,6 @@ using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.Engine.PostProcessing;
-using Client.GameScreens.Campaign;
 using Client.GameScreens.Combat.CombatDebugElements;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.Background;
@@ -31,6 +30,7 @@ using Core.PropDrop;
 using Core.Props;
 
 using GameAssets.Combats;
+using GameAssets.Combats.CombatantStatuses;
 
 using GameClient.Engine;
 using GameClient.Engine.RectControl;
@@ -63,6 +63,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private readonly MythlandersCombatEngine _combatCore;
     private readonly ICombatActorBehaviourDataProvider _combatDataBehaviourProvider;
     private readonly ICombatMovementVisualizationProvider _combatMovementVisualizer;
+    private readonly StateCoordinator _coordinator;
     private readonly IList<CorpseGameObject> _corpseObjects;
     private readonly HeroCampaign _currentCampaign;
     private readonly IDice _dice;
@@ -208,6 +209,8 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _postEffectCatalog = new PostEffectCatalog();
         _postEffectManager = new PostEffectManager(_postEffectCatalog);
+
+        _coordinator = game.Services.GetRequiredService<StateCoordinator>();
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -714,13 +717,11 @@ internal class CombatScreen : GameScreenWithMenuBase
                 else
                 {
                     _globeProvider.Globe.Update(_dice, _eventCatalog);
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                        new CampaignScreenTransitionArguments(_currentCampaign));
 
-                    if (_gameSettings.Mode == GameMode.Full)
-                    {
-                        _globeProvider.StoreCurrentGlobe();
-                    }
+                    _globeProvider.StoreCurrentGlobe();
+                    _currentCampaign.CompleteCurrentStage();
+
+                    _coordinator.MakeCombatWinTransition(this, _currentCampaign);
                 }
             }
         }
@@ -731,11 +732,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             _currentCampaign.CompleteCurrentStage();
             _currentCampaign.FailCampaign(_globe, _jobProgressResolver);
 
-            var campaignGenerator = Game.Services.GetService<ICampaignGenerator>();
-            var campaigns = campaignGenerator.CreateSet(_globeProvider.Globe);
-
-            ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
-                new CommandCenterScreenTransitionArguments(campaigns));
+            _coordinator.MakeCombatFailureTransition(this, _currentCampaign);
         }
         else
         {
@@ -986,7 +983,11 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void DrawCombatantStatuses(Vector2 statsPanelOrigin, ICombatant combatant, SpriteBatch spriteBatch)
     {
-        var orderedCombatantStatuses = combatant.Statuses.OrderBy(x => x.Sid.ToString()).ToArray();
+        var orderedCombatantStatuses = combatant.Statuses
+            .Where(x => !CatalogHelper.GetAllFromStaticCatalog<ICombatantStatus>(typeof(SystemStatuses)).Contains(x))
+            .OrderBy(x => x.Sid.ToString())
+            .ToArray();
+
         for (var statusIndex = 0; statusIndex < orderedCombatantStatuses.Length; statusIndex++)
         {
             var combatantStatus = orderedCombatantStatuses[statusIndex];

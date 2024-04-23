@@ -223,9 +223,10 @@ internal sealed class MythlandersGame : Game
             Services.AddService<ICharacterCatalog>(unitSchemeCatalog);
 
             var dialogueAftermathCreator =
-                new DialogueOptionAftermathCreator(Services.GetRequiredService<IDice>());
+                new DialogueAftermathCreator(Services.GetRequiredService<IDice>());
 
-            var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider, dialogueAftermathCreator);
+            var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider, dialogueAftermathCreator,
+                dialogueAftermathCreator);
             Services.AddService<IEventInitializer>(dialogueCatalog);
             Services.AddService<IEventCatalog>(dialogueCatalog);
 
@@ -239,9 +240,11 @@ internal sealed class MythlandersGame : Game
             Services.AddService<ICharacterCatalog>(unitSchemeCatalog);
 
             var dialogueAftermathCreator =
-                new DialogueOptionAftermathCreator(Services.GetRequiredService<IDice>());
+                new DialogueAftermathCreator(Services.GetRequiredService<IDice>());
 
-            var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider, dialogueAftermathCreator);
+            var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider,
+                dialogueAftermathCreator,
+                dialogueAftermathCreator);
             Services.AddService<IEventInitializer>(dialogueCatalog);
             Services.AddService<IEventCatalog>(dialogueCatalog);
 
@@ -333,5 +336,14 @@ internal sealed class MythlandersGame : Game
 
         var movementVisualizer = new CombatMovementVisualizationProvider();
         Services.AddService<ICombatMovementVisualizationProvider>(movementVisualizer);
+
+        Services.AddService(new ScenarioCampaigns(Services.GetRequiredService<IEventCatalog>()));
+
+        var coordinator = new StateCoordinator(
+            Services.GetRequiredService<GlobeProvider>(),
+            Services.GetRequiredService<IScreenManager>(),
+            Services.GetRequiredService<ICampaignGenerator>(),
+            Services.GetRequiredService<ScenarioCampaigns>());
+        Services.AddService(coordinator);
     }
 }

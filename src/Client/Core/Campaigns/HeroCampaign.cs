@@ -14,11 +14,13 @@ namespace Client.Core.Campaigns;
 /// </summary>
 internal sealed class HeroCampaign
 {
+    private readonly IList<HeroCampaignState> _heroes;
+
     public HeroCampaign(IReadOnlyCollection<(HeroState, FieldCoords)> initHeroes, HeroCampaignLocation location,
         IReadOnlyCollection<ICampaignEffect> rewards,
         IReadOnlyCollection<ICampaignEffect> failurePenalties, int visualizationSeed)
     {
-        Heroes = CreateCampaignHeroes(initHeroes);
+        _heroes = new List<HeroCampaignState>(CreateCampaignHeroes(initHeroes));
         Location = location;
 
         ActualRewards = rewards;
@@ -42,14 +44,37 @@ internal sealed class HeroCampaign
     public IReadOnlyCollection<ICampaignEffect> ActualRewards { get; }
 
     public IGraphNode<ICampaignStageItem>? CurrentStage { get; set; }
-    public IReadOnlyCollection<HeroCampaignState> Heroes { get; }
-
+    public IReadOnlyCollection<HeroCampaignState> Heroes => _heroes.ToArray();
     public HeroCampaignLocation Location { get; }
 
 
     public IList<IGraphNode<ICampaignStageItem>> Path { get; }
 
     public int VisualizationSeed { get; }
+
+    public void AddHero(HeroState heroState)
+    {
+        var slots = new[]
+        {
+            (0, 0),
+            (1, 0),
+
+            (0, 1),
+            (1, 1),
+
+            (0, 2),
+            (1, 2)
+        };
+
+        var free = slots.Except(_heroes.Select(x => (x.FormationSlot.ColumnIndex, x.FormationSlot.LineIndex)));
+
+        if (free.Any())
+        {
+            var f1 = free.First();
+
+            _heroes.Add(new HeroCampaignState(heroState, new FormationSlot(f1.Item1, f1.Item2)));
+        }
+    }
 
     public void FailCampaign(Globe globe, IJobProgressResolver jobProgressResolver)
     {

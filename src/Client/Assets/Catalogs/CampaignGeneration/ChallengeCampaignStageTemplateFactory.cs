@@ -28,8 +28,8 @@ internal sealed class ChallengeCampaignStageTemplateFactory : ICampaignStageTemp
         _availableChallenges = new List<(IJobType type, int min, int max)>
         {
             (JobTypeCatalog.Defeats, 3, 5),
-            (JobTypeCatalog.Combats, 2, 2),
-            (JobTypeCatalog.CompleteCampaigns, 1, 1)
+            (JobTypeCatalog.WinCombats, 2, 2),
+            (JobTypeCatalog.WinCampaigns, 1, 1)
         };
     }
 

@@ -29,6 +29,7 @@ public enum UnitName
     Amazon,
     Engineer,
 
+    Radio,
     Hq,
     Oldman,
     GuardianWoman,
@@ -48,6 +49,7 @@ public enum UnitName
     SwampWomanFish, // болотная русалка
     Drekava, // Дрекавак
     DigitalWolf,
+    DigitalHort,
     CorruptedBear,
     Volkolak,
     Dead, // Умертивие

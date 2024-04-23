@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.Dialogues;
+using Client.Assets.StoryPointAftermaths;
+using Client.Assets.StoryPointJobs;
 using Client.Core;
 
 namespace Client.Assets.Catalogs;
@@ -18,15 +20,8 @@ internal sealed class StoryPointCatalog : IStoryPointCatalog, IStoryPointInitial
         _eventCatalog = eventCatalog;
     }
 
-    public IReadOnlyCollection<IStoryPoint> GetAll()
+    private void InitStoryPointsFromDialogues(ICollection<IStoryPoint> spList)
     {
-        return _storyPoints;
-    }
-
-    public void Init(Globe globe)
-    {
-        var spList = new List<IStoryPoint>();
-
         var dialogueFactoryType = typeof(IDialogueEventFactory);
         var factoryTypes = dialogueFactoryType.Assembly.GetTypes().Where(x =>
             dialogueFactoryType.IsAssignableFrom(x) && x != dialogueFactoryType && !x.IsAbstract);
@@ -42,6 +37,33 @@ internal sealed class StoryPointCatalog : IStoryPointCatalog, IStoryPointInitial
                 spList.Add(storyPoint);
             }
         }
+    }
+
+    public IReadOnlyCollection<IStoryPoint> GetAll()
+    {
+        return _storyPoints;
+    }
+
+    public void Init(Globe globe)
+    {
+        var spList = new List<IStoryPoint>();
+
+        InitStoryPointsFromDialogues(spList);
+
+        spList.Add(new StoryPoint("HearMeBrothers")
+        {
+            TitleSid = "HearMeBrothers",
+            CurrentJobs = new[]
+            {
+                new Job(new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.Defeats, new JobGoalValue(200)),
+                    "DefeatAnyEnemies", "CommonJobInProgressPattern", "CommonJobCompletePattern"),
+                new Job(new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.WinCampaigns, new JobGoalValue(5)),
+                    "WinCampaigns", "CommonJobInProgressPattern", "CommonJobCompletePattern"),
+                new Job(new JobScheme(JobScopeCatalog.Campaign, JobTypeCatalog.Defeats, new JobGoalValue(30)),
+                    "DefeatAnyEnemiesDuringCampaign", "CommonJobInProgressPattern", "CommonJobCompletePattern")
+            },
+            Aftermaths = new[] { new AddStoryKeyStoryPointAftermath("HearMeBrothersComplete", globe) }
+        });
 
         _storyPoints = spList;
     }

@@ -33,6 +33,10 @@ internal sealed class RobberGraphicsConfig : HeroGraphicConfig
             {
                 PredefinedAnimationSid.DefenseStance,
                 AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 1, fps: 1)
+            },
+            {
+                PredefinedAnimationSid.Defense,
+                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 1, fps: 1)
             }
         };
     }
