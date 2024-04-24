@@ -20,7 +20,7 @@ internal sealed class Player
 
     public Player()
     {
-        Heroes = new PoolGroup<HeroState>();
+        _heroes = new PoolGroup<HeroState>();
         KnownMonsters = new List<MonsterKnowledge>();
 
         Inventory = new Inventory();
@@ -29,7 +29,7 @@ internal sealed class Player
 
         Name = CreateRandomName();
 
-        StoryState = new StoryState(Heroes);
+        StoryState = new StoryState(_heroes);
         StoryState.AddCharacterRelations(UnitName.Radio);
         StoryState.CharacterRelations.Single(x => x.Character.Equals(DialogueSpeakers.Get(UnitName.Radio))).Level =
             CharacterKnowledgeLevel.FullName;
@@ -42,7 +42,9 @@ internal sealed class Player
 
     public IReadOnlyList<ILocationSid> CurrentAvailableLocations => _locations.ToArray();
 
-    public PoolGroup<HeroState> Heroes { get; }
+    private PoolGroup<HeroState> _heroes { get; }
+
+    public IReadOnlyCollection<HeroState> Heroes => _heroes.Units.ToArray();
 
     public Inventory Inventory { get; }
 
@@ -55,7 +57,7 @@ internal sealed class Player
 
     public void AddHero(HeroState heroState)
     {
-        Heroes.AddNewUnit(heroState);
+        _heroes.AddNewUnit(heroState);
     }
 
     public void AddLocation(ILocationSid location)

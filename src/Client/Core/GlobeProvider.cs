@@ -73,15 +73,6 @@ internal sealed class GlobeProvider
         return !IsDirectoryEmpty(_storagePath);
     }
 
-    public void GenerateFree(HeroState[] heroes)
-    {
-        var globe = new Globe(new Player(), new CurrentGameFeatures());
-
-        AssignFreeHeroes(globe);
-
-        Globe = globe;
-    }
-
     public void GenerateNew()
     {
         var globe = new Globe(new Player(), new CurrentGameFeatures());
@@ -162,7 +153,7 @@ internal sealed class GlobeProvider
 
         var player = new PlayerDto
         {
-            Heroes = CreateHeroesStorageData(Globe.Player.Heroes.Units),
+            Heroes = CreateHeroesStorageData(Globe.Player.Heroes),
             Resources = GetPlayerResourcesToSave(Globe.Player.Inventory),
             KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters),
             Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray(),
@@ -186,21 +177,6 @@ internal sealed class GlobeProvider
 
         var storageFile = Path.Combine(_storagePath, saveName);
         File.WriteAllText(storageFile, saveDataString);
-    }
-
-    private void AssignFreeHeroes(Globe globe)
-    {
-        var startHeroes = new List<HeroState>
-        {
-            HeroState.Create("Swordsman"),
-            HeroState.Create("Partisan"),
-            HeroState.Create("Robber")
-        };
-
-        foreach (var hero in startHeroes)
-        {
-            globe.Player.Heroes.AddNewUnit(hero);
-        }
     }
 
     private static HeroDto[] CreateHeroesStorageData(IEnumerable<HeroState> units)
@@ -348,7 +324,7 @@ internal sealed class GlobeProvider
 
         foreach (var unit in loadedHeroes)
         {
-            Globe.Player.Heroes.AddNewUnit(unit);
+            Globe.Player.AddHero(unit);
         }
     }
 
