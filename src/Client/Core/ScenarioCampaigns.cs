@@ -33,7 +33,7 @@ internal sealed class ScenarioCampaigns
         {
             var locationSid = LocationSids.Thicket;
 
-            var tutorialHero = GetTutorialHero(player, sid);
+            var tutorialHero = GetTutorialHero(player);
 
             var tutorialDialogueSid = GetTutorialDialogueByTutorialHero(tutorialHero);
 
@@ -128,10 +128,10 @@ internal sealed class ScenarioCampaigns
                 ArraySegment<ICampaignEffect>.Empty, 0);
         }
 
-        throw new ArgumentException();
+        throw new ArgumentException("Invalid campaign sid", nameof(sid));
     }
 
-    private string GetTutorialDialogueByTutorialHero(HeroState tutorialHero)
+    private static string GetTutorialDialogueByTutorialHero(HeroState tutorialHero)
     {
         if (tutorialHero.ClassSid == "Swordsman")
         {
@@ -156,8 +156,8 @@ internal sealed class ScenarioCampaigns
         throw new InvalidOperationException();
     }
 
-    private static HeroState GetTutorialHero(Player player, string sid)
+    private static HeroState GetTutorialHero(Player player)
     {
-        return player.Heroes.Units.First();
+        return player.Heroes.Single();
     }
 }

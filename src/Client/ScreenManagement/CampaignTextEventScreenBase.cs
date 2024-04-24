@@ -53,9 +53,11 @@ internal abstract class
 
         var campaignArgs = (CampaignTextEventScreenArgsBase)args;
 
+        var eventContext = new EventContext(globe, storyPointCatalog, campaignArgs.DialogueEvent);
+
         return new DialogueContextFactory(globe, storyPointCatalog, player, dialogueEnvironmentManager,
             campaignArgs.DialogueEvent, _currentCampaign,
-            new EventContext(globe, storyPointCatalog, player, campaignArgs.DialogueEvent));
+            eventContext);
     }
 
 
