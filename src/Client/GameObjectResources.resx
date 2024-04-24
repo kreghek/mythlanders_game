@@ -766,7 +766,7 @@
     <comment>Combat movement Monk</comment>
   </data>
   <data name="MasterfulStaffHit_Description" xml:space="preserve">
-    <value />
+    <value>Moves to the vanguard and inflicts &lt;damage&gt; with the staff. Does not waste energy if the same move was previously used.</value>
     <comment>Combat movement Monk</comment>
   </data>
   <data name="Medjay" xml:space="preserve">
@@ -805,7 +805,7 @@
     <comment>Combat movement Monk</comment>
   </data>
   <data name="NinthTrigram_Description" xml:space="preserve">
-    <value />
+    <value>Swaps places with the strongest ally in the neighborhood. The trigram gives &lt;defense&gt; to the monk and the ally.</value>
     <comment>Combat movement Monk</comment>
   </data>
   <data name="NoViolencePlease" xml:space="preserve">

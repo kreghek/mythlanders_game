@@ -1584,7 +1584,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Moves to the vanguard and inflicts &lt;damage&gt; with the staff. Does not waste energy if the same move was previously used..
         /// </summary>
         internal static string MasterfulStaffHit_Description {
             get {
@@ -1674,7 +1674,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Swaps places with the strongest ally in the neighborhood. The trigram gives &lt;defense&gt; to the monk and the ally..
         /// </summary>
         internal static string NinthTrigram_Description {
             get {

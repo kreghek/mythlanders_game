@@ -53,4 +53,12 @@ internal class OldGoodBrawlFactory : SimpleCombatMovementFactoryBase
     {
         return CombatMovementTags.Attack;
     }
+
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 0), DescriptionKeyValueTemplate.Damage)
+        };
+    }
 }
