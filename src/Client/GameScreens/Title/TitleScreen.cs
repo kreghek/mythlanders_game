@@ -15,6 +15,7 @@ using Client.ScreenManagement;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dices;
+using CombatDicesTeam.Engine.Ui;
 using CombatDicesTeam.Graphs;
 
 using Core.PropDrop;
@@ -178,13 +179,25 @@ internal sealed class TitleScreen : GameScreenBase
                     ResolutionIndependentRenderer.VirtualBounds.Right - 100,
                     ResolutionIndependentRenderer.VirtualBounds.Top + 10),
                 Color.White);
+
+            var demoDescriptionText = StringHelper.LineBreaking(UiResource.DemoMarkerDescription, 40);
+            var demoDescriptionTextSize = _uiContentStorage.GetMainFont().MeasureString(demoDescriptionText);
+
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), demoDescriptionText,
+               new Vector2(
+                   ResolutionIndependentRenderer.VirtualBounds.Right - demoDescriptionTextSize.X - ControlBase.CONTENT_MARGIN,
+                   ResolutionIndependentRenderer.VirtualBounds.Top + 25),
+               MythlandersColors.Description);
         }
 
         if (!_gameSettings.Mode.HasFlag(GameMode.Recording))
         {
-            var socialPosition = new Vector2(ResolutionIndependentRenderer.VirtualBounds.Right - 75,
-                ResolutionIndependentRenderer.VirtualBounds.Bottom - 150);
-            spriteBatch.Draw(_uiContentStorage.GetSocialTexture(), socialPosition, Color.White);
+            var teamLogoTexture = _uiContentStorage.GetSocialTexture();
+
+            var teamPosition = new Vector2(ResolutionIndependentRenderer.VirtualBounds.Right - teamLogoTexture.Width - ControlBase.CONTENT_MARGIN,
+                ResolutionIndependentRenderer.VirtualBounds.Bottom - teamLogoTexture.Height - ControlBase.CONTENT_MARGIN);
+
+            spriteBatch.Draw(teamLogoTexture, teamPosition, Color.White);
         }
 
         spriteBatch.End();
@@ -261,6 +274,15 @@ internal sealed class TitleScreen : GameScreenBase
 
     private void DrawLogo(SpriteBatch spriteBatch, Rectangle contentRect)
     {
+        //DrawMusicPulse(spriteBatch, contentRect);
+
+        spriteBatch.Draw(_uiContentStorage.GetLogoTexture(),
+            new Vector2(contentRect.Center.X - _uiContentStorage.GetLogoTexture().Width / 2, contentRect.Top),
+            Color.White);
+    }
+
+    private void DrawMusicPulse(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
         foreach (var particleSystem in _pulseParticleSystems)
         {
             particleSystem.Draw(spriteBatch);
@@ -269,10 +291,6 @@ internal sealed class TitleScreen : GameScreenBase
         _particleSystem.MoveEmitter(contentRect.Center.ToVector2() + new Vector2(0, 160));
 
         _particleSystem.Draw(spriteBatch);
-
-        spriteBatch.Draw(_uiContentStorage.GetLogoTexture(),
-            new Vector2(contentRect.Center.X - _uiContentStorage.GetLogoTexture().Width / 2, contentRect.Top),
-            Color.White);
     }
 
     private void DrawMenu(SpriteBatch spriteBatch, Rectangle contentRect)
