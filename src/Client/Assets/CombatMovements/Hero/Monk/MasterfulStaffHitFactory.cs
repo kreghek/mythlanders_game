@@ -42,11 +42,13 @@ internal class MasterfulStaffHitFactory : CombatMovementFactoryBase
         };
     }
 
-    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
     {
         return new[]
         {
-            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 0), DescriptionKeyValueTemplate.Damage)
+            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 0),
+                DescriptionKeyValueTemplate.Damage)
         };
     }
 }
