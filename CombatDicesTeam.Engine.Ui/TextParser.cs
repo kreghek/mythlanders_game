@@ -4,13 +4,13 @@ namespace CombatDicesTeam.Engine.Ui;
 
 public static class TextParser
 {
-    public static IReadOnlyList<RichTextCommand> ParseText(string inputText)
+    public static IReadOnlyList<RichTextNode> ParseText(string inputText)
     {
         // Parsing of the tags to change text color.
         var pattern = "(<style=(?:.*?)>(?:[\\s\\S]*?)<\\/style>)";
         var splitText = Regex.Split(inputText, pattern);
 
-        var list = new List<RichTextCommand>();
+        var list = new List<RichTextNode>();
 
         foreach (var part in splitText)
         {
@@ -28,12 +28,12 @@ public static class TextParser
                 var style = ParseStyle(styleDescription);
 
                 var content = match.Groups[2].Value;
-                list.Add(new RichTextCommand(content, style));
+                list.Add(new RichTextNode(content, style));
             }
             else
             {
                 // regular text
-                list.Add(new RichTextCommand(part, new RichTextNodeStyle(null, null)));
+                list.Add(new RichTextNode(part, new RichTextNodeStyle(null, null)));
             }
         }
 
@@ -50,12 +50,12 @@ public static class TextParser
         {
             if (item.StartsWith("color"))
             {
-                var s = item[("color".Length)..];
+                var s = item["color".Length..];
                 colorIndex = int.Parse(s);
             }
             else if (item.StartsWith("ani"))
             {
-                var s = item[("ani".Length)..];
+                var s = item["ani".Length..];
                 animationIndex = int.Parse(s);
             }
         }
