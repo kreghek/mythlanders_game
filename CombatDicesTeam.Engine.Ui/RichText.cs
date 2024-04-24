@@ -7,12 +7,12 @@ public sealed class RichText : ControlBase
 {
     private readonly Func<Color, Color> _colorDelegate;
     private readonly SpriteFont _font;
-    private readonly Func<string> _textDelegate;
-    private readonly Point _textureOffset;
 
     private readonly Color _highlightColor1 = new(109, 234, 214);
     private readonly Color _highlightColor2 = new(243, 168, 51);
     private readonly Color _highlightColor3 = new(243, 168, 51);
+    private readonly Func<string> _textDelegate;
+    private readonly Point _textureOffset;
 
     public RichText(Texture2D texture, Point textureOffset, SpriteFont font, Func<Color, Color> colorDelegate,
         Func<string> textDelegate) : base(texture)
