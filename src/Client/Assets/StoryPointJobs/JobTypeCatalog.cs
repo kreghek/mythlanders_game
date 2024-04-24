@@ -5,9 +5,9 @@ namespace Client.Assets.StoryPointJobs;
 internal static class JobTypeCatalog
 {
     /// <summary>
-    /// Complete combats with any results.
+    /// Win combats with any results.
     /// </summary>
-    public static readonly IJobType Combats = new JobType();
+    public static readonly IJobType WinCombats = new JobType();
 
     /// <summary>
     /// Defeat any enemies.
@@ -15,7 +15,7 @@ internal static class JobTypeCatalog
     public static readonly IJobType Defeats = new JobType();
 
     /// <summary>
-    /// Complete any campaigns.
+    /// Win any campaigns.
     /// </summary>
-    public static readonly IJobType CompleteCampaigns = new JobType();
+    public static readonly IJobType WinCampaigns = new JobType();
 }

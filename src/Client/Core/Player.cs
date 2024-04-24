@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.Catalogs.Dialogues;
+
 namespace Client.Core;
 
 internal sealed class Player
@@ -28,6 +30,9 @@ internal sealed class Player
         Name = CreateRandomName();
 
         StoryState = new StoryState(Heroes);
+        StoryState.AddCharacterRelations(UnitName.Radio);
+        StoryState.CharacterRelations.Single(x => x.Character.Equals(DialogueSpeakers.Get(UnitName.Radio))).Level =
+            CharacterKnowledgeLevel.FullName;
 
         _locations = new HashSet<ILocationSid>();
     }

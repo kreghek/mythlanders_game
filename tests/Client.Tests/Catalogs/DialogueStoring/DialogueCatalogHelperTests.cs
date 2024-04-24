@@ -45,7 +45,7 @@ public class DialogueCatalogHelperTests
         // ACT
 
         var dialogue = DialogueCatalogHelper.Create("test", dict,
-            new DialogueCatalogCreationServices(Mock.Of<IDialogueEnvironmentEffectCreator>(),
+            new DialogueCatalogCreationServices(Mock.Of<IDialogueParagraphEffectCreator>(),
                 Mock.Of<IDialogueOptionAftermathCreator>()));
 
         // ASSERT
@@ -82,7 +82,7 @@ public class DialogueCatalogHelperTests
         // ACT
 
         var dialogue = DialogueCatalogHelper.Create("test", dict,
-            new DialogueCatalogCreationServices(Mock.Of<IDialogueEnvironmentEffectCreator>(),
+            new DialogueCatalogCreationServices(Mock.Of<IDialogueParagraphEffectCreator>(),
                 Mock.Of<IDialogueOptionAftermathCreator>()));
 
         // ASSERT
@@ -125,7 +125,7 @@ public class DialogueCatalogHelperTests
         // ACT
 
         var dialogue = DialogueCatalogHelper.Create("test", dict,
-            new DialogueCatalogCreationServices(Mock.Of<IDialogueEnvironmentEffectCreator>(),
+            new DialogueCatalogCreationServices(Mock.Of<IDialogueParagraphEffectCreator>(),
                 Mock.Of<IDialogueOptionAftermathCreator>()));
 
         // ASSERT
@@ -160,7 +160,7 @@ public class DialogueCatalogHelperTests
         // ACT
 
         var dialogue = DialogueCatalogHelper.Create("test", dict,
-            new DialogueCatalogCreationServices(Mock.Of<IDialogueEnvironmentEffectCreator>(),
+            new DialogueCatalogCreationServices(Mock.Of<IDialogueParagraphEffectCreator>(),
                 Mock.Of<IDialogueOptionAftermathCreator>()));
 
         // ASSERT

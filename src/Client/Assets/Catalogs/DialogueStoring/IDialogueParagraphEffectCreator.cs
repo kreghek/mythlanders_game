@@ -4,7 +4,7 @@ using CombatDicesTeam.Dialogues;
 
 namespace Client.Assets.Catalogs.DialogueStoring;
 
-internal interface IDialogueEnvironmentEffectCreator
+internal interface IDialogueParagraphEffectCreator
 {
     IDialogueOptionAftermath<CampaignAftermathContext> Create(string typeSid, string data);
 }
