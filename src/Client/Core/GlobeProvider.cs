@@ -19,6 +19,7 @@ internal sealed class GlobeProvider
 {
     private const string SAVE_FILE_TEMPLATE = "save-{0}.json";
     private readonly IMonsterPerkCatalog _monsterPerkCatalog;
+    private readonly GameSettings _gameSettings;
 
     private readonly string _storagePath;
     private readonly IStoryPointInitializer _storyPointInitializer;
@@ -28,13 +29,21 @@ internal sealed class GlobeProvider
 
     public GlobeProvider(ICharacterCatalog unitSchemeCatalog,
         IStoryPointInitializer storyPointInitializer,
-        IMonsterPerkCatalog monsterPerkCatalog)
+        IMonsterPerkCatalog monsterPerkCatalog,
+        GameSettings gameSettings)
     {
         _unitSchemeCatalog = unitSchemeCatalog;
         _storyPointInitializer = storyPointInitializer;
         _monsterPerkCatalog = monsterPerkCatalog;
+        _gameSettings = gameSettings;
         var binPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         _storagePath = Path.Combine(binPath, "CDT", "Mythlanders");
+    }
+
+    public GlobeProvider(ICharacterCatalog characterCatalog,
+        IStoryPointInitializer storyPointInitializer,
+        IMonsterPerkCatalog monsterPerkCatalog): this(characterCatalog, storyPointInitializer, monsterPerkCatalog, new GameSettings())
+    {
     }
 
     public (int Width, int Height)? ChosenUserMonitorResolution { get; set; }
@@ -146,6 +155,13 @@ internal sealed class GlobeProvider
 
     public void StoreCurrentGlobe()
     {
+        if (_gameSettings.Mode == GameMode.Demo)
+        {
+            // Do not create save-files in demo version.
+            // It will need when demo be longer that 1 hour gameplay (whole episode 1 developed).
+            return;
+        }
+
         var player = new PlayerDto
         {
             Heroes = CreateHeroesStorageData(Globe.Player.Heroes.Units),
