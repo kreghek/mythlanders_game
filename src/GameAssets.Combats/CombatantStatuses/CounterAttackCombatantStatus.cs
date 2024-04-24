@@ -34,7 +34,5 @@ public sealed class CounterAttackCombatantStatus : CombatantStatusBase
         if (e.Combatant != _ownerCombatant)
         {
         }
-
-        
     }
 }

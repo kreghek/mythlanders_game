@@ -120,22 +120,6 @@ internal sealed class TitleScreen : GameScreenBase
             ResolutionIndependentRenderer.VirtualBounds, new PongRectangleRandomSource(new LinearDice(), 2));
     }
 
-    private void MakeStartGameButton()
-    {
-        var loadGameButton = CreateLoadButtonOrNothing();
-        if (loadGameButton is not null)
-        {
-            _buttons.Add(loadGameButton);
-        }
-        else
-        {
-            var startButton = new TitleResourceTextButton(nameof(UiResource.PlayStoryButtonTitle));
-            startButton.OnClick += StartButton_OnClick;
-
-            _buttons.Add(startButton);
-        }
-    }
-
     public static void StartClearNewGame(GlobeProvider globeProvider, IScreen currentScreen,
         StateCoordinator coordinator)
     {
@@ -219,7 +203,7 @@ internal sealed class TitleScreen : GameScreenBase
             // Looks like game has no saves.
             return null;
         }
-        
+
         if (!_globeProvider.CheckSavesExist())
         {
             return null;
@@ -431,6 +415,22 @@ internal sealed class TitleScreen : GameScreenBase
         var heroCount = Math.Min(TITLE_PORTRAIT_COUNT, lastHeroes.Length);
 
         return _dice.RollFromList(lastHeroes, heroCount).ToArray();
+    }
+
+    private void MakeStartGameButton()
+    {
+        var loadGameButton = CreateLoadButtonOrNothing();
+        if (loadGameButton is not null)
+        {
+            _buttons.Add(loadGameButton);
+        }
+        else
+        {
+            var startButton = new TitleResourceTextButton(nameof(UiResource.PlayStoryButtonTitle));
+            startButton.OnClick += StartButton_OnClick;
+
+            _buttons.Add(startButton);
+        }
     }
 
     private void SettingsButton_OnClick(object? sender, EventArgs e)
