@@ -184,18 +184,21 @@ internal sealed class TitleScreen : GameScreenBase
             var demoDescriptionTextSize = _uiContentStorage.GetMainFont().MeasureString(demoDescriptionText);
 
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), demoDescriptionText,
-               new Vector2(
-                   ResolutionIndependentRenderer.VirtualBounds.Right - demoDescriptionTextSize.X - ControlBase.CONTENT_MARGIN,
-                   ResolutionIndependentRenderer.VirtualBounds.Top + 25),
-               MythlandersColors.Description);
+                new Vector2(
+                    ResolutionIndependentRenderer.VirtualBounds.Right - demoDescriptionTextSize.X -
+                    ControlBase.CONTENT_MARGIN,
+                    ResolutionIndependentRenderer.VirtualBounds.Top + 25),
+                MythlandersColors.Description);
         }
 
         if (!_gameSettings.Mode.HasFlag(GameMode.Recording))
         {
             var teamLogoTexture = _uiContentStorage.GetSocialTexture();
 
-            var teamPosition = new Vector2(ResolutionIndependentRenderer.VirtualBounds.Right - teamLogoTexture.Width - ControlBase.CONTENT_MARGIN,
-                ResolutionIndependentRenderer.VirtualBounds.Bottom - teamLogoTexture.Height - ControlBase.CONTENT_MARGIN);
+            var teamPosition = new Vector2(
+                ResolutionIndependentRenderer.VirtualBounds.Right - teamLogoTexture.Width - ControlBase.CONTENT_MARGIN,
+                ResolutionIndependentRenderer.VirtualBounds.Bottom - teamLogoTexture.Height -
+                ControlBase.CONTENT_MARGIN);
 
             spriteBatch.Draw(teamLogoTexture, teamPosition, Color.White);
         }
@@ -281,18 +284,6 @@ internal sealed class TitleScreen : GameScreenBase
             Color.White);
     }
 
-    private void DrawMusicPulse(SpriteBatch spriteBatch, Rectangle contentRect)
-    {
-        foreach (var particleSystem in _pulseParticleSystems)
-        {
-            particleSystem.Draw(spriteBatch);
-        }
-
-        _particleSystem.MoveEmitter(contentRect.Center.ToVector2() + new Vector2(0, 160));
-
-        _particleSystem.Draw(spriteBatch);
-    }
-
     private void DrawMenu(SpriteBatch spriteBatch, Rectangle contentRect)
     {
         var index = 0;
@@ -307,6 +298,18 @@ internal sealed class TitleScreen : GameScreenBase
 
             index++;
         }
+    }
+
+    private void DrawMusicPulse(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        foreach (var particleSystem in _pulseParticleSystems)
+        {
+            particleSystem.Draw(spriteBatch);
+        }
+
+        _particleSystem.MoveEmitter(contentRect.Center.ToVector2() + new Vector2(0, 160));
+
+        _particleSystem.Draw(spriteBatch);
     }
 
     private void FreeCombatButton_OnClick(object? sender, EventArgs e)
