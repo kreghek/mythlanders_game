@@ -35,6 +35,6 @@ public sealed class CounterAttackCombatantStatus : CombatantStatusBase
         {
         }
 
-        // TODO Handle conter attack intention
+        
     }
 }

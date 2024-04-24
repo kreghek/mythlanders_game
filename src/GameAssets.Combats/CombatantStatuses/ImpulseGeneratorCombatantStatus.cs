@@ -67,10 +67,10 @@ public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
             new IsAttackUsedLifetimeExpirationCondition()
         });
 
-        var impulseCombatantEffect = new ModifyEffectsCombatantStatus(_generatedSid,
+        var impulseCombatantStatus = new ModifyEffectsCombatantStatus(_generatedSid,
             lifetime, Source, DAMAGE_BONUS);
 
-        targetCombat.ImposeCombatantStatus(targetCombatant, impulseCombatantEffect);
+        targetCombat.ImposeCombatantStatus(targetCombatant, impulseCombatantStatus);
     }
 
     private void ImpulseSurge(ICombatant targetCombatant, CombatEngineBase targetCombat)
