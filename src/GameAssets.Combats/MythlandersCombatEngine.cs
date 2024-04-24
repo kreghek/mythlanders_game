@@ -14,7 +14,7 @@ public sealed class MythlandersCombatEngine : CombatEngineBase
     {
         SpendCombatMovementResources(movement);
 
-        var statusContext =
+        var combatMovementContext =
             new StatusCombatContext(CurrentCombatant, Field, Dice, HandleCombatantDamagedToStat,
                 HandleSwapFieldPositions, this);
 
@@ -26,7 +26,7 @@ public sealed class MythlandersCombatEngine : CombatEngineBase
 
             void EffectInfluenceDelegate(ICombatant materializedTarget)
             {
-                effectInstanceClosure.Influence(materializedTarget, statusContext);
+                effectInstanceClosure.Influence(materializedTarget, combatMovementContext);
             }
 
             var effectTargets = effectInstance.Selector.GetMaterialized(CurrentCombatant, GetCurrentSelectorContext());
@@ -51,7 +51,7 @@ public sealed class MythlandersCombatEngine : CombatEngineBase
                         {
                             void AutoEffectInfluenceDelegate(ICombatant materializedTarget)
                             {
-                                autoDefenseEffect.Influence(materializedTarget, statusContext);
+                                autoDefenseEffect.Influence(materializedTarget, combatMovementContext);
                             }
 
                             var autoDefenseEffectTargets =
