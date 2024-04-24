@@ -40,6 +40,12 @@ internal sealed class GlobeProvider
         _storagePath = Path.Combine(binPath, "CDT", "Mythlanders");
     }
 
+    public GlobeProvider(ICharacterCatalog characterCatalog,
+        IStoryPointInitializer storyPointInitializer,
+        IMonsterPerkCatalog monsterPerkCatalog): this(characterCatalog, storyPointInitializer, monsterPerkCatalog, new GameSettings())
+    {
+    }
+
     public (int Width, int Height)? ChosenUserMonitorResolution { get; set; }
 
     public Globe Globe
