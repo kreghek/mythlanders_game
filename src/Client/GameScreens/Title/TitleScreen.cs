@@ -72,18 +72,7 @@ internal sealed class TitleScreen : GameScreenBase
 
         _buttons = new List<ButtonBase>();
 
-        var loadGameButton = CreateLoadButtonOrNothing();
-        if (loadGameButton is not null)
-        {
-            _buttons.Add(loadGameButton);
-        }
-        else
-        {
-            var startButton = new TitleResourceTextButton(nameof(UiResource.PlayStoryButtonTitle));
-            startButton.OnClick += StartButton_OnClick;
-
-            _buttons.Add(startButton);
-        }
+        MakeStartGameButton();
 
         var freeCombatButton = new TitleResourceTextButton(nameof(UiResource.PlayFreeCombatButtonTitle));
         freeCombatButton.OnClick += FreeCombatButton_OnClick;
@@ -129,6 +118,22 @@ internal sealed class TitleScreen : GameScreenBase
         var bgTexture = _uiContentStorage.GetTitleBackgroundTexture();
         _bgPong = new PongRectangleControl(new Point(bgTexture.Width, bgTexture.Height),
             ResolutionIndependentRenderer.VirtualBounds, new PongRectangleRandomSource(new LinearDice(), 2));
+    }
+
+    private void MakeStartGameButton()
+    {
+        var loadGameButton = CreateLoadButtonOrNothing();
+        if (loadGameButton is not null)
+        {
+            _buttons.Add(loadGameButton);
+        }
+        else
+        {
+            var startButton = new TitleResourceTextButton(nameof(UiResource.PlayStoryButtonTitle));
+            startButton.OnClick += StartButton_OnClick;
+
+            _buttons.Add(startButton);
+        }
     }
 
     public static void StartClearNewGame(GlobeProvider globeProvider, IScreen currentScreen,
@@ -208,6 +213,13 @@ internal sealed class TitleScreen : GameScreenBase
 
     private ButtonBase? CreateLoadButtonOrNothing()
     {
+        if (_gameSettings.Mode == GameMode.Demo)
+        {
+            // Do not store game in demo version.
+            // Looks like game has no saves.
+            return null;
+        }
+        
         if (!_globeProvider.CheckSavesExist())
         {
             return null;
