@@ -148,10 +148,6 @@ p7:
       aftermaths:
         - type: AddHero
           data: Monk
-        - type: AddHero
-          data: Partisan
-        - type: AddHero
-          data: Robber
         - type: UnlockLocation
           data: Monastery
     - text: 'Ратник'
@@ -159,10 +155,6 @@ p7:
       aftermaths:
         - type: AddHero
           data: Swordsman
-        - type: AddHero
-          data: Partisan
-        - type: AddHero
-          data: Robber
         - type: UnlockLocation
           data: Thicket
     - text: 'Спартанец'
@@ -170,10 +162,6 @@ p7:
       aftermaths:
         - type: AddHero
           data: Hoplite
-        - type: AddHero
-          data: Partisan
-        - type: AddHero
-          data: Robber
         - type: UnlockLocation
           data: ShipGraveyard
 
