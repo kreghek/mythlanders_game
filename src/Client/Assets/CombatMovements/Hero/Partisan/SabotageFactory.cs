@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.CombatVisualEffects;
@@ -53,6 +54,14 @@ internal class SabotageFactory : CombatMovementFactoryBase
         )
         {
             Tags = CombatMovementTags.Attack
+        };
+    }
+
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 0), DescriptionKeyValueTemplate.Damage)
         };
     }
 

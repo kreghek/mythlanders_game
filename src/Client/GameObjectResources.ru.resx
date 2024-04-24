@@ -756,7 +756,7 @@
     <comment>Combat movement Monk</comment>
   </data>
   <data name="MasterfulStaffHit_Description" xml:space="preserve">
-    <value>Перемещается в авангард и наносит урон 2 ед. Не тратит энергию, если ранее использовалось это же движение.</value>
+    <value>Перемещается в авангард и наносит &lt;damage&gt; посохом. Не тратит энергию, если ранее использовалось это же движение.</value>
     <comment>Combat movement Monk</comment>
   </data>
   <data name="Medjay" xml:space="preserve">
@@ -796,7 +796,7 @@
     <comment>Combat movement Monk</comment>
   </data>
   <data name="NinthTrigram_Description" xml:space="preserve">
-    <value>Меняется местами с самым сильным союзником по соседству. Триграмма дает 2 ед. обороны монаху и союзнику.</value>
+    <value>Меняется местами с самым сильным союзником по соседству. Триграмма дает &lt;defence&gt; монаху и союзнику.</value>
     <comment>Combat movement Monk</comment>
   </data>
   <data name="NoViolencePlease" xml:space="preserve">
