@@ -2,26 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.Catalogs.DialogueStoring;
-using Client.Assets.StageItems;
 using Client.Core;
-using Client.Core.CampaignEffects;
-using Client.Core.Campaigns;
 using Client.Engine;
-using Client.GameScreens.Combat;
 using Client.GameScreens.Common;
 using Client.GameScreens.PreHistory;
 using Client.ScreenManagement;
 
-using CombatDicesTeam.Combats;
 using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
-using CombatDicesTeam.Graphs;
-
-using Core.PropDrop;
 
 using GameClient.Engine.RectControl;
 

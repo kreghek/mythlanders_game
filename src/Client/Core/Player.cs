@@ -42,8 +42,6 @@ internal sealed class Player
 
     public IReadOnlyList<ILocationSid> CurrentAvailableLocations => _locations.ToArray();
 
-    private PoolGroup<HeroState> _heroes { get; }
-
     public IReadOnlyCollection<HeroState> Heroes => _heroes.Units.ToArray();
 
     public Inventory Inventory { get; }
@@ -54,6 +52,8 @@ internal sealed class Player
 
     public string Name { get; }
     public IStoryState StoryState { get; }
+
+    private PoolGroup<HeroState> _heroes { get; }
 
     public void AddHero(HeroState heroState)
     {
