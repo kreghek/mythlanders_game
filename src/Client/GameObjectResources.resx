@@ -311,6 +311,16 @@
     <value />
     <comment>Equipment</comment>
   </data>
+  <data name="CommonJobCompletePattern" xml:space="preserve">
+    <value>{0}: complete</value>
+  </data>
+  <data name="CommonJobInProgressPattern" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+  </data>
+  <data name="Contempt" xml:space="preserve">
+    <value>Contempt</value>
+    <comment>Combat Movement Hoplite</comment>
+  </data>
   <data name="CorruptedBear" xml:space="preserve">
     <value>Corrupted bear</value>
     <comment>Monster</comment>
@@ -361,6 +371,14 @@
   <data name="DeceptivelyLightRobe" xml:space="preserve">
     <value>Deceptively light robe</value>
     <comment>Equipment</comment>
+  </data>
+  <data name="DefeatAnyEnemies" xml:space="preserve">
+    <value>Defeat any enemies</value>
+    <comment>Job</comment>
+  </data>
+  <data name="DefeatAnyEnemiesDuringCampaign" xml:space="preserve">
+    <value>Defeat any enemies during one campaign</value>
+    <comment>Job</comment>
   </data>
   <data name="Desert" xml:space="preserve">
     <value>Somewhere in the Desert...</value>
@@ -748,7 +766,7 @@
     <comment>Combat movement Monk</comment>
   </data>
   <data name="MasterfulStaffHit_Description" xml:space="preserve">
-    <value />
+    <value>Moves to the vanguard and inflicts &lt;damage&gt; with the staff. Does not waste energy if the same move was previously used.</value>
     <comment>Combat movement Monk</comment>
   </data>
   <data name="Medjay" xml:space="preserve">
@@ -787,7 +805,7 @@
     <comment>Combat movement Monk</comment>
   </data>
   <data name="NinthTrigram_Description" xml:space="preserve">
-    <value />
+    <value>Swaps places with the strongest ally in the neighborhood. The trigram gives &lt;defense&gt; to the monk and the ally.</value>
     <comment>Combat movement Monk</comment>
   </data>
   <data name="NoViolencePlease" xml:space="preserve">
@@ -1158,6 +1176,10 @@
   <data name="WideSwordSlash" xml:space="preserve">
     <value>Wide sword slash</value>
     <comment>Skill</comment>
+  </data>
+  <data name="WinCampaigns" xml:space="preserve">
+    <value>Win any campaigns</value>
+    <comment>Job</comment>
   </data>
   <data name="WindWheel" xml:space="preserve">
     <value>Wind wheel</value>

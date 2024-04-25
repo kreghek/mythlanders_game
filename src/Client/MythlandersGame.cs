@@ -190,7 +190,7 @@ internal sealed class MythlandersGame : Game
         Components.Add(trackNameDisplay);
     }
 
-    private void InitializeResolutionIndependence(ResolutionIndependentRenderer resolutionIndependentRenderer)
+    private static void InitializeResolutionIndependence(ResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         resolutionIndependentRenderer.Initialize();
     }
@@ -215,7 +215,7 @@ internal sealed class MythlandersGame : Game
         }
     }
 
-    private void RegisterCatalogs(BalanceTable balanceTable, DialogueResourceProvider dialogueResourceProvider)
+    private void RegisterCatalogs(BalanceTable balanceTable, IDialogueResourceProvider dialogueResourceProvider)
     {
         if (_gameSettings.Mode == GameMode.Full)
         {
@@ -279,6 +279,7 @@ internal sealed class MythlandersGame : Game
         Services.AddService<IDropResolver>(dropResolver);
 
         var dialogueResourceProvider = new DialogueResourceProvider(Content);
+        Services.AddService<IDialogueResourceProvider>(dialogueResourceProvider);
 
         var balanceTable = new BalanceTable();
 
@@ -293,7 +294,8 @@ internal sealed class MythlandersGame : Game
         Services.AddService(
             new GlobeProvider(Services.GetRequiredService<ICharacterCatalog>(),
                 Services.GetRequiredService<IStoryPointInitializer>(),
-                Services.GetRequiredService<IMonsterPerkCatalog>()));
+                Services.GetRequiredService<IMonsterPerkCatalog>(),
+                _gameSettings));
 
         var monsterPerkManager = new MonsterPerkManager(Services.GetRequiredService<IDice>(),
             Services.GetRequiredService<IMonsterPerkCatalog>(),

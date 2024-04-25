@@ -65,7 +65,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     private IReadOnlyCollection<string> CalculateLockedHeroes()
     {
         return _characterCatalog.AvailableHeroes
-            .Except(_globeProvider.Globe.Player.Heroes.Units.Select(
+            .Except(_globeProvider.Globe.Player.Heroes.Select(
                 x => x.ClassSid))
             .Except(_heroInDev)
             .ToArray();
@@ -222,7 +222,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         {
             var campaignSource = CreateCampaignLocation(locationSid);
 
-            var heroes = RollCampaignHeroes(currentGlobe.Player.Heroes.Units.ToArray(), _dice);
+            var heroes = RollCampaignHeroes(currentGlobe.Player.Heroes.ToArray(), _dice);
 
             var rewards = CreateRewards(locationSid);
             var penalties = CreateFailurePenalties();

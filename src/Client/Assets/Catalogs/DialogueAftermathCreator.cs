@@ -3,7 +3,7 @@ using System.Linq;
 
 using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.Catalogs.DialogueStoring;
-using Client.Assets.DialogueOptionAftermath;
+using Client.Assets.DialogueOptionAftermath.Campaign;
 using Client.Core;
 
 using CombatDicesTeam.Dialogues;
@@ -11,7 +11,8 @@ using CombatDicesTeam.Dices;
 
 namespace Client.Assets.Catalogs;
 
-internal sealed class DialogueAftermathCreator : IDialogueOptionAftermathCreator, IDialogueParagraphEffectCreator
+internal sealed class DialogueAftermathCreator : IDialogueOptionAftermathCreator<CampaignAftermathContext>,
+    IDialogueParagraphEffectCreator<CampaignAftermathContext>
 {
     private readonly IDice _dice;
 
@@ -38,6 +39,7 @@ internal sealed class DialogueAftermathCreator : IDialogueOptionAftermathCreator
             "DamageAllHeroes" => new DamageAllHeroesOptionAftermath(),
             "AddResources" => AddResourceOptionAftermath.CreateFromData(data),
             "RemoveResources" => RemoveResourceOptionAftermath.CreateFromData(data),
+            "UnlockFeature" => UnlockFeatureOptionAftermath.CreateFromData(data),
             _ => throw new InvalidOperationException($"Type {typeSid} is unknown.")
         };
     }

@@ -18,22 +18,22 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.ScreenManagement.Ui.TextEvents;
 
-internal sealed class TextParagraphControl : ControlBase
+internal sealed class TextParagraphControl<TParagraphConditionContext, TAftermathContext> : ControlBase
 {
-    private readonly CampaignAftermathContext _aftermathContext;
+    private readonly TAftermathContext _aftermathContext;
 
     private readonly SpriteFont _displayNameFont;
     private readonly string? _localizedSpeakerName;
-    private readonly TextParagraphMessageControl _message;
+    private readonly TextParagraphMessageControl<TParagraphConditionContext, TAftermathContext> _message;
     private readonly Vector2 _messageSize;
-    private readonly IReadOnlyCollection<IDialogueOptionAftermath<CampaignAftermathContext>> _paragraphAftermaths;
+    private readonly IReadOnlyCollection<IDialogueOptionAftermath<TAftermathContext>> _paragraphAftermaths;
     private readonly IDialogueSpeaker _speaker;
     private readonly Vector2 _speakerDisplayNameSize;
 
     private bool _decorativeAftermathsAreExecuted;
 
-    public TextParagraphControl(DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext> eventTextParagraph,
-        SoundEffect textSoundEffect, IDice dice, CampaignAftermathContext aftermathContext, IStoryState storyState) :
+    public TextParagraphControl(DialogueSpeech<TParagraphConditionContext, TAftermathContext> eventTextParagraph,
+        SoundEffect textSoundEffect, IDice dice, TAftermathContext aftermathContext, IStoryState storyState) :
         base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _displayNameFont = UiThemeManager.UiContentStorage.GetMainFont();
@@ -44,7 +44,8 @@ internal sealed class TextParagraphControl : ControlBase
                            new CharacterRelation(_speaker);
 
         _localizedSpeakerName = GetSpeakerDisplayName(speakerState);
-        _message = new TextParagraphMessageControl(eventTextParagraph, textSoundEffect, dice,
+        _message = new TextParagraphMessageControl<TParagraphConditionContext, TAftermathContext>(eventTextParagraph,
+            textSoundEffect, dice,
             !DialogueSpeakers.Env.Equals(_speaker));
         _paragraphAftermaths = eventTextParagraph.Aftermaths.ToArray();
 

@@ -9,26 +9,24 @@ namespace Client.Assets.Catalogs.Dialogues;
 internal sealed class EventContext : IEventContext
 {
     private readonly Globe _globe;
-    private readonly Player _player;
     private readonly IStoryPointCatalog _storyPointCatalog;
 
-    public EventContext(Globe globe, IStoryPointCatalog storyPointCatalog, Player player,
+    public EventContext(Globe globe, IStoryPointCatalog storyPointCatalog,
         DialogueEvent currentDialogueEvent)
     {
         _globe = globe;
         _storyPointCatalog = storyPointCatalog;
-        _player = player;
 
         CurrentDialogueEvent = currentDialogueEvent;
 
-        CurrentHeroes = player.Heroes.Units.Select(x => x.ClassSid).ToArray();
+        CurrentHeroes = _globe.Player.Heroes.Select(x => x.ClassSid).ToArray();
     }
 
     public DialogueEvent CurrentDialogueEvent { get; }
 
     public void AddNewHero(string heroSid)
     {
-        _globe.Player.Heroes.AddNewUnit(HeroState.Create(heroSid));
+        _globe.Player.AddHero(HeroState.Create(heroSid));
     }
 
     public void AddNewGlobalEvent(IGlobeEvent globalEvent)
