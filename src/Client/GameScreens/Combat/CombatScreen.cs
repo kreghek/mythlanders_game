@@ -734,8 +734,12 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             RestoreGroupAfterCombat();
 
-            _currentCampaign.CompleteCurrentStage();
-            _currentCampaign.FailCampaign(_globe, _jobProgressResolver);
+            // Retry failed combats in the tutorial
+            if (_globe.Features.HasFeature(GameFeatures.Campaigns))
+            {
+                _currentCampaign.CompleteCurrentStage();
+                _currentCampaign.FailCampaign(_globe, _jobProgressResolver);
+            }
 
             _coordinator.MakeCombatFailureTransition(this, _currentCampaign);
         }
