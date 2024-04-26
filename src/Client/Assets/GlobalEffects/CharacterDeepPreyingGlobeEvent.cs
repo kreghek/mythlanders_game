@@ -26,7 +26,7 @@ internal sealed class CharacterDeepPreyingGlobeEvent : IGlobeEvent
 
     public void Start(Globe globe)
     {
-        foreach (var heroState in globe.Player.Heroes.Units)
+        foreach (var heroState in globe.Player.Heroes)
         {
             if (heroState.ClassSid == _name.ToString())
             {
@@ -37,7 +37,7 @@ internal sealed class CharacterDeepPreyingGlobeEvent : IGlobeEvent
 
     public void Finish(Globe globe)
     {
-        foreach (var heroState in globe.Player.Heroes.Units)
+        foreach (var heroState in globe.Player.Heroes)
         {
             if (heroState.ClassSid == _name.ToString())
             {

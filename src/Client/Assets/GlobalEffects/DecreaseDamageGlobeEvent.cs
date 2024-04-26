@@ -25,7 +25,7 @@ internal sealed class DecreaseDamageGlobeEvent : IGlobeEvent
 
     public void Start(Globe globe)
     {
-        foreach (var hero in globe.Player.Heroes.Units)
+        foreach (var hero in globe.Player.Heroes)
         {
             var statusFactory = new CombatStatusFactory(source =>
                 new ModifyEffectsCombatantStatus(new CombatantStatusSid(TitleSid),
@@ -36,7 +36,7 @@ internal sealed class DecreaseDamageGlobeEvent : IGlobeEvent
 
     public void Finish(Globe globe)
     {
-        foreach (var hero in globe.Player.Heroes.Units)
+        foreach (var hero in globe.Player.Heroes)
         {
             hero.RemoveCombatStatus(TitleSid);
         }
