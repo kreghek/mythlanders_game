@@ -2,11 +2,10 @@
 
 namespace Client.Core;
 
-internal interface IGlobeEvent: IDisplayableJobExecutable
+internal interface IGlobeEvent : IDisplayableJobExecutable
 {
-    void Start(Globe globe);
+    IReadOnlyCollection<IJob> ExpirationConditions { get; }
 
     void Finish(Globe globe);
-
-    IReadOnlyCollection<IJob> ExpirationConditions { get; }
+    void Start(Globe globe);
 }

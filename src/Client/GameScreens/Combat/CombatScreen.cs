@@ -427,26 +427,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         _gameObjects.Add(gameObject);
     }
 
-    private void CombatCore_CombatantHasBeenDefeated(object? sender, CombatantDefeatedEventArgs e)
-    {
-        if (!e.Combatant.IsPlayerControlled)
-        {
-            CountDefeat();
-        }
-
-        var combatantGameObject = GetCombatantGameObjectOrDefault(e.Combatant);
-        if (combatantGameObject is null)
-        {
-            return;
-        }
-
-        var corpse =
-            combatantGameObject.CreateCorpse(_gameObjectContentStorage, _visualEffectManager, new AudioSettings());
-        _corpseObjects.Add(corpse);
-
-        _gameObjects.Remove(combatantGameObject);
-    }
-
     private void CombatCore_CombatantEndsTurn(object? sender, CombatantEndsTurnEventArgs e)
     {
         DropSelection(e.Combatant);
@@ -543,6 +523,26 @@ internal class CombatScreen : GameScreenWithMenuBase
                 AddHitShaking();
             }
         }
+    }
+
+    private void CombatCore_CombatantHasBeenDefeated(object? sender, CombatantDefeatedEventArgs e)
+    {
+        if (!e.Combatant.IsPlayerControlled)
+        {
+            CountDefeat();
+        }
+
+        var combatantGameObject = GetCombatantGameObjectOrDefault(e.Combatant);
+        if (combatantGameObject is null)
+        {
+            return;
+        }
+
+        var corpse =
+            combatantGameObject.CreateCorpse(_gameObjectContentStorage, _visualEffectManager, new AudioSettings());
+        _corpseObjects.Add(corpse);
+
+        _gameObjects.Remove(combatantGameObject);
     }
 
     private void CombatCore_CombatantHasChangePosition(object? sender, CombatantHasChangedPositionEventArgs e)
@@ -761,7 +761,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void CountCombatFinished()
     {
         var progress = new CombatCompleteJobProgress();
-        
+
         foreach (var storyPoint in _globe.GetCurrentJobExecutables())
         {
             _jobProgressResolver.ApplyProgress(progress, storyPoint);

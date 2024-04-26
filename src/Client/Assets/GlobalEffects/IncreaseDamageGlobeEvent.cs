@@ -20,8 +20,9 @@ internal sealed class IncreaseDamageGlobeEvent : IGlobeEvent
                 "WinCampaigns", "CommonJobInProgressPattern", "CommonJobCompletePattern")
         };
     }
-    
+
     public string TitleSid => "IncreaseDamage";
+
     public void Start(Globe globe)
     {
         foreach (var hero in globe.Player.Heroes.Units)
@@ -44,10 +45,10 @@ internal sealed class IncreaseDamageGlobeEvent : IGlobeEvent
     public IReadOnlyCollection<IJob> ExpirationConditions { get; }
     public IReadOnlyCollection<IJob>? CurrentJobs => ExpirationConditions;
     public bool IsComplete => ExpirationConditions.All(x => x.IsComplete);
+
     public void HandleCompletion()
     {
-        
     }
-    
+
     public int Order { get; } = 1;
 }

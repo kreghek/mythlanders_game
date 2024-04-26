@@ -13,7 +13,7 @@ internal sealed class CharacterDeepPreyingGlobeEvent : IGlobeEvent
     public CharacterDeepPreyingGlobeEvent(UnitName name)
     {
         _name = name;
-        
+
         ExpirationConditions = new[]
         {
             new Job(new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.WinCampaigns, new JobGoalValue(2)),
@@ -47,11 +47,11 @@ internal sealed class CharacterDeepPreyingGlobeEvent : IGlobeEvent
     }
 
     public IReadOnlyCollection<IJob> ExpirationConditions { get; }
-    
+
     public IReadOnlyCollection<IJob>? CurrentJobs => ExpirationConditions;
     public bool IsComplete => ExpirationConditions.All(x => x.IsComplete);
+
     public void HandleCompletion()
     {
-        
     }
 }
