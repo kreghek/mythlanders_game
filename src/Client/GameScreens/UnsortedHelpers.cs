@@ -10,14 +10,6 @@ namespace Client.GameScreens;
 
 internal static class UnsortedHelpers
 {
-    public static IReadOnlyCollection<Tuple<UnitName, GlobeRule>> GetCharacterDisablingMap()
-    {
-        return new[]
-        {
-            new Tuple<UnitName, GlobeRule>(UnitName.Swordsman, GlobeRule.DisableBerimir)
-        };
-    }
-
     public static IReadOnlyList<float> GetCombatSequenceXpBonuses()
     {
         return new[] { 1f, 1f, 1.25f, 1.25f, 1.5f };

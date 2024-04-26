@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-
-using CombatDicesTeam.Combats;
+﻿using System.Collections.Generic;
 
 namespace Client.Core;
 
 internal interface IGlobeEvent
 {
-    int CombatsLeft { get; }
-    bool IsActive { get; }
-    string Title { get; }
+    string TitleSid { get; }
 
-    IReadOnlyCollection<IEffect> CreateCombatBeginningEffects()
-    {
-        return Array.Empty<IEffect>();
-    }
+    void Start(Globe globe);
 
-    IReadOnlyList<GlobeRule> GetRules();
-    void Initialize(Globe globe);
-    void Update();
+    void Finish(Globe globe);
+
+    IReadOnlyCollection<IJob> ExpirationConditions { get; }
 }
