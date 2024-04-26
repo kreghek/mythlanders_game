@@ -25,7 +25,7 @@ internal sealed class ResultModal : ModalDialogBase
     private readonly Texture2D _flagTexture;
     private double _iterationCounter;
 
-    protected override ModalTopSymbol? TopSymbol => ModalTopSymbol.CombatResult;
+    protected override ModalTopSymbol? TopSymbol => CombatResult == ResultDecoration.Victory ? ModalTopSymbol.CombatResultVictory : ModalTopSymbol.CombatResultDefeat;
 
     public ResultModal(IUiContentStorage uiContentStorage,
         IResolutionIndependentRenderer resolutionIndependentRenderer,
@@ -48,7 +48,7 @@ internal sealed class ResultModal : ModalDialogBase
             drawers
         );
 
-        _flagAnimation = new LinearAnimationFrameSet(Enumerable.Range(0, 8).ToArray(), 12, 41, 205, 4) { IsLooping = true };
+        _flagAnimation = new LinearAnimationFrameSet(Enumerable.Range(0, 8).ToArray(), 8, flagTexture.Width / 4, flagTexture.Height / 2, 4) { IsLooping = true };
     }
 
     internal ResultDecoration CombatResult { get; }

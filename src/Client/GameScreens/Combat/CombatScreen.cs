@@ -1540,7 +1540,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 ResolutionIndependentRenderer,
                 ResultDecoration.Defeat,
                 _currentCampaign.ActualFailurePenalties,
-                Game.Content.Load<Texture2D>("Sprites/Ui/VictoryFlags_41x205"),
+                Game.Content.Load<Texture2D>("Sprites/Ui/DefeatFlags_41x201"),
                 CreateDrawers());
 
             combatResultModal.Closed += (_, _) =>

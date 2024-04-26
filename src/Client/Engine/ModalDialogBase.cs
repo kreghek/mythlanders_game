@@ -108,7 +108,8 @@ internal abstract class ModalDialogBase : IModalWindow
         return symbol switch
         {
             ModalTopSymbol.Gears => 1,
-            ModalTopSymbol.CombatResult => 2,
+            ModalTopSymbol.CombatResultVictory => 2,
+            ModalTopSymbol.CombatResultDefeat => 3,
             _ => 1
         };
     }
