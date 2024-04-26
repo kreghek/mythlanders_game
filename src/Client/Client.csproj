@@ -174,16 +174,4 @@
     <Target Name="CopySteamAppIdOnPublish" AfterTargets="Publish" Condition=" '$(Configuration)' == 'Debug' ">
         <Copy SourceFiles="..\..\integration\Steam\steam_appid.txt" DestinationFolder="$(PublishDir)" />
     </Target>
-    <ItemGroup>
-      <NPLContentReferences Remove="GameScreens\CampaignReward\Ui\**" />
-    </ItemGroup>
-    <ItemGroup>
-      <MGCBContentReferences Remove="GameScreens\CampaignReward\Ui\**" />
-    </ItemGroup>
-    <ItemGroup>
-      <NPLContentReferences Remove="GameScreens\Combat\Ui\CombatResultModalModels\**" />
-    </ItemGroup>
-    <ItemGroup>
-      <MGCBContentReferences Remove="GameScreens\Combat\Ui\CombatResultModalModels\**" />
-    </ItemGroup>
 </Project>
