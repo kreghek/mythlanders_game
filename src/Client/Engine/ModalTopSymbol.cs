@@ -2,5 +2,7 @@
 
 internal enum ModalTopSymbol
 {
-    Gears
+    Gears,
+    CombatResultVictory,
+    CombatResultDefeat
 }
