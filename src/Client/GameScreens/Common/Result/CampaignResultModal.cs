@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using Client.Core.CampaignEffects;
 using Client.Engine;
 using Client.GameScreens.CampaignReward.Ui;
-using Client.GameScreens.Combat;
-using Client.GameScreens.Combat.Ui;
 using Client.GameScreens.Common.CampaignResult;
 
 using CombatDicesTeam.Engine.Ui;

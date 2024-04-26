@@ -1514,7 +1514,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             var rewardItems = CalculateRewardGaining(droppedResources);
 
-            ApplyCombatReward(droppedResources, _globe.Player);
             HandleGlobe(ResultDecoration.Victory);
 
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
@@ -1527,6 +1526,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                 ResultDecoration.Victory,
                 rewardItems,
                 CreateDrawers());
+
+            ApplyCombatReward(droppedResources, _globe.Player);
         }
         else
         {
