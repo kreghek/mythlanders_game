@@ -427,7 +427,7 @@ internal class CombatScreen : GameScreenWithMenuBase
         _gameObjects.Add(gameObject);
     }
 
-    private void CombatCode_CombatantHasBeenDefeated(object? sender, CombatantDefeatedEventArgs e)
+    private void CombatCore_CombatantHasBeenDefeated(object? sender, CombatantDefeatedEventArgs e)
     {
         if (!e.Combatant.IsPlayerControlled)
         {
@@ -761,8 +761,8 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void CountCombatFinished()
     {
         var progress = new CombatCompleteJobProgress();
-        var activeStoryPointsSnapshotList = _globe.ActiveStoryPoints.ToArray();
-        foreach (var storyPoint in activeStoryPointsSnapshotList)
+        
+        foreach (var storyPoint in _globe.GetCurrentJobExecutables())
         {
             _jobProgressResolver.ApplyProgress(progress, storyPoint);
         }
@@ -1439,7 +1439,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void InitializeCombat()
     {
         _combatCore.CombatantHasBeenAdded += CombatCode_CombatantHasBeenAdded;
-        _combatCore.CombatantHasBeenDefeated += CombatCode_CombatantHasBeenDefeated;
+        _combatCore.CombatantHasBeenDefeated += CombatCore_CombatantHasBeenDefeated;
         _combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
         _combatCore.CombatantStartsTurn += CombatCore_CombatantStartsTurn;
         _combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;

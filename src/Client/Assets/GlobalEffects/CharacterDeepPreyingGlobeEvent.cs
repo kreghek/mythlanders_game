@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using Client.Assets.StoryPointJobs;
 using Client.Core;
@@ -44,4 +45,11 @@ internal sealed class CharacterDeepPreyingGlobeEvent : IGlobeEvent
     }
 
     public IReadOnlyCollection<IJob> ExpirationConditions { get; }
+    
+    public IReadOnlyCollection<IJob>? CurrentJobs => ExpirationConditions;
+    public bool IsComplete => ExpirationConditions.All(x => x.IsComplete);
+    public void HandleCompletion()
+    {
+        
+    }
 }

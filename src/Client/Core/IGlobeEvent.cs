@@ -2,7 +2,7 @@
 
 namespace Client.Core;
 
-internal interface IGlobeEvent
+internal interface IGlobeEvent: IJobExecutable
 {
     string TitleSid { get; }
 

@@ -64,6 +64,11 @@ internal sealed class Globe
         {
             yield return Player.Challenge;
         }
+
+        foreach (var globeEvent in _globeEvents)
+        {
+            yield return globeEvent;
+        }
     }
 
     public void ResetCombatScopeJobsProgress()
