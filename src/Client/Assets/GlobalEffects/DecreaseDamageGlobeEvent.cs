@@ -49,4 +49,6 @@ internal sealed class DecreaseDamageGlobeEvent : IGlobeEvent
     {
         
     }
+    
+    public int Order { get; } = 1;
 }

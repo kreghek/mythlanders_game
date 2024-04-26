@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.StoryPointJobs;
@@ -49,4 +48,6 @@ internal sealed class IncreaseDamageGlobeEvent : IGlobeEvent
     {
         
     }
+    
+    public int Order { get; } = 1;
 }

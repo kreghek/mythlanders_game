@@ -2,10 +2,8 @@
 
 namespace Client.Core;
 
-internal interface IGlobeEvent: IJobExecutable
+internal interface IGlobeEvent: IDisplayableJobExecutable
 {
-    string TitleSid { get; }
-
     void Start(Globe globe);
 
     void Finish(Globe globe);

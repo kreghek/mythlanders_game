@@ -22,6 +22,8 @@ internal sealed class CharacterDeepPreyingGlobeEvent : IGlobeEvent
     }
 
     public string TitleSid => string.Format(GameObjectResources.CharacterDeepPreyingTitleTemplate, _name);
+    public int Order { get; } = 1;
+
     public void Start(Globe globe)
     {
         foreach (var heroState in globe.Player.Heroes.Units)
