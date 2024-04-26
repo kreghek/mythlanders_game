@@ -295,10 +295,6 @@
     <value>Monster danger increased to {0}</value>
     <comment>Увеличиение уровня всех монстров.</comment>
   </data>
-  <data name="CombatResultNextText" xml:space="preserve">
-    <value>Next combat...</value>
-    <comment>Выводится в окне результатов между боями</comment>
-  </data>
   <data name="CombatResultVictoryText" xml:space="preserve">
     <value>Victory!</value>
     <comment>Выводится в окне результатов боя.</comment>

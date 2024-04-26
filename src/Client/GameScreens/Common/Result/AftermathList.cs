@@ -4,7 +4,7 @@ using System.Linq;
 
 using Client.Core;
 using Client.Engine;
-using Client.GameScreens.Combat.Ui.CombatResultModalModels;
+using Client.GameScreens.Common.Result;
 
 using CombatDicesTeam.Engine.Ui;
 
@@ -13,18 +13,18 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Combat.Ui;
 
-internal class CombatRewardList : ControlBase
+internal class AftermathList : ControlBase
 {
     private const int MARGIN = 5;
     private readonly Texture2D _rewardIconsTexture;
 
-    private readonly IReadOnlyCollection<AnimatedCountableUnitItemStat> _rewardItems;
+    private readonly IReadOnlyCollection<AnimatedCountableResource> _rewardItems;
     private readonly SpriteFont _textFont;
     private readonly SpriteFont _titleFont;
 
-    public CombatRewardList(
+    public AftermathList(
         Texture2D propIconsTexture,
-        IReadOnlyCollection<AnimatedCountableUnitItemStat> rewardItems) : base(UiThemeManager.UiContentStorage
+        IReadOnlyCollection<AnimatedCountableResource> rewardItems) : base(UiThemeManager.UiContentStorage
         .GetControlBackgroundTexture())
     {
         _titleFont = UiThemeManager.UiContentStorage.GetTitlesFont();
@@ -68,7 +68,7 @@ internal class CombatRewardList : ControlBase
         DrawRewardList(spriteBatch, _rewardItems.ToArray(), listRect);
     }
 
-    private void DrawRewardList(SpriteBatch spriteBatch, AnimatedCountableUnitItemStat[] rewardItems,
+    private void DrawRewardList(SpriteBatch spriteBatch, AnimatedCountableResource[] rewardItems,
         Rectangle contentRectangle)
     {
         const int TITLE_OFFSET = 20; // Title here is the label "Found items"

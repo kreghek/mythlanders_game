@@ -8,6 +8,7 @@ using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.CampaignReward.Ui;
 using Client.GameScreens.CommandCenter;
+using Client.GameScreens.Common.Result;
 using Client.ScreenManagement;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -71,7 +72,9 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
         _rewardPanel = new RewardPanel(_rewards, panelHeaderTexture, _uiContent.GetTitlesFont(),
             _uiContent.GetTitlesFont(), new ICampaignRewardImageDrawer[]
             {
-                new PropCampaignRewardImageDrawer(Game.Content.Load<Texture2D>("Sprites/GameObjects/EquipmentIcons")),
+                new PropCampaignRewardImageDrawer(Game.Content.Load<Texture2D>("Sprites/GameObjects/EquipmentIcons"),
+                    _uiContent.GetMainFont(),
+                    _globeProvider.Globe.Player.Inventory),
                 new LocationCampaignRewardImageDrawer(Game.Content),
                 new HeroCampaignRewardImageDrawer(Game.Content,
                     Game.Services.GetRequiredService<ICombatantGraphicsCatalog>())

@@ -9,10 +9,12 @@ namespace Client.Core.CampaignEffects;
 
 internal sealed class ResourceCampaignEffect : ICampaignEffect
 {
+    public IEnumerable<IProp> Resources { get; }
     private readonly IReadOnlyCollection<IProp> _resources;
 
     public ResourceCampaignEffect(IEnumerable<IProp> resources)
     {
+        Resources = resources;
         _resources = resources.ToArray();
     }
 

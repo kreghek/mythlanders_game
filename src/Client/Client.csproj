@@ -163,6 +163,8 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Assets\CombatMovements\Monster\Egyptian" />
+      <Folder Include="GameScreens\CampaignReward\Ui" />
+      <Folder Include="GameScreens\Combat\Ui\CombatResultModalModels" />
     </ItemGroup>
 
     <Target Name="CopySteamApiOnBuild" AfterTargets="AfterBuild">

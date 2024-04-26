@@ -1,10 +1,11 @@
 using System;
 
 using Client.Core;
+using Client.GameScreens.Combat;
 
-namespace Client.GameScreens.Combat.Ui.CombatResultModalModels;
+namespace Client.GameScreens.Common.Result;
 
-internal sealed class AnimatedCountableUnitItemStat
+internal sealed class AnimatedCountableResource
 {
     private const int MINIMAL_COUNTER_SPEED = 2;
     private const int MINIMAL_COUNTER_THRESHOLD = 100;
@@ -13,7 +14,7 @@ internal sealed class AnimatedCountableUnitItemStat
 
     private int _countedValue;
 
-    public AnimatedCountableUnitItemStat(ResourceReward item)
+    public AnimatedCountableResource(ResourceReward item)
     {
         Amount = item.Amount;
         CurrentValue = item.StartValue;

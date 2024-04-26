@@ -20,6 +20,8 @@ using Client.GameScreens.Combat.Tutorial;
 using Client.GameScreens.Combat.Ui;
 using Client.GameScreens.CommandCenter;
 using Client.GameScreens.Common;
+using Client.GameScreens.Common.CampaignResult;
+using Client.GameScreens.Common.Result;
 using Client.ScreenManagement;
 
 using CombatDicesTeam.Combats;
@@ -681,9 +683,9 @@ internal class CombatScreen : GameScreenWithMenuBase
             throw new InvalidOperationException("Handler must be assigned to object instance instead static.");
         }
 
-        var combatResultModal = (CombatResultModal)sender;
+        var combatResultModal = (ResultModal)sender;
 
-        if (combatResultModal.CombatResult is CombatResult.Victory or CombatResult.NextCombat)
+        if (combatResultModal.CombatResult is ResultDecoration.Victory)
         {
             var nextCombatIndex = _args.CurrentCombatIndex + 1;
             var areAllCombatsWon = nextCombatIndex >= _args.CombatSequence.Combats.Count;
@@ -730,7 +732,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 }
             }
         }
-        else if (combatResultModal.CombatResult == CombatResult.Defeat)
+        else if (combatResultModal.CombatResult == ResultDecoration.Defeat)
         {
             RestoreGroupAfterCombat();
 
@@ -1404,18 +1406,18 @@ internal class CombatScreen : GameScreenWithMenuBase
         return 0;
     }
 
-    private void HandleGlobe(CombatResult result)
+    private void HandleGlobe(ResultDecoration result)
     {
         _bossWasDefeat = false;
         _finalBossWasDefeat = false;
 
         switch (result)
         {
-            case CombatResult.Victory:
+            case ResultDecoration.Victory:
                 HandleGlobeVictoryResult();
                 break;
 
-            case CombatResult.Defeat:
+            case ResultDecoration.Defeat:
                 HandleGlobeDefeatResult();
                 break;
 
@@ -1516,59 +1518,39 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private void ShowCombatResultModal(bool isVictory)
     {
-        CombatResultModal combatResultModal;
+        ResultModal combatResultModal;
 
         if (isVictory)
         {
-            var isAllCombatSequenceComplete = true;
-            if (isAllCombatSequenceComplete)
-            {
-                // End the combat sequence
-                var droppedResources = _dropResolver.Resolve(_args.CombatSequence.Combats[0].Reward.DropTables);
+            var droppedResources = _dropResolver.Resolve(_args.CombatSequence.Combats[0].Reward.DropTables);
 
-                var rewardItems = CalculateRewardGaining(droppedResources);
+            var rewardItems = CalculateRewardGaining(droppedResources);
 
-                ApplyCombatReward(droppedResources, _globe.Player);
-                HandleGlobe(CombatResult.Victory);
+            ApplyCombatReward(droppedResources, _globe.Player);
+            HandleGlobe(ResultDecoration.Victory);
 
-                var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
-                soundtrackManager.PlayVictoryTrack();
+            var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+            soundtrackManager.PlayVictoryTrack();
 
-                combatResultModal = new CombatResultModal(
-                    _uiContentStorage,
-                    _gameObjectContentStorage,
-                    ResolutionIndependentRenderer,
-                    CombatResult.Victory,
-                    rewardItems);
-            }
-            else
-            {
-                // Next combat
-
-                combatResultModal = new CombatResultModal(
-                    _uiContentStorage,
-                    _gameObjectContentStorage,
-                    ResolutionIndependentRenderer,
-                    CombatResult.NextCombat,
-                    new CombatRewards
-                    {
-                        BiomeProgress = new ResourceReward(),
-                        InventoryRewards = Array.Empty<ResourceReward>()
-                    });
-            }
+            combatResultModal = new ResultModal(
+                _uiContentStorage,
+                _gameObjectContentStorage,
+                ResolutionIndependentRenderer,
+                ResultDecoration.Victory,
+                rewardItems);
         }
         else
         {
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             soundtrackManager.PlayDefeatTrack();
 
-            HandleGlobe(CombatResult.Defeat);
+            HandleGlobe(ResultDecoration.Defeat);
 
-            combatResultModal = new CombatResultModal(
+            combatResultModal = new ResultModal(
                 _uiContentStorage,
                 _gameObjectContentStorage,
                 ResolutionIndependentRenderer,
-                CombatResult.Defeat,
+                ResultDecoration.Defeat,
                 new CombatRewards
                 {
                     BiomeProgress = new ResourceReward

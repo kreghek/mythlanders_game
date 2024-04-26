@@ -1,30 +1,31 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 
 using Client.Engine;
-using Client.GameScreens.Combat.Ui.CombatResultModalModels;
+using Client.GameScreens.Combat;
+using Client.GameScreens.Combat.Ui;
+using Client.GameScreens.Common.CampaignResult;
+
+using CombatDicesTeam.Engine.Ui;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.GameScreens.Combat.Ui;
+namespace Client.GameScreens.Common.Result;
 
-internal sealed class CombatResultModal : ModalDialogBase
+internal sealed class ResultModal : ModalDialogBase
 {
-    private const int MARGIN = 5;
-
     private readonly ButtonBase _closeButton;
-    private readonly CombatRewardList _combatRewardList;
+    private readonly AftermathList _combatRewardList;
 
     private readonly CombatResultTitle _title;
 
     private double _iterationCounter;
 
-    public CombatResultModal(IUiContentStorage uiContentStorage,
+    public ResultModal(IUiContentStorage uiContentStorage,
         GameObjectContentStorage gameObjectContentStorage,
         IResolutionIndependentRenderer resolutionIndependentRenderer,
-        CombatResult combatResult,
+        ResultDecoration combatResult,
         CombatRewards combatRewards) : base(uiContentStorage, resolutionIndependentRenderer)
     {
         CombatResult = combatResult;
@@ -33,41 +34,29 @@ internal sealed class CombatResultModal : ModalDialogBase
 
         _title = new CombatResultTitle(combatResult);
 
-        var resourceRewards = combatRewards.InventoryRewards.Select(x => new AnimatedCountableUnitItemStat(x))
+        var resourceRewards = combatRewards.InventoryRewards.Select(x => new AnimatedCountableResource(x))
             .ToArray();
 
-        _combatRewardList = new CombatRewardList(
+        _combatRewardList = new AftermathList(
             gameObjectContentStorage.GetEquipmentIcons(),
             resourceRewards
         );
     }
 
-    internal CombatResult CombatResult { get; }
+    internal ResultDecoration CombatResult { get; }
 
     protected override void DrawContent(SpriteBatch spriteBatch)
     {
         _title.Rect = new Rectangle(ContentRect.Location, new Point(ContentRect.Width, 50));
         _title.Draw(spriteBatch);
 
-        var benefitsPosition = new Vector2(ContentRect.Location.X + MARGIN, _title.Rect.Bottom + MARGIN);
+        var benefitsPosition = new Vector2(
+            ContentRect.Location.X + ControlBase.CONTENT_MARGIN,
+            _title.Rect.Bottom + ControlBase.CONTENT_MARGIN);
         var benefitsRect = new Rectangle(benefitsPosition.ToPoint(),
-            new Point(ContentRect.Width, ContentRect.Height - _title.Rect.Height - MARGIN));
+            new Point(ContentRect.Width, ContentRect.Height - _title.Rect.Height - ControlBase.CONTENT_MARGIN));
 
-        switch (CombatResult)
-        {
-            case CombatResult.Victory:
-                DrawVictoryBenefits(spriteBatch, benefitsRect);
-                break;
-            case CombatResult.NextCombat:
-                // Draw nothing
-                break;
-            case CombatResult.Defeat:
-                DrawDefeatBenefits(spriteBatch, benefitsRect);
-                break;
-            default:
-                Debug.Fail("Unknown combat result.");
-                break;
-        }
+        DrawVictoryAftermaths(spriteBatch, benefitsRect);
 
         _closeButton.Rect = new Rectangle(ContentRect.Center.X - 50, ContentRect.Bottom - 25, 100, 20);
         _closeButton.Draw(spriteBatch);
@@ -94,12 +83,7 @@ internal sealed class CombatResultModal : ModalDialogBase
         Close();
     }
 
-    private void DrawDefeatBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)
-    {
-
-    }
-
-    private void DrawVictoryBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)
+    private void DrawVictoryAftermaths(SpriteBatch spriteBatch, Rectangle benefitsRect)
     {
         _combatRewardList.Rect = benefitsRect;
         _combatRewardList.Draw(spriteBatch);
