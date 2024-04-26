@@ -21,12 +21,18 @@
         <Compile Remove="Assets\DialogueEventEnviroment\**" />
         <Compile Remove="Content\bin\**" />
         <Compile Remove="Content\obj\**" />
+        <Compile Remove="GameScreens\CampaignReward\Ui\**" />
+        <Compile Remove="GameScreens\Combat\Ui\CombatResultModalModels\**" />
         <EmbeddedResource Remove="Assets\DialogueEventEnviroment\**" />
         <EmbeddedResource Remove="Content\bin\**" />
         <EmbeddedResource Remove="Content\obj\**" />
+        <EmbeddedResource Remove="GameScreens\CampaignReward\Ui\**" />
+        <EmbeddedResource Remove="GameScreens\Combat\Ui\CombatResultModalModels\**" />
         <None Remove="Assets\DialogueEventEnviroment\**" />
         <None Remove="Content\bin\**" />
         <None Remove="Content\obj\**" />
+        <None Remove="GameScreens\CampaignReward\Ui\**" />
+        <None Remove="GameScreens\Combat\Ui\CombatResultModalModels\**" />
     </ItemGroup>
     <ItemGroup>
         <Reference Include="Steamworks.NET">
@@ -163,8 +169,6 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Assets\CombatMovements\Monster\Egyptian" />
-      <Folder Include="GameScreens\CampaignReward\Ui" />
-      <Folder Include="GameScreens\Combat\Ui\CombatResultModalModels" />
     </ItemGroup>
 
     <Target Name="CopySteamApiOnBuild" AfterTargets="AfterBuild">
@@ -179,4 +183,16 @@
     <Target Name="CopySteamAppIdOnPublish" AfterTargets="Publish" Condition=" '$(Configuration)' == 'Debug' ">
         <Copy SourceFiles="..\..\integration\Steam\steam_appid.txt" DestinationFolder="$(PublishDir)" />
     </Target>
+    <ItemGroup>
+      <NPLContentReferences Remove="GameScreens\CampaignReward\Ui\**" />
+    </ItemGroup>
+    <ItemGroup>
+      <MGCBContentReferences Remove="GameScreens\CampaignReward\Ui\**" />
+    </ItemGroup>
+    <ItemGroup>
+      <NPLContentReferences Remove="GameScreens\Combat\Ui\CombatResultModalModels\**" />
+    </ItemGroup>
+    <ItemGroup>
+      <MGCBContentReferences Remove="GameScreens\Combat\Ui\CombatResultModalModels\**" />
+    </ItemGroup>
 </Project>
