@@ -10,17 +10,15 @@ namespace Client.Core.CampaignEffects;
 internal sealed class ResourceCampaignEffect : ICampaignEffect
 {
     public IEnumerable<IProp> Resources { get; }
-    private readonly IReadOnlyCollection<IProp> _resources;
 
     public ResourceCampaignEffect(IEnumerable<IProp> resources)
     {
         Resources = resources;
-        _resources = resources.ToArray();
     }
 
     public void Apply(Globe globe)
     {
-        foreach (var resource in _resources)
+        foreach (var resource in Resources)
         {
             globe.Player.Inventory.Add(resource);
         }
@@ -28,6 +26,6 @@ internal sealed class ResourceCampaignEffect : ICampaignEffect
 
     public string GetEffectDisplayText()
     {
-        return string.Join(", ", _resources.Select(x => GameObjectHelper.GetLocalizedProp(x.Scheme.Sid)));
+        return string.Join(", ", Resources.Select(x => GameObjectHelper.GetLocalizedProp(x.Scheme.Sid)));
     }
 }

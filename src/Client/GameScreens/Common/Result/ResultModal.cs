@@ -18,12 +18,11 @@ internal sealed class ResultModal : ModalDialogBase
     private readonly ButtonBase _closeButton;
     private readonly RewardPanel _combatRewardList;
 
-    private readonly CombatResultTitle _title;
+    private readonly ResultModalTitle _title;
 
     private double _iterationCounter;
 
     public ResultModal(IUiContentStorage uiContentStorage,
-        GameObjectContentStorage gameObjectContentStorage,
         IResolutionIndependentRenderer resolutionIndependentRenderer,
         ResultDecoration combatResult,
         IReadOnlyCollection<ICampaignEffect> rewards,
@@ -33,7 +32,7 @@ internal sealed class ResultModal : ModalDialogBase
         _closeButton = new ResourceTextButton(nameof(UiResource.CloseButtonTitle));
         _closeButton.OnClick += CloseButton_OnClick;
 
-        _title = new CombatResultTitle(combatResult);
+        _title = new ResultModalTitle(combatResult);
 
         _combatRewardList = new RewardPanel(rewards,
             uiContentStorage.GetCombatSkillPanelTexture(),

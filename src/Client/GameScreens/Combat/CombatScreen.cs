@@ -1514,7 +1514,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             combatResultModal = new ResultModal(
                 _uiContentStorage,
-                _gameObjectContentStorage,
                 ResolutionIndependentRenderer,
                 ResultDecoration.Victory,
                 rewardItems,
@@ -1537,7 +1536,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             combatResultModal = new ResultModal(
                 _uiContentStorage,
-                _gameObjectContentStorage,
                 ResolutionIndependentRenderer,
                 ResultDecoration.Defeat,
                 _currentCampaign.ActualFailurePenalties,

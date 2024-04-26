@@ -1,7 +1,6 @@
 using System;
 
 using Client.Core;
-using Client.GameScreens.Combat;
 
 namespace Client.GameScreens.Common.Result;
 

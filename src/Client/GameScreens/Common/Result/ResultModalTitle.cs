@@ -10,12 +10,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Common.Result;
 
-internal sealed class CombatResultTitle : ControlBase
+internal sealed class ResultModalTitle : ControlBase
 {
     private readonly ResultDecoration _combatResult;
     private readonly SpriteFont _titleFont;
 
-    public CombatResultTitle(ResultDecoration combatResult) : base(UiThemeManager.UiContentStorage
+    public ResultModalTitle(ResultDecoration combatResult) : base(UiThemeManager.UiContentStorage
         .GetControlBackgroundTexture())
     {
         _titleFont = UiThemeManager.UiContentStorage.GetTitlesFont();

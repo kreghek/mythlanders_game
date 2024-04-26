@@ -59,7 +59,7 @@ internal class ScenarioCampaigns
                                     "Wound"
                                 )
                             })
-                    }, new CombatReward(new[]{new DropTableScheme("combat-xp", new IDropTableRecordSubScheme[]{new DropTableRecordSubScheme(null, new GenericRange<int>(10, 20), "combat-xp", 1)}, 1)}))
+                    }, new CombatReward(Array.Empty<IDropTableScheme>()))
                 }
             };
 
