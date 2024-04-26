@@ -33,10 +33,6 @@ internal sealed class CombatResultModal : ModalDialogBase
 
         _title = new CombatResultTitle(combatResult);
 
-        //var biomeProgress = new AnimatedCountableUnitItemStat(combatRewards.BiomeProgress);
-
-        //_biomeProgression = new CombatResultsBiomeProgression(biomeProgress);
-
         var resourceRewards = combatRewards.InventoryRewards.Select(x => new AnimatedCountableUnitItemStat(x))
             .ToArray();
 
@@ -100,22 +96,12 @@ internal sealed class CombatResultModal : ModalDialogBase
 
     private void DrawDefeatBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)
     {
-        //_biomeProgression.Rect =
-        //    new Rectangle(benefitsRect.Location, new Point(benefitsRect.Width, 32));
-        //_biomeProgression.Draw(spriteBatch);
+
     }
 
     private void DrawVictoryBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)
     {
-        //_biomeProgression.Rect =
-        //    new Rectangle(benefitsRect.Location, new Point(benefitsRect.Width, 32));
-        //_biomeProgression.Draw(spriteBatch);
-
-        const int REWARD_ITEM_MARGIN = 5;
-
-        _combatRewardList.Rect =
-            new Rectangle(benefitsRect.Location /*+ new Point(0, _biomeProgression.Rect.Height + BLOCK_MARGIN)*/,
-                new Point(benefitsRect.Width, 2 * (32 + REWARD_ITEM_MARGIN)));
+        _combatRewardList.Rect = benefitsRect;
         _combatRewardList.Draw(spriteBatch);
     }
 }
