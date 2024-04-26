@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core.CampaignEffects;
 using Client.Engine;
+using Client.GameScreens.CampaignReward.Ui;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.Ui;
 using Client.GameScreens.Common.CampaignResult;
@@ -16,7 +19,7 @@ namespace Client.GameScreens.Common.Result;
 internal sealed class ResultModal : ModalDialogBase
 {
     private readonly ButtonBase _closeButton;
-    private readonly AftermathList _combatRewardList;
+    private readonly RewardPanel _combatRewardList;
 
     private readonly CombatResultTitle _title;
 
@@ -26,7 +29,8 @@ internal sealed class ResultModal : ModalDialogBase
         GameObjectContentStorage gameObjectContentStorage,
         IResolutionIndependentRenderer resolutionIndependentRenderer,
         ResultDecoration combatResult,
-        CombatRewards combatRewards) : base(uiContentStorage, resolutionIndependentRenderer)
+        IReadOnlyCollection<ICampaignEffect> rewards,
+        ICampaignRewardImageDrawer[] drawers) : base(uiContentStorage, resolutionIndependentRenderer)
     {
         CombatResult = combatResult;
         _closeButton = new ResourceTextButton(nameof(UiResource.CloseButtonTitle));
@@ -34,12 +38,11 @@ internal sealed class ResultModal : ModalDialogBase
 
         _title = new CombatResultTitle(combatResult);
 
-        var resourceRewards = combatRewards.InventoryRewards.Select(x => new AnimatedCountableResource(x))
-            .ToArray();
-
-        _combatRewardList = new AftermathList(
-            gameObjectContentStorage.GetEquipmentIcons(),
-            resourceRewards
+        _combatRewardList = new RewardPanel(rewards,
+            uiContentStorage.GetCombatSkillPanelTexture(),
+            uiContentStorage.GetMainFont(),
+            uiContentStorage.GetMainFont(), 
+            drawers
         );
     }
 
@@ -71,7 +74,7 @@ internal sealed class ResultModal : ModalDialogBase
 
         if (_iterationCounter >= 0.01)
         {
-            _combatRewardList.Update();
+            _combatRewardList.Update(gameTime);
             _iterationCounter = 0;
         }
 

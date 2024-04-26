@@ -10,9 +10,11 @@ using Client.Assets.CombatMovements;
 using Client.Assets.CombatVisualEffects;
 using Client.Assets.StoryPointJobs;
 using Client.Core;
+using Client.Core.CampaignEffects;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.Engine.PostProcessing;
+using Client.GameScreens.CampaignReward.Ui;
 using Client.GameScreens.Combat.CombatDebugElements;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.Background;
@@ -392,15 +394,12 @@ internal class CombatScreen : GameScreenWithMenuBase
         return null;
     }
 
-    private static CombatRewards CalculateRewardGaining(
+    private static IReadOnlyCollection<ICampaignEffect> CalculateRewardGaining(
         IReadOnlyCollection<IProp> droppedResources)
     {
         var uiRewards = CreateUiModels(droppedResources);
 
-        return new CombatRewards
-        {
-            InventoryRewards = uiRewards
-        };
+        return uiRewards;
     }
 
     private void Combat_CombatantInterrupted(object? sender, CombatantInterruptedEventArgs e)
@@ -796,36 +795,12 @@ internal class CombatScreen : GameScreenWithMenuBase
         };
     }
 
-    private static IReadOnlyCollection<ResourceReward> CreateUiModels(IReadOnlyCollection<IProp> droppedResources)
+    private static IReadOnlyCollection<ICampaignEffect> CreateUiModels(IReadOnlyCollection<IProp> droppedResources)
     {
-        var rewardList = new List<ResourceReward>();
-        foreach (var resource in droppedResources.OfType<Resource>().ToArray())
+        return new[]
         {
-            var icon = EquipmentItemType.ExperiencePoints;
-            switch (resource.Scheme.Sid)
-            {
-                case "combat-xp":
-                    icon = EquipmentItemType.ExperiencePoints;
-                    break;
-                case "digital-claws":
-                    icon = EquipmentItemType.Warrior;
-                    break;
-                case "bondages":
-                    icon = EquipmentItemType.Warrior;
-                    break;
-            }
-
-            var reward = new ResourceReward
-            {
-                Amount = resource.Count,
-                Type = icon,
-                StartValue = 0
-            };
-
-            rewardList.Add(reward);
-        }
-
-        return rewardList;
+            new ResourceCampaignEffect(droppedResources)
+        };
     }
 
 
@@ -1516,6 +1491,19 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
+    private ICampaignRewardImageDrawer[] CreateDrawers()
+    {
+        return new ICampaignRewardImageDrawer[]
+        {
+            new PropCampaignRewardImageDrawer(Game.Content.Load<Texture2D>("Sprites/GameObjects/EquipmentIcons"),
+                _uiContentStorage.GetMainFont(),
+                _globeProvider.Globe.Player.Inventory),
+            new LocationCampaignRewardImageDrawer(Game.Content),
+            new HeroCampaignRewardImageDrawer(Game.Content,
+                Game.Services.GetRequiredService<ICombatantGraphicsCatalog>())
+        };
+    }
+
     private void ShowCombatResultModal(bool isVictory)
     {
         ResultModal combatResultModal;
@@ -1537,7 +1525,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _gameObjectContentStorage,
                 ResolutionIndependentRenderer,
                 ResultDecoration.Victory,
-                rewardItems);
+                rewardItems,
+                CreateDrawers());
         }
         else
         {
@@ -1551,15 +1540,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _gameObjectContentStorage,
                 ResolutionIndependentRenderer,
                 ResultDecoration.Defeat,
-                new CombatRewards
-                {
-                    BiomeProgress = new ResourceReward
-                    {
-                        StartValue = _globe.GlobeLevel.Level,
-                        Amount = _globe.GlobeLevel.Level / 2
-                    },
-                    InventoryRewards = Array.Empty<ResourceReward>()
-                });
+                _currentCampaign.ActualFailurePenalties,
+                CreateDrawers());
         }
 
         AddModal(combatResultModal, isLate: false);

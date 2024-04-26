@@ -55,4 +55,12 @@ internal sealed class PropCampaignRewardImageDrawer : CampaignRewardImageDrawerB
 
         spriteBatch.Draw(_propTexture, position, new Rectangle(0, 0, 32, 32), Color.White);
     }
+
+    public override void Update(GameTime gameTime)
+    {
+        foreach (var animatedCountableResource in _countableItems)
+        {
+            animatedCountableResource.Value.Update();
+        }
+    }
 }
