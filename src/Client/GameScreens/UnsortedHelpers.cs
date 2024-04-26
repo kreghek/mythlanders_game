@@ -9,11 +9,6 @@ namespace Client.GameScreens;
 
 internal static class UnsortedHelpers
 {
-    public static IReadOnlyList<float> GetCombatSequenceXpBonuses()
-    {
-        return new[] { 1f, 1f, 1.25f, 1.25f, 1.5f };
-    }
-
     public static EquipmentItemType? GetEquipmentItemTypeByUnitScheme(UnitScheme unitScheme)
     {
         switch (unitScheme.Name)
