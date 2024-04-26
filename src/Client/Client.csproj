@@ -18,21 +18,12 @@
         <!--<DefineConstants>STEAMWORKS</DefineConstants>-->
     </PropertyGroup>
     <ItemGroup>
-        <Compile Remove="Assets\DialogueEventEnviroment\**" />
         <Compile Remove="Content\bin\**" />
         <Compile Remove="Content\obj\**" />
-        <Compile Remove="GameScreens\CampaignReward\Ui\**" />
-        <Compile Remove="GameScreens\Combat\Ui\CombatResultModalModels\**" />
-        <EmbeddedResource Remove="Assets\DialogueEventEnviroment\**" />
         <EmbeddedResource Remove="Content\bin\**" />
         <EmbeddedResource Remove="Content\obj\**" />
-        <EmbeddedResource Remove="GameScreens\CampaignReward\Ui\**" />
-        <EmbeddedResource Remove="GameScreens\Combat\Ui\CombatResultModalModels\**" />
-        <None Remove="Assets\DialogueEventEnviroment\**" />
         <None Remove="Content\bin\**" />
         <None Remove="Content\obj\**" />
-        <None Remove="GameScreens\CampaignReward\Ui\**" />
-        <None Remove="GameScreens\Combat\Ui\CombatResultModalModels\**" />
     </ItemGroup>
     <ItemGroup>
         <Reference Include="Steamworks.NET">
