@@ -37,7 +37,7 @@ internal sealed class ResultModal : ModalDialogBase
         _combatRewardList = new RewardPanel(rewards,
             uiContentStorage.GetCombatSkillPanelTexture(),
             uiContentStorage.GetMainFont(),
-            uiContentStorage.GetMainFont(), 
+            uiContentStorage.GetMainFont(),
             drawers
         );
     }

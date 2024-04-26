@@ -9,12 +9,12 @@ namespace Client.Core.CampaignEffects;
 
 internal sealed class ResourceCampaignEffect : ICampaignEffect
 {
-    public IEnumerable<IProp> Resources { get; }
-
     public ResourceCampaignEffect(IEnumerable<IProp> resources)
     {
         Resources = resources;
     }
+
+    public IEnumerable<IProp> Resources { get; }
 
     public void Apply(Globe globe)
     {

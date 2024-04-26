@@ -1,4 +1,3 @@
-using Client.GameScreens.Combat;
 using Client.GameScreens.Common.Result;
 
 using FluentAssertions;
