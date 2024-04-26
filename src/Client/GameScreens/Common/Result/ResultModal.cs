@@ -22,6 +22,8 @@ internal sealed class ResultModal : ModalDialogBase
 
     private double _iterationCounter;
 
+    protected override ModalTopSymbol? TopSymbol => ModalTopSymbol.CombatResult;
+
     public ResultModal(IUiContentStorage uiContentStorage,
         IResolutionIndependentRenderer resolutionIndependentRenderer,
         ResultDecoration combatResult,
