@@ -37,6 +37,9 @@ internal sealed class PropCampaignRewardImageDrawer : CampaignRewardImageDrawerB
         for (var index = 0; index < reward.Resources.OfType<Resource>().ToArray().Length; index++)
         {
             var resource = reward.Resources.OfType<Resource>().ToArray()[index];
+
+            spriteBatch.Draw(_propTexture, position, new Rectangle(0, index * 32, 32, 32), Color.White);
+
             if (!_countableItems.TryGetValue(resource, out var countable))
             {
                 countable = new AnimatedCountableResource(new ResourceReward()
@@ -49,11 +52,9 @@ internal sealed class PropCampaignRewardImageDrawer : CampaignRewardImageDrawerB
                 _countableItems[resource] = countable;
             }
 
-            var labelText = $"{resource.Scheme.Sid}x{countable.CurrentValue} (+{countable.Amount})";
-            spriteBatch.DrawString(_font, labelText, position + new Vector2(index * 32, 0), Color.Wheat);
+            var labelText = $"{resource.Scheme.Sid} x {countable.CurrentValue} (+{countable.Amount})";
+            spriteBatch.DrawString(_font, labelText, position + new Vector2(index * 32, 32), Color.Wheat);
         }
-
-        spriteBatch.Draw(_propTexture, position, new Rectangle(0, 0, 32, 32), Color.White);
     }
 
     public override void Update(GameTime gameTime)

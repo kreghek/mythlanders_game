@@ -68,10 +68,6 @@ internal sealed class RewardPanel : ControlBase
                 var imageSize = campaignRewardImageDrawer.ImageSize;
                 campaignRewardImageDrawer.Draw(reward, spriteBatch, rewardPosition - new Vector2(imageSize.X, 0));
             }
-
-            spriteBatch.DrawString(_rewardNameFont,
-                reward.GetEffectDisplayText(),
-                rewardPosition, Color.White);
         }
     }
 

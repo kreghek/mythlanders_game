@@ -9,6 +9,7 @@ using Client.Core.Campaigns;
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
+using CombatDicesTeam.GenericRanges;
 using CombatDicesTeam.Graphs;
 
 using Core.PropDrop;
@@ -58,7 +59,7 @@ internal class ScenarioCampaigns
                                     "Wound"
                                 )
                             })
-                    }, new CombatReward(Array.Empty<IDropTableScheme>()))
+                    }, new CombatReward(new[]{new DropTableScheme("combat-xp", new IDropTableRecordSubScheme[]{new DropTableRecordSubScheme(null, new GenericRange<int>(10, 20), "combat-xp", 1)}, 1)}))
                 }
             };
 
