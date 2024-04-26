@@ -178,7 +178,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
     private static IReadOnlyCollection<HeroState> RollCampaignHeroes(IEnumerable<HeroState> unlockedHeroes, IDice dice)
     {
-        var openList = new List<HeroState>(unlockedHeroes);
+        var openList = new List<HeroState>(unlockedHeroes.Where(x => x.AvailableToCampaigns));
 
         return dice.RollFromList(openList, 3).ToArray();
     }

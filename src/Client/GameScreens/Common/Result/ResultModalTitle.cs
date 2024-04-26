@@ -1,20 +1,21 @@
 using System;
 
 using Client.Engine;
+using Client.GameScreens.Common.CampaignResult;
 
 using CombatDicesTeam.Engine.Ui;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.GameScreens.Combat.Ui;
+namespace Client.GameScreens.Common.Result;
 
-internal sealed class CombatResultTitle : ControlBase
+internal sealed class ResultModalTitle : ControlBase
 {
-    private readonly CombatResult _combatResult;
+    private readonly ResultDecoration _combatResult;
     private readonly SpriteFont _titleFont;
 
-    public CombatResultTitle(CombatResult combatResult) : base(UiThemeManager.UiContentStorage
+    public ResultModalTitle(ResultDecoration combatResult) : base(UiThemeManager.UiContentStorage
         .GetControlBackgroundTexture())
     {
         _titleFont = UiThemeManager.UiContentStorage.GetTitlesFont();
@@ -49,13 +50,12 @@ internal sealed class CombatResultTitle : ControlBase
             Color.Wheat);
     }
 
-    private static string GetCombatResultLocalizedText(CombatResult combatResult)
+    private static string GetCombatResultLocalizedText(ResultDecoration combatResult)
     {
         return combatResult switch
         {
-            CombatResult.Victory => UiResource.CombatResultVictoryText,
-            CombatResult.Defeat => UiResource.CombatResultDefeatText,
-            CombatResult.NextCombat => UiResource.CombatResultNextText,
+            ResultDecoration.Victory => UiResource.CombatResultVictoryText,
+            ResultDecoration.Defeat => UiResource.CombatResultDefeatText,
             _ => throw new ArgumentOutOfRangeException(nameof(combatResult), combatResult, null)
         };
     }

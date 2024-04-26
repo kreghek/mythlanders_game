@@ -1,15 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Core.CampaignEffects;
 using Client.Engine;
+using Client.GameScreens.CampaignReward.Ui;
 
 using CombatDicesTeam.Engine.Ui;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.GameScreens.CampaignReward.Ui;
+namespace Client.GameScreens.Common.Result;
 
 internal sealed class RewardPanel : ControlBase
 {
@@ -66,10 +68,6 @@ internal sealed class RewardPanel : ControlBase
                 var imageSize = campaignRewardImageDrawer.ImageSize;
                 campaignRewardImageDrawer.Draw(reward, spriteBatch, rewardPosition - new Vector2(imageSize.X, 0));
             }
-
-            spriteBatch.DrawString(_rewardNameFont,
-                reward.GetEffectDisplayText(),
-                rewardPosition, Color.White);
         }
     }
 
@@ -87,5 +85,13 @@ internal sealed class RewardPanel : ControlBase
         var labelSize = _labelFont.MeasureString(UiResource.CampaignRewardsLabelText);
         spriteBatch.DrawString(_labelFont, UiResource.CampaignRewardsLabelText,
             new Vector2(contentRect.Center.X - labelSize.X / 2, contentRect.Top + 50), Color.Wheat);
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        foreach (var campaignRewardImageDrawer in _rewardImageDrawers)
+        {
+            campaignRewardImageDrawer.Update(gameTime);
+        }
     }
 }

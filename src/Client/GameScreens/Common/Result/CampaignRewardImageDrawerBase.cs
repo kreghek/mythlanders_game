@@ -21,4 +21,8 @@ internal abstract class CampaignRewardImageDrawerBase<TReward> : ICampaignReward
     {
         return reward is TReward;
     }
+
+    public virtual void Update(GameTime gameTime)
+    {
+    }
 }

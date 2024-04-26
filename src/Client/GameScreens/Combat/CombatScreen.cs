@@ -10,9 +10,11 @@ using Client.Assets.CombatMovements;
 using Client.Assets.CombatVisualEffects;
 using Client.Assets.StoryPointJobs;
 using Client.Core;
+using Client.Core.CampaignEffects;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.Engine.PostProcessing;
+using Client.GameScreens.CampaignReward.Ui;
 using Client.GameScreens.Combat.CombatDebugElements;
 using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.GameObjects.Background;
@@ -20,6 +22,8 @@ using Client.GameScreens.Combat.Tutorial;
 using Client.GameScreens.Combat.Ui;
 using Client.GameScreens.CommandCenter;
 using Client.GameScreens.Common;
+using Client.GameScreens.Common.CampaignResult;
+using Client.GameScreens.Common.Result;
 using Client.ScreenManagement;
 
 using CombatDicesTeam.Combats;
@@ -331,14 +335,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     //    }
     //}
 
-    private static void ApplyCombatReward(IReadOnlyCollection<IProp> xpItems, Player player)
-    {
-        foreach (var item in xpItems)
-        {
-            player.Inventory.Add(item);
-        }
-    }
-
     private void AssignCombatMovementIntention(CombatMovementInstance combatMovementInstance)
     {
         _targetMarkers.EriseTargets();
@@ -390,15 +386,12 @@ internal class CombatScreen : GameScreenWithMenuBase
         return null;
     }
 
-    private static CombatRewards CalculateRewardGaining(
+    private static IReadOnlyCollection<ICampaignEffect> CalculateRewardGaining(
         IReadOnlyCollection<IProp> droppedResources)
     {
         var uiRewards = CreateUiModels(droppedResources);
 
-        return new CombatRewards
-        {
-            InventoryRewards = uiRewards
-        };
+        return uiRewards;
     }
 
     private void Combat_CombatantInterrupted(object? sender, CombatantInterruptedEventArgs e)
@@ -425,26 +418,6 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _gameObjectContentStorage,
                 combatantSide);
         _gameObjects.Add(gameObject);
-    }
-
-    private void CombatCode_CombatantHasBeenDefeated(object? sender, CombatantDefeatedEventArgs e)
-    {
-        if (!e.Combatant.IsPlayerControlled)
-        {
-            CountDefeat();
-        }
-
-        var combatantGameObject = GetCombatantGameObjectOrDefault(e.Combatant);
-        if (combatantGameObject is null)
-        {
-            return;
-        }
-
-        var corpse =
-            combatantGameObject.CreateCorpse(_gameObjectContentStorage, _visualEffectManager, new AudioSettings());
-        _corpseObjects.Add(corpse);
-
-        _gameObjects.Remove(combatantGameObject);
     }
 
     private void CombatCore_CombatantEndsTurn(object? sender, CombatantEndsTurnEventArgs e)
@@ -543,6 +516,26 @@ internal class CombatScreen : GameScreenWithMenuBase
                 AddHitShaking();
             }
         }
+    }
+
+    private void CombatCore_CombatantHasBeenDefeated(object? sender, CombatantDefeatedEventArgs e)
+    {
+        if (!e.Combatant.IsPlayerControlled)
+        {
+            CountDefeat();
+        }
+
+        var combatantGameObject = GetCombatantGameObjectOrDefault(e.Combatant);
+        if (combatantGameObject is null)
+        {
+            return;
+        }
+
+        var corpse =
+            combatantGameObject.CreateCorpse(_gameObjectContentStorage, _visualEffectManager, new AudioSettings());
+        _corpseObjects.Add(corpse);
+
+        _gameObjects.Remove(combatantGameObject);
     }
 
     private void CombatCore_CombatantHasChangePosition(object? sender, CombatantHasChangedPositionEventArgs e)
@@ -681,9 +674,9 @@ internal class CombatScreen : GameScreenWithMenuBase
             throw new InvalidOperationException("Handler must be assigned to object instance instead static.");
         }
 
-        var combatResultModal = (CombatResultModal)sender;
+        var combatResultModal = (ResultModal)sender;
 
-        if (combatResultModal.CombatResult is CombatResult.Victory or CombatResult.NextCombat)
+        if (combatResultModal.CombatResult is ResultDecoration.Victory)
         {
             var nextCombatIndex = _args.CurrentCombatIndex + 1;
             var areAllCombatsWon = nextCombatIndex >= _args.CombatSequence.Combats.Count;
@@ -730,7 +723,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                 }
             }
         }
-        else if (combatResultModal.CombatResult == CombatResult.Defeat)
+        else if (combatResultModal.CombatResult == ResultDecoration.Defeat)
         {
             RestoreGroupAfterCombat();
 
@@ -765,8 +758,8 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void CountCombatFinished()
     {
         var progress = new CombatCompleteJobProgress();
-        var activeStoryPointsSnapshotList = _globe.ActiveStoryPoints.ToArray();
-        foreach (var storyPoint in activeStoryPointsSnapshotList)
+
+        foreach (var storyPoint in _globe.GetCurrentJobExecutables())
         {
             _jobProgressResolver.ApplyProgress(progress, storyPoint);
         }
@@ -798,36 +791,12 @@ internal class CombatScreen : GameScreenWithMenuBase
         };
     }
 
-    private static IReadOnlyCollection<ResourceReward> CreateUiModels(IReadOnlyCollection<IProp> droppedResources)
+    private static IReadOnlyCollection<ICampaignEffect> CreateUiModels(IReadOnlyCollection<IProp> droppedResources)
     {
-        var rewardList = new List<ResourceReward>();
-        foreach (var resource in droppedResources.OfType<Resource>().ToArray())
+        return new[]
         {
-            var icon = EquipmentItemType.ExperiencePoints;
-            switch (resource.Scheme.Sid)
-            {
-                case "combat-xp":
-                    icon = EquipmentItemType.ExperiencePoints;
-                    break;
-                case "digital-claws":
-                    icon = EquipmentItemType.Warrior;
-                    break;
-                case "bondages":
-                    icon = EquipmentItemType.Warrior;
-                    break;
-            }
-
-            var reward = new ResourceReward
-            {
-                Amount = resource.Count,
-                Type = icon,
-                StartValue = 0
-            };
-
-            rewardList.Add(reward);
-        }
-
-        return rewardList;
+            new ResourceCampaignEffect(droppedResources)
+        };
     }
 
 
@@ -1408,18 +1377,18 @@ internal class CombatScreen : GameScreenWithMenuBase
         return 0;
     }
 
-    private void HandleGlobe(CombatResult result)
+    private void HandleGlobe(ResultDecoration result)
     {
         _bossWasDefeat = false;
         _finalBossWasDefeat = false;
 
         switch (result)
         {
-            case CombatResult.Victory:
+            case ResultDecoration.Victory:
                 HandleGlobeVictoryResult();
                 break;
 
-            case CombatResult.Defeat:
+            case ResultDecoration.Defeat:
                 HandleGlobeDefeatResult();
                 break;
 
@@ -1443,7 +1412,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     private void InitializeCombat()
     {
         _combatCore.CombatantHasBeenAdded += CombatCode_CombatantHasBeenAdded;
-        _combatCore.CombatantHasBeenDefeated += CombatCode_CombatantHasBeenDefeated;
+        _combatCore.CombatantHasBeenDefeated += CombatCore_CombatantHasBeenDefeated;
         _combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
         _combatCore.CombatantStartsTurn += CombatCore_CombatantStartsTurn;
         _combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;
@@ -1518,70 +1487,71 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
     }
 
+    private ICampaignRewardImageDrawer[] CreateDrawers()
+    {
+        return new ICampaignRewardImageDrawer[]
+        {
+            new PropCampaignRewardImageDrawer(Game.Content.Load<Texture2D>("Sprites/GameObjects/EquipmentIcons"),
+                _uiContentStorage.GetMainFont(),
+                _globeProvider.Globe.Player.Inventory),
+            new LocationCampaignRewardImageDrawer(Game.Content),
+            new HeroCampaignRewardImageDrawer(Game.Content,
+                Game.Services.GetRequiredService<ICombatantGraphicsCatalog>()),
+            new GlobeEffectCampaignRewardImageDrawer(_uiContentStorage.GetMainFont())
+        };
+    }
+
     private void ShowCombatResultModal(bool isVictory)
     {
-        CombatResultModal combatResultModal;
+        ResultModal combatResultModal;
 
         if (isVictory)
         {
-            var isAllCombatSequenceComplete = true;
-            if (isAllCombatSequenceComplete)
+            var droppedResources = _dropResolver.Resolve(_args.CombatSequence.Combats[0].Reward.DropTables);
+
+            var rewardItems = CalculateRewardGaining(droppedResources);
+
+            HandleGlobe(ResultDecoration.Victory);
+
+            var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+            soundtrackManager.PlayVictoryTrack();
+
+            combatResultModal = new ResultModal(
+                _uiContentStorage,
+                ResolutionIndependentRenderer,
+                ResultDecoration.Victory,
+                rewardItems,
+                CreateDrawers());
+
+            combatResultModal.Closed += (_, _) =>
             {
-                // End the combat sequence
-                var droppedResources = _dropResolver.Resolve(_args.CombatSequence.Combats[0].Reward.DropTables);
-
-                var rewardItems = CalculateRewardGaining(droppedResources);
-
-                ApplyCombatReward(droppedResources, _globe.Player);
-                HandleGlobe(CombatResult.Victory);
-
-                var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
-                soundtrackManager.PlayVictoryTrack();
-
-                combatResultModal = new CombatResultModal(
-                    _uiContentStorage,
-                    _gameObjectContentStorage,
-                    ResolutionIndependentRenderer,
-                    CombatResult.Victory,
-                    rewardItems);
-            }
-            else
-            {
-                // Next combat
-
-                combatResultModal = new CombatResultModal(
-                    _uiContentStorage,
-                    _gameObjectContentStorage,
-                    ResolutionIndependentRenderer,
-                    CombatResult.NextCombat,
-                    new CombatRewards
-                    {
-                        BiomeProgress = new ResourceReward(),
-                        InventoryRewards = Array.Empty<ResourceReward>()
-                    });
-            }
+                foreach (var effect in rewardItems)
+                {
+                    effect.Apply(_globe);
+                }
+            };
         }
         else
         {
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             soundtrackManager.PlayDefeatTrack();
 
-            HandleGlobe(CombatResult.Defeat);
+            HandleGlobe(ResultDecoration.Defeat);
 
-            combatResultModal = new CombatResultModal(
+            combatResultModal = new ResultModal(
                 _uiContentStorage,
-                _gameObjectContentStorage,
                 ResolutionIndependentRenderer,
-                CombatResult.Defeat,
-                new CombatRewards
+                ResultDecoration.Defeat,
+                _currentCampaign.ActualFailurePenalties,
+                CreateDrawers());
+
+            combatResultModal.Closed += (_, _) =>
+            {
+                foreach (var effect in _currentCampaign.ActualFailurePenalties)
                 {
-                    BiomeProgress = new ResourceReward
-                    {
-                        StartValue = _globe.GlobeLevel.Level,
-                        Amount = _globe.GlobeLevel.Level / 2
-                    },
-                    InventoryRewards = Array.Empty<ResourceReward>()
-                });
+                    effect.Apply(_globe);
+                }
+            };
         }
 
         AddModal(combatResultModal, isLate: false);

@@ -2,10 +2,9 @@ using System;
 
 namespace Client.Core;
 
-public interface IStoryPoint : IJobExecutable
+public interface IStoryPoint : IDisplayableJobExecutable
 {
     string Sid { get; }
-    string? TitleSid { get; init; }
 
     void Draw(IStoryPointDrawingContext context);
 

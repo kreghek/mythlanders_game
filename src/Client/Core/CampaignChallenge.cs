@@ -28,4 +28,6 @@ internal sealed class CampaignChallenge : IChallenge
     }
 
     public event EventHandler? Completed;
+    public string TitleSid { get; } = "CampaignChallenge";
+    public int Order { get; } = 3;
 }

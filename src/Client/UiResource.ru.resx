@@ -282,9 +282,6 @@
   <data name="CombatResultMonsterDangerIncreasedTemplate" xml:space="preserve">
     <value>Опасность монстров выросла до {0}</value>
   </data>
-  <data name="CombatResultNextText" xml:space="preserve">
-    <value>Следующий бой...</value>
-  </data>
   <data name="CombatResultVictoryText" xml:space="preserve">
     <value>Победа!</value>
   </data>
