@@ -335,14 +335,6 @@ internal class CombatScreen : GameScreenWithMenuBase
     //    }
     //}
 
-    private static void ApplyCombatReward(IReadOnlyCollection<IProp> xpItems, Player player)
-    {
-        foreach (var item in xpItems)
-        {
-            player.Inventory.Add(item);
-        }
-    }
-
     private void AssignCombatMovementIntention(CombatMovementInstance combatMovementInstance)
     {
         _targetMarkers.EriseTargets();
@@ -1500,7 +1492,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                 _globeProvider.Globe.Player.Inventory),
             new LocationCampaignRewardImageDrawer(Game.Content),
             new HeroCampaignRewardImageDrawer(Game.Content,
-                Game.Services.GetRequiredService<ICombatantGraphicsCatalog>())
+                Game.Services.GetRequiredService<ICombatantGraphicsCatalog>()),
+            new GlobeEffectCampaignRewardImageDrawer(_uiContentStorage.GetMainFont())
         };
     }
 
@@ -1527,7 +1520,13 @@ internal class CombatScreen : GameScreenWithMenuBase
                 rewardItems,
                 CreateDrawers());
 
-            ApplyCombatReward(droppedResources, _globe.Player);
+            combatResultModal.Closed += (_, _) =>
+            {
+                foreach (var effect in rewardItems)
+                {
+                    effect.Apply(_globe);
+                }
+            };
         }
         else
         {
@@ -1543,6 +1542,14 @@ internal class CombatScreen : GameScreenWithMenuBase
                 ResultDecoration.Defeat,
                 _currentCampaign.ActualFailurePenalties,
                 CreateDrawers());
+
+            combatResultModal.Closed += (_, _) =>
+            {
+                foreach (var effect in _currentCampaign.ActualFailurePenalties)
+                {
+                    effect.Apply(_globe);
+                }
+            };
         }
 
         AddModal(combatResultModal, isLate: false);
