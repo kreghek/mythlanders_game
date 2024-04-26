@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using Client.Assets.CombatMovements;
+﻿using Client.Assets.CombatMovements;
 using Client.Core;
 
 using Microsoft.Xna.Framework;

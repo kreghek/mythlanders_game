@@ -778,6 +778,20 @@ internal class CombatScreen : GameScreenWithMenuBase
         return new MythlandersCombatEngine(new CurrentRoundQueueResolver(), _dice);
     }
 
+    private ICampaignRewardImageDrawer[] CreateDrawers()
+    {
+        return new ICampaignRewardImageDrawer[]
+        {
+            new PropCampaignRewardImageDrawer(Game.Content.Load<Texture2D>("Sprites/GameObjects/EquipmentIcons"),
+                _uiContentStorage.GetMainFont(),
+                _globeProvider.Globe.Player.Inventory),
+            new LocationCampaignRewardImageDrawer(Game.Content),
+            new HeroCampaignRewardImageDrawer(Game.Content,
+                Game.Services.GetRequiredService<ICombatantGraphicsCatalog>()),
+            new GlobeEffectCampaignRewardImageDrawer(_uiContentStorage.GetMainFont())
+        };
+    }
+
     private ICamera2DAdapter CreateLayerCamera()
     {
         return new Camera2DAdapter(ResolutionIndependentRenderer.ViewportAdapter)
@@ -1481,20 +1495,6 @@ internal class CombatScreen : GameScreenWithMenuBase
         {
             // Do nothing
         }
-    }
-
-    private ICampaignRewardImageDrawer[] CreateDrawers()
-    {
-        return new ICampaignRewardImageDrawer[]
-        {
-            new PropCampaignRewardImageDrawer(Game.Content.Load<Texture2D>("Sprites/GameObjects/EquipmentIcons"),
-                _uiContentStorage.GetMainFont(),
-                _globeProvider.Globe.Player.Inventory),
-            new LocationCampaignRewardImageDrawer(Game.Content),
-            new HeroCampaignRewardImageDrawer(Game.Content,
-                Game.Services.GetRequiredService<ICombatantGraphicsCatalog>()),
-            new GlobeEffectCampaignRewardImageDrawer(_uiContentStorage.GetMainFont())
-        };
     }
 
     private void ShowCombatResultModal(bool isVictory)

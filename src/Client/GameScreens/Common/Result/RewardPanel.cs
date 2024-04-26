@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using Client.Core.CampaignEffects;
@@ -34,6 +33,14 @@ internal sealed class RewardPanel : ControlBase
         _labelFont = labelFont;
         _rewardNameFont = rewardNameFont;
         _rewardImageDrawers = rewardImageDrawers;
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        foreach (var campaignRewardImageDrawer in _rewardImageDrawers)
+        {
+            campaignRewardImageDrawer.Update(gameTime);
+        }
     }
 
     protected override Point CalcTextureOffset()
@@ -85,13 +92,5 @@ internal sealed class RewardPanel : ControlBase
         var labelSize = _labelFont.MeasureString(UiResource.CampaignRewardsLabelText);
         spriteBatch.DrawString(_labelFont, UiResource.CampaignRewardsLabelText,
             new Vector2(contentRect.Center.X - labelSize.X / 2, contentRect.Top + 50), Color.Wheat);
-    }
-
-    public void Update(GameTime gameTime)
-    {
-        foreach (var campaignRewardImageDrawer in _rewardImageDrawers)
-        {
-            campaignRewardImageDrawer.Update(gameTime);
-        }
     }
 }

@@ -4,7 +4,6 @@ using System.Linq;
 using Client.Core;
 using Client.Core.CampaignEffects;
 using Client.GameScreens.CampaignReward.Ui;
-using Client.GameScreens.Combat;
 
 using Core.Props;
 
@@ -15,11 +14,10 @@ namespace Client.GameScreens.Common.Result;
 
 internal sealed class PropCampaignRewardImageDrawer : CampaignRewardImageDrawerBase<ResourceCampaignEffect>
 {
-    private readonly Texture2D _propTexture;
-    private readonly SpriteFont _font;
-    private readonly Inventory _currentInventory;
-
     private readonly IDictionary<IProp, AnimatedCountableResource> _countableItems;
+    private readonly Inventory _currentInventory;
+    private readonly SpriteFont _font;
+    private readonly Texture2D _propTexture;
 
     public PropCampaignRewardImageDrawer(Texture2D propTexture, SpriteFont font, Inventory currentInventory)
     {
@@ -32,6 +30,14 @@ internal sealed class PropCampaignRewardImageDrawer : CampaignRewardImageDrawerB
 
     public override Point ImageSize => new Point(32);
 
+    public override void Update(GameTime gameTime)
+    {
+        foreach (var animatedCountableResource in _countableItems)
+        {
+            animatedCountableResource.Value.Update();
+        }
+    }
+
     protected override void Draw(ResourceCampaignEffect reward, SpriteBatch spriteBatch, Vector2 position)
     {
         for (var index = 0; index < reward.Resources.OfType<Resource>().ToArray().Length; index++)
@@ -42,11 +48,11 @@ internal sealed class PropCampaignRewardImageDrawer : CampaignRewardImageDrawerB
 
             if (!_countableItems.TryGetValue(resource, out var countable))
             {
-                countable = new AnimatedCountableResource(new ResourceReward()
+                countable = new AnimatedCountableResource(new ResourceReward
                 {
                     StartValue = _currentInventory.CalcActualItems().OfType<Resource>()
                         .SingleOrDefault(x => x.Scheme.Sid == resource.Scheme.Sid)?.Count ?? 0,
-                    Amount = resource.Count,
+                    Amount = resource.Count
                 });
 
                 _countableItems[resource] = countable;
@@ -54,14 +60,6 @@ internal sealed class PropCampaignRewardImageDrawer : CampaignRewardImageDrawerB
 
             var labelText = $"{resource.Scheme.Sid} x {countable.CurrentValue} (+{countable.Amount})";
             spriteBatch.DrawString(_font, labelText, position + new Vector2(index * 32, 32), Color.Wheat);
-        }
-    }
-
-    public override void Update(GameTime gameTime)
-    {
-        foreach (var animatedCountableResource in _countableItems)
-        {
-            animatedCountableResource.Value.Update();
         }
     }
 }

@@ -6,7 +6,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Common.Result;
 
-internal sealed class GlobeEffectCampaignRewardImageDrawer : CampaignRewardImageDrawerBase<AddGlobalEffectCampaignEffect>
+internal sealed class
+    GlobeEffectCampaignRewardImageDrawer : CampaignRewardImageDrawerBase<AddGlobalEffectCampaignEffect>
 {
     private readonly SpriteFont _font;
 
