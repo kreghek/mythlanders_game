@@ -16,6 +16,6 @@ internal class AddGlobalEffectCampaignEffect : ICampaignEffect
 
     public string GetEffectDisplayText()
     {
-        return TargetGlobeEvent.Title;
+        return TargetGlobeEvent.TitleSid;
     }
 }

@@ -12,4 +12,6 @@ internal interface ICampaignRewardImageDrawer
     void Draw(ICampaignEffect reward, SpriteBatch spriteBatch, Vector2 position);
 
     bool IsApplicable(ICampaignEffect reward);
+
+    public void Update(GameTime gameTime);
 }

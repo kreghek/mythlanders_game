@@ -1,6 +1,6 @@
 ﻿using Client.Core;
 
-namespace Client.GameScreens.Combat;
+namespace Client.GameScreens.Common.Result;
 
 internal sealed record ResourceReward
 {

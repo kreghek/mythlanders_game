@@ -9,6 +9,7 @@ using Client.Core.Campaigns;
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
+using CombatDicesTeam.GenericRanges;
 using CombatDicesTeam.Graphs;
 
 using Core.PropDrop;
