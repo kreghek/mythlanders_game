@@ -21,11 +21,9 @@ internal sealed class ResultModal : ModalDialogBase
     private readonly ButtonBase _closeButton;
     private readonly RewardPanel _combatRewardList;
     private readonly LinearAnimationFrameSet _flagAnimation;
-    private readonly ResultModalTitle _title;
     private readonly Texture2D _flagTexture;
+    private readonly ResultModalTitle _title;
     private double _iterationCounter;
-
-    protected override ModalTopSymbol? TopSymbol => CombatResult == ResultDecoration.Victory ? ModalTopSymbol.CombatResultVictory : ModalTopSymbol.CombatResultDefeat;
 
     public ResultModal(IUiContentStorage uiContentStorage,
         IResolutionIndependentRenderer resolutionIndependentRenderer,
@@ -48,8 +46,14 @@ internal sealed class ResultModal : ModalDialogBase
             drawers
         );
 
-        _flagAnimation = new LinearAnimationFrameSet(Enumerable.Range(0, 8).ToArray(), 8, flagTexture.Width / 4, flagTexture.Height / 2, 4) { IsLooping = true };
+        _flagAnimation =
+            new LinearAnimationFrameSet(Enumerable.Range(0, 8).ToArray(), 8, flagTexture.Width / 4,
+                flagTexture.Height / 2, 4) { IsLooping = true };
     }
+
+    protected override ModalTopSymbol? TopSymbol => CombatResult == ResultDecoration.Victory
+        ? ModalTopSymbol.CombatResultVictory
+        : ModalTopSymbol.CombatResultDefeat;
 
     internal ResultDecoration CombatResult { get; }
 
@@ -66,8 +70,10 @@ internal sealed class ResultModal : ModalDialogBase
 
         DrawVictoryAftermaths(spriteBatch, benefitsRect);
 
-        spriteBatch.Draw(_flagTexture, new Vector2(ContentRect.Left, ContentRect.Top), _flagAnimation.GetFrameRect(), Color.White);
-        spriteBatch.Draw(_flagTexture, new Vector2(ContentRect.Right - 41, ContentRect.Top), _flagAnimation.GetFrameRect(), Color.White);
+        spriteBatch.Draw(_flagTexture, new Vector2(ContentRect.Left, ContentRect.Top), _flagAnimation.GetFrameRect(),
+            Color.White);
+        spriteBatch.Draw(_flagTexture, new Vector2(ContentRect.Right - 41, ContentRect.Top),
+            _flagAnimation.GetFrameRect(), Color.White);
 
         _closeButton.Rect = new Rectangle(ContentRect.Center.X - 50, ContentRect.Bottom - 25, 100, 20);
         _closeButton.Draw(spriteBatch);
