@@ -1,0 +1,49 @@
+{
+  "textureAtlas": {
+    "texture": "..\\Sprites\\GameObjects\\Characters\\Heroes\\Hoplite\\Full.png",
+    "regionWidth": 256,
+    "regionHeight": 128
+  },
+  "cycles": {
+    "prepare-spear": {
+      "frames": [32,33],
+      "isLooping": false,
+      "frameDuration": 0.5
+    },
+    "charge": {
+      "frames": [34],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "spear-hit": {
+      "frames": [34,35,36,37],
+      "isLooping": false,
+      "frameDuration": 0.1
+    },
+    "hit-complete": {
+      "frames": [38,39],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "back": {
+      "frames": [48,49,50,51,52,53,54,55],
+      "isLooping": false,
+      "frameDuration": 0.1
+    },
+    "throw-spear": {
+      "frames": [16,17,18,19,20,21,22,23],
+      "isLooping": false,
+      "frameDuration": 0.07
+    },
+    "kick": {
+      "frames": [24,25,26,27,28,29,30,31],
+      "isLooping": false,
+      "frameDuration": 0.1
+    },
+    "wait-spear": {
+      "frames": [23],
+      "isLooping": false,
+      "frameDuration": 0.2
+    }
+  }
+}

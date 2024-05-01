@@ -17,7 +17,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.TextDialogue;
 
-internal class TextDialogueScreen : TextEventScreenBase
+internal class TextDialogueScreen : CampaignTextEventScreenBase
 {
     private const int BACKGROUND_LAYERS_COUNT = 3;
 
@@ -26,6 +26,7 @@ internal class TextDialogueScreen : TextEventScreenBase
     private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly ILocationSid _globeLocation;
+    private readonly GlobeProvider _globeProvider;
     private readonly Player _player;
     private readonly Random _random;
     private readonly IUiContentStorage _uiContentStorage;
@@ -38,6 +39,7 @@ internal class TextDialogueScreen : TextEventScreenBase
         _random = new Random();
 
         var globeProvider = game.Services.GetService<GlobeProvider>();
+
         var globe = globeProvider.Globe ?? throw new InvalidOperationException();
         _player = globe.Player ?? throw new InvalidOperationException();
 
@@ -60,6 +62,8 @@ internal class TextDialogueScreen : TextEventScreenBase
         var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
 
         soundtrackManager.PlaySilence();
+
+        _globeProvider = globeProvider;
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -105,12 +109,12 @@ internal class TextDialogueScreen : TextEventScreenBase
             return;
         }
 
-        if (_player.HasAbility(PlayerAbility.ReadEventTutorial))
+        if (_player.HasAbility(PlayerAbility.ReadSideQuestTutorial))
         {
             return;
         }
 
-        _player.AddPlayerAbility(PlayerAbility.ReadEventTutorial);
+        _player.AddPlayerAbility(PlayerAbility.ReadSideQuestTutorial);
 
         var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
             ResolutionIndependentRenderer, _player);
@@ -156,7 +160,7 @@ internal class TextDialogueScreen : TextEventScreenBase
         var currentFragment = CurrentFragment;
         var speaker = currentFragment.Speaker;
 
-        if (DialogueSpeakers.Get(UnitName.Environment) == speaker)
+        if (DialogueSpeakers.Get(UnitName.Environment).Equals(speaker))
         {
             // This text describes environment. There is no speaker.
             return;
@@ -176,7 +180,7 @@ internal class TextDialogueScreen : TextEventScreenBase
             new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Height - SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE),
-            new Rectangle(SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE,
+            new Rectangle(0, 0, SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE),
             Color.White);
 
@@ -242,7 +246,7 @@ internal class TextDialogueScreen : TextEventScreenBase
         const int SPEAKER_FRAME_COUNT = 4;
         const double SPEAKER_FRAME_DURATION = 0.25;
 
-        var currentFragment = _textParagraphControls[_currentFragmentIndex];
+        var currentFragment = TextParagraphControls[CurrentFragmentIndex];
         if (!currentFragment.IsComplete)
         {
             _counter += gameTime.ElapsedGameTime.TotalSeconds;

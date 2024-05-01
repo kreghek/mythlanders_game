@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
-using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens;
-using Client.GameScreens.Campaign;
 using Client.ScreenManagement.Ui.TextEvents;
 
 using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
+
+using GameClient.Engine.Ui;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
@@ -20,59 +19,68 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Client.ScreenManagement;
 
-internal abstract class TextEventScreenBase : GameScreenWithMenuBase
+internal abstract class TextEventScreenBase<TParagraphConditionContext, TAftermathContext> : GameScreenWithMenuBase
 {
-    private readonly HeroCampaign _currentCampaign;
-    private readonly DialogueContextFactory _dialogueContextFactory;
-    private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
+    private readonly TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> _args;
     private readonly DialogueOptions _dialogueOptions;
-    protected readonly DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext> _dialoguePlayer;
+    protected readonly DialoguePlayer<TParagraphConditionContext, TAftermathContext> _dialoguePlayer;
     private readonly IDice _dice;
-    private readonly IEventCatalog _eventCatalog;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
-    private readonly GlobeProvider _globeProvider;
-    private readonly IStoryState _storyState;
 
-    protected readonly IList<TextParagraphControl> _textParagraphControls;
+    private readonly HoverController<DialogueOptionButton> _optionHoverController;
+    private readonly IStoryState _storyState;
     private readonly IUiContentStorage _uiContentStorage;
-    protected int _currentFragmentIndex;
+
+    protected readonly IList<TextParagraphControl<TParagraphConditionContext, TAftermathContext>> TextParagraphControls;
     private bool _currentTextFragmentIsReady;
     private bool _isInitialized;
     private KeyboardState _keyboardState;
     private double _pressToContinueCounter;
+    protected int CurrentFragmentIndex;
 
-    protected TextEventScreenBase(MythlandersGame game, TextEventScreenArgsBase args) : base(game)
+    protected TextEventScreenBase(MythlandersGame game,
+        TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> args) : base(game)
     {
-        _textParagraphControls = new List<TextParagraphControl>();
+        TextParagraphControls = new List<TextParagraphControl<TParagraphConditionContext, TAftermathContext>>();
         _dialogueOptions = new DialogueOptions();
 
-        _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
-        _dice = Game.Services.GetService<IDice>();
-
-        var globeProvider = game.Services.GetService<GlobeProvider>();
-        var globe = globeProvider.Globe ?? throw new InvalidOperationException();
-        var player = globe.Player ?? throw new InvalidOperationException();
-        var storyPointCatalog = game.Services.GetRequiredService<IStoryPointCatalog>();
-        var dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
-
-        _dialogueContextFactory =
-            new DialogueContextFactory(globe, storyPointCatalog, player, dialogueEnvironmentManager,
-                args.DialogueEvent, args.Campaign,
-                new EventContext(globe, storyPointCatalog, player, args.DialogueEvent));
-        _dialoguePlayer =
-            new DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext>(args.CurrentDialogue,
-                _dialogueContextFactory);
-
-        _currentCampaign = args.Campaign;
-        _storyState = player.StoryState;
-        _globeProvider = globeProvider;
-        _dialogueEnvironmentManager = dialogueEnvironmentManager;
-        _eventCatalog = game.Services.GetRequiredService<IEventCatalog>();
+        _gameObjectContentStorage = game.Services.GetRequiredService<GameObjectContentStorage>();
+        _dice = Game.Services.GetRequiredService<IDice>();
         _uiContentStorage = game.Services.GetRequiredService<IUiContentStorage>();
+
+        var globeProvider = game.Services.GetRequiredService<GlobeProvider>();
+        var globe = globeProvider.Globe;
+        var player = globe.Player;
+        _storyState = player.StoryState;
+
+        _dialoguePlayer = new DialoguePlayer<TParagraphConditionContext, TAftermathContext>(args.CurrentDialogue,
+            CreateDialogueContextFactory(args));
+        _args = args;
+
+        _optionHoverController = new HoverController<DialogueOptionButton>();
+
+        _optionHoverController.Hover += (sender, button) =>
+        {
+            if (button is not null)
+            {
+                HandleOptionHover(button);
+            }
+        };
+
+        _optionHoverController.Leave += (sender, button) =>
+        {
+            if (button is not null)
+            {
+                HandleOptionLeave(button);
+            }
+        };
     }
 
-    protected DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext> CurrentFragment =>
-        _dialoguePlayer.CurrentTextFragments[_currentFragmentIndex];
+    protected DialogueSpeech<TParagraphConditionContext, TAftermathContext> CurrentFragment =>
+        _dialoguePlayer.CurrentTextFragments[CurrentFragmentIndex];
+
+    protected abstract IDialogueContextFactory<TParagraphConditionContext, TAftermathContext>
+        CreateDialogueContextFactory(TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> args);
 
     protected override IList<ButtonBase> CreateMenu()
     {
@@ -99,6 +107,21 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
     protected abstract void DrawSpecificBackgroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect);
 
     protected abstract void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect);
+
+    protected abstract void HandleDialogueEnd();
+
+
+    protected virtual void HandleOptionHover(DialogueOptionButton button)
+    {
+    }
+
+    protected virtual void HandleOptionLeave(DialogueOptionButton button)
+    {
+    }
+
+    protected virtual void HandleOptionSelection(DialogueOptionButton button)
+    {
+    }
 
     protected override void UpdateContent(GameTime gameTime)
     {
@@ -141,9 +164,9 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
 
         const int PORTRAIT_SIZE = 256;
 
-        if (_textParagraphControls.Any())
+        if (TextParagraphControls.Any())
         {
-            var textFragmentControl = _textParagraphControls[_currentFragmentIndex];
+            var textFragmentControl = TextParagraphControls[CurrentFragmentIndex];
 
             var textFragmentSize = textFragmentControl.CalculateSize().ToPoint();
 
@@ -167,12 +190,12 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
             }
         }
 
-        if (_currentFragmentIndex == _textParagraphControls.Count - 1 &&
-            _textParagraphControls[_currentFragmentIndex].IsComplete)
+        if (CurrentFragmentIndex == TextParagraphControls.Count - 1 &&
+            TextParagraphControls[CurrentFragmentIndex].IsComplete)
         {
             const int OPTION_BUTTON_MARGIN = 5;
             var lastTopButtonPosition =
-                _textParagraphControls[_currentFragmentIndex].Rect.Bottom + OPTION_BUTTON_MARGIN;
+                TextParagraphControls[CurrentFragmentIndex].Rect.Bottom + OPTION_BUTTON_MARGIN;
 
             _dialogueOptions.Rect = new Rectangle(PORTRAIT_SIZE, lastTopButtonPosition,
                 contentRectangle.Width - PORTRAIT_SIZE + 100,
@@ -183,31 +206,21 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
         spriteBatch.End();
     }
 
-    private void HandleDialogueEnd()
-    {
-        _globeProvider.Globe.Update(_dice, _eventCatalog);
-        _dialogueEnvironmentManager.Clean();
-        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-            new CampaignScreenTransitionArguments(_currentCampaign));
-
-        _globeProvider.StoreCurrentGlobe();
-    }
-
-
     private void InitDialogueControls()
     {
-        _textParagraphControls.Clear();
-        _currentFragmentIndex = 0;
+        TextParagraphControls.Clear();
+        CurrentFragmentIndex = 0;
+
         foreach (var textFragment in _dialoguePlayer.CurrentTextFragments)
         {
             var speaker = ConvertSpeakerToUnitName(textFragment.Speaker);
-            var textFragmentControl = new TextParagraphControl(
+            var textFragmentControl = new TextParagraphControl<TParagraphConditionContext, TAftermathContext>(
                 textFragment,
                 _gameObjectContentStorage.GetTextSoundEffect(speaker),
                 _dice,
-                _dialogueContextFactory.CreateAftermathContext(),
+                CreateDialogueContextFactory(_args).CreateAftermathContext(),
                 _storyState);
-            _textParagraphControls.Add(textFragmentControl);
+            TextParagraphControls.Add(textFragmentControl);
         }
 
         var optionNumber = 1;
@@ -215,9 +228,11 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
         foreach (var option in _dialoguePlayer.CurrentOptions)
         {
             var optionButton = new DialogueOptionButton(optionNumber, option.TextSid);
-            optionButton.OnClick += (_, _) =>
+            optionButton.OnClick += (s, _) =>
             {
                 _dialoguePlayer.SelectOption(option);
+
+                HandleOptionSelection((DialogueOptionButton)s!);
 
                 if (_dialoguePlayer.IsEnd)
                 {
@@ -227,6 +242,16 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
                 {
                     _isInitialized = false;
                 }
+            };
+
+            optionButton.OnHover += (sender, _) =>
+            {
+                _optionHoverController.HandleHover((DialogueOptionButton?)sender);
+            };
+
+            optionButton.OnLeave += (sender, _) =>
+            {
+                _optionHoverController.HandleLeave((DialogueOptionButton?)sender);
             };
 
             _dialogueOptions.Options.Add(optionButton);
@@ -243,11 +268,11 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
     {
         _pressToContinueCounter += gameTime.ElapsedGameTime.TotalSeconds * 10f;
 
-        var currentFragment = _textParagraphControls[_currentFragmentIndex];
+        var currentFragment = TextParagraphControls[CurrentFragmentIndex];
         currentFragment.Update(gameTime);
 
-        var maxFragmentIndex = _textParagraphControls.Count - 1;
-        if (IsKeyPressed(Keys.Space) && !_textParagraphControls[_currentFragmentIndex].IsComplete)
+        var maxFragmentIndex = TextParagraphControls.Count - 1;
+        if (IsKeyPressed(Keys.Space) && !TextParagraphControls[CurrentFragmentIndex].IsComplete)
         {
             currentFragment.FastComplete();
 
@@ -256,19 +281,19 @@ internal abstract class TextEventScreenBase : GameScreenWithMenuBase
 
         if (currentFragment.IsComplete)
         {
-            if (_currentFragmentIndex < maxFragmentIndex)
+            if (CurrentFragmentIndex < maxFragmentIndex)
             {
                 _currentTextFragmentIsReady = true;
                 //TODO Make auto-move to next dialog. Make it disabled in settings by default.
                 if (IsKeyPressed(Keys.Space))
                 {
-                    _currentFragmentIndex++;
+                    CurrentFragmentIndex++;
                     _currentTextFragmentIsReady = false;
                 }
             }
         }
 
-        if (_currentFragmentIndex == maxFragmentIndex && _textParagraphControls[_currentFragmentIndex].IsComplete)
+        if (CurrentFragmentIndex == maxFragmentIndex && TextParagraphControls[CurrentFragmentIndex].IsComplete)
         {
             _dialogueOptions.Update(ResolutionIndependentRenderer);
 

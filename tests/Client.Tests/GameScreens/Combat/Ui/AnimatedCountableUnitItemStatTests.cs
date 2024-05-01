@@ -1,5 +1,4 @@
-using Client.GameScreens.Combat;
-using Client.GameScreens.Combat.Ui.CombatResultModalModels;
+using Client.GameScreens.Common.Result;
 
 using FluentAssertions;
 
@@ -23,7 +22,7 @@ public class AnimatedCountableUnitItemStatTests
             StartValue = startAmount
         };
 
-        var fact = new AnimatedCountableUnitItemStat(sourceReward);
+        var fact = new AnimatedCountableResource(sourceReward);
 
         // ACT
 

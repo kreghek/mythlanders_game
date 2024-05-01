@@ -1,4 +1,3 @@
-using Client.Assets.Catalogs.Dialogues;
 using Client.Engine;
 
 using CombatDicesTeam.Dialogues;
@@ -11,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.TextDialogue.Ui;
 
-internal sealed class TextParagraphMessageControl : ControlBase
+internal sealed class TextParagraphMessageControl<TParagraphConditionContext, TAftermathContext> : ControlBase
 {
     private readonly SpriteFont _font;
     private readonly bool _isCharacterSpeech;
@@ -19,7 +18,7 @@ internal sealed class TextParagraphMessageControl : ControlBase
     private readonly Speech _speech;
 
     public TextParagraphMessageControl(
-        DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext> eventTextFragment,
+        DialogueSpeech<TParagraphConditionContext, TAftermathContext> eventTextFragment,
         SoundEffect textSoundEffect, IDice dice, bool isCharacterSpeech) :
         base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {

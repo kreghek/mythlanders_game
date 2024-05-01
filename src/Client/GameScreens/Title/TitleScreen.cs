@@ -2,28 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Client.Assets;
-using Client.Assets.StageItems;
+using Client.Assets.Catalogs;
+using Client.Assets.Catalogs.Dialogues;
+using Client.Assets.Catalogs.DialogueStoring;
 using Client.Core;
-using Client.Core.CampaignEffects;
-using Client.Core.Campaigns;
 using Client.Engine;
-using Client.GameScreens.Combat;
-using Client.GameScreens.CommandCenter;
 using Client.GameScreens.Common;
+using Client.GameScreens.PreHistory;
 using Client.ScreenManagement;
 
-using CombatDicesTeam.Combats;
+using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
-using CombatDicesTeam.Engine.Ui;
-using CombatDicesTeam.Graphs;
-
-using Core.PropDrop;
 
 using GameClient.Engine.RectControl;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace Client.GameScreens.Title;
 
@@ -38,6 +36,7 @@ internal sealed class TitleScreen : GameScreenBase
     private readonly IList<ButtonBase> _buttons;
     private readonly ICamera2DAdapter _camera;
     private readonly ICampaignGenerator _campaignGenerator;
+    private readonly StateCoordinator _coordinator;
     private readonly IDice _dice;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly GameSettings _gameSettings;
@@ -47,6 +46,7 @@ internal sealed class TitleScreen : GameScreenBase
     private readonly ParticleSystem _particleSystem;
     private readonly ParticleSystem[] _pulseParticleSystems;
     private readonly IResolutionIndependentRenderer _resolutionIndependentRenderer;
+    private readonly IDialogueResourceProvider _resourceProvider;
 
     private readonly SettingsModal _settingsModal;
     private readonly UnitName[] _showcaseUnits;
@@ -55,39 +55,28 @@ internal sealed class TitleScreen : GameScreenBase
     public TitleScreen(MythlandersGame game)
         : base(game)
     {
-        _globeProvider = Game.Services.GetService<GlobeProvider>();
+        _globeProvider = Game.Services.GetRequiredService<GlobeProvider>();
 
-        _camera = Game.Services.GetService<ICamera2DAdapter>();
-        _resolutionIndependentRenderer = Game.Services.GetService<IResolutionIndependentRenderer>();
-        _campaignGenerator = game.Services.GetService<ICampaignGenerator>();
+        _camera = Game.Services.GetRequiredService<ICamera2DAdapter>();
+        _resolutionIndependentRenderer = Game.Services.GetRequiredService<IResolutionIndependentRenderer>();
 
-        _dice = Game.Services.GetService<IDice>();
-        _gameSettings = Game.Services.GetService<GameSettings>();
+        _dice = Game.Services.GetRequiredService<IDice>();
+        _gameSettings = Game.Services.GetRequiredService<GameSettings>();
 
-        var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+        var soundtrackManager = Game.Services.GetRequiredService<SoundtrackManager>();
         soundtrackManager.PlayTitleTrack();
 
-        _uiContentStorage = game.Services.GetService<IUiContentStorage>();
-        _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
+        _uiContentStorage = game.Services.GetRequiredService<IUiContentStorage>();
+        _gameObjectContentStorage = game.Services.GetRequiredService<GameObjectContentStorage>();
+        _campaignGenerator = game.Services.GetRequiredService<ICampaignGenerator>();
+
+        _coordinator = game.Services.GetRequiredService<StateCoordinator>();
+
+        _resourceProvider = game.Services.GetRequiredService<IDialogueResourceProvider>();
 
         _buttons = new List<ButtonBase>();
 
-        var loadGameButton = CreateLoadButtonOrNothing();
-        if (loadGameButton is not null)
-        {
-            _buttons.Add(loadGameButton);
-        }
-        else
-        {
-            var startButton = new TitleResourceTextButton(nameof(UiResource.PlayStoryButtonTitle));
-            startButton.OnClick += StartButton_OnClick;
-
-            _buttons.Add(startButton);
-        }
-
-        var freeCombatButton = new TitleResourceTextButton(nameof(UiResource.PlayFreeCombatButtonTitle));
-        freeCombatButton.OnClick += FreeCombatButton_OnClick;
-        _buttons.Add(freeCombatButton);
+        MakeStartGameButton();
 
         var settingsButton = new TitleResourceTextButton(nameof(UiResource.SettingsButtonTitle));
         settingsButton.OnClick += SettingsButton_OnClick;
@@ -132,16 +121,30 @@ internal sealed class TitleScreen : GameScreenBase
     }
 
     public static void StartClearNewGame(GlobeProvider globeProvider, IScreen currentScreen,
-        IScreenManager screenManager, ICampaignGenerator campaignGenerator)
+        StateCoordinator coordinator,
+        IScreenManager screenManager, ICampaignGenerator campaignGenerator,
+        IDialogueResourceProvider dialogueResourceProvider)
     {
         globeProvider.GenerateNew();
 
-        var availableLaunches = campaignGenerator.CreateSet(globeProvider.Globe);
+        var dialogueYaml = dialogueResourceProvider.GetResource("pre-history");
+
+        var deserializer = new DeserializerBuilder()
+            .WithNamingConvention(CamelCaseNamingConvention.Instance)
+            .Build();
+
+        var dialogueDtoDict = deserializer.Deserialize<Dictionary<string, DialogueDtoScene>>(dialogueYaml);
+
+        var preHistoryDialogue = DialogueCatalogHelper.Create(
+            "pre-history", dialogueDtoDict,
+            new DialogueCatalogCreationServices<PreHistoryAftermathContext>(
+                new PreHistoryDialogueEnvironmentEffectCreator(), new PreHistoryOptionAftermathCreator()),
+            _ => ArraySegment<IDialogueParagraphCondition<ParagraphConditionContext>>.Empty);
 
         screenManager.ExecuteTransition(
             currentScreen,
-            ScreenTransition.CommandCenter,
-            new CommandCenterScreenTransitionArguments(availableLaunches));
+            ScreenTransition.PreHistory,
+            new PreHistoryScreenScreenTransitionArguments(preHistoryDialogue));
     }
 
     protected override void DrawContent(SpriteBatch spriteBatch)
@@ -228,6 +231,13 @@ internal sealed class TitleScreen : GameScreenBase
 
     private ButtonBase? CreateLoadButtonOrNothing()
     {
+        if (_gameSettings.Mode == GameMode.Demo)
+        {
+            // Do not store game in demo version.
+            // Looks like game has no saves.
+            return null;
+        }
+
         if (!_globeProvider.CheckSavesExist())
         {
             return null;
@@ -238,7 +248,7 @@ internal sealed class TitleScreen : GameScreenBase
         loadGameButton.OnClick += (_, _) =>
         {
             var continueDialog = new ContinueGameModal(_uiContentStorage, _resolutionIndependentRenderer,
-                _globeProvider, ScreenManager, this, _campaignGenerator);
+                _globeProvider, ScreenManager, this, _campaignGenerator, _coordinator, _resourceProvider);
             AddModal(continueDialog, isLate: true);
             continueDialog.Show();
         };
@@ -300,94 +310,6 @@ internal sealed class TitleScreen : GameScreenBase
         }
     }
 
-    private void DrawMusicPulse(SpriteBatch spriteBatch, Rectangle contentRect)
-    {
-        foreach (var particleSystem in _pulseParticleSystems)
-        {
-            particleSystem.Draw(spriteBatch);
-        }
-
-        _particleSystem.MoveEmitter(contentRect.Center.ToVector2() + new Vector2(0, 160));
-
-        _particleSystem.Draw(spriteBatch);
-    }
-
-    private void FreeCombatButton_OnClick(object? sender, EventArgs e)
-    {
-        var freeHeroes = new[]
-        {
-            ("swordsman", new StatValue(5)),
-            ("amazon", new StatValue(3)),
-            ("partisan", new StatValue(3)),
-            ("robber", new StatValue(3)),
-            ("monk", new StatValue(3)),
-            ("guardian", new StatValue(5))
-        };
-
-        var freeMonsters = new[]
-        {
-            "digitalwolf",
-            "corruptedbear",
-            "wisp",
-            "chaser",
-            "aspid",
-            "volkolakwarrior",
-            "agressor",
-            "ambushdrone",
-            "automataur"
-        };
-
-        var freeLocations = new[]
-        {
-            LocationSids.Thicket,
-            LocationSids.Desert,
-            LocationSids.Monastery,
-            LocationSids.Battleground,
-            LocationSids.Swamp,
-            LocationSids.ShipGraveyard
-        };
-
-        var heroPositions = Enumerable.Range(0, 6).Select(x => new FieldCoords(x / 3, x % 3)).ToArray();
-        var monsterPositions = Enumerable.Range(0, 6).Select(x => new FieldCoords(x / 3, x % 3)).ToArray();
-
-        var dice = new LinearDice();
-        var rolledHeroes = dice.RollFromList(freeHeroes, dice.Roll(2, 4)).ToArray();
-        var rolledHeroPositions = _dice.RollFromList(heroPositions, rolledHeroes.Length).ToArray();
-        var heroStates = rolledHeroPositions
-            .Select((position, heroIndex) => (
-                HeroState.Create(rolledHeroes[heroIndex].Item1), position))
-            .ToArray();
-        _globeProvider.GenerateFree(heroStates.Select(x => x.Item1).ToArray());
-
-        var rolledMonsters = _dice.RollFromList(freeMonsters, dice.Roll(2, 4)).ToArray();
-        var rolledCoords = _dice.RollFromList(monsterPositions, rolledMonsters.Length).ToArray();
-
-        var prefabs = rolledCoords.Select((t, i) => new MonsterCombatantPrefab(rolledMonsters[i], 0, t)).ToList();
-
-        var combat =
-            new CombatSource(
-                prefabs.Select(x => new PerkMonsterCombatantPrefab(x, ArraySegment<MonsterPerk>.Empty))
-                    .ToArray(), new CombatReward(Array.Empty<IDropTableScheme>()));
-        var combatSequence = new CombatSequence
-        {
-            Combats = new[] { combat }
-        };
-
-        var rolledLocation = dice.RollFromList(freeLocations);
-
-        var oneCombatNode = new GraphNode<ICampaignStageItem>(new CombatStageItem(rolledLocation, combatSequence));
-        var oneCombatGraph = new DirectedGraph<ICampaignStageItem>();
-        oneCombatGraph.AddNode(oneCombatNode);
-        var campaignSource = new HeroCampaignLocation(rolledLocation, oneCombatGraph);
-        var campaign = new HeroCampaign(heroStates, campaignSource, ArraySegment<ICampaignEffect>.Empty,
-            ArraySegment<ICampaignEffect>.Empty, 1);
-
-        ScreenManager.ExecuteTransition(
-            this,
-            ScreenTransition.Combat,
-            new CombatScreenTransitionArguments(campaign, combatSequence, 1, false, rolledLocation, null));
-    }
-
     private UnitName[] GetAvailableHeroes()
     {
         var lastHeroes = GetLastHeroes(_globeProvider);
@@ -446,6 +368,22 @@ internal sealed class TitleScreen : GameScreenBase
         return _dice.RollFromList(lastHeroes, heroCount).ToArray();
     }
 
+    private void MakeStartGameButton()
+    {
+        var loadGameButton = CreateLoadButtonOrNothing();
+        if (loadGameButton is not null)
+        {
+            _buttons.Add(loadGameButton);
+        }
+        else
+        {
+            var startButton = new TitleResourceTextButton(nameof(UiResource.PlayStoryButtonTitle));
+            startButton.OnClick += StartButton_OnClick;
+
+            _buttons.Add(startButton);
+        }
+    }
+
     private void SettingsButton_OnClick(object? sender, EventArgs e)
     {
         _settingsModal.Show();
@@ -453,6 +391,6 @@ internal sealed class TitleScreen : GameScreenBase
 
     private void StartButton_OnClick(object? sender, EventArgs e)
     {
-        StartClearNewGame(_globeProvider, this, ScreenManager, _campaignGenerator);
+        StartClearNewGame(_globeProvider, this, _coordinator, ScreenManager, _campaignGenerator, _resourceProvider);
     }
 }

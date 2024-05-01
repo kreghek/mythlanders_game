@@ -7,6 +7,10 @@ public sealed class RichText : ControlBase
 {
     private readonly Func<Color, Color> _colorDelegate;
     private readonly SpriteFont _font;
+
+    private readonly Color _highlightColor1 = new(109, 234, 214);
+    private readonly Color _highlightColor2 = new(243, 168, 51);
+    private readonly Color _highlightColor3 = new(243, 168, 51);
     private readonly Func<string> _textDelegate;
     private readonly Point _textureOffset;
 
@@ -41,7 +45,7 @@ public sealed class RichText : ControlBase
     {
         var inputText = _textDelegate();
         var nodes = TextParser.ParseText(inputText);
-        var currentPosition = contentRect.Location.ToVector2();
+        var currentSymbolPosition = contentRect.Location.ToVector2();
 
         foreach (var node in nodes)
         {
@@ -51,20 +55,15 @@ public sealed class RichText : ControlBase
 
                 if (symbol == '\n')
                 {
-                    currentPosition = new Vector2(contentRect.Left, currentPosition.Y + symbolSize.Y / 2);
+                    currentSymbolPosition = new Vector2(contentRect.Left, currentSymbolPosition.Y + symbolSize.Y / 2);
                 }
                 else
                 {
-                    var currentColor = _colorDelegate(contentColor);
+                    var symbolColor = GetTextColorByIndex(node.Style.ColorIndex) ?? _colorDelegate(contentColor);
 
-                    if (node.Style.ColorIndex is not null)
-                    {
-                        currentColor = Color.Lerp(currentColor, Color.Red, 0.75f);
-                    }
-
-                    spriteBatch.DrawString(_font, symbol.ToString(), currentPosition,
-                        currentColor);
-                    currentPosition += new Vector2(symbolSize.X, 0);
+                    spriteBatch.DrawString(_font, symbol.ToString(), currentSymbolPosition,
+                        symbolColor);
+                    currentSymbolPosition += new Vector2(symbolSize.X, 0);
                 }
             }
         }
@@ -74,8 +73,15 @@ public sealed class RichText : ControlBase
     {
         return string.Join("", TextParser.ParseText(text).Select(x => x.Value));
     }
+
+    private Color? GetTextColorByIndex(int? colorIndex)
+    {
+        return colorIndex switch
+        {
+            1 => _highlightColor1,
+            2 => _highlightColor2,
+            3 => _highlightColor3,
+            _ => null
+        };
+    }
 }
-
-public sealed record RichTextCommand(string Value, RichTextNodeStyle Style);
-
-public sealed record RichTextNodeStyle(int? ColorIndex, int? Animation);

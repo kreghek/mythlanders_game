@@ -1,9 +1,7 @@
-using Client.Assets.Catalogs.Dialogues;
-
 using CombatDicesTeam.Dialogues;
 
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal interface IDecorativeEnvironmentAftermath : IDialogueOptionAftermath<CampaignAftermathContext>
+internal interface IDecorativeEnvironmentAftermath<TAftermathContext> : IDialogueOptionAftermath<TAftermathContext>
 {
 }

@@ -15,6 +15,7 @@ internal sealed class StoryPoint : IStoryPoint
 
     public IReadOnlyCollection<IStoryPointAftermath>? Aftermaths { get; init; }
     public string? TitleSid { get; init; }
+    public int Order => 2;
 
     public string Sid { get; }
     public IReadOnlyCollection<IJob>? CurrentJobs { get; init; }

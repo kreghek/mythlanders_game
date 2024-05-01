@@ -282,9 +282,6 @@
   <data name="CombatResultMonsterDangerIncreasedTemplate" xml:space="preserve">
     <value>Опасность монстров выросла до {0}</value>
   </data>
-  <data name="CombatResultNextText" xml:space="preserve">
-    <value>Следующий бой...</value>
-  </data>
   <data name="CombatResultVictoryText" xml:space="preserve">
     <value>Победа!</value>
   </data>
@@ -358,9 +355,6 @@
   </data>
   <data name="DialogueContinueText" xml:space="preserve">
     <value>Нажмите [ПРОБЕЛ] чтобы продолжить</value>
-  </data>
-  <data name="EffectConditionIsRightAllyWithShieldText" xml:space="preserve">
-    <value>если правый союзник с щитом</value>
   </data>
   <data name="EndOfGameMessage" xml:space="preserve">
     <value>Это конец демо. Поздравляем!{0}Спасибо за внимание!</value>

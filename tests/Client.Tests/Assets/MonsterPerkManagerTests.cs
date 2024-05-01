@@ -125,14 +125,12 @@ public class MonsterPerkManagerTests
             }
         };
 
-        var regularPerk = new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "all");
+        var regularPerk = new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "regular");
 
         var monsterPerkCatalog = Mock.Of<IMonsterPerkCatalog>(x => x.Perks == new[]
         {
             blackPerk,
-            regularPerk,
-            new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "ExtraHitPoints"),
-            new MonsterPerk(Mock.Of<ICombatantStatusFactory>(), "ExtraShieldPoints")
+            regularPerk
         });
 
         var diceMock = new Mock<IDice>();
@@ -147,10 +145,7 @@ public class MonsterPerkManagerTests
         globeProvider.GenerateNew();
 
         globeProvider.Globe.Player.AddMonsterPerk(blackPerk);
-        globeProvider.Globe.Player.RemoveMonsterPerk(
-            globeProvider.Globe.Player.MonsterPerks.Single(x => x.Sid == "ExtraHitPoints"));
-        globeProvider.Globe.Player.RemoveMonsterPerk(
-            globeProvider.Globe.Player.MonsterPerks.Single(x => x.Sid == "ExtraShieldPoints"));
+        globeProvider.Globe.Player.AddMonsterPerk(regularPerk);
 
         var monster = new MonsterCombatantPrefab("aggressor", default, new FieldCoords(default, default));
 

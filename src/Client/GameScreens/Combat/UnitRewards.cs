@@ -1,3 +1,5 @@
+using Client.GameScreens.Common.Result;
+
 namespace Client.GameScreens.Combat;
 
 internal sealed record CombatRewardsItem
