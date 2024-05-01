@@ -5,7 +5,7 @@ root:
         The warrior sees two people surrounded by monsters. But these fighters don't even think about giving up.
     - speaker: Swordsman
       text: |
-        "Gather a Flock. That’s what that strange Hort said," Berimir says quietly under his breath.
+        "Gather a Flock. That's what that strange Hort said," Berimir says quietly under his breath.
       env:
         - type: PlayMusic
           data: Battle
