@@ -385,6 +385,12 @@
     <value>Перемещается вперед и наносит &lt;damage&gt; ближайшему в линии противнику.</value>
     <comment>Combat Movement Swordsman</comment>
   </data>
+  <data name="DigitalHort" xml:space="preserve">
+    <value>Серый</value>
+  </data>
+  <data name="DigitalHort_Hidden" xml:space="preserve">
+    <value>Говорящий Хорт</value>
+  </data>
   <data name="DigitalWolf" xml:space="preserve">
     <value>Цифровой волк</value>
     <comment>Monster</comment>
@@ -823,6 +829,9 @@
   <data name="Partisan" xml:space="preserve">
     <value>Глухой</value>
   </data>
+  <data name="Partisan_Hidden" xml:space="preserve">
+    <value>Партизан</value>
+  </data>
   <data name="Pit" xml:space="preserve">
     <value>Яма</value>
     <comment>Location</comment>
@@ -907,6 +916,9 @@
   <data name="Robber" xml:space="preserve">
     <value>Сокол</value>
     <comment>Hero</comment>
+  </data>
+  <data name="Robber_Hidden" xml:space="preserve">
+    <value>Разбойник</value>
   </data>
   <data name="Sabotage" xml:space="preserve">
     <value>Саботаж</value>

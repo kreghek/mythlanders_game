@@ -1,16 +1,18 @@
 ---
 root:
   paragraphs:
-    - text: 'Ратник видит двух человек, окруженных монстрами. Но эти бойцы и не думают сдаваться.'
+    - text: 'The warrior sees two people surrounded by monsters. But these fighters don’t even think about giving up.'
     - speaker: Swordsman
-      text: '"Собери стаю. Вот про что молвил тот странный Хорт.", тихо говорит Беримир себе под нос.'
+      text: '"Gather a Flock. That’s what that strange Hort said," Berimir says quietly under his breath.'
       env:
         - type: PlayMusic
           data: Battle
     - speaker: Partisan
-      text: '"Эй, приятель, не смотри на меня, просто поддержи меня. Наша борьба еще не окончена!"'
+      text: |
+        "Hey buddy, don't look at me, just support me. Our fight isn't over yet!"
     - speaker: Robber
-      text: '"Знаете, в моих любимых сказках всегда присутствует хитрый разбойник. Однако, он не всегда покидает передряги с... неповрежденными крыльями. Может быть, в этот раз моя удача улыбнется мне. И я буду не только хитрым, но еще и беззаботным негодяем?"'
+      text: |
+        "You know, in my favorite fairy tales there is always a cunning robber. However, he does not always leave troubles with... undamaged wings. Maybe this time my luck will smile on me. And I will be not only cunning, but also a carefree scoundrel?"
       env:
         - type: MeetHero
           data: Partisan

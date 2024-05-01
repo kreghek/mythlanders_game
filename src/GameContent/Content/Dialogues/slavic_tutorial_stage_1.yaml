@@ -2,37 +2,36 @@
 root:
   paragraphs:
     - text: |
-        Лесистая местность, покрытая густым снегом. Древне-славянский ратник, в силовой броне, скрывается от
-        преследователей. Он останавливается, чтобы выслушать звуки сражения, доносящиеся из темной чащи.
-        Внезапно, он слышит шорох за спиной и оборачивается, готовый к бою.
+        Wooded area covered with thick snow. An ancient Slavic warrior, in power armor, is hiding from his pursuers. He stops to listen to the sounds of battle coming from the dark thicket ahead. Suddenly, he hears a rustling behind him and turns around, ready to fight.
     - speaker: Swordsman
       text: |
-        Кто здесь? Покажись!
+        "Who dares to follow me? Show yourself!"
     - text: |
-        Раненный цифровой хорт выскакивает из зарослей. Его глаза излучают слабый свет, а генератор покрыт трещинами.
-        Но выглядит он не как другие хорты, коих ратник встречал раньше. Он как будто более живой.
+        The wounded Digital Hort slowly emerges from the snow cover. His eyes emit a faint light, and his energy body is unstable and distorts more than normal.
+        It does not look like other Horts, which were extremely aggressive life forms. This one seems to be more alive.
     - speaker: DigitalHort
       text: |
-        Помоги... нам...
+        "Help... us..." The synthetic electrical noise was difficult to form into human words.
     - speaker: Swordsman
       text: |
-        "Огненные бури! И как ты умеешь говорить, волк? И зачем ты просишь о помощи? Что-то в этом нечисто..." Беримир сжал оружие покрепче. Сейчас будет удар.
+        "Fire storms! And how can you speak, wolf? Why are you asking for help? Something is unclean in this..." Berimir gripped his weapon tighter for a quick blow.
     - speaker: DigitalHort
       text: |
-        "Наши враги... они создают новых богов... вы не можете дать им победить..."
+        "Our enemies... they are creating new gods... I have been given my word to give you a choice, people of Myth. Either you rise above all this and stop the Shadow. Or you yourself will become the monsters that you call us..."
     - speaker: Swordsman
       text: |
-        "Новые боги? Брешишь, зверь!"
+        "New gods? You're lying, beast!"
     - speaker: DigitalHort
       text: |
-        "Человек... Не время для шуток! Собери свою стаю в чаще и ступайте в Тень."
+        "Man... My time is running out. Gather your Flock and step into the Shadow together. Now get ready for one of many fights... and try not to die too early!"
     - speaker: Swordsman
       text: |
-        Беримир внимательно вслушивался в слова раненного цифрового создания, доселе враждебного ему. В той чаще может быть ловушка. "Хорт, держись. Я пойду в бой. Но сначала ты выживешь. Понял?"
+        Berimir listened carefully to the words of the wounded digital creature, hitherto hostile to him. It happened that wolves helped people of old times. "Grey, hold on. I will go into battle and help you, no matter who you are. But first you will survive. Got it?"
     - speaker: DigitalHort
       text: |
-        "Помоги им... и нам всем..."
-    - text: Ратник бросил тревожный взор в чащу, вслушиваясь в происходящее. Мгновение! И хорт из последних хищно прыгает на Беримира. Раненный монтр готов сражаться до последнего вздоха. Это была ловушка!
+        "Help them... and us all..."
+    - text: |
+        The warrior cast an anxious glance into the thicket, listening to what was happening. Instant! And the hort quickly changes and, with the last of his strength, predatorily jumps on the warrior. The wounded monster is ready to fight until his last breath. Was this chatter really a trap?!
       env:
         - type: Trigger
           data: stage_1_fight

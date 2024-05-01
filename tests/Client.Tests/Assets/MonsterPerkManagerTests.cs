@@ -45,6 +45,7 @@ public class MonsterPerkManagerTests
 
         globeProvider.GenerateNew();
         globeProvider.Globe.Player.AddMonsterPerk(uniquePerk);
+        globeProvider.Globe.Features.AddFeature(GameFeatures.RewardMonsterPerks);
 
         var sut = new MonsterPerkManager(dice, monsterPerkCatalog,
             globeProvider);
@@ -97,6 +98,7 @@ public class MonsterPerkManagerTests
 
         globeProvider.Globe.Player.AddMonsterPerk(blackPerk);
         globeProvider.Globe.Player.AddMonsterPerk(regularPerk);
+        globeProvider.Globe.Features.AddFeature(GameFeatures.UseMonsterPerks);
 
         var monster = new MonsterCombatantPrefab("test-monster", default, new FieldCoords(default, default));
 
@@ -146,6 +148,7 @@ public class MonsterPerkManagerTests
 
         globeProvider.Globe.Player.AddMonsterPerk(blackPerk);
         globeProvider.Globe.Player.AddMonsterPerk(regularPerk);
+        globeProvider.Globe.Features.AddFeature(GameFeatures.UseMonsterPerks);
 
         var monster = new MonsterCombatantPrefab("aggressor", default, new FieldCoords(default, default));
 
