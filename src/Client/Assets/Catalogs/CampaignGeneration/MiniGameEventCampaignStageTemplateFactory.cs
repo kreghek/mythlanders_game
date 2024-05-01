@@ -13,6 +13,11 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 
 internal sealed class MiniGameEventCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
+    private readonly IReadOnlyCollection<GameFeature> _allMiniGameFeatures = new[]
+    {
+        GameFeatures.SlidingPuzzleMiniGame, GameFeatures.Match3MiniGame, GameFeatures.TowersMiniGame
+    };
+
     private readonly CampaignStageTemplateServices _services;
 
     public MiniGameEventCampaignStageTemplateFactory(CampaignStageTemplateServices services)
@@ -20,9 +25,23 @@ internal sealed class MiniGameEventCampaignStageTemplateFactory : ICampaignStage
         _services = services;
     }
 
+    private IEnumerable<GameFeature> FilterMiniGameFeatures(IEnumerable<GameFeature> allMiniGameFeatures)
+    {
+        return allMiniGameFeatures.Where(x => _services.GlobeProvider.Globe.Features.HasFeature(x)).ToArray();
+    }
+
     private static ICampaignStageItem[] MapContextToCurrentStageItems(IGraphTemplateContext<ICampaignStageItem> context)
     {
         return context.CurrentWay.Select(x => x.Payload).ToArray();
+    }
+
+    private GameFeature RollMiniGameFeature()
+    {
+        var availableMiniGames = FilterMiniGameFeatures(_allMiniGameFeatures);
+
+        var rolledMiniGameFeatures = _services.Dice.RollFromList(availableMiniGames.ToArray());
+
+        return rolledMiniGameFeatures;
     }
 
     public bool CanCreate(IReadOnlyList<ICampaignStageItem> currentStageItems)
@@ -51,25 +70,6 @@ internal sealed class MiniGameEventCampaignStageTemplateFactory : ICampaignStage
 
         // rollback
         return new SlidingPuzzlesMiniGameStageItem();
-    }
-
-    private readonly IReadOnlyCollection<GameFeature> _allMiniGameFeatures = new[]
-    {
-        GameFeatures.SlidingPuzzleMiniGame, GameFeatures.Match3MiniGame, GameFeatures.TowersMiniGame
-    };
-
-    private GameFeature RollMiniGameFeature()
-    {
-        var availableMiniGames = FilterMiniGameFeatures(_allMiniGameFeatures);
-
-        var rolledMiniGameFeatures = _services.Dice.RollFromList(availableMiniGames.ToArray());
-
-        return rolledMiniGameFeatures;
-    }
-
-    private IEnumerable<GameFeature> FilterMiniGameFeatures(IEnumerable<GameFeature> allMiniGameFeatures)
-    {
-        return allMiniGameFeatures.Where(x => _services.GlobeProvider.Globe.Features.HasFeature(x)).ToArray();
     }
 
     /// <inheritdoc />

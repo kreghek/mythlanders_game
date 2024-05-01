@@ -82,13 +82,13 @@ internal sealed class CampaignWayTemplatesCatalog
         var way3Templates = new ICampaignStageTemplateFactory[]
         {
             // Evo
-            
+
             new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
             {
                 new TrainingCampaignStageTemplateFactory(_services),
                 new WorkshopCampaignStageTemplateFactory(_services)
             }, _services),
-            
+
             new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
             {
                 new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
@@ -98,9 +98,8 @@ internal sealed class CampaignWayTemplatesCatalog
                     new MiniGameEventCampaignStageTemplateFactory(_services),
                     new RestCampaignStageTemplateFactory()
                 })
-                
             }, _services),
-            
+
             // Combat
 
             new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Hard, _services)
