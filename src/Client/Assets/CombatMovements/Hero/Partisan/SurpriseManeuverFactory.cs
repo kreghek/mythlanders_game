@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.Effects;
@@ -44,5 +46,15 @@ internal class SurpriseManeuverFactory : CombatMovementFactoryBase
                         new ToNextCombatantTurnEffectLifetimeFactory())
                 })
         );
+    }
+
+    /// <inheritdoc />
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new DescriptionKeyValue("defence", 2, DescriptionKeyValueTemplate.Defence)
+        };
     }
 }

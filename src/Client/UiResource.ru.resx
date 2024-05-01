@@ -282,9 +282,6 @@
   <data name="CombatResultMonsterDangerIncreasedTemplate" xml:space="preserve">
     <value>Опасность монстров выросла до {0}</value>
   </data>
-  <data name="CombatResultNextText" xml:space="preserve">
-    <value>Следующий бой...</value>
-  </data>
   <data name="CombatResultVictoryText" xml:space="preserve">
     <value>Победа!</value>
   </data>
@@ -348,8 +345,13 @@
   <data name="DefeatsJobTitleSid" xml:space="preserve">
     <value>Победа над противниками</value>
   </data>
+  <data name="DemoMarkerDescription" xml:space="preserve">
+    <value>Это не полная версия игры.
+Большая часть контента и механик отсутствует в демо.
+Не забудьте добавить игру в вишлист на популярных площадках и оставить разработчику обратную связь!</value>
+  </data>
   <data name="DemoMarkerText" xml:space="preserve">
-    <value>Demo</value>
+    <value>Демо</value>
   </data>
   <data name="DialogueContinueText" xml:space="preserve">
     <value>Нажмите [ПРОБЕЛ] чтобы продолжить</value>

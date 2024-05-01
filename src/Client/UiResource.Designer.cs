@@ -565,15 +565,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Next combat....
-        /// </summary>
-        internal static string CombatResultNextText {
-            get {
-                return ResourceManager.GetString("CombatResultNextText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Victory!.
         /// </summary>
         internal static string CombatResultVictoryText {
@@ -726,6 +717,17 @@ namespace Client {
         internal static string DefeatsJobTitleSid {
             get {
                 return ResourceManager.GetString("DefeatsJobTitleSid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is not the full version of the game.
+        ///Most of the content and mechanics are missing from the demo.
+        ///Don&apos;t forget to add the game to your wishlist on popular platforms and leave feedback to the developer!.
+        /// </summary>
+        internal static string DemoMarkerDescription {
+            get {
+                return ResourceManager.GetString("DemoMarkerDescription", resourceCulture);
             }
         }
         
@@ -1122,15 +1124,6 @@ namespace Client {
         internal static string PeriodicHealEffectRuleText {
             get {
                 return ResourceManager.GetString("PeriodicHealEffectRuleText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Free Combat.
-        /// </summary>
-        internal static string PlayFreeCombatButtonTitle {
-            get {
-                return ResourceManager.GetString("PlayFreeCombatButtonTitle", resourceCulture);
             }
         }
         

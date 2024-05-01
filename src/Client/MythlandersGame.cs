@@ -215,7 +215,7 @@ internal sealed class MythlandersGame : Game
         }
     }
 
-    private void RegisterCatalogs(BalanceTable balanceTable, DialogueResourceProvider dialogueResourceProvider)
+    private void RegisterCatalogs(BalanceTable balanceTable, IDialogueResourceProvider dialogueResourceProvider)
     {
         if (_gameSettings.Mode == GameMode.Full)
         {
@@ -279,6 +279,7 @@ internal sealed class MythlandersGame : Game
         Services.AddService<IDropResolver>(dropResolver);
 
         var dialogueResourceProvider = new DialogueResourceProvider(Content);
+        Services.AddService<IDialogueResourceProvider>(dialogueResourceProvider);
 
         var balanceTable = new BalanceTable();
 
