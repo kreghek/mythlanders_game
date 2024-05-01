@@ -10,7 +10,7 @@ root:
     - speaker: Partisan
       text: '"Эй, приятель, не смотри на меня, просто поддержи меня. Наша борьба еще не окончена!"'
     - speaker: Robber
-      text: '"You know, in my favorite fairy tales there is always a cunning robber. However, he does not always leave troubles with... undamaged wings. Maybe this time my luck will smile on me. And I will be not only cunning, but also a carefree scoundrel?"'
+      text: '"Знаете, в моих любимых сказках всегда присутствует хитрый разбойник. Однако, он не всегда покидает передряги с... неповрежденными крыльями. Может быть, в этот раз моя удача улыбнется мне. И я буду не только хитрым, но еще и беззаботным негодяем?"'
       env:
         - type: MeetHero
           data: Partisan
