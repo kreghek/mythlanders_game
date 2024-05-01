@@ -165,7 +165,12 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
 
     private void UpdateTransition(GameTime gameTime)
     {
-        var targetBackgroundTexture = _aftermathContext!.GetBackgroundTexture();
+        if (_aftermathContext is null)
+        {
+            return;
+        }
+
+        var targetBackgroundTexture = _aftermathContext.GetBackgroundTexture();
 
         if (targetBackgroundTexture != _currentScene && _sceneTransitionCounter is null)
         {

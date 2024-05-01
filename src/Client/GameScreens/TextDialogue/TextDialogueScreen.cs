@@ -26,7 +26,6 @@ internal class TextDialogueScreen : CampaignTextEventScreenBase
     private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly ILocationSid _globeLocation;
-    private readonly GlobeProvider _globeProvider;
     private readonly Player _player;
     private readonly Random _random;
     private readonly IUiContentStorage _uiContentStorage;
@@ -62,8 +61,6 @@ internal class TextDialogueScreen : CampaignTextEventScreenBase
         var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
 
         soundtrackManager.PlaySilence();
-
-        _globeProvider = globeProvider;
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -78,7 +75,7 @@ internal class TextDialogueScreen : CampaignTextEventScreenBase
 
     protected override void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        if (!_dialoguePlayer.IsEnd)
+        if (_dialoguePlayer is not null && !_dialoguePlayer.IsEnd)
         {
             DrawCurrentSpeakerPortrait(spriteBatch);
         }
