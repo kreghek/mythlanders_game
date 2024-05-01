@@ -27,5 +27,6 @@ internal enum ScreenTransition
     /// Temporal screen to fake transition to stage items which not implemented yet.
     /// </summary>
     NotImplemented,
-    VoiceCombat
+    VoiceCombat,
+    PreHistory
 }

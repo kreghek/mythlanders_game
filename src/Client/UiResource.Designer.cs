@@ -565,15 +565,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Next combat....
-        /// </summary>
-        internal static string CombatResultNextText {
-            get {
-                return ResourceManager.GetString("CombatResultNextText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Victory!.
         /// </summary>
         internal static string CombatResultVictoryText {
@@ -1122,15 +1113,6 @@ namespace Client {
         internal static string PeriodicHealEffectRuleText {
             get {
                 return ResourceManager.GetString("PeriodicHealEffectRuleText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Free Combat.
-        /// </summary>
-        internal static string PlayFreeCombatButtonTitle {
-            get {
-                return ResourceManager.GetString("PlayFreeCombatButtonTitle", resourceCulture);
             }
         }
         

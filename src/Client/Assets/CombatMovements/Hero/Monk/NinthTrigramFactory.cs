@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.Effects;
@@ -43,5 +45,15 @@ internal class NinthTrigramFactory : CombatMovementFactoryBase
                         new ToNextCombatantTurnEffectLifetimeFactory())
                 })
         );
+    }
+
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new DescriptionKeyValue("defence", ExtractStatChangingValue(combatMovementInstance, 1),
+                DescriptionKeyValueTemplate.Defence)
+        };
     }
 }

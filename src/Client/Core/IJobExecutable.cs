@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace Client.Core;
 
 /// <summary>
-/// Интерфейс для сущностей, выполнение которых зависит от работ (перки, квесты).
+/// Interface for entities, the completion of which depends on jobs (perks, quests, globe events).
 /// </summary>
 public interface IJobExecutable
 {

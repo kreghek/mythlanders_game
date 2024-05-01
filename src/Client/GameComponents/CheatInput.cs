@@ -19,7 +19,6 @@ internal sealed class CheatInput : DrawableGameComponent
     private readonly IEventCatalog _eventCatalog;
     private readonly SpriteBatch _spriteBatch;
     private readonly SpriteFont _spriteFont;
-    private readonly ICharacterCatalog _unitSchemeCatalog;
     private double? _errorCounter;
     private string? _errorText;
     private KeyboardState _lastState;
@@ -34,7 +33,6 @@ internal sealed class CheatInput : DrawableGameComponent
         _backgroundTexture = new Texture2D(game.GraphicsDevice, 1, 1);
         _backgroundTexture.SetData(data);
 
-        _unitSchemeCatalog = game.Services.GetService<ICharacterCatalog>();
         _eventCatalog = game.Services.GetService<IEventCatalog>();
     }
 
@@ -129,7 +127,7 @@ internal sealed class CheatInput : DrawableGameComponent
 
         var unitSchemeSid = args[0];
 
-        var hero = globe.Player.Heroes.Units.SingleOrDefault(x => x.ClassSid == unitSchemeSid);
+        var hero = globe.Player.Heroes.SingleOrDefault(x => x.ClassSid == unitSchemeSid);
         if (hero is not null)
         {
             var hpAmount = int.Parse(args[1]);

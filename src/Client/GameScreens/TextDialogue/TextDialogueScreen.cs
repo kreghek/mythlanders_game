@@ -17,7 +17,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.TextDialogue;
 
-internal class TextDialogueScreen : TextEventScreenBase
+internal class TextDialogueScreen : CampaignTextEventScreenBase
 {
     private const int BACKGROUND_LAYERS_COUNT = 3;
 
@@ -246,7 +246,7 @@ internal class TextDialogueScreen : TextEventScreenBase
         const int SPEAKER_FRAME_COUNT = 4;
         const double SPEAKER_FRAME_DURATION = 0.25;
 
-        var currentFragment = _textParagraphControls[_currentFragmentIndex];
+        var currentFragment = TextParagraphControls[CurrentFragmentIndex];
         if (!currentFragment.IsComplete)
         {
             _counter += gameTime.ElapsedGameTime.TotalSeconds;
