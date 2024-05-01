@@ -12,7 +12,7 @@ root:
         - type: PlayMusic
           data: Battle
   options:
-    - text: 'Далее'
+    - text: 'Next'
       next: p2
 
 p2:
