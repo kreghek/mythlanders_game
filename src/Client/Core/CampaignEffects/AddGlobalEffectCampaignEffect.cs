@@ -1,6 +1,6 @@
 ﻿namespace Client.Core.CampaignEffects;
 
-internal class AddGlobalEffectCampaignEffect : ICampaignEffect
+internal sealed class AddGlobalEffectCampaignEffect : ICampaignEffect
 {
     public AddGlobalEffectCampaignEffect(IGlobeEvent targetGlobeEvent)
     {

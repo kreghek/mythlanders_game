@@ -27,8 +27,9 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
     private readonly ButtonBase _showQuestsPanelButton;
     private readonly IUiContentStorage _uiContentStorage;
-    private CampaignEffectsPanel _campaignEffectsPanel = null!;
+    private CampaignEffectsPanel? _campaignEffectsPanel;
     private CampaignMap? _campaignMap;
+    private readonly VerticalStackPanel _jobElement;
 
     private bool _isCampaignPresentation = true;
 
@@ -53,6 +54,51 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
         _bestiaryButton = new ResourceTextButton(nameof(UiResource.BestiaryButtonTitle));
         _bestiaryButton.OnClick += BestiaryButton_OnClick;
+
+        var executables = _globeProvider.Globe.GetCurrentJobExecutables().OfType<IDisplayableJobExecutable>()
+                    .OrderBy(x => x.Order).ThenBy(x => x.TitleSid).ToArray();
+        var executablesElements = CreateJobElements(executables);
+
+        _jobElement = new VerticalStackPanel(_uiContentStorage.GetControlBackgroundTexture(), ControlTextures.Panel, executablesElements);
+    }
+
+    private IReadOnlyList<ControlBase> CreateJobElements(IDisplayableJobExecutable[] executables)
+    {
+        var executableList = new List<ControlBase>();
+
+        foreach (var executable in executables)
+        {
+            var jobTextList = new List<ControlBase>();
+
+            var storyPoint = executable;
+
+            jobTextList.Add(new Text(
+                _uiContentStorage.GetControlBackgroundTexture(),
+                ControlTextures.Panel, 
+                _uiContentStorage.GetTitlesFont(), 
+                _ => Color.White,
+                () => storyPoint.TitleSid));
+
+            if (storyPoint.CurrentJobs is not null)
+            {
+                var currentJobs = storyPoint.CurrentJobs.ToList();
+                foreach (var job in currentJobs)
+                {
+                    var jobClosure = job;
+                    jobTextList.Add(new Text(
+                        _uiContentStorage.GetControlBackgroundTexture(),
+                        ControlTextures.Panel,
+                        _uiContentStorage.GetMainFont(),
+                        _ => Color.Wheat,
+                        () => jobClosure.ToString() ?? string.Empty));
+                }
+            }
+
+            var executablePanel = new VerticalStackPanel(_uiContentStorage.GetControlBackgroundTexture(), ControlTextures.Transparent, jobTextList);
+            executableList.Add(executablePanel);
+        }
+
+        return executableList;
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -130,7 +176,15 @@ internal class CampaignScreen : GameScreenWithMenuBase
             UpdateMapPresentation(gameTime, _campaignMap);
         }
 
-        _showQuestsPanelButton.Update(ResolutionIndependentRenderer);
+        if (_globeProvider.Globe.Features.HasFeature(GameFeatures.ExecutableQuests))
+        {
+            _showQuestsPanelButton.Update(ResolutionIndependentRenderer);
+
+            if (_showQuests)
+            {
+                _showQuestsPanelButton.Update(ResolutionIndependentRenderer);
+            }
+        }
     }
 
     private void BestiaryButton_OnClick(object? sender, EventArgs e)
@@ -142,13 +196,16 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
     private void DrawCampaignEffects(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        _campaignEffectsPanel.Rect = new Rectangle(
-            contentRect.Left + ControlBase.CONTENT_MARGIN,
-            contentRect.Top + ControlBase.CONTENT_MARGIN,
-            200,
-            ControlBase.CONTENT_MARGIN * 5 + 20 * 4);
+        if (_globeProvider.Globe.Features.HasFeature(GameFeatures.CampaignEffects) && _campaignEffectsPanel is not null)
+        {
+            _campaignEffectsPanel.Rect = new Rectangle(
+                contentRect.Left + ControlBase.CONTENT_MARGIN,
+                contentRect.Top + ControlBase.CONTENT_MARGIN,
+                200,
+                ControlBase.CONTENT_MARGIN * 5 + 20 * 4);
 
-        _campaignEffectsPanel.Draw(spriteBatch);
+            _campaignEffectsPanel.Draw(spriteBatch);
+        }
     }
 
     private void DrawCurrentStoryPoints(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -158,30 +215,15 @@ internal class CampaignScreen : GameScreenWithMenuBase
             return;
         }
 
-        _showQuestsPanelButton.Rect = new Rectangle(contentRect.Right - 50, contentRect.Top, 50, 20);
-        _showQuestsPanelButton.Draw(spriteBatch);
-
-        if (_showQuests)
+        if (_globeProvider.Globe.Features.HasFeature(GameFeatures.ExecutableQuests))
         {
-            var executables = _globeProvider.Globe.GetCurrentJobExecutables().OfType<IDisplayableJobExecutable>()
-                .OrderBy(x => x.Order).ThenBy(x => x.TitleSid).ToArray();
-            for (var storyPointIndex = 0; storyPointIndex < executables.Length; storyPointIndex++)
+            _showQuestsPanelButton.Rect = new Rectangle(contentRect.Right - 50, contentRect.Top, 50, 20);
+            _showQuestsPanelButton.Draw(spriteBatch);
+
+            if (_showQuests)
             {
-                var storyPoint = executables[storyPointIndex];
-                spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(), storyPoint.TitleSid,
-                    new Vector2(contentRect.Left, contentRect.Top + storyPointIndex * 20), Color.Wheat);
-                if (storyPoint.CurrentJobs is not null)
-                {
-                    var currentJobs = storyPoint.CurrentJobs.ToList();
-                    for (var jobNumber = 0; jobNumber < currentJobs.Count; jobNumber++)
-                    {
-                        var jobTextOffsetY = 20 * jobNumber;
-                        spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(),
-                            currentJobs[jobNumber].ToString(),
-                            new Vector2(contentRect.Left, contentRect.Top + 20 + jobTextOffsetY),
-                            Color.Wheat);
-                    }
-                }
+                _jobElement.Rect = contentRect;
+                _jobElement.Draw(spriteBatch);
             }
         }
     }
@@ -231,8 +273,16 @@ internal class CampaignScreen : GameScreenWithMenuBase
             ResolutionIndependentRenderer,
             Game.Services.GetRequiredService<GameObjectContentStorage>());
 
-        var rewards = _screenTransitionArguments.Campaign.ActualRewards.ToArray();
-        _campaignEffectsPanel = new CampaignEffectsPanel(rewards, currentCampaign.ActualFailurePenalties);
+        if (_globeProvider.Globe.Features.HasFeature(GameFeatures.CampaignEffects))
+        {
+            var rewards = _screenTransitionArguments.Campaign.ActualRewards.ToArray();
+            var penalties = currentCampaign.ActualFailurePenalties;
+
+            if (rewards.Any() || penalties.Any())
+            {
+                _campaignEffectsPanel = new CampaignEffectsPanel(rewards, penalties);
+            }
+        }
     }
 
     private void InventoryButton_OnClick(object? sender, EventArgs e)

@@ -23,12 +23,13 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 {
     private readonly TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> _args;
     private readonly DialogueOptions _dialogueOptions;
-    protected readonly DialoguePlayer<TParagraphConditionContext, TAftermathContext> _dialoguePlayer;
+    protected DialoguePlayer<TParagraphConditionContext, TAftermathContext>? _dialoguePlayer;
     private readonly IDice _dice;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
 
     private readonly HoverController<DialogueOptionButton> _optionHoverController;
     private readonly IStoryState _storyState;
+    private readonly Dialogue<TParagraphConditionContext, TAftermathContext> _currentDialogue;
     private readonly IUiContentStorage _uiContentStorage;
 
     protected readonly IList<TextParagraphControl<TParagraphConditionContext, TAftermathContext>> TextParagraphControls;
@@ -52,9 +53,8 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         var globe = globeProvider.Globe;
         var player = globe.Player;
         _storyState = player.StoryState;
+        _currentDialogue = args.CurrentDialogue;
 
-        _dialoguePlayer = new DialoguePlayer<TParagraphConditionContext, TAftermathContext>(args.CurrentDialogue,
-            CreateDialogueContextFactory(args));
         _args = args;
 
         _optionHoverController = new HoverController<DialogueOptionButton>();
@@ -77,7 +77,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     }
 
     protected DialogueSpeech<TParagraphConditionContext, TAftermathContext> CurrentFragment =>
-        _dialoguePlayer.CurrentTextFragments[CurrentFragmentIndex];
+        _dialoguePlayer is not null ? _dialoguePlayer.CurrentTextFragments[CurrentFragmentIndex] : throw new Exception();
 
     protected abstract IDialogueContextFactory<TParagraphConditionContext, TAftermathContext>
         CreateDialogueContextFactory(TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> args);
@@ -96,7 +96,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
         DrawSpecificBackgroundScreenContent(spriteBatch, contentRect);
 
-        if (!_dialoguePlayer.IsEnd)
+        if (!_dialoguePlayer.IsEnd && _dialoguePlayer is not null)
         {
             DrawSpecificForegroundScreenContent(spriteBatch, contentRect);
 
@@ -127,11 +127,20 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     {
         base.UpdateContent(gameTime);
 
+        if (_dialoguePlayer is null)
+        {
+            _dialoguePlayer = new DialoguePlayer<TParagraphConditionContext, TAftermathContext>(_currentDialogue, CreateDialogueContextFactory(_args));
+        }
+
         if (!_isInitialized)
         {
-            InitDialogueControls();
+            if (_dialoguePlayer is not null)
+            {
+                InitDialogueControls(_dialoguePlayer);
 
-            _isInitialized = true;
+                _isInitialized = true;
+            }
+
         }
         else
         {
@@ -206,12 +215,12 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         spriteBatch.End();
     }
 
-    private void InitDialogueControls()
+    private void InitDialogueControls(DialoguePlayer<TParagraphConditionContext, TAftermathContext> dialoguePlayer)
     {
         TextParagraphControls.Clear();
         CurrentFragmentIndex = 0;
 
-        foreach (var textFragment in _dialoguePlayer.CurrentTextFragments)
+        foreach (var textFragment in dialoguePlayer.CurrentTextFragments)
         {
             var speaker = ConvertSpeakerToUnitName(textFragment.Speaker);
             var textFragmentControl = new TextParagraphControl<TParagraphConditionContext, TAftermathContext>(
@@ -225,16 +234,16 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
         var optionNumber = 1;
         _dialogueOptions.Options.Clear();
-        foreach (var option in _dialoguePlayer.CurrentOptions)
+        foreach (var option in dialoguePlayer.CurrentOptions)
         {
             var optionButton = new DialogueOptionButton(optionNumber, option.TextSid);
             optionButton.OnClick += (s, _) =>
             {
-                _dialoguePlayer.SelectOption(option);
+                dialoguePlayer.SelectOption(option);
 
                 HandleOptionSelection((DialogueOptionButton)s!);
 
-                if (_dialoguePlayer.IsEnd)
+                if (dialoguePlayer.IsEnd)
                 {
                     HandleDialogueEnd();
                 }
