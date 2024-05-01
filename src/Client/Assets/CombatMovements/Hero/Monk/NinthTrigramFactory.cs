@@ -47,13 +47,13 @@ internal class NinthTrigramFactory : CombatMovementFactoryBase
         );
     }
 
+    /// <inheritdoc />
     public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {
         return new[]
         {
-            new DescriptionKeyValue("defence", ExtractStatChangingValue(combatMovementInstance, 1),
-                DescriptionKeyValueTemplate.Defence)
+            new DescriptionKeyValue("defence", 2, DescriptionKeyValueTemplate.Defence)
         };
     }
 }
