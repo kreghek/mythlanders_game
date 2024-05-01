@@ -113,75 +113,6 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         spriteBatch.End();
     }
 
-    private List<ICampaignPanel> CreateCampaignPanels()
-    {
-        var panels = new List<ICampaignPanel>();
-
-        var campaignTexturesDict = new Dictionary<ILocationSid, Texture2D>
-        {
-            { LocationSids.Desert, LoadCampaignThumbnailImage("Desert") },
-            { LocationSids.Monastery, LoadCampaignThumbnailImage("Monastery") },
-            { LocationSids.ShipGraveyard, LoadCampaignThumbnailImage("ShipGraveyard") },
-            { LocationSids.Thicket, LoadCampaignThumbnailImage("DarkThicket") },
-            { LocationSids.Swamp, LoadCampaignThumbnailImage("GrimSwamp") },
-            { LocationSids.Battleground, LoadCampaignThumbnailImage("Battleground") }
-        };
-
-        var placeholderTexture = LoadCampaignThumbnailImage("Placeholder");
-
-        for (var campaignIndex = 0; campaignIndex < 3; campaignIndex++)
-        {
-            if (campaignIndex < _campaignLaunches.Count)
-            {
-                var campaignLaunch = _campaignLaunches[campaignIndex];
-                var campaignTexture = campaignTexturesDict[campaignLaunch.Location.Sid];
-
-                var panel = new CampaignPanel(campaignLaunch, campaignTexture, _globeProvider.Globe.Features.HasFeature(GameFeatures.CampaignEffects));
-                panels.Add(panel);
-                panel.Selected += (_, _) =>
-                {
-                    var heroStartCoordsOpenList = new List<FieldCoords>
-                    {
-                        new FieldCoords(0, 0),
-                        new FieldCoords(0, 1),
-                        new FieldCoords(0, 2),
-                        new FieldCoords(1, 0),
-                        new FieldCoords(1, 1),
-                        new FieldCoords(1, 2)
-                    };
-
-                    var initHeroes = new List<(HeroState, FieldCoords)>();
-                    foreach (var launchHero in campaignLaunch.Heroes)
-                    {
-                        var rolledCoords = _dice.RollFromList(heroStartCoordsOpenList);
-                        initHeroes.Add((launchHero, rolledCoords));
-                        heroStartCoordsOpenList.Remove(rolledCoords);
-                    }
-
-                    var campaign = new HeroCampaign(initHeroes, campaignLaunch.Location,
-                        campaignLaunch.Rewards, campaignLaunch.Penalties, _dice.Roll(100));
-
-                    var monsterLeaderSids = ExtractmonsterLeadersFromCampaign(campaign);
-                    WriteAllCampaignMonsterLeadersToKnown(monsterLeaderSids);
-
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                        new CampaignScreenTransitionArguments(campaign));
-                };
-            }
-            else
-            {
-                panels.Add(new PlaceholderCampaignPanel(placeholderTexture));
-            }
-        }
-
-        Texture2D LoadCampaignThumbnailImage(string textureName)
-        {
-            return Game.Content.Load<Texture2D>($"Sprites/GameObjects/Campaigns/{textureName}");
-        }
-
-        return panels;
-    }
-
     protected override void InitializeContent()
     {
         SaveGameProgress();
@@ -227,6 +158,76 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         {
             commandButton.Update(ResolutionIndependentRenderer);
         }
+    }
+
+    private List<ICampaignPanel> CreateCampaignPanels()
+    {
+        var panels = new List<ICampaignPanel>();
+
+        var campaignTexturesDict = new Dictionary<ILocationSid, Texture2D>
+        {
+            { LocationSids.Desert, LoadCampaignThumbnailImage("Desert") },
+            { LocationSids.Monastery, LoadCampaignThumbnailImage("Monastery") },
+            { LocationSids.ShipGraveyard, LoadCampaignThumbnailImage("ShipGraveyard") },
+            { LocationSids.Thicket, LoadCampaignThumbnailImage("DarkThicket") },
+            { LocationSids.Swamp, LoadCampaignThumbnailImage("GrimSwamp") },
+            { LocationSids.Battleground, LoadCampaignThumbnailImage("Battleground") }
+        };
+
+        var placeholderTexture = LoadCampaignThumbnailImage("Placeholder");
+
+        for (var campaignIndex = 0; campaignIndex < 3; campaignIndex++)
+        {
+            if (campaignIndex < _campaignLaunches.Count)
+            {
+                var campaignLaunch = _campaignLaunches[campaignIndex];
+                var campaignTexture = campaignTexturesDict[campaignLaunch.Location.Sid];
+
+                var panel = new CampaignPanel(campaignLaunch, campaignTexture,
+                    _globeProvider.Globe.Features.HasFeature(GameFeatures.CampaignEffects));
+                panels.Add(panel);
+                panel.Selected += (_, _) =>
+                {
+                    var heroStartCoordsOpenList = new List<FieldCoords>
+                    {
+                        new FieldCoords(0, 0),
+                        new FieldCoords(0, 1),
+                        new FieldCoords(0, 2),
+                        new FieldCoords(1, 0),
+                        new FieldCoords(1, 1),
+                        new FieldCoords(1, 2)
+                    };
+
+                    var initHeroes = new List<(HeroState, FieldCoords)>();
+                    foreach (var launchHero in campaignLaunch.Heroes)
+                    {
+                        var rolledCoords = _dice.RollFromList(heroStartCoordsOpenList);
+                        initHeroes.Add((launchHero, rolledCoords));
+                        heroStartCoordsOpenList.Remove(rolledCoords);
+                    }
+
+                    var campaign = new HeroCampaign(initHeroes, campaignLaunch.Location,
+                        campaignLaunch.Rewards, campaignLaunch.Penalties, _dice.Roll(100));
+
+                    var monsterLeaderSids = ExtractmonsterLeadersFromCampaign(campaign);
+                    WriteAllCampaignMonsterLeadersToKnown(monsterLeaderSids);
+
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                        new CampaignScreenTransitionArguments(campaign));
+                };
+            }
+            else
+            {
+                panels.Add(new PlaceholderCampaignPanel(placeholderTexture));
+            }
+        }
+
+        Texture2D LoadCampaignThumbnailImage(string textureName)
+        {
+            return Game.Content.Load<Texture2D>($"Sprites/GameObjects/Campaigns/{textureName}");
+        }
+
+        return panels;
     }
 
     private void DrawBackgroundMap(SpriteBatch spriteBatch)
