@@ -25,7 +25,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private readonly GlobeProvider _globeProvider;
     private readonly ButtonBase _inventoryButton;
     private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
-    private readonly ButtonBase _showStoryPointsButton;
+    private readonly ButtonBase _showQuestsPanelButton;
     private readonly IUiContentStorage _uiContentStorage;
     private CampaignEffectsPanel _campaignEffectsPanel = null!;
     private CampaignMap? _campaignMap;
@@ -34,7 +34,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
     private double _presentationDelayCounter = 3;
 
-    private bool _showStoryPoints;
+    private bool _showQuests;
 
     public CampaignScreen(MythlandersGame game, CampaignScreenTransitionArguments screenTransitionArguments) :
         base(game)
@@ -45,8 +45,8 @@ internal class CampaignScreen : GameScreenWithMenuBase
         _globeProvider = game.Services.GetRequiredService<GlobeProvider>();
         _uiContentStorage = game.Services.GetRequiredService<IUiContentStorage>();
 
-        _showStoryPointsButton = new ResourceTextButton(nameof(UiResource.CurrentQuestButtonTitle));
-        _showStoryPointsButton.OnClick += ShowStoryPointsButton_OnClick;
+        _showQuestsPanelButton = new ResourceTextButton(nameof(UiResource.CurrentQuestButtonTitle));
+        _showQuestsPanelButton.OnClick += ShowStoryPointsButton_OnClick;
 
         _inventoryButton = new ResourceTextButton(nameof(UiResource.InventoryButtonTitle));
         _inventoryButton.OnClick += InventoryButton_OnClick;
@@ -130,7 +130,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
             UpdateMapPresentation(gameTime, _campaignMap);
         }
 
-        _showStoryPointsButton.Update(ResolutionIndependentRenderer);
+        _showQuestsPanelButton.Update(ResolutionIndependentRenderer);
     }
 
     private void BestiaryButton_OnClick(object? sender, EventArgs e)
@@ -153,20 +153,21 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
     private void DrawCurrentStoryPoints(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        if (!_globeProvider.Globe.ActiveStoryPoints.Any() && _globeProvider.Globe.Player.Challenge is null)
+        if (!_globeProvider.Globe.GetCurrentJobExecutables().OfType<IDisplayableJobExecutable>().Any())
         {
             return;
         }
 
-        _showStoryPointsButton.Rect = new Rectangle(contentRect.Right - 50, contentRect.Top, 50, 20);
-        _showStoryPointsButton.Draw(spriteBatch);
+        _showQuestsPanelButton.Rect = new Rectangle(contentRect.Right - 50, contentRect.Top, 50, 20);
+        _showQuestsPanelButton.Draw(spriteBatch);
 
-        if (_showStoryPoints)
+        if (_showQuests)
         {
-            var storyPoints = _globeProvider.Globe.ActiveStoryPoints.OrderBy(x => x.Sid).ToArray();
-            for (var storyPointIndex = 0; storyPointIndex < storyPoints.Length; storyPointIndex++)
+            var executables = _globeProvider.Globe.GetCurrentJobExecutables().OfType<IDisplayableJobExecutable>()
+                .OrderBy(x => x.Order).ThenBy(x => x.TitleSid).ToArray();
+            for (var storyPointIndex = 0; storyPointIndex < executables.Length; storyPointIndex++)
             {
-                var storyPoint = storyPoints[storyPointIndex];
+                var storyPoint = executables[storyPointIndex];
                 spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(), storyPoint.TitleSid,
                     new Vector2(contentRect.Left, contentRect.Top + storyPointIndex * 20), Color.Wheat);
                 if (storyPoint.CurrentJobs is not null)
@@ -178,32 +179,6 @@ internal class CampaignScreen : GameScreenWithMenuBase
                         spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(),
                             currentJobs[jobNumber].ToString(),
                             new Vector2(contentRect.Left, contentRect.Top + 20 + jobTextOffsetY),
-                            Color.Wheat);
-                    }
-                }
-            }
-
-            if (_globeProvider.Globe.Player.Challenge is not null)
-            {
-                var challengeStartY = contentRect.Top + storyPoints.Length * 20 + 20;
-
-                spriteBatch.DrawString(
-                    UiThemeManager.UiContentStorage.GetMainFont(),
-                    UiResource.CampaignStageDisplayNameChallenge,
-                    new Vector2(contentRect.Left, challengeStartY),
-                    Color.Wheat);
-
-                var challengeJobs = _globeProvider.Globe.Player.Challenge.CurrentJobs;
-                if (challengeJobs is not null)
-                {
-                    var currentJobs = challengeJobs.ToArray();
-                    for (var jobNumber = 0; jobNumber < currentJobs.Length; jobNumber++)
-                    {
-                        var job = currentJobs[jobNumber];
-                        var jobTextOffsetY = challengeStartY + 20 * jobNumber;
-                        spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(),
-                            currentJobs[jobNumber].ToString(),
-                            new Vector2(contentRect.Left, contentRect.Top + 20 + jobTextOffsetY + 20),
                             Color.Wheat);
                     }
                 }
@@ -275,7 +250,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
     private void ShowStoryPointsButton_OnClick(object? sender, EventArgs e)
     {
-        _showStoryPoints = !_showStoryPoints;
+        _showQuests = !_showQuests;
     }
 
     private void UpdateMapPresentation(GameTime gameTime, CampaignMap campaignMap)

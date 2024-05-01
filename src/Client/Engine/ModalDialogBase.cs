@@ -16,7 +16,7 @@ internal abstract class ModalDialogBase : IModalWindow
     private const int MODAL_CONTENT_MARGIN = 9;
     private const int MODAL_HEADER_HEIGHT = 15;
 
-    private const int SYMBOL_SIZE = 64;
+    private const int SYMBOL_SIZE = 128;
     private readonly Texture2D _backgroundBottomTexture;
 
     private readonly Texture2D _backgroundTopTexture;
@@ -108,6 +108,8 @@ internal abstract class ModalDialogBase : IModalWindow
         return symbol switch
         {
             ModalTopSymbol.Gears => 1,
+            ModalTopSymbol.CombatResultVictory => 2,
+            ModalTopSymbol.CombatResultDefeat => 3,
             _ => 1
         };
     }
@@ -116,7 +118,7 @@ internal abstract class ModalDialogBase : IModalWindow
     {
         var index = GetOneBasedSymbolIndex(symbol);
 
-        const int COL_COUNT = 1;
+        const int COL_COUNT = 2;
         var col = (index - 1) % COL_COUNT;
         var row = (index - 1) / COL_COUNT;
 

@@ -131,7 +131,7 @@ internal class CampaignAftermathContext
 
     public void UnlockLocation(ILocationSid locationSid)
     {
-        throw new NotImplementedException();
+        _player.AddLocation(locationSid);
     }
 
     public event EventHandler<HeroStatChangedEventArgs>? HeroHpChanged;

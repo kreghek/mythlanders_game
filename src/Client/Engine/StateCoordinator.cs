@@ -3,7 +3,6 @@
 using Client.Core;
 using Client.Core.Campaigns;
 using Client.GameScreens.Campaign;
-using Client.GameScreens.CommandCenter;
 using Client.ScreenManagement;
 
 namespace Client.Engine;
@@ -30,12 +29,10 @@ internal class StateCoordinator
 
         if (globe.Features.HasFeature(GameFeatures.Campaigns))
         {
-            var availableLaunches = _campaignGenerator.CreateSet(globe);
-
             _screenManager.ExecuteTransition(
                 currentScreen,
-                ScreenTransition.CommandCenter,
-                new CommandCenterScreenTransitionArguments(availableLaunches));
+                ScreenTransition.Campaign,
+                new CampaignScreenTransitionArguments(currentCampaign));
         }
         else
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Client.Assets.StoryPointJobs;
 
@@ -49,7 +50,7 @@ internal sealed class Globe
     public void AddGlobalEvent(IGlobeEvent globalEvent)
     {
         _globeEvents.Add(globalEvent);
-        globalEvent.Initialize(this);
+        globalEvent.Start(this);
     }
 
     public IEnumerable<IJobExecutable> GetCurrentJobExecutables()
@@ -62,6 +63,11 @@ internal sealed class Globe
         if (Player.Challenge is not null)
         {
             yield return Player.Challenge;
+        }
+
+        foreach (var globeEvent in _globeEvents)
+        {
+            yield return globeEvent;
         }
     }
 
@@ -108,14 +114,13 @@ internal sealed class Globe
         var eventsSnapshot = _globeEvents.ToArray();
         foreach (var globeEvent in eventsSnapshot)
         {
-            if (globeEvent.IsActive)
+            if (!globeEvent.ExpirationConditions.All(x => x.IsComplete))
             {
-                globeEvent.Update();
+                continue;
             }
-            else
-            {
-                _globeEvents.Remove(globeEvent);
-            }
+
+            globeEvent.Finish(this);
+            _globeEvents.Remove(globeEvent);
         }
     }
 

@@ -20,6 +20,16 @@ internal class OldGoodBrawlFactory : SimpleCombatMovementFactoryBase
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(4, 4);
 
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 0),
+                DescriptionKeyValueTemplate.Damage)
+        };
+    }
+
     /// <inheritdoc />
     protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
     {
