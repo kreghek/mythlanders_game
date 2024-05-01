@@ -109,7 +109,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
     private IReadOnlyCollection<ICampaignEffect> CreateFailurePenalties()
     {
-        if (_globeProvider.Globe.Player.MonsterPerks.Count() > 2)
+        if (_globeProvider.Globe.Player.MonsterPerks.Count > 2)
         {
             return new ICampaignEffect[]
             {
