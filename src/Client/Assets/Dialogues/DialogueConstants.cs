@@ -71,7 +71,7 @@ internal static class DialogueConstants
             public static DialogueEventState Stage4 { get; } = new("stage_4") { NoDialogue = true };
             public static string Stage4Dialogue => "stage_4";
         }
-        
+
         public static class EgyptTutorial
         {
             public static string Sid => "egypt_tutorial";
@@ -91,7 +91,7 @@ internal static class DialogueConstants
             public static DialogueEventState Stage4 { get; } = new("stage_4") { NoDialogue = true };
             public static string Stage4Dialogue => "stage_4";
         }
-        
+
         public static class Episode1
         {
             public static string Sid => "main_plot_e1";
