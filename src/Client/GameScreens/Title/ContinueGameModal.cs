@@ -178,7 +178,6 @@ internal sealed class ContinueGameModal : ModalDialogBase
 
     private void StartButton_OnClick(object? sender, EventArgs e)
     {
-        TitleScreen.StartClearNewGame(_globeProvider, _screen, _coordinator, _screenManager, _campaignGenerator,
-            _dialogueResourceProvider);
+        TitleScreen.StartClearNewGame(_globeProvider, _screen, _screenManager, _dialogueResourceProvider);
     }
 }

@@ -13,6 +13,7 @@ using Client.ScreenManagement;
 
 using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
+using CombatDicesTeam.Engine.Ui;
 
 using GameClient.Engine.RectControl;
 
@@ -120,14 +121,17 @@ internal sealed class TitleScreen : GameScreenBase
             ResolutionIndependentRenderer.VirtualBounds, new PongRectangleRandomSource(new LinearDice(), 2));
     }
 
-    public static void StartClearNewGame(GlobeProvider globeProvider, IScreen currentScreen,
-        StateCoordinator coordinator,
-        IScreenManager screenManager, ICampaignGenerator campaignGenerator,
+    public static void StartClearNewGame(GlobeProvider globeProvider,
+        IScreen currentScreen,
+        IScreenManager screenManager,
         IDialogueResourceProvider dialogueResourceProvider)
     {
         globeProvider.GenerateNew();
 
-        var dialogueYaml = dialogueResourceProvider.GetResource("pre-history");
+        const string PRE_HISTORY_RESOURCE_FILE_SID = "pre-history";
+        const string PRE_HISTORY_DIALOGUE_SID = PRE_HISTORY_RESOURCE_FILE_SID;
+
+        var dialogueYaml = dialogueResourceProvider.GetResource(PRE_HISTORY_RESOURCE_FILE_SID);
 
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
@@ -136,7 +140,7 @@ internal sealed class TitleScreen : GameScreenBase
         var dialogueDtoDict = deserializer.Deserialize<Dictionary<string, DialogueDtoScene>>(dialogueYaml);
 
         var preHistoryDialogue = DialogueCatalogHelper.Create(
-            "pre-history", dialogueDtoDict,
+            PRE_HISTORY_DIALOGUE_SID, dialogueDtoDict,
             new DialogueCatalogCreationServices<PreHistoryAftermathContext>(
                 new PreHistoryDialogueEnvironmentEffectCreator(), new PreHistoryOptionAftermathCreator()),
             _ => ArraySegment<IDialogueParagraphCondition<ParagraphConditionContext>>.Empty);
@@ -391,6 +395,6 @@ internal sealed class TitleScreen : GameScreenBase
 
     private void StartButton_OnClick(object? sender, EventArgs e)
     {
-        StartClearNewGame(_globeProvider, this, _coordinator, ScreenManager, _campaignGenerator, _resourceProvider);
+        StartClearNewGame(_globeProvider, this, ScreenManager, _resourceProvider);
     }
 }
