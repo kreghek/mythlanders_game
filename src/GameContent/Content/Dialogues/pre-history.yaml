@@ -111,7 +111,7 @@ p6_black:
         To break the Black defenses, the Industrialists took advantage of their numerical advantage.
         The planet was isolated, as required by modern rules of armed conflict.
         Now no one could leave the Frontier until one of the parties surrendered.
-        Like the rest of the world, they didn’t know what was going on on the Frontier.
+        Like the rest of the world, they didn't know what was going on on the Frontier.
       env:
         - type: Background
           data: Black
@@ -127,7 +127,7 @@ p6_mining:
         To gain the tactical superiority of the Industrialists, the Blacks decided to use a secret weapon - the Champion of the Faith.
         The planet was isolated, as required by modern rules of armed conflict.
         Now no one could leave the Frontier until one of the parties surrendered.
-        Like the rest of the world, they didn’t know what was going on on the Frontier.
+        Like the rest of the world, they didn't know what was going on on the Frontier.
       env:
         - type: Background
           data: Union
