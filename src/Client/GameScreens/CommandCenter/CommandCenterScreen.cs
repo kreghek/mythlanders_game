@@ -113,10 +113,8 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         spriteBatch.End();
     }
 
-    protected override void InitializeContent()
+    private List<ICampaignPanel> CreateCampaignPanels()
     {
-        SaveGameProgress();
-
         var panels = new List<ICampaignPanel>();
 
         var campaignTexturesDict = new Dictionary<ILocationSid, Texture2D>
@@ -138,7 +136,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
                 var campaignLaunch = _campaignLaunches[campaignIndex];
                 var campaignTexture = campaignTexturesDict[campaignLaunch.Location.Sid];
 
-                var panel = new CampaignPanel(campaignLaunch, campaignTexture);
+                var panel = new CampaignPanel(campaignLaunch, campaignTexture, _globeProvider.Globe.Features.HasFeature(GameFeatures.CampaignEffects));
                 panels.Add(panel);
                 panel.Selected += (_, _) =>
                 {
@@ -176,7 +174,19 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
             }
         }
 
-        _availableCampaignPanels = panels;
+        Texture2D LoadCampaignThumbnailImage(string textureName)
+        {
+            return Game.Content.Load<Texture2D>($"Sprites/GameObjects/Campaigns/{textureName}");
+        }
+
+        return panels;
+    }
+
+    protected override void InitializeContent()
+    {
+        SaveGameProgress();
+
+        _availableCampaignPanels = CreateCampaignPanels();
 
         _commandButtons[0] = new ResourceTextButton(nameof(UiResource.BarraksButtonTitle));
         _commandButtons[0].OnClick += (_, _) =>
@@ -193,11 +203,6 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
                     new CommandCenterScreenTransitionArguments(_campaignLaunches)));
         };
         _commandButtons[3] = new ResourceTextButton(nameof(UiResource.ChroniclesButtonTitle));
-
-        Texture2D LoadCampaignThumbnailImage(string textureName)
-        {
-            return Game.Content.Load<Texture2D>($"Sprites/GameObjects/Campaigns/{textureName}");
-        }
     }
 
     protected override void UpdateContent(GameTime gameTime)
