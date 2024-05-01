@@ -381,6 +381,14 @@
     <value>Moves forward and deals &lt;damage&gt; to the closest enemy in the line.</value>
     <comment>Combat Movement Swordsman</comment>
   </data>
+  <data name="DigitalHort" xml:space="preserve">
+    <value>Grey</value>
+    <comment>NPC</comment>
+  </data>
+  <data name="DigitalHort_Hidden" xml:space="preserve">
+    <value>The Talking Hort</value>
+    <comment>NPC</comment>
+  </data>
   <data name="DigitalWolf" xml:space="preserve">
     <value>Digital wolf</value>
     <comment>Monster</comment>
@@ -818,7 +826,12 @@
     <comment>Skill</comment>
   </data>
   <data name="Partisan" xml:space="preserve">
-    <value>The Deaf</value>
+    <value>Deaf</value>
+    <comment>Hero</comment>
+  </data>
+  <data name="Partisan_Hidden" xml:space="preserve">
+    <value>Partisan</value>
+    <comment>Hero</comment>
   </data>
   <data name="Pit" xml:space="preserve">
     <value>The Pit</value>
@@ -921,6 +934,10 @@
   </data>
   <data name="Robber" xml:space="preserve">
     <value>Hawk</value>
+    <comment>Hero</comment>
+  </data>
+  <data name="Robber_Hidden" xml:space="preserve">
+    <value>Robber</value>
     <comment>Hero</comment>
   </data>
   <data name="Sabotage" xml:space="preserve">

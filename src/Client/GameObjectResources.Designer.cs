@@ -673,6 +673,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Grey.
+        /// </summary>
+        internal static string DigitalHort {
+            get {
+                return ResourceManager.GetString("DigitalHort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Talking Hort.
+        /// </summary>
+        internal static string DigitalHort_Hidden {
+            get {
+                return ResourceManager.GetString("DigitalHort_Hidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Digital wolf.
         /// </summary>
         internal static string DigitalWolf {
@@ -1701,11 +1719,20 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Deaf.
+        ///   Looks up a localized string similar to Deaf.
         /// </summary>
         internal static string Partisan {
             get {
                 return ResourceManager.GetString("Partisan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partisan.
+        /// </summary>
+        internal static string Partisan_Hidden {
+            get {
+                return ResourceManager.GetString("Partisan_Hidden", resourceCulture);
             }
         }
         
@@ -1958,6 +1985,15 @@ namespace Client {
         internal static string Robber {
             get {
                 return ResourceManager.GetString("Robber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Robber.
+        /// </summary>
+        internal static string Robber_Hidden {
+            get {
+                return ResourceManager.GetString("Robber_Hidden", resourceCulture);
             }
         }
         
