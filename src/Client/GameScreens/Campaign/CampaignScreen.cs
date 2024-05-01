@@ -222,6 +222,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
             if (_showQuests)
             {
+                _jobElement.Rect = contentRect;
                 _jobElement.Draw(spriteBatch);
             }
         }
