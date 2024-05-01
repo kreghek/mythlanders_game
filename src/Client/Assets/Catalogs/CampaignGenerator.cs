@@ -109,6 +109,11 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
     private IReadOnlyCollection<ICampaignEffect> CreateFailurePenalties()
     {
+        if (!_globeProvider.Globe.Features.HasFeature(GameFeatures.CampaignEffects))
+        {
+            return Array.Empty<ICampaignEffect>();
+        }
+
         if (_globeProvider.Globe.Player.MonsterPerks.Count > 2)
         {
             return new ICampaignEffect[]
@@ -137,6 +142,11 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
     private IReadOnlyCollection<ICampaignEffect> CreateRewards(ILocationSid locationSid)
     {
+        if (!_globeProvider.Globe.Features.HasFeature(GameFeatures.CampaignEffects))
+        {
+            return Array.Empty<ICampaignEffect>();
+        }
+
         var effectFactories = new (Func<ILocationSid, IReadOnlyCollection<ICampaignEffect>>, Func<ILocationSid, bool>)[]
         {
             (CreateGatherResourcesEffect, _ => true),
