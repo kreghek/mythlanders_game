@@ -59,11 +59,21 @@ internal sealed class MonsterPerkManager : IMonsterPerkManager
 
     public IReadOnlyCollection<MonsterPerk> RollLocationRewardPerks()
     {
+        if (!_globeProvider.Globe.Features.HasFeature(GameFeatures.RewardMonsterPerks))
+        {
+            return ArraySegment<MonsterPerk>.Empty;
+        }
+
         return new[] { RollRewardMonsterPerk() };
     }
 
     public IReadOnlyCollection<MonsterPerk> RollMonsterPerks(MonsterCombatantPrefab targetMonsterPrefab)
     {
+        if (!_globeProvider.Globe.Features.HasFeature(GameFeatures.UseMonsterPerks))
+        {
+            return ArraySegment<MonsterPerk>.Empty;
+        }
+
         return RollPerks(targetMonsterPrefab, _globeProvider.Globe.Player.MonsterPerks, _dice);
     }
 }
