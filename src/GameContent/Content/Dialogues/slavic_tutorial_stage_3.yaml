@@ -1,11 +1,39 @@
 ---
 root:
   paragraphs:
-    - text: 'Герои победили монстров.'
-    - text: 'Тут все приветствия героев.'
-    - text: 'Тут рассказывается, что есть убежище для героев, если дойти до конца кампании. Тут же рассказывается, что важно правильно выбрать путь.'
+    - text: |
+        The last of the attacking monsters falls on his face. The remaining hordes of monsters hastily retreat into the darkness. The heroes breathe heavily and look around.
+      reactions:
+        - hero: Robber
+          text: |
+            Phew, that was a hot date! But I'm always ready for new adventures. Is it possible to replace the monsters with someone more cute?
+        - hero: Partisan
+          text: |
+            I've lived through. Let's get out of here!
+        - hero: Swordsman
+          text: |
+            Damned adversaries.
+    - speaker: Swordsman
+      text: |
+        Yes, but the monsters are still on the way. We must find a refuge where we can rest safely.
       env:
         - type: UnlockFeature
           data: CampaignMap
         - type: Trigger
           data: stage_3_way_selection
+    - speaker: Robber
+      text: |
+        I agree, but where to look for such a refuge? I hope there is a place for relaxation and entertainment.
+    - speaker: Partisan
+      text: |
+        I heard about a place protected from monsters. But to get there, we need to choose the right path.
+    - speaker: Swordsman
+      text: |
+        What is this path? We cannot afford to make mistakes.
+      reactions:
+        - hero: Robber
+          text: |
+            It's like a fairytale. This sounds like new adventures! I go to the left. I want to be rich too.
+        - hero: Partisan
+          text: |
+            Look and listen.
