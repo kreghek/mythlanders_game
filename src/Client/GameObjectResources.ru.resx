@@ -315,12 +315,6 @@
 Повышает урон на 25% за уровень.</value>
     <comment>Equipment</comment>
   </data>
-  <data name="CommonJobCompletePattern" xml:space="preserve">
-    <value>{0}: завершено</value>
-  </data>
-  <data name="Contempt" xml:space="preserve">
-    <value>Презрение</value>
-  </data>
   <data name="CorruptedBear" xml:space="preserve">
     <value>Оскверненный медведь</value>
     <comment>Monster</comment>
@@ -372,12 +366,6 @@
     <value>Обманчиво лёгкая роба</value>
     <comment>Equipment</comment>
   </data>
-  <data name="DefeatAnyEnemies" xml:space="preserve">
-    <value>Победить противников</value>
-  </data>
-  <data name="DefeatAnyEnemiesDuringCampaign" xml:space="preserve">
-    <value>Победить противников в течении одной кампании</value>
-  </data>
   <data name="Desert" xml:space="preserve">
     <value>Где-то в пустыне...</value>
     <comment>Location</comment>
@@ -396,12 +384,6 @@
   <data name="DieBySword_Description" xml:space="preserve">
     <value>Перемещается вперед и наносит &lt;damage&gt; ближайшему в линии противнику.</value>
     <comment>Combat Movement Swordsman</comment>
-  </data>
-  <data name="DigitalHort" xml:space="preserve">
-    <value>Серый</value>
-  </data>
-  <data name="DigitalHort_Hidden" xml:space="preserve">
-    <value>Цифровой Хорт</value>
   </data>
   <data name="DigitalWolf" xml:space="preserve">
     <value>Цифровой волк</value>
@@ -688,12 +670,6 @@
     <value>Вдохновляющий рывок</value>
     <comment>Skill</comment>
   </data>
-  <data name="InvinciblePhalanx" xml:space="preserve">
-    <value>Несокрушимая Фаланга</value>
-  </data>
-  <data name="InvinciblePhalanx_Description" xml:space="preserve">
-    <value>Если союзники выстроились в колонну, то вся колонна становится &lt;style=color1&gt;неуязвимой&lt;/style&gt; до следующего хода гоплита.</value>
-  </data>
   <data name="IronStream" xml:space="preserve">
     <value>Железный Поток</value>
     <comment>Combat movement Ambush Drone</comment>
@@ -756,7 +732,7 @@
     <comment>Combat movement Monk</comment>
   </data>
   <data name="MasterfulStaffHit_Description" xml:space="preserve">
-    <value>Перемещается в авангард и наносит &lt;damage&gt; посохом. Не тратит энергию, если ранее использовалось это же движение.</value>
+    <value>Перемещается в авангард и наносит урон 2 ед. Не тратит энергию, если ранее использовалось это же движение.</value>
     <comment>Combat movement Monk</comment>
   </data>
   <data name="Medjay" xml:space="preserve">
@@ -796,7 +772,7 @@
     <comment>Combat movement Monk</comment>
   </data>
   <data name="NinthTrigram_Description" xml:space="preserve">
-    <value>Меняется местами с самым сильным союзником по соседству. Триграмма дает &lt;defence&gt; монаху и союзнику.</value>
+    <value>Меняется местами с самым сильным союзником по соседству. Триграмма дает 2 ед. обороны монаху и союзнику.</value>
     <comment>Combat movement Monk</comment>
   </data>
   <data name="NoViolencePlease" xml:space="preserve">
@@ -819,12 +795,6 @@
 - Герои восстановит силы, потому что он герой.
 - Культ Солнца будет знать больше про древние культуры.</value>
     <comment>Crisis Aftermath</comment>
-  </data>
-  <data name="Offensive" xml:space="preserve">
-    <value>Наступление</value>
-  </data>
-  <data name="Offensive_Description" xml:space="preserve">
-    <value>Ударом копья наносит &lt;damage&gt; противнику в линии.</value>
   </data>
   <data name="OldGoodBrawl" xml:space="preserve">
     <value>Старый добрый мордобой</value>
@@ -1135,9 +1105,6 @@
   <data name="WideSwordSlash" xml:space="preserve">
     <value>Широкий удар мечом</value>
     <comment>Skill</comment>
-  </data>
-  <data name="WinCampaigns" xml:space="preserve">
-    <value>Выиграть любые кампании</value>
   </data>
   <data name="WindWheel" xml:space="preserve">
     <value>Ветренное колесо</value>

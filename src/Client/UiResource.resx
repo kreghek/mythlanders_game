@@ -353,6 +353,11 @@ Do you really need to spend the priceless current move for nothing?</value>
     <value>Defeats</value>
     <comment>Jobs</comment>
   </data>
+  <data name="DemoMarkerDescription" xml:space="preserve">
+    <value>This is not the full version of the game.
+Most of the content and mechanics are missing from the demo.
+Don't forget to add the game to your wishlist on popular platforms and leave feedback to the developer!</value>
+  </data>
   <data name="DemoMarkerText" xml:space="preserve">
     <value>Demo</value>
   </data>

@@ -13,6 +13,7 @@ using Client.ScreenManagement;
 
 using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
+using CombatDicesTeam.Engine.Ui;
 
 using GameClient.Engine.RectControl;
 
@@ -120,14 +121,17 @@ internal sealed class TitleScreen : GameScreenBase
             ResolutionIndependentRenderer.VirtualBounds, new PongRectangleRandomSource(new LinearDice(), 2));
     }
 
-    public static void StartClearNewGame(GlobeProvider globeProvider, IScreen currentScreen,
-        StateCoordinator coordinator,
-        IScreenManager screenManager, ICampaignGenerator campaignGenerator,
+    public static void StartClearNewGame(GlobeProvider globeProvider,
+        IScreen currentScreen,
+        IScreenManager screenManager,
         IDialogueResourceProvider dialogueResourceProvider)
     {
         globeProvider.GenerateNew();
 
-        var dialogueYaml = dialogueResourceProvider.GetResource("pre-history");
+        const string PRE_HISTORY_RESOURCE_FILE_SID = "pre-history";
+        const string PRE_HISTORY_DIALOGUE_SID = PRE_HISTORY_RESOURCE_FILE_SID;
+
+        var dialogueYaml = dialogueResourceProvider.GetResource(PRE_HISTORY_RESOURCE_FILE_SID);
 
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
@@ -136,7 +140,7 @@ internal sealed class TitleScreen : GameScreenBase
         var dialogueDtoDict = deserializer.Deserialize<Dictionary<string, DialogueDtoScene>>(dialogueYaml);
 
         var preHistoryDialogue = DialogueCatalogHelper.Create(
-            "pre-history", dialogueDtoDict,
+            PRE_HISTORY_DIALOGUE_SID, dialogueDtoDict,
             new DialogueCatalogCreationServices<PreHistoryAftermathContext>(
                 new PreHistoryDialogueEnvironmentEffectCreator(), new PreHistoryOptionAftermathCreator()),
             _ => ArraySegment<IDialogueParagraphCondition<ParagraphConditionContext>>.Empty);
@@ -182,13 +186,28 @@ internal sealed class TitleScreen : GameScreenBase
                     ResolutionIndependentRenderer.VirtualBounds.Right - 100,
                     ResolutionIndependentRenderer.VirtualBounds.Top + 10),
                 Color.White);
+
+            var demoDescriptionText = StringHelper.LineBreaking(UiResource.DemoMarkerDescription, 40);
+            var demoDescriptionTextSize = _uiContentStorage.GetMainFont().MeasureString(demoDescriptionText);
+
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), demoDescriptionText,
+                new Vector2(
+                    ResolutionIndependentRenderer.VirtualBounds.Right - demoDescriptionTextSize.X -
+                    ControlBase.CONTENT_MARGIN,
+                    ResolutionIndependentRenderer.VirtualBounds.Top + 25),
+                MythlandersColors.Description);
         }
 
         if (!_gameSettings.Mode.HasFlag(GameMode.Recording))
         {
-            var socialPosition = new Vector2(ResolutionIndependentRenderer.VirtualBounds.Right - 75,
-                ResolutionIndependentRenderer.VirtualBounds.Bottom - 150);
-            spriteBatch.Draw(_uiContentStorage.GetSocialTexture(), socialPosition, Color.White);
+            var teamLogoTexture = _uiContentStorage.GetSocialTexture();
+
+            var teamPosition = new Vector2(
+                ResolutionIndependentRenderer.VirtualBounds.Right - teamLogoTexture.Width - ControlBase.CONTENT_MARGIN,
+                ResolutionIndependentRenderer.VirtualBounds.Bottom - teamLogoTexture.Height -
+                ControlBase.CONTENT_MARGIN);
+
+            spriteBatch.Draw(teamLogoTexture, teamPosition, Color.White);
         }
 
         spriteBatch.End();
@@ -272,14 +291,7 @@ internal sealed class TitleScreen : GameScreenBase
 
     private void DrawLogo(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        foreach (var particleSystem in _pulseParticleSystems)
-        {
-            particleSystem.Draw(spriteBatch);
-        }
-
-        _particleSystem.MoveEmitter(contentRect.Center.ToVector2() + new Vector2(0, 160));
-
-        _particleSystem.Draw(spriteBatch);
+        //DrawMusicPulse(spriteBatch, contentRect);
 
         spriteBatch.Draw(_uiContentStorage.GetLogoTexture(),
             new Vector2(contentRect.Center.X - _uiContentStorage.GetLogoTexture().Width / 2, contentRect.Top),
@@ -383,6 +395,6 @@ internal sealed class TitleScreen : GameScreenBase
 
     private void StartButton_OnClick(object? sender, EventArgs e)
     {
-        StartClearNewGame(_globeProvider, this, _coordinator, ScreenManager, _campaignGenerator, _resourceProvider);
+        StartClearNewGame(_globeProvider, this, ScreenManager, _resourceProvider);
     }
 }

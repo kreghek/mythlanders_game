@@ -511,33 +511,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}: complete.
-        /// </summary>
-        internal static string CommonJobCompletePattern {
-            get {
-                return ResourceManager.GetString("CommonJobCompletePattern", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0}: {1}/{2}.
-        /// </summary>
-        internal static string CommonJobInProgressPattern {
-            get {
-                return ResourceManager.GetString("CommonJobInProgressPattern", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Contempt.
-        /// </summary>
-        internal static string Contempt {
-            get {
-                return ResourceManager.GetString("Contempt", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Corrupted bear.
         /// </summary>
         internal static string CorruptedBear {
@@ -655,24 +628,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Defeat any enemies.
-        /// </summary>
-        internal static string DefeatAnyEnemies {
-            get {
-                return ResourceManager.GetString("DefeatAnyEnemies", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Defeat any enemies during one campaign.
-        /// </summary>
-        internal static string DefeatAnyEnemiesDuringCampaign {
-            get {
-                return ResourceManager.GetString("DefeatAnyEnemiesDuringCampaign", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Somewhere in the Desert....
         /// </summary>
         internal static string Desert {
@@ -714,24 +669,6 @@ namespace Client {
         internal static string DieBySword_Description {
             get {
                 return ResourceManager.GetString("DieBySword_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The Gray.
-        /// </summary>
-        internal static string DigitalHort {
-            get {
-                return ResourceManager.GetString("DigitalHort", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Digital Hort.
-        /// </summary>
-        internal static string DigitalHort_Hidden {
-            get {
-                return ResourceManager.GetString("DigitalHort_Hidden", resourceCulture);
             }
         }
         
@@ -1413,24 +1350,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invincible Phalanx.
-        /// </summary>
-        internal static string InvinciblePhalanx {
-            get {
-                return ResourceManager.GetString("InvinciblePhalanx", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to If allies are lined up in a column, the entire column becomes &lt;style=color1&gt;invulnerable&lt;/style&gt; to next turn of the hoplite..
-        /// </summary>
-        internal static string InvinciblePhalanx_Description {
-            get {
-                return ResourceManager.GetString("InvinciblePhalanx_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Iron Stream.
         /// </summary>
         internal static string IronStream {
@@ -1584,7 +1503,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Moves to the vanguard and inflicts &lt;damage&gt; with the staff. Does not waste energy if the same move was previously used..
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string MasterfulStaffHit_Description {
             get {
@@ -1674,7 +1593,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Swaps places with the strongest ally in the neighborhood. The trigram gives &lt;defense&gt; to the monk and the ally..
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string NinthTrigram_Description {
             get {
@@ -1724,24 +1643,6 @@ namespace Client {
         internal static string ObeyAll_CrisisAftermath {
             get {
                 return ResourceManager.GetString("ObeyAll_CrisisAftermath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Offensive.
-        /// </summary>
-        internal static string Offensive {
-            get {
-                return ResourceManager.GetString("Offensive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to With a spear strike, inflicts &lt;damage&gt; on the enemy in a line..
-        /// </summary>
-        internal static string Offensive_Description {
-            get {
-                return ResourceManager.GetString("Offensive_Description", resourceCulture);
             }
         }
         
@@ -2561,15 +2462,6 @@ namespace Client {
         internal static string WideSwordSlash {
             get {
                 return ResourceManager.GetString("WideSwordSlash", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Win any campaigns.
-        /// </summary>
-        internal static string WinCampaigns {
-            get {
-                return ResourceManager.GetString("WinCampaigns", resourceCulture);
             }
         }
         
