@@ -24,12 +24,12 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private readonly HeroCampaign _currentCampaign;
     private readonly GlobeProvider _globeProvider;
     private readonly ButtonBase _inventoryButton;
+    private readonly VerticalStackPanel _jobElement;
     private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
     private readonly ButtonBase _showQuestsPanelButton;
     private readonly IUiContentStorage _uiContentStorage;
     private CampaignEffectsPanel? _campaignEffectsPanel;
     private CampaignMap? _campaignMap;
-    private readonly VerticalStackPanel _jobElement;
 
     private bool _isCampaignPresentation = true;
 
@@ -56,49 +56,11 @@ internal class CampaignScreen : GameScreenWithMenuBase
         _bestiaryButton.OnClick += BestiaryButton_OnClick;
 
         var executables = _globeProvider.Globe.GetCurrentJobExecutables().OfType<IDisplayableJobExecutable>()
-                    .OrderBy(x => x.Order).ThenBy(x => x.TitleSid).ToArray();
+            .OrderBy(x => x.Order).ThenBy(x => x.TitleSid).ToArray();
         var executablesElements = CreateJobElements(executables);
 
-        _jobElement = new VerticalStackPanel(_uiContentStorage.GetControlBackgroundTexture(), ControlTextures.Panel, executablesElements);
-    }
-
-    private IReadOnlyList<ControlBase> CreateJobElements(IDisplayableJobExecutable[] executables)
-    {
-        var executableList = new List<ControlBase>();
-
-        foreach (var executable in executables)
-        {
-            var jobTextList = new List<ControlBase>();
-
-            var storyPoint = executable;
-
-            jobTextList.Add(new Text(
-                _uiContentStorage.GetControlBackgroundTexture(),
-                ControlTextures.Panel, 
-                _uiContentStorage.GetTitlesFont(), 
-                _ => Color.White,
-                () => storyPoint.TitleSid));
-
-            if (storyPoint.CurrentJobs is not null)
-            {
-                var currentJobs = storyPoint.CurrentJobs.ToList();
-                foreach (var job in currentJobs)
-                {
-                    var jobClosure = job;
-                    jobTextList.Add(new Text(
-                        _uiContentStorage.GetControlBackgroundTexture(),
-                        ControlTextures.Panel,
-                        _uiContentStorage.GetMainFont(),
-                        _ => Color.Wheat,
-                        () => jobClosure.ToString() ?? string.Empty));
-                }
-            }
-
-            var executablePanel = new VerticalStackPanel(_uiContentStorage.GetControlBackgroundTexture(), ControlTextures.Transparent, jobTextList);
-            executableList.Add(executablePanel);
-        }
-
-        return executableList;
+        _jobElement = new VerticalStackPanel(_uiContentStorage.GetControlBackgroundTexture(), ControlTextures.Panel,
+            executablesElements);
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -192,6 +154,46 @@ internal class CampaignScreen : GameScreenWithMenuBase
         ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary,
             new BestiaryScreenTransitionArguments(ScreenTransition.Campaign,
                 new CampaignScreenTransitionArguments(_currentCampaign)));
+    }
+
+    private IReadOnlyList<ControlBase> CreateJobElements(IDisplayableJobExecutable[] executables)
+    {
+        var executableList = new List<ControlBase>();
+
+        foreach (var executable in executables)
+        {
+            var jobTextList = new List<ControlBase>();
+
+            var storyPoint = executable;
+
+            jobTextList.Add(new Text(
+                _uiContentStorage.GetControlBackgroundTexture(),
+                ControlTextures.Panel,
+                _uiContentStorage.GetTitlesFont(),
+                _ => Color.White,
+                () => storyPoint.TitleSid));
+
+            if (storyPoint.CurrentJobs is not null)
+            {
+                var currentJobs = storyPoint.CurrentJobs.ToList();
+                foreach (var job in currentJobs)
+                {
+                    var jobClosure = job;
+                    jobTextList.Add(new Text(
+                        _uiContentStorage.GetControlBackgroundTexture(),
+                        ControlTextures.Panel,
+                        _uiContentStorage.GetMainFont(),
+                        _ => Color.Wheat,
+                        () => jobClosure.ToString() ?? string.Empty));
+                }
+            }
+
+            var executablePanel = new VerticalStackPanel(_uiContentStorage.GetControlBackgroundTexture(),
+                ControlTextures.Transparent, jobTextList);
+            executableList.Add(executablePanel);
+        }
+
+        return executableList;
     }
 
     private void DrawCampaignEffects(SpriteBatch spriteBatch, Rectangle contentRect)

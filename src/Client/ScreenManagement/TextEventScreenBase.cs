@@ -22,18 +22,18 @@ namespace Client.ScreenManagement;
 internal abstract class TextEventScreenBase<TParagraphConditionContext, TAftermathContext> : GameScreenWithMenuBase
 {
     private readonly TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> _args;
+    private readonly Dialogue<TParagraphConditionContext, TAftermathContext> _currentDialogue;
     private readonly DialogueOptions _dialogueOptions;
-    protected DialoguePlayer<TParagraphConditionContext, TAftermathContext>? _dialoguePlayer;
     private readonly IDice _dice;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
 
     private readonly HoverController<DialogueOptionButton> _optionHoverController;
     private readonly IStoryState _storyState;
-    private readonly Dialogue<TParagraphConditionContext, TAftermathContext> _currentDialogue;
     private readonly IUiContentStorage _uiContentStorage;
 
     protected readonly IList<TextParagraphControl<TParagraphConditionContext, TAftermathContext>> TextParagraphControls;
     private bool _currentTextFragmentIsReady;
+    protected DialoguePlayer<TParagraphConditionContext, TAftermathContext>? _dialoguePlayer;
     private bool _isInitialized;
     private KeyboardState _keyboardState;
     private double _pressToContinueCounter;
@@ -77,7 +77,9 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     }
 
     protected DialogueSpeech<TParagraphConditionContext, TAftermathContext> CurrentFragment =>
-        _dialoguePlayer is not null ? _dialoguePlayer.CurrentTextFragments[CurrentFragmentIndex] : throw new Exception();
+        _dialoguePlayer is not null
+            ? _dialoguePlayer.CurrentTextFragments[CurrentFragmentIndex]
+            : throw new Exception();
 
     protected abstract IDialogueContextFactory<TParagraphConditionContext, TAftermathContext>
         CreateDialogueContextFactory(TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> args);
@@ -129,7 +131,9 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
         if (_dialoguePlayer is null)
         {
-            _dialoguePlayer = new DialoguePlayer<TParagraphConditionContext, TAftermathContext>(_currentDialogue, CreateDialogueContextFactory(_args));
+            _dialoguePlayer =
+                new DialoguePlayer<TParagraphConditionContext, TAftermathContext>(_currentDialogue,
+                    CreateDialogueContextFactory(_args));
         }
 
         if (!_isInitialized)
@@ -140,7 +144,6 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
                 _isInitialized = true;
             }
-
         }
         else
         {

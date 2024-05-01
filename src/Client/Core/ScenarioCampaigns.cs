@@ -124,10 +124,10 @@ internal sealed class ScenarioCampaigns
             return new HeroCampaign(new[]
                 {
                     (tutorialHero, new FieldCoords(0, 1))
-                }, 
-                new HeroCampaignLocation(LocationSids.Thicket, graph), 
+                },
+                new HeroCampaignLocation(LocationSids.Thicket, graph),
                 new ICampaignEffect[] { new UnlockFeatureCampaignEffect(GameFeatures.ExecutableQuests) },
-                ArraySegment<ICampaignEffect>.Empty, 
+                ArraySegment<ICampaignEffect>.Empty,
                 0);
         }
 
