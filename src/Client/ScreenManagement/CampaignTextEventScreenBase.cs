@@ -93,7 +93,7 @@ internal abstract class
                     effect.Apply(_globeProvider.Globe);
                 }
                 
-                _coordinator.MakeRewardTransition(this);
+                _coordinator.MakeGoalStageTransition(this);
             };
             
             AddModal(resultModal, isLate: false);

@@ -721,7 +721,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
                     if (_args.IsGoalStage)
                     {
-                        _coordinator.MakeRewardTransition(this);
+                        _coordinator.MakeGoalStageTransition(this);
                     }
                     else
                     {
