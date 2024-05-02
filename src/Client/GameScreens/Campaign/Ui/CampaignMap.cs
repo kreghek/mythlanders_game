@@ -332,7 +332,7 @@ internal sealed class CampaignMap : ControlBase
         var monsterTexture =
             _gameObjectContentStorage.GetUnitGraphics(Enum.Parse<UnitName>(monster.ClassSid, true));
 
-        var graphics = _combatantGraphicsCatalog.GetGraphics(monster.ClassSid.ToLower());
+        var graphics = _combatantGraphicsCatalog.GetGraphics(monster.ClassSid.ToLowerInvariant());
 
         var idleAnimation = graphics.GetPredefinedAnimations()[PredefinedAnimationSid.Idle];
 

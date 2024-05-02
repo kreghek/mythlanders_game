@@ -564,11 +564,47 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Berimir is a hero with a high shield reserve. This usually corresponds to the role of a tank in RPGs. He can withstand single hits without losing health. But his damage is below average..
         /// </summary>
-        internal static string CombatTutorialText {
+        internal static string CombatSlavicTutorial1Paragraph1 {
             get {
-                return ResourceManager.GetString("CombatTutorialText", resourceCulture);
+                return ResourceManager.GetString("CombatSlavicTutorial1Paragraph1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To defeat this monster, first increase your damage with the skill [Rise Up Your Swords!].
+        /// </summary>
+        internal static string CombatSlavicTutorial1Paragraph2 {
+            get {
+                return ResourceManager.GetString("CombatSlavicTutorial1Paragraph2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The monster will not be able to harm you with the current blow..
+        /// </summary>
+        internal static string CombatSlavicTutorial1Paragraph3 {
+            get {
+                return ResourceManager.GetString("CombatSlavicTutorial1Paragraph3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to After the monster attacks, counter-attack with the [Shoulder Strike] move. The damage should now be enough to destroy the wounded monster..
+        /// </summary>
+        internal static string CombatSlavicTutorial1Paragraph4 {
+            get {
+                return ResourceManager.GetString("CombatSlavicTutorial1Paragraph4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This battle puzzle is easy to solve..
+        /// </summary>
+        internal static string CombatSlavicTutorial1Paragraph5 {
+            get {
+                return ResourceManager.GetString("CombatSlavicTutorial1Paragraph5", resourceCulture);
             }
         }
         

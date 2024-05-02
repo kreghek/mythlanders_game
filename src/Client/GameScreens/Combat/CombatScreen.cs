@@ -259,14 +259,19 @@ internal class CombatScreen : GameScreenWithMenuBase
     {
         base.UpdateContent(gameTime);
 
-        var keyboard = Keyboard.GetState();
-        _gameSettings.IsRecordMode = keyboard.GetPressedKeys().Contains(Keys.Z);
+        UpdateRecordMode();
 
-        if (!_globe.Player.HasAbility(PlayerAbility.ReadCombatTutorial) &&
-            !_globe.Player.HasAbility(PlayerAbility.SkipTutorials))
+        var currentHeroes = _globe.Player.Heroes;
+            
+        if (!_globe.Player.HasAbility(PlayerAbility.ReadUseCombatMovementsTutorial) &&
+            !_globe.Player.HasAbility(PlayerAbility.SkipTutorials) &&
+            currentHeroes.Count == 1)
         {
-            _globe.Player.AddPlayerAbility(PlayerAbility.ReadCombatTutorial);
-            var tutorialModal = new TutorialModal(new CombatTutorialPageDrawer(_uiContentStorage),
+            _globe.Player.AddPlayerAbility(PlayerAbility.ReadUseCombatMovementsTutorial);
+
+            var tutorial1PageDrawer = GetTutorialPageDrawerByHero(currentHeroes.Single());
+            
+            var tutorialModal = new TutorialModal(tutorial1PageDrawer,
                 _uiContentStorage, ResolutionIndependentRenderer, _globe.Player);
             AddModal(tutorialModal, isLate: false);
         }
@@ -301,6 +306,22 @@ internal class CombatScreen : GameScreenWithMenuBase
         _postEffectManager.Update(gameTime);
 
         UpdateCombatRoundLabel(gameTime);
+    }
+
+    private TutorialPageDrawerBase GetTutorialPageDrawerByHero(HeroState heroState)
+    {
+        if (heroState.ClassSid == UnitName.Swordsman.ToString())
+        {
+            return new CombatSlavicTutorial1PageDrawer(_uiContentStorage);
+        }
+
+        throw new Exception();
+    }
+
+    private void UpdateRecordMode()
+    {
+        var keyboard = Keyboard.GetState();
+        _gameSettings.IsRecordMode = keyboard.GetPressedKeys().Contains(Keys.Z);
     }
 
     private void AddHitShaking(bool hurt = false)

@@ -1,20 +1,45 @@
-﻿using Client.Engine;
+﻿using Client.Core;
+using Client.Engine;
 using Client.GameScreens.Common;
+
+using CombatDicesTeam.Engine.Ui;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Combat.Tutorial;
 
-internal class CombatTutorialPageDrawer : TutorialPageDrawerBase
+internal class CombatSlavicTutorial1PageDrawer : TutorialPageDrawerBase
 {
-    public CombatTutorialPageDrawer(IUiContentStorage uiContentStorage) : base(uiContentStorage)
+    private readonly ControlBase _content;
+
+    public CombatSlavicTutorial1PageDrawer(IUiContentStorage uiContentStorage) : base(uiContentStorage)
     {
+        var elements = new[]
+        {
+            CreateText(uiContentStorage, UiResource.CombatSlavicTutorial1Paragraph1),
+            CreateText(uiContentStorage, UiResource.CombatSlavicTutorial1Paragraph2),
+            CreateText(uiContentStorage, UiResource.CombatSlavicTutorial1Paragraph3),
+            CreateText(uiContentStorage, UiResource.CombatSlavicTutorial1Paragraph4),
+            CreateText(uiContentStorage, UiResource.CombatSlavicTutorial1Paragraph5)
+        };
+        
+        _content = new VerticalStackPanel(uiContentStorage.GetControlBackgroundTexture(), ControlTextures.Transparent,
+            elements);
+    }
+
+    private static Text CreateText(IUiContentStorage uiContentStorage, string text)
+    {
+        return new Text(uiContentStorage.GetControlBackgroundTexture(),
+            ControlTextures.Transparent,
+            uiContentStorage.GetMainFont(), 
+            _ => Color.White,
+            () => StringHelper.LineBreaking(text, 55));
     }
 
     public override void Draw(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        spriteBatch.DrawString(UiContentStorage.GetMainFont(), UiResource.CombatTutorialText,
-            contentRect.Location.ToVector2() + new Vector2(0, 5), Color.White);
+        _content.Rect = contentRect;
+        _content.Draw(spriteBatch);
     }
 }
