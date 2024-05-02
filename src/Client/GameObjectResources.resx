@@ -268,6 +268,18 @@
     <value />
     <comment>Crisis Aftermath</comment>
   </data>
+  <data name="CampaignsJobCompletePatternSid" xml:space="preserve">
+    <value>{0} - done</value>
+    <comment>Jobs</comment>
+  </data>
+  <data name="CampaignsJobProgressPatternSid" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+    <comment>Jobs</comment>
+  </data>
+  <data name="CampaignsJobTitleSid" xml:space="preserve">
+    <value>Complete any campaigns</value>
+    <comment>Jobs</comment>
+  </data>
   <data name="Castle" xml:space="preserve">
     <value>Grim Castle in the Rock</value>
     <comment>Location</comment>
@@ -310,6 +322,13 @@
   <data name="CombatSwordDescription" xml:space="preserve">
     <value />
     <comment>Equipment</comment>
+  </data>
+  <data name="CommonJobCompletePattern" xml:space="preserve">
+    <value>{0} - done</value>
+    <comment>Job</comment>
+  </data>
+  <data name="CommonJobInProgressPattern" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
   </data>
   <data name="CorruptedBear" xml:space="preserve">
     <value>Corrupted bear</value>
@@ -361,6 +380,26 @@
   <data name="DeceptivelyLightRobe" xml:space="preserve">
     <value>Deceptively light robe</value>
     <comment>Equipment</comment>
+  </data>
+  <data name="DefeatAnyEnemies" xml:space="preserve">
+    <value>Defeat any enemies</value>
+    <comment>Job</comment>
+  </data>
+  <data name="DefeatAnyEnemiesDuringCampaign" xml:space="preserve">
+    <value>Defeat any enemies during campaign</value>
+    <comment>Job</comment>
+  </data>
+  <data name="DefeatsJobCompletePatternSid" xml:space="preserve">
+    <value>{0} - done</value>
+    <comment>Jobs</comment>
+  </data>
+  <data name="DefeatsJobProgressPatternSid" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+    <comment>Jobs</comment>
+  </data>
+  <data name="DefeatsJobTitleSid" xml:space="preserve">
+    <value>Defeats</value>
+    <comment>Jobs</comment>
   </data>
   <data name="Desert" xml:space="preserve">
     <value>Somewhere in the Desert...</value>
@@ -690,6 +729,15 @@
   <data name="IronStream_Description" xml:space="preserve">
     <value>Deals &lt;damage&gt; to all enemies in line</value>
     <comment>Combat movement Ambush Drone</comment>
+  </data>
+  <data name="JobTypeCombats" xml:space="preserve">
+    <value>Start combats</value>
+  </data>
+  <data name="JobTypeCompleteCampans" xml:space="preserve">
+    <value>Complete campaigns</value>
+  </data>
+  <data name="JobTypeDefeat" xml:space="preserve">
+    <value>Defeat enemies</value>
   </data>
   <data name="JuggernautHeavyPowerArmor" xml:space="preserve">
     <value>Juggernaut heavy power armor</value>
@@ -1159,6 +1207,10 @@
   <data name="WideSwordSlash" xml:space="preserve">
     <value>Wide sword slash</value>
     <comment>Skill</comment>
+  </data>
+  <data name="WinCampaigns" xml:space="preserve">
+    <value>Win campaigns</value>
+    <comment>Job</comment>
   </data>
   <data name="WindWheel" xml:space="preserve">
     <value>Wind wheel</value>

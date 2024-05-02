@@ -106,7 +106,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
             }
         }
 
-        const int STORY_POINT_PANEL_WIDTH = 200;
+        const int STORY_POINT_PANEL_WIDTH = 350;
         const int STORY_POINT_PANEL_HEIGHT = 400;
         var storyPointRect = new Rectangle(
             contentRect.Right - STORY_POINT_PANEL_WIDTH - ControlBase.CONTENT_MARGIN,

@@ -271,6 +271,15 @@
     <value>Попытаться купить провиант</value>
     <comment>Crisis Aftermath</comment>
   </data>
+  <data name="CampaignsJobCompletePatternSid" xml:space="preserve">
+    <value>{0} - завершено</value>
+  </data>
+  <data name="CampaignsJobProgressPatternSid" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+  </data>
+  <data name="CampaignsJobTitleSid" xml:space="preserve">
+    <value>Пройти любые кампании</value>
+  </data>
   <data name="Castle" xml:space="preserve">
     <value>Мрачная Твердыня в Скале</value>
     <comment>Location</comment>
@@ -314,6 +323,12 @@
     <value>Технологичный меч.
 Повышает урон на 25% за уровень.</value>
     <comment>Equipment</comment>
+  </data>
+  <data name="CommonJobCompletePattern" xml:space="preserve">
+    <value>{0} - завершено</value>
+  </data>
+  <data name="CommonJobInProgressPattern" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
   </data>
   <data name="CorruptedBear" xml:space="preserve">
     <value>Оскверненный медведь</value>
@@ -365,6 +380,21 @@
   <data name="DeceptivelyLightRobe" xml:space="preserve">
     <value>Обманчиво лёгкая роба</value>
     <comment>Equipment</comment>
+  </data>
+  <data name="DefeatAnyEnemies" xml:space="preserve">
+    <value>Победить любых противников</value>
+  </data>
+  <data name="DefeatAnyEnemiesDuringCampaign" xml:space="preserve">
+    <value>Побеждено любых монстров в течении одной кампании</value>
+  </data>
+  <data name="DefeatsJobCompletePatternSid" xml:space="preserve">
+    <value>{0} - завершено</value>
+  </data>
+  <data name="DefeatsJobProgressPatternSid" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+  </data>
+  <data name="DefeatsJobTitleSid" xml:space="preserve">
+    <value>Победа над противниками</value>
   </data>
   <data name="Desert" xml:space="preserve">
     <value>Где-то в пустыне...</value>
@@ -689,6 +719,15 @@
   <data name="IronStream_Description" xml:space="preserve">
     <value>Наносит &lt;damage&gt; всем противникам в линии</value>
     <comment>Combat movement Ambush Drone</comment>
+  </data>
+  <data name="JobTypeCombats" xml:space="preserve">
+    <value>Провести боев</value>
+  </data>
+  <data name="JobTypeCompleteCampans" xml:space="preserve">
+    <value>Завершить кампаний</value>
+  </data>
+  <data name="JobTypeDefeat" xml:space="preserve">
+    <value>Уничтожить врагов</value>
   </data>
   <data name="JuggernautHeavyPowerArmor" xml:space="preserve">
     <value>Тяжелая силовая броня Джаггернаут</value>
@@ -1123,6 +1162,9 @@
   <data name="WideSwordSlash" xml:space="preserve">
     <value>Широкий удар мечом</value>
     <comment>Skill</comment>
+  </data>
+  <data name="WinCampaigns" xml:space="preserve">
+    <value>Пройдено кампаний</value>
   </data>
   <data name="WindWheel" xml:space="preserve">
     <value>Ветренное колесо</value>

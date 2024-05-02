@@ -133,9 +133,9 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
             {
                 new Job(
                     new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.Defeats, new JobGoalValue(12)),
-                    nameof(UiResource.DefeatsJobTitleSid),
-                    nameof(UiResource.DefeatsJobProgressPatternSid),
-                    nameof(UiResource.DefeatsJobCompletePatternSid))
+                    nameof(GameObjectResources.DefeatsJobTitleSid),
+                    nameof(GameObjectResources.DefeatsJobProgressPatternSid),
+                    nameof(GameObjectResources.DefeatsJobCompletePatternSid))
             },
             Aftermaths = new IStoryPointAftermath[]
             {
@@ -153,9 +153,9 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
             {
                 new Job(
                     new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.WinCampaigns, new JobGoalValue(1)),
-                    nameof(UiResource.CampaignsJobTitleSid),
-                    nameof(UiResource.CampaignsJobProgressPatternSid),
-                    nameof(UiResource.CampaignsJobCompletePatternSid))
+                    nameof(GameObjectResources.CampaignsJobTitleSid),
+                    nameof(GameObjectResources.CampaignsJobProgressPatternSid),
+                    nameof(GameObjectResources.CampaignsJobCompletePatternSid))
             },
             Aftermaths = new IStoryPointAftermath[]
             {

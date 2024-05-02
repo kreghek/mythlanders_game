@@ -171,15 +171,6 @@
   <data name="CampaignSelectButtonTitle" xml:space="preserve">
     <value>СТАРТ</value>
   </data>
-  <data name="CampaignsJobCompletePatternSid" xml:space="preserve">
-    <value>{0} - завершено</value>
-  </data>
-  <data name="CampaignsJobProgressPatternSid" xml:space="preserve">
-    <value>{0}: {1}/{2}</value>
-  </data>
-  <data name="CampaignsJobTitleSid" xml:space="preserve">
-    <value>Пройти любые кампании</value>
-  </data>
   <data name="CampaignStageDisplayNameChallenge" xml:space="preserve">
     <value>Испытание</value>
   </data>
@@ -318,15 +309,6 @@
   <data name="DecreseDamagePercentEffectRuleText" xml:space="preserve">
     <value>Уменьшает урон на {0}% по {2} на {1} ходов</value>
   </data>
-  <data name="DefeatsJobCompletePatternSid" xml:space="preserve">
-    <value>{0} - завершено</value>
-  </data>
-  <data name="DefeatsJobProgressPatternSid" xml:space="preserve">
-    <value>{0}: {1}/{2}</value>
-  </data>
-  <data name="DefeatsJobTitleSid" xml:space="preserve">
-    <value>Победа над противниками</value>
-  </data>
   <data name="DemoMarkerDescription" xml:space="preserve">
     <value>Это не полная версия игры.
 Большая часть контента и механик отсутствует в демо.
@@ -420,15 +402,6 @@
   </data>
   <data name="InventoryButtonTitle" xml:space="preserve">
     <value>Инвентарь</value>
-  </data>
-  <data name="JobTypeCombats" xml:space="preserve">
-    <value>Провести боев</value>
-  </data>
-  <data name="JobTypeCompleteCampans" xml:space="preserve">
-    <value>Завершить кампаний</value>
-  </data>
-  <data name="JobTypeDefeat" xml:space="preserve">
-    <value>Уничтожить врагов</value>
   </data>
   <data name="LevelUpButtonTitle" xml:space="preserve">
     <value>Повысить</value>
