@@ -18,8 +18,8 @@ namespace Client.GameScreens.Common.Result;
 
 internal sealed class ResultModal : ModalDialogBase
 {
-    private readonly ButtonBase _closeButton;
     private readonly CampaignEffectPanel _campaignEffectPanel;
+    private readonly ButtonBase _closeButton;
     private readonly LinearAnimationFrameSet _flagAnimationLeft;
     private readonly LinearAnimationFrameSet _flagAnimationRight;
     private readonly Texture2D _flagTexture;
@@ -49,7 +49,7 @@ internal sealed class ResultModal : ModalDialogBase
         _flagAnimationLeft =
             new LinearAnimationFrameSet(Enumerable.Range(0, 8).ToArray(), 8, flagTexture.Width / 4,
                 flagTexture.Height / 2, 4) { IsLooping = true };
-        
+
         _flagAnimationRight =
             new LinearAnimationFrameSet(Enumerable.Range(0, 8).ToArray(), 9, flagTexture.Width / 4,
                 flagTexture.Height / 2, 4) { IsLooping = true };
@@ -80,19 +80,6 @@ internal sealed class ResultModal : ModalDialogBase
         _closeButton.Draw(spriteBatch);
     }
 
-    private void DrawFlags(SpriteBatch spriteBatch)
-    {
-        spriteBatch.Draw(_flagTexture, 
-            new Vector2(ContentRect.Left, ContentRect.Top),
-            _flagAnimationLeft.GetFrameRect(),
-            Color.White);
-        
-        spriteBatch.Draw(_flagTexture,
-            new Vector2(ContentRect.Right - _flagTexture.Width, ContentRect.Top),
-            _flagAnimationRight.GetFrameRect(),
-            Color.White);
-    }
-
     protected override void UpdateContent(GameTime gameTime,
         IScreenProjection screenProjection)
     {
@@ -111,12 +98,6 @@ internal sealed class ResultModal : ModalDialogBase
         UpdateFlags(gameTime);
     }
 
-    private void UpdateFlags(GameTime gameTime)
-    {
-        _flagAnimationLeft.Update(gameTime);
-        _flagAnimationRight.Update(gameTime);
-    }
-
     private void CloseButton_OnClick(object? sender, EventArgs e)
     {
         Close();
@@ -126,5 +107,24 @@ internal sealed class ResultModal : ModalDialogBase
     {
         _campaignEffectPanel.Rect = benefitsRect;
         _campaignEffectPanel.Draw(spriteBatch);
+    }
+
+    private void DrawFlags(SpriteBatch spriteBatch)
+    {
+        spriteBatch.Draw(_flagTexture,
+            new Vector2(ContentRect.Left, ContentRect.Top),
+            _flagAnimationLeft.GetFrameRect(),
+            Color.White);
+
+        spriteBatch.Draw(_flagTexture,
+            new Vector2(ContentRect.Right - _flagTexture.Width, ContentRect.Top),
+            _flagAnimationRight.GetFrameRect(),
+            Color.White);
+    }
+
+    private void UpdateFlags(GameTime gameTime)
+    {
+        _flagAnimationLeft.Update(gameTime);
+        _flagAnimationRight.Update(gameTime);
     }
 }

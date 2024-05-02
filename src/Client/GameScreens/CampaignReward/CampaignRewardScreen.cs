@@ -78,8 +78,9 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
             new HeroCampaignRewardImageDrawer(Game.Content,
                 Game.Services.GetRequiredService<ICombatantGraphicsCatalog>())
         };
-        
-        _rewardPanel = new CampaignEffectPanel(_rewards, _uiContent.GetTitlesFont(), campaignRewardImageDrawers, ResultDecoration.Victory);
+
+        _rewardPanel = new CampaignEffectPanel(_rewards, _uiContent.GetTitlesFont(), campaignRewardImageDrawers,
+            ResultDecoration.Victory);
     }
 
     protected override void UpdateContent(GameTime gameTime)
