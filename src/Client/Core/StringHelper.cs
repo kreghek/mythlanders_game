@@ -45,7 +45,7 @@ public static class StringHelper
 
         return mainSb.ToString().Trim();
     }
-    
+
     public static string RichLineBreaking(string text, int maxInLine)
     {
         var items = text.Split(_sourceNewLineCharacters.ToArray());
@@ -54,7 +54,7 @@ public static class StringHelper
         foreach (var item in items)
         {
             var countOfStylesInLine = GetStyleCount(item);
-            
+
             var words = item.Split(_wordBreakers.ToArray(), StringSplitOptions.RemoveEmptyEntries);
 
             singleSb.Clear();
@@ -84,22 +84,6 @@ public static class StringHelper
         return mainSb.ToString().Trim();
     }
 
-    private static int GetStyleCount(string line)
-    {
-        var sum = 0;
-        if (line.Contains("<style=color1>") || line.Contains("<style=color2>"))
-        {
-            sum += 14;
-        }
-
-        if (line.Contains("</style>"))
-        {
-            sum += 8;
-        }
-
-        return sum;
-    }
-
     /// <summary>
     /// Replaces characters that are not in the font table with the correct ones.
     /// </summary>
@@ -116,6 +100,22 @@ public static class StringHelper
         }
 
         sb.Append(word);
+    }
+
+    private static int GetStyleCount(string line)
+    {
+        var sum = 0;
+        if (line.Contains("<style=color1>") || line.Contains("<style=color2>"))
+        {
+            sum += 14;
+        }
+
+        if (line.Contains("</style>"))
+        {
+            sum += 8;
+        }
+
+        return sum;
     }
 
     private static void StartNewLine(StringBuilder mainSb, StringBuilder? singleSb)

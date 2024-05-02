@@ -28,13 +28,13 @@ public sealed class Image : ControlBase
         return Color.White;
     }
 
-    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
-    {
-        spriteBatch.Draw(_image, contentRect.Location.ToVector2(), _sourceRect, contentColor);
-    }
-
     protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
     {
         // Do not draw background of image
+    }
+
+    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
+    {
+        spriteBatch.Draw(_image, contentRect.Location.ToVector2(), _sourceRect, contentColor);
     }
 }

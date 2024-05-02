@@ -15,7 +15,8 @@ internal class CampaignMapTutorialPageDrawer : TutorialPageDrawerBase
 
     public override void Draw(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        spriteBatch.DrawString(UiContentStorage.GetMainFont(), StringHelper.LineBreaking(UiResource.CampaignMapTutorialText, 65),
+        spriteBatch.DrawString(UiContentStorage.GetMainFont(),
+            StringHelper.LineBreaking(UiResource.CampaignMapTutorialText, 65),
             contentRect.Location.ToVector2() + new Vector2(0, 5), Color.White);
     }
 }

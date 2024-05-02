@@ -13,7 +13,8 @@ internal class CombatSlavicTutorial1PageDrawer : TutorialPageDrawerBase
 {
     private readonly ControlBase _content;
 
-    public CombatSlavicTutorial1PageDrawer(IUiContentStorage uiContentStorage, Texture2D[] paragraphImages) : base(uiContentStorage)
+    public CombatSlavicTutorial1PageDrawer(IUiContentStorage uiContentStorage, Texture2D[] paragraphImages) : base(
+        uiContentStorage)
     {
         var elements = new[]
         {
@@ -30,23 +31,24 @@ internal class CombatSlavicTutorial1PageDrawer : TutorialPageDrawerBase
             elements);
     }
 
+    public override void Draw(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        _content.Rect = contentRect;
+        _content.Draw(spriteBatch);
+    }
+
     private static Image CreateImage(IUiContentStorage uiContentStorage, Texture2D paragraphImage)
     {
-        return new Image(paragraphImage, paragraphImage.Bounds, uiContentStorage.GetControlBackgroundTexture(), ControlTextures.Transparent);
+        return new Image(paragraphImage, paragraphImage.Bounds, uiContentStorage.GetControlBackgroundTexture(),
+            ControlTextures.Transparent);
     }
 
     private static ControlBase CreateText(IUiContentStorage uiContentStorage, string text)
     {
         return new RichText(uiContentStorage.GetControlBackgroundTexture(),
             ControlTextures.Transparent,
-            uiContentStorage.GetMainFont(), 
+            uiContentStorage.GetMainFont(),
             _ => Color.White,
             () => StringHelper.RichLineBreaking(text, 65));
-    }
-
-    public override void Draw(SpriteBatch spriteBatch, Rectangle contentRect)
-    {
-        _content.Rect = contentRect;
-        _content.Draw(spriteBatch);
     }
 }

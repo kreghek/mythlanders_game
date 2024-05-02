@@ -25,6 +25,7 @@ internal class TextDialogueScreen : CampaignTextEventScreenBase
     private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
     private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
+    private readonly Globe _globe;
     private readonly ILocationSid _globeLocation;
     private readonly Player _player;
     private readonly Random _random;
@@ -32,7 +33,6 @@ internal class TextDialogueScreen : CampaignTextEventScreenBase
 
     private double _counter;
     private int _frameIndex;
-    private readonly Globe _globe;
 
     public TextDialogueScreen(MythlandersGame game, TextDialogueScreenTransitionArgs args) : base(game, args)
     {
@@ -108,7 +108,8 @@ internal class TextDialogueScreen : CampaignTextEventScreenBase
             return;
         }
 
-        if (!_player.HasAbility(PlayerAbility.ReadSideQuestTutorial) && _globe.Features.HasFeature(GameFeatures.SideQuests))
+        if (!_player.HasAbility(PlayerAbility.ReadSideQuestTutorial) &&
+            _globe.Features.HasFeature(GameFeatures.SideQuests))
         {
             _player.AddPlayerAbility(PlayerAbility.ReadSideQuestTutorial);
 

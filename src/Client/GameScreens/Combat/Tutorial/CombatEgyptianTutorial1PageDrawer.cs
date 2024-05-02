@@ -19,23 +19,23 @@ internal class CombatEgyptianTutorial1PageDrawer : TutorialPageDrawerBase
         {
             CreateText(uiContentStorage, UiResource.CombatEgyptianTutorial1Paragraph1)
         };
-        
+
         _content = new VerticalStackPanel(uiContentStorage.GetControlBackgroundTexture(), ControlTextures.Transparent,
             elements);
-    }
-
-    private static ControlBase CreateText(IUiContentStorage uiContentStorage, string text)
-    {
-        return new RichText(uiContentStorage.GetControlBackgroundTexture(),
-            ControlTextures.Transparent,
-            uiContentStorage.GetMainFont(), 
-            _ => Color.White,
-            () => StringHelper.RichLineBreaking(text, 65));
     }
 
     public override void Draw(SpriteBatch spriteBatch, Rectangle contentRect)
     {
         _content.Rect = contentRect;
         _content.Draw(spriteBatch);
+    }
+
+    private static ControlBase CreateText(IUiContentStorage uiContentStorage, string text)
+    {
+        return new RichText(uiContentStorage.GetControlBackgroundTexture(),
+            ControlTextures.Transparent,
+            uiContentStorage.GetMainFont(),
+            _ => Color.White,
+            () => StringHelper.RichLineBreaking(text, 65));
     }
 }

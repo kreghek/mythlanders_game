@@ -133,7 +133,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
     protected override void UpdateContent(GameTime gameTime)
     {
         base.UpdateContent(gameTime);
-        
+
         CheckTutorial();
 
         if (_campaignMap is not null)
@@ -153,7 +153,14 @@ internal class CampaignScreen : GameScreenWithMenuBase
             }
         }
     }
-    
+
+    private void BestiaryButton_OnClick(object? sender, EventArgs e)
+    {
+        ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary,
+            new BestiaryScreenTransitionArguments(ScreenTransition.Campaign,
+                new CampaignScreenTransitionArguments(_currentCampaign)));
+    }
+
     private void CheckTutorial()
     {
         if (_globeProvider.Globe.Player.HasAbility(PlayerAbility.SkipTutorials))
@@ -165,17 +172,11 @@ internal class CampaignScreen : GameScreenWithMenuBase
         {
             _globeProvider.Globe.Player.AddPlayerAbility(PlayerAbility.ReadSideQuestTutorial);
 
-            var tutorialModal = new TutorialModal(new CampaignMapTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
+            var tutorialModal = new TutorialModal(new CampaignMapTutorialPageDrawer(_uiContentStorage),
+                _uiContentStorage,
                 ResolutionIndependentRenderer, _globeProvider.Globe.Player);
             AddModal(tutorialModal, isLate: false);
         }
-    }
-
-    private void BestiaryButton_OnClick(object? sender, EventArgs e)
-    {
-        ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary,
-            new BestiaryScreenTransitionArguments(ScreenTransition.Campaign,
-                new CampaignScreenTransitionArguments(_currentCampaign)));
     }
 
     private IReadOnlyList<ControlBase> CreateJobElements(IDisplayableJobExecutable[] executables)
