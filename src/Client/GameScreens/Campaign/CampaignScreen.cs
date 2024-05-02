@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.Catalogs;
 using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
@@ -273,7 +274,8 @@ internal class CampaignScreen : GameScreenWithMenuBase
             Game.Content.Load<Texture2D>("Sprites/Ui/MapDisplay"),
             Game.Content.Load<Texture2D>("Sprites/Ui/Icons16x16"),
             ResolutionIndependentRenderer,
-            Game.Services.GetRequiredService<GameObjectContentStorage>());
+            Game.Services.GetRequiredService<GameObjectContentStorage>(),
+            Game.Services.GetRequiredService<ICombatantGraphicsCatalog>());
 
         if (_globeProvider.Globe.Features.HasFeature(GameFeatures.CampaignEffects))
         {

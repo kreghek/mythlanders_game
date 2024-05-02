@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.Catalogs;
 using Client.Assets.CombatMovements;
 using Client.Assets.StageItems;
 using Client.Core;
@@ -39,6 +40,7 @@ internal sealed class CampaignMap : ControlBase
     private readonly Texture2D _campaignIconsTexture;
     private readonly IScreen _currentScreen;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
+    private readonly ICombatantGraphicsCatalog _combatantGraphicsCatalog;
     private readonly HeroCampaign _heroCampaign;
     private readonly Texture2D _hudTexture;
     private readonly Texture2D _iconsTexture;
@@ -62,7 +64,8 @@ internal sealed class CampaignMap : ControlBase
         Texture2D hudTexture,
         Texture2D iconsTexture,
         IResolutionIndependentRenderer resolutionIndependentRenderer,
-        GameObjectContentStorage gameObjectContentStorage) : base(UiThemeManager.UiContentStorage
+        GameObjectContentStorage gameObjectContentStorage,
+        ICombatantGraphicsCatalog combatantGraphicsCatalog) : base(UiThemeManager.UiContentStorage
         .GetControlBackgroundTexture())
     {
         _heroCampaign = heroCampaign;
@@ -75,6 +78,7 @@ internal sealed class CampaignMap : ControlBase
         _iconsTexture = iconsTexture;
         _resolutionIndependentRenderer = resolutionIndependentRenderer;
         _gameObjectContentStorage = gameObjectContentStorage;
+        _combatantGraphicsCatalog = combatantGraphicsCatalog;
 
         InitChildControls(heroCampaign.Location.Stages, heroCampaign);
     }
@@ -328,7 +332,13 @@ internal sealed class CampaignMap : ControlBase
         var monsterTexture =
             _gameObjectContentStorage.GetUnitGraphics(Enum.Parse<UnitName>(monster.ClassSid, true));
 
-        var grayscaleTexture = CreateAnimationSequenceTexture(monsterTexture, new Rectangle(0, 0, 128, 128));
+        var graphics = _combatantGraphicsCatalog.GetGraphics(monster.ClassSid);
+
+        var idleAnimation = graphics.GetPredefinedAnimations()[PredefinedAnimationSid.Idle];
+
+        var singleFrame = idleAnimation.GetFrameRect();
+
+        var grayscaleTexture = CreateAnimationSequenceTexture(monsterTexture, singleFrame);
         return grayscaleTexture;
     }
 
