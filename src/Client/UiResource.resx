@@ -196,9 +196,6 @@
   <data name="CampaignStageDisplayNameCrisis" xml:space="preserve">
     <value>Crisis</value>
   </data>
-  <data name="CampaignStageDisplayNameFinish" xml:space="preserve">
-    <value>Finish campaign</value>
-  </data>
   <data name="CampaignStageDisplayNameRest" xml:space="preserve">
     <value>Rest</value>
   </data>

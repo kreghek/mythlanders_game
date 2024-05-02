@@ -340,7 +340,7 @@ internal sealed class CampaignMap : ControlBase
             // First make start position is reward node to show all graph
             // target position - one of start node.
 
-            var rewardNodeLayout = graphNodeLayouts.Single(x => x.Node.Payload is IRewardCampaignStageItem);
+            var rewardNodeLayout = graphNodeLayouts.Single(x => x.Node.Payload.IsReward);
 
             var roots = GetRoots(_heroCampaign.Location.Stages);
 
@@ -561,11 +561,6 @@ internal sealed class CampaignMap : ControlBase
             return UiResource.CampaignStageDisplayNameCombat + "\n" + $"{monsterName} ({sumPts} PTS)";
         }
 
-        if (campaignStageItem is IRewardCampaignStageItem)
-        {
-            return UiResource.CampaignStageDisplayNameFinish;
-        }
-
         if (campaignStageItem is DialogueEventStageItem)
         {
             return UiResource.CampaignStageDisplayNameTextEvent;
@@ -593,14 +588,14 @@ internal sealed class CampaignMap : ControlBase
     {
         var size = new Point(LAYOUT_NODE_SIZE, LAYOUT_NODE_SIZE);
 
+        if (campaignStageItem.IsReward)
+        {
+            return new Rectangle(new Point(1 * LAYOUT_NODE_SIZE, 2 * LAYOUT_NODE_SIZE), size);   
+        }
+
         if (campaignStageItem is CombatStageItem)
         {
             return new Rectangle(new Point(0, 0), size);
-        }
-
-        if (campaignStageItem is IRewardCampaignStageItem)
-        {
-            return new Rectangle(new Point(1 * LAYOUT_NODE_SIZE, 2 * LAYOUT_NODE_SIZE), size);
         }
 
         if (campaignStageItem is DialogueEventStageItem || campaignStageItem is CrisisStageItem ||
