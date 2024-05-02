@@ -243,33 +243,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} - done.
-        /// </summary>
-        internal static string CampaignsJobCompletePatternSid {
-            get {
-                return ResourceManager.GetString("CampaignsJobCompletePatternSid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0}: {1}/{2}.
-        /// </summary>
-        internal static string CampaignsJobProgressPatternSid {
-            get {
-                return ResourceManager.GetString("CampaignsJobProgressPatternSid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Complete any campaigns.
-        /// </summary>
-        internal static string CampaignsJobTitleSid {
-            get {
-                return ResourceManager.GetString("CampaignsJobTitleSid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Challenge.
         /// </summary>
         internal static string CampaignStageDisplayNameChallenge {
@@ -759,33 +732,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} - done.
-        /// </summary>
-        internal static string DefeatsJobCompletePatternSid {
-            get {
-                return ResourceManager.GetString("DefeatsJobCompletePatternSid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0}: {1}/{2}.
-        /// </summary>
-        internal static string DefeatsJobProgressPatternSid {
-            get {
-                return ResourceManager.GetString("DefeatsJobProgressPatternSid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Defeats.
-        /// </summary>
-        internal static string DefeatsJobTitleSid {
-            get {
-                return ResourceManager.GetString("DefeatsJobTitleSid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to This is not the full version of the game.
         ///Most of the content and mechanics are missing from the demo.
         ///Don&apos;t forget to add the game to your wishlist on popular platforms and leave feedback to the developer!.
@@ -1036,33 +982,6 @@ namespace Client {
         internal static string InventoryButtonTitle {
             get {
                 return ResourceManager.GetString("InventoryButtonTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Start combats.
-        /// </summary>
-        internal static string JobTypeCombats {
-            get {
-                return ResourceManager.GetString("JobTypeCombats", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Complete campaigns.
-        /// </summary>
-        internal static string JobTypeCompleteCampans {
-            get {
-                return ResourceManager.GetString("JobTypeCompleteCampans", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Defeat enemies.
-        /// </summary>
-        internal static string JobTypeDefeat {
-            get {
-                return ResourceManager.GetString("JobTypeDefeat", resourceCulture);
             }
         }
         

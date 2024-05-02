@@ -175,18 +175,6 @@
   <data name="CampaignSelectButtonTitle" xml:space="preserve">
     <value>START</value>
   </data>
-  <data name="CampaignsJobCompletePatternSid" xml:space="preserve">
-    <value>{0} - done</value>
-    <comment>Jobs</comment>
-  </data>
-  <data name="CampaignsJobProgressPatternSid" xml:space="preserve">
-    <value>{0}: {1}/{2}</value>
-    <comment>Jobs</comment>
-  </data>
-  <data name="CampaignsJobTitleSid" xml:space="preserve">
-    <value>Complete any campaigns</value>
-    <comment>Jobs</comment>
-  </data>
   <data name="CampaignStageDisplayNameChallenge" xml:space="preserve">
     <value>Challenge</value>
   </data>
@@ -338,18 +326,6 @@ Do you really need to spend the priceless current move for nothing?</value>
   <data name="DecreseDamagePercentEffectRuleText" xml:space="preserve">
     <value>Decrease damage on {0}% of {2} on {1} turns</value>
   </data>
-  <data name="DefeatsJobCompletePatternSid" xml:space="preserve">
-    <value>{0} - done</value>
-    <comment>Jobs</comment>
-  </data>
-  <data name="DefeatsJobProgressPatternSid" xml:space="preserve">
-    <value>{0}: {1}/{2}</value>
-    <comment>Jobs</comment>
-  </data>
-  <data name="DefeatsJobTitleSid" xml:space="preserve">
-    <value>Defeats</value>
-    <comment>Jobs</comment>
-  </data>
   <data name="DemoMarkerDescription" xml:space="preserve">
     <value>This is not the full version of the game.
 Most of the content and mechanics are missing from the demo.
@@ -444,15 +420,6 @@ In side quests, it is very important to make the right choices. Because every ch
   </data>
   <data name="InventoryButtonTitle" xml:space="preserve">
     <value>Inventory</value>
-  </data>
-  <data name="JobTypeCombats" xml:space="preserve">
-    <value>Start combats</value>
-  </data>
-  <data name="JobTypeCompleteCampans" xml:space="preserve">
-    <value>Complete campaigns</value>
-  </data>
-  <data name="JobTypeDefeat" xml:space="preserve">
-    <value>Defeat enemies</value>
   </data>
   <data name="LevelUpButtonTitle" xml:space="preserve">
     <value>Level Up</value>
