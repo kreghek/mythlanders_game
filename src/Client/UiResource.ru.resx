@@ -350,11 +350,10 @@
   <data name="EquipmentUpgradeMarkerText" xml:space="preserve">
     <value>Доступно улучшение!</value>
   </data>
-  <data name="EventTutorialText" xml:space="preserve">
-    <value>В игре произошло событие.
+  <data name="SideQuestTutorialText" xml:space="preserve">
+    <value>Иногда в мире игры происходят дополнительные события, в которых герои могут принять участие. Обычно это называют дополнительными квестами.
 
-1. Некоторые события продвигают партию по сюжету.
-2. Другие - могут повлиять на партию и конкретных персонажей.</value>
+В дополнительных квестах очень важно делать правильный выбор. Потому что любой выбор имеет значимое для игрового мира последствие.</value>
   </data>
   <data name="ExitGameButtonTitle" xml:space="preserve">
     <value>Выйти из игры</value>
@@ -443,11 +442,10 @@
   <data name="ManaLabelTemplate" xml:space="preserve">
     <value>Пси-энергия: {0}/{1}</value>
   </data>
-  <data name="MapTutorialText" xml:space="preserve">
-    <value>Это карта локаций.
-1. Каждая последующая локация становится доступной после победы в предыдущей.
-2. В нескольких локациях буйствуют монстры. Эти локации отмечены ярким символом мечей.
-3. В некоторых локациях могут происходить различные события, которые могут повлиять на текущий бой, отдельных персонажей или всю группу героев.</value>
+  <data name="CampaignMapTutorialText" xml:space="preserve">
+    <value>Это карта прохождения кампании. Обычно на карте есть несколько путей, которыми можно добраться до победного этапа кампании и получить награду.
+
+Слудет грамотно планировать свой маршрут, чтобы посетить все важные этапы. При этом нужно избегать слишком сложных боев.</value>
   </data>
   <data name="MediumCombatSequenceText" xml:space="preserve">
     <value>Средний</value>
@@ -619,5 +617,14 @@
   </data>
   <data name="CombatSlavicTutorial1Paragraph5" xml:space="preserve">
     <value>Этот бой-головоломка решается &lt;style=color2&gt;несложно&lt;/style&gt;.</value>
+  </data>
+  <data name="CombatChineseTutorial1Paragraph1" xml:space="preserve">
+    <value>&lt;style=color1&gt;Маосин&lt;/style&gt; - это герой с высоким потенциальным уроном. Обычно это соответствует роли DD в ролевых играх.</value>
+  </data>
+  <data name="CombatGreekTutorial1Paragraph1" xml:space="preserve">
+    <value>&lt;style=color1&gt;Леонидас&lt;/style&gt; - это герой с высоким запасом щитов. Обычно это соответствует роли танка в ролевых играх. Он может выдержать единичные удары без потерь здоровья. Но его урон - ниже среднего.</value>
+  </data>
+  <data name="CombatEgyptianTutorial1Paragraph1" xml:space="preserve">
+    <value>&lt;style=color1&gt;Нубити&lt;/style&gt; - это герой с высоким потенциальным уроном. Обычно это соответствует роли DD в ролевых играх.</value>
   </data>
 </root>

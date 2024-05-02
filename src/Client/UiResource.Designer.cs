@@ -204,6 +204,17 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This is a campaign map. There are usually several paths on the map that can be used to reach the winning stage of the campaign and receive a reward.
+        ///
+        ///You will need to plan your route wisely to visit all the important stages. At the same time, you need to avoid too difficult fights..
+        /// </summary>
+        internal static string CampaignMapTutorialText {
+            get {
+                return ResourceManager.GetString("CampaignMapTutorialText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Penalties.
         /// </summary>
         internal static string CampaignPenaltiesLabelText {
@@ -335,6 +346,33 @@ namespace Client {
         internal static string CloseButtonTitle {
             get {
                 return ResourceManager.GetString("CloseButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;style=color1&gt;Maoxing&lt;/style&gt; is a hero with high damage potential. This usually corresponds to the role of DD in RPGs..
+        /// </summary>
+        internal static string CombatChineseTutorial1Paragraph1 {
+            get {
+                return ResourceManager.GetString("CombatChineseTutorial1Paragraph1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;style=color1&gt;Nubiti&lt;/style&gt; is a hero with high damage potential. This usually corresponds to the role of DD in role-playing games..
+        /// </summary>
+        internal static string CombatEgyptianTutorial1Paragraph1 {
+            get {
+                return ResourceManager.GetString("CombatEgyptianTutorial1Paragraph1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;style=color1&gt;Leonidas&lt;/style&gt; is a hero with a high shield reserve. This usually corresponds to the role of a tank in RPGs. He can withstand single hits without losing health. But his damage is below average..
+        /// </summary>
+        internal static string CombatGreekTutorial1Paragraph1 {
+            get {
+                return ResourceManager.GetString("CombatGreekTutorial1Paragraph1", resourceCulture);
             }
         }
         
@@ -812,15 +850,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string EventTutorialText {
-            get {
-                return ResourceManager.GetString("EventTutorialText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Exit game.
         /// </summary>
         internal static string ExitGameButtonTitle {
@@ -1073,15 +1102,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string MapTutorialText {
-            get {
-                return ResourceManager.GetString("MapTutorialText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Medium.
         /// </summary>
         internal static string MediumCombatSequenceText {
@@ -1249,6 +1269,17 @@ namespace Client {
         internal static string ShortCombatSequenceText {
             get {
                 return ResourceManager.GetString("ShortCombatSequenceText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sometimes additional events take place in the game world in which the heroes can take part. These are usually called side quests.
+        ///
+        ///In side quests, it is very important to make the right choices. Because every choice has a significant consequence for the game world..
+        /// </summary>
+        internal static string SideQuestTutorialText {
+            get {
+                return ResourceManager.GetString("SideQuestTutorialText", resourceCulture);
             }
         }
         

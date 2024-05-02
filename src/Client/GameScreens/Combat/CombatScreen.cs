@@ -315,7 +315,22 @@ internal class CombatScreen : GameScreenWithMenuBase
             return new CombatSlavicTutorial1PageDrawer(_uiContentStorage, Game.Content.Load<Texture2D>("Sprites/Ui/p1_tank_shields.PNG"));
         }
 
-        throw new Exception();
+        if (heroState.ClassSid == UnitName.Monk.ToString())
+        {
+            return new CombatChineseTutorial1PageDrawer(_uiContentStorage);
+        }
+        
+        if (heroState.ClassSid == UnitName.Hoplite.ToString())
+        {
+            return new CombatGreekTutorial1PageDrawer(_uiContentStorage);
+        }
+        
+        if (heroState.ClassSid == UnitName.Liberator.ToString())
+        {
+            return new CombatEgyptianTutorial1PageDrawer(_uiContentStorage);
+        }
+        
+        return new CombatSlavicTutorial1PageDrawer(_uiContentStorage, Game.Content.Load<Texture2D>("Sprites/Ui/p1_tank_shields.PNG"));
     }
 
     private void UpdateRecordMode()

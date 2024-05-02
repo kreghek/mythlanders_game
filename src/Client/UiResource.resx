@@ -374,8 +374,10 @@ Don't forget to add the game to your wishlist on popular platforms and leave fee
   <data name="EquipmentUpgradeMarkerText" xml:space="preserve">
     <value>Upgrade is available!</value>
   </data>
-  <data name="EventTutorialText" xml:space="preserve">
-    <value />
+  <data name="SideQuestTutorialText" xml:space="preserve">
+    <value>Sometimes additional events take place in the game world in which the heroes can take part. These are usually called side quests.
+
+In side quests, it is very important to make the right choices. Because every choice has a significant consequence for the game world.</value>
   </data>
   <data name="ExitGameButtonTitle" xml:space="preserve">
     <value>Exit game</value>
@@ -464,8 +466,10 @@ Don't forget to add the game to your wishlist on popular platforms and leave fee
   <data name="ManaLabelTemplate" xml:space="preserve">
     <value>Psy-energy: {0}/{1}</value>
   </data>
-  <data name="MapTutorialText" xml:space="preserve">
-    <value />
+  <data name="CampaignMapTutorialText" xml:space="preserve">
+    <value>This is a campaign map. There are usually several paths on the map that can be used to reach the winning stage of the campaign and receive a reward.
+
+You will need to plan your route wisely to visit all the important stages. At the same time, you need to avoid too difficult fights.</value>
   </data>
   <data name="MediumCombatSequenceText" xml:space="preserve">
     <value>Medium</value>
@@ -646,5 +650,14 @@ This hero can no longer act in the current battle.</value>
   </data>
   <data name="CombatSlavicTutorial1Paragraph5" xml:space="preserve">
     <value>This battle puzzle is &lt;style=color2&gt;easy&lt;/style&gt; to solve.</value>
+  </data>
+  <data name="CombatChineseTutorial1Paragraph1" xml:space="preserve">
+    <value>&lt;style=color1&gt;Maoxing&lt;/style&gt; is a hero with high damage potential. This usually corresponds to the role of DD in RPGs.</value>
+  </data>
+  <data name="CombatGreekTutorial1Paragraph1" xml:space="preserve">
+    <value>&lt;style=color1&gt;Leonidas&lt;/style&gt; is a hero with a high shield reserve. This usually corresponds to the role of a tank in RPGs. He can withstand single hits without losing health. But his damage is below average.</value>
+  </data>
+  <data name="CombatEgyptianTutorial1Paragraph1" xml:space="preserve">
+    <value>&lt;style=color1&gt;Nubiti&lt;/style&gt; is a hero with high damage potential. This usually corresponds to the role of DD in role-playing games.</value>
   </data>
 </root>

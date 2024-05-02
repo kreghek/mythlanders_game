@@ -9,20 +9,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Combat.Tutorial;
 
-internal class CombatSlavicTutorial1PageDrawer : TutorialPageDrawerBase
+internal class CombatEgyptianTutorial1PageDrawer : TutorialPageDrawerBase
 {
     private readonly ControlBase _content;
 
-    public CombatSlavicTutorial1PageDrawer(IUiContentStorage uiContentStorage, Texture2D texture2D) : base(uiContentStorage)
+    public CombatEgyptianTutorial1PageDrawer(IUiContentStorage uiContentStorage) : base(uiContentStorage)
     {
         var elements = new[]
         {
-            CreateText(uiContentStorage, UiResource.CombatSlavicTutorial1Paragraph1),
-            new Image(texture2D, texture2D.Bounds, uiContentStorage.GetControlBackgroundTexture(), ControlTextures.Transparent),
-            CreateText(uiContentStorage, UiResource.CombatSlavicTutorial1Paragraph2),
-            CreateText(uiContentStorage, UiResource.CombatSlavicTutorial1Paragraph3),
-            CreateText(uiContentStorage, UiResource.CombatSlavicTutorial1Paragraph4),
-            CreateText(uiContentStorage, UiResource.CombatSlavicTutorial1Paragraph5)
+            CreateText(uiContentStorage, UiResource.CombatEgyptianTutorial1Paragraph1)
         };
         
         _content = new VerticalStackPanel(uiContentStorage.GetControlBackgroundTexture(), ControlTextures.Transparent,

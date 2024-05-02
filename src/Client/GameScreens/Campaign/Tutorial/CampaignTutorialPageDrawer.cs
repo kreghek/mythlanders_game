@@ -4,11 +4,11 @@ using Client.GameScreens.Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.GameScreens.TextDialogue.Tutorial;
+namespace Client.GameScreens.Campaign.Tutorial;
 
-internal class EventTutorialPageDrawer : TutorialPageDrawerBase
+internal class CampaignMapTutorialPageDrawer : TutorialPageDrawerBase
 {
-    public EventTutorialPageDrawer(IUiContentStorage uiContentStorage) : base(uiContentStorage)
+    public CampaignMapTutorialPageDrawer(IUiContentStorage uiContentStorage) : base(uiContentStorage)
     {
     }
 
