@@ -11,4 +11,6 @@ internal sealed class Match3MinigameStageItem : ICampaignStageItem
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.Match3Minigame,
             new Match3MiniGameScreenTransitionArguments(currentCampaign));
     }
+
+    public bool IsReward { get; }
 }

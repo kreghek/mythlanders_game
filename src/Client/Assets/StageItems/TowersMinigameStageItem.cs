@@ -11,4 +11,6 @@ internal sealed class TowersMinigameStageItem : ICampaignStageItem
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.TowersMinigame,
             new TowersMiniGameScreenTransitionArguments(currentCampaign));
     }
+
+    public bool IsReward { get; }
 }

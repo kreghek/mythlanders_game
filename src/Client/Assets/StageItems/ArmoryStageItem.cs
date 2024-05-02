@@ -26,4 +26,6 @@ internal sealed class ArmoryStageItem : ICampaignStageItem
         // screenManager.ExecuteTransition(currentScreen, ScreenTransition.Armory,
         //     new ArmoryScreenTransitionArguments(currentCampaign, availableEquipments));
     }
+
+    public bool IsReward { get; }
 }

@@ -1,15 +1,20 @@
 ﻿using System;
 
+using Client.Assets.Catalogs;
 using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
+using Client.GameScreens.CampaignReward.Ui;
+using Client.GameScreens.Common.CampaignResult;
+using Client.GameScreens.Common.Result;
 using Client.ScreenManagement.Ui.TextEvents;
 
 using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.ScreenManagement;
 
@@ -24,6 +29,7 @@ internal abstract class
     private readonly IEventCatalog _eventCatalog;
 
     private readonly GlobeProvider _globeProvider;
+    private readonly bool _isReward;
 
     protected CampaignTextEventScreenBase(MythlandersGame game, CampaignTextEventScreenArgsBase args) : base(game, args)
     {
@@ -38,6 +44,8 @@ internal abstract class
         _coordinator = game.Services.GetRequiredService<StateCoordinator>();
 
         _dice = Game.Services.GetService<IDice>();
+
+        _isReward = args.IsReward;
     }
 
     protected override IDialogueContextFactory<ParagraphConditionContext, CampaignAftermathContext>
@@ -67,6 +75,43 @@ internal abstract class
         _dialogueEnvironmentManager.Clean();
         _globeProvider.StoreCurrentGlobe();
 
-        _coordinator.MakeCommonTransition(this, _currentCampaign);
+        if (!_isReward)
+        {
+            _coordinator.MakeCommonTransition(this, _currentCampaign);
+        }
+        else
+        {
+            var resultModal = new ResultModal(Game.Services.GetRequiredService<IUiContentStorage>(),
+                ResolutionIndependentRenderer, ResultDecoration.Victory, _currentCampaign.ActualRewards,
+                Game.Content.Load<Texture2D>("Sprites/Ui/VictoryFlags_41x205"),
+                CreateDrawers());
+            
+            resultModal.Closed += (_, _) =>
+            {
+                foreach (var effect in _currentCampaign.ActualRewards)
+                {
+                    effect.Apply(_globeProvider.Globe);
+                }
+                
+                _coordinator.MakeCommonTransition(this, _currentCampaign);
+            };
+            
+            AddModal(resultModal, isLate: false);
+        }
+    }
+    
+    private ICampaignRewardImageDrawer[] CreateDrawers()
+    {
+        var uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();
+        return new ICampaignRewardImageDrawer[]
+        {
+            new PropCampaignRewardImageDrawer(Game.Content.Load<Texture2D>("Sprites/GameObjects/EquipmentIcons"),
+                uiContentStorage.GetMainFont(),
+                _globeProvider.Globe.Player.Inventory),
+            new LocationCampaignRewardImageDrawer(Game.Content),
+            new HeroCampaignRewardImageDrawer(Game.Content,
+                Game.Services.GetRequiredService<ICombatantGraphicsCatalog>()),
+            new GlobeEffectCampaignRewardImageDrawer(uiContentStorage.GetMainFont())
+        };
     }
 }

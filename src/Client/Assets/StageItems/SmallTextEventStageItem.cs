@@ -46,4 +46,6 @@ internal abstract class SmallTextEventStageItem : ICampaignStageItem
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.Crisis,
             new CrisisScreenTransitionArguments(currentCampaign, EventType.Crisis, crisisDialogue, smallEvent, crisis));
     }
+
+    public bool IsReward { get; }
 }

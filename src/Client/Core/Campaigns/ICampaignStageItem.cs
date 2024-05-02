@@ -5,4 +5,5 @@ namespace Client.Core.Campaigns;
 internal interface ICampaignStageItem
 {
     void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign);
+    bool IsReward { get; }
 }

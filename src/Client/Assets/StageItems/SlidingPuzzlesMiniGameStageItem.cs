@@ -11,4 +11,6 @@ internal sealed class SlidingPuzzlesMiniGameStageItem : ICampaignStageItem
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.SlidingPuzzlesMinigame,
             new SlidingPuzzlesMinigameScreenTransitionArguments(currentCampaign));
     }
+
+    public bool IsReward { get; }
 }
