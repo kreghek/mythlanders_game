@@ -31,8 +31,8 @@ internal sealed class DialogueEventStageItem : ICampaignStageItem
         screenManager.ExecuteTransition(
             currentScreen,
             ScreenTransition.Event,
-            new TextDialogueScreenTransitionArgs(currentCampaign, dialogue, textEvent, _location));
+            new TextDialogueScreenTransitionArgs(currentCampaign, dialogue, textEvent, _location){ IsReward = IsReward});
     }
 
-    public bool IsReward { get; set; }
+    public bool IsReward { get; init; }
 }
