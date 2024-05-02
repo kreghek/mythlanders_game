@@ -32,6 +32,7 @@ internal class TextDialogueScreen : CampaignTextEventScreenBase
 
     private double _counter;
     private int _frameIndex;
+    private readonly Globe _globe;
 
     public TextDialogueScreen(MythlandersGame game, TextDialogueScreenTransitionArgs args) : base(game, args)
     {
@@ -40,6 +41,7 @@ internal class TextDialogueScreen : CampaignTextEventScreenBase
         var globeProvider = game.Services.GetService<GlobeProvider>();
 
         var globe = globeProvider.Globe ?? throw new InvalidOperationException();
+        _globe = globe;
         _player = globe.Player ?? throw new InvalidOperationException();
 
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();
@@ -106,16 +108,14 @@ internal class TextDialogueScreen : CampaignTextEventScreenBase
             return;
         }
 
-        if (_player.HasAbility(PlayerAbility.ReadSideQuestTutorial))
+        if (!_player.HasAbility(PlayerAbility.ReadSideQuestTutorial) && _globe.Features.HasFeature(GameFeatures.SideQuests))
         {
-            return;
+            _player.AddPlayerAbility(PlayerAbility.ReadSideQuestTutorial);
+
+            var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
+                ResolutionIndependentRenderer, _player);
+            AddModal(tutorialModal, isLate: false);
         }
-
-        _player.AddPlayerAbility(PlayerAbility.ReadSideQuestTutorial);
-
-        var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
-            ResolutionIndependentRenderer, _player);
-        AddModal(tutorialModal, isLate: false);
     }
 
     private static UnitName ConvertSpeakerToUnitName(IDialogueSpeaker speaker)

@@ -32,4 +32,9 @@ public sealed class Image : ControlBase
     {
         spriteBatch.Draw(_image, contentRect.Location.ToVector2(), _sourceRect, contentColor);
     }
+
+    protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
+    {
+        // Do not draw background of image
+    }
 }

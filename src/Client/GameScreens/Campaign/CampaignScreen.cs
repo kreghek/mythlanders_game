@@ -7,7 +7,9 @@ using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Bestiary;
+using Client.GameScreens.Campaign.Tutorial;
 using Client.GameScreens.Campaign.Ui;
+using Client.GameScreens.Common;
 using Client.ScreenManagement;
 
 using CombatDicesTeam.Engine.Ui;
@@ -131,6 +133,8 @@ internal class CampaignScreen : GameScreenWithMenuBase
     protected override void UpdateContent(GameTime gameTime)
     {
         base.UpdateContent(gameTime);
+        
+        CheckTutorial();
 
         if (_campaignMap is not null)
         {
@@ -147,6 +151,23 @@ internal class CampaignScreen : GameScreenWithMenuBase
             {
                 _showQuestsPanelButton.Update(ResolutionIndependentRenderer);
             }
+        }
+    }
+    
+    private void CheckTutorial()
+    {
+        if (_globeProvider.Globe.Player.HasAbility(PlayerAbility.SkipTutorials))
+        {
+            return;
+        }
+
+        if (!_globeProvider.Globe.Player.HasAbility(PlayerAbility.ReadSideQuestTutorial))
+        {
+            _globeProvider.Globe.Player.AddPlayerAbility(PlayerAbility.ReadSideQuestTutorial);
+
+            var tutorialModal = new TutorialModal(new CampaignMapTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
+                ResolutionIndependentRenderer, _globeProvider.Globe.Player);
+            AddModal(tutorialModal, isLate: false);
         }
     }
 
