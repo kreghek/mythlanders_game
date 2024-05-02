@@ -338,7 +338,7 @@ internal sealed class CampaignMap : ControlBase
 
         var singleFrame = idleAnimation.GetFrameRect();
 
-        var grayscaleTexture = CreateAnimationSequenceTexture(monsterTexture, singleFrame);
+        var grayscaleTexture = CreateAnimationSequenceTexture(monsterTexture, new Rectangle(0, 0, 128, 128));
         return grayscaleTexture;
     }
 
