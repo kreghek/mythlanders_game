@@ -45,5 +45,6 @@ internal sealed class CombatStageItem : ICampaignStageItem
             new CombatScreenTransitionArguments(currentCampaign, CombatSequence, 0, false, _location, null){ IsGoalStage = IsGoalStage});
     }
     
+    /// <inheritdoc/>
     public bool IsGoalStage { get; init; }
 }
