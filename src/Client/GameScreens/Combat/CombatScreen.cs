@@ -719,7 +719,14 @@ internal class CombatScreen : GameScreenWithMenuBase
                     _globeProvider.StoreCurrentGlobe();
                     _currentCampaign.CompleteCurrentStage();
 
-                    _coordinator.MakeCombatWinTransition(this, _currentCampaign);
+                    if (_args.IsReward)
+                    {
+                        _coordinator.MakeRewardTransition(this);
+                    }
+                    else
+                    {
+                        _coordinator.MakeCombatWinTransition(this, _currentCampaign);                        
+                    }
                 }
             }
         }

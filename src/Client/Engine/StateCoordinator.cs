@@ -3,6 +3,7 @@
 using Client.Core;
 using Client.Core.Campaigns;
 using Client.GameScreens.Campaign;
+using Client.GameScreens.CommandCenter;
 using Client.ScreenManagement;
 
 namespace Client.Engine;
@@ -29,10 +30,7 @@ internal class StateCoordinator
 
         if (globe.Features.HasFeature(GameFeatures.Campaigns))
         {
-            _screenManager.ExecuteTransition(
-                currentScreen,
-                ScreenTransition.Campaign,
-                new CampaignScreenTransitionArguments(currentCampaign));
+            MakeRewardTransition(currentScreen);
         }
         else
         {
@@ -55,6 +53,19 @@ internal class StateCoordinator
         {
             AutoSelectNextCampaignStage(currentScreen, currentCampaign);
         }
+    }
+
+    public void MakeRewardTransition(IScreen currentScreen)
+    {
+        var campaigns = _campaignGenerator.CreateSet(_globeProvider.Globe);
+
+        _screenManager.ExecuteTransition(currentScreen, ScreenTransition.CommandCenter,
+            new CommandCenterScreenTransitionArguments(campaigns));
+        
+        _screenManager.ExecuteTransition(
+            currentScreen,
+            ScreenTransition.CommandCenter,
+            new CommandCenterScreenTransitionArguments(campaigns));
     }
 
     public void MakeCommonTransition(IScreen currentScreen, HeroCampaign currentCampaign)
