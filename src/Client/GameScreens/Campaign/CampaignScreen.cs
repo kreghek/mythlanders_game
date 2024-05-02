@@ -263,6 +263,20 @@ internal class CampaignScreen : GameScreenWithMenuBase
         campaignMap.Scroll = campaignMap.Presentation.Target;
     }
 
+    private void InitializeCampaignEffectPanel(HeroCampaign currentCampaign)
+    {
+        if (_globeProvider.Globe.Features.HasFeature(GameFeatures.CampaignEffects))
+        {
+            var rewards = _screenTransitionArguments.Campaign.ActualRewards.ToArray();
+            var penalties = currentCampaign.ActualFailurePenalties;
+
+            if (rewards.Any() || penalties.Any())
+            {
+                _campaignEffectsPanel = new CampaignEffectsPanel(rewards, penalties);
+            }
+        }
+    }
+
     private void InitializeCampaignItemButtons()
     {
         var currentCampaign = _screenTransitionArguments.Campaign;
@@ -283,20 +297,6 @@ internal class CampaignScreen : GameScreenWithMenuBase
             ResolutionIndependentRenderer,
             Game.Services.GetRequiredService<GameObjectContentStorage>(),
             Game.Services.GetRequiredService<ICombatantGraphicsCatalog>());
-    }
-
-    private void InitializeCampaignEffectPanel(HeroCampaign currentCampaign)
-    {
-        if (_globeProvider.Globe.Features.HasFeature(GameFeatures.CampaignEffects))
-        {
-            var rewards = _screenTransitionArguments.Campaign.ActualRewards.ToArray();
-            var penalties = currentCampaign.ActualFailurePenalties;
-
-            if (rewards.Any() || penalties.Any())
-            {
-                _campaignEffectsPanel = new CampaignEffectsPanel(rewards, penalties);
-            }
-        }
     }
 
     private void InventoryButton_OnClick(object? sender, EventArgs e)

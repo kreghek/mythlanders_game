@@ -85,21 +85,21 @@ internal abstract class
                 ResolutionIndependentRenderer, ResultDecoration.Victory, _currentCampaign.ActualRewards,
                 Game.Content.Load<Texture2D>("Sprites/Ui/VictoryFlags_41x205"),
                 CreateDrawers());
-            
+
             resultModal.Closed += (_, _) =>
             {
                 foreach (var effect in _currentCampaign.ActualRewards)
                 {
                     effect.Apply(_globeProvider.Globe);
                 }
-                
+
                 _coordinator.MakeGoalStageTransition(this);
             };
-            
+
             AddModal(resultModal, isLate: false);
         }
     }
-    
+
     private ICampaignRewardImageDrawer[] CreateDrawers()
     {
         var uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();

@@ -38,9 +38,9 @@ internal sealed class CampaignMap : ControlBase
 
     private readonly IList<CampaignNodeButton> _buttonList = new List<CampaignNodeButton>();
     private readonly Texture2D _campaignIconsTexture;
+    private readonly ICombatantGraphicsCatalog _combatantGraphicsCatalog;
     private readonly IScreen _currentScreen;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
-    private readonly ICombatantGraphicsCatalog _combatantGraphicsCatalog;
     private readonly HeroCampaign _heroCampaign;
     private readonly Texture2D _hudTexture;
     private readonly Texture2D _iconsTexture;
@@ -600,7 +600,7 @@ internal sealed class CampaignMap : ControlBase
 
         if (campaignStageItem.IsGoalStage)
         {
-            return new Rectangle(new Point(1 * LAYOUT_NODE_SIZE, 2 * LAYOUT_NODE_SIZE), size);   
+            return new Rectangle(new Point(1 * LAYOUT_NODE_SIZE, 2 * LAYOUT_NODE_SIZE), size);
         }
 
         if (campaignStageItem is CombatStageItem)

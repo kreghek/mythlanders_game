@@ -725,7 +725,7 @@ internal class CombatScreen : GameScreenWithMenuBase
                     }
                     else
                     {
-                        _coordinator.MakeCombatWinTransition(this, _currentCampaign);                        
+                        _coordinator.MakeCombatWinTransition(this, _currentCampaign);
                     }
                 }
             }

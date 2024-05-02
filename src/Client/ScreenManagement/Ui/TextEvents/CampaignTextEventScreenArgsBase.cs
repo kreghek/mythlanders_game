@@ -10,4 +10,4 @@ internal abstract record CampaignTextEventScreenArgsBase(HeroCampaign Campaign,
     TextEventScreenArgsBase<ParagraphConditionContext, CampaignAftermathContext>(CurrentDialogue)
 {
     public bool IsReward { get; init; }
-};
+}

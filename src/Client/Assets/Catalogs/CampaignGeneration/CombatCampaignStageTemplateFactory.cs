@@ -26,8 +26,6 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     private readonly MonsterCombatantTempateLevel _monsterLevel;
     private readonly IMonsterPerkManager _monsterPerkManager;
 
-    public bool IsGoalStage { get; init; }
-
     public CombatCampaignStageTemplateFactory(ILocationSid locationSid, MonsterCombatantTempateLevel monsterLevel,
         CampaignStageTemplateServices services)
     {
@@ -40,6 +38,8 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
 
         _monsterCombatantTemplates = factories.Select(x => x.CreateSet()).SelectMany(x => x).ToArray();
     }
+
+    public bool IsGoalStage { get; init; }
 
     private MonsterCombatantTempate GetApplicableTemplate()
     {
