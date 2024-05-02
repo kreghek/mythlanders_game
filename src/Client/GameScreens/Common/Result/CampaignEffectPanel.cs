@@ -15,10 +15,10 @@ namespace Client.GameScreens.Common.Result;
 
 internal sealed class CampaignEffectPanel : ControlBase
 {
-    private readonly SpriteFont _labelFont;
-    private readonly IReadOnlyCollection<ICampaignRewardImageDrawer> _rewardImageDrawers;
-    private readonly ResultDecoration _resultDecoration;
     private readonly IReadOnlyCollection<ICampaignEffect> _effects;
+    private readonly SpriteFont _labelFont;
+    private readonly ResultDecoration _resultDecoration;
+    private readonly IReadOnlyCollection<ICampaignRewardImageDrawer> _rewardImageDrawers;
 
     public CampaignEffectPanel(IReadOnlyCollection<ICampaignEffect> effects,
         SpriteFont labelFont,
