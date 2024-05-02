@@ -219,13 +219,6 @@ internal class CampaignScreen : GameScreenWithMenuBase
         return executableList;
     }
 
-    private static string GetLocalizedExecutableTitle(string titleSid)
-    {
-        var rm = GameObjectResources.ResourceManager;
-
-        return rm.GetString(titleSid) ?? titleSid;
-    }
-
     private void DrawCampaignEffects(SpriteBatch spriteBatch, Rectangle contentRect)
     {
         if (_globeProvider.Globe.Features.HasFeature(GameFeatures.CampaignEffects) && _campaignEffectsPanel is not null)
@@ -270,6 +263,13 @@ internal class CampaignScreen : GameScreenWithMenuBase
                 $"{hero.ClassSid} {hero.HitPoints.Current}/{hero.HitPoints.ActualMax}",
                 new Vector2(contentRect.Left, contentRect.Top + i * 20), MythlandersColors.MainSciFi);
         }
+    }
+
+    private static string GetLocalizedExecutableTitle(string titleSid)
+    {
+        var rm = GameObjectResources.ResourceManager;
+
+        return rm.GetString(titleSid) ?? titleSid;
     }
 
     private void HandleSkipPresentation(CampaignMap campaignMap)
