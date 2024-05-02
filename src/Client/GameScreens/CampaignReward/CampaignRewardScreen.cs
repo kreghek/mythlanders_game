@@ -8,6 +8,7 @@ using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.CampaignReward.Ui;
 using Client.GameScreens.CommandCenter;
+using Client.GameScreens.Common.CampaignResult;
 using Client.GameScreens.Common.Result;
 using Client.ScreenManagement;
 
@@ -68,8 +69,7 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
 
     protected override void InitializeContent()
     {
-        var panelHeaderTexture = Game.Content.Load<Texture2D>("Sprites/Ui/CombatSkillsPanel");
-        _rewardPanel = new CampaignEffectPanel(_rewards, _uiContent.GetTitlesFont(), new ICampaignRewardImageDrawer[]
+        var campaignRewardImageDrawers = new ICampaignRewardImageDrawer[]
         {
             new PropCampaignRewardImageDrawer(Game.Content.Load<Texture2D>("Sprites/GameObjects/EquipmentIcons"),
                 _uiContent.GetMainFont(),
@@ -77,7 +77,9 @@ internal sealed class CampaignRewardScreen : GameScreenWithMenuBase
             new LocationCampaignRewardImageDrawer(Game.Content),
             new HeroCampaignRewardImageDrawer(Game.Content,
                 Game.Services.GetRequiredService<ICombatantGraphicsCatalog>())
-        });
+        };
+        
+        _rewardPanel = new CampaignEffectPanel(_rewards, _uiContent.GetTitlesFont(), campaignRewardImageDrawers, ResultDecoration.Victory);
     }
 
     protected override void UpdateContent(GameTime gameTime)
