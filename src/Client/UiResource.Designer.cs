@@ -564,7 +564,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Berimir is a hero with a high shield reserve. This usually corresponds to the role of a tank in RPGs. He can withstand single hits without losing health. But his damage is below average..
+        ///   Looks up a localized string similar to &lt;style=color1&gt;Berimir&lt;/style&gt; is a hero with a high shield reserve. This usually corresponds to the role of a tank in RPGs. He can withstand single hits without losing health. But his damage is below average..
         /// </summary>
         internal static string CombatSlavicTutorial1Paragraph1 {
             get {
@@ -573,7 +573,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To defeat this monster, first increase your damage with the skill [Rise Up Your Swords!].
+        ///   Looks up a localized string similar to To defeat this monster, first increase your damage with the skill &lt;style=color1&gt;Rise Up Your Swords!&lt;/style&gt;.
         /// </summary>
         internal static string CombatSlavicTutorial1Paragraph2 {
             get {
@@ -582,7 +582,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The monster will not be able to harm you with the current blow..
+        ///   Looks up a localized string similar to The monster will not be able to harm you with the &lt;style=color1&gt;current combat movement&lt;/style&gt;..
         /// </summary>
         internal static string CombatSlavicTutorial1Paragraph3 {
             get {
@@ -591,7 +591,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to After the monster attacks, counter-attack with the [Shoulder Strike] move. The damage should now be enough to destroy the wounded monster..
+        ///   Looks up a localized string similar to After the monster attacks, counter-attack with the &lt;style=color1&gt;Hit From The Shoulder&lt;/style&gt; move. The damage should now be enough to destroy the wounded monster..
         /// </summary>
         internal static string CombatSlavicTutorial1Paragraph4 {
             get {
@@ -600,7 +600,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This battle puzzle is easy to solve..
+        ///   Looks up a localized string similar to This battle puzzle is &lt;style=color2&gt;easy&lt;/style&gt; to solve..
         /// </summary>
         internal static string CombatSlavicTutorial1Paragraph5 {
             get {

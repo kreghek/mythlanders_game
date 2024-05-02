@@ -28,9 +28,9 @@ internal class CombatSlavicTutorial1PageDrawer : TutorialPageDrawerBase
             elements);
     }
 
-    private static Text CreateText(IUiContentStorage uiContentStorage, string text)
+    private static ControlBase CreateText(IUiContentStorage uiContentStorage, string text)
     {
-        return new Text(uiContentStorage.GetControlBackgroundTexture(),
+        return new RichText(uiContentStorage.GetControlBackgroundTexture(),
             ControlTextures.Transparent,
             uiContentStorage.GetMainFont(), 
             _ => Color.White,

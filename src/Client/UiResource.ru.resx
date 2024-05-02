@@ -283,7 +283,7 @@
     <value>Победа!</value>
   </data>
   <data name="CombatSlavicTutorial1Paragraph1" xml:space="preserve">
-    <value>Беримир - это герой с высоким запасом щитов. Обычно это соответствует роли танка в ролевых играх. Он может выдержать единичные удары без потерь здоровья. Но его урон - ниже среднего.</value>
+    <value>&lt;style=color1&gt;Беримир&lt;/style&gt; - это герой с высоким запасом щитов. Обычно это соответствует роли танка в ролевых играх. Он может выдержать единичные удары без потерь здоровья. Но его урон - ниже среднего.</value>
   </data>
   <data name="CompleteGameButtonTitle" xml:space="preserve">
     <value>Завершить игру</value>
@@ -609,15 +609,15 @@
     <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
   </data>
   <data name="CombatSlavicTutorial1Paragraph2" xml:space="preserve">
-    <value>Чтобы победить этого монстра, сначала увеличить свой урон при помощи навыка [Мечи Вверх!]</value>
+    <value>Чтобы победить этого монстра, сначала увеличить свой урон при помощи навыка &lt;style=color1&gt;Мечи Вверх!&lt;/style&gt;</value>
   </data>
   <data name="CombatSlavicTutorial1Paragraph3" xml:space="preserve">
-    <value>Монстр не сможет нанести вам вред текущим ударом.</value>
+    <value>Монстр не сможет нанести вам вред &lt;style=color1&gt;текущим боевым движением&lt;/style&gt;.</value>
   </data>
   <data name="CombatSlavicTutorial1Paragraph4" xml:space="preserve">
-    <value>После атаки монстра выполните контр-атаку при помощи движения [Удар С Плеча]. Теперь урона должно быть достаточно, чтобы уничтожить раненого монстра.</value>
+    <value>После атаки монстра выполните контр-атаку при помощи движения &lt;style=color1&gt;Удар С Плеча&lt;/style&gt;. Теперь урона должно быть достаточно, чтобы уничтожить раненого монстра.</value>
   </data>
   <data name="CombatSlavicTutorial1Paragraph5" xml:space="preserve">
-    <value>Этот бой-головоломка решается несложно.</value>
+    <value>Этот бой-головоломка решается &lt;style=color2&gt;несложно&lt;/style&gt;.</value>
   </data>
 </root>
