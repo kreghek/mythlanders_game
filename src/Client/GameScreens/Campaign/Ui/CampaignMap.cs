@@ -350,7 +350,7 @@ internal sealed class CampaignMap : ControlBase
             // First make start position is reward node to show all graph
             // target position - one of start node.
 
-            var rewardNodeLayout = graphNodeLayouts.Single(x => x.Node.Payload.IsReward);
+            var rewardNodeLayout = graphNodeLayouts.Single(x => x.Node.Payload.IsGoalStage);
 
             var roots = GetRoots(_heroCampaign.Location.Stages);
 
@@ -598,7 +598,7 @@ internal sealed class CampaignMap : ControlBase
     {
         var size = new Point(LAYOUT_NODE_SIZE, LAYOUT_NODE_SIZE);
 
-        if (campaignStageItem.IsReward)
+        if (campaignStageItem.IsGoalStage)
         {
             return new Rectangle(new Point(1 * LAYOUT_NODE_SIZE, 2 * LAYOUT_NODE_SIZE), size);   
         }

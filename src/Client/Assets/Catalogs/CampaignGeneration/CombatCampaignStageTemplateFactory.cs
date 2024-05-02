@@ -26,7 +26,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     private readonly MonsterCombatantTempateLevel _monsterLevel;
     private readonly IMonsterPerkManager _monsterPerkManager;
 
-    public bool IsReward { get; init; }
+    public bool IsGoalStage { get; init; }
 
     public CombatCampaignStageTemplateFactory(ILocationSid locationSid, MonsterCombatantTempateLevel monsterLevel,
         CampaignStageTemplateServices services)
@@ -116,7 +116,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
             Combats = new[] { combat }
         };
 
-        var stageItem = new CombatStageItem(_locationSid, combatSequence) { IsReward = IsReward };
+        var stageItem = new CombatStageItem(_locationSid, combatSequence) { IsGoalStage = IsGoalStage };
 
         return stageItem;
     }

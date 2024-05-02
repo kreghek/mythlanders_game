@@ -106,7 +106,7 @@ internal sealed class ScenarioCampaigns
             var node8 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem(tutorialDialogueSid, locationSid,
                 _eventCatalog)
             {
-                IsReward = true
+                IsGoalStage = true
             });
             graph.AddNode(node8);
 

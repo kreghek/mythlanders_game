@@ -12,5 +12,5 @@ internal sealed class Match3MinigameStageItem : ICampaignStageItem
             new Match3MiniGameScreenTransitionArguments(currentCampaign));
     }
 
-    public bool IsReward { get; }
+    public bool IsGoalStage { get; }
 }

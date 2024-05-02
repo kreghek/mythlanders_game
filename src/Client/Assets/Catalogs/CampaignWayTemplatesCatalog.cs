@@ -121,7 +121,7 @@ internal sealed class CampaignWayTemplatesCatalog
         {
             new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Hard, _services)
             {
-                IsReward = true
+                IsGoalStage = true
             }
         }));
 

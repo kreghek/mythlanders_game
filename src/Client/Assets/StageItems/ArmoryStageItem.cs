@@ -27,5 +27,5 @@ internal sealed class ArmoryStageItem : ICampaignStageItem
         //     new ArmoryScreenTransitionArguments(currentCampaign, availableEquipments));
     }
 
-    public bool IsReward { get; }
+    public bool IsGoalStage { get; }
 }

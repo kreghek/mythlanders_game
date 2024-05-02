@@ -12,5 +12,5 @@ internal sealed class SlidingPuzzlesMiniGameStageItem : ICampaignStageItem
             new SlidingPuzzlesMinigameScreenTransitionArguments(currentCampaign));
     }
 
-    public bool IsReward { get; }
+    public bool IsGoalStage { get; }
 }
