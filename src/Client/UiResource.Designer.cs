@@ -286,15 +286,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Finish campaign.
-        /// </summary>
-        internal static string CampaignStageDisplayNameFinish {
-            get {
-                return ResourceManager.GetString("CampaignStageDisplayNameFinish", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Rest.
         /// </summary>
         internal static string CampaignStageDisplayNameRest {

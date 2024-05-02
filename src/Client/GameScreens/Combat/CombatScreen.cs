@@ -719,7 +719,14 @@ internal class CombatScreen : GameScreenWithMenuBase
                     _globeProvider.StoreCurrentGlobe();
                     _currentCampaign.CompleteCurrentStage();
 
-                    _coordinator.MakeCombatWinTransition(this, _currentCampaign);
+                    if (_args.IsGoalStage)
+                    {
+                        _coordinator.MakeGoalStageTransition(this);
+                    }
+                    else
+                    {
+                        _coordinator.MakeCombatWinTransition(this, _currentCampaign);                        
+                    }
                 }
             }
         }
@@ -807,6 +814,11 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private static IReadOnlyCollection<ICampaignEffect> CreateUiModels(IReadOnlyCollection<IProp> droppedResources)
     {
+        if (!droppedResources.Any())
+        {
+            return ArraySegment<ICampaignEffect>.Empty;
+        }
+
         return new[]
         {
             new ResourceCampaignEffect(droppedResources)

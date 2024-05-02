@@ -21,4 +21,6 @@ internal sealed class ChallengeStageItem : ICampaignStageItem
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.Challenge,
             new ChallengeScreenTransitionArguments(currentCampaign, _challengeJobs));
     }
+
+    public bool IsGoalStage { get; }
 }

@@ -30,4 +30,6 @@ internal sealed class TrainingStageItem : ICampaignStageItem
 
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.Training, args);
     }
+
+    public bool IsGoalStage { get; }
 }

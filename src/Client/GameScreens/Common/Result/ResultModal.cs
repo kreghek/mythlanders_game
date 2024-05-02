@@ -117,7 +117,7 @@ internal sealed class ResultModal : ModalDialogBase
             Color.White);
 
         spriteBatch.Draw(_flagTexture,
-            new Vector2(ContentRect.Right - _flagTexture.Width, ContentRect.Top),
+            new Vector2(ContentRect.Right - _flagTexture.Width / 4, ContentRect.Top),
             _flagAnimationRight.GetFrameRect(),
             Color.White);
     }

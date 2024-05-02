@@ -189,9 +189,6 @@
   <data name="CampaignStageDisplayNameCrisis" xml:space="preserve">
     <value>Кризис</value>
   </data>
-  <data name="CampaignStageDisplayNameFinish" xml:space="preserve">
-    <value>Завршить кампанию</value>
-  </data>
   <data name="CampaignStageDisplayNameRest" xml:space="preserve">
     <value>Отдых</value>
   </data>
