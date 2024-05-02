@@ -13,11 +13,12 @@ internal class CombatSlavicTutorial1PageDrawer : TutorialPageDrawerBase
 {
     private readonly ControlBase _content;
 
-    public CombatSlavicTutorial1PageDrawer(IUiContentStorage uiContentStorage) : base(uiContentStorage)
+    public CombatSlavicTutorial1PageDrawer(IUiContentStorage uiContentStorage, Texture2D texture2D) : base(uiContentStorage)
     {
         var elements = new[]
         {
             CreateText(uiContentStorage, UiResource.CombatSlavicTutorial1Paragraph1),
+            new Image(texture2D, texture2D.Bounds, uiContentStorage.GetControlBackgroundTexture(), ControlTextures.Transparent),
             CreateText(uiContentStorage, UiResource.CombatSlavicTutorial1Paragraph2),
             CreateText(uiContentStorage, UiResource.CombatSlavicTutorial1Paragraph3),
             CreateText(uiContentStorage, UiResource.CombatSlavicTutorial1Paragraph4),
@@ -34,7 +35,7 @@ internal class CombatSlavicTutorial1PageDrawer : TutorialPageDrawerBase
             ControlTextures.Transparent,
             uiContentStorage.GetMainFont(), 
             _ => Color.White,
-            () => StringHelper.LineBreaking(text, 55));
+            () => StringHelper.RichLineBreaking(text, 65));
     }
 
     public override void Draw(SpriteBatch spriteBatch, Rectangle contentRect)

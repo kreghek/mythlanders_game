@@ -312,7 +312,7 @@ internal class CombatScreen : GameScreenWithMenuBase
     {
         if (heroState.ClassSid == UnitName.Swordsman.ToString())
         {
-            return new CombatSlavicTutorial1PageDrawer(_uiContentStorage);
+            return new CombatSlavicTutorial1PageDrawer(_uiContentStorage, Game.Content.Load<Texture2D>("Sprites/Ui/p1_tank_shields.PNG"));
         }
 
         throw new Exception();
