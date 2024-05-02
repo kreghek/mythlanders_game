@@ -120,6 +120,9 @@ internal sealed class CampaignWayTemplatesCatalog
         var rewardNode = new GraphNode<GraphWay<ICampaignStageItem>>(new GraphWay<ICampaignStageItem>(new[]
         {
             new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Hard, _services)
+            {
+                IsReward = true
+            }
         }));
 
         wayGraph.AddNode(way11Node);

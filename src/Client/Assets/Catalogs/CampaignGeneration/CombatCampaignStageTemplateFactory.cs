@@ -18,7 +18,6 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
     private readonly IDice _dice;
-    private readonly GlobeProvider _globeProvider;
 
     private readonly ILocationSid _locationSid;
 
@@ -27,13 +26,14 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     private readonly MonsterCombatantTempateLevel _monsterLevel;
     private readonly IMonsterPerkManager _monsterPerkManager;
 
+    public bool IsReward { get; init; }
+
     public CombatCampaignStageTemplateFactory(ILocationSid locationSid, MonsterCombatantTempateLevel monsterLevel,
         CampaignStageTemplateServices services)
     {
         _locationSid = locationSid;
         _monsterLevel = monsterLevel;
         _dice = services.Dice;
-        _globeProvider = services.GlobeProvider;
         _monsterPerkManager = services.MonsterPerkManager;
 
         var factories = LoadCombatTemplateFactories<ICombatTemplateFactory>();
@@ -116,7 +116,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
             Combats = new[] { combat }
         };
 
-        var stageItem = new CombatStageItem(_locationSid, combatSequence);
+        var stageItem = new CombatStageItem(_locationSid, combatSequence) { IsReward = IsReward };
 
         return stageItem;
     }
