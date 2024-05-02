@@ -814,6 +814,11 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private static IReadOnlyCollection<ICampaignEffect> CreateUiModels(IReadOnlyCollection<IProp> droppedResources)
     {
+        if (!droppedResources.Any())
+        {
+            return ArraySegment<ICampaignEffect>.Empty;
+        }
+
         return new[]
         {
             new ResourceCampaignEffect(droppedResources)
