@@ -194,7 +194,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
                 ControlTextures.Panel,
                 _uiContentStorage.GetTitlesFont(),
                 _ => Color.White,
-                () => storyPoint.TitleSid));
+                () => GetLocalizedExecutableTitle(storyPoint.TitleSid)));
 
             if (storyPoint.CurrentJobs is not null)
             {
@@ -217,6 +217,13 @@ internal class CampaignScreen : GameScreenWithMenuBase
         }
 
         return executableList;
+    }
+
+    private static string GetLocalizedExecutableTitle(string titleSid)
+    {
+        var rm = GameObjectResources.ResourceManager;
+
+        return rm.GetString(titleSid) ?? titleSid;
     }
 
     private void DrawCampaignEffects(SpriteBatch spriteBatch, Rectangle contentRect)

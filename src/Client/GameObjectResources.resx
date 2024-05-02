@@ -546,6 +546,14 @@
     <value>Healing salve</value>
     <comment>Combat Movement Herbalist</comment>
   </data>
+  <data name="HearMeBrothers" xml:space="preserve">
+    <value>Hear Me, Brothers!</value>
+    <comment>Story Point</comment>
+  </data>
+  <data name="HearMeBrothers_Description" xml:space="preserve">
+    <value>You need to perform several feats so that other heroes will see this and join.</value>
+    <comment>Story Point</comment>
+  </data>
   <data name="Herbalist" xml:space="preserve">
     <value>Rada The Old</value>
     <comment>Hero</comment>

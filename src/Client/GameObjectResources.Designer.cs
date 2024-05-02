@@ -1060,6 +1060,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hear Me, Brothers!.
+        /// </summary>
+        internal static string HearMeBrothers {
+            get {
+                return ResourceManager.GetString("HearMeBrothers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You need to perform several feats so that other heroes will see this and join..
+        /// </summary>
+        internal static string HearMeBrothers_Description {
+            get {
+                return ResourceManager.GetString("HearMeBrothers_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rada The Old.
         /// </summary>
         internal static string Herbalist {
