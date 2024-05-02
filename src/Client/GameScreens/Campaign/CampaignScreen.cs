@@ -267,6 +267,13 @@ internal class CampaignScreen : GameScreenWithMenuBase
     {
         var currentCampaign = _screenTransitionArguments.Campaign;
 
+        InitializeCampaignMap(currentCampaign);
+
+        InitializeCampaignEffectPanel(currentCampaign);
+    }
+
+    private void InitializeCampaignMap(HeroCampaign currentCampaign)
+    {
         _campaignMap = new CampaignMap(currentCampaign, ScreenManager, this,
             Game.Content.Load<Texture2D>("Sprites/Ui/CampaignStageIcons"),
             Game.Content.Load<Texture2D>("Sprites/Ui/MapBackground"),
@@ -276,7 +283,10 @@ internal class CampaignScreen : GameScreenWithMenuBase
             ResolutionIndependentRenderer,
             Game.Services.GetRequiredService<GameObjectContentStorage>(),
             Game.Services.GetRequiredService<ICombatantGraphicsCatalog>());
+    }
 
+    private void InitializeCampaignEffectPanel(HeroCampaign currentCampaign)
+    {
         if (_globeProvider.Globe.Features.HasFeature(GameFeatures.CampaignEffects))
         {
             var rewards = _screenTransitionArguments.Campaign.ActualRewards.ToArray();
