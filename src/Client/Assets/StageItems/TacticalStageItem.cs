@@ -12,5 +12,5 @@ internal sealed class TacticalStageItem : ICampaignStageItem
             new TacticalScreenTransitionArguments(currentCampaign));
     }
 
-    public bool IsReward { get; }
+    public bool IsGoalStage { get; }
 }

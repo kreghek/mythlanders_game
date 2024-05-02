@@ -106,7 +106,7 @@ internal sealed class ScenarioCampaigns
             var node8 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem(tutorialDialogueSid, locationSid,
                 _eventCatalog)
             {
-                IsReward = true
+                IsGoalStage = true
             });
             graph.AddNode(node8);
 
@@ -127,7 +127,7 @@ internal sealed class ScenarioCampaigns
                 new HeroCampaignLocation(LocationSids.Thicket, graph),
                 new ICampaignEffect[] { new UnlockFeatureCampaignEffect(GameFeatures.ExecutableQuests) },
                 ArraySegment<ICampaignEffect>.Empty,
-                0);
+                1);
         }
 
         throw new ArgumentException("Invalid campaign sid", nameof(sid));

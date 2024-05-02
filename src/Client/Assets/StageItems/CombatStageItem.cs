@@ -42,8 +42,9 @@ internal sealed class CombatStageItem : ICampaignStageItem
     public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
     {
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat,
-            new CombatScreenTransitionArguments(currentCampaign, CombatSequence, 0, false, _location, null));
+            new CombatScreenTransitionArguments(currentCampaign, CombatSequence, 0, false, _location, null){ IsGoalStage = IsGoalStage});
     }
     
-    public bool IsReward { get; set; }
+    /// <inheritdoc/>
+    public bool IsGoalStage { get; init; }
 }

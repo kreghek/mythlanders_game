@@ -12,5 +12,5 @@ internal sealed class RestStageItem : ICampaignStageItem
             new RestScreenTransitionArguments(currentCampaign));
     }
 
-    public bool IsReward { get; }
+    public bool IsGoalStage { get; }
 }

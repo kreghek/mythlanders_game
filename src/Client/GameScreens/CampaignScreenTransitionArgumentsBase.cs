@@ -5,5 +5,5 @@ namespace Client.GameScreens;
 
 internal abstract record CampaignScreenTransitionArgumentsBase(HeroCampaign Campaign) : IScreenTransitionArguments
 {
-    public bool IsReward { get; init; }
+    public bool IsGoalStage { get; init; }
 }

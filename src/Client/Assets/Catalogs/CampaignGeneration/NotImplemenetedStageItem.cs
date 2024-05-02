@@ -25,5 +25,5 @@ internal sealed class NotImplemenetedStageItem : ICampaignStageItem
             new NotImplementedStageScreenTransitionArguments(currentCampaign));
     }
 
-    public bool IsReward { get; }
+    public bool IsGoalStage { get; }
 }

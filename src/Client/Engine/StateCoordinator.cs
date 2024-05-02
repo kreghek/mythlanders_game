@@ -30,7 +30,7 @@ internal class StateCoordinator
 
         if (globe.Features.HasFeature(GameFeatures.Campaigns))
         {
-            MakeRewardTransition(currentScreen);
+            InterruptCampaign(currentScreen);
         }
         else
         {
@@ -55,17 +55,22 @@ internal class StateCoordinator
         }
     }
 
-    public void MakeRewardTransition(IScreen currentScreen)
+    private void InterruptCampaign(IScreen currentScreen)
     {
         var campaigns = _campaignGenerator.CreateSet(_globeProvider.Globe);
 
         _screenManager.ExecuteTransition(currentScreen, ScreenTransition.CommandCenter,
             new CommandCenterScreenTransitionArguments(campaigns));
-        
+
         _screenManager.ExecuteTransition(
             currentScreen,
             ScreenTransition.CommandCenter,
             new CommandCenterScreenTransitionArguments(campaigns));
+    }
+
+    public void MakeGoalStageTransition(IScreen currentScreen)
+    {
+        InterruptCampaign(currentScreen);
     }
 
     public void MakeCommonTransition(IScreen currentScreen, HeroCampaign currentCampaign)

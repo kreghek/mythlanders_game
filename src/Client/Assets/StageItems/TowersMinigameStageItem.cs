@@ -12,5 +12,5 @@ internal sealed class TowersMinigameStageItem : ICampaignStageItem
             new TowersMiniGameScreenTransitionArguments(currentCampaign));
     }
 
-    public bool IsReward { get; }
+    public bool IsGoalStage { get; }
 }

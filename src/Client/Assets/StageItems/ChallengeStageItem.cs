@@ -22,5 +22,5 @@ internal sealed class ChallengeStageItem : ICampaignStageItem
             new ChallengeScreenTransitionArguments(currentCampaign, _challengeJobs));
     }
 
-    public bool IsReward { get; }
+    public bool IsGoalStage { get; }
 }
