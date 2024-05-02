@@ -312,7 +312,10 @@ internal class CombatScreen : GameScreenWithMenuBase
     {
         if (heroState.ClassSid == UnitName.Swordsman.ToString())
         {
-            return new CombatSlavicTutorial1PageDrawer(_uiContentStorage, Game.Content.Load<Texture2D>("Sprites/Ui/p1_tank_shields.PNG"));
+            return new CombatSlavicTutorial1PageDrawer(_uiContentStorage, new[] { 
+                Game.Content.Load<Texture2D>("Sprites/Ui/Tutorial/p1_slavic_tank") ,
+                Game.Content.Load<Texture2D>("Sprites/Ui/Tutorial/p2_slavic_skills") 
+            });
         }
 
         if (heroState.ClassSid == UnitName.Monk.ToString())
@@ -330,7 +333,10 @@ internal class CombatScreen : GameScreenWithMenuBase
             return new CombatEgyptianTutorial1PageDrawer(_uiContentStorage);
         }
         
-        return new CombatSlavicTutorial1PageDrawer(_uiContentStorage, Game.Content.Load<Texture2D>("Sprites/Ui/p1_tank_shields.PNG"));
+        return new CombatSlavicTutorial1PageDrawer(_uiContentStorage, new[] {
+                Game.Content.Load<Texture2D>("Sprites/Ui/Tutorial/p1_slavic_tank") ,
+                Game.Content.Load<Texture2D>("Sprites/Ui/Tutorial/p2_slavic_skills")
+            });
     }
 
     private void UpdateRecordMode()
