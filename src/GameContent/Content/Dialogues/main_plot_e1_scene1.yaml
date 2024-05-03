@@ -19,11 +19,6 @@ root:
     - speaker: Swordsman
       text: |
         Of course, we will welcome every new challenge to prove that we are worthy of the attention of other heroes. To do big things and prove that we are not nonsense!
-      env:
-        - type: UnlockLocationScouting
-          data: Desert
-        - type: UnlockLocationScouting
-          data: Monastery
     - speaker: Robber
       text: |
         Glory to our upcoming exploits and our brotherhood! And, of course, to our wealth and the beauties that we will meet along the way!

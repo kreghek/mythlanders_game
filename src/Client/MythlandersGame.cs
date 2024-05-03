@@ -312,13 +312,16 @@ internal sealed class MythlandersGame : Game
             Services.GetRequiredService<IMonsterPerkManager>());
         Services.AddService(campaignWayTemplateCatalog);
 
+        Services.AddService(new ScenarioCampaigns(Services.GetRequiredService<IEventCatalog>()));
+        
         var campaignGenerator = new CampaignGenerator(
             Services.GetRequiredService<CampaignWayTemplatesCatalog>(),
             Services.GetRequiredService<IDice>(),
             Services.GetRequiredService<IDropResolver>(),
             Services.GetService<ICharacterCatalog>(),
             Services.GetService<IMonsterPerkManager>(),
-            Services.GetRequiredService<GlobeProvider>());
+            Services.GetRequiredService<GlobeProvider>(),
+            Services.GetRequiredService<ScenarioCampaigns>());
 
         Services.AddService<ICampaignGenerator>(campaignGenerator);
 
@@ -338,8 +341,6 @@ internal sealed class MythlandersGame : Game
 
         var movementVisualizer = new CombatMovementVisualizationProvider();
         Services.AddService<ICombatMovementVisualizationProvider>(movementVisualizer);
-
-        Services.AddService(new ScenarioCampaigns(Services.GetRequiredService<IEventCatalog>()));
 
         var coordinator = new StateCoordinator(
             Services.GetRequiredService<GlobeProvider>(),

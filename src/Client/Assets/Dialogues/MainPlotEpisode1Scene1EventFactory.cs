@@ -14,7 +14,7 @@ using Stateless;
 namespace Client.Assets.Dialogues;
 
 [UsedImplicitly]
-internal sealed class MainPlotEpisode1EventFactory : IDialogueEventFactory
+internal sealed class MainPlotEpisode1Scene1EventFactory : IDialogueEventFactory
 {
     public DialogueEvent CreateEvent(IDialogueEventFactoryServices services)
     {
