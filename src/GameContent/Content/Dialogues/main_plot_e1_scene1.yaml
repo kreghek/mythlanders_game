@@ -1,0 +1,29 @@
+---
+root:
+  paragraphs:
+    - speaker: Swordsman
+      text: |
+        Well, friends, our first feat, in fact, turned out to be not as significant as we imagined it.
+    - speaker: Robber
+      text: |
+        Yes, and I couldn't even catch the bear!
+    - speaker: Partisan
+      text: |
+        And we had to just return home, and not save the world from destruction.
+    - speaker: Swordsman
+      text: |
+        Ahaha, and my rescue plan turned out to be too simple!
+    - speaker: Partisan
+      text: |
+        Maybe next time we can help even more people in need? We shouldn't mark time.
+    - speaker: Swordsman
+      text: |
+        Of course, we will welcome every new challenge to prove that we are worthy of the attention of other heroes. To do big things and prove that we are not nonsense!
+      env:
+        - type: UnlockLocationScouting
+          data: Desert
+        - type: UnlockLocationScouting
+          data: Monastery
+    - speaker: Robber
+      text: |
+        Glory to our upcoming exploits and our brotherhood! And, of course, to our wealth and the beauties that we will meet along the way!
