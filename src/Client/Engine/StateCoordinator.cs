@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 
 using Client.Core;
+using Client.Core.CampaignEffects;
 using Client.Core.Campaigns;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter;
@@ -30,7 +31,7 @@ internal class StateCoordinator
 
         if (globe.Features.HasFeature(GameFeatures.Campaigns))
         {
-            InterruptCampaign(currentScreen);
+            ResetCampaign(currentScreen);
         }
         else
         {
@@ -72,9 +73,24 @@ internal class StateCoordinator
         }
     }
 
-    public void MakeGoalStageTransition(IScreen currentScreen)
+    public void MakeGoalStageTransition(IScreen currentScreen, HeroCampaign currentCampaign)
     {
-        InterruptCampaign(currentScreen);
+        if (currentCampaign.ActualRewards.OfType<CompleteDemoCampaignEffect>().Any())
+        {
+            ShowDemoScreen(currentScreen);
+        }
+        else
+        {
+            ResetCampaign(currentScreen);   
+        }
+    }
+
+    private void ShowDemoScreen(IScreen currentScreen)
+    {
+        _screenManager.ExecuteTransition(
+            currentScreen,
+            ScreenTransition.Demo,
+            null!);
     }
 
     public void MakeStartTransition(IScreen currentScreen)
@@ -103,12 +119,9 @@ internal class StateCoordinator
         nextStage.Payload.ExecuteTransition(currentScreen, _screenManager, currentCampaign);
     }
 
-    private void InterruptCampaign(IScreen currentScreen)
+    private void ResetCampaign(IScreen currentScreen)
     {
         var campaigns = _campaignGenerator.CreateSet(_globeProvider.Globe);
-
-        _screenManager.ExecuteTransition(currentScreen, ScreenTransition.CommandCenter,
-            new CommandCenterScreenTransitionArguments(campaigns));
 
         _screenManager.ExecuteTransition(
             currentScreen,
