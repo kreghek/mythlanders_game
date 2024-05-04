@@ -148,6 +148,7 @@ internal class ScreenManager : IScreenManager
                 (NotImplementedStageScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.VoiceCombat => new VoiceCombatScreen(_game,
                 (VoiceCombatScreenTransitionArguments)screenTransitionArguments),
+            ScreenTransition.Demo => new DemoScreen(_game),
             _ => throw new ArgumentException("Unknown transition", nameof(targetTransition))
         };
     }

@@ -12,33 +12,24 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.NotImplementedStage;
 
-internal class NotImplementedStageScreen : GameScreenWithMenuBase
+internal class DemoScreen : GameScreenWithMenuBase
 {
-    private readonly HeroCampaign _campaign;
-    private readonly ButtonBase _skipButton;
+    private readonly ButtonBase _closeButton;
     private readonly IUiContentStorage _uiContentStorage;
-    private Texture2D? _underConstructionTexture;
+    private Texture2D? _demoBackgroundTexture;
 
-    public NotImplementedStageScreen(MythlandersGame game, NotImplementedStageScreenTransitionArguments args) :
+    public DemoScreen(MythlandersGame game) :
         base(game)
     {
-        _campaign = args.Campaign;
-
         _uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();
 
-        _skipButton = new ResourceTextButton(nameof(UiResource.SkipButtonTitle));
-        _skipButton.OnClick += CloseButton_OnClick;
+        _closeButton = new ResourceTextButton(nameof(UiResource.CloseButtonTitle));
+        _closeButton.OnClick += CloseButton_OnClick;
     }
 
     protected override IList<ButtonBase> CreateMenu()
     {
-        var closeButton = new ResourceTextButton(nameof(UiResource.SkipButtonTitle));
-        closeButton.OnClick += CloseButton_OnClick;
-
-        return new[]
-        {
-            closeButton
-        };
+        return Array.Empty<ButtonBase>();
     }
 
     protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -50,35 +41,28 @@ internal class NotImplementedStageScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
-        spriteBatch.Draw(_underConstructionTexture, contentRect, Color.White);
+        spriteBatch.Draw(_demoBackgroundTexture, contentRect, Color.White);
 
-        var text = UiResource.StageNotImplementedInDemoText;
+        var text = UiResource.DemoText;
 
         var size = _uiContentStorage.GetTitlesFont().MeasureString(text);
 
         spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), text,
             contentRect.Center.ToVector2() - size, Color.Wheat);
 
-        _skipButton.Rect = new Rectangle(contentRect.Center + new Point((int)size.X + 10), new Point(100, 20));
-        _skipButton.Draw(spriteBatch);
+        _closeButton.Rect = new Rectangle(contentRect.Center + new Point((int)size.X + 10), new Point(100, 20));
+        _closeButton.Draw(spriteBatch);
 
         spriteBatch.End();
     }
 
     protected override void InitializeContent()
     {
-        _underConstructionTexture = Game.Content.Load<Texture2D>("Sprites/Ui/UnderContructionBackground");
+        _demoBackgroundTexture = Game.Content.Load<Texture2D>("Sprites/Ui/TitleBackground");
     }
 
     private void CloseButton_OnClick(object? sender, EventArgs e)
     {
-        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-            new CampaignScreenTransitionArguments(_campaign));
-    }
-
-    protected override void UpdateContent(GameTime gameTime)
-    {
-        base.UpdateContent(gameTime);
-        _skipButton.Update(ResolutionIndependentRenderer);
+        ScreenManager.ExecuteTransition(this, ScreenTransition.Title, null!);
     }
 }
