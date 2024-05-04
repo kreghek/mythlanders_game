@@ -109,7 +109,7 @@ internal class SabotageFactory : CombatMovementFactoryBase
     {
         return new[]
         {
-            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 0),
+            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 1),
                 DescriptionKeyValueTemplate.Damage)
         };
     }
