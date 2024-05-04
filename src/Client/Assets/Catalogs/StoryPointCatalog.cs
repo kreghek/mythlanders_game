@@ -56,9 +56,9 @@ internal sealed class StoryPointCatalog : IStoryPointCatalog, IStoryPointInitial
             TitleSid = "HearMeBrothersFeat1",
             CurrentJobs = new[]
             {
-                new Job(new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.Defeats, new JobGoalValue(24)),
+                new Job(new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.Defeats, new JobGoalValue(10)),
                     "DefeatAnyEnemies", "CommonJobInProgressPattern", "CommonJobCompletePattern"),
-                new Job(new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.WinCampaigns, new JobGoalValue(3)),
+                new Job(new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.WinCampaigns, new JobGoalValue(2)),
                     "WinCampaigns", "CommonJobInProgressPattern", "CommonJobCompletePattern")
             },
             Aftermaths = new[] { new AddStoryKeyStoryPointAftermath("HearMeBrothersFeat1Complete", globe) }
