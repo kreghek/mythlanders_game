@@ -81,6 +81,7 @@ internal class StateCoordinator
         }
         else
         {
+            currentCampaign.CompleteCurrentStage();
             ResetCampaign(currentScreen);   
         }
     }
