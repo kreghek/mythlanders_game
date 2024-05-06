@@ -17,6 +17,7 @@ namespace Client.Assets.Catalogs;
 internal class DialogueCatalog : IEventCatalog, IEventInitializer
 {
     private readonly IDialogueParagraphEffectCreator<CampaignAftermathContext> _envCommandCreator;
+    private readonly IDialogueConditionCreator<ParagraphConditionContext> _dialogueConditionCreator;
     private readonly IDialogueOptionAftermathCreator<CampaignAftermathContext> _optionAftermathCreator;
     private readonly IDialogueResourceProvider _resourceProvider;
 
@@ -24,12 +25,14 @@ internal class DialogueCatalog : IEventCatalog, IEventInitializer
 
     public DialogueCatalog(IDialogueResourceProvider resourceProvider,
         IDialogueOptionAftermathCreator<CampaignAftermathContext> optionAftermathCreator,
-        IDialogueParagraphEffectCreator<CampaignAftermathContext> environmentEffectCreator)
+        IDialogueParagraphEffectCreator<CampaignAftermathContext> environmentEffectCreator,
+        IDialogueConditionCreator<ParagraphConditionContext> dialogueConditionCreator)
     {
         _resourceProvider = resourceProvider;
         _optionAftermathCreator = optionAftermathCreator;
 
         _envCommandCreator = environmentEffectCreator;
+        _dialogueConditionCreator = dialogueConditionCreator;
 
         _isInitialized = false;
         Events = Array.Empty<DialogueEvent>();
@@ -46,7 +49,10 @@ internal class DialogueCatalog : IEventCatalog, IEventInitializer
         var dialogueDtoDict = deserializer.Deserialize<Dictionary<string, DialogueDtoScene>>(dialogueYaml);
 
         var services =
-            new DialogueCatalogCreationServices<CampaignAftermathContext>(_envCommandCreator, _optionAftermathCreator);
+            new DialogueCatalogCreationServices<ParagraphConditionContext, CampaignAftermathContext>(
+                _envCommandCreator,
+                _optionAftermathCreator,
+                _dialogueConditionCreator);
 
         var dialogue = DialogueCatalogHelper.Create(dialogueSid,
             dialogueDtoDict, services,

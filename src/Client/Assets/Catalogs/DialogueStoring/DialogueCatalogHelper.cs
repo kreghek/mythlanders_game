@@ -15,7 +15,7 @@ internal static class DialogueCatalogHelper
     public static Dialogue<TParagraphConditionContext, TAftermathContext> Create<TParagraphConditionContext,
         TAftermathContext>(string dialogueSid,
         IDictionary<string, DialogueDtoScene> scenesDtoDict,
-        DialogueCatalogCreationServices<TAftermathContext> services,
+        DialogueCatalogCreationServices<TParagraphConditionContext, TAftermathContext> services,
         Func<IDialogueSpeaker, IReadOnlyCollection<IDialogueParagraphCondition<TParagraphConditionContext>>>
             defaultSpeakerReactionConditionFactory)
     {
@@ -101,6 +101,10 @@ internal static class DialogueCatalogHelper
                 {
                     var dialogueDtoOption = optionsDto[optionIndex];
                     var aftermaths = CreateAftermaths(dialogueDtoOption.Aftermaths, services.OptionAftermathCreator);
+                    var hideConditions = CreateOptionConditions(dialogueDtoOption.HideConditions,
+                        services.ParagraphConditionCreator);
+                    var selectConditions = CreateOptionConditions(dialogueDtoOption.SelectConditions,
+                        services.ParagraphConditionCreator);
 
                     DialogueOption<TParagraphConditionContext, TAftermathContext> dialogueOption;
                     if (dialogueDtoOption.Next is not null)
@@ -110,7 +114,9 @@ internal static class DialogueCatalogHelper
                             new DialogueOption<TParagraphConditionContext, TAftermathContext>(
                                 $"{dialogueSid}_Scene_{nodeSid}_Option_{optionIndex}", next)
                             {
-                                Aftermath = aftermaths
+                                Aftermath = aftermaths,
+                                HideConditions = hideConditions,
+                                SelectConditions = selectConditions
                             };
                     }
                     else
@@ -120,7 +126,9 @@ internal static class DialogueCatalogHelper
                                 "Common_end_dialogue",
                                 DialogueNode<TParagraphConditionContext, TAftermathContext>.EndNode)
                             {
-                                Aftermath = aftermaths
+                                Aftermath = aftermaths,
+                                HideConditions = hideConditions,
+                                SelectConditions = selectConditions
                             };
                     }
 
@@ -140,13 +148,29 @@ internal static class DialogueCatalogHelper
             .node);
     }
 
-    private static IDialogueOptionAftermath<TAftermathContext>? CreateAftermaths<TAftermathContext>(
+    private static IReadOnlyCollection<IDialogueParagraphCondition<TParagraphConditionContext>> CreateOptionConditions<TParagraphConditionContext>(
+        DialogueDtoData[]? conditions,
+        IDialogueConditionCreator<TParagraphConditionContext> creator)
+    {
+        var list = new List<IDialogueParagraphCondition<TParagraphConditionContext>>();
+
+        if (conditions is null)
+        {
+            return list;
+        }
+
+        list.AddRange(conditions.Select(condition => creator.Create(condition.Type, condition.Data)));
+
+        return list;
+    }
+
+    private static IDialogueOptionAftermath<TAftermathContext> CreateAftermaths<TAftermathContext>(
         DialogueDtoData[]? aftermathDtos,
         IDialogueOptionAftermathCreator<TAftermathContext> aftermathCreator)
     {
         if (aftermathDtos is null)
         {
-            return null;
+            return new NullDialogueOptionAftermath<TAftermathContext>();
         }
 
         var list = aftermathDtos.Select(aftermathDto => aftermathCreator.Create(aftermathDto.Type, aftermathDto.Data))

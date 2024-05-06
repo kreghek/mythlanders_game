@@ -45,7 +45,7 @@ internal sealed class StartHeroesScene : IPreHistoryScene
     {
         for (var i = 0; i < _portraitTextures.Length; i++)
         {
-            var isActive = _hoverOption == i;
+            var isActive = _hoverOption == i || _selectedOption == i;
             DrawPortrait(_portraitTextures[i], isActive, spriteBatch,
                 contentRect.Location.ToVector2() + new Vector2((256 - 128) * i, 0), transition);
         }

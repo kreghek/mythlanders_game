@@ -59,7 +59,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
         _optionHoverController = new HoverController<DialogueOptionButton>();
 
-        _optionHoverController.Hover += (sender, button) =>
+        _optionHoverController.Hover += (_, button) =>
         {
             if (button is not null)
             {
@@ -67,7 +67,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
             }
         };
 
-        _optionHoverController.Leave += (sender, button) =>
+        _optionHoverController.Leave += (_, button) =>
         {
             if (button is not null)
             {
@@ -98,7 +98,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
         DrawSpecificBackgroundScreenContent(spriteBatch, contentRect);
 
-        if (!_dialoguePlayer.IsEnd && _dialoguePlayer is not null)
+        if (_dialoguePlayer is not null && !_dialoguePlayer.IsEnd)
         {
             DrawSpecificForegroundScreenContent(spriteBatch, contentRect);
 
@@ -255,6 +255,9 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
                     _isInitialized = false;
                 }
             };
+
+            optionButton.IsEnabled = option.SelectConditions.All(x =>
+                x.Check(CreateDialogueContextFactory(_args).CreateParagraphConditionContext()));
 
             optionButton.OnHover += (sender, _) =>
             {
