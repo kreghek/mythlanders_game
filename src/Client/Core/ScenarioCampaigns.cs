@@ -32,7 +32,7 @@ internal sealed class ScenarioCampaigns
         if (sid == "tutorial")
         {
             var tutorialHero = GetTutorialHero(player);
-            
+
             var locationSid = GetLocationByTutorialHero(tutorialHero);
 
             var tutorialDialogueSid = GetTutorialDialogueByTutorialHero(tutorialHero);
