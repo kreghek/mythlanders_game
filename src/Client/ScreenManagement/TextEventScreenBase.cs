@@ -5,6 +5,7 @@ using System.Linq;
 using Client.Core;
 using Client.Engine;
 using Client.GameScreens;
+using Client.GameScreens.TextDialogue.Ui;
 using Client.ScreenManagement.Ui.TextEvents;
 
 using CombatDicesTeam.Dialogues;
@@ -215,6 +216,11 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
             _dialogueOptions.Draw(spriteBatch);
         }
 
+        if (optionDescription is not null)
+        {
+            optionDescription.Draw(spriteBatch);
+        }
+
         spriteBatch.End();
     }
 
@@ -239,7 +245,11 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         _dialogueOptions.Options.Clear();
         foreach (var option in dialoguePlayer.CurrentOptions)
         {
-            var optionButton = new DialogueOptionButton(optionNumber, option.TextSid);
+            var optionButton = new DialogueOptionButton(optionNumber, option.TextSid)
+            {
+                DescriptionSid = option.DescriptionSid
+            };
+
             optionButton.OnClick += (s, _) =>
             {
                 dialoguePlayer.SelectOption(option);
@@ -328,6 +338,31 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
             {
                 _dialogueOptions.SelectOption(4);
             }
+
+            DetectOptionDescription(_dialogueOptions);
         }
     }
+
+    private void DetectOptionDescription(DialogueOptions dialogueOptions)
+    {
+        var mouse = new MouseState().Position;
+        
+        foreach (var dialogueOptionButton in dialogueOptions.Options)
+        {
+            if (dialogueOptionButton.DescriptionSid is null)
+            {
+                continue;
+            }
+
+            if (dialogueOptionButton.Rect.Contains(mouse))
+            {
+                var (text, _) = SpeechVisualizationHelper.PrepareLocalizedText(dialogueOptionButton.DescriptionSid +
+                                                                          "_OptionDescription");
+                optionDescription = new TextHint(text);
+                break;
+            }
+        }
+    }
+
+    private HintBase? optionDescription;
 }
