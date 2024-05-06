@@ -11,4 +11,6 @@ internal sealed class TacticalStageItem : ICampaignStageItem
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.Tactical,
             new TacticalScreenTransitionArguments(currentCampaign));
     }
+
+    public bool IsGoalStage { get; }
 }

@@ -117,6 +117,51 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
     {
         SaveGameProgress();
 
+        _availableCampaignPanels = CreateCampaignPanels();
+
+        _commandButtons[0] = new ResourceTextButton(nameof(UiResource.BarraksButtonTitle));
+        _commandButtons[0].OnClick += (_, _) =>
+        {
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Barracks, null!);
+        };
+
+        _commandButtons[1] = new ResourceTextButton(nameof(UiResource.ArmoryButtonTitle));
+        _commandButtons[2] = new ResourceTextButton(nameof(UiResource.AdjutantButtonTitle));
+        _commandButtons[2].OnClick += (_, _) =>
+        {
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary,
+                new BestiaryScreenTransitionArguments(ScreenTransition.CommandCenter,
+                    new CommandCenterScreenTransitionArguments(_campaignLaunches)));
+        };
+        _commandButtons[3] = new ResourceTextButton(nameof(UiResource.ChroniclesButtonTitle));
+    }
+
+    protected override void UpdateContent(GameTime gameTime)
+    {
+        base.UpdateContent(gameTime);
+
+        if (_availableCampaignPanels is null)
+        {
+            throw new InvalidOperationException("Screen is not initialized");
+        }
+
+        foreach (var panel in _availableCampaignPanels)
+        {
+            panel.Update(ResolutionIndependentRenderer);
+        }
+
+        _mapPong.Update(gameTime.ElapsedGameTime.TotalSeconds);
+
+        _locationOnMapCounter += gameTime.ElapsedGameTime.TotalSeconds * 10;
+
+        foreach (var commandButton in _commandButtons)
+        {
+            commandButton.Update(ResolutionIndependentRenderer);
+        }
+    }
+
+    private List<ICampaignPanel> CreateCampaignPanels()
+    {
         var panels = new List<ICampaignPanel>();
 
         var campaignTexturesDict = new Dictionary<ILocationSid, Texture2D>
@@ -138,7 +183,8 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
                 var campaignLaunch = _campaignLaunches[campaignIndex];
                 var campaignTexture = campaignTexturesDict[campaignLaunch.Location.Sid];
 
-                var panel = new CampaignPanel(campaignLaunch, campaignTexture);
+                var panel = new CampaignPanel(campaignLaunch, campaignTexture,
+                    _globeProvider.Globe.Features.HasFeature(GameFeatures.CampaignEffects));
                 panels.Add(panel);
                 panel.Selected += (_, _) =>
                 {
@@ -176,52 +222,12 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
             }
         }
 
-        _availableCampaignPanels = panels;
-
-        _commandButtons[0] = new ResourceTextButton(nameof(UiResource.BarraksButtonTitle));
-        _commandButtons[0].OnClick += (_, _) =>
-        {
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Barracks, null!);
-        };
-
-        _commandButtons[1] = new ResourceTextButton(nameof(UiResource.ArmoryButtonTitle));
-        _commandButtons[2] = new ResourceTextButton(nameof(UiResource.AdjutantButtonTitle));
-        _commandButtons[2].OnClick += (_, _) =>
-        {
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary,
-                new BestiaryScreenTransitionArguments(ScreenTransition.CommandCenter,
-                    new CommandCenterScreenTransitionArguments(_campaignLaunches)));
-        };
-        _commandButtons[3] = new ResourceTextButton(nameof(UiResource.ChroniclesButtonTitle));
-
         Texture2D LoadCampaignThumbnailImage(string textureName)
         {
             return Game.Content.Load<Texture2D>($"Sprites/GameObjects/Campaigns/{textureName}");
         }
-    }
 
-    protected override void UpdateContent(GameTime gameTime)
-    {
-        base.UpdateContent(gameTime);
-
-        if (_availableCampaignPanels is null)
-        {
-            throw new InvalidOperationException("Screen is not initialized");
-        }
-
-        foreach (var panel in _availableCampaignPanels)
-        {
-            panel.Update(ResolutionIndependentRenderer);
-        }
-
-        _mapPong.Update(gameTime.ElapsedGameTime.TotalSeconds);
-
-        _locationOnMapCounter += gameTime.ElapsedGameTime.TotalSeconds * 10;
-
-        foreach (var commandButton in _commandButtons)
-        {
-            commandButton.Update(ResolutionIndependentRenderer);
-        }
+        return panels;
     }
 
     private void DrawBackgroundMap(SpriteBatch spriteBatch)

@@ -271,6 +271,15 @@
     <value>Попытаться купить провиант</value>
     <comment>Crisis Aftermath</comment>
   </data>
+  <data name="CampaignsJobCompletePatternSid" xml:space="preserve">
+    <value>{0} - завершено</value>
+  </data>
+  <data name="CampaignsJobProgressPatternSid" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+  </data>
+  <data name="CampaignsJobTitleSid" xml:space="preserve">
+    <value>Пройти любые кампании</value>
+  </data>
   <data name="Castle" xml:space="preserve">
     <value>Мрачная Твердыня в Скале</value>
     <comment>Location</comment>
@@ -314,6 +323,12 @@
     <value>Технологичный меч.
 Повышает урон на 25% за уровень.</value>
     <comment>Equipment</comment>
+  </data>
+  <data name="CommonJobCompletePattern" xml:space="preserve">
+    <value>{0} - завершено</value>
+  </data>
+  <data name="CommonJobInProgressPattern" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
   </data>
   <data name="CorruptedBear" xml:space="preserve">
     <value>Оскверненный медведь</value>
@@ -366,6 +381,21 @@
     <value>Обманчиво лёгкая роба</value>
     <comment>Equipment</comment>
   </data>
+  <data name="DefeatAnyEnemies" xml:space="preserve">
+    <value>Победить любых противников</value>
+  </data>
+  <data name="DefeatAnyEnemiesDuringCampaign" xml:space="preserve">
+    <value>Побеждено любых монстров в течении одной кампании</value>
+  </data>
+  <data name="DefeatsJobCompletePatternSid" xml:space="preserve">
+    <value>{0} - завершено</value>
+  </data>
+  <data name="DefeatsJobProgressPatternSid" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+  </data>
+  <data name="DefeatsJobTitleSid" xml:space="preserve">
+    <value>Победа над противниками</value>
+  </data>
   <data name="Desert" xml:space="preserve">
     <value>Где-то в пустыне...</value>
     <comment>Location</comment>
@@ -384,6 +414,12 @@
   <data name="DieBySword_Description" xml:space="preserve">
     <value>Перемещается вперед и наносит &lt;damage&gt; ближайшему в линии противнику.</value>
     <comment>Combat Movement Swordsman</comment>
+  </data>
+  <data name="DigitalHort" xml:space="preserve">
+    <value>Серый</value>
+  </data>
+  <data name="DigitalHort_Hidden" xml:space="preserve">
+    <value>Говорящий Хорт</value>
   </data>
   <data name="DigitalWolf" xml:space="preserve">
     <value>Цифровой волк</value>
@@ -454,8 +490,14 @@
   <data name="ExtraShieldPoints" xml:space="preserve">
     <value>Экстра Щиты</value>
   </data>
+  <data name="ExtraShieldPoints_Description" xml:space="preserve">
+    <value>Увеличивает щиты на &lt;sp&gt;</value>
+  </data>
   <data name="ExtraSpeed" xml:space="preserve">
     <value>Экстра Скорость</value>
+  </data>
+  <data name="ExtraSpeed_Description" xml:space="preserve">
+    <value>Увеличивает щиты на &lt;resolve&gt;</value>
   </data>
   <data name="EyesOfChaos" xml:space="preserve">
     <value>Очи Хаоса</value>
@@ -534,6 +576,12 @@
     <value>Целебная мазь</value>
     <comment>Combat Movement Herbalist</comment>
   </data>
+  <data name="HearMeBrothers" xml:space="preserve">
+    <value>Услышьте Меня, Братья!</value>
+  </data>
+  <data name="HearMeBrothers_Description" xml:space="preserve">
+    <value>Нужно выполнить несколько подвигов, чтобы другие герои увидели это и присоединились.</value>
+  </data>
   <data name="Herbalist" xml:space="preserve">
     <value>Старая Рада</value>
     <comment>Hero</comment>
@@ -611,6 +659,9 @@
   <data name="ImprovedAllDamage" xml:space="preserve">
     <value>Улучшенный урон</value>
   </data>
+  <data name="ImprovedAllDamage_Description" xml:space="preserve">
+    <value>Увеличивает &lt;style=color1&gt;весь&lt;/style&gt; урона на &lt;damage&gt;</value>
+  </data>
   <data name="ImprovedArmor" xml:space="preserve">
     <value>Улучшенная броня</value>
     <comment>Perk</comment>
@@ -630,8 +681,14 @@
   <data name="ImprovedMeleeDamage" xml:space="preserve">
     <value>Улучшенная рукопашная</value>
   </data>
+  <data name="ImprovedMeleeDamage_Description" xml:space="preserve">
+    <value>Увеличивает &lt;style=color1&gt;рукопашный&lt;/style&gt; урон на &lt;damage&gt;</value>
+  </data>
   <data name="ImprovedRangeDamage" xml:space="preserve">
     <value>Улучшенная стрельба</value>
+  </data>
+  <data name="ImprovedRangeDamage_Description" xml:space="preserve">
+    <value>Увеличивает &lt;style=color1&gt;струлковый&lt;/style&gt; урон на &lt;damage&gt;</value>
   </data>
   <data name="Impulse" xml:space="preserve">
     <value>Импульс</value>
@@ -662,6 +719,15 @@
   <data name="IronStream_Description" xml:space="preserve">
     <value>Наносит &lt;damage&gt; всем противникам в линии</value>
     <comment>Combat movement Ambush Drone</comment>
+  </data>
+  <data name="JobTypeCombats" xml:space="preserve">
+    <value>Провести боев</value>
+  </data>
+  <data name="JobTypeCompleteCampans" xml:space="preserve">
+    <value>Завершить кампаний</value>
+  </data>
+  <data name="JobTypeDefeat" xml:space="preserve">
+    <value>Уничтожить врагов</value>
   </data>
   <data name="JuggernautHeavyPowerArmor" xml:space="preserve">
     <value>Тяжелая силовая броня Джаггернаут</value>
@@ -808,6 +874,9 @@
   <data name="Partisan" xml:space="preserve">
     <value>Глухой</value>
   </data>
+  <data name="Partisan_Hidden" xml:space="preserve">
+    <value>Партизан</value>
+  </data>
   <data name="Pit" xml:space="preserve">
     <value>Яма</value>
     <comment>Location</comment>
@@ -892,6 +961,9 @@
   <data name="Robber" xml:space="preserve">
     <value>Сокол</value>
     <comment>Hero</comment>
+  </data>
+  <data name="Robber_Hidden" xml:space="preserve">
+    <value>Разбойник</value>
   </data>
   <data name="Sabotage" xml:space="preserve">
     <value>Саботаж</value>
@@ -1091,6 +1163,9 @@
     <value>Широкий удар мечом</value>
     <comment>Skill</comment>
   </data>
+  <data name="WinCampaigns" xml:space="preserve">
+    <value>Пройдено кампаний</value>
+  </data>
   <data name="WindWheel" xml:space="preserve">
     <value>Ветренное колесо</value>
     <comment>Combat movement Robber</comment>
@@ -1132,20 +1207,5 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
     <comment>Skill</comment>
-  </data>
-  <data name="ExtraShieldPoints_Description" xml:space="preserve">
-    <value>Увеличивает щиты на &lt;sp&gt;</value>
-  </data>
-  <data name="ExtraSpeed_Description" xml:space="preserve">
-    <value>Увеличивает щиты на &lt;resolve&gt;</value>
-  </data>
-  <data name="ImprovedAllDamage_Description" xml:space="preserve">
-    <value>Увеличивает &lt;style=color1&gt;весь&lt;/style&gt; урона на &lt;damage&gt;</value>
-  </data>
-  <data name="ImprovedMeleeDamage_Description" xml:space="preserve">
-    <value>Увеличивает &lt;style=color1&gt;рукопашный&lt;/style&gt; урон на &lt;damage&gt;</value>
-  </data>
-  <data name="ImprovedRangeDamage_Description" xml:space="preserve">
-    <value>Увеличивает &lt;style=color1&gt;струлковый&lt;/style&gt; урон на &lt;damage&gt;</value>
   </data>
 </root>

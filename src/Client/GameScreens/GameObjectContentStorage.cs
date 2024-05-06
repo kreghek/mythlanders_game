@@ -285,12 +285,14 @@ internal class GameObjectContentStorage
         //NPCs
         _heroPortraitsTextureDict.Add(UnitName.Synth, LoadNpcPortrait("DamagedSynth"));
         _heroPortraitsTextureDict.Add(UnitName.ChineseOldman, LoadNpcPortrait("ChineseOldman"));
+        _heroPortraitsTextureDict.Add(UnitName.Radio, LoadNpcPortrait("Radio"));
+        _heroPortraitsTextureDict.Add(UnitName.DigitalHort, LoadNpcPortrait("DigitalHort"));
         _heroPortraitsTextureDict.Add(UnitName.Undefined, LoadUndefinedPortrait());
 
-        Texture2D LoadBackgroundLayer(LocationCulture biomeType, ILocationSid locationSid,
+        Texture2D LoadBackgroundLayer(LocationCulture culture, ILocationSid locationSid,
             BackgroundLayerType layerType)
         {
-            var imagePath = Path.Combine("Sprites", "GameObjects", "CombatBackgrounds", biomeType.ToString(),
+            var imagePath = Path.Combine("Sprites", "GameObjects", "CombatBackgrounds", culture.ToString(),
                 locationSid.ToString(), $"{layerType}Layer");
             return contentManager.Load<Texture2D>(imagePath);
         }
@@ -332,6 +334,7 @@ internal class GameObjectContentStorage
             { "Swordsman", GetAnimationInner("Swordsman") },
             { "Partisan", GetAnimationInner("Partisan") },
             { "Robber", GetAnimationInner("Robber") },
+            { "Hoplite", GetAnimationInner("Hoplite") },
 
             { "DigitalWolf", GetAnimationInner("DigitalWolf") },
             { "Aspid", GetAnimationInner("Aspid") },

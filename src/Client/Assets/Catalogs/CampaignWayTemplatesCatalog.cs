@@ -74,31 +74,6 @@ internal sealed class CampaignWayTemplatesCatalog
                 new ChallengeCampaignStageTemplateFactory(_services)
             }, _services),
 
-            // For demo only
-
-            new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-            {
-                new MinigameEventCampaignStageTemplateFactory(_services)
-            }),
-
-            // Evo
-
-            // new ICampaignStageTemplateFactory[]
-            // {
-            //     new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-            //     {
-            //         new TrainingCampaignStageTemplateFactory(_services),
-            //         new WorkshopCampaignStageTemplateFactory(_services)
-            //     }, _services),
-            //
-            //     new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-            //     {
-            //         new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
-            //         new SacredEventCampaignStageTemplateFactory(),
-            //         new MinigameEventCampaignStageTemplateFactory()
-            //     }, _services)
-            // },
-
             // Crisis
 
             new CrisisEventCampaignStageTemplateFactory(_services)
@@ -106,6 +81,25 @@ internal sealed class CampaignWayTemplatesCatalog
 
         var way3Templates = new ICampaignStageTemplateFactory[]
         {
+            // Evo
+
+            new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+            {
+                new TrainingCampaignStageTemplateFactory(_services),
+                new WorkshopCampaignStageTemplateFactory(_services)
+            }, _services),
+
+            new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+            {
+                new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+                new SacredEventCampaignStageTemplateFactory(),
+                new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+                {
+                    new MiniGameEventCampaignStageTemplateFactory(_services),
+                    new RestCampaignStageTemplateFactory()
+                })
+            }, _services),
+
             // Combat
 
             new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Hard, _services)
@@ -125,7 +119,10 @@ internal sealed class CampaignWayTemplatesCatalog
 
         var rewardNode = new GraphNode<GraphWay<ICampaignStageItem>>(new GraphWay<ICampaignStageItem>(new[]
         {
-            new RewardCampaignStageTemplateFactory(_services)
+            new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Hard, _services)
+            {
+                IsGoalStage = true
+            }
         }));
 
         wayGraph.AddNode(way11Node);

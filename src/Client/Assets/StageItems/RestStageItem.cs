@@ -11,4 +11,6 @@ internal sealed class RestStageItem : ICampaignStageItem
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.Rest,
             new RestScreenTransitionArguments(currentCampaign));
     }
+
+    public bool IsGoalStage { get; }
 }

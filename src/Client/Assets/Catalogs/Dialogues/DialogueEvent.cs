@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using CombatDicesTeam.Dialogues;
 
@@ -45,7 +46,9 @@ public sealed class DialogueEvent
             return new[] { new IsInProgressEventRequirement() };
         }
 
-        return _requirements[_stateMachine.State];
+        return _requirements.ContainsKey(_stateMachine.State)
+            ? _requirements[_stateMachine.State]
+            : Array.Empty<IDialogueEventRequirement>();
     }
 
     public void Trigger(DialogueEventTrigger trigger)

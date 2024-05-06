@@ -171,15 +171,6 @@
   <data name="CampaignSelectButtonTitle" xml:space="preserve">
     <value>СТАРТ</value>
   </data>
-  <data name="CampaignsJobCompletePatternSid" xml:space="preserve">
-    <value>{0} - завершено</value>
-  </data>
-  <data name="CampaignsJobProgressPatternSid" xml:space="preserve">
-    <value>{0}: {1}/{2}</value>
-  </data>
-  <data name="CampaignsJobTitleSid" xml:space="preserve">
-    <value>Пройти любые кампании</value>
-  </data>
   <data name="CampaignStageDisplayNameChallenge" xml:space="preserve">
     <value>Испытание</value>
   </data>
@@ -188,9 +179,6 @@
   </data>
   <data name="CampaignStageDisplayNameCrisis" xml:space="preserve">
     <value>Кризис</value>
-  </data>
-  <data name="CampaignStageDisplayNameFinish" xml:space="preserve">
-    <value>Завршить кампанию</value>
   </data>
   <data name="CampaignStageDisplayNameRest" xml:space="preserve">
     <value>Отдых</value>
@@ -282,29 +270,11 @@
   <data name="CombatResultMonsterDangerIncreasedTemplate" xml:space="preserve">
     <value>Опасность монстров выросла до {0}</value>
   </data>
-  <data name="CombatResultNextText" xml:space="preserve">
-    <value>Следующий бой...</value>
-  </data>
   <data name="CombatResultVictoryText" xml:space="preserve">
     <value>Победа!</value>
   </data>
-  <data name="CombatTutorialText" xml:space="preserve">
-    <value>Вы попали в бой с монстрами!
-1. Все персонажи ходят по очереди. Сначала ходят все персонажи игрока.
-Затем - все монстры.
-2. Каждый персонаж может использовать один из доступных боевых навыков.
-Набор навыков персонажей игрока может быть расширен до 3-х.
-У обычных монстров всегда только одна атака. У боссов - до 3-х.
-3. Боевые навыки могут отнимать ХП противников или восстанавливать ХП союзников,
-влиять на разные характеристики персонажей, влиять на порядок ходов.
-Как только персонаж теряет все ХП, он выходит из боя.
-4. Для использования некоторых навыков требуется мана. Мана пополняется
-на 1 ед в конце боя и за каждого побеждённого противника.
-5. В конце боя в случае победы персонажи игроки получат опыт и улучшат
-свою экипировку. Так же победа увеличит уровень биома на 1.
-Всем монстры становятся сильнее. На 10 уровне появится босс.
-6. Если персонажи игрока проигрывают, то уровень биома снижается на 50%.
-Все монстры становятся слабее. Но и до босса придётся идти дольше.</value>
+  <data name="CombatSlavicTutorial1Paragraph1" xml:space="preserve">
+    <value>&lt;style=color1&gt;Беримир&lt;/style&gt; - это герой с высоким запасом щитов. Обычно это соответствует роли танка в ролевых играх. Он может выдержать единичные удары без потерь здоровья. Но его урон - ниже среднего.</value>
   </data>
   <data name="CompleteGameButtonTitle" xml:space="preserve">
     <value>Завершить игру</value>
@@ -339,23 +309,16 @@
   <data name="DecreseDamagePercentEffectRuleText" xml:space="preserve">
     <value>Уменьшает урон на {0}% по {2} на {1} ходов</value>
   </data>
-  <data name="DefeatsJobCompletePatternSid" xml:space="preserve">
-    <value>{0} - завершено</value>
-  </data>
-  <data name="DefeatsJobProgressPatternSid" xml:space="preserve">
-    <value>{0}: {1}/{2}</value>
-  </data>
-  <data name="DefeatsJobTitleSid" xml:space="preserve">
-    <value>Победа над противниками</value>
+  <data name="DemoMarkerDescription" xml:space="preserve">
+    <value>Это не полная версия игры.
+Большая часть контента и механик отсутствует в демо.
+Не забудьте добавить игру в вишлист на популярных площадках и оставить разработчику обратную связь!</value>
   </data>
   <data name="DemoMarkerText" xml:space="preserve">
-    <value>Demo</value>
+    <value>Демо</value>
   </data>
   <data name="DialogueContinueText" xml:space="preserve">
     <value>Нажмите [ПРОБЕЛ] чтобы продолжить</value>
-  </data>
-  <data name="EffectConditionIsRightAllyWithShieldText" xml:space="preserve">
-    <value>если правый союзник с щитом</value>
   </data>
   <data name="EndOfGameMessage" xml:space="preserve">
     <value>Это конец демо. Поздравляем!{0}Спасибо за внимание!</value>
@@ -369,11 +332,10 @@
   <data name="EquipmentUpgradeMarkerText" xml:space="preserve">
     <value>Доступно улучшение!</value>
   </data>
-  <data name="EventTutorialText" xml:space="preserve">
-    <value>В игре произошло событие.
+  <data name="SideQuestTutorialText" xml:space="preserve">
+    <value>Иногда в мире игры происходят дополнительные события, в которых герои могут принять участие. Обычно это называют дополнительными квестами.
 
-1. Некоторые события продвигают партию по сюжету.
-2. Другие - могут повлиять на партию и конкретных персонажей.</value>
+В дополнительных квестах очень важно делать правильный выбор. Потому что любой выбор имеет значимое для игрового мира последствие.</value>
   </data>
   <data name="ExitGameButtonTitle" xml:space="preserve">
     <value>Выйти из игры</value>
@@ -441,15 +403,6 @@
   <data name="InventoryButtonTitle" xml:space="preserve">
     <value>Инвентарь</value>
   </data>
-  <data name="JobTypeCombats" xml:space="preserve">
-    <value>Провести боев</value>
-  </data>
-  <data name="JobTypeCompleteCampans" xml:space="preserve">
-    <value>Завершить кампаний</value>
-  </data>
-  <data name="JobTypeDefeat" xml:space="preserve">
-    <value>Уничтожить врагов</value>
-  </data>
   <data name="LevelUpButtonTitle" xml:space="preserve">
     <value>Повысить</value>
   </data>
@@ -462,11 +415,10 @@
   <data name="ManaLabelTemplate" xml:space="preserve">
     <value>Пси-энергия: {0}/{1}</value>
   </data>
-  <data name="MapTutorialText" xml:space="preserve">
-    <value>Это карта локаций.
-1. Каждая последующая локация становится доступной после победы в предыдущей.
-2. В нескольких локациях буйствуют монстры. Эти локации отмечены ярким символом мечей.
-3. В некоторых локациях могут происходить различные события, которые могут повлиять на текущий бой, отдельных персонажей или всю группу героев.</value>
+  <data name="CampaignMapTutorialText" xml:space="preserve">
+    <value>Это карта прохождения кампании. Обычно на карте есть несколько путей, которыми можно добраться до победного этапа кампании и получить награду.
+
+Слудет грамотно планировать свой маршрут, чтобы посетить все важные этапы. При этом нужно избегать слишком сложных боев.</value>
   </data>
   <data name="MediumCombatSequenceText" xml:space="preserve">
     <value>Средний</value>
@@ -626,5 +578,26 @@
   </data>
   <data name="_AllChars" xml:space="preserve">
     <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
+  </data>
+  <data name="CombatSlavicTutorial1Paragraph2" xml:space="preserve">
+    <value>Чтобы победить этого монстра, сначала увеличить свой урон при помощи навыка &lt;style=color1&gt;Мечи Вверх!&lt;/style&gt;</value>
+  </data>
+  <data name="CombatSlavicTutorial1Paragraph3" xml:space="preserve">
+    <value>Монстр не сможет нанести вам вред &lt;style=color1&gt;текущим боевым движением&lt;/style&gt;.</value>
+  </data>
+  <data name="CombatSlavicTutorial1Paragraph4" xml:space="preserve">
+    <value>После атаки монстра выполните контр-атаку при помощи движения &lt;style=color1&gt;Удар С Плеча&lt;/style&gt;. Теперь урона должно быть достаточно, чтобы уничтожить раненого монстра.</value>
+  </data>
+  <data name="CombatSlavicTutorial1Paragraph5" xml:space="preserve">
+    <value>Этот бой-головоломка решается &lt;style=color2&gt;несложно&lt;/style&gt;.</value>
+  </data>
+  <data name="CombatChineseTutorial1Paragraph1" xml:space="preserve">
+    <value>&lt;style=color1&gt;Маосин&lt;/style&gt; - это герой с высоким потенциальным уроном. Обычно это соответствует роли DD в ролевых играх.</value>
+  </data>
+  <data name="CombatGreekTutorial1Paragraph1" xml:space="preserve">
+    <value>&lt;style=color1&gt;Леонидас&lt;/style&gt; - это герой с высоким запасом щитов. Обычно это соответствует роли танка в ролевых играх. Он может выдержать единичные удары без потерь здоровья. Но его урон - ниже среднего.</value>
+  </data>
+  <data name="CombatEgyptianTutorial1Paragraph1" xml:space="preserve">
+    <value>&lt;style=color1&gt;Нубити&lt;/style&gt; - это герой с высоким потенциальным уроном. Обычно это соответствует роли DD в ролевых играх.</value>
   </data>
 </root>

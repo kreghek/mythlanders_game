@@ -20,7 +20,10 @@ internal abstract class SmallEventDialogueEventFactoryBase : IDialogueEventFacto
         var questStateMachine =
             new StateMachine<DialogueEventState, DialogueEventTrigger>(DialogueConstants.InitialStage);
 
-        var requirements = new Dictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>>();
+        var requirements = new Dictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>>
+        {
+            [DialogueConstants.InitialStage] = Array.Empty<IDialogueEventRequirement>()
+        };
 
         var dialogues = new Dictionary<DialogueEventState, string>
         {

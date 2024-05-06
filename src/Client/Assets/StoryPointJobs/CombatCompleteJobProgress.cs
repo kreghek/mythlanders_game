@@ -23,7 +23,7 @@ internal sealed class CombatCompleteJobProgress : IJobProgress
         var modifiedJobs = new List<IJob>();
         foreach (var job in currentJobs)
         {
-            if (job.Scheme.Type != JobTypeCatalog.Combats)
+            if (job.Scheme.Type != JobTypeCatalog.WinCombats)
             {
                 continue;
             }

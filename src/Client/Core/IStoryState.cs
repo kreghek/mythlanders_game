@@ -8,5 +8,5 @@ public interface IStoryState
     IReadOnlyCollection<string> Keys { get; }
 
     void AddCharacterRelations(UnitName name);
-    void AddKey(string storySid, string key);
+    void AddKey(string key);
 }

@@ -32,7 +32,7 @@ internal class RegenerativeProtocolFactory : CombatMovementFactoryBase
     {
         return new[]
         {
-            new DescriptionKeyValue("hp", ExtractStatChangingValue(combatMovementInstance, 1),
+            new DescriptionKeyValue("hp", ExtractStatChangingValue(combatMovementInstance, 0),
                 DescriptionKeyValueTemplate.HitPoints)
         };
     }

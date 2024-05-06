@@ -268,6 +268,18 @@
     <value />
     <comment>Crisis Aftermath</comment>
   </data>
+  <data name="CampaignsJobCompletePatternSid" xml:space="preserve">
+    <value>{0} - done</value>
+    <comment>Jobs</comment>
+  </data>
+  <data name="CampaignsJobProgressPatternSid" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+    <comment>Jobs</comment>
+  </data>
+  <data name="CampaignsJobTitleSid" xml:space="preserve">
+    <value>Complete any campaigns</value>
+    <comment>Jobs</comment>
+  </data>
   <data name="Castle" xml:space="preserve">
     <value>Grim Castle in the Rock</value>
     <comment>Location</comment>
@@ -310,6 +322,13 @@
   <data name="CombatSwordDescription" xml:space="preserve">
     <value />
     <comment>Equipment</comment>
+  </data>
+  <data name="CommonJobCompletePattern" xml:space="preserve">
+    <value>{0} - done</value>
+    <comment>Job</comment>
+  </data>
+  <data name="CommonJobInProgressPattern" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
   </data>
   <data name="CorruptedBear" xml:space="preserve">
     <value>Corrupted bear</value>
@@ -362,6 +381,26 @@
     <value>Deceptively light robe</value>
     <comment>Equipment</comment>
   </data>
+  <data name="DefeatAnyEnemies" xml:space="preserve">
+    <value>Defeat any enemies</value>
+    <comment>Job</comment>
+  </data>
+  <data name="DefeatAnyEnemiesDuringCampaign" xml:space="preserve">
+    <value>Defeat any enemies during campaign</value>
+    <comment>Job</comment>
+  </data>
+  <data name="DefeatsJobCompletePatternSid" xml:space="preserve">
+    <value>{0} - done</value>
+    <comment>Jobs</comment>
+  </data>
+  <data name="DefeatsJobProgressPatternSid" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+    <comment>Jobs</comment>
+  </data>
+  <data name="DefeatsJobTitleSid" xml:space="preserve">
+    <value>Defeats</value>
+    <comment>Jobs</comment>
+  </data>
   <data name="Desert" xml:space="preserve">
     <value>Somewhere in the Desert...</value>
     <comment>Location</comment>
@@ -380,6 +419,14 @@
   <data name="DieBySword_Description" xml:space="preserve">
     <value>Moves forward and deals &lt;damage&gt; to the closest enemy in the line.</value>
     <comment>Combat Movement Swordsman</comment>
+  </data>
+  <data name="DigitalHort" xml:space="preserve">
+    <value>Grey</value>
+    <comment>NPC</comment>
+  </data>
+  <data name="DigitalHort_Hidden" xml:space="preserve">
+    <value>The Talking Hort</value>
+    <comment>NPC</comment>
   </data>
   <data name="DigitalWolf" xml:space="preserve">
     <value>Digital wolf</value>
@@ -448,12 +495,18 @@
     <value>Gain additional &lt;hp&gt;</value>
     <comment>Monster Perk</comment>
   </data>
+  <data name="ExtraShieldPoints" xml:space="preserve">
+    <value>Extra Shields</value><comment>Monster Perk</comment>
+  </data>
+  <data name="ExtraShieldPoints_Description" xml:space="preserve">
+    <value>Gain additional &lt;sp&gt;</value>
+  </data>
   <data name="ExtraSpeed" xml:space="preserve">
     <value>Extra Speed</value>
     <comment>Monster Perk</comment>
   </data>
-  <data name="ExtraShieldPoints" xml:space="preserve">
-    <value>Extra Shields</value><comment>Monster Perk</comment>
+  <data name="ExtraSpeed_Description" xml:space="preserve">
+    <value>Gain additional &lt;resolve&gt;</value>
   </data>
   <data name="EyesOfChaos" xml:space="preserve">
     <value>Eyes of Chaos</value>
@@ -532,6 +585,14 @@
     <value>Healing salve</value>
     <comment>Combat Movement Herbalist</comment>
   </data>
+  <data name="HearMeBrothers" xml:space="preserve">
+    <value>Hear Me, Brothers!</value>
+    <comment>Story Point</comment>
+  </data>
+  <data name="HearMeBrothers_Description" xml:space="preserve">
+    <value>You need to perform several feats so that other heroes will see this and join.</value>
+    <comment>Story Point</comment>
+  </data>
   <data name="Herbalist" xml:space="preserve">
     <value>Rada The Old</value>
     <comment>Hero</comment>
@@ -608,6 +669,9 @@
   <data name="ImprovedAllDamage" xml:space="preserve">
     <value>Improved Damage</value><comment>Monster Perk</comment>
   </data>
+  <data name="ImprovedAllDamage_Description" xml:space="preserve">
+    <value>Gain &lt;style=color1&gt;all&lt;/style&gt; damage on &lt;damage&gt;</value>
+  </data>
   <data name="ImprovedArmor" xml:space="preserve">
     <value>Improved armor</value>
     <comment>Perk</comment>
@@ -627,8 +691,14 @@
   <data name="ImprovedMeleeDamage" xml:space="preserve">
     <value>Improved Melee</value><comment>Monster Perk</comment>
   </data>
+  <data name="ImprovedMeleeDamage_Description" xml:space="preserve">
+    <value>Gain &lt;style=color1&gt;melee&lt;/style&gt; damage on &lt;damage&gt;</value>
+  </data>
   <data name="ImprovedRangeDamage" xml:space="preserve">
     <value>Improved Range</value><comment>Monster Perk</comment>
+  </data>
+  <data name="ImprovedRangeDamage_Description" xml:space="preserve">
+    <value>Gain &lt;style=color1&gt;ranged&lt;/style&gt; damage on &lt;damage&gt;</value>
   </data>
   <data name="Impulse" xml:space="preserve">
     <value>Impulse</value><comment>Status</comment>
@@ -660,6 +730,15 @@
     <value>Deals &lt;damage&gt; to all enemies in line</value>
     <comment>Combat movement Ambush Drone</comment>
   </data>
+  <data name="JobTypeCombats" xml:space="preserve">
+    <value>Start combats</value>
+  </data>
+  <data name="JobTypeCompleteCampans" xml:space="preserve">
+    <value>Complete campaigns</value>
+  </data>
+  <data name="JobTypeDefeat" xml:space="preserve">
+    <value>Defeat enemies</value>
+  </data>
   <data name="JuggernautHeavyPowerArmor" xml:space="preserve">
     <value>Juggernaut heavy power armor</value>
     <comment>Equipment</comment>
@@ -674,6 +753,9 @@
   </data>
   <data name="LastBreath" xml:space="preserve">
     <value>The Last Breath</value><comment>Monster Perk, Status</comment>
+  </data>
+  <data name="LastBreath_Description" xml:space="preserve">
+    <value>Restore &lt;hp_restore&gt; if hit points below &lt;hp_threshold&gt;</value>
   </data>
   <data name="LastChanceToPeace" xml:space="preserve">
     <value>Last chance to peace</value>
@@ -800,7 +882,12 @@
     <comment>Skill</comment>
   </data>
   <data name="Partisan" xml:space="preserve">
-    <value>The Deaf</value>
+    <value>Deaf</value>
+    <comment>Hero</comment>
+  </data>
+  <data name="Partisan_Hidden" xml:space="preserve">
+    <value>Partisan</value>
+    <comment>Hero</comment>
   </data>
   <data name="Pit" xml:space="preserve">
     <value>The Pit</value>
@@ -825,17 +912,32 @@
     <value>Rearguard Extra HP</value>
     <comment>Monster Perk</comment>
   </data>
+  <data name="RearguardExtraHitPoints_Description" xml:space="preserve">
+    <value>Extra &lt;hp&gt; to ally &lt;style=color1&gt;rearguard&lt;/style&gt;</value>
+  </data>
   <data name="RearguardExtraShieldPoints" xml:space="preserve">
     <value>Rearguard Extra SP</value>
     <comment>Monster Perk</comment>
+  </data>
+  <data name="RearguardExtraShieldPoints_Description" xml:space="preserve">
+    <value>Extra &lt;sp&gt; to ally &lt;style=color1&gt;rearguard&lt;/style&gt;</value>
   </data>
   <data name="RearguardReduceHitPoints" xml:space="preserve">
     <value>Reduce Rearguard HP</value>
     <comment>Monster Perk</comment>
   </data>
+  <data name="RearguardReduceHitPoints_Description" xml:space="preserve">
+    <value>Reduce &lt;hp&gt; of enemy &lt;style=color1&gt;rearguard&lt;/style&gt;</value>
+  </data>
+  <data name="RearguardReduceResolve_Description" xml:space="preserve">
+    <value>Reduce &lt;resolve&gt; of enemy &lt;style=color1&gt;rearguard&lt;/style&gt;</value>
+  </data>
   <data name="RearguardReduceShieldPoints" xml:space="preserve">
     <value>Reduce Rearguard SP</value>
     <comment>Monster Perk</comment>
+  </data>
+  <data name="RearguardReduceShieldPoints_Description" xml:space="preserve">
+    <value>Reduce &lt;sp&gt; of enemy &lt;style=color1&gt;rearguard&lt;/style&gt;</value>
   </data>
   <data name="RedemptionStaff" xml:space="preserve">
     <value>Staff of Redemption</value>
@@ -888,6 +990,10 @@
   </data>
   <data name="Robber" xml:space="preserve">
     <value>Hawk</value>
+    <comment>Hero</comment>
+  </data>
+  <data name="Robber_Hidden" xml:space="preserve">
+    <value>Robber</value>
     <comment>Hero</comment>
   </data>
   <data name="Sabotage" xml:space="preserve">
@@ -1039,17 +1145,32 @@
     <value>Vanguard Extra HP</value>
     <comment>Monster Perk</comment>
   </data>
+  <data name="VanguardExtraHitPoints_Description" xml:space="preserve">
+    <value>Extra &lt;hp&gt; to ally &lt;style=color1&gt;vanguard&lt;/style&gt;</value>
+  </data>
   <data name="VanguardExtraShieldPoints" xml:space="preserve">
     <value>Vanguard Extra SP</value>
     <comment>Monster Perk</comment>
+  </data>
+  <data name="VanguardExtraShieldPoints_Description" xml:space="preserve">
+    <value>Extra &lt;sp&gt; to ally &lt;style=color1&gt;vanguard&lt;/style&gt;</value>
   </data>
   <data name="VanguardReduceHitPoints" xml:space="preserve">
     <value>Reduce Vanguard HP</value>
     <comment>Monster Perk</comment>
   </data>
+  <data name="VanguardReduceHitPoints_Description" xml:space="preserve">
+    <value>Reduce &lt;hp&gt; of enemy &lt;style=color1&gt;vanguard&lt;/style&gt;</value>
+  </data>
+  <data name="VanguardReduceResolve_Description" xml:space="preserve">
+    <value>Reduce &lt;resolve&gt; of enemy &lt;style=color1&gt;vanguard&lt;/style&gt;</value>
+  </data>
   <data name="VanguardReduceShieldPoints" xml:space="preserve">
     <value>Reduce Vanguard SP</value>
     <comment>Monster Perk</comment>
+  </data>
+  <data name="VanguardReduceShieldPoints_Description" xml:space="preserve">
+    <value>Reduce &lt;sp&gt; of enemy &lt;style=color1&gt;vanguard&lt;/style&gt;</value>
   </data>
   <data name="VelesProtection" xml:space="preserve">
     <value>Veles protection</value>
@@ -1086,6 +1207,10 @@
   <data name="WideSwordSlash" xml:space="preserve">
     <value>Wide sword slash</value>
     <comment>Skill</comment>
+  </data>
+  <data name="WinCampaigns" xml:space="preserve">
+    <value>Win campaigns</value>
+    <comment>Job</comment>
   </data>
   <data name="WindWheel" xml:space="preserve">
     <value>Wind wheel</value>
@@ -1126,54 +1251,5 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Zduhach Might</value>
     <comment>Skill</comment>
-  </data>
-  <data name="ExtraShieldPoints_Description" xml:space="preserve">
-    <value>Gain additional &lt;sp&gt;</value>
-  </data>
-  <data name="ExtraSpeed_Description" xml:space="preserve">
-    <value>Gain additional &lt;resolve&gt;</value>
-  </data>
-  <data name="ImprovedAllDamage_Description" xml:space="preserve">
-    <value>Gain &lt;style=color1&gt;all&lt;/style&gt; damage on &lt;damage&gt;</value>
-  </data>
-  <data name="ImprovedMeleeDamage_Description" xml:space="preserve">
-    <value>Gain &lt;style=color1&gt;melee&lt;/style&gt; damage on &lt;damage&gt;</value>
-  </data>
-  <data name="ImprovedRangeDamage_Description" xml:space="preserve">
-    <value>Gain &lt;style=color1&gt;ranged&lt;/style&gt; damage on &lt;damage&gt;</value>
-  </data>
-  <data name="LastBreath_Description" xml:space="preserve">
-    <value>Restore &lt;hp_restore&gt; if hit points below &lt;hp_threshold&gt;</value>
-  </data>
-  <data name="RearguardExtraHitPoints_Description" xml:space="preserve">
-    <value>Extra &lt;hp&gt; to ally &lt;style=color1&gt;rearguard&lt;/style&gt;</value>
-  </data>
-  <data name="RearguardExtraShieldPoints_Description" xml:space="preserve">
-    <value>Extra &lt;sp&gt; to ally &lt;style=color1&gt;rearguard&lt;/style&gt;</value>
-  </data>
-  <data name="VanguardExtraHitPoints_Description" xml:space="preserve">
-    <value>Extra &lt;hp&gt; to ally &lt;style=color1&gt;vanguard&lt;/style&gt;</value>
-  </data>
-  <data name="VanguardExtraShieldPoints_Description" xml:space="preserve">
-    <value>Extra &lt;sp&gt; to ally &lt;style=color1&gt;vanguard&lt;/style&gt;</value>
-  </data>
-
-  <data name="RearguardReduceHitPoints_Description" xml:space="preserve">
-    <value>Reduce &lt;hp&gt; of enemy &lt;style=color1&gt;rearguard&lt;/style&gt;</value>
-  </data>
-  <data name="RearguardReduceShieldPoints_Description" xml:space="preserve">
-    <value>Reduce &lt;sp&gt; of enemy &lt;style=color1&gt;rearguard&lt;/style&gt;</value>
-  </data>
-  <data name="VanguardReduceHitPoints_Description" xml:space="preserve">
-    <value>Reduce &lt;hp&gt; of enemy &lt;style=color1&gt;vanguard&lt;/style&gt;</value>
-  </data>
-  <data name="VanguardReduceShieldPoints_Description" xml:space="preserve">
-    <value>Reduce &lt;sp&gt; of enemy &lt;style=color1&gt;vanguard&lt;/style&gt;</value>
-  </data>
-  <data name="VanguardReduceResolve_Description" xml:space="preserve">
-    <value>Reduce &lt;resolve&gt; of enemy &lt;style=color1&gt;vanguard&lt;/style&gt;</value>
-  </data>
-  <data name="RearguardReduceResolve_Description" xml:space="preserve">
-    <value>Reduce &lt;resolve&gt; of enemy &lt;style=color1&gt;rearguard&lt;/style&gt;</value>
   </data>
 </root>

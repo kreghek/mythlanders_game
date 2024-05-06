@@ -205,6 +205,17 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This is a campaign map. There are usually several paths on the map that can be used to reach the winning stage of the campaign and receive a reward.
+        ///
+        ///You will need to plan your route wisely to visit all the important stages. At the same time, you need to avoid too difficult fights..
+        /// </summary>
+        internal static string CampaignMapTutorialText {
+            get {
+                return ResourceManager.GetString("CampaignMapTutorialText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Penalties.
         /// </summary>
         internal static string CampaignPenaltiesLabelText {
@@ -232,33 +243,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} - done.
-        /// </summary>
-        internal static string CampaignsJobCompletePatternSid {
-            get {
-                return ResourceManager.GetString("CampaignsJobCompletePatternSid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0}: {1}/{2}.
-        /// </summary>
-        internal static string CampaignsJobProgressPatternSid {
-            get {
-                return ResourceManager.GetString("CampaignsJobProgressPatternSid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Complete any campaigns.
-        /// </summary>
-        internal static string CampaignsJobTitleSid {
-            get {
-                return ResourceManager.GetString("CampaignsJobTitleSid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Challenge.
         /// </summary>
         internal static string CampaignStageDisplayNameChallenge {
@@ -282,15 +266,6 @@ namespace Client {
         internal static string CampaignStageDisplayNameCrisis {
             get {
                 return ResourceManager.GetString("CampaignStageDisplayNameCrisis", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Finish campaign.
-        /// </summary>
-        internal static string CampaignStageDisplayNameFinish {
-            get {
-                return ResourceManager.GetString("CampaignStageDisplayNameFinish", resourceCulture);
             }
         }
         
@@ -345,6 +320,33 @@ namespace Client {
         internal static string CloseButtonTitle {
             get {
                 return ResourceManager.GetString("CloseButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;style=color1&gt;Maoxing&lt;/style&gt; is a hero with high damage potential. This usually corresponds to the role of DD in RPGs..
+        /// </summary>
+        internal static string CombatChineseTutorial1Paragraph1 {
+            get {
+                return ResourceManager.GetString("CombatChineseTutorial1Paragraph1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;style=color1&gt;Nubiti&lt;/style&gt; is a hero with high damage potential. This usually corresponds to the role of DD in role-playing games..
+        /// </summary>
+        internal static string CombatEgyptianTutorial1Paragraph1 {
+            get {
+                return ResourceManager.GetString("CombatEgyptianTutorial1Paragraph1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;style=color1&gt;Leonidas&lt;/style&gt; is a hero with a high shield reserve. This usually corresponds to the role of a tank in RPGs. He can withstand single hits without losing health. But his damage is below average..
+        /// </summary>
+        internal static string CombatGreekTutorial1Paragraph1 {
+            get {
+                return ResourceManager.GetString("CombatGreekTutorial1Paragraph1", resourceCulture);
             }
         }
         
@@ -565,15 +567,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Next combat....
-        /// </summary>
-        internal static string CombatResultNextText {
-            get {
-                return ResourceManager.GetString("CombatResultNextText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Victory!.
         /// </summary>
         internal static string CombatResultVictoryText {
@@ -583,11 +576,47 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to &lt;style=color1&gt;Berimir&lt;/style&gt; is a hero with a high shield reserve. This usually corresponds to the role of a tank in RPGs. He can withstand single hits without losing health. But his damage is below average..
         /// </summary>
-        internal static string CombatTutorialText {
+        internal static string CombatSlavicTutorial1Paragraph1 {
             get {
-                return ResourceManager.GetString("CombatTutorialText", resourceCulture);
+                return ResourceManager.GetString("CombatSlavicTutorial1Paragraph1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To defeat this monster, first increase your damage with the skill &lt;style=color1&gt;Rise Up Your Swords!&lt;/style&gt;.
+        /// </summary>
+        internal static string CombatSlavicTutorial1Paragraph2 {
+            get {
+                return ResourceManager.GetString("CombatSlavicTutorial1Paragraph2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The monster will not be able to harm you with the &lt;style=color1&gt;current combat movement&lt;/style&gt;..
+        /// </summary>
+        internal static string CombatSlavicTutorial1Paragraph3 {
+            get {
+                return ResourceManager.GetString("CombatSlavicTutorial1Paragraph3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to After the monster attacks, counter-attack with the &lt;style=color1&gt;Hit From The Shoulder&lt;/style&gt; move. The damage should now be enough to destroy the wounded monster..
+        /// </summary>
+        internal static string CombatSlavicTutorial1Paragraph4 {
+            get {
+                return ResourceManager.GetString("CombatSlavicTutorial1Paragraph4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This battle puzzle is &lt;style=color2&gt;easy&lt;/style&gt; to solve..
+        /// </summary>
+        internal static string CombatSlavicTutorial1Paragraph5 {
+            get {
+                return ResourceManager.GetString("CombatSlavicTutorial1Paragraph5", resourceCulture);
             }
         }
         
@@ -703,29 +732,13 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} - done.
+        ///   Looks up a localized string similar to This is not the full version of the game.
+        ///Most of the content and mechanics are missing from the demo.
+        ///Don&apos;t forget to add the game to your wishlist on popular platforms and leave feedback to the developer!.
         /// </summary>
-        internal static string DefeatsJobCompletePatternSid {
+        internal static string DemoMarkerDescription {
             get {
-                return ResourceManager.GetString("DefeatsJobCompletePatternSid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0}: {1}/{2}.
-        /// </summary>
-        internal static string DefeatsJobProgressPatternSid {
-            get {
-                return ResourceManager.GetString("DefeatsJobProgressPatternSid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Defeats.
-        /// </summary>
-        internal static string DefeatsJobTitleSid {
-            get {
-                return ResourceManager.GetString("DefeatsJobTitleSid", resourceCulture);
+                return ResourceManager.GetString("DemoMarkerDescription", resourceCulture);
             }
         }
         
@@ -744,15 +757,6 @@ namespace Client {
         internal static string DialogueContinueText {
             get {
                 return ResourceManager.GetString("DialogueContinueText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to if right ally with shield.
-        /// </summary>
-        internal static string EffectConditionIsRightAllyWithShieldText {
-            get {
-                return ResourceManager.GetString("EffectConditionIsRightAllyWithShieldText", resourceCulture);
             }
         }
         
@@ -789,15 +793,6 @@ namespace Client {
         internal static string EquipmentUpgradeMarkerText {
             get {
                 return ResourceManager.GetString("EquipmentUpgradeMarkerText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string EventTutorialText {
-            get {
-                return ResourceManager.GetString("EventTutorialText", resourceCulture);
             }
         }
         
@@ -991,33 +986,6 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start combats.
-        /// </summary>
-        internal static string JobTypeCombats {
-            get {
-                return ResourceManager.GetString("JobTypeCombats", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Complete campaigns.
-        /// </summary>
-        internal static string JobTypeCompleteCampans {
-            get {
-                return ResourceManager.GetString("JobTypeCompleteCampans", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Defeat enemies.
-        /// </summary>
-        internal static string JobTypeDefeat {
-            get {
-                return ResourceManager.GetString("JobTypeDefeat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Level Up.
         /// </summary>
         internal static string LevelUpButtonTitle {
@@ -1050,15 +1018,6 @@ namespace Client {
         internal static string ManaLabelTemplate {
             get {
                 return ResourceManager.GetString("ManaLabelTemplate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string MapTutorialText {
-            get {
-                return ResourceManager.GetString("MapTutorialText", resourceCulture);
             }
         }
         
@@ -1131,15 +1090,6 @@ namespace Client {
         internal static string PeriodicHealEffectRuleText {
             get {
                 return ResourceManager.GetString("PeriodicHealEffectRuleText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Free Combat.
-        /// </summary>
-        internal static string PlayFreeCombatButtonTitle {
-            get {
-                return ResourceManager.GetString("PlayFreeCombatButtonTitle", resourceCulture);
             }
         }
         
@@ -1239,6 +1189,17 @@ namespace Client {
         internal static string ShortCombatSequenceText {
             get {
                 return ResourceManager.GetString("ShortCombatSequenceText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sometimes additional events take place in the game world in which the heroes can take part. These are usually called side quests.
+        ///
+        ///In side quests, it is very important to make the right choices. Because every choice has a significant consequence for the game world..
+        /// </summary>
+        internal static string SideQuestTutorialText {
+            get {
+                return ResourceManager.GetString("SideQuestTutorialText", resourceCulture);
             }
         }
         

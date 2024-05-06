@@ -3,7 +3,6 @@
 using Client.GameScreens.Barracks;
 using Client.GameScreens.Bestiary;
 using Client.GameScreens.Campaign;
-using Client.GameScreens.CampaignReward;
 using Client.GameScreens.Challenge;
 using Client.GameScreens.Combat;
 using Client.GameScreens.CommandCenter;
@@ -13,6 +12,7 @@ using Client.GameScreens.EndGame;
 using Client.GameScreens.Intro;
 using Client.GameScreens.Match3;
 using Client.GameScreens.NotImplementedStage;
+using Client.GameScreens.PreHistory;
 using Client.GameScreens.Rest;
 using Client.GameScreens.SlidingPuzzles;
 using Client.GameScreens.TextDialogue;
@@ -115,6 +115,8 @@ internal class ScreenManager : IScreenManager
         return targetTransition switch
         {
             ScreenTransition.Title => new TitleScreen(_game),
+            ScreenTransition.PreHistory => new PreHistoryScreen(_game,
+                (PreHistoryScreenScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.Campaign => new CampaignScreen(_game,
                 (CampaignScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.CommandCenter => new CommandCenterScreen(_game,
@@ -138,8 +140,6 @@ internal class ScreenManager : IScreenManager
                 (TowersMiniGameScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.Challenge => new ChallengeScreen(_game,
                 (ChallengeScreenTransitionArguments)screenTransitionArguments),
-            ScreenTransition.CampaignReward => new CampaignRewardScreen(_game,
-                (CampaignRewardScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.Bestiary => new BestiaryScreen(_game,
                 (BestiaryScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.Credits => new CreditsScreen(_game),

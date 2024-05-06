@@ -66,9 +66,9 @@ internal sealed class MonkeyKingDialogueEventFactory : IDialogueEventFactory
             {
                 new Job(
                     new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.Defeats, new JobGoalValue(12)),
-                    nameof(UiResource.DefeatsJobTitleSid),
-                    nameof(UiResource.DefeatsJobProgressPatternSid),
-                    nameof(UiResource.DefeatsJobCompletePatternSid))
+                    nameof(GameObjectResources.DefeatsJobTitleSid),
+                    nameof(GameObjectResources.DefeatsJobProgressPatternSid),
+                    nameof(GameObjectResources.DefeatsJobCompletePatternSid))
             },
             Aftermaths = new IStoryPointAftermath[]
             {

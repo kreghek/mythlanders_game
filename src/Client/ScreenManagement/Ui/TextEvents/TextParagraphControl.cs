@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.Catalogs.Dialogues;
-using Client.Assets.DialogueOptionAftermath;
 using Client.Core;
 using Client.Engine;
 using Client.GameScreens;
@@ -19,36 +18,36 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.ScreenManagement.Ui.TextEvents;
 
-internal sealed class TextParagraphControl : ControlBase
+internal sealed class TextParagraphControl<TParagraphConditionContext, TAftermathContext> : ControlBase
 {
-    private const int DISPLAY_NAME_HEIGHT = 32;
-    private readonly CampaignAftermathContext _aftermathContext;
+    private readonly TAftermathContext _aftermathContext;
 
     private readonly SpriteFont _displayNameFont;
-    private readonly IReadOnlyCollection<IDialogueOptionAftermath<CampaignAftermathContext>> _envCommands;
     private readonly string? _localizedSpeakerName;
-    private readonly TextParagraphMessageControl _message;
+    private readonly TextParagraphMessageControl<TParagraphConditionContext, TAftermathContext> _message;
     private readonly Vector2 _messageSize;
+    private readonly IReadOnlyCollection<IDialogueOptionAftermath<TAftermathContext>> _paragraphAftermaths;
     private readonly IDialogueSpeaker _speaker;
     private readonly Vector2 _speakerDisplayNameSize;
 
-    private bool _envCommandsExecuted;
+    private bool _decorativeAftermathsAreExecuted;
 
-    public TextParagraphControl(DialogueSpeech<ParagraphConditionContext, CampaignAftermathContext> eventTextParagraph,
-        SoundEffect textSoundEffect, IDice dice, CampaignAftermathContext aftermathContext, IStoryState storyState) :
+    public TextParagraphControl(DialogueSpeech<TParagraphConditionContext, TAftermathContext> eventTextParagraph,
+        SoundEffect textSoundEffect, IDice dice, TAftermathContext aftermathContext, IStoryState storyState) :
         base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _displayNameFont = UiThemeManager.UiContentStorage.GetMainFont();
         _aftermathContext = aftermathContext;
         _speaker = eventTextParagraph.Speaker;
 
-        var speakerState = storyState.CharacterRelations.SingleOrDefault(x => x.Character == _speaker) ??
+        var speakerState = storyState.CharacterRelations.SingleOrDefault(x => x.Character.Equals(_speaker)) ??
                            new CharacterRelation(_speaker);
 
         _localizedSpeakerName = GetSpeakerDisplayName(speakerState);
-        _message = new TextParagraphMessageControl(eventTextParagraph, textSoundEffect, dice,
-            DialogueSpeakers.Env != _speaker);
-        _envCommands = eventTextParagraph.Aftermaths.Where(x => x is IDecorativeEnvironmentAftermath).ToArray();
+        _message = new TextParagraphMessageControl<TParagraphConditionContext, TAftermathContext>(eventTextParagraph,
+            textSoundEffect, dice,
+            !DialogueSpeakers.Env.Equals(_speaker));
+        _paragraphAftermaths = eventTextParagraph.Aftermaths.ToArray();
 
         _messageSize = _message.CalculateSize();
         _speakerDisplayNameSize = _localizedSpeakerName is not null
@@ -73,13 +72,13 @@ internal sealed class TextParagraphControl : ControlBase
 
     public void Update(GameTime gameTime)
     {
-        if (!_envCommandsExecuted)
+        if (!_decorativeAftermathsAreExecuted)
         {
-            _envCommandsExecuted = true;
+            _decorativeAftermathsAreExecuted = true;
 
-            foreach (var envCommand in _envCommands)
+            foreach (var aftermath in _paragraphAftermaths)
             {
-                envCommand.Apply(_aftermathContext);
+                aftermath.Apply(_aftermathContext);
             }
         }
 
@@ -104,7 +103,7 @@ internal sealed class TextParagraphControl : ControlBase
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
     {
-        if (DialogueSpeakers.Env != _speaker)
+        if (!DialogueSpeakers.Env.Equals(_speaker))
         {
             DrawSpeakerDisplayName(spriteBatch, clientRect.Location.ToVector2());
         }
@@ -122,7 +121,7 @@ internal sealed class TextParagraphControl : ControlBase
 
     private static string? GetSpeakerDisplayName(CharacterRelation characterRelation)
     {
-        if (characterRelation.Character == DialogueSpeakers.Env)
+        if (characterRelation.Character.Equals(DialogueSpeakers.Env))
         {
             return null;
         }

@@ -1,0 +1,190 @@
+﻿---
+root:
+  paragraphs:
+    - text: |
+        Several years ago, on the distant planet-world of Frontier, ancient civilizations began to revive.
+        People, led by artificial intelligence, quickly immersed themselves in a new world.
+        Ancient eras were intertwined in a strange and surprising way with the modern technological way of life.
+        This world was gradually divided into parts, dominated by one of the ancient cultures.
+      env:
+        - type: Background
+          data: AncientRising
+        - type: PlayMusic
+          data: Battle
+  options:
+    - text: 'Next'
+      next: p2
+
+p2:
+  paragraphs:
+    - text: |
+        But following ancient traditions and magnificent temples, disgusting monsters from fairy tales and legends of the past began to appear in the world.
+      env:
+        - type: Background
+          data: Monsters
+  options:
+    - text: 'The monsters were strong'
+      next: p3
+      aftermaths:
+        - type: AddMonsterPerk
+          data: ExtraHitPoints
+        - type: AddMonsterPerk
+          data: ImprovedMeleeDamage
+        - type: AddMonsterPerk
+          data: LastBreath
+    - text: 'The monsters were smart'
+      next: p3
+      aftermaths:
+        - type: AddMonsterPerk
+          data: ExtraShieldPoints
+        - type: AddMonsterPerk
+          data: ImprovedRangeDamage
+        - type: AddMonsterPerk
+          data: RearguardReduceHitPoints
+    - text: 'The monsters were united'
+      next: p3
+      aftermaths:
+        - type: AddMonsterPerk
+          data: VanguardExtraHitPoints
+        - type: AddMonsterPerk
+          data: VanguardReduceHitPoints
+        - type: AddMonsterPerk
+          data: ImprovedAllDamage
+
+p3:
+  paragraphs:
+    - text: |
+        Nobody believed in mysticism and evil spirits for a long time.
+        The people of the future were completely unprepared to survive in such a world.
+        The immunity that previously helped to resist evil spirits was long ago lost.
+      env:
+        - type: Background
+          data: MonstersAttack
+  options:
+    - text: 'Next'
+      next: p4
+
+p4:
+  paragraphs:
+    - text: |
+        Fortunately, after the monsters, the heroes of old times came into the world.
+        There weren't many of them. But each of them possessed superhuman strength.
+        The secret to everything is the Blood of Heroes!
+      env:
+        - type: Background
+          data: Hero
+  options:
+    - text: 'Next'
+      next: p5
+
+p5:
+  paragraphs:
+    - text: |
+        The hunt for the Blood of Heroes - this most valuable resource - has begun on the part of the dominant factions in the future.
+        The religious Black Conclave, which reveres immortality, sent its best officers to the Frontier, who despise biological life as weakness and a lower form.
+        And then the Union of Industrialists, which monopolizes the production of heavy metals, sent out its faceless mercenaries, obsessed with the thirst for material gain.
+        Which of them occupied the Frontier first?
+      env:
+        - type: Background
+          data: FirstFraction
+  options:
+    - text: 'Black Conclave'
+      next: p6_black
+      aftermaths:
+        - type: AddMonsterPerk
+          data: BlackMessiah
+        - type: AddMonsterPerk
+          data: UnitedRush
+    - text: 'Heavy Industry Union'
+      next: p6_mining
+      aftermaths:
+        - type: AddMonsterPerk
+          data: UnitedTactics
+        - type: AddMonsterPerk
+          data: DefenderOfFaith
+
+p6_black:
+  paragraphs:
+    - text: |
+        The Black Conclave's theo-engineers built defensive redoubts. And the half-dead aristocrats had already begun hunting for heroes at that moment,
+        when numerous mercenaries of the Union of Industrialists landed on the surface of the planet.
+        To break the Black defenses, the Industrialists took advantage of their numerical advantage.
+        The planet was isolated, as required by modern rules of armed conflict.
+        Now no one could leave the Frontier until one of the parties surrendered.
+        Like the rest of the world, they didn't know what was going on on the Frontier.
+      env:
+        - type: Background
+          data: Black
+  options:
+    - text: 'Next'
+      next: p7
+
+p6_mining:
+  paragraphs:
+    - text: |
+        Countless groups of militants of the Union of Industrialists had already established logistics and began hunting for heroes at that moment,
+        when an elite unit of the Black Conclave landed on the surface of the planet.
+        To gain the tactical superiority of the Industrialists, the Blacks decided to use a secret weapon - the Champion of the Faith.
+        The planet was isolated, as required by modern rules of armed conflict.
+        Now no one could leave the Frontier until one of the parties surrendered.
+        Like the rest of the world, they didn't know what was going on on the Frontier.
+      env:
+        - type: Background
+          data: Union
+  options:
+    - text: 'Next'
+      next: p7
+
+p7:
+  paragraphs:
+    - text: |
+        The ancient heroes were doomed. However, one of them received a sign. What kind of hero was this?
+      env:
+        - type: Background
+          data: StartHeroes
+  options:
+    - text: 'Monk'
+      next: p8_monk
+      aftermaths:
+        - type: AddHero
+          data: Monk
+        - type: UnlockLocation
+          data: Monastery
+    - text: 'Bogatyr'
+      next: p8_swordsman
+      aftermaths:
+        - type: AddHero
+          data: Swordsman
+        - type: UnlockLocation
+          data: Thicket
+    - text: 'Spartan'
+      next: p8_spartian
+      aftermaths:
+        - type: AddHero
+          data: Hoplite
+        - type: UnlockLocation
+          data: ShipGraveyard
+
+p8_monk:
+  paragraphs:
+    - text: |
+        Shaolin monk Maoxing began his adventure.
+      env:
+        - type: Background
+          data: Monk
+
+p8_swordsman:
+  paragraphs:
+    - text: |
+        The Slavic hero Berimir began his adventure.
+      env:
+        - type: Background
+          data: Swordsman
+
+p8_spartian:
+  paragraphs:
+    - text: |
+        The Spartan hoplite Leonidas began his adventure.
+      env:
+        - type: Background
+          data: Hoplite

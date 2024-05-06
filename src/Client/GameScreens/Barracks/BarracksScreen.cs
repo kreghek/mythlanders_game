@@ -79,7 +79,7 @@ internal class BarracksScreen : GameScreenWithMenuBase
     {
         var catalog = Game.Services.GetRequiredService<ICombatantGraphicsCatalog>();
         var uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();
-        _heroList = _globeProvider.Globe.Player.Heroes.Units.Select(x =>
+        _heroList = _globeProvider.Globe.Player.Heroes.Select(x =>
             new HeroListItem(x, catalog, Game.Content, uiContentStorage.GetMainFont())).ToArray();
 
         foreach (var heroListItem in _heroList)

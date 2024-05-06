@@ -13,11 +13,12 @@ namespace Client.GameScreens.CommandCenter.Ui;
 
 internal sealed class CampaignPanel : ControlBase, ICampaignPanel
 {
-    private readonly CampaignEffectsPanel _campaignEffectsPanel;
+    private readonly CampaignEffectsPanel? _campaignEffectsPanel;
     private readonly CampaignLaunchHeroes _campaignHeroes;
     private readonly CampaignButton _selectButton;
 
-    public CampaignPanel(HeroCampaignLaunch campaignLaunch, Texture2D campaignTexture) : base(
+    public CampaignPanel(HeroCampaignLaunch campaignLaunch, Texture2D campaignTexture,
+        bool campaignEffectUnlocked) : base(
         UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
         _selectButton = new CampaignButton(campaignTexture, campaignLaunch.Location.Sid);
@@ -33,11 +34,15 @@ internal sealed class CampaignPanel : ControlBase, ICampaignPanel
             _selectButton.Hover = false;
         };
 
-        var estimatedRewards = campaignLaunch.Rewards;
-        var estimatedPenalties = campaignLaunch.Penalties;
-
         _campaignHeroes = new CampaignLaunchHeroes(campaignLaunch.Heroes);
-        _campaignEffectsPanel = new CampaignEffectsPanel(estimatedRewards, estimatedPenalties);
+
+        if (campaignEffectUnlocked)
+        {
+            var estimatedRewards = campaignLaunch.Rewards;
+            var estimatedPenalties = campaignLaunch.Penalties;
+
+            _campaignEffectsPanel = new CampaignEffectsPanel(estimatedRewards, estimatedPenalties);
+        }
     }
 
     protected override Point CalcTextureOffset()
@@ -60,9 +65,12 @@ internal sealed class CampaignPanel : ControlBase, ICampaignPanel
             _campaignHeroes.Rect = new Rectangle(contentRect.Left, contentRect.Bottom, contentRect.Width, 20 * 3);
             _campaignHeroes.Draw(spriteBatch);
 
-            _campaignEffectsPanel.Rect =
-                new Rectangle(contentRect.Left, _campaignHeroes.Rect.Bottom, contentRect.Width, 20 * 5);
-            _campaignEffectsPanel.Draw(spriteBatch);
+            if (_campaignEffectsPanel is not null)
+            {
+                _campaignEffectsPanel.Rect =
+                    new Rectangle(contentRect.Left, _campaignHeroes.Rect.Bottom, contentRect.Width, 20 * 5);
+                _campaignEffectsPanel.Draw(spriteBatch);
+            }
         }
     }
 

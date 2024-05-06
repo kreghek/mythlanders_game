@@ -4,8 +4,10 @@ using Client.Assets.CombatMovements.Hero.Spearman;
 using Client.Assets.GraphicConfigs.Heroes;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantStatuses;
 
 using GameAssets.Combats;
+using GameAssets.Combats.CombatantStatuses;
 
 using JetBrains.Annotations;
 
@@ -55,5 +57,13 @@ internal sealed class GuardianHeroFactory : HeroFactoryBase
         stats.SetValue(CombatantStatTypes.Resolve, 4);
 
         return stats;
+    }
+
+    protected override IReadOnlyCollection<ICombatantStatusFactory> CreateStartupStatuses()
+    {
+        return new[]
+        {
+            new CombatStatusFactory(source => SystemStatuses.HasShield)
+        };
     }
 }
