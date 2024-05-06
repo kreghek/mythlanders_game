@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Client.Assets.StoryPointJobs;
 
@@ -13,13 +14,13 @@ internal sealed class Globe
 
     private readonly List<IGlobeEvent> _globeEvents;
 
-    public Globe(Player player)
+    public Globe(Player player, CurrentGameFeatures progression)
     {
         _globeEvents = new List<IGlobeEvent>();
         _activeStoryPointsList = new List<IStoryPoint>();
 
-        //_biomeGenerator = biomeGenerator;
         Player = player;
+        Features = progression;
         // First variant of the names.
         /*
          * "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
@@ -32,13 +33,11 @@ internal sealed class Globe
     }
 
     public IEnumerable<IStoryPoint> ActiveStoryPoints => _activeStoryPointsList;
-
+    public CurrentGameFeatures Features { get; }
 
     public IReadOnlyCollection<IGlobeEvent> GlobeEvents => _globeEvents;
 
     public GlobeLevel GlobeLevel { get; }
-
-    public bool IsNodeInitialized { get; set; }
 
     public Player Player { get; }
 
@@ -48,24 +47,10 @@ internal sealed class Globe
         _activeStoryPointsList.Add(storyPoint);
     }
 
-    public void AddCombat(GlobeNode targetNode)
-    {
-        // var combatList = new List<CombatSource>();
-        //
-        // var combatSequence = new CombatSequence
-        // {
-        //     Combats = combatList
-        // };
-        //
-        // targetNode.CombatSequence = combatSequence;
-        //
-        // Updated?.Invoke(this, EventArgs.Empty);
-    }
-
     public void AddGlobalEvent(IGlobeEvent globalEvent)
     {
         _globeEvents.Add(globalEvent);
-        globalEvent.Initialize(this);
+        globalEvent.Start(this);
     }
 
     public IEnumerable<IJobExecutable> GetCurrentJobExecutables()
@@ -78,6 +63,11 @@ internal sealed class Globe
         if (Player.Challenge is not null)
         {
             yield return Player.Challenge;
+        }
+
+        foreach (var globeEvent in _globeEvents)
+        {
+            yield return globeEvent;
         }
     }
 
@@ -124,14 +114,13 @@ internal sealed class Globe
         var eventsSnapshot = _globeEvents.ToArray();
         foreach (var globeEvent in eventsSnapshot)
         {
-            if (globeEvent.IsActive)
+            if (!globeEvent.ExpirationConditions.All(x => x.IsComplete))
             {
-                globeEvent.Update();
+                continue;
             }
-            else
-            {
-                _globeEvents.Remove(globeEvent);
-            }
+
+            globeEvent.Finish(this);
+            _globeEvents.Remove(globeEvent);
         }
     }
 

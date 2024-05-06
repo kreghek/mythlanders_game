@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-using Client.Assets.Catalogs.Dialogues;
 using Client.GameScreens;
 
 using CombatDicesTeam.Dialogues;
 
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal abstract class DialogueOptionAftermathBase : IDialogueOptionAftermath<CampaignAftermathContext>
+internal abstract class DialogueOptionAftermathBase<TAftermathContext> : IDialogueOptionAftermath<TAftermathContext>
 {
-    protected abstract IReadOnlyList<object> GetDescriptionValues(CampaignAftermathContext aftermathContext);
+    protected abstract IReadOnlyList<object> GetDescriptionValues(TAftermathContext aftermathContext);
 
     protected virtual string GetSid()
     {
@@ -18,11 +16,11 @@ internal abstract class DialogueOptionAftermathBase : IDialogueOptionAftermath<C
     }
 
     /// <inheritdoc />
-    public string GetDescription(CampaignAftermathContext aftermathContext)
+    public string GetDescription(TAftermathContext aftermathContext)
     {
         if (IsHidden)
         {
-            return String.Empty;
+            return string.Empty;
         }
 
         var descriptionTemplate = GameObjectHelper.GetLocalized(GetSid() + "_Description");
@@ -36,5 +34,5 @@ internal abstract class DialogueOptionAftermathBase : IDialogueOptionAftermath<C
     public bool IsHidden { get; set; }
 
     /// <inheritdoc />
-    public abstract void Apply(CampaignAftermathContext aftermathContext);
+    public abstract void Apply(TAftermathContext aftermathContext);
 }

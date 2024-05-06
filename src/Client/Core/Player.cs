@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.Catalogs.Dialogues;
+
 namespace Client.Core;
 
 internal sealed class Player
@@ -18,8 +20,8 @@ internal sealed class Player
 
     public Player()
     {
-        Heroes = new PoolGroup<HeroState>();
-        KnownMonsters = new List<UnitScheme>();
+        _heroes = new PoolGroup<HeroState>();
+        KnownMonsters = new List<MonsterKnowledge>();
 
         Inventory = new Inventory();
 
@@ -27,7 +29,10 @@ internal sealed class Player
 
         Name = CreateRandomName();
 
-        StoryState = new StoryState(Heroes);
+        StoryState = new StoryState(_heroes);
+        StoryState.AddCharacterRelations(UnitName.Radio);
+        StoryState.CharacterRelations.Single(x => x.Character.Equals(DialogueSpeakers.Get(UnitName.Radio))).Level =
+            CharacterKnowledgeLevel.FullName;
 
         _locations = new HashSet<ILocationSid>();
     }
@@ -37,20 +42,22 @@ internal sealed class Player
 
     public IReadOnlyList<ILocationSid> CurrentAvailableLocations => _locations.ToArray();
 
-    public PoolGroup<HeroState> Heroes { get; }
+    public IReadOnlyCollection<HeroState> Heroes => _heroes.Units.ToArray();
 
     public Inventory Inventory { get; }
 
-    public IList<UnitScheme> KnownMonsters { get; }
+    public IList<MonsterKnowledge> KnownMonsters { get; }
 
     public IReadOnlyCollection<MonsterPerk> MonsterPerks => _monsterPerks.ToArray();
 
     public string Name { get; }
     public IStoryState StoryState { get; }
 
+    private PoolGroup<HeroState> _heroes { get; }
+
     public void AddHero(HeroState heroState)
     {
-        Heroes.AddNewUnit(heroState);
+        _heroes.AddNewUnit(heroState);
     }
 
     public void AddLocation(ILocationSid location)

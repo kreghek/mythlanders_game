@@ -14,23 +14,6 @@ internal sealed class ChaserFactory : MonsterFactoryBase
 
     public override CharacterCultureSid Culture => CharacterCultureSid.Egyptian;
 
-    public override UnitScheme Create(IBalanceTable balanceTable)
-    {
-        return new UnitScheme(balanceTable.GetCommonUnitBasics())
-        {
-            Name = UnitName.Chaser,
-            LocationSids = new[]
-            {
-                LocationSids.Desert
-            },
-            IsMonster = true,
-
-            Levels = new IUnitLevelScheme[]
-            {
-            }
-        };
-    }
-
     public override CombatantGraphicsConfigBase CreateGraphicsConfig(GameObjectContentStorage gameObjectContentStorage)
     {
         return new ChaserGraphicConfig();

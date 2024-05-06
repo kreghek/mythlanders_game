@@ -1,49 +1,57 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
+using Client.Assets.StoryPointJobs;
 using Client.Core;
-using Client.GameScreens;
 
 namespace Client.Assets.GlobalEffects;
 
 internal sealed class CharacterDeepPreyingGlobeEvent : IGlobeEvent
 {
     private readonly UnitName _name;
-    private readonly GlobeRule _rule;
 
     public CharacterDeepPreyingGlobeEvent(UnitName name)
     {
         _name = name;
 
-        var mappings = UnsortedHelpers.GetCharacterDisablingMap();
-
-        var mapping = mappings.Single(x => x.Item1 == name);
-        _rule = mapping.Item2;
+        ExpirationConditions = new[]
+        {
+            new Job(new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.WinCampaigns, new JobGoalValue(2)),
+                "WinCampaigns", "CommonJobInProgressPattern", "CommonJobCompletePattern")
+        };
     }
 
-    public IReadOnlyList<GlobeRule> GetRules()
+    public string TitleSid => string.Format(GameObjectResources.CharacterDeepPreyingTitleTemplate, _name);
+    public int Order { get; } = 1;
+
+    public void Start(Globe globe)
     {
-        return new[] { _rule };
+        foreach (var heroState in globe.Player.Heroes)
+        {
+            if (heroState.ClassSid == _name.ToString())
+            {
+                heroState.DisableToCampaigns();
+            }
+        }
     }
 
-    public bool IsActive => CombatsLeft > 0;
-
-    public string Title => string.Format(GameObjectResources.CharacterDeepPreyingTitleTemplate, _name);
-    public int CombatsLeft { get; private set; } = 5;
-
-    public void Update()
+    public void Finish(Globe globe)
     {
-        CombatsLeft--;
+        foreach (var heroState in globe.Player.Heroes)
+        {
+            if (heroState.ClassSid == _name.ToString())
+            {
+                heroState.EnableToCampaigns();
+            }
+        }
     }
 
-    public void Initialize(Globe globe)
+    public IReadOnlyCollection<IJob> ExpirationConditions { get; }
+
+    public IReadOnlyCollection<IJob>? CurrentJobs => ExpirationConditions;
+    public bool IsComplete => ExpirationConditions.All(x => x.IsComplete);
+
+    public void HandleCompletion()
     {
-        var targetPlayerCharacter = globe.Player.Heroes.Units.SingleOrDefault(x => x.ClassSid == _name.ToString());
-
-        Debug.Assert(targetPlayerCharacter is not null,
-            "Global events shouldn't be before the target character join the party.");
-
-        //targetPlayerCharacter.AddGlobalEffect(this);
     }
 }

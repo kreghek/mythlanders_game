@@ -17,7 +17,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.TextDialogue;
 
-internal class TextDialogueScreen : TextEventScreenBase
+internal class TextDialogueScreen : CampaignTextEventScreenBase
 {
     private const int BACKGROUND_LAYERS_COUNT = 3;
 
@@ -25,6 +25,7 @@ internal class TextDialogueScreen : TextEventScreenBase
     private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
     private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
+    private readonly Globe _globe;
     private readonly ILocationSid _globeLocation;
     private readonly Player _player;
     private readonly Random _random;
@@ -38,7 +39,9 @@ internal class TextDialogueScreen : TextEventScreenBase
         _random = new Random();
 
         var globeProvider = game.Services.GetService<GlobeProvider>();
+
         var globe = globeProvider.Globe ?? throw new InvalidOperationException();
+        _globe = globe;
         _player = globe.Player ?? throw new InvalidOperationException();
 
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();
@@ -74,7 +77,7 @@ internal class TextDialogueScreen : TextEventScreenBase
 
     protected override void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        if (!_dialoguePlayer.IsEnd)
+        if (_dialoguePlayer is not null && !_dialoguePlayer.IsEnd)
         {
             DrawCurrentSpeakerPortrait(spriteBatch);
         }
@@ -105,16 +108,15 @@ internal class TextDialogueScreen : TextEventScreenBase
             return;
         }
 
-        if (_player.HasAbility(PlayerAbility.ReadEventTutorial))
+        if (!_player.HasAbility(PlayerAbility.ReadSideQuestTutorial) &&
+            _globe.Features.HasFeature(GameFeatures.SideQuests))
         {
-            return;
+            _player.AddPlayerAbility(PlayerAbility.ReadSideQuestTutorial);
+
+            var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
+                ResolutionIndependentRenderer, _player);
+            AddModal(tutorialModal, isLate: false);
         }
-
-        _player.AddPlayerAbility(PlayerAbility.ReadEventTutorial);
-
-        var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
-            ResolutionIndependentRenderer, _player);
-        AddModal(tutorialModal, isLate: false);
     }
 
     private static UnitName ConvertSpeakerToUnitName(IDialogueSpeaker speaker)
@@ -156,7 +158,7 @@ internal class TextDialogueScreen : TextEventScreenBase
         var currentFragment = CurrentFragment;
         var speaker = currentFragment.Speaker;
 
-        if (DialogueSpeakers.Get(UnitName.Environment) == speaker)
+        if (DialogueSpeakers.Get(UnitName.Environment).Equals(speaker))
         {
             // This text describes environment. There is no speaker.
             return;
@@ -176,7 +178,7 @@ internal class TextDialogueScreen : TextEventScreenBase
             new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Height - SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE),
-            new Rectangle(SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE,
+            new Rectangle(0, 0, SPEAKER_FRAME_SIZE,
                 SPEAKER_FRAME_SIZE),
             Color.White);
 
@@ -242,7 +244,7 @@ internal class TextDialogueScreen : TextEventScreenBase
         const int SPEAKER_FRAME_COUNT = 4;
         const double SPEAKER_FRAME_DURATION = 0.25;
 
-        var currentFragment = _textParagraphControls[_currentFragmentIndex];
+        var currentFragment = TextParagraphControls[CurrentFragmentIndex];
         if (!currentFragment.IsComplete)
         {
             _counter += gameTime.ElapsedGameTime.TotalSeconds;

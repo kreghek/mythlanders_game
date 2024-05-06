@@ -1,4 +1,6 @@
-﻿using Client.Engine;
+﻿using System.Collections.Generic;
+
+using Client.Engine;
 using Client.GameScreens;
 
 using CombatDicesTeam.Combats;
@@ -76,5 +78,16 @@ internal class StayStrongFactory : CombatMovementFactoryBase
 
         return CommonCombatVisualization.CreateSelfBuffVisualization(actorAnimator, movementExecution,
             visualizationContext, defenseAnimation, defenseSoundEffect);
+    }
+
+    /// <inheritdoc />
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new DescriptionKeyValue("defence", 3, DescriptionKeyValueTemplate.Defence),
+            new DescriptionKeyValue("auto_defence", 1, DescriptionKeyValueTemplate.Defence)
+        };
     }
 }

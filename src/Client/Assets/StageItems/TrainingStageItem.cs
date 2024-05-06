@@ -22,7 +22,7 @@ internal sealed class TrainingStageItem : ICampaignStageItem
 
     public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
     {
-        var availableUnits = _player.Heroes.Units.ToArray();
+        var availableUnits = _player.Heroes.ToArray();
 
         var selectedAvailable = _dice.RollFromList(availableUnits, 3).ToList();
 
@@ -30,4 +30,6 @@ internal sealed class TrainingStageItem : ICampaignStageItem
 
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.Training, args);
     }
+
+    public bool IsGoalStage { get; }
 }

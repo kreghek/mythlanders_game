@@ -35,9 +35,10 @@ public class DialogueCatalogTests
         resourceProviderMock.Setup(x => x.GetResource(It.IsAny<string>())).Returns(sourceDialogue);
         var resourceProvider = resourceProviderMock.Object;
 
-        var aftermathCreator = Mock.Of<IDialogueOptionAftermathCreator>();
+        var aftermathCreator = Mock.Of<IDialogueOptionAftermathCreator<CampaignAftermathContext>>();
+        var envCreator = Mock.Of<IDialogueParagraphEffectCreator<CampaignAftermathContext>>();
 
-        var catalog = new DialogueCatalog(resourceProvider, aftermathCreator);
+        var catalog = new DialogueCatalog(resourceProvider, aftermathCreator, envCreator);
         catalog.Init();
 
         // ACT
@@ -63,9 +64,10 @@ public class DialogueCatalogTests
         resourceProviderMock.Setup(x => x.GetResource(It.IsAny<string>())).Returns(sourceDialogue);
         var resourceProvider = resourceProviderMock.Object;
 
-        var aftermathCreator = Mock.Of<IDialogueOptionAftermathCreator>();
+        var aftermathCreator = Mock.Of<IDialogueOptionAftermathCreator<CampaignAftermathContext>>();
+        var envCreator = Mock.Of<IDialogueParagraphEffectCreator<CampaignAftermathContext>>();
 
-        var catalog = new DialogueCatalog(resourceProvider, aftermathCreator);
+        var catalog = new DialogueCatalog(resourceProvider, aftermathCreator, envCreator);
         catalog.Init();
 
         // ACT
@@ -90,10 +92,10 @@ public class DialogueCatalogTests
         var content = new ContentManager(serviceProvider, "Content");
         var provider = new DialogueResourceProvider(content);
 
-        var aftermathCreator =
-            new DialogueOptionAftermathCreator(new LinearDice());
+        var aftermathCreator = new DialogueAftermathCreator(new LinearDice());
+        var envCreator = Mock.Of<IDialogueParagraphEffectCreator<CampaignAftermathContext>>();
 
-        var catalog = new DialogueCatalog(provider, aftermathCreator);
+        var catalog = new DialogueCatalog(provider, aftermathCreator, envCreator);
 
         // ACT
 

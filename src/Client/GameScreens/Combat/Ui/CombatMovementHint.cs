@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets;
 using Client.Assets.CombatMovements;
 using Client.Core;
 using Client.Engine;
@@ -31,7 +32,7 @@ internal class CombatMovementHint : HintBase
 
         var nameTextFont = UiThemeManager.UiContentStorage.GetTitlesFont();
         var descriptionTextFont = UiThemeManager.UiContentStorage.GetMainFont();
-        var costTextFont = UiThemeManager.UiContentStorage.GetTitlesFont();
+        var costTextFont = UiThemeManager.UiContentStorage.GetMainFont();
         _currentActorResolveValue = currentActorResolveValue;
         _combatMovementVisualizationProvider = combatMovementVisualizationProvider;
 
@@ -45,7 +46,7 @@ internal class CombatMovementHint : HintBase
                     ControlTextures.Panel,
                     descriptionTextFont,
                     _ => Color.White,
-                    () => GameObjectHelper.GetLocalizedTrait(x.Sid))).ToArray();
+                    () => $"[{GameObjectHelper.GetLocalizedTrait(x.Sid)}]")).ToArray();
         }
 
         _content = new VerticalStackPanel(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
@@ -72,7 +73,7 @@ internal class CombatMovementHint : HintBase
                 new RichText(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
                     ControlTextures.Transparent,
                     descriptionTextFont,
-                    _ => Color.Wheat,
+                    _ => new Color(232, 210, 130),
                     () => CalcCombatMoveDescription(_combatMovement)
                 ),
 
@@ -88,7 +89,12 @@ internal class CombatMovementHint : HintBase
 
     protected override Point CalcTextureOffset()
     {
-        return Point.Zero;
+        return new Point(0, 96);
+    }
+
+    protected override Color CalculateColor()
+    {
+        return Color.Lerp(Color.Transparent, Color.White, 0.85f);
     }
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
@@ -109,7 +115,7 @@ internal class CombatMovementHint : HintBase
 
     private Color CalcCostColor(Color color)
     {
-        var resolveColor = Color.Lerp(color, MythlandersColors.MaxDark, 0.5f);
+        var resolveColor = Color.Lerp(color, new Color(232, 210, 130), 0.5f);
         if (_combatMovement.Cost.Amount.Current > _currentActorResolveValue.Current)
         {
             resolveColor = Color.Lerp(color, MythlandersColors.DangerRedMain, 0.75f);
@@ -118,41 +124,47 @@ internal class CombatMovementHint : HintBase
         return resolveColor;
     }
 
-    private IReadOnlyList<CombatMovementEffectDisplayValue> ExtractCombatMovementValues(
+    private IReadOnlyList<DescriptionKeyValue> ExtractCombatMovementValues(
         CombatMovementInstance combatMovement)
     {
         return _combatMovementVisualizationProvider.ExtractCombatMovementValues(combatMovement);
     }
 
-    private static string GetValueTemplate(CombatMovementEffectDisplayValueTemplate valueType)
+    private static string GetValueTemplate(DescriptionKeyValueTemplate valueType)
     {
         return valueType switch
         {
-            CombatMovementEffectDisplayValueTemplate.Damage =>
+            DescriptionKeyValueTemplate.Damage =>
                 UiResource.CombatMovementEffectValueType_Damage_Template,
-            CombatMovementEffectDisplayValueTemplate.DamageModifier =>
+            DescriptionKeyValueTemplate.DamageModifier =>
                 UiResource.CombatMovementEffectValueType_DamageModifer_Template,
-            CombatMovementEffectDisplayValueTemplate.RoundDuration =>
+            DescriptionKeyValueTemplate.TurnDuration =>
+                UiResource.CombatMovementEffectValueType_TurnDuration_Template,
+            DescriptionKeyValueTemplate.RoundDuration =>
                 UiResource.CombatMovementEffectValueType_RoundDuration_Template,
-            CombatMovementEffectDisplayValueTemplate.HitPointsDamage =>
+            DescriptionKeyValueTemplate.HitPointsDamage =>
                 UiResource.CombatMovementEffectValueType_HitPointsDamage_Template,
-            CombatMovementEffectDisplayValueTemplate.ResolveDamage =>
+            DescriptionKeyValueTemplate.ResolveDamage =>
                 UiResource.CombatMovementEffectValueType_ResolveDamage_Template,
-            CombatMovementEffectDisplayValueTemplate.HitPoints =>
+            DescriptionKeyValueTemplate.HitPoints =>
                 UiResource.CombatMovementEffectValueType_HitPoints_Template,
-            CombatMovementEffectDisplayValueTemplate.ShieldPoints =>
+            DescriptionKeyValueTemplate.ShieldPoints =>
                 UiResource.CombatMovementEffectValueType_ShieldPoints_Template,
+            DescriptionKeyValueTemplate.Defence =>
+                UiResource.CombatMovementEffectValueType_Defence_Template,
+            DescriptionKeyValueTemplate.Resolve =>
+                UiResource.CombatMovementEffectValueType_Resolve_Template,
             _ => "<{0}> units"
         };
     }
 
-    private static string GetValueText(CombatMovementEffectDisplayValue value)
+    private static string GetValueText(DescriptionKeyValue value)
     {
         var template = GetValueTemplate(value.Template);
         return string.Format(template, value.Value);
     }
 
-    private static string RenderDescriptionText(IReadOnlyList<CombatMovementEffectDisplayValue> values,
+    private static string RenderDescriptionText(IReadOnlyList<DescriptionKeyValue> values,
         CombatMovementSid combatMovementSid)
     {
         var descriptionMarkupText =

@@ -24,4 +24,6 @@ internal sealed class NotImplemenetedStageItem : ICampaignStageItem
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.NotImplemented,
             new NotImplementedStageScreenTransitionArguments(currentCampaign));
     }
+
+    public bool IsGoalStage { get; }
 }

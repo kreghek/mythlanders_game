@@ -1,5 +1,4 @@
-﻿using Client.Core;
-using Client.Engine;
+﻿using Client.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,11 +15,4 @@ internal abstract class TutorialPageDrawerBase
     internal IUiContentStorage UiContentStorage { get; }
 
     public abstract void Draw(SpriteBatch spriteBatch, Rectangle contentRect);
-
-    protected static string GetTutorialText(string resourceName)
-    {
-        var tutorialText =
-            StringHelper.LineBreaking(UiResource.ResourceManager.GetString(resourceName) ?? $"#{resourceName}", 65);
-        return tutorialText;
-    }
 }

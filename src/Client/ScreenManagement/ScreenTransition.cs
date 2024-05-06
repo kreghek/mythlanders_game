@@ -21,11 +21,11 @@ internal enum ScreenTransition
     Rest,
     Crisis,
     Challenge,
-    CampaignReward,
 
     /// <summary>
     /// Temporal screen to fake transition to stage items which not implemented yet.
     /// </summary>
     NotImplemented,
-    VoiceCombat
+    VoiceCombat,
+    PreHistory
 }

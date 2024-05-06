@@ -27,13 +27,13 @@ internal class RegenerativeProtocolFactory : CombatMovementFactoryBase
         );
     }
 
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {
         return new[]
         {
-            new CombatMovementEffectDisplayValue("hp", ExtractStatChangingValue(combatMovementInstance, 1),
-                CombatMovementEffectDisplayValueTemplate.HitPoints)
+            new DescriptionKeyValue("hp", ExtractStatChangingValue(combatMovementInstance, 0),
+                DescriptionKeyValueTemplate.HitPoints)
         };
     }
 }

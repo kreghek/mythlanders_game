@@ -14,7 +14,7 @@ internal class EventTutorialPageDrawer : TutorialPageDrawerBase
 
     public override void Draw(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        spriteBatch.DrawString(UiContentStorage.GetMainFont(), UiResource.EventTutorialText,
+        spriteBatch.DrawString(UiContentStorage.GetMainFont(), UiResource.SideQuestTutorialText,
             contentRect.Location.ToVector2() + new Vector2(0, 5), Color.White);
     }
 }

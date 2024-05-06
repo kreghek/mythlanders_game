@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets;
+using Client.Assets.StageItems;
 using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
+using Client.GameScreens.Bestiary;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter.Ui;
 using Client.ScreenManagement;
@@ -43,7 +45,6 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
     private IReadOnlyList<ICampaignPanel>? _availableCampaignPanels;
 
     private double _locationOnMapCounter;
-
 
     public CommandCenterScreen(MythlandersGame game, CommandCenterScreenTransitionArguments args) : base(game)
     {
@@ -116,63 +117,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
     {
         SaveGameProgress();
 
-        var panels = new List<ICampaignPanel>();
-
-        var campaignTexturesDict = new Dictionary<ILocationSid, Texture2D>
-        {
-            { LocationSids.Desert, LoadCampaignThumbnailImage("Desert") },
-            { LocationSids.Monastery, LoadCampaignThumbnailImage("Monastery") },
-            { LocationSids.ShipGraveyard, LoadCampaignThumbnailImage("ShipGraveyard") },
-            { LocationSids.Thicket, LoadCampaignThumbnailImage("DarkThicket") },
-            { LocationSids.Swamp, LoadCampaignThumbnailImage("GrimSwamp") },
-            { LocationSids.Battleground, LoadCampaignThumbnailImage("Battleground") }
-        };
-
-        var placeholderTexture = LoadCampaignThumbnailImage("Placeholder");
-
-        for (var campaignIndex = 0; campaignIndex < 3; campaignIndex++)
-        {
-            if (campaignIndex < _campaignLaunches.Count)
-            {
-                var campaignLaunch = _campaignLaunches[campaignIndex];
-                var campaignTexture = campaignTexturesDict[campaignLaunch.Location.Sid];
-
-                var panel = new CampaignPanel(campaignLaunch, campaignTexture);
-                panels.Add(panel);
-                panel.Selected += (_, _) =>
-                {
-                    var heroStartCoordsOpenList = new List<FieldCoords>
-                    {
-                        new FieldCoords(0, 0),
-                        new FieldCoords(0, 1),
-                        new FieldCoords(0, 2),
-                        new FieldCoords(1, 0),
-                        new FieldCoords(1, 1),
-                        new FieldCoords(1, 2)
-                    };
-
-                    var initHeroes = new List<(HeroState, FieldCoords)>();
-                    foreach (var launchHero in campaignLaunch.Heroes)
-                    {
-                        var rolledCoords = _dice.RollFromList(heroStartCoordsOpenList);
-                        initHeroes.Add((launchHero, rolledCoords));
-                        heroStartCoordsOpenList.Remove(rolledCoords);
-                    }
-
-                    var campaign = new HeroCampaign(initHeroes, campaignLaunch.Location,
-                        campaignLaunch.Rewards, campaignLaunch.Penalties, _dice.Roll(100));
-
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                        new CampaignScreenTransitionArguments(campaign));
-                };
-            }
-            else
-            {
-                panels.Add(new PlaceholderCampaignPanel(placeholderTexture));
-            }
-        }
-
-        _availableCampaignPanels = panels;
+        _availableCampaignPanels = CreateCampaignPanels();
 
         _commandButtons[0] = new ResourceTextButton(nameof(UiResource.BarraksButtonTitle));
         _commandButtons[0].OnClick += (_, _) =>
@@ -182,12 +127,13 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
         _commandButtons[1] = new ResourceTextButton(nameof(UiResource.ArmoryButtonTitle));
         _commandButtons[2] = new ResourceTextButton(nameof(UiResource.AdjutantButtonTitle));
-        _commandButtons[3] = new ResourceTextButton(nameof(UiResource.ChroniclesButtonTitle));
-
-        Texture2D LoadCampaignThumbnailImage(string textureName)
+        _commandButtons[2].OnClick += (_, _) =>
         {
-            return Game.Content.Load<Texture2D>($"Sprites/GameObjects/Campaigns/{textureName}");
-        }
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary,
+                new BestiaryScreenTransitionArguments(ScreenTransition.CommandCenter,
+                    new CommandCenterScreenTransitionArguments(_campaignLaunches)));
+        };
+        _commandButtons[3] = new ResourceTextButton(nameof(UiResource.ChroniclesButtonTitle));
     }
 
     protected override void UpdateContent(GameTime gameTime)
@@ -212,6 +158,76 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         {
             commandButton.Update(ResolutionIndependentRenderer);
         }
+    }
+
+    private List<ICampaignPanel> CreateCampaignPanels()
+    {
+        var panels = new List<ICampaignPanel>();
+
+        var campaignTexturesDict = new Dictionary<ILocationSid, Texture2D>
+        {
+            { LocationSids.Desert, LoadCampaignThumbnailImage("Desert") },
+            { LocationSids.Monastery, LoadCampaignThumbnailImage("Monastery") },
+            { LocationSids.ShipGraveyard, LoadCampaignThumbnailImage("ShipGraveyard") },
+            { LocationSids.Thicket, LoadCampaignThumbnailImage("DarkThicket") },
+            { LocationSids.Swamp, LoadCampaignThumbnailImage("GrimSwamp") },
+            { LocationSids.Battleground, LoadCampaignThumbnailImage("Battleground") }
+        };
+
+        var placeholderTexture = LoadCampaignThumbnailImage("Placeholder");
+
+        for (var campaignIndex = 0; campaignIndex < 3; campaignIndex++)
+        {
+            if (campaignIndex < _campaignLaunches.Count)
+            {
+                var campaignLaunch = _campaignLaunches[campaignIndex];
+                var campaignTexture = campaignTexturesDict[campaignLaunch.Location.Sid];
+
+                var panel = new CampaignPanel(campaignLaunch, campaignTexture,
+                    _globeProvider.Globe.Features.HasFeature(GameFeatures.CampaignEffects));
+                panels.Add(panel);
+                panel.Selected += (_, _) =>
+                {
+                    var heroStartCoordsOpenList = new List<FieldCoords>
+                    {
+                        new FieldCoords(0, 0),
+                        new FieldCoords(0, 1),
+                        new FieldCoords(0, 2),
+                        new FieldCoords(1, 0),
+                        new FieldCoords(1, 1),
+                        new FieldCoords(1, 2)
+                    };
+
+                    var initHeroes = new List<(HeroState, FieldCoords)>();
+                    foreach (var launchHero in campaignLaunch.Heroes)
+                    {
+                        var rolledCoords = _dice.RollFromList(heroStartCoordsOpenList);
+                        initHeroes.Add((launchHero, rolledCoords));
+                        heroStartCoordsOpenList.Remove(rolledCoords);
+                    }
+
+                    var campaign = new HeroCampaign(initHeroes, campaignLaunch.Location,
+                        campaignLaunch.Rewards, campaignLaunch.Penalties, _dice.Roll(100));
+
+                    var monsterLeaderSids = ExtractmonsterLeadersFromCampaign(campaign);
+                    WriteAllCampaignMonsterLeadersToKnown(monsterLeaderSids);
+
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                        new CampaignScreenTransitionArguments(campaign));
+                };
+            }
+            else
+            {
+                panels.Add(new PlaceholderCampaignPanel(placeholderTexture));
+            }
+        }
+
+        Texture2D LoadCampaignThumbnailImage(string textureName)
+        {
+            return Game.Content.Load<Texture2D>($"Sprites/GameObjects/Campaigns/{textureName}");
+        }
+
+        return panels;
     }
 
     private void DrawBackgroundMap(SpriteBatch spriteBatch)
@@ -301,6 +317,13 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         spriteBatch.DrawCircle(x1, y1, (float)(16 + t * 4), 4, MythlandersColors.MainSciFi);
     }
 
+    private static IReadOnlyCollection<string> ExtractmonsterLeadersFromCampaign(HeroCampaign campaign)
+    {
+        var combats = campaign.Location.Stages.GetAllNodes().Where(x => x.Payload is CombatStageItem)
+            .Select(x => x.Payload).Cast<CombatStageItem>();
+        return combats.Select(x => x.Metadata.MonsterLeader.ClassSid).Distinct().ToArray();
+    }
+
     private static IReadOnlyList<Point> GetConnectorPoints(int x1, int y1, int x2, int y2)
     {
         return LineHelper.GetBrokenLine(x1, y1, x2, y2, new LineHelper.BrokenLineOptions
@@ -335,5 +358,18 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
     private void SaveGameProgress()
     {
         _globeProvider.StoreCurrentGlobe();
+    }
+
+    private void WriteAllCampaignMonsterLeadersToKnown(IEnumerable<string> monsterLeaderClassSids)
+    {
+        foreach (var sid in monsterLeaderClassSids)
+        {
+            if (!_globeProvider.Globe.Player.KnownMonsters.Any(x =>
+                    string.Equals(x.ClassSid, sid, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                _globeProvider.Globe.Player.KnownMonsters.Add(new MonsterKnowledge(sid,
+                    MonsterKnowledgeLevel.CommonDescription));
+            }
+        }
     }
 }

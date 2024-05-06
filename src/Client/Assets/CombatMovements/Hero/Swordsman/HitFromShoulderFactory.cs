@@ -13,8 +13,11 @@ using Core.Combats.TargetSelectors;
 using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
+using JetBrains.Annotations;
+
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
+[UsedImplicitly]
 internal class HitFromShoulderFactory : SimpleCombatMovementFactoryBase
 {
     public override CombatMovementIcon CombatMovementIcon => new(1, 0);
@@ -49,6 +52,17 @@ internal class HitFromShoulderFactory : SimpleCombatMovementFactoryBase
 
         return CommonCombatVisualization.CreateSingleMeleeVisualization(actorAnimator, movementExecution,
             visualizationContext, config);
+    }
+
+    /// <inheritdoc />
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 0),
+                DescriptionKeyValueTemplate.Damage)
+        };
     }
 
     /// <inheritdoc />

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.GenericRanges;
@@ -40,6 +42,19 @@ internal class ArtOfCombatFactory : CombatMovementFactoryBase
         )
         {
             Tags = CombatMovementTags.Attack
+        };
+    }
+
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 0),
+                DescriptionKeyValueTemplate.Damage),
+            new DescriptionKeyValue("buff", ExtractDamageModifier(combatMovementInstance, 2),
+                DescriptionKeyValueTemplate.DamageModifier),
+            new DescriptionKeyValue("duration", 1, DescriptionKeyValueTemplate.RoundDuration)
         };
     }
 }

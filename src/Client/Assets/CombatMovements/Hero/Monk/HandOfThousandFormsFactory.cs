@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.GenericRanges;
@@ -37,6 +39,17 @@ internal class HandOfThousandFormsFactory : CombatMovementFactoryBase
         )
         {
             Tags = CombatMovementTags.Attack
+        };
+    }
+
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 0),
+                DescriptionKeyValueTemplate.Damage),
+            new DescriptionKeyValue("bonus_damage", 1, DescriptionKeyValueTemplate.Damage)
         };
     }
 }

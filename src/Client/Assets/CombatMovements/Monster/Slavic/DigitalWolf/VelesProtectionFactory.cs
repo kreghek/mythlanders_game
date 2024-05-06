@@ -31,13 +31,13 @@ internal class VelesProtectionFactory : CombatMovementFactoryBase
         );
     }
 
-    public override IReadOnlyList<CombatMovementEffectDisplayValue> ExtractEffectsValues(
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {
         return new[]
         {
-            new CombatMovementEffectDisplayValue("sp", ExtractStatChangingValue(combatMovementInstance, 1),
-                CombatMovementEffectDisplayValueTemplate.ShieldPoints)
+            new DescriptionKeyValue("sp", ExtractStatChangingValue(combatMovementInstance, 1),
+                DescriptionKeyValueTemplate.ShieldPoints)
         };
     }
 }

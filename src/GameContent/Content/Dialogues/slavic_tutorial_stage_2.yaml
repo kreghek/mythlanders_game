@@ -1,0 +1,24 @@
+---
+root:
+  paragraphs:
+    - text: |
+        The warrior sees two people surrounded by monsters. But these fighters don't even think about giving up.
+    - speaker: Swordsman
+      text: |
+        "Gather a Flock. That's what that strange Hort said," Berimir says quietly under his breath.
+      env:
+        - type: PlayMusic
+          data: Battle
+    - speaker: Partisan
+      text: |
+        "Hey buddy, don't look at me, just support me. Our fight isn't over yet!"
+    - speaker: Robber
+      text: |
+        "You know, in my favorite fairy tales there is always a cunning robber. However, he does not always leave troubles with... undamaged wings. Maybe this time my luck will smile on me. And I will be not only cunning, but also a carefree scoundrel?"
+      env:
+        - type: MeetHero
+          data: Partisan
+        - type: MeetHero
+          data: Robber
+        - type: Trigger
+          data: stage_2_meet_heroes

@@ -23,7 +23,7 @@ internal sealed class CampaignCompleteJobProgress : IJobProgress
         var modifiedJobs = new List<IJob>();
         foreach (var job in currentJobs)
         {
-            if (job.Scheme.Type != JobTypeCatalog.CompleteCampaigns)
+            if (job.Scheme.Type != JobTypeCatalog.WinCampaigns)
             {
                 continue;
             }

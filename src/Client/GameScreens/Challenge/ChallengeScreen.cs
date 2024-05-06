@@ -117,17 +117,17 @@ internal sealed class ChallengeScreen : GameScreenWithMenuBase
     {
         if (type == JobTypeCatalog.Defeats)
         {
-            return UiResource.JobTypeDefeat;
+            return GameObjectResources.JobTypeDefeat;
         }
 
-        if (type == JobTypeCatalog.Combats)
+        if (type == JobTypeCatalog.WinCombats)
         {
-            return UiResource.JobTypeCombats;
+            return GameObjectResources.JobTypeCombats;
         }
 
-        if (type == JobTypeCatalog.CompleteCampaigns)
+        if (type == JobTypeCatalog.WinCampaigns)
         {
-            return UiResource.JobTypeCompleteCampans;
+            return GameObjectResources.JobTypeCompleteCampans;
         }
 
         return "Unknown";

@@ -2,7 +2,7 @@ using System;
 
 namespace Client.Core;
 
-public interface IChallenge : IJobExecutable
+public interface IChallenge : IDisplayableJobExecutable
 {
     event EventHandler? Completed;
 }

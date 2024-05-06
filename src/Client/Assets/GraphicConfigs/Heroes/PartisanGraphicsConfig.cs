@@ -40,6 +40,10 @@ internal sealed class PartisanGraphicsConfig : HeroGraphicConfig
                 AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8 * 1, frameCount: 1, fps: 1, isLoop: false)
             },
             {
+                PredefinedAnimationSid.DefenseStance,
+                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8 * 1, frameCount: 1, fps: 1, isLoop: true)
+            },
+            {
                 PredefinedAnimationSid.Death,
                 AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8 * 1, frameCount: 1, fps: 1, isLoop: false)
             }

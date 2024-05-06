@@ -65,7 +65,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     private IReadOnlyCollection<string> CalculateLockedHeroes()
     {
         return _characterCatalog.AvailableHeroes
-            .Except(_globeProvider.Globe.Player.Heroes.Units.Select(
+            .Except(_globeProvider.Globe.Player.Heroes.Select(
                 x => x.ClassSid))
             .Except(_heroInDev)
             .ToArray();
@@ -109,7 +109,12 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
     private IReadOnlyCollection<ICampaignEffect> CreateFailurePenalties()
     {
-        if (_globeProvider.Globe.Player.MonsterPerks.Count() > 2)
+        if (!_globeProvider.Globe.Features.HasFeature(GameFeatures.CampaignEffects))
+        {
+            return Array.Empty<ICampaignEffect>();
+        }
+
+        if (_globeProvider.Globe.Player.MonsterPerks.Count > 2)
         {
             return new ICampaignEffect[]
             {
@@ -137,6 +142,11 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
     private IReadOnlyCollection<ICampaignEffect> CreateRewards(ILocationSid locationSid)
     {
+        if (!_globeProvider.Globe.Features.HasFeature(GameFeatures.CampaignEffects))
+        {
+            return Array.Empty<ICampaignEffect>();
+        }
+
         var effectFactories = new (Func<ILocationSid, IReadOnlyCollection<ICampaignEffect>>, Func<ILocationSid, bool>)[]
         {
             (CreateGatherResourcesEffect, _ => true),
@@ -148,7 +158,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var rewards = rolledEffectFactory(locationSid);
 
-        var perksToUnlock = _monsterPerkManager.RollLocationPerks().Select(x => new MonsterPerkCampaignEffect(x));
+        var perksToUnlock = _monsterPerkManager.RollLocationRewardPerks().Select(x => new MonsterPerkCampaignEffect(x));
 
         return rewards.Union(perksToUnlock).ToArray();
     }
@@ -178,7 +188,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
     private static IReadOnlyCollection<HeroState> RollCampaignHeroes(IEnumerable<HeroState> unlockedHeroes, IDice dice)
     {
-        var openList = new List<HeroState>(unlockedHeroes);
+        var openList = new List<HeroState>(unlockedHeroes.Where(x => x.AvailableToCampaigns));
 
         return dice.RollFromList(openList, 3).ToArray();
     }
@@ -222,7 +232,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         {
             var campaignSource = CreateCampaignLocation(locationSid);
 
-            var heroes = RollCampaignHeroes(currentGlobe.Player.Heroes.Units.ToArray(), _dice);
+            var heroes = RollCampaignHeroes(currentGlobe.Player.Heroes.ToArray(), _dice);
 
             var rewards = CreateRewards(locationSid);
             var penalties = CreateFailurePenalties();

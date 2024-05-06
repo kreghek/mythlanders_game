@@ -18,6 +18,8 @@ namespace Client.Core;
 internal sealed class GlobeProvider
 {
     private const string SAVE_FILE_TEMPLATE = "save-{0}.json";
+    private readonly GameSettings _gameSettings;
+    private readonly IMonsterPerkCatalog _monsterPerkCatalog;
 
     private readonly string _storagePath;
     private readonly IStoryPointInitializer _storyPointInitializer;
@@ -26,12 +28,23 @@ internal sealed class GlobeProvider
     private Globe? _globe;
 
     public GlobeProvider(ICharacterCatalog unitSchemeCatalog,
-        IStoryPointInitializer storyPointInitializer)
+        IStoryPointInitializer storyPointInitializer,
+        IMonsterPerkCatalog monsterPerkCatalog,
+        GameSettings gameSettings)
     {
         _unitSchemeCatalog = unitSchemeCatalog;
         _storyPointInitializer = storyPointInitializer;
+        _monsterPerkCatalog = monsterPerkCatalog;
+        _gameSettings = gameSettings;
         var binPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         _storagePath = Path.Combine(binPath, "CDT", "Mythlanders");
+    }
+
+    public GlobeProvider(ICharacterCatalog characterCatalog,
+        IStoryPointInitializer storyPointInitializer,
+        IMonsterPerkCatalog monsterPerkCatalog) : this(characterCatalog, storyPointInitializer, monsterPerkCatalog,
+        new GameSettings())
+    {
     }
 
     public (int Width, int Height)? ChosenUserMonitorResolution { get; set; }
@@ -60,23 +73,11 @@ internal sealed class GlobeProvider
         return !IsDirectoryEmpty(_storagePath);
     }
 
-    public void GenerateFree(HeroState[] heroes)
-    {
-        var globe = new Globe(new Player());
-
-        AssignFreeHeroes(globe);
-
-        Globe = globe;
-    }
-
     public void GenerateNew()
     {
-        var globe = new Globe(new Player());
+        var globe = new Globe(new Player(), new CurrentGameFeatures());
 
-        InitStartLocations(globe);
         InitStartStoryPoint(globe, _storyPointInitializer);
-        AssignStartHeroes(globe);
-        InitStartMonsterPerks(globe);
 
         Globe = globe;
     }
@@ -125,7 +126,7 @@ internal sealed class GlobeProvider
 
         var player = new Player(saveDataDto.Name);
 
-        Globe = new Globe(player);
+        Globe = new Globe(player, new CurrentGameFeatures());
 
         if (progressDto.Player is not null)
         {
@@ -143,9 +144,16 @@ internal sealed class GlobeProvider
 
     public void StoreCurrentGlobe()
     {
+        if (_gameSettings.Mode == GameMode.Demo)
+        {
+            // Do not create save-files in demo version.
+            // It will need when demo be longer that 1 hour gameplay (whole episode 1 developed).
+            return;
+        }
+
         var player = new PlayerDto
         {
-            Heroes = CreateHeroesStorageData(Globe.Player.Heroes.Units),
+            Heroes = CreateHeroesStorageData(Globe.Player.Heroes),
             Resources = GetPlayerResourcesToSave(Globe.Player.Inventory),
             KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters),
             Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray(),
@@ -169,36 +177,6 @@ internal sealed class GlobeProvider
 
         var storageFile = Path.Combine(_storagePath, saveName);
         File.WriteAllText(storageFile, saveDataString);
-    }
-
-    private void AssignFreeHeroes(Globe globe)
-    {
-        var startHeroes = new List<HeroState>
-        {
-            HeroState.Create("Swordsman"),
-            HeroState.Create("Partisan"),
-            HeroState.Create("Robber")
-        };
-
-        foreach (var hero in startHeroes)
-        {
-            globe.Player.Heroes.AddNewUnit(hero);
-        }
-    }
-
-    private void AssignStartHeroes(Globe globe)
-    {
-        var startHeroes = new List<HeroState>
-        {
-            HeroState.Create("Swordsman"),
-            HeroState.Create("Partisan"),
-            HeroState.Create("Robber")
-        };
-
-        foreach (var hero in startHeroes)
-        {
-            globe.Player.Heroes.AddNewUnit(hero);
-        }
     }
 
     private static HeroDto[] CreateHeroesStorageData(IEnumerable<HeroState> units)
@@ -246,9 +224,9 @@ internal sealed class GlobeProvider
         return equipmentDtoList.ToArray();
     }
 
-    private static string[] GetKnownMonsterSids(IList<UnitScheme> knownMonsters)
+    private static string[] GetKnownMonsterSids(IList<MonsterKnowledge> knownMonsters)
     {
-        return knownMonsters.Select(x => x.Name.ToString()).ToArray();
+        return knownMonsters.Select(x => x.ClassSid).ToArray();
     }
 
     private static ResourceDto[] GetPlayerResourcesToSave(Inventory inventory)
@@ -271,17 +249,6 @@ internal sealed class GlobeProvider
         }
 
         return currentSave.FileName;
-    }
-
-    private void InitStartLocations(Globe globe)
-    {
-        globe.Player.AddLocation(LocationSids.Thicket);
-    }
-
-    private void InitStartMonsterPerks(Globe globe)
-    {
-        globe.Player.AddMonsterPerk(MonsterPerkCatalog.ExtraHp);
-        globe.Player.AddMonsterPerk(MonsterPerkCatalog.ExtraSp);
     }
 
     private static void InitStartStoryPoint(Globe globe, IStoryPointInitializer storyPointCatalog)
@@ -357,7 +324,7 @@ internal sealed class GlobeProvider
 
         foreach (var unit in loadedHeroes)
         {
-            Globe.Player.Heroes.AddNewUnit(unit);
+            Globe.Player.AddHero(unit);
         }
     }
 
@@ -368,7 +335,7 @@ internal sealed class GlobeProvider
             return;
         }
 
-        var allPerks = PerkHelper.GetAllMonsterPerks();
+        var allPerks = _monsterPerkCatalog.Perks;
 
         foreach (var perkSid in monsterPerks)
         {
@@ -417,6 +384,11 @@ internal sealed class GlobeProvider
 
         foreach (var monsterSid in playerDto.KnownMonsterSids)
         {
+            if (monsterSid is null)
+            {
+                continue;
+            }
+
             var monsterScheme = unitSchemeCatalog.AllMonsters.SingleOrDefault(x => x.Name.ToString() == monsterSid);
 
             if (monsterScheme is null)
@@ -425,7 +397,7 @@ internal sealed class GlobeProvider
             }
             else
             {
-                player.KnownMonsters.Add(monsterScheme);
+                player.KnownMonsters.Add(new MonsterKnowledge(monsterSid, MonsterKnowledgeLevel.CommonDescription));
             }
         }
     }
@@ -446,10 +418,7 @@ internal sealed class GlobeProvider
 
             var resource = inventory.CalcActualItems().OfType<Resource>()
                 .SingleOrDefault(x => x.Scheme.Sid == resourceDto.Type);
-            if (resource is null)
-            {
-                resource = new Resource(new PropScheme(resourceDto.Type), resourceDto.Amount);
-            }
+            resource ??= new Resource(new PropScheme(resourceDto.Type), resourceDto.Amount);
 
             inventory.Add(resource);
         }

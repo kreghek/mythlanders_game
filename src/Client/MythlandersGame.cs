@@ -5,6 +5,7 @@ using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.Catalogs.Crises;
 using Client.Assets.CombatMovements;
+using Client.Assets.MonsterPerks;
 using Client.Core;
 using Client.Engine;
 using Client.GameComponents;
@@ -189,7 +190,7 @@ internal sealed class MythlandersGame : Game
         Components.Add(trackNameDisplay);
     }
 
-    private void InitializeResolutionIndependence(ResolutionIndependentRenderer resolutionIndependentRenderer)
+    private static void InitializeResolutionIndependence(ResolutionIndependentRenderer resolutionIndependentRenderer)
     {
         resolutionIndependentRenderer.Initialize();
     }
@@ -214,7 +215,7 @@ internal sealed class MythlandersGame : Game
         }
     }
 
-    private void RegisterCatalogs(BalanceTable balanceTable, DialogueResourceProvider dialogueResourceProvider)
+    private void RegisterCatalogs(BalanceTable balanceTable, IDialogueResourceProvider dialogueResourceProvider)
     {
         if (_gameSettings.Mode == GameMode.Full)
         {
@@ -222,9 +223,10 @@ internal sealed class MythlandersGame : Game
             Services.AddService<ICharacterCatalog>(unitSchemeCatalog);
 
             var dialogueAftermathCreator =
-                new DialogueOptionAftermathCreator(Services.GetRequiredService<IDice>());
+                new DialogueAftermathCreator(Services.GetRequiredService<IDice>());
 
-            var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider, dialogueAftermathCreator);
+            var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider, dialogueAftermathCreator,
+                dialogueAftermathCreator);
             Services.AddService<IEventInitializer>(dialogueCatalog);
             Services.AddService<IEventCatalog>(dialogueCatalog);
 
@@ -238,9 +240,11 @@ internal sealed class MythlandersGame : Game
             Services.AddService<ICharacterCatalog>(unitSchemeCatalog);
 
             var dialogueAftermathCreator =
-                new DialogueOptionAftermathCreator(Services.GetRequiredService<IDice>());
+                new DialogueAftermathCreator(Services.GetRequiredService<IDice>());
 
-            var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider, dialogueAftermathCreator);
+            var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider,
+                dialogueAftermathCreator,
+                dialogueAftermathCreator);
             Services.AddService<IEventInitializer>(dialogueCatalog);
             Services.AddService<IEventCatalog>(dialogueCatalog);
 
@@ -275,17 +279,28 @@ internal sealed class MythlandersGame : Game
         Services.AddService<IDropResolver>(dropResolver);
 
         var dialogueResourceProvider = new DialogueResourceProvider(Content);
+        Services.AddService<IDialogueResourceProvider>(dialogueResourceProvider);
 
         var balanceTable = new BalanceTable();
 
-        RegisterCatalogs(balanceTable: balanceTable, dialogueResourceProvider: dialogueResourceProvider);
+        RegisterCatalogs(balanceTable, dialogueResourceProvider);
 
         var eventInitializer = Services.GetRequiredService<IEventInitializer>();
         eventInitializer.Init();
 
+        var monsterPerkCatalog = new MonsterPerkCatalog();
+        Services.AddService<IMonsterPerkCatalog>(monsterPerkCatalog);
+
         Services.AddService(
             new GlobeProvider(Services.GetRequiredService<ICharacterCatalog>(),
-                Services.GetRequiredService<IStoryPointInitializer>()));
+                Services.GetRequiredService<IStoryPointInitializer>(),
+                Services.GetRequiredService<IMonsterPerkCatalog>(),
+                _gameSettings));
+
+        var monsterPerkManager = new MonsterPerkManager(Services.GetRequiredService<IDice>(),
+            Services.GetRequiredService<IMonsterPerkCatalog>(),
+            Services.GetRequiredService<GlobeProvider>());
+        Services.AddService<IMonsterPerkManager>(monsterPerkManager);
 
         var campaignWayTemplateCatalog = new CampaignWayTemplatesCatalog(Services.GetRequiredService<GlobeProvider>(),
             Services.GetRequiredService<IEventCatalog>(),
@@ -293,11 +308,9 @@ internal sealed class MythlandersGame : Game
             Services.GetRequiredService<IJobProgressResolver>(),
             Services.GetRequiredService<IDropResolver>(),
             Services.GetRequiredService<ICharacterCatalog>(),
-            Services.GetRequiredService<ICrisesCatalog>());
+            Services.GetRequiredService<ICrisesCatalog>(),
+            Services.GetRequiredService<IMonsterPerkManager>());
         Services.AddService(campaignWayTemplateCatalog);
-
-        var monsterPerkManager = new MonsterPerkManager(Services.GetRequiredService<IDice>());
-        Services.AddService<IMonsterPerkManager>(monsterPerkManager);
 
         var campaignGenerator = new CampaignGenerator(
             Services.GetRequiredService<CampaignWayTemplatesCatalog>(),
@@ -325,5 +338,14 @@ internal sealed class MythlandersGame : Game
 
         var movementVisualizer = new CombatMovementVisualizationProvider();
         Services.AddService<ICombatMovementVisualizationProvider>(movementVisualizer);
+
+        Services.AddService(new ScenarioCampaigns(Services.GetRequiredService<IEventCatalog>()));
+
+        var coordinator = new StateCoordinator(
+            Services.GetRequiredService<GlobeProvider>(),
+            Services.GetRequiredService<IScreenManager>(),
+            Services.GetRequiredService<ICampaignGenerator>(),
+            Services.GetRequiredService<ScenarioCampaigns>());
+        Services.AddService(coordinator);
     }
 }

@@ -55,6 +55,17 @@ internal class DieBySwordFactory : SimpleCombatMovementFactoryBase
     }
 
     /// <inheritdoc />
+    public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
+        CombatMovementInstance combatMovementInstance)
+    {
+        return new[]
+        {
+            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 1),
+                DescriptionKeyValueTemplate.Damage)
+        };
+    }
+
+    /// <inheritdoc />
     protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
     {
         yield return CombatMovementMetadataTraits.Melee;

@@ -14,7 +14,7 @@ public sealed class MythlandersCombatEngine : CombatEngineBase
     {
         SpendCombatMovementResources(movement);
 
-        var statusContext =
+        var combatMovementContext =
             new StatusCombatContext(CurrentCombatant, Field, Dice, HandleCombatantDamagedToStat,
                 HandleSwapFieldPositions, this);
 
@@ -22,11 +22,18 @@ public sealed class MythlandersCombatEngine : CombatEngineBase
 
         foreach (var effectInstance in movement.Effects)
         {
+            if (!effectInstance.ImposeConditions.All(x => x.Check(CurrentCombatant, Field)))
+            {
+                // It is not meet the conditions.
+                // Ignore this effect.
+                continue;
+            }
+
             var effectInstanceClosure = effectInstance;
 
             void EffectInfluenceDelegate(ICombatant materializedTarget)
             {
-                effectInstanceClosure.Influence(materializedTarget, statusContext);
+                effectInstanceClosure.Influence(materializedTarget, combatMovementContext);
             }
 
             var effectTargets = effectInstance.Selector.GetMaterialized(CurrentCombatant, GetCurrentSelectorContext());
@@ -44,13 +51,14 @@ public sealed class MythlandersCombatEngine : CombatEngineBase
                     var targetDefenseMovement = GetAutoDefenseMovement(effectTarget);
                     var targetIsInQueue = CurrentRoundQueue.Any(x => x == effectTarget);
 
-                    if (targetDefenseMovement is not null && targetIsInQueue)
+                    if (targetDefenseMovement is not null && targetIsInQueue &&
+                        effectTarget.IsPlayerControlled != CurrentCombatant.IsPlayerControlled)
                     {
                         foreach (var autoDefenseEffect in targetDefenseMovement.AutoDefenseEffects)
                         {
                             void AutoEffectInfluenceDelegate(ICombatant materializedTarget)
                             {
-                                autoDefenseEffect.Influence(materializedTarget, statusContext);
+                                autoDefenseEffect.Influence(materializedTarget, combatMovementContext);
                             }
 
                             var autoDefenseEffectTargets =

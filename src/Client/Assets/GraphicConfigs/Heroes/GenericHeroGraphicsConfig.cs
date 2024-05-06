@@ -24,6 +24,10 @@ internal sealed class GenericHeroGraphicsConfig : HeroGraphicConfig
             {
                 PredefinedAnimationSid.Death,
                 AnimationFrameSetFactory.CreateSequential(startFrameIndex: 40, frameCount: 8, fps: 8)
+            },
+            {
+                PredefinedAnimationSid.Defense,
+                AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, fps: 8)
             }
         };
     }
