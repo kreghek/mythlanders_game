@@ -135,42 +135,24 @@ internal sealed class ScenarioCampaigns
 
     private static ILocationSid GetLocationByTutorialHero(HeroState tutorialHero)
     {
-        if (tutorialHero.ClassSid == "Swordsman")
+        return tutorialHero.ClassSid switch
         {
-            return LocationSids.Thicket;
-        }
-
-        if (tutorialHero.ClassSid == "Monk")
-        {
-            return LocationSids.Monastery;
-        }
-        
-        return LocationSids.Thicket;
+            "Swordsman" => LocationSids.Thicket,
+            "Monk" => LocationSids.Monastery,
+            _ => LocationSids.Thicket
+        };
     }
 
     private static string GetTutorialDialogueByTutorialHero(HeroState tutorialHero)
     {
-        if (tutorialHero.ClassSid == "Swordsman")
+        return tutorialHero.ClassSid switch
         {
-            return "slavic_tutorial";
-        }
-
-        if (tutorialHero.ClassSid == "Monk")
-        {
-            return "chinese_tutorial";
-        }
-
-        if (tutorialHero.ClassSid == "Hoplite")
-        {
-            return "greek_tutorial";
-        }
-
-        if (tutorialHero.ClassSid == "Liberator")
-        {
-            return "egypt_tutorial";
-        }
-
-        throw new InvalidOperationException();
+            "Swordsman" => "slavic_tutorial",
+            "Monk" => "chinese_tutorial",
+            "Hoplite" => "greek_tutorial",
+            "Liberator" => "egypt_tutorial",
+            _ => throw new InvalidOperationException()
+        };
     }
 
     private static HeroState GetTutorialHero(Player player)
