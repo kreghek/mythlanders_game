@@ -34,8 +34,20 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
     /// </summary>
     protected static int ExtractStatChangingValue(CombatMovementInstance combatMovementInstance, int effectIndex)
     {
-        return ((ChangeCurrentStatEffectInstance)combatMovementInstance.Effects.ToArray()[effectIndex]).StatValue.Min
-            .ActualMax;
+        var effectInstance = combatMovementInstance.Effects.ToArray()[effectIndex];
+
+        if (effectInstance is ChangeCurrentStatEffectInstance currentInstance)
+        {
+            return currentInstance.StatValue.Min.ActualMax;
+        }
+        else if (effectInstance is ChangeStatEffectInstance instance)
+        {
+            return instance.BaseEffect.Value;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     private static IAnimationFrameSet CreateLinear(IReadOnlyList<int> frames, float fps)

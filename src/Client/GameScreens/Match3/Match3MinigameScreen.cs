@@ -125,7 +125,7 @@ internal class Match3MinigameScreen : GameScreenWithMenuBase
 
     private void CloseButton_OnClick(object? sender, EventArgs e)
     {
-        _campaign.CompleteCurrentStage();
+        //_campaign.CompleteCurrentStage();
 
         ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
             new CampaignScreenTransitionArguments(_campaign));

@@ -14,15 +14,17 @@ internal class StateCoordinator
     private readonly ICampaignGenerator _campaignGenerator;
     private readonly GlobeProvider _globeProvider;
     private readonly ScenarioCampaigns _scenarioCampaigns;
+    private readonly IJobProgressResolver _jobProgressResolver;
     private readonly IScreenManager _screenManager;
 
     public StateCoordinator(GlobeProvider globeProvider, IScreenManager screenManager,
-        ICampaignGenerator campaignGenerator, ScenarioCampaigns scenarioCampaigns)
+        ICampaignGenerator campaignGenerator, ScenarioCampaigns scenarioCampaigns, IJobProgressResolver jobProgressResolver)
     {
         _globeProvider = globeProvider;
         _screenManager = screenManager;
         _campaignGenerator = campaignGenerator;
         _scenarioCampaigns = scenarioCampaigns;
+        _jobProgressResolver = jobProgressResolver;
     }
 
     public void MakeCombatFailureTransition(IScreen currentScreen, HeroCampaign currentCampaign)
@@ -73,7 +75,7 @@ internal class StateCoordinator
         }
     }
 
-    public void MakeGoalStageTransition(IScreen currentScreen, HeroCampaign currentCampaign)
+    public void MakeGoalStageTransition(IScreen currentScreen, HeroCampaign currentCampaign, Globe globe)
     {
         if (currentCampaign.ActualRewards.OfType<CompleteDemoCampaignEffect>().Any())
         {
@@ -81,7 +83,7 @@ internal class StateCoordinator
         }
         else
         {
-            currentCampaign.CompleteCurrentStage();
+            currentCampaign.WinCampaign(globe, _jobProgressResolver);
             ResetCampaign(currentScreen);   
         }
     }

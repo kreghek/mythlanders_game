@@ -5,7 +5,7 @@ using Client.Core;
 
 namespace Client.Assets.StoryPointJobs;
 
-internal sealed class CampaignCompleteJobProgress : IJobProgress
+internal sealed class CompleteStageJobProgress : IJobProgress
 {
     private static void ProcessJob(IJob job, ICollection<IJob> modifiedJobs)
     {
@@ -23,7 +23,7 @@ internal sealed class CampaignCompleteJobProgress : IJobProgress
         var modifiedJobs = new List<IJob>();
         foreach (var job in currentJobs)
         {
-            if (job.Scheme.Type != JobTypeCatalog.WinCampaigns)
+            if (job.Scheme.Type != JobTypeCatalog.CampaignStages)
             {
                 continue;
             }

@@ -346,7 +346,8 @@ internal sealed class MythlandersGame : Game
             Services.GetRequiredService<GlobeProvider>(),
             Services.GetRequiredService<IScreenManager>(),
             Services.GetRequiredService<ICampaignGenerator>(),
-            Services.GetRequiredService<ScenarioCampaigns>());
+            Services.GetRequiredService<ScenarioCampaigns>(),
+            Services.GetRequiredService<IJobProgressResolver>());
         Services.AddService(coordinator);
     }
 }
