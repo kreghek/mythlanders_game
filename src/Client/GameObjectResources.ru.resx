@@ -1208,4 +1208,7 @@
     <value>Мощь великого Здухача</value>
     <comment>Skill</comment>
   </data>
+  <data name="InDevelopment_OptionDescription" xml:space="preserve">
+    <value>Скоро будет. Еще в Разработке.</value>
+  </data>
 </root>

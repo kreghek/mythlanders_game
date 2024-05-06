@@ -116,7 +116,8 @@ internal static class DialogueCatalogHelper
                             {
                                 Aftermath = aftermaths,
                                 HideConditions = hideConditions,
-                                SelectConditions = selectConditions
+                                SelectConditions = selectConditions,
+                                DescriptionSid = dialogueDtoOption.Description
                             };
                     }
                     else
@@ -128,7 +129,8 @@ internal static class DialogueCatalogHelper
                             {
                                 Aftermath = aftermaths,
                                 HideConditions = hideConditions,
-                                SelectConditions = selectConditions
+                                SelectConditions = selectConditions,
+                                DescriptionSid = dialogueDtoOption.Description
                             };
                     }
 

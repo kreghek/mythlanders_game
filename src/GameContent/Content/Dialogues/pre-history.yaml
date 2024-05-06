@@ -150,6 +150,10 @@ p7:
           data: Monk
         - type: UnlockLocation
           data: Monastery
+      selectConditions:
+        - type: Disabled
+      description: |
+        InDevelopment
     - text: 'Bogatyr'
       next: p8_swordsman
       aftermaths:
@@ -164,6 +168,21 @@ p7:
           data: Hoplite
         - type: UnlockLocation
           data: ShipGraveyard
+      selectConditions:
+        - type: Disabled
+      description: |
+        InDevelopment
+    - text: 'Liberator'
+      next: p8_liberator
+      aftermaths:
+        - type: AddHero
+          data: Liberator
+        - type: UnlockLocation
+          data: Desert
+      selectConditions:
+        - type: Disabled
+      description: |
+        InDevelopment
 
 p8_monk:
   paragraphs:
@@ -188,3 +207,11 @@ p8_spartian:
       env:
         - type: Background
           data: Hoplite
+
+p8_liberator:
+  paragraphs:
+    - text: |
+        The Egyptian liberator Nubiti began his adventure.
+      env:
+        - type: Background
+          data: Liberator

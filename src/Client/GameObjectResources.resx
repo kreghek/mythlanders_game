@@ -1252,4 +1252,7 @@
     <value>Zduhach Might</value>
     <comment>Skill</comment>
   </data>
+  <data name="InDevelopment_OptionDescription" xml:space="preserve">
+    <value>Coming Soon. In Development.</value>
+  </data>
 </root>
