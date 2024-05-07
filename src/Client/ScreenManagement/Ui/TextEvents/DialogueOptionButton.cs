@@ -20,9 +20,9 @@ internal class DialogueOptionButton : ButtonBase
         Number = number;
     }
 
-    public int Number { get; }
-
     public string? DescriptionSid { get; init; }
+
+    public int Number { get; }
 
     public Vector2 GetContentSize()
     {

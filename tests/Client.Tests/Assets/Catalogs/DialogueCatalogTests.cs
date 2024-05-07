@@ -39,7 +39,7 @@ public class DialogueCatalogTests
         var envCreator = Mock.Of<IDialogueParagraphEffectCreator<CampaignAftermathContext>>();
 
         var dialogueConditionCreator = Mock.Of<IDialogueConditionCreator<ParagraphConditionContext>>();
-        
+
         var catalog = new DialogueCatalog(resourceProvider, aftermathCreator, envCreator, dialogueConditionCreator);
         catalog.Init();
 

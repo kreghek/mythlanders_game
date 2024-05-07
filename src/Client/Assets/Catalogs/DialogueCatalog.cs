@@ -16,8 +16,8 @@ namespace Client.Assets.Catalogs;
 
 internal class DialogueCatalog : IEventCatalog, IEventInitializer
 {
-    private readonly IDialogueParagraphEffectCreator<CampaignAftermathContext> _envCommandCreator;
     private readonly IDialogueConditionCreator<ParagraphConditionContext> _dialogueConditionCreator;
+    private readonly IDialogueParagraphEffectCreator<CampaignAftermathContext> _envCommandCreator;
     private readonly IDialogueOptionAftermathCreator<CampaignAftermathContext> _optionAftermathCreator;
     private readonly IDialogueResourceProvider _resourceProvider;
 

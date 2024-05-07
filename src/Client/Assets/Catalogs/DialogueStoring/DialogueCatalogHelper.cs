@@ -150,22 +150,6 @@ internal static class DialogueCatalogHelper
             .node);
     }
 
-    private static IReadOnlyCollection<IDialogueParagraphCondition<TParagraphConditionContext>> CreateOptionConditions<TParagraphConditionContext>(
-        DialogueDtoData[]? conditions,
-        IDialogueConditionCreator<TParagraphConditionContext> creator)
-    {
-        var list = new List<IDialogueParagraphCondition<TParagraphConditionContext>>();
-
-        if (conditions is null)
-        {
-            return list;
-        }
-
-        list.AddRange(conditions.Select(condition => creator.Create(condition.Type, condition.Data)));
-
-        return list;
-    }
-
     private static IDialogueOptionAftermath<TAftermathContext> CreateAftermaths<TAftermathContext>(
         DialogueDtoData[]? aftermathDtos,
         IDialogueOptionAftermathCreator<TAftermathContext> aftermathCreator)
@@ -179,6 +163,23 @@ internal static class DialogueCatalogHelper
             .ToList();
 
         return new CompositeOptionAftermath<TAftermathContext>(list);
+    }
+
+    private static IReadOnlyCollection<IDialogueParagraphCondition<TParagraphConditionContext>> CreateOptionConditions<
+        TParagraphConditionContext>(
+        DialogueDtoData[]? conditions,
+        IDialogueConditionCreator<TParagraphConditionContext> creator)
+    {
+        var list = new List<IDialogueParagraphCondition<TParagraphConditionContext>>();
+
+        if (conditions is null)
+        {
+            return list;
+        }
+
+        list.AddRange(conditions.Select(condition => creator.Create(condition.Type, condition.Data)));
+
+        return list;
     }
 
     private static IReadOnlyCollection<IDialogueOptionAftermath<TAftermathContext>> CreateParagraphEffects<

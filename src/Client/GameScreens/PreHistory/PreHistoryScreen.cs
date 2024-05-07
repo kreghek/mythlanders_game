@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.MonsterPerks;
 using Client.Core;
 using Client.Engine;

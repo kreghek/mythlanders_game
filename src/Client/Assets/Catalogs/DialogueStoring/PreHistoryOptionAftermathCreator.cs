@@ -29,7 +29,7 @@ internal sealed class PreHistoryOptionAftermathCreator : IDialogueOptionAftermat
     }
 }
 
-internal sealed class PreHistoryParagraphConditionCreator: IDialogueConditionCreator<PreHistoryConditionContext>
+internal sealed class PreHistoryParagraphConditionCreator : IDialogueConditionCreator<PreHistoryConditionContext>
 {
     public IDialogueParagraphCondition<PreHistoryConditionContext> Create(string conditionTypeSid, string data)
     {
@@ -41,7 +41,7 @@ internal sealed class PreHistoryParagraphConditionCreator: IDialogueConditionCre
     }
 }
 
-internal sealed class ParagraphConditionCreator: IDialogueConditionCreator<ParagraphConditionContext>
+internal sealed class ParagraphConditionCreator : IDialogueConditionCreator<ParagraphConditionContext>
 {
     public IDialogueParagraphCondition<ParagraphConditionContext> Create(string conditionTypeSid, string data)
     {

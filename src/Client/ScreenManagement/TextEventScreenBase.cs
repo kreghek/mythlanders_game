@@ -33,13 +33,15 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     private readonly IUiContentStorage _uiContentStorage;
 
     protected readonly IList<TextParagraphControl<TParagraphConditionContext, TAftermathContext>> TextParagraphControls;
-    private bool _currentTextFragmentIsReady;
     private IDialogueContextFactory<TParagraphConditionContext, TAftermathContext> _contextFactory;
+    private bool _currentTextFragmentIsReady;
     protected DialoguePlayer<TParagraphConditionContext, TAftermathContext>? _dialoguePlayer;
     private bool _isInitialized;
     private KeyboardState _keyboardState;
     private double _pressToContinueCounter;
     protected int CurrentFragmentIndex;
+
+    private HintBase? optionDescription;
 
     protected TextEventScreenBase(MythlandersGame game,
         TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> args) : base(game)
@@ -165,6 +167,27 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     {
         var speakerName = speaker.ToString();
         return Enum.Parse<UnitName>(speakerName!, true);
+    }
+
+    private void DetectOptionDescription(DialogueOptions dialogueOptions)
+    {
+        var mouse = new MouseState().Position;
+
+        foreach (var dialogueOptionButton in dialogueOptions.Options)
+        {
+            if (dialogueOptionButton.DescriptionSid is null)
+            {
+                continue;
+            }
+
+            if (dialogueOptionButton.Rect.Contains(mouse))
+            {
+                var (text, _) = SpeechVisualizationHelper.PrepareLocalizedText(dialogueOptionButton.DescriptionSid +
+                                                                               "_OptionDescription");
+                optionDescription = new TextHint(text);
+                break;
+            }
+        }
     }
 
     private void DrawTextBlock(SpriteBatch spriteBatch, Rectangle contentRectangle)
@@ -346,27 +369,4 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
             DetectOptionDescription(_dialogueOptions);
         }
     }
-
-    private void DetectOptionDescription(DialogueOptions dialogueOptions)
-    {
-        var mouse = new MouseState().Position;
-        
-        foreach (var dialogueOptionButton in dialogueOptions.Options)
-        {
-            if (dialogueOptionButton.DescriptionSid is null)
-            {
-                continue;
-            }
-
-            if (dialogueOptionButton.Rect.Contains(mouse))
-            {
-                var (text, _) = SpeechVisualizationHelper.PrepareLocalizedText(dialogueOptionButton.DescriptionSid +
-                                                                          "_OptionDescription");
-                optionDescription = new TextHint(text);
-                break;
-            }
-        }
-    }
-
-    private HintBase? optionDescription;
 }

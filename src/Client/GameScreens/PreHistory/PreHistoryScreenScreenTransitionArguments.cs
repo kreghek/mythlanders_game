@@ -1,4 +1,3 @@
-using Client.Assets.Catalogs.Dialogues;
 using Client.ScreenManagement.Ui.TextEvents;
 
 using CombatDicesTeam.Dialogues;
