@@ -31,12 +31,14 @@ public sealed class LifeDrawEffectInstance : EffectInstanceBase<LifeDrawEffect>
             Math.Max(rolledDamage - target.Stats.Single(x => Equals(x.Type, CombatantStatTypes.Defense)).Value.Current,
                 0);
 
-        var damageRemains = context.DamageCombatantStat(target, CombatantStatTypes.ShieldPoints, absorbedDamage);
+        var damageRemains = context.DamageCombatantStat(target, new CombatantDamageSource(context.Actor),
+            CombatantStatTypes.ShieldPoints, absorbedDamage);
 
         if (damageRemains > 0)
         {
             //TakeStat(target, UnitStatType.HitPoints, damageRemains);
-            var stolenHitPoints = context.DamageCombatantStat(target, CombatantStatTypes.HitPoints, damageRemains);
+            var stolenHitPoints = context.DamageCombatantStat(target, new CombatantDamageSource(context.Actor),
+                CombatantStatTypes.HitPoints, damageRemains);
 
             context.Actor.Stats.Single(x => ReferenceEquals(x.Type, CombatantStatTypes.HitPoints)).Value
                 .Restore(stolenHitPoints);

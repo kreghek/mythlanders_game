@@ -13,7 +13,9 @@ internal class DialogueDtoOption
     // ReSharper disable once UnusedMember.Global
     // This member is not used but required to deserialization.
     public string Description { get; [UsedImplicitly] init; } = null!;
+    public DialogueDtoData[]? HideConditions { get; [UsedImplicitly] init; }
     public string? Next { get; [UsedImplicitly] init; }
+    public DialogueDtoData[]? SelectConditions { get; [UsedImplicitly] init; }
 
     // ReSharper disable once UnusedMember.Global
     // This member is not used but required to deserialization.

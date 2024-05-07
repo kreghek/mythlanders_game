@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 
+using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.DialogueOptionAftermath.PreHistory;
 using Client.Core;
 using Client.GameScreens.PreHistory;
@@ -24,6 +25,29 @@ internal sealed class PreHistoryOptionAftermathCreator : IDialogueOptionAftermat
                 .GetAllFromStaticCatalog<ILocationSid>(typeof(LocationSids))
                 .Single(x => x.ToString() == data)),
             _ => throw new InvalidOperationException($"Type {aftermathTypeSid} is unknown.")
+        };
+    }
+}
+
+internal sealed class PreHistoryParagraphConditionCreator : IDialogueConditionCreator<PreHistoryConditionContext>
+{
+    public IDialogueParagraphCondition<PreHistoryConditionContext> Create(string conditionTypeSid, string data)
+    {
+        return conditionTypeSid switch
+        {
+            "Disabled" => new PreHistoryDisabledParagraphCondition(),
+            _ => throw new InvalidOperationException($"Type {conditionTypeSid} is unknown.")
+        };
+    }
+}
+
+internal sealed class ParagraphConditionCreator : IDialogueConditionCreator<ParagraphConditionContext>
+{
+    public IDialogueParagraphCondition<ParagraphConditionContext> Create(string conditionTypeSid, string data)
+    {
+        return conditionTypeSid switch
+        {
+            _ => throw new InvalidOperationException($"Type {conditionTypeSid} is unknown.")
         };
     }
 }

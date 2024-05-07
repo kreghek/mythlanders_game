@@ -81,9 +81,14 @@ public sealed class ImpulseGeneratorCombatantStatus : CombatantStatusBase
             targetCombat.DispelCombatantStatus(targetCombatant, combatantEffect);
         }
 
-        targetCombat.HandleCombatantDamagedToStat(targetCombatant, CombatantStatTypes.HitPoints, SURGE_DAMAGE);
+        targetCombat.HandleCombatantDamagedToStat(targetCombatant, new StatusDamageSource(),
+            CombatantStatTypes.HitPoints, SURGE_DAMAGE);
 
         targetCombat.ImposeCombatantStatus(targetCombatant,
             new StunCombatantStatus(CombatantStatusSids.Stun, new ToNextCombatantTurnEffectLifetime(), Source));
+    }
+
+    private sealed class StatusDamageSource : IDamageSource
+    {
     }
 }

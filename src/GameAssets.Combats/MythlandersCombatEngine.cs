@@ -15,7 +15,7 @@ public sealed class MythlandersCombatEngine : CombatEngineBase
         SpendCombatMovementResources(movement);
 
         var combatMovementContext =
-            new StatusCombatContext(CurrentCombatant, Field, Dice, HandleCombatantDamagedToStat,
+            new CombatMovementContext(CurrentCombatant, Field, Dice, HandleCombatantDamagedToStat,
                 HandleSwapFieldPositions, this);
 
         var effectImposeItems = new List<CombatEffectImposeItem>();

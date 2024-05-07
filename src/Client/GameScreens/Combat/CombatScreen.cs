@@ -536,26 +536,52 @@ internal class CombatScreen : GameScreenWithMenuBase
             return;
         }
 
-        var corpse =
-            combatantGameObject.CreateCorpse(_gameObjectContentStorage, _visualEffectManager, new AudioSettings());
-        _corpseObjects.Add(corpse);
+        if (e.Combatant == _combatCore.CurrentCombatant)
+        {
+            //TODO Monitor this
 
-        _gameObjects.Remove(combatantGameObject);
+            // Current combatant can be killed by yourself.
+            // The game object of this combatant can create animation blocker which can't be updated and released.
+            _animationBlockManager.DropBlockers();
+
+            var blocker = new DelayBlocker(new Duration(3));
+            blocker.Released += (_, _) =>
+            {
+                var corpse = combatantGameObject.CreateCorpse(_gameObjectContentStorage, _visualEffectManager,
+                    new AudioSettings());
+                _corpseObjects.Add(corpse);
+
+                _gameObjects.Remove(combatantGameObject);
+            };
+
+            _animationBlockManager.RegisterBlocker(blocker);
+        }
+        else
+        {
+            var corpse =
+                combatantGameObject.CreateCorpse(_gameObjectContentStorage, _visualEffectManager, new AudioSettings());
+            _corpseObjects.Add(corpse);
+
+            _gameObjects.Remove(combatantGameObject);
+        }
     }
 
     private void CombatCore_CombatantHasChangePosition(object? sender, CombatantHasChangedPositionEventArgs e)
     {
-        if (e.Reason == CommonPositionChangeReasons.Maneuver || (e.Reason != CommonPositionChangeReasons.Maneuver &&
-                                                                 e.Combatant != _combatCore.CurrentCombatant))
+        if (!Equals(e.Reason, CommonPositionChangeReasons.Maneuver) &&
+            (Equals(e.Reason, CommonPositionChangeReasons.Maneuver) ||
+             e.Combatant == _combatCore.CurrentCombatant))
         {
-            var newWorldPosition = _combatantPositionProvider.GetPosition(e.NewFieldCoords,
-                e.FieldSide == _combatCore.Field.HeroSide
-                    ? CombatantPositionSide.Heroes
-                    : CombatantPositionSide.Monsters);
-
-            var combatantGameObject = GetCombatantGameObject(e.Combatant);
-            combatantGameObject.MoveToFieldCoords(newWorldPosition);
+            return;
         }
+
+        var newWorldPosition = _combatantPositionProvider.GetPosition(e.NewFieldCoords,
+            e.FieldSide == _combatCore.Field.HeroSide
+                ? CombatantPositionSide.Heroes
+                : CombatantPositionSide.Monsters);
+
+        var combatantGameObject = GetCombatantGameObject(e.Combatant);
+        combatantGameObject.MoveToFieldCoords(newWorldPosition);
     }
 
     private void CombatCore_CombatantStartsTurn(object? sender, CombatantTurnStartedEventArgs e)

@@ -1,10 +1,11 @@
 ﻿using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Combats.Effects;
 
-using Core.Combats.TargetSelectors;
-
 using GameAssets.Combats;
+
+using SelfTargetSelector = Core.Combats.TargetSelectors.SelfTargetSelector;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.CorruptedBear;
 
@@ -15,21 +16,23 @@ internal sealed class CoverOfDewFactory : SimpleCombatMovementFactoryBase
         return new CombatMovementEffectConfig(
             new IEffect[]
             {
-                new ChangeStatEffect(
-                    new CombatantStatusSid(Sid),
+                new AddCombatantStatusEffect(
                     new SelfTargetSelector(),
-                    CombatantStatTypes.Defense,
-                    3,
-                    new ToNextCombatantTurnEffectLifetimeFactory())
+                    new CombatStatusFactory(source =>
+                    {
+                        return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                            new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 3);
+                    }))
             },
             new IEffect[]
             {
-                new ChangeStatEffect(
-                    new CombatantStatusSid(Sid),
+                new AddCombatantStatusEffect(
                     new SelfTargetSelector(),
-                    CombatantStatTypes.Defense,
-                    1,
-                    new ToEndOfCurrentRoundEffectLifetimeFactory())
+                    new CombatStatusFactory(source =>
+                    {
+                        return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                            new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 1);
+                    }))
             });
     }
 }

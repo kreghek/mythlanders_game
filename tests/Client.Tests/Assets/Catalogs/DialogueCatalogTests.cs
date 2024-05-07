@@ -38,7 +38,9 @@ public class DialogueCatalogTests
         var aftermathCreator = Mock.Of<IDialogueOptionAftermathCreator<CampaignAftermathContext>>();
         var envCreator = Mock.Of<IDialogueParagraphEffectCreator<CampaignAftermathContext>>();
 
-        var catalog = new DialogueCatalog(resourceProvider, aftermathCreator, envCreator);
+        var dialogueConditionCreator = Mock.Of<IDialogueConditionCreator<ParagraphConditionContext>>();
+
+        var catalog = new DialogueCatalog(resourceProvider, aftermathCreator, envCreator, dialogueConditionCreator);
         catalog.Init();
 
         // ACT
@@ -66,8 +68,9 @@ public class DialogueCatalogTests
 
         var aftermathCreator = Mock.Of<IDialogueOptionAftermathCreator<CampaignAftermathContext>>();
         var envCreator = Mock.Of<IDialogueParagraphEffectCreator<CampaignAftermathContext>>();
+        var dialogueConditionCreator = Mock.Of<IDialogueConditionCreator<ParagraphConditionContext>>();
 
-        var catalog = new DialogueCatalog(resourceProvider, aftermathCreator, envCreator);
+        var catalog = new DialogueCatalog(resourceProvider, aftermathCreator, envCreator, dialogueConditionCreator);
         catalog.Init();
 
         // ACT
@@ -94,8 +97,9 @@ public class DialogueCatalogTests
 
         var aftermathCreator = new DialogueAftermathCreator(new LinearDice());
         var envCreator = Mock.Of<IDialogueParagraphEffectCreator<CampaignAftermathContext>>();
+        var dialogueConditionCreator = Mock.Of<IDialogueConditionCreator<ParagraphConditionContext>>();
 
-        var catalog = new DialogueCatalog(provider, aftermathCreator, envCreator);
+        var catalog = new DialogueCatalog(provider, aftermathCreator, envCreator, dialogueConditionCreator);
 
         // ACT
 

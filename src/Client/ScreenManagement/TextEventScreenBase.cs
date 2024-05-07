@@ -5,6 +5,7 @@ using System.Linq;
 using Client.Core;
 using Client.Engine;
 using Client.GameScreens;
+using Client.GameScreens.TextDialogue.Ui;
 using Client.ScreenManagement.Ui.TextEvents;
 
 using CombatDicesTeam.Dialogues;
@@ -32,12 +33,15 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     private readonly IUiContentStorage _uiContentStorage;
 
     protected readonly IList<TextParagraphControl<TParagraphConditionContext, TAftermathContext>> TextParagraphControls;
+    private IDialogueContextFactory<TParagraphConditionContext, TAftermathContext> _contextFactory;
     private bool _currentTextFragmentIsReady;
     protected DialoguePlayer<TParagraphConditionContext, TAftermathContext>? _dialoguePlayer;
     private bool _isInitialized;
     private KeyboardState _keyboardState;
     private double _pressToContinueCounter;
     protected int CurrentFragmentIndex;
+
+    private HintBase? optionDescription;
 
     protected TextEventScreenBase(MythlandersGame game,
         TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> args) : base(game)
@@ -59,7 +63,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
         _optionHoverController = new HoverController<DialogueOptionButton>();
 
-        _optionHoverController.Hover += (sender, button) =>
+        _optionHoverController.Hover += (_, button) =>
         {
             if (button is not null)
             {
@@ -67,7 +71,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
             }
         };
 
-        _optionHoverController.Leave += (sender, button) =>
+        _optionHoverController.Leave += (_, button) =>
         {
             if (button is not null)
             {
@@ -98,7 +102,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
         DrawSpecificBackgroundScreenContent(spriteBatch, contentRect);
 
-        if (!_dialoguePlayer.IsEnd && _dialoguePlayer is not null)
+        if (_dialoguePlayer is not null && !_dialoguePlayer.IsEnd)
         {
             DrawSpecificForegroundScreenContent(spriteBatch, contentRect);
 
@@ -131,9 +135,10 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
         if (_dialoguePlayer is null)
         {
+            _contextFactory = CreateDialogueContextFactory(_args);
             _dialoguePlayer =
                 new DialoguePlayer<TParagraphConditionContext, TAftermathContext>(_currentDialogue,
-                    CreateDialogueContextFactory(_args));
+                    _contextFactory);
         }
 
         if (!_isInitialized)
@@ -162,6 +167,27 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     {
         var speakerName = speaker.ToString();
         return Enum.Parse<UnitName>(speakerName!, true);
+    }
+
+    private void DetectOptionDescription(DialogueOptions dialogueOptions)
+    {
+        var mouse = new MouseState().Position;
+
+        foreach (var dialogueOptionButton in dialogueOptions.Options)
+        {
+            if (dialogueOptionButton.DescriptionSid is null)
+            {
+                continue;
+            }
+
+            if (dialogueOptionButton.Rect.Contains(mouse))
+            {
+                var (text, _) = SpeechVisualizationHelper.PrepareLocalizedText(dialogueOptionButton.DescriptionSid +
+                                                                               "_OptionDescription");
+                optionDescription = new TextHint(text);
+                break;
+            }
+        }
     }
 
     private void DrawTextBlock(SpriteBatch spriteBatch, Rectangle contentRectangle)
@@ -215,6 +241,11 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
             _dialogueOptions.Draw(spriteBatch);
         }
 
+        if (optionDescription is not null)
+        {
+            optionDescription.Draw(spriteBatch);
+        }
+
         spriteBatch.End();
     }
 
@@ -230,16 +261,23 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
                 textFragment,
                 _gameObjectContentStorage.GetTextSoundEffect(speaker),
                 _dice,
-                CreateDialogueContextFactory(_args).CreateAftermathContext(),
+                _contextFactory.CreateAftermathContext(),
                 _storyState);
             TextParagraphControls.Add(textFragmentControl);
         }
 
         var optionNumber = 1;
         _dialogueOptions.Options.Clear();
+
+        var context = _contextFactory.CreateParagraphConditionContext();
+
         foreach (var option in dialoguePlayer.CurrentOptions)
         {
-            var optionButton = new DialogueOptionButton(optionNumber, option.TextSid);
+            var optionButton = new DialogueOptionButton(optionNumber, option.TextSid)
+            {
+                DescriptionSid = option.DescriptionSid
+            };
+
             optionButton.OnClick += (s, _) =>
             {
                 dialoguePlayer.SelectOption(option);
@@ -255,6 +293,8 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
                     _isInitialized = false;
                 }
             };
+
+            optionButton.IsEnabled = option.SelectConditions.All(x => x.Check(context));
 
             optionButton.OnHover += (sender, _) =>
             {
@@ -325,6 +365,8 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
             {
                 _dialogueOptions.SelectOption(4);
             }
+
+            DetectOptionDescription(_dialogueOptions);
         }
     }
 }

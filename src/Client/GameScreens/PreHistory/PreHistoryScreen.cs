@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.MonsterPerks;
 using Client.Core;
 using Client.Engine;
@@ -16,7 +15,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.PreHistory;
 
-internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionContext, PreHistoryAftermathContext>
+internal sealed class PreHistoryScreen : TextEventScreenBase<PreHistoryConditionContext, PreHistoryAftermathContext>
 {
     private const double TRANSITION_DURATION_SEC = 1.25;
 
@@ -45,9 +44,9 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<ParagraphConditionC
         _coordinator = game.Services.GetService<StateCoordinator>();
     }
 
-    protected override IDialogueContextFactory<ParagraphConditionContext, PreHistoryAftermathContext>
+    protected override IDialogueContextFactory<PreHistoryConditionContext, PreHistoryAftermathContext>
         CreateDialogueContextFactory(
-            TextEventScreenArgsBase<ParagraphConditionContext, PreHistoryAftermathContext> args)
+            TextEventScreenArgsBase<PreHistoryConditionContext, PreHistoryAftermathContext> args)
     {
         var contentRect = new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Location.X,
             ResolutionIndependentRenderer.VirtualBounds.Location.Y,

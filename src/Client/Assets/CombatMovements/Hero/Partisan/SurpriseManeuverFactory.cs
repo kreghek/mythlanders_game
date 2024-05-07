@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Combats.Effects;
 
 using Core.Combats.Effects;
@@ -10,6 +11,8 @@ using Core.Combats.TargetSelectors;
 using GameAssets.Combats;
 
 using JetBrains.Annotations;
+
+using SelfTargetSelector = Core.Combats.TargetSelectors.SelfTargetSelector;
 
 namespace Client.Assets.CombatMovements.Hero.Partisan;
 
@@ -31,19 +34,22 @@ internal class SurpriseManeuverFactory : CombatMovementFactoryBase
                         new SwapPositionEffect(
                             new NullTargetSelector()
                         ),
-                        new ChangeStatEffect(
-                            new CombatantStatusSid(Sid),
+                        new AddCombatantStatusEffect(
                             new NullTargetSelector(),
-                            CombatantStatTypes.Defense,
-                            2,
-                            new ToNextCombatantTurnEffectLifetimeFactory())
+                            new CombatStatusFactory(source =>
+                            {
+                                return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                                    new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2);
+                            }))
                     ),
-                    new ChangeStatEffect(
-                        new CombatantStatusSid(Sid),
+
+                    new AddCombatantStatusEffect(
                         new SelfTargetSelector(),
-                        CombatantStatTypes.Defense,
-                        2,
-                        new ToNextCombatantTurnEffectLifetimeFactory())
+                        new CombatStatusFactory(source =>
+                        {
+                            return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                                new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2);
+                        }))
                 })
         );
     }

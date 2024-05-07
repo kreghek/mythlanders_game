@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.Catalogs;
-using Client.Assets.Catalogs.Dialogues;
 using Client.Assets.Catalogs.DialogueStoring;
 using Client.Core;
 using Client.Engine;
@@ -141,9 +140,11 @@ internal sealed class TitleScreen : GameScreenBase
 
         var preHistoryDialogue = DialogueCatalogHelper.Create(
             PRE_HISTORY_DIALOGUE_SID, dialogueDtoDict,
-            new DialogueCatalogCreationServices<PreHistoryAftermathContext>(
-                new PreHistoryDialogueEnvironmentEffectCreator(), new PreHistoryOptionAftermathCreator()),
-            _ => ArraySegment<IDialogueParagraphCondition<ParagraphConditionContext>>.Empty);
+            new DialogueCatalogCreationServices<PreHistoryConditionContext, PreHistoryAftermathContext>(
+                new PreHistoryDialogueEnvironmentEffectCreator(),
+                new PreHistoryOptionAftermathCreator(),
+                new PreHistoryParagraphConditionCreator()),
+            _ => ArraySegment<IDialogueParagraphCondition<PreHistoryConditionContext>>.Empty);
 
         screenManager.ExecuteTransition(
             currentScreen,

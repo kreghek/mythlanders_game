@@ -13,12 +13,22 @@ public sealed class PushToPositionEffectInstance : EffectInstanceBase<PushToPosi
 
     public override void Influence(ICombatant target, ICombatMovementContext context)
     {
+        // Combatant can be killed with some effects early.
         if (target.IsDead)
         {
             return;
         }
 
         var targetSide = GetTargetSide(target, context.Field);
+
+        if (targetSide is null)
+        {
+            // There is not target combatant.
+            // Looks like error.
+
+            //TODO Handle error
+            return;
+        }
 
         var currentCoords = targetSide.GetCombatantCoords(target);
 
@@ -39,14 +49,19 @@ public sealed class PushToPositionEffectInstance : EffectInstanceBase<PushToPosi
             new PositionChangeReason());
     }
 
-    private static CombatFieldSide GetTargetSide(ICombatant target, CombatField field)
+    private static CombatFieldSide? GetTargetSide(ICombatant target, CombatField field)
     {
         if (IsCombatantInSide(target, field.HeroSide))
         {
             return field.HeroSide;
         }
 
-        return field.MonsterSide;
+        if (IsCombatantInSide(target, field.MonsterSide))
+        {
+            return field.MonsterSide;
+        }
+
+        return null;
     }
 
     private static bool IsCombatantInSide(ICombatant target, CombatFieldSide side)
