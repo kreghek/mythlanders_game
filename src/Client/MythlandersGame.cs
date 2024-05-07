@@ -313,7 +313,7 @@ internal sealed class MythlandersGame : Game
         Services.AddService(campaignWayTemplateCatalog);
 
         Services.AddService(new ScenarioCampaigns(Services.GetRequiredService<IEventCatalog>()));
-        
+
         var campaignGenerator = new CampaignGenerator(
             Services.GetRequiredService<CampaignWayTemplatesCatalog>(),
             Services.GetRequiredService<IDice>(),

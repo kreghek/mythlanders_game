@@ -6,7 +6,6 @@ internal sealed class CompleteDemoCampaignEffect : ICampaignEffect
 {
     public void Apply(Globe globe)
     {
-        
     }
 
     public string GetEffectDisplayText()

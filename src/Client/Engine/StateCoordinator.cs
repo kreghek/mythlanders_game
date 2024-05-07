@@ -13,12 +13,13 @@ internal class StateCoordinator
 {
     private readonly ICampaignGenerator _campaignGenerator;
     private readonly GlobeProvider _globeProvider;
-    private readonly ScenarioCampaigns _scenarioCampaigns;
     private readonly IJobProgressResolver _jobProgressResolver;
+    private readonly ScenarioCampaigns _scenarioCampaigns;
     private readonly IScreenManager _screenManager;
 
     public StateCoordinator(GlobeProvider globeProvider, IScreenManager screenManager,
-        ICampaignGenerator campaignGenerator, ScenarioCampaigns scenarioCampaigns, IJobProgressResolver jobProgressResolver)
+        ICampaignGenerator campaignGenerator, ScenarioCampaigns scenarioCampaigns,
+        IJobProgressResolver jobProgressResolver)
     {
         _globeProvider = globeProvider;
         _screenManager = screenManager;
@@ -84,16 +85,8 @@ internal class StateCoordinator
         else
         {
             currentCampaign.WinCampaign(globe, _jobProgressResolver);
-            ResetCampaign(currentScreen);   
+            ResetCampaign(currentScreen);
         }
-    }
-
-    private void ShowDemoScreen(IScreen currentScreen)
-    {
-        _screenManager.ExecuteTransition(
-            currentScreen,
-            ScreenTransition.Demo,
-            null!);
     }
 
     public void MakeStartTransition(IScreen currentScreen)
@@ -130,5 +123,13 @@ internal class StateCoordinator
             currentScreen,
             ScreenTransition.CommandCenter,
             new CommandCenterScreenTransitionArguments(campaigns));
+    }
+
+    private void ShowDemoScreen(IScreen currentScreen)
+    {
+        _screenManager.ExecuteTransition(
+            currentScreen,
+            ScreenTransition.Demo,
+            null!);
     }
 }

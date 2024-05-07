@@ -63,7 +63,7 @@ internal sealed class StoryPointCatalog : IStoryPointCatalog, IStoryPointInitial
             },
             Aftermaths = new[] { new AddStoryKeyStoryPointAftermath("HearMeBrothersFeat1Complete", globe) }
         });
-        
+
         spList.Add(new StoryPoint("HearMeBrothersFeat2")
         {
             // Unlock sets of dialogues to join other start heroes
@@ -75,7 +75,7 @@ internal sealed class StoryPointCatalog : IStoryPointCatalog, IStoryPointInitial
             },
             Aftermaths = new[] { new AddStoryKeyStoryPointAftermath("HearMeBrothersFeat2Complete", globe) }
         });
-        
+
         spList.Add(new StoryPoint("HearMeBrothersFeat3")
         {
             // Unlock plot stage to meet with main evil + unlock monster perks

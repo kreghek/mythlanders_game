@@ -40,14 +40,13 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
         {
             return currentInstance.StatValue.Min.ActualMax;
         }
-        else if (effectInstance is ChangeStatEffectInstance instance)
+
+        if (effectInstance is ChangeStatEffectInstance instance)
         {
             return instance.BaseEffect.Value;
         }
-        else
-        {
-            return 0;
-        }
+
+        return 0;
     }
 
     private static IAnimationFrameSet CreateLinear(IReadOnlyList<int> frames, float fps)

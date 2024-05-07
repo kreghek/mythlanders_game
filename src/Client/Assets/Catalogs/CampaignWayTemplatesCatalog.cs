@@ -39,6 +39,92 @@ internal sealed class CampaignWayTemplatesCatalog
     /// <summary>
     /// Creates graph
     /// </summary>
+    private IGraph<GraphWay<ICampaignStageItem>> CreateShortDemoTemplate(ILocationSid locationSid)
+    {
+        var wayGraph = new DirectedGraph<GraphWay<ICampaignStageItem>>();
+
+        var way1Templates = new ICampaignStageTemplateFactory[]
+        {
+            // Combat
+
+            new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Easy, _services),
+
+            // Rest
+
+            new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+            {
+                new RestCampaignStageTemplateFactory()
+            }, _services)
+        };
+
+        var way2Templates = new ICampaignStageTemplateFactory[]
+        {
+            // Combat
+
+            new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Easy, _services),
+
+            // Rest
+
+            new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+            {
+                new RestCampaignStageTemplateFactory()
+            }, _services)
+        };
+
+        var way3Templates = new ICampaignStageTemplateFactory[]
+        {
+            // Combat
+
+            new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Medium, _services)
+        };
+
+        var regular1Way = new GraphWay<ICampaignStageItem>(way1Templates);
+        var way11Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular1Way);
+        var way12Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular1Way);
+        var way13Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular1Way);
+
+        var regular2Way = new GraphWay<ICampaignStageItem>(way2Templates);
+        var way2Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular2Way);
+
+        var regular3Way = new GraphWay<ICampaignStageItem>(way3Templates);
+        var way31Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular3Way);
+        var way32Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular3Way);
+
+        var rewardNode = new GraphNode<GraphWay<ICampaignStageItem>>(new GraphWay<ICampaignStageItem>(new[]
+        {
+            new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Hard, _services)
+            {
+                IsGoalStage = true
+            }
+        }));
+
+        wayGraph.AddNode(way11Node);
+        wayGraph.AddNode(way12Node);
+        wayGraph.AddNode(way13Node);
+
+        wayGraph.AddNode(way2Node);
+
+        wayGraph.ConnectNodes(way11Node, way2Node);
+        wayGraph.ConnectNodes(way12Node, way2Node);
+        wayGraph.ConnectNodes(way13Node, way2Node);
+
+        wayGraph.AddNode(way31Node);
+        wayGraph.AddNode(way32Node);
+
+        wayGraph.ConnectNodes(way2Node, way31Node);
+        wayGraph.ConnectNodes(way2Node, way32Node);
+
+        wayGraph.AddNode(rewardNode);
+
+        wayGraph.ConnectNodes(way31Node, rewardNode);
+        wayGraph.ConnectNodes(way32Node, rewardNode);
+
+        return wayGraph;
+    }
+
+    /// <summary>
+    /// Creates graph
+    /// </summary>
     private IGraph<GraphWay<ICampaignStageItem>> CreateShortTemplate(ILocationSid locationSid)
     {
         var wayGraph = new DirectedGraph<GraphWay<ICampaignStageItem>>();
@@ -111,92 +197,6 @@ internal sealed class CampaignWayTemplatesCatalog
             // Combat
 
             new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Hard, _services)
-        };
-
-        var regular1Way = new GraphWay<ICampaignStageItem>(way1Templates);
-        var way11Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular1Way);
-        var way12Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular1Way);
-        var way13Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular1Way);
-
-        var regular2Way = new GraphWay<ICampaignStageItem>(way2Templates);
-        var way2Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular2Way);
-
-        var regular3Way = new GraphWay<ICampaignStageItem>(way3Templates);
-        var way31Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular3Way);
-        var way32Node = new GraphNode<GraphWay<ICampaignStageItem>>(regular3Way);
-
-        var rewardNode = new GraphNode<GraphWay<ICampaignStageItem>>(new GraphWay<ICampaignStageItem>(new[]
-        {
-            new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Hard, _services)
-            {
-                IsGoalStage = true
-            }
-        }));
-
-        wayGraph.AddNode(way11Node);
-        wayGraph.AddNode(way12Node);
-        wayGraph.AddNode(way13Node);
-
-        wayGraph.AddNode(way2Node);
-
-        wayGraph.ConnectNodes(way11Node, way2Node);
-        wayGraph.ConnectNodes(way12Node, way2Node);
-        wayGraph.ConnectNodes(way13Node, way2Node);
-
-        wayGraph.AddNode(way31Node);
-        wayGraph.AddNode(way32Node);
-
-        wayGraph.ConnectNodes(way2Node, way31Node);
-        wayGraph.ConnectNodes(way2Node, way32Node);
-
-        wayGraph.AddNode(rewardNode);
-
-        wayGraph.ConnectNodes(way31Node, rewardNode);
-        wayGraph.ConnectNodes(way32Node, rewardNode);
-
-        return wayGraph;
-    }
-
-    /// <summary>
-    /// Creates graph
-    /// </summary>
-    private IGraph<GraphWay<ICampaignStageItem>> CreateShortDemoTemplate(ILocationSid locationSid)
-    {
-        var wayGraph = new DirectedGraph<GraphWay<ICampaignStageItem>>();
-
-        var way1Templates = new ICampaignStageTemplateFactory[]
-        {
-            // Combat
-
-            new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Easy, _services),
-
-            // Rest
-
-            new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-            {
-                new RestCampaignStageTemplateFactory()
-            }, _services)
-        };
-
-        var way2Templates = new ICampaignStageTemplateFactory[]
-        {
-            // Combat
-
-            new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Easy, _services),
-
-            // Rest
-
-            new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-            {
-                new RestCampaignStageTemplateFactory(),
-            }, _services)
-        };
-
-        var way3Templates = new ICampaignStageTemplateFactory[]
-        {
-            // Combat
-
-            new CombatCampaignStageTemplateFactory(locationSid, MonsterCombatantTemplateLevels.Medium, _services)
         };
 
         var regular1Way = new GraphWay<ICampaignStageItem>(way1Templates);

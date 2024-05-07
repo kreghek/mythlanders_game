@@ -68,7 +68,7 @@ internal class DemoScreen : GameScreenWithMenuBase
     protected override void UpdateContent(GameTime gameTime)
     {
         base.UpdateContent(gameTime);
-        
+
         _closeButton.Update(ResolutionIndependentRenderer);
     }
 
