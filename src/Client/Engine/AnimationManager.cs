@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Client.Engine;
 
@@ -19,6 +20,10 @@ internal class AnimationManager : IAnimationManager
 
     public void DropBlockers()
     {
+        foreach (var blocker in _blockers.ToArray())
+        {
+            blocker.Release();
+        }
         _blockers.Clear();
     }
 }

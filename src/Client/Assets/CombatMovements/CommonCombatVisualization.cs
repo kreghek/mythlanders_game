@@ -150,6 +150,11 @@ internal static class CommonCombatVisualization
                 new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, targetPosition),
                 config.CombatMovementAnimation.Animation), config.CombatMovementAnimation.Sound);
 
+        var moveFunction = !visualizationContext
+                        .ActorGameObject.Combatant.IsDead ? new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position,
+                    visualizationContext.BattlefieldInteractionContext.GetCombatantPosition(visualizationContext
+                        .ActorGameObject.Combatant)) : new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, actorAnimator.GraphicRoot.Position);
+
         var subStates = new[]
         {
             prepareActorState,
@@ -157,9 +162,7 @@ internal static class CommonCombatVisualization
             new DirectInteractionState(actorAnimator, skillAnimationInfo, config.HitAnimation.Animation),
             new PlayAnimationActorState(actorAnimator, config.HitCompleteAnimation.Animation),
             new MoveToPositionActorState(actorAnimator,
-                () => new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position,
-                    visualizationContext.BattlefieldInteractionContext.GetCombatantPosition(visualizationContext
-                        .ActorGameObject.Combatant)),
+                () => moveFunction,
                 config.BackAnimation.Animation)
         };
 
