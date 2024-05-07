@@ -272,7 +272,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         return null;
     }
 
-    private List<HeroCampaignLaunch> CreateRandomCampaigns(Globe currentGlobe, int maxRandomCount)
+    private IEnumerable<HeroCampaignLaunch> CreateRandomCampaigns(Globe currentGlobe, int maxRandomCount)
     {
         var availableLocationSids = currentGlobe.Player.CurrentAvailableLocations.ToArray();
 
@@ -301,16 +301,6 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
     private readonly IReadOnlyCollection<PredefinedScenarioCampaign> _predefinedCampaigns = new[]
     {
-        new PredefinedScenarioCampaign
-        {
-            CampaignSid = "MainPlotEpisode1Scene1",
-            StoryKey = "HearMeBrothersFeat1Complete"
-        }
+        new PredefinedScenarioCampaign("MainPlotEpisode1Scene1","HearMeBrothersFeat1Complete")
     };
-}
-
-public sealed class PredefinedScenarioCampaign
-{
-    public string CampaignSid { get; init; }
-    public string StoryKey { get; init; }
 }
