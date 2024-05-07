@@ -1,5 +1,6 @@
 ﻿using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.Dices;
 using CombatDicesTeam.GenericRanges;
@@ -7,6 +8,8 @@ using CombatDicesTeam.GenericRanges;
 using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats.CombatMovementEffects;
+
+using SelfTargetSelector = Core.Combats.TargetSelectors.SelfTargetSelector;
 
 namespace GameAssets.Combats.Tests;
 
@@ -38,12 +41,11 @@ public class MythlandersCombatEngineTests
             new CombatMovementEffectConfig(ArraySegment<IEffect>.Empty,
                 new[]
                 {
-                    new ChangeStatEffect(
-                        new CombatantStatusSid("test_auto_defence"),
-                        new SelfTargetSelector(),
-                        CombatantStatTypes.Defense,
-                        1,
-                        new ToEndOfCurrentRoundEffectLifetimeFactory())
+                    new AddCombatantStatusEffect(
+                            new SelfTargetSelector(),
+                            new CombatStatusFactory(source => {
+                                return new ModifyStatCombatantStatus(new CombatantStatusSid("test_auto_defence"), new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 3);
+                            }))
                 }))
         {
             Tags = CombatMovementTags.AutoDefense

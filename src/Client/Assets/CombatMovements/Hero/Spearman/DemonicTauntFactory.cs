@@ -1,11 +1,8 @@
 using CombatDicesTeam.Combats;
-using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.Effects;
 
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
-
-using GameAssets.Combats;
 
 namespace Client.Assets.CombatMovements.Hero.Spearman;
 
@@ -22,12 +19,12 @@ internal sealed class DemonicTauntFactory : CombatMovementFactoryBase
                         new SelfTargetSelector(),
                         ChangePositionEffectDirection.ToVanguard
                     ),
-                    new ChangeStatEffect(
-                        new CombatantStatusSid(Sid),
-                        new SelfTargetSelector(),
-                        CombatantStatTypes.Defense,
-                        3,
-                        new ToEndOfCurrentRoundEffectLifetimeFactory())
+                    //new ChangeStatEffect(
+                    //    new CombatantStatusSid(Sid),
+                    //    new SelfTargetSelector(),
+                    //    CombatantStatTypes.Defense,
+                    //    3,
+                    //    new ToEndOfCurrentRoundEffectLifetimeFactory())
                 })
         )
         {

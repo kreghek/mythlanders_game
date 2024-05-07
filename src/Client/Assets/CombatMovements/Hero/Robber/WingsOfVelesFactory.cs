@@ -5,7 +5,7 @@ using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Combats.Effects;
 
-using Core.Combats.TargetSelectors;
+using SelfTargetSelector = Core.Combats.TargetSelectors.SelfTargetSelector;
 
 namespace Client.Assets.CombatMovements.Hero.Robber;
 

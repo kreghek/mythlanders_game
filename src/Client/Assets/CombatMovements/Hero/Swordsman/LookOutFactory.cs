@@ -5,12 +5,15 @@ using Client.GameScreens;
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Combats.Effects;
 
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats;
+
+using SelfTargetSelector = Core.Combats.TargetSelectors.SelfTargetSelector;
 
 namespace Client.Assets.CombatMovements.Hero.Swordsman;
 
@@ -25,12 +28,11 @@ internal class LookOutFactory : CombatMovementFactoryBase
             new CombatMovementEffectConfig(
                 new IEffect[]
                 {
-                    new ChangeStatEffect(
-                        new CombatantStatusSid(Sid),
-                        new ClosestAllyInColumnTargetSelector(),
-                        CombatantStatTypes.Defense,
-                        3,
-                        new ToNextCombatantTurnEffectLifetimeFactory()),
+                    new AddCombatantStatusEffect(
+                        new ClosestAllyInColumnTargetSelector(), 
+                        new CombatStatusFactory(source => {
+                            return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid), new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 3);
+                        })),
                     new PushToPositionEffect(
                         new SelfTargetSelector(),
                         ChangePositionEffectDirection.ToVanguard
@@ -38,12 +40,11 @@ internal class LookOutFactory : CombatMovementFactoryBase
                 },
                 new IEffect[]
                 {
-                    new ChangeStatEffect(
-                        new CombatantStatusSid(Sid),
-                        new SelfTargetSelector(),
-                        CombatantStatTypes.Defense,
-                        1,
-                        new ToEndOfCurrentRoundEffectLifetimeFactory())
+                    new AddCombatantStatusEffect(
+                        new ClosestAllyInColumnTargetSelector(),
+                        new CombatStatusFactory(source => {
+                            return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid), new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 1);
+                        }))
                 })
         )
         {
