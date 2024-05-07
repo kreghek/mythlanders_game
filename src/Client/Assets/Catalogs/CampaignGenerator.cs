@@ -221,17 +221,11 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     /// </summary>
     public IReadOnlyList<HeroCampaignLaunch> CreateSet(Globe currentGlobe)
     {
-        const int MAX_CAMPAIGN_LAUNCH_COUNT = 3;
-
-        var currentMaxRandomCampaigns = MAX_CAMPAIGN_LAUNCH_COUNT;
-
         var availablePredefinedCampaign = CheckPredefined();
 
         var campaigns = new List<HeroCampaignLaunch>();
         if (availablePredefinedCampaign is not null)
         {
-            currentMaxRandomCampaigns--;
-
             var campaign = _scenarioCampaigns.GetCampaign(
                 availablePredefinedCampaign.CampaignSid,
                 _globeProvider.Globe.Player);
@@ -241,9 +235,12 @@ internal sealed class CampaignGenerator : ICampaignGenerator
             
             campaigns.Add(launch);
         }
-
-        var list = CreateRandomCampaigns(currentGlobe, currentMaxRandomCampaigns);
-        campaigns.AddRange(list);
+        else
+        {
+            const int MAX_CAMPAIGN_LAUNCH_COUNT = 3;
+            var list = CreateRandomCampaigns(currentGlobe, MAX_CAMPAIGN_LAUNCH_COUNT);
+            campaigns.AddRange(list);    
+        }
 
         return campaigns;
     }
