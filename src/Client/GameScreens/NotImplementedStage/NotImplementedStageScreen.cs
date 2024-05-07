@@ -75,4 +75,10 @@ internal class NotImplementedStageScreen : GameScreenWithMenuBase
         ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
             new CampaignScreenTransitionArguments(_campaign));
     }
+
+    protected override void UpdateContent(GameTime gameTime)
+    {
+        base.UpdateContent(gameTime);
+        _skipButton.Update(ResolutionIndependentRenderer);
+    }
 }

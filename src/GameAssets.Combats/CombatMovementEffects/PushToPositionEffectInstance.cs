@@ -13,6 +13,11 @@ public sealed class PushToPositionEffectInstance : EffectInstanceBase<PushToPosi
 
     public override void Influence(ICombatant target, ICombatMovementContext context)
     {
+        if (target.IsDead)
+        {
+            return;
+        }
+
         var targetSide = GetTargetSide(target, context.Field);
 
         var currentCoords = targetSide.GetCombatantCoords(target);

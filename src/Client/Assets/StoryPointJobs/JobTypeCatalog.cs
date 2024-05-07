@@ -18,4 +18,9 @@ internal static class JobTypeCatalog
     /// Win any campaigns.
     /// </summary>
     public static readonly IJobType WinCampaigns = new JobType();
+
+    /// <summary>
+    /// Complete any campaign stage.
+    /// </summary>
+    public static readonly IJobType CampaignStages = new JobType();
 }

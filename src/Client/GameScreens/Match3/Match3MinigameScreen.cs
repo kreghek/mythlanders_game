@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Campaign;
@@ -51,7 +52,7 @@ internal class Match3MinigameScreen : GameScreenWithMenuBase
         var closeButton = new TextButton("Skip");
         closeButton.OnClick += CloseButton_OnClick;
 
-        return new[]
+        return new ButtonBase[]
         {
             closeButton
         };
@@ -91,7 +92,7 @@ internal class Match3MinigameScreen : GameScreenWithMenuBase
 
                 var button = new TextButton(((int)_match3Engine.Field[colIndex, rowIndex]).ToString());
 
-                button.OnClick += (s, e) =>
+                button.OnClick += (_, _) =>
                 {
                     if (_selectedFirstGem is null)
                     {
@@ -125,7 +126,8 @@ internal class Match3MinigameScreen : GameScreenWithMenuBase
 
     private void CloseButton_OnClick(object? sender, EventArgs e)
     {
-        _campaign.CompleteCurrentStage();
+        _campaign.CompleteCurrentStage(Game.Services.GetRequiredService<GlobeProvider>().Globe,
+            Game.Services.GetRequiredService<IJobProgressResolver>());
 
         ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
             new CampaignScreenTransitionArguments(_campaign));

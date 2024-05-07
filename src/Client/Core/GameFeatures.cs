@@ -12,4 +12,8 @@ public static class GameFeatures
     public static GameFeature SlidingPuzzleMiniGame { get; } = new(nameof(SlidingPuzzleMiniGame));
     public static GameFeature TowersMiniGame { get; } = new(nameof(TowersMiniGame));
     public static GameFeature UseMonsterPerks { get; } = new(nameof(UseMonsterPerks));
+    public static GameFeature Shop { get; } = new(nameof(Shop));
+    public static GameFeature Craft { get; } = new(nameof(Craft));
+    public static GameFeature SacredPlace { get; } = new(nameof(SacredPlace));
+    public static GameFeature SmallEvents { get; } = new(nameof(SmallEvents));
 }

@@ -50,19 +50,42 @@ internal sealed class StoryPointCatalog : IStoryPointCatalog, IStoryPointInitial
 
         InitStoryPointsFromDialogues(spList);
 
-        spList.Add(new StoryPoint("HearMeBrothers")
+        spList.Add(new StoryPoint("HearMeBrothersFeat1")
         {
-            TitleSid = "HearMeBrothers",
+            // Unlock dialogue to unlock desert, monastery and chtulhu + unlock large campaigns
+            TitleSid = "HearMeBrothersFeat1",
             CurrentJobs = new[]
             {
-                new Job(new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.Defeats, new JobGoalValue(200)),
+                new Job(new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.Defeats, new JobGoalValue(10)),
                     "DefeatAnyEnemies", "CommonJobInProgressPattern", "CommonJobCompletePattern"),
-                new Job(new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.WinCampaigns, new JobGoalValue(5)),
-                    "WinCampaigns", "CommonJobInProgressPattern", "CommonJobCompletePattern"),
+                new Job(new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.WinCampaigns, new JobGoalValue(2)),
+                    "WinCampaigns", "CommonJobInProgressPattern", "CommonJobCompletePattern")
+            },
+            Aftermaths = new[] { new AddStoryKeyStoryPointAftermath("HearMeBrothersFeat1Complete", globe) }
+        });
+        
+        spList.Add(new StoryPoint("HearMeBrothersFeat2")
+        {
+            // Unlock sets of dialogues to join other start heroes
+            TitleSid = "HearMeBrothersFeat2",
+            CurrentJobs = new[]
+            {
                 new Job(new JobScheme(JobScopeCatalog.Campaign, JobTypeCatalog.Defeats, new JobGoalValue(30)),
                     "DefeatAnyEnemiesDuringCampaign", "CommonJobInProgressPattern", "CommonJobCompletePattern")
             },
-            Aftermaths = new[] { new AddStoryKeyStoryPointAftermath("HearMeBrothersComplete", globe) }
+            Aftermaths = new[] { new AddStoryKeyStoryPointAftermath("HearMeBrothersFeat2Complete", globe) }
+        });
+        
+        spList.Add(new StoryPoint("HearMeBrothersFeat3")
+        {
+            // Unlock plot stage to meet with main evil + unlock monster perks
+            TitleSid = "HearMeBrothersFeat3",
+            CurrentJobs = new[]
+            {
+                new Job(new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.Defeats, new JobGoalValue(30)),
+                    "DefeatAnyEnemiesDuringCampaign", "CommonJobInProgressPattern", "CommonJobCompletePattern")
+            },
+            Aftermaths = new[] { new AddStoryKeyStoryPointAftermath("HearMeBrothersFeat3Complete", globe) }
         });
 
         _storyPoints = spList;

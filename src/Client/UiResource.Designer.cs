@@ -752,6 +752,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This is the end of the Demo version of the game. In full version you will see much more mechanics and quests. Thank you for playing! And follow us in all popular social and market platforms..
+        /// </summary>
+        internal static string DemoText {
+            get {
+                return ResourceManager.GetString("DemoText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Press [SPACE] to continue.
         /// </summary>
         internal static string DialogueContinueText {

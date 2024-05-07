@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Campaign;
@@ -8,6 +9,7 @@ using Client.ScreenManagement;
 
 using Core.Minigames.Towers;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -28,8 +30,8 @@ internal class TowersMinigameScreen : GameScreenWithMenuBase
         _towersEngine = new TowersEngine(new[]
         {
             new[] { 3, 2, 1 },
-            new int[0],
-            new int[0] // target bar
+            Array.Empty<int>(),
+            Array.Empty<int>() // target bar
         });
 
         _barButtonList = new List<ButtonBase>();
@@ -42,7 +44,7 @@ internal class TowersMinigameScreen : GameScreenWithMenuBase
         var closeButton = new TextButton("Skip");
         closeButton.OnClick += CloseButton_OnClick;
 
-        return new[]
+        return new ButtonBase[]
         {
             closeButton
         };
@@ -116,7 +118,8 @@ internal class TowersMinigameScreen : GameScreenWithMenuBase
 
     private void CloseButton_OnClick(object? sender, EventArgs e)
     {
-        _campaign.CompleteCurrentStage();
+        _campaign.CompleteCurrentStage(Game.Services.GetRequiredService<GlobeProvider>().Globe,
+            Game.Services.GetRequiredService<IJobProgressResolver>());
 
         ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
             new CampaignScreenTransitionArguments(_campaign));

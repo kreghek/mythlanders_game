@@ -22,12 +22,12 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     private readonly IDice _dice;
     private readonly IDropResolver _dropResolver;
     private readonly GlobeProvider _globeProvider;
+    private readonly ScenarioCampaigns _scenarioCampaigns;
 
     private readonly string[] _heroInDev =
     {
         nameof(UnitName.Herbalist),
 
-        nameof(UnitName.Hoplite),
         nameof(UnitName.Engineer),
 
         nameof(UnitName.Priest),
@@ -46,7 +46,8 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         IDropResolver dropResolver,
         ICharacterCatalog unitSchemeCatalog,
         IMonsterPerkManager monsterPerkManager,
-        GlobeProvider globeProvider)
+        GlobeProvider globeProvider,
+        ScenarioCampaigns scenarioCampaigns)
     {
         _wayTemplatesCatalog = wayTemplatesCatalog;
         _dice = dice;
@@ -54,6 +55,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         _characterCatalog = unitSchemeCatalog;
         _monsterPerkManager = monsterPerkManager;
         _globeProvider = globeProvider;
+        _scenarioCampaigns = scenarioCampaigns;
     }
 
     private ILocationSid[] CalculateAvailableLocations()
@@ -219,10 +221,62 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     /// </summary>
     public IReadOnlyList<HeroCampaignLaunch> CreateSet(Globe currentGlobe)
     {
+        var availablePredefinedCampaign = CheckPredefined();
+
+        var campaigns = new List<HeroCampaignLaunch>();
+        if (availablePredefinedCampaign is not null)
+        {
+            var campaign = _scenarioCampaigns.GetCampaign(
+                availablePredefinedCampaign.CampaignSid,
+                _globeProvider.Globe.Player);
+
+            var launch = new HeroCampaignLaunch(campaign.Location, GetHeroes(campaign, currentGlobe.Player.Heroes), campaign.ActualRewards,
+                campaign.ActualFailurePenalties);
+            
+            campaigns.Add(launch);
+        }
+        else
+        {
+            const int MAX_CAMPAIGN_LAUNCH_COUNT = 3;
+            var list = CreateRandomCampaigns(currentGlobe, MAX_CAMPAIGN_LAUNCH_COUNT);
+            campaigns.AddRange(list);    
+        }
+
+        return campaigns;
+    }
+
+    private static IReadOnlyCollection<HeroState> GetHeroes(HeroCampaign campaign,
+        IReadOnlyCollection<HeroState> playerHeroes)
+    {
+        var heroStates = new List<HeroState>();
+
+        foreach (var heroCampaignState in campaign.Heroes)
+        {
+            var heroState = playerHeroes.Single(x => x.ClassSid == heroCampaignState.ClassSid);
+            heroStates.Add(heroState);
+        }
+        
+        return heroStates;
+    }
+
+    private PredefinedScenarioCampaign? CheckPredefined()
+    {
+        foreach (var predefined in _predefinedCampaigns)
+        {
+            if (_globeProvider.Globe.Player.StoryState.Keys.Contains(predefined.StoryKey))
+            {
+                return predefined;
+            }
+        }
+
+        return null;
+    }
+
+    private IEnumerable<HeroCampaignLaunch> CreateRandomCampaigns(Globe currentGlobe, int maxRandomCount)
+    {
         var availableLocationSids = currentGlobe.Player.CurrentAvailableLocations.ToArray();
 
-        const int MAX_CAMPAIGN_LAUNCH_COUNT = 3;
-        var campaignLaunchCount = Math.Min(availableLocationSids.Length, MAX_CAMPAIGN_LAUNCH_COUNT);
+        var campaignLaunchCount = Math.Min(availableLocationSids.Length, maxRandomCount);
 
         var selectedLocations = _dice.RollFromList(availableLocationSids, campaignLaunchCount).ToList();
 
@@ -244,4 +298,9 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         return list;
     }
+
+    private readonly IReadOnlyCollection<PredefinedScenarioCampaign> _predefinedCampaigns = new[]
+    {
+        new PredefinedScenarioCampaign("MainPlotEpisode1Scene1","HearMeBrothersFeat1Complete")
+    };
 }

@@ -162,6 +162,11 @@
   <data name="BiomeLevelText" xml:space="preserve">
     <value>Ур.</value>
   </data>
+  <data name="CampaignMapTutorialText" xml:space="preserve">
+    <value>Это карта прохождения кампании. Обычно на карте есть несколько путей, которыми можно добраться до победного этапа кампании и получить награду.
+
+Слудет грамотно планировать свой маршрут, чтобы посетить все важные этапы. При этом нужно избегать слишком сложных боев.</value>
+  </data>
   <data name="CampaignPenaltiesLabelText" xml:space="preserve">
     <value>Штрафы</value>
   </data>
@@ -197,6 +202,15 @@
   </data>
   <data name="CloseButtonTitle" xml:space="preserve">
     <value>Закрыть</value>
+  </data>
+  <data name="CombatChineseTutorial1Paragraph1" xml:space="preserve">
+    <value>&lt;style=color1&gt;Маосин&lt;/style&gt; - это герой с высоким потенциальным уроном. Обычно это соответствует роли DD в ролевых играх.</value>
+  </data>
+  <data name="CombatEgyptianTutorial1Paragraph1" xml:space="preserve">
+    <value>&lt;style=color1&gt;Нубити&lt;/style&gt; - это герой с высоким потенциальным уроном. Обычно это соответствует роли DD в ролевых играх.</value>
+  </data>
+  <data name="CombatGreekTutorial1Paragraph1" xml:space="preserve">
+    <value>&lt;style=color1&gt;Леонидас&lt;/style&gt; - это герой с высоким запасом щитов. Обычно это соответствует роли танка в ролевых играх. Он может выдержать единичные удары без потерь здоровья. Но его урон - ниже среднего.</value>
   </data>
   <data name="CombatIndicatorNegativeHpTemplate" xml:space="preserve">
     <value>{0}</value>
@@ -276,6 +290,18 @@
   <data name="CombatSlavicTutorial1Paragraph1" xml:space="preserve">
     <value>&lt;style=color1&gt;Беримир&lt;/style&gt; - это герой с высоким запасом щитов. Обычно это соответствует роли танка в ролевых играх. Он может выдержать единичные удары без потерь здоровья. Но его урон - ниже среднего.</value>
   </data>
+  <data name="CombatSlavicTutorial1Paragraph2" xml:space="preserve">
+    <value>Чтобы победить этого монстра, сначала увеличить свой урон при помощи навыка &lt;style=color1&gt;Мечи Вверх!&lt;/style&gt;</value>
+  </data>
+  <data name="CombatSlavicTutorial1Paragraph3" xml:space="preserve">
+    <value>Монстр не сможет нанести вам вред &lt;style=color1&gt;текущим боевым движением&lt;/style&gt;.</value>
+  </data>
+  <data name="CombatSlavicTutorial1Paragraph4" xml:space="preserve">
+    <value>После атаки монстра выполните контр-атаку при помощи движения &lt;style=color1&gt;Удар С Плеча&lt;/style&gt;. Теперь урона должно быть достаточно, чтобы уничтожить раненого монстра.</value>
+  </data>
+  <data name="CombatSlavicTutorial1Paragraph5" xml:space="preserve">
+    <value>Этот бой-головоломка решается &lt;style=color2&gt;несложно&lt;/style&gt;.</value>
+  </data>
   <data name="CompleteGameButtonTitle" xml:space="preserve">
     <value>Завершить игру</value>
   </data>
@@ -317,6 +343,9 @@
   <data name="DemoMarkerText" xml:space="preserve">
     <value>Демо</value>
   </data>
+  <data name="DemoText" xml:space="preserve">
+    <value>Это конец демо-версии игры. В полной версии вы увидите гораздо больше механик и квестов. Спасибо за игру! И подписывайтесь на нас на всех популярных социальных и рыночных платформах.</value>
+  </data>
   <data name="DialogueContinueText" xml:space="preserve">
     <value>Нажмите [ПРОБЕЛ] чтобы продолжить</value>
   </data>
@@ -331,11 +360,6 @@
   </data>
   <data name="EquipmentUpgradeMarkerText" xml:space="preserve">
     <value>Доступно улучшение!</value>
-  </data>
-  <data name="SideQuestTutorialText" xml:space="preserve">
-    <value>Иногда в мире игры происходят дополнительные события, в которых герои могут принять участие. Обычно это называют дополнительными квестами.
-
-В дополнительных квестах очень важно делать правильный выбор. Потому что любой выбор имеет значимое для игрового мира последствие.</value>
   </data>
   <data name="ExitGameButtonTitle" xml:space="preserve">
     <value>Выйти из игры</value>
@@ -415,11 +439,6 @@
   <data name="ManaLabelTemplate" xml:space="preserve">
     <value>Пси-энергия: {0}/{1}</value>
   </data>
-  <data name="CampaignMapTutorialText" xml:space="preserve">
-    <value>Это карта прохождения кампании. Обычно на карте есть несколько путей, которыми можно добраться до победного этапа кампании и получить награду.
-
-Слудет грамотно планировать свой маршрут, чтобы посетить все важные этапы. При этом нужно избегать слишком сложных боев.</value>
-  </data>
   <data name="MediumCombatSequenceText" xml:space="preserve">
     <value>Средний</value>
   </data>
@@ -476,6 +495,11 @@
   </data>
   <data name="ShortCombatSequenceText" xml:space="preserve">
     <value>Краткий</value>
+  </data>
+  <data name="SideQuestTutorialText" xml:space="preserve">
+    <value>Иногда в мире игры происходят дополнительные события, в которых герои могут принять участие. Обычно это называют дополнительными квестами.
+
+В дополнительных квестах очень важно делать правильный выбор. Потому что любой выбор имеет значимое для игрового мира последствие.</value>
   </data>
   <data name="SkillDirectionAllEnemiesText" xml:space="preserve">
     <value>всем противникам</value>
@@ -578,26 +602,5 @@
   </data>
   <data name="_AllChars" xml:space="preserve">
     <value> !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~</value>
-  </data>
-  <data name="CombatSlavicTutorial1Paragraph2" xml:space="preserve">
-    <value>Чтобы победить этого монстра, сначала увеличить свой урон при помощи навыка &lt;style=color1&gt;Мечи Вверх!&lt;/style&gt;</value>
-  </data>
-  <data name="CombatSlavicTutorial1Paragraph3" xml:space="preserve">
-    <value>Монстр не сможет нанести вам вред &lt;style=color1&gt;текущим боевым движением&lt;/style&gt;.</value>
-  </data>
-  <data name="CombatSlavicTutorial1Paragraph4" xml:space="preserve">
-    <value>После атаки монстра выполните контр-атаку при помощи движения &lt;style=color1&gt;Удар С Плеча&lt;/style&gt;. Теперь урона должно быть достаточно, чтобы уничтожить раненого монстра.</value>
-  </data>
-  <data name="CombatSlavicTutorial1Paragraph5" xml:space="preserve">
-    <value>Этот бой-головоломка решается &lt;style=color2&gt;несложно&lt;/style&gt;.</value>
-  </data>
-  <data name="CombatChineseTutorial1Paragraph1" xml:space="preserve">
-    <value>&lt;style=color1&gt;Маосин&lt;/style&gt; - это герой с высоким потенциальным уроном. Обычно это соответствует роли DD в ролевых играх.</value>
-  </data>
-  <data name="CombatGreekTutorial1Paragraph1" xml:space="preserve">
-    <value>&lt;style=color1&gt;Леонидас&lt;/style&gt; - это герой с высоким запасом щитов. Обычно это соответствует роли танка в ролевых играх. Он может выдержать единичные удары без потерь здоровья. Но его урон - ниже среднего.</value>
-  </data>
-  <data name="CombatEgyptianTutorial1Paragraph1" xml:space="preserve">
-    <value>&lt;style=color1&gt;Нубити&lt;/style&gt; - это герой с высоким потенциальным уроном. Обычно это соответствует роли DD в ролевых играх.</value>
   </data>
 </root>
