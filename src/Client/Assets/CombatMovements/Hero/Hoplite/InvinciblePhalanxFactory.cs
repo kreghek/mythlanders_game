@@ -11,6 +11,8 @@ using GameAssets.Combats.EffectConditions;
 
 using JetBrains.Annotations;
 
+using SelfTargetSelector = Core.Combats.TargetSelectors.SelfTargetSelector;
+
 namespace Client.Assets.CombatMovements.Hero.Hoplite;
 
 [UsedImplicitly]

@@ -582,6 +582,12 @@
   <data name="HearMeBrothersFeat1_Description" xml:space="preserve">
     <value>Нужно выполнить несколько подвигов, чтобы другие герои увидели это и присоединились.</value>
   </data>
+  <data name="HearMeBrothersFeat2" xml:space="preserve">
+    <value>Услышьте Меня, Братья!</value>
+  </data>
+  <data name="HearMeBrothersFeat3" xml:space="preserve">
+    <value>Услышьте Меня, Братья!</value>
+  </data>
   <data name="Herbalist" xml:space="preserve">
     <value>Старая Рада</value>
     <comment>Hero</comment>
@@ -1207,14 +1213,5 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
     <comment>Skill</comment>
-  </data>
-  <data name="HearMeBrothersFeat2" xml:space="preserve">
-    <value>Услышьте Меня, Братья!</value>
-  </data>
-  <data name="HearMeBrothersFeat3" xml:space="preserve">
-    <value>Услышьте Меня, Братья!</value>
-  </data>
-  <data name="InDevelopment_OptionDescription" xml:space="preserve">
-    <value>Скоро будет. Еще в Разработке.</value>
   </data>
 </root>

@@ -593,6 +593,12 @@
     <value>You need to perform several feats so that other heroes will see this and join.</value>
     <comment>Story Point</comment>
   </data>
+  <data name="HearMeBrothersFeat2" xml:space="preserve">
+    <value>Hear Me, Brothers!</value><comment>Story Point</comment>
+  </data>
+  <data name="HearMeBrothersFeat3" xml:space="preserve">
+    <value>Hear Me, Brothers!</value><comment>Story Point</comment>
+  </data>
   <data name="Herbalist" xml:space="preserve">
     <value>Rada The Old</value>
     <comment>Hero</comment>
@@ -1251,14 +1257,5 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Zduhach Might</value>
     <comment>Skill</comment>
-  </data>
-  <data name="HearMeBrothersFeat2" xml:space="preserve">
-    <value>Hear Me, Brothers!</value><comment>Story Point</comment>
-  </data>
-  <data name="HearMeBrothersFeat3" xml:space="preserve">
-    <value>Hear Me, Brothers!</value><comment>Story Point</comment>
-  </data>
-  <data name="InDevelopment_OptionDescription" xml:space="preserve">
-    <value>Coming Soon. In Development.</value>
   </data>
 </root>

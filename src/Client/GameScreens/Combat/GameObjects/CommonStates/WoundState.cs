@@ -14,7 +14,7 @@ internal sealed class WoundState : IActorVisualizationState
         _graphics = graphics;
     }
 
-    public bool CanBeReplaced => true;
+    public bool CanBeReplaced => false;
     public bool IsComplete { get; private set; }
 
     public void Cancel()
