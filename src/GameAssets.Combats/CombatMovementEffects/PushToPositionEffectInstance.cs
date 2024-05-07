@@ -25,7 +25,7 @@ public sealed class PushToPositionEffectInstance : EffectInstanceBase<PushToPosi
         {
             // There is not target combatant.
             // Looks like error.
-            
+
             //TODO Handle error
             return;
         }

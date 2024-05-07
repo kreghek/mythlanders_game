@@ -151,9 +151,11 @@ internal static class CommonCombatVisualization
                 config.CombatMovementAnimation.Animation), config.CombatMovementAnimation.Sound);
 
         var moveFunction = !visualizationContext
-                        .ActorGameObject.Combatant.IsDead ? new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position,
-                    visualizationContext.BattlefieldInteractionContext.GetCombatantPosition(visualizationContext
-                        .ActorGameObject.Combatant)) : new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, actorAnimator.GraphicRoot.Position);
+            .ActorGameObject.Combatant.IsDead
+            ? new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position,
+                visualizationContext.BattlefieldInteractionContext.GetCombatantPosition(visualizationContext
+                    .ActorGameObject.Combatant))
+            : new SlowDownMoveFunction(actorAnimator.GraphicRoot.Position, actorAnimator.GraphicRoot.Position);
 
         var subStates = new[]
         {

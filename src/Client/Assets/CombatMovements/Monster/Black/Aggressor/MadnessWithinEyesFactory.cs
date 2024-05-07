@@ -16,19 +16,23 @@ internal class MadnessWithinEyesFactory : SimpleCombatMovementFactoryBase
         return new CombatMovementEffectConfig(
             new IEffect[]
             {
-               new AddCombatantStatusEffect(
-                            new SelfTargetSelector(),
-                            new CombatStatusFactory(source => {
-                                return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid), new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 3);
-                            }))
+                new AddCombatantStatusEffect(
+                    new SelfTargetSelector(),
+                    new CombatStatusFactory(source =>
+                    {
+                        return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                            new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 3);
+                    }))
             },
             new IEffect[]
             {
-               new AddCombatantStatusEffect(
-                            new SelfTargetSelector(),
-                            new CombatStatusFactory(source => {
-                                return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid), new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 3);
-                            }))
+                new AddCombatantStatusEffect(
+                    new SelfTargetSelector(),
+                    new CombatStatusFactory(source =>
+                    {
+                        return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                            new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 3);
+                    }))
             });
     }
 

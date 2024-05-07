@@ -42,10 +42,12 @@ public class MythlandersCombatEngineTests
                 new[]
                 {
                     new AddCombatantStatusEffect(
-                            new SelfTargetSelector(),
-                            new CombatStatusFactory(source => {
-                                return new ModifyStatCombatantStatus(new CombatantStatusSid("test_auto_defence"), new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 3);
-                            }))
+                        new SelfTargetSelector(),
+                        new CombatStatusFactory(source =>
+                        {
+                            return new ModifyStatCombatantStatus(new CombatantStatusSid("test_auto_defence"),
+                                new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 3);
+                        }))
                 }))
         {
             Tags = CombatMovementTags.AutoDefense

@@ -31,18 +31,22 @@ internal class EbonySkinFactory : SimpleCombatMovementFactoryBase
             new IEffect[]
             {
                 new AddCombatantStatusEffect(
-                            new SelfTargetSelector(),
-                            new CombatStatusFactory(source => {
-                                return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid), new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 3);
-                            }))
+                    new SelfTargetSelector(),
+                    new CombatStatusFactory(source =>
+                    {
+                        return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                            new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 3);
+                    }))
             },
             new IEffect[]
             {
                 new AddCombatantStatusEffect(
-                            new SelfTargetSelector(),
-                            new CombatStatusFactory(source => {
-                                return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid), new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 1);
-                            }))
+                    new SelfTargetSelector(),
+                    new CombatStatusFactory(source =>
+                    {
+                        return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                            new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 1);
+                    }))
             });
     }
 

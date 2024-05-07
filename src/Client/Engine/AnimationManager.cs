@@ -24,6 +24,7 @@ internal class AnimationManager : IAnimationManager
         {
             blocker.Release();
         }
+
         _blockers.Clear();
     }
 }

@@ -43,10 +43,12 @@ internal class BlindDefenseFactory : CombatMovementFactoryBase
         ).Cast<IEffect>().Union(new[]
         {
             new AddCombatantStatusEffect(
-                            new SelfTargetSelector(),
-                            new CombatStatusFactory(source => {
-                                return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid), new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 3);
-                            }))
+                new SelfTargetSelector(),
+                new CombatStatusFactory(source =>
+                {
+                    return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                        new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 3);
+                }))
         }).ToArray();
     }
 }

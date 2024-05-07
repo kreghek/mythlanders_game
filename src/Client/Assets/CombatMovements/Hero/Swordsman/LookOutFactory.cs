@@ -29,9 +29,11 @@ internal class LookOutFactory : CombatMovementFactoryBase
                 new IEffect[]
                 {
                     new AddCombatantStatusEffect(
-                        new ClosestAllyInColumnTargetSelector(), 
-                        new CombatStatusFactory(source => {
-                            return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid), new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 3);
+                        new ClosestAllyInColumnTargetSelector(),
+                        new CombatStatusFactory(source =>
+                        {
+                            return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                                new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 3);
                         })),
                     new PushToPositionEffect(
                         new SelfTargetSelector(),
@@ -42,8 +44,10 @@ internal class LookOutFactory : CombatMovementFactoryBase
                 {
                     new AddCombatantStatusEffect(
                         new ClosestAllyInColumnTargetSelector(),
-                        new CombatStatusFactory(source => {
-                            return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid), new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 1);
+                        new CombatStatusFactory(source =>
+                        {
+                            return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                                new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 1);
                         }))
                 })
         )

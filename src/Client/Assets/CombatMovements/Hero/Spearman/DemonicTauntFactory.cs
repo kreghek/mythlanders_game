@@ -18,7 +18,7 @@ internal sealed class DemonicTauntFactory : CombatMovementFactoryBase
                     new PushToPositionEffect(
                         new SelfTargetSelector(),
                         ChangePositionEffectDirection.ToVanguard
-                    ),
+                    )
                     //new ChangeStatEffect(
                     //    new CombatantStatusSid(Sid),
                     //    new SelfTargetSelector(),

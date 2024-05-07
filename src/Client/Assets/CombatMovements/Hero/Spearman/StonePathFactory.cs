@@ -16,14 +16,16 @@ internal class StonePathFactory : CombatMovementFactoryBase
         return new CombatMovement(Sid,
             new CombatMovementCost(1),
             CombatMovementEffectConfig.Create(
-               new IEffect[]
-               {
-                   new AddCombatantStatusEffect(
-                            new SelfTargetSelector(),
-                            new CombatStatusFactory(source => {
-                                return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid), new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 3);
-                            }))
-               })
+                new IEffect[]
+                {
+                    new AddCombatantStatusEffect(
+                        new SelfTargetSelector(),
+                        new CombatStatusFactory(source =>
+                        {
+                            return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                                new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 3);
+                        }))
+                })
         )
         {
             Tags = CombatMovementTags.AutoDefense

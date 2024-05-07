@@ -37,14 +37,18 @@ internal class NinthTrigramFactory : CombatMovementFactoryBase
 
                     new AddCombatantStatusEffect(
                         new StrongestClosestAllyTargetSelector(),
-                        new CombatStatusFactory(source => {
-                            return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid), new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2);
+                        new CombatStatusFactory(source =>
+                        {
+                            return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                                new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2);
                         })),
 
                     new AddCombatantStatusEffect(
                         new SelfTargetSelector(),
-                        new CombatStatusFactory(source => {
-                            return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid), new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2);
+                        new CombatStatusFactory(source =>
+                        {
+                            return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                                new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2);
                         }))
                 })
         );

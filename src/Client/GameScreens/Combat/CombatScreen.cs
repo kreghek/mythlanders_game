@@ -539,14 +539,16 @@ internal class CombatScreen : GameScreenWithMenuBase
         if (e.Combatant == _combatCore.CurrentCombatant)
         {
             //TODO Monitor this
-            
+
             // Current combatant can be killed by yourself.
             // The game object of this combatant can create animation blocker which can't be updated and released.
             _animationBlockManager.DropBlockers();
 
             var blocker = new DelayBlocker(new Duration(3));
-            blocker.Released += (_, _) => {
-                var corpse = combatantGameObject.CreateCorpse(_gameObjectContentStorage, _visualEffectManager, new AudioSettings());
+            blocker.Released += (_, _) =>
+            {
+                var corpse = combatantGameObject.CreateCorpse(_gameObjectContentStorage, _visualEffectManager,
+                    new AudioSettings());
                 _corpseObjects.Add(corpse);
 
                 _gameObjects.Remove(combatantGameObject);
@@ -556,7 +558,8 @@ internal class CombatScreen : GameScreenWithMenuBase
         }
         else
         {
-            var corpse = combatantGameObject.CreateCorpse(_gameObjectContentStorage, _visualEffectManager, new AudioSettings());
+            var corpse =
+                combatantGameObject.CreateCorpse(_gameObjectContentStorage, _visualEffectManager, new AudioSettings());
             _corpseObjects.Add(corpse);
 
             _gameObjects.Remove(combatantGameObject);
