@@ -14,7 +14,7 @@ using Stateless;
 namespace Client.Assets.Dialogues;
 
 [UsedImplicitly]
-internal sealed class MainPlotEpisode1EventFactory : IDialogueEventFactory
+internal sealed class MainPlotEpisode1Scene1EventFactory : IDialogueEventFactory
 {
     public DialogueEvent CreateEvent(IDialogueEventFactoryServices services)
     {
@@ -25,22 +25,22 @@ internal sealed class MainPlotEpisode1EventFactory : IDialogueEventFactory
         {
             [DialogueConstants.InitialStage] = new[]
             {
-                new StoryKeyRequirement("HearMeBrothersComplete")
+                new StoryKeyRequirement("HearMeBrothersFeat1Complete")
             }
         };
 
         var dialogues = new Dictionary<DialogueEventState, string>
         {
             [DialogueConstants.InitialStage] =
-                GetDialogueFileName(DialogueConstants.MainPlot.Episode1.Stage1Dialogue)
+                GetDialogueFileName(DialogueConstants.MainPlot.Episode1Scene1.Stage1Dialogue)
         };
 
-        return new DialogueEvent(DialogueConstants.MainPlot.Episode1.Sid, questStateMachine, requirements,
+        return new DialogueEvent(DialogueConstants.MainPlot.Episode1Scene1.Sid, questStateMachine, requirements,
             dialogues);
 
         static string GetDialogueFileName(string stageName)
         {
-            var sid = DialogueConstants.MainPlot.Episode1.Sid;
+            var sid = DialogueConstants.MainPlot.Episode1Scene1.Sid;
             return $"{sid}_{stageName}";
         }
     }

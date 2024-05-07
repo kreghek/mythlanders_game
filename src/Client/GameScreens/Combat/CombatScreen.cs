@@ -722,11 +722,11 @@ internal class CombatScreen : GameScreenWithMenuBase
                     _globeProvider.Globe.Update(_dice, _eventCatalog);
 
                     _globeProvider.StoreCurrentGlobe();
-                    _currentCampaign.CompleteCurrentStage();
+                    _currentCampaign.CompleteCurrentStage(_globe, _jobProgressResolver);
 
                     if (_args.IsGoalStage)
                     {
-                        _coordinator.MakeGoalStageTransition(this);
+                        _coordinator.MakeGoalStageTransition(this, _currentCampaign, _globe);
                     }
                     else
                     {
@@ -742,7 +742,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             // Retry failed combats in the tutorial
             if (_globe.Features.HasFeature(GameFeatures.Campaigns))
             {
-                _currentCampaign.CompleteCurrentStage();
+                _currentCampaign.CompleteCurrentStage(_globe, _jobProgressResolver);
                 _currentCampaign.FailCampaign(_globe, _jobProgressResolver);
             }
 
@@ -760,7 +760,7 @@ internal class CombatScreen : GameScreenWithMenuBase
             var campaignGenerator = Game.Services.GetService<ICampaignGenerator>();
             var campaigns = campaignGenerator.CreateSet(_globeProvider.Globe);
 
-            _currentCampaign.CompleteCurrentStage();
+            _currentCampaign.CompleteCurrentStage(_globe, _jobProgressResolver);
 
             ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
                 new CommandCenterScreenTransitionArguments(campaigns));

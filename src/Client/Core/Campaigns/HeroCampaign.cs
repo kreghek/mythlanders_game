@@ -85,13 +85,18 @@ internal sealed class HeroCampaign
     {
         ApplyCampaignEffects(globe, ActualRewards);
 
-        CountCampaignCompleteInActiveStoryPoints(globe, jobProgressResolver);
+        CountCampaignWon(globe, jobProgressResolver);
     }
 
-    internal void CompleteCurrentStage()
+    internal void CompleteCurrentStage(Globe globe, IJobProgressResolver jobProgressResolver)
     {
-        //TODO Count stage complete job
-        //throw new NotImplementedException();
+        var progress = new CompleteStageJobProgress();
+        var executables = globe.GetCurrentJobExecutables();
+
+        foreach (var job in executables)
+        {
+            jobProgressResolver.ApplyProgress(progress, job);
+        }
     }
 
     private void ApplyCampaignEffects(Globe globe, IReadOnlyCollection<ICampaignEffect> effects)
@@ -102,12 +107,12 @@ internal sealed class HeroCampaign
         }
     }
 
-    private static void CountCampaignCompleteInActiveStoryPoints(Globe globe, IJobProgressResolver jobProgressResolver)
+    private static void CountCampaignWon(Globe globe, IJobProgressResolver jobProgressResolver)
     {
-        var completeCampaignProgress = new CampaignCompleteJobProgress();
-        var currentJobs = globe.ActiveStoryPoints.ToArray();
+        var completeCampaignProgress = new CampaignWonJobProgress();
+        var executables = globe.GetCurrentJobExecutables();
 
-        foreach (var job in currentJobs)
+        foreach (var job in executables)
         {
             jobProgressResolver.ApplyProgress(completeCampaignProgress, job);
         }

@@ -27,5 +27,6 @@ internal enum ScreenTransition
     /// </summary>
     NotImplemented,
     VoiceCombat,
-    PreHistory
+    PreHistory,
+    Demo
 }

@@ -55,7 +55,7 @@ internal sealed class Globe
 
     public IEnumerable<IJobExecutable> GetCurrentJobExecutables()
     {
-        foreach (var storyPoint in ActiveStoryPoints)
+        foreach (var storyPoint in ActiveStoryPoints.ToArray())
         {
             yield return storyPoint;
         }

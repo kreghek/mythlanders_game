@@ -13,10 +13,12 @@ public sealed class PushToPositionEffectInstance : EffectInstanceBase<PushToPosi
 
     public override void Influence(ICombatant target, ICombatMovementContext context)
     {
-        // Combatant can be killed with some effects early. 
+        // Combatant can be killed with some effects early.
         if (target.IsDead)
+        {
             return;
-        
+        }
+
         var targetSide = GetTargetSide(target, context.Field);
 
         if (targetSide is null)

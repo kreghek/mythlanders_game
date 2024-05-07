@@ -70,6 +70,12 @@ internal class NotImplementedStageScreen : GameScreenWithMenuBase
         _underConstructionTexture = Game.Content.Load<Texture2D>("Sprites/Ui/UnderContructionBackground");
     }
 
+    protected override void UpdateContent(GameTime gameTime)
+    {
+        base.UpdateContent(gameTime);
+        _skipButton.Update(ResolutionIndependentRenderer);
+    }
+
     private void CloseButton_OnClick(object? sender, EventArgs e)
     {
         ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
