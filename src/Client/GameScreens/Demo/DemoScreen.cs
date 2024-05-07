@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Client.Core.Campaigns;
+using Client.Core;
 using Client.Engine;
-using Client.GameScreens.Campaign;
 using Client.ScreenManagement;
+
+using CombatDicesTeam.Engine.Ui;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Client.GameScreens.NotImplementedStage;
+namespace Client.GameScreens.Demo;
 
 internal class DemoScreen : GameScreenWithMenuBase
 {
@@ -43,14 +44,17 @@ internal class DemoScreen : GameScreenWithMenuBase
 
         spriteBatch.Draw(_demoBackgroundTexture, contentRect, Color.White);
 
-        var text = UiResource.DemoText;
+        var demoText = StringHelper.LineBreaking(UiResource.DemoText, 60);
 
-        var size = _uiContentStorage.GetTitlesFont().MeasureString(text);
+        var demoTextSize = _uiContentStorage.GetTitlesFont().MeasureString(demoText);
 
-        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), text,
-            contentRect.Center.ToVector2() - size, Color.Wheat);
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), demoText,
+            contentRect.Center.ToVector2() - new Vector2(demoTextSize.X / 2, demoTextSize.Y / 2), Color.White);
 
-        _closeButton.Rect = new Rectangle(contentRect.Center + new Point((int)size.X + 10), new Point(100, 20));
+        _closeButton.Rect =
+            new Rectangle(
+                new Point(contentRect.Center.X + (int)demoTextSize.X,
+                    contentRect.Center.Y + (int)demoTextSize.Y / 2 + ControlBase.CONTENT_MARGIN), new Point(100, 20));
         _closeButton.Draw(spriteBatch);
 
         spriteBatch.End();
@@ -59,6 +63,13 @@ internal class DemoScreen : GameScreenWithMenuBase
     protected override void InitializeContent()
     {
         _demoBackgroundTexture = Game.Content.Load<Texture2D>("Sprites/Ui/TitleBackground");
+    }
+
+    protected override void UpdateContent(GameTime gameTime)
+    {
+        base.UpdateContent(gameTime);
+        
+        _closeButton.Update(ResolutionIndependentRenderer);
     }
 
     private void CloseButton_OnClick(object? sender, EventArgs e)

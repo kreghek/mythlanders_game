@@ -8,6 +8,7 @@ using Client.GameScreens.Combat;
 using Client.GameScreens.CommandCenter;
 using Client.GameScreens.Credits;
 using Client.GameScreens.Crisis;
+using Client.GameScreens.Demo;
 using Client.GameScreens.EndGame;
 using Client.GameScreens.Intro;
 using Client.GameScreens.Match3;
