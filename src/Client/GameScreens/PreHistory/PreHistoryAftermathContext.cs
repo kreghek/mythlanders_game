@@ -9,11 +9,6 @@ using CombatDicesTeam.Dialogues;
 
 namespace Client.GameScreens.PreHistory;
 
-internal sealed class PreHistoryConditionContext
-{
-    
-}
-
 internal sealed class PreHistoryAftermathContext
 {
     private readonly IDictionary<string, IPreHistoryScene> _backgrounds;

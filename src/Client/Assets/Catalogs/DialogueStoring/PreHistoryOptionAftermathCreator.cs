@@ -35,7 +35,7 @@ internal sealed class PreHistoryParagraphConditionCreator: IDialogueConditionCre
     {
         return conditionTypeSid switch
         {
-            "disabled" => new PreHistoryDisabledParagraphCondition(),
+            "Disabled" => new PreHistoryDisabledParagraphCondition(),
             _ => throw new InvalidOperationException($"Type {conditionTypeSid} is unknown.")
         };
     }

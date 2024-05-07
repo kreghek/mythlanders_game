@@ -34,6 +34,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
     protected readonly IList<TextParagraphControl<TParagraphConditionContext, TAftermathContext>> TextParagraphControls;
     private bool _currentTextFragmentIsReady;
+    private IDialogueContextFactory<TParagraphConditionContext, TAftermathContext> _contextFactory;
     protected DialoguePlayer<TParagraphConditionContext, TAftermathContext>? _dialoguePlayer;
     private bool _isInitialized;
     private KeyboardState _keyboardState;
@@ -132,9 +133,10 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
         if (_dialoguePlayer is null)
         {
+            _contextFactory = CreateDialogueContextFactory(_args);
             _dialoguePlayer =
                 new DialoguePlayer<TParagraphConditionContext, TAftermathContext>(_currentDialogue,
-                    CreateDialogueContextFactory(_args));
+                    _contextFactory);
         }
 
         if (!_isInitialized)
@@ -236,13 +238,16 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
                 textFragment,
                 _gameObjectContentStorage.GetTextSoundEffect(speaker),
                 _dice,
-                CreateDialogueContextFactory(_args).CreateAftermathContext(),
+                _contextFactory.CreateAftermathContext(),
                 _storyState);
             TextParagraphControls.Add(textFragmentControl);
         }
 
         var optionNumber = 1;
         _dialogueOptions.Options.Clear();
+
+        var context = _contextFactory.CreateParagraphConditionContext();
+
         foreach (var option in dialoguePlayer.CurrentOptions)
         {
             var optionButton = new DialogueOptionButton(optionNumber, option.TextSid)
@@ -266,8 +271,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
                 }
             };
 
-            optionButton.IsEnabled = option.SelectConditions.All(x =>
-                x.Check(CreateDialogueContextFactory(_args).CreateParagraphConditionContext()));
+            optionButton.IsEnabled = option.SelectConditions.All(x => x.Check(context));
 
             optionButton.OnHover += (sender, _) =>
             {

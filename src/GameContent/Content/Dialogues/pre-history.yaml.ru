@@ -164,11 +164,18 @@ p7:
           data: Hoplite
         - type: UnlockLocation
           data: ShipGraveyard
+    - text: 'Освободительница'
+      next: p8_liberator
+      aftermaths:
+        - type: AddHero
+          data: Liberator
+        - type: UnlockLocation
+          data: Desert
 
 p8_monk:
   paragraphs:
     - text: |
-        'Шаолиньский монах Маосин начал свое приключение.'
+        Шаолиньский монах Маосин начал свое приключение.
       env:
         - type: Background
           data: Monk
@@ -176,7 +183,7 @@ p8_monk:
 p8_swordsman:
   paragraphs:
     - text: |
-        'Славянский богатырь Беримир начал свое приключение.'
+        Славянский богатырь Беримир начал свое приключение.
       env:
         - type: Background
           data: Swordsman
@@ -184,7 +191,15 @@ p8_swordsman:
 p8_spartian:
   paragraphs:
     - text: |
-        'Спартанский гоплит Леонидас начал свое приключение.'
+        Спартанский гоплит Леонидас начал свое приключение.
       env:
         - type: Background
           data: Hoplite
+
+p8_liberator:
+  paragraphs:
+    - text: |
+        Египетская освободительница рабов Нубити начала свое приключение.
+      env:
+        - type: Background
+          data: Liberator
