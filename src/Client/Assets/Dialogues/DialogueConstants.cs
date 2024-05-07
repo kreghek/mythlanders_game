@@ -96,7 +96,7 @@ internal static class DialogueConstants
         {
             public static string Sid => "main_plot_e1_scene1";
 
-            public static string Stage1Dialogue => "stage_1";
+            public static string Stage1Dialogue => "stage1";
         }
     }
 
