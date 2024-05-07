@@ -11,6 +11,8 @@ using GameAssets.Combats.CombatMovementEffects;
 
 using JetBrains.Annotations;
 
+using SelfTargetSelector = Core.Combats.TargetSelectors.SelfTargetSelector;
+
 namespace Client.Assets.CombatMovements.Hero.Amazon;
 
 [UsedImplicitly]

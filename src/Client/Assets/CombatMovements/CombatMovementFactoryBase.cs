@@ -41,11 +41,6 @@ internal abstract class CombatMovementFactoryBase : ICombatMovementFactory
             return currentInstance.StatValue.Min.ActualMax;
         }
 
-        if (effectInstance is ChangeStatEffectInstance instance)
-        {
-            return instance.BaseEffect.Value;
-        }
-
         return 0;
     }
 

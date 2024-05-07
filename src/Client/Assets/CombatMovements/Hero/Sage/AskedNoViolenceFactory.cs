@@ -3,11 +3,11 @@ using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Combats.Effects;
 
-using Core.Combats.TargetSelectors;
-
 using GameAssets.Combats.CombatantStatuses;
 
 using JetBrains.Annotations;
+
+using SelfTargetSelector = Core.Combats.TargetSelectors.SelfTargetSelector;
 
 namespace Client.Assets.CombatMovements.Hero.Sage;
 

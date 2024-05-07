@@ -8,7 +8,7 @@ namespace Client.GameScreens.Combat.CombatDebugElements.Monsters.Black;
 
 public class AggressorCombatantFactory : MonsterCombatantFactoryBase
 {
-    protected override string ClassSid => "agressor";
+    protected override string ClassSid => "aggressor";
 
     protected override CombatantStatsConfig CombatantStatsConfig()
     {

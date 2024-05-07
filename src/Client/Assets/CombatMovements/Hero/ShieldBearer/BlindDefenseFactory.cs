@@ -2,6 +2,7 @@
 
 using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.GenericRanges;
 
@@ -11,6 +12,8 @@ using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
 using JetBrains.Annotations;
+
+using SelfTargetSelector = Core.Combats.TargetSelectors.SelfTargetSelector;
 
 namespace Client.Assets.CombatMovements.Hero.ShieldBearer;
 
@@ -39,12 +42,11 @@ internal class BlindDefenseFactory : CombatMovementFactoryBase
                 GenericRange<int>.CreateMono(1))
         ).Cast<IEffect>().Union(new[]
         {
-            new ChangeStatEffect(
-                new CombatantStatusSid(Sid),
-                new SelfTargetSelector(),
-                CombatantStatTypes.Defense,
-                3,
-                new ToNextCombatantTurnEffectLifetimeFactory())
+            new AddCombatantStatusEffect(
+                            new SelfTargetSelector(),
+                            new CombatStatusFactory(source => {
+                                return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid), new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 3);
+                            }))
         }).ToArray();
     }
 }
