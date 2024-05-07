@@ -8,6 +8,7 @@ using Client.GameScreens.Combat;
 using Client.GameScreens.CommandCenter;
 using Client.GameScreens.Credits;
 using Client.GameScreens.Crisis;
+using Client.GameScreens.Demo;
 using Client.GameScreens.EndGame;
 using Client.GameScreens.Intro;
 using Client.GameScreens.Match3;
@@ -148,6 +149,7 @@ internal class ScreenManager : IScreenManager
                 (NotImplementedStageScreenTransitionArguments)screenTransitionArguments),
             ScreenTransition.VoiceCombat => new VoiceCombatScreen(_game,
                 (VoiceCombatScreenTransitionArguments)screenTransitionArguments),
+            ScreenTransition.Demo => new DemoScreen(_game),
             _ => throw new ArgumentException("Unknown transition", nameof(targetTransition))
         };
     }

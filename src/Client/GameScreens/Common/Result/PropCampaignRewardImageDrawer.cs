@@ -50,15 +50,16 @@ internal sealed class PropCampaignRewardImageDrawer : CampaignRewardImageDrawerB
             {
                 countable = new AnimatedCountableResource(new ResourceReward
                 {
+                    //TODO Fix combat-xp stacks
                     StartValue = _currentInventory.CalcActualItems().OfType<Resource>()
-                        .SingleOrDefault(x => x.Scheme.Sid == resource.Scheme.Sid)?.Count ?? 0,
+                        .FirstOrDefault(x => x.Scheme.Sid == resource.Scheme.Sid)?.Count ?? 0,
                     Amount = resource.Count
                 });
 
                 _countableItems[resource] = countable;
             }
 
-            var labelText = $"{resource.Scheme.Sid} x {countable.CurrentValue} (+{countable.Amount})";
+            var labelText = $"{resource.Scheme.Sid} +{countable.Amount} ({countable.CurrentValue})";
             spriteBatch.DrawString(_font, labelText, position + new Vector2(index * 32, 32), Color.Wheat);
         }
     }

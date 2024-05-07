@@ -12,4 +12,4 @@ root:
         Our beaters are already catching up with other heroes. We need to somehow stand out in order to unite with others who have the Blood of Heroes. Because together we are a force to be reckoned with. Let's complete 3 feats. In the meantime, I'll try to notice signs of other heroes so that we can find them easier.
       env:
         - type: ActivateStoryPoint
-          data: HearMeBrothers
+          data: HearMeBrothersFeat1

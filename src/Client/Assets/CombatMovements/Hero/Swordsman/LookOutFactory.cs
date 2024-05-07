@@ -70,7 +70,7 @@ internal class LookOutFactory : CombatMovementFactoryBase
     {
         return new[]
         {
-            new DescriptionKeyValue("defence", ExtractDamage(combatMovementInstance, 0),
+            new DescriptionKeyValue("defence", ExtractStatChangingValue(combatMovementInstance, 0),
                 DescriptionKeyValueTemplate.Defence),
             new DescriptionKeyValue("auto_defence", 1, DescriptionKeyValueTemplate.Defence)
         };

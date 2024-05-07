@@ -27,7 +27,6 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     {
         nameof(UnitName.Herbalist),
 
-        nameof(UnitName.Hoplite),
         nameof(UnitName.Engineer),
 
         nameof(UnitName.Priest),
@@ -39,6 +38,13 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
     private readonly IMonsterPerkManager _monsterPerkManager;
 
+    private readonly IReadOnlyCollection<PredefinedScenarioCampaign> _predefinedCampaigns = new[]
+    {
+        new PredefinedScenarioCampaign("MainPlotEpisode1Scene1", "HearMeBrothersFeat1Complete")
+    };
+
+    private readonly ScenarioCampaigns _scenarioCampaigns;
+
     private readonly CampaignWayTemplatesCatalog _wayTemplatesCatalog;
 
     public CampaignGenerator(CampaignWayTemplatesCatalog wayTemplatesCatalog,
@@ -46,7 +52,8 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         IDropResolver dropResolver,
         ICharacterCatalog unitSchemeCatalog,
         IMonsterPerkManager monsterPerkManager,
-        GlobeProvider globeProvider)
+        GlobeProvider globeProvider,
+        ScenarioCampaigns scenarioCampaigns)
     {
         _wayTemplatesCatalog = wayTemplatesCatalog;
         _dice = dice;
@@ -54,6 +61,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         _characterCatalog = unitSchemeCatalog;
         _monsterPerkManager = monsterPerkManager;
         _globeProvider = globeProvider;
+        _scenarioCampaigns = scenarioCampaigns;
     }
 
     private ILocationSid[] CalculateAvailableLocations()
@@ -69,6 +77,19 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                 x => x.ClassSid))
             .Except(_heroInDev)
             .ToArray();
+    }
+
+    private PredefinedScenarioCampaign? CheckPredefined()
+    {
+        foreach (var predefined in _predefinedCampaigns)
+        {
+            if (_globeProvider.Globe.Player.StoryState.Keys.Contains(predefined.StoryKey))
+            {
+                return predefined;
+            }
+        }
+
+        return null;
     }
 
     private HeroCampaignLocation CreateCampaignLocation(ILocationSid locationSid)
@@ -140,6 +161,33 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         };
     }
 
+    private IEnumerable<HeroCampaignLaunch> CreateRandomCampaigns(Globe currentGlobe, int maxRandomCount)
+    {
+        var availableLocationSids = currentGlobe.Player.CurrentAvailableLocations.ToArray();
+
+        var campaignLaunchCount = Math.Min(availableLocationSids.Length, maxRandomCount);
+
+        var selectedLocations = _dice.RollFromList(availableLocationSids, campaignLaunchCount).ToList();
+
+        var list = new List<HeroCampaignLaunch>();
+
+        foreach (var locationSid in selectedLocations)
+        {
+            var campaignSource = CreateCampaignLocation(locationSid);
+
+            var heroes = RollCampaignHeroes(currentGlobe.Player.Heroes.ToArray(), _dice);
+
+            var rewards = CreateRewards(locationSid);
+            var penalties = CreateFailurePenalties();
+
+            var campaignLaunch = new HeroCampaignLaunch(campaignSource, heroes, rewards, penalties);
+
+            list.Add(campaignLaunch);
+        }
+
+        return list;
+    }
+
     private IReadOnlyCollection<ICampaignEffect> CreateRewards(ILocationSid locationSid)
     {
         if (!_globeProvider.Globe.Features.HasFeature(GameFeatures.CampaignEffects))
@@ -186,6 +234,20 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         };
     }
 
+    private static IReadOnlyCollection<HeroState> GetHeroes(HeroCampaign campaign,
+        IReadOnlyCollection<HeroState> playerHeroes)
+    {
+        var heroStates = new List<HeroState>();
+
+        foreach (var heroCampaignState in campaign.Heroes)
+        {
+            var heroState = playerHeroes.Single(x => x.ClassSid == heroCampaignState.ClassSid);
+            heroStates.Add(heroState);
+        }
+
+        return heroStates;
+    }
+
     private static IReadOnlyCollection<HeroState> RollCampaignHeroes(IEnumerable<HeroState> unlockedHeroes, IDice dice)
     {
         var openList = new List<HeroState>(unlockedHeroes.Where(x => x.AvailableToCampaigns));
@@ -219,29 +281,28 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     /// </summary>
     public IReadOnlyList<HeroCampaignLaunch> CreateSet(Globe currentGlobe)
     {
-        var availableLocationSids = currentGlobe.Player.CurrentAvailableLocations.ToArray();
+        var availablePredefinedCampaign = CheckPredefined();
 
-        const int MAX_CAMPAIGN_LAUNCH_COUNT = 3;
-        var campaignLaunchCount = Math.Min(availableLocationSids.Length, MAX_CAMPAIGN_LAUNCH_COUNT);
-
-        var selectedLocations = _dice.RollFromList(availableLocationSids, campaignLaunchCount).ToList();
-
-        var list = new List<HeroCampaignLaunch>();
-
-        foreach (var locationSid in selectedLocations)
+        var campaigns = new List<HeroCampaignLaunch>();
+        if (availablePredefinedCampaign is not null)
         {
-            var campaignSource = CreateCampaignLocation(locationSid);
+            var campaign = _scenarioCampaigns.GetCampaign(
+                availablePredefinedCampaign.CampaignSid,
+                _globeProvider.Globe.Player);
 
-            var heroes = RollCampaignHeroes(currentGlobe.Player.Heroes.ToArray(), _dice);
+            var launch = new HeroCampaignLaunch(campaign.Location, GetHeroes(campaign, currentGlobe.Player.Heroes),
+                campaign.ActualRewards,
+                campaign.ActualFailurePenalties);
 
-            var rewards = CreateRewards(locationSid);
-            var penalties = CreateFailurePenalties();
-
-            var campaignLaunch = new HeroCampaignLaunch(campaignSource, heroes, rewards, penalties);
-
-            list.Add(campaignLaunch);
+            campaigns.Add(launch);
+        }
+        else
+        {
+            const int MAX_CAMPAIGN_LAUNCH_COUNT = 3;
+            var list = CreateRandomCampaigns(currentGlobe, MAX_CAMPAIGN_LAUNCH_COUNT);
+            campaigns.AddRange(list);
         }
 
-        return list;
+        return campaigns;
     }
 }
