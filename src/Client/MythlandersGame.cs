@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.Catalogs.Crises;
+using Client.Assets.Catalogs.DialogueStoring;
 using Client.Assets.CombatMovements;
 using Client.Assets.MonsterPerks;
 using Client.Core;
@@ -224,9 +225,11 @@ internal sealed class MythlandersGame : Game
 
             var dialogueAftermathCreator =
                 new DialogueAftermathCreator(Services.GetRequiredService<IDice>());
+            var dialogConditionCreator = new ParagraphConditionCreator();
 
             var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider, dialogueAftermathCreator,
-                dialogueAftermathCreator);
+                dialogueAftermathCreator,
+                dialogConditionCreator);
             Services.AddService<IEventInitializer>(dialogueCatalog);
             Services.AddService<IEventCatalog>(dialogueCatalog);
 
@@ -241,10 +244,12 @@ internal sealed class MythlandersGame : Game
 
             var dialogueAftermathCreator =
                 new DialogueAftermathCreator(Services.GetRequiredService<IDice>());
+            var dialogConditionCreator = new ParagraphConditionCreator();
 
             var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider,
                 dialogueAftermathCreator,
-                dialogueAftermathCreator);
+                dialogueAftermathCreator,
+                dialogConditionCreator);
             Services.AddService<IEventInitializer>(dialogueCatalog);
             Services.AddService<IEventCatalog>(dialogueCatalog);
 

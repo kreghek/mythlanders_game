@@ -22,6 +22,8 @@ internal class DialogueOptionButton : ButtonBase
 
     public int Number { get; }
 
+    public string? DescriptionSid { get; init; }
+
     public Vector2 GetContentSize()
     {
         var textSize = _font.MeasureString(_optionText) + new Vector2(MARGIN * 2, MARGIN * 2);

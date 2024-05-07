@@ -4,6 +4,7 @@ using Client;
 using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.Catalogs.Dialogues;
+using Client.Assets.Catalogs.DialogueStoring;
 using Client.Assets.Dialogues;
 using Client.Assets.MonsterPerks;
 using Client.Core;
@@ -45,7 +46,7 @@ public class MonkeyKingTests
         var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
 
         var eventCatalog = new DialogueCatalog(new LocalDialogueResourceProvider(),
-            new DialogueAftermathCreator(dice), new DialogueAftermathCreator(dice));
+            new DialogueAftermathCreator(dice), new DialogueAftermathCreator(dice), new ParagraphConditionCreator());
         eventCatalog.Init();
 
         var storyPointCatalog = new StoryPointCatalog(eventCatalog);

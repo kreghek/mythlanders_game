@@ -6,5 +6,5 @@ using CombatDicesTeam.Dialogues;
 namespace Client.GameScreens.PreHistory;
 
 internal sealed record PreHistoryScreenScreenTransitionArguments
-(Dialogue<ParagraphConditionContext, PreHistoryAftermathContext> CurrentDialogue
-) : TextEventScreenArgsBase<ParagraphConditionContext, PreHistoryAftermathContext>(CurrentDialogue);
+(Dialogue<PreHistoryConditionContext, PreHistoryAftermathContext> CurrentDialogue
+) : TextEventScreenArgsBase<PreHistoryConditionContext, PreHistoryAftermathContext>(CurrentDialogue);

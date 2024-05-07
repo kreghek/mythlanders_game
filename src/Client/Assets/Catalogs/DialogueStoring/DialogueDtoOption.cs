@@ -9,6 +9,8 @@ namespace Client.Assets.Catalogs.DialogueStoring;
 internal class DialogueDtoOption
 {
     public DialogueDtoData[]? Aftermaths { get; [UsedImplicitly] init; }
+    public DialogueDtoData[]? HideConditions { get; [UsedImplicitly] init; }
+    public DialogueDtoData[]? SelectConditions { get; [UsedImplicitly] init; }
 
     // ReSharper disable once UnusedMember.Global
     // This member is not used but required to deserialization.

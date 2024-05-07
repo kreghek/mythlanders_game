@@ -5,6 +5,7 @@ using Client;
 using Client.Assets;
 using Client.Assets.Catalogs;
 using Client.Assets.Catalogs.Dialogues;
+using Client.Assets.Catalogs.DialogueStoring;
 using Client.Assets.Dialogues;
 using Client.Assets.MonsterPerks;
 using Client.Core;
@@ -35,7 +36,7 @@ public class SynthAsParentTests
         Thread.CurrentThread.CurrentUICulture = newCulture;
     }
 
-    private static IReadOnlyCollection<TObj> GetAllLocationsFromStaticCatalog<TObj>(Type catalog)
+    private static IReadOnlyCollection<TObj> GetAllLocationsFromStaticCatalog<TObj>(IReflect catalog)
     {
         return catalog
             .GetFields(BindingFlags.Public | BindingFlags.Static)
@@ -57,7 +58,8 @@ public class SynthAsParentTests
         var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
 
         var eventCatalog = new DialogueCatalog(new LocalDialogueResourceProvider(),
-            new DialogueAftermathCreator(dice), new DialogueAftermathCreator(dice));
+            new DialogueAftermathCreator(dice), new DialogueAftermathCreator(dice),
+            new ParagraphConditionCreator());
         eventCatalog.Init();
 
         var storyPointCatalog = new StoryPointCatalog(eventCatalog);
