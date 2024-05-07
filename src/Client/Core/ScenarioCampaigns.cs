@@ -50,10 +50,6 @@ internal sealed class ScenarioCampaigns
 
         var graph = new DirectedGraph<ICampaignStageItem>();
 
-        var node1 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem(DIALOGUE_SID, locationSid,
-            _eventCatalog));
-        graph.AddNode(node1);
-
         var combatSequenceT1 = new CombatSequence
         {
             Combats = new[]
@@ -79,7 +75,6 @@ internal sealed class ScenarioCampaigns
         });
         graph.AddNode(node8);
 
-        graph.ConnectNodes(node1, node2);
         graph.ConnectNodes(node2, node8);
 
         return new HeroCampaign(new[]
