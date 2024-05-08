@@ -220,10 +220,7 @@ internal sealed class TitleScreen : GameScreenBase
 
     protected override void UpdateContent(GameTime gameTime)
     {
-        foreach (var button in _buttons)
-        {
-            button.Update(_resolutionIndependentRenderer);
-        }
+        UpdateUi();
 
         _particleSystem.Update(gameTime);
         foreach (var particleSystem in _pulseParticleSystems)
@@ -232,6 +229,19 @@ internal sealed class TitleScreen : GameScreenBase
         }
 
         _bgPong.Update(gameTime.ElapsedGameTime.TotalSeconds);
+    }
+
+    private void UpdateUi()
+    {
+        if (!Game.IsActive)
+        {
+            return;
+        }
+
+        foreach (var button in _buttons)
+        {
+            button.Update(_resolutionIndependentRenderer);
+        }
     }
 
     private ButtonBase? CreateLoadButtonOrNothing()
