@@ -53,14 +53,14 @@ public static class StringHelper
         var singleSb = new StringBuilder();
         foreach (var item in items)
         {
-            var countOfStylesInLine = GetStyleCount(item);
-
             var words = item.Split(_wordBreakers.ToArray(), StringSplitOptions.RemoveEmptyEntries);
 
             singleSb.Clear();
             var isFirstInLine = true;
             foreach (var word in words)
             {
+                var countOfStylesInLine = GetStyleCount(singleSb.ToString());
+
                 AppendWord(word, singleSb, isFirstInLine);
 
                 if (singleSb.Length - countOfStylesInLine <= maxInLine)
