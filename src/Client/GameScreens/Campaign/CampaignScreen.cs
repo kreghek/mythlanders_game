@@ -23,10 +23,10 @@ namespace Client.GameScreens.Campaign;
 
 internal class CampaignScreen : GameScreenWithMenuBase
 {
-    private readonly ButtonBase _bestiaryButton;
+    //private readonly ButtonBase _bestiaryButton;
     private readonly HeroCampaign _currentCampaign;
     private readonly GlobeProvider _globeProvider;
-    private readonly ButtonBase _inventoryButton;
+    //private readonly ButtonBase _inventoryButton;
     private readonly VerticalStackPanel _jobElement;
     private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
     private readonly ButtonBase _showQuestsPanelButton;
@@ -52,11 +52,11 @@ internal class CampaignScreen : GameScreenWithMenuBase
         _showQuestsPanelButton = new ResourceTextButton(nameof(UiResource.CurrentQuestButtonTitle));
         _showQuestsPanelButton.OnClick += ShowStoryPointsButton_OnClick;
 
-        _inventoryButton = new ResourceTextButton(nameof(UiResource.InventoryButtonTitle));
-        _inventoryButton.OnClick += InventoryButton_OnClick;
-
-        _bestiaryButton = new ResourceTextButton(nameof(UiResource.BestiaryButtonTitle));
-        _bestiaryButton.OnClick += BestiaryButton_OnClick;
+        // _inventoryButton = new ResourceTextButton(nameof(UiResource.InventoryButtonTitle));
+        // _inventoryButton.OnClick += InventoryButton_OnClick;
+        //
+        // _bestiaryButton = new ResourceTextButton(nameof(UiResource.BestiaryButtonTitle));
+        // _bestiaryButton.OnClick += BestiaryButton_OnClick;
 
         var executables = _globeProvider.Globe.GetCurrentJobExecutables().OfType<IDisplayableJobExecutable>()
             .OrderBy(x => x.Order).ThenBy(x => x.TitleSid).ToArray();
@@ -70,15 +70,15 @@ internal class CampaignScreen : GameScreenWithMenuBase
     {
         var menuButtons = new List<ButtonBase>();
 
-        if (_globeProvider.Globe.Player.Inventory.CalcActualItems().Any())
-        {
-            menuButtons.Add(_inventoryButton);
-        }
-
-        if (_globeProvider.Globe.Player.MonsterPerks.Any() && _globeProvider.Globe.Player.KnownMonsters.Any())
-        {
-            menuButtons.Add(_bestiaryButton);
-        }
+        // if (_globeProvider.Globe.Player.Inventory.CalcActualItems().Any())
+        // {
+        //     menuButtons.Add(_inventoryButton);
+        // }
+        //
+        // if (_globeProvider.Globe.Player.MonsterPerks.Any() && _globeProvider.Globe.Player.KnownMonsters.Any())
+        // {
+        //     menuButtons.Add(_bestiaryButton);
+        // }
 
         return menuButtons;
     }

@@ -32,8 +32,8 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 {
     private readonly IReadOnlyList<HeroCampaignLaunch> _campaignLaunches;
 
-    private readonly ButtonBase[] _commandButtons = new ButtonBase[4];
-    private readonly Texture2D[] _commandCenterSegmentTexture;
+    //private readonly ButtonBase[] _commandButtons = new ButtonBase[4];
+    //private readonly Texture2D[] _commandCenterSegmentTexture;
     private readonly IDice _dice;
     private readonly GlobeProvider _globeProvider;
     private readonly IDictionary<ILocationSid, Vector2> _locationCoords;
@@ -54,13 +54,13 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         _campaignLaunches = args.AvailableCampaigns;
 
         _mapBackgroundTexture = Game.Content.Load<Texture2D>("Sprites/GameObjects/Map/Map");
-        _commandCenterSegmentTexture = new[]
-        {
-            Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter1"),
-            Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter2"),
-            Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter3"),
-            Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter4")
-        };
+        // _commandCenterSegmentTexture = new[]
+        // {
+        //     Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter1"),
+        //     Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter2"),
+        //     Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter3"),
+        //     Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter4")
+        // };
 
         const int MENU_HEIGHT = 20;
         var contentRect = new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Location.X,
@@ -108,7 +108,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
         DrawCampaigns(spriteBatch, contentRect);
 
-        DrawBase(spriteBatch, contentRect);
+        //DrawBase(spriteBatch, contentRect);
 
         spriteBatch.End();
     }
@@ -119,21 +119,21 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
         _availableCampaignPanels = CreateCampaignPanels();
 
-        _commandButtons[0] = new ResourceTextButton(nameof(UiResource.BarraksButtonTitle));
-        _commandButtons[0].OnClick += (_, _) =>
-        {
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Barracks, null!);
-        };
-
-        _commandButtons[1] = new ResourceTextButton(nameof(UiResource.ArmoryButtonTitle));
-        _commandButtons[2] = new ResourceTextButton(nameof(UiResource.AdjutantButtonTitle));
-        _commandButtons[2].OnClick += (_, _) =>
-        {
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary,
-                new BestiaryScreenTransitionArguments(ScreenTransition.CommandCenter,
-                    new CommandCenterScreenTransitionArguments(_campaignLaunches)));
-        };
-        _commandButtons[3] = new ResourceTextButton(nameof(UiResource.ChroniclesButtonTitle));
+        // _commandButtons[0] = new ResourceTextButton(nameof(UiResource.BarraksButtonTitle));
+        // _commandButtons[0].OnClick += (_, _) =>
+        // {
+        //     ScreenManager.ExecuteTransition(this, ScreenTransition.Barracks, null!);
+        // };
+        //
+        // _commandButtons[1] = new ResourceTextButton(nameof(UiResource.ArmoryButtonTitle));
+        // _commandButtons[2] = new ResourceTextButton(nameof(UiResource.AdjutantButtonTitle));
+        // _commandButtons[2].OnClick += (_, _) =>
+        // {
+        //     ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary,
+        //         new BestiaryScreenTransitionArguments(ScreenTransition.CommandCenter,
+        //             new CommandCenterScreenTransitionArguments(_campaignLaunches)));
+        // };
+        // _commandButtons[3] = new ResourceTextButton(nameof(UiResource.ChroniclesButtonTitle));
     }
 
     protected override void UpdateContent(GameTime gameTime)
@@ -154,10 +154,10 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
         _locationOnMapCounter += gameTime.ElapsedGameTime.TotalSeconds * 10;
 
-        foreach (var commandButton in _commandButtons)
-        {
-            commandButton.Update(ResolutionIndependentRenderer);
-        }
+        // foreach (var commandButton in _commandButtons)
+        // {
+        //     commandButton.Update(ResolutionIndependentRenderer);
+        // }
     }
 
     private List<ICampaignPanel> CreateCampaignPanels()
@@ -241,25 +241,25 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
     private void DrawBase(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        for (var i = 0; i < 4; i++)
-        {
-            spriteBatch.Draw(_commandCenterSegmentTexture[i],
-                new Rectangle(
-                    (contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
-                    (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN +
-                    (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
-                    200,
-                    200),
-                Color.White);
-
-            _commandButtons[i].Rect = new Rectangle(
-                (contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
-                (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN +
-                (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
-                100, 20);
-
-            _commandButtons[i].Draw(spriteBatch);
-        }
+        // for (var i = 0; i < 4; i++)
+        // {
+        //     spriteBatch.Draw(_commandCenterSegmentTexture[i],
+        //         new Rectangle(
+        //             (contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
+        //             (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN +
+        //             (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
+        //             200,
+        //             200),
+        //         Color.White);
+        //
+        //     _commandButtons[i].Rect = new Rectangle(
+        //         (contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
+        //         (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN +
+        //         (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
+        //         100, 20);
+        //
+        //     _commandButtons[i].Draw(spriteBatch);
+        // }
     }
 
     private void DrawCampaigns(SpriteBatch spriteBatch, Rectangle contentRect)

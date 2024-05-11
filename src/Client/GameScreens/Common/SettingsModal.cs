@@ -47,8 +47,8 @@ internal sealed class SettingsModal : ModalDialogBase
             if (isGameStarted)
             {
                 // Fast restart available only in the demo game.
-                var fastRestartButton = CreateFastRestartButton();
-                _buttons.Add(fastRestartButton);
+                // var fastRestartButton = CreateFastRestartButton();
+                // _buttons.Add(fastRestartButton);
             }
         }
 
