@@ -138,7 +138,10 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
         if (_campaignMap is not null)
         {
-            _campaignMap.Update(gameTime, ResolutionIndependentRenderer);
+            if (Game.IsActive)
+            {
+                _campaignMap.Update(gameTime, ResolutionIndependentRenderer);
+            }
 
             UpdateMapPresentation(gameTime, _campaignMap);
         }
