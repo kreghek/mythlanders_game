@@ -138,16 +138,17 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
         if (_campaignMap is not null)
         {
-            _campaignMap.Update(gameTime, ResolutionIndependentRenderer);
+            if (Game.IsActive)
+            {
+                _campaignMap.Update(gameTime, ResolutionIndependentRenderer);
+            }
 
             UpdateMapPresentation(gameTime, _campaignMap);
         }
 
         if (_globeProvider.Globe.Features.HasFeature(GameFeatures.ExecutableQuests))
         {
-            _showQuestsPanelButton.Update(ResolutionIndependentRenderer);
-
-            if (_showQuests)
+            if (Game.IsActive)
             {
                 _showQuestsPanelButton.Update(ResolutionIndependentRenderer);
             }

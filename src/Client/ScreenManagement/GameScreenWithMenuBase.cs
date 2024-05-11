@@ -63,6 +63,11 @@ internal abstract class GameScreenWithMenuBase : GameScreenBase
 
     protected override void UpdateContent(GameTime gameTime)
     {
+        if (!Game.IsActive)
+        {
+            return;
+        }
+
         var keyboardState = Keyboard.GetState();
 
         if (_lastKeyboardState.IsKeyDown(Keys.F12) && keyboardState.IsKeyUp(Keys.F12))
