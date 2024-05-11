@@ -291,7 +291,10 @@ internal class CombatScreen : GameScreenWithMenuBase
                     _combatCore.CurrentRoundNumber)).IsFinalState
             && _combatFinishedVictory is null)
         {
-            UpdateCombatHud(gameTime);
+            if (Game.IsActive)
+            {
+                UpdateCombatHud(gameTime);
+            }
         }
 
         if (_combatFinishedVictory is not null)

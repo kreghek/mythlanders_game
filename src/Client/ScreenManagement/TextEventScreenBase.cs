@@ -154,10 +154,16 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         {
             UpdateSpecificScreenContent(gameTime);
 
-            UpdateTextHud(gameTime);
+            if (Game.IsActive)
+            {
+                UpdateTextHud(gameTime);
+            }
         }
 
-        _keyboardState = Keyboard.GetState();
+        if (Game.IsActive)
+        {
+            _keyboardState = Keyboard.GetState();
+        }
     }
 
     protected abstract void UpdateSpecificScreenContent(GameTime gameTime);

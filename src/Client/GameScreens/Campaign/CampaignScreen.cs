@@ -145,9 +145,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
         if (_globeProvider.Globe.Features.HasFeature(GameFeatures.ExecutableQuests))
         {
-            _showQuestsPanelButton.Update(ResolutionIndependentRenderer);
-
-            if (_showQuests)
+            if (Game.IsActive)
             {
                 _showQuestsPanelButton.Update(ResolutionIndependentRenderer);
             }
