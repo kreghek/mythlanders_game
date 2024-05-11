@@ -7,6 +7,8 @@ using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter;
 using Client.ScreenManagement;
 
+using CombatDicesTeam.Combats;
+
 namespace Client.Engine;
 
 internal class StateCoordinator
@@ -103,6 +105,11 @@ internal class StateCoordinator
 
     private void AutoRetryCampaignStage(IScreen currentScreen, HeroCampaign currentCampaign)
     {
+        foreach (var hero in currentCampaign.Heroes)
+        {
+            hero.HitPoints.Restore(hero.HitPoints.ActualMax);
+        }
+
         currentCampaign.CurrentStage.Payload.ExecuteTransition(currentScreen, _screenManager, currentCampaign);
     }
 
