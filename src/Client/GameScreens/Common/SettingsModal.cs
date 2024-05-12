@@ -156,13 +156,13 @@ internal sealed class SettingsModal : ModalDialogBase
 
     private void SwitchMusicButton_OnClick(object? sender, EventArgs e)
     {
-        if ((int)_gameSettings.MusicVolume == 1)
+        if ((int)_gameSettings.AudioSettings.MusicVolume == 1)
         {
-            _gameSettings.MusicVolume = 0;
+            _gameSettings.AudioSettings.MusicVolume = 0;
         }
         else
         {
-            _gameSettings.MusicVolume = 1;
+            _gameSettings.AudioSettings.MusicVolume = 0.5f;
         }
     }
 

@@ -77,7 +77,7 @@ internal sealed class SoundtrackManager
             return;
         }
 
-        MediaPlayer.Volume = _gameSettings.MusicVolume;
+        MediaPlayer.Volume = _gameSettings.AudioSettings.MusicVolume;
 
         switch (_state)
         {
