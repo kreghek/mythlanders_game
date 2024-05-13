@@ -255,6 +255,8 @@ internal class CombatScreen : GameScreenWithMenuBase
         _maneuversVisualizer.ManeuverSelected += ManeuverVisualizer_ManeuverSelected;
     }
 
+    private bool _isTutorialShown;
+
     protected override void UpdateContent(GameTime gameTime)
     {
         base.UpdateContent(gameTime);
@@ -265,9 +267,10 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         if (!_globe.Player.HasAbility(PlayerAbility.ReadUseCombatMovementsTutorial) &&
             !_globe.Player.HasAbility(PlayerAbility.SkipTutorials) &&
+            !_isTutorialShown &&
             currentHeroes.Count == 1)
         {
-            _globe.Player.AddPlayerAbility(PlayerAbility.ReadUseCombatMovementsTutorial);
+            _isTutorialShown = true;
 
             var tutorial1PageDrawer = GetTutorialPageDrawerByHero(currentHeroes.Single());
 
@@ -753,6 +756,8 @@ internal class CombatScreen : GameScreenWithMenuBase
                     _globeProvider.StoreCurrentGlobe();
                     _currentCampaign.CompleteCurrentStage(_globe, _jobProgressResolver);
 
+                    MarkTutorial1Won();
+
                     if (_args.IsGoalStage)
                     {
                         _coordinator.MakeGoalStageTransition(this, _currentCampaign, _globe);
@@ -793,6 +798,17 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
                 new CommandCenterScreenTransitionArguments(campaigns));
+        }
+    }
+
+    private void MarkTutorial1Won()
+    {
+        var currentHeroes = _globe.Player.Heroes;
+        if (!_globe.Player.HasAbility(PlayerAbility.ReadUseCombatMovementsTutorial) &&
+            !_isTutorialShown &&
+            currentHeroes.Count == 1)
+        {
+            _globe.Player.AddPlayerAbility(PlayerAbility.ReadUseCombatMovementsTutorial);
         }
     }
 
