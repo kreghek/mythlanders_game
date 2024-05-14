@@ -12,6 +12,21 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Title;
 
+internal sealed class DemoLimitsModal : ModalDialogBase
+{
+    public DemoLimitsModal(IUiContentStorage uiContentStorage,
+        IResolutionIndependentRenderer resolutionIndependentRenderer) : base(uiContentStorage,
+        resolutionIndependentRenderer)
+    {
+
+    }
+
+    protected override void DrawContent(SpriteBatch spriteBatch)
+    {
+        spriteBatch.Draw();
+    }
+}
+
 internal sealed class ContinueGameModal : ModalDialogBase
 {
     private const int BUTTON_HEIGHT = 40;
@@ -19,7 +34,6 @@ internal sealed class ContinueGameModal : ModalDialogBase
     private const int BUTTON_WIDTH = 200;
 
     private const int PAGE_SIZE = 3;
-    private readonly ICampaignGenerator _campaignGenerator;
     private readonly IList<ButtonBase> _continueGameButtons;
     private readonly StateCoordinator _coordinator;
     private readonly IDialogueResourceProvider _dialogueResourceProvider;
@@ -31,7 +45,7 @@ internal sealed class ContinueGameModal : ModalDialogBase
 
     public ContinueGameModal(IUiContentStorage uiContentStorage,
         IResolutionIndependentRenderer resolutionIndependentRenderer, GlobeProvider globeProvider,
-        IScreenManager screenManager, IScreen screen, ICampaignGenerator campaignGenerator,
+        IScreenManager screenManager, IScreen screen,
         StateCoordinator coordinator,
         IDialogueResourceProvider dialogueResourceProvider) : base(uiContentStorage,
         resolutionIndependentRenderer)
@@ -42,7 +56,6 @@ internal sealed class ContinueGameModal : ModalDialogBase
         _globeProvider = globeProvider;
         _screenManager = screenManager;
         _screen = screen;
-        _campaignGenerator = campaignGenerator;
         _coordinator = coordinator;
 
         _dialogueResourceProvider = dialogueResourceProvider;
