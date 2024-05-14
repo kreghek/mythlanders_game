@@ -263,7 +263,7 @@ internal sealed class TitleScreen : GameScreenBase
         loadGameButton.OnClick += (_, _) =>
         {
             var continueDialog = new ContinueGameModal(_uiContentStorage, _resolutionIndependentRenderer,
-                _globeProvider, ScreenManager, this, _campaignGenerator, _coordinator, _resourceProvider);
+                _globeProvider, ScreenManager, this, _coordinator, _resourceProvider);
             AddModal(continueDialog, isLate: true);
             continueDialog.Show();
         };
@@ -406,6 +406,19 @@ internal sealed class TitleScreen : GameScreenBase
 
     private void StartButton_OnClick(object? sender, EventArgs e)
     {
-        StartClearNewGame(_globeProvider, this, ScreenManager, _resourceProvider);
+        if (_gameSettings.Mode == GameMode.Demo)
+        {
+            var demoModal = new DemoLimitsModal(_uiContentStorage, ResolutionIndependentRenderer);
+            AddModal(demoModal, false);
+
+            demoModal.Closed += (_, _) =>
+            {
+                StartClearNewGame(_globeProvider, this, ScreenManager, _resourceProvider);
+            };
+        }
+        else
+        {
+            StartClearNewGame(_globeProvider, this, ScreenManager, _resourceProvider);
+        }
     }
 }
