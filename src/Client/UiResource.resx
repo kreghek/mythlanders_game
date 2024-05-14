@@ -352,6 +352,13 @@ Do you really need to spend the priceless current move for nothing?</value>
   <data name="DecreseDamagePercentEffectRuleText" xml:space="preserve">
     <value>Decrease damage on {0}% of {2} on {1} turns</value>
   </data>
+  <data name="DemoLimitsText" xml:space="preserve">
+    <value>This is a demo version of the game. As with most demos, there are a number of limitations and conventions:
+1. Many game mechanics have been simplified or eliminated in order to quickly show you the gaming experience from the main game loop. Moreover, the game is under active development.
+2. This version does not save gameplay. It is expected that you will be able to complete this version of the game in a relatively short gaming session.
+3. There may be non-critical errors, content stubs and non-final game art. There will be less of these things as the game gets closer to full release.
+4. The game can arouse interest in ancient cultures and civilizations, it can open up the opportunity to communicate with the ancestors of the family, control the natural elements and other superpowers.</value>
+  </data>
   <data name="DemoMarkerDescription" xml:space="preserve">
     <value>This is not the full version of the game.
 Most of the content and mechanics are missing from the demo.
