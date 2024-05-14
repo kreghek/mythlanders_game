@@ -1,16 +1,18 @@
 Special thanks to:
 
 [Egor Kornev] - for a huge amount of art
+[Denis Ishutin] - for PR and assistance in the presentation of the game
 [Anatoly Yuzhikov] - for continuous support of the game
-[Gregory Kulakov] - for help at the very beginning of development
+[Gregory Kulakov] - for help at the beginning of development
 [Ivan Rakhmanenko] - for finding a cool musical style
 [Nikolay Kondratyev] - for the title soundtrack
-[Andrey Vedernikov] - for music for fights
+[Andrey Vedernikov] - for music for turn-based combats
 
-Gratitude for participation in the project
+Thanks to:
 
 [KrisWay22] on instagram
 [nelocodreh] on telegram
 [ZLODEiDOBRODEi] on telegram
 [SerCraft] on telegram
 [despair73] on VK
+[Scribble] on VK
