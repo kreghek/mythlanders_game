@@ -12,21 +12,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Client.GameScreens.Title;
 
-internal sealed class DemoLimitsModal : ModalDialogBase
-{
-    public DemoLimitsModal(IUiContentStorage uiContentStorage,
-        IResolutionIndependentRenderer resolutionIndependentRenderer) : base(uiContentStorage,
-        resolutionIndependentRenderer)
-    {
-
-    }
-
-    protected override void DrawContent(SpriteBatch spriteBatch)
-    {
-        spriteBatch.Draw();
-    }
-}
-
 internal sealed class ContinueGameModal : ModalDialogBase
 {
     private const int BUTTON_HEIGHT = 40;

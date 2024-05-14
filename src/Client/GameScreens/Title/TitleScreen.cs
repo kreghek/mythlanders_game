@@ -407,8 +407,14 @@ internal sealed class TitleScreen : GameScreenBase
     private void StartButton_OnClick(object? sender, EventArgs e)
     {
         if (_gameSettings.Mode == GameMode.Demo)
-        { 
+        {
+            var demoModal = new DemoLimitsModal(_uiContentStorage, ResolutionIndependentRenderer);
+            AddModal(demoModal, false);
 
+            demoModal.Closed += (_, _) =>
+            {
+                StartClearNewGame(_globeProvider, this, ScreenManager, _resourceProvider);
+            };
         }
         else
         {
