@@ -156,6 +156,9 @@ internal sealed class ScenarioCampaigns
         var node5 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem(tutorialDialogueSid, locationSid,
             _eventCatalog));
         graph.AddNode(node5);
+        
+        var node5Rest = new GraphNode<ICampaignStageItem>(new RestStageItem());
+        graph.AddNode(node5Rest);
 
         var combatSequenceT3Easy = new CombatSequence
         {
@@ -210,8 +213,9 @@ internal sealed class ScenarioCampaigns
         graph.ConnectNodes(node2, node3);
         graph.ConnectNodes(node3, node4);
         graph.ConnectNodes(node4, node5);
-        graph.ConnectNodes(node5, node6_1);
-        graph.ConnectNodes(node5, node6_2);
+        graph.ConnectNodes(node5, node5Rest);
+        graph.ConnectNodes(node5Rest, node6_1);
+        graph.ConnectNodes(node5Rest, node6_2);
         graph.ConnectNodes(node6_1, node7);
         graph.ConnectNodes(node6_2, node7);
         graph.ConnectNodes(node7, node8);
