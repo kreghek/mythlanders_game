@@ -20,7 +20,7 @@ internal class EbonySkinFactory : SimpleCombatMovementFactoryBase
         {
             new DescriptionKeyValue("defense", ExtractStatChangingValue(combatMovementInstance, 0),
                 DescriptionKeyValueTemplate.ShieldPoints),
-            new DescriptionKeyValue("defense_auto", ExtractStatChangingValue(combatMovementInstance, 1),
+            new DescriptionKeyValue("defense_auto", 1,
                 DescriptionKeyValueTemplate.ShieldPoints)
         };
     }
