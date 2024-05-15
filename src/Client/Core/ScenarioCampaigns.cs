@@ -157,10 +157,43 @@ internal sealed class ScenarioCampaigns
             _eventCatalog));
         graph.AddNode(node5);
 
-        var node6_1 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT2));
+        var combatSequenceT3Easy = new CombatSequence
+        {
+            Combats = new[]
+            {
+                new CombatSource(new[]
+                {
+                    new PerkMonsterCombatantPrefab(
+                        new MonsterCombatantPrefab("DigitalWolf", 0, new FieldCoords(0, 0)),
+                        Array.Empty<MonsterPerk>()),
+                    new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("Aspid", 0, new FieldCoords(0, 2)),
+                        Array.Empty<MonsterPerk>())
+                }, new CombatReward(Array.Empty<IDropTableScheme>()))
+            }
+        };
+        
+        var combatSequenceT3Medium = new CombatSequence
+        {
+            Combats = new[]
+            {
+                new CombatSource(new[]
+                {
+                    new PerkMonsterCombatantPrefab(
+                        new MonsterCombatantPrefab("DigitalWolf", 0, new FieldCoords(0, 0)),
+                        Array.Empty<MonsterPerk>()),
+                    new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("Aspid", 0, new FieldCoords(0, 1)),
+                        Array.Empty<MonsterPerk>()),
+                    new PerkMonsterCombatantPrefab(
+                    new MonsterCombatantPrefab("DigitalWolf", 1, new FieldCoords(1, 1)),
+                    Array.Empty<MonsterPerk>()),
+                }, new CombatReward(Array.Empty<IDropTableScheme>()))
+            }
+        };
+        
+        var node6_1 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT3Easy));
         graph.AddNode(node6_1);
 
-        var node6_2 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT2));
+        var node6_2 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT3Medium));
         graph.AddNode(node6_2);
 
         var node7 = new GraphNode<ICampaignStageItem>(new RestStageItem());
