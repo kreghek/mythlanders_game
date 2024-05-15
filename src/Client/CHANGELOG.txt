@@ -1,0 +1,29 @@
+Myth Landers Game Hotfix Update
+
+[unreleaed]
+
+1. Fix hint of Ebony Skin. This is Aspid skill to gain additional armor.
+
+2. Make third tutorial combats different by difficulty. To shod variaty of map.
+
+3. Add modal with demo limits on the start of new game.
+
+4. Show hint on each attempt in tutorial combats. Tutorial hint is important because it describes strategy of victory in the tutorial.
+
+v0.3.136
+
+1. Reduced in-game music volume: Many players voiced concerns about the game being too loud upon launch, which could be unpleasant. We've decreased the music volume by 50%. Additionally, future updates will include customizable volume controls for a more tailored experience.
+
+2. Fixed the Russian text describing the strategy for winning the first training turn-based combat.
+
+3. Disabled mouse and keyboard input capture when the game is out of focus. Previously, if the game was minimized or the window lost focus in windowed mode, mouse clicks and keyboard inputs continued to register. This was particularly inconvenient for turn-based gameplay, where players may need to switch focus during play.
+
+4. Addressed issues with repeated attempts at combat during tutorial. Previously, if the hero lost health, it wouldn't be restored in subsequent attempts, making it impossible to complete the tutorial after certain unsuccessful attempts where the player lost a hero.
+
+5. Revised text on certain buttons to fit within the button space, including the resolution toggle button.
+
+6. Implemented various minor cosmetic improvements and fixes that don't significantly impact gameplay.
+
+v0.3.130
+
+The first public demo!

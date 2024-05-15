@@ -86,7 +86,7 @@ internal sealed class CreditsScreen : GameScreenBase
 
     protected override void UpdateContent(GameTime gameTime)
     {
-        var size = _font.MeasureString(_creditsText);
+        var scrollableContentSize = CalculateScrollableContentSize();
 
         const int TEXT_SPEED = 75;
         const int DELAY_SECONDS = 2;
@@ -95,10 +95,15 @@ internal sealed class CreditsScreen : GameScreenBase
 
         _backButton.Update(_resolutionIndependentRenderer);
 
-        const int COMPENSATION = 250; //TODO Calculate size of content include logo, version and author
-        if (_contentScrollProgress <= -(size.Y + DELAY_SECONDS * TEXT_SPEED + COMPENSATION))
+        if (_contentScrollProgress <= -(scrollableContentSize + DELAY_SECONDS * TEXT_SPEED))
         {
             ScreenManager.ExecuteTransition(this, ScreenTransition.Title, null);
         }
+    }
+
+    private int CalculateScrollableContentSize()
+    {
+        const int COMPENSATION = 250; //TODO Calculate size of content include logo, version and author
+        return (int)_font.MeasureString(_creditsText).Y + COMPENSATION;
     }
 }

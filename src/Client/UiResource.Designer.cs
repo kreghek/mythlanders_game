@@ -732,6 +732,18 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This is a demo version of the game. As with most demos, there are a number of limitations and conventions:
+        ///1. Many game mechanics have been simplified or eliminated in order to quickly show you the gaming experience from the main game loop. Moreover, the game is under active development.
+        ///2. This version does not save gameplay. It is expected that you will be able to complete this version of the game in a relatively short gaming session.
+        ///3. There may be non-critical errors, content stubs and non-final gam [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string DemoLimitsText {
+            get {
+                return ResourceManager.GetString("DemoLimitsText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This is not the full version of the game.
         ///Most of the content and mechanics are missing from the demo.
         ///Don&apos;t forget to add the game to your wishlist on popular platforms and leave feedback to the developer!.

@@ -156,11 +156,47 @@ internal sealed class ScenarioCampaigns
         var node5 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem(tutorialDialogueSid, locationSid,
             _eventCatalog));
         graph.AddNode(node5);
+        
+        var node5Rest = new GraphNode<ICampaignStageItem>(new RestStageItem());
+        graph.AddNode(node5Rest);
 
-        var node6_1 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT2));
+        var combatSequenceT3Easy = new CombatSequence
+        {
+            Combats = new[]
+            {
+                new CombatSource(new[]
+                {
+                    new PerkMonsterCombatantPrefab(
+                        new MonsterCombatantPrefab("DigitalWolf", 0, new FieldCoords(0, 0)),
+                        Array.Empty<MonsterPerk>()),
+                    new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("Aspid", 0, new FieldCoords(0, 2)),
+                        Array.Empty<MonsterPerk>())
+                }, new CombatReward(Array.Empty<IDropTableScheme>()))
+            }
+        };
+        
+        var combatSequenceT3Medium = new CombatSequence
+        {
+            Combats = new[]
+            {
+                new CombatSource(new[]
+                {
+                    new PerkMonsterCombatantPrefab(
+                        new MonsterCombatantPrefab("DigitalWolf", 0, new FieldCoords(0, 0)),
+                        Array.Empty<MonsterPerk>()),
+                    new PerkMonsterCombatantPrefab(new MonsterCombatantPrefab("Aspid", 0, new FieldCoords(0, 1)),
+                        Array.Empty<MonsterPerk>()),
+                    new PerkMonsterCombatantPrefab(
+                    new MonsterCombatantPrefab("DigitalWolf", 1, new FieldCoords(1, 1)),
+                    Array.Empty<MonsterPerk>()),
+                }, new CombatReward(Array.Empty<IDropTableScheme>()))
+            }
+        };
+        
+        var node6_1 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT3Easy));
         graph.AddNode(node6_1);
 
-        var node6_2 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT2));
+        var node6_2 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT3Medium));
         graph.AddNode(node6_2);
 
         var node7 = new GraphNode<ICampaignStageItem>(new RestStageItem());
@@ -177,8 +213,9 @@ internal sealed class ScenarioCampaigns
         graph.ConnectNodes(node2, node3);
         graph.ConnectNodes(node3, node4);
         graph.ConnectNodes(node4, node5);
-        graph.ConnectNodes(node5, node6_1);
-        graph.ConnectNodes(node5, node6_2);
+        graph.ConnectNodes(node5, node5Rest);
+        graph.ConnectNodes(node5Rest, node6_1);
+        graph.ConnectNodes(node5Rest, node6_2);
         graph.ConnectNodes(node6_1, node7);
         graph.ConnectNodes(node6_2, node7);
         graph.ConnectNodes(node7, node8);

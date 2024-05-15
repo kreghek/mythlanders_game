@@ -91,5 +91,5 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
       with:
-        name: ewar-${{ matrix.runtime }}-v${{ steps.game-version.outputs.full }}-${{ steps.current-time.outputs.formattedTime }}
+        name: myth_landers-${{ matrix.runtime }}-v${{ steps.game-version.outputs.full }}-${{ steps.current-time.outputs.formattedTime }}
         path: bin
