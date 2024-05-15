@@ -1,5 +1,15 @@
 Myth Landers Game Hotfix Update
 
+[unreleaed]
+
+1. Fix hint of Ebony Skin. This is Aspid skill to gain additional armor.
+
+2. Make third tutorial combats different by difficulty. To shod variaty of map.
+
+3. Add modal with demo limits on the start of new game.
+
+4. Show hint on each attempt in tutorial combats. Tutorial hint is important because it describes strategy of victory in the tutorial.
+
 v0.3.136
 
 1. Reduced in-game music volume: Many players voiced concerns about the game being too loud upon launch, which could be unpleasant. We've decreased the music volume by 50%. Additionally, future updates will include customizable volume controls for a more tailored experience.
