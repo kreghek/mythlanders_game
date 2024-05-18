@@ -156,7 +156,7 @@ internal sealed class ScenarioCampaigns
         var node5 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem(tutorialDialogueSid, locationSid,
             _eventCatalog));
         graph.AddNode(node5);
-        
+
         var node5Rest = new GraphNode<ICampaignStageItem>(new RestStageItem());
         graph.AddNode(node5Rest);
 
@@ -174,7 +174,7 @@ internal sealed class ScenarioCampaigns
                 }, new CombatReward(Array.Empty<IDropTableScheme>()))
             }
         };
-        
+
         var combatSequenceT3Medium = new CombatSequence
         {
             Combats = new[]
@@ -192,7 +192,7 @@ internal sealed class ScenarioCampaigns
                 }, new CombatReward(Array.Empty<IDropTableScheme>()))
             }
         };
-        
+
         var node6_1 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT3Easy, CombatStageHelper.CreateMetadata(combatSequenceT3Easy.Combats.First(), CombatEstimateDifficulty.Easy)));
         graph.AddNode(node6_1);
 
