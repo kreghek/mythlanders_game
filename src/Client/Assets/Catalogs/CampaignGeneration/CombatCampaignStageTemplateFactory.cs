@@ -34,7 +34,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         _dice = services.Dice;
         _monsterPerkManager = services.MonsterPerkManager;
 
-        var factories = LoadCombatTemplateFactories<ICombatTemplateFactory>();
+        var factories = CatalogHelper.GetAllFactories< ICombatTemplateFactory >();
 
         _monsterCombatantTemplates = factories.Select(x => x.CreateSet()).SelectMany(x => x).ToArray();
     }
@@ -75,15 +75,6 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         return dropTables.ToArray();
     }
 
-    private static IReadOnlyCollection<TFactory> LoadCombatTemplateFactories<TFactory>()
-    {
-        var assembly = typeof(TFactory).Assembly;
-        var factoryTypes = assembly.GetTypes()
-            .Where(x => typeof(TFactory).IsAssignableFrom(x) && x != typeof(TFactory) && !x.IsAbstract);
-        var factories = factoryTypes.Select(Activator.CreateInstance);
-        return factories.OfType<TFactory>().ToArray();
-    }
-
     private static ICampaignStageItem[] MapContextToCurrentStageItems(IGraphTemplateContext<ICampaignStageItem> context)
     {
         return context.CurrentWay.Select(x => x.Payload).ToArray();
@@ -115,8 +106,9 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         {
             Combats = new[] { combat }
         };
+        var metadata = CombatStageHelper.CreateMetadata(combat);
 
-        var stageItem = new CombatStageItem(_locationSid, combatSequence) { IsGoalStage = IsGoalStage };
+        var stageItem = new CombatStageItem(_locationSid, combatSequence, metadata) { IsGoalStage = IsGoalStage };
 
         return stageItem;
     }
