@@ -65,7 +65,7 @@ internal sealed class ScenarioCampaigns
             }
         };
 
-        var node2 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT1));
+        var node2 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT1, CombatStageHelper.CreateMetadata(combatSequenceT1.Combats.First())));
         graph.AddNode(node2);
 
         var node8 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem(DIALOGUE_SID, locationSid,
@@ -128,7 +128,7 @@ internal sealed class ScenarioCampaigns
             }
         };
 
-        var node2 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT1));
+        var node2 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT1, CombatStageHelper.CreateMetadata(combatSequenceT1.Combats.First())));
         graph.AddNode(node2);
 
         var node3 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem(tutorialDialogueSid, locationSid,
@@ -150,7 +150,7 @@ internal sealed class ScenarioCampaigns
             }
         };
 
-        var node4 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT2));
+        var node4 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT2, CombatStageHelper.CreateMetadata(combatSequenceT2.Combats.First())));
         graph.AddNode(node4);
 
         var node5 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem(tutorialDialogueSid, locationSid,
@@ -193,10 +193,10 @@ internal sealed class ScenarioCampaigns
             }
         };
         
-        var node6_1 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT3Easy));
+        var node6_1 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT3Easy, CombatStageHelper.CreateMetadata(combatSequenceT3Easy.Combats.First(), CombatEstimateDifficulty.Easy)));
         graph.AddNode(node6_1);
 
-        var node6_2 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT3Medium));
+        var node6_2 = new GraphNode<ICampaignStageItem>(new CombatStageItem(locationSid, combatSequenceT3Medium, CombatStageHelper.CreateMetadata(combatSequenceT3Medium.Combats.First(), CombatEstimateDifficulty.Hard)));
         graph.AddNode(node6_2);
 
         var node7 = new GraphNode<ICampaignStageItem>(new RestStageItem());
