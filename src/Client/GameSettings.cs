@@ -1,5 +1,10 @@
 ﻿using System.IO;
 using System;
+using Microsoft.Xna.Framework;
+using System.Threading;
+using static Client.Core.GlobeProvider;
+using System.Text.Json;
+using Client.GameScreens;
 
 namespace Client;
 
@@ -19,8 +24,45 @@ internal sealed class GameSettings
 
     public string ShieldSound { get; set; } = "Shield";
 
-    public void Save()
+    public void Save(GraphicsDeviceManager graphicsDeviceManager)
     {
-        
+        var dto = new GameSettingsDto(graphicsDeviceManager.IsFullScreen, graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight, Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName, MusicVolume);
+        var serializedSaveData =
+            JsonSerializer.Serialize(dto, options: new JsonSerializerOptions { WriteIndented = true });
+
+        if (!Directory.Exists(_storagePath))
+        {
+            Directory.CreateDirectory(_storagePath);
+        }
+
+        var storageFile = Path.Combine(_storagePath, "settings");
+        File.WriteAllText(storageFile, serializedSaveData);
+    }
+
+    public void Load(GraphicsDeviceManager graphicsDeviceManager)
+    {
+        var storageFile = Path.Combine(_storagePath, "settings");
+
+        if (!File.Exists(storageFile))
+        {
+            return;
+        }
+
+        var json = File.ReadAllText(storageFile);
+
+        var saveDataDto = JsonSerializer.Deserialize<GameSettingsDto>(json);
+
+        if (saveDataDto is null)
+        {
+            return;
+        }
+
+        graphicsDeviceManager.IsFullScreen = saveDataDto.IsFullScreen;
+        graphicsDeviceManager.PreferredBackBufferWidth = saveDataDto.ScreenWidth;
+        graphicsDeviceManager.PreferredBackBufferHeight = saveDataDto.ScreenHeight;
+        graphicsDeviceManager.ApplyChanges();
+
+        MusicVolume = saveDataDto.Music;
+        LocalizationHelper.SetLanguage(saveDataDto.Language);
     }
 }
