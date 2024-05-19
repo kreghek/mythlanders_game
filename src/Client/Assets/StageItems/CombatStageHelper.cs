@@ -27,7 +27,7 @@ internal static class CombatStageHelper
         return sumPts switch
         {
             > 4 => CombatEstimateDifficulty.Hard,
-            _ => CombatEstimateDifficulty.Easy,
+            _ => CombatEstimateDifficulty.Easy
         };
     }
 }

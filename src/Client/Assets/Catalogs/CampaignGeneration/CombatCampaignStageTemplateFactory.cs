@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.StageItems;
@@ -34,7 +33,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         _dice = services.Dice;
         _monsterPerkManager = services.MonsterPerkManager;
 
-        var factories = CatalogHelper.GetAllFactories< ICombatTemplateFactory >();
+        var factories = CatalogHelper.GetAllFactories<ICombatTemplateFactory>();
 
         _monsterCombatantTemplates = factories.Select(x => x.CreateSet()).SelectMany(x => x).ToArray();
     }

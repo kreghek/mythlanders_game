@@ -1,16 +1,17 @@
-﻿using System.IO;
-using System;
-using Microsoft.Xna.Framework;
-using System.Threading;
-using static Client.Core.GlobeProvider;
+﻿using System;
+using System.IO;
 using System.Text.Json;
+using System.Threading;
+
 using Client.GameScreens;
+
+using Microsoft.Xna.Framework;
 
 namespace Client;
 
 internal sealed class GameSettings
 {
-    private string _storagePath;
+    private readonly string _storagePath;
 
     public GameSettings()
     {
@@ -23,21 +24,6 @@ internal sealed class GameSettings
     public float MusicVolume { get; set; } = 1.0f;
 
     public string ShieldSound { get; set; } = "Shield";
-
-    public void Save(GraphicsDeviceManager graphicsDeviceManager)
-    {
-        var dto = new GameSettingsDto(graphicsDeviceManager.IsFullScreen, graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight, Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName, MusicVolume);
-        var serializedSaveData =
-            JsonSerializer.Serialize(dto, options: new JsonSerializerOptions { WriteIndented = true });
-
-        if (!Directory.Exists(_storagePath))
-        {
-            Directory.CreateDirectory(_storagePath);
-        }
-
-        var storageFile = Path.Combine(_storagePath, "settings");
-        File.WriteAllText(storageFile, serializedSaveData);
-    }
 
     public void Load(GraphicsDeviceManager graphicsDeviceManager)
     {
@@ -64,5 +50,22 @@ internal sealed class GameSettings
 
         MusicVolume = saveDataDto.Music;
         LocalizationHelper.SetLanguage(saveDataDto.Language);
+    }
+
+    public void Save(GraphicsDeviceManager graphicsDeviceManager)
+    {
+        var dto = new GameSettingsDto(graphicsDeviceManager.IsFullScreen,
+            graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight,
+            Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName, MusicVolume);
+        var serializedSaveData =
+            JsonSerializer.Serialize(dto, options: new JsonSerializerOptions { WriteIndented = true });
+
+        if (!Directory.Exists(_storagePath))
+        {
+            Directory.CreateDirectory(_storagePath);
+        }
+
+        var storageFile = Path.Combine(_storagePath, "settings");
+        File.WriteAllText(storageFile, serializedSaveData);
     }
 }

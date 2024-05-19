@@ -10,7 +10,7 @@ namespace Client.GameScreens.Title;
 
 internal sealed class DemoLimitsModal : ModalDialogBase
 {
-    private SpriteFont _textFont;
+    private readonly SpriteFont _textFont;
 
     public DemoLimitsModal(IUiContentStorage uiContentStorage,
         IResolutionIndependentRenderer resolutionIndependentRenderer) : base(uiContentStorage,
@@ -21,6 +21,8 @@ internal sealed class DemoLimitsModal : ModalDialogBase
 
     protected override void DrawContent(SpriteBatch spriteBatch)
     {
-        spriteBatch.DrawString(_textFont, StringHelper.LineBreaking(UiResource.DemoLimitsText, 70), ContentRect.Location.ToVector2() + new Vector2(ControlBase.CONTENT_MARGIN * 2), MythlandersColors.MainSciFi);
+        spriteBatch.DrawString(_textFont, StringHelper.LineBreaking(UiResource.DemoLimitsText, 70),
+            ContentRect.Location.ToVector2() + new Vector2(ControlBase.CONTENT_MARGIN * 2),
+            MythlandersColors.MainSciFi);
     }
 }

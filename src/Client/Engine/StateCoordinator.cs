@@ -7,8 +7,6 @@ using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter;
 using Client.ScreenManagement;
 
-using CombatDicesTeam.Combats;
-
 namespace Client.Engine;
 
 internal class StateCoordinator

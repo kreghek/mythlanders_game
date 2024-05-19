@@ -111,6 +111,8 @@ internal class CombatScreen : GameScreenWithMenuBase
     private double? _combatRoundCounter;
 
     private bool _finalBossWasDefeat;
+
+    private bool _isTutorialShown;
     private SoundEffect _shieldBreakingSound = null!;
     private TextureRegion2D _shieldParticleTexture = null!;
     private SoundEffect _shieldSound = null!;
@@ -254,8 +256,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
         _maneuversVisualizer.ManeuverSelected += ManeuverVisualizer_ManeuverSelected;
     }
-
-    private bool _isTutorialShown;
 
     protected override void UpdateContent(GameTime gameTime)
     {
@@ -798,17 +798,6 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             ScreenManager.ExecuteTransition(this, ScreenTransition.CommandCenter,
                 new CommandCenterScreenTransitionArguments(campaigns));
-        }
-    }
-
-    private void MarkTutorial1Won()
-    {
-        var currentHeroes = _globe.Player.Heroes;
-        if (!_globe.Player.HasAbility(PlayerAbility.ReadUseCombatMovementsTutorial) &&
-            !_isTutorialShown &&
-            currentHeroes.Count == 1)
-        {
-            _globe.Player.AddPlayerAbility(PlayerAbility.ReadUseCombatMovementsTutorial);
         }
     }
 
@@ -1585,6 +1574,17 @@ internal class CombatScreen : GameScreenWithMenuBase
 
             //var combatantGameObject = GetCombatantGameObject(_combatCore.CurrentCombatant);
             //combatantGameObject.MoveToFieldCoords(newWorldPosition);
+        }
+    }
+
+    private void MarkTutorial1Won()
+    {
+        var currentHeroes = _globe.Player.Heroes;
+        if (!_globe.Player.HasAbility(PlayerAbility.ReadUseCombatMovementsTutorial) &&
+            !_isTutorialShown &&
+            currentHeroes.Count == 1)
+        {
+            _globe.Player.AddPlayerAbility(PlayerAbility.ReadUseCombatMovementsTutorial);
         }
     }
 

@@ -1,14 +1,15 @@
-﻿using NUnit.Framework;
+﻿using System;
 
-using System;
 using FluentAssertions;
+
+using NUnit.Framework;
 
 namespace Client.Core.Tests;
 
-[TestFixture()]
+[TestFixture]
 public class StringHelperTests
 {
-    [Test()]
+    [Test]
     public void RichLineBreakingTest()
     {
         // ARRANGE
@@ -25,7 +26,7 @@ public class StringHelperTests
         fact.Should().Be(expected);
     }
 
-    [Test()]
+    [Test]
     public void RichLineBreakingTest2()
     {
         // ARRANGE

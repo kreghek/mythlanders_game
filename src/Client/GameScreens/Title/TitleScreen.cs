@@ -231,19 +231,6 @@ internal sealed class TitleScreen : GameScreenBase
         _bgPong.Update(gameTime.ElapsedGameTime.TotalSeconds);
     }
 
-    private void UpdateUi()
-    {
-        if (!Game.IsActive)
-        {
-            return;
-        }
-
-        foreach (var button in _buttons)
-        {
-            button.Update(_resolutionIndependentRenderer);
-        }
-    }
-
     private ButtonBase? CreateLoadButtonOrNothing()
     {
         if (_gameSettings.Mode == GameMode.Demo)
@@ -419,6 +406,19 @@ internal sealed class TitleScreen : GameScreenBase
         else
         {
             StartClearNewGame(_globeProvider, this, ScreenManager, _resourceProvider);
+        }
+    }
+
+    private void UpdateUi()
+    {
+        if (!Game.IsActive)
+        {
+            return;
+        }
+
+        foreach (var button in _buttons)
+        {
+            button.Update(_resolutionIndependentRenderer);
         }
     }
 }
