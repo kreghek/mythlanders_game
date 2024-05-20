@@ -38,7 +38,7 @@ internal class EnergeticSuperiorityFactory : CombatMovementFactoryBase
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
-            new CombatMovementCost(3),
+            new CombatMovementCost(0),
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {

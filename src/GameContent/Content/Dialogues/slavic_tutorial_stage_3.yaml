@@ -13,7 +13,7 @@ root:
         - hero: Swordsman
           text: |
             Damned adversaries.
-    - speaker: Swordsman
+    - speaker: Bogatyr
       text: |
         Yes, but the monsters are still on the way. We must find a refuge where we can rest safely.
       env:
@@ -27,7 +27,7 @@ root:
     - speaker: Partisan
       text: |
         I heard about a place protected from monsters. But to get there, we need to choose the right path.
-    - speaker: Swordsman
+    - speaker: Bogatyr
       text: |
         What is this path? We cannot afford to make mistakes.
       reactions:

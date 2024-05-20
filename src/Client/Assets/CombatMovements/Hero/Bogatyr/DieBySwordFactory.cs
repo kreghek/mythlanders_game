@@ -15,33 +15,33 @@ using GameAssets.Combats.CombatMovementEffects;
 
 using JetBrains.Annotations;
 
-namespace Client.Assets.CombatMovements.Hero.Swordsman;
+namespace Client.Assets.CombatMovements.Hero.Bogatyr;
 
 [UsedImplicitly]
-internal class HitFromShoulderFactory : SimpleCombatMovementFactoryBase
+internal class DieBySwordFactory : SimpleCombatMovementFactoryBase
 {
-    public override CombatMovementIcon CombatMovementIcon => new(1, 0);
+    public override CombatMovementIcon CombatMovementIcon => new(0, 0);
 
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
-        var swordsmanAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Swordsman");
+        var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Bogatyr");
 
-        var keepSwordStrongerAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "prepare-sword");
+        var keepSwordStrongerAnimation = AnimationHelper.ConvertToAnimation(animationSet, "prepare-sword");
         var keepSwordSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SwordPrepare);
 
-        var chargeAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "charge");
+        var chargeAnimation = AnimationHelper.ConvertToAnimation(animationSet, "charge");
         var chargeSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.ArmedMove);
 
-        var hitAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "hit");
+        var hitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "hit");
         var swordHitSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SwordSlash);
 
-        var hitCompleteAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "hit-complete");
+        var hitCompleteAnimation = AnimationHelper.ConvertToAnimation(animationSet, "hit-complete");
 
-        var backAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "back");
+        var backAnimation = AnimationHelper.ConvertToAnimation(animationSet, "back");
 
         var config = new SingleMeleeVisualizationConfig(
             new SoundedAnimation(keepSwordStrongerAnimation, keepSwordSoundEffect.CreateInstance()),
@@ -60,7 +60,7 @@ internal class HitFromShoulderFactory : SimpleCombatMovementFactoryBase
     {
         return new[]
         {
-            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 0),
+            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 1),
                 DescriptionKeyValueTemplate.Damage)
         };
     }
@@ -72,24 +72,18 @@ internal class HitFromShoulderFactory : SimpleCombatMovementFactoryBase
     }
 
     /// <inheritdoc />
-    protected override CombatMovementCost GetCost()
-    {
-        return new CombatMovementCost(3);
-    }
-
-    /// <inheritdoc />
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(new IEffect[]
         {
-            new DamageEffectWrapper(
-                new ClosestInLineTargetSelector(),
-                DamageType.Normal,
-                GenericRange<int>.CreateMono(3)),
             new PushToPositionEffect(
                 new SelfTargetSelector(),
                 ChangePositionEffectDirection.ToVanguard
-            )
+            ),
+            new DamageEffectWrapper(
+                new ClosestInLineTargetSelector(),
+                DamageType.Normal,
+                GenericRange<int>.CreateMono(2))
         });
     }
 

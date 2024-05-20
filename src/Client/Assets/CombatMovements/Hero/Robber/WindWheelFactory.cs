@@ -18,12 +18,15 @@ using GameAssets.Combats.CombatMovementEffects;
 using GameClient.Engine.Animations;
 using GameClient.Engine.CombatVisualEffects;
 
+using JetBrains.Annotations;
+
 using Microsoft.Xna.Framework;
 
 using MonoGame.Extended.TextureAtlases;
 
 namespace Client.Assets.CombatMovements.Hero.Robber;
 
+[UsedImplicitly]
 internal class WindWheelFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
@@ -33,7 +36,7 @@ internal class WindWheelFactory : CombatMovementFactoryBase
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
-            new CombatMovementCost(3),
+            new CombatMovementCost(0),
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {

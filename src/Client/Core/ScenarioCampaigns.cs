@@ -240,7 +240,7 @@ internal sealed class ScenarioCampaigns
 
     private static string GetTutorialDialogueByTutorialHero(HeroState tutorialHero)
     {
-        if (tutorialHero.ClassSid == "Swordsman")
+        if (tutorialHero.ClassSid == "Bogatyr")
         {
             return "slavic_tutorial";
         }

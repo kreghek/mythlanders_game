@@ -36,14 +36,14 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
-            new CombatMovementCost(3),
+            new CombatMovementCost(0),
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
                     new DamageEffectWrapper(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
-                        GenericRange<int>.CreateMono(4))
+                        GenericRange<int>.CreateMono(3))
                 })
         )
         {

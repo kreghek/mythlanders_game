@@ -158,7 +158,7 @@ p7:
       next: p8_swordsman
       aftermaths:
         - type: AddHero
-          data: Swordsman
+          data: Bogatyr
         - type: UnlockLocation
           data: Thicket
     - text: 'Spartan'

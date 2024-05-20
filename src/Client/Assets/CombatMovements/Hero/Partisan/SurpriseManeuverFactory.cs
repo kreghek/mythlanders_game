@@ -26,7 +26,7 @@ internal class SurpriseManeuverFactory : CombatMovementFactoryBase
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
-            new CombatMovementCost(3),
+            new CombatMovementCost(0),
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
@@ -36,20 +36,14 @@ internal class SurpriseManeuverFactory : CombatMovementFactoryBase
                         ),
                         new AddCombatantStatusEffect(
                             new NullTargetSelector(),
-                            new CombatStatusFactory(source =>
-                            {
-                                return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
-                                    new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2);
-                            }))
+                            new CombatStatusFactory(source => new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                                new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2)))
                     ),
 
                     new AddCombatantStatusEffect(
                         new SelfTargetSelector(),
-                        new CombatStatusFactory(source =>
-                        {
-                            return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
-                                new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2);
-                        }))
+                        new CombatStatusFactory(source => new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                            new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2)))
                 })
         );
     }

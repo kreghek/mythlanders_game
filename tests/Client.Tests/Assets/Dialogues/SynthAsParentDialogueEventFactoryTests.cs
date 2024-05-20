@@ -86,7 +86,7 @@ public class SynthAsParentDialogueEventFactoryTests
 
         var requirementContext = Mock.Of<IDialogueEventRequirementContext>(x =>
             x.CurrentLocation == LocationSids.Desert &&
-            x.ActiveHeroesInParty == new[] { UnitName.Swordsman, UnitName.Partisan } &&
+            x.ActiveHeroesInParty == new[] { UnitName.Bogatyr, UnitName.Partisan } &&
             x.ActiveStories == Array.Empty<string>());
 
         // ACT
@@ -109,7 +109,7 @@ public class SynthAsParentDialogueEventFactoryTests
 
         var requirementContext = Mock.Of<IDialogueEventRequirementContext>(x =>
             x.CurrentLocation == LocationSids.Desert &&
-            x.ActiveHeroesInParty == new[] { UnitName.Swordsman, UnitName.Partisan } &&
+            x.ActiveHeroesInParty == new[] { UnitName.Bogatyr, UnitName.Partisan } &&
             x.ActiveStories == new[] { "test" });
 
         // ACT
@@ -134,7 +134,7 @@ public class SynthAsParentDialogueEventFactoryTests
 
         var requirementContext = Mock.Of<IDialogueEventRequirementContext>(x =>
             x.CurrentLocation == LocationSids.Desert &&
-            x.ActiveHeroesInParty == new[] { UnitName.Swordsman, UnitName.Partisan } &&
+            x.ActiveHeroesInParty == new[] { UnitName.Bogatyr, UnitName.Partisan } &&
             x.ActiveStories == Array.Empty<string>());
 
         // ACT
@@ -159,7 +159,7 @@ public class SynthAsParentDialogueEventFactoryTests
 
         var requirementContext = Mock.Of<IDialogueEventRequirementContext>(x =>
             x.CurrentLocation == LocationSids.Desert &&
-            x.ActiveHeroesInParty == new[] { UnitName.Swordsman, UnitName.Partisan } &&
+            x.ActiveHeroesInParty == new[] { UnitName.Bogatyr, UnitName.Partisan } &&
             x.ActiveStories == Array.Empty<string>());
 
         // ACT

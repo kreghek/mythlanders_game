@@ -12,8 +12,11 @@ using Core.Combats.TargetSelectors;
 using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
+using JetBrains.Annotations;
+
 namespace Client.Assets.CombatMovements.Hero.Robber;
 
+[UsedImplicitly]
 internal class WeOnlyLiveOnceFactory : SimpleCombatMovementFactoryBase
 {
     public override CombatMovementIcon CombatMovementIcon => new(4, 7);
@@ -67,12 +70,6 @@ internal class WeOnlyLiveOnceFactory : SimpleCombatMovementFactoryBase
     protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
     {
         yield return CombatMovementMetadataTraits.Melee;
-    }
-
-    /// <inheritdoc />
-    protected override CombatMovementCost GetCost()
-    {
-        return new CombatMovementCost(2);
     }
 
     /// <inheritdoc />

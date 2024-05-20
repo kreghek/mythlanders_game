@@ -5,10 +5,13 @@ using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Combats.Effects;
 
+using JetBrains.Annotations;
+
 using SelfTargetSelector = Core.Combats.TargetSelectors.SelfTargetSelector;
 
 namespace Client.Assets.CombatMovements.Hero.Robber;
 
+[UsedImplicitly]
 internal class WingsOfVelesFactory : CombatMovementFactoryBase
 {
     /// <inheritdoc />
@@ -24,7 +27,7 @@ internal class WingsOfVelesFactory : CombatMovementFactoryBase
             -1);
 
         return new CombatMovement(Sid,
-            new CombatMovementCost(1),
+            new CombatMovementCost(0),
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
@@ -37,9 +40,9 @@ internal class WingsOfVelesFactory : CombatMovementFactoryBase
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
-        var swordsmanAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Robber");
+        var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Robber");
 
-        var defenseAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "buff");
+        var defenseAnimation = AnimationHelper.ConvertToAnimation(animationSet, "buff");
         var defenseSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Defence);
 

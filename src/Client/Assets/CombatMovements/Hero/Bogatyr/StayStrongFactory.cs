@@ -15,7 +15,7 @@ using JetBrains.Annotations;
 
 using SelfTargetSelector = Core.Combats.TargetSelectors.SelfTargetSelector;
 
-namespace Client.Assets.CombatMovements.Hero.Swordsman;
+namespace Client.Assets.CombatMovements.Hero.Bogatyr;
 
 [UsedImplicitly]
 internal class StayStrongFactory : CombatMovementFactoryBase
@@ -27,7 +27,7 @@ internal class StayStrongFactory : CombatMovementFactoryBase
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
-            new CombatMovementCost(2),
+            new CombatMovementCost(0),
             new CombatMovementEffectConfig(
                 new IEffect[]
                 {
@@ -70,9 +70,9 @@ internal class StayStrongFactory : CombatMovementFactoryBase
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
-        var swordsmanAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Swordsman");
+        var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Bogatyr");
 
-        var defenseAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "defense");
+        var defenseAnimation = AnimationHelper.ConvertToAnimation(animationSet, "defense");
         var defenseSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Defence);
 
