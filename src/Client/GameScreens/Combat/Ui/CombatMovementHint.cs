@@ -49,38 +49,43 @@ internal class CombatMovementHint : HintBase
                     () => $"[{GameObjectHelper.GetLocalizedTrait(x.Sid)}]")).ToArray();
         }
 
+        var descriptionElements = new List<ControlBase>
+        {
+            new Text(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
+                ControlTextures.Transparent,
+                nameTextFont,
+                _ => Color.White,
+                () => GameObjectHelper.GetLocalized(_combatMovement.SourceMovement.Sid)
+            ),
+
+            new RichText(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
+                ControlTextures.Transparent,
+                descriptionTextFont,
+                _ => new Color(232, 210, 130),
+                () => CalcCombatMoveDescription(_combatMovement)
+            )
+        };
+
+        if (_combatMovement.Cost.Amount.Current > 0)
+        {
+            descriptionElements.Add(new Text(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
+                ControlTextures.Transparent,
+                costTextFont,
+                CalcCostColor,
+                () => string.Format(
+                    UiResource.CombatMovementCost_Combat_LabelTemplate,
+                    _combatMovement.Cost.Amount.Current,
+                    _currentActorResolveValue.Current)
+            ));
+        }
+
+        descriptionElements.Add(new HorizontalStackPanel(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
+            ControlTextures.Transparent,
+            combatMovementTraitTexts));
+
         _content = new VerticalStackPanel(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
             ControlTextures.Transparent,
-            new ControlBase[]
-            {
-                new Text(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
-                    ControlTextures.Transparent,
-                    nameTextFont,
-                    _ => Color.White,
-                    () => GameObjectHelper.GetLocalized(_combatMovement.SourceMovement.Sid)
-                ),
-
-                new Text(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
-                    ControlTextures.Transparent,
-                    costTextFont,
-                    CalcCostColor,
-                    () => string.Format(
-                        UiResource.CombatMovementCost_Combat_LabelTemplate,
-                        _combatMovement.Cost.Amount.Current,
-                        _currentActorResolveValue.Current)
-                ),
-
-                new RichText(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
-                    ControlTextures.Transparent,
-                    descriptionTextFont,
-                    _ => new Color(232, 210, 130),
-                    () => CalcCombatMoveDescription(_combatMovement)
-                ),
-
-                new HorizontalStackPanel(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
-                    ControlTextures.Transparent,
-                    combatMovementTraitTexts)
-            });
+            descriptionElements);
 
         ContentSize = _content.Size.ToVector2() + new Vector2(CONTENT_MARGIN * 2);
     }
