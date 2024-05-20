@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-using Client.Assets.CombatMovements.Hero.Swordsman;
+using Client.Assets.CombatMovements.Hero.Bogatyr;
 using Client.Assets.GraphicConfigs.Heroes;
 
 using CombatDicesTeam.Combats;
@@ -18,7 +18,7 @@ internal sealed class SwordsmanHeroFactory : HeroFactoryBase
 {
     public override CombatantGraphicsConfigBase GetGraphicsConfig()
     {
-        return new SwordsmanGraphicsConfig(ClassSid);
+        return new BogatyrGraphicsConfig(ClassSid);
     }
 
     protected override CombatMovementSequence CreateInitCombatMovementPool()

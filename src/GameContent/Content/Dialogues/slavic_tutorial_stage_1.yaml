@@ -3,7 +3,7 @@ root:
   paragraphs:
     - text: |
         Wooded area covered with thick snow. An ancient Slavic warrior, in power armor, is hiding from his pursuers. He stops to listen to the sounds of battle coming from the dark thicket ahead. Suddenly, he hears a rustling behind him and turns around, ready to fight.
-    - speaker: Swordsman
+    - speaker: Bogatyr
       text: |
         "Who dares to follow me? Show yourself!"
     - text: |
@@ -12,19 +12,19 @@ root:
     - speaker: DigitalHort
       text: |
         "Help... us..." The synthetic electrical noise was difficult to form into human words.
-    - speaker: Swordsman
+    - speaker: Bogatyr
       text: |
         "Fire storms! And how can you speak, wolf? Why are you asking for help? Something is unclean in this..." Berimir gripped his weapon tighter for a quick blow.
     - speaker: DigitalHort
       text: |
         "Our enemies... they are creating new gods... I have been given my word to give you a choice, people of Myth. Either you rise above all this and stop the Shadow. Or you yourself will become the monsters that you call us..."
-    - speaker: Swordsman
+    - speaker: Bogatyr
       text: |
         "New gods? You're lying, beast!"
     - speaker: DigitalHort
       text: |
         "Man... My time is running out. Gather your Flock and step into the Shadow together. Now get ready for one of many fights... and try not to die too early!"
-    - speaker: Swordsman
+    - speaker: Bogatyr
       text: |
         Berimir listened carefully to the words of the wounded digital creature, hitherto hostile to him. It happened that wolves helped people of old times. "Grey, hold on. I will go into battle and help you, no matter who you are. But first you will survive. Got it?"
     - speaker: DigitalHort

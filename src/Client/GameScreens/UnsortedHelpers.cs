@@ -11,7 +11,7 @@ internal static class UnsortedHelpers
     {
         switch (unitScheme.Name)
         {
-            case UnitName.Swordsman:
+            case UnitName.Bogatyr:
                 return EquipmentItemType.Warrior;
             default:
                 return null;
@@ -108,7 +108,7 @@ internal static class UnsortedHelpers
         return unitName switch
         {
             UnitName.Hq => 1,
-            UnitName.Swordsman => 2,
+            UnitName.Bogatyr => 2,
             UnitName.Robber => 3,
             UnitName.Herbalist => 4,
             UnitName.Monk => 5,

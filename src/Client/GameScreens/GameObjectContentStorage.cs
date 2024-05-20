@@ -228,7 +228,7 @@ internal class GameObjectContentStorage
             { UnitName.Partisan, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
             { UnitName.ShieldBearer, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
-            { UnitName.Swordsman, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BerimirDeath") },
+            { UnitName.Bogatyr, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BerimirDeath") },
             { UnitName.Robber, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
             { UnitName.Herbalist, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/RadaDeath") },
 
@@ -274,7 +274,7 @@ internal class GameObjectContentStorage
         _textSoundDict = new Dictionary<UnitName, SoundEffect>
         {
             { UnitName.Environment, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Environment") },
-            { UnitName.Swordsman, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Berimir") },
+            { UnitName.Bogatyr, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Berimir") },
             { UnitName.Hq, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Hq") },
             { UnitName.Robber, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Hawk") }
         };
@@ -331,7 +331,7 @@ internal class GameObjectContentStorage
 
         _animationSetDict = new Dictionary<string, SpriteAtlasAnimationData>
         {
-            { "Swordsman", GetAnimationInner("Swordsman") },
+            { "Bogatyr", GetAnimationInner("Bogatyr") },
             { "Partisan", GetAnimationInner("Partisan") },
             { "Robber", GetAnimationInner("Robber") },
             { "Hoplite", GetAnimationInner("Hoplite") },
@@ -428,7 +428,7 @@ internal class GameObjectContentStorage
     {
         if (!_textSoundDict.TryGetValue(unitName, out var soundEffect))
         {
-            return _textSoundDict[UnitName.Swordsman];
+            return _textSoundDict[UnitName.Bogatyr];
         }
 
         return soundEffect;

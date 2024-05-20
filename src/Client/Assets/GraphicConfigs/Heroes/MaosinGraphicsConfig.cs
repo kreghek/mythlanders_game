@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework;
 
 namespace Client.Assets.GraphicConfigs.Heroes;
 
-internal sealed class MaosinGraphicsConfig : HeroGraphicConfig
+internal sealed class MonkGraphicsConfig : HeroGraphicConfig
 {
-    public MaosinGraphicsConfig(string name) : base(name)
+    public MonkGraphicsConfig(string name) : base(name)
     {
         InteractionPoint = new Vector2(0, 64);
         StatsPanelOrigin = new Vector2(0, 64 + 16);

@@ -13,7 +13,7 @@ root:
         - hero: Swordsman
           text: |
             Супостаты окаянные.
-    - speaker: Swordsman
+    - speaker: Bogatyr
       text: |
         Да, но монстры все еще на подходе. Мы должны найти убежище, где сможем безопасно отдохнуть.
       env:
@@ -27,7 +27,7 @@ root:
     - speaker: Partisan
       text: |
         Я слышал о месте, защищенном от монстров. Но чтобы туда попасть, нам нужно выбрать правильный путь.
-    - speaker: Swordsman
+    - speaker: Bogatyr
       text: |
         Какой же это путь? Мы не можем себе позволить ошибиться.
       reactions:

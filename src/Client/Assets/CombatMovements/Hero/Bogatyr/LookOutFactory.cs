@@ -13,10 +13,13 @@ using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats;
 
+using JetBrains.Annotations;
+
 using SelfTargetSelector = Core.Combats.TargetSelectors.SelfTargetSelector;
 
-namespace Client.Assets.CombatMovements.Hero.Swordsman;
+namespace Client.Assets.CombatMovements.Hero.Bogatyr;
 
+[UsedImplicitly]
 internal class LookOutFactory : CombatMovementFactoryBase
 {
     public override CombatMovementIcon CombatMovementIcon => new(2, 2);
@@ -24,17 +27,14 @@ internal class LookOutFactory : CombatMovementFactoryBase
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
-            new CombatMovementCost(2),
+            new CombatMovementCost(0),
             new CombatMovementEffectConfig(
                 new IEffect[]
                 {
                     new AddCombatantStatusEffect(
                         new ClosestAllyInColumnTargetSelector(),
-                        new CombatStatusFactory(source =>
-                        {
-                            return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
-                                new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 3);
-                        })),
+                        new CombatStatusFactory(source => new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                            new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 3))),
                     new PushToPositionEffect(
                         new SelfTargetSelector(),
                         ChangePositionEffectDirection.ToVanguard
@@ -44,11 +44,8 @@ internal class LookOutFactory : CombatMovementFactoryBase
                 {
                     new AddCombatantStatusEffect(
                         new ClosestAllyInColumnTargetSelector(),
-                        new CombatStatusFactory(source =>
-                        {
-                            return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
-                                new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 1);
-                        }))
+                        new CombatStatusFactory(source => new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                            new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 1)))
                 })
         )
         {
@@ -59,9 +56,9 @@ internal class LookOutFactory : CombatMovementFactoryBase
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
-        var swordsmanAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Swordsman");
+        var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Bogatyr");
 
-        var defenseAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "defense");
+        var defenseAnimation = AnimationHelper.ConvertToAnimation(animationSet, "defense");
         var defenseSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Defence);
 

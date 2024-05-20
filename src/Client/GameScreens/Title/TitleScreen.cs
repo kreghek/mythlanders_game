@@ -323,7 +323,7 @@ internal sealed class TitleScreen : GameScreenBase
     {
         return new[]
         {
-            UnitName.Swordsman, UnitName.Robber, UnitName.Herbalist
+            UnitName.Bogatyr, UnitName.Robber, UnitName.Herbalist
         };
     }
 
@@ -333,7 +333,7 @@ internal sealed class TitleScreen : GameScreenBase
 
         if (lastSave is null)
         {
-            return new[] { UnitName.Swordsman };
+            return new[] { UnitName.Bogatyr };
         }
 
         var saveData = globeProvider.GetStoredData(lastSave.FileName);

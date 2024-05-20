@@ -12,10 +12,10 @@ internal abstract class SimpleCombatMovementFactoryBase : CombatMovementFactoryB
     public override CombatMovement CreateMovement()
     {
         var metadata = (CombatMovementMetadata?)null;
-        var traits = CreateTraits();
+        var traits = CreateTraits().ToArray();
         if (traits.Any())
         {
-            metadata = new CombatMovementMetadata(traits.ToArray());
+            metadata = new CombatMovementMetadata(traits);
         }
 
         return new CombatMovement(base.Sid, GetCost(), GetEffects())
@@ -32,7 +32,7 @@ internal abstract class SimpleCombatMovementFactoryBase : CombatMovementFactoryB
 
     protected virtual CombatMovementCost GetCost()
     {
-        return new CombatMovementCost(1);
+        return new CombatMovementCost(0);
     }
 
     protected abstract CombatMovementEffectConfig GetEffects();

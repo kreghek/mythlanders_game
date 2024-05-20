@@ -16,7 +16,7 @@ internal sealed class MonkHeroFactory : HeroFactoryBase
 {
     public override CombatantGraphicsConfigBase GetGraphicsConfig()
     {
-        return new MaosinGraphicsConfig(ClassSid);
+        return new MonkGraphicsConfig(ClassSid);
     }
 
     protected override CombatMovementSequence CreateInitCombatMovementPool()

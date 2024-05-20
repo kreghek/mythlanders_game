@@ -26,23 +26,23 @@ internal class OffensiveFactory : SimpleCombatMovementFactoryBase
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
-        var swordsmanAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Hoplite");
+        var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Hoplite");
 
-        var keepSwordStrongerAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "prepare-spear");
+        var keepSwordStrongerAnimation = AnimationHelper.ConvertToAnimation(animationSet, "prepare-spear");
         var keepSwordSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SwordPrepare);
 
-        var chargeAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "charge");
+        var chargeAnimation = AnimationHelper.ConvertToAnimation(animationSet, "charge");
         var chargeSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.ArmedMove);
 
-        var hitAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "spear-hit");
+        var hitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "spear-hit");
         var swordHitSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SwordSlash);
 
-        var hitCompleteAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "hit-complete");
+        var hitCompleteAnimation = AnimationHelper.ConvertToAnimation(animationSet, "hit-complete");
 
-        var backAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "back");
+        var backAnimation = AnimationHelper.ConvertToAnimation(animationSet, "back");
 
         var config = new SingleMeleeVisualizationConfig(
             new SoundedAnimation(keepSwordStrongerAnimation, keepSwordSoundEffect.CreateInstance()),

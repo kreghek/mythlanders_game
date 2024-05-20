@@ -6,9 +6,9 @@ using GameClient.Engine.Animations;
 
 namespace Client.Assets.GraphicConfigs.Heroes;
 
-internal sealed class SwordsmanGraphicsConfig : HeroGraphicConfig
+internal sealed class BogatyrGraphicsConfig : HeroGraphicConfig
 {
-    public SwordsmanGraphicsConfig(string name) : base(name)
+    public BogatyrGraphicsConfig(string name) : base(name)
     {
     }
 

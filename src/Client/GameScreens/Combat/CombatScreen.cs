@@ -1437,7 +1437,7 @@ internal class CombatScreen : GameScreenWithMenuBase
 
     private TutorialPageDrawerBase GetTutorialPageDrawerByHero(HeroState heroState)
     {
-        if (heroState.ClassSid == UnitName.Swordsman.ToString())
+        if (heroState.ClassSid == UnitName.Bogatyr.ToString())
         {
             return new CombatSlavicTutorial1PageDrawer(_uiContentStorage, new[]
             {

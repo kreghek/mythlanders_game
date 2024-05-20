@@ -14,7 +14,7 @@ using GameAssets.Combats.CombatantStatuses;
 
 using JetBrains.Annotations;
 
-namespace Client.Assets.CombatMovements.Hero.Swordsman;
+namespace Client.Assets.CombatMovements.Hero.Bogatyr;
 
 [UsedImplicitly]
 internal class RiseYourSwordsFactory : CombatMovementFactoryBase
@@ -24,7 +24,7 @@ internal class RiseYourSwordsFactory : CombatMovementFactoryBase
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
-            new CombatMovementCost(1),
+            new CombatMovementCost(0),
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
@@ -44,9 +44,9 @@ internal class RiseYourSwordsFactory : CombatMovementFactoryBase
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
-        var swordsmanAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Swordsman");
+        var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Bogatyr");
 
-        var defenseAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "rise-swords");
+        var defenseAnimation = AnimationHelper.ConvertToAnimation(animationSet, "rise-swords");
         var defenseSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Defence);
 

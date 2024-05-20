@@ -37,9 +37,9 @@ internal class WingsOfVelesFactory : CombatMovementFactoryBase
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
-        var swordsmanAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Robber");
+        var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Robber");
 
-        var defenseAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "buff");
+        var defenseAnimation = AnimationHelper.ConvertToAnimation(animationSet, "buff");
         var defenseSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Defence);
 
