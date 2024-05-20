@@ -14,7 +14,7 @@ using JetBrains.Annotations;
 namespace Client.Core.Heroes.Factories;
 
 [UsedImplicitly]
-internal sealed class SwordsmanHeroFactory : HeroFactoryBase
+internal sealed class BogatyrHeroFactory : HeroFactoryBase
 {
     public override CombatantGraphicsConfigBase GetGraphicsConfig()
     {
