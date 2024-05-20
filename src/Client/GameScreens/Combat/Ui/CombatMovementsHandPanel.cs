@@ -294,7 +294,7 @@ internal class CombatMovementsHandPanel : ControlBase
         var baseControlCenter = baseControl.Rect.Center;
         var baseControlTopCenter = new Point(baseControlCenter.X, baseControl.Rect.Top);
 
-        var hintSize = (hintControl.ContentSize + new Vector2(CONTENT_MARGIN * 2)).ToPoint();
+        var hintSize = hintControl.ContentSize.ToPoint();
         var hintHorizontalCenter = hintSize.X / 2;
         const int HINT_MARGIN = 5;
 

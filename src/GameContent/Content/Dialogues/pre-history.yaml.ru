@@ -150,6 +150,8 @@ p7:
           data: Monk
         - type: UnlockLocation
           data: Monastery
+      description: |
+        В разработке
     - text: 'Ратник'
       next: p8_swordsman
       aftermaths:
@@ -157,6 +159,8 @@ p7:
           data: Swordsman
         - type: UnlockLocation
           data: Thicket
+      description: |
+        В разработке
     - text: 'Спартанец'
       next: p8_spartian
       aftermaths:
@@ -164,6 +168,8 @@ p7:
           data: Hoplite
         - type: UnlockLocation
           data: ShipGraveyard
+      description: |
+        В разработке
     - text: 'Освободительница'
       next: p8_liberator
       aftermaths:
@@ -171,6 +177,8 @@ p7:
           data: Liberator
         - type: UnlockLocation
           data: Desert
+      description: |
+        В разработке
 
 p8_monk:
   paragraphs:
