@@ -545,7 +545,7 @@
     <value>Музыка</value>
   </data>
   <data name="SwitchResolutionButtonTitle" xml:space="preserve">
-    <value>Переключить разрешение</value>
+    <value>Разрешение</value>
   </data>
   <data name="ToTheCombatButtonTitle" xml:space="preserve">
     <value>В Бой!</value>

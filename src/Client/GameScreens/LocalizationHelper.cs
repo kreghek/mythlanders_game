@@ -28,7 +28,7 @@ public static class LocalizationHelper
         {
             (TwoLetters: "ru", Culture: CultureInfo.GetCultureInfo("ru-RU")),
             (TwoLetters: "en", Culture: CultureInfo.GetCultureInfo("en-US")),
-            (TwoLetters: "zh", Culture: CultureInfo.GetCultureInfo("zh"))
+            //(TwoLetters: "zh", Culture: CultureInfo.GetCultureInfo("zh"))
         };
 
         var currentLanguage = Thread.CurrentThread.CurrentUICulture;
