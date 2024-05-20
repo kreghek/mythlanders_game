@@ -120,18 +120,6 @@
   <data name="AcceptChallengeButtonTitle" xml:space="preserve">
     <value>Принять испытание</value>
   </data>
-  <data name="AdjutantButtonTitle" xml:space="preserve">
-    <value>Адъютант</value>
-  </data>
-  <data name="ArmorLabelTemplate" xml:space="preserve">
-    <value>Броня: {0}</value>
-  </data>
-  <data name="ArmoryButtonTitle" xml:space="preserve">
-    <value>Оружейня</value>
-  </data>
-  <data name="AutocombatButtonTitle" xml:space="preserve">
-    <value>Автобой</value>
-  </data>
   <data name="AvailableManeuversIndicatorTemplate" xml:space="preserve">
     <value>Доступны маневры</value>
   </data>
@@ -140,9 +128,6 @@
   </data>
   <data name="BackToMapMenuButtonTitle" xml:space="preserve">
     <value>На карту</value>
-  </data>
-  <data name="BarraksButtonTitle" xml:space="preserve">
-    <value>Бараки</value>
   </data>
   <data name="BestiaryButtonTitle" xml:space="preserve">
     <value>Бестиарий</value>
@@ -158,9 +143,6 @@
   </data>
   <data name="BestiaryTabMonsterPerksDescription" xml:space="preserve">
     <value>Текущие улучшения монстров. Внимательно выбирайте свою следующую компанию и следующее улучшение монстров, чтобы всегда быть способным к победе над ними.</value>
-  </data>
-  <data name="BiomeLevelText" xml:space="preserve">
-    <value>Ур.</value>
   </data>
   <data name="CampaignMapTutorialText" xml:space="preserve">
     <value>Это карта прохождения кампании. Обычно на карте есть несколько путей, которыми можно добраться до победного этапа кампании и получить награду.
@@ -194,12 +176,6 @@
   <data name="CampaignStageDisplayNameUnknown" xml:space="preserve">
     <value>???</value>
   </data>
-  <data name="CampaignStageTitle" xml:space="preserve">
-    <value>Этап {0}</value>
-  </data>
-  <data name="ChroniclesButtonTitle" xml:space="preserve">
-    <value>Хроники</value>
-  </data>
   <data name="CloseButtonTitle" xml:space="preserve">
     <value>Закрыть</value>
   </data>
@@ -223,15 +199,6 @@
   </data>
   <data name="CombatIndicatorPositiveSpTemplate" xml:space="preserve">
     <value>+&lt;{0}&gt;</value>
-  </data>
-  <data name="CombatLengthLabel" xml:space="preserve">
-    <value>Длительность сражения:</value>
-  </data>
-  <data name="CombatLevelTemplate" xml:space="preserve">
-    <value>Боевой опыт: {0}</value>
-  </data>
-  <data name="CombatLevelUpTemplate" xml:space="preserve">
-    <value>{0} ед. опыта для повышения уровня</value>
   </data>
   <data name="CombatMovementCost_Combat_LabelTemplate" xml:space="preserve">
     <value>Требуемая решимость: {0}/{1}</value>
@@ -268,9 +235,6 @@
   </data>
   <data name="CombatMovementEffectValueType_TurnDuration_Template" xml:space="preserve">
     <value>{0} ходов</value>
-  </data>
-  <data name="CombatProgressTemplate" xml:space="preserve">
-    <value>Прогресс сражения: {0}/{1}</value>
   </data>
   <data name="CombatResultDefeatText" xml:space="preserve">
     <value>Поражение!</value>
@@ -319,9 +283,6 @@
   </data>
   <data name="DamageEffectRuleText" xml:space="preserve">
     <value>Наносит {0} - {1} урона {2}</value>
-  </data>
-  <data name="DamageLabelTemplate" xml:space="preserve">
-    <value>Урон: {0}</value>
   </data>
   <data name="DecreaseHitPointsPercentEffectRuleText" xml:space="preserve">
     <value>Уменьшает хитпоинты на {0}% по {2} на {1} ходов</value>
@@ -379,9 +340,6 @@
   </data>
   <data name="FormationButtonTitle" xml:space="preserve">
     <value>Построение</value>
-  </data>
-  <data name="GlobalEffectDurationTemplate" xml:space="preserve">
-    <value>{0} боёв осталось</value>
   </data>
   <data name="HealEffectRuleText" xml:space="preserve">
     <value>Лечит {0} - {1} хп {2}</value>

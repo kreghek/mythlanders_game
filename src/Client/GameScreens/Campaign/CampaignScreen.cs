@@ -70,7 +70,8 @@ internal class CampaignScreen : GameScreenWithMenuBase
     {
         var menuButtons = new List<ButtonBase>();
 
-        if (_globeProvider.Globe.Player.Inventory.CalcActualItems().Any())
+        if (_globeProvider.Globe.Player.Inventory.CalcActualItems().Any() &&
+            _globeProvider.Globe.Features.HasFeature(GameFeatures.RewardResourceCampaignEffect))
         {
             menuButtons.Add(_inventoryButton);
         }
