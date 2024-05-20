@@ -39,7 +39,7 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
     public override CombatMovement CreateMovement()
     {
         return new CombatMovement(Sid,
-            new CombatMovementCost(2),
+            new CombatMovementCost(1),
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
