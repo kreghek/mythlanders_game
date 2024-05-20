@@ -197,7 +197,9 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var effectFactories = new (Func<ILocationSid, IReadOnlyCollection<ICampaignEffect>>, Func<ILocationSid, bool>)[]
         {
-            (CreateGatherResourcesEffect, _ => _globeProvider.Globe.Features.HasFeature(GameFeatures.CampaignEffects) && _globeProvider.Globe.Features.HasFeature(GameFeatures.Resources)),
+            (CreateGatherResourcesEffect,
+                _ => _globeProvider.Globe.Features.HasFeature(GameFeatures.CampaignEffects) &&
+                     _globeProvider.Globe.Features.HasFeature(GameFeatures.Resources)),
             (CreateUnlockHeroEffect, _ => CalculateLockedHeroes().Any()),
             (CreateUnlockLocationEffect, _ => CalculateAvailableLocations().Any())
         };

@@ -17,6 +17,7 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
     private readonly IDice _dice;
+    private readonly Globe _globe;
 
     private readonly ILocationSid _locationSid;
 
@@ -24,7 +25,6 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
 
     private readonly MonsterCombatantTempateLevel _monsterLevel;
     private readonly IMonsterPerkManager _monsterPerkManager;
-    private readonly Globe _globe;
 
     public CombatCampaignStageTemplateFactory(ILocationSid locationSid, MonsterCombatantTempateLevel monsterLevel,
         CampaignStageTemplateServices services)
@@ -50,7 +50,8 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         return _dice.RollFromList(templates);
     }
 
-    private static IEnumerable<IDropTableScheme> GetMonsterDropTables(MonsterCombatantTempate monsterCombatantPrefabs, Globe globe)
+    private static IEnumerable<IDropTableScheme> GetMonsterDropTables(MonsterCombatantTempate monsterCombatantPrefabs,
+        Globe globe)
     {
         var dropTables = new List<IDropTableScheme>();
 

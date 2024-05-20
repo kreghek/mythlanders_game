@@ -31,10 +31,13 @@ namespace Client.GameScreens.CommandCenter;
 
 internal class CommandCenterScreen : GameScreenWithMenuBase
 {
+    private readonly ResourceTextButton _bestiaryButton;
     private readonly IReadOnlyList<HeroCampaignLaunch> _campaignLaunches;
 
     private readonly IDice _dice;
     private readonly GlobeProvider _globeProvider;
+
+    private readonly ResourceTextButton _inventoryButton;
     private readonly IDictionary<ILocationSid, Vector2> _locationCoords;
 
     private readonly Texture2D _mapBackgroundTexture;
@@ -44,9 +47,6 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
     private IReadOnlyList<ICampaignPanel>? _availableCampaignPanels;
 
     private double _locationOnMapCounter;
-    
-    private readonly ResourceTextButton _inventoryButton;
-    private readonly ResourceTextButton _bestiaryButton;
 
     public CommandCenterScreen(MythlandersGame game, CommandCenterScreenTransitionArguments args) : base(game)
     {
@@ -76,27 +76,12 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
             mapPongRandomSource);
 
         _locationCoords = InitLocationCoords();
-        
+
         _inventoryButton = new ResourceTextButton(nameof(UiResource.InventoryButtonTitle));
         _inventoryButton.OnClick += InventoryButton_OnClick;
 
         _bestiaryButton = new ResourceTextButton(nameof(UiResource.BestiaryButtonTitle));
         _bestiaryButton.OnClick += BestiaryButton_OnClick;
-    }
-    private void BestiaryButton_OnClick(object? sender, EventArgs e)
-    {
-        ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary,
-            new BestiaryScreenTransitionArguments(ScreenTransition.Campaign,
-                new CommandCenterScreenTransitionArguments(_campaignLaunches)));
-    }
-    
-    
-    private void InventoryButton_OnClick(object? sender, EventArgs e)
-    {
-        AddModal(
-            new InventoryModal(_globeProvider.Globe.Player.Inventory,
-                Game.Services.GetRequiredService<IUiContentStorage>(),
-                ResolutionIndependentRenderer), false);
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -165,6 +150,13 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         _mapPong.Update(gameTime.ElapsedGameTime.TotalSeconds);
 
         _locationOnMapCounter += gameTime.ElapsedGameTime.TotalSeconds * 10;
+    }
+
+    private void BestiaryButton_OnClick(object? sender, EventArgs e)
+    {
+        ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary,
+            new BestiaryScreenTransitionArguments(ScreenTransition.Campaign,
+                new CommandCenterScreenTransitionArguments(_campaignLaunches)));
     }
 
     private List<ICampaignPanel> CreateCampaignPanels()
@@ -337,6 +329,15 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         return values.ToDictionary(x => x,
             _ => new Vector2(rnd.Next(_mapBackgroundTexture.Width / 4, _mapBackgroundTexture.Width * 3 / 4),
                 rnd.Next(_mapBackgroundTexture.Height / 4, _mapBackgroundTexture.Height * 3 / 4)));
+    }
+
+
+    private void InventoryButton_OnClick(object? sender, EventArgs e)
+    {
+        AddModal(
+            new InventoryModal(_globeProvider.Globe.Player.Inventory,
+                Game.Services.GetRequiredService<IUiContentStorage>(),
+                ResolutionIndependentRenderer), false);
     }
 
     private void SaveGameProgress()

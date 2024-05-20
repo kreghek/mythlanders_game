@@ -2,6 +2,7 @@
 
 public static class GameFeatures
 {
+    public static GameFeature Bestiary { get; } = new(nameof(Bestiary));
     public static GameFeature CampaignEffects { get; } = new(nameof(CampaignEffects));
     public static GameFeature CampaignMap { get; } = new(nameof(CampaignMap));
     public static GameFeature Campaigns { get; } = new(nameof(Campaigns));
@@ -17,5 +18,4 @@ public static class GameFeatures
     public static GameFeature SmallEvents { get; } = new(nameof(SmallEvents));
     public static GameFeature TowersMiniGame { get; } = new(nameof(TowersMiniGame));
     public static GameFeature UseMonsterPerks { get; } = new(nameof(UseMonsterPerks));
-    public static GameFeature Bestiary { get; } = new (nameof(Bestiary));
 }
