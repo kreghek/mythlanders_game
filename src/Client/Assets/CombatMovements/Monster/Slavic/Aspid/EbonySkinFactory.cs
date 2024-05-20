@@ -54,4 +54,10 @@ internal class EbonySkinFactory : SimpleCombatMovementFactoryBase
     {
         return CombatMovementTags.AutoDefense;
     }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(1);
+    }
 }

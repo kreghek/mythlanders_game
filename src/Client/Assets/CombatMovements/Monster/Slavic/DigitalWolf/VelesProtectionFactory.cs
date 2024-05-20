@@ -13,14 +13,12 @@ using SelfTargetSelector = Core.Combats.TargetSelectors.SelfTargetSelector;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
-internal class VelesProtectionFactory : CombatMovementFactoryBase
+internal class VelesProtectionFactory : SimpleCombatMovementFactoryBase
 {
-    public override CombatMovement CreateMovement()
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
     {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(0),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
+        return new CombatMovementEffectConfig(new IEffect[]
                 {
                     new AddCombatantStatusEffect(
                         new SelfTargetSelector(),
@@ -30,8 +28,18 @@ internal class VelesProtectionFactory : CombatMovementFactoryBase
                                 new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.ShieldPoints, 2);
                         })),
                     new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
-                })
-        );
+                },
+                new IEffect[]
+                {
+                    new AddCombatantStatusEffect(
+                        new SelfTargetSelector(),
+                        new CombatStatusFactory(source =>
+                        {
+                            return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                                new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2);
+                        })),
+                    new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
+                });
     }
 
     public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
@@ -42,5 +50,16 @@ internal class VelesProtectionFactory : CombatMovementFactoryBase
             new DescriptionKeyValue("sp", ExtractStatChangingValue(combatMovementInstance, 1),
                 DescriptionKeyValueTemplate.ShieldPoints)
         };
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(1);
+    }
+
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.AutoDefense;
     }
 }

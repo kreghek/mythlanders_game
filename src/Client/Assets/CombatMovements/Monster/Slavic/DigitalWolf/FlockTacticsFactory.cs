@@ -12,14 +12,12 @@ using GameAssets.Combats.CombatMovementEffects;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
-internal class FlockAlphaTacticsFactory : CombatMovementFactoryBase
+internal class FlockAlphaTacticsFactory : SimpleCombatMovementFactoryBase
 {
-    public override CombatMovement CreateMovement()
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
     {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(0),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
+        return CombatMovementEffectConfig.Create(new IEffect[]
                 {
                     new AdjustPositionEffect(new SelfTargetSelector()),
                     new DamageEffectWrapper(
@@ -29,11 +27,25 @@ internal class FlockAlphaTacticsFactory : CombatMovementFactoryBase
                     new ChangeCurrentStatEffect(new StrongestEnemyTargetSelector(), CombatantStatTypes.Resolve,
                         GenericRange<int>.CreateMono(-2)),
                     new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToVanguard)
-                })
-        )
-        {
-            Tags = CombatMovementTags.Attack
-        };
+                });
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(2);
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Melee;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
     }
 
     public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
