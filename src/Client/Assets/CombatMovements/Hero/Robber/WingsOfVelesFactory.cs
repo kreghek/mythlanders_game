@@ -12,13 +12,13 @@ using SelfTargetSelector = Core.Combats.TargetSelectors.SelfTargetSelector;
 namespace Client.Assets.CombatMovements.Hero.Robber;
 
 [UsedImplicitly]
-internal class WingsOfVelesFactory : CombatMovementFactoryBase
+internal class WingsOfVelesFactory : SimpleCombatMovementFactoryBase
 {
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(1, 7);
 
     /// <inheritdoc />
-    public override CombatMovement CreateMovement()
+    protected override CombatMovementEffectConfig GetEffects()
     {
         var combatantEffectFactory = new ModifyCombatantMoveStatsCombatantStatusFactory(
             new CombatantStatusSid(Sid),
@@ -26,15 +26,17 @@ internal class WingsOfVelesFactory : CombatMovementFactoryBase
             CombatantMoveStats.Cost,
             -1);
 
-        return new CombatMovement(Sid,
-            new CombatMovementCost(0),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
+        return CombatMovementEffectConfig.Create(new IEffect[]
                 {
                     new ModifyEffectsEffect(new CombatantStatusSid(Sid), new SelfTargetSelector(), 1),
                     new AddCombatantStatusEffect(new SelfTargetSelector(), combatantEffectFactory)
-                })
-        );
+                });
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(1);
     }
 
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,

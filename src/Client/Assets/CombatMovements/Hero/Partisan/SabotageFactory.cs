@@ -29,18 +29,29 @@ using MonoGame.Extended.TextureAtlases;
 namespace Client.Assets.CombatMovements.Hero.Partisan;
 
 [UsedImplicitly]
-internal class SabotageFactory : CombatMovementFactoryBase
+internal class SabotageFactory : SimpleCombatMovementFactoryBase
 {
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(1, 2);
 
     /// <inheritdoc />
-    public override CombatMovement CreateMovement()
+    protected override CombatMovementTags GetTags()
     {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(0),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
+        // Enemy do not known what it is attack.
+        // Also it is has no traits.
+        return CombatMovementTags.None;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(3);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
                 {
                     new PushToPositionEffect(
                         new SelfTargetSelector(),
@@ -50,11 +61,7 @@ internal class SabotageFactory : CombatMovementFactoryBase
                         new WeakestEnemyTargetSelector(),
                         DamageType.Normal,
                         GenericRange<int>.CreateMono(3))
-                })
-        )
-        {
-            Tags = CombatMovementTags.Attack
-        };
+                });
     }
 
     /// <inheritdoc />

@@ -14,14 +14,12 @@ using GameAssets.Combats.CombatMovementEffects;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
-internal class CyberClawsFactory : CombatMovementFactoryBase
+internal class CyberClawsFactory : SimpleCombatMovementFactoryBase
 {
-    public override CombatMovement CreateMovement()
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
     {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(0),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
+        return CombatMovementEffectConfig.Create(new IEffect[]
                 {
                     new AdjustPositionEffect(new SelfTargetSelector()),
                     new DamageEffectWrapper(
@@ -29,12 +27,25 @@ internal class CyberClawsFactory : CombatMovementFactoryBase
                         DamageType.Normal,
                         GenericRange<int>.CreateMono(3)),
                     new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToVanguard)
-                })
-        )
-        {
-            Tags = CombatMovementTags.Attack,
-            Metadata = new CombatMovementMetadata(new[] { CombatMovementMetadataTraits.Melee })
-        };
+                });
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(1);
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Melee;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
     }
 
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,

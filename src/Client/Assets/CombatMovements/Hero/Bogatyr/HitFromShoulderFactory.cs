@@ -74,7 +74,7 @@ internal class HitFromShoulderFactory : SimpleCombatMovementFactoryBase
     /// <inheritdoc />
     protected override CombatMovementCost GetCost()
     {
-        return new CombatMovementCost(1);
+        return new CombatMovementCost(3);
     }
 
     /// <inheritdoc />

@@ -29,18 +29,33 @@ using MonoGame.Extended.TextureAtlases;
 namespace Client.Assets.CombatMovements.Hero.Partisan;
 
 [UsedImplicitly]
-internal class BlankShotFactory : CombatMovementFactoryBase
+internal class BlankShotFactory : SimpleCombatMovementFactoryBase
 {
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(3, 6);
 
     /// <inheritdoc />
-    public override CombatMovement CreateMovement()
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
     {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(0),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
+        yield return CombatMovementMetadataTraits.Ranged;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(2);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
                 {
                     new PushToPositionEffect(
                         new SelfTargetSelector(),
@@ -50,12 +65,7 @@ internal class BlankShotFactory : CombatMovementFactoryBase
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
                         GenericRange<int>.CreateMono(2))
-                })
-        )
-        {
-            Tags = CombatMovementTags.Attack,
-            Metadata = new CombatMovementMetadata(new[] { CombatMovementMetadataTraits.Ranged })
-        };
+                });
     }
 
     /// <inheritdoc />

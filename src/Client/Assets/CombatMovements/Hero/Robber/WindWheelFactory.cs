@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.CombatVisualEffects;
@@ -13,6 +14,7 @@ using CombatDicesTeam.GenericRanges;
 
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
 using GameClient.Engine.Animations;
@@ -27,29 +29,40 @@ using MonoGame.Extended.TextureAtlases;
 namespace Client.Assets.CombatMovements.Hero.Robber;
 
 [UsedImplicitly]
-internal class WindWheelFactory : CombatMovementFactoryBase
+internal class WindWheelFactory : SimpleCombatMovementFactoryBase
 {
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(3, 7);
 
     /// <inheritdoc />
-    public override CombatMovement CreateMovement()
+    protected override CombatMovementEffectConfig GetEffects()
     {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(0),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
+        return CombatMovementEffectConfig.Create(new IEffect[]
                 {
                     new DamageEffectWrapper(
                         new StrongestEnemyTargetSelector(),
                         DamageType.Normal,
                         GenericRange<int>.CreateMono(3)),
                     new InterruptEffect(new SelfTargetSelector())
-                })
-        )
-        {
-            Tags = CombatMovementTags.Attack
-        };
+                });
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Ranged;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(3);
     }
 
     /// <inheritdoc />

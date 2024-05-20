@@ -11,20 +11,23 @@ using GameAssets.Combats;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
-internal class RegenerativeProtocolFactory : CombatMovementFactoryBase
+internal class RegenerativeProtocolFactory : SimpleCombatMovementFactoryBase
 {
-    public override CombatMovement CreateMovement()
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
     {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(1),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
+        return CombatMovementEffectConfig.Create(new IEffect[]
                 {
                     new ChangeCurrentStatEffect(new SelfTargetSelector(), CombatantStatTypes.HitPoints,
                         GenericRange<int>.CreateMono(0)),
                     new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
-                })
-        );
+                });
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(1);
     }
 
     public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(

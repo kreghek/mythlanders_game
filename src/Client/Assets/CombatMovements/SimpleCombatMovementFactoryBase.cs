@@ -32,7 +32,7 @@ internal abstract class SimpleCombatMovementFactoryBase : CombatMovementFactoryB
 
     protected virtual CombatMovementCost GetCost()
     {
-        return new CombatMovementCost(0);
+        return new CombatMovementCost(1);
     }
 
     protected abstract CombatMovementEffectConfig GetEffects();

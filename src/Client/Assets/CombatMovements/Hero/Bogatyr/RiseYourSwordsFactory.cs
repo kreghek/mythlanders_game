@@ -17,16 +17,19 @@ using JetBrains.Annotations;
 namespace Client.Assets.CombatMovements.Hero.Bogatyr;
 
 [UsedImplicitly]
-internal class RiseYourSwordsFactory : CombatMovementFactoryBase
+internal class RiseYourSwordsFactory : SimpleCombatMovementFactoryBase
 {
     public override CombatMovementIcon CombatMovementIcon => new(4, 2);
 
-    public override CombatMovement CreateMovement()
+    protected override CombatMovementCost GetCost()
     {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(0),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
+        return new CombatMovementCost(2);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
                 {
                     new AddCombatantStatusEffect(
                         new AllAllyTargetSelector(),
@@ -37,8 +40,7 @@ internal class RiseYourSwordsFactory : CombatMovementFactoryBase
                                 source,
                                 1);
                         }))
-                })
-        );
+                });
     }
 
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,

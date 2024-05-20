@@ -20,15 +20,20 @@ using SelfTargetSelector = Core.Combats.TargetSelectors.SelfTargetSelector;
 namespace Client.Assets.CombatMovements.Hero.Bogatyr;
 
 [UsedImplicitly]
-internal class LookOutFactory : CombatMovementFactoryBase
+internal class LookOutFactory : SimpleCombatMovementFactoryBase
 {
     public override CombatMovementIcon CombatMovementIcon => new(2, 2);
 
-    public override CombatMovement CreateMovement()
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
     {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(0),
-            new CombatMovementEffectConfig(
+        return CombatMovementTags.AutoDefense;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return new CombatMovementEffectConfig(
                 new IEffect[]
                 {
                     new AddCombatantStatusEffect(
@@ -46,11 +51,7 @@ internal class LookOutFactory : CombatMovementFactoryBase
                         new ClosestAllyInColumnTargetSelector(),
                         new CombatStatusFactory(source => new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
                             new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 1)))
-                })
-        )
-        {
-            Tags = CombatMovementTags.AutoDefense
-        };
+                });
     }
 
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
@@ -76,5 +77,11 @@ internal class LookOutFactory : CombatMovementFactoryBase
                 DescriptionKeyValueTemplate.Defence),
             new DescriptionKeyValue("auto_defence", 1, DescriptionKeyValueTemplate.Defence)
         };
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(1);
     }
 }
