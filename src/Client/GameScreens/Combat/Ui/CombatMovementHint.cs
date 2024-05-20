@@ -87,7 +87,7 @@ internal class CombatMovementHint : HintBase
             ControlTextures.Transparent,
             descriptionElements);
 
-        ContentSize = _content.Size.ToVector2() + new Vector2(CONTENT_MARGIN * 2);
+        ContentSize = _content.Size.ToVector2() + new Vector2(CONTENT_MARGIN * 6);
     }
 
     public Vector2 ContentSize { get; }
