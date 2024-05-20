@@ -16,4 +16,5 @@ public static class GameFeatures
     public static GameFeature SmallEvents { get; } = new(nameof(SmallEvents));
     public static GameFeature TowersMiniGame { get; } = new(nameof(TowersMiniGame));
     public static GameFeature UseMonsterPerks { get; } = new(nameof(UseMonsterPerks));
+    public static GameFeature Bestiary { get; } = new (nameof(Bestiary));
 }

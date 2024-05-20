@@ -32,8 +32,8 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 {
     private readonly IReadOnlyList<HeroCampaignLaunch> _campaignLaunches;
 
-    private readonly ButtonBase[] _commandButtons = new ButtonBase[4];
-    private readonly Texture2D[] _commandCenterSegmentTexture;
+    private readonly ButtonBase?[] _commandButtons = new ButtonBase?[4];
+    private readonly Texture2D?[] _commandCenterSegmentTexture;
     private readonly IDice _dice;
     private readonly GlobeProvider _globeProvider;
     private readonly IDictionary<ILocationSid, Vector2> _locationCoords;
@@ -58,7 +58,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         {
             Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter1"),
             Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter2"),
-            Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter3"),
+            _globeProvider.Globe.Features.HasFeature(GameFeatures.Bestiary) ? Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter3") : null,
             Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter4")
         };
 
@@ -126,13 +126,18 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         };
 
         _commandButtons[1] = new ResourceTextButton(nameof(UiResource.ArmoryButtonTitle));
-        _commandButtons[2] = new ResourceTextButton(nameof(UiResource.AdjutantButtonTitle));
-        _commandButtons[2].OnClick += (_, _) =>
+
+        if (_globeProvider.Globe.Features.HasFeature(GameFeatures.Bestiary))
         {
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary,
-                new BestiaryScreenTransitionArguments(ScreenTransition.CommandCenter,
-                    new CommandCenterScreenTransitionArguments(_campaignLaunches)));
-        };
+            _commandButtons[2] = new ResourceTextButton(nameof(UiResource.AdjutantButtonTitle));
+            _commandButtons[2].OnClick += (_, _) =>
+            {
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary,
+                    new BestiaryScreenTransitionArguments(ScreenTransition.CommandCenter,
+                        new CommandCenterScreenTransitionArguments(_campaignLaunches)));
+            };
+        }
+
         _commandButtons[3] = new ResourceTextButton(nameof(UiResource.ChroniclesButtonTitle));
     }
 
@@ -156,7 +161,10 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
         foreach (var commandButton in _commandButtons)
         {
-            commandButton.Update(ResolutionIndependentRenderer);
+            if (commandButton is not null)
+            {
+                commandButton.Update(ResolutionIndependentRenderer);
+            }
         }
     }
 
@@ -243,22 +251,28 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
     {
         for (var i = 0; i < 4; i++)
         {
-            spriteBatch.Draw(_commandCenterSegmentTexture[i],
-                new Rectangle(
+            if (_commandCenterSegmentTexture[i] is not null)
+            {
+                spriteBatch.Draw(_commandCenterSegmentTexture[i],
+                    new Rectangle(
+                        (contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
+                        (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN +
+                        (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
+                        200,
+                        200),
+                    Color.White);
+            }
+
+            if (_commandButtons[i] is not null)
+            {
+                _commandButtons[i].Rect = new Rectangle(
                     (contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
                     (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN +
                     (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
-                    200,
-                    200),
-                Color.White);
+                    100, 20);
 
-            _commandButtons[i].Rect = new Rectangle(
-                (contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
-                (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN +
-                (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
-                100, 20);
-
-            _commandButtons[i].Draw(spriteBatch);
+                _commandButtons[i].Draw(spriteBatch);
+            }
         }
     }
 
@@ -351,7 +365,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         var values = SidCatalogHelper.GetValues<ILocationSid>(typeof(LocationSids));
 
         return values.ToDictionary(x => x,
-            x => new Vector2(rnd.Next(_mapBackgroundTexture.Width / 4, _mapBackgroundTexture.Width * 3 / 4),
+            _ => new Vector2(rnd.Next(_mapBackgroundTexture.Width / 4, _mapBackgroundTexture.Width * 3 / 4),
                 rnd.Next(_mapBackgroundTexture.Height / 4, _mapBackgroundTexture.Height * 3 / 4)));
     }
 
