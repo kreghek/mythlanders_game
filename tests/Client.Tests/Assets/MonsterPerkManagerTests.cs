@@ -45,7 +45,7 @@ public class MonsterPerkManagerTests
 
         globeProvider.GenerateNew();
         globeProvider.Globe.Player.AddMonsterPerk(uniquePerk);
-        globeProvider.Globe.Features.AddFeature(GameFeatures.RewardMonsterPerks);
+        globeProvider.Globe.Features.AddFeature(GameFeatures.RewardMonsterPerksCampaignEffect);
 
         var sut = new MonsterPerkManager(dice, monsterPerkCatalog,
             globeProvider);

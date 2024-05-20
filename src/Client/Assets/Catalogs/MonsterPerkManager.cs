@@ -59,7 +59,7 @@ internal sealed class MonsterPerkManager : IMonsterPerkManager
 
     public IReadOnlyCollection<MonsterPerk> RollLocationRewardPerks()
     {
-        if (!_globeProvider.Globe.Features.HasFeature(GameFeatures.RewardMonsterPerks))
+        if (!_globeProvider.Globe.Features.HasFeature(GameFeatures.RewardMonsterPerksCampaignEffect))
         {
             return ArraySegment<MonsterPerk>.Empty;
         }
