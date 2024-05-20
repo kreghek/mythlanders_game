@@ -75,7 +75,8 @@ internal class CampaignScreen : GameScreenWithMenuBase
             menuButtons.Add(_inventoryButton);
         }
 
-        if (_globeProvider.Globe.Player.MonsterPerks.Any() && _globeProvider.Globe.Player.KnownMonsters.Any())
+        if (_globeProvider.Globe.Player.MonsterPerks.Any() && _globeProvider.Globe.Player.KnownMonsters.Any() &&
+            _globeProvider.Globe.Features.HasFeature(GameFeatures.Bestiary))
         {
             menuButtons.Add(_bestiaryButton);
         }
