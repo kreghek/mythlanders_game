@@ -24,36 +24,6 @@ internal class LookOutFactory : SimpleCombatMovementFactoryBase
 {
     public override CombatMovementIcon CombatMovementIcon => new(2, 2);
 
-    /// <inheritdoc />
-    protected override CombatMovementTags GetTags()
-    {
-        return CombatMovementTags.AutoDefense;
-    }
-
-    /// <inheritdoc />
-    protected override CombatMovementEffectConfig GetEffects()
-    {
-        return new CombatMovementEffectConfig(
-                new IEffect[]
-                {
-                    new AddCombatantStatusEffect(
-                        new ClosestAllyInColumnTargetSelector(),
-                        new CombatStatusFactory(source => new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
-                            new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 3))),
-                    new PushToPositionEffect(
-                        new SelfTargetSelector(),
-                        ChangePositionEffectDirection.ToVanguard
-                    )
-                },
-                new IEffect[]
-                {
-                    new AddCombatantStatusEffect(
-                        new ClosestAllyInColumnTargetSelector(),
-                        new CombatStatusFactory(source => new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
-                            new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 1)))
-                });
-    }
-
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
@@ -83,5 +53,35 @@ internal class LookOutFactory : SimpleCombatMovementFactoryBase
     protected override CombatMovementCost GetCost()
     {
         return new CombatMovementCost(1);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return new CombatMovementEffectConfig(
+            new IEffect[]
+            {
+                new AddCombatantStatusEffect(
+                    new ClosestAllyInColumnTargetSelector(),
+                    new CombatStatusFactory(source => new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                        new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 3))),
+                new PushToPositionEffect(
+                    new SelfTargetSelector(),
+                    ChangePositionEffectDirection.ToVanguard
+                )
+            },
+            new IEffect[]
+            {
+                new AddCombatantStatusEffect(
+                    new ClosestAllyInColumnTargetSelector(),
+                    new CombatStatusFactory(source => new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                        new ToEndOfCurrentRoundEffectLifetime(), source, CombatantStatTypes.Defense, 1)))
+            });
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.AutoDefense;
     }
 }

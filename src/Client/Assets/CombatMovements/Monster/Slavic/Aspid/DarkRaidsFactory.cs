@@ -32,6 +32,12 @@ internal class DarkRaidsFactory : SimpleCombatMovementFactoryBase
     }
 
     /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(2);
+    }
+
+    /// <inheritdoc />
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(
@@ -56,11 +62,5 @@ internal class DarkRaidsFactory : SimpleCombatMovementFactoryBase
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.Attack;
-    }
-
-    /// <inheritdoc />
-    protected override CombatMovementCost GetCost()
-    {
-        return new CombatMovementCost(2);
     }
 }

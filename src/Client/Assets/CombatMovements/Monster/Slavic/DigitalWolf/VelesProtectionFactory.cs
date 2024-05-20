@@ -15,33 +15,6 @@ namespace Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
 internal class VelesProtectionFactory : SimpleCombatMovementFactoryBase
 {
-    /// <inheritdoc />
-    protected override CombatMovementEffectConfig GetEffects()
-    {
-        return new CombatMovementEffectConfig(new IEffect[]
-                {
-                    new AddCombatantStatusEffect(
-                        new SelfTargetSelector(),
-                        new CombatStatusFactory(source =>
-                        {
-                            return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
-                                new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.ShieldPoints, 2);
-                        })),
-                    new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
-                },
-                new IEffect[]
-                {
-                    new AddCombatantStatusEffect(
-                        new SelfTargetSelector(),
-                        new CombatStatusFactory(source =>
-                        {
-                            return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
-                                new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2);
-                        })),
-                    new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
-                });
-    }
-
     public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {
@@ -56,6 +29,33 @@ internal class VelesProtectionFactory : SimpleCombatMovementFactoryBase
     protected override CombatMovementCost GetCost()
     {
         return new CombatMovementCost(1);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return new CombatMovementEffectConfig(new IEffect[]
+            {
+                new AddCombatantStatusEffect(
+                    new SelfTargetSelector(),
+                    new CombatStatusFactory(source =>
+                    {
+                        return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                            new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.ShieldPoints, 2);
+                    })),
+                new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
+            },
+            new IEffect[]
+            {
+                new AddCombatantStatusEffect(
+                    new SelfTargetSelector(),
+                    new CombatStatusFactory(source =>
+                    {
+                        return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                            new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2);
+                    })),
+                new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
+            });
     }
 
     protected override CombatMovementTags GetTags()

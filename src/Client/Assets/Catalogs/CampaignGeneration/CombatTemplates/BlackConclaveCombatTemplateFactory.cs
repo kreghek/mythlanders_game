@@ -96,7 +96,7 @@ internal sealed class BlackConclaveCombatTemplateFactory : ICombatTemplateFactor
                     new("AmbushDrone", 0, new FieldCoords(0, 2)),
                     new("AmbushDrone", 1, new FieldCoords(1, 2)),
                     new("AmbushDrone", 0, new FieldCoords(0, 2)),
-                    new("AmbushDrone", 1, new FieldCoords(0, 1)),
+                    new("AmbushDrone", 1, new FieldCoords(0, 1))
                 })
         };
     }

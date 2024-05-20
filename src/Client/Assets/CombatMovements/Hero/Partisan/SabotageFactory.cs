@@ -35,36 +35,6 @@ internal class SabotageFactory : SimpleCombatMovementFactoryBase
     public override CombatMovementIcon CombatMovementIcon => new(1, 2);
 
     /// <inheritdoc />
-    protected override CombatMovementTags GetTags()
-    {
-        // Enemy do not known what it is attack.
-        // Also it is has no traits.
-        return CombatMovementTags.None;
-    }
-
-    /// <inheritdoc />
-    protected override CombatMovementCost GetCost()
-    {
-        return new CombatMovementCost(3);
-    }
-
-    /// <inheritdoc />
-    protected override CombatMovementEffectConfig GetEffects()
-    {
-        return CombatMovementEffectConfig.Create(new IEffect[]
-                {
-                    new PushToPositionEffect(
-                        new SelfTargetSelector(),
-                        ChangePositionEffectDirection.ToRearguard
-                    ),
-                    new DamageEffectWrapper(
-                        new WeakestEnemyTargetSelector(),
-                        DamageType.Normal,
-                        GenericRange<int>.CreateMono(3))
-                });
-    }
-
-    /// <inheritdoc />
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution,
         ICombatMovementVisualizationContext visualizationContext)
@@ -119,6 +89,36 @@ internal class SabotageFactory : SimpleCombatMovementFactoryBase
             new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 1),
                 DescriptionKeyValueTemplate.Damage)
         };
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(3);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
+        {
+            new PushToPositionEffect(
+                new SelfTargetSelector(),
+                ChangePositionEffectDirection.ToRearguard
+            ),
+            new DamageEffectWrapper(
+                new WeakestEnemyTargetSelector(),
+                DamageType.Normal,
+                GenericRange<int>.CreateMono(3))
+        });
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        // Enemy do not known what it is attack.
+        // Also it is has no traits.
+        return CombatMovementTags.None;
     }
 
     private static Func<Vector2, Vector2, IInteractionDelivery> GetCreateProjectileFunc(

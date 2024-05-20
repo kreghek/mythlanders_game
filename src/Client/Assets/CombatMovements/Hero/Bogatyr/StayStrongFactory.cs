@@ -23,50 +23,6 @@ internal class StayStrongFactory : SimpleCombatMovementFactoryBase
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(2, 0);
 
-    /// <inheritdoc />
-    protected override CombatMovementTags GetTags()
-    {
-        return CombatMovementTags.AutoDefense;
-    }
-
-    /// <inheritdoc />
-    protected override CombatMovementEffectConfig GetEffects()
-    {
-        return new CombatMovementEffectConfig(
-                new IEffect[]
-                {
-                    new AddCombatantStatusEffect(new SelfTargetSelector(),
-                        new CombatStatusFactory(source =>
-                            new DefensiveStanceCombatantStatusWrapper(
-                                new AutoRestoreModifyStatCombatantStatus(
-                                    new ModifyStatCombatantStatus(
-                                        new CombatantStatusSid(Sid),
-                                        new ToNextCombatantTurnEffectLifetime(),
-                                        source,
-                                        CombatantStatTypes.Defense,
-                                        3))
-                            )
-                        )
-                    )
-                },
-                new IEffect[]
-                {
-                    new AddCombatantStatusEffect(new SelfTargetSelector(),
-                        new CombatStatusFactory(source =>
-                            new DefensiveStanceCombatantStatusWrapper(
-                                new AutoRestoreModifyStatCombatantStatus(
-                                    new ModifyStatCombatantStatus(
-                                        new CombatantStatusSid(Sid),
-                                        new ToEndOfCurrentRoundEffectLifetime(),
-                                        source,
-                                        CombatantStatTypes.Defense,
-                                        1))
-                            )
-                        )
-                    )
-                });
-    }
-
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
@@ -89,5 +45,49 @@ internal class StayStrongFactory : SimpleCombatMovementFactoryBase
             new DescriptionKeyValue("defence", 3, DescriptionKeyValueTemplate.Defence),
             new DescriptionKeyValue("auto_defence", 1, DescriptionKeyValueTemplate.Defence)
         };
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return new CombatMovementEffectConfig(
+            new IEffect[]
+            {
+                new AddCombatantStatusEffect(new SelfTargetSelector(),
+                    new CombatStatusFactory(source =>
+                        new DefensiveStanceCombatantStatusWrapper(
+                            new AutoRestoreModifyStatCombatantStatus(
+                                new ModifyStatCombatantStatus(
+                                    new CombatantStatusSid(Sid),
+                                    new ToNextCombatantTurnEffectLifetime(),
+                                    source,
+                                    CombatantStatTypes.Defense,
+                                    3))
+                        )
+                    )
+                )
+            },
+            new IEffect[]
+            {
+                new AddCombatantStatusEffect(new SelfTargetSelector(),
+                    new CombatStatusFactory(source =>
+                        new DefensiveStanceCombatantStatusWrapper(
+                            new AutoRestoreModifyStatCombatantStatus(
+                                new ModifyStatCombatantStatus(
+                                    new CombatantStatusSid(Sid),
+                                    new ToEndOfCurrentRoundEffectLifetime(),
+                                    source,
+                                    CombatantStatTypes.Defense,
+                                    1))
+                        )
+                    )
+                )
+            });
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.AutoDefense;
     }
 }

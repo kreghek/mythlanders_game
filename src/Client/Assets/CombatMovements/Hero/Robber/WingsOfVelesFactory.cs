@@ -17,28 +17,6 @@ internal class WingsOfVelesFactory : SimpleCombatMovementFactoryBase
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(1, 7);
 
-    /// <inheritdoc />
-    protected override CombatMovementEffectConfig GetEffects()
-    {
-        var combatantEffectFactory = new ModifyCombatantMoveStatsCombatantStatusFactory(
-            new CombatantStatusSid(Sid),
-            new MultipleCombatantTurnEffectLifetimeFactory(1),
-            CombatantMoveStats.Cost,
-            -1);
-
-        return CombatMovementEffectConfig.Create(new IEffect[]
-                {
-                    new ModifyEffectsEffect(new CombatantStatusSid(Sid), new SelfTargetSelector(), 1),
-                    new AddCombatantStatusEffect(new SelfTargetSelector(), combatantEffectFactory)
-                });
-    }
-
-    /// <inheritdoc />
-    protected override CombatMovementCost GetCost()
-    {
-        return new CombatMovementCost(1);
-    }
-
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
@@ -50,5 +28,27 @@ internal class WingsOfVelesFactory : SimpleCombatMovementFactoryBase
 
         return CommonCombatVisualization.CreateSelfBuffVisualization(actorAnimator, movementExecution,
             visualizationContext, defenseAnimation, defenseSoundEffect);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(1);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        var combatantEffectFactory = new ModifyCombatantMoveStatsCombatantStatusFactory(
+            new CombatantStatusSid(Sid),
+            new MultipleCombatantTurnEffectLifetimeFactory(1),
+            CombatantMoveStats.Cost,
+            -1);
+
+        return CombatMovementEffectConfig.Create(new IEffect[]
+        {
+            new ModifyEffectsEffect(new CombatantStatusSid(Sid), new SelfTargetSelector(), 1),
+            new AddCombatantStatusEffect(new SelfTargetSelector(), combatantEffectFactory)
+        });
     }
 }

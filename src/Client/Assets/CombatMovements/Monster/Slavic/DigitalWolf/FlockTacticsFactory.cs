@@ -14,40 +14,6 @@ namespace Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
 internal class FlockAlphaTacticsFactory : SimpleCombatMovementFactoryBase
 {
-    /// <inheritdoc />
-    protected override CombatMovementEffectConfig GetEffects()
-    {
-        return CombatMovementEffectConfig.Create(new IEffect[]
-                {
-                    new AdjustPositionEffect(new SelfTargetSelector()),
-                    new DamageEffectWrapper(
-                        new StrongestEnemyTargetSelector(),
-                        DamageType.Normal,
-                        GenericRange<int>.CreateMono(3)),
-                    new ChangeCurrentStatEffect(new StrongestEnemyTargetSelector(), CombatantStatTypes.Resolve,
-                        GenericRange<int>.CreateMono(-2)),
-                    new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToVanguard)
-                });
-    }
-
-    /// <inheritdoc />
-    protected override CombatMovementCost GetCost()
-    {
-        return new CombatMovementCost(2);
-    }
-
-    /// <inheritdoc />
-    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
-    {
-        yield return CombatMovementMetadataTraits.Melee;
-    }
-
-    /// <inheritdoc />
-    protected override CombatMovementTags GetTags()
-    {
-        return CombatMovementTags.Attack;
-    }
-
     public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {
@@ -61,5 +27,39 @@ internal class FlockAlphaTacticsFactory : SimpleCombatMovementFactoryBase
                 ExtractStatChangingValue(combatMovementInstance, 2) * -1,
                 DescriptionKeyValueTemplate.ResolveDamage)
         };
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Melee;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(2);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
+        {
+            new AdjustPositionEffect(new SelfTargetSelector()),
+            new DamageEffectWrapper(
+                new StrongestEnemyTargetSelector(),
+                DamageType.Normal,
+                GenericRange<int>.CreateMono(3)),
+            new ChangeCurrentStatEffect(new StrongestEnemyTargetSelector(), CombatantStatTypes.Resolve,
+                GenericRange<int>.CreateMono(-2)),
+            new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToVanguard)
+        });
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
     }
 }

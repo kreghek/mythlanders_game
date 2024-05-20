@@ -21,28 +21,6 @@ internal class RiseYourSwordsFactory : SimpleCombatMovementFactoryBase
 {
     public override CombatMovementIcon CombatMovementIcon => new(4, 2);
 
-    protected override CombatMovementCost GetCost()
-    {
-        return new CombatMovementCost(2);
-    }
-
-    /// <inheritdoc />
-    protected override CombatMovementEffectConfig GetEffects()
-    {
-        return CombatMovementEffectConfig.Create(new IEffect[]
-                {
-                    new AddCombatantStatusEffect(
-                        new AllAllyTargetSelector(),
-                        new CombatStatusFactory(source =>
-                        {
-                            return new ImproveMeleeDamageCombatantStatus(new CombatantStatusSid(Sid),
-                                new MultipleCombatantTurnEffectLifetime(1),
-                                source,
-                                1);
-                        }))
-                });
-    }
-
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
@@ -66,5 +44,27 @@ internal class RiseYourSwordsFactory : SimpleCombatMovementFactoryBase
                 DescriptionKeyValueTemplate.DamageModifier),
             new DescriptionKeyValue("duration", 1, DescriptionKeyValueTemplate.TurnDuration)
         };
+    }
+
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(2);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
+        {
+            new AddCombatantStatusEffect(
+                new AllAllyTargetSelector(),
+                new CombatStatusFactory(source =>
+                {
+                    return new ImproveMeleeDamageCombatantStatus(new CombatantStatusSid(Sid),
+                        new MultipleCombatantTurnEffectLifetime(1),
+                        source,
+                        1);
+                }))
+        });
     }
 }

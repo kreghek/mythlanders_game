@@ -4,13 +4,11 @@ using CombatDicesTeam.Combats;
 using CombatDicesTeam.Combats.CombatantEffectLifetimes;
 using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Combats.Effects;
-using CombatDicesTeam.GenericRanges;
 
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats;
-using GameAssets.Combats.CombatMovementEffects;
 
 using JetBrains.Annotations;
 
@@ -25,12 +23,6 @@ internal class SurpriseManeuverFactory : SimpleCombatMovementFactoryBase
     public override CombatMovementIcon CombatMovementIcon => new(2, 6);
 
     /// <inheritdoc />
-    protected override CombatMovementCost GetCost()
-    {
-        return new CombatMovementCost(1);
-    }
-
-    /// <inheritdoc />
     public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {
@@ -41,24 +33,30 @@ internal class SurpriseManeuverFactory : SimpleCombatMovementFactoryBase
     }
 
     /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(1);
+    }
+
+    /// <inheritdoc />
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(new IEffect[]
-                {
-                    new GroupEffect(new StrongestClosestAllyTargetSelector(),
-                        new SwapPositionEffect(
-                            new NullTargetSelector()
-                        ),
-                        new AddCombatantStatusEffect(
-                            new NullTargetSelector(),
-                            new CombatStatusFactory(source => new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
-                                new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2)))
-                    ),
+        {
+            new GroupEffect(new StrongestClosestAllyTargetSelector(),
+                new SwapPositionEffect(
+                    new NullTargetSelector()
+                ),
+                new AddCombatantStatusEffect(
+                    new NullTargetSelector(),
+                    new CombatStatusFactory(source => new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                        new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2)))
+            ),
 
-                    new AddCombatantStatusEffect(
-                        new SelfTargetSelector(),
-                        new CombatStatusFactory(source => new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
-                            new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2)))
-                });
+            new AddCombatantStatusEffect(
+                new SelfTargetSelector(),
+                new CombatStatusFactory(source => new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                    new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2)))
+        });
     }
 }

@@ -27,7 +27,7 @@ public static class LocalizationHelper
         var langSequence = new[]
         {
             (TwoLetters: "ru", Culture: CultureInfo.GetCultureInfo("ru-RU")),
-            (TwoLetters: "en", Culture: CultureInfo.GetCultureInfo("en-US")),
+            (TwoLetters: "en", Culture: CultureInfo.GetCultureInfo("en-US"))
             //(TwoLetters: "zh", Culture: CultureInfo.GetCultureInfo("zh"))
         };
 

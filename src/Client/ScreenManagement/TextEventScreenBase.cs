@@ -39,11 +39,11 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     protected DialoguePlayer<TParagraphConditionContext, TAftermathContext>? _dialoguePlayer;
     private bool _isInitialized;
     private KeyboardState _keyboardState;
-    private double _pressToContinueCounter;
-    protected int CurrentFragmentIndex;
 
     private HintBase? _optionDescription;
     private ControlBase? _optionUnderHint;
+    private double _pressToContinueCounter;
+    protected int CurrentFragmentIndex;
 
     protected TextEventScreenBase(MythlandersGame game,
         TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> args) : base(game)
@@ -198,7 +198,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
         foreach (var dialogueOptionButton in dialogueOptions.Options)
         {
-            if (dialogueOptionButton.Rect.Contains(new Rectangle((int)rirPosition.X, (int)rirPosition.Y, 1,1)))
+            if (dialogueOptionButton.Rect.Contains(new Rectangle((int)rirPosition.X, (int)rirPosition.Y, 1, 1)))
             {
                 HandleOptionHover(dialogueOptionButton);
 
@@ -261,8 +261,8 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         if (_optionDescription is not null && _optionUnderHint is not null)
         {
             _optionDescription.Rect = new Rectangle(
-                _optionUnderHint.Rect.Left, 
-                _optionUnderHint.Rect.Bottom, 
+                _optionUnderHint.Rect.Left,
+                _optionUnderHint.Rect.Bottom,
                 _optionDescription.Size.X,
                 _optionDescription.Size.Y);
 

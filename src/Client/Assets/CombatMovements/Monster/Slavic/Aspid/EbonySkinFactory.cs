@@ -25,6 +25,12 @@ internal class EbonySkinFactory : SimpleCombatMovementFactoryBase
         };
     }
 
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(1);
+    }
+
     protected override CombatMovementEffectConfig GetEffects()
     {
         return new CombatMovementEffectConfig(
@@ -53,11 +59,5 @@ internal class EbonySkinFactory : SimpleCombatMovementFactoryBase
     protected override CombatMovementTags GetTags()
     {
         return CombatMovementTags.AutoDefense;
-    }
-
-    /// <inheritdoc />
-    protected override CombatMovementCost GetCost()
-    {
-        return new CombatMovementCost(1);
     }
 }
