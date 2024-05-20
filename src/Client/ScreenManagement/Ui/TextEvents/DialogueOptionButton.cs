@@ -18,11 +18,11 @@ internal class DialogueOptionButton : ButtonBase
 
         _font = UiThemeManager.UiContentStorage.GetTitlesFont();
         Number = number;
+        ResourceSid = resourceSid;
     }
 
-    public string? DescriptionSid { get; init; }
-
     public int Number { get; }
+    public string ResourceSid { get; }
 
     public Vector2 GetContentSize()
     {
@@ -57,6 +57,11 @@ internal class DialogueOptionButton : ButtonBase
         if (_buttonState == UiButtonState.Hover || _buttonState == UiButtonState.Pressed)
         {
             return Color.Wheat;
+        }
+
+        if (!IsEnabled)
+        {
+            return Color.Gray;
         }
 
         return Color.SaddleBrown;

@@ -137,8 +137,7 @@ internal sealed class CombatantQueuePanel : ControlBase
             Rect = new Rectangle(moveInfo.Item1.Location, new Point(200, 40))
         };
 
-        hint.Rect = new Rectangle(new Point(moveInfo.Item1.Center.X, moveInfo.Item1.Bottom),
-            (hint.ContentSize + new Vector2(CONTENT_MARGIN * 2, CONTENT_MARGIN * 2)).ToPoint());
+        hint.Rect = new Rectangle(new Point(moveInfo.Item1.Center.X, moveInfo.Item1.Bottom), hint.ContentSize.ToPoint());
 
         return hint;
     }

@@ -10,6 +10,7 @@ using Client.ScreenManagement.Ui.TextEvents;
 
 using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
+using CombatDicesTeam.Engine.Ui;
 
 using GameClient.Engine.Ui;
 
@@ -41,7 +42,8 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     private double _pressToContinueCounter;
     protected int CurrentFragmentIndex;
 
-    private HintBase? optionDescription;
+    private HintBase? _optionDescription;
+    private ControlBase? _optionUnderHint;
 
     protected TextEventScreenBase(MythlandersGame game,
         TextEventScreenArgsBase<TParagraphConditionContext, TAftermathContext> args) : base(game)
@@ -119,10 +121,24 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
     protected virtual void HandleOptionHover(DialogueOptionButton button)
     {
+        var (text, isLocalized) = SpeechVisualizationHelper.PrepareLocalizedText(button.ResourceSid + "_Description");
+
+        if (isLocalized)
+        {
+            _optionDescription = new TextHint(StringHelper.LineBreaking(text, 60));
+            _optionUnderHint = button;
+        }
+        else
+        {
+            _optionDescription = null;
+            _optionUnderHint = null;
+        }
     }
 
     protected virtual void HandleOptionLeave(DialogueOptionButton button)
     {
+        _optionDescription = null;
+        _optionUnderHint = null;
     }
 
     protected virtual void HandleOptionSelection(DialogueOptionButton button)
@@ -168,7 +184,6 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
     protected abstract void UpdateSpecificScreenContent(GameTime gameTime);
 
-
     private static UnitName ConvertSpeakerToUnitName(IDialogueSpeaker speaker)
     {
         var speakerName = speaker.ToString();
@@ -177,20 +192,16 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
     private void DetectOptionDescription(DialogueOptions dialogueOptions)
     {
-        var mouse = new MouseState().Position;
+        var mouse = Mouse.GetState().Position;
+
+        var rirPosition = ResolutionIndependentRenderer.ConvertScreenToWorldCoordinates(new Vector2(mouse.X, mouse.Y));
 
         foreach (var dialogueOptionButton in dialogueOptions.Options)
         {
-            if (dialogueOptionButton.DescriptionSid is null)
+            if (dialogueOptionButton.Rect.Contains(new Rectangle((int)rirPosition.X, (int)rirPosition.Y, 1,1)))
             {
-                continue;
-            }
+                HandleOptionHover(dialogueOptionButton);
 
-            if (dialogueOptionButton.Rect.Contains(mouse))
-            {
-                var (text, _) = SpeechVisualizationHelper.PrepareLocalizedText(dialogueOptionButton.DescriptionSid +
-                                                                               "_OptionDescription");
-                optionDescription = new TextHint(text);
                 break;
             }
         }
@@ -247,9 +258,15 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
             _dialogueOptions.Draw(spriteBatch);
         }
 
-        if (optionDescription is not null)
+        if (_optionDescription is not null && _optionUnderHint is not null)
         {
-            optionDescription.Draw(spriteBatch);
+            _optionDescription.Rect = new Rectangle(
+                _optionUnderHint.Rect.Left, 
+                _optionUnderHint.Rect.Bottom, 
+                _optionDescription.Size.X,
+                _optionDescription.Size.Y);
+
+            _optionDescription.Draw(spriteBatch);
         }
 
         spriteBatch.End();
@@ -279,10 +296,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
         foreach (var option in dialoguePlayer.CurrentOptions)
         {
-            var optionButton = new DialogueOptionButton(optionNumber, option.TextSid)
-            {
-                DescriptionSid = option.DescriptionSid
-            };
+            var optionButton = new DialogueOptionButton(optionNumber, option.TextSid);
 
             optionButton.OnClick += (s, _) =>
             {
