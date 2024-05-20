@@ -18,17 +18,21 @@ using SelfTargetSelector = Core.Combats.TargetSelectors.SelfTargetSelector;
 namespace Client.Assets.CombatMovements.Hero.Bogatyr;
 
 [UsedImplicitly]
-internal class StayStrongFactory : CombatMovementFactoryBase
+internal class StayStrongFactory : SimpleCombatMovementFactoryBase
 {
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(2, 0);
 
     /// <inheritdoc />
-    public override CombatMovement CreateMovement()
+    protected override CombatMovementTags GetTags()
     {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(0),
-            new CombatMovementEffectConfig(
+        return CombatMovementTags.AutoDefense;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return new CombatMovementEffectConfig(
                 new IEffect[]
                 {
                     new AddCombatantStatusEffect(new SelfTargetSelector(),
@@ -60,11 +64,7 @@ internal class StayStrongFactory : CombatMovementFactoryBase
                             )
                         )
                     )
-                })
-        )
-        {
-            Tags = CombatMovementTags.AutoDefense
-        };
+                });
     }
 
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,

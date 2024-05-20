@@ -57,4 +57,10 @@ internal class OldGoodBrawlFactory : SimpleCombatMovementFactoryBase
     {
         return CombatMovementTags.Attack;
     }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(2);
+    }
 }

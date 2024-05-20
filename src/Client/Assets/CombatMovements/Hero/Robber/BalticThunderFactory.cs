@@ -13,6 +13,7 @@ using CombatDicesTeam.GenericRanges;
 
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
 using GameClient.Engine.Animations;
@@ -27,28 +28,39 @@ using MonoGame.Extended.TextureAtlases;
 namespace Client.Assets.CombatMovements.Hero.Robber;
 
 [UsedImplicitly]
-internal class BalticThunderFactory : CombatMovementFactoryBase
+internal class BalticThunderFactory : SimpleCombatMovementFactoryBase
 {
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(4, 0);
 
     /// <inheritdoc />
-    public override CombatMovement CreateMovement()
+    protected override CombatMovementEffectConfig GetEffects()
     {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(0),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
+        return CombatMovementEffectConfig.Create(new IEffect[]
                 {
                     new DamageEffectWrapper(
                         new ClosestInLineTargetSelector(),
                         DamageType.Normal,
                         GenericRange<int>.CreateMono(3))
-                })
-        )
-        {
-            Tags = CombatMovementTags.Attack
-        };
+                });
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Ranged;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(3);
     }
 
     /// <inheritdoc />

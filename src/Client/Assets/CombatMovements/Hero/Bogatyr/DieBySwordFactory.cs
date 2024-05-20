@@ -72,6 +72,12 @@ internal class DieBySwordFactory : SimpleCombatMovementFactoryBase
     }
 
     /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(2);
+    }
+
+    /// <inheritdoc />
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(new IEffect[]
