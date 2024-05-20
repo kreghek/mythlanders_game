@@ -3,6 +3,7 @@ using System.IO;
 using System.Text.Json;
 using System.Threading;
 
+using Client.Assets.CombatMovements;
 using Client.GameScreens;
 
 using Microsoft.Xna.Framework;
@@ -48,7 +49,7 @@ internal sealed class GameSettings
         graphicsDeviceManager.PreferredBackBufferHeight = saveDataDto.ScreenHeight;
         graphicsDeviceManager.ApplyChanges();
 
-        MusicVolume = saveDataDto.Music;
+        AudioSettings.MusicVolume = saveDataDto.Music;
         LocalizationHelper.SetLanguage(saveDataDto.Language);
     }
 
@@ -56,7 +57,7 @@ internal sealed class GameSettings
     {
         var dto = new GameSettingsDto(graphicsDeviceManager.IsFullScreen,
             graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight,
-            Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName, MusicVolume);
+            Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName, AudioSettings.MusicVolume);
         var serializedSaveData =
             JsonSerializer.Serialize(dto, options: new JsonSerializerOptions { WriteIndented = true });
 
