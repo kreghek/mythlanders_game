@@ -104,7 +104,7 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         var menuButtons = new List<ButtonBase>();
 
         if (_globeProvider.Globe.Player.Inventory.CalcActualItems().Any() &&
-            _globeProvider.Globe.Features.HasFeature(GameFeatures.RewardResourceCampaignEffect))
+            _globeProvider.Globe.Features.HasFeature(GameFeatures.Resources))
         {
             menuButtons.Add(_inventoryButton);
         }

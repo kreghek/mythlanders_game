@@ -54,7 +54,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     {
         var dropTables = new List<IDropTableScheme>();
 
-        if (!globe.Features.HasFeature(GameFeatures.RewardResourceCampaignEffect))
+        if (!globe.Features.HasFeature(GameFeatures.Resources))
         {
             return dropTables;
         }
@@ -95,10 +95,14 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
 
         var totalDropTables = new List<IDropTableScheme>();
         totalDropTables.AddRange(monsterResources);
-        totalDropTables.Add(new DropTableScheme("combat-xp", new IDropTableRecordSubScheme[]
+
+        if (!_globe.Features.HasFeature(GameFeatures.Resources))
         {
-            new DropTableRecordSubScheme(null, new GenericRange<int>(1, 2), "combat-xp", 1)
-        }, 1));
+            totalDropTables.Add(new DropTableScheme("combat-xp", new IDropTableRecordSubScheme[]
+            {
+                new DropTableRecordSubScheme(null, new GenericRange<int>(1, 2), "combat-xp", 1)
+            }, 1));
+        }
 
         var combat = new CombatSource(
             monsterCombatantTemplate.Prefabs
