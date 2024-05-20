@@ -59,6 +59,11 @@ internal class DialogueOptionButton : ButtonBase
             return Color.Wheat;
         }
 
+        if (!IsEnabled)
+        {
+            return Color.Gray;
+        }
+
         return Color.SaddleBrown;
     }
 }
