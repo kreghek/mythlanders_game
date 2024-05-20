@@ -119,7 +119,7 @@ public class DialogueCatalogHelperTests
                             {
                                 new DialogueDtoReaction
                                 {
-                                    Hero = "Swordsman",
+                                    Hero = "Bogatyr",
                                     Text = "test text"
                                 }
                             }
