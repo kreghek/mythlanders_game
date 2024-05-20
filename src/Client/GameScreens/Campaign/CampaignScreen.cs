@@ -70,12 +70,14 @@ internal class CampaignScreen : GameScreenWithMenuBase
     {
         var menuButtons = new List<ButtonBase>();
 
-        if (_globeProvider.Globe.Player.Inventory.CalcActualItems().Any())
+        if (_globeProvider.Globe.Player.Inventory.CalcActualItems().Any() &&
+            _globeProvider.Globe.Features.HasFeature(GameFeatures.Resources))
         {
             menuButtons.Add(_inventoryButton);
         }
 
-        if (_globeProvider.Globe.Player.MonsterPerks.Any() && _globeProvider.Globe.Player.KnownMonsters.Any())
+        if (_globeProvider.Globe.Player.MonsterPerks.Any() && _globeProvider.Globe.Player.KnownMonsters.Any() &&
+            _globeProvider.Globe.Features.HasFeature(GameFeatures.Bestiary))
         {
             menuButtons.Add(_bestiaryButton);
         }
