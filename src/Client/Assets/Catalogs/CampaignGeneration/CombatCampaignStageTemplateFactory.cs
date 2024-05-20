@@ -24,6 +24,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
 
     private readonly MonsterCombatantTempateLevel _monsterLevel;
     private readonly IMonsterPerkManager _monsterPerkManager;
+    private readonly Globe _globe;
 
     public CombatCampaignStageTemplateFactory(ILocationSid locationSid, MonsterCombatantTempateLevel monsterLevel,
         CampaignStageTemplateServices services)
@@ -32,6 +33,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         _monsterLevel = monsterLevel;
         _dice = services.Dice;
         _monsterPerkManager = services.MonsterPerkManager;
+        _globe = services.GlobeProvider.Globe;
 
         var factories = CatalogHelper.GetAllFactories<ICombatTemplateFactory>();
 
@@ -48,9 +50,14 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         return _dice.RollFromList(templates);
     }
 
-    private static IEnumerable<IDropTableScheme> GetMonsterDropTables(MonsterCombatantTempate monsterCombatantPrefabs)
+    private static IEnumerable<IDropTableScheme> GetMonsterDropTables(MonsterCombatantTempate monsterCombatantPrefabs, Globe globe)
     {
         var dropTables = new List<IDropTableScheme>();
+
+        if (!globe.Features.HasFeature(GameFeatures.Resources))
+        {
+            return dropTables;
+        }
 
         foreach (var monsterCombatantPrefab in monsterCombatantPrefabs.Prefabs)
         {
@@ -84,14 +91,18 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     {
         var monsterCombatantTemplate = GetApplicableTemplate();
 
-        var monsterResources = GetMonsterDropTables(monsterCombatantTemplate);
+        var monsterResources = GetMonsterDropTables(monsterCombatantTemplate, _globe);
 
         var totalDropTables = new List<IDropTableScheme>();
         totalDropTables.AddRange(monsterResources);
-        totalDropTables.Add(new DropTableScheme("combat-xp", new IDropTableRecordSubScheme[]
+
+        if (!_globe.Features.HasFeature(GameFeatures.Resources))
         {
-            new DropTableRecordSubScheme(null, new GenericRange<int>(1, 2), "combat-xp", 1)
-        }, 1));
+            totalDropTables.Add(new DropTableScheme("combat-xp", new IDropTableRecordSubScheme[]
+            {
+                new DropTableRecordSubScheme(null, new GenericRange<int>(1, 2), "combat-xp", 1)
+            }, 1));
+        }
 
         var combat = new CombatSource(
             monsterCombatantTemplate.Prefabs
