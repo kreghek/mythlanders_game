@@ -20,6 +20,13 @@ CHANGES:
 	* Digital Wolf. Energy Bite. This move is aimed at destroying the shields of tank heroes. In fact, after such a bite, the hero becomes vulnerable to any subsequent attacks. Cost changed from 1 to 2. Damage to shields increased from 3 to 5.
 	* Digital Wolf. Veles's defense. This move can now be used as an auto-defense. With both executions, the move increases the wolf's defense by 2, which helps withstand any attacks.
 
+* Now in the tutorial, a difficult battle is marked with both markers. This same marker is also used outside of training.
+* Screen, music and language settings are now saved between game restarts. At some sites this is a mandatory requirement.
+* When choosing a starting hero, a hint is displayed if the hero is still in development. Also, such selection points are colored gray.
+
+FIXES:
+* Typos in texts corrected.
+
 v0.3.137 
 
 1. Fix hint of Ebony Skin. This is Aspid skill to gain additional armor.
