@@ -20,9 +20,10 @@ CHANGES:
 	* Digital Hort. Energy Bite. This move is aimed at destroying the shields of tank heroes. In fact, after such a bite, the hero becomes vulnerable to any subsequent attacks. Cost changed from 1 to 2. Damage to energo-shields increased from 3 to 5.
 	* Digital Hort. Veles Protection. This move can now be used as an auto-defense. With both executions, the move increases the wolf's defense by 2, which helps withstand any hero's attacks.
 
-* Now in the tutorial, a difficult battle is marked with alert marker. This same marker is also used outside of training when a combat looks like it will be difficult for the heroes.
+* Now in the tutorial, a difficult combat is marked with alert icon. This same marker is also used outside of tutorial when a combat looks like it will be difficult for the heroes.
 * Screen, music and language settings are now saved between game restarts. At some marketplaces this is a mandatory requirement.
 * When choosing a starting hero, a hint is displayed if the hero is still in development. Also, such options in pre-history are colored gray.
+* Added new combinations of monsters which will meet after tutorial.
 
 FIXES:
 * Typos in texts corrected.
