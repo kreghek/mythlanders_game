@@ -6,7 +6,6 @@ using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.GenericRanges;
 
-using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats;
@@ -29,7 +28,7 @@ internal class DarkRaidsFactory : SimpleCombatMovementFactoryBase
             new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 0),
                 DescriptionKeyValueTemplate.Damage),
             new DescriptionKeyValue("duration", 3, DescriptionKeyValueTemplate.TurnDuration),
-            new DescriptionKeyValue("ranged_attack_debuff", 2, DescriptionKeyValueTemplate.DamageModifier),
+            new DescriptionKeyValue("ranged_attack_debuff", 2, DescriptionKeyValueTemplate.DamageModifier)
         };
     }
 
@@ -56,17 +55,17 @@ internal class DarkRaidsFactory : SimpleCombatMovementFactoryBase
                     DamageType.Normal,
                     GenericRange<int>.CreateMono(2)),
                 new AddCombatantStatusEffect(
-                    new SelfTargetSelector(), 
+                    new SelfTargetSelector(),
                     new CombatStatusFactory(source => new AuraCombatantStatus(
                         new CombatantStatusSid(Sid),
-                        new MultipleCombatantTurnEffectLifetime(3), 
+                        new MultipleCombatantTurnEffectLifetime(3),
                         source,
-                        combatant => new CombatStatusFactory(source2 => 
+                        combatant => new CombatStatusFactory(source2 =>
                             new ModifyDamageCalculatedCombatantStatus(
                                 new CombatantStatusSid(Sid),
                                 new OwnerBoundCombatantEffectLifetime(),
                                 source2,
-                                combatant1 => 2)), 
+                                combatant1 => 2)),
                         new EnemyRearguardAuraTargetSelector())))
             });
     }
