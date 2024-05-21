@@ -111,6 +111,8 @@ internal sealed class MythlandersGame : Game
 
         Services.AddService(_gameSettings.Mode);
 
+        _gameSettings.Load(Services.GetRequiredService<GraphicsDeviceManager>());
+
         base.Initialize();
     }
 

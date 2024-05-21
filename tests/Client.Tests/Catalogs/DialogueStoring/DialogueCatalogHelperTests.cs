@@ -119,7 +119,7 @@ public class DialogueCatalogHelperTests
                             {
                                 new DialogueDtoReaction
                                 {
-                                    Hero = "Swordsman",
+                                    Hero = "Bogatyr",
                                     Text = "test text"
                                 }
                             }
@@ -140,7 +140,7 @@ public class DialogueCatalogHelperTests
 
         // ASSERT
 
-        dialogue.Root.TextBlock.Paragraphs.Single().Speaker.Should().Be(DialogueSpeakers.Get(UnitName.Swordsman));
+        dialogue.Root.TextBlock.Paragraphs.Single().Speaker.Should().Be(DialogueSpeakers.Get(UnitName.Bogatyr));
     }
 
     /// <summary>

@@ -94,6 +94,11 @@ internal sealed class GlobeProvider
         var saves = new List<SaveShortInfo>();
         foreach (var file in files)
         {
+            if (file.EndsWith("settings"))
+            {
+                continue;
+            }
+
             var content = File.ReadAllText(file);
             var jsonSave = JsonSerializer.Deserialize<SaveShortInfo>(content);
             Debug.Assert(jsonSave is not null);

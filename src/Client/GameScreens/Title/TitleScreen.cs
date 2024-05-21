@@ -231,19 +231,6 @@ internal sealed class TitleScreen : GameScreenBase
         _bgPong.Update(gameTime.ElapsedGameTime.TotalSeconds);
     }
 
-    private void UpdateUi()
-    {
-        if (!Game.IsActive)
-        {
-            return;
-        }
-
-        foreach (var button in _buttons)
-        {
-            button.Update(_resolutionIndependentRenderer);
-        }
-    }
-
     private ButtonBase? CreateLoadButtonOrNothing()
     {
         if (_gameSettings.Mode == GameMode.Demo)
@@ -336,7 +323,7 @@ internal sealed class TitleScreen : GameScreenBase
     {
         return new[]
         {
-            UnitName.Swordsman, UnitName.Robber, UnitName.Herbalist
+            UnitName.Bogatyr, UnitName.Robber, UnitName.Herbalist
         };
     }
 
@@ -346,7 +333,7 @@ internal sealed class TitleScreen : GameScreenBase
 
         if (lastSave is null)
         {
-            return new[] { UnitName.Swordsman };
+            return new[] { UnitName.Bogatyr };
         }
 
         var saveData = globeProvider.GetStoredData(lastSave.FileName);
@@ -419,6 +406,19 @@ internal sealed class TitleScreen : GameScreenBase
         else
         {
             StartClearNewGame(_globeProvider, this, ScreenManager, _resourceProvider);
+        }
+    }
+
+    private void UpdateUi()
+    {
+        if (!Game.IsActive)
+        {
+            return;
+        }
+
+        foreach (var button in _buttons)
+        {
+            button.Update(_resolutionIndependentRenderer);
         }
     }
 }

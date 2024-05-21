@@ -30,29 +30,10 @@ using Microsoft.Xna.Framework.Audio;
 namespace Client.Assets.CombatMovements.Hero.Robber;
 
 [UsedImplicitly]
-internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
+internal class ArrowsOfMoranaFactory : SimpleCombatMovementFactoryBase
 {
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(0, 1);
-
-    /// <inheritdoc />
-    public override CombatMovement CreateMovement()
-    {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(2),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
-                {
-                    new DamageEffectWrapper(
-                        new AllEnemiesTargetSelector(),
-                        DamageType.Normal,
-                        GenericRange<int>.CreateMono(2))
-                })
-        )
-        {
-            Tags = CombatMovementTags.Attack
-        };
-    }
 
     /// <inheritdoc />
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
@@ -164,6 +145,37 @@ internal class ArrowsOfMoranaFactory : CombatMovementFactoryBase
             new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 0),
                 DescriptionKeyValueTemplate.Damage)
         };
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Ranged;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(3);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        //TODO Make this skill available only if robber is first in queue
+        return CombatMovementEffectConfig.Create(new IEffect[]
+        {
+            new DamageEffectWrapper(
+                new AllEnemiesTargetSelector(),
+                DamageType.Normal,
+                GenericRange<int>.CreateMono(2))
+        });
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
     }
 
     private static InteractionDeliveryInfo[] CreateEmptyRainSourceInteraction(IActorAnimator actorAnimator)

@@ -14,39 +14,19 @@ using GameAssets.Combats.CombatantStatuses;
 
 using JetBrains.Annotations;
 
-namespace Client.Assets.CombatMovements.Hero.Swordsman;
+namespace Client.Assets.CombatMovements.Hero.Bogatyr;
 
 [UsedImplicitly]
-internal class RiseYourSwordsFactory : CombatMovementFactoryBase
+internal class RiseYourSwordsFactory : SimpleCombatMovementFactoryBase
 {
     public override CombatMovementIcon CombatMovementIcon => new(4, 2);
-
-    public override CombatMovement CreateMovement()
-    {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(1),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
-                {
-                    new AddCombatantStatusEffect(
-                        new AllAllyTargetSelector(),
-                        new CombatStatusFactory(source =>
-                        {
-                            return new ImproveMeleeDamageCombatantStatus(new CombatantStatusSid(Sid),
-                                new MultipleCombatantTurnEffectLifetime(1),
-                                source,
-                                1);
-                        }))
-                })
-        );
-    }
 
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
-        var swordsmanAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Swordsman");
+        var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Bogatyr");
 
-        var defenseAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "rise-swords");
+        var defenseAnimation = AnimationHelper.ConvertToAnimation(animationSet, "rise-swords");
         var defenseSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Defence);
 
@@ -64,5 +44,27 @@ internal class RiseYourSwordsFactory : CombatMovementFactoryBase
                 DescriptionKeyValueTemplate.DamageModifier),
             new DescriptionKeyValue("duration", 1, DescriptionKeyValueTemplate.TurnDuration)
         };
+    }
+
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(2);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
+        {
+            new AddCombatantStatusEffect(
+                new AllAllyTargetSelector(),
+                new CombatStatusFactory(source =>
+                {
+                    return new ImproveMeleeDamageCombatantStatus(new CombatantStatusSid(Sid),
+                        new MultipleCombatantTurnEffectLifetime(1),
+                        source,
+                        1);
+                }))
+        });
     }
 }

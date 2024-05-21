@@ -153,12 +153,12 @@ p7:
       selectConditions:
         - type: Disabled
       description: |
-        InDevelopment
+        In Development
     - text: 'Bogatyr'
       next: p8_swordsman
       aftermaths:
         - type: AddHero
-          data: Swordsman
+          data: Bogatyr
         - type: UnlockLocation
           data: Thicket
     - text: 'Spartan'
@@ -171,7 +171,7 @@ p7:
       selectConditions:
         - type: Disabled
       description: |
-        InDevelopment
+        In Development
     - text: 'Liberator'
       next: p8_liberator
       aftermaths:
@@ -182,7 +182,7 @@ p7:
       selectConditions:
         - type: Disabled
       description: |
-        InDevelopment
+        In Development
 
 p8_monk:
   paragraphs:

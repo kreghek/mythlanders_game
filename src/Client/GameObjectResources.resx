@@ -164,7 +164,7 @@
     <comment>Skill</comment>
   </data>
   <data name="ArrowsOfMorana" xml:space="preserve">
-    <value>Arrow of Morana</value>
+    <value>Arrows of Morana</value>
     <comment>Combat Movement Robber</comment>
   </data>
   <data name="ArrowsOfMorana_Description" xml:space="preserve">
@@ -222,7 +222,7 @@
     <comment>Perk</comment>
   </data>
   <data name="BlankShot" xml:space="preserve">
-    <value>Blank shot</value>
+    <value>Blank Shot</value>
     <comment>Combat movement Partisan</comment>
   </data>
   <data name="BlankShot_Description" xml:space="preserve">
@@ -370,7 +370,7 @@
     <comment>Combat Movement Aspid</comment>
   </data>
   <data name="DarkRaids_Description" xml:space="preserve">
-    <value>Moves forward and deals two &lt;damage&gt; hits.</value>
+    <value>Deals &lt;damage&gt; to the weakest enemy and activates an aura for &lt;duration&gt;, which reduces all ranged damage to the rear by &lt;ranged_damage_debuff&gt;.</value>
     <comment>Combat Movement Aspid</comment>
   </data>
   <data name="DeathPath" xml:space="preserve">
@@ -429,7 +429,7 @@
     <comment>NPC</comment>
   </data>
   <data name="DigitalWolf" xml:space="preserve">
-    <value>Digital wolf</value>
+    <value>Digital Hort</value>
     <comment>Monster</comment>
   </data>
   <data name="DopeHerb" xml:space="preserve">
@@ -987,7 +987,7 @@
     <value>Revenge Of Wild Eye</value>
   </data>
   <data name="RiseYourSwords" xml:space="preserve">
-    <value>Rise your swords!</value>
+    <value>Rise Your Swords!</value>
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="RiseYourSwords_Description" xml:space="preserve">
@@ -1084,7 +1084,7 @@
     <comment>Skill</comment>
   </data>
   <data name="SurpriseManeuver" xml:space="preserve">
-    <value>Surprise maneuver</value>
+    <value>Surprise Maneuver</value>
     <comment>Combat Movement Partisan</comment>
   </data>
   <data name="SurpriseManeuver_Description" xml:space="preserve">
@@ -1114,10 +1114,6 @@
   <data name="Synth_Hidden" xml:space="preserve">
     <value>The Lower Caste Synth</value>
     <comment>NPC</comment>
-  </data>
-  <data name="TacticalManeuver" xml:space="preserve">
-    <value>Tactical maneuver</value>
-    <comment>Skill</comment>
   </data>
   <data name="TheGoodWeather_voice" xml:space="preserve">
     <value>The good weather today...</value>

@@ -1,6 +1,34 @@
 Myth Landers Game Hotfix Update
 
-[unreleaed]
+v0.3.138 2024-5-21
+
+CHANGES:
+
+* Balance changed. In this update, we tried to make each character's behavior more unique. They also made the characteristics of combat movements more logical.
+	* Bogatyr. Rise Your Swords! This is a small buff to melee attacks that shouldn't cost much resolve. Cost changed from 1 to 2.
+	* Partisan. Blank Shot. Good starting movement when the partisan already takes a place in the vanguard. Or a great move to finish off one of your opponents. Cost changed from 1 to 2.
+	* Partisan. Energy Superiority. A very powerful shot that is aimed against wolves with bulky shields. But it only works after the enemy attempts to retreat. The cost has changed from 3 to 2.
+	* Partisan. Sabotage. This move has significant damage, but only works against the rear. Cost changed from 1 to 3. Movement is no longer an attack to prevent opponents from using auto guard.
+	* Partisan. Surprise Maneuver. The only defensive movement that should not be resolve-consuming. Cost changed from 3 to 1.
+	* Robber. Arrows of Morana. One of the ultimative moves that deals massive damage to all enemies. Cost changed from 2 to 3. Movement is now considered [ranged].
+	* Robber. Baltic Thunder. One of the main moves, which, under Impulse, can cause colossal damage to single target. Damage changed from 4 to 3. Movement is now considered [ranged].
+	* Robber. We Live Only Once! An auxiliary starting move that combines with the bogatyr melee buff. Cost changed from 2 to 1.
+	* Robber. Wind Wheel. This is a shot to deal damage to tanks regardless of the relative position of the robber and the enemy. Cost changed from 1 to 3.
+* Balance of the monsters changed:
+	* Aspid. Dark Raids. The movement has been completely changed. Now Aspid uses this move to deal 2 melee damage to the weakest enemy. Usually this will be Robber. After which it activates an aura for 3 turns, which reduces the ranged damage of the rearguard by 2. Don't let Aspid raid! Or try to destroy it as quickly as possible. In addition, the robber can be protected by allowing the tank's health to drop to 2HP (so that the tank is considered the weakest).
+	* Aspid. Eyes of Chaos. This is a psychological trick aimed at the enemy's vanguard. This move is no longer considered an attack, so auto-defense cannot be used against it.
+	* Digital Hort. Energy Bite. This move is aimed at destroying the shields of tank heroes. In fact, after such a bite, the hero becomes vulnerable to any subsequent attacks. Cost changed from 1 to 2. Damage to energo-shields increased from 3 to 5.
+	* Digital Hort. Veles Protection. This move can now be used as an auto-defense. With both executions, the move increases the wolf's defense by 2, which helps withstand any hero's attacks.
+
+* Now in the tutorial, a difficult combat is marked with alert icon. This same marker is also used outside of tutorial when a combat looks like it will be difficult for the heroes.
+* Screen, music and language settings are now saved between game restarts. At some marketplaces this is a mandatory requirement.
+* When choosing a starting hero, a hint is displayed if the hero is still in development. Also, such options in pre-history are colored gray.
+* Added new combinations of monsters which will meet after tutorial.
+
+FIXES:
+* Typos in texts corrected.
+
+v0.3.137 
 
 1. Fix hint of Ebony Skin. This is Aspid skill to gain additional armor.
 

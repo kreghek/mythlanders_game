@@ -9,6 +9,7 @@ using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Bestiary;
 using Client.GameScreens.Campaign;
+using Client.GameScreens.Campaign.Ui;
 using Client.GameScreens.CommandCenter.Ui;
 using Client.ScreenManagement;
 
@@ -30,12 +31,13 @@ namespace Client.GameScreens.CommandCenter;
 
 internal class CommandCenterScreen : GameScreenWithMenuBase
 {
+    private readonly ResourceTextButton _bestiaryButton;
     private readonly IReadOnlyList<HeroCampaignLaunch> _campaignLaunches;
 
-    //private readonly ButtonBase[] _commandButtons = new ButtonBase[4];
-    //private readonly Texture2D[] _commandCenterSegmentTexture;
     private readonly IDice _dice;
     private readonly GlobeProvider _globeProvider;
+
+    private readonly ResourceTextButton _inventoryButton;
     private readonly IDictionary<ILocationSid, Vector2> _locationCoords;
 
     private readonly Texture2D _mapBackgroundTexture;
@@ -54,13 +56,6 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         _campaignLaunches = args.AvailableCampaigns;
 
         _mapBackgroundTexture = Game.Content.Load<Texture2D>("Sprites/GameObjects/Map/Map");
-        // _commandCenterSegmentTexture = new[]
-        // {
-        //     Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter1"),
-        //     Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter2"),
-        //     Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter3"),
-        //     Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter/CommandCenter4")
-        // };
 
         const int MENU_HEIGHT = 20;
         var contentRect = new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Location.X,
@@ -81,11 +76,31 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
             mapPongRandomSource);
 
         _locationCoords = InitLocationCoords();
+
+        _inventoryButton = new ResourceTextButton(nameof(UiResource.InventoryButtonTitle));
+        _inventoryButton.OnClick += InventoryButton_OnClick;
+
+        _bestiaryButton = new ResourceTextButton(nameof(UiResource.BestiaryButtonTitle));
+        _bestiaryButton.OnClick += BestiaryButton_OnClick;
     }
 
     protected override IList<ButtonBase> CreateMenu()
     {
-        return ArraySegment<ButtonBase>.Empty;
+        var menuButtons = new List<ButtonBase>();
+
+        if (_globeProvider.Globe.Player.Inventory.CalcActualItems().Any() &&
+            _globeProvider.Globe.Features.HasFeature(GameFeatures.Resources))
+        {
+            menuButtons.Add(_inventoryButton);
+        }
+
+        if (_globeProvider.Globe.Player.MonsterPerks.Any() && _globeProvider.Globe.Player.KnownMonsters.Any() &&
+            _globeProvider.Globe.Features.HasFeature(GameFeatures.Bestiary))
+        {
+            menuButtons.Add(_bestiaryButton);
+        }
+
+        return menuButtons;
     }
 
     protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -108,8 +123,6 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
 
         DrawCampaigns(spriteBatch, contentRect);
 
-        //DrawBase(spriteBatch, contentRect);
-
         spriteBatch.End();
     }
 
@@ -118,22 +131,6 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         SaveGameProgress();
 
         _availableCampaignPanels = CreateCampaignPanels();
-
-        // _commandButtons[0] = new ResourceTextButton(nameof(UiResource.BarraksButtonTitle));
-        // _commandButtons[0].OnClick += (_, _) =>
-        // {
-        //     ScreenManager.ExecuteTransition(this, ScreenTransition.Barracks, null!);
-        // };
-        //
-        // _commandButtons[1] = new ResourceTextButton(nameof(UiResource.ArmoryButtonTitle));
-        // _commandButtons[2] = new ResourceTextButton(nameof(UiResource.AdjutantButtonTitle));
-        // _commandButtons[2].OnClick += (_, _) =>
-        // {
-        //     ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary,
-        //         new BestiaryScreenTransitionArguments(ScreenTransition.CommandCenter,
-        //             new CommandCenterScreenTransitionArguments(_campaignLaunches)));
-        // };
-        // _commandButtons[3] = new ResourceTextButton(nameof(UiResource.ChroniclesButtonTitle));
     }
 
     protected override void UpdateContent(GameTime gameTime)
@@ -153,11 +150,13 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         _mapPong.Update(gameTime.ElapsedGameTime.TotalSeconds);
 
         _locationOnMapCounter += gameTime.ElapsedGameTime.TotalSeconds * 10;
+    }
 
-        // foreach (var commandButton in _commandButtons)
-        // {
-        //     commandButton.Update(ResolutionIndependentRenderer);
-        // }
+    private void BestiaryButton_OnClick(object? sender, EventArgs e)
+    {
+        ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary,
+            new BestiaryScreenTransitionArguments(ScreenTransition.Campaign,
+                new CommandCenterScreenTransitionArguments(_campaignLaunches)));
     }
 
     private List<ICampaignPanel> CreateCampaignPanels()
@@ -237,29 +236,6 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
             Color.White);
 
         DrawLocationConnector(spriteBatch);
-    }
-
-    private void DrawBase(SpriteBatch spriteBatch, Rectangle contentRect)
-    {
-        // for (var i = 0; i < 4; i++)
-        // {
-        //     spriteBatch.Draw(_commandCenterSegmentTexture[i],
-        //         new Rectangle(
-        //             (contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
-        //             (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN +
-        //             (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
-        //             200,
-        //             200),
-        //         Color.White);
-        //
-        //     _commandButtons[i].Rect = new Rectangle(
-        //         (contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
-        //         (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN +
-        //         (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
-        //         100, 20);
-        //
-        //     _commandButtons[i].Draw(spriteBatch);
-        // }
     }
 
     private void DrawCampaigns(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -351,8 +327,17 @@ internal class CommandCenterScreen : GameScreenWithMenuBase
         var values = SidCatalogHelper.GetValues<ILocationSid>(typeof(LocationSids));
 
         return values.ToDictionary(x => x,
-            x => new Vector2(rnd.Next(_mapBackgroundTexture.Width / 4, _mapBackgroundTexture.Width * 3 / 4),
+            _ => new Vector2(rnd.Next(_mapBackgroundTexture.Width / 4, _mapBackgroundTexture.Width * 3 / 4),
                 rnd.Next(_mapBackgroundTexture.Height / 4, _mapBackgroundTexture.Height * 3 / 4)));
+    }
+
+
+    private void InventoryButton_OnClick(object? sender, EventArgs e)
+    {
+        AddModal(
+            new InventoryModal(_globeProvider.Globe.Player.Inventory,
+                Game.Services.GetRequiredService<IUiContentStorage>(),
+                ResolutionIndependentRenderer), false);
     }
 
     private void SaveGameProgress()

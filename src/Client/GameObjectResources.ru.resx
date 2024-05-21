@@ -166,7 +166,7 @@
     <comment>Skill</comment>
   </data>
   <data name="ArrowsOfMorana" xml:space="preserve">
-    <value>Стрела Мораны</value>
+    <value>Стрелы Мораны</value>
     <comment>Combat Movement Robber</comment>
   </data>
   <data name="ArrowsOfMorana_Description" xml:space="preserve">
@@ -224,7 +224,7 @@
     <comment>Perk</comment>
   </data>
   <data name="BlankShot" xml:space="preserve">
-    <value>Выстрел в упор</value>
+    <value>Выстрел В Упор</value>
     <comment>Combat movement Partisan</comment>
   </data>
   <data name="BlankShot_Description" xml:space="preserve">
@@ -370,7 +370,7 @@
     <comment>Combat Movement Aspid</comment>
   </data>
   <data name="DarkRaids_Description" xml:space="preserve">
-    <value>Перемещается вперед и наносит два удара &lt;damage&gt;.</value>
+    <value>Наносит &lt;damage&gt; самому слабому противнику и активирует ауру на &lt;duration&gt;, которая снижает весь стрелковый урон тыла на &lt;ranged_damage_debuff&gt;.</value>
     <comment>Combat Movement Aspid</comment>
   </data>
   <data name="DeathPath" xml:space="preserve">
@@ -422,7 +422,7 @@
     <value>Говорящий Хорт</value>
   </data>
   <data name="DigitalWolf" xml:space="preserve">
-    <value>Цифровой волк</value>
+    <value>Цифровой Хорт</value>
     <comment>Monster</comment>
   </data>
   <data name="DopeHerb" xml:space="preserve">
@@ -957,7 +957,7 @@
     <value>Возмездие дикого ока</value>
   </data>
   <data name="RiseYourSwords" xml:space="preserve">
-    <value>Мечи вверх!</value>
+    <value>Мечи Вверх!</value>
     <comment>Combat Movement Swordsman</comment>
   </data>
   <data name="RiseYourSwords_Description" xml:space="preserve">
@@ -1058,7 +1058,7 @@
     <comment>Skill</comment>
   </data>
   <data name="SurpriseManeuver" xml:space="preserve">
-    <value>Внезапный маневр</value>
+    <value>Внезапный Маневр</value>
     <comment>Combat Movement Partisan</comment>
   </data>
   <data name="SurpriseManeuver_Description" xml:space="preserve">
@@ -1088,10 +1088,6 @@
   <data name="Synth_Hidden" xml:space="preserve">
     <value>Синт низшей касты</value>
     <comment>NPC</comment>
-  </data>
-  <data name="TacticalManeuver" xml:space="preserve">
-    <value>Тактический манёвр</value>
-    <comment>Skill</comment>
   </data>
   <data name="TheGoodWeather_voice" xml:space="preserve">
     <value>Какая сегодня прекрасная погода...</value>
@@ -1158,7 +1154,7 @@
     <comment>Resource</comment>
   </data>
   <data name="WeOnlyLiveOnce" xml:space="preserve">
-    <value>Где наше не пропадало?!</value>
+    <value>Где Наше Не Пропадало?!</value>
     <comment>Combat Movement Robber</comment>
   </data>
   <data name="WeOnlyLiveOnce_Description" xml:space="preserve">

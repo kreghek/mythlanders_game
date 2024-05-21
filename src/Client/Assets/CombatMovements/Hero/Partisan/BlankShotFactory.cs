@@ -29,34 +29,10 @@ using MonoGame.Extended.TextureAtlases;
 namespace Client.Assets.CombatMovements.Hero.Partisan;
 
 [UsedImplicitly]
-internal class BlankShotFactory : CombatMovementFactoryBase
+internal class BlankShotFactory : SimpleCombatMovementFactoryBase
 {
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(3, 6);
-
-    /// <inheritdoc />
-    public override CombatMovement CreateMovement()
-    {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(1),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
-                {
-                    new PushToPositionEffect(
-                        new SelfTargetSelector(),
-                        ChangePositionEffectDirection.ToVanguard
-                    ),
-                    new DamageEffectWrapper(
-                        new ClosestInLineTargetSelector(),
-                        DamageType.Normal,
-                        GenericRange<int>.CreateMono(2))
-                })
-        )
-        {
-            Tags = CombatMovementTags.Attack,
-            Metadata = new CombatMovementMetadata(new[] { CombatMovementMetadataTraits.Ranged })
-        };
-    }
 
     /// <inheritdoc />
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
@@ -115,6 +91,40 @@ internal class BlankShotFactory : CombatMovementFactoryBase
             new DescriptionKeyValue("bonus_damage", 1,
                 DescriptionKeyValueTemplate.DamageModifier)
         };
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Ranged;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(2);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
+        {
+            new PushToPositionEffect(
+                new SelfTargetSelector(),
+                ChangePositionEffectDirection.ToVanguard
+            ),
+            new DamageEffectWrapper(
+                new ClosestInLineTargetSelector(),
+                DamageType.Normal,
+                GenericRange<int>.CreateMono(2))
+        });
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
     }
 
     private static Func<Vector2, Vector2, IInteractionDelivery> GetCreateProjectileFunc(

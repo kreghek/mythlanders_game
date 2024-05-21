@@ -17,42 +17,10 @@ using SelfTargetSelector = Core.Combats.TargetSelectors.SelfTargetSelector;
 namespace Client.Assets.CombatMovements.Hero.Partisan;
 
 [UsedImplicitly]
-internal class SurpriseManeuverFactory : CombatMovementFactoryBase
+internal class SurpriseManeuverFactory : SimpleCombatMovementFactoryBase
 {
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(2, 6);
-
-    /// <inheritdoc />
-    public override CombatMovement CreateMovement()
-    {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(3),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
-                {
-                    new GroupEffect(new StrongestClosestAllyTargetSelector(),
-                        new SwapPositionEffect(
-                            new NullTargetSelector()
-                        ),
-                        new AddCombatantStatusEffect(
-                            new NullTargetSelector(),
-                            new CombatStatusFactory(source =>
-                            {
-                                return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
-                                    new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2);
-                            }))
-                    ),
-
-                    new AddCombatantStatusEffect(
-                        new SelfTargetSelector(),
-                        new CombatStatusFactory(source =>
-                        {
-                            return new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
-                                new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2);
-                        }))
-                })
-        );
-    }
 
     /// <inheritdoc />
     public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
@@ -62,5 +30,33 @@ internal class SurpriseManeuverFactory : CombatMovementFactoryBase
         {
             new DescriptionKeyValue("defence", 2, DescriptionKeyValueTemplate.Defence)
         };
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(1);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
+        {
+            new GroupEffect(new StrongestClosestAllyTargetSelector(),
+                new SwapPositionEffect(
+                    new NullTargetSelector()
+                ),
+                new AddCombatantStatusEffect(
+                    new NullTargetSelector(),
+                    new CombatStatusFactory(source => new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                        new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2)))
+            ),
+
+            new AddCombatantStatusEffect(
+                new SelfTargetSelector(),
+                new CombatStatusFactory(source => new ModifyStatCombatantStatus(new CombatantStatusSid(Sid),
+                    new ToNextCombatantTurnEffectLifetime(), source, CombatantStatTypes.Defense, 2)))
+        });
     }
 }

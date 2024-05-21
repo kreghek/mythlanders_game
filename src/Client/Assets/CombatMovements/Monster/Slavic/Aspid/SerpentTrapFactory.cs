@@ -64,6 +64,12 @@ internal class SerpentTrapFactory : SimpleCombatMovementFactoryBase
     }
 
     /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(1);
+    }
+
+    /// <inheritdoc />
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(

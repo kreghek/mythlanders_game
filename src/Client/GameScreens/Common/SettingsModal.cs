@@ -111,7 +111,7 @@ internal sealed class SettingsModal : ModalDialogBase
         return switchFullScreenButton;
     }
 
-    private static ButtonBase CreateSwitchLanguageButton()
+    private ButtonBase CreateSwitchLanguageButton()
     {
         var switchLanguageButton = new ResourceTextButton(nameof(UiResource.SwitchLanguageButtonTitle));
         switchLanguageButton.OnClick += SwitchLanguageButton_OnClick;
@@ -149,9 +149,11 @@ internal sealed class SettingsModal : ModalDialogBase
         _resolutionIndependentRenderer.Initialize();
     }
 
-    private static void SwitchLanguageButton_OnClick(object? sender, EventArgs e)
+    private void SwitchLanguageButton_OnClick(object? sender, EventArgs e)
     {
         LocalizationHelper.SwitchLanguage();
+
+        _gameSettings.Save(_game.Services.GetService<GraphicsDeviceManager>());
     }
 
     private void SwitchMusicButton_OnClick(object? sender, EventArgs e)
@@ -164,6 +166,8 @@ internal sealed class SettingsModal : ModalDialogBase
         {
             _gameSettings.AudioSettings.MusicVolume = 0.5f;
         }
+
+        _gameSettings.Save(_game.Services.GetService<GraphicsDeviceManager>());
     }
 
     private void SwitchResolutionButton_OnClick(object? sender, EventArgs e)
@@ -179,6 +183,8 @@ internal sealed class SettingsModal : ModalDialogBase
         graphicsManager.PreferredBackBufferHeight = height;
 
         graphicsManager.ApplyChanges();
+
+        _gameSettings.Save(graphicsManager);
     }
 
     private void SwitchToFullScreenButton_OnClick(object? sender, EventArgs e)
@@ -207,5 +213,7 @@ internal sealed class SettingsModal : ModalDialogBase
         }
 
         graphicsManager.ApplyChanges();
+
+        _gameSettings.Save(graphicsManager);
     }
 }

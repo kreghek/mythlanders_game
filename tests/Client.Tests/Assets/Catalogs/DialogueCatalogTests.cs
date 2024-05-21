@@ -81,7 +81,7 @@ public class DialogueCatalogTests
 
         factDialogue.Root.TextBlock.Paragraphs.Should().HaveCount(2);
         factDialogue.Root.TextBlock.Paragraphs[0].Speaker.Should().Be(DialogueSpeakers.Env);
-        factDialogue.Root.TextBlock.Paragraphs[1].Speaker.Should().Be(DialogueSpeakers.Get(UnitName.Swordsman));
+        factDialogue.Root.TextBlock.Paragraphs[1].Speaker.Should().Be(DialogueSpeakers.Get(UnitName.Bogatyr));
         factDialogue.Root.Options.Should().HaveCount(1);
         factDialogue.Root.Options.First().Next.Should()
             .Be(DialogueNode<ParagraphConditionContext, CampaignAftermathContext>.EndNode);

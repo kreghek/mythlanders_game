@@ -29,34 +29,10 @@ using MonoGame.Extended.TextureAtlases;
 namespace Client.Assets.CombatMovements.Hero.Partisan;
 
 [UsedImplicitly]
-internal class EnergeticSuperiorityFactory : CombatMovementFactoryBase
+internal class EnergeticSuperiorityFactory : SimpleCombatMovementFactoryBase
 {
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(5, 6);
-
-    /// <inheritdoc />
-    public override CombatMovement CreateMovement()
-    {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(3),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
-                {
-                    new PushToPositionEffect(
-                        new SelfTargetSelector(),
-                        ChangePositionEffectDirection.ToRearguard
-                    ),
-                    new DamageEffectWrapper(
-                        new ShieldedEnemyInRearguardTargetSelector(),
-                        DamageType.ProtectionOnly,
-                        GenericRange<int>.CreateMono(3))
-                })
-        )
-        {
-            Tags = CombatMovementTags.Attack,
-            Metadata = new CombatMovementMetadata(new[] { CombatMovementMetadataTraits.Ranged })
-        };
-    }
 
     /// <inheritdoc />
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
@@ -113,6 +89,40 @@ internal class EnergeticSuperiorityFactory : CombatMovementFactoryBase
             new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 1),
                 DescriptionKeyValueTemplate.Damage)
         };
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Ranged;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(2);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
+        {
+            new PushToPositionEffect(
+                new SelfTargetSelector(),
+                ChangePositionEffectDirection.ToRearguard
+            ),
+            new DamageEffectWrapper(
+                new ShieldedEnemyInRearguardTargetSelector(),
+                DamageType.ProtectionOnly,
+                GenericRange<int>.CreateMono(3))
+        });
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
     }
 
     private static Func<Vector2, Vector2, IInteractionDelivery> GetCreateProjectileFunc(

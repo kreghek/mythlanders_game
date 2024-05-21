@@ -1,14 +1,19 @@
 using System.Collections.Generic;
 
 using CombatDicesTeam.Combats;
+using CombatDicesTeam.Combats.CombatantEffectLifetimes;
+using CombatDicesTeam.Combats.CombatantStatuses;
 using CombatDicesTeam.Combats.Effects;
 using CombatDicesTeam.GenericRanges;
 
-using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
 using GameAssets.Combats;
+using GameAssets.Combats.AuraTargetSelectors;
+using GameAssets.Combats.CombatantStatuses;
 using GameAssets.Combats.CombatMovementEffects;
+
+using SelfTargetSelector = Core.Combats.TargetSelectors.SelfTargetSelector;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.Aspid;
 
@@ -20,8 +25,10 @@ internal class DarkRaidsFactory : SimpleCombatMovementFactoryBase
     {
         return new[]
         {
-            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 1),
-                DescriptionKeyValueTemplate.Damage)
+            new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 0),
+                DescriptionKeyValueTemplate.Damage),
+            new DescriptionKeyValue("duration", 3, DescriptionKeyValueTemplate.TurnDuration),
+            new DescriptionKeyValue("ranged_attack_debuff", 2, DescriptionKeyValueTemplate.DamageModifier)
         };
     }
 
@@ -32,23 +39,34 @@ internal class DarkRaidsFactory : SimpleCombatMovementFactoryBase
     }
 
     /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(2);
+    }
+
+    /// <inheritdoc />
     protected override CombatMovementEffectConfig GetEffects()
     {
         return CombatMovementEffectConfig.Create(
             new IEffect[]
             {
-                new AdjustPositionEffect(new SelfTargetSelector()),
                 new DamageEffectWrapper(
-                    new ClosestInLineTargetSelector(),
+                    new WeakestEnemyTargetSelector(),
                     DamageType.Normal,
                     GenericRange<int>.CreateMono(2)),
-                new DamageEffectWrapper(
-                    new ClosestInLineTargetSelector(),
-                    DamageType.Normal,
-                    GenericRange<int>.CreateMono(2)),
-                new PushToPositionEffect(
+                new AddCombatantStatusEffect(
                     new SelfTargetSelector(),
-                    ChangePositionEffectDirection.ToVanguard)
+                    new CombatStatusFactory(source => new AuraCombatantStatus(
+                        new CombatantStatusSid(Sid),
+                        new MultipleCombatantTurnEffectLifetime(3),
+                        source,
+                        combatant => new CombatStatusFactory(source2 =>
+                            new ModifyDamageCalculatedCombatantStatus(
+                                new CombatantStatusSid(Sid),
+                                new OwnerBoundCombatantEffectLifetime(),
+                                source2,
+                                combatant1 => 2)),
+                        new EnemyRearguardAuraTargetSelector())))
             });
     }
 

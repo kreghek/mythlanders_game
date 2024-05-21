@@ -15,7 +15,7 @@ using GameAssets.Combats.CombatMovementEffects;
 
 using JetBrains.Annotations;
 
-namespace Client.Assets.CombatMovements.Hero.Swordsman;
+namespace Client.Assets.CombatMovements.Hero.Bogatyr;
 
 [UsedImplicitly]
 internal class DieBySwordFactory : SimpleCombatMovementFactoryBase
@@ -25,23 +25,23 @@ internal class DieBySwordFactory : SimpleCombatMovementFactoryBase
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
-        var swordsmanAnimationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Swordsman");
+        var animationSet = visualizationContext.GameObjectContentStorage.GetAnimation("Bogatyr");
 
-        var keepSwordStrongerAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "prepare-sword");
+        var keepSwordStrongerAnimation = AnimationHelper.ConvertToAnimation(animationSet, "prepare-sword");
         var keepSwordSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SwordPrepare);
 
-        var chargeAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "charge");
+        var chargeAnimation = AnimationHelper.ConvertToAnimation(animationSet, "charge");
         var chargeSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.ArmedMove);
 
-        var hitAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "hit");
+        var hitAnimation = AnimationHelper.ConvertToAnimation(animationSet, "hit");
         var swordHitSoundEffect =
             visualizationContext.GameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SwordSlash);
 
-        var hitCompleteAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "hit-complete");
+        var hitCompleteAnimation = AnimationHelper.ConvertToAnimation(animationSet, "hit-complete");
 
-        var backAnimation = AnimationHelper.ConvertToAnimation(swordsmanAnimationSet, "back");
+        var backAnimation = AnimationHelper.ConvertToAnimation(animationSet, "back");
 
         var config = new SingleMeleeVisualizationConfig(
             new SoundedAnimation(keepSwordStrongerAnimation, keepSwordSoundEffect.CreateInstance()),

@@ -16,8 +16,8 @@ internal class DialogueSpeakerTests
     {
         // ARRANGE
 
-        var speaker1 = new DialogueSpeaker(UnitName.Swordsman);
-        var speaker2 = new DialogueSpeaker(UnitName.Swordsman);
+        var speaker1 = new DialogueSpeaker(UnitName.Bogatyr);
+        var speaker2 = new DialogueSpeaker(UnitName.Bogatyr);
 
         // ACT
 
@@ -33,8 +33,8 @@ internal class DialogueSpeakerTests
     {
         // ARRANGE
 
-        IDialogueSpeaker speaker1 = new DialogueSpeaker(UnitName.Swordsman);
-        IDialogueSpeaker speaker2 = new DialogueSpeaker(UnitName.Swordsman);
+        IDialogueSpeaker speaker1 = new DialogueSpeaker(UnitName.Bogatyr);
+        IDialogueSpeaker speaker2 = new DialogueSpeaker(UnitName.Bogatyr);
 
         // ACT
 

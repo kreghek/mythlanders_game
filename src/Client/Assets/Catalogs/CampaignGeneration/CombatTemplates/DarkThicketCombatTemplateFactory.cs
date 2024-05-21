@@ -24,7 +24,7 @@ internal sealed class DarkThicketCombatTemplateFactory : LocationSpecificCombatT
     {
         return new MonsterCombatantPrefab[]
         {
-            new("Aspid", 0, new FieldCoords(0, 1)),
+            new("Aspid", 0, new FieldCoords(0, 0)),
             new("DigitalWolf", 0, new FieldCoords(0, 2))
         };
     }
@@ -36,6 +36,74 @@ internal sealed class DarkThicketCombatTemplateFactory : LocationSpecificCombatT
             new("Aspid", 0, new FieldCoords(0, 1)),
             new("DigitalWolf", 0, new FieldCoords(0, 2)),
             new("DigitalWolf", 0, new FieldCoords(1, 1))
+        };
+    }
+}
+
+[UsedImplicitly]
+internal sealed class DarkThicket2CombatTemplateFactory : LocationSpecificCombatTemplateFactory
+{
+    protected override ILocationSid LocationSid => LocationSids.Thicket;
+
+    protected override MonsterCombatantPrefab[] GetLevel0()
+    {
+        return new MonsterCombatantPrefab[]
+        {
+            new("Aspid", 0, new FieldCoords(1, 1)),
+            new("Aspid", 1, new FieldCoords(0, 1))
+        };
+    }
+
+    protected override MonsterCombatantPrefab[] GetLevel1()
+    {
+        return new MonsterCombatantPrefab[]
+        {
+            new("DigitalWolf", 0, new FieldCoords(0, 2)),
+            new("DigitalWolf", 1, new FieldCoords(0, 1))
+        };
+    }
+
+    protected override MonsterCombatantPrefab[] GetLevel2()
+    {
+        return new MonsterCombatantPrefab[]
+        {
+            new("Aspid", 0, new FieldCoords(0, 1)),
+            new("Aspid", 1, new FieldCoords(0, 2)),
+            new("DigitalWolf", 0, new FieldCoords(1, 1))
+        };
+    }
+}
+
+[UsedImplicitly]
+internal sealed class DarkThicket3CombatTemplateFactory : LocationSpecificCombatTemplateFactory
+{
+    protected override ILocationSid LocationSid => LocationSids.Thicket;
+
+    protected override MonsterCombatantPrefab[] GetLevel0()
+    {
+        return new MonsterCombatantPrefab[]
+        {
+            new("Aspid", 0, new FieldCoords(0, 1)),
+            new("Aspid", 1, new FieldCoords(0, 2))
+        };
+    }
+
+    protected override MonsterCombatantPrefab[] GetLevel1()
+    {
+        return new MonsterCombatantPrefab[]
+        {
+            new("DigitalWolf", 0, new FieldCoords(1, 2)),
+            new("DigitalWolf", 1, new FieldCoords(0, 1))
+        };
+    }
+
+    protected override MonsterCombatantPrefab[] GetLevel2()
+    {
+        return new MonsterCombatantPrefab[]
+        {
+            new("DigitalWolf", 0, new FieldCoords(1, 1)),
+            new("DigitalWolf", 1, new FieldCoords(0, 2)),
+            new("DigitalWolf", 0, new FieldCoords(1, 2))
         };
     }
 }

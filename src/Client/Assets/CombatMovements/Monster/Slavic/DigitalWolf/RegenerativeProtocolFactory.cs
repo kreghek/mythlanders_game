@@ -11,22 +11,8 @@ using GameAssets.Combats;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
-internal class RegenerativeProtocolFactory : CombatMovementFactoryBase
+internal class RegenerativeProtocolFactory : SimpleCombatMovementFactoryBase
 {
-    public override CombatMovement CreateMovement()
-    {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(1),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
-                {
-                    new ChangeCurrentStatEffect(new SelfTargetSelector(), CombatantStatTypes.HitPoints,
-                        GenericRange<int>.CreateMono(3)),
-                    new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
-                })
-        );
-    }
-
     public override IReadOnlyList<DescriptionKeyValue> ExtractEffectsValues(
         CombatMovementInstance combatMovementInstance)
     {
@@ -35,5 +21,22 @@ internal class RegenerativeProtocolFactory : CombatMovementFactoryBase
             new DescriptionKeyValue("hp", ExtractStatChangingValue(combatMovementInstance, 0),
                 DescriptionKeyValueTemplate.HitPoints)
         };
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(1);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
+        {
+            new ChangeCurrentStatEffect(new SelfTargetSelector(), CombatantStatTypes.HitPoints,
+                GenericRange<int>.CreateMono(3)),
+            new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
+        });
     }
 }

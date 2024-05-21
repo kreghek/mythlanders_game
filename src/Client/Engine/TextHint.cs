@@ -13,6 +13,8 @@ internal sealed class TextHint : HintBase
         Text = text;
     }
 
+    public override Point Size => (_font.MeasureString(Text) + new Vector2(CONTENT_MARGIN * 2)).ToPoint();
+
     public string Text { get; }
 
     protected override Point CalcTextureOffset()
@@ -23,7 +25,7 @@ internal sealed class TextHint : HintBase
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
         spriteBatch.DrawString(_font, Text,
-            contentRect.Location.ToVector2() + new Vector2(5, 15),
+            contentRect.Location.ToVector2(),
             Color.Wheat);
     }
 }

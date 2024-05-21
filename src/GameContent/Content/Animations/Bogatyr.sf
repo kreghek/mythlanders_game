@@ -1,6 +1,6 @@
 {
   "textureAtlas": {
-    "texture": "..\\Sprites\\GameObjects\\Characters\\Heroes\\Swordsman\\Full.png",
+    "texture": "..\\Sprites\\GameObjects\\Characters\\Heroes\\Bogatyr\\Full.png",
     "regionWidth": 256,
     "regionHeight": 128
   },

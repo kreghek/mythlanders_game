@@ -14,29 +14,8 @@ using GameAssets.Combats.CombatMovementEffects;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
-internal class CyberClawsFactory : CombatMovementFactoryBase
+internal class CyberClawsFactory : SimpleCombatMovementFactoryBase
 {
-    public override CombatMovement CreateMovement()
-    {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(1),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
-                {
-                    new AdjustPositionEffect(new SelfTargetSelector()),
-                    new DamageEffectWrapper(
-                        new ClosestInLineTargetSelector(),
-                        DamageType.Normal,
-                        GenericRange<int>.CreateMono(3)),
-                    new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToVanguard)
-                })
-        )
-        {
-            Tags = CombatMovementTags.Attack,
-            Metadata = new CombatMovementMetadata(new[] { CombatMovementMetadataTraits.Melee })
-        };
-    }
-
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
@@ -69,5 +48,37 @@ internal class CyberClawsFactory : CombatMovementFactoryBase
             new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 1),
                 DescriptionKeyValueTemplate.Damage)
         };
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Melee;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(1);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
+        {
+            new AdjustPositionEffect(new SelfTargetSelector()),
+            new DamageEffectWrapper(
+                new ClosestInLineTargetSelector(),
+                DamageType.Normal,
+                GenericRange<int>.CreateMono(3)),
+            new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToVanguard)
+        });
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
     }
 }

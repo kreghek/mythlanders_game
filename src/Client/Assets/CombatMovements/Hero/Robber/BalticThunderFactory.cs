@@ -13,6 +13,7 @@ using CombatDicesTeam.GenericRanges;
 
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
 using GameClient.Engine.Animations;
@@ -27,29 +28,10 @@ using MonoGame.Extended.TextureAtlases;
 namespace Client.Assets.CombatMovements.Hero.Robber;
 
 [UsedImplicitly]
-internal class BalticThunderFactory : CombatMovementFactoryBase
+internal class BalticThunderFactory : SimpleCombatMovementFactoryBase
 {
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(4, 0);
-
-    /// <inheritdoc />
-    public override CombatMovement CreateMovement()
-    {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(3),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
-                {
-                    new DamageEffectWrapper(
-                        new ClosestInLineTargetSelector(),
-                        DamageType.Normal,
-                        GenericRange<int>.CreateMono(4))
-                })
-        )
-        {
-            Tags = CombatMovementTags.Attack
-        };
-    }
 
     /// <inheritdoc />
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
@@ -102,6 +84,36 @@ internal class BalticThunderFactory : CombatMovementFactoryBase
             new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 0),
                 DescriptionKeyValueTemplate.Damage)
         };
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Ranged;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(3);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
+        {
+            new DamageEffectWrapper(
+                new ClosestInLineTargetSelector(),
+                DamageType.Normal,
+                GenericRange<int>.CreateMono(3))
+        });
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
     }
 
     private static Func<Vector2, Vector2, IInteractionDelivery> GetCreateProjectileFunc(

@@ -24,29 +24,8 @@ using Microsoft.Xna.Framework;
 
 namespace Client.Assets.CombatMovements.Monster.Slavic.DigitalWolf;
 
-internal class EnergeticBiteFactory : CombatMovementFactoryBase
+internal class EnergeticBiteFactory : SimpleCombatMovementFactoryBase
 {
-    public override CombatMovement CreateMovement()
-    {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(1),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
-                {
-                    new AdjustPositionEffect(new SelfTargetSelector()),
-                    new DamageEffectWrapper(
-                        new MostShieldChargedEnemyTargetSelector(),
-                        DamageType.ProtectionOnly,
-                        GenericRange<int>.CreateMono(3)),
-                    new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
-                })
-        )
-        {
-            Tags = CombatMovementTags.Attack,
-            Metadata = new CombatMovementMetadata(new[] { CombatMovementMetadataTraits.Melee })
-        };
-    }
-
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
         CombatMovementExecution movementExecution, ICombatMovementVisualizationContext visualizationContext)
     {
@@ -127,6 +106,38 @@ internal class EnergeticBiteFactory : CombatMovementFactoryBase
             new DescriptionKeyValue("damage", ExtractDamage(combatMovementInstance, 1),
                 DescriptionKeyValueTemplate.Damage)
         };
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Melee;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(2);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
+        {
+            new AdjustPositionEffect(new SelfTargetSelector()),
+            new DamageEffectWrapper(
+                new MostShieldChargedEnemyTargetSelector(),
+                DamageType.ProtectionOnly,
+                GenericRange<int>.CreateMono(5)),
+            new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
+        });
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
     }
 
     private static ICombatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution,

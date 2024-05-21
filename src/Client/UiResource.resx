@@ -120,20 +120,6 @@
   <data name="AcceptChallengeButtonTitle" xml:space="preserve">
     <value>Accept challenge</value>
   </data>
-  <data name="AdjutantButtonTitle" xml:space="preserve">
-    <value>Adjutant</value>
-    <comment>На экран коммандного центра</comment>
-  </data>
-  <data name="ArmorLabelTemplate" xml:space="preserve">
-    <value>Armor: {0}</value>
-  </data>
-  <data name="ArmoryButtonTitle" xml:space="preserve">
-    <value>Armory</value>
-    <comment>На экран коммандного центра</comment>
-  </data>
-  <data name="AutocombatButtonTitle" xml:space="preserve">
-    <value>Auto-combat</value>
-  </data>
   <data name="AvailableManeuversIndicatorTemplate" xml:space="preserve">
     <value>Maneuvers available</value>
   </data>
@@ -142,10 +128,6 @@
   </data>
   <data name="BackToMapMenuButtonTitle" xml:space="preserve">
     <value>Back to the map</value>
-  </data>
-  <data name="BarraksButtonTitle" xml:space="preserve">
-    <value>Barraks</value>
-    <comment>На экран коммандного центра</comment>
   </data>
   <data name="BestiaryButtonTitle" xml:space="preserve">
     <value>Bestiary</value>
@@ -162,9 +144,6 @@
   </data>
   <data name="BestiaryTabMonsterPerksDescription" xml:space="preserve">
     <value>Current monster upgrades. Choose your next company and next monster upgrade carefully to ensure you are always capable of defeating them.</value>
-  </data>
-  <data name="BiomeLevelText" xml:space="preserve">
-    <value>Lvl</value>
   </data>
   <data name="CampaignMapTutorialText" xml:space="preserve">
     <value>This is a campaign map. There are usually several paths on the map that can be used to reach the winning stage of the campaign and receive a reward.
@@ -198,14 +177,6 @@ You will need to plan your route wisely to visit all the important stages. At th
   <data name="CampaignStageDisplayNameUnknown" xml:space="preserve">
     <value>???</value>
   </data>
-  <data name="CampaignStageTitle" xml:space="preserve">
-    <value>Stage {0}</value>
-    <comment>0 - это номер</comment>
-  </data>
-  <data name="ChroniclesButtonTitle" xml:space="preserve">
-    <value>Chronicles</value>
-    <comment>На экран коммандного центра</comment>
-  </data>
   <data name="CloseButtonTitle" xml:space="preserve">
     <value>Close</value>
   </data>
@@ -229,16 +200,6 @@ You will need to plan your route wisely to visit all the important stages. At th
   </data>
   <data name="CombatIndicatorPositiveSpTemplate" xml:space="preserve">
     <value>+&lt;{0}&gt;</value>
-  </data>
-  <data name="CombatLengthLabel" xml:space="preserve">
-    <value>Combat length:</value>
-    <comment>Количество сражений в цепочке боёв</comment>
-  </data>
-  <data name="CombatLevelTemplate" xml:space="preserve">
-    <value>Combat level: {0}</value>
-  </data>
-  <data name="CombatLevelUpTemplate" xml:space="preserve">
-    <value>{0} xp to level up</value>
   </data>
   <data name="CombatMovementCost_Combat_LabelTemplate" xml:space="preserve">
     <value>Resolve cost: {0}/{1}</value>
@@ -275,9 +236,6 @@ You will need to plan your route wisely to visit all the important stages. At th
   </data>
   <data name="CombatMovementEffectValueType_TurnDuration_Template" xml:space="preserve">
     <value>{0} turns</value>
-  </data>
-  <data name="CombatProgressTemplate" xml:space="preserve">
-    <value>Combat progress: {0}/{1}</value>
   </data>
   <data name="CombatResultDefeatText" xml:space="preserve">
     <value>Defeat!</value>
@@ -337,9 +295,6 @@ Do you really need to spend the priceless current move for nothing?</value>
   <data name="DamageEffectRuleText" xml:space="preserve">
     <value>Damage: {0} - {1} to {2}</value>
   </data>
-  <data name="DamageLabelTemplate" xml:space="preserve">
-    <value>Damage: {0}</value>
-  </data>
   <data name="DecreaseHitPointsPercentEffectRuleText" xml:space="preserve">
     <value>Decrease hitpoints on {0}% of {2} on {1} turns</value>
   </data>
@@ -398,9 +353,6 @@ Don't forget to add the game to your wishlist on popular platforms and leave fee
   <data name="FormationButtonTitle" xml:space="preserve">
     <value>Formation</value>
     <comment>Настройка построения отряда</comment>
-  </data>
-  <data name="GlobalEffectDurationTemplate" xml:space="preserve">
-    <value>{0} combats left</value>
   </data>
   <data name="HealEffectRuleText" xml:space="preserve">
     <value>Heal: {0} - {1} to {2}</value>

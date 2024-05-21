@@ -13,7 +13,7 @@ public enum UnitName
     ShieldBearer,
     Zoologist,
 
-    Swordsman,
+    Bogatyr,
     Robber,
     Herbalist,
 

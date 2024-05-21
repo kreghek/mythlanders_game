@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.CombatVisualEffects;
@@ -13,10 +14,13 @@ using CombatDicesTeam.GenericRanges;
 
 using Core.Combats.TargetSelectors;
 
+using GameAssets.Combats;
 using GameAssets.Combats.CombatMovementEffects;
 
 using GameClient.Engine.Animations;
 using GameClient.Engine.CombatVisualEffects;
+
+using JetBrains.Annotations;
 
 using Microsoft.Xna.Framework;
 
@@ -24,30 +28,11 @@ using MonoGame.Extended.TextureAtlases;
 
 namespace Client.Assets.CombatMovements.Hero.Robber;
 
-internal class WindWheelFactory : CombatMovementFactoryBase
+[UsedImplicitly]
+internal class WindWheelFactory : SimpleCombatMovementFactoryBase
 {
     /// <inheritdoc />
     public override CombatMovementIcon CombatMovementIcon => new(3, 7);
-
-    /// <inheritdoc />
-    public override CombatMovement CreateMovement()
-    {
-        return new CombatMovement(Sid,
-            new CombatMovementCost(3),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
-                {
-                    new DamageEffectWrapper(
-                        new StrongestEnemyTargetSelector(),
-                        DamageType.Normal,
-                        GenericRange<int>.CreateMono(3)),
-                    new InterruptEffect(new SelfTargetSelector())
-                })
-        )
-        {
-            Tags = CombatMovementTags.Attack
-        };
-    }
 
     /// <inheritdoc />
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,
@@ -91,6 +76,37 @@ internal class WindWheelFactory : CombatMovementFactoryBase
             visualizationContext,
             new SingleDistanceVisualizationConfig(prepareAnimation, additionalVisualEffectShotAnimation, waitAnimation,
                 projectileFactory, new AnimationFrameInfo(1)));
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<CombatMovementMetadataTrait> CreateTraits()
+    {
+        yield return CombatMovementMetadataTraits.Ranged;
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementCost GetCost()
+    {
+        return new CombatMovementCost(3);
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementEffectConfig GetEffects()
+    {
+        return CombatMovementEffectConfig.Create(new IEffect[]
+        {
+            new DamageEffectWrapper(
+                new StrongestEnemyTargetSelector(),
+                DamageType.Normal,
+                GenericRange<int>.CreateMono(3)),
+            new InterruptEffect(new SelfTargetSelector())
+        });
+    }
+
+    /// <inheritdoc />
+    protected override CombatMovementTags GetTags()
+    {
+        return CombatMovementTags.Attack;
     }
 
     private static Func<Vector2, Vector2, IInteractionDelivery> GetCreateProjectileFunc(
