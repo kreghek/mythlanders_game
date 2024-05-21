@@ -150,10 +150,6 @@ p7:
           data: Monk
         - type: UnlockLocation
           data: Monastery
-      selectConditions:
-        - type: Disabled
-      description: |
-        In Development
     - text: 'Bogatyr'
       next: p8_swordsman
       aftermaths:

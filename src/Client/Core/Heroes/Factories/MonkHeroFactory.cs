@@ -51,7 +51,6 @@ internal sealed class MonkHeroFactory : HeroFactoryBase
     {
         var stats = new CombatantStatsConfig();
         stats.SetValue(CombatantStatTypes.HitPoints, 5);
-        stats.SetValue(CombatantStatTypes.ShieldPoints, 2);
         stats.SetValue(CombatantStatTypes.Resolve, 7);
 
         return stats;
