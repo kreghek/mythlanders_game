@@ -370,7 +370,7 @@
     <comment>Combat Movement Aspid</comment>
   </data>
   <data name="DarkRaids_Description" xml:space="preserve">
-    <value>Перемещается вперед и наносит два удара &lt;damage&gt;.</value>
+    <value>Наносит &lt;damage&gt; самому слабому противнику и активирует ауру на &lt;duration&gt;, которая снижает весь стрелковый урон тыла на &lt;ranged_damage_debuff&gt;.</value>
     <comment>Combat Movement Aspid</comment>
   </data>
   <data name="DeathPath" xml:space="preserve">

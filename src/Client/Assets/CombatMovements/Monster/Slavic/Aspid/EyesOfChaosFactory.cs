@@ -55,6 +55,7 @@ internal class EyesOfChaosFactory : SimpleCombatMovementFactoryBase
 
     protected override CombatMovementTags GetTags()
     {
-        return CombatMovementTags.Attack;
+        // To prevent auto-defence
+        return CombatMovementTags.None;
     }
 }

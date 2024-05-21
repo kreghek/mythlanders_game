@@ -129,7 +129,7 @@ internal class EnergeticBiteFactory : SimpleCombatMovementFactoryBase
             new DamageEffectWrapper(
                 new MostShieldChargedEnemyTargetSelector(),
                 DamageType.ProtectionOnly,
-                GenericRange<int>.CreateMono(3)),
+                GenericRange<int>.CreateMono(5)),
             new PushToPositionEffect(new SelfTargetSelector(), ChangePositionEffectDirection.ToRearguard)
         });
     }
