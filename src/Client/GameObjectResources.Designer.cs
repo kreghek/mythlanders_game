@@ -168,7 +168,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Arrow of Morana.
+        ///   Looks up a localized string similar to Arrows of Morana.
         /// </summary>
         internal static string ArrowsOfMorana {
             get {
@@ -303,7 +303,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Blank shot.
+        ///   Looks up a localized string similar to Blank Shot.
         /// </summary>
         internal static string BlankShot {
             get {
@@ -780,7 +780,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Digital wolf.
+        ///   Looks up a localized string similar to Digital Hort.
         /// </summary>
         internal static string DigitalWolf {
             get {
@@ -2114,7 +2114,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rise your swords!.
+        ///   Looks up a localized string similar to Rise Your Swords!.
         /// </summary>
         internal static string RiseYourSwords {
             get {
@@ -2348,7 +2348,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Surprise maneuver.
+        ///   Looks up a localized string similar to Surprise Maneuver.
         /// </summary>
         internal static string SurpriseManeuver {
             get {
@@ -2416,15 +2416,6 @@ namespace Client {
         internal static string Synth_Hidden {
             get {
                 return ResourceManager.GetString("Synth_Hidden", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tactical maneuver.
-        /// </summary>
-        internal static string TacticalManeuver {
-            get {
-                return ResourceManager.GetString("TacticalManeuver", resourceCulture);
             }
         }
         
