@@ -102,6 +102,10 @@ p5:
           data: UnitedTactics
         - type: AddMonsterPerk
           data: DefenderOfFaith
+      selectConditions:
+        - type: Disabled
+      description: |
+        In Development
 
 p6_black:
   paragraphs:
