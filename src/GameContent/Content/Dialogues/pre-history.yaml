@@ -32,6 +32,10 @@ p2:
           data: ImprovedMeleeDamage
         - type: AddMonsterPerk
           data: LastBreath
+      description: |
+        In Free Play, some monsters will have the following buffs:
+        - Extra health (+1)
+        - Improved damage of melee attacks (+1)
     - text: 'The monsters were smart'
       next: p3
       aftermaths:
@@ -41,6 +45,10 @@ p2:
           data: ImprovedRangeDamage
         - type: AddMonsterPerk
           data: RearguardReduceHitPoints
+      description: |
+        In Free Play, some monsters will have the following buffs:
+        - Extra shields (+1)
+        - Improved damage of ranged attacks (+1)
     - text: 'The monsters were united'
       next: p3
       aftermaths:
@@ -50,6 +58,10 @@ p2:
           data: VanguardReduceHitPoints
         - type: AddMonsterPerk
           data: ImprovedAllDamage
+      description: |
+        In Free Play, some monsters will have the following buffs:
+        - Extra health on the avanguard (+1)
+        - Improved damage of all attacks (+1)
 
 p3:
   paragraphs:
@@ -95,6 +107,12 @@ p5:
           data: BlackMessiah
         - type: AddMonsterPerk
           data: UnitedRush
+      description: |
+        In free play, some Black elite units may have the Black Messiah perk:
+        - Protection from ranged damage (+2)
+        - The resolve of the enemy rear is reduced (+1)
+        In free play, some Union elite units may have the Union Rush perk:
+          - The resolve of your vanguard is increased (+2)
     - text: 'Heavy Industry Union'
       next: p6_mining
       aftermaths:
@@ -106,6 +124,12 @@ p5:
         - type: Disabled
       description: |
         In Development
+      
+        In free play, some elite Union units may have the Unity Tactics ability:
+        - Improved damage of shooting attacks (+2 units)
+        - A second wind for your avant-garde
+        In free play, some Black elite units may have the Champion of the Faith ability:
+        - Shield of all friendly units increased (+2 units)
 
 p6_black:
   paragraphs:
