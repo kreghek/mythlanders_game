@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Client.Assets.MonsterPerks;
 using Client.Core;
@@ -13,7 +14,71 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonoGame.Extended.SceneGraphs;
+
 namespace Client.GameScreens.PreHistory;
+
+internal interface IGlobeNotificationManager
+{
+    void Draw(SpriteBatch spriteBatch, Rectangle contentRectangle);
+    void Update(GameTime gameTime);
+}
+
+internal sealed class GlobeNotificationManager : IGlobeNotificationManager
+{
+    private readonly IList<GlobeNotificationLifetime> _currentNotifications;
+
+    public GlobeNotificationManager()
+    {
+        _currentNotifications = new List<GlobeNotificationLifetime>();
+    } 
+    
+    public void Draw(SpriteBatch spriteBatch, Rectangle contentRectangle)
+    {
+        for (var index = 0; index < _currentNotifications.Count; index++)
+        {
+            var notification = _currentNotifications[index];
+
+            const int NOTIFICATION_WIDTH = 300;
+            const int NOTIFICATION_HEIGHT = 100;
+            
+            var contentRect = new Rectangle(contentRectangle.Center.X - NOTIFICATION_WIDTH/2);
+            
+            notification.Notification.Draw(spriteBatch, (float)notification.Lifetime, );
+        }
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        foreach (var notification in _currentNotifications.ToArray())
+        {
+            notification.Lifetime -= gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (notification.Lifetime <= 0)
+            {
+                _currentNotifications.Remove(notification);
+            }
+        }
+    }
+    
+    private sealed class GlobeNotificationLifetime
+    {
+        public IGlobeNotification Notification { get; }
+
+        public GlobeNotificationLifetime(IGlobeNotification notification)
+        {
+            Notification = notification;
+            Lifetime = 1;
+        }
+
+        public double Lifetime { get; set; }
+    }
+}
+
+internal interface IGlobeNotification
+{
+    void Draw(SpriteBatch spriteBatch, float lifetime, Rectangle contentRectangle);
+}
 
 internal sealed class PreHistoryScreen : TextEventScreenBase<PreHistoryConditionContext, PreHistoryAftermathContext>
 {
