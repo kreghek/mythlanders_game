@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using Client.Assets.MonsterPerks;
 using Client.Core;
 using Client.Engine;
+using Client.GameScreens.Common.GlobeNotifications;
 using Client.ScreenManagement;
 using Client.ScreenManagement.Ui.TextEvents;
 
@@ -14,71 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using MonoGame.Extended.SceneGraphs;
-
 namespace Client.GameScreens.PreHistory;
-
-internal interface IGlobeNotificationManager
-{
-    void Draw(SpriteBatch spriteBatch, Rectangle contentRectangle);
-    void Update(GameTime gameTime);
-}
-
-internal sealed class GlobeNotificationManager : IGlobeNotificationManager
-{
-    private readonly IList<GlobeNotificationLifetime> _currentNotifications;
-
-    public GlobeNotificationManager()
-    {
-        _currentNotifications = new List<GlobeNotificationLifetime>();
-    } 
-    
-    public void Draw(SpriteBatch spriteBatch, Rectangle contentRectangle)
-    {
-        for (var index = 0; index < _currentNotifications.Count; index++)
-        {
-            var notification = _currentNotifications[index];
-
-            const int NOTIFICATION_WIDTH = 300;
-            const int NOTIFICATION_HEIGHT = 100;
-            
-            var contentRect = new Rectangle(contentRectangle.Center.X - NOTIFICATION_WIDTH/2);
-            
-            notification.Notification.Draw(spriteBatch, (float)notification.Lifetime, );
-        }
-    }
-
-    public void Update(GameTime gameTime)
-    {
-        foreach (var notification in _currentNotifications.ToArray())
-        {
-            notification.Lifetime -= gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (notification.Lifetime <= 0)
-            {
-                _currentNotifications.Remove(notification);
-            }
-        }
-    }
-    
-    private sealed class GlobeNotificationLifetime
-    {
-        public IGlobeNotification Notification { get; }
-
-        public GlobeNotificationLifetime(IGlobeNotification notification)
-        {
-            Notification = notification;
-            Lifetime = 1;
-        }
-
-        public double Lifetime { get; set; }
-    }
-}
-
-internal interface IGlobeNotification
-{
-    void Draw(SpriteBatch spriteBatch, float lifetime, Rectangle contentRectangle);
-}
 
 internal sealed class PreHistoryScreen : TextEventScreenBase<PreHistoryConditionContext, PreHistoryAftermathContext>
 {
@@ -86,6 +22,7 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<PreHistoryCondition
 
     private readonly Texture2D _cleanScreenTexture;
     private readonly StateCoordinator _coordinator;
+    private readonly IGlobeNotificationManager _globeNotificationManager;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly GlobeProvider _globeProvider;
 
@@ -107,6 +44,8 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<PreHistoryCondition
         _globeProvider = game.Services.GetService<GlobeProvider>();
 
         _coordinator = game.Services.GetService<StateCoordinator>();
+
+        _globeNotificationManager = Game.Services.GetRequiredService<IGlobeNotificationManager>();
     }
 
     protected override IDialogueContextFactory<PreHistoryConditionContext, PreHistoryAftermathContext>
@@ -123,7 +62,9 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<PreHistoryCondition
         _aftermathContext = new PreHistoryAftermathContext(scenes,
             Game.Services.GetRequiredService<IDialogueEnvironmentManager>(),
             Game.Services.GetRequiredService<GlobeProvider>().Globe.Player,
-            Game.Services.GetRequiredService<IMonsterPerkCatalog>());
+            Game.Services.GetRequiredService<IMonsterPerkCatalog>(),
+            Game.Services.GetRequiredService<IGlobeNotificationManager>(),
+            Game.Services.GetRequiredService<GlobeNotificationFactory>());
 
         return new PreHistoryDialogueContextFactory(_aftermathContext,
             Game.Services.GetRequiredService<GlobeProvider>().Globe.Player);
@@ -153,6 +94,17 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<PreHistoryCondition
 
     protected override void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect)
     {
+        spriteBatch.Begin(
+            sortMode: SpriteSortMode.Deferred,
+            blendState: BlendState.AlphaBlend,
+            samplerState: SamplerState.PointClamp,
+            depthStencilState: DepthStencilState.None,
+            rasterizerState: RasterizerState.CullNone,
+            transformMatrix: Camera.GetViewTransformationMatrix());
+
+        _globeNotificationManager.Draw(spriteBatch, contentRect);
+
+        spriteBatch.End();
     }
 
     protected override void HandleDialogueEnd()
@@ -186,6 +138,8 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<PreHistoryCondition
     protected override void UpdateSpecificScreenContent(GameTime gameTime)
     {
         _currentScene?.Update(gameTime, _isBackgoundInteractive);
+
+        _globeNotificationManager.Update(gameTime);
 
         UpdateTransition(gameTime);
     }
