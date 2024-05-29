@@ -4,6 +4,7 @@ using System.Linq;
 
 using Client.Assets.MonsterPerks;
 using Client.Core;
+using Client.GameScreens.Common.GlobeNotifications;
 
 using CombatDicesTeam.Dialogues;
 
@@ -14,6 +15,8 @@ internal sealed class PreHistoryAftermathContext
     private readonly IDictionary<string, IPreHistoryScene> _backgrounds;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly IMonsterPerkCatalog _monsterPerkCatalog;
+    private readonly IGlobeNotificationManager _globeNotificationManager;
+    private readonly GlobeNotificationFactory _globeNotificationFactory;
     private readonly Player _player;
 
     private IPreHistoryScene? _backgroundTexture;
@@ -21,17 +24,23 @@ internal sealed class PreHistoryAftermathContext
     public PreHistoryAftermathContext(IDictionary<string, IPreHistoryScene> backgrounds,
         IDialogueEnvironmentManager dialogueEnvironmentManager,
         Player player,
-        IMonsterPerkCatalog monsterPerkCatalog)
+        IMonsterPerkCatalog monsterPerkCatalog,
+        IGlobeNotificationManager globeNotificationManager,
+        GlobeNotificationFactory globeNotificationFactory)
     {
         _dialogueEnvironmentManager = dialogueEnvironmentManager;
         _player = player;
         _monsterPerkCatalog = monsterPerkCatalog;
+        _globeNotificationManager = globeNotificationManager;
+        _globeNotificationFactory = globeNotificationFactory;
         _backgrounds = backgrounds;
     }
 
     public void AddNewHero(string heroSid)
     {
         _player.AddHero(HeroState.Create(heroSid));
+
+        _globeNotificationManager.AddNotification(_globeNotificationFactory.Create( font => new NewHeroJoinedGlobeNotification(heroSid, font)));
     }
 
     public IPreHistoryScene? GetBackgroundTexture()
@@ -61,6 +70,8 @@ internal sealed class PreHistoryAftermathContext
             monsterPerks.Single(x => string.Equals(x.Sid, perkSid, StringComparison.InvariantCultureIgnoreCase));
 
         _player.AddMonsterPerk(targetPerk);
+
+        _globeNotificationManager.AddNotification(_globeNotificationFactory.Create(font => new MonsterPerkAddedGlobeNotification(targetPerk, font)));
     }
 
     internal void UnlockLocation(ILocationSid locationSid)

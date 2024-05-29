@@ -1,12 +1,20 @@
 Myth Landers Game Hotfix Update
 
-v0.3.139 [Unreleased]
+v0.3.141 [Unreleased]
 
-* Disable Union in pre-history
-* new icon of partisan skill
-* remove the last rest from tutorial
-* Fix Berimir name in a dialogues
-* Game sprite of partisan portrait
+* Added text event notifications when monsters gain new abilities or a new hero joins.
+
+v0.3.140 2024-05-23
+
+CHANGES:
+
+* Disable Union in pre-history.
+* new icon of partisan skill.
+* remove the last rest from tutorial.
+* Fix Berimir name in a dialogues.
+* Game sprite of partisan portrait.
+* Hints have been added to forks in the backstory so that the player can better understand the consequences.
+* Improved game sprite of the monster: Ambush Drone.
 
 v0.3.138 2024-5-21
 
