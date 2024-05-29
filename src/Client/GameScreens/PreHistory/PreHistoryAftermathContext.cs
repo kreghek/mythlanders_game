@@ -14,9 +14,9 @@ internal sealed class PreHistoryAftermathContext
 {
     private readonly IDictionary<string, IPreHistoryScene> _backgrounds;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
-    private readonly IMonsterPerkCatalog _monsterPerkCatalog;
-    private readonly IGlobeNotificationManager _globeNotificationManager;
     private readonly GlobeNotificationFactory _globeNotificationFactory;
+    private readonly IGlobeNotificationManager _globeNotificationManager;
+    private readonly IMonsterPerkCatalog _monsterPerkCatalog;
     private readonly Player _player;
 
     private IPreHistoryScene? _backgroundTexture;
@@ -40,7 +40,8 @@ internal sealed class PreHistoryAftermathContext
     {
         _player.AddHero(HeroState.Create(heroSid));
 
-        _globeNotificationManager.AddNotification(_globeNotificationFactory.Create( font => new NewHeroJoinedGlobeNotification(heroSid, font)));
+        _globeNotificationManager.AddNotification(
+            _globeNotificationFactory.Create(font => new NewHeroJoinedGlobeNotification(heroSid, font)));
     }
 
     public IPreHistoryScene? GetBackgroundTexture()
@@ -71,7 +72,8 @@ internal sealed class PreHistoryAftermathContext
 
         _player.AddMonsterPerk(targetPerk);
 
-        _globeNotificationManager.AddNotification(_globeNotificationFactory.Create(font => new MonsterPerkAddedGlobeNotification(targetPerk, font)));
+        _globeNotificationManager.AddNotification(
+            _globeNotificationFactory.Create(font => new MonsterPerkAddedGlobeNotification(targetPerk, font)));
     }
 
     internal void UnlockLocation(ILocationSid locationSid)

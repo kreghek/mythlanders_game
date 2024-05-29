@@ -60,8 +60,6 @@ internal sealed class GlobeNotificationManager : IGlobeNotificationManager
 
     private sealed class GlobeNotificationLifetime
     {
-        public IGlobeNotification Notification { get; }
-
         public GlobeNotificationLifetime(IGlobeNotification notification)
         {
             Notification = notification;
@@ -69,5 +67,6 @@ internal sealed class GlobeNotificationManager : IGlobeNotificationManager
         }
 
         public double Lifetime { get; set; }
+        public IGlobeNotification Notification { get; }
     }
 }

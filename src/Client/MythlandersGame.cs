@@ -13,7 +13,6 @@ using Client.GameComponents;
 using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects.Background;
 using Client.GameScreens.Common.GlobeNotifications;
-using Client.GameScreens.PreHistory;
 using Client.ScreenManagement;
 
 using CombatDicesTeam.Dialogues;

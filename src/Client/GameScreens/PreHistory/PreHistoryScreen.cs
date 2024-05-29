@@ -22,8 +22,8 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<PreHistoryCondition
 
     private readonly Texture2D _cleanScreenTexture;
     private readonly StateCoordinator _coordinator;
-    private readonly IGlobeNotificationManager _globeNotificationManager;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
+    private readonly IGlobeNotificationManager _globeNotificationManager;
     private readonly GlobeProvider _globeProvider;
 
     private readonly SoundtrackManager _soundtrackManager;

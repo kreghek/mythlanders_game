@@ -12,12 +12,13 @@ internal abstract class GlobeNotificationBase : IGlobeNotification
         _font = font;
     }
 
+    protected abstract string GetText();
+
     public void Draw(SpriteBatch spriteBatch, float lifetime, Rectangle contentRectangle)
     {
         var text = GetText();
 
-        spriteBatch.DrawString(_font, text, contentRectangle.Location.ToVector2(), Color.Lerp(Color.White, Color.Transparent, 1 - lifetime));
+        spriteBatch.DrawString(_font, text, contentRectangle.Location.ToVector2(),
+            Color.Lerp(Color.White, Color.Transparent, 1 - lifetime));
     }
-
-    protected abstract string GetText();
 }
