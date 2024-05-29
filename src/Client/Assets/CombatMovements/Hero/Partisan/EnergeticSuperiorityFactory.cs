@@ -32,7 +32,7 @@ namespace Client.Assets.CombatMovements.Hero.Partisan;
 internal class EnergeticSuperiorityFactory : SimpleCombatMovementFactoryBase
 {
     /// <inheritdoc />
-    public override CombatMovementIcon CombatMovementIcon => new(5, 6);
+    public override CombatMovementIcon CombatMovementIcon => new(5, 7);
 
     /// <inheritdoc />
     public override CombatMovementScene CreateVisualization(IActorAnimator actorAnimator,

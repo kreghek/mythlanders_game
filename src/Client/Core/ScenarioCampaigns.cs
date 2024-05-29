@@ -204,9 +204,6 @@ internal sealed class ScenarioCampaigns
             CombatStageHelper.CreateMetadata(combatSequenceT3Medium.Combats.First(), CombatEstimateDifficulty.Hard)));
         graph.AddNode(node6_2);
 
-        var node7 = new GraphNode<ICampaignStageItem>(new RestStageItem());
-        graph.AddNode(node7);
-
         var node8 = new GraphNode<ICampaignStageItem>(new DialogueEventStageItem(tutorialDialogueSid, locationSid,
             _eventCatalog)
         {
@@ -221,9 +218,8 @@ internal sealed class ScenarioCampaigns
         graph.ConnectNodes(node5, node5Rest);
         graph.ConnectNodes(node5Rest, node6_1);
         graph.ConnectNodes(node5Rest, node6_2);
-        graph.ConnectNodes(node6_1, node7);
-        graph.ConnectNodes(node6_2, node7);
-        graph.ConnectNodes(node7, node8);
+        graph.ConnectNodes(node6_1, node8);
+        graph.ConnectNodes(node6_2, node8);
 
         return new HeroCampaign(new[]
             {

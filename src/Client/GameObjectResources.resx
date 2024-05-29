@@ -1099,7 +1099,7 @@
     <value>Evil swamp</value>
     <comment>Location</comment>
   </data>
-  <data name="Swordsman" xml:space="preserve">
+  <data name="Bogatyr" xml:space="preserve">
     <value>Berimir</value>
     <comment>Hero</comment>
   </data>
