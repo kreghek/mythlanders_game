@@ -31,11 +31,6 @@ internal sealed class GlobeNotificationManager : IGlobeNotificationManager
                 NOTIFICATION_WIDTH,
                 NOTIFICATION_HEIGHT);
 
-            spriteBatch.Draw(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
-                notificationContentRect,
-                new Rectangle(0, 0, 32, 32),
-                Color.Lerp(Color.White, Color.Transparent, 1 - (float)notification.Lifetime));
-
             notification.Notification.Draw(spriteBatch, (float)notification.Lifetime, notificationContentRect);
         }
     }

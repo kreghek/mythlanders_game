@@ -12,6 +12,7 @@ using Client.Engine;
 using Client.GameComponents;
 using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects.Background;
+using Client.GameScreens.Combat.Ui;
 using Client.GameScreens.Common.GlobeNotifications;
 using Client.ScreenManagement;
 
@@ -359,6 +360,8 @@ internal sealed class MythlandersGame : Game
         Services.AddService(coordinator);
 
         Services.AddService<IGlobeNotificationManager>(new GlobeNotificationManager());
-        Services.AddService(new GlobeNotificationFactory(Services.GetRequiredService<IUiContentStorage>()));
+        Services.AddService(new GlobeNotificationFactory(Services.GetRequiredService<IUiContentStorage>(),
+            Services.GetRequiredService<ICombatantThumbnailProvider>(),
+            this));
     }
 }
