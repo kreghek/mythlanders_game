@@ -18,7 +18,7 @@ internal sealed class NotificationUiElement: ControlBase
         _stackPanelElement = new HorizontalStackPanel(texture, ControlTextures.Transparent, new ControlBase[]
         {
             new Image(icon.Texture, icon.Bounds, UiThemeManager.UiContentStorage.GetControlBackgroundTexture(), ControlTextures.Transparent, 
-            () => Color.Lerp(Color.White, Color.Transparent, 1 - Lifetime)),
+            () => Color.Lerp(Color.White, Color.Transparent, 1 - Lifetime), new Point(32, 32)),
             new VerticalStackPanel(texture, ControlTextures.Transparent, new ControlBase[]
             {
                 new Text(texture, ControlTextures.Transparent, UiThemeManager.UiContentStorage.GetMainFont(),

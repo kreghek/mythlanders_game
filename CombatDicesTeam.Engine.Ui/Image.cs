@@ -9,20 +9,22 @@ public sealed class Image : ControlBase
     private readonly Rectangle _sourceRect;
     private readonly Point _textureOffset;
     private readonly Func<Color>? _colorDelegate;
+    private readonly Point? _targetSize;
 
-    public Image(Texture2D image, Rectangle sourceRect, Texture2D texture, Point textureOffset) : this(image, sourceRect, texture, textureOffset, ()=> Color.White)
+    public Image(Texture2D image, Rectangle sourceRect, Texture2D texture, Point textureOffset) : this(image, sourceRect, texture, textureOffset, ()=> Color.White, null)
     {
     }
 
-    public Image(Texture2D image, Rectangle sourceRect, Texture2D texture, Point textureOffset, Func<Color> colorDelegate) : base(texture)
+    public Image(Texture2D image, Rectangle sourceRect, Texture2D texture, Point textureOffset, Func<Color> colorDelegate, Point? size) : base(texture)
     {
         _image = image;
         _sourceRect = sourceRect;
         _textureOffset = textureOffset;
         _colorDelegate = colorDelegate;
+        _targetSize = size;
     }
 
-    public override Point Size => _sourceRect.Size;
+    public override Point Size => _targetSize ?? _sourceRect.Size;
 
     protected override Point CalcTextureOffset()
     {
@@ -41,6 +43,6 @@ public sealed class Image : ControlBase
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
-        spriteBatch.Draw(_image, contentRect.Location.ToVector2(), _sourceRect, contentColor);
+        spriteBatch.Draw(_image, new Rectangle(contentRect.Location, Size), _sourceRect, contentColor);
     }
 }
