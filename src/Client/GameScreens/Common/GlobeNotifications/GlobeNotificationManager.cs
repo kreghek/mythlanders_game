@@ -24,14 +24,14 @@ internal sealed class GlobeNotificationManager : IGlobeNotificationManager
             var notification = _currentNotifications[index];
 
             const int NOTIFICATION_WIDTH = 300;
-            const int NOTIFICATION_HEIGHT = 30;
+            const int NOTIFICATION_HEIGHT = 74;
 
             var notificationContentRect = new Rectangle(contentRectangle.Center.X - NOTIFICATION_WIDTH / 2,
                 contentRectangle.Top + NOTIFICATION_HEIGHT * index,
                 NOTIFICATION_WIDTH,
                 NOTIFICATION_HEIGHT);
 
-            notification.Notification.Draw(spriteBatch, (float)notification.Lifetime, notificationContentRect);
+            notification.Notification.Draw(spriteBatch, (float)notification.Lifetime / 5, notificationContentRect);
         }
     }
 

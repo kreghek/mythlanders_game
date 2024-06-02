@@ -5,17 +5,20 @@ using CombatDicesTeam.Engine.Ui;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonoGame.Extended.TextureAtlases;
+
 namespace Client.GameScreens.Common.GlobeNotifications;
 
 internal sealed class NotificationUiElement: ControlBase
 {
     private readonly HorizontalStackPanel _stackPanelElement;
 
-    public NotificationUiElement(Texture2D texture, Image notificationIcon, string notificationType, string notificationText) : base(texture)
+    public NotificationUiElement(Texture2D texture, TextureRegion2D icon, string notificationType, string notificationText) : base(texture)
     {
         _stackPanelElement = new HorizontalStackPanel(texture, ControlTextures.Transparent, new ControlBase[]
         {
-            notificationIcon,
+            new Image(icon.Texture, icon.Bounds, UiThemeManager.UiContentStorage.GetControlBackgroundTexture(), ControlTextures.Transparent, 
+            () => Color.Lerp(Color.White, Color.Transparent, 1 - Lifetime)),
             new VerticalStackPanel(texture, ControlTextures.Transparent, new ControlBase[]
             {
                 new Text(texture, ControlTextures.Transparent, UiThemeManager.UiContentStorage.GetMainFont(),

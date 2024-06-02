@@ -30,6 +30,6 @@ internal sealed class MonsterPerkAddedGlobeNotification : GlobeNotificationBase
 
     protected override TextureRegion2D GetIcon()
     {
-        return new TextureRegion2D(_perkIcons, new Rectangle(0, 0, 32, 32));
+        return new TextureRegion2D(_perkIcons, new Rectangle(0, 64, 64, 64));
     }
 }

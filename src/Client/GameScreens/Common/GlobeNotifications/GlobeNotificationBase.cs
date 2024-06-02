@@ -11,14 +11,11 @@ namespace Client.GameScreens.Common.GlobeNotifications;
 
 internal abstract class GlobeNotificationBase : IGlobeNotification
 {
-    private readonly NotificationUiElement _uiElement;
+    private NotificationUiElement? _uiElement;
 
     protected GlobeNotificationBase()
     {
-        _uiElement = new NotificationUiElement(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
-            new Image(GetIcon().Texture, GetIcon().Bounds,
-                UiThemeManager.UiContentStorage.GetControlBackgroundTexture(), ControlTextures.Transparent),
-            GetNotificationTypeText(), GetNotificationMainRichText());
+        
     }
 
     protected abstract string GetNotificationMainRichText();
@@ -30,6 +27,16 @@ internal abstract class GlobeNotificationBase : IGlobeNotification
     
     public void Draw(SpriteBatch spriteBatch, float lifetime, Rectangle contentRectangle)
     {
+        if (_uiElement is null)
+        {
+            _uiElement = new NotificationUiElement(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
+                GetIcon(),
+                GetNotificationTypeText(),
+                GetNotificationMainRichText());
+        }
+
+        _uiElement.Lifetime = lifetime;
+        _uiElement.Rect = contentRectangle;
         _uiElement.Draw(spriteBatch);
     }
 }
