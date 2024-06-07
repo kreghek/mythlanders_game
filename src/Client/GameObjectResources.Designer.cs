@@ -304,6 +304,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Black Messiah.
+        /// </summary>
+        internal static string BlackMessiah {
+            get {
+                return ResourceManager.GetString("BlackMessiah", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Blank Shot.
         /// </summary>
         internal static string BlankShot {
@@ -723,6 +732,15 @@ namespace Client {
         internal static string DefeatsJobTitleSid {
             get {
                 return ResourceManager.GetString("DefeatsJobTitleSid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Defender Of Faith.
+        /// </summary>
+        internal static string DefenderOfFaith {
+            get {
+                return ResourceManager.GetString("DefenderOfFaith", resourceCulture);
             }
         }
         
@@ -2471,6 +2489,24 @@ namespace Client {
         internal static string TwoPlusTwoIsFive_voice {
             get {
                 return ResourceManager.GetString("TwoPlusTwoIsFive_voice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rush Of Union.
+        /// </summary>
+        internal static string UnitedRush {
+            get {
+                return ResourceManager.GetString("UnitedRush", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shared Tactics.
+        /// </summary>
+        internal static string UnitedTactics {
+            get {
+                return ResourceManager.GetString("UnitedTactics", resourceCulture);
             }
         }
         
