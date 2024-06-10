@@ -68,7 +68,7 @@ internal abstract class
             campaignArgs.DialogueEvent, _currentCampaign,
             eventContext,
             Game.Services.GetRequiredService<IGlobeNotificationManager>(),
-            Game.Services.GetRequiredService<GlobeNotificationFactory>());
+            Game.Services.GetRequiredService<IGlobeNotificationFactory>());
     }
 
 

@@ -61,7 +61,7 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<PreHistoryCondition
             Game.Services.GetRequiredService<GlobeProvider>().Globe.Player,
             Game.Services.GetRequiredService<IMonsterPerkCatalog>(),
             Game.Services.GetRequiredService<IGlobeNotificationManager>(),
-            Game.Services.GetRequiredService<GlobeNotificationFactory>());
+            Game.Services.GetRequiredService<IGlobeNotificationFactory>());
 
         return new PreHistoryDialogueContextFactory(_aftermathContext,
             Game.Services.GetRequiredService<GlobeProvider>().Globe.Player);

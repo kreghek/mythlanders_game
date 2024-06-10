@@ -15,7 +15,7 @@ internal sealed class
     private readonly IDialogueEnvironmentManager _environmentManager;
     private readonly IEventContext _eventContext;
     private readonly IGlobeNotificationManager _globeNotificationManager;
-    private readonly GlobeNotificationFactory _globeNotificationFactory;
+    private readonly IGlobeNotificationFactory _globeNotificationFactory;
     private readonly Globe _globe;
     private readonly Player _player;
     private readonly IStoryPointCatalog _storyPointCatalog;
@@ -25,7 +25,7 @@ internal sealed class
         DialogueEvent currentDialogueEvent,
         HeroCampaign campaign, IEventContext eventContext,
         IGlobeNotificationManager globeNotificationManager,
-        GlobeNotificationFactory globeNotificationFactory)
+        IGlobeNotificationFactory globeNotificationFactory)
     {
         _globe = globe;
         _storyPointCatalog = storyPointCatalog;
