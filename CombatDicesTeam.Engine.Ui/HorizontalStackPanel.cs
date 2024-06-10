@@ -5,8 +5,8 @@ namespace CombatDicesTeam.Engine.Ui;
 
 public sealed class BackgroundImage : ControlBase
 {
-    private readonly Point _textureOffset;
     private readonly Func<Color> _colorDelegate;
+    private readonly Point _textureOffset;
 
     public BackgroundImage(Texture2D texture, Point textureOffset, Func<Color> colorDelegate) : base(texture)
     {
@@ -26,7 +26,6 @@ public sealed class BackgroundImage : ControlBase
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
-        
     }
 }
 

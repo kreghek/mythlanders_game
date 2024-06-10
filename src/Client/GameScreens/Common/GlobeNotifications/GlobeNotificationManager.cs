@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Client.Engine;
-
 using CombatDicesTeam.Engine.Ui;
 
 using Microsoft.Xna.Framework;

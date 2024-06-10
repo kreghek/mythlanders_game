@@ -9,13 +9,18 @@ namespace Client.GameScreens.Common.GlobeNotifications;
 
 internal sealed class MonsterPerkAddedGlobeNotification : GlobeNotificationBase
 {
-    private readonly MonsterPerk _targetPerk;
     private readonly Texture2D _perkIcons;
+    private readonly MonsterPerk _targetPerk;
 
     public MonsterPerkAddedGlobeNotification(MonsterPerk targetPerk, Texture2D perkIcons)
     {
         _targetPerk = targetPerk;
         _perkIcons = perkIcons;
+    }
+
+    protected override TextureRegion2D GetIcon()
+    {
+        return new TextureRegion2D(_perkIcons, new Rectangle(0, 64, 64, 64));
     }
 
     protected override string GetNotificationMainRichText()
@@ -26,10 +31,5 @@ internal sealed class MonsterPerkAddedGlobeNotification : GlobeNotificationBase
     protected override string GetNotificationTypeText()
     {
         return UiResource.MonsterPerkAddedNotificationText;
-    }
-
-    protected override TextureRegion2D GetIcon()
-    {
-        return new TextureRegion2D(_perkIcons, new Rectangle(0, 64, 64, 64));
     }
 }

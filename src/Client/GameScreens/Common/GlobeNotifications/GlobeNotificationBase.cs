@@ -1,7 +1,5 @@
 ﻿using Client.Engine;
 
-using CombatDicesTeam.Engine.Ui;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -13,18 +11,13 @@ internal abstract class GlobeNotificationBase : IGlobeNotification
 {
     private NotificationUiElement? _uiElement;
 
-    protected GlobeNotificationBase()
-    {
-        
-    }
+    protected abstract TextureRegion2D GetIcon();
 
     protected abstract string GetNotificationMainRichText();
 
     protected abstract string GetNotificationTypeText();
 
-    protected abstract TextureRegion2D GetIcon();
 
-    
     public void Draw(SpriteBatch spriteBatch, float lifetime, Rectangle contentRectangle)
     {
         if (_uiElement is null)

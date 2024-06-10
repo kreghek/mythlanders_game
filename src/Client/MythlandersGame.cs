@@ -361,7 +361,8 @@ internal sealed class MythlandersGame : Game
 
         Services.AddService<IGlobeNotificationManager>(new GlobeNotificationManager());
 
-        Services.AddService<ICombatantThumbnailProvider>(new CombatantThumbnailProvider(Content, Services.GetRequiredService<ICombatantGraphicsCatalog>()));
+        Services.AddService<ICombatantThumbnailProvider>(
+            new CombatantThumbnailProvider(Content, Services.GetRequiredService<ICombatantGraphicsCatalog>()));
 
         Services.AddService(new GlobeNotificationFactory(Services.GetRequiredService<IUiContentStorage>(),
             Services.GetRequiredService<ICombatantThumbnailProvider>(),

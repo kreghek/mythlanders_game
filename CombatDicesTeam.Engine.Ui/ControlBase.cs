@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CombatDicesTeam.Engine.Ui;
 
-public abstract class ControlBase: IUiElement
+public abstract class ControlBase : IUiElement
 {
     public const int CONTENT_MARGIN = 4;
     private const int CORNER_SIZE = 15;
@@ -39,24 +39,7 @@ public abstract class ControlBase: IUiElement
 
     public Rectangle Rect { get; set; }
 
-    public virtual Point Size { get; }
-
     protected virtual int Margin => CONTENT_MARGIN;
-
-    public void Draw(SpriteBatch spriteBatch)
-    {
-        var color = CalculateColor();
-
-        DrawBackground(spriteBatch: spriteBatch, color: color);
-
-        var contentRect = new Rectangle(
-            Margin + Rect.Left,
-            Margin + Rect.Top,
-            Rect.Width - Margin * 2,
-            Rect.Height - Margin * 2);
-
-        DrawContent(spriteBatch, contentRect, color);
-    }
 
     protected abstract Point CalcTextureOffset();
 
@@ -101,4 +84,21 @@ public abstract class ControlBase: IUiElement
     }
 
     protected abstract void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor);
+
+    public virtual Point Size { get; }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        var color = CalculateColor();
+
+        DrawBackground(spriteBatch: spriteBatch, color: color);
+
+        var contentRect = new Rectangle(
+            Margin + Rect.Left,
+            Margin + Rect.Top,
+            Rect.Width - Margin * 2,
+            Rect.Height - Margin * 2);
+
+        DrawContent(spriteBatch, contentRect, color);
+    }
 }

@@ -10,11 +10,12 @@ namespace Client.GameScreens.Common.GlobeNotifications;
 
 internal sealed class GlobeNotificationFactory
 {
-    private readonly IUiContentStorage _uiContentStorage;
     private readonly ICombatantThumbnailProvider _combatantThumbnailProvider;
     private readonly Texture2D _monsterPerkTexture;
+    private readonly IUiContentStorage _uiContentStorage;
 
-    public GlobeNotificationFactory(IUiContentStorage uiContentStorage, ICombatantThumbnailProvider combatantThumbnailProvider, Game game)
+    public GlobeNotificationFactory(IUiContentStorage uiContentStorage,
+        ICombatantThumbnailProvider combatantThumbnailProvider, Game game)
     {
         _uiContentStorage = uiContentStorage;
         _combatantThumbnailProvider = combatantThumbnailProvider;
