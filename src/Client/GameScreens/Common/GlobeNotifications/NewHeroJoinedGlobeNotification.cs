@@ -27,7 +27,7 @@ internal sealed class NewHeroJoinedGlobeNotification : GlobeNotificationBase
 
     protected override string GetNotificationTypeText()
     {
-        return "New Hero joined";
+        return Client.UiResource.NewHeroJoinedNotificationText;
     }
 
     protected override TextureRegion2D GetIcon()

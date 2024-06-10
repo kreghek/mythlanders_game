@@ -25,7 +25,7 @@ internal sealed class MonsterPerkAddedGlobeNotification : GlobeNotificationBase
 
     protected override string GetNotificationTypeText()
     {
-        return "Monster Perk Added";
+        return UiResource.MonsterPerkAddedNotificationText;
     }
 
     protected override TextureRegion2D GetIcon()
