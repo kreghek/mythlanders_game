@@ -12,6 +12,7 @@ namespace Client.GameScreens.Common.GlobeNotifications;
 internal sealed class NotificationUiElement: ControlBase
 {
     private readonly HorizontalStackPanel _stackPanelElement;
+    private readonly BackgroundImage _background; 
 
     public NotificationUiElement(Texture2D texture, TextureRegion2D icon, string notificationType, string notificationText) : base(texture)
     {
@@ -29,6 +30,8 @@ internal sealed class NotificationUiElement: ControlBase
                     () => notificationText)
             })
         });
+
+        _background = new BackgroundImage(texture, ControlTextures.PanelBlack, () => Color.Lerp(Color.White, Color.Transparent, 1 - Lifetime));
     }
 
     protected override Point CalcTextureOffset() => ControlTextures.CombatMove;
@@ -37,8 +40,11 @@ internal sealed class NotificationUiElement: ControlBase
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
+        _background.Rect = new Rectangle(contentRect.Left + 4, contentRect.Top + 4, contentRect.Width - 4 * 2, contentRect.Height - 4 * 2);
+        _background.Draw(spriteBatch);
+
         _stackPanelElement.Rect = contentRect;
-        _stackPanelElement.Draw(spriteBatch);
+        _stackPanelElement.Draw(spriteBatch);        
     }
 
     public float Lifetime { get; set; }

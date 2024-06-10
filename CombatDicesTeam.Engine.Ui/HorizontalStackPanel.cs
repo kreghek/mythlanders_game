@@ -3,6 +3,33 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CombatDicesTeam.Engine.Ui;
 
+public sealed class BackgroundImage : ControlBase
+{
+    private readonly Point _textureOffset;
+    private readonly Func<Color> _colorDelegate;
+
+    public BackgroundImage(Texture2D texture, Point textureOffset, Func<Color> colorDelegate) : base(texture)
+    {
+        _textureOffset = textureOffset;
+        _colorDelegate = colorDelegate;
+    }
+
+    protected override Point CalcTextureOffset()
+    {
+        return _textureOffset;
+    }
+
+    protected override Color CalculateColor()
+    {
+        return _colorDelegate();
+    }
+
+    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
+    {
+        
+    }
+}
+
 public sealed class HorizontalStackPanel : ControlBase
 {
     private readonly IReadOnlyList<ControlBase> _innerElements;
