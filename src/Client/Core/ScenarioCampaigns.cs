@@ -160,7 +160,7 @@ internal sealed class ScenarioCampaigns
             _eventCatalog));
         graph.AddNode(node5);
 
-        var node5Rest = new GraphNode<ICampaignStageItem>(new RestStageItem());
+        var node5Rest = new GraphNode<ICampaignStageItem>(new RestStageItem(_eventCatalog));
         graph.AddNode(node5Rest);
 
         var combatSequenceT3Easy = new CombatSequence

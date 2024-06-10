@@ -47,6 +47,7 @@ internal sealed class ParagraphConditionCreator : IDialogueConditionCreator<Para
     {
         return conditionTypeSid switch
         {
+            "Disabled" => new DisabledParagraphCondition(),
             _ => throw new InvalidOperationException($"Type {conditionTypeSid} is unknown.")
         };
     }

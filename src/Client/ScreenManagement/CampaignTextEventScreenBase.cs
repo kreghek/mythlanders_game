@@ -7,6 +7,7 @@ using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.CampaignReward.Ui;
 using Client.GameScreens.Common.CampaignResult;
+using Client.GameScreens.Common.GlobeNotifications;
 using Client.GameScreens.Common.Result;
 using Client.ScreenManagement.Ui.TextEvents;
 
@@ -65,7 +66,9 @@ internal abstract class
 
         return new DialogueContextFactory(globe, storyPointCatalog, player, dialogueEnvironmentManager,
             campaignArgs.DialogueEvent, _currentCampaign,
-            eventContext);
+            eventContext,
+            Game.Services.GetRequiredService<IGlobeNotificationManager>(),
+            Game.Services.GetRequiredService<GlobeNotificationFactory>());
     }
 
 

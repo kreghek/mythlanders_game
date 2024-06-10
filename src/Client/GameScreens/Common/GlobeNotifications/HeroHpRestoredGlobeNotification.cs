@@ -9,14 +9,16 @@ using MonoGame.Extended.TextureAtlases;
 
 namespace Client.GameScreens.Common.GlobeNotifications;
 
-internal sealed class NewHeroJoinedGlobeNotification : GlobeNotificationBase
+internal sealed class HeroHpRestoredGlobeNotification: GlobeNotificationBase
 {
-    private readonly Texture2D _characterThumbnailIcons;
-    private readonly string _classSid;
+    private string _classSid;
+    private readonly int _amount;
+    private Texture2D _characterThumbnailIcons;
 
-    public NewHeroJoinedGlobeNotification(string classSid, Texture2D characterThumbnailIcons)
+    public HeroHpRestoredGlobeNotification(string classSid, int amount, Texture2D characterThumbnailIcons)
     {
         _classSid = classSid;
+        _amount = amount;
         _characterThumbnailIcons = characterThumbnailIcons;
     }
 
@@ -27,7 +29,7 @@ internal sealed class NewHeroJoinedGlobeNotification : GlobeNotificationBase
 
     protected override string GetNotificationMainRichText()
     {
-        return GameObjectHelper.GetLocalized(Enum.Parse<UnitName>(_classSid));
+        return GameObjectHelper.GetLocalized(Enum.Parse<UnitName>(_classSid)) + " HP +" + _amount;
     }
 
     protected override string GetNotificationTypeText()

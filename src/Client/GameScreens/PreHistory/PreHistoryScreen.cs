@@ -23,7 +23,6 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<PreHistoryCondition
     private readonly Texture2D _cleanScreenTexture;
     private readonly StateCoordinator _coordinator;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
-    private readonly IGlobeNotificationManager _globeNotificationManager;
     private readonly GlobeProvider _globeProvider;
 
     private readonly SoundtrackManager _soundtrackManager;
@@ -44,8 +43,6 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<PreHistoryCondition
         _globeProvider = game.Services.GetService<GlobeProvider>();
 
         _coordinator = game.Services.GetService<StateCoordinator>();
-
-        _globeNotificationManager = Game.Services.GetRequiredService<IGlobeNotificationManager>();
     }
 
     protected override IDialogueContextFactory<PreHistoryConditionContext, PreHistoryAftermathContext>
@@ -94,17 +91,7 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<PreHistoryCondition
 
     protected override void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        spriteBatch.Begin(
-            sortMode: SpriteSortMode.Deferred,
-            blendState: BlendState.AlphaBlend,
-            samplerState: SamplerState.PointClamp,
-            depthStencilState: DepthStencilState.None,
-            rasterizerState: RasterizerState.CullNone,
-            transformMatrix: Camera.GetViewTransformationMatrix());
-
-        _globeNotificationManager.Draw(spriteBatch, contentRect);
-
-        spriteBatch.End();
+        
     }
 
     protected override void HandleDialogueEnd()
@@ -138,8 +125,6 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<PreHistoryCondition
     protected override void UpdateSpecificScreenContent(GameTime gameTime)
     {
         _currentScene?.Update(gameTime, _isBackgoundInteractive);
-
-        _globeNotificationManager.Update(gameTime);
 
         UpdateTransition(gameTime);
     }

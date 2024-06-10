@@ -53,7 +53,7 @@ internal sealed class CampaignWayTemplatesCatalog
 
             new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
             {
-                new RestCampaignStageTemplateFactory()
+                new RestCampaignStageTemplateFactory(_services)
             }, _services)
         };
 
@@ -67,7 +67,7 @@ internal sealed class CampaignWayTemplatesCatalog
 
             new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
             {
-                new RestCampaignStageTemplateFactory()
+                new RestCampaignStageTemplateFactory(_services)
             }, _services)
         };
 
@@ -139,7 +139,7 @@ internal sealed class CampaignWayTemplatesCatalog
 
             new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
             {
-                new RestCampaignStageTemplateFactory(),
+                new RestCampaignStageTemplateFactory(_services),
                 new ShopCampaignStageTemplateFactory(),
                 new FindingEventCampaignStageTemplateFactory(_services),
                 new ChallengeCampaignStageTemplateFactory(_services)
@@ -160,7 +160,7 @@ internal sealed class CampaignWayTemplatesCatalog
 
             new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
             {
-                new RestCampaignStageTemplateFactory(),
+                new RestCampaignStageTemplateFactory(_services),
                 new ShopCampaignStageTemplateFactory(),
                 //new SacredEventCampaignStageTemplateFactory(),
                 //new ShopCampaignStageTemplateFactory(),
@@ -190,7 +190,7 @@ internal sealed class CampaignWayTemplatesCatalog
                 new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
                 {
                     new MiniGameEventCampaignStageTemplateFactory(_services),
-                    new RestCampaignStageTemplateFactory()
+                    new RestCampaignStageTemplateFactory(_services)
                 })
             }, _services),
 
