@@ -953,11 +953,29 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monster Perk Added.
+        /// </summary>
+        internal static string MonsterPerkAddedNotificationText {
+            get {
+                return ResourceManager.GetString("MonsterPerkAddedNotificationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Move to the pool.
         /// </summary>
         internal static string MoveToThePoolButtonTitle {
             get {
                 return ResourceManager.GetString("MoveToThePoolButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Hero Joined.
+        /// </summary>
+        internal static string NewHeroJoinedNotificationText {
+            get {
+                return ResourceManager.GetString("NewHeroJoinedNotificationText", resourceCulture);
             }
         }
         

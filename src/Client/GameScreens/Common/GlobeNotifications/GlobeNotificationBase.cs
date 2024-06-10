@@ -1,24 +1,42 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Client.Engine;
+
+using CombatDicesTeam.Engine.Ui;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using MonoGame.Extended.TextureAtlases;
 
 namespace Client.GameScreens.Common.GlobeNotifications;
 
 internal abstract class GlobeNotificationBase : IGlobeNotification
 {
-    private readonly SpriteFont _font;
+    private NotificationUiElement? _uiElement;
 
-    public GlobeNotificationBase(SpriteFont font)
+    protected GlobeNotificationBase()
     {
-        _font = font;
+        
     }
 
-    protected abstract string GetText();
+    protected abstract string GetNotificationMainRichText();
 
+    protected abstract string GetNotificationTypeText();
+
+    protected abstract TextureRegion2D GetIcon();
+
+    
     public void Draw(SpriteBatch spriteBatch, float lifetime, Rectangle contentRectangle)
     {
-        var text = GetText();
+        if (_uiElement is null)
+        {
+            _uiElement = new NotificationUiElement(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
+                GetIcon(),
+                GetNotificationTypeText(),
+                GetNotificationMainRichText());
+        }
 
-        spriteBatch.DrawString(_font, text, contentRectangle.Location.ToVector2(),
-            Color.Lerp(Color.White, Color.Transparent, 1 - lifetime));
+        _uiElement.Lifetime = lifetime;
+        _uiElement.Rect = contentRectangle;
+        _uiElement.Draw(spriteBatch);
     }
 }

@@ -3,6 +3,8 @@ using System.Linq;
 
 using Client.Engine;
 
+using CombatDicesTeam.Engine.Ui;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -23,20 +25,16 @@ internal sealed class GlobeNotificationManager : IGlobeNotificationManager
         {
             var notification = _currentNotifications[index];
 
-            const int NOTIFICATION_WIDTH = 300;
-            const int NOTIFICATION_HEIGHT = 30;
+            const int NOTIFICATION_WIDTH = 200;
+            const int NOTIFICATION_HEIGHT = 32 + ControlBase.CONTENT_MARGIN * 8;
 
             var notificationContentRect = new Rectangle(contentRectangle.Center.X - NOTIFICATION_WIDTH / 2,
                 contentRectangle.Top + NOTIFICATION_HEIGHT * index,
                 NOTIFICATION_WIDTH,
                 NOTIFICATION_HEIGHT);
 
-            spriteBatch.Draw(UiThemeManager.UiContentStorage.GetControlBackgroundTexture(),
-                notificationContentRect,
-                new Rectangle(0, 0, 32, 32),
-                Color.Lerp(Color.White, Color.Transparent, 1 - (float)notification.Lifetime));
-
-            notification.Notification.Draw(spriteBatch, (float)notification.Lifetime, notificationContentRect);
+            var t = (float)notification.Lifetime > 3 ? 1 : ((float)notification.Lifetime) / 3;
+            notification.Notification.Draw(spriteBatch, t, notificationContentRect);
         }
     }
 

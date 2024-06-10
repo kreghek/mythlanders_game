@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CombatDicesTeam.Engine.Ui;
 
-public abstract class ControlBase
+public abstract class ControlBase: IUiElement
 {
     public const int CONTENT_MARGIN = 4;
     private const int CORNER_SIZE = 15;
