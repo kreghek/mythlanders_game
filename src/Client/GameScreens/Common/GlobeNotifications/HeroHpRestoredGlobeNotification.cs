@@ -34,6 +34,6 @@ internal sealed class HeroHpRestoredGlobeNotification: GlobeNotificationBase
 
     protected override string GetNotificationTypeText()
     {
-        return UiResource.NewHeroJoinedNotificationText;
+        return Client.UiResource.HeroRestoredNotificationText;
     }
 }
