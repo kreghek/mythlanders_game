@@ -29,11 +29,11 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     private readonly DialogueOptions _dialogueOptions;
     private readonly IDice _dice;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
+    private readonly IGlobeNotificationManager _globeNotificationManager;
 
     private readonly HoverController<DialogueOptionButton> _optionHoverController;
     private readonly IStoryState _storyState;
     private readonly IUiContentStorage _uiContentStorage;
-    private readonly IGlobeNotificationManager _globeNotificationManager;
     protected readonly IList<TextParagraphControl<TParagraphConditionContext, TAftermathContext>> TextParagraphControls;
     private IDialogueContextFactory<TParagraphConditionContext, TAftermathContext> _contextFactory;
     private bool _currentTextFragmentIsReady;
@@ -115,21 +115,6 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         }
 
         DrawGlobeNotifications(spriteBatch, contentRect);
-    }
-
-    private void DrawGlobeNotifications(SpriteBatch spriteBatch, Rectangle contentRect)
-    {
-        spriteBatch.Begin(
-                    sortMode: SpriteSortMode.Deferred,
-                    blendState: BlendState.AlphaBlend,
-                    samplerState: SamplerState.PointClamp,
-                    depthStencilState: DepthStencilState.None,
-                    rasterizerState: RasterizerState.CullNone,
-                    transformMatrix: Camera.GetViewTransformationMatrix());
-
-        _globeNotificationManager.Draw(spriteBatch, contentRect);
-
-        spriteBatch.End();
     }
 
     protected abstract void DrawSpecificBackgroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect);
@@ -227,6 +212,21 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
                 break;
             }
         }
+    }
+
+    private void DrawGlobeNotifications(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        spriteBatch.Begin(
+            sortMode: SpriteSortMode.Deferred,
+            blendState: BlendState.AlphaBlend,
+            samplerState: SamplerState.PointClamp,
+            depthStencilState: DepthStencilState.None,
+            rasterizerState: RasterizerState.CullNone,
+            transformMatrix: Camera.GetViewTransformationMatrix());
+
+        _globeNotificationManager.Draw(spriteBatch, contentRect);
+
+        spriteBatch.End();
     }
 
     private void DrawTextBlock(SpriteBatch spriteBatch, Rectangle contentRectangle)

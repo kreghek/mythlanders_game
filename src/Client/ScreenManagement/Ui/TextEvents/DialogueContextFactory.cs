@@ -14,9 +14,9 @@ internal sealed class
     private readonly DialogueEvent _currentDialogueEvent;
     private readonly IDialogueEnvironmentManager _environmentManager;
     private readonly IEventContext _eventContext;
-    private readonly IGlobeNotificationManager _globeNotificationManager;
-    private readonly IGlobeNotificationFactory _globeNotificationFactory;
     private readonly Globe _globe;
+    private readonly IGlobeNotificationFactory _globeNotificationFactory;
+    private readonly IGlobeNotificationManager _globeNotificationManager;
     private readonly Player _player;
     private readonly IStoryPointCatalog _storyPointCatalog;
 

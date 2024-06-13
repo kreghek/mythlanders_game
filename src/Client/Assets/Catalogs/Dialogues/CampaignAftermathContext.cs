@@ -17,16 +17,17 @@ internal class CampaignAftermathContext
 {
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly IEventContext _eventContext;
-    private readonly IGlobeNotificationManager _globeNotificationManager;
-    private readonly IGlobeNotificationFactory _globeNotificationFactory;
     private readonly Globe _globe;
+    private readonly IGlobeNotificationFactory _globeNotificationFactory;
+    private readonly IGlobeNotificationManager _globeNotificationManager;
     private readonly HeroCampaign _heroCampaign;
     private readonly Player _player;
     private readonly IStoryPointCatalog _storyPointCatalog;
 
     public CampaignAftermathContext(Globe globe, IStoryPointCatalog storyPointCatalog, Player player,
         DialogueEvent currentDialogueEvent, IDialogueEnvironmentManager dialogueEnvironmentManager,
-        HeroCampaign heroCampaign, IEventContext eventContext, IGlobeNotificationManager globeNotificationManager, IGlobeNotificationFactory globeNotificationFactory)
+        HeroCampaign heroCampaign, IEventContext eventContext, IGlobeNotificationManager globeNotificationManager,
+        IGlobeNotificationFactory globeNotificationFactory)
     {
         _globe = globe;
         _storyPointCatalog = storyPointCatalog;

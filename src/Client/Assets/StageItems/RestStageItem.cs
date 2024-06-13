@@ -1,8 +1,9 @@
+using System.Linq;
+
+using Client.Core;
 using Client.Core.Campaigns;
 using Client.GameScreens.TextDialogue;
 using Client.ScreenManagement;
-using Client.Core;
-using System.Linq;
 
 namespace Client.Assets.StageItems;
 
@@ -23,10 +24,10 @@ internal sealed class RestStageItem : ICampaignStageItem
         var restDialogue = _eventCatalog.GetDialogue(restEvent.GetDialogSid());
 
         screenManager.ExecuteTransition(
-        currentScreen,
-        ScreenTransition.Event,
+            currentScreen,
+            ScreenTransition.Event,
             new TextDialogueScreenTransitionArgs(currentCampaign, restDialogue, restEvent, currentCampaign.Location.Sid)
-            { IsReward = IsGoalStage });
+                { IsReward = IsGoalStage });
     }
 
     public bool IsGoalStage { get; }

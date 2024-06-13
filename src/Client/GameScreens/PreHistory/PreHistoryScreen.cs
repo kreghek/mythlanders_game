@@ -91,7 +91,6 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<PreHistoryCondition
 
     protected override void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        
     }
 
     protected override void HandleDialogueEnd()

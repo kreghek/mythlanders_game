@@ -17,19 +17,6 @@ internal sealed class RestAllOptionAftermath : CampaignDialogueOptionAftermathBa
         _value = value;
     }
 
-    internal static IDialogueOptionAftermath<CampaignAftermathContext> CreateFromData(string data)
-    {
-        return new RestAllOptionAftermath(ParseData(data));
-    }
-
-    private static int ParseData(string data)
-    {
-        if (int.TryParse(data, out var value) && value > 0)
-            return value;
-
-        return DEFAULT_HEAL;
-    }
-
     public override void Apply(CampaignAftermathContext aftermathContext)
     {
         var heroes = aftermathContext.GetPartyHeroes();
@@ -55,5 +42,20 @@ internal sealed class RestAllOptionAftermath : CampaignDialogueOptionAftermathBa
             heroes,
             _value
         };
+    }
+
+    internal static IDialogueOptionAftermath<CampaignAftermathContext> CreateFromData(string data)
+    {
+        return new RestAllOptionAftermath(ParseData(data));
+    }
+
+    private static int ParseData(string data)
+    {
+        if (int.TryParse(data, out var value) && value > 0)
+        {
+            return value;
+        }
+
+        return DEFAULT_HEAL;
     }
 }

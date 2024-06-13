@@ -31,7 +31,7 @@ internal sealed class RestDialogueEventFactory : IDialogueEventFactory
 
         var dialogues = new Dictionary<DialogueEventState, string>
         {
-            [DialogueConstants.InitialStage] = DIALOGUE_SID,
+            [DialogueConstants.InitialStage] = DIALOGUE_SID
         };
 
         return new DialogueEvent(RESOURCE_FILE_SID, questStateMachine, requirements,

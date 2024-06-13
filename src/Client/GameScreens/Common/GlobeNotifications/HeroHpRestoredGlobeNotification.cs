@@ -9,11 +9,11 @@ using MonoGame.Extended.TextureAtlases;
 
 namespace Client.GameScreens.Common.GlobeNotifications;
 
-internal sealed class HeroHpRestoredGlobeNotification: GlobeNotificationBase
+internal sealed class HeroHpRestoredGlobeNotification : GlobeNotificationBase
 {
-    private string _classSid;
     private readonly int _amount;
-    private Texture2D _characterThumbnailIcons;
+    private readonly Texture2D _characterThumbnailIcons;
+    private readonly string _classSid;
 
     public HeroHpRestoredGlobeNotification(string classSid, int amount, Texture2D characterThumbnailIcons)
     {
@@ -34,6 +34,6 @@ internal sealed class HeroHpRestoredGlobeNotification: GlobeNotificationBase
 
     protected override string GetNotificationTypeText()
     {
-        return Client.UiResource.HeroRestoredNotificationText;
+        return UiResource.HeroRestoredNotificationText;
     }
 }

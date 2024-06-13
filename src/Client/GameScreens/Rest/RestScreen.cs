@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-using Client.Core;
 using Client.Core.Campaigns;
 using Client.Engine;
 using Client.GameScreens.Campaign;

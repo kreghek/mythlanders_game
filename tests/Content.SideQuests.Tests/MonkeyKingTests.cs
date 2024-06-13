@@ -154,7 +154,7 @@ public class MonkeyKingTests
                 ArraySegment<ICampaignEffect>.Empty, ArraySegment<ICampaignEffect>.Empty, default),
             Mock.Of<IEventContext>(),
             Mock.Of<IGlobeNotificationManager>(), Mock.Of<IGlobeNotificationFactory>()
-            );
+        );
         var dialoguePlayer =
             new DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext>(testDialog, dialogueContextFactory);
 
