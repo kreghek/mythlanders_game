@@ -14,7 +14,7 @@ internal sealed class PreHistoryAftermathContext
 {
     private readonly IDictionary<string, IPreHistoryScene> _backgrounds;
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
-    private readonly GlobeNotificationFactory _globeNotificationFactory;
+    private readonly IGlobeNotificationFactory _globeNotificationFactory;
     private readonly IGlobeNotificationManager _globeNotificationManager;
     private readonly IMonsterPerkCatalog _monsterPerkCatalog;
     private readonly Player _player;
@@ -26,7 +26,7 @@ internal sealed class PreHistoryAftermathContext
         Player player,
         IMonsterPerkCatalog monsterPerkCatalog,
         IGlobeNotificationManager globeNotificationManager,
-        GlobeNotificationFactory globeNotificationFactory)
+        IGlobeNotificationFactory globeNotificationFactory)
     {
         _dialogueEnvironmentManager = dialogueEnvironmentManager;
         _player = player;

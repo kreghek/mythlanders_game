@@ -773,6 +773,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hero Restored.
+        /// </summary>
+        internal static string HeroRestoredNotificationText {
+            get {
+                return ResourceManager.GetString("HeroRestoredNotificationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Skills.
         /// </summary>
         internal static string HeroSkillsInfoTitle {

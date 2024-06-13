@@ -366,6 +366,9 @@ Don't forget to add the game to your wishlist on popular platforms and leave fee
   <data name="HeroPerkInfoTitle" xml:space="preserve">
     <value>Perks</value>
   </data>
+  <data name="HeroRestoredNotificationText" xml:space="preserve">
+    <value>Hero Restored</value>
+  </data>
   <data name="HeroSkillsInfoTitle" xml:space="preserve">
     <value>Skills</value>
   </data>

@@ -30,8 +30,6 @@ internal sealed class RestScreen : GameScreenWithMenuBase
         _actionButtons = new List<ButtonBase>();
 
         _uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();
-
-        Game.Services.GetRequiredService<GlobeProvider>();
     }
 
     protected override IList<ButtonBase> CreateMenu()

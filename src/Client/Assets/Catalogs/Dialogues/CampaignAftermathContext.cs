@@ -5,6 +5,7 @@ using System.Linq;
 using Client.Assets.GlobalEffects;
 using Client.Core;
 using Client.Core.Campaigns;
+using Client.GameScreens.Common.GlobeNotifications;
 
 using CombatDicesTeam.Dialogues;
 
@@ -16,6 +17,8 @@ internal class CampaignAftermathContext
 {
     private readonly IDialogueEnvironmentManager _dialogueEnvironmentManager;
     private readonly IEventContext _eventContext;
+    private readonly IGlobeNotificationManager _globeNotificationManager;
+    private readonly IGlobeNotificationFactory _globeNotificationFactory;
     private readonly Globe _globe;
     private readonly HeroCampaign _heroCampaign;
     private readonly Player _player;
@@ -23,7 +26,7 @@ internal class CampaignAftermathContext
 
     public CampaignAftermathContext(Globe globe, IStoryPointCatalog storyPointCatalog, Player player,
         DialogueEvent currentDialogueEvent, IDialogueEnvironmentManager dialogueEnvironmentManager,
-        HeroCampaign heroCampaign, IEventContext eventContext)
+        HeroCampaign heroCampaign, IEventContext eventContext, IGlobeNotificationManager globeNotificationManager, IGlobeNotificationFactory globeNotificationFactory)
     {
         _globe = globe;
         _storyPointCatalog = storyPointCatalog;
@@ -31,6 +34,8 @@ internal class CampaignAftermathContext
         _dialogueEnvironmentManager = dialogueEnvironmentManager;
         _heroCampaign = heroCampaign;
         _eventContext = eventContext;
+        _globeNotificationManager = globeNotificationManager;
+        _globeNotificationFactory = globeNotificationFactory;
 
         CurrentDialogueEvent = currentDialogueEvent;
     }
@@ -84,7 +89,6 @@ internal class CampaignAftermathContext
     {
         var hero = _heroCampaign.Heroes.Single(x => x.ClassSid == heroClassSid);
         hero.HitPoints.Consume(damageAmount);
-        HeroHpChanged?.Invoke(this, new HeroStatChangedEventArgs(heroClassSid, -damageAmount));
     }
 
     public IReadOnlyCollection<string> GetPartyHeroes()
@@ -116,7 +120,10 @@ internal class CampaignAftermathContext
     {
         var hero = _heroCampaign.Heroes.Single(x => x.ClassSid == heroClassSid);
         hero.HitPoints.Restore(healAmount);
-        HeroHpChanged?.Invoke(this, new HeroStatChangedEventArgs(heroClassSid, healAmount));
+
+        _globeNotificationManager.AddNotification(
+            _globeNotificationFactory.Create((provider, monsterPerkTexture) =>
+                new HeroHpRestoredGlobeNotification(heroClassSid, healAmount, provider.Get(heroClassSid))));
     }
 
     public void StartCombat(string sid)
@@ -133,6 +140,4 @@ internal class CampaignAftermathContext
     {
         _player.AddLocation(locationSid);
     }
-
-    public event EventHandler<HeroStatChangedEventArgs>? HeroHpChanged;
 }
