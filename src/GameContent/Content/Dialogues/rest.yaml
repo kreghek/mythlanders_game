@@ -1,0 +1,27 @@
+---
+root:
+  paragraphs:
+    - text: 'This is a safe place to recuperate.'
+  options:
+    - text: 'Heal'
+      next: heal
+      aftermaths:
+        - type: RestAll
+          data: 2
+      description: |
+        In Free Play, all heroes restore HP by 2.
+        Killed heroes will be active again.
+    - text: 'Chat'
+      selectConditions:
+        - type: Disabled
+      description: |
+        In Development
+    - text: 'Scout'
+      selectConditions:
+        - type: Disabled
+      description: |
+        In Development
+
+heal:
+  paragraphs:
+    - text: 'All heroes restore HP by 2.'

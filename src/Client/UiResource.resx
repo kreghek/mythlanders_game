@@ -366,6 +366,9 @@ Don't forget to add the game to your wishlist on popular platforms and leave fee
   <data name="HeroPerkInfoTitle" xml:space="preserve">
     <value>Perks</value>
   </data>
+  <data name="HeroRestoredNotificationText" xml:space="preserve">
+    <value>Hero Restored</value>
+  </data>
   <data name="HeroSkillsInfoTitle" xml:space="preserve">
     <value>Skills</value>
   </data>
@@ -428,8 +431,14 @@ Don't forget to add the game to your wishlist on popular platforms and leave fee
   <data name="MonsterLevelShortText" xml:space="preserve">
     <value>lvl</value>
   </data>
+  <data name="MonsterPerkAddedNotificationText" xml:space="preserve">
+    <value>Monster Perk Added</value>
+  </data>
   <data name="MoveToThePoolButtonTitle" xml:space="preserve">
     <value>Move to the pool</value>
+  </data>
+  <data name="NewHeroJoinedNotificationText" xml:space="preserve">
+    <value>New Hero Joined</value>
   </data>
   <data name="PartyButtonTitle" xml:space="preserve">
     <value>Party</value>

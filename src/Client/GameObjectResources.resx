@@ -221,6 +221,10 @@
     <value>This monster is big so it has +50% HP and armor x 2.</value>
     <comment>Perk</comment>
   </data>
+  <data name="BlackMessiah" xml:space="preserve">
+    <value>Black Messiah</value>
+    <comment>Monster Perk</comment>
+  </data>
   <data name="BlankShot" xml:space="preserve">
     <value>Blank Shot</value>
     <comment>Combat movement Partisan</comment>
@@ -236,6 +240,10 @@
   <data name="BlindDefense_Description" xml:space="preserve">
     <value>Gain &lt;defense&gt; and fire 5 &lt;damage&gt; shots at random enemies.</value>
     <comment>Combat Movement ShieldBearer</comment>
+  </data>
+  <data name="Bogatyr" xml:space="preserve">
+    <value>Berimir</value>
+    <comment>Hero</comment>
   </data>
   <data name="BoldMarauder" xml:space="preserve">
     <value>Marauder</value>
@@ -400,6 +408,10 @@
   <data name="DefeatsJobTitleSid" xml:space="preserve">
     <value>Defeats</value>
     <comment>Jobs</comment>
+  </data>
+  <data name="DefenderOfFaith" xml:space="preserve">
+    <value>Defender Of Faith</value>
+    <comment>Monster Perk</comment>
   </data>
   <data name="Desert" xml:space="preserve">
     <value>Somewhere in the Desert...</value>
@@ -1099,10 +1111,6 @@
     <value>Evil swamp</value>
     <comment>Location</comment>
   </data>
-  <data name="Bogatyr" xml:space="preserve">
-    <value>Berimir</value>
-    <comment>Hero</comment>
-  </data>
   <data name="SymbolOfGod" xml:space="preserve">
     <value>Symbol of the God</value>
     <comment>Equipment</comment>
@@ -1138,6 +1146,14 @@
   <data name="TwoPlusTwoIsFive_voice" xml:space="preserve">
     <value>Two plus two is five...</value>
     <comment>Voice</comment>
+  </data>
+  <data name="UnitedRush" xml:space="preserve">
+    <value>Rush Of Union</value>
+    <comment>Monster Perk</comment>
+  </data>
+  <data name="UnitedTactics" xml:space="preserve">
+    <value>Shared Tactics</value>
+    <comment>Monster Perk</comment>
   </data>
   <data name="VampireBite" xml:space="preserve">
     <value>Vampire bite</value>

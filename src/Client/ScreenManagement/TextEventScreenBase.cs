@@ -5,6 +5,7 @@ using System.Linq;
 using Client.Core;
 using Client.Engine;
 using Client.GameScreens;
+using Client.GameScreens.Common.GlobeNotifications;
 using Client.GameScreens.TextDialogue.Ui;
 using Client.ScreenManagement.Ui.TextEvents;
 
@@ -28,11 +29,11 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     private readonly DialogueOptions _dialogueOptions;
     private readonly IDice _dice;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
+    private readonly IGlobeNotificationManager _globeNotificationManager;
 
     private readonly HoverController<DialogueOptionButton> _optionHoverController;
     private readonly IStoryState _storyState;
     private readonly IUiContentStorage _uiContentStorage;
-
     protected readonly IList<TextParagraphControl<TParagraphConditionContext, TAftermathContext>> TextParagraphControls;
     private IDialogueContextFactory<TParagraphConditionContext, TAftermathContext> _contextFactory;
     private bool _currentTextFragmentIsReady;
@@ -54,6 +55,8 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         _gameObjectContentStorage = game.Services.GetRequiredService<GameObjectContentStorage>();
         _dice = Game.Services.GetRequiredService<IDice>();
         _uiContentStorage = game.Services.GetRequiredService<IUiContentStorage>();
+
+        _globeNotificationManager = Game.Services.GetRequiredService<IGlobeNotificationManager>();
 
         var globeProvider = game.Services.GetRequiredService<GlobeProvider>();
         var globe = globeProvider.Globe;
@@ -110,6 +113,8 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
             DrawTextBlock(spriteBatch, contentRect);
         }
+
+        DrawGlobeNotifications(spriteBatch, contentRect);
     }
 
     protected abstract void DrawSpecificBackgroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect);
@@ -174,6 +179,8 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
             {
                 UpdateTextHud(gameTime);
             }
+
+            _globeNotificationManager.Update(gameTime);
         }
 
         if (Game.IsActive)
@@ -205,6 +212,21 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
                 break;
             }
         }
+    }
+
+    private void DrawGlobeNotifications(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        spriteBatch.Begin(
+            sortMode: SpriteSortMode.Deferred,
+            blendState: BlendState.AlphaBlend,
+            samplerState: SamplerState.PointClamp,
+            depthStencilState: DepthStencilState.None,
+            rasterizerState: RasterizerState.CullNone,
+            transformMatrix: Camera.GetViewTransformationMatrix());
+
+        _globeNotificationManager.Draw(spriteBatch, contentRect);
+
+        spriteBatch.End();
     }
 
     private void DrawTextBlock(SpriteBatch spriteBatch, Rectangle contentRectangle)

@@ -1,6 +1,7 @@
 using Client.Assets.Catalogs.Dialogues;
 using Client.Core;
 using Client.Core.Campaigns;
+using Client.GameScreens.Common.GlobeNotifications;
 
 using CombatDicesTeam.Dialogues;
 
@@ -14,13 +15,17 @@ internal sealed class
     private readonly IDialogueEnvironmentManager _environmentManager;
     private readonly IEventContext _eventContext;
     private readonly Globe _globe;
+    private readonly IGlobeNotificationFactory _globeNotificationFactory;
+    private readonly IGlobeNotificationManager _globeNotificationManager;
     private readonly Player _player;
     private readonly IStoryPointCatalog _storyPointCatalog;
 
     public DialogueContextFactory(Globe globe, IStoryPointCatalog storyPointCatalog, Player player,
         IDialogueEnvironmentManager environmentManager,
         DialogueEvent currentDialogueEvent,
-        HeroCampaign campaign, IEventContext eventContext)
+        HeroCampaign campaign, IEventContext eventContext,
+        IGlobeNotificationManager globeNotificationManager,
+        IGlobeNotificationFactory globeNotificationFactory)
     {
         _globe = globe;
         _storyPointCatalog = storyPointCatalog;
@@ -29,12 +34,14 @@ internal sealed class
         _currentDialogueEvent = currentDialogueEvent;
         _campaign = campaign;
         _eventContext = eventContext;
+        _globeNotificationManager = globeNotificationManager;
+        _globeNotificationFactory = globeNotificationFactory;
     }
 
     public CampaignAftermathContext CreateAftermathContext()
     {
         return new CampaignAftermathContext(_globe, _storyPointCatalog, _player, _currentDialogueEvent,
-            _environmentManager, _campaign, _eventContext);
+            _environmentManager, _campaign, _eventContext, _globeNotificationManager, _globeNotificationFactory);
     }
 
     public ParagraphConditionContext CreateParagraphConditionContext()

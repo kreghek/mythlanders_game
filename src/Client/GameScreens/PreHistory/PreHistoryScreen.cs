@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Client.Assets.MonsterPerks;
 using Client.Core;
 using Client.Engine;
+using Client.GameScreens.Common.GlobeNotifications;
 using Client.ScreenManagement;
 using Client.ScreenManagement.Ui.TextEvents;
 
@@ -58,7 +59,9 @@ internal sealed class PreHistoryScreen : TextEventScreenBase<PreHistoryCondition
         _aftermathContext = new PreHistoryAftermathContext(scenes,
             Game.Services.GetRequiredService<IDialogueEnvironmentManager>(),
             Game.Services.GetRequiredService<GlobeProvider>().Globe.Player,
-            Game.Services.GetRequiredService<IMonsterPerkCatalog>());
+            Game.Services.GetRequiredService<IMonsterPerkCatalog>(),
+            Game.Services.GetRequiredService<IGlobeNotificationManager>(),
+            Game.Services.GetRequiredService<IGlobeNotificationFactory>());
 
         return new PreHistoryDialogueContextFactory(_aftermathContext,
             Game.Services.GetRequiredService<GlobeProvider>().Globe.Player);
