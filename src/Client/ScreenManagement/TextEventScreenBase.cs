@@ -31,7 +31,6 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly IGlobeNotificationManager _globeNotificationManager;
 
-    private readonly HoverController<DialogueOptionButton> _optionHoverController;
     private readonly IStoryState _storyState;
     private readonly IUiContentStorage _uiContentStorage;
     protected readonly IList<TextParagraphControl<TParagraphConditionContext, TAftermathContext>> TextParagraphControls;
@@ -41,8 +40,6 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     private bool _isInitialized;
     private KeyboardState _keyboardState;
 
-    private HintBase? _optionDescription;
-    private ControlBase? _optionUnderHint;
     private double _pressToContinueCounter;
     protected int CurrentFragmentIndex;
 
@@ -51,6 +48,11 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     {
         TextParagraphControls = new List<TextParagraphControl<TParagraphConditionContext, TAftermathContext>>();
         _dialogueOptions = new DialogueOptions();
+
+        _dialogueOptions.OptionHover += (s, e) =>
+        {
+            HandleOptionHover(e);
+        };
 
         _gameObjectContentStorage = game.Services.GetRequiredService<GameObjectContentStorage>();
         _dice = Game.Services.GetRequiredService<IDice>();
@@ -65,24 +67,10 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         _currentDialogue = args.CurrentDialogue;
 
         _args = args;
+    }
 
-        _optionHoverController = new HoverController<DialogueOptionButton>();
-
-        _optionHoverController.Hover += (_, button) =>
-        {
-            if (button is not null)
-            {
-                HandleOptionHover(button);
-            }
-        };
-
-        _optionHoverController.Leave += (_, button) =>
-        {
-            if (button is not null)
-            {
-                HandleOptionLeave(button);
-            }
-        };
+    protected virtual void HandleOptionHover(DialogueOptionButton button)
+    {
     }
 
     protected DialogueSpeech<TParagraphConditionContext, TAftermathContext> CurrentFragment =>
@@ -122,29 +110,6 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     protected abstract void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect);
 
     protected abstract void HandleDialogueEnd();
-
-
-    protected virtual void HandleOptionHover(DialogueOptionButton button)
-    {
-        var (text, isLocalized) = SpeechVisualizationHelper.PrepareLocalizedText(button.ResourceSid + "_Description");
-
-        if (isLocalized)
-        {
-            _optionDescription = new TextHint(StringHelper.LineBreaking(text, 60));
-            _optionUnderHint = button;
-        }
-        else
-        {
-            _optionDescription = null;
-            _optionUnderHint = null;
-        }
-    }
-
-    protected virtual void HandleOptionLeave(DialogueOptionButton button)
-    {
-        _optionDescription = null;
-        _optionUnderHint = null;
-    }
 
     protected virtual void HandleOptionSelection(DialogueOptionButton button)
     {
@@ -195,23 +160,6 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     {
         var speakerName = speaker.ToString();
         return Enum.Parse<UnitName>(speakerName!, true);
-    }
-
-    private void DetectOptionDescription(DialogueOptions dialogueOptions)
-    {
-        var mouse = Mouse.GetState().Position;
-
-        var rirPosition = ResolutionIndependentRenderer.ConvertScreenToWorldCoordinates(new Vector2(mouse.X, mouse.Y));
-
-        foreach (var dialogueOptionButton in dialogueOptions.Options)
-        {
-            if (dialogueOptionButton.Rect.Contains(new Rectangle((int)rirPosition.X, (int)rirPosition.Y, 1, 1)))
-            {
-                HandleOptionHover(dialogueOptionButton);
-
-                break;
-            }
-        }
     }
 
     private void DrawGlobeNotifications(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -276,19 +224,8 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
             _dialogueOptions.Rect = new Rectangle(PORTRAIT_SIZE, lastTopButtonPosition,
                 contentRectangle.Width - PORTRAIT_SIZE + 100,
-                contentRectangle.Height - lastTopButtonPosition + 100);
+                contentRectangle.Height - lastTopButtonPosition);
             _dialogueOptions.Draw(spriteBatch);
-        }
-
-        if (_optionDescription is not null && _optionUnderHint is not null)
-        {
-            _optionDescription.Rect = new Rectangle(
-                _optionUnderHint.Rect.Left,
-                _optionUnderHint.Rect.Bottom,
-                _optionDescription.Size.X,
-                _optionDescription.Size.Y);
-
-            _optionDescription.Draw(spriteBatch);
         }
 
         spriteBatch.End();
@@ -317,7 +254,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         }
 
         var optionNumber = 1;
-        _dialogueOptions.Options.Clear();
+        _dialogueOptions.Clear();
 
         var context = _contextFactory.CreateParagraphConditionContext();
 
@@ -343,17 +280,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
 
             optionButton.IsEnabled = option.SelectConditions.All(x => x.Check(context));
 
-            optionButton.OnHover += (sender, _) =>
-            {
-                _optionHoverController.HandleHover((DialogueOptionButton?)sender);
-            };
-
-            optionButton.OnLeave += (sender, _) =>
-            {
-                _optionHoverController.HandleLeave((DialogueOptionButton?)sender);
-            };
-
-            _dialogueOptions.Options.Add(optionButton);
+            _dialogueOptions.Add(optionButton);
             optionNumber++;
         }
     }
@@ -412,8 +339,6 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
             {
                 _dialogueOptions.SelectOption(4);
             }
-
-            DetectOptionDescription(_dialogueOptions);
         }
     }
 }
