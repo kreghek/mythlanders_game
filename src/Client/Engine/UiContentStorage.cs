@@ -28,6 +28,7 @@ internal sealed class UiContentStorage : IUiContentStorage
     private Texture2D[] _introVideoTextures;
     private Texture2D _logoTexture;
     private IDictionary<string, SpriteFont> _mainFonts;
+    private Dictionary<string, SpriteFont> _dialogueFonts;
     private Song[] _mapTracks;
     private Texture2D[] _modalBottomTextures;
     private Texture2D _modalShadowTexture;
@@ -155,6 +156,14 @@ internal sealed class UiContentStorage : IUiContentStorage
             { "ru", contentManager.Load<SpriteFont>("Fonts/Main") },
             { "zh", contentManager.Load<SpriteFont>("Fonts/MainChinese") }
         };
+
+        _dialogueFonts = new Dictionary<string, SpriteFont>
+        {
+            { "en", contentManager.Load<SpriteFont>("Fonts/Dialogue") },
+            { "ru", contentManager.Load<SpriteFont>("Fonts/Dialogue") },
+            { "zh", contentManager.Load<SpriteFont>("Fonts/DialogueChinese") }
+        };
+
         _titlesFonts = new Dictionary<string, SpriteFont>
         {
             { "en", contentManager.Load<SpriteFont>("Fonts/Titles") },
@@ -330,5 +339,12 @@ internal sealed class UiContentStorage : IUiContentStorage
     public Texture2D[] GetIntroVideo()
     {
         return _introVideoTextures;
+    }
+
+    public SpriteFont GetDialogueFont()
+    {
+        var key = GetLanguageKey();
+        var spriteFont = GetSpriteFont(_dialogueFonts, key);
+        return spriteFont;
     }
 }

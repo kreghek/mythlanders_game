@@ -22,7 +22,7 @@ internal sealed class TextParagraphMessageControl<TParagraphConditionContext, TA
         SoundEffect textSoundEffect, IDice dice, bool isCharacterSpeech) :
         base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
-        _font = UiThemeManager.UiContentStorage.GetTitlesFont();
+        _font = UiThemeManager.UiContentStorage.GetDialogueFont();
 
         var (text, _) = SpeechVisualizationHelper.PrepareLocalizedText(eventTextFragment.TextSid);
         _speech = new Speech(text, new SpeechSoundWrapper(textSoundEffect), new SpeechRandomProvider(dice));

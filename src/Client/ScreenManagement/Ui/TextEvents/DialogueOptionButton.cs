@@ -16,7 +16,7 @@ internal class DialogueOptionButton : ButtonBase
     {
         _optionText = $"{number}. {SpeechVisualizationHelper.PrepareLocalizedText(resourceSid).text}";
 
-        _font = UiThemeManager.UiContentStorage.GetTitlesFont();
+        _font = UiThemeManager.UiContentStorage.GetDialogueFont();
         Number = number;
         ResourceSid = resourceSid;
     }

@@ -35,7 +35,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     private readonly IStoryState _storyState;
     private readonly IUiContentStorage _uiContentStorage;
     protected readonly IList<TextParagraphControl<TParagraphConditionContext, TAftermathContext>> TextParagraphControls;
-    private IDialogueContextFactory<TParagraphConditionContext, TAftermathContext> _contextFactory;
+    private IDialogueContextFactory<TParagraphConditionContext, TAftermathContext>? _contextFactory;
     private bool _currentTextFragmentIsReady;
     protected DialoguePlayer<TParagraphConditionContext, TAftermathContext>? _dialoguePlayer;
     private bool _isInitialized;
@@ -298,6 +298,11 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     {
         TextParagraphControls.Clear();
         CurrentFragmentIndex = 0;
+
+        if (_contextFactory is null)
+        {
+            throw new Exception();
+        }
 
         foreach (var textFragment in dialoguePlayer.CurrentTextFragments)
         {
