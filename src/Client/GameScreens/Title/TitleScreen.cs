@@ -168,9 +168,12 @@ internal sealed class TitleScreen : GameScreenBase
             new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Center.X - 128, 0, 256, 480),
             sourceRectangle: null, Color.Lerp(Color.White, Color.Transparent, 0.3f));
 
-        var heroesRect = new Rectangle(0, 0, ResolutionIndependentRenderer.VirtualBounds.Width,
-            ResolutionIndependentRenderer.VirtualBounds.Height / 2);
-        DrawHeroes(spriteBatch, heroesRect);
+        if (_gameSettings.Mode != GameMode.Demo)
+        {
+            var heroesRect = new Rectangle(0, 0, ResolutionIndependentRenderer.VirtualBounds.Width,
+                ResolutionIndependentRenderer.VirtualBounds.Height / 2);
+            DrawHeroes(spriteBatch, heroesRect);
+        }
 
         var logoRect = new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Center.Y - 128,
             ResolutionIndependentRenderer.VirtualBounds.Width, 64);
