@@ -38,16 +38,16 @@ public sealed class HoverController<TPayload>
     /// <summary>
     /// Handles leave event.
     /// </summary>
-    /// <param name="hoverValue"> Value of element that was left. </param>
-    public void HandleLeave(TPayload? hoverValue)
+    /// <param name="leftValue"> Value of element that was left. </param>
+    public void HandleLeave(TPayload? leftValue)
     {
-        if (!EqualityComparer<TPayload>.Default.Equals(hoverValue, CurrentValue))
+        if (!EqualityComparer<TPayload>.Default.Equals(leftValue, CurrentValue))
         {
             return;
         }
 
         CurrentValue = default;
-        Leave?.Invoke(this, hoverValue);
+        Leave?.Invoke(this, leftValue);
     }
 
     /// <summary>

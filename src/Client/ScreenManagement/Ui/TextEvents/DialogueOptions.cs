@@ -1,12 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core;
 using Client.Engine;
+using Client.GameScreens.TextDialogue.Ui;
 
 using CombatDicesTeam.Engine.Ui;
 
+using GameClient.Engine.Ui;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Client.ScreenManagement.Ui.TextEvents;
 
@@ -14,12 +20,85 @@ internal class DialogueOptions : ControlBase
 {
     private const int OPTION_BUTTON_MARGIN = 5;
 
+    private HintBase? _optionDescription;
+    private ControlBase? _optionUnderHint;
+    private readonly HoverController<DialogueOptionButton> _optionHoverController;
+    private readonly IList<DialogueOptionButton> _options;
+
     public DialogueOptions() : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
-        Options = new List<DialogueOptionButton>();
+        _options = new List<DialogueOptionButton>();
+
+        _optionHoverController = new HoverController<DialogueOptionButton>();
+
+        _optionHoverController.Hover += (_, button) =>
+        {
+            if (button is not null)
+            {
+                HandleOptionHover(button);
+            }
+        };
+
+        _optionHoverController.Leave += (_, button) =>
+        {
+            if (button is not null)
+            {
+                HandleOptionLeave(button);
+            }
+        };
     }
 
-    public IList<DialogueOptionButton> Options { get; }
+    private IReadOnlyList<DialogueOptionButton> Options => _options.ToArray();
+
+    public void Clear()
+    {
+        _optionDescription = null;
+        _optionUnderHint = null;
+
+        _options.Clear();
+    }
+
+    public event EventHandler<DialogueOptionButton>? OptionHover;
+
+    public void Add(DialogueOptionButton optionButton)
+    {
+        optionButton.OnHover += (sender, _) =>
+        {
+            _optionHoverController.HandleHover((DialogueOptionButton?)sender);
+        };
+
+        optionButton.OnLeave += (sender, _) =>
+        {
+            _optionHoverController.HandleLeave((DialogueOptionButton?)sender);
+        };
+
+        _options.Add(optionButton);
+    }
+
+    private void HandleOptionHover(DialogueOptionButton button)
+    {
+        var (text, isLocalized) = SpeechVisualizationHelper.PrepareLocalizedText(button.ResourceSid + "_Description");
+
+        if (isLocalized)
+        {
+            _optionDescription = new TextHint(StringHelper.LineBreaking(text, 60));
+            _optionUnderHint = button;
+        }
+        else
+        {
+            _optionDescription = null;
+            _optionUnderHint = null;
+        }
+
+        OptionHover?.Invoke(this, button);
+    }
+
+    private void HandleOptionLeave(DialogueOptionButton button)
+    {
+        _optionDescription = null;
+        _optionUnderHint = null;
+    }
+
 
     public int GetHeight()
     {
@@ -38,6 +117,25 @@ internal class DialogueOptions : ControlBase
         foreach (var button in Options)
         {
             button.Update(resolutionIndependentRenderer);
+        }
+
+        DetectOptionDescription(resolutionIndependentRenderer);
+    }
+
+    private void DetectOptionDescription(IScreenProjection screenProjection)
+    {
+        var mouse = Mouse.GetState().Position;
+
+        var rirPosition = screenProjection.ConvertScreenToWorldCoordinates(new Vector2(mouse.X, mouse.Y));
+
+        foreach (var dialogueOptionButton in Options)
+        {
+            if (dialogueOptionButton.Rect.Contains(new Rectangle((int)rirPosition.X, (int)rirPosition.Y, 1, 1)))
+            {
+                HandleOptionHover(dialogueOptionButton);
+
+                break;
+            }
         }
     }
 
@@ -65,6 +163,17 @@ internal class DialogueOptions : ControlBase
             button.Draw(spriteBatch);
 
             lastTopButtonPosition += optionButtonSize.Y;
+        }
+
+        if (_optionDescription is not null && _optionUnderHint is not null)
+        {
+            _optionDescription.Rect = new Rectangle(
+                _optionUnderHint.Rect.Left,
+                _optionUnderHint.Rect.Bottom,
+                _optionDescription.Size.X,
+                _optionDescription.Size.Y);
+
+            _optionDescription.Draw(spriteBatch);
         }
     }
 
