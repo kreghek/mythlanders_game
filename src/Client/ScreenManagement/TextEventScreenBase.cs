@@ -6,14 +6,10 @@ using Client.Core;
 using Client.Engine;
 using Client.GameScreens;
 using Client.GameScreens.Common.GlobeNotifications;
-using Client.GameScreens.TextDialogue.Ui;
 using Client.ScreenManagement.Ui.TextEvents;
 
 using CombatDicesTeam.Dialogues;
 using CombatDicesTeam.Dices;
-using CombatDicesTeam.Engine.Ui;
-
-using GameClient.Engine.Ui;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
@@ -69,10 +65,6 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         _args = args;
     }
 
-    protected virtual void HandleOptionHover(DialogueOptionButton button)
-    {
-    }
-
     protected DialogueSpeech<TParagraphConditionContext, TAftermathContext> CurrentFragment =>
         _dialoguePlayer is not null
             ? _dialoguePlayer.CurrentTextFragments[CurrentFragmentIndex]
@@ -110,6 +102,10 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
     protected abstract void DrawSpecificForegroundScreenContent(SpriteBatch spriteBatch, Rectangle contentRect);
 
     protected abstract void HandleDialogueEnd();
+
+    protected virtual void HandleOptionHover(DialogueOptionButton button)
+    {
+    }
 
     protected virtual void HandleOptionSelection(DialogueOptionButton button)
     {

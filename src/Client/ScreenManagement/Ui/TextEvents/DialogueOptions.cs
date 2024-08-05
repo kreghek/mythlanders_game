@@ -19,11 +19,11 @@ namespace Client.ScreenManagement.Ui.TextEvents;
 internal class DialogueOptions : ControlBase
 {
     private const int OPTION_BUTTON_MARGIN = 5;
+    private readonly HoverController<DialogueOptionButton> _optionHoverController;
+    private readonly IList<DialogueOptionButton> _options;
 
     private HintBase? _optionDescription;
     private ControlBase? _optionUnderHint;
-    private readonly HoverController<DialogueOptionButton> _optionHoverController;
-    private readonly IList<DialogueOptionButton> _options;
 
     public DialogueOptions() : base(UiThemeManager.UiContentStorage.GetControlBackgroundTexture())
     {
@@ -50,16 +50,6 @@ internal class DialogueOptions : ControlBase
 
     private IReadOnlyList<DialogueOptionButton> Options => _options.ToArray();
 
-    public void Clear()
-    {
-        _optionDescription = null;
-        _optionUnderHint = null;
-
-        _options.Clear();
-    }
-
-    public event EventHandler<DialogueOptionButton>? OptionHover;
-
     public void Add(DialogueOptionButton optionButton)
     {
         optionButton.OnHover += (sender, _) =>
@@ -75,28 +65,12 @@ internal class DialogueOptions : ControlBase
         _options.Add(optionButton);
     }
 
-    private void HandleOptionHover(DialogueOptionButton button)
-    {
-        var (text, isLocalized) = SpeechVisualizationHelper.PrepareLocalizedText(button.ResourceSid + "_Description");
-
-        if (isLocalized)
-        {
-            _optionDescription = new TextHint(StringHelper.LineBreaking(text, 60));
-            _optionUnderHint = button;
-        }
-        else
-        {
-            _optionDescription = null;
-            _optionUnderHint = null;
-        }
-
-        OptionHover?.Invoke(this, button);
-    }
-
-    private void HandleOptionLeave(DialogueOptionButton button)
+    public void Clear()
     {
         _optionDescription = null;
         _optionUnderHint = null;
+
+        _options.Clear();
     }
 
 
@@ -120,23 +94,6 @@ internal class DialogueOptions : ControlBase
         }
 
         DetectOptionDescription(resolutionIndependentRenderer);
-    }
-
-    private void DetectOptionDescription(IScreenProjection screenProjection)
-    {
-        var mouse = Mouse.GetState().Position;
-
-        var rirPosition = screenProjection.ConvertScreenToWorldCoordinates(new Vector2(mouse.X, mouse.Y));
-
-        foreach (var dialogueOptionButton in Options)
-        {
-            if (dialogueOptionButton.Rect.Contains(new Rectangle((int)rirPosition.X, (int)rirPosition.Y, 1, 1)))
-            {
-                HandleOptionHover(dialogueOptionButton);
-
-                break;
-            }
-        }
     }
 
     protected override Point CalcTextureOffset()
@@ -183,4 +140,47 @@ internal class DialogueOptions : ControlBase
         return (contentSize + Vector2.One * CONTENT_MARGIN + Vector2.UnitY * OPTION_BUTTON_MARGIN)
             .ToPoint();
     }
+
+    private void DetectOptionDescription(IScreenProjection screenProjection)
+    {
+        var mouse = Mouse.GetState().Position;
+
+        var rirPosition = screenProjection.ConvertScreenToWorldCoordinates(new Vector2(mouse.X, mouse.Y));
+
+        foreach (var dialogueOptionButton in Options)
+        {
+            if (dialogueOptionButton.Rect.Contains(new Rectangle((int)rirPosition.X, (int)rirPosition.Y, 1, 1)))
+            {
+                HandleOptionHover(dialogueOptionButton);
+
+                break;
+            }
+        }
+    }
+
+    private void HandleOptionHover(DialogueOptionButton button)
+    {
+        var (text, isLocalized) = SpeechVisualizationHelper.PrepareLocalizedText(button.ResourceSid + "_Description");
+
+        if (isLocalized)
+        {
+            _optionDescription = new TextHint(StringHelper.LineBreaking(text, 60));
+            _optionUnderHint = button;
+        }
+        else
+        {
+            _optionDescription = null;
+            _optionUnderHint = null;
+        }
+
+        OptionHover?.Invoke(this, button);
+    }
+
+    private void HandleOptionLeave(DialogueOptionButton button)
+    {
+        _optionDescription = null;
+        _optionUnderHint = null;
+    }
+
+    public event EventHandler<DialogueOptionButton>? OptionHover;
 }

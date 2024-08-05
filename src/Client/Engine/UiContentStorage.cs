@@ -22,13 +22,13 @@ internal sealed class UiContentStorage : IUiContentStorage
     private Texture2D? _controlBackgroundTexture;
     private Texture2D _cursonTextures;
     private Song _defeatTrack;
+    private Dictionary<string, SpriteFont> _dialogueFonts;
     private Texture2D _effectIconsTexture;
     private Texture2D _equipmentIconsTexture;
     private Song _introTrack;
     private Texture2D[] _introVideoTextures;
     private Texture2D _logoTexture;
     private IDictionary<string, SpriteFont> _mainFonts;
-    private Dictionary<string, SpriteFont> _dialogueFonts;
     private Song[] _mapTracks;
     private Texture2D[] _modalBottomTextures;
     private Texture2D _modalShadowTexture;
