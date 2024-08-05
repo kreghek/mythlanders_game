@@ -185,8 +185,6 @@ p7:
           data: Swordsman
         - type: UnlockLocation
           data: Thicket
-      description: |
-        В разработке
     - text: 'Спартанец'
       next: p8_spartian
       aftermaths:

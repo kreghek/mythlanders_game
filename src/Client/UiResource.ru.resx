@@ -356,6 +356,9 @@
   <data name="HeroPerkInfoTitle" xml:space="preserve">
     <value>Перки</value>
   </data>
+  <data name="HeroRestoredNotificationText" xml:space="preserve">
+    <value>Восстановление Героя</value>
+  </data>
   <data name="HeroSkillsInfoTitle" xml:space="preserve">
     <value>Навыки</value>
   </data>
@@ -416,8 +419,14 @@
   <data name="MonsterLevelShortText" xml:space="preserve">
     <value>ур.</value>
   </data>
+  <data name="MonsterPerkAddedNotificationText" xml:space="preserve">
+    <value>Добавлен Перк Монстров</value>
+  </data>
   <data name="MoveToThePoolButtonTitle" xml:space="preserve">
     <value>Убрать в пулл</value>
+  </data>
+  <data name="NewHeroJoinedNotificationText" xml:space="preserve">
+    <value>Присоединился Новый Герой</value>
   </data>
   <data name="PartyButtonTitle" xml:space="preserve">
     <value>Группа</value>

@@ -11,6 +11,13 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 
 internal sealed class RestCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
+    private readonly CampaignStageTemplateServices _services;
+
+    public RestCampaignStageTemplateFactory(CampaignStageTemplateServices services)
+    {
+        _services = services;
+    }
+
     private static ICampaignStageItem[] MapContextToCurrentStageItems(IGraphTemplateContext<ICampaignStageItem> context)
     {
         return context.CurrentWay.Select(x => x.Payload).ToArray();
@@ -23,7 +30,7 @@ internal sealed class RestCampaignStageTemplateFactory : ICampaignStageTemplateF
 
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        return new RestStageItem();
+        return new RestStageItem(_services.EventCatalog);
     }
 
     /// <inheritdoc />

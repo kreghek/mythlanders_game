@@ -21,6 +21,7 @@ internal interface IUiContentStorage
     Texture2D GetControlBackgroundTexture();
     Texture2D GetCursorsTexture();
     Song GetDefeatSong();
+    SpriteFont GetDialogueFont();
     Texture2D GetDisabledTexture();
 
     Texture2D GetEffectIconsTexture();

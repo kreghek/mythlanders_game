@@ -43,11 +43,13 @@ internal sealed class StartHeroesScene : IPreHistoryScene
 
     public void Draw(SpriteBatch spriteBatch, Rectangle contentRect, double transition)
     {
-        for (var i = 0; i < _portraitTextures.Length; i++)
+        for (var i = _portraitTextures.Length - 1; i >= 0; i--)
         {
             var isActive = _hoverOption == i || _selectedOption == i;
-            DrawPortrait(_portraitTextures[i], isActive, spriteBatch,
-                contentRect.Location.ToVector2() + new Vector2((256 - 128) * i, 0), transition);
+            var portraitOffset = new Vector2((256 - 128) * i, 0);
+            var portraitPosition = contentRect.Location.ToVector2() + portraitOffset;
+
+            DrawPortrait(_portraitTextures[i], isActive, spriteBatch, portraitPosition, transition);
         }
     }
 

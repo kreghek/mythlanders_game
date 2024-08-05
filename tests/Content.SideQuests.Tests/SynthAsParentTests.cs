@@ -11,6 +11,7 @@ using Client.Assets.MonsterPerks;
 using Client.Core;
 using Client.Core.CampaignEffects;
 using Client.Core.Campaigns;
+using Client.GameScreens.Common.GlobeNotifications;
 using Client.GameScreens.TextDialogue.Ui;
 using Client.ScreenManagement.Ui.TextEvents;
 
@@ -171,7 +172,10 @@ public class SynthAsParentTests
             new HeroCampaign(ArraySegment<(HeroState, FieldCoords)>.Empty,
                 new HeroCampaignLocation(Mock.Of<ILocationSid>(), new DirectedGraph<ICampaignStageItem>()),
                 ArraySegment<ICampaignEffect>.Empty, ArraySegment<ICampaignEffect>.Empty, default),
-            Mock.Of<IEventContext>());
+            Mock.Of<IEventContext>(),
+            Mock.Of<IGlobeNotificationManager>(), Mock.Of<IGlobeNotificationFactory>()
+        );
+
         var dialoguePlayer =
             new DialoguePlayer<ParagraphConditionContext, CampaignAftermathContext>(testDialog, dialogueContextFactory);
 

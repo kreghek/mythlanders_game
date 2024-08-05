@@ -38,6 +38,7 @@ internal sealed class DialogueAftermathCreator : IDialogueOptionAftermathCreator
             "DamageSingleRandomHero" => new DamageSingleRandomOptionAftermath(_dice),
             "DamageAllHeroes" => new DamageAllHeroesOptionAftermath(),
             "AddResources" => AddResourceOptionAftermath.CreateFromData(data),
+            "RestAll" => RestAllOptionAftermath.CreateFromData(data),
             "RemoveResources" => RemoveResourceOptionAftermath.CreateFromData(data),
             "UnlockFeature" => UnlockFeatureOptionAftermath.CreateFromData(data),
             _ => throw new InvalidOperationException($"Type {typeSid} is unknown.")

@@ -12,6 +12,8 @@ using Client.Engine;
 using Client.GameComponents;
 using Client.GameScreens;
 using Client.GameScreens.Combat.GameObjects.Background;
+using Client.GameScreens.Combat.Ui;
+using Client.GameScreens.Common.GlobeNotifications;
 using Client.ScreenManagement;
 
 using CombatDicesTeam.Dialogues;
@@ -356,5 +358,14 @@ internal sealed class MythlandersGame : Game
             Services.GetRequiredService<ScenarioCampaigns>(),
             Services.GetRequiredService<IJobProgressResolver>());
         Services.AddService(coordinator);
+
+        Services.AddService<IGlobeNotificationManager>(new GlobeNotificationManager());
+
+        Services.AddService<ICombatantThumbnailProvider>(
+            new CombatantThumbnailProvider(Content, Services.GetRequiredService<ICombatantGraphicsCatalog>()));
+
+        Services.AddService<IGlobeNotificationFactory>(new GlobeNotificationFactory(
+            Services.GetRequiredService<ICombatantThumbnailProvider>(),
+            this));
     }
 }
