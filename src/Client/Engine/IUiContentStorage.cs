@@ -36,6 +36,7 @@ internal interface IUiContentStorage
     Texture2D[] GetModalTopTextures();
     Texture2D GetSocialTexture();
     Texture2D GetTitleBackgroundTexture();
+    SpriteFont GetDialogueFont();
     SpriteFont GetTitlesFont();
     Song GetTitleSong();
     Texture2D GetUnitStatePanelTexture();
