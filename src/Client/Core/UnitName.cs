@@ -64,6 +64,7 @@ public enum UnitName
     KosheyTheImmortal3,
     VolkolakWarrior,
 
+    NineTailedFox,
     Huapigui,
     Taote,
 
