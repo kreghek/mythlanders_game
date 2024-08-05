@@ -89,6 +89,8 @@ internal class DialogueOptions : ControlBase
             _optionDescription = null;
             _optionUnderHint = null;
         }
+
+        OptionHover?.Invoke(this, button);
     }
 
     private void HandleOptionLeave(DialogueOptionButton button)

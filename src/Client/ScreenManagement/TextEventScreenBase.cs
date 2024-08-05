@@ -49,7 +49,7 @@ internal abstract class TextEventScreenBase<TParagraphConditionContext, TAfterma
         TextParagraphControls = new List<TextParagraphControl<TParagraphConditionContext, TAftermathContext>>();
         _dialogueOptions = new DialogueOptions();
 
-        _dialogueOptions.OptionHover += (s, e) =>
+        _dialogueOptions.OptionHover += (_, e) =>
         {
             HandleOptionHover(e);
         };
